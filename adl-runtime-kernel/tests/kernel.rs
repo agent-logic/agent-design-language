@@ -579,31 +579,37 @@ struct PortComponent {
     observed: Arc<AtomicU32>,
 }
 
+#[derive(serde::Serialize, serde::Deserialize)]
+struct TestEvent {
+    sequence: u32,
+}
+
+impl adl_runtime_kernel::PortProtocol for TestEvent {
+    const PROTOCOL: &'static str = "adl.test.events.v1";
+}
+
 #[async_trait]
 impl Component for PortComponent {
     async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
         if self.producer {
             context
-                .send("events", serde_json::json!({"sequence": 7}))
+                .send("events", &TestEvent { sequence: 7 })
                 .await
                 .map_err(|error| ComponentError::new(error.to_string()))?;
             assert!(context
-                .send("undeclared", serde_json::Value::Null)
+                .send("undeclared", &TestEvent { sequence: 0 })
                 .await
                 .is_err());
             context.ready();
             context.cancellation.cancelled().await;
         } else {
             let value = context
-                .recv("events")
+                .recv::<TestEvent>("events")
                 .await
                 .map_err(|error| ComponentError::new(error.to_string()))?
                 .ok_or_else(|| ComponentError::new("declared input closed"))?;
-            self.observed.store(
-                value["sequence"].as_u64().unwrap_or_default() as u32,
-                Ordering::SeqCst,
-            );
-            assert!(context.recv("undeclared").await.is_err());
+            self.observed.store(value.sequence, Ordering::SeqCst);
+            assert!(context.recv::<TestEvent>("undeclared").await.is_err());
             context.ready();
             context.cancellation.cancelled().await;
         }
@@ -1080,7 +1086,7 @@ impl Component for HealthReportingComponent {
     async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
         context.ready();
         tokio::task::yield_now().await;
-        context.degraded();
+        context.degraded().await?;
         context.cancellation.cancelled().await;
         Ok(())
     }

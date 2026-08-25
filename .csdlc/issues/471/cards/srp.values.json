@@ -7,7 +7,7 @@
     "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
     "slug": "471-runtime-v3-authoritative-kernel-contracts",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {

@@ -190,9 +190,16 @@ impl ValidatedContracts {
     }
 
     pub fn resolve(&self, requirement: &CapabilityRequirement) -> Option<&CapabilityBinding> {
-        self.providers(&requirement.name)
+        let matching = self
+            .providers(&requirement.name)
             .iter()
-            .find(|provider| requirement.version.matches(&provider.capability.version))
+            .filter(|provider| requirement.version.matches(&provider.capability.version));
+        matching
+            .clone()
+            .find(|provider| {
+                self.contracts[&provider.service].determinism == DeterminismClass::DeterministicCore
+            })
+            .or_else(|| matching.into_iter().next())
     }
 }
 
@@ -226,17 +233,24 @@ pub fn validate_contracts(
     }
 
     for contract in by_service.values() {
-        for requirement in contract.requires.iter().filter(|item| !item.optional) {
+        for requirement in &contract.requires {
             let Some(candidates) = providers.get(&requirement.name) else {
+                if requirement.optional {
+                    continue;
+                }
                 return Err(ContractError::MissingCapability {
                     service: contract.service.clone(),
                     capability: requirement.name.clone(),
                 });
             };
-            if !candidates
+            let compatible = candidates
                 .iter()
-                .any(|provider| requirement.version.matches(&provider.capability.version))
-            {
+                .filter(|provider| requirement.version.matches(&provider.capability.version))
+                .collect::<Vec<_>>();
+            if compatible.is_empty() {
+                if requirement.optional {
+                    continue;
+                }
                 return Err(ContractError::IncompatibleCapability {
                     service: contract.service.clone(),
                     capability: requirement.name.clone(),
@@ -245,13 +259,10 @@ pub fn validate_contracts(
                 });
             }
             if contract.determinism == DeterminismClass::DeterministicCore
-                && candidates
-                    .iter()
-                    .filter(|provider| requirement.version.matches(&provider.capability.version))
-                    .all(|provider| {
-                        by_service[&provider.service].determinism
-                            == DeterminismClass::GovernedNondeterministicShell
-                    })
+                && compatible.iter().all(|provider| {
+                    by_service[&provider.service].determinism
+                        == DeterminismClass::GovernedNondeterministicShell
+                })
             {
                 return Err(ContractError::NondeterministicDependency {
                     service: contract.service.clone(),

@@ -1,9 +1,9 @@
 use std::{collections::BTreeMap, fmt, sync::Arc, time::Duration};
 
 use async_trait::async_trait;
-use serde::{Deserialize, Serialize};
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use thiserror::Error;
-use tokio::sync::{oneshot, Mutex};
+use tokio::sync::{mpsc, oneshot, Mutex, RwLock};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
@@ -198,6 +198,13 @@ pub struct ComponentContext {
     pub recorder: RuntimeRecorder,
     ports: ComponentPorts,
     ready: Option<oneshot::Sender<()>>,
+    health: mpsc::Sender<(ComponentId, ComponentHealthSignal)>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub(crate) enum ComponentHealthSignal {
+    Degraded,
+    Running,
 }
 
 impl ComponentContext {
@@ -207,6 +214,7 @@ impl ComponentContext {
         recorder: RuntimeRecorder,
         ports: ComponentPorts,
         ready: oneshot::Sender<()>,
+        health: mpsc::Sender<(ComponentId, ComponentHealthSignal)>,
     ) -> Self {
         Self {
             id,
@@ -214,6 +222,7 @@ impl ComponentContext {
             recorder,
             ports,
             ready: Some(ready),
+            health,
         }
     }
 
@@ -223,25 +232,31 @@ impl ComponentContext {
         }
     }
 
-    pub fn degraded(&self) {
-        self.recorder
-            .set_component_state(self.id.clone(), RunningState::Degraded);
-        self.recorder.emit(
-            Some(self.id.clone()),
-            crate::RuntimeEvent::ComponentDegraded,
-        );
+    pub async fn degraded(&self) -> Result<(), ComponentError> {
+        self.health
+            .send((self.id.clone(), ComponentHealthSignal::Degraded))
+            .await
+            .map_err(|_| ComponentError::new("supervisor health channel closed"))
     }
 
-    pub fn running(&self) {
-        self.recorder
-            .set_component_state(self.id.clone(), RunningState::Running);
+    pub async fn running(&self) -> Result<(), ComponentError> {
+        self.health
+            .send((self.id.clone(), ComponentHealthSignal::Running))
+            .await
+            .map_err(|_| ComponentError::new("supervisor health channel closed"))
     }
 
-    pub async fn send(&self, port: &str, value: serde_json::Value) -> Result<(), PortAccessError> {
+    pub async fn send<T>(&self, port: &str, value: &T) -> Result<(), PortAccessError>
+    where
+        T: PortProtocol + Serialize,
+    {
         self.ports.send(port, value).await
     }
 
-    pub async fn recv(&self, port: &str) -> Result<Option<serde_json::Value>, PortAccessError> {
+    pub async fn recv<T>(&self, port: &str) -> Result<Option<T>, PortAccessError>
+    where
+        T: PortProtocol + DeserializeOwned,
+    {
         self.ports.recv(port).await
     }
 }
@@ -256,23 +271,66 @@ pub enum PortAccessError {
     Closed(String),
     #[error("declared output port is full: {0}")]
     Full(String),
+    #[error("port {port} protocol mismatch: expected {expected}, requested {requested}")]
+    ProtocolMismatch {
+        port: String,
+        expected: String,
+        requested: String,
+    },
+    #[error("port {port} payload failed protocol decoding")]
+    Decode { port: String },
+}
+
+#[derive(Clone, Debug)]
+struct WireMessage {
+    protocol: String,
+    payload: Vec<u8>,
+}
+
+#[derive(Clone)]
+struct OutputPort {
+    protocol: String,
+    senders: Arc<RwLock<BTreeMap<ComponentId, BoundedSender<WireMessage>>>>,
+}
+
+#[derive(Clone)]
+struct InputPort {
+    protocol: String,
+    receiver: Arc<Mutex<Option<BoundedReceiver<WireMessage>>>>,
 }
 
 #[derive(Clone, Default)]
 pub struct ComponentPorts {
-    outputs: BTreeMap<String, Vec<BoundedSender<serde_json::Value>>>,
-    inputs: BTreeMap<String, Arc<Mutex<BoundedReceiver<serde_json::Value>>>>,
+    outputs: BTreeMap<String, OutputPort>,
+    inputs: BTreeMap<String, InputPort>,
 }
 
 impl ComponentPorts {
-    async fn send(&self, port: &str, value: serde_json::Value) -> Result<(), PortAccessError> {
+    async fn send<T>(&self, port: &str, value: &T) -> Result<(), PortAccessError>
+    where
+        T: PortProtocol + Serialize,
+    {
         let outputs = self
             .outputs
             .get(port)
             .ok_or_else(|| PortAccessError::UndeclaredOutput(port.to_owned()))?;
-        for output in outputs {
+        if outputs.protocol != T::PROTOCOL {
+            return Err(PortAccessError::ProtocolMismatch {
+                port: port.to_owned(),
+                expected: outputs.protocol.clone(),
+                requested: T::PROTOCOL.to_owned(),
+            });
+        }
+        let payload = serde_json::to_vec(value).map_err(|_| PortAccessError::Decode {
+            port: port.to_owned(),
+        })?;
+        let senders = outputs.senders.read().await;
+        for output in senders.values() {
             output
-                .send(value.clone())
+                .send(WireMessage {
+                    protocol: T::PROTOCOL.to_owned(),
+                    payload: payload.clone(),
+                })
                 .await
                 .map_err(|error| match error {
                     SendError::Full => PortAccessError::Full(port.to_owned()),
@@ -282,17 +340,47 @@ impl ComponentPorts {
         Ok(())
     }
 
-    async fn recv(&self, port: &str) -> Result<Option<serde_json::Value>, PortAccessError> {
+    async fn recv<T>(&self, port: &str) -> Result<Option<T>, PortAccessError>
+    where
+        T: PortProtocol + DeserializeOwned,
+    {
         let input = self
             .inputs
             .get(port)
             .ok_or_else(|| PortAccessError::UndeclaredInput(port.to_owned()))?;
-        Ok(input.lock().await.recv().await)
+        if input.protocol != T::PROTOCOL {
+            return Err(PortAccessError::ProtocolMismatch {
+                port: port.to_owned(),
+                expected: input.protocol.clone(),
+                requested: T::PROTOCOL.to_owned(),
+            });
+        }
+        let mut receiver = input.receiver.lock().await;
+        let Some(receiver) = receiver.as_mut() else {
+            return Ok(None);
+        };
+        let Some(message) = receiver.recv().await else {
+            return Ok(None);
+        };
+        if message.protocol != T::PROTOCOL {
+            return Err(PortAccessError::ProtocolMismatch {
+                port: port.to_owned(),
+                expected: T::PROTOCOL.to_owned(),
+                requested: message.protocol,
+            });
+        }
+        serde_json::from_slice(&message.payload)
+            .map(Some)
+            .map_err(|_| PortAccessError::Decode {
+                port: port.to_owned(),
+            })
     }
 }
 
 pub(crate) struct RuntimePortRegistry {
     components: BTreeMap<ComponentId, ComponentPorts>,
+    routes: Vec<ValidatedPortRoute>,
+    recorder: RuntimeRecorder,
 }
 
 impl RuntimePortRegistry {
@@ -311,24 +399,144 @@ impl RuntimePortRegistry {
                 format!("{}:{}->{}", route.provider, route.spec.name, route.consumer),
                 &sender.metrics(),
             );
-            components
+            let output = components
                 .get_mut(&route.provider)
                 .expect("validated provider exists")
                 .outputs
                 .entry(route.spec.name.clone())
-                .or_default()
-                .push(sender);
+                .or_insert_with(|| OutputPort {
+                    protocol: route.spec.protocol.clone(),
+                    senders: Arc::new(RwLock::new(BTreeMap::new())),
+                });
+            Arc::get_mut(&mut output.senders)
+                .expect("registry endpoints are not cloned during construction")
+                .get_mut()
+                .insert(route.consumer.clone(), sender);
             components
                 .get_mut(&route.consumer)
                 .expect("validated consumer exists")
                 .inputs
-                .insert(route.spec.name.clone(), Arc::new(Mutex::new(receiver)));
+                .insert(
+                    route.spec.name.clone(),
+                    InputPort {
+                        protocol: route.spec.protocol.clone(),
+                        receiver: Arc::new(Mutex::new(Some(receiver))),
+                    },
+                );
         }
-        Self { components }
+        Self {
+            components,
+            routes: routes.to_vec(),
+            recorder: recorder.clone(),
+        }
     }
 
     pub(crate) fn for_component(&self, id: &ComponentId) -> ComponentPorts {
         self.components.get(id).cloned().unwrap_or_default()
+    }
+
+    /// Drop the kernel's live consumer endpoint when a component exits. This
+    /// makes producer sends observe closure instead of being kept artificially
+    /// alive by registry ownership.
+    pub(crate) async fn close_component(&self, id: &ComponentId) {
+        if let Some(ports) = self.components.get(id) {
+            for input in ports.inputs.values() {
+                *input.receiver.lock().await = None;
+            }
+        }
+    }
+
+    /// Recreate only the routes consumed by a restarting component and replace
+    /// the corresponding provider handles atomically in the shared endpoint
+    /// table. Existing provider contexts therefore target the new incarnation.
+    pub(crate) async fn rebind_component(&self, id: &ComponentId) {
+        for route in self.routes.iter().filter(|route| &route.consumer == id) {
+            let (sender, receiver) = channel(route.spec.capacity, route.spec.full_policy);
+            self.recorder.set_queue_health(
+                format!("{}:{}->{}", route.provider, route.spec.name, route.consumer),
+                &sender.metrics(),
+            );
+            if let Some(output) = self
+                .components
+                .get(&route.provider)
+                .and_then(|ports| ports.outputs.get(&route.spec.name))
+            {
+                output
+                    .senders
+                    .write()
+                    .await
+                    .insert(route.consumer.clone(), sender);
+            }
+            if let Some(input) = self
+                .components
+                .get(&route.consumer)
+                .and_then(|ports| ports.inputs.get(&route.spec.name))
+            {
+                *input.receiver.lock().await = Some(receiver);
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+#[allow(clippy::items_after_test_module)]
+mod tests {
+    use super::*;
+    use crate::{ChannelFullPolicy, PortSpec};
+
+    #[derive(Debug, Eq, PartialEq, Serialize, Deserialize)]
+    struct TestMessage(u64);
+
+    impl PortProtocol for TestMessage {
+        const PROTOCOL: &'static str = "adl.runtime.test.message.v1";
+    }
+
+    #[tokio::test]
+    async fn consumer_exit_closes_route_and_restart_rebinds_existing_producer() {
+        let producer = ComponentId::new("producer");
+        let consumer = ComponentId::new("consumer");
+        let route = ValidatedPortRoute {
+            provider: producer.clone(),
+            consumer: consumer.clone(),
+            spec: PortSpec::bounded(
+                "events",
+                TestMessage::PROTOCOL,
+                2,
+                ChannelFullPolicy::Reject,
+            ),
+        };
+        let registry = RuntimePortRegistry::new(
+            [producer.clone(), consumer.clone()],
+            &[route],
+            &RuntimeRecorder::new(8),
+        );
+        let producer_ports = registry.for_component(&producer);
+        let consumer_ports = registry.for_component(&consumer);
+
+        producer_ports
+            .send("events", &TestMessage(1))
+            .await
+            .unwrap();
+        assert_eq!(
+            consumer_ports.recv::<TestMessage>("events").await.unwrap(),
+            Some(TestMessage(1))
+        );
+
+        registry.close_component(&consumer).await;
+        assert_eq!(
+            producer_ports.send("events", &TestMessage(2)).await,
+            Err(PortAccessError::Closed("events".to_owned()))
+        );
+
+        registry.rebind_component(&consumer).await;
+        producer_ports
+            .send("events", &TestMessage(3))
+            .await
+            .unwrap();
+        assert_eq!(
+            consumer_ports.recv::<TestMessage>("events").await.unwrap(),
+            Some(TestMessage(3))
+        );
     }
 }
 

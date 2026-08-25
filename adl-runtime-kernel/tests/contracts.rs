@@ -208,6 +208,47 @@ fn multiple_capability_providers_allow_compatible_selection() {
 }
 
 #[test]
+fn deterministic_resolution_never_selects_a_higher_version_shell() {
+    let deterministic = contract("clock-deterministic", "clock.authority");
+    let mut shell = contract("clock-shell", "clock.authority");
+    shell.provides[0].version = Version::new(1, 9, 0);
+    shell.determinism = DeterminismClass::GovernedNondeterministicShell;
+    let mut consumer = contract("scheduler", "schedule.admission");
+    let requirement = CapabilityRequirement {
+        name: "clock.authority".to_owned(),
+        version: VersionReq::parse("^1").unwrap(),
+        optional: false,
+    };
+    consumer.requires.push(requirement.clone());
+
+    let validated = validate_contracts([consumer, shell, deterministic]).unwrap();
+    assert_eq!(
+        validated.resolve(&requirement).unwrap().service,
+        "clock-deterministic"
+    );
+}
+
+#[test]
+fn optional_shell_capability_cannot_cross_a_deterministic_boundary() {
+    let mut shell = contract("clock-shell", "clock.authority");
+    shell.determinism = DeterminismClass::GovernedNondeterministicShell;
+    let mut consumer = contract("scheduler", "schedule.admission");
+    consumer.requires.push(CapabilityRequirement {
+        name: "clock.authority".to_owned(),
+        version: VersionReq::parse("^1").unwrap(),
+        optional: true,
+    });
+
+    assert_eq!(
+        validate_contracts([consumer, shell]).unwrap_err(),
+        ContractError::NondeterministicDependency {
+            service: "scheduler".to_owned(),
+            capability: "clock.authority".to_owned(),
+        }
+    );
+}
+
+#[test]
 fn service_contract_must_match_component_runtime_surface() {
     let mut contract = contract("scheduler", "schedule.admission");
     contract.inputs = vec![PortSpec::typed::<u64>("ticks")];

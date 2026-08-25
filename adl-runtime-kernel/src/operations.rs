@@ -297,8 +297,7 @@ pub struct OperationalFactory {
 
 impl OperationalFactory {
     pub fn new(adapter: Arc<OperationalAdapter>, dependencies: Vec<ComponentId>) -> Self {
-        let inputs = adapter.spec(dependencies.clone()).inputs;
-        Self::with_inputs(adapter, dependencies, inputs)
+        Self::with_inputs(adapter, dependencies, Vec::new())
     }
 
     pub fn with_control_dependencies(
@@ -765,20 +764,11 @@ impl OperationalAdapter {
     }
 
     pub fn spec(&self, dependencies: Vec<ComponentId>) -> ComponentSpec {
-        let inputs = dependencies
-            .iter()
-            .map(|dependency| {
-                PortSpec::protocol::<OperationResult>(format!("{}.results", dependency.as_str()))
-            })
-            .collect();
         ComponentSpec {
             id: ComponentId::new(self.kind.service_name()),
-            inputs,
+            inputs: Vec::new(),
             dependencies,
-            outputs: vec![PortSpec::protocol::<OperationResult>(format!(
-                "{}.results",
-                self.kind.service_name()
-            ))],
+            outputs: Vec::new(),
             failure_policy: FailurePolicy::restart(3, Duration::from_millis(100)),
         }
     }

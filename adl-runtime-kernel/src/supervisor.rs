@@ -15,9 +15,9 @@ use tokio::{
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    component::RuntimePortRegistry, ComponentContext, ComponentFactory, ComponentId, FailurePolicy,
-    LifecycleRole, LifecycleState, RunningState, RuntimeEvent, RuntimeRecorder, SupervisionScope,
-    ValidatedTopology,
+    component::{ComponentHealthSignal, RuntimePortRegistry},
+    ComponentContext, ComponentFactory, ComponentId, FailurePolicy, LifecycleRole, LifecycleState,
+    RunningState, RuntimeEvent, RuntimeRecorder, SupervisionScope, ValidatedTopology,
 };
 
 #[derive(Debug, Error)]
@@ -100,6 +100,7 @@ impl Kernel {
         let (restart_tx, mut restart_rx) =
             mpsc::channel::<(ComponentId, Arc<dyn ComponentFactory>)>(16);
         let (readiness_tx, mut readiness_rx) = mpsc::channel::<(ComponentId, bool)>(16);
+        let (health_tx, mut health_rx) = mpsc::channel::<(ComponentId, ComponentHealthSignal)>(16);
 
         for layer in self.topology.dependency_layers() {
             let mut readiness = Vec::with_capacity(layer.len());
@@ -117,10 +118,15 @@ impl Kernel {
                     self.recorder.clone(),
                     ports.for_component(&id),
                     ready_tx,
+                    health_tx.clone(),
                 );
-                readiness.push((id, ready_rx));
+                readiness.push((id.clone(), ready_rx, self.topology.readiness_required(&id)));
             }
-            for (id, ready_rx) in readiness {
+            for (id, ready_rx, readiness_required) in readiness {
+                if !readiness_required {
+                    self.recorder.set_component_state(id, RunningState::Running);
+                    continue;
+                }
                 match timeout(self.readiness_timeout, ready_rx).await {
                     Ok(Ok(())) => self
                         .recorder
@@ -161,6 +167,7 @@ impl Kernel {
                     return Ok(exit);
                 }
                 Some((id, factory)) = restart_rx.recv() => {
+                    ports.rebind_component(&id).await;
                     let (ready_tx, ready_rx) = oneshot::channel();
                     let cancellation = CancellationToken::new();
                     cancellations.insert(id.clone(), cancellation.clone());
@@ -171,11 +178,14 @@ impl Kernel {
                         self.recorder.clone(),
                         ports.for_component(&id),
                         ready_tx,
+                        health_tx.clone(),
                     );
                     let readiness_tx = readiness_tx.clone();
                     let readiness_timeout = self.readiness_timeout;
+                    let readiness_required = self.topology.readiness_required(&id);
                     tokio::spawn(async move {
-                        let ready = matches!(timeout(readiness_timeout, ready_rx).await, Ok(Ok(())));
+                        let ready = !readiness_required
+                            || matches!(timeout(readiness_timeout, ready_rx).await, Ok(Ok(())));
                         let _ = readiness_tx.send((id, ready)).await;
                     });
                 }
@@ -183,6 +193,10 @@ impl Kernel {
                     if ready {
                         self.recorder.set_component_state(id, RunningState::Running);
                     } else {
+                        if let Some(cancellation) = cancellations.get(&id) {
+                            cancellation.cancel();
+                        }
+                        ports.close_component(&id).await;
                         let factory = self.topology.factories[&id].clone();
                         match failure_action(
                             &factory.spec().failure_policy,
@@ -222,6 +236,26 @@ impl Kernel {
                         }
                     }
                 }
+                Some((id, health)) = health_rx.recv() => {
+                    match health {
+                        ComponentHealthSignal::Running => {
+                            self.recorder.set_component_state(id, RunningState::Running);
+                        }
+                        ComponentHealthSignal::Degraded => {
+                            ports.close_component(&id).await;
+                            if apply_degradation(
+                                &self.topology,
+                                &cancellations,
+                                &self.recorder,
+                                &id,
+                            ) {
+                                self.recorder.set_lifecycle(LifecycleState::Failed);
+                                cancel_all(&cancellations, self.topology.shutdown_order());
+                                return Ok(KernelExit::Fatal { component: id });
+                            }
+                        }
+                    }
+                }
                 completion = tasks.join_next(), if !tasks.is_empty() => {
                     let Some(completion) = completion else { continue; };
                     let completion = completion.map_err(|error| KernelError::ComponentFailed {
@@ -229,6 +263,7 @@ impl Kernel {
                         message: error.to_string(),
                     })?;
                     let id = completion.id.clone();
+                    ports.close_component(&id).await;
                     if completion.cancelled {
                         self.recorder.set_component_state(id, RunningState::Stopped);
                         continue;
@@ -473,11 +508,18 @@ fn spawn_component(
     recorder: RuntimeRecorder,
     ports: crate::component::ComponentPorts,
     ready: oneshot::Sender<()>,
+    health: mpsc::Sender<(ComponentId, ComponentHealthSignal)>,
 ) {
     let id = factory.spec().id;
     tasks.spawn(async move {
-        let context =
-            ComponentContext::new(id.clone(), cancellation.clone(), recorder, ports, ready);
+        let context = ComponentContext::new(
+            id.clone(),
+            cancellation.clone(),
+            recorder,
+            ports,
+            ready,
+            health,
+        );
         let outcome = AssertUnwindSafe(factory.build().run(context))
             .catch_unwind()
             .await;
@@ -508,62 +550,73 @@ fn cancel_all(
 async fn shutdown(
     tasks: &mut JoinSet<ComponentCompletion>,
     cancellations: &BTreeMap<ComponentId, CancellationToken>,
-    shutdown_phases: Vec<Vec<ComponentId>>,
+    shutdown_phases: Vec<ShutdownPhase>,
     recorder: &RuntimeRecorder,
     grace: Duration,
 ) -> KernelExit {
     let shutdown_order = shutdown_phases
         .iter()
-        .flatten()
-        .cloned()
+        .map(|phase| phase.component.clone())
         .collect::<Vec<_>>();
     let drain = async {
         let mut failed = Vec::new();
-        for layer in shutdown_phases {
+        for phase in shutdown_phases {
+            let id = phase.component;
             let snapshot = recorder.snapshot();
-            let mut pending = layer
-                .iter()
-                .filter(|id| {
-                    matches!(
-                        snapshot.components.get(*id),
-                        Some(
-                            RunningState::Starting
-                                | RunningState::Ready
-                                | RunningState::Running
-                                | RunningState::Restarting
-                                | RunningState::Stopping
-                        )
-                    )
-                })
-                .cloned()
-                .collect::<std::collections::BTreeSet<_>>();
-            for id in &layer {
+            let active = matches!(
+                snapshot.components.get(&id),
+                Some(
+                    RunningState::Starting
+                        | RunningState::Ready
+                        | RunningState::Running
+                        | RunningState::Restarting
+                        | RunningState::Stopping
+                )
+            );
+            if active {
                 recorder.set_component_state(id.clone(), RunningState::Stopping);
-                if let Some(cancellation) = cancellations.get(id) {
+                if let Some(cancellation) = cancellations.get(&id) {
                     cancellation.cancel();
                 }
             }
-            while !pending.is_empty() {
-                let Some(completion) = tasks.join_next().await else {
-                    break;
-                };
-                if let Ok(completion) = completion {
-                    pending.remove(&completion.id);
-                    if completion.error.is_some() {
-                        recorder.set_component_state(completion.id.clone(), RunningState::Failed);
-                        failed.push(completion.id);
-                    } else {
-                        recorder.set_component_state(completion.id, RunningState::Stopped);
+            let wait = async {
+                if active {
+                    loop {
+                        let Some(completion) = tasks.join_next().await else {
+                            break;
+                        };
+                        if let Ok(completion) = completion {
+                            let target_complete = completion.id == id;
+                            if completion.error.is_some() {
+                                recorder.set_component_state(
+                                    completion.id.clone(),
+                                    RunningState::Failed,
+                                );
+                                failed.push(completion.id);
+                            } else {
+                                recorder.set_component_state(completion.id, RunningState::Stopped);
+                            }
+                            if target_complete {
+                                break;
+                            }
+                        }
                     }
                 }
+            };
+            if let Some(bound) = phase.bound {
+                if timeout(bound, wait).await.is_err() {
+                    return Err(());
+                }
+            } else {
+                wait.await;
             }
         }
-        failed
+        Ok(failed)
     };
     match timeout(grace, drain).await {
-        Ok(failed) if failed.is_empty() => KernelExit::Clean,
-        Ok(components) => KernelExit::ShutdownFailed { components },
-        Err(_) => {
+        Ok(Ok(failed)) if failed.is_empty() => KernelExit::Clean,
+        Ok(Ok(components)) => KernelExit::ShutdownFailed { components },
+        Ok(Err(())) | Err(_) => {
             let aborted = shutdown_order
                 .iter()
                 .filter(|id| {
@@ -577,7 +630,12 @@ async fn shutdown(
     }
 }
 
-fn shutdown_phases(topology: &ValidatedTopology) -> Vec<Vec<ComponentId>> {
+struct ShutdownPhase {
+    component: ComponentId,
+    bound: Option<Duration>,
+}
+
+fn shutdown_phases(topology: &ValidatedTopology) -> Vec<ShutdownPhase> {
     let mut layers = topology.dependency_layers();
     layers.reverse();
     let ordered = layers.into_iter().flatten().collect::<Vec<_>>();
@@ -589,14 +647,15 @@ fn shutdown_phases(topology: &ValidatedTopology) -> Vec<Vec<ComponentId>> {
         LifecycleRole::Telemetry,
         LifecycleRole::Egress,
     ] {
-        let members = ordered
-            .iter()
-            .filter(|id| topology.factories[*id].lifecycle_role() == role)
-            .cloned()
-            .collect::<Vec<_>>();
-        if !members.is_empty() {
-            phases.push(members);
-        }
+        phases.extend(
+            ordered
+                .iter()
+                .filter(|id| topology.factories[*id].lifecycle_role() == role)
+                .map(|id| ShutdownPhase {
+                    component: id.clone(),
+                    bound: topology.shutdown_bound(id),
+                }),
+        );
     }
     phases
 }

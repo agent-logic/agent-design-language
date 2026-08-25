@@ -801,6 +801,19 @@ fn configured_registry_fails_closed_for_factory_and_surface_drift() {
         wrong_identity.construct(&config(vec![component("weather", "weather", &[])])),
         Err(TopologyError::FactoryIdentity { .. })
     ));
+
+    let mut lifecycle_drift = FactoryRegistry::new();
+    lifecycle_drift.register("weather", |config| {
+        let mut registration = registration(config);
+        registration.contract.lifecycle.required_core = true;
+        Ok(registration)
+    });
+    assert!(matches!(
+        lifecycle_drift.construct(&config(vec![component("weather", "weather", &[])])),
+        Err(TopologyError::Contract(
+            adl_runtime_kernel::ContractError::LifecycleAuthorityMismatch(id)
+        )) if id == ComponentId::new("weather")
+    ));
 }
 
 fn sample(cpu: u16, memory_used: u16, disk_available: u64) -> WeatherSample {

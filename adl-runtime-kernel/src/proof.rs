@@ -268,11 +268,10 @@ impl Component for Scheduler {
             context
                 .send(
                     "work",
-                    serde_json::to_value(WorkItem {
+                    &WorkItem {
                         sequence,
                         payload: format!("candidate-{sequence}"),
-                    })
-                    .map_err(|error| ComponentError::new(error.to_string()))?,
+                    },
                 )
                 .await
                 .map_err(|error| ComponentError::new(error.to_string()))?;
@@ -310,16 +309,14 @@ impl Component for Gate {
         loop {
             tokio::select! {
                 _ = context.cancellation.cancelled() => return Ok(()),
-                item = context.recv("work") => {
+                item = context.recv::<WorkItem>("work") => {
                     let item = item.map_err(|error| ComponentError::new(error.to_string()))?;
                     let Some(item) = item else { return Ok(()); };
-                    let item: WorkItem = serde_json::from_value(item)
-                        .map_err(|error| ComponentError::new(error.to_string()))?;
-                    context.send("governed", serde_json::to_value(GovernedItem {
+                    context.send("governed", &GovernedItem {
                         sequence: item.sequence,
                         payload: item.payload,
                         decision: "allowed_by_proof_policy".to_owned(),
-                    }).map_err(|error| ComponentError::new(error.to_string()))?).await
+                    }).await
                         .map_err(|error| ComponentError::new(error.to_string()))?;
                 }
             }
@@ -374,14 +371,12 @@ impl Component for Checkpoint {
                     self.persist().await?;
                     return Ok(());
                 }
-                item = context.recv("governed") => {
+                item = context.recv::<GovernedItem>("governed") => {
                     let item = item.map_err(|error| ComponentError::new(error.to_string()))?;
                     let Some(item) = item else {
                         self.persist().await?;
                         return Ok(());
                     };
-                    let item: GovernedItem = serde_json::from_value(item)
-                        .map_err(|error| ComponentError::new(error.to_string()))?;
                     let count = {
                         let mut evidence = self.evidence.lock().expect("evidence mutex poisoned");
                         evidence.push(item);

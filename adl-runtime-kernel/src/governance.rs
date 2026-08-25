@@ -11,7 +11,7 @@ use thiserror::Error;
 use crate::{
     Capability, CapabilityRequirement, CheckpointParticipant, Component, ComponentContext,
     ComponentError, ComponentFactory, ComponentId, ComponentSpec, DeterminismClass, FailurePolicy,
-    LifecycleGuarantees, PortSpec, ServiceContract, SERVICE_CONTRACT_SCHEMA,
+    LifecycleGuarantees, ServiceContract, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const COMMITMENT_SCHEMA: &str = "adl.runtime.commitment.v1";
@@ -961,43 +961,17 @@ impl ComponentFactory for GovernanceComponentFactory {
 
 pub fn governance_component_specs() -> Vec<ComponentSpec> {
     [
-        (
-            "governance_ingress",
-            vec![],
-            vec![],
-            vec![PortSpec::protocol::<GovernedActionRequest>("request")],
-        ),
-        (
-            "freedom_gate",
-            vec![ComponentId::new("governance_ingress")],
-            vec![PortSpec::protocol::<GovernedActionRequest>("request")],
-            vec![
-                PortSpec::protocol::<MediationDecision>("decision"),
-                PortSpec::protocol::<ExecutionPermit>("permit"),
-            ],
-        ),
-        (
-            "aee",
-            vec![ComponentId::new("freedom_gate")],
-            vec![PortSpec::protocol::<ExecutionPermit>("permit")],
-            vec![
-                PortSpec::protocol::<RecordedActuationResult>("result"),
-                PortSpec::protocol::<AuditEvent>("audit"),
-            ],
-        ),
-        (
-            "governance_audit",
-            vec![ComponentId::new("aee")],
-            vec![PortSpec::protocol::<AuditEvent>("audit")],
-            vec![],
-        ),
+        ("governance_ingress", vec![]),
+        ("freedom_gate", vec![ComponentId::new("governance_ingress")]),
+        ("aee", vec![ComponentId::new("freedom_gate")]),
+        ("governance_audit", vec![ComponentId::new("aee")]),
     ]
     .into_iter()
-    .map(|(id, dependencies, inputs, outputs)| ComponentSpec {
+    .map(|(id, dependencies)| ComponentSpec {
         id: ComponentId::new(id),
         dependencies,
-        inputs,
-        outputs,
+        inputs: Vec::new(),
+        outputs: Vec::new(),
         failure_policy: FailurePolicy::Fatal,
     })
     .collect()

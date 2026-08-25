@@ -16,7 +16,7 @@ Implement five coherent kernel slices: authoritative contract wiring, determinis
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 

@@ -494,13 +494,32 @@ impl RuntimeRecorder {
                 (queue.capacity > 0 && queue.depth >= queue.capacity as u64).then_some(name.clone())
             })
             .collect::<Vec<_>>();
+        let live_component_count = snapshot
+            .components
+            .values()
+            .filter(|state| {
+                matches!(
+                    state,
+                    RunningState::Starting
+                        | RunningState::Ready
+                        | RunningState::Running
+                        | RunningState::Restarting
+                        | RunningState::Stopping
+                )
+            })
+            .count();
         let live = matches!(
             snapshot.lifecycle,
             LifecycleState::Starting | LifecycleState::Running | LifecycleState::Stopping
-        );
+        ) && live_component_count > 0
+            && failed_components.is_empty();
         let ready = snapshot.lifecycle == LifecycleState::Running
+            && live_component_count == snapshot.components.len()
+            && !snapshot.components.is_empty()
+            && degraded_components.is_empty()
             && failed_components.is_empty()
-            && restarting_components.is_empty();
+            && restarting_components.is_empty()
+            && saturated_queues.is_empty();
         RuntimeHealth {
             lifecycle: snapshot.lifecycle,
             ready,

@@ -12,7 +12,7 @@ use thiserror::Error;
 
 use crate::{
     validate_contracts, ComponentConfig, ComponentFactory, ComponentId, ComponentSpec, ConfigError,
-    ContractError, RuntimeConfig, ServiceContract, ValidatedContracts,
+    ContractError, LifecycleGuarantees, RuntimeConfig, ServiceContract, ValidatedContracts,
 };
 
 #[derive(Debug, Error, Eq, PartialEq)]
@@ -152,7 +152,11 @@ impl FactoryRegistry {
         }
 
         let contracts = validate_contracts(contracts)?;
-        let topology = components.validate()?;
+        let mut topology = components.validate()?;
+        topology.lifecycle_guarantees = contracts
+            .contracts()
+            .map(|contract| (contract.component.clone(), contract.lifecycle.clone()))
+            .collect();
         Ok(ConfiguredTopology {
             topology,
             contracts,
@@ -282,6 +286,7 @@ impl ComponentRegistry {
             shutdown_order,
             port_routes,
             required_core,
+            lifecycle_guarantees: BTreeMap::new(),
         })
     }
 }
@@ -292,6 +297,7 @@ pub struct ValidatedTopology {
     shutdown_order: Vec<ComponentId>,
     port_routes: Vec<ValidatedPortRoute>,
     required_core: BTreeSet<ComponentId>,
+    lifecycle_guarantees: BTreeMap<ComponentId, LifecycleGuarantees>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -351,6 +357,19 @@ impl ValidatedTopology {
 
     pub fn is_required_core(&self, id: &ComponentId) -> bool {
         self.required_core.contains(id)
+    }
+
+    pub fn shutdown_bound(&self, id: &ComponentId) -> Option<std::time::Duration> {
+        self.lifecycle_guarantees
+            .get(id)
+            .map(|lifecycle| std::time::Duration::from_millis(lifecycle.bounded_shutdown_millis))
+    }
+
+    pub fn readiness_required(&self, id: &ComponentId) -> bool {
+        self.lifecycle_guarantees
+            .get(id)
+            .map(|lifecycle| lifecycle.readiness_required)
+            .unwrap_or(true)
     }
 
     pub fn dependency_layers(&self) -> Vec<Vec<ComponentId>> {

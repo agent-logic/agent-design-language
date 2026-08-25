@@ -14,7 +14,7 @@ use tokio_util::sync::CancellationToken;
 use crate::{
     validate_replay, Capability, CapabilityRequirement, CheckpointParticipant, Component,
     ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec,
-    DeterminismClass, FailurePolicy, LifecycleGuarantees, PortSpec, ReplayEvent, ServiceContract,
+    DeterminismClass, FailurePolicy, LifecycleGuarantees, ReplayEvent, ServiceContract,
     SERVICE_CONTRACT_SCHEMA,
 };
 
@@ -1262,22 +1262,11 @@ pub fn reasoning_component_specs() -> Vec<ComponentSpec> {
                 ],
                 _ => vec![],
             };
-            let inputs = dependencies
-                .iter()
-                .map(|dependency| {
-                    PortSpec::protocol::<ReasoningEnvelope>(format!(
-                        "{}.reasoning",
-                        dependency.as_str()
-                    ))
-                })
-                .collect();
             ComponentSpec {
                 id: ComponentId::new(id),
                 dependencies,
-                inputs,
-                outputs: vec![PortSpec::protocol::<ReasoningEnvelope>(format!(
-                    "{id}.reasoning"
-                ))],
+                inputs: Vec::new(),
+                outputs: Vec::new(),
                 failure_policy: FailurePolicy::Fatal,
             }
         })

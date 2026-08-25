@@ -7,7 +7,7 @@ use thiserror::Error;
 use crate::{
     Capability, CapabilityRequirement, Component, ComponentContext, ComponentError,
     ComponentFactory, ComponentId, ComponentSpec, DeterminismClass, FailurePolicy,
-    LifecycleGuarantees, PortSpec, ServiceContract, SERVICE_CONTRACT_SCHEMA,
+    LifecycleGuarantees, ServiceContract, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const COGNITION_CONTEXT_SCHEMA: &str = "adl.runtime.cognition.context.v1";
@@ -222,36 +222,24 @@ impl ComponentFactory for CognitionComponentFactory {
 
 pub fn cognition_component_specs() -> Vec<ComponentSpec> {
     [
-        (
-            "moral_affect_wellbeing_adapter",
-            vec![],
-            vec![],
-            vec![
-                PortSpec::protocol::<CognitionContext>("context"),
-                PortSpec::protocol::<CognitionDecision>("decision"),
-            ],
-        ),
+        ("moral_affect_wellbeing_adapter", vec![]),
         (
             "curiosity_intelligence_theory_of_mind_adapter",
             vec![ComponentId::new("moral_affect_wellbeing_adapter")],
-            vec![PortSpec::protocol::<CognitionContext>("context")],
-            vec![PortSpec::protocol::<CognitionDecision>("decision")],
         ),
         (
             "cognition_review_record",
             vec![ComponentId::new(
                 "curiosity_intelligence_theory_of_mind_adapter",
             )],
-            vec![PortSpec::protocol::<CognitionDecision>("decision")],
-            vec![PortSpec::protocol::<CognitionReviewRecord>("review")],
         ),
     ]
     .into_iter()
-    .map(|(id, dependencies, inputs, outputs)| ComponentSpec {
+    .map(|(id, dependencies)| ComponentSpec {
         id: ComponentId::new(id),
         dependencies,
-        inputs,
-        outputs,
+        inputs: Vec::new(),
+        outputs: Vec::new(),
         failure_policy: FailurePolicy::Fatal,
     })
     .collect()
