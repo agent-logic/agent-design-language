@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "91da788d225854a1a945c443580c39b580d895f4e4cfeca580c75bd044846228",
   "phase": "initialized",
-  "generation": 1,
-  "digest": "2306fc71d54497b5ff85aa1e73c52a713735e3e9b4505ebbf99ad2d197907300",
+  "generation": 2,
+  "digest": "fe33ef6b3c787ba1212f52b4f41f8b2716bcd7bbc50098de17685e144349a39f",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/313/design.md",
   "diagram_path": ".csdlc/prepared/issues/313/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "revision": "02b1d0666e26fc4ab6dc8fe91007659b2acc4a0116dff20ac8c5f78ac3fe845a"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "fcf717a8037cd6fda244fd41beaf8e14034d6eacac771a990a57928add6e628e",
+      "values_digest": "9a0afc7a0682cebe94bbe0c8c562214735954f940eda51c456d34c5655c4e774",
       "rendered_digest": "cf725ad301b0471c787341d3a74f6365fe43e65aeea6e70a7879db777a11f501",
       "ast_digest": "549616554144499e40c81ef43e05a9ffac19c477869805340f0a6ae5992bf907"
     },
     "stp": {
-      "values_digest": "54b2047e902285a8401bd6f63e3dd5116863626fcb2a6da62546c6cf101b904c",
+      "values_digest": "8327cf5c13e5d1b9b08800430c6f155290cd999599a95c80deb127ecc51636cc",
       "rendered_digest": "7ff1ae65fd39a0309bb160b2bff2fd1d59c8ca2778b504ce812c0a3a099429e5",
       "ast_digest": "088005df748bc2be734dcbeeefe28b6b265d8d26abfdfd951fd23b37e5c127f2"
     },
     "spp": {
-      "values_digest": "f6c675db436ef1168b3fd96767d99d25f371e13fa1567803d601c8dfbca95f54",
+      "values_digest": "b1c2aebdbce6fef4b72a12d010c11f36f50c66371609cb32c352f571d9154864",
       "rendered_digest": "772489f171f451107a993f3fc5ad2708f3d799faa6d0ed1db1aeb603c12ba31f",
       "ast_digest": "89f847dab520d77d564560ca60ab879c43ca8d6a4fa54a82238c66458a026bc0"
     },
     "vpp": {
-      "values_digest": "146ad989b6a298cb687e4aa3ea1ed40faa3629998a6f6b6c3c68b8b9e77fb45f",
+      "values_digest": "0e98a0e23679442292b9621e3e54070379591a652d7a30ad62ca163b3907e303",
       "rendered_digest": "424c579b11b596d6513272970259beb28ba55f7815918a2a3f1ee771178d17e1",
       "ast_digest": "eefb1d949db7f547c94362c9bc0615a2fe0b489521dea52741d529e9deb9126a"
     },
     "srp": {
-      "values_digest": "0639358a97e2f14ff6fb44e54adab0ac47e4c8588010827e3c37d3fd5c25915b",
+      "values_digest": "6298e1d2b564541990929d012f4f0b9bdf11c561effc43d77f4fb8189d2ddb3a",
       "rendered_digest": "128f34c4b0b1eb4251af6a018222a1108e544281ed0363977158d3cf8b18bb8d",
       "ast_digest": "6d474810837650f881d567039599b168ded2a01f509d216f24f5576be5d5068b"
     },
     "sor": {
-      "values_digest": "1b994f615377d94265a79d82219ca84ee6e608ada86456cd7543ab161b4b90bb",
+      "values_digest": "5dd72b369c8edfa3515a7298fd1ccf6f696eb3bc825891b5bdc769841ccb570e",
       "rendered_digest": "7c0ca9fc47e996966ef16920c95ee489790bf76ab48c3ee2f9a46730b9d52cb9",
       "ast_digest": "2a9afce40e91128bd18a2c52fea2e29fdbc6f3a1c5e99f8912acbae1db6d7ac2"
     }
@@ -64,6 +69,13 @@
       "actor": "codex:wp25-preparation",
       "reason": "Replace the non-governed manual meta-review placeholder with an executable issue-owned retained-result validator while preserving the independent review lifecycle boundary.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"internal-review-packet\",\"proof_role\":\"Validate exact repository and SHA identity, dependency gates, nine lane completions, finding schema, digests, links, redaction, and claim boundaries.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5846/validate-internal-review.rb\"],\"parallel_group\":\"packet\",\"defer_reason\":\"Runs after the exact target SHA and review packet exist.\"},{\"lane\":\"review-quality-meta-review-receipt\",\"proof_role\":\"Validate the retained independent meta-review identity, exact packet and target digests, coverage and severity evaluation, limitations, and zero unresolved actionable review-quality findings.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5846/validate-internal-review.rb\",\"--require-meta-review\"],\"parallel_group\":\"meta-review-receipt\",\"defer_reason\":\"Runs only after an independent reviewer has produced the retained meta-review; the validator does not author or approve that review.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and patch hygiene errors in the review packet, validator, and milestone entrypoint.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"02b1d0666e26fc4ab6dc8fe91007659b2acc4a0116dff20ac8c5f78ac3fe845a\",\"design_ref\":\".csdlc/prepared/issues/313/design.md\",\"diagram_digest\":\"94c6240fafa592052a8d45e548757a7452fe6b966faea144948828c7134e5b7c\",\"diagram_ref\":\".csdlc/prepared/issues/313/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }

@@ -1,38 +1,36 @@
 # WP-25 / #313 Internal Review Preparation Plan
 
-Status: `prepared_not_started`
+Status: `design_approved_ready_for_binding`
 
 Canonical issue: `agent-logic/agent-design-language#313`
 
 This plan follows the full internal-review pattern established by the v0.91.2
-corrective review packet and the v0.91.8 WP-18 packets. It intentionally stops
-before typed issue initialization, design approval, execution binding, review
-execution, lifecycle mutation, publication, remediation, or external dispatch.
+corrective review packet and the v0.91.8 WP-18 packets. The typed six-card issue
+record is initialized and its design is approved. Execution still stops before
+specialist review, publication, remediation, or external dispatch until the
+typed worktree binding is recorded.
 
 ## Current Gate Truth
 
-- WP-23 / `#312`: open; remains an execution blocker.
-- WP-24 / `#10`: closed; terminal, reconciliation, ancestry, and worktree
-  cleanup still require exact pre-start verification.
+- WP-23 / `#312`: merged through PR `#469`, typed-terminal, ancestral, and its
+  exact registered worktree is cleaned.
+- WP-24 / `#10`: merged, typed-terminal, ancestral, and clean.
 - WP-24A: moved to v0.92.1 by operator disposition; not a WP-25 blocker.
-- `#313` now records WP-24A / `#342` as deferred to v0.92.1 and explicitly
-  non-blocking. Preserve that live wording when the typed six-card bundle is
-  initialized; reject any regression to the legacy three-dependency contract.
+- `#313` records WP-24A / `#342` as deferred to v0.92.1 and explicitly
+  non-blocking. Preserve that live wording in the initialized typed six-card
+  bundle; reject any regression to the legacy three-dependency contract.
 
 ## Preparation Sequence
 
-1. Review and approve this design through the normal typed v2 preparation
-   route; do not infer approval from this draft.
-2. Initialize and validate the six-card inputs from current `#313` truth so
+1. Preserve the completed fresh typed design approval.
+2. Validate the initialized six-card inputs from current `#313` truth so
    WP-24A remains deferred to v0.92.1 and the active dependency set is exactly
    WP-23 plus WP-24.
-3. Keep the issue unbound until the active entry gates are terminal,
-   reconciled, ancestral, and clean.
-4. At start time, resolve the installed v2 generation, initialize or validate
-   the six-card bundle, run doctor, and bind only through `csdlc-bind` into the
-   registered FastWork issue worktree.
-5. Create the issue-bound session goal only after binding and before review
-   execution.
+3. Confirm every active entry gate is terminal, reconciled, ancestral, and
+   clean before review execution.
+4. Resolve the installed v2 generation, validate the six-card bundle, run
+   doctor, and preserve the registered FastWork issue worktree binding.
+5. Maintain the issue-bound session goal before review execution.
 
 ## Review Execution Sequence
 
@@ -105,7 +103,6 @@ summary never substitutes for those reviewer-authored reports.
 
 ## Stop Boundary
 
-This preparation does not start `#313`. It creates no canonical issue record,
-does not bind a branch/worktree as execution authority, does not run specialist
-reviews, does not remediate findings, and does not claim internal-review or
-release readiness.
+This preparation has initialized and design-approved `#313`, but it does not
+run the specialist reviews before typed worktree binding. It does not remediate
+product findings or claim internal-review or release readiness.
