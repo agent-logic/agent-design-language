@@ -1,0 +1,104 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 319,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "34509f31c80be5cf38a5b8085f6eae0006c612f628dfac516322bc7213517061",
+  "phase": "bound",
+  "generation": 2,
+  "digest": "854cecb9de96f6dd19f23412bd6c33eed80c55703debc564073567ceb3fe1c6d",
+  "branch": "codex/319-v092-wp30-release-ceremony",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-319-release-ceremony",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/319/design.md",
+  "diagram_path": ".csdlc/prepared/issues/319/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:a0680334-9f22-497d-99c6-d5c4e0e2bbdf",
+      "revision": "d99e315746b165b7246654a8e37dd1ab4fc1de7f44293e75cf42fc45fdea62e4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "72baf5c0154b901fa0c97f1b84587988535c3f540b0206000b201569d851dfb1",
+      "rendered_digest": "f388437ad1bf2c81953f4eefc674999867a8394550150706d870ed5b2341887a",
+      "ast_digest": "86bb20778de54dc3d9460bed3b0351d7265f968cffb0387c5ce072bad7b3d1db"
+    },
+    "stp": {
+      "values_digest": "e03714bb0f0c447785eed83850358efe1e8b8325ef214420c0fdd0172fb43427",
+      "rendered_digest": "2024b1f4df276abf337f890ab4a48d016e9c4977a8c82ce1ec83c1e3355d3983",
+      "ast_digest": "16f5a4016c7645cd277fcc1f48b2b2504dc8ba6c24b8f4edfdb71471279c8c63"
+    },
+    "spp": {
+      "values_digest": "83c82087541ac1f05c3b8c9f6cbae19c2a5a8a9ecb5fdbcdd0fb471cd9e8a00b",
+      "rendered_digest": "2b78403b4a571c95674a16bd9e9abcfcba054fb67e0dd45acd66bbf7d79c8ee2",
+      "ast_digest": "92196c40904e5bab8fa2b6279a744f81bf6587f7e6697210943626f118229868"
+    },
+    "vpp": {
+      "values_digest": "92ca5c9bb4e2081781eadba535f9cddcba0f3ecb19409aec33e41b313d528b3e",
+      "rendered_digest": "24e9493e3f74ae3d2d1ef466d1c00ee0ae0ccb87919f1f2172f05d05a8ae2057",
+      "ast_digest": "1a12fdffecad014518d9d8e8e33a7746eb370adb1358df747d230d16bafda903"
+    },
+    "srp": {
+      "values_digest": "e6cebb94fb96c3314d9b938bd00510a50e6823412966f69e98dc2458c8ae1364",
+      "rendered_digest": "e3acb8c3ac05cffb9f2227820d6e4c2d7ae0e6f0a3e6746a24289ff9bbf60739",
+      "ast_digest": "212b5af075e37d891b6132336cca210882848ab43e92e4dc85a1e006f91c724b"
+    },
+    "sor": {
+      "values_digest": "0c345e2d42a0b561b1e384db6ddc5744508540549f510dfd5ff3874e65e5ecda",
+      "rendered_digest": "bcb2dffe6da53c8157ae803344a87a3b248d6c72f47ce8f60f455f94b95eb6ee",
+      "ast_digest": "996661641f0e061fedf2efafd425e4d36df5c37d793aa01f4fb305a462ebac33"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance the approved and executable #319 package to ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:a0680334-9f22-497d-99c6-d5c4e0e2bbdf",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d99e315746b165b7246654a8e37dd1ab4fc1de7f44293e75cf42fc45fdea62e4\",\"design_ref\":\".csdlc/prepared/issues/319/design.md\",\"diagram_digest\":\"1a43fa130f7761efc696f74071007e26f7dcf3e9948ba76a0440a3949d9c3f68\",\"diagram_ref\":\".csdlc/prepared/issues/319/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance the approved and executable #319 package to ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

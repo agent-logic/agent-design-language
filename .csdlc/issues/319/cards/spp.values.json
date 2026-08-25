@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 319,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-30] Release ceremony",
+    "slug": "v0-92-wp-30-release-ceremony",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Replace the obsolete all-records-closed ceremony gate with an exact disposition-evidence manifest, prove the script on the clean candidate, retain reviewed candidate evidence and a post-merge receipt template, and publish #319 without release mutation.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bind exact predecessor dispositions and candidate authority in a machine-readable manifest.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Repair and prove the ceremony gate and negative paths on the clean exact candidate.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Finalize reviewed candidate evidence and the post-merge final-receipt template.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain typed independent exact-head review and publish the closing PR without tag/release mutation.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/tools/release_ceremony.sh",
+        "adl/tools/test_release_ceremony.sh",
+        "docs/milestones/v0.92/RELEASE_NOTES_v0.92.md",
+        "docs/milestones/v0.92/RELEASE_PLAN_v0.92.md",
+        "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md",
+        "docs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md",
+        ".csdlc/prepared/issues/319/validate-release-evidence.rb",
+        ".csdlc/evidence/319"
+      ],
+      "invariants": [
+        "Merge authority gates downstream work; typed finish and cleanup do not",
+        "Check-only ceremony causes no network mutation",
+        "Every release identity and claim is exact-candidate bound",
+        "Published release history is never deleted by rollback"
+      ],
+      "risks": [
+        "Stale release identity or non-ancestral predecessor",
+        "Legacy same-version records falsely blocking ceremony",
+        "Partial tag/release mutation or unsupported milestone claims"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "#318 merge or required check/review identity cannot be proven",
+        "Main or candidate is dirty, divergent, or not exact",
+        "Tag/release identity conflicts",
+        "Ceremony validation or exact-head review fails"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/319/design.md",
+      "design_digest": "d99e315746b165b7246654a8e37dd1ab4fc1de7f44293e75cf42fc45fdea62e4",
+      "diagram_ref": ".csdlc/prepared/issues/319/diagram.mmd",
+      "diagram_digest": "1a43fa130f7761efc696f74071007e26f7dcf3e9948ba76a0440a3949d9c3f68"
+    }
+  }
+}

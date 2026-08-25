@@ -1,0 +1,103 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 319,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-30] Release ceremony",
+    "slug": "v0-92-wp-30-release-ceremony",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "ceremony-unit",
+          "proof_role": "Prove safe split-step ceremony behavior and negative paths.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 240,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            "adl/tools/test_release_ceremony.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "release-evidence",
+          "proof_role": "Validate exact predecessor, candidate, document, receipt, and non-claim bindings.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 240,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/319/validate-release-evidence.rb",
+            "all"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "ceremony-preflight",
+          "proof_role": "Run and validate the real ceremony script in non-mutating check-only mode.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 240,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/319/validate-release-evidence.rb",
+            "ceremony"
+          ],
+          "parallel_group": "preflight",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-exact-head-review",
+          "proof_role": "Record and verify the independent exact-head review identity and result before publication.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "csdlc-review",
+            "--root",
+            ".",
+            "--request",
+            ".csdlc/prepared/issues/319/record-review.json"
+          ],
+          "parallel_group": "review",
+          "defer_reason": "Executed after implementation commits establish the exact review revision."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed before tag or release mutation and preserve exact failure evidence for bounded repair.",
+      "design_ref": ".csdlc/prepared/issues/319/design.md",
+      "design_digest": "d99e315746b165b7246654a8e37dd1ab4fc1de7f44293e75cf42fc45fdea62e4",
+      "diagram_ref": ".csdlc/prepared/issues/319/diagram.mmd",
+      "diagram_digest": "1a43fa130f7761efc696f74071007e26f7dcf3e9948ba76a0440a3949d9c3f68"
+    }
+  }
+}

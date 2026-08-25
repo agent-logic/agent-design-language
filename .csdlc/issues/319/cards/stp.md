@@ -1,0 +1,53 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 319
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Deliver exactly one v0.92 release-ceremony receipt and the minimum gate repair needed to produce it.
+
+## Deliverables
+
+- Merge-based release ceremony manifest and validator
+- Focused ceremony-script regression proof
+- Reviewed exact-candidate evidence packet plus post-merge final-receipt template
+- Reviewed #319 PR with no tag/release mutation
+
+## Acceptance
+
+1. AC-1: The exact #308-#318 denominator is proved by canonical disposition: merge-backed reviewed/green/ancestral PR evidence where present, retained exact external-review evidence for #314, and retained recordless replacement/retrospective authority for #310; asynchronous finish/cleanup is not a dependency.
+2. AC-2: One reviewed candidate evidence packet binds the exact candidate, intended tag/release identity, notes, plan, checklist, disposition evidence, risks, and non-claims; the final immutable receipt is generated after merge from clean exact main.
+3. AC-3: The ceremony script rejects stale, dirty, wrong-branch, malformed, duplicate, and partial-state candidates.
+4. AC-4: The real ceremony script completes non-mutating check-only preflight on the clean exact candidate; after merge it is rerun from clean exact main before any release mutation.
+5. AC-5: The retained receipt truthfully records #268 qualification state and does not claim v0.93 activation or unproved delivery.
+6. AC-6: Typed independent exact-head review passes before publication, and tag/release mutation remains post-merge operator authority.
+
+## Dependencies
+
+- #318 reviewed green PR #478 merged into main and ancestral
+- Canonical v0.92 release notes, plan, checklist, and review evidence
+- adl/tools/release_ceremony.sh
+
+## Inputs
+
+- docs/milestones/v0.92/RELEASE_NOTES_v0.92.md
+- docs/milestones/v0.92/RELEASE_PLAN_v0.92.md
+- docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md
+- docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md
+- adl/tools/release_ceremony.sh
+- adl/tools/test_release_ceremony.sh
+
+## Non Goals
+
+- Product remediation or feature completion
+- Executing #268 or claiming its AWS qualification passed
+- Activating v0.93 or opening v0.92.1
+- Blind retry or deletion of published release history

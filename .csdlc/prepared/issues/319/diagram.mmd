@@ -1,0 +1,11 @@
+flowchart LR
+  A["#318 reviewed green merge"] --> B["Exact v0.92 disposition manifest"]
+  B --> C["PR / external-review / recordless validator"]
+  C --> D["Ceremony tests"]
+  D --> E["Clean exact candidate check-only ceremony script"]
+  E --> F["Reviewed candidate evidence packet"]
+  F --> G["Independent review and #319 PR"]
+  G --> H["Clean-main final receipt after merge"]
+  H --> K["Operator-authorized tag/release"]
+  I["Typed finish and cleanup"] -. async bookkeeping .-> C
+  J["#268 AWS qualification"] -. disclosed non-claim .-> F

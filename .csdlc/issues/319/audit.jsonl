@@ -1,0 +1,4 @@
+{"sequence":1,"generation":0,"actor":"codex:/root","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"fresh-session:a0680334-9f22-497d-99c6-d5c4e0e2bbdf","reason":"approve completed issue design","operation":"{\"design_digest\":\"d99e315746b165b7246654a8e37dd1ab4fc1de7f44293e75cf42fc45fdea62e4\",\"design_ref\":\".csdlc/prepared/issues/319/design.md\",\"diagram_digest\":\"1a43fa130f7761efc696f74071007e26f7dcf3e9948ba76a0440a3949d9c3f68\",\"diagram_ref\":\".csdlc/prepared/issues/319/diagram.mmd\",\"operation\":\"approve_design\"}"}
+{"sequence":3,"generation":2,"actor":"codex:/root","reason":"Advance the approved and executable #319 package to ready for binding.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
+{"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
