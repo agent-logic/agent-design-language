@@ -101,8 +101,9 @@ impl Kernel {
         let mut restarts = BTreeMap::<ComponentId, VecDeque<Instant>>::new();
         let (restart_tx, mut restart_rx) =
             mpsc::channel::<(ComponentId, Arc<dyn ComponentFactory>)>(16);
-        let (readiness_tx, mut readiness_rx) = mpsc::channel::<(ComponentId, bool)>(16);
-        let (health_tx, mut health_rx) = mpsc::channel::<(ComponentId, ComponentHealthSignal)>(16);
+        let (readiness_tx, mut readiness_rx) = mpsc::channel::<(ComponentId, u64, bool)>(16);
+        let (health_tx, mut health_rx) =
+            mpsc::channel::<(ComponentId, u64, ComponentHealthSignal)>(16);
 
         for layer in self.topology.dependency_layers() {
             let mut readiness = Vec::with_capacity(layer.len());
@@ -119,28 +120,84 @@ impl Kernel {
                     factory,
                     cancellation,
                     self.recorder.clone(),
-                    ports.for_component(&id),
-                    ready_tx,
-                    health_tx.clone(),
-                    0,
+                    SpawnBindings {
+                        ports: ports.for_component(&id),
+                        ready: ready_tx,
+                        health: health_tx.clone(),
+                        incarnation: 0,
+                    },
                 );
                 readiness.push((id.clone(), ready_rx, self.topology.readiness_required(&id)));
             }
-            for (id, ready_rx, readiness_required) in readiness {
+            for (id, mut ready_rx, readiness_required) in readiness {
                 if !readiness_required {
                     self.recorder.set_component_state(id, RunningState::Running);
                     continue;
                 }
-                match timeout(self.readiness_timeout, ready_rx).await {
-                    Ok(Ok(())) => self
-                        .recorder
-                        .set_component_state(id.clone(), RunningState::Running),
-                    _ => {
-                        self.recorder.set_lifecycle(LifecycleState::Failed);
-                        let error = KernelError::Readiness(id.clone());
-                        let _ = started.send(Err(KernelError::Readiness(id.clone())));
-                        cancel_all(&cancellations, self.topology.shutdown_order());
-                        return Err(error);
+                loop {
+                    if matches!(timeout(self.readiness_timeout, ready_rx).await, Ok(Ok(()))) {
+                        self.recorder
+                            .set_component_state(id.clone(), RunningState::Running);
+                        break;
+                    }
+                    if let Some(cancellation) = cancellations.get(&id) {
+                        cancellation.cancel();
+                    }
+                    ports.close_component(&id).await;
+                    let factory = self.topology.factories[&id].clone();
+                    match failure_action(
+                        &factory.spec().failure_policy,
+                        restarts.entry(id.clone()).or_default(),
+                    ) {
+                        FailureAction::Restart { count, backoff, .. } => {
+                            self.recorder.set_restart_count(id.clone(), count);
+                            tokio::time::sleep(backoff).await;
+                            let incarnation = incarnations
+                                .entry(id.clone())
+                                .and_modify(|value| *value = value.saturating_add(1))
+                                .or_insert(1);
+                            ports.rebind_component(&id).await;
+                            let (next_ready_tx, next_ready_rx) = oneshot::channel();
+                            let cancellation = CancellationToken::new();
+                            cancellations.insert(id.clone(), cancellation.clone());
+                            self.recorder
+                                .set_component_state(id.clone(), RunningState::Restarting);
+                            spawn_component(
+                                &mut tasks,
+                                factory,
+                                cancellation,
+                                self.recorder.clone(),
+                                SpawnBindings {
+                                    ports: ports.for_component(&id),
+                                    ready: next_ready_tx,
+                                    health: health_tx.clone(),
+                                    incarnation: *incarnation,
+                                },
+                            );
+                            ready_rx = next_ready_rx;
+                        }
+                        FailureAction::Degrade => {
+                            if apply_degradation(
+                                &self.topology,
+                                &cancellations,
+                                &self.recorder,
+                                &id,
+                            ) {
+                                self.recorder.set_lifecycle(LifecycleState::Failed);
+                                let error = KernelError::Readiness(id.clone());
+                                let _ = started.send(Err(KernelError::Readiness(id.clone())));
+                                cancel_all(&cancellations, self.topology.shutdown_order());
+                                return Err(error);
+                            }
+                            break;
+                        }
+                        FailureAction::Fatal => {
+                            self.recorder.set_lifecycle(LifecycleState::Failed);
+                            let error = KernelError::Readiness(id.clone());
+                            let _ = started.send(Err(KernelError::Readiness(id.clone())));
+                            cancel_all(&cancellations, self.topology.shutdown_order());
+                            return Err(error);
+                        }
                     }
                 }
             }
@@ -159,6 +216,7 @@ impl Kernel {
                     let exit = shutdown(
                         &mut tasks,
                         &cancellations,
+                        &incarnations,
                         shutdown_phases(&self.topology),
                         &self.recorder,
                         grace,
@@ -175,6 +233,7 @@ impl Kernel {
                         .entry(id.clone())
                         .and_modify(|value| *value = value.saturating_add(1))
                         .or_insert(1);
+                    let incarnation = *incarnation;
                     ports.rebind_component(&id).await;
                     let (ready_tx, ready_rx) = oneshot::channel();
                     let cancellation = CancellationToken::new();
@@ -184,10 +243,12 @@ impl Kernel {
                         factory,
                         cancellation,
                         self.recorder.clone(),
-                        ports.for_component(&id),
-                        ready_tx,
-                        health_tx.clone(),
-                        *incarnation,
+                        SpawnBindings {
+                            ports: ports.for_component(&id),
+                            ready: ready_tx,
+                            health: health_tx.clone(),
+                            incarnation,
+                        },
                     );
                     let readiness_tx = readiness_tx.clone();
                     let readiness_timeout = self.readiness_timeout;
@@ -195,10 +256,13 @@ impl Kernel {
                     tokio::spawn(async move {
                         let ready = !readiness_required
                             || matches!(timeout(readiness_timeout, ready_rx).await, Ok(Ok(())));
-                        let _ = readiness_tx.send((id, ready)).await;
+                        let _ = readiness_tx.send((id, incarnation, ready)).await;
                     });
                 }
-                Some((id, ready)) = readiness_rx.recv() => {
+                Some((id, incarnation, ready)) = readiness_rx.recv() => {
+                    if incarnations.get(&id).copied() != Some(incarnation) {
+                        continue;
+                    }
                     if ready {
                         self.recorder.set_component_state(id, RunningState::Running);
                     } else {
@@ -245,7 +309,10 @@ impl Kernel {
                         }
                     }
                 }
-                Some((id, health)) = health_rx.recv() => {
+                Some((id, incarnation, health)) = health_rx.recv() => {
+                    if incarnations.get(&id).copied() != Some(incarnation) {
+                        continue;
+                    }
                     match health {
                         ComponentHealthSignal::Running => {
                             self.recorder.set_component_state(id, RunningState::Running);
@@ -519,12 +586,15 @@ fn spawn_component(
     factory: Arc<dyn ComponentFactory>,
     cancellation: CancellationToken,
     recorder: RuntimeRecorder,
-    ports: crate::component::ComponentPorts,
-    ready: oneshot::Sender<()>,
-    health: mpsc::Sender<(ComponentId, ComponentHealthSignal)>,
-    incarnation: u64,
+    bindings: SpawnBindings,
 ) {
     let id = factory.spec().id;
+    let SpawnBindings {
+        ports,
+        ready,
+        health,
+        incarnation,
+    } = bindings;
     tasks.spawn(async move {
         let context = ComponentContext::new(
             id.clone(),
@@ -533,6 +603,7 @@ fn spawn_component(
             ports,
             ready,
             health,
+            incarnation,
         );
         let outcome = AssertUnwindSafe(factory.build().run(context))
             .catch_unwind()
@@ -551,6 +622,13 @@ fn spawn_component(
     });
 }
 
+struct SpawnBindings {
+    ports: crate::component::ComponentPorts,
+    ready: oneshot::Sender<()>,
+    health: mpsc::Sender<(ComponentId, u64, ComponentHealthSignal)>,
+    incarnation: u64,
+}
+
 fn cancel_all(
     cancellations: &BTreeMap<ComponentId, CancellationToken>,
     shutdown_order: &[ComponentId],
@@ -565,6 +643,7 @@ fn cancel_all(
 async fn shutdown(
     tasks: &mut JoinSet<ComponentCompletion>,
     cancellations: &BTreeMap<ComponentId, CancellationToken>,
+    incarnations: &BTreeMap<ComponentId, u64>,
     shutdown_phases: Vec<ShutdownPhase>,
     recorder: &RuntimeRecorder,
     grace: Duration,
@@ -601,6 +680,11 @@ async fn shutdown(
                             break;
                         };
                         if let Ok(completion) = completion {
+                            if incarnations.get(&completion.id).copied()
+                                != Some(completion.incarnation)
+                            {
+                                continue;
+                            }
                             let target_complete = completion.id == id;
                             if completion.error.is_some() {
                                 recorder.set_component_state(

@@ -204,7 +204,8 @@ pub struct ComponentContext {
     pub recorder: RuntimeRecorder,
     ports: ComponentPorts,
     ready: Option<oneshot::Sender<()>>,
-    health: mpsc::Sender<(ComponentId, ComponentHealthSignal)>,
+    health: mpsc::Sender<(ComponentId, u64, ComponentHealthSignal)>,
+    incarnation: u64,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -220,7 +221,8 @@ impl ComponentContext {
         recorder: RuntimeRecorder,
         ports: ComponentPorts,
         ready: oneshot::Sender<()>,
-        health: mpsc::Sender<(ComponentId, ComponentHealthSignal)>,
+        health: mpsc::Sender<(ComponentId, u64, ComponentHealthSignal)>,
+        incarnation: u64,
     ) -> Self {
         Self {
             id,
@@ -229,6 +231,7 @@ impl ComponentContext {
             ports,
             ready: Some(ready),
             health,
+            incarnation,
         }
     }
 
@@ -240,14 +243,22 @@ impl ComponentContext {
 
     pub async fn degraded(&self) -> Result<(), ComponentError> {
         self.health
-            .send((self.id.clone(), ComponentHealthSignal::Degraded))
+            .send((
+                self.id.clone(),
+                self.incarnation,
+                ComponentHealthSignal::Degraded,
+            ))
             .await
             .map_err(|_| ComponentError::new("supervisor health channel closed"))
     }
 
     pub async fn running(&self) -> Result<(), ComponentError> {
         self.health
-            .send((self.id.clone(), ComponentHealthSignal::Running))
+            .send((
+                self.id.clone(),
+                self.incarnation,
+                ComponentHealthSignal::Running,
+            ))
             .await
             .map_err(|_| ComponentError::new("supervisor health channel closed"))
     }
@@ -360,6 +371,10 @@ impl ExternalInputBinding {
     fn bind(&self, sender: BoundedSender<WireMessage>) {
         *self.sender.lock().expect("external input binding poisoned") = Some(sender);
     }
+
+    fn unbind(&self) {
+        *self.sender.lock().expect("external input binding poisoned") = None;
+    }
 }
 
 #[derive(Clone)]
@@ -371,7 +386,7 @@ struct OutputPort {
 #[derive(Clone)]
 struct InputPort {
     protocol: String,
-    receiver: Arc<Mutex<Option<BoundedReceiver<WireMessage>>>>,
+    receiver: Arc<Mutex<BoundedReceiver<WireMessage>>>,
 }
 
 #[derive(Clone, Default)]
@@ -400,6 +415,9 @@ impl ComponentPorts {
             port: port.to_owned(),
         })?;
         let senders = outputs.senders.read().await;
+        if senders.is_empty() {
+            return Err(PortAccessError::Closed(port.to_owned()));
+        }
         for output in senders.values() {
             output
                 .send(WireMessage {
@@ -430,11 +448,7 @@ impl ComponentPorts {
                 requested: T::PROTOCOL.to_owned(),
             });
         }
-        let mut receiver = input.receiver.lock().await;
-        let Some(receiver) = receiver.as_mut() else {
-            return Ok(None);
-        };
-        let Some(message) = receiver.recv().await else {
+        let Some(message) = input.receiver.lock().await.recv().await else {
             return Ok(None);
         };
         if message.protocol != T::PROTOCOL {
@@ -453,7 +467,7 @@ impl ComponentPorts {
 }
 
 pub(crate) struct RuntimePortRegistry {
-    components: BTreeMap<ComponentId, ComponentPorts>,
+    components: StdMutex<BTreeMap<ComponentId, ComponentPorts>>,
     routes: Vec<ValidatedPortRoute>,
     external_inputs: BTreeMap<(ComponentId, String), ExternalInputBinding>,
     recorder: RuntimeRecorder,
@@ -501,12 +515,12 @@ impl RuntimePortRegistry {
                     route.spec.name.clone(),
                     InputPort {
                         protocol: route.spec.protocol.clone(),
-                        receiver: Arc::new(Mutex::new(Some(receiver))),
+                        receiver: Arc::new(Mutex::new(receiver)),
                     },
                 );
         }
         Self {
-            components,
+            components: StdMutex::new(components),
             routes: routes.to_vec(),
             external_inputs: external_inputs.clone(),
             recorder: recorder.clone(),
@@ -514,16 +528,32 @@ impl RuntimePortRegistry {
     }
 
     pub(crate) fn for_component(&self, id: &ComponentId) -> ComponentPorts {
-        self.components.get(id).cloned().unwrap_or_default()
+        self.components
+            .lock()
+            .expect("runtime port registry poisoned")
+            .get(id)
+            .cloned()
+            .unwrap_or_default()
     }
 
     /// Drop the kernel's live consumer endpoint when a component exits. This
     /// makes producer sends observe closure instead of being kept artificially
     /// alive by registry ownership.
     pub(crate) async fn close_component(&self, id: &ComponentId) {
-        if let Some(ports) = self.components.get(id) {
-            for input in ports.inputs.values() {
-                *input.receiver.lock().await = None;
+        for route in self.routes.iter().filter(|route| &route.consumer == id) {
+            if route.external {
+                self.external_inputs[&(route.consumer.clone(), route.spec.name.clone())].unbind();
+                continue;
+            }
+            let output = self
+                .components
+                .lock()
+                .expect("runtime port registry poisoned")
+                .get(&route.provider)
+                .and_then(|ports| ports.outputs.get(&route.spec.name))
+                .cloned();
+            if let Some(output) = output {
+                output.senders.write().await.remove(id);
             }
         }
     }
@@ -538,26 +568,34 @@ impl RuntimePortRegistry {
                 format!("{}:{}->{}", route.provider, route.spec.name, route.consumer),
                 &sender.metrics(),
             );
+            let new_receiver = Arc::new(Mutex::new(receiver));
+            if let Some(input) = self
+                .components
+                .lock()
+                .expect("runtime port registry poisoned")
+                .get_mut(&route.consumer)
+                .and_then(|ports| ports.inputs.get_mut(&route.spec.name))
+            {
+                input.receiver = new_receiver;
+            }
             if route.external {
                 self.external_inputs[&(route.consumer.clone(), route.spec.name.clone())]
                     .bind(sender);
-            } else if let Some(output) = self
-                .components
-                .get(&route.provider)
-                .and_then(|ports| ports.outputs.get(&route.spec.name))
-            {
-                output
-                    .senders
-                    .write()
-                    .await
-                    .insert(route.consumer.clone(), sender);
-            }
-            if let Some(input) = self
-                .components
-                .get(&route.consumer)
-                .and_then(|ports| ports.inputs.get(&route.spec.name))
-            {
-                *input.receiver.lock().await = Some(receiver);
+            } else {
+                let output = self
+                    .components
+                    .lock()
+                    .expect("runtime port registry poisoned")
+                    .get(&route.provider)
+                    .and_then(|ports| ports.outputs.get(&route.spec.name))
+                    .cloned();
+                if let Some(output) = output {
+                    output
+                        .senders
+                        .write()
+                        .await
+                        .insert(route.consumer.clone(), sender);
+                }
             }
         }
     }
@@ -616,13 +654,34 @@ mod tests {
         );
 
         registry.rebind_component(&consumer).await;
+        let restarted_consumer_ports = registry.for_component(&consumer);
         producer_ports
             .send("events", &TestMessage(3))
             .await
             .unwrap();
         assert_eq!(
             consumer_ports.recv::<TestMessage>("events").await.unwrap(),
+            None,
+            "the old incarnation must not observe the rebound receiver"
+        );
+        assert_eq!(
+            restarted_consumer_ports
+                .recv::<TestMessage>("events")
+                .await
+                .unwrap(),
             Some(TestMessage(3))
+        );
+    }
+
+    #[tokio::test]
+    async fn external_input_enforces_its_declared_capacity_and_policy() {
+        let input = ExternalInput::<TestMessage>::new("external", 1, ChannelFullPolicy::Reject);
+        let (sender, _receiver) = channel(1, ChannelFullPolicy::Reject);
+        input.binding().bind(sender);
+        input.send(&TestMessage(1)).await.unwrap();
+        assert_eq!(
+            input.send(&TestMessage(2)).await,
+            Err(PortAccessError::Full("external".to_owned()))
         );
     }
 }

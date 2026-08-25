@@ -752,8 +752,8 @@ impl Component for ReadinessRestartComponent {
     async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
         match self.generation {
             0 => {
-                context.ready();
-                Err(ComponentError::new("initial runtime failure"))
+                context.cancellation.cancelled().await;
+                Ok(())
             }
             1 => {
                 context.cancellation.cancelled().await;
@@ -769,7 +769,7 @@ impl Component for ReadinessRestartComponent {
 }
 
 #[tokio::test]
-async fn restart_readiness_failure_uses_the_declared_restart_policy() {
+async fn initial_readiness_failure_uses_the_declared_restart_policy() {
     let builds = Arc::new(AtomicU32::new(0));
     let mut registry = ComponentRegistry::new();
     registry.register(ReadinessRestartFactory {
@@ -848,6 +848,7 @@ impl Component for ScopeComponent {
         context.cancellation.cancelled().await;
         if self.slow_cancel_first && self.generation == 0 {
             tokio::time::sleep(Duration::from_millis(50)).await;
+            context.degraded().await?;
         }
         Ok(())
     }
