@@ -74,11 +74,11 @@ Completed the findings-first v0.92 WP-25 internal review of exact product target
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
