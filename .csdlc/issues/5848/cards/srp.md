@@ -12,7 +12,14 @@ Status: pre_phase
 
 ## Scope
 
-WP-27 issue 5848, its declared implementation paths, and retained proof
+.csdlc/issues/5848
+.csdlc/prepared/issues/5848
+.csdlc/evidence/5848
+docs/reviews/v0.92/external-review-5847
+docs/reviews/v0.92/remediation-5848/disposition-register.json
+docs/reviews/v0.92/remediation-5848/README.md
+adl-runtime-kernel/src/production_birthday.rs
+adl-runtime-kernel/tests/production_birthday.rs
 
 ## Prompts
 
@@ -31,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This review does not approve release, merge, closeout, #316, or #471 completion.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:607a6f303e8b78179ffb38bb1c18d9085c85d982:4e2c10798a896206e05c33a727d80b2783f413b869932771484cfcc44cf3f8c0")
 
-Reviewer: None
+Reviewer: Some("subagent:issue-315-gpt5.5-review")
 
-Result: pre_review
+Result: pass
