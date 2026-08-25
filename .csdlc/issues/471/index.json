@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "af526631fae8cb2219b4387e3fcd5e9b609041070e7f59156479d7c89d9a7570",
-  "phase": "bound",
-  "generation": 5,
-  "digest": "82f57f6e0e26ebf1c8eda79cf8cdb3e08062bbc582bb9345c49aada34cd97f7f",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "5fadbd4007b0fe718f05a756b41639b649b2e02a0939bb86f12d9a09b2d8f466",
   "branch": "codex/471-runtime-v3-authoritative-kernel-contracts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-471-runtime-v3-authoritative-kernel-contracts",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c636d06a4d9ab072c687affb777c9d40723beb6c56dcee7ccb920175a932bc03",
+      "values_digest": "8d541ae977a8b2d804a5b1ef4a312708bf3b37d63b82321827c059c1959dd22a",
       "rendered_digest": "3ecb8f39ebc6364315af414a45fb54b2f3d4b1dedaecfdb37c03b66392c63ebb",
       "ast_digest": "9ec02ef188480db02bce3f8dfaf8f3138516823dfb280891552f437b1e7b7cb9"
     },
     "stp": {
-      "values_digest": "1112f93da7de35ca9ad2653805cb839e9604b993d730caa92548bb5d0a8b24e1",
+      "values_digest": "64e3ae65f64267e676a7ef3a7f125334664eeecf1a87a788c68678abc628354e",
       "rendered_digest": "d0a806358bdab287dfd6f9a17492c9f905e876dbe7129afab5f96d505c9553c4",
       "ast_digest": "b70ab828cce2c1198ca8d05f23f2ce84081385e1f8f4755b81da429a59baf73d"
     },
     "spp": {
-      "values_digest": "7fb6b781147b554210719c81c641631ef8b47b0e931cf9ccaa369392d41987d5",
+      "values_digest": "6e1ada61966b813a4ea49cef59c391137a66fdf2b37a7d9fd7f1b698109c6c72",
       "rendered_digest": "8d45716a23b9eaf0984aa18779ab91c9096cc3f80a0dda755c0d29c6064b3658",
       "ast_digest": "c9fccb35d55ce51f07c468202b34ca9ae80b2cb06a3fe90c6bfc85c60bb2994a"
     },
     "vpp": {
-      "values_digest": "bab1ca72f73fde1f8c3b9782ba2b0731dcd18bcdd23ee77918459dbb35bdb279",
+      "values_digest": "7b44a041dfb384f7670504c91fb7338068b4ecfc5124d921df464dc5307ab050",
       "rendered_digest": "32e39b566ff1051175840d4368ca3ff5ebc14915418ea08d6d5ece95c4b7bcb7",
       "ast_digest": "32e2d7fc0a2f8a0d6ffc2e3b047689e6188f850ad69a67f7f11212bfe94b0f25"
     },
     "srp": {
-      "values_digest": "12a8837101a8065f77a30b6c6afa6d322f1c99ef604c440e9c0782adbb695fbd",
+      "values_digest": "84a1f634c99f4a264086f2a2b724234a4469b9fe588b783f3b1ebcce38f5c08f",
       "rendered_digest": "606573f1f1f0eed8b5063ae83d6aa506007a31f31f4027eee404d9d24ad335b0",
       "ast_digest": "e0fcd332bca33a72bf1a42085c1af85c5ba1ba72072efe79ba9a670c3912a07d"
     },
     "sor": {
-      "values_digest": "7c68affb37c9b97076434fc67c7d034eecc25ba1ea10ddc467fe0ffccaba563e",
-      "rendered_digest": "e016416765b0e02b026dd32f03e2dfb73d2c64c714b100c1f1b9efe8b46a63f3",
-      "ast_digest": "1f9abb6debb0400cbeebd3fea1798b680ee9ca5b0689724adbc43d4370d5ece3"
+      "values_digest": "23f2015c58b99a5ba058b6ff0c022a74e000455806bfbac5c98aee1599e30313",
+      "rendered_digest": "c2b8abd7ec011cebe7c7ee81934d3b60c4e760bec563b1351127a89c35ada55d",
+      "ast_digest": "4d83aa6df4fb003a6f1bed159b18bc4df248d75a17b2400cd1ffb5672647edcd"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "all ten Runtime kernel findings are implemented and the issue-owned validation lane passed"
     }
   ],
   "audit": [
@@ -120,6 +127,27 @@
       "actor": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"e76587e9ef3715f10a06f01864232c1aef20bcdce560de0b43886a5d0963f307\",\"design_ref\":\".csdlc/prepared/issues/471/design.md\",\"diagram_digest\":\"89bfa76f743d9eba8f8d1b99f14edbe0b05aa53185427cbe7b4c72a9f890b8aa\",\"diagram_ref\":\".csdlc/prepared/issues/471/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "record the exact issue-owned full Runtime kernel validation lane",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"],\"purpose\":\"Full adl-runtime-kernel tests, strict Clippy, formatting, and diff hygiene passed at implementation head 0bea4794f.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "record the completed Runtime v3 kernel implementation surface",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented all ten authoritative Runtime v3 kernel architecture findings with production wiring and executable regression proof.\",\"changes\":[\"Kernel-owned bounded port construction with stable protocol identities and contract-bound capacity/policy\",\"Contract-enforced determinism, lifecycle roles, restart safety, and declared required-core membership\",\"Concurrent layered startup and staged ingress/workload/checkpoint/telemetry/egress shutdown\",\"Windowed restart budgets, readiness-failure supervision, one-for-all recovery, and capability degradation propagation\",\"Poison-free atomic queue metrics and explicit component/runtime health projection\"],\"artifacts\":[\"adl-runtime-kernel/src/component.rs\",\"adl-runtime-kernel/src/contract.rs\",\"adl-runtime-kernel/src/topology.rs\",\"adl-runtime-kernel/src/supervisor.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/tests/kernel.rs\",\"adl-runtime-kernel/tests/contracts.rs\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "all ten Runtime kernel findings are implemented and the issue-owned validation lane passed",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
