@@ -3,13 +3,40 @@
   "issue": 313,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "91da788d225854a1a945c443580c39b580d895f4e4cfeca580c75bd044846228",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "ecdc6d6a91e814c6c94c97a6b2e945f65b0b5f8c2fbc2c9e7737505ff53b6849",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "74a8425c222fb71c65a6fa10beecf8f2219afe6b2b2069e6e83d02cb352e4fe3",
   "branch": "codex/313-v092-internal-review-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-313-internal-review-preparation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:01a0c6fb-c41b-72d0-880f-e6be39d54bbd",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:33e963a221c1dda3cd41aad60d5aed9cd495f920:7f64e24aad1049a8e5a2e24c7aadb70d76ef6843a47beb486891b9b9028a4b63",
+    "scope": [
+      ".csdlc/issues/313",
+      ".csdlc/prepared/issues/313",
+      ".csdlc/prepared/issues/5846/validate-internal-review.rb",
+      "docs/milestones/v0.92/review/V092_INTERNAL_REVIEW_5846.md",
+      "docs/reviews/v0.92/internal-review-5846"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a0c6fb-c41b-72d0-880f-e6be39d54bbd",
+    "scope": [
+      ".csdlc/issues/313",
+      ".csdlc/prepared/issues/313",
+      ".csdlc/prepared/issues/5846/validate-internal-review.rb",
+      "docs/milestones/v0.92/review/V092_INTERNAL_REVIEW_5846.md",
+      "docs/reviews/v0.92/internal-review-5846"
+    ],
+    "reviewed_revision": "git-blake3:33e963a221c1dda3cd41aad60d5aed9cd495f920:7f64e24aad1049a8e5a2e24c7aadb70d76ef6843a47beb486891b9b9028a4b63",
+    "findings": [],
+    "residual_risks": [
+      "Nine product and tooling findings remain deliberately open for remediation under canonical WP-27 issue #315; this review approves packet correctness, not product release readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0111dfe9b4bb21066080bd2f3553ecac230c27c7a2e1ccf7b011e9bbcbd3da34",
+      "values_digest": "79890babddece365d5d143f8da84582240d12ffb0acfa2bde7807494ca7ab709",
       "rendered_digest": "cf725ad301b0471c787341d3a74f6365fe43e65aeea6e70a7879db777a11f501",
       "ast_digest": "549616554144499e40c81ef43e05a9ffac19c477869805340f0a6ae5992bf907"
     },
     "stp": {
-      "values_digest": "3af1373d816d786d9cdbc3946f878cb64cc235196b53cea47fc59fbeaadf7502",
+      "values_digest": "e4f70956a179ec5a3b9b86b30c599b5d9818532da713cd82eee8aecae14ac5f2",
       "rendered_digest": "7ff1ae65fd39a0309bb160b2bff2fd1d59c8ca2778b504ce812c0a3a099429e5",
       "ast_digest": "088005df748bc2be734dcbeeefe28b6b265d8d26abfdfd951fd23b37e5c127f2"
     },
     "spp": {
-      "values_digest": "b4a1a87a44520c929e185b4efee5bf99caaca6f325987aa3a253558a28e2fcd1",
+      "values_digest": "a5db3fba9180ca2721b2f0ca88b8bfb2cd65f325cd60b3794719bcc2a2a525df",
       "rendered_digest": "772489f171f451107a993f3fc5ad2708f3d799faa6d0ed1db1aeb603c12ba31f",
       "ast_digest": "89f847dab520d77d564560ca60ab879c43ca8d6a4fa54a82238c66458a026bc0"
     },
     "vpp": {
-      "values_digest": "1b5169486f65450d2375287e728a54ceec62b44f41533ad5bf616eb96bfad817",
+      "values_digest": "5d2225da8cccd61c1ec91f4acef2c865e88f721eb2357c7552b8bea8ade56132",
       "rendered_digest": "424c579b11b596d6513272970259beb28ba55f7815918a2a3f1ee771178d17e1",
       "ast_digest": "eefb1d949db7f547c94362c9bc0615a2fe0b489521dea52741d529e9deb9126a"
     },
     "srp": {
-      "values_digest": "c0e84f98e88bae3052cbb44fa192f170f84da1e43e275a859b1b56289a055a48",
-      "rendered_digest": "128f34c4b0b1eb4251af6a018222a1108e544281ed0363977158d3cf8b18bb8d",
-      "ast_digest": "6d474810837650f881d567039599b168ded2a01f509d216f24f5576be5d5068b"
+      "values_digest": "3f9e2058789800b6df3cf8c1a55a985af238030c49b4c8f6713fec2535574c3d",
+      "rendered_digest": "1961e17ea2b8484f1fdfa72216aad569b29d56a544a17680a1b124f0ef7ec0b4",
+      "ast_digest": "732bc7fca5dffb01cc0783b3850efd76ee660a10a9b617b779e07713507f7fdc"
     },
     "sor": {
-      "values_digest": "734c567a3b3ed70d0fa9b158503787b743d125c94d313b34a5258e280d74e6ce",
+      "values_digest": "7e3f895e6adefc43625444fdcbfb26ec7c70a1666d4a12c85b9221cb8f2d49c2",
       "rendered_digest": "d56a3bacf402dcbe9918700f1855ab8efa9e24a06e8ca1d9dd6297385969653b",
       "ast_digest": "01761211475b8e26b51d02cf835d494609775e5f27278c92c3bbdbab08e980d1"
     }
@@ -75,6 +102,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "All planned review packet execution and three proving validation lanes are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:01a0c6fb-c41b-72d0-880f-e6be39d54bbd",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -147,6 +181,20 @@
       "actor": "codex:/root",
       "reason": "Correct canonical WP-27 routing and record the hardened review packet and provider provenance surfaces.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the findings-first v0.92 WP-25 internal review of exact product target c6792e54df1db5969fa28c59b6dfe4c714ed5559: nine of nine specialist lanes produced 20 raw findings reconciled into 11 register entries, packet redaction and quality gates passed, and an independently reconstructable Gemini API meta-review found zero actionable packet defects. Nine product and tooling findings remain open for remediation in canonical WP-27 issue #315 and continue to block v0.92 release authority.\",\"changes\":[\"Built a deterministic exact-target inventory and nonempty assignment for all nine specialist lanes.\",\"Retained nine reviewer-authored specialist reports, a complete proof register, findings register, synthesis, live-state reconciliation, validation record, and milestone entrypoint.\",\"Reconciled 20 raw findings into 11 stable register entries without dropping provenance, duplicates, disagreements, or open remediation boundaries.\",\"Hardened the issue-owned validator to enforce repository and target identity, terminal dependency ancestry and cleanup, sprint/deferment truth, manifest closure and containment, privacy, findings schema, and provider provenance.\",\"Ran gemini-3.1-pro-preview through a tracked reconstructable prompt and retained only bounded response identity, source and response digests, and reviewer output without credential material.\",\"Routed all nine open product and tooling findings to canonical WP-27 issue #315; legacy issue #5848 remains provenance only. No remediation, external publication, or release readiness is claimed.\"],\"artifacts\":[\"docs/milestones/v0.92/review/V092_INTERNAL_REVIEW_5846.md\",\"docs/reviews/v0.92/internal-review-5846/final_report.md\",\"docs/reviews/v0.92/internal-review-5846/PACKET_MANIFEST.md\",\"docs/reviews/v0.92/internal-review-5846/PROOF_REGISTER.json\",\"docs/reviews/v0.92/internal-review-5846/FINDINGS_REGISTER.md\",\"docs/reviews/v0.92/internal-review-5846/SYNTHESIS.md\",\"docs/reviews/v0.92/internal-review-5846/LIVE_STATE.json\",\"docs/reviews/v0.92/internal-review-5846/independent-api-review/gemini-meta-review.md\",\".csdlc/prepared/issues/313/capture_internal_review_live_state.rb\",\".csdlc/prepared/issues/313/run_gemini_meta_review.py\",\".csdlc/prepared/issues/313/finalize_internal_review_packet.rb\",\".csdlc/prepared/issues/5846/validate-internal-review.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5846/validate-internal-review.rb\"],\"purpose\":\"Verify repository and target identity, dependency and sprint truth, packet closure, nine specialist lanes, findings schema, and privacy boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.92/internal-review-5846/VALIDATION.md\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5846/validate-internal-review.rb\",\"--require-meta-review\"],\"purpose\":\"Reconstruct the Gemini prompt and verify exact provider response provenance, packet quality, and zero-blocker redaction truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/reviews/v0.92/internal-review-5846/independent-api-review/receipt.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace in the complete issue change.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-313-diff-hygiene:passed\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "fresh-session:01a0c6fb-c41b-72d0-880f-e6be39d54bbd",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
