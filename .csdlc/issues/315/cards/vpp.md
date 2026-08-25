@@ -2,9 +2,9 @@
 
 Template: 1.0.0
 
-Issue: 5848
+Issue: 315
 
-Repository: danielbaustin/agent-design-language
+Repository: agent-logic/agent-design-language
 
 Card: vpp
 

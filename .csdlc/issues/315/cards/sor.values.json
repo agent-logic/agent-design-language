@@ -2,12 +2,12 @@
   "identity": {
     "schema_version": "1.0.0",
     "template_version": "1.0.0",
-    "issue": 5848,
-    "repository": "danielbaustin/agent-design-language",
+    "issue": 315,
+    "repository": "agent-logic/agent-design-language",
     "title": "[v0.92][WP-27] Review findings remediation",
     "slug": "v0-92-wp-27-review-findings-remediation",
     "version": "v0.92",
-    "generation": 23
+    "generation": 24
   },
   "status": "pre_phase",
   "content": {

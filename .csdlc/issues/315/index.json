@@ -1,12 +1,12 @@
 {
   "schema": "csdlc.issue.index.v1",
-  "issue": 5848,
-  "repository": "danielbaustin/agent-design-language",
+  "issue": 315,
+  "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
   "phase": "reviewed",
-  "generation": 23,
-  "digest": "58f2f56a966d4303406d09bf5027f9680d3b818fd44f8542429c3f5034a05e70",
+  "generation": 24,
+  "digest": "ce19629db846f9d7997da7d5ab509ed979f3b72ae05807802d88fe3ae49b8e99",
   "branch": "codex/315-wp27-review-findings-remediation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
   "review_assignment": null,
@@ -44,34 +44,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "820d9b9c39d39ba56868d6ca0d5781afdea3cca01fb7b1a5651e00c1b5d621a4",
-      "rendered_digest": "57553018413d1e53730ae046f86e3db6a662e4ca6d427dc6a7d1ad39bc3c4bef",
-      "ast_digest": "7716faec8e7b9690b06f9a935565070da003f2dc28b16f2bcd16a6da6a3d5670"
+      "values_digest": "41ce3c5919a7077d5538757f6e85b93749809e96cb708aff18a42a01120546a1",
+      "rendered_digest": "341c937fdfdc7d28a4e966b62a53bc61394af898f7d104b27cf4e82cb4a3b800",
+      "ast_digest": "2ef61ea6b35c490db81836796f74a1247d260661fcdae958af258730150e9659"
     },
     "stp": {
-      "values_digest": "9f5363e4dd17c8e7e9fc4512a43edbf77e01932ec6cb7e09b4c75e57bf0606d5",
-      "rendered_digest": "62692be2f2662069e59d41462ef02224e8b26ef395cfea37847c9667436cd9d2",
-      "ast_digest": "1e7ddef8b46642156aa8a1eaa2e5c3b454b2fd785a6e7d8f1bdb5dd9fb6edc9a"
+      "values_digest": "7ef4a944eabee9103b6d5608a5d936230dd3cf63320edeb5e39f3f95e223506f",
+      "rendered_digest": "41c5d09e96d48953aae37c390321be4df65dad1a73e471eae95bc941aa0ac704",
+      "ast_digest": "d60860595e2c59a73829c43968af0e5682c0867545ad6482d07bedaeb7410de3"
     },
     "spp": {
-      "values_digest": "f955ef68342dedb7617dab160486d9914a0fa7e2d6898505195385bd020225a6",
-      "rendered_digest": "3a84906f0484e462b854917f62e86083d1a35dddb5c9bde2a6eeedead3eb2e4e",
-      "ast_digest": "9faa8997170159d51c641ffceacbde635a7225b39cb55be1571fa9e717aeefc0"
+      "values_digest": "e0106361364fd6e103b18ae089550d18558485a5f3bfdeb8622aeee16f8c51f2",
+      "rendered_digest": "0a7550cdbcbcfefd20f6c999684541d9f747e3a3725a0ae61fa6361b4553f3b5",
+      "ast_digest": "a15d5833a7430c74c1977782e4a1b741a26407a8fd3d07ae2d7c1bab00fc9f3e"
     },
     "vpp": {
-      "values_digest": "54bcd99432a862fa000a65c33a0105fdfd2811151830606fff56c90f6586a79a",
-      "rendered_digest": "74bcbad4b9cb3f16514016de056eea88de121f49dcb3635f2ec5c0cdb4018bc5",
-      "ast_digest": "16f09ecea8a96266d363e865ad5d87e0a046da8917c0d2b179bb4b181e1c9ec7"
+      "values_digest": "67b5a5af40541751215f1da783196276fd18faef4e6aa770e0ddf8db28e14f93",
+      "rendered_digest": "dedc66e1701a21485f9fec599136f350a7a064c31832bd44834100174db40d1b",
+      "ast_digest": "f281237f41ade71183b8c19dd27a3dff3774cbc3ac8e4b89aa359cc0dd0f5940"
     },
     "srp": {
-      "values_digest": "b8c13ba1591f2a13966a532bffc8e55ebd3955f297d346d595688b3a768025db",
-      "rendered_digest": "5116dabadc51f5e1fe875a982b482175d4bf886df22be9742bdd5eb87e847b19",
-      "ast_digest": "a2dc7adb59d8362c0210e5e7cdf2b32788e76751f3c419774cab24b847c08564"
+      "values_digest": "d5a2e02beed64db37a4e960c5d0023f7b015fe6abc8efced58f69aa412b27f01",
+      "rendered_digest": "57c507ed08621b85fdbe4b6b3ad99fae7ecc28dd29bd5860eeee4dc2b1c01c40",
+      "ast_digest": "894f4bfc6d53b52046a7ba38d30da9dd93054c15411745e5e046c01577f1587b"
     },
     "sor": {
-      "values_digest": "fa1c1cb794c6aa8ab2b7ce3f583c2c1b13113a6476b62ce3665e8c8ae766d96e",
-      "rendered_digest": "de7e757a542805663cea868b8efb5ab6d581ed6ba3a83262ea10a8aba033315b",
-      "ast_digest": "5c8be571bb48a0b18ebb7d4a14dcd18485c296908adfe429f5adc632079511bb"
+      "values_digest": "6421e026591f6a63a33ceff6c7e74faf30e978e24840a359d432dc9a763a8124",
+      "rendered_digest": "a31a5c2a022f08229afecf60947dedac0db5f71d1fe61b3ca911cf2e6f6169ed",
+      "ast_digest": "e01b261d0e42d0de81c31d8f4c7024f3871d771b0b0e57d496d017eec04462b6"
     }
   },
   "transitions": [
@@ -419,6 +419,13 @@
       "actor": "subagent:issue-315-gpt5.5-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 24,
+      "actor": "codex:issue-315-wp27-canonical-migration",
+      "reason": "Migrate the reviewed WP-27 remediation record from the legacy issue namespace to the current Agent Logic issue before publication.",
+      "operation": "{\"cleared_publication\":false,\"cleared_readiness\":false,\"operation\":\"migrate_bound_issue_identity\",\"source_issue\":5848,\"source_repository\":\"danielbaustin/agent-design-language\",\"target_issue\":315,\"target_issue_evidence\":\".csdlc/evidence/5848/canonical-target-315.json\",\"target_issue_evidence_digest\":\"62c37a97e455f37954375490cdc3da37b6867c4dab1d7c7e53df7a06c584b679\",\"target_repository\":\"agent-logic/agent-design-language\"}"
     }
   ]
 }
