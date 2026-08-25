@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-29] Next milestone review pass",
     "slug": "v092-wp29-next-milestone-review",
     "version": "v0.92.0",
-    "generation": 27
+    "generation": 28
   },
   "status": "pre_phase",
   "content": {
@@ -60,8 +60,8 @@
           "evidence_ref": ".csdlc/evidence/318"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

@@ -30,3 +30,4 @@
 {"sequence":30,"generation":26,"actor":"codex:root","reason":"record fresh exact-head reconciliation after publication-request metadata entered the candidate","operation":"recover_review"}
 {"sequence":31,"generation":26,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":32,"generation":27,"actor":"codex:root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":33,"generation":28,"actor":"codex:root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -67,11 +67,11 @@ Completed the WP-29 next-milestone readiness review, live-checked the canonical 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
