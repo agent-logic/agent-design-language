@@ -31,37 +31,51 @@ WP-01 is deliberately number-free until milestone opening. It is not #431, and #
 
 | Planned ID | Title | Depends on | Retained predecessor scope |
 |---|---|---|---|
-| CORP-A | Inventory, provenance, licensing, trademark, assignment, and acceptance | WP-01/#432 | #153-#155 |
-| CORP-B | Corporate account custody, billing, recovery, MFA, and vault controls | CORP-A | #156 |
-| CORP-C | Repository, domain, brand, vendor, AWS, Terraform, CI, and runbook transfer | CORP-A, CORP-B | #157-#159 |
-| CORP-D | Chain-of-title, diligence, counsel review, exceptions, and corporate acceptance | CORP-A-C | #160 |
-| V3-A | Product contract, Rust construction slice, and platform decision | WP-01/#432 | #161-#163 |
-| V3-B | Binary foundation, services, repository context, state, and projections | V3-A | #164-#167 |
-| V3-C | Lifecycle kernel, transactions, recovery, and typed adapters | V3-B | #168-#170 |
-| V3-D | Local issue/bind/card/doctor commands and PVF planning | V3-C | #171-#173 |
-| V3-E | PVF execution, review, publication, GitHub/PR, finish, and cleanup | V3-D | #174-#178 |
-| V3-F | Parity, canary migration, authority cutover, observation, and retirement decision | V3-E | #179/#180 |
-| DRT-A | Qualification contract, ACIP authority, and replay conformance | WP-01/#432 | #181/#182 |
-| DRT-B | Multi-agent UTS work and hybrid Spot continuity | DRT-A | #183/#184 |
-| DRT-C | Identity/provider failure, Observatory evidence, soak, cleanup, and synthesis | DRT-B | #185-#187 |
-| DRT-D | GCP six-resident portability qualification | DRT-C | New sidecar; does not execute #269 |
-| HOT-01 | Validated atomic Axum configuration hot reload | WP-01/#432 | New v0.92.1 work |
-| OBS-A | Observatory information architecture, interaction, and accessibility redesign | WP-01/#432 | Existing Observatory evidence |
-| OBS-B | Authentic Runtime projections, implementation, and state/failure proof | OBS-A and stable Runtime authority | Existing Observatory evidence |
-| DEC-01 | Separate Runtime v2/v3 authority and source ownership | WP-01/#432 | New decoupling work; Runtime v4 excluded |
-| PROV-A | Shared provider inference-profile contract and Ollama materialization | WP-01/#432 | #457 historical provenance only |
-| PROV-B | Local-model shadow execution and comparison evidence | PROV-A | New non-authoritative comparison work |
-| INT-01 | Cross-lane convergence and release-tail admission | Every root named in the issue wave | #188 convergence intent |
+| CORP-A | Critical-asset schedule | WP-01/#432 | #153-#155 |
+| CORP-B | Corporate account custody register | CORP-A | #156 |
+| AWS-A | AWS resource ownership inventory | WP-01, CORP-A, CORP-B | Promoted AWS move-in phase 0 |
+| AWS-B | AWS access and billing baseline | AWS-A | Promoted AWS move-in phase 1 |
+| AWS-C | AWS Terraform bootstrap | AWS-B | Promoted AWS move-in phase 2 |
+| AWS-D | AWS audit and security baseline | AWS-C | Promoted AWS move-in phase 3 |
+| AWS-E | AWS resource adoption register | AWS-D | Promoted AWS move-in phase 4 |
+| AWS-F | AWS Runtime platform modules | AWS-E, #122 | Promoted AWS move-in phase 5 |
+| GCP-A | GCP hierarchy and cost decision | WP-01, CORP-A, CORP-B | Promoted GCP move-in phase 0 |
+| GCP-B | GCP Terraform bootstrap | GCP-A | Promoted GCP move-in phase 1 |
+| GCP-C | GCP organization and billing baseline | GCP-B | Promoted GCP move-in phase 2 |
+| GCP-D | GCP private platform foundation | GCP-C | Promoted GCP move-in phase 3 |
+| GCP-E | GCP GPU readiness smoke test | GCP-D | Promoted GCP move-in phase 4 |
+| XCL-01 | Cross-cloud Runtime Terraform conversion | AWS-E, GCP-D | Exact #194/#268 CloudFormation denominator |
+| AWS-G | AWS CloudFormation retirement decision | AWS-F, XCL-01 | Promoted AWS move-in phase 6; no silent deletion |
+| CORP-C | Corporate operational-control transfer | CORP-A, CORP-B, AWS-G, GCP-D | #157-#159 |
+| CORP-D | Corporate diligence acceptance | CORP-A-C | #160 |
+| RUST-01 | Resilience owner-boundary refactoring | WP-01/#432 | Bounded behavior-preserving Rust slice; no LoC quota |
+| V3-A | C-SDLC v3 contract and construction decision | WP-01/#432 | #161-#163 |
+| V3-B | C-SDLC v3 foundation | V3-A | #164-#167 |
+| V3-C | C-SDLC v3 lifecycle kernel | V3-B | #168-#170 |
+| V3-D | C-SDLC v3 local preparation workflow | V3-C | #171-#173 |
+| V3-E | C-SDLC v3 remote delivery workflow | V3-D | #174-#178 |
+| V3-F | C-SDLC v3 authority-transition decision | V3-E | #179/#180 |
+| DRT-A | Distributed qualification contract | WP-01/#432 | #181/#182 |
+| DRT-B | Six-resident UTS qualification | DRT-A, #345 | #183/#184 |
+| DRT-C | Final distributed Runtime qualification | DRT-B | #185-#187 |
+| DRT-D | GCP portability qualification | DRT-C, GCP-E, XCL-01 | New sidecar; does not execute #269 |
+| HOT-01 | Axum configuration hot reload | WP-01/#432 | New v0.92.1 work |
+| OBS-A | Observatory experience design | WP-01/#432 | Existing Observatory evidence |
+| OBS-B | Observatory redesign implementation | OBS-A and stable Runtime authority | Existing Observatory evidence |
+| DEC-01 | Runtime v2/v3 authority separation | WP-01/#432 | New decoupling work; Runtime v4 excluded |
+| PROV-A | Shared provider inference profiles | WP-01/#432 | #457 historical provenance only |
+| PROV-B | Local-model shadow execution | PROV-A | New non-authoritative comparison work |
+| INT-01 | Release-tail admission | Every root named in the issue wave | #188 convergence intent |
 | TAIL-01 | Quality gate | INT-01 | #188 quality-admission intent |
-| TAIL-02 | Docs and release-truth pass | TAIL-01 | Standard release tail |
+| TAIL-02 | Documentation review and external-review handoff | TAIL-01 | Standard release tail |
 | TAIL-03 | Publication finalization | TAIL-02 | Standard release tail |
-| TAIL-04 | Internal milestone review | TAIL-03 | Standard release tail |
-| TAIL-05 | External or third-party review | TAIL-04 | Standard release tail |
-| TAIL-06 | Accepted-findings remediation or explicit deferral | TAIL-05 | Standard release tail |
-| TAIL-07 | v0.92.2 CodeFriend Beta 1 planning handoff | TAIL-06 | #190 successor-planning intent |
-| TAIL-08 | Next-milestone closeout planning | TAIL-07 | Standard release tail |
-| TAIL-09 | Next-milestone planning review | TAIL-08 | Standard release tail |
-| TAIL-10 | Final validation, notes, tag, cleanup, and release ceremony | TAIL-09 | #189 ceremony intent |
+| TAIL-04 | Internal review | TAIL-03 | Standard release tail |
+| TAIL-05 | External / third-party review | TAIL-04 | Standard release tail |
+| TAIL-06 | Review findings remediation | TAIL-05 | Standard release tail |
+| TAIL-07 | Next-milestone planning | TAIL-06 | #190 successor-planning intent |
+| TAIL-08 | Next-milestone closeout plan | TAIL-07 | Standard release tail |
+| TAIL-09 | Next milestone review pass | TAIL-08 | Standard release tail |
+| TAIL-10 | Release ceremony | TAIL-09 | #189 ceremony intent |
 
 ## Retired inputs, not issues to recreate verbatim
 

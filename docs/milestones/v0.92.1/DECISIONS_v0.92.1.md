@@ -14,5 +14,8 @@
 12. **Runtime generations are separated before v4.** DEC-01 owns v2/v3 authority separation and compatibility proof; Runtime v4 stays deferred to a later milestone.
 13. **Provider configuration is shared and bounded.** PROV-A defines the common profile and deterministic Ollama materialization; PROV-B may compare local-model results only as non-authoritative shadow execution. #457 is historical provenance, not a live dependency.
 14. **GCP is a sidecar, not a replacement.** DRT-D follows DRT-C, repeats the exact six-resident contract, and requires separate provider identity, cost, and cleanup proof. It does not execute #269.
+15. **Cloud move-in is foundation work, not a catch-all issue.** AWS-A through AWS-G and GCP-A through GCP-E follow the promoted phase gates; #122/#251/#84/#345 retain their existing ownership and are not recreated.
+16. **Terraform portability preserves provider truth.** XCL-01 defines one portable workload contract and explicit AWS/GCP implementations for the #194/#268 template denominator; CloudFormation remains rollback authority until AWS-G accepts retirement.
+17. **Rust refactoring is bounded by behavior, not LoC.** RUST-01 owns only the resilience owner-boundary slice, measures validation impact, and has no deletion or line-reduction quota.
 15. **Integration provenance is not interchangeable.** #188 routes to INT-01 and TAIL-01, #190 routes to TAIL-07, and #189 routes only to TAIL-10.
 16. **Dependencies consume merges, not closeout.** Downstream work may require reviewed merged authority and an explicit product gate, but never waits for an individual issue's finish receipt, cleanup, or administrative closeout.

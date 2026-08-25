@@ -1,0 +1,1 @@
+{"issue":318,"card":"spp","expected_generation":23,"expected_digest":"a3ca50231d75f010b7b7c0fb7cdd3cdf8de34eeef4982692aef445e55029dbef","actor":"codex:root","reason":"record final exact-head review as the remaining plan action","operation":{"operation":"update_plan_step","step_id":"S4","status":"in_progress"},"fail_after_backup":false}

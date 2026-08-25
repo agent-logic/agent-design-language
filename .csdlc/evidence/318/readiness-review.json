@@ -1,0 +1,31 @@
+{
+  "schema": "adl.v092.wp29.readiness-review.v1",
+  "result": "ready_after_exact_head_review_and_green_merge",
+  "v0_92": {
+    "engineering_wave": "merged",
+    "review_remediation_merge": "e43efbca80cece11b543d931655febd50dfdc755",
+    "administrative_closeout": "asynchronous_non_gating"
+  },
+  "v0_92_1": {
+    "status": "planning_complete_not_activated",
+    "opening_authority": "future operator readiness declaration creates number-free WP-01",
+    "issues_created": false,
+    "release_tail_titles": "exact",
+    "single_unit_contract": "explicit_for_all_45_creation_owned_issues"
+  },
+  "v0_92_2": {
+    "status": "planning_input_only",
+    "objective": "CodeFriend Beta 1",
+    "issues_created": false
+  },
+  "v0_93": {
+    "status": "inactive",
+    "selected": false,
+    "activated": false
+  },
+  "handoff": {
+    "next_issue": 319,
+    "gate": "reviewed-green #318 merge ancestral to main; #315 merge already ancestral",
+    "merge_authorized_here": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 318,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 25,
+  "expected_digest": "730eb3f2d6ac4d9c0f0819aa655d69fbd825cdb105406ad2c4b83f217089d1fb",
+  "actor": "codex:root",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/318-v092-wp29-next-milestone-review",
+  "title": "[v0.92][WP-29] Complete next-milestone readiness review",
+  "body": "Closes #318\n\nCompletes the independent v0.92 next-milestone readiness review and reconciles the canonical v0.92.1 planning package. The package retains existing issues, defines 45 number-free single-result creation slots, preserves the exact ten-issue release tail, and keeps administrative finish and cleanup asynchronous.\n\nThe plan now includes bounded AWS and GCP move-in work, cross-cloud Terraform conversion for the existing CloudFormation behavior, one behavior-preserving Rust resilience refactor, and governed Agent Toolkit setup under the AWS access-and-billing unit. No v0.92.1 issues are created and no milestone is activated by this PR.\n\nFocused planning/readiness validators pass, all ten negative cases fail closed as expected, and independent exact-head review passed with no findings.",
+  "draft": false,
+  "token_file": null
+}

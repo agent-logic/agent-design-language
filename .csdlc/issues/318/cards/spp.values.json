@@ -1,0 +1,95 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 318,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-29] Next milestone review pass",
+    "slug": "v092-wp29-next-milestone-review",
+    "version": "v0.92.0",
+    "generation": 34
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 6,
+      "summary": "Freeze the merged #317 packet, independently reconstruct all 13 canonical rows from retained raw authority, review v0.92.1/v0.92.2 readiness, run exact negative comparisons, resolve findings, and obtain exact-head review without remote ceremony mutation.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Confirm #317 reviewed-green merge ancestry and independently reconstruct the live-checked normalized #307-#319 issue universe.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Review v0.92.1 and v0.92.2 handoff truth without creating issues or activating a successor milestone.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Audit and correct the canonical v0.92.1 planning package so exact tail identity, dependency order, source provenance, and all 45 structured single-unit issue contracts hold.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run the focused validator and ten exact negative fixtures, disposition findings, and obtain independent exact-head review.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "in_progress"
+        }
+      ],
+      "affected_areas": [
+        "docs/reviews/v0.92/next-milestone-review-318",
+        "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
+        ".csdlc/evidence/318",
+        ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "docs/milestones/v0.92.1/WBS_v0.92.1.md"
+      ],
+      "invariants": [
+        "The canonical denominator is exactly 13 unique current-repository issues.",
+        "Raw provenance digests are recomputed independently before comparison.",
+        "Only reviewed green merge ancestry gates successors; closeout remains asynchronous.",
+        "The ten v0.92.1 release-tail titles and serial order are exact canonical identity.",
+        "No successor milestone, especially v0.93, is activated."
+      ],
+      "risks": [
+        "Reusing the #317 envelope could disguise a sliced or stale denominator.",
+        "Self-bound digests or generic negative failures could produce false confidence.",
+        "Planning language could accidentally create successor authority or serialize on closeout."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "#317 merge ancestry or exact reviewed identity cannot be reproduced.",
+        "The independent denominator is not exactly 13 unique canonical rows.",
+        "Raw provenance, digest, ownership, or disposition truth is incomplete or contradictory.",
+        "A negative case does not return its exact expected blocker.",
+        "An actionable finding remains or the work would activate a successor milestone."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/318/design.md",
+      "design_digest": "f7c8014c7450ab0995f9ecceb85141a59a79a182a1a46eb7136ae3f958f78825",
+      "diagram_ref": ".csdlc/prepared/issues/318/diagram.mmd",
+      "diagram_digest": "b8fb6ae07f3dac5a1edc55325ce8bbc199b36511fb08c7cb00a48c6f627a8232"
+    }
+  }
+}

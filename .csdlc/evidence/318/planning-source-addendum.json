@@ -1,0 +1,46 @@
+{
+  "schema": "adl.v092.wp29.planning-source-addendum.v1",
+  "observation_date": "2026-08-25",
+  "sources": [
+    {
+      "source_id": "TBD-AWS-MOVE-IN",
+      "source_filename": "AWS_ACCOUNT_MOVE_IN_AND_NORMALIZATION_PLAN.md",
+      "source_sha256": "e3bba0b66224b5f292225a1358f4525400a91596435f9cc115e5c7980345389e",
+      "promoted_contract": "docs/milestones/v0.92.1/features/AWS_ACCOUNT_MOVE_IN_v0.92.1.md",
+      "planned_ids": ["AWS-A", "AWS-B", "AWS-C", "AWS-D", "AWS-E", "AWS-F", "AWS-G"],
+      "disposition": "promoted_as_seven_independently_finishable_results"
+    },
+    {
+      "source_id": "TBD-GCP-MOVE-IN",
+      "source_filename": "GCP_ACCOUNT_MOVE_IN_PLAN.md",
+      "source_sha256": "7430f155371810aafc37563f6f098b9a8d8639536e62e8468d1e8588ecb706a0",
+      "promoted_contract": "docs/milestones/v0.92.1/features/GCP_ACCOUNT_MOVE_IN_v0.92.1.md",
+      "planned_ids": ["GCP-A", "GCP-B", "GCP-C", "GCP-D", "GCP-E", "DRT-D"],
+      "disposition": "promoted_as_five_foundation_results_plus_existing_qualification_sidecar"
+    },
+    {
+      "source_id": "TBD-RUST-SIMPLIFICATION",
+      "source_filename": "ADL_CODE_SIMPLIFICATION_LIBRARY_OPPORTUNITIES.md",
+      "source_sha256": "c74ee23dd06520c8ffc917207ae760245b65ba65daa0223003eabf08e589d0cc",
+      "promoted_contract": "docs/milestones/v0.92.1/features/RUST_RESILIENCE_REFACTORING_v0.92.1.md",
+      "planned_ids": ["RUST-01"],
+      "disposition": "promoted_as_one_current_behavior_preserving_resilience_slice",
+      "excluded_recommendations": [
+        {"recommendation":"tracing_consolidation","disposition":"deferred","target":"v0.93_planning_intake","reason":"cross_cutting_observability_requires_independent_denominator"},
+        {"recommendation":"enum_derive_normalization","disposition":"deferred","target":"v0.93_planning_intake","reason":"independent_api_and_serialization_review_required"},
+        {"recommendation":"http_middleware_consolidation","disposition":"deferred","target":"v0.93_planning_intake","reason":"transport_retry_timeout_and_compatibility_are_separate_behavior"},
+        {"recommendation":"secret_hygiene_hardening","disposition":"deferred","target":"v0.93_planning_intake","reason":"security_sensitive_scope_requires_threat_and_redaction_proof"},
+        {"recommendation":"canonical_json_signing","disposition":"deferred","target":"v0.93_planning_intake","reason":"authority_and_compatibility_change_is_outside_resilience_refactor"},
+        {"recommendation":"streaming_substrate_consolidation","disposition":"deferred","target":"v0.93_planning_intake","reason":"runtime_and_transport_migration_requires_independent_contract"}
+      ]
+    },
+    {
+      "source_id": "TBD-WP21-REDUCTION",
+      "source_filename": "WP_21_REPOSITORY_REDUCTION_PLAN.md",
+      "source_sha256": "79e89b776652e5f28dd7d30bc40e9219372e58dea69a8c9cff6bafac13268e40",
+      "promoted_contract": "docs/milestones/v0.92.1/features/RUST_RESILIENCE_REFACTORING_v0.92.1.md",
+      "planned_ids": ["RUST-01"],
+      "disposition": "retained_no_reduction_quota_and_behavior_first_invariants"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 318
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/318/design.md
+
+Diagram: .csdlc/prepared/issues/318/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "readiness-review-contract",
+    "proof_role": "Validate live issue and PR identity, Git ancestry, exact planning denominator, structured unit contracts, cloud and refactoring provenance, tail wiring, handoff non-claims, and finding disposition.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-6"
+    ],
+    "deterministic": false,
+    "resource_profile": "small",
+    "budget_seconds": 600,
+    "budget_tokens": 5000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+      "all"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "readiness-review-negatives",
+    "proof_role": "Prove exact rejection of ten bounded planning-contract, denominator, source, ordering, dependency, activation, and unit-boundary defects.",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/318/test-validate-readiness-review.rb"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "diff-hygiene",
+    "proof_role": "Reject malformed tracked changes before review.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 3600
+
+Tokens: 25000
+
+## Commands
+
+- `ruby .csdlc/prepared/issues/318/validate-readiness-review.rb all`
+- `ruby .csdlc/prepared/issues/318/test-validate-readiness-review.rb`
+- `git diff --check`
+
+## Failure Semantics
+
+Fail closed on identity, denominator, raw-provenance, digest, ancestry, checks, review, topology, receipt, release, disposition, or successor-authority ambiguity.
+
+## Handoff
+
+Retain typed evidence before convergence.

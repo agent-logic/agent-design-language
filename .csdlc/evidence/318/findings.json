@@ -1,0 +1,68 @@
+{
+  "schema": "adl.v092.wp29.findings.v1",
+  "findings": [
+    {
+      "id": "WP29-001",
+      "severity": "P1",
+      "evidence": "WP_ISSUE_WAVE_v0.92.1.yaml, PLANNED_ISSUE_CATALOG_v0.92.1.md, WBS_v0.92.1.md, and WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml used variant or bundled identities; the cloud move-in sources were not decomposed into independently finishable results; the cross-cloud Terraform conversion and bounded Rust refactor were absent; TAIL-06 and TAIL-10 bundled unrelated results and TAIL-10 incorrectly gated on terminal closeout.",
+      "owner": "WP-29/#318",
+      "route": "bounded canonical planning correction across the issue wave, execution specifications, catalog, WBS, feature contracts, and review validator",
+      "disposition": "resolved in the reviewed PR candidate: exact titles are normalized and all 45 creation-owned issues declare an explicit one-result completion boundary; AWS/GCP move-in, cross-cloud Terraform conversion, and one bounded Rust resilience refactor are explicit; administrative closeout is non-gating",
+      "revision": "PR-478-review-base-769703eb145a6ce63ca4e49c04e393f05f5cc068"
+    },
+    {
+      "id": "WP29-R2-001",
+      "severity": "P1",
+      "evidence": "WP-01 was absent from the execution-specification and unit-contract denominators.",
+      "owner": "WP-29/#318",
+      "route": "add and validate one exact 45-child conductor creation contract",
+      "disposition": "resolved in remediation candidate; exact creation denominator, duplicate denial, partial-failure recovery, rollback, validation, and completion receipt are explicit",
+      "revision": "PR-478-review-base-769703eb145a6ce63ca4e49c04e393f05f5cc068"
+    },
+    {
+      "id": "WP29-R2-002",
+      "severity": "P1",
+      "evidence": "INT-01 depended on non-issue aggregate labels.",
+      "owner": "WP-29/#318",
+      "route": "replace aggregate dependencies with exact terminal issue slots and enforce graph resolution",
+      "disposition": "resolved in remediation candidate",
+      "revision": "PR-478-review-base-769703eb145a6ce63ca4e49c04e393f05f5cc068"
+    },
+    {
+      "id": "WP29-R2-003",
+      "severity": "P1",
+      "evidence": "The validator could not represent #318 with an open closing PR.",
+      "owner": "WP-29/#318",
+      "route": "model OPEN and MERGED closing-PR states separately with exact base/head/merge rules",
+      "disposition": "resolved and live-validated against open PR #478",
+      "revision": "PR-478-review-base-769703eb145a6ce63ca4e49c04e393f05f5cc068"
+    },
+    {
+      "id": "WP29-R2-004",
+      "severity": "P2",
+      "evidence": "The quality-gate primary lane denominator omitted AWS, GCP, cross-cloud Terraform, and Rust resilience.",
+      "owner": "WP-29/#318",
+      "route": "add all four lanes to the primary gate denominator and validate presence",
+      "disposition": "resolved in remediation candidate",
+      "revision": "PR-478-review-base-769703eb145a6ce63ca4e49c04e393f05f5cc068"
+    },
+    {
+      "id": "WP29-R2-005",
+      "severity": "P2",
+      "evidence": "Six non-resilience recommendations from the Rust source lacked individual dispositions.",
+      "owner": "WP-29/#318",
+      "route": "record one itemized reason and v0.93 planning-intake target per excluded recommendation",
+      "disposition": "resolved without creating issues or widening RUST-01",
+      "revision": "PR-478-review-base-769703eb145a6ce63ca4e49c04e393f05f5cc068"
+    },
+    {
+      "id": "WP29-R2-006",
+      "severity": "P2",
+      "evidence": "#84 and OBS-B omitted terminal #340 and #256 ancestral inputs.",
+      "owner": "WP-29/#318",
+      "route": "bind exact issues, PRs, heads, and merge revisions into Observatory planning truth",
+      "disposition": "resolved in remediation candidate",
+      "revision": "PR-478-review-base-769703eb145a6ce63ca4e49c04e393f05f5cc068"
+    }
+  ]
+}

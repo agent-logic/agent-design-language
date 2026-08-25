@@ -1,0 +1,17 @@
+{
+  "issue": 318,
+  "expected_generation": 24,
+  "expected_digest": "a69ff34134418af73774eaaf808eaaa71022bc42f937047a5b7cd097768e1e07",
+  "reviewer": "fresh-session:9ddfc42d-df8c-451f-8d23-50b9f10893ba",
+  "assigned_by": "codex:root",
+  "scope": [
+    ".csdlc/evidence/318",
+    ".csdlc/prepared/issues/318/design.md",
+    ".csdlc/prepared/issues/318/diagram.mmd",
+    ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+    ".csdlc/prepared/issues/318/test-validate-readiness-review.rb",
+    ".csdlc/prepared/issues/316/validate-v0921-plan.rb",
+    "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
+    "docs/milestones/v0.92.1"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 318,
+  "expected_generation": 4,
+  "expected_digest": "7e08bd662f202e512342d154d3f1453dc19f62ac06a9447a9c0045bd8718f9cf",
+  "expected_phase": "bound",
+  "previous_reviewer": "fresh-session:ff9d9989-d06d-4e39-9dc9-75b4a8ad580d",
+  "previous_revision": "60f524b96caadc4964997bfd252d14237b3b2cd1bc342dea1e2ff265e8f98abd",
+  "false_reviewer": "fresh-session:ff9d9989-d06d-4e39-9dc9-75b4a8ad580d",
+  "actor": "codex:/root",
+  "reason": "Operator widened WP-29 to apply four bounded release-tail planning corrections after the prior design review.",
+  "disposition": "Invalidate the prior approval, refresh exact authored bindings through typed card edit, and obtain a fresh independent design review before implementation continues."
+}

@@ -22,6 +22,10 @@
 | Runtime v2/v3 decoupling | Complete source and reverse-reference denominator plus explicit supported-consumer list |
 | Provider inference profiles | Shared provider ownership, bounded schema, Ollama target, and redaction boundary; #457 is provenance only |
 | GCP qualification sidecar | DRT-C reviewed merge plus explicit operator authorization, GCP identity/project/billing proof, cost controls, and cleanup route |
+| AWS move-in | CORP-A/B reviewed merges; approved business-account identity; governed Agent Toolkit IAM/audit posture; explicit operator authority for each mutation-bearing issue |
+| GCP move-in | CORP-A/B reviewed merges; exact organization/project/billing identity; explicit operator authority for mutation and paid lanes |
+| Cross-cloud Terraform | AWS-E and GCP-D reviewed merges; exact #194/#268 template denominator; separate provider deployment authority |
+| Rust resilience refactor | Current exact resilience source/test denominator and behavior-preservation plan; no LoC quota |
 
 Runtime v4 changes invalidate only the affected readiness decisions and require explicit replanning.
 

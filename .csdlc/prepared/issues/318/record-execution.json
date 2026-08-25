@@ -1,0 +1,26 @@
+{
+  "issue": 318,
+  "card": "sor",
+  "actor": "codex:root",
+  "reason": "Record the bounded WP-29 documentation review and planning-contract corrections before exact-head review.",
+  "expected_generation": 10,
+  "expected_digest": "2075e417e9fb936ed1310be8d4b941aef9c56d2ec4f1c32f09b3e7cc15f3b211",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Completed the WP-29 next-milestone readiness review, live-checked the canonical #307-#319 issue universe, and corrected exactly four v0.92.1 planning surfaces so all 31 creation-owned issues are outcome-shaped single planning units with exact release-tail identity and merge-only ordering.",
+    "changes": [
+      "Normalized exact INT-01 and TAIL-01 through TAIL-10 titles and serial dependencies.",
+      "Gave all 31 creation-owned issues one outcome-shaped objective, one primary deliverable, and one independently verifiable result.",
+      "Separated TAIL-06 finding remediation from later quality validation and kept TAIL-10 limited to the operator-authorized release ceremony.",
+      "Added live GitHub and Git reconciliation, planning guards, seven exact negative cases, and an evidence-backed finding disposition."
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
+      ".csdlc/evidence/318/issue-universe.json",
+      ".csdlc/evidence/318/findings.json",
+      ".csdlc/evidence/318/readiness-review.json",
+      ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+      ".csdlc/prepared/issues/318/test-validate-readiness-review.rb"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 # ADL v0.92.1 — Integration and Product Readiness
 
-v0.92.1 converts the remaining v0.92 planning residue into a bounded, parallel execution program. Six original product lanes are joined by three explicitly admitted tracks: Runtime v2/v3 decoupling, provider inference profiles, and the GCP six-resident qualification sidecar.
+v0.92.1 converts the remaining v0.92 planning residue into a bounded, parallel execution program. The package also promotes the separately authored AWS and GCP move-in plans, a cross-cloud Terraform conversion, a bounded Rust resilience refactor, Runtime v2/v3 decoupling, provider inference profiles, and the GCP six-resident qualification sidecar.
 
 ## Opening gate
 
@@ -18,8 +18,12 @@ Issue #432 removes tracked dependencies on local untracked paths. It is the repo
 7. **Runtime v2/v3 decoupling** — establish unambiguous source, manifest, import, test, compatibility, migration, and rollback ownership without beginning Runtime v4.
 8. **Provider inference profiles** — define one provider-level profile contract, materialize Ollama settings deterministically, then run non-authoritative local-model shadow comparisons.
 9. **GCP qualification sidecar** — repeat the six-resident workload on GCP after DRT-C, with separate identity, billing, cost, and zero-resource cleanup evidence.
+10. **AWS account move-in** — inventory and normalize the company account through seven ordered resource, access/billing, Terraform, audit, adoption, platform, and retirement decisions.
+11. **GCP account move-in** — establish five ordered hierarchy/cost, Terraform, organization/billing, private-platform, and GPU-readiness results before DRT-D.
+12. **Cross-cloud Terraform conversion** — replace the exact #194/#268 CloudFormation behavior with a portable workload contract and explicit AWS/GCP Terraform implementations before retirement.
+13. **Rust resilience refactoring** — perform one behavior-preserving owner-boundary extraction with no arbitrary LoC quota.
 
-All execution roots depend on the future WP-01 conductor after #432 and the planning-package merge. They may execute independently where their explicit edges permit; DRT-D follows DRT-C, PROV-B follows PROV-A, and no lane silently absorbs another.
+All execution roots depend on the future WP-01 conductor after #432 and the planning-package merge. They may execute independently where their explicit edges permit. XCL-01 consumes AWS-E and GCP-D; AWS-G consumes XCL-01; DRT-D consumes DRT-C, GCP-E, and XCL-01; PROV-B follows PROV-A. No lane silently absorbs another.
 
 The existing executable graph is #432, podcast #51/#261-#264/#342, Observatory prerequisites #251/#122/#84, and GPU Shepherd #345. WP-01 and every other new execution or release-tail issue remain number-free planning truth. Once the package is merged and the operator declares the milestone ready, the operator creates WP-01; WP-01 creates the rest in exact catalog and dependency order. Premature placeholders #433-#438 and closed #431 must not be reused as future execution authority.
 
@@ -27,9 +31,11 @@ Closed issues #149–#190 were prematurely retired planning packets, not deliver
 
 Existing issues #251, #122, #84, and #345 are active v0.92.1 execution scope. #251 TLS 1.2, #122 Route53/ACM exposure, and #345 AWS GPU Shepherd hardening may execute in parallel; #84 Unity Observatory preparation may overlap them, while its final proof consumes #251 and #122. The distributed Runtime production qualification consumes #345 where GPU evidence is required.
 
+The existing podcast graph and #432 are likewise retained rather than recreated. #457 is provider-profile provenance only, and #269 remains excluded/backlogged. Cloud move-in does not change those dispositions.
+
 ## Canonical release tail
 
-After every root named by INT-01 has merged reviewed authority, the planned integration conductor starts the same ten-step serial tail used by the preceding milestone standard: quality gate; docs and release-truth pass; publication finalization; internal review; external review; remediation/preflight; next-milestone planning; next-milestone closeout planning; next-milestone planning review; and release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
+After every root named by INT-01 has merged reviewed authority, the planned integration conductor starts the exact ten-step serial tail: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
 
 ## Boundaries
 

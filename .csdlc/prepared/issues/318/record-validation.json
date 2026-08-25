@@ -1,0 +1,17 @@
+{
+  "issue": 318,
+  "card": "sor",
+  "actor": "codex:root",
+  "reason": "Record the focused WP-29 live review and deterministic negative proof before exact-head review.",
+  "expected_generation": 11,
+  "expected_digest": "82e12c8b993a7924aa842ae1586d391d77b825b3d3c1b4cc132ab2c98b5045e2",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", ".csdlc/prepared/issues/318/validate-readiness-review.rb", "all"],
+      "outcome": "passed",
+      "purpose": "Live-check the 13-row issue/PR universe and validate all 31 single-unit planning contracts, exact tail order/dependencies, and successor non-claims.",
+      "evidence_ref": ".csdlc/evidence/318"
+    }
+  }
+}
