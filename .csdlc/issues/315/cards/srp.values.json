@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/315\nadl-runtime-kernel/src/production_birthday.rs\nadl-runtime-kernel/tests/production_birthday.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

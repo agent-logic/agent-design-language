@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/315
+adl-runtime-kernel/src/production_birthday.rs
+adl-runtime-kernel/tests/production_birthday.rs
 
 ## Prompts
 
