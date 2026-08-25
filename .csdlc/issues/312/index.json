@@ -3,13 +3,48 @@
   "issue": 312,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "46884bdf9e572fbe3baf39b1d90c72846bae8925cfb257bad84ce19bef406b8b",
-  "phase": "implemented",
-  "generation": 32,
-  "digest": "cb29da82c564e2b16ca52a19aaee8b1c6ef9d12eebc84d5fddd27641d751e92c",
+  "phase": "reviewed",
+  "generation": 33,
+  "digest": "7e7733d5da6db2ca7205ab9de9bae358a5774407c187143747603c2b9027638e",
   "branch": "codex/312-v092-doc-review-external-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-312-v092-doc-review-external-handoff",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:22e3d810-8389-44d7-b854-1d5c2721c019",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:72f3d519eac1f4abe6ab4a99245ba1e8459ceb8c:cf9d80c0f67a9fd4f2dbce86fa3d9f67316bffe8d4d95761319e2684bdf6026d",
+    "scope": [
+      ".csdlc/issues/312",
+      ".csdlc/prepared/issues/312",
+      ".csdlc/evidence/312",
+      "README.md",
+      "CHANGELOG.md",
+      "REVIEW.md",
+      "docs/README.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.92",
+      "docs/reviews/v0.92/docs-release-truth-312"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:22e3d810-8389-44d7-b854-1d5c2721c019",
+    "scope": [
+      ".csdlc/issues/312",
+      ".csdlc/prepared/issues/312",
+      ".csdlc/evidence/312",
+      "README.md",
+      "CHANGELOG.md",
+      "REVIEW.md",
+      "docs/README.md",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.92",
+      "docs/reviews/v0.92/docs-release-truth-312"
+    ],
+    "reviewed_revision": "git-blake3:72f3d519eac1f4abe6ab4a99245ba1e8459ceb8c:cf9d80c0f67a9fd4f2dbce86fa3d9f67316bffe8d4d95761319e2684bdf6026d",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f41571b7faafa9728fc81c0efc9ce1c8821e7fb1df6aabea5fbfa6c29fb5aa20",
+      "values_digest": "1be5571e1e877b24d327bb48b9d4aa2297d2043eafec2cf5e4dc3cf38010b47c",
       "rendered_digest": "44b1ee5dce9397a95bcd16146c6553fea598b25ea0e7ffe5d911a499ff2f3b26",
       "ast_digest": "e4db219fd42ea5082cc3a94b74da8116a3f6b929a4608179972e55d2c1e78032"
     },
     "stp": {
-      "values_digest": "eae750033d043dfd85958f84ec09b474b47e2532bcc13468d2a4402ab8f77dcd",
+      "values_digest": "1d4e5aa01012e05680c9c426cf4362052ae6a1d2f5e2bcb2eca0a4eece4aaabb",
       "rendered_digest": "db7e266a35a81c0d3b3d9881cad8f85bdda43df1a549be6e93d1eef46fbf7572",
       "ast_digest": "e5f8d7540fee5d71ab340455fc130c63fb9dfc6814fc6e8382d5a12b6533ba6b"
     },
     "spp": {
-      "values_digest": "5b13a95c006a916f9e2f73fcf1060943cd130096681de4ca02c749e95248b003",
+      "values_digest": "20286e012a98ca388235500881e829101ff11ef2577f8140ab6e0245bf2d56c5",
       "rendered_digest": "6356e68da2957c263d465752121cf7371abb912e359baa8f4ae6e59e64da84bf",
       "ast_digest": "40f2841c90ba2ac8e9da86111ca579493c019f6b8ef10a92fc3e31d276c189a5"
     },
     "vpp": {
-      "values_digest": "f54b3238ce82d467ebc8facf370af94d780e7bde5257be2700cfcea7181634db",
+      "values_digest": "08d1d5cd5313a71104a9775c2887ab0404aef66d07e5dfaab39325d4f72ca2fa",
       "rendered_digest": "ded9112d9608bd50a0352e4fb2ed174cf9d5eb56109a4a0942fb2c762f871597",
       "ast_digest": "4375e975fde2f924fe14d85dce73f5883fa7a96e99f87c6f68f92ee9d88f1d0b"
     },
     "srp": {
-      "values_digest": "c64367f023bf729fad5ed6fc48b6fa3fa2c89e80a8dee45163e6b3705afac982",
-      "rendered_digest": "4400ac824fef72eaf0b41cd56f3d48883f71de8415b1418c7bb9e55bc4aa1092",
-      "ast_digest": "35e09df16fc17e14451bc13fdb73b2225401359af0f8bf1db88db2d54299d0f3"
+      "values_digest": "97ff19eeb005d10624f4ab7c84f7c99f263ab85da03dc5d0b0cb3a8c38ab336a",
+      "rendered_digest": "84df93182a21cd3eca2495cc9feb47fd96aa0ab316da36acbb3298fb71b45850",
+      "ast_digest": "8ad5f4f718d491bc48c15ff05158b654db6883b8ed6a8ad0073ff0299e722198"
     },
     "sor": {
-      "values_digest": "9de4c29ffbbf69222b1ceb22c2d55ce4e47aad4e837ad9cde0df43a51c8e15de",
+      "values_digest": "a6424fedf41bd46220a2b303c8fe9978deab3a1ef45b953c0321e41c9c2237ee",
       "rendered_digest": "4a6e500403a15a87ae9634acee348b798cc51b8df342763bf00bfe3b3dd7b571",
       "ast_digest": "d32cf0bd4834791528ef0bf08c49729d915aa4ee291206a268316d67a06ee56c"
     }
@@ -96,6 +131,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover published review authority after the operator-requested substantive final v0.92 README rewrite at commit 68954fd8a0d242db3c0917c765b0ff1b81e32765; require fresh exact-head review before republishing PR #469."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -371,6 +413,20 @@
       "actor": "codex:/root",
       "reason": "Encode the three shared-state documentation validators as ordered distinct PVF batches.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"docs-release-truth\",\"proof_role\":\"Regenerate and validate the complete declared documentation inventory, merged producer bindings, ownership, claim status, release boundaries, and exact output packet.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/312/validate-doc-release-truth.rb\",\"packet\"],\"parallel_group\":\"312-1-doc-packet\",\"defer_reason\":\"Ordered batch 1: establish canonical shared documentation state.\"},{\"lane\":\"docs-negative-suite\",\"proof_role\":\"Reject missing/duplicate inventory rows, stale or cross-repository authority, retired commands, broken links, unsupported claims, redaction failures, .adl dependencies, and out-of-scope paths through the production validator.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/312/test-validate-doc-release-truth.rb\"],\"parallel_group\":\"312-2-doc-negative\",\"defer_reason\":\"Ordered batch 2: temporarily mutate and restore issue-local fixtures and the README manifest.\"},{\"lane\":\"docs-structure-links-handoff\",\"proof_role\":\"Parse every canonical Markdown, JSON, and YAML surface; validate relative links, exact changed paths, tracked no-.adl dependencies, the external-review manifest and handoff, redaction, and publication-time producer rescan.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/312/validate-doc-release-truth.rb\",\"structure-handoff\"],\"parallel_group\":\"312-3-doc-structure\",\"defer_reason\":\"Ordered batch 3: verify restored shared state and the external handoff.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Validate whitespace and patch hygiene for the exact candidate diff.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"312-4-diff\",\"defer_reason\":\"Ordered batch 4; independent of shared documentation fixtures.\"}]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

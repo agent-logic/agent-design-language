@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/312
+.csdlc/prepared/issues/312
+.csdlc/evidence/312
+README.md
+CHANGELOG.md
+REVIEW.md
+docs/README.md
+docs/planning/ADL_FEATURE_LIST.md
+docs/milestones/v0.92
+docs/reviews/v0.92/docs-release-truth-312
 
 ## Prompts
 
@@ -37,8 +46,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:72f3d519eac1f4abe6ab4a99245ba1e8459ceb8c:cf9d80c0f67a9fd4f2dbce86fa3d9f67316bffe8d4d95761319e2684bdf6026d")
 
-Reviewer: None
+Reviewer: Some("fresh-session:22e3d810-8389-44d7-b854-1d5c2721c019")
 
-Result: pre_review
+Result: pass

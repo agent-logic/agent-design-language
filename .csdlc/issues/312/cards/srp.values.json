@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-23] Docs and release-truth pass",
     "slug": "312-v092-docs-release-truth",
     "version": "v0.92",
-    "generation": 32
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/312\n.csdlc/prepared/issues/312\n.csdlc/evidence/312\nREADME.md\nCHANGELOG.md\nREVIEW.md\ndocs/README.md\ndocs/planning/ADL_FEATURE_LIST.md\ndocs/milestones/v0.92\ndocs/reviews/v0.92/docs-release-truth-312",
+      "review_revision": "git-blake3:72f3d519eac1f4abe6ab4a99245ba1e8459ceb8c:cf9d80c0f67a9fd4f2dbce86fa3d9f67316bffe8d4d95761319e2684bdf6026d",
+      "reviewer": "fresh-session:22e3d810-8389-44d7-b854-1d5c2721c019",
       "review_prompts": [
         "Does #312 require only #311's merge, preserve its blocked result, and avoid every dependency on terminal reconciliation, closeout, or cleanup?",
         "Does the inventory cover every declared root, milestone, feature, release, ADR, launch, skill, and guidance surface exactly once?",
@@ -26,7 +26,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
