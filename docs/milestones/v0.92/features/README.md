@@ -137,17 +137,18 @@ visible as launch-readiness sources.
 | WP-13A | [ADAPTIVE_LEARNING_DAG_v0.92.md](ADAPTIVE_LEARNING_DAG_v0.92.md) |
 | WP-14 | [ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md](ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md) |
 | WP-18, WP-18B, WP-19 | [FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md](FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md) |
-| WP-18A | [OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md](OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md) |
+| Deferred from v0.92; backlog #84 with #122 (v0.92.1) and #251 (backlog) dependencies | [OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md](OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md) |
 | WP-18B | [PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md](PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md) |
 
 ## v0.92 Completion Gate
 
-Every feature document in this index must have a landed owning issue and
+Every in-scope feature document in this index must have a landed owning issue and
 exact-revision implementation, validation, review, and integration evidence
 before the milestone can pass WP-22 or enter WP-25 internal review. A feature
 that remains `planned`, lacks real proof, or is replaced by fixtures or
-synthetic success is a release blocker. Deferral requires an explicit milestone
-scope change approved before review; silence or an open issue is not deferral.
+synthetic success is a release blocker. Observatory/Unity is the explicit
+operator-approved exception: it is outside the v0.92 completion claim and
+routed to backlog `#84`, `#122` (`v0.92.1`), and backlog `#251`.
 
 ## Supporting Work Tracks
 

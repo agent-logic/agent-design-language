@@ -181,19 +181,18 @@ execution_sprints:
     issue: 5855
     session_prompt_path: .adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md
     execution_mode: hybrid
-    goal: Deliver one resilient Runtime and Observatory path, approve the distributed architecture gate, then complete protocol, provider, and consumer integration.
-    members: [issue-5800, WP-03, issue-5795, WP-04, WP-14, WP-18A]
+    goal: Deliver one resilient Runtime and Observatory path, approve the distributed architecture gate, then complete protocol and provider integration. Consumer integration is later work under #84/#122/#251.
+    members: [issue-5800, WP-03, issue-5795, WP-04, WP-14]
     serial_gates:
       - issue-5800 and WP-03 establish the local launch and browser-trust baseline
       - issue-5795 integrates only after issue-5800 and WP-03 stabilize the Runtime/Observatory path
       - WP-04 publishes the architecture and security gate consumed by separate sprint #5862
       - WP-14 waits for the exact-head terminal #5862 reconciliation before final integration
-      - WP-18A integrates only after WP-03, WP-14, and WP-18 are ready
     parallel_lanes:
       - WP-04 architecture and security preparation after WP-03 contracts stabilize
       - WP-14 protocol reconciliation after Runtime ingress contracts stabilize
       - issue-5795 local-provider preparation before its final integration gate
-    write_surface: Runtime launch, Observatory HTTPS/WSS, local provider, distributed architecture gate, ACIP/A2A, and consumer integration
+    write_surface: Runtime launch, Observatory HTTPS/WSS, local provider, distributed architecture gate, and ACIP/A2A; WP-18A consumer integration is outside v0.92
   - sprint: distributed_guardian_implementation
     issue: 5862
     session_prompt_path: .adl/docs/TBD/V092_SPRINT_5862_DISTRIBUTED_GUARDIAN_SESSION_PROMPT.md
@@ -259,7 +258,7 @@ execution_sprints:
     goal: Reduce and refactor safely, enforce the quality gate, complete reviews, remediate findings, and close the milestone.
     members: [WP-20, WP-21, WP-21A, WP-22, WP-23, WP-25, WP-26, WP-27, WP-28, WP-28A, WP-29, WP-30]
     serial_gates:
-      - WP-20 after WP-18, WP-18A, WP-18B, and WP-19
+      - WP-20 after WP-18, WP-18B, and WP-19; WP-18A is explicitly removed from v0.92 scope
       - WP-20 before WP-21
       - WP-21 before WP-21A
       - WP-21A before WP-22
@@ -582,11 +581,18 @@ work_packages:
     proof_surface: demo feature doc, artifacts, negative-case report, and reviewer packet
   - wp: WP-18A
     issue: 5837
-    title: Observatory/Unity consumer integration
-    queue: consumers
-    depends_on: [WP-03, WP-14, WP-18, issue-5800]
-    primary_deliverable: separate consumers integrated with the versioned Runtime API and WSS
-    proof_surface: real Observatory and Unity interactions, compatibility matrix, and consumer failure cases
+    title: Observatory/Unity consumer integration — superseded for v0.92 scope
+    queue: deferred
+    status: operator_scoped_out
+    successor_issue: 84
+    later_dependencies:
+      - issue: 122
+        routing: v0.92.1
+      - issue: 251
+        routing: backlog
+    depends_on: []
+    primary_deliverable: explicit v0.92 non-claim and later-work routing to #84/#122/#251
+    proof_surface: canonical milestone scope documents; no consumer implementation credit
   - wp: WP-18B
     issue: 5838
     title: Provider-neutral multi-agent proof
@@ -605,7 +611,7 @@ work_packages:
     issue: 5840
     title: Demo matrix, AEE proof, and proof coverage
     queue: demo
-    depends_on: [WP-18, WP-18A, WP-18B, WP-19]
+    depends_on: [WP-18, WP-18B, WP-19]
     primary_deliverable: demo matrix, AEE proof routing or packet, proof coverage, and validation commands
     proof_surface: demo matrix, AEE evidence, proof coverage document, and artifact index
   - wp: WP-21

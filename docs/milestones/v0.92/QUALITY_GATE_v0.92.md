@@ -17,7 +17,7 @@ zero-blocker packet may report `passed` or unlock downstream review.
 | Runtime resilience | WP-03, WP-04 | Guardian-owned launch, recovery and relocation proof, clean logs, distributed security review, cross-platform validation |
 | Workflow efficiency | WP-05 through WP-07 | Measured cycle-time improvement, portable validation, prompt-card contract parity, regression proof |
 | Birthday contract | WP-08 through WP-17 | Identity, continuity, memory, capability, profile, protocol, witness, receipt, review packet, and cross-polis semantics with negative cases |
-| Integrated demonstrations | WP-18, WP-18A, WP-18B | Real first-birthday proof, working Observatory/Unity consumers, provider-neutral multi-agent evidence |
+| Integrated demonstrations | WP-18, WP-18B | Real first-birthday proof and provider-neutral multi-agent evidence. WP-18A is explicitly outside v0.92; #84/#251 remain backlog and #122 is scheduled for v0.92.1. |
 | Governance handoff | WP-19 | Evidence map for v0.93 without claiming v0.93 governance is implemented |
 | Cleanup and maintainability | WP-20, WP-21, WP-21A | Proven deletion eligibility, behavior-preserving reduction, focused Rust refactoring, no parity regression |
 | Review and release | WP-22 through WP-30 | Quality review, release evidence, ten articles, ten podcast packages, claim-bounded publication, external review, remediation, ceremony, handoff |
@@ -58,3 +58,7 @@ kernel and resident-path tests plus the retained nine-feature wiring audit and
 redaction/schema validator. A library-only, fixture-only, metadata-only,
 documentation-only, or unreachable feature disposition blocks the gate. Paid
 AWS qualification is not part of this local composition gate.
+
+## WP-22A Corrective Hydration
+
+Issue #467 supersedes #311/PR #466 release-credit semantics. Its complete closed-issue/merged-PR ledger accepts 30 rows, explicitly scopes 3 rows to existing owners or downstream stages, and has zero blockers. #311/PR #466 remain historical provenance only.

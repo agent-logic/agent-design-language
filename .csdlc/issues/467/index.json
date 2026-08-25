@@ -1,0 +1,288 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 467,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f15f3456fc356862b0980be3c1b79ae6463af4487f90151a68a408df1c7624e7",
+  "phase": "published",
+  "generation": 11,
+  "digest": "78b10f780e3796c007af3f3e0bbcae7ffa1acdc48d06a2ef84276da6c6a3b582",
+  "branch": "codex/467-v092-quality-gate-evidence-hydration",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-467-v092-quality-gate-evidence-hydration",
+  "review_assignment": {
+    "reviewer": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:82e3d155784361593682edddc5382005f9e9c5db:391336b854fa4314ba432b0136c592502585310b225161fbad0e395ca0b96ee6",
+    "scope": [
+      ".csdlc/issues/467",
+      ".csdlc/prepared/issues/467",
+      ".csdlc/evidence/467",
+      "docs/reviews/v0.92/quality-gate-467",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "docs/milestones/v0.92/WBS_v0.92.md",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/features/README.md",
+      "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
+    "scope": [
+      ".csdlc/issues/467",
+      ".csdlc/prepared/issues/467",
+      ".csdlc/evidence/467",
+      "docs/reviews/v0.92/quality-gate-467",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "docs/milestones/v0.92/WBS_v0.92.md",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/features/README.md",
+      "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:82e3d155784361593682edddc5382005f9e9c5db:391336b854fa4314ba432b0136c592502585310b225161fbad0e395ca0b96ee6",
+    "findings": [],
+    "residual_risks": [
+      "Unity and broader Observatory consumer work remains explicitly backlogged or scheduled later under #84, #122, and #251; #467 does not claim it complete.",
+      "External publication remains separately operator-authorized and is not implied by this passing engineering quality gate."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 467,
+    "pull_request": 468,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/468",
+    "base": "main",
+    "head": "codex/467-v092-quality-gate-evidence-hydration",
+    "revision": "git-blake3:c57c8cfe792983a0c5a364dd5971dcdf59706cdd:104ff2a0214a237d6a62deb2cdab64017e24a4983861eda9094dc41cbb7bfd6c",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/467/design.md",
+  "diagram_path": ".csdlc/prepared/issues/467/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:daniel",
+      "revision": "178fb1416a27c3c9f0f5c0652da9524fa734ef05e754921ee36fb8c64f81bb65"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6a7353c06fe3f6c52ba6e7a3a4a4fdf33e7b58253e5f0e0881daec1770986fc2",
+      "rendered_digest": "f82adf323fdc49324f6193e79ea8ea64248843a7ef5549ce0a666bd7d203f247",
+      "ast_digest": "56aae4c5a31e2db52895b5097f18d9170d324c66289a555df7cfce185616ff3d"
+    },
+    "stp": {
+      "values_digest": "4fe18759b7175ef32967c0e5a1d79d099be6c3335035d61b8ebb3a258faa08f6",
+      "rendered_digest": "84917f1d1a0aced6a0186015aebf4c0fda994ef8780e5925ffa172ddc3875d0d",
+      "ast_digest": "97bb126724f4cd50a8f46e4fd5ce26a296cae05aa29d337667b6a0afa5aeaf8c"
+    },
+    "spp": {
+      "values_digest": "41e5930efcf9bf42d5b081be2ccfeb6d61f22826713528b56b79be39ef2b1543",
+      "rendered_digest": "062f7fc280db6019a6f4f4ced3289286169fbcc71ecdb9678960bd818331fe67",
+      "ast_digest": "cde7e55fee49c3523aca146c64efbd6cf94feae65b4e7e38ea30dd8de25ec1b1"
+    },
+    "vpp": {
+      "values_digest": "ca27dd4ea7fb95fbb15e585e9ae0f8f8051478ff0c811567c7589b4d915417af",
+      "rendered_digest": "8b3a7fe8251d39ea090a7a6ee3b20f01c086349f50346264419d5c64db5b0a2d",
+      "ast_digest": "be84759b2e995e459b02bee5b1b4bf1309cfa589bf0c88c59d2f5bf49fd9a958"
+    },
+    "srp": {
+      "values_digest": "3b92dc4d8f7aafa9688fb8b56a983263ad1f3b4088aa13fbabf5d3a94be2929f",
+      "rendered_digest": "4e8c7feccc111b1560f84c9a02b4cb8785b2228a9885460df160cbf04c9cde05",
+      "ast_digest": "6d9738a442953380beb3a660382d2b8d3f39e1dce949b0d7164effe17e6872af"
+    },
+    "sor": {
+      "values_digest": "3e9f2336875c22a552b9e28ce945b93e21e5d88d0eaf3cc09bd27008decc3285",
+      "rendered_digest": "f779e02ffb95fd02ed13cbbb92bb5c5573628683cc9cd0dadec86496422fb854",
+      "ast_digest": "f48248133602c3518651fa4ee2520c73eb6c9cb34c3d5ac8f5d35cf70686656f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale published review authority after substantive quality-gate evidence authentication, adversarial validation, and canonical Unity scope corrections at exact candidate 10aad84954d794228b04b79b317bea69fc191c78; require fresh exact-head review before republishing PR #468."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "Add an available #467 preparation validator target so initialized readiness has a real issue-owned denominator before bind while implementation proof lanes remain deferred.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"467-preparation-bundle\",\"proof_role\":\"Validate #467 issue identity, unbound topology, design/diagram presence, and concrete owned validator targets before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/validate-preparation.rb\"],\"parallel_group\":\"467-prep\",\"defer_reason\":null},{\"lane\":\"467-quality-gate-matrix\",\"proof_role\":\"Regenerate and validate the exact 33-row corrective v0.92 quality-gate matrix with canonical hydration and concrete blocker taxonomy.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/validate-quality-gate.rb\",\"matrix\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-adversarial-suite\",\"proof_role\":\"Run positive controls and adversarial cases for fabricated accepted rows, suppressed evidence, stale/non-ancestral authority, malformed terminal evidence, substitutions, duplicates, and vacuous publication.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/test-validate-quality-gate.rb\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-diff-hygiene\",\"proof_role\":\"Reject whitespace and conflict artifacts.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-exact-head-review\",\"proof_role\":\"Record one fresh exact-head review covering every row disposition and discovery-completeness denominator before publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"--repo\",\".\",\"assign-and-record-exact-head\"],\"parallel_group\":\"467-review\",\"defer_reason\":\"Runs after implementation and local validation.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "Declare exact #467 issue-owned validator targets so VPP readiness can select a concrete denominator before bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/467\",\".csdlc/prepared/issues/467/validate-preparation.rb\",\".csdlc/prepared/issues/467/validate-quality-gate.rb\",\".csdlc/prepared/issues/467/test-validate-quality-gate.rb\",\".csdlc/evidence/467\",\"docs/reviews/v0.92/quality-gate-467\",\"docs/reviews/v0.92/quality-gate-311\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "Repair #467 exact-head review lane to use the supported absolute C-SDLC v2 review guard owner binary instead of a missing worktree-local .adl path.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"467-preparation-bundle\",\"proof_role\":\"Validate #467 issue identity, unbound topology, design/diagram presence, and concrete owned validator targets before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/validate-preparation.rb\"],\"parallel_group\":\"467-prep\",\"defer_reason\":null},{\"lane\":\"467-quality-gate-matrix\",\"proof_role\":\"Regenerate and validate the exact 33-row corrective v0.92 quality-gate matrix with canonical hydration and concrete blocker taxonomy.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/validate-quality-gate.rb\",\"matrix\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-adversarial-suite\",\"proof_role\":\"Run positive controls and adversarial cases for fabricated accepted rows, suppressed evidence, stale/non-ancestral authority, malformed terminal evidence, substitutions, duplicates, and vacuous publication.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/test-validate-quality-gate.rb\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-diff-hygiene\",\"proof_role\":\"Reject whitespace and conflict artifacts.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-exact-head-review\",\"proof_role\":\"Record one fresh exact-head review covering every row disposition and discovery-completeness denominator before publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-review\",\"guard\",\"--request\",\"/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/467-review-guard.json\"],\"parallel_group\":\"467-review\",\"defer_reason\":\"Runs after implementation and local validation.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover stale published review authority after substantive quality-gate evidence authentication, adversarial validation, and canonical Unity scope corrections at exact candidate 10aad84954d794228b04b79b317bea69fc191c78; require fresh exact-head review before republishing PR #468.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover the stale R2 assignment after bounded remediation of its exact findings at immutable candidate 5d28a63446bf93c2f0acc1bda4a0fdb29b287aa5; require one fresh final exact-head review before republishing PR #468.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover stale R3 assignment after exact validator-provenance and proof-role status/denominator corrections at immutable candidate 82e3d155784361593682edddc5382005f9e9c5db; require one bounded final closure review before republishing PR #468.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
