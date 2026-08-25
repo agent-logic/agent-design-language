@@ -4,13 +4,32 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8ed4a3dc280c58ded2ebb14dabd50639197b09272b274ed8972f7fa8d0952e3a",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "e3e6e98ebe456899f2d4d2e7aa0370550b30f77bc209fb232741ccd520d69848",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "080e0b616748b4d493ee00ec132212038f02090a73fb63be92b2d28ce3861ad4",
   "branch": "codex/476-wp27-postmerge-review-truth",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-476-wp27-postmerge-review-truth",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue-476-exact-head-review",
+    "assigned_by": "codex:issue-476-implementation",
+    "revision": "git-blake3:bf7031e3c9ba57557efd01922e88ccc65d33f108:cd0464c9a6c18737d3eae45f17dab2a6647d77454033f5c2c23e7bd635330158",
+    "scope": [
+      "."
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue-476-exact-head-review",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:bf7031e3c9ba57557efd01922e88ccc65d33f108:cd0464c9a6c18737d3eae45f17dab2a6647d77454033f5c2c23e7bd635330158",
+    "findings": [],
+    "residual_risks": [
+      "Live PR, CI, merge, and terminal state remain deferred to typed publication and finish; review was read-only and did not inspect #269."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "808e36254e803180defda7ee857afe8459f51287eeb4fbbe3c82c346e662c4e2",
+      "values_digest": "f0cfef0ea33cc04685b38147d1e17bcab5a96556ff77bff0e7a8e9f7658f443e",
       "rendered_digest": "551931fc65e7fc22ef931f75ed4127ea0dd2b43d9599717783ccec88dee6ac87",
       "ast_digest": "d5462ae887a45c98e60102e04fe9e5ab90ff0f2bcb0dbc49a3e220c852c84fa1"
     },
     "stp": {
-      "values_digest": "75d9886c8ead18d05931a91eb4f967bf46bcdc6446327e97afd565d40a676e25",
+      "values_digest": "86f9e55aa1949da26e887301f722526ba1c5fbb54736b6aedda3864968541fd7",
       "rendered_digest": "4de8367e3d162db8acd3638672dc6b51b00af0ea1bce3837240adbc7e7f73f3a",
       "ast_digest": "d9ae7f4e73a1bf9416938bcf511a74c83a147e9543e3cdb0efadc8038b20f566"
     },
     "spp": {
-      "values_digest": "2d79393597ab272c8febc75ef14ef8f81712174a55b7e0ff6e1e3b7f55288f38",
+      "values_digest": "c8b7a799a6365127c5df1415e0f25cb86c5ebd7915b67f9d49f4bdfa6a02dd3a",
       "rendered_digest": "0f4c9de5f0efc7fd20b7b2c226d40a963d740e47f6213997cd967a88c0473992",
       "ast_digest": "b14d05ce7b879f795008514cb5435035a4ed4ef7a2b3299bab1c4c01980cbb7d"
     },
     "vpp": {
-      "values_digest": "2bec4f17f324960bc1660f1d8401bba7cd0db664441a0d896d85fe667c6ec871",
+      "values_digest": "3aa23aa28a0f964da5e88f468204bcc575d8fc224e389dab833a469b73f89c62",
       "rendered_digest": "8a590426f713e008e44ad3b2bbcc6964c3354b1bae26f49d2ca05ed5dc9a007d",
       "ast_digest": "d15acdc966ce2bf00c93598eeaa650045a2c26972ecf7b777e7eb974e193733f"
     },
     "srp": {
-      "values_digest": "556da91330474fef60c1753021435e3f4b147d97b854582086245537b28e52de",
-      "rendered_digest": "8f4b6eae1d837716ae147354b6d1c8f2dd1d16499302258d6c67ae5aed2fef74",
-      "ast_digest": "8d676d3840fda17f226968379eb7e8cde8ef66584edf07f540d6b21ab5e5a20f"
+      "values_digest": "5bebc1ebe249dd56fb4e6de4999358da07f18a170bfcd3b9d0216327e7b4f8c8",
+      "rendered_digest": "71eb77358eb350bdd8114ad64f40f934acca9250eb656433a56a2bfd256476d8",
+      "ast_digest": "a233736a43be1a2814bf7a6e931413293927ef376f85f192f0fbe6bcf8cfcbe7"
     },
     "sor": {
-      "values_digest": "9833f909a82fd23d5f4b0c773d519af3f66dbdc7ee921153e6d9cd4a953caae1",
+      "values_digest": "560d92d299fcffb5f634b8fe3afb5289909966b41c49a57ddeebd8debcdc9359",
       "rendered_digest": "8d995819296af89a1b82b4b3a4b54e29539421afa4b47699930e4bbbd05dbd0a",
       "ast_digest": "8351a0101f785ac861f806ec6376522521ad77b8a8e356de6468d8b8f720d6aa"
     }
@@ -76,6 +95,13 @@
       "to": "implemented",
       "actor": "codex:issue-476-implementation",
       "reason": "Issue #476 implementation and focused validation are complete; exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-476-implementation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -127,6 +153,20 @@
       "actor": "codex:issue-476-implementation",
       "reason": "Issue #476 implementation and focused validation are complete; exact-head review is next.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-476-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-476-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

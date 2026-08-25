@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-27] Reconcile post-merge review truth",
     "slug": "v092-wp27-postmerge-review-truth",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/315\n.csdlc/prepared/issues/5848/validate-remediation-regressions.rb\ndocs/reviews/v0.92/remediation-5848/README.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".",
+      "review_revision": "git-blake3:bf7031e3c9ba57557efd01922e88ccc65d33f108:cd0464c9a6c18737d3eae45f17dab2a6647d77454033f5c2c23e7bd635330158",
+      "reviewer": "subagent:issue-476-exact-head-review",
       "review_prompts": [
         "Do the typed cards state execution and proof boundaries truthfully?",
         "Does the validator claim only what it proves?",
@@ -23,8 +23,10 @@
         "Did the follow-on avoid runtime behavior changes and unrelated paths?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Live PR, CI, merge, and terminal state remain deferred to typed publication and finish; review was read-only and did not inspect #269."
+      ],
+      "review_result": "pass"
     }
   }
 }

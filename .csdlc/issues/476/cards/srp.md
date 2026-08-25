@@ -12,9 +12,7 @@ Status: pre_phase
 
 ## Scope
 
-.csdlc/issues/315
-.csdlc/prepared/issues/5848/validate-remediation-regressions.rb
-docs/reviews/v0.92/remediation-5848/README.md
+.
 
 ## Prompts
 
@@ -33,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live PR, CI, merge, and terminal state remain deferred to typed publication and finish; review was read-only and did not inspect #269.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:bf7031e3c9ba57557efd01922e88ccc65d33f108:cd0464c9a6c18737d3eae45f17dab2a6647d77454033f5c2c23e7bd635330158")
 
-Reviewer: None
+Reviewer: Some("subagent:issue-476-exact-head-review")
 
-Result: pre_review
+Result: pass
