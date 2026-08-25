@@ -1,0 +1,132 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 316,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0c53b87754c3e14de1e834fcc7eef3b287ebcb2436b52e592b63e506a3bd1754",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "2dcb2e4b2fae806a815fcb98244c2d652cf839c818efb465e736172008c3b88f",
+  "branch": "codex/316-v0921-v0922-planning",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-316-v0921-v0922-planning",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/316/design.md",
+  "diagram_path": ".csdlc/prepared/issues/316/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:5697e16a-17a6-4316-82d9-71b992238bc2",
+      "revision": "40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3e8d3c0bea0d6e51015289f3ececc971e1bdb3bd47007f82dfd28db0b467fd03",
+      "rendered_digest": "3ba9701a8b33e22c9b2b306a58a9e5255be94be717cacfdbb9f743bf0a28b76c",
+      "ast_digest": "83ebca4d4a34026c1e9fceea9366fc80af6768635ee209e145c09ea0aecc2d6a"
+    },
+    "stp": {
+      "values_digest": "41911bb6e337d9e0baac5ea396cb11b22f2214aa0f53252dd4e6e7cada3c2988",
+      "rendered_digest": "85149af7244ba934d80c30f36388634f063f7aae7f8407cfce5c60dd971e74a6",
+      "ast_digest": "11601d8260c98492fec35b88510108ef8b3d234c0cf046e642b71f81f8c71836"
+    },
+    "spp": {
+      "values_digest": "d8b9ccd9cc740bcfc747616d22b879af06fb7930cbc40b75dcb60d9cf5a59a7e",
+      "rendered_digest": "5571a5100811173ece9dc9076e04bf00679dae74aeb65260abbb4783a18d7cf5",
+      "ast_digest": "f159ff47e11db7136c7245e86407749a6276f41b987bb1f04f4dac6341d49ecc"
+    },
+    "vpp": {
+      "values_digest": "d03ca5094e87bbecdc2478497c1d68eb055a24a20b9c86e55451729bf7ab9c73",
+      "rendered_digest": "2309eec21b98e4f11991a05341360ad8cddf2b7efb5695063fb57166fa8cc9b5",
+      "ast_digest": "ab807182fc95e6f4be168f02c70c1bf59f68b456996e3485905af2ddf20587fb"
+    },
+    "srp": {
+      "values_digest": "1ee1c851d5e451234a72dba1ea6e3df19211ab58db38636abe6a3b23c42bd8dd",
+      "rendered_digest": "d0a487814dbd5de4fd43a9962a954d134e5c5a22d17d6e2736ea1e68efdee0c1",
+      "ast_digest": "a75e3859bb848374d1580cc416c22da0f7573dc782599470308a3fe471555a4a"
+    },
+    "sor": {
+      "values_digest": "e288e6456def1604f76251c8c2f78444454060833575345d5bc09a98998ae5ae",
+      "rendered_digest": "ccf547820bdc9766ae2a0ba0f712a91375cc1f959876abc5c9893ae2da2d94b3",
+      "ast_digest": "3f9bb3f9d4386bf35e9a54af9b4dd29a174ea424ffbe800966283492ac347a20"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:945d4ac1-2c51-4412-a355-7341cdf6a8fa",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418\",\"design_ref\":\".csdlc/prepared/issues/316/design.md\",\"diagram_digest\":\"2cb2365918f614dde98c9ed2d672808c3afc3974c0acf90b7a75121afb0006eb\",\"diagram_ref\":\".csdlc/prepared/issues/316/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Recover initialized #316 decomposition after live scope expanded to complete v0.92.2 CodeFriend Beta 1 planning.",
+      "operation": "{\"design_review_recovery\":{\"disposition\":\"scope expanded to complete v0.92.2 CodeFriend Beta 1 package after initial design review\",\"false_reviewer\":\"fresh-session:945d4ac1-2c51-4412-a355-7341cdf6a8fa\",\"new_review_state\":\"pending\",\"previous_review_state\":{\"approved\":{\"reviewer\":\"fresh-session:945d4ac1-2c51-4412-a355-7341cdf6a8fa\",\"revision\":\"40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418\"}}},\"graph\":{\"edges\":[{\"from\":\"v0921-baseline-431\",\"relation\":\"planning_input_of\",\"to\":\"planning-316\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":316,\"node_id\":\"planning-316\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"planning_parent\"},{\"in_scope\":true,\"issue\":431,\"node_id\":\"v0921-baseline-431\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"read_only_planning_baseline\"}],\"parent_integration_owner\":\"planning-316\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418\",\"byte_sha256\":\"ce17da2a1c6a43b03a1ca245e13b4c75916e29e914ae6761bc21305fe5651ab1\",\"path\":\".csdlc/prepared/issues/316/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"2cb2365918f614dde98c9ed2d672808c3afc3974c0acf90b7a75121afb0006eb\",\"byte_sha256\":\"86d71a13c410f8ae56a263ba7e20a8e0068822ff368895e1a5adc21104b198df\",\"path\":\".csdlc/prepared/issues/316/diagram.mmd\"},\"recovery_scope\":[\"complete v0.92.1 planning reconciliation\",\"complete v0.92.2 CodeFriend Beta 1 canonical planning package\",\"number-free issue waves only; no issue creation\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:5697e16a-17a6-4316-82d9-71b992238bc2",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418\",\"design_ref\":\".csdlc/prepared/issues/316/design.md\",\"diagram_digest\":\"2cb2365918f614dde98c9ed2d672808c3afc3974c0acf90b7a75121afb0006eb\",\"diagram_ref\":\".csdlc/prepared/issues/316/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Own the two issue-local planning validators exactly before bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1\",\"docs/milestones/v0.92.2\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/316/design.md\",\".csdlc/prepared/issues/316/diagram.mmd\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\",\".csdlc/evidence/316\",\".csdlc/issues/316\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

@@ -11,4 +11,4 @@ The eight prematurely retired planning issues `#153`-`#160` remain source and pr
 3. **CORP-C — operational transfer:** repository, domain, brand, vendor, AWS, Terraform, CI, deployment, and runbook authority (`#157`-`#159`).
 4. **CORP-D — diligence close:** chain-of-title, redacted diligence index, private custody map, counsel review, corporate approval, exceptions, and release recommendation (`#160`).
 
-Each package is independently reviewable, but CORP-D cannot close until the first three packages are terminal and their exact evidence is linked.
+Each package is independently reviewable. CORP-D consumes reviewed merged authority from the first three packages and their exact linked evidence; it never waits for their administrative closeout.

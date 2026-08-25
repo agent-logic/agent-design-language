@@ -2,21 +2,26 @@
 
 ## Opening
 
-- [ ] #432 terminal, canonical, and ancestral
+- [ ] #432 reviewed, merged, and ancestral
 - [ ] #431 planning package reviewed and published
 - [ ] No tracked milestone dependency on local untracked paths
-- [ ] WP-28 #316 and WP-28A #317 unchanged
+- [ ] #316 planning reconciliation creates no execution issues or implementation claims
 
 ## Execution
 
-- [ ] Corporate and IP lane terminal
-- [ ] C-SDLC v3 lane terminal
-- [ ] Distributed multi-agent Runtime lane terminal
-- [ ] #345 AWS GPU Shepherd hardening terminal and consumed where required
-- [ ] Podcast lane terminal
-- [ ] Axum configuration hot reload lane terminal
-- [ ] Observatory redesign lane terminal
-- [ ] #251 TLS 1.2, #122 public exposure, and #84 Unity Observatory proof terminal
+- [ ] Corporate and IP lane reviewed and merged
+- [ ] C-SDLC v3 lane reviewed and merged
+- [ ] Distributed multi-agent Runtime lane reviewed and merged
+- [ ] #345 AWS GPU Shepherd hardening reviewed, merged, and consumed where required
+- [ ] Podcast lane reviewed and merged
+- [ ] Axum configuration hot reload lane reviewed and merged
+- [ ] Observatory redesign lane reviewed and merged
+- [ ] #251 TLS 1.2, #122 public exposure, and #84 Unity Observatory proof reviewed and merged
+- [ ] DEC-01 Runtime v2/v3 ownership, compatibility, migration, and rollback proof reviewed and merged
+- [ ] PROV-A shared inference-profile/Ollama materialization reviewed and merged
+- [ ] PROV-B non-authoritative local-model shadow comparison reviewed and merged
+- [ ] DRT-D GCP six-resident replay, cost, and zero-resource cleanup reviewed and merged or explicitly operator-gated
+- [ ] Individual issue closeout remains asynchronous and non-gating
 
 ## Integration
 
@@ -24,6 +29,8 @@
 - [ ] Runtime v4 compatibility disposition recorded
 - [ ] Proof coverage, release notes, and residual risks reviewed
 - [ ] v0.92.2 CodeFriend Beta 1 handoff accepted
+- [ ] #188 is used only for convergence/quality, #190 only for successor planning, and #189 only for ceremony
+- [ ] #457 remains historical provider-profile provenance rather than active execution authority
 
 ## Canonical release tail
 

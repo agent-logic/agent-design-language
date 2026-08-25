@@ -7,3 +7,7 @@
 - [Axum configuration hot reload](AXUM_CONFIGURATION_HOT_RELOAD_v0.92.1.md)
 - [Observatory redesign](OBSERVATORY_REDESIGN_v0.92.1.md)
 - [Repository authority](REPOSITORY_AUTHORITY_NO_ADL_PATHS_v0.92.1.md)
+- [Runtime v2/v3 decoupling](RUNTIME_V2_V3_DECOUPLING_v0.92.1.md)
+- [Provider inference profiles](PROVIDER_INFERENCE_PROFILES_v0.92.1.md)
+- [GCP six-resident qualification](GCP_SIX_RESIDENT_QUALIFICATION_v0.92.1.md)
+- [CodeFriend Beta 1 successor handoff](CODEFRIEND_BETA1_HANDOFF_v0.92.1.md)

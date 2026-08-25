@@ -1,0 +1,88 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 316,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
+    "slug": "316-v0921-next-milestone-planning",
+    "version": "v0.92.0",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute focused deterministic documentation validation for both milestone packages.",
+      "lanes": [
+        {
+          "lane": "planning-package",
+          "proof_role": "Validate the complete canonical package, planned IDs, dependencies, dispositions, handoffs, and no-.adl boundary.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
+          ],
+          "parallel_group": "316-1-plan",
+          "defer_reason": "Validator is authored in the bound issue worktree."
+        },
+        {
+          "lane": "codefriend-beta1-package",
+          "proof_role": "Validate the complete v0.92.2 standard package, Beta 1 exit-bar coverage, planned IDs, dependencies, deferrals, release tail, and no-.adl or Drive runtime dependency.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb"
+          ],
+          "parallel_group": "316-1-beta1",
+          "defer_reason": "Validator is authored in the bound issue worktree."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Validate exact planning diff hygiene.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "316-2-diff",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on issue creation, tracked .adl or Drive dependencies, missing or duplicate planned IDs, unresolved dependencies, unsupported claims, scope drift, stale review, or ambiguous candidate disposition.",
+      "design_ref": ".csdlc/prepared/issues/316/design.md",
+      "design_digest": "40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418",
+      "diagram_ref": ".csdlc/prepared/issues/316/diagram.mmd",
+      "diagram_digest": "2cb2365918f614dde98c9ed2d672808c3afc3974c0acf90b7a75121afb0006eb"
+    }
+  }
+}

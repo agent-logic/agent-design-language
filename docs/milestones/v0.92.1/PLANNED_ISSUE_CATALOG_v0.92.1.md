@@ -36,20 +36,24 @@ This is the complete issue-creation plan. WP-01 creates the unnumbered entries a
 | DRT-A | Qualification contract, ACIP authority, and replay conformance | #431/#432 | #181/#182 |
 | DRT-B | Multi-agent UTS work and hybrid Spot continuity | DRT-A | #183/#184 |
 | DRT-C | Identity/provider failure, Observatory evidence, soak, cleanup, and synthesis | DRT-B | #185-#187 |
+| DRT-D | GCP six-resident portability qualification | DRT-C | New sidecar; does not execute #269 |
 | HOT-01 | Validated atomic Axum configuration hot reload | #431/#432 | New v0.92.1 work |
 | OBS-A | Observatory information architecture, interaction, and accessibility redesign | #431/#432 | Existing Observatory evidence |
 | OBS-B | Authentic Runtime projections, implementation, and state/failure proof | OBS-A and stable Runtime authority | Existing Observatory evidence |
-| INT-01 | Cross-lane convergence and release-tail admission | All six lane roots | #188-#190 |
-| TAIL-01 | Quality gate | INT-01 | Standard release tail |
+| DEC-01 | Separate Runtime v2/v3 authority and source ownership | #431/#432 | New decoupling work; Runtime v4 excluded |
+| PROV-A | Shared provider inference-profile contract and Ollama materialization | #431/#432 | #457 historical provenance only |
+| PROV-B | Local-model shadow execution and comparison evidence | PROV-A | New non-authoritative comparison work |
+| INT-01 | Cross-lane convergence and release-tail admission | Every root named in the issue wave | #188 convergence intent |
+| TAIL-01 | Quality gate | INT-01 | #188 quality-admission intent |
 | TAIL-02 | Docs and release-truth pass | TAIL-01 | Standard release tail |
 | TAIL-03 | Publication finalization | TAIL-02 | Standard release tail |
 | TAIL-04 | Internal milestone review | TAIL-03 | Standard release tail |
 | TAIL-05 | External or third-party review | TAIL-04 | Standard release tail |
 | TAIL-06 | Accepted-findings remediation or explicit deferral | TAIL-05 | Standard release tail |
-| TAIL-07 | v0.92.2 CodeFriend Beta 1 planning handoff | TAIL-06 | #190 intent |
+| TAIL-07 | v0.92.2 CodeFriend Beta 1 planning handoff | TAIL-06 | #190 successor-planning intent |
 | TAIL-08 | Next-milestone closeout planning | TAIL-07 | Standard release tail |
 | TAIL-09 | Next-milestone planning review | TAIL-08 | Standard release tail |
-| TAIL-10 | Final validation, notes, tag, cleanup, and release ceremony | TAIL-09 | #189 intent |
+| TAIL-10 | Final validation, notes, tag, cleanup, and release ceremony | TAIL-09 | #189 ceremony intent |
 
 ## Retired inputs, not issues to recreate verbatim
 
@@ -57,7 +61,12 @@ This is the complete issue-creation plan. WP-01 creates the unnumbered entries a
 - #153-#190 are retained requirement packets mapped above; do not reopen them.
 - #433-#438 were prematurely created placeholders and are closed; do not use them as execution authority.
 - #439 is a redundant successor-handoff placeholder and remains closed.
+- #457 is retained as historical provenance for provider-profile planning; it is not reopened and is not an execution dependency.
 
 ## Existing issues promoted into v0.92.1
 
 #251, #122, #84, and #345 are part of the active milestone denominator. WP-01 reconciles their labels and dependency links without creating replacements. #251, #122, and #345 may execute in parallel; #84 preparation may overlap them, but its final proving lane waits for #251 and #122.
+
+## Integration provenance
+
+#188 supports INT-01 convergence and TAIL-01 quality admission. #190 supports only the TAIL-07 v0.92.2 handoff. #189 supports only TAIL-10 final ceremony. These closed packets are historical requirement inputs, not active issues and not interchangeable dependencies.

@@ -1,0 +1,15 @@
+{
+  "schema": "adl.issue-316.planning-audit.v1",
+  "issue": 316,
+  "repository": "agent-logic/agent-design-language",
+  "base_revision": "c666ff3d411e6062d5cc5750d2f88be9efbcd673",
+  "scope": "planning_only",
+  "remote_issue_creation_performed": false,
+  "remote_routing_mutation_performed": false,
+  "v0_92_1": {"result": "passed", "planned_ids": 39, "creation_slots": 31, "release_tail_steps": 10},
+  "v0_92_2": {"result": "passed", "planned_ids": 21, "feature_documents": 9, "release_tail_steps": 10, "deferred_tracks": 12, "issue_numbers_allocated": false},
+  "dependency_policy": "reviewed_merged_authority_only_closeout_async",
+  "validation": {"yaml_parse": "passed", "markdown_relative_links": "passed", "tracked_local_path_dependency_guard": "passed", "drive_runtime_dependency_guard": "passed", "diff_hygiene": "passed"},
+  "review": {"status": "pending_exact_head_review", "result": null, "reviewer": null, "revision": null},
+  "publication": {"status": "not_published", "pull_request": null, "merged": false}
+}

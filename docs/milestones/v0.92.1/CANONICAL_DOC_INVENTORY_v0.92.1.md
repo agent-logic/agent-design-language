@@ -29,7 +29,7 @@ Status: planning candidate. This inventory proves package completeness; it does 
 
 ## Issue-Creation Boundary
 
-Existing issue authority in this package is #432, #431, #51, #261, #262, #263, #264, #342, #251, #122, #84, and #345. Every CORP, V3, DRT, HOT, OBS, INT, and TAIL entry remains a number-free planned ID until WP-01 creates the ordered wave after this planning package merges. Closed #433-#438 and redundant #439 are not execution authority.
+Existing issue authority in this package is #432, #431, #51, #261, #262, #263, #264, #342, #251, #122, #84, and #345. Every CORP, V3, DRT, HOT, OBS, DEC, PROV, INT, and TAIL entry remains a number-free planned ID until WP-01 creates the ordered wave after this planning package merges. Closed #433-#438 and redundant #439 are not execution authority. #457 is historical provider-profile provenance only. Closed #188, #190, and #189 route respectively to convergence/quality, successor planning, and final ceremony.
 
 ## Canonical Release Tail
 
@@ -37,4 +37,4 @@ The serial denominator matches the preceding milestone standard: TAIL-01 quality
 
 ## Validation Boundary
 
-The issue-owned planning validator must require every surface in this inventory, parse both YAML contracts, preserve the full predecessor denominator, reject tracked local-path dependencies, verify the exact number-free issue catalog, and enforce the ten-step serial release tail. Passing planning validation is not implementation or release proof.
+The issue-owned planning validator must require every surface in this inventory, parse both YAML contracts, preserve the full predecessor denominator, reject tracked local-path dependencies, verify the exact number-free issue catalog including DEC-01, PROV-A, PROV-B, and DRT-D, and enforce the ten-step serial release tail. Passing planning validation is not implementation or release proof.

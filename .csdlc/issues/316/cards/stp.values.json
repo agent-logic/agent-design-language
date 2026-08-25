@@ -1,0 +1,58 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 316,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
+    "slug": "316-v0921-next-milestone-planning",
+    "version": "v0.92.0",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Planning reconciliation and authoring only; no issue creation, implementation, label migration, milestone activation, or release ceremony.",
+      "deliverables": [
+        "docs/milestones/v0.92.1",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".csdlc/prepared/issues/316/design.md",
+        ".csdlc/prepared/issues/316/diagram.mmd",
+        ".csdlc/prepared/issues/316/validate-v0921-plan.rb",
+        ".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb",
+        ".csdlc/evidence/316/planning-audit.json",
+        "docs/milestones/v0.92.2 complete standard planning package"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every canonical v0.92.1 and v0.92.2 planned ID and promoted existing issue appears exactly once with explicit dependency and disposition truth.",
+        "AC-2: Relevant TBD and Drive candidates are included, deferred, handed off, deduplicated, or rejected with source-grounded reasons and no tracked .adl or Drive dependency.",
+        "AC-3: Runtime v2/v3 decoupling and provider inference profiles are explicit v0.92.1 tracks without widening into Runtime v4 or MLX/Metal implementation.",
+        "AC-4: GCP six-resident qualification is a distinct optional sidecar and grants no paid-run or cloud authority.",
+        "AC-5: The complete standard v0.92.2 package defines CodeFriend Beta 1 product shell, Adapter v2, evidence core, architecture cognition, executable governance, four-perspective review, human publication controls, longitudinal intelligence, integrations/exports, documentation/fixtures, and ADL plus external-repository proof.",
+        "AC-6: Existing issue routing drift for #251, #84, #122, #345, and historical #457, #188-#190 predecessor reuse, ATE v0.94 deferral, and other Beta deferrals are documented unambiguously without remote issue creation or routing mutation.",
+        "AC-7: YAML, JSON, Markdown links, planned-ID uniqueness, dependencies, no-.adl guard, exact scope, and diff hygiene pass, followed by exact-head review."
+      ],
+      "dependencies": [],
+      "repo_inputs": [
+        "GitHub issue #316 and operator non-gating direction for #314/#315",
+        "docs/milestones/v0.92.1 canonical planning package",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "Relevant .adl/docs/TBD plans as read-only discovery evidence",
+        "Unmerged commit 0d50d0841 as Runtime v2/v3 decoupling planning input",
+        "Live GitHub state for existing promoted issues only",
+        "Google Drive CodeFriend product milestone, v1 build, setup, Adapter v2, and security plans as read-only discovery evidence"
+      ],
+      "non_goals": [
+        "Creating or editing v0.92.1 or v0.92.2 execution issues",
+        "Closing v0.92 or activating successor milestones",
+        "Runtime v4 implementation",
+        "MLX/Metal provider or OCI packaging implementation",
+        "Paid AWS or GCP execution",
+        "CodeFriend Beta implementation in this planning issue",
+        "ATE implementation, benchmarks, training, or Runtime integration",
+        "Jira, Linear, Slack, broad Workspace, autonomous mutation, public-scale deployment, security tournaments, or optional modernization unless separately admitted"
+      ]
+    }
+  }
+}

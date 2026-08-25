@@ -1,0 +1,70 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 316,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
+    "slug": "316-v0921-next-milestone-planning",
+    "version": "v0.92.0",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Completed canonical v0.92.1 reconciliation and the full v0.92.2 CodeFriend Beta 1 planning package without creating issues.",
+      "actual_changes": [
+        "Reconciled v0.92.1 routing and added tracks.",
+        "Authored the complete v0.92.2 package.",
+        "Added package validators and audit evidence."
+      ],
+      "artifacts": [
+        ".csdlc/prepared/issues/316/design.md",
+        ".csdlc/prepared/issues/316/diagram.mmd",
+        "docs/milestones/v0.92.1",
+        "docs/milestones/v0.92.2",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".csdlc/prepared/issues/316",
+        ".csdlc/evidence/316"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb"
+          ],
+          "purpose": "Prove the Beta 1 exit bar.",
+          "outcome": "passed",
+          "evidence_ref": "codefriend-beta1-package.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject whitespace errors.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
+          ],
+          "purpose": "Prove AC-1 through AC-6.",
+          "outcome": "passed",
+          "evidence_ref": "planning-package.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": [
+        "Obtain fresh design review before typed approval and bind."
+      ]
+    }
+  }
+}

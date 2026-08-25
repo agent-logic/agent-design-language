@@ -1,10 +1,10 @@
 # ADL v0.92.1 — Integration and Product Readiness
 
-v0.92.1 converts the remaining v0.92 planning residue into six independent, reviewable execution lanes. It is a focused integration milestone, not a container for every deferred idea.
+v0.92.1 converts the remaining v0.92 planning residue into a bounded, parallel execution program. Six original product lanes are joined by three explicitly admitted tracks: Runtime v2/v3 decoupling, provider inference profiles, and the GCP six-resident qualification sidecar.
 
 ## Opening gate
 
-Issue #432 removes tracked dependencies on local untracked paths. It is the repository-authority prerequisite for #431 and every execution lane. WP-28 #316 and WP-28A #317 remain unchanged and outside this package.
+Issue #432 removes tracked dependencies on local untracked paths. It is the repository-authority prerequisite for #431 and every execution lane. Issue #316 reconciles this planning package and the v0.92.2 successor package; it does not create execution issues.
 
 ## Execution lanes
 
@@ -15,17 +15,21 @@ Issue #432 removes tracked dependencies on local untracked paths. It is the repo
 5. **Axum configuration hot reload** — deliver validated last-known-good configuration replacement, beginning with stateless strings and flags.
 6. **Observatory redesign** — redesign the product around authentic Runtime authority, accessibility, and explicit empty/degraded states; invented data is prohibited.
 
-All six roots depend on #431 after #432. They may execute independently after those gates; no lane silently absorbs another.
+7. **Runtime v2/v3 decoupling** — establish unambiguous source, manifest, import, test, compatibility, migration, and rollback ownership without beginning Runtime v4.
+8. **Provider inference profiles** — define one provider-level profile contract, materialize Ollama settings deterministically, then run non-authoritative local-model shadow comparisons.
+9. **GCP qualification sidecar** — repeat the six-resident workload on GCP after DRT-C, with separate identity, billing, cost, and zero-resource cleanup evidence.
+
+All execution roots depend on #431 after #432. They may execute independently where their explicit edges permit; DRT-D follows DRT-C, PROV-B follows PROV-A, and no lane silently absorbs another.
 
 The existing executable graph is #432, #431, podcast #51/#261-#264/#342, Observatory prerequisites #251/#122/#84, and GPU Shepherd #345. Every other execution and release-tail issue in this package is number-free planning truth; WP-01 creates those issues later in the exact catalog and dependency order. Premature placeholders #433-#438 are closed and must not be reused as execution authority. #431 owns the planning-time v0.92.2 handoff.
 
-Closed issues #149–#190 were prematurely retired planning packets, not delivered execution. Their requirements remain in the routing denominator: corporate #153–#160 is consolidated into CORP-A through CORP-D; C-SDLC v3 #161–#180 into V3-A through V3-F; Runtime #181–#187 into DRT-A through DRT-C; and integration #188–#190 into INT-01 plus the canonical release tail. They are not reopened. The v0.92 tooling defect #387 is not part of the active milestone plan even if legacy labeling includes v0.92.1. #433–#438 were closed as premature placeholders and #439 was closed as redundant with #431.
+Closed issues #149–#190 were prematurely retired planning packets, not delivered execution. Their requirements remain in the routing denominator: corporate #153–#160 is consolidated into CORP-A through CORP-D; C-SDLC v3 #161–#180 into V3-A through V3-F; and Runtime #181–#187 into DRT-A through DRT-C. Integration routing is explicit: #188 informs INT-01 and TAIL-01 quality admission, #190 informs the TAIL-07 successor handoff, and #189 informs only TAIL-10 release ceremony. They are not reopened. The v0.92 tooling defect #387 is not part of the active milestone plan even if legacy labeling includes v0.92.1. #433–#438 were closed as premature placeholders and #439 was closed as redundant with #431. Issue #457 is historical provenance for the provider-profile sidecar only; it is not active execution authority.
 
 Existing issues #251, #122, #84, and #345 are active v0.92.1 execution scope. #251 TLS 1.2, #122 Route53/ACM exposure, and #345 AWS GPU Shepherd hardening may execute in parallel; #84 Unity Observatory preparation may overlap them, while its final proof consumes #251 and #122. The distributed Runtime production qualification consumes #345 where GPU evidence is required.
 
 ## Canonical release tail
 
-After all six execution roots are terminal, the planned integration conductor starts the same ten-step serial tail used by the preceding milestone standard: quality gate; docs and release-truth pass; publication finalization; internal review; external review; remediation/preflight; next-milestone planning; next-milestone closeout planning; next-milestone planning review; and release ceremony.
+After every root named by INT-01 has merged reviewed authority, the planned integration conductor starts the same ten-step serial tail used by the preceding milestone standard: quality gate; docs and release-truth pass; publication finalization; internal review; external review; remediation/preflight; next-milestone planning; next-milestone closeout planning; next-milestone planning review; and release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
 
 ## Boundaries
 

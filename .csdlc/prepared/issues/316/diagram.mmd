@@ -1,0 +1,25 @@
+flowchart TD
+  V092[v0.92 active until closeout] --> P316[#316 planning reconciliation]
+  P316 --> AUDIT[Canonical plus TBD denominator]
+  AUDIT --> CORE[Existing six execution lanes]
+  AUDIT --> DECOUPLE[Runtime v2 v3 decoupling]
+  AUDIT --> PROFILES[Provider inference profiles]
+  AUDIT --> GCP[GCP qualification sidecar]
+  AUDIT --> CF[Complete CodeFriend v0.92.2 plan]
+  CF --> SHELL[Product shell and onboarding]
+  CF --> ADAPTER[Portable Adapter v2]
+  CF --> EVIDENCE[Evidence and redaction core]
+  CF --> COG[Architecture cognition and governance]
+  CF --> REVIEW_ENGINE[Review synthesis and longitudinal memory]
+  CF --> PROOF[ADL plus external repository proof]
+  CORE --> REVIEW[Exact-head docs review]
+  DECOUPLE --> REVIEW
+  PROFILES --> REVIEW
+  GCP --> REVIEW
+  SHELL --> REVIEW
+  ADAPTER --> REVIEW
+  EVIDENCE --> REVIEW
+  COG --> REVIEW
+  REVIEW_ENGINE --> REVIEW
+  PROOF --> REVIEW
+  REVIEW --> HOLD[Hold issue creation until v0.92 closes]
