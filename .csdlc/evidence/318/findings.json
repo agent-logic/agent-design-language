@@ -8,7 +8,7 @@
       "owner": "WP-29/#318",
       "route": "bounded planning-contract correction in the four explicitly owned surfaces",
       "disposition": "resolved: exact titles normalized; all 31 creation-owned issues were semantically reviewed as one planning unit and each has one outcome-shaped objective, one primary deliverable, and one independently verifiable result; the validator supplies structural guards while the exact-head review supplies the semantic classification; administrative closeout is non-gating",
-      "revision": "bound by the final exact-head SRP review and PR head"
+      "revision": "5194bbf073a89af8258df75081d920c669cf931e"
     }
   ]
 }
