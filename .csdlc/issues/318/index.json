@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a9da616fc297502515fbf254ee77a18400f007c2b333d09bb5f934640e07ece4",
-  "phase": "implemented",
-  "generation": 32,
-  "digest": "b41599d7c61cc00d3d9ef6917a606abefd34918d416bd74e26a85906eb57572e",
+  "phase": "reviewed",
+  "generation": 33,
+  "digest": "4709652e07121e4952f8c50fd3b60c897df819d0d6e73752fd97d6524866f1a5",
   "branch": "codex/318-v092-wp29-next-milestone-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-318-next-milestone-review",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:70e34645-d2e8-40e5-8335-c5736c2dd831",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:b4853025a35f7da4b57328439af4ff62a02dd690:79b65343d48acaa296935fc4f9ee970132e80688eceaed2218fd8c15c2ebace2",
+    "scope": [
+      ".csdlc/evidence/318",
+      ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+      ".csdlc/prepared/issues/318/test-validate-readiness-review.rb",
+      ".csdlc/prepared/issues/316/validate-v0921-plan.rb",
+      "docs/milestones/v0.92.1"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:70e34645-d2e8-40e5-8335-c5736c2dd831",
+    "scope": [
+      ".csdlc/evidence/318",
+      ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+      ".csdlc/prepared/issues/318/test-validate-readiness-review.rb",
+      ".csdlc/prepared/issues/316/validate-v0921-plan.rb",
+      "docs/milestones/v0.92.1"
+    ],
+    "reviewed_revision": "git-blake3:b4853025a35f7da4b57328439af4ff62a02dd690:79b65343d48acaa296935fc4f9ee970132e80688eceaed2218fd8c15c2ebace2",
+    "findings": [],
+    "residual_risks": [
+      "This PR plans future issues but creates none.",
+      "v0.93 recommendation targets are planning intake dispositions, not scheduled implementation claims."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8425c2cdcab4e9d57bfd5f7d758b890813007deebf328b7f4407fee37023cef6",
+      "values_digest": "9ca3fc8840ff5df051e781b7585a3d5b9057213ee6ab552ddcd56490acff9b5c",
       "rendered_digest": "4bb47c934ea3fb8a47e2b9bacc2cabe276e09287b78846390f5fb3d102d992ba",
       "ast_digest": "d2f863671b358dd3c6c0418be17f26687cb1667bd8f0d84f71e418be7a4d8f6d"
     },
     "stp": {
-      "values_digest": "24b1fb86db124589d2046d6cf943c027f5b2e9bfd4b0077622d5467ff3d0008b",
+      "values_digest": "a46b6171e83e1160feab10c832411f8f886ac45ef6ae6450401e64c18faae33a",
       "rendered_digest": "ddbc8f8de7c50f142f35f7f81554973ed94748c080ea0f145f8269ab39fae1f4",
       "ast_digest": "a4c897522de5385bfbefecbcce04d0a38751100bdbf4ff20bfec8d6505c1f97f"
     },
     "spp": {
-      "values_digest": "fbfe78353efb6c3bbd85b3b88df6ebb8b05567742b5ea49b36f08e3e65509711",
+      "values_digest": "7df609d898b1ef2c12b03accc62135bda57a7d772e1021d5cf2427e2103fd966",
       "rendered_digest": "892fd92d2c3d1e43212e8eec54bcf0e6bd3073a72aae6923989dabc072a9eb48",
       "ast_digest": "77969b35301837a6b972a5c76681d878d806ab56c39c10d0ae5872c89fd0bebe"
     },
     "vpp": {
-      "values_digest": "e90eaccf0fcffa4e8fad4cc7f7ff49d955a734617ac37ef422f850a8592bdcc3",
+      "values_digest": "6821e44c2dd60589f2bf64766557d6016abc3ea594af7d738074975e42678369",
       "rendered_digest": "5717d7470f718f6815d57fca6659753fc462169edc25251cc4503666503bd228",
       "ast_digest": "22765a9166a6bd8d9e384de02ec34cdf351793ac33105c53de045ecfa70c059d"
     },
     "srp": {
-      "values_digest": "56255f9596459f27b5824e80ca0084272adb8e6bac3c7f855cb4bb7092fcd0a8",
-      "rendered_digest": "3ca2242899c8e57f5f3609215a818362a80b0dbaa944bf009c6b3677befe815d",
-      "ast_digest": "858a5383c0b16e9432f1c27da4d3ab897aca30a659752bd9d114c1ba26c92ee6"
+      "values_digest": "08e3ae62beb1f54be80ad5b6b7f52626ecb0ccd6bde0b49d61f3cf690c5d6d2d",
+      "rendered_digest": "6abb2bd48093cec26e2d2df7abea74f1d5e02e4625e27de703f8fbda37ba833b",
+      "ast_digest": "a3893e045b795597e739995cc4c62196a73fa9d953cedfd4fe68cf7892012459"
     },
     "sor": {
-      "values_digest": "49be635f01ddd15fa2a1e3112d96613e7f48314096efcbe377d5ab4f04f89410",
+      "values_digest": "0c3bafcdc4a2c62ee704d585c5a89c399c1f2f917b57dd9b90253f2dfa645db9",
       "rendered_digest": "3ed5a3350684c1ac15e538b66373f739a104a51c190685a14efd9277702ad125",
       "ast_digest": "42d68367f9909047ee9f37b1a2f7862def9eadb0eb1d8bda959df6037cd2517a"
     }
@@ -111,6 +139,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "remediate accepted PR #478 review findings before republishing"
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -379,6 +414,20 @@
       "actor": "codex:root",
       "reason": "record non-self-referential open-PR validation proof",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the WP-29 next-milestone readiness review and remediated all six PR #478 review findings without creating milestone issues or merging the PR.\",\"changes\":[\"Added the executable WP-01 45-child creation contract with duplicate denial, partial-failure recovery, rollback, and exact live readback.\",\"Replaced INT-01 aggregate dependencies with exact terminal issue slots and made non-issue dependency targets fail closed.\",\"Added non-self-referential OPEN PR validation: live head equals local HEAD or the exact last-published ancestral head; MERGED rows retain exact stored head and merge authority.\",\"Completed the quality-gate lane denominator, itemized six deferred Rust recommendations, and bound #340/#256 Observatory ancestry.\"],\"artifacts\":[\"docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md\",\"docs/milestones/v0.92.1\",\".csdlc/evidence/318/issue-universe.json\",\".csdlc/evidence/318/findings.json\",\".csdlc/evidence/318/readiness-review.json\",\".csdlc/evidence/318/planning-source-addendum.json\",\".csdlc/prepared/issues/318/validate-readiness-review.rb\",\".csdlc/prepared/issues/318/test-validate-readiness-review.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\"],\"purpose\":\"Validate 55 planned IDs, 45 child creation slots, WP-01 specification presence, the exact release tail, source dispositions, and dependency closure.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/318/validate-readiness-review.rb\",\"all\"],\"purpose\":\"Live-check the 13-row issue and PR universe including open PR #478 and validate WP-01 plus all 45 child contracts, terminal dependencies, source dispositions, and Observatory ancestry.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/318\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/318/test-validate-readiness-review.rb\"],\"purpose\":\"Prove seventeen fail-closed planning cases plus post-push equality, pre-push ancestry, and divergent-head rejection for OPEN PR state.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/318\"}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 32,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 33,
+      "actor": "codex:root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
