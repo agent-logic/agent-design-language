@@ -110,6 +110,8 @@ fn commits_once_and_restores_exact_receipt() {
     let store = ProductionBirthdayStore::open(temp.path()).unwrap();
     let value = input("tx-one");
     let receipt = store.activate(&value).unwrap();
+    assert_eq!(receipt.input_sha256.len(), 64);
+    assert!(!receipt.input_sha256.chars().all(|value| value == '0'));
     assert_eq!(store.activate(&value).unwrap(), receipt);
     assert_eq!(store.restore("resident-one").unwrap(), Some(receipt));
 }
@@ -182,6 +184,61 @@ fn recovers_each_durable_interruption_boundary() {
     );
     assert!(temp.path().join("resident-one.pending.json").exists());
     live_lock.unlock().unwrap();
+}
+
+#[test]
+fn reports_committed_receipt_when_post_commit_cleanup_is_pending() {
+    let temp = tempfile::tempdir().unwrap();
+    let store = ProductionBirthdayStore::open(temp.path()).unwrap();
+    let value = input("tx-cleanup-pending");
+    let error = store
+        .activate_with_failpoint(
+            &value,
+            Some(ProductionBirthdayFailpoint::BeforeCleanupRemove),
+        )
+        .unwrap_err();
+    let receipt = match error {
+        ProductionBirthdayError::CommittedWithCleanupPending(receipt) => receipt,
+        other => panic!("expected committed-with-cleanup-pending error, got {other:?}"),
+    };
+
+    assert_eq!(
+        store.restore("resident-one").unwrap(),
+        Some(receipt.clone())
+    );
+    assert!(temp.path().join("resident-one.pending.json").exists());
+    assert!(temp.path().join(".resident-one.witness.stage").exists());
+
+    assert_eq!(store.recover_pending(&value).unwrap(), receipt);
+    assert!(!temp.path().join("resident-one.pending.json").exists());
+    assert!(!temp.path().join(".resident-one.witness.stage").exists());
+}
+
+#[test]
+fn recovery_removes_witness_residue_after_partial_cleanup() {
+    let temp = tempfile::tempdir().unwrap();
+    let store = ProductionBirthdayStore::open(temp.path()).unwrap();
+    let value = input("tx-partial-cleanup");
+    let error = store
+        .activate_with_failpoint(
+            &value,
+            Some(ProductionBirthdayFailpoint::AfterCleanupPendingRemove),
+        )
+        .unwrap_err();
+    let receipt = match error {
+        ProductionBirthdayError::CommittedWithCleanupPending(receipt) => receipt,
+        other => panic!("expected committed-with-cleanup-pending error, got {other:?}"),
+    };
+
+    assert_eq!(
+        store.restore("resident-one").unwrap(),
+        Some(receipt.clone())
+    );
+    assert!(!temp.path().join("resident-one.pending.json").exists());
+    assert!(temp.path().join(".resident-one.witness.stage").exists());
+
+    assert_eq!(store.recover_pending(&value).unwrap(), receipt);
+    assert!(!temp.path().join(".resident-one.witness.stage").exists());
 }
 
 #[test]

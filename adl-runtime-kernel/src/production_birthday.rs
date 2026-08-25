@@ -84,6 +84,8 @@ pub enum ProductionBirthdayFailpoint {
     BeforeCommitRename,
     AfterCommitRename,
     AfterDirectorySync,
+    BeforeCleanupRemove,
+    AfterCleanupPendingRemove,
 }
 
 #[derive(Debug, Clone, Eq, PartialEq)]
@@ -96,9 +98,17 @@ pub enum ProductionBirthdayError {
     PendingRecoveryRequired,
     CorruptState,
     DurableWrite,
+    CommittedWithCleanupPending(ProductionBirthdayReceipt),
     InjectedInterruption,
 }
 
+/// Durable production birthday receipt store.
+///
+/// This store relies on same-host advisory file locks plus local filesystem
+/// rename and directory-sync semantics. Do not place a production birthday root
+/// on NFS, SMB, cluster filesystems, object-store mounts, or other shared
+/// filesystems where advisory locks or rename visibility may be host-local,
+/// delayed, or silently ignored.
 #[derive(Clone)]
 pub struct ProductionBirthdayStore {
     root: PathBuf,
@@ -159,12 +169,15 @@ impl ProductionBirthdayStore {
                 return Err(ProductionBirthdayError::AlreadyCommitted);
             }
             let pending = self.pending_path(&input.resident_id);
+            let witness = self.witness_path(&input.resident_id);
+            let cleanup_required = pending.exists() || witness.exists();
             if pending.exists() {
                 fs::remove_file(pending).map_err(|_| ProductionBirthdayError::DurableWrite)?;
-                let witness = self.witness_path(&input.resident_id);
-                if witness.exists() {
-                    fs::remove_file(witness).map_err(|_| ProductionBirthdayError::DurableWrite)?;
-                }
+            }
+            if witness.exists() {
+                fs::remove_file(witness).map_err(|_| ProductionBirthdayError::DurableWrite)?;
+            }
+            if cleanup_required {
                 sync_directory(&self.root)?;
             }
             return Ok(receipt);
@@ -241,7 +254,7 @@ impl ProductionBirthdayStore {
         if failpoint == Some(ProductionBirthdayFailpoint::AfterWitnessSync) {
             return Err(ProductionBirthdayError::InjectedInterruption);
         }
-        let mut receipt = receipt_from_input(input);
+        let mut receipt = receipt_from_input(input)?;
         receipt.receipt_sha256 = receipt_digest(&receipt)?;
         let staging = self.staging_path(&input.resident_id);
         write_create_new_synced(&staging, &receipt)?;
@@ -260,12 +273,29 @@ impl ProductionBirthdayStore {
         if failpoint == Some(ProductionBirthdayFailpoint::AfterDirectorySync) {
             return Err(ProductionBirthdayError::InjectedInterruption);
         }
-        fs::remove_file(self.pending_path(&input.resident_id))
-            .map_err(|_| ProductionBirthdayError::DurableWrite)?;
-        fs::remove_file(self.witness_path(&input.resident_id))
-            .map_err(|_| ProductionBirthdayError::DurableWrite)?;
-        sync_directory(&self.root)?;
+        if failpoint == Some(ProductionBirthdayFailpoint::BeforeCleanupRemove) {
+            return Err(ProductionBirthdayError::CommittedWithCleanupPending(
+                receipt,
+            ));
+        }
+        self.cleanup_committed_residue(&input.resident_id, failpoint)
+            .map_err(|_| ProductionBirthdayError::CommittedWithCleanupPending(receipt.clone()))?;
         Ok(receipt)
+    }
+
+    fn cleanup_committed_residue(
+        &self,
+        resident: &str,
+        failpoint: Option<ProductionBirthdayFailpoint>,
+    ) -> Result<(), ProductionBirthdayError> {
+        fs::remove_file(self.pending_path(resident))
+            .map_err(|_| ProductionBirthdayError::DurableWrite)?;
+        if failpoint == Some(ProductionBirthdayFailpoint::AfterCleanupPendingRemove) {
+            return Err(ProductionBirthdayError::InjectedInterruption);
+        }
+        fs::remove_file(self.witness_path(resident))
+            .map_err(|_| ProductionBirthdayError::DurableWrite)?;
+        sync_directory(&self.root)
     }
 
     fn lock_path(&self, resident: &str) -> PathBuf {
@@ -361,8 +391,10 @@ fn validate_input(input: &ProductionBirthdayInput) -> Result<(), ProductionBirth
     Ok(())
 }
 
-fn receipt_from_input(input: &ProductionBirthdayInput) -> ProductionBirthdayReceipt {
-    ProductionBirthdayReceipt {
+fn receipt_from_input(
+    input: &ProductionBirthdayInput,
+) -> Result<ProductionBirthdayReceipt, ProductionBirthdayError> {
+    Ok(ProductionBirthdayReceipt {
         schema: PRODUCTION_BIRTHDAY_SCHEMA.to_owned(),
         generation: 1,
         resident_id: input.resident_id.clone(),
@@ -381,9 +413,9 @@ fn receipt_from_input(input: &ProductionBirthdayInput) -> ProductionBirthdayRece
         candidate_packet_sha256: input.candidate.packet_sha256.clone(),
         implementation_revision_sha256: input.implementation_revision_sha256.clone(),
         previous_receipt_sha256: None,
-        input_sha256: canonical_sha256(input).unwrap_or_default(),
+        input_sha256: canonical_sha256(input)?,
         receipt_sha256: String::new(),
-    }
+    })
 }
 fn receipt_matches_input(
     receipt: &ProductionBirthdayReceipt,
