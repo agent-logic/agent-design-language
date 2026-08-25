@@ -283,6 +283,7 @@ impl PortProtocol for OperationEnvelope {
 }
 
 struct PendingOperation {
+    incarnation: u64,
     cancellation: CancellationToken,
     reply: oneshot::Sender<OperationOutcome>,
 }
@@ -305,6 +306,8 @@ pub struct OperationalFactory {
     external_input: ExternalInput<OperationEnvelope>,
     pending: Arc<Mutex<BTreeMap<u64, PendingOperation>>>,
     nonce: Arc<AtomicU64>,
+    next_incarnation: Arc<AtomicU64>,
+    active_incarnation: Arc<AtomicU64>,
     accepting: Arc<RwLock<bool>>,
 }
 
@@ -341,6 +344,8 @@ impl OperationalFactory {
             external_input,
             pending: Arc::new(Mutex::new(BTreeMap::new())),
             nonce: Arc::new(AtomicU64::new(0)),
+            next_incarnation: Arc::new(AtomicU64::new(0)),
+            active_incarnation: Arc::new(AtomicU64::new(0)),
             accepting: Arc::new(RwLock::new(true)),
         }
     }
@@ -408,6 +413,7 @@ impl OperationalFactory {
         self.pending.lock().await.insert(
             nonce,
             PendingOperation {
+                incarnation: self.active_incarnation.load(Ordering::Acquire),
                 cancellation,
                 reply,
             },
@@ -454,6 +460,25 @@ struct OperationalComponent {
     adapter: Arc<OperationalAdapter>,
     pending: Arc<Mutex<BTreeMap<u64, PendingOperation>>>,
     accepting: Arc<RwLock<bool>>,
+    active_incarnation: Arc<AtomicU64>,
+    incarnation: u64,
+}
+
+fn take_pending_operations(
+    pending: &mut BTreeMap<u64, PendingOperation>,
+    incarnation: u64,
+) -> Vec<PendingOperation> {
+    let keys = pending
+        .iter()
+        .filter_map(|(nonce, pending)| (pending.incarnation == incarnation).then_some(*nonce))
+        .collect::<Vec<_>>();
+    keys.into_iter()
+        .filter_map(|nonce| pending.remove(&nonce))
+        .collect()
+}
+
+fn owns_terminal_cleanup(terminal: bool, active: u64, incarnation: u64) -> bool {
+    terminal && active == incarnation
 }
 
 #[async_trait]
@@ -465,12 +490,12 @@ impl Component for OperationalComponent {
         loop {
             tokio::select! {
                 _ = context.cancellation.cancelled() => {
-                    *self.accepting.write().await = false;
                     let mut pending = self.pending.lock().await;
-                    for (_, pending) in std::mem::take(&mut *pending) {
+                    let stale = take_pending_operations(&mut pending, self.incarnation);
+                    drop(pending);
+                    for pending in stale {
                         let _ = pending.reply.send(Err(OperationError::AdmissionClosed));
                     }
-                    drop(pending);
                     let shutdown_grace =
                         Duration::from_millis(self.adapter.policy.shutdown_grace_millis);
                     if tokio::time::timeout(shutdown_grace, async {
@@ -482,13 +507,20 @@ impl Component for OperationalComponent {
                         tasks.abort_all();
                         while tasks.join_next().await.is_some() {}
                     }
-                    self.adapter.executor.shutdown().await.map_err(|error| {
-                        ComponentError::new(format!(
-                            "{} adapter shutdown failed: {}",
-                            self.adapter.kind.service_name(),
-                            error.message
-                        ))
-                    })?;
+                    if owns_terminal_cleanup(
+                        context.terminal_shutdown.is_cancelled(),
+                        self.active_incarnation.load(Ordering::Acquire),
+                        self.incarnation,
+                    ) {
+                        *self.accepting.write().await = false;
+                        self.adapter.executor.shutdown().await.map_err(|error| {
+                            ComponentError::new(format!(
+                                "{} adapter shutdown failed: {}",
+                                self.adapter.kind.service_name(),
+                                error.message
+                            ))
+                        })?;
+                    }
                     return Ok(());
                 },
                 Some(_) = tasks.join_next(), if !tasks.is_empty() => {},
@@ -525,10 +557,15 @@ impl ComponentFactory for OperationalFactory {
     }
 
     fn build(&self) -> Box<dyn Component> {
+        let incarnation = self.next_incarnation.fetch_add(1, Ordering::AcqRel);
+        self.active_incarnation
+            .store(incarnation, Ordering::Release);
         Box::new(OperationalComponent {
             adapter: self.adapter.clone(),
             pending: self.pending.clone(),
             accepting: self.accepting.clone(),
+            active_incarnation: self.active_incarnation.clone(),
+            incarnation,
         })
     }
 
@@ -939,6 +976,43 @@ pub fn validate_operational_dependencies(
 #[cfg(test)]
 mod continuity_resume_tests {
     use super::*;
+
+    #[test]
+    fn delayed_old_incarnation_only_drains_its_requests_and_never_owns_replacement_cleanup() {
+        let (old_reply, old_result) = oneshot::channel();
+        let (new_reply, mut new_result) = oneshot::channel();
+        let mut pending = BTreeMap::from([
+            (
+                1,
+                PendingOperation {
+                    incarnation: 0,
+                    cancellation: CancellationToken::new(),
+                    reply: old_reply,
+                },
+            ),
+            (
+                2,
+                PendingOperation {
+                    incarnation: 1,
+                    cancellation: CancellationToken::new(),
+                    reply: new_reply,
+                },
+            ),
+        ]);
+        for pending in take_pending_operations(&mut pending, 0) {
+            let _ = pending.reply.send(Err(OperationError::AdmissionClosed));
+        }
+        assert_eq!(
+            old_result.blocking_recv().unwrap(),
+            Err(OperationError::AdmissionClosed)
+        );
+        assert!(matches!(
+            new_result.try_recv(),
+            Err(tokio::sync::oneshot::error::TryRecvError::Empty)
+        ));
+        assert!(!owns_terminal_cleanup(true, 1, 0));
+        assert!(owns_terminal_cleanup(true, 1, 1));
+    }
 
     #[tokio::test]
     async fn cancellation_while_waiting_never_reopens_after_release() {

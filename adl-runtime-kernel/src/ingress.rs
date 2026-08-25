@@ -78,6 +78,7 @@ impl PortProtocol for Envelope {
 }
 
 struct PendingIngress {
+    incarnation: u64,
     cancellation: CancellationToken,
     reply: oneshot::Sender<Result<DomainResult, IngressError>>,
 }
@@ -87,6 +88,8 @@ pub struct CanonicalIngress {
     external_input: ExternalInput<Envelope>,
     pending: Arc<AsyncMutex<BTreeMap<u64, PendingIngress>>>,
     nonce: Arc<AtomicU64>,
+    next_incarnation: Arc<AtomicU64>,
+    active_incarnation: Arc<AtomicU64>,
     state: Arc<Mutex<IngressSnapshot>>,
     recorder: RuntimeRecorder,
     admission: Arc<Mutex<AdmissionState>>,
@@ -126,6 +129,8 @@ impl CanonicalIngress {
             external_input,
             pending: Arc::new(AsyncMutex::new(BTreeMap::new())),
             nonce: Arc::new(AtomicU64::new(0)),
+            next_incarnation: Arc::new(AtomicU64::new(0)),
+            active_incarnation: Arc::new(AtomicU64::new(0)),
             state: Arc::new(Mutex::new(IngressSnapshot::default())),
             recorder,
             admission: Arc::new(Mutex::new(AdmissionState {
@@ -159,6 +164,7 @@ impl CanonicalIngress {
         self.pending.lock().await.insert(
             nonce,
             PendingIngress {
+                incarnation: self.active_incarnation.load(Ordering::Acquire),
                 cancellation,
                 reply,
             },
@@ -276,21 +282,47 @@ impl CanonicalIngress {
     }
 }
 
+struct CanonicalIngressComponent {
+    ingress: CanonicalIngress,
+    incarnation: u64,
+}
+
+fn take_pending_ingress(
+    pending: &mut BTreeMap<u64, PendingIngress>,
+    incarnation: u64,
+) -> Vec<PendingIngress> {
+    let keys = pending
+        .iter()
+        .filter_map(|(nonce, pending)| (pending.incarnation == incarnation).then_some(*nonce))
+        .collect::<Vec<_>>();
+    keys.into_iter()
+        .filter_map(|nonce| pending.remove(&nonce))
+        .collect()
+}
+
 #[async_trait]
-impl Component for CanonicalIngress {
+impl Component for CanonicalIngressComponent {
     async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
         context.ready();
         loop {
             tokio::select! {
-                _ = context.cancellation.cancelled() => return Ok(()),
+                _ = context.cancellation.cancelled() => {
+                    let mut pending = self.ingress.pending.lock().await;
+                    let closed = take_pending_ingress(&mut pending, self.incarnation);
+                    drop(pending);
+                    for pending in closed {
+                        let _ = pending.reply.send(Err(IngressError::Closed));
+                    }
+                    return Ok(())
+                },
                 envelope = context.recv::<Envelope>("runtime.canonical_ingress.requests") => {
                     let Some(envelope) = envelope.map_err(|error| ComponentError::new(error.to_string()))? else { return Ok(()); };
-                    let Some(pending) = self.pending.lock().await.remove(&envelope.nonce) else { continue; };
-                    let result = self
+                    let Some(pending) = self.ingress.pending.lock().await.remove(&envelope.nonce) else { continue; };
+                    let result = self.ingress
                         .dispatch(&envelope.work, pending.cancellation)
                         .await;
                     if result.is_ok() {
-                        self.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
+                        self.ingress.recorder.emit_correlated(Some(ComponentId::new("canonical_ingress")),
                             RuntimeEvent::DomainWorkCompleted, Some(&envelope.correlation_id));
                     }
                     let _ = pending.reply.send(result);
@@ -311,7 +343,13 @@ impl ComponentFactory for CanonicalIngress {
         }
     }
     fn build(&self) -> Box<dyn Component> {
-        Box::new(self.clone())
+        let incarnation = self.next_incarnation.fetch_add(1, Ordering::AcqRel);
+        self.active_incarnation
+            .store(incarnation, Ordering::Release);
+        Box::new(CanonicalIngressComponent {
+            ingress: self.clone(),
+            incarnation,
+        })
     }
 
     fn external_inputs(&self) -> Vec<ExternalInputBinding> {
@@ -444,5 +482,37 @@ mod tests {
         drop(lease);
         ingress.reopen();
         assert!(ingress.begin_admission().is_ok());
+    }
+
+    #[tokio::test]
+    async fn cancelled_incarnation_closes_only_its_queued_requests() {
+        let (old_reply, old_result) = oneshot::channel();
+        let (new_reply, mut new_result) = oneshot::channel();
+        let mut pending = BTreeMap::from([
+            (
+                1,
+                PendingIngress {
+                    incarnation: 0,
+                    cancellation: CancellationToken::new(),
+                    reply: old_reply,
+                },
+            ),
+            (
+                2,
+                PendingIngress {
+                    incarnation: 1,
+                    cancellation: CancellationToken::new(),
+                    reply: new_reply,
+                },
+            ),
+        ]);
+        for pending in take_pending_ingress(&mut pending, 0) {
+            let _ = pending.reply.send(Err(IngressError::Closed));
+        }
+        assert_eq!(old_result.await.unwrap(), Err(IngressError::Closed));
+        assert!(matches!(
+            new_result.try_recv(),
+            Err(tokio::sync::oneshot::error::TryRecvError::Empty)
+        ));
     }
 }

@@ -201,11 +201,18 @@ impl ComponentError {
 pub struct ComponentContext {
     pub id: ComponentId,
     pub cancellation: CancellationToken,
+    pub(crate) terminal_shutdown: CancellationToken,
     pub recorder: RuntimeRecorder,
     ports: ComponentPorts,
     ready: Option<oneshot::Sender<()>>,
     health: mpsc::Sender<(ComponentId, u64, ComponentHealthSignal)>,
     incarnation: u64,
+}
+
+pub(crate) struct ComponentLifecycle {
+    pub(crate) cancellation: CancellationToken,
+    pub(crate) terminal_shutdown: CancellationToken,
+    pub(crate) incarnation: u64,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -217,16 +224,21 @@ pub(crate) enum ComponentHealthSignal {
 impl ComponentContext {
     pub(crate) fn new(
         id: ComponentId,
-        cancellation: CancellationToken,
+        lifecycle: ComponentLifecycle,
         recorder: RuntimeRecorder,
         ports: ComponentPorts,
         ready: oneshot::Sender<()>,
         health: mpsc::Sender<(ComponentId, u64, ComponentHealthSignal)>,
-        incarnation: u64,
     ) -> Self {
+        let ComponentLifecycle {
+            cancellation,
+            terminal_shutdown,
+            incarnation,
+        } = lifecycle;
         Self {
             id,
             cancellation,
+            terminal_shutdown,
             recorder,
             ports,
             ready: Some(ready),

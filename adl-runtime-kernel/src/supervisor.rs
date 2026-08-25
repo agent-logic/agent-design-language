@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeMap, VecDeque},
+    collections::{BTreeMap, BTreeSet, VecDeque},
     panic::AssertUnwindSafe,
     sync::Arc,
     time::{Duration, Instant},
@@ -15,7 +15,7 @@ use tokio::{
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    component::{ComponentHealthSignal, RuntimePortRegistry},
+    component::{ComponentHealthSignal, ComponentLifecycle, RuntimePortRegistry},
     ComponentContext, ComponentFactory, ComponentId, FailurePolicy, LifecycleRole, LifecycleState,
     RunningState, RuntimeEvent, RuntimeRecorder, SupervisionScope, ValidatedTopology,
 };
@@ -99,6 +99,8 @@ impl Kernel {
         let mut cancellations = BTreeMap::<ComponentId, CancellationToken>::new();
         let mut incarnations = BTreeMap::<ComponentId, u64>::new();
         let mut restarts = BTreeMap::<ComponentId, VecDeque<Instant>>::new();
+        let terminal_shutdown = CancellationToken::new();
+        let mut startup_unavailable = BTreeSet::<ComponentId>::new();
         let (restart_tx, mut restart_rx) =
             mpsc::channel::<(ComponentId, Arc<dyn ComponentFactory>)>(16);
         let (readiness_tx, mut readiness_rx) = mpsc::channel::<(ComponentId, u64, bool)>(16);
@@ -108,6 +110,12 @@ impl Kernel {
         for layer in self.topology.dependency_layers() {
             let mut readiness = Vec::with_capacity(layer.len());
             for id in layer {
+                if startup_unavailable.contains(&id) {
+                    self.recorder.set_capability_unavailable(id.clone());
+                    self.recorder
+                        .set_component_state(id, RunningState::Degraded);
+                    continue;
+                }
                 let factory = self.topology.factories[&id].clone();
                 let (ready_tx, ready_rx) = oneshot::channel();
                 let cancellation = CancellationToken::new();
@@ -125,6 +133,7 @@ impl Kernel {
                         ready: ready_tx,
                         health: health_tx.clone(),
                         incarnation: 0,
+                        terminal_shutdown: terminal_shutdown.clone(),
                     },
                 );
                 readiness.push((id.clone(), ready_rx, self.topology.readiness_required(&id)));
@@ -172,11 +181,13 @@ impl Kernel {
                                     ready: next_ready_tx,
                                     health: health_tx.clone(),
                                     incarnation: *incarnation,
+                                    terminal_shutdown: terminal_shutdown.clone(),
                                 },
                             );
                             ready_rx = next_ready_rx;
                         }
                         FailureAction::Degrade => {
+                            startup_unavailable.extend(self.topology.transitive_dependents(&id));
                             if apply_degradation(
                                 &self.topology,
                                 &cancellations,
@@ -186,6 +197,7 @@ impl Kernel {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
                                 let error = KernelError::Readiness(id.clone());
                                 let _ = started.send(Err(KernelError::Readiness(id.clone())));
+                                terminal_shutdown.cancel();
                                 cancel_all(&cancellations, self.topology.shutdown_order());
                                 return Err(error);
                             }
@@ -195,6 +207,7 @@ impl Kernel {
                             self.recorder.set_lifecycle(LifecycleState::Failed);
                             let error = KernelError::Readiness(id.clone());
                             let _ = started.send(Err(KernelError::Readiness(id.clone())));
+                            terminal_shutdown.cancel();
                             cancel_all(&cancellations, self.topology.shutdown_order());
                             return Err(error);
                         }
@@ -209,9 +222,11 @@ impl Kernel {
             tokio::select! {
                 command = commands.recv() => {
                     let Some(KernelCommand::Shutdown { grace, response }) = command else {
+                        terminal_shutdown.cancel();
                         cancel_all(&cancellations, self.topology.shutdown_order());
                         return Ok(KernelExit::Clean);
                     };
+                    terminal_shutdown.cancel();
                     self.recorder.set_lifecycle(LifecycleState::Stopping);
                     let exit = shutdown(
                         &mut tasks,
@@ -248,6 +263,7 @@ impl Kernel {
                             ready: ready_tx,
                             health: health_tx.clone(),
                             incarnation,
+                            terminal_shutdown: terminal_shutdown.clone(),
                         },
                     );
                     let readiness_tx = readiness_tx.clone();
@@ -278,6 +294,7 @@ impl Kernel {
                             FailureAction::Fatal => {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
                                 self.recorder.set_component_state(id.clone(), RunningState::Failed);
+                                terminal_shutdown.cancel();
                                 cancel_all(&cancellations, self.topology.shutdown_order());
                                 return Ok(KernelExit::Fatal { component: id });
                             }
@@ -289,6 +306,7 @@ impl Kernel {
                                     &id,
                                 ) {
                                     self.recorder.set_lifecycle(LifecycleState::Failed);
+                                    terminal_shutdown.cancel();
                                     cancel_all(&cancellations, self.topology.shutdown_order());
                                     return Ok(KernelExit::Fatal { component: id });
                                 }
@@ -326,6 +344,7 @@ impl Kernel {
                                 &id,
                             ) {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
+                                terminal_shutdown.cancel();
                                 cancel_all(&cancellations, self.topology.shutdown_order());
                                 return Ok(KernelExit::Fatal { component: id });
                             }
@@ -353,6 +372,7 @@ impl Kernel {
                             FailurePolicy::Fatal => {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
                                 self.recorder.set_component_state(id.clone(), RunningState::Failed);
+                                terminal_shutdown.cancel();
                                 cancel_all(&cancellations, self.topology.shutdown_order());
                                 return Ok(KernelExit::Fatal { component: id });
                             }
@@ -364,6 +384,7 @@ impl Kernel {
                                     &id,
                                 ) {
                                     self.recorder.set_lifecycle(LifecycleState::Failed);
+                                    terminal_shutdown.cancel();
                                     cancel_all(&cancellations, self.topology.shutdown_order());
                                     return Ok(KernelExit::Fatal { component: id });
                                 }
@@ -389,6 +410,7 @@ impl Kernel {
                                     FailureAction::Fatal => {
                                         self.recorder.set_lifecycle(LifecycleState::Failed);
                                         self.recorder.set_component_state(id.clone(), RunningState::Failed);
+                                        terminal_shutdown.cancel();
                                         cancel_all(&cancellations, self.topology.shutdown_order());
                                         return Ok(KernelExit::Fatal { component: id });
                                     }
@@ -594,16 +616,20 @@ fn spawn_component(
         ready,
         health,
         incarnation,
+        terminal_shutdown,
     } = bindings;
     tasks.spawn(async move {
         let context = ComponentContext::new(
             id.clone(),
-            cancellation.clone(),
+            ComponentLifecycle {
+                cancellation: cancellation.clone(),
+                terminal_shutdown,
+                incarnation,
+            },
             recorder,
             ports,
             ready,
             health,
-            incarnation,
         );
         let outcome = AssertUnwindSafe(factory.build().run(context))
             .catch_unwind()
@@ -627,6 +653,7 @@ struct SpawnBindings {
     ready: oneshot::Sender<()>,
     health: mpsc::Sender<(ComponentId, u64, ComponentHealthSignal)>,
     incarnation: u64,
+    terminal_shutdown: CancellationToken,
 }
 
 fn cancel_all(

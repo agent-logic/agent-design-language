@@ -906,6 +906,93 @@ struct DegradeFactory {
     required_core: bool,
 }
 
+struct InitialDegradeFactory {
+    id: &'static str,
+    dependencies: &'static [&'static str],
+    builds: Arc<AtomicU32>,
+    readiness_degrades: bool,
+}
+
+impl ComponentFactory for InitialDegradeFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from(self.id),
+            dependencies: self
+                .dependencies
+                .iter()
+                .copied()
+                .map(ComponentId::from)
+                .collect(),
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: if self.readiness_degrades {
+                FailurePolicy::Degrade
+            } else {
+                FailurePolicy::Fatal
+            },
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        self.builds.fetch_add(1, Ordering::SeqCst);
+        if self.readiness_degrades {
+            Box::new(NeverReadyComponent)
+        } else {
+            Box::new(WaitingComponent)
+        }
+    }
+}
+
+struct NeverReadyComponent;
+
+#[async_trait]
+impl Component for NeverReadyComponent {
+    async fn run(self: Box<Self>, context: ComponentContext) -> Result<(), ComponentError> {
+        context.cancellation.cancelled().await;
+        Ok(())
+    }
+}
+
+#[tokio::test]
+async fn initial_readiness_degradation_suppresses_unavailable_dependents() {
+    let optional_builds = Arc::new(AtomicU32::new(0));
+    let dependent_builds = Arc::new(AtomicU32::new(0));
+    let mut registry = ComponentRegistry::new();
+    registry
+        .register(InitialDegradeFactory {
+            id: "optional",
+            dependencies: &[],
+            builds: optional_builds.clone(),
+            readiness_degrades: true,
+        })
+        .register(InitialDegradeFactory {
+            id: "dependent",
+            dependencies: &["optional"],
+            builds: dependent_builds.clone(),
+            readiness_degrades: false,
+        });
+    let recorder = RuntimeRecorder::new(16);
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .with_readiness_timeout(Duration::from_millis(10))
+        .start()
+        .await
+        .unwrap();
+    assert_eq!(optional_builds.load(Ordering::SeqCst), 1);
+    assert_eq!(
+        dependent_builds.load(Ordering::SeqCst),
+        0,
+        "an unavailable dependent must never be spawned"
+    );
+    assert_eq!(
+        recorder.snapshot().components[&ComponentId::from("dependent")],
+        RunningState::Degraded
+    );
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
 impl ComponentFactory for DegradeFactory {
     fn spec(&self) -> ComponentSpec {
         ComponentSpec {
