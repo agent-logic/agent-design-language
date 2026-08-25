@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "af526631fae8cb2219b4387e3fcd5e9b609041070e7f59156479d7c89d9a7570",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "9149df7bef01126ce19d44dc8bdf26dd4ae2c8d509d363ddf3881e8ba4f1fb14",
+  "generation": 10,
+  "digest": "be3e8715e81669360bdf37c12f521d45ff39738dab78034f2c84e1e4fb72dbf6",
   "branch": "codex/471-runtime-v3-authoritative-kernel-contracts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-471-runtime-v3-authoritative-kernel-contracts",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3d7129ddd1abec55ed7dcfebf58d5d37a6b5b48ae9496d780b9fcb9f10a25081",
+      "values_digest": "ad47c8bb245bfbb5c9ef2d715e595de58ee9132c466ec1cf960db6b59bb63988",
       "rendered_digest": "3ecb8f39ebc6364315af414a45fb54b2f3d4b1dedaecfdb37c03b66392c63ebb",
       "ast_digest": "9ec02ef188480db02bce3f8dfaf8f3138516823dfb280891552f437b1e7b7cb9"
     },
     "stp": {
-      "values_digest": "01dad4f8f2a30728dc78762702fc414d30b427cfa0a1f925e125bdc24d8189d7",
+      "values_digest": "1605f2ad4dc119b5417a87624b73b5a47c3dc7a974be47fde2a5ffecdc79bd38",
       "rendered_digest": "d0a806358bdab287dfd6f9a17492c9f905e876dbe7129afab5f96d505c9553c4",
       "ast_digest": "b70ab828cce2c1198ca8d05f23f2ce84081385e1f8f4755b81da429a59baf73d"
     },
     "spp": {
-      "values_digest": "16231ce34ae2fd93ec09bde0d5a8b3aaed1a30c60d132775a817fd16d6788921",
+      "values_digest": "34637af67a79bd0a660f0b99410373a6f3959ce223497a829628da6039801cb3",
       "rendered_digest": "2aeb81e5025da251511e0a8b541a417be3a96f766c519f03948e641f428b9343",
       "ast_digest": "6f7aec529d6d44c1fabcfe2e561e365c333f6ea723e6b8199fe063ffa50fe126"
     },
     "vpp": {
-      "values_digest": "74fc884dc732cd0d784d6362b8593b6094d9c76f65010859a09dddf3fdf50862",
+      "values_digest": "f2ae596f97b1fb0d58a6ccf20ebbf4e98ef99c84bef30616a57758a9be82e80d",
       "rendered_digest": "32e39b566ff1051175840d4368ca3ff5ebc14915418ea08d6d5ece95c4b7bcb7",
       "ast_digest": "32e2d7fc0a2f8a0d6ffc2e3b047689e6188f850ad69a67f7f11212bfe94b0f25"
     },
     "srp": {
-      "values_digest": "0aabed7781f0add5ee0508924b7d5ce52a77a50fe89e4726851617ba49e6093c",
+      "values_digest": "297870a58748df26936e5e7874cc84793fcc545017b4a36fca752bd159ba6255",
       "rendered_digest": "606573f1f1f0eed8b5063ae83d6aa506007a31f31f4027eee404d9d24ad335b0",
       "ast_digest": "e0fcd332bca33a72bf1a42085c1af85c5ba1ba72072efe79ba9a670c3912a07d"
     },
     "sor": {
-      "values_digest": "bf0f6ba79edd6134189f3ac1fb77e77d4476894cc31bf72a4782ac9b120d49a0",
-      "rendered_digest": "c2b8abd7ec011cebe7c7ee81934d3b60c4e760bec563b1351127a89c35ada55d",
-      "ast_digest": "4d83aa6df4fb003a6f1bed159b18bc4df248d75a17b2400cd1ffb5672647edcd"
+      "values_digest": "483fc39e6bf7664572b96bdafa87a96ae5315851968bbb069f393213bedbd5ad",
+      "rendered_digest": "326e5137fbde240c35158bb50ac25ee7c37e6970d4ee1d4644ff8b82056239cd",
+      "ast_digest": "2558ff0f85a4a88fef36a281685ea82bcad08b5f7521b7196a8679ed69aca365"
     }
   },
   "transitions": [
@@ -155,6 +155,13 @@
       "actor": "codex:/root",
       "reason": "refresh exact implementation scope after independent review remediation",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/channel.rs\",\"adl-runtime-kernel/src/cognition.rs\",\"adl-runtime-kernel/src/component.rs\",\"adl-runtime-kernel/src/contract.rs\",\"adl-runtime-kernel/src/governance.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/src/proof.rs\",\"adl-runtime-kernel/src/reasoning.rs\",\"adl-runtime-kernel/src/supervisor.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/src/time.rs\",\"adl-runtime-kernel/src/topology.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/contracts.rs\",\"adl-runtime-kernel/tests/kernel.rs\",\"adl-runtime-kernel/tests/reasoning.rs\",\".csdlc/prepared/issues/471/design.md\",\".csdlc/prepared/issues/471/diagram.mmd\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\",\".csdlc/evidence/471\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "record exact-head validation after independent review remediation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"],\"purpose\":\"Full Runtime kernel tests, typed port lifecycle regression, determinism regressions, strict Clippy, formatting, and diff hygiene passed at 5fff69d05.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"}}"
     }
   ]
 }
