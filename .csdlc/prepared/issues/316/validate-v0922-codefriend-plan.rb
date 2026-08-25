@@ -2,12 +2,27 @@
 # frozen_string_literal: true
 
 require "json"
+require "digest"
 require "pathname"
 require "yaml"
 
 root = Pathname(__dir__).join("../../../..").realpath
 milestone = root.join("docs/milestones/v0.92.2")
 errors = []
+
+ledger_path = root.join(".csdlc/evidence/316/source-disposition-ledger.json")
+unless ledger_path.file?
+  errors << "missing:source-disposition-ledger"
+else
+  ledger = JSON.parse(ledger_path.read)
+  codefriend = ledger.fetch("candidates").select { |row| row.fetch("candidate_id").start_with?("CF-") }
+  expected_codefriend_ids = (1..16).map { |n| "CF-%03d" % n }
+  errors << "CodeFriend source denominator mismatch" unless codefriend.map { |row| row.fetch("candidate_id") }.sort == expected_codefriend_ids.sort
+  codefriend.each do |row|
+    errors << "CodeFriend source became execution dependency:#{row['candidate_id']}" unless row.fetch("execution_dependency") == false
+    errors << "missing CodeFriend disposition reason:#{row['candidate_id']}" if row.fetch("reason").strip.empty?
+  end
+end
 
 required = %w[
   README.md VISION_v0.92.2.md DESIGN_v0.92.2.md DECISIONS_v0.92.2.md
@@ -83,7 +98,9 @@ end
 if errors.empty?
   puts JSON.generate(schema: "adl.v0922.codefriend-plan-validation.v1", result: "passed",
                      planned_ids: ids.length, feature_docs: files.count { |path| path.dirname.basename.to_s == "features" && path.basename.to_s != "README.md" },
-                     release_tail: tail.length, deferred_tracks: deferred.length)
+                     release_tail: tail.length, deferred_tracks: deferred.length,
+                     source_candidates: codefriend.length,
+                     source_ledger_sha256: Digest::SHA256.file(ledger_path).hexdigest)
 else
   warn errors.join("\n")
   exit 1

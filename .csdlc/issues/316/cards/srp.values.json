@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
     "slug": "316-v0921-next-milestone-planning",
     "version": "v0.92.0",
-    "generation": 5
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Complete #316 v0.92.1 reconciliation and v0.92.2 CodeFriend Beta 1 canonical planning package, issue waves, feature coverage, proof gates, release tails, successor handoff, and no-issue-creation boundary.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
@@ -24,9 +24,7 @@
         "Are execution dependencies merge-based while closeout remains asynchronous?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Planning authoring does not implement or release CodeFriend Beta 1."
-      ],
+      "residual_risk": [],
       "review_result": "pre_review"
     }
   }

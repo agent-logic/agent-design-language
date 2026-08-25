@@ -2,12 +2,39 @@
 # frozen_string_literal: true
 
 require "json"
+require "digest"
 require "pathname"
 require "yaml"
 
 root = Pathname(__dir__).join("../../../..").realpath
 milestone = root.join("docs/milestones/v0.92.1")
 errors = []
+
+ledger_path = root.join(".csdlc/evidence/316/source-disposition-ledger.json")
+unless ledger_path.file?
+  errors << "missing:source-disposition-ledger"
+else
+  ledger = JSON.parse(ledger_path.read)
+  candidates = ledger.fetch("candidates")
+  expected_candidate_ids = (1..17).map { |n| "TBD-%03d" % n } +
+                           (1..16).map { |n| "CF-%03d" % n } +
+                           %w[DRIVE-001 GIT-001]
+  candidate_ids = candidates.map { |row| row.fetch("candidate_id") }
+  errors << "source candidate denominator mismatch" unless candidate_ids.sort == expected_candidate_ids.sort
+  errors << "duplicate source candidate ids" unless candidate_ids.uniq.length == candidate_ids.length
+  errors << "source candidate count mismatch" unless ledger.fetch("candidate_count") == candidates.length
+  candidates.each do |row|
+    errors << "local source dependency:#{row['candidate_id']}" if row.fetch("source_identity").include?(".adl/")
+    errors << "missing disposition:#{row['candidate_id']}" if row.fetch("disposition").strip.empty?
+    errors << "missing target:#{row['candidate_id']}" if row.fetch("target").strip.empty?
+    errors << "missing reason:#{row['candidate_id']}" if row.fetch("reason").strip.empty?
+    errors << "source became execution dependency:#{row['candidate_id']}" unless row.fetch("execution_dependency") == false
+    digest = row["source_sha256"]
+    if row.fetch("source_class").start_with?("local_")
+      errors << "invalid local source digest:#{row['candidate_id']}" unless digest&.match?(/\A[0-9a-f]{64}\z/)
+    end
+  end
+end
 
 required = %w[
   README.md VISION_v0.92.1.md DESIGN_v0.92.1.md DECISIONS_v0.92.1.md
@@ -66,7 +93,9 @@ end
 
 if errors.empty?
   puts JSON.generate(schema: "adl.v0921.plan-validation.v1", result: "passed", planned_ids: ids.length,
-                     creation_slots: creation_ids.length, release_tail: tail.length)
+                     creation_slots: creation_ids.length, release_tail: tail.length,
+                     source_candidates: ledger.fetch("candidate_count"),
+                     source_ledger_sha256: Digest::SHA256.file(ledger_path).hexdigest)
 else
   warn errors.join("\n")
   exit 1

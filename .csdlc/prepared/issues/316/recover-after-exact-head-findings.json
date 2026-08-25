@@ -1,0 +1,7 @@
+{
+  "issue": 316,
+  "expected_generation": 11,
+  "expected_digest": "af67198c1c18c6c9131943040600ce6eb538c720a6da9b6be94c9aaa3a199e2c",
+  "actor": "codex:/root",
+  "reason": "The first exact-head review identified a missing source-disposition denominator and stale SOR proof/lifecycle truth; recover review state for bounded remediation and one final exact-head review."
+}

@@ -1,1 +1,1 @@
-{"schema":"adl.v0921.plan-validation.v1","result":"passed","planned_ids":39,"creation_slots":31,"release_tail":10}
+{"schema":"adl.v0921.plan-validation.v1","result":"passed","planned_ids":39,"creation_slots":31,"release_tail":10,"source_candidates":35,"source_ledger_sha256":"d10f720c6d840ccdfc758954530bf6421bb6599935692b58bbb74f98e912c141"}

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0c53b87754c3e14de1e834fcc7eef3b287ebcb2436b52e592b63e506a3bd1754",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "2dcb2e4b2fae806a815fcb98244c2d652cf839c818efb465e736172008c3b88f",
+  "generation": 13,
+  "digest": "d00ec3c05d09a2377b784b04f55cb8742d1e338b7a054487a54b4a431aabf373",
   "branch": "codex/316-v0921-v0922-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-316-v0921-v0922-planning",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3e8d3c0bea0d6e51015289f3ececc971e1bdb3bd47007f82dfd28db0b467fd03",
+      "values_digest": "97ef1758e08bcba9d24a946dbcf75829fa2509286285bf013a11fbe7dab99faa",
       "rendered_digest": "3ba9701a8b33e22c9b2b306a58a9e5255be94be717cacfdbb9f743bf0a28b76c",
       "ast_digest": "83ebca4d4a34026c1e9fceea9366fc80af6768635ee209e145c09ea0aecc2d6a"
     },
     "stp": {
-      "values_digest": "41911bb6e337d9e0baac5ea396cb11b22f2214aa0f53252dd4e6e7cada3c2988",
+      "values_digest": "2e0a57188d6554f76c802a6a613b9a01d851c9d97401d47334930c62f2d55a3d",
       "rendered_digest": "85149af7244ba934d80c30f36388634f063f7aae7f8407cfce5c60dd971e74a6",
       "ast_digest": "11601d8260c98492fec35b88510108ef8b3d234c0cf046e642b71f81f8c71836"
     },
     "spp": {
-      "values_digest": "d8b9ccd9cc740bcfc747616d22b879af06fb7930cbc40b75dcb60d9cf5a59a7e",
+      "values_digest": "b1e385dea6a604f5eb20adff0fb2d81611947ab3d6e9fd828af423ff06fff0a5",
       "rendered_digest": "5571a5100811173ece9dc9076e04bf00679dae74aeb65260abbb4783a18d7cf5",
       "ast_digest": "f159ff47e11db7136c7245e86407749a6276f41b987bb1f04f4dac6341d49ecc"
     },
     "vpp": {
-      "values_digest": "d03ca5094e87bbecdc2478497c1d68eb055a24a20b9c86e55451729bf7ab9c73",
+      "values_digest": "1d57dd956e035f2a9b7b745c613f4ba73fb7f3498fcf1a4150bf0707cde17dc9",
       "rendered_digest": "2309eec21b98e4f11991a05341360ad8cddf2b7efb5695063fb57166fa8cc9b5",
       "ast_digest": "ab807182fc95e6f4be168f02c70c1bf59f68b456996e3485905af2ddf20587fb"
     },
     "srp": {
-      "values_digest": "1ee1c851d5e451234a72dba1ea6e3df19211ab58db38636abe6a3b23c42bd8dd",
-      "rendered_digest": "d0a487814dbd5de4fd43a9962a954d134e5c5a22d17d6e2736ea1e68efdee0c1",
-      "ast_digest": "a75e3859bb848374d1580cc416c22da0f7573dc782599470308a3fe471555a4a"
+      "values_digest": "9eec88248cbf29aa6cf6cea0e81ae8f363af44f6065bdcce6866081678e3f9a3",
+      "rendered_digest": "5602bbdf707d2b3bbf8c44ef297d55205d8170746ffd8dea7cdf8c2351cb4265",
+      "ast_digest": "84e5dcb838955bb8d8024382cce409212e67b0afaabb35eb7a4f32f9d43e6c11"
     },
     "sor": {
-      "values_digest": "e288e6456def1604f76251c8c2f78444454060833575345d5bc09a98998ae5ae",
-      "rendered_digest": "ccf547820bdc9766ae2a0ba0f712a91375cc1f959876abc5c9893ae2da2d94b3",
-      "ast_digest": "3f9bb3f9d4386bf35e9a54af9b4dd29a174ea424ffbe800966283492ac347a20"
+      "values_digest": "635f68c4c6d1a0fe9f27c2bf050ce39b3b642ab8cef04751bc677145ec7c52f5",
+      "rendered_digest": "1625bbc0931f0db531b186e0cae56e1100c9487f4d548f5e11259bdd86076c7b",
+      "ast_digest": "e3e9b9bd45182d4b3fea926ea25423d4ffa81536416c305fbed9815b16270a86"
     }
   },
   "transitions": [
@@ -127,6 +127,83 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "The first exact-head review identified a missing source-disposition denominator and stale SOR proof/lifecycle truth; recover review state for bounded remediation and one final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "The first exact-head review identified a missing source-disposition denominator and stale SOR proof/lifecycle truth; recover review state for bounded remediation and one final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Remove the stale pre-bind instruction after implemented-state review recovery.",
+      "operation": "{\"new_values\":[\"Obtain one fresh exact-head review of the bounded review-finding remediation before publication.\"],\"operation\":\"correct_sor_follow_ups_after_recovery\",\"previous_values\":[\"Obtain fresh design review before typed approval and bind.\"],\"recovery_generation\":8,\"recovery_sequence\":12}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Replace overstated proof wording with the exact planning-package and source-disposition evidence actually produced.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed canonical v0.92.1 reconciliation and the full v0.92.2 CodeFriend Beta 1 planning package without creating issues; every selected local TBD, CodeFriend incubation, supplied Drive, and Runtime-decoupling source candidate has one explicit non-runtime disposition.\",\"changes\":[\"Reconciled the canonical v0.92.1 package, routing, dependencies, feature index, and release tail.\",\"Authored the complete number-free v0.92.2 CodeFriend Beta 1 package and explicit deferrals.\",\"Added a 35-row source-disposition ledger and fail-closed validation for the exact TBD, CodeFriend, Drive, and Git-input denominator.\"],\"artifacts\":[\".csdlc/prepared/issues/316/design.md\",\".csdlc/prepared/issues/316/diagram.mmd\",\"docs/milestones/v0.92.1\",\"docs/milestones/v0.92.2\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\",\".csdlc/evidence/316/source-disposition-ledger.json\",\".csdlc/evidence/316/planning-audit.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\"],\"purpose\":\"Validate the exact v0.92.1 planning IDs, creation slots, dependency graph, release tail, tracked planning surfaces, and all 35 source-candidate dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/planning-package.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\"],\"purpose\":\"Validate the number-free CodeFriend Beta 1 planning package, nine feature documents, canonical release tail, explicit deferrals, links, portability guards, and all 16 CodeFriend source dispositions; this proves planning completeness, not future product implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/codefriend-beta1-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "The first exact-head review identified a missing source-disposition denominator and stale SOR proof/lifecycle truth; recover review state for bounded remediation and one final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "The implemented planning output is ready for final exact-head review before publication.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
     }
   ]
 }
