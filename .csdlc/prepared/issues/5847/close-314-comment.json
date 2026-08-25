@@ -1,0 +1,18 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_comment",
+  "operation_key": "wp26-intake-complete-handoff-to-315",
+  "token_file": null,
+  "issue": 314,
+  "pull_request": null,
+  "title": null,
+  "body": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": "WP-26 external-review intake is complete. The supplied documentation and Birthday Activation code-review reports are retained with exact digests and deduplicated into seven unique findings under `docs/reviews/v0.92/external-review-5847/`. Remediation is owned by #315 (WP-27); #471 is treated as a child of that remediation track. Closing #314 as the completed intake/handoff umbrella without claiming that the findings themselves are fixed here.",
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": 315
+}

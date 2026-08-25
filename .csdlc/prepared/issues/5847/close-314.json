@@ -1,0 +1,18 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_close",
+  "operation_key": "wp26-intake-complete-close-314",
+  "token_file": null,
+  "issue": 314,
+  "pull_request": null,
+  "title": null,
+  "body": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": "closed",
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": 315
+}
