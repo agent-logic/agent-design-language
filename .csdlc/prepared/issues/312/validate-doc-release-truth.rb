@@ -20,7 +20,10 @@ ADR_INDEX_FILES = %w[
 
 README_MANIFEST = ".csdlc/evidence/312/readme-paths.txt"
 
-BASE_COMMIT = "035b249096c6a27a6e40af9435d6df8e35090000"
+# Reviewed #467 quality-gate authority is the declared stacked base for #312.
+# This keeps #312 exact-scope validation limited to its documentation changes
+# while #467 proceeds independently toward main.
+BASE_COMMIT = "2a34567e3bb4736bae3777ca72beceb077e23140"
 ISSUE_LIFECYCLE_PATHS = %w[
   .csdlc/issues/312/audit.jsonl
   .csdlc/issues/312/index.json
