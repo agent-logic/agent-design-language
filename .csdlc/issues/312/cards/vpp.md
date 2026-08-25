@@ -42,8 +42,8 @@ Diagram: .csdlc/prepared/issues/312/diagram.mmd
       ".csdlc/prepared/issues/312/validate-doc-release-truth.rb",
       "packet"
     ],
-    "parallel_group": "312-doc-shared-state-serial",
-    "defer_reason": "Runs first in the serialized shared-state documentation lane."
+    "parallel_group": "312-1-doc-packet",
+    "defer_reason": "Ordered batch 1: establish canonical shared documentation state."
   },
   {
     "lane": "docs-negative-suite",
@@ -61,8 +61,8 @@ Diagram: .csdlc/prepared/issues/312/diagram.mmd
       "ruby",
       ".csdlc/prepared/issues/312/test-validate-doc-release-truth.rb"
     ],
-    "parallel_group": "312-doc-shared-state-serial",
-    "defer_reason": "Runs after packet validation because it temporarily mutates issue-local fixtures and the README manifest."
+    "parallel_group": "312-2-doc-negative",
+    "defer_reason": "Ordered batch 2: temporarily mutate and restore issue-local fixtures and the README manifest."
   },
   {
     "lane": "docs-structure-links-handoff",
@@ -82,8 +82,8 @@ Diagram: .csdlc/prepared/issues/312/diagram.mmd
       ".csdlc/prepared/issues/312/validate-doc-release-truth.rb",
       "structure-handoff"
     ],
-    "parallel_group": "312-doc-shared-state-serial",
-    "defer_reason": "Runs after the negative suite has restored shared issue-local state."
+    "parallel_group": "312-3-doc-structure",
+    "defer_reason": "Ordered batch 3: verify restored shared state and the external handoff."
   },
   {
     "lane": "diff-hygiene",
@@ -101,8 +101,8 @@ Diagram: .csdlc/prepared/issues/312/diagram.mmd
       "diff",
       "--check"
     ],
-    "parallel_group": "312-diff",
-    "defer_reason": null
+    "parallel_group": "312-4-diff",
+    "defer_reason": "Ordered batch 4; independent of shared documentation fixtures."
   }
 ]
 
