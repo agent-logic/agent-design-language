@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5848/diagram.mmd
 [
   {
     "lane": "canonical-remediation-truth",
-    "proof_role": "Reconstruct the complete internal plus external finding universe, validate every disposition and accepted-risk authority, read live remediation PR head/review/check/merge state and typed terminal truth, then rerun all affected quality and release validators.",
+    "proof_role": "Reconstruct the complete internal plus external finding universe, validate disposition ownership and retained evidence digests, and rerun the affected quality, release, and production-birthday regressions. Exact-head review, required-check, merge, and terminal truth are separate typed review and finish gates.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

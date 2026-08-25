@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 476,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-27] Reconcile post-merge review truth",
+    "slug": "v092-wp27-postmerge-review-truth",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Apply and integrate only the post-merge WP-27 truth repair preserved in ed454a246.",
+      "deliverables": [
+        "Typed SPP/VPP repair",
+        "Validator helper removal",
+        "README payload correction",
+        "Focused validation evidence",
+        "Fresh exact-head review",
+        "Merged PR closing #476"
+      ],
+      "acceptance_criteria": [
+        "AC-1: SPP records evidence-backed completed steps and keeps terminal reconciliation nonterminal until finish.",
+        "AC-2: VPP claims only local evidence and regression proof while typed review/finish retain exact-head and terminal authority.",
+        "AC-3: The validator has no unused GitHub helper and its declared regression lane passes.",
+        "AC-4: The README names CommittedWithCleanupPending(Box<ProductionBirthdayReceipt>).",
+        "AC-5: Diff hygiene and focused validation pass at the exact head.",
+        "AC-6: A fresh pre-assigned exact-head review has no actionable findings and the green PR merges closing #476."
+      ],
+      "dependencies": [
+        "#315 and PR #473 are terminal remote provenance",
+        "ed454a246 is preserved as the exact repair source"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#315",
+        "agent-logic/agent-design-language#476",
+        "agent-logic/agent-design-language/pull/473",
+        "ed454a2461daccf95f75191ccea69d7df9ae06df"
+      ],
+      "non_goals": [
+        "No runtime behavior change",
+        "No reopening PR #473",
+        "No unrelated cleanup",
+        "No #269 inspection or execution"
+      ]
+    }
+  }
+}

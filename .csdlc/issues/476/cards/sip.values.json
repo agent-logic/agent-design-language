@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 476,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-27] Reconcile post-merge review truth",
+    "slug": "v092-wp27-postmerge-review-truth",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Integrate the three preserved post-merge review-truth repairs from ed454a246 without changing runtime behavior.",
+      "required_outcome": "A reviewed, green, merged follow-on PR closing #476, followed by truthful #315 terminal reconciliation.",
+      "declared_scope": [
+        "Typed #315 SPP and VPP truth repair",
+        "WP-27 remediation validator claim correction",
+        "WP-27 remediation README payload correction"
+      ],
+      "authority_boundary": [
+        "Typed review and finish own exact-head and terminal truth",
+        "No runtime behavior changes",
+        "Do not inspect or execute #269"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use a bound FastWork worktree",
+        "Apply only ed454a246",
+        "Merge only after green CI and fresh exact-head review",
+        "Do not inspect or execute #269"
+      ]
+    }
+  }
+}
