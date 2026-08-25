@@ -4,13 +4,32 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "ee05067341897869af1ac07779efa1174c29296b737e8292e13958ea34079f6d",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "4f03608b2238661536374b5eb5c6651cceeff467348ca0d9bb6b63b887ac470d",
   "branch": "codex/315-wp27-review-findings-remediation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "codex:issue-315-current-head-review",
+    "scope": [
+      ".csdlc/issues/315",
+      ".csdlc/prepared/issues/5848",
+      ".csdlc/evidence/5848",
+      "docs/reviews/v0.92/external-review-5847",
+      "docs/reviews/v0.92/remediation-5848/disposition-register.json",
+      "docs/reviews/v0.92/remediation-5848/README.md",
+      "adl-runtime-kernel/src/production_birthday.rs",
+      "adl-runtime-kernel/tests/production_birthday.rs"
+    ],
+    "reviewed_revision": "git-blake3:0b822a744d7b82661611b8199a0bcb8eefea7d0f:fb540bf8aae37e7ce0539f83d24763ecff7f2406f1faf296b56b1821004bdbcb",
+    "findings": [],
+    "residual_risks": [
+      "This current-head review covers the canonical issue-identity migration plus the already-reviewed WP-27 remediation scope. It does not approve release, merge, closeout, #316, or #471 completion."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2cc3bbc8ba445c8cd63c40f93c6ca0855b02b40e63b7708fab8f8ccd37cbc778",
+      "values_digest": "6069d12aa9b5ae5414a238b459aec6c029286071622a3c56806a16b7a0ef7c9a",
       "rendered_digest": "341c937fdfdc7d28a4e966b62a53bc61394af898f7d104b27cf4e82cb4a3b800",
       "ast_digest": "2ef61ea6b35c490db81836796f74a1247d260661fcdae958af258730150e9659"
     },
     "stp": {
-      "values_digest": "1c37d83047ae2e8d4b1f41fcbd87507dbb04690b659568be9bd15fbe229977f4",
+      "values_digest": "73b4c39799042fdbe01b41b468bd361de469dc2ddfcecab3ffc6aa38065067f7",
       "rendered_digest": "41c5d09e96d48953aae37c390321be4df65dad1a73e471eae95bc941aa0ac704",
       "ast_digest": "d60860595e2c59a73829c43968af0e5682c0867545ad6482d07bedaeb7410de3"
     },
     "spp": {
-      "values_digest": "3bf77dc54b3e4cf77af065fb93d76d6b90fa22d358ca8c5a25ec0d49b2d808b0",
+      "values_digest": "8e0611b23c938c11c37fdf59330596f249996d2895a5558f10aca80f0e28370d",
       "rendered_digest": "0a7550cdbcbcfefd20f6c999684541d9f747e3a3725a0ae61fa6361b4553f3b5",
       "ast_digest": "a15d5833a7430c74c1977782e4a1b741a26407a8fd3d07ae2d7c1bab00fc9f3e"
     },
     "vpp": {
-      "values_digest": "ccd6d899d3cbe65f4565a5d4cf5f25a33ea499088b096962562e5a04d8a9a3f4",
+      "values_digest": "e79e507d9df082d7a44447bd5bc2565dd39ae9603c66c1ec60b1ed0b823386b5",
       "rendered_digest": "dedc66e1701a21485f9fec599136f350a7a064c31832bd44834100174db40d1b",
       "ast_digest": "f281237f41ade71183b8c19dd27a3dff3774cbc3ac8e4b89aa359cc0dd0f5940"
     },
     "srp": {
-      "values_digest": "d461ba9f934831667ff95601850c76445252274ef2133858ad963f57bdb2884c",
-      "rendered_digest": "df79bbb82fb7fc4505807ef50b5d2ac1f77670a81d2f2270fac14920c6f1c24a",
-      "ast_digest": "eaa55aab8c4bd0ca3c6c7a81aa56362eb8264c05a4736638c1bd81721b670476"
+      "values_digest": "c147cceb948290d9c826a1cddee5740444e276844e3a0354601f44bb39e388f0",
+      "rendered_digest": "37ed8933f68ea9d8c87c062b0d60bde0961f2046d846c0d5b1c61db528709e3c",
+      "ast_digest": "22e748527f20e0b06ed11368bcde7706832ef5c8a12b876db0e1093bad2a2e64"
     },
     "sor": {
-      "values_digest": "18441a876388eeab26228c9fb65ec1337d769fda4f539dcb1212fdc0d594ba9d",
+      "values_digest": "8814f6dcc4236c4ef04032084b86bbe101a57e0edbbf10b5ec34c9273b8a06b6",
       "rendered_digest": "362b9ba372a92c29977fc6f238192a749764e802c7153b4428a98f39c751176c",
       "ast_digest": "e46c23a1fdd8930aebff0d127e2326a4b0325eead8628817bec81ca6dacd0ab2"
     }
@@ -111,6 +130,13 @@
       "to": "implemented",
       "actor": "codex:issue-315-review-recovery-after-identity-migration",
       "reason": "Recover review after the typed legacy-to-canonical issue identity migration changed lifecycle projections after the prior exact-head review."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-315-current-head-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -421,6 +447,13 @@
       "actor": "codex:issue-315-review-recovery-after-identity-migration",
       "reason": "Recover review after the typed legacy-to-canonical issue identity migration changed lifecycle projections after the prior exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 26,
+      "actor": "codex:issue-315-current-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
