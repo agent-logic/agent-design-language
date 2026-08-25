@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 476,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-27] Reconcile post-merge review truth",
+    "slug": "v092-wp27-postmerge-review-truth",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Applied only the preserved ed454a246 post-merge WP-27 truth repair onto current main.",
+      "actual_changes": [
+        "Updated typed #315 SPP step truth",
+        "Narrowed typed #315 VPP proof claims",
+        "Removed the validator's unused GitHub helper",
+        "Corrected the README boxed payload type"
+      ],
+      "artifacts": [
+        ".csdlc/issues/315",
+        ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb",
+        "docs/reviews/v0.92/remediation-5848/README.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb"
+          ],
+          "purpose": "Validate the complete finding universe, retained evidence digests, and affected regressions after the claim-boundary repair.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-476-wp27-remediation-validator:passed"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

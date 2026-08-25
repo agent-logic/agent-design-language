@@ -1,0 +1,132 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 476,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "8ed4a3dc280c58ded2ebb14dabd50639197b09272b274ed8972f7fa8d0952e3a",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "e3e6e98ebe456899f2d4d2e7aa0370550b30f77bc209fb232741ccd520d69848",
+  "branch": "codex/476-wp27-postmerge-review-truth",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-476-wp27-postmerge-review-truth",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/476/design.md",
+  "diagram_path": ".csdlc/prepared/issues/476/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:planning-1-wp27-followon-authority",
+      "revision": "c5b758c1b387574d13d230dbc193a73e8916d636c563057f2d31922687690c7f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "808e36254e803180defda7ee857afe8459f51287eeb4fbbe3c82c346e662c4e2",
+      "rendered_digest": "551931fc65e7fc22ef931f75ed4127ea0dd2b43d9599717783ccec88dee6ac87",
+      "ast_digest": "d5462ae887a45c98e60102e04fe9e5ab90ff0f2bcb0dbc49a3e220c852c84fa1"
+    },
+    "stp": {
+      "values_digest": "75d9886c8ead18d05931a91eb4f967bf46bcdc6446327e97afd565d40a676e25",
+      "rendered_digest": "4de8367e3d162db8acd3638672dc6b51b00af0ea1bce3837240adbc7e7f73f3a",
+      "ast_digest": "d9ae7f4e73a1bf9416938bcf511a74c83a147e9543e3cdb0efadc8038b20f566"
+    },
+    "spp": {
+      "values_digest": "2d79393597ab272c8febc75ef14ef8f81712174a55b7e0ff6e1e3b7f55288f38",
+      "rendered_digest": "0f4c9de5f0efc7fd20b7b2c226d40a963d740e47f6213997cd967a88c0473992",
+      "ast_digest": "b14d05ce7b879f795008514cb5435035a4ed4ef7a2b3299bab1c4c01980cbb7d"
+    },
+    "vpp": {
+      "values_digest": "2bec4f17f324960bc1660f1d8401bba7cd0db664441a0d896d85fe667c6ec871",
+      "rendered_digest": "8a590426f713e008e44ad3b2bbcc6964c3354b1bae26f49d2ca05ed5dc9a007d",
+      "ast_digest": "d15acdc966ce2bf00c93598eeaa650045a2c26972ecf7b777e7eb974e193733f"
+    },
+    "srp": {
+      "values_digest": "556da91330474fef60c1753021435e3f4b147d97b854582086245537b28e52de",
+      "rendered_digest": "8f4b6eae1d837716ae147354b6d1c8f2dd1d16499302258d6c67ae5aed2fef74",
+      "ast_digest": "8d676d3840fda17f226968379eb7e8cde8ef66584edf07f540d6b21ab5e5a20f"
+    },
+    "sor": {
+      "values_digest": "9833f909a82fd23d5f4b0c773d519af3f66dbdc7ee921153e6d9cd4a953caae1",
+      "rendered_digest": "8d995819296af89a1b82b4b3a4b54e29539421afa4b47699930e4bbbd05dbd0a",
+      "ast_digest": "8351a0101f785ac861f806ec6376522521ad77b8a8e356de6468d8b8f720d6aa"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-476-implementation",
+      "reason": "Issue #476 implementation and focused validation are complete; exact-head review is next."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-476-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "codex:issue-476-implementation",
+      "reason": "Bound issue #476 and transplanted only the preserved ed454a246 post-merge truth repair onto current main.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-476-implementation",
+      "reason": "The issue-owned remediation validator and diff hygiene passed at the transplanted repair head.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-476-implementation",
+      "reason": "Record the exact narrow post-merge truth repair before implemented transition.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Applied only the preserved ed454a246 post-merge WP-27 truth repair onto current main.\",\"changes\":[\"Updated typed #315 SPP step truth\",\"Narrowed typed #315 VPP proof claims\",\"Removed the validator's unused GitHub helper\",\"Corrected the README boxed payload type\"],\"artifacts\":[\".csdlc/issues/315\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\",\"docs/reviews/v0.92/remediation-5848/README.md\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-476-implementation",
+      "reason": "Record focused validator proof for the narrow truth repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"purpose\":\"Validate the complete finding universe, retained evidence digests, and affected regressions after the claim-boundary repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-476-wp27-remediation-validator:passed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-476-implementation",
+      "reason": "Issue #476 implementation and focused validation are complete; exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

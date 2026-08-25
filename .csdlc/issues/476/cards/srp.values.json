@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 476,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-27] Reconcile post-merge review truth",
+    "slug": "v092-wp27-postmerge-review-truth",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/315\n.csdlc/prepared/issues/5848/validate-remediation-regressions.rb\ndocs/reviews/v0.92/remediation-5848/README.md",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do the typed cards state execution and proof boundaries truthfully?",
+        "Does the validator claim only what it proves?",
+        "Does the README match the boxed payload type?",
+        "Did the follow-on avoid runtime behavior changes and unrelated paths?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
