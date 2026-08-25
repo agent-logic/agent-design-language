@@ -27,3 +27,6 @@
 {"sequence":27,"generation":24,"actor":"codex:root","reason":"record final exact-head review as the remaining plan action","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"}
 {"sequence":28,"generation":24,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":29,"generation":25,"actor":"codex:root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":30,"generation":26,"actor":"codex:root","reason":"record fresh exact-head reconciliation after publication-request metadata entered the candidate","operation":"recover_review"}
+{"sequence":31,"generation":26,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":32,"generation":27,"actor":"codex:root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

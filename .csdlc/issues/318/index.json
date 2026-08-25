@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a9da616fc297502515fbf254ee77a18400f007c2b333d09bb5f934640e07ece4",
   "phase": "reviewed",
-  "generation": 25,
-  "digest": "730eb3f2d6ac4d9c0f0819aa655d69fbd825cdb105406ad2c4b83f217089d1fb",
+  "generation": 27,
+  "digest": "1e36783bd5a44b42227c8c7d4a0dfc2320f46410468dc10e2e287da941e3b8ed",
   "branch": "codex/318-v092-wp29-next-milestone-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-318-next-milestone-review",
   "review_assignment": {
-    "reviewer": "fresh-session:9ddfc42d-df8c-451f-8d23-50b9f10893ba",
+    "reviewer": "fresh-session:f3ecc8b9-df4b-47b3-962f-b6b917e35ba4",
     "assigned_by": "codex:root",
-    "revision": "git-blake3:e44f3740be28fc728186efa80ff835e7dc7f1083:d894d4f71adc1639a0806b3c14fe982c579e18744bd7c3b41c51ebe4a90ce89f",
+    "revision": "git-blake3:4a64127eeb781620edd1030d157aaafc5ebc7dfc:719da6156ad6e45b0e5d61d94916cd14750bf03c883c43b775b7e20ed6e6b5a4",
     "scope": [
       ".csdlc/evidence/318",
       ".csdlc/prepared/issues/318/design.md",
@@ -25,7 +25,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:9ddfc42d-df8c-451f-8d23-50b9f10893ba",
+    "reviewer": "fresh-session:f3ecc8b9-df4b-47b3-962f-b6b917e35ba4",
     "scope": [
       ".csdlc/evidence/318",
       ".csdlc/prepared/issues/318/design.md",
@@ -36,7 +36,7 @@
       "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
       "docs/milestones/v0.92.1"
     ],
-    "reviewed_revision": "git-blake3:e44f3740be28fc728186efa80ff835e7dc7f1083:d894d4f71adc1639a0806b3c14fe982c579e18744bd7c3b41c51ebe4a90ce89f",
+    "reviewed_revision": "git-blake3:4a64127eeb781620edd1030d157aaafc5ebc7dfc:719da6156ad6e45b0e5d61d94916cd14750bf03c883c43b775b7e20ed6e6b5a4",
     "findings": [],
     "residual_risks": [
       "This is a planning and readiness result; it creates no v0.92.1 issues and proves no future implementation outcome.",
@@ -60,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ff9fa8955ba8cc04299da859dee563ae0392e708f5ee3501c73042dbad92f3f0",
+      "values_digest": "bef21408631b0dff7cbfd8f6c88647a170d243f068190983a8bb7548f09ecbb7",
       "rendered_digest": "4bb47c934ea3fb8a47e2b9bacc2cabe276e09287b78846390f5fb3d102d992ba",
       "ast_digest": "d2f863671b358dd3c6c0418be17f26687cb1667bd8f0d84f71e418be7a4d8f6d"
     },
     "stp": {
-      "values_digest": "f115545c29ac1d2581dc3113253b2f4d3772e3e8d8fa6ad687b2484034b56bb0",
+      "values_digest": "385524bcd25e91903c5d93891af7946cfa1dc63363e4010e0ed400bf28f0f1ce",
       "rendered_digest": "ddbc8f8de7c50f142f35f7f81554973ed94748c080ea0f145f8269ab39fae1f4",
       "ast_digest": "a4c897522de5385bfbefecbcce04d0a38751100bdbf4ff20bfec8d6505c1f97f"
     },
     "spp": {
-      "values_digest": "5435fdb2b7e5209f03b0f6db9be1a9483a5783ac83a4cc0913056461d5578734",
+      "values_digest": "ef44e3e1ed4ba79fae20ecc18f7ef76116d4e85fad16354ad5c7e4131f0ecc5e",
       "rendered_digest": "892fd92d2c3d1e43212e8eec54bcf0e6bd3073a72aae6923989dabc072a9eb48",
       "ast_digest": "77969b35301837a6b972a5c76681d878d806ab56c39c10d0ae5872c89fd0bebe"
     },
     "vpp": {
-      "values_digest": "53258e27221e6e8b3669f3cbecbd57ef4568c273bb700657d7f68fd1d772c04c",
+      "values_digest": "bc895593ac4bf14508369e9d2a7c67007582965b2a04cb93107e85f4c069e6ee",
       "rendered_digest": "5717d7470f718f6815d57fca6659753fc462169edc25251cc4503666503bd228",
       "ast_digest": "22765a9166a6bd8d9e384de02ec34cdf351793ac33105c53de045ecfa70c059d"
     },
     "srp": {
-      "values_digest": "c4d172b9fc704f4eef5c334b33da31b028b6da1e9a6865ca28444da6bf5e0a25",
-      "rendered_digest": "034a241db357bde9d26cc7791eee529c7b2541b91cc670a389ec2119ff205393",
-      "ast_digest": "9a63fb93726542fc30bda1e4e3a4dbee4ebd86005d979d305149f7a33d1800cf"
+      "values_digest": "3c34abb16f90d6acef7a39bf5c25b7051cc23751d84b0060504eab207422d16e",
+      "rendered_digest": "6c0c7904fe13711f8d0ff2134b6a427c80656a3fe95545d432a68644874fcfae",
+      "ast_digest": "4b0bd5d58676e38746da4cedd4fe274fbd0abf367af471d5a196832b314264e3"
     },
     "sor": {
-      "values_digest": "ba21ace4fc1d859650b89afec3eb93c335af4932ed8f2c9a153c045b943b4d14",
+      "values_digest": "0eb65ed1231bede36753eea5ac35fcbe530d131e25eb97deea056ebe9d69cb65",
       "rendered_digest": "c4defeb505320c548d0d16f32c79add5787e725c41781f991fc050fbbdb81388",
       "ast_digest": "417c93f6721475283348391827e062795724d0f743c022b96fe9b375245a3507"
     }
@@ -114,6 +114,20 @@
     },
     {
       "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "record fresh exact-head reconciliation after publication-request metadata entered the candidate"
+    },
+    {
+      "sequence": 6,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:root",
@@ -320,6 +334,27 @@
     {
       "sequence": 29,
       "generation": 25,
+      "actor": "codex:root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex:root",
+      "reason": "record fresh exact-head reconciliation after publication-request metadata entered the candidate",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
       "actor": "codex:root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
