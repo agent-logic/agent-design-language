@@ -4,13 +4,56 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "bf9c9ddf532c294ec761326bb0fea3bb7c6bb7c222077c9a6c77f937b70b4d88",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "1c611af6fe294e320dc4c781ae393777b72c6ef87ff1b3f30e9b0996758590d9",
   "branch": "codex/550-runtime-trusted-observatory-origin",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:janitor-550-pr552-after-main-refresh",
+    "assigned_by": "codex:/root/janitor_550_pr552_after_554",
+    "revision": "git-blake3:d1e4f1d8264f622e31c430fe07bdb12006384164:fb079a52ca19d723bb88d95ebbcafaf8540c5d62edb72bdf36ed7118737cfbed",
+    "scope": [
+      "adl/src/cli/observability.rs",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/550",
+      ".csdlc/evidence/550",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "demos/html-observatory",
+      "CSMctl",
+      "docs/tooling/CSMctl.conf.example",
+      "origin/main merge at 5bc84a0f27a522b6d500551d64f8d12dc2357427"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:janitor-550-pr552-after-main-refresh",
+    "scope": [
+      "adl/src/cli/observability.rs",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/550",
+      ".csdlc/evidence/550",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "demos/html-observatory",
+      "CSMctl",
+      "docs/tooling/CSMctl.conf.example",
+      "origin/main merge at 5bc84a0f27a522b6d500551d64f8d12dc2357427"
+    ],
+    "reviewed_revision": "git-blake3:d1e4f1d8264f622e31c430fe07bdb12006384164:fb079a52ca19d723bb88d95ebbcafaf8540c5d62edb72bdf36ed7118737cfbed",
+    "findings": [],
+    "residual_risks": [
+      "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.",
+      "Six unified Runtime kernel tests remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds the per-test timeout.",
+      "The current-main refresh was a clean merge from origin/main 5bc84a0f27a522b6d500551d64f8d12dc2357427; no #550 path conflict was observed, and CI remains the integration authority for the refreshed PR head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "de7fd8131fbf5ec653f0de75031a444674caf4ff48265df40f8e1ed107de9122",
+      "values_digest": "0e2da5ba6d2476fc15b8af203e8589cfea9610e62c32bf5ea3411396ffcec370",
       "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
       "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
     },
     "stp": {
-      "values_digest": "794468560ece52c75534ea54e4dd5b0b9d8348d22a0875953d485259526f6e4e",
+      "values_digest": "776779829f766da9f2f2687b4497429518590fca41412601768079e6b313dd4d",
       "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
       "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
     },
     "spp": {
-      "values_digest": "859d6cb1eb024b4020c7b47c4d0378e9e8587a0e16ce8470bab1e17b53c67898",
+      "values_digest": "ff768b2dcae7fa6f3796025892f49a1a88a055f9e9d242455c41ee72aae88c60",
       "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
       "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
     },
     "vpp": {
-      "values_digest": "672c726e7eee02cc90a1bc48ed322612790ea5d79f6e477b689fabbff9a93ac2",
+      "values_digest": "d344eb9b3cd6e1296f90c96c0b6742e165b84efe580f179b0c1f97f7e901c257",
       "rendered_digest": "dc7c929b9c4c9249b5d55b0028327a2a3363a53acc95d5b9e5eccbe37b78fa2a",
       "ast_digest": "4303c53f72528956d22e0762d95a8de5985af1062e6077e4c38b402c1e8e38f3"
     },
     "srp": {
-      "values_digest": "0682f8b44af4d507455df0750dc6a7d778176aeb9c5ece4edd5a3e5692270f65",
-      "rendered_digest": "38912253fde86a5295f105b3a58f9a45fc6c41e717568f6e6e30046219036ca6",
-      "ast_digest": "d15d17ff20b05012c059b224a832b2a50bb339c8eaad909fcd1461ca4378bb70"
+      "values_digest": "827d5435ab69ce3acd1155fc9ede6ea18f0f4c6680dcd9564e897a71d6170a15",
+      "rendered_digest": "2cbfed5cc00104ff923ed7b10bd50ea3906f529ddd49254ec80403d640443a69",
+      "ast_digest": "ee3907bc64c455d163c8b94a7e79f471383c3d5565c19cf7b9df291ccf896191"
     },
     "sor": {
-      "values_digest": "f9d5394b0e9ea3c59068d9567205a39b271ea7716ad958ee76843e72588d7308",
+      "values_digest": "6537891491fa7a9d307b9e7ef89ae706bbe4907d288803aa20bacf8f7c0e2deb",
       "rendered_digest": "59a15cdb7b66a7056fa2816ace2ef888d95e79f4d083fec62e8b85cb0b7bf37f",
       "ast_digest": "54d72af242969909cdd6f0be0f85da3d6a8a1c07e2f3041f7a1f01cff484c25f"
     }
@@ -174,6 +217,13 @@
       "to": "implemented",
       "actor": "codex:/root/janitor_550_pr552_after_554",
       "reason": "Recover publication after merging current origin/main into the #550 branch at c85bbd51d873a204592c67e98e673a8e09809599. The merge was clean, contains origin/main 5bc84a0f27a522b6d500551d64f8d12dc2357427, and post-merge focused proof passed for formatting, coverage-lane skip contract, exact unified-kernel timeout reproducer, OTel monitor-status concurrency regression, CSM daemon observability smoke, issue-local shell/diff proof, and diff hygiene."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -442,6 +492,20 @@
       "actor": "codex:/root/janitor_550_pr552_after_554",
       "reason": "Recover publication after merging current origin/main into the #550 branch at c85bbd51d873a204592c67e98e673a8e09809599. The merge was clean, contains origin/main 5bc84a0f27a522b6d500551d64f8d12dc2357427, and post-merge focused proof passed for formatting, coverage-lane skip contract, exact unified-kernel timeout reproducer, OTel monitor-status concurrency regression, CSM daemon observability smoke, issue-local shell/diff proof, and diff hygiene.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 30,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 31,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
