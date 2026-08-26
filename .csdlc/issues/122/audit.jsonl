@@ -71,3 +71,4 @@
 {"sequence":71,"generation":54,"actor":"codex:/root","reason":"Recover #122 post-main exact review fresh-session:638dc652-8a44-4506-99d3-91883979c99e after P3 trailing-whitespace finding in .csdlc/evidence/122/gemini-review-diff.historical.txt. The product/runbook/Terraform surfaces had no P0-P2 findings; recovery precedes a bounded whitespace-only evidence hygiene fix and fresh exact-head review.","operation":"recover_review"}
 {"sequence":72,"generation":54,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":73,"generation":55,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":74,"generation":56,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
