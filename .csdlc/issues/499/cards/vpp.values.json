@@ -1,0 +1,154 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 499,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+    "slug": "v0-92-1-rust-01-resilience-owner-boundary-refactoring",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "api-parity",
+          "proof_role": "Prove api parity for RUST-01.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/499/validate-api-parity.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "resilience-positive-negative",
+          "proof_role": "Prove resilience positive negative for RUST-01.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "fault-and-trace",
+          "proof_role": "Prove fault and trace for RUST-01.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/499/validate-fault-and-trace.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "retry-timeout-cancellation",
+          "proof_role": "Prove retry timeout cancellation for RUST-01.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "validation-impact",
+          "proof_role": "Prove validation impact for RUST-01.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/499/validate-validation-impact.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "fmt-clippy",
+          "proof_role": "Prove fmt clippy for RUST-01.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/499/validate-fmt-clippy.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on any stop condition, authority ambiguity, secret exposure, incomplete denominator, or non-proving validation.",
+      "design_ref": ".csdlc/prepared/issues/499/design.md",
+      "design_digest": "13d76e45f18eadaa35845d36f0d8a8e34a4ef27675d7d2720f5a3c22d5b3f62a",
+      "diagram_ref": ".csdlc/prepared/issues/499/diagram.mmd",
+      "diagram_digest": "38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a"
+    }
+  }
+}

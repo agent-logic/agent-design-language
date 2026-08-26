@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 499,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+    "slug": "v0-92-1-rust-01-resilience-owner-boundary-refactoring",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly one behavior-preserving resilience owner-boundary refactor; module extraction and test relocation are internal steps and line movement is not a separate result.",
+      "deliverables": [
+        "One refactored resilience module family with explicit owner boundaries and a narrower change-validation surface.",
+        "Bounded validation evidence",
+        "Exact-head review receipt"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Supported resilience behavior and public API remain compatible",
+        "AC-2: Each extracted module has one coherent owner",
+        "AC-3: Tests remain behavior-focused and PVF-classified",
+        "AC-4: Validation-impact change is measured exactly",
+        "AC-5: No line-count reduction quota is imposed"
+      ],
+      "dependencies": [
+        "#480 WP-01 merged opening gate"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#499",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#RUST-01",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md"
+      ],
+      "non_goals": [
+        "Repository-wide refactoring",
+        "Mandatory LoC reduction",
+        "Runtime v4",
+        "Aesthetic file splitting"
+      ]
+    }
+  }
+}

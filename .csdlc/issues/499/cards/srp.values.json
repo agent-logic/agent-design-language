@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 499,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
+    "slug": "v0-92-1-rust-01-resilience-owner-boundary-refactoring",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "RUST-01 declared paths, acceptance criteria, PVF evidence, and operator boundary only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the implementation stay inside the declared unit boundary?",
+        "Does every acceptance criterion have proving evidence?",
+        "Are operator-only actions and private material kept outside Git?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
