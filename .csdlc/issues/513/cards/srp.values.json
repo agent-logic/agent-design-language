@@ -7,15 +7,15 @@
     "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
     "slug": "v0-92-1-dec-01-runtime-v2-v3-authority-separation",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/513\n.csdlc/prepared/issues/513\n.csdlc/evidence/513\ndocs/runtime/runtime-v2-v3-authority-topology.md\ndocs/milestones/v0.92.1/evidence/runtime-decoupling",
-      "review_revision": "git-blake3:0e6b6fd4ad73493ab5dd342f6c03db19d898fc87:c1800ff5f9cf8272bea63396f0eec358bfc37e2790fc5fa99d5bc0ce0120b288",
-      "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the manifest assign every declared Runtime v2/v3 source root one owner and disposition?",
         "Does the reverse-reference census cover the current repo references without leaving supported consumers unclassified?",
@@ -24,11 +24,8 @@
         "Are the validation lanes sufficient for DEC-01's bounded authority-separation result?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Origin/main or required CI movement before merge can still require ancestry refresh and re-observation.",
-        "The DEC-01 contract proves authority topology and dry-run migration/rollback behavior; it does not implement Runtime v4 or move Runtime v2/v3 source ownership."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

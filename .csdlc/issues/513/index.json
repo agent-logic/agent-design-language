@@ -4,41 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
-  "phase": "reviewed",
-  "generation": 4,
-  "digest": "22cd0b0438013a2b89c8369dce853473685837d79d62202afaa7e82420469a8b",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "0c7ba66fbf80ba24a5f7902c1611a97aa8c5766358fa5585f1e4bab6d181e73e",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
-  "review_assignment": {
-    "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
-    "assigned_by": "codex:issue-513-dec-01-runtime-authority-separation",
-    "revision": "git-blake3:0e6b6fd4ad73493ab5dd342f6c03db19d898fc87:c1800ff5f9cf8272bea63396f0eec358bfc37e2790fc5fa99d5bc0ce0120b288",
-    "scope": [
-      ".csdlc/issues/513",
-      ".csdlc/prepared/issues/513",
-      ".csdlc/evidence/513",
-      "docs/runtime/runtime-v2-v3-authority-topology.md",
-      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
-    ]
-  },
-  "review": {
-    "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
-    "scope": [
-      ".csdlc/issues/513",
-      ".csdlc/prepared/issues/513",
-      ".csdlc/evidence/513",
-      "docs/runtime/runtime-v2-v3-authority-topology.md",
-      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
-    ],
-    "reviewed_revision": "git-blake3:0e6b6fd4ad73493ab5dd342f6c03db19d898fc87:c1800ff5f9cf8272bea63396f0eec358bfc37e2790fc5fa99d5bc0ce0120b288",
-    "findings": [],
-    "residual_risks": [
-      "Origin/main or required CI movement before merge can still require ancestry refresh and re-observation.",
-      "The DEC-01 contract proves authority topology and dry-run migration/rollback behavior; it does not implement Runtime v4 or move Runtime v2/v3 source ownership."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -53,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eaf7522e9459c7130841ac9c7cb2475f646d7008ba1700c24a242fba15df0046",
+      "values_digest": "55cfa95fb70da87344f836d5f4576b38531282f3dc285ef2a75e2f9c3dc59221",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "1c76e0179441ed3a651bae15c3536a97e43c5551ecc5a9eb8a49ed2cd63e3ff4",
+      "values_digest": "f7051be9736158e47b35cc755cade6e52dcfac2223ed7ab390d4d6bf64b9bd45",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "20e466d17d8fdae3b72b9dcd6c6c184166d76caae383ef812f90e2fda595e857",
+      "values_digest": "15e9b885ae4e3e342a9d754ab9056e09509de401f5398f13ab3fe2d2c8307941",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "5ab2f0c41a837370fd5a5eb6f87852a5e510899d01c98908cb0093bbbaef762b",
+      "values_digest": "74ad6f738a7cffa9236ac380fe15748db5188079873910a29fc6d7915135c5a0",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "2d7ee0262202255389b21d95ab8fa0b173f5f95baa686d0509cd17a4aa4d7c84",
-      "rendered_digest": "c6430955a361b96f0718b4e0c00f25c71070e1cc3f438e6139122648272c19d5",
-      "ast_digest": "ae087509d63ace8a9a1aad6a7a4ce3fdbcf159c006930bff7d5ba361440661a7"
+      "values_digest": "dc776e6638a6e4e302448bbdb9e3ef86bff4529558b89ab042a1ae8cc5aa06cd",
+      "rendered_digest": "03e88f3677bef8af4c9f730cf3457f0bc5c4a195cc6c37bd0bf4d69b88ff9441",
+      "ast_digest": "1c24973c23f184bdc5fd4591a212c46605060fe551fbb8fbfd7f1f131d14bc81"
     },
     "sor": {
-      "values_digest": "45f2ea7cd119f57b872ef79d6a9baf2ccf2f25641614ebe8158f24cf45fc9420",
-      "rendered_digest": "e15758c673c64abfc1f861bc0d5922528fd4a1bdcb8080a9c4fd7ce9a0445440",
-      "ast_digest": "bec94f38de4d69b19ac47cf9e026cd35805d49889082278c59a78d624fa8eed5"
+      "values_digest": "0b0d7e7c023776e51e1c0c8523055ff33a5ccd061510295f845aabde16bc1f52",
+      "rendered_digest": "6e65b00519459a30b7cbbe2ca2ed4161cbca44accded39dba86d36a2b7e8d951",
+      "ast_digest": "f37bffdd964dfcb78327132b872c71d334ba8f15b6864926ff882dec52e8574e"
     }
   },
   "transitions": [
@@ -111,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Recover review metadata after publication guard rejected prepared-request drift; re-run exact-head review from a metadata-safe head."
     }
   ],
   "audit": [
@@ -162,6 +141,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Recover review metadata after publication guard rejected prepared-request drift; re-run exact-head review from a metadata-safe head.",
+      "operation": "recover_review"
     }
   ]
 }

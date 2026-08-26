@@ -54,7 +54,7 @@ Implemented the DEC-01 Runtime v2/v3 authority-separation topology without Runti
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
