@@ -111,11 +111,11 @@ Implemented exact config-owned Observatory origins, applied the same CORS policy
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
