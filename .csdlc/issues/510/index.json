@@ -3,104 +3,14 @@
   "issue": 510,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7bfe676397915786eed2aa7ff57c7c55ab61746c837cfe92e9e6d7f89326d374",
-  "phase": "published",
-  "generation": 6,
-  "digest": "49b9bd066f6ca33f68a436c54d6f46ae2a82674012dab9f059767b954d12ddd1",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "6c325eb02ad2f0ab093cdd53413a366704ae57f21cf2afcc0f20ad4bf2795492",
   "branch": "codex/510-hot-01-axum-config-hot-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload",
-  "review_assignment": {
-    "reviewer": "fresh-session:codex-510-hot-01-rereview",
-    "assigned_by": "codex",
-    "revision": "git-blake3:4a88c582e6e47cdd897407cd77b968b5e3316f22:7d206e268eb23961ef9bfd8fb0e45c43593f59d43a86fc4b02b53c16477e5de1",
-    "scope": [
-      ".csdlc/evidence/510/concurrent-read.log",
-      ".csdlc/evidence/510/debounce.log",
-      ".csdlc/evidence/510/invalid-retention.log",
-      ".csdlc/evidence/510/valid-reload.log",
-      ".csdlc/evidence/510/watcher-shutdown.log",
-      ".csdlc/issues/510/audit.jsonl",
-      ".csdlc/issues/510/cards/sip.md",
-      ".csdlc/issues/510/cards/sip.values.json",
-      ".csdlc/issues/510/cards/sor.md",
-      ".csdlc/issues/510/cards/sor.values.json",
-      ".csdlc/issues/510/cards/spp.md",
-      ".csdlc/issues/510/cards/spp.values.json",
-      ".csdlc/issues/510/cards/srp.md",
-      ".csdlc/issues/510/cards/srp.values.json",
-      ".csdlc/issues/510/cards/stp.md",
-      ".csdlc/issues/510/cards/stp.values.json",
-      ".csdlc/issues/510/cards/vpp.md",
-      ".csdlc/issues/510/cards/vpp.values.json",
-      ".csdlc/issues/510/index.json",
-      ".csdlc/locks/510.lock",
-      ".csdlc/prepared/issues/510/design.md",
-      ".csdlc/prepared/issues/510/diagram.mmd",
-      ".csdlc/prepared/issues/510/validate-concurrent-read.rb",
-      ".csdlc/prepared/issues/510/validate-debounce.rb",
-      ".csdlc/prepared/issues/510/validate-invalid-retention.rb",
-      ".csdlc/prepared/issues/510/validate-valid-reload.rb",
-      ".csdlc/prepared/issues/510/validate-watcher-shutdown.rb",
-      "adl-runtime/src/config_reload.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/tests/config_reload.rs",
-      "docs/runtime/config-hot-reload.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:codex-510-hot-01-rereview",
-    "scope": [
-      ".csdlc/evidence/510/concurrent-read.log",
-      ".csdlc/evidence/510/debounce.log",
-      ".csdlc/evidence/510/invalid-retention.log",
-      ".csdlc/evidence/510/valid-reload.log",
-      ".csdlc/evidence/510/watcher-shutdown.log",
-      ".csdlc/issues/510/audit.jsonl",
-      ".csdlc/issues/510/cards/sip.md",
-      ".csdlc/issues/510/cards/sip.values.json",
-      ".csdlc/issues/510/cards/sor.md",
-      ".csdlc/issues/510/cards/sor.values.json",
-      ".csdlc/issues/510/cards/spp.md",
-      ".csdlc/issues/510/cards/spp.values.json",
-      ".csdlc/issues/510/cards/srp.md",
-      ".csdlc/issues/510/cards/srp.values.json",
-      ".csdlc/issues/510/cards/stp.md",
-      ".csdlc/issues/510/cards/stp.values.json",
-      ".csdlc/issues/510/cards/vpp.md",
-      ".csdlc/issues/510/cards/vpp.values.json",
-      ".csdlc/issues/510/index.json",
-      ".csdlc/locks/510.lock",
-      ".csdlc/prepared/issues/510/design.md",
-      ".csdlc/prepared/issues/510/diagram.mmd",
-      ".csdlc/prepared/issues/510/validate-concurrent-read.rb",
-      ".csdlc/prepared/issues/510/validate-debounce.rb",
-      ".csdlc/prepared/issues/510/validate-invalid-retention.rb",
-      ".csdlc/prepared/issues/510/validate-valid-reload.rb",
-      ".csdlc/prepared/issues/510/validate-watcher-shutdown.rb",
-      "adl-runtime/src/config_reload.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/tests/config_reload.rs",
-      "docs/runtime/config-hot-reload.md"
-    ],
-    "reviewed_revision": "git-blake3:4a88c582e6e47cdd897407cd77b968b5e3316f22:7d206e268eb23961ef9bfd8fb0e45c43593f59d43a86fc4b02b53c16477e5de1",
-    "findings": [],
-    "residual_risks": [
-      "Re-review did not rerun Cargo tests because the reviewer remained read-only; implementation session reran cargo test, clippy, and all five prepared validators before this review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 510,
-    "pull_request": 546,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/546",
-    "base": "main",
-    "head": "codex/510-hot-01-axum-config-hot-reload",
-    "revision": "git-blake3:65cbdcc16fa09320f3f5455aa99f4c0c87f3e4d2:f7438924f7fed55ee71233183db739727e5354c94fc86ebc5e14c711a16b202a",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -114,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f474730fe49b301883a614379010ce766aee37c4c9b0942dd52182ac23a01e80",
+      "values_digest": "48d71d2bef91e80eea3c7a1bbb306722e4d8898c20e22dd188aad1a5c7b1d43b",
       "rendered_digest": "8a7f80506ae6b6eaa9529545ff9c0d972cc126b826808af156720200ccd7c7f7",
       "ast_digest": "d1eb0d7caa261cf05347a981269c958b62f12dfce7cb6534a0871286ce4747ad"
     },
     "stp": {
-      "values_digest": "19d8894706441deb9b1b1415d207deeb380943b39453466c5facd358751361d3",
+      "values_digest": "f0ddc42c5e3e4530e545c4107e06d24bfcde7aa0eb3b4db0f50dc1b4f08bfe67",
       "rendered_digest": "6e1551c438e00d65871511ebc3a863e00a4cc915bb709494a13ed50e1cac7250",
       "ast_digest": "71dca90b1c60e816480bcfa4f25d696b066ff7c4796e530e01680cd237c032c3"
     },
     "spp": {
-      "values_digest": "ccb9cfee185d63d3533dc9af8ccf7b6c066b3e39333989a7eb8856e83656dd4d",
+      "values_digest": "f4d5a40ed8d5d7cb5a0033c16b04d8c81318bc1d15281701ff373f4ec139e57f",
       "rendered_digest": "22624646750274ad03d332f799c84529e2c06ee8d393657a951cc510db68329b",
       "ast_digest": "d24df4cf39383ff570be13f597dde9bf5f7d1d0594afa547cf77f0d72afc0f59"
     },
     "vpp": {
-      "values_digest": "b8e2f9e5d28819774712ad01a36b7952ac36139d1023f3c42ff9653459279216",
+      "values_digest": "26518e25241433d4d3711d680c20315fbfb568b3f6441fec99e57a45b61fc8d6",
       "rendered_digest": "cad9ded18490dfe77ce3fa126ca665289202d553e81cdefca0cd43559644450f",
       "ast_digest": "a538f88e0d779c8720dc2835512a9e94f55041093257b0b74b585dcddf8e72c2"
     },
     "srp": {
-      "values_digest": "8eaf760105d789cc2c3389e5347baffd6be20783cea147c5449ddebb98acd786",
-      "rendered_digest": "055b54991f6152b3dac91c8e53bbdf46c8b5719504f54cf935062e623ceff4b8",
-      "ast_digest": "baefeff0090792c7714cac1b5061abf9b3a0ee842bc5ca7e15e1e9b785e981a4"
+      "values_digest": "984c97f1860eae4d5d2c9f5ea3a4a3995691728ff256622d110c4960011975b7",
+      "rendered_digest": "28d0cc34e2e2f6abfb29966d796d32f4808e7a0c67c412ecaff300bb767ba0f8",
+      "ast_digest": "8d4f78d7228724cef34ceab6cf952b39fe1bb841b8ce0b817fc4d72709a9fb89"
     },
     "sor": {
-      "values_digest": "c902c5ac4ccd79d3e811a0eeb2aba58fca9141986992350e43f28e4d4a7cb744",
-      "rendered_digest": "8029ac6526b90f947aaa3b7d012d297ef70f277d568f945d31beae73b0623f21",
-      "ast_digest": "d6f1060e711258ba14809204a22b80009f6e2f188b0b6ca31c39cfe701e3b415"
+      "values_digest": "cd02f3c31ce93ceb1368527f4769c7ee4cf49af9c1f2b4f2ee70fa75d2a44ee5",
+      "rendered_digest": "894bb830d6b6fb6c72ecf93322c747cd09f7bb0f580309a802327df1ccc45695",
+      "ast_digest": "c07fe163e1ea7afd1f2382c4a4b42141a87ba85b5349cc3f7932fbbd6875ba52"
     }
   },
   "transitions": [
@@ -179,6 +89,13 @@
       "to": "published",
       "actor": "codex",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Operator expanded HOT-01 before merge to require production Runtime Observatory origin-policy hot reload. The published code only exposes a generic watcher and does not yet wire CORS and WSS origin authority, so clear stale review/publication truth before implementation and fresh exact-head review."
     }
   ],
   "audit": [
@@ -251,6 +168,13 @@
       "actor": "codex",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Operator expanded HOT-01 before merge to require production Runtime Observatory origin-policy hot reload. The published code only exposes a generic watcher and does not yet wire CORS and WSS origin authority, so clear stale review/publication truth before implementation and fresh exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

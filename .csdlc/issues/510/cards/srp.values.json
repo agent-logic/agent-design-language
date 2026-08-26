@@ -7,15 +7,15 @@
     "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
     "slug": "hot-01-axum-configuration-hot-reload",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/510/concurrent-read.log\n.csdlc/evidence/510/debounce.log\n.csdlc/evidence/510/invalid-retention.log\n.csdlc/evidence/510/valid-reload.log\n.csdlc/evidence/510/watcher-shutdown.log\n.csdlc/issues/510/audit.jsonl\n.csdlc/issues/510/cards/sip.md\n.csdlc/issues/510/cards/sip.values.json\n.csdlc/issues/510/cards/sor.md\n.csdlc/issues/510/cards/sor.values.json\n.csdlc/issues/510/cards/spp.md\n.csdlc/issues/510/cards/spp.values.json\n.csdlc/issues/510/cards/srp.md\n.csdlc/issues/510/cards/srp.values.json\n.csdlc/issues/510/cards/stp.md\n.csdlc/issues/510/cards/stp.values.json\n.csdlc/issues/510/cards/vpp.md\n.csdlc/issues/510/cards/vpp.values.json\n.csdlc/issues/510/index.json\n.csdlc/locks/510.lock\n.csdlc/prepared/issues/510/design.md\n.csdlc/prepared/issues/510/diagram.mmd\n.csdlc/prepared/issues/510/validate-concurrent-read.rb\n.csdlc/prepared/issues/510/validate-debounce.rb\n.csdlc/prepared/issues/510/validate-invalid-retention.rb\n.csdlc/prepared/issues/510/validate-valid-reload.rb\n.csdlc/prepared/issues/510/validate-watcher-shutdown.rb\nadl-runtime/src/config_reload.rs\nadl-runtime/src/lib.rs\nadl-runtime/tests/config_reload.rs\ndocs/runtime/config-hot-reload.md",
-      "review_revision": "git-blake3:4a88c582e6e47cdd897407cd77b968b5e3316f22:7d206e268eb23961ef9bfd8fb0e45c43593f59d43a86fc4b02b53c16477e5de1",
-      "reviewer": "fresh-session:codex-510-hot-01-rereview",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the implementation atomically swap complete configuration snapshots for readers?",
         "Does invalid update content preserve the last-known-good configuration without restart?",
@@ -25,10 +25,8 @@
         "Is DEC-01 #513 clearly gated from concurrent edits to the #510 runtime files?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Re-review did not rerun Cargo tests because the reviewer remained read-only; implementation session reran cargo test, clippy, and all five prepared validators before this review."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

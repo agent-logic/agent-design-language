@@ -8,3 +8,4 @@
 {"sequence":8,"generation":4,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":5,"actor":"codex","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":10,"generation":6,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":11,"generation":7,"actor":"codex:/root","reason":"Operator expanded HOT-01 before merge to require production Runtime Observatory origin-policy hot reload. The published code only exposes a generic watcher and does not yet wire CORS and WSS origin authority, so clear stale review/publication truth before implementation and fresh exact-head review.","operation":"recover_review"}
