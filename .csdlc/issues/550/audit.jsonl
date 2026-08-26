@@ -44,3 +44,5 @@
 {"sequence":44,"generation":34,"actor":"codex:/root/issue-550-runtime-origin","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":45,"generation":35,"actor":"codex:/root/issue-550-runtime-origin","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":46,"generation":36,"actor":"codex:/root/issue-550-runtime-origin","reason":"Recover publication because the metadata publication push canceled the still-running exact-source CI workflow. Preserve the reviewed coverage repair, publish one final source-bearing explanatory contract commit, wait for its CI to complete, and only then record review and publication metadata.","operation":"recover_review"}
+{"sequence":47,"generation":36,"actor":"codex:/root/issue-550-runtime-origin","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":48,"generation":37,"actor":"codex:/root/issue-550-runtime-origin","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
