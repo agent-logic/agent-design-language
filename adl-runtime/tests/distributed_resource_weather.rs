@@ -9,6 +9,7 @@ mod resource_weather;
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
     CertificateValidity, DistributedCertificateStore, RevocationReason,
+    TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 use redb::{Database, ReadableDatabase, TableDefinition};
@@ -37,6 +38,7 @@ fn certificate_policy(root: &SigningKey) -> CertificatePolicy {
 
 fn open_certificates(temp: &TempDir, root: &SigningKey) -> DistributedCertificateStore {
     DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         temp.path()
             .canonicalize()
             .unwrap()
@@ -225,7 +227,9 @@ fn certificate_authorized_weather_is_durable_deterministic_and_advisory() {
         1,
     );
     let certificates = open_certificates(&temp, &root);
-    certificates.activate(&certificate, NOW).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW)
+        .unwrap();
     let expected = {
         let weather = open_weather(&temp, 8);
         let advertisement = signed(
@@ -270,7 +274,9 @@ fn domain_holder_certificate_and_signature_tampering_fail_closed() {
         1,
     );
     let certificates = open_certificates(&temp, &root);
-    certificates.activate(&certificate, NOW).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW)
+        .unwrap();
     let weather = open_weather(&temp, 8);
 
     let mut wrong_domain = signed(
@@ -346,7 +352,11 @@ fn wrong_purpose_revoked_and_unapproved_certificates_are_rejected() {
         issue_certificate(&root, &signer, "node-a", CertificatePurpose::Transport, 1);
     let certificates = open_certificates(&temp, &root);
     certificates
-        .activate(&advertisement_certificate, NOW)
+        .activate(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            &advertisement_certificate,
+            NOW,
+        )
         .unwrap();
     let weather = open_weather(&temp, 8);
 
@@ -376,6 +386,7 @@ fn wrong_purpose_revoked_and_unapproved_certificates_are_rejected() {
     );
     certificates
         .revoke(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &advertisement_certificate.certificate_id().unwrap(),
             NOW,
             RevocationReason::OperatorRevoked,
@@ -462,7 +473,9 @@ fn freshness_lifetime_and_normalization_bounds_are_explicit() {
         1,
     );
     let certificates = open_certificates(&temp, &root);
-    certificates.activate(&certificate, NOW).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW)
+        .unwrap();
     let weather = open_weather(&temp, 8);
     let base = ResourceWeatherClaims::new(
         DOMAIN,
@@ -522,7 +535,9 @@ fn certificate_window_revocation_rotation_and_refresh_bound_cached_weather() {
         2,
     );
     let certificates = open_certificates(&temp, &root);
-    certificates.activate(&certificate_a, NOW).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_a, NOW)
+        .unwrap();
     let weather = open_weather(&temp, 8);
     weather
         .admit(
@@ -544,7 +559,9 @@ fn certificate_window_revocation_rotation_and_refresh_bound_cached_weather() {
             .unwrap(),
         PlacementWeather::no_data("node-a")
     );
-    certificates.activate(&certificate_b, NOW + 1).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_b, NOW + 1)
+        .unwrap();
     assert_eq!(
         weather
             .weather_for("node-a", &certificates, NOW + 2)
@@ -554,7 +571,9 @@ fn certificate_window_revocation_rotation_and_refresh_bound_cached_weather() {
 
     let revoked_temp = tempfile::tempdir().unwrap();
     let revoked_certificates = open_certificates(&revoked_temp, &root);
-    revoked_certificates.activate(&certificate_a, NOW).unwrap();
+    revoked_certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_a, NOW)
+        .unwrap();
     let revoked_weather = open_weather(&revoked_temp, 8);
     revoked_weather
         .admit(
@@ -572,6 +591,7 @@ fn certificate_window_revocation_rotation_and_refresh_bound_cached_weather() {
         .unwrap();
     revoked_certificates
         .revoke(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &certificate_a.certificate_id().unwrap(),
             NOW + 1,
             RevocationReason::OperatorRevoked,
@@ -596,7 +616,7 @@ fn certificate_window_revocation_rotation_and_refresh_bound_cached_weather() {
     let short_temp = tempfile::tempdir().unwrap();
     let short_certificates = open_certificates(&short_temp, &root);
     short_certificates
-        .activate(&short_certificate, NOW + 1)
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &short_certificate, NOW + 1)
         .unwrap();
     let short_weather = open_weather(&short_temp, 8);
     let claims = ResourceWeatherClaims::new(
@@ -660,7 +680,9 @@ fn replay_floor_survives_restart_rotation_and_invalid_high_sequence() {
         2,
     );
     let certificates = open_certificates(&temp, &root);
-    certificates.activate(&certificate_a, NOW).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_a, NOW)
+        .unwrap();
     {
         let weather = open_weather(&temp, 8);
         weather
@@ -706,7 +728,9 @@ fn replay_floor_survives_restart_rotation_and_invalid_high_sequence() {
             NOW,
         )
         .unwrap();
-    certificates.activate(&certificate_b, NOW + 1).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_b, NOW + 1)
+        .unwrap();
     weather
         .admit(
             signed(
@@ -753,7 +777,9 @@ fn signed_withdrawal_is_durable_no_data_and_cannot_be_replayed() {
         1,
     );
     let certificates = open_certificates(&temp, &root);
-    certificates.activate(&certificate, NOW).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW)
+        .unwrap();
     {
         let weather = open_weather(&temp, 8);
         weather
@@ -831,8 +857,12 @@ fn holder_capacity_payload_and_durable_corruption_fail_closed() {
         1,
     );
     let certificates = open_certificates(&temp, &root);
-    certificates.activate(&certificate_a, NOW).unwrap();
-    certificates.activate(&certificate_b, NOW).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_a, NOW)
+        .unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_b, NOW)
+        .unwrap();
     {
         let weather = open_weather(&temp, 1);
         weather
@@ -980,8 +1010,12 @@ fn snapshots_are_sorted_and_serialized_surfaces_are_redacted() {
         1,
     );
     let certificates = open_certificates(&temp, &root);
-    certificates.activate(&certificate_a, NOW).unwrap();
-    certificates.activate(&certificate_b, NOW).unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_a, NOW)
+        .unwrap();
+    certificates
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate_b, NOW)
+        .unwrap();
     let weather = open_weather(&temp, 8);
     for (holder, signer, certificate) in [
         ("node-b", &signer_b, &certificate_b),

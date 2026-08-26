@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 322,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
+    "slug": "repair-adl-review-compatibility-routing",
+    "version": "v0.92",
+    "generation": 30
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue 5913 only; repair adl-review read-only compatibility routing and focused tests. Do not change provider credential execution, CodeFriend product scope, #112, #298, or other active issue state.",
+      "deliverables": [
+        "Working or truthfully narrowed adl-review read-only command surface",
+        "Focused regression coverage for verify-repo-contract and removed v1 lifecycle rejection",
+        "Repo-native CodeFriend/CodeBuddy deterministic smoke route that avoids removed v1 multiplexer",
+        "Truthful SOR/SRP evidence and exact-head review before publication"
+      ],
+      "acceptance_criteria": [
+        "AC-1: adl-review --help matches implemented behavior for repaired read-only review commands",
+        "AC-2: adl-review verify-repo-contract --review docs/tooling/examples/repo-review/good_repo_review.md succeeds and has focused regression coverage",
+        "AC-3: A smallest CodeFriend/CodeBuddy read-only smoke route runs without invoking the removed v1 tooling multiplexer",
+        "AC-4: Removed v1 lifecycle/tooling command surfaces that should stay sunset still fail closed with truthful diagnostics",
+        "AC-5: Focused tests and strict relevant Clippy pass",
+        "AC-6: Fresh exact-head review has no unresolved actionable findings before publication"
+      ],
+      "dependencies": [
+        "Sprint 6 tooling closeout",
+        "CodeFriend operational proof packet under .git/codefriend-operational-proof-20260812-smoke"
+      ],
+      "repo_inputs": [
+        "adl/src/bin/adl_review.rs",
+        "adl/src/cli/mod.rs",
+        "adl/src/cli/review command dispatch modules",
+        "adl/tools/test_adl_review_compatibility.sh",
+        "adl/tools/demo_v090_codebuddy_review_showcase.sh",
+        "adl/tools/validate_codebuddy_review_showcase_demo.py",
+        "docs/tooling/examples/repo-review/good_repo_review.md"
+      ],
+      "non_goals": [
+        "CodeFriend v1 product completion",
+        "Live provider proof execution",
+        "C-SDLC lifecycle redesign",
+        "Raw GitHub lifecycle mutation",
+        "Publication, merge, or closeout without later authorization"
+      ]
+    }
+  }
+}

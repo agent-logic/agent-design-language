@@ -1,0 +1,13 @@
+{
+  "issue": 200,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "3f513b7b6ca373f9b401783e7d5d82027f98d32a0314886d0affe65d87ca0a39",
+  "actor": "codex:/root/advance_200_after_201",
+  "reason": "Fresh exact-head review returned four bounded test/proof findings; resolve them without changing the approved 36-case denominator before routing a different fresh review.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "in_progress"
+  }
+}

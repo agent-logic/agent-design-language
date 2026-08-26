@@ -1,0 +1,184 @@
+{
+  "schema": "adl.external_review.findings_index.v1",
+  "canonical_issue": 314,
+  "legacy_csdlc_issue": 5847,
+  "repository": "agent-logic/agent-design-language",
+  "report_received": true,
+  "reviewer_identity": "Independent technical review",
+  "reviewer_authority": "Read-only reviewer-authored reports received from the operator; reviewer has no repository, GitHub, lifecycle, release, deployment, or remediation authority.",
+  "report_path": "docs/reviews/v0.92/external-review-5847/source-report-manifest.json",
+  "report_sha256": "60f8c293ccccc9b712137357c029c6c57ce01b3b2d25e32537b342fd46c1c461",
+  "packet_sha256": "5c79e2416a0e5f7724a6cb17f1c286f17eafa5d73f5850dd092870a066f58873",
+  "target_sha": "c666ff3d411e6062d5cc5750d2f88be9efbcd673",
+  "target_revision_status": "intake_worktree_head_known_but_reviewer_target_not_established",
+  "source_count": 10,
+  "unique_count_after_deduplication": 7,
+  "source_severity_counts": {
+    "P1": 1,
+    "P2": 4,
+    "P3": 5
+  },
+  "unique_severity_counts": {
+    "P1": 1,
+    "P2": 3,
+    "P3": 3
+  },
+  "deduplication_ref": "docs/reviews/v0.92/external-review-5847/cross-report-deduplication-index.json",
+  "remediation_routing": {
+    "primary_authority": "#315 / WP-27 remediation authority",
+    "known_child_routes": [
+      {
+        "issue": "#471",
+        "parent": "#315 / WP-27",
+        "routing_basis": "operator routing update received after source-report intake",
+        "scope_note": "Issue-graph routing only; the PDF-derived source finding inventory remains unchanged."
+      }
+    ],
+    "non_owner_routes": [
+      "#314 retains immutable intake provenance only",
+      "#316 / WP-28 remains independent planning work"
+    ]
+  },
+  "findings": [
+    {
+      "id": "documentation-review-findings:V092-CHAT-01",
+      "source_report_id": "documentation-review-findings",
+      "source_finding_id": "V092-CHAT-01",
+      "dedupe_id": "V092-CHAT-01",
+      "severity": "P1",
+      "title": "Send Gate unsatisfied: no dispatch, no exact head SHA, no recomputed corpus digest",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-documentation-review-findings-received-2026-08-24.pdf:page=2",
+      "invariant": "External documentation review findings must be bound to a dispatched exact revision and recomputed corpus digest.",
+      "reproduction_or_proof_gap": "The report states no dispatch accompanied the request, so the head SHA could not be confirmed and the corpus digest could not be recomputed.",
+      "recommendation": "Issue the dispatch naming PR, base, exact head SHA, and inventory SHA-256; reviewer checks out that SHA, recomputes the digest, runs the read-only commands, then reviews.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "documentation-review-findings:V092-CHAT-02",
+      "source_report_id": "documentation-review-findings",
+      "source_finding_id": "V092-CHAT-02",
+      "dedupe_id": "V092-CHAT-02",
+      "severity": "P2",
+      "title": "Code-reduction claim is not supported by measurement at workspace level",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-documentation-review-findings-received-2026-08-24.pdf:page=2",
+      "invariant": "Codebase reduction claims must be supported by measured source evidence at the claimed scope.",
+      "reproduction_or_proof_gap": "The report measured adl/src across v0.91.7, v0.91.8, and v0.92 and found roughly -2 percent change plus retained large legacy files and additional crates.",
+      "recommendation": "Publish the measured before/after figure with path and method, or restate the claim as scoped to specific deleted surfaces; publish the per-subsystem boot-path table.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "documentation-review-findings:V092-CHAT-03",
+      "source_report_id": "documentation-review-findings",
+      "source_finding_id": "V092-CHAT-03",
+      "dedupe_id": "V092-CHAT-03",
+      "severity": "P2",
+      "title": "Request framing conflicts with the milestone's own documented state",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-documentation-review-findings-received-2026-08-24.pdf:page=2",
+      "invariant": "External review framing must match the milestone checklist and quality-gate state.",
+      "reproduction_or_proof_gap": "The report contrasts the request framing with unchecked milestone checklist rows and quality-gate text saying the gate is a plan, not passed evidence.",
+      "recommendation": "Align external framing with the checklist: v0.92 engineering is complete, but documentation reconciliation, #467 gate hydration, external review, and ceremony remain open.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "documentation-review-findings:V092-CHAT-04",
+      "source_report_id": "documentation-review-findings",
+      "source_finding_id": "V092-CHAT-04",
+      "dedupe_id": "V092-CHAT-04",
+      "severity": "P3",
+      "title": "Quality gate carries an unreconciled result-status ambiguity",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-documentation-review-findings-received-2026-08-24.pdf:page=3",
+      "invariant": "One quality-gate document must not imply conflicting entering results for downstream readers.",
+      "reproduction_or_proof_gap": "The report says QUALITY_GATE_v0.92.md simultaneously references a blocked result and #467 zero blockers/downstream unlock true.",
+      "recommendation": "State the single canonical entering result in one place with its owning issue, and mark the other passage as historical provenance.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "code-review-birthday-activation:V092-CODE-01",
+      "source_report_id": "code-review-birthday-activation",
+      "source_finding_id": "V092-CODE-01",
+      "dedupe_id": "V092-CODE-01",
+      "severity": "P2",
+      "title": "Post-commit cleanup failure reports an error for a succeeded activation",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-received-2026-08-24.pdf:page=3",
+      "invariant": "After a durable activation commit, cleanup-residue failures should not make callers treat the activation as not committed.",
+      "reproduction_or_proof_gap": "The report identifies activate_owned returning DurableWrite when remove_file cleanup fails after fs::rename succeeds.",
+      "recommendation": "Introduce a distinct terminal variant for committed-with-cleanup-pending so callers can distinguish committed-and-untidy from not-committed.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "code-review-birthday-activation:V092-CODE-02",
+      "source_report_id": "code-review-birthday-activation",
+      "source_finding_id": "V092-CODE-02",
+      "dedupe_id": "V092-CODE-02",
+      "severity": "P3",
+      "title": "Integrity field defaults to empty string on serialization failure",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-received-2026-08-24.pdf:page=3",
+      "invariant": "Integrity fields must not silently degrade to empty values on serialization failure.",
+      "reproduction_or_proof_gap": "The report cites receipt_from_input setting input_sha256 via canonical_sha256(input).unwrap_or_default().",
+      "recommendation": "Make receipt_from_input return Result<ProductionBirthdayReceipt, ProductionBirthdayError> and propagate serialization failure.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "code-review-birthday-activation:V092-CODE-03",
+      "source_report_id": "code-review-birthday-activation",
+      "source_finding_id": "V092-CODE-03",
+      "dedupe_id": "V092-CODE-03",
+      "severity": "P3",
+      "title": "Transaction lock is advisory and single-host assumption is undocumented",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-received-2026-08-24.pdf:page=3",
+      "invariant": "The durability model must document or enforce its single-host local-filesystem assumption.",
+      "reproduction_or_proof_gap": "The report cites Ownership::acquire using fs2::FileExt::try_lock_exclusive on {resident}.lock.",
+      "recommendation": "Document the single-host local-filesystem assumption at ProductionBirthdayStore and reject known-network filesystems at open() or record the constraint in the deployment gate.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "code-review-birthday-activation-copy-1:V092-CODE-01",
+      "source_report_id": "code-review-birthday-activation-copy-1",
+      "source_finding_id": "V092-CODE-01",
+      "dedupe_id": "V092-CODE-01",
+      "severity": "P2",
+      "title": "Post-commit cleanup failure reports an error for a succeeded activation",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-copy-1-received-2026-08-24.pdf:page=3",
+      "invariant": "After a durable activation commit, cleanup-residue failures should not make callers treat the activation as not committed.",
+      "reproduction_or_proof_gap": "The duplicate source report identifies activate_owned returning DurableWrite when remove_file cleanup fails after fs::rename succeeds.",
+      "recommendation": "Introduce a distinct terminal variant for committed-with-cleanup-pending so callers can distinguish committed-and-untidy from not-committed.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "code-review-birthday-activation-copy-1:V092-CODE-02",
+      "source_report_id": "code-review-birthday-activation-copy-1",
+      "source_finding_id": "V092-CODE-02",
+      "dedupe_id": "V092-CODE-02",
+      "severity": "P3",
+      "title": "Integrity field defaults to empty string on serialization failure",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-copy-1-received-2026-08-24.pdf:page=3",
+      "invariant": "Integrity fields must not silently degrade to empty values on serialization failure.",
+      "reproduction_or_proof_gap": "The duplicate source report cites receipt_from_input setting input_sha256 via canonical_sha256(input).unwrap_or_default().",
+      "recommendation": "Make receipt_from_input return Result<ProductionBirthdayReceipt, ProductionBirthdayError> and propagate serialization failure.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    },
+    {
+      "id": "code-review-birthday-activation-copy-1:V092-CODE-03",
+      "source_report_id": "code-review-birthday-activation-copy-1",
+      "source_finding_id": "V092-CODE-03",
+      "dedupe_id": "V092-CODE-03",
+      "severity": "P3",
+      "title": "Transaction lock is advisory and single-host assumption is undocumented",
+      "evidence": "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-copy-1-received-2026-08-24.pdf:page=3",
+      "invariant": "The durability model must document or enforce its single-host local-filesystem assumption.",
+      "reproduction_or_proof_gap": "The duplicate source report cites Ownership::acquire using fs2::FileExt::try_lock_exclusive on {resident}.lock.",
+      "recommendation": "Document the single-host local-filesystem assumption at ProductionBirthdayStore and reject known-network filesystems at open() or record the constraint in the deployment gate.",
+      "owner": "#315 / WP-27 remediation authority",
+      "disposition": "open"
+    }
+  ]
+}

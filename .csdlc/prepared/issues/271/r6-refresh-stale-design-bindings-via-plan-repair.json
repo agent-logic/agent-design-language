@@ -1,0 +1,72 @@
+{
+  "issue": 271,
+  "expected_generation": 2,
+  "expected_digest": "a628cb34b1706035b3a4fb105228643d7ce8f0352bbdcc96e944b9ecaa600b58",
+  "actor": "codex:sprint5-271-stale-binding-repair",
+  "reason": "Refresh initialized #271 stale design/diagram card bindings through supported pre-bind contract repair without changing plan scope.",
+  "card": "spp",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Validate terminal #112/#265/#270 dependencies, current-main base, exact scope, and collision freedom without binding or product edits.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Obtain fresh design review over the repaired design/card packet and bind #271 through typed v2 in FastWork only if the review passes.",
+        "acceptance_ids": [
+          "AC-9"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Implement the Runtime-owned acknowledgement adapter and distinct accessible UI states within the exact three product/test paths.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run existing real recipient_ack runtime proof, parse its nonzero denominator, and retain source-grounded authentic handler-output evidence as the browser fixture source.",
+        "acceptance_ids": [
+          "AC-7",
+          "AC-8"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Implement the literal eight-case browser wrapper with per-test nonzero assertions and zero/ignored/skipped/missing/duplicated case rejection.",
+        "acceptance_ids": [
+          "AC-3",
+          "AC-4",
+          "AC-6",
+          "AC-8"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S6",
+        "action": "Run exact validation, fresh exact-head implementation review, publication, CI, finish, and release #278 only after terminal ancestry.",
+        "acceptance_ids": [
+          "AC-6",
+          "AC-7",
+          "AC-8",
+          "AC-9"
+        ],
+        "status": "pending"
+      }
+    ]
+  }
+}

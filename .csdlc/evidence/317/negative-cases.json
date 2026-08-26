@@ -1,0 +1,24 @@
+{
+  "schema": "adl.v092.closeout-negative-cases.v1",
+  "cases": [
+    {"id":"N01","mutation":"duplicate-row","expected_blocker":"wrong_row_count"},
+    {"id":"N02","mutation":"mapping-gap","expected_blocker":"wrong_row_count"},
+    {"id":"N03","mutation":"ambiguous-mapping","expected_blocker":"duplicate_canonical_issue"},
+    {"id":"N04","mutation":"self-attestation","expected_blocker":"self_attested_evidence"},
+    {"id":"N05","mutation":"stale-head","expected_blocker":"stale_head"},
+    {"id":"N06","mutation":"red-checks","expected_blocker":"red_checks"},
+    {"id":"N07","mutation":"absent-review","expected_blocker":"absent_review"},
+    {"id":"N08","mutation":"non-ancestral-merge","expected_blocker":"non_ancestral_merge"},
+    {"id":"N09","mutation":"unknown-node","expected_blocker":"unknown_node"},
+    {"id":"N10","mutation":"cycle","expected_blocker":"dependency_cycle"},
+    {"id":"N11","mutation":"unowned-action","expected_blocker":"unowned_action"},
+    {"id":"N12","mutation":"closeout-as-gate","expected_blocker":"closeout_as_gate"},
+    {"id":"N13","mutation":"review-not-ancestor","expected_blocker":"review_not_ancestor"},
+    {"id":"N14","mutation":"missing-receipt","expected_blocker":"missing_receipt"},
+    {"id":"N15","mutation":"active-worktree","expected_blocker":"active_worktree"},
+    {"id":"N16","mutation":"dirty-worktree","expected_blocker":"dirty_worktree"},
+    {"id":"N17","mutation":"partial-release-identity","expected_blocker":"partial_merge_identity"},
+    {"id":"N18","mutation":"duplicate-mutation","expected_blocker":"duplicate_mutation"},
+    {"id":"N19","mutation":"arbitrary-envelope-digest","expected_blocker":"unbound_observation"}
+  ]
+}

@@ -9,13 +9,11 @@ use crate::cli::runtime_v2_cmd::{
     helpers::{real_runtime_v2, real_runtime_v2_in_repo},
 };
 use adl::runtime_v2::{
-    runtime_v2_constructability_anchor_validator_contract, runtime_v2_csm_integrated_run_contract,
-    RuntimeV2ConstructabilityOutcome, RUNTIME_V2_AEE_OBSMEM_PVF_HANDOFF_PACKET,
-    RUNTIME_V2_AEE_OBSMEM_PVF_MEMORY_ACK, RUNTIME_V2_AEE_OBSMEM_PVF_RETRIEVAL,
+    runtime_v2_constructability_anchor_validator_contract, RuntimeV2ConstructabilityOutcome,
 };
 use std::{
     fs,
-    path::PathBuf,
+    path::{Path, PathBuf},
     time::{SystemTime, UNIX_EPOCH},
 };
 
@@ -30,13 +28,13 @@ const RUNTIME_V2_CLI_REGRESSION_SMOKES: &[&str] = &[
     "security-boundary:absolute-output",
     "foundation-demo:write-bundle",
     "foundation-demo:arg-validation",
-    "integrated-csm-run-demo:write-bundle",
+    "integrated-csm-run-demo:production-fixture-refusal",
     "integrated-csm-run-demo:arg-validation",
-    "minimal-integrated-runtime-path:write-bundle",
+    "minimal-integrated-runtime-path:production-fixture-refusal",
     "minimal-integrated-runtime-path:arg-validation",
-    "aee-obsmem-pvf-handoff:write-bundle",
+    "aee-obsmem-pvf-handoff:production-fixture-refusal",
     "aee-obsmem-pvf-handoff:arg-validation",
-    "unified-runtime-kernel:write-bundle",
+    "unified-runtime-kernel:production-fixture-refusal",
     "unified-runtime-kernel:arg-validation",
     "observatory-flagship-demo:write-bundle",
     "observatory-flagship-demo:arg-validation",
@@ -56,7 +54,7 @@ const RUNTIME_V2_CLI_REGRESSION_SMOKES: &[&str] = &[
     "godel-agent-runtime:write-json",
     "godel-agent-runtime:arg-validation",
     "contract-market-demo:arg-validation",
-    "governed-tools-flagship-demo:write-bundle",
+    "governed-tools-flagship-demo:production-fixture-refusal",
     "governed-tools-flagship-demo:arg-validation",
     "runtime-v2:path-hygiene",
 ];
@@ -72,6 +70,19 @@ fn temp_repo(label: &str) -> PathBuf {
     ));
     fs::create_dir_all(&repo).expect("create temporary repository root");
     repo
+}
+
+fn assert_production_fixture_refusal(result: anyhow::Result<()>, out_dir: &Path) {
+    let err = result.expect_err("production CLI must not actuate the historical fixture adapter");
+    let message = err.to_string();
+    assert!(
+        message.contains("historical governed adapter is test-only"),
+        "unexpected production fixture refusal: {message}"
+    );
+    assert!(
+        !out_dir.exists(),
+        "fixture-backed demo refusal must occur before artifact publication"
+    );
 }
 
 #[test]
@@ -338,86 +349,17 @@ fn trace_runtime_v2_integrated_csm_run_demo_writes_proof_bundle() {
     let repo = temp_repo("integrated-csm-run-demo");
     let out_dir = repo.join("out/integrated-csm");
 
-    real_runtime_v2_in_repo(
-        &[
-            "integrated-csm-run-demo".to_string(),
-            "--out".to_string(),
-            "out/integrated-csm".to_string(),
-        ],
-        &repo,
-    )
-    .expect("integrated CSM run demo");
-
-    let proof_path = out_dir.join("runtime_v2/csm_run/integrated_first_run_proof_packet.json");
-    assert!(proof_path.is_file());
-    assert!(out_dir
-        .join("runtime_v2/observatory/visibility_packet.json")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/csm_run/integrated_first_run_transcript.jsonl")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/hardening/hardening_proof_packet.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-governed-demo-run/logs/activation_log.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-governed-demo-run/governed/proposal_arguments.redacted.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-governed-demo-run/governed/result.redacted.json")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/reconciliation/reconciliation_packet.json")
-        .is_file());
-    assert!(out_dir
-        .join("current_runtime/long_lived_agent/run_status.json")
-        .is_file());
-    assert!(out_dir
-        .join("current_runtime/long_lived_agent/final_status.json")
-        .is_file());
-    let json: serde_json::Value =
-        serde_json::from_slice(&fs::read(&proof_path).expect("proof packet should exist"))
-            .expect("valid json");
-    assert_eq!(
-        json["schema_version"],
-        "runtime_v2.csm_integrated_run_proof_packet.v1"
+    assert_production_fixture_refusal(
+        real_runtime_v2_in_repo(
+            &[
+                "integrated-csm-run-demo".to_string(),
+                "--out".to_string(),
+                "out/integrated-csm".to_string(),
+            ],
+            &repo,
+        ),
+        &out_dir,
     );
-    assert_eq!(json["proof_classification"], "proving");
-    assert_eq!(json["demo_id"], "D10");
-    let governed_trace_json: serde_json::Value = serde_json::from_slice(
-        &fs::read(out_dir.join("artifacts/runtime-v2-governed-demo-run/logs/activation_log.json"))
-            .expect("governed activation log should exist"),
-    )
-    .expect("valid governed activation log json");
-    assert_eq!(governed_trace_json["activation_log_version"], 2);
-    let observatory_console = runtime_v2_csm_integrated_run_contract()
-        .expect("integrated artifacts")
-        .observatory_console_markdown()
-        .expect("observatory console");
-    assert!(observatory_console.contains("D10 Integrated CSM Run Observatory"));
-    assert!(observatory_console.contains("CSM Observatory Operator Report"));
-    assert!(observatory_console.contains("runtime_v2/observatory/visibility_packet.json"));
-    let reconciliation_json: serde_json::Value = serde_json::from_slice(
-        &fs::read(out_dir.join("runtime_v2/reconciliation/reconciliation_packet.json"))
-            .expect("reconciliation packet should exist"),
-    )
-    .expect("valid reconciliation json");
-    assert_eq!(
-        reconciliation_json["schema_version"],
-        "runtime_v2.current_runtime_reconciliation.v1"
-    );
-    assert_eq!(reconciliation_json["classification"], "integrated_proof");
-    assert_eq!(
-        reconciliation_json["current_runtime_substrate"]["status"],
-        "executed"
-    );
-    assert_eq!(
-        reconciliation_json["runtime_v2_prototype"]["status"],
-        "integrated_as_artifact_producer"
-    );
-
     fs::remove_dir_all(repo).ok();
 }
 
@@ -425,8 +367,11 @@ fn trace_runtime_v2_integrated_csm_run_demo_writes_proof_bundle() {
 fn trace_runtime_v2_integrated_csm_run_demo_validates_stdout_help_and_output_path_rules() {
     let repo = temp_repo("integrated-csm-run-demo-branches");
 
-    real_runtime_v2_in_repo(&["integrated-csm-run-demo".to_string()], &repo)
-        .expect("stdout proof packet");
+    let err = real_runtime_v2_in_repo(&["integrated-csm-run-demo".to_string()], &repo)
+        .expect_err("production execution must refuse the historical fixture adapter");
+    assert!(err
+        .to_string()
+        .contains("historical governed adapter is test-only"));
     real_runtime_v2_in_repo(
         &["integrated-csm-run-demo".to_string(), "--help".to_string()],
         &repo,
@@ -485,70 +430,17 @@ fn trace_runtime_v2_minimal_integrated_runtime_path_writes_retained_evidence() {
     let repo = temp_repo("minimal-integrated-runtime-path");
     let out_dir = repo.join("out/minimal-integrated-runtime-path");
 
-    real_runtime_v2_in_repo(
-        &[
-            "minimal-integrated-runtime-path".to_string(),
-            "--out".to_string(),
-            "out/minimal-integrated-runtime-path".to_string(),
-        ],
-        &repo,
-    )
-    .expect("minimal integrated runtime path");
-
-    assert!(out_dir
-        .join("runtime_v2/csm_run/integrated_first_run_proof_packet.json")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/csm_run/integrated_first_run_transcript.jsonl")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/observatory/operator_report.md")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/reconciliation/reconciliation_packet.json")
-        .is_file());
-    assert!(out_dir
-        .join("current_runtime/long_lived_agent/initial_status.json")
-        .is_file());
-    assert!(out_dir
-        .join("current_runtime/long_lived_agent/run_status.json")
-        .is_file());
-    assert!(out_dir
-        .join("current_runtime/long_lived_agent/stop_status.json")
-        .is_file());
-    assert!(out_dir
-        .join("current_runtime/long_lived_agent/final_status.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-governed-demo-run/logs/activation_log.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-governed-demo-run/governed/result.redacted.json")
-        .is_file());
-    let summary_path = out_dir.join("issue_4681/minimal_integrated_runtime_path_summary.json");
-    assert!(summary_path.is_file());
-    let json: serde_json::Value =
-        serde_json::from_slice(&fs::read(summary_path).expect("summary should exist"))
-            .expect("valid json");
-    assert_eq!(
-        json["schema_version"],
-        "runtime_v2.minimal_integrated_runtime_path_summary.v1"
+    assert_production_fixture_refusal(
+        real_runtime_v2_in_repo(
+            &[
+                "minimal-integrated-runtime-path".to_string(),
+                "--out".to_string(),
+                "out/minimal-integrated-runtime-path".to_string(),
+            ],
+            &repo,
+        ),
+        &out_dir,
     );
-    assert_eq!(json["issue"], 4681);
-    assert!(json["retained_evidence_refs"]
-        .as_array()
-        .expect("retained evidence refs")
-        .iter()
-        .any(|reference| reference.as_str().unwrap_or_default()
-            == "runtime_v2/reconciliation/reconciliation_packet.json"));
-    assert!(json["negative_case_refs"]
-        .as_array()
-        .expect("negative cases")
-        .iter()
-        .any(|case| case
-            .as_str()
-            .unwrap_or_default()
-            .contains("absolute --out paths")));
 
     fs::remove_dir_all(repo).ok();
 }
@@ -557,8 +449,11 @@ fn trace_runtime_v2_minimal_integrated_runtime_path_writes_retained_evidence() {
 fn trace_runtime_v2_minimal_integrated_runtime_path_validates_stdout_help_and_output_path_rules() {
     let repo = temp_repo("minimal-integrated-runtime-path-branches");
 
-    real_runtime_v2_in_repo(&["minimal-integrated-runtime-path".to_string()], &repo)
-        .expect("stdout minimal integrated runtime path");
+    let err = real_runtime_v2_in_repo(&["minimal-integrated-runtime-path".to_string()], &repo)
+        .expect_err("production execution must refuse the historical fixture adapter");
+    assert!(err
+        .to_string()
+        .contains("historical governed adapter is test-only"));
     real_runtime_v2_in_repo(
         &[
             "minimal-integrated-runtime-path".to_string(),
@@ -1524,21 +1419,17 @@ fn trace_runtime_v2_aee_obsmem_pvf_handoff_writes_proof_bundle() {
     let repo = temp_repo("aee-obsmem-pvf-handoff");
     let out_dir = repo.join("out/aee-obsmem-pvf-handoff");
 
-    real_runtime_v2_in_repo(
-        &[
-            "aee-obsmem-pvf-handoff".to_string(),
-            "--out".to_string(),
-            "out/aee-obsmem-pvf-handoff".to_string(),
-        ],
-        &repo,
-    )
-    .expect("AEE ObsMem PVF handoff");
-
-    assert!(out_dir
-        .join(RUNTIME_V2_AEE_OBSMEM_PVF_HANDOFF_PACKET)
-        .is_file());
-    assert!(out_dir.join(RUNTIME_V2_AEE_OBSMEM_PVF_MEMORY_ACK).is_file());
-    assert!(out_dir.join(RUNTIME_V2_AEE_OBSMEM_PVF_RETRIEVAL).is_file());
+    assert_production_fixture_refusal(
+        real_runtime_v2_in_repo(
+            &[
+                "aee-obsmem-pvf-handoff".to_string(),
+                "--out".to_string(),
+                "out/aee-obsmem-pvf-handoff".to_string(),
+            ],
+            &repo,
+        ),
+        &out_dir,
+    );
 
     fs::remove_dir_all(repo).ok();
 }
@@ -1547,8 +1438,11 @@ fn trace_runtime_v2_aee_obsmem_pvf_handoff_writes_proof_bundle() {
 fn trace_runtime_v2_aee_obsmem_pvf_handoff_validates_stdout_help_and_output_path_rules() {
     let repo = temp_repo("aee-obsmem-pvf-handoff-branches");
 
-    real_runtime_v2_in_repo(&["aee-obsmem-pvf-handoff".to_string()], &repo)
-        .expect("stdout AEE ObsMem PVF handoff packet");
+    let err = real_runtime_v2_in_repo(&["aee-obsmem-pvf-handoff".to_string()], &repo)
+        .expect_err("production execution must refuse the historical fixture adapter");
+    assert!(err
+        .to_string()
+        .contains("historical governed adapter is test-only"));
     real_runtime_v2_in_repo(
         &["aee-obsmem-pvf-handoff".to_string(), "--help".to_string()],
         &repo,
@@ -1595,28 +1489,17 @@ fn trace_runtime_v2_unified_runtime_kernel_writes_proof_bundle() {
     let repo = temp_repo("unified-runtime-kernel");
     let out_dir = repo.join("out/unified-runtime-kernel");
 
-    real_runtime_v2_in_repo(
-        &[
-            "unified-runtime-kernel".to_string(),
-            "--out".to_string(),
-            "out/unified-runtime-kernel".to_string(),
-        ],
-        &repo,
-    )
-    .expect("unified runtime kernel");
-
-    assert!(out_dir
-        .join("issue_5097/unified_runtime_kernel_summary.json")
-        .is_file());
-    assert!(out_dir
-        .join("issue_5097/unified_runtime_kernel_events.jsonl")
-        .is_file());
-    assert!(out_dir
-        .join("issue_5097/unified_runtime_kernel_negative_cases.json")
-        .is_file());
-    assert!(out_dir
-        .join("issue_5097/current_runtime/final_status.json")
-        .is_file());
+    assert_production_fixture_refusal(
+        real_runtime_v2_in_repo(
+            &[
+                "unified-runtime-kernel".to_string(),
+                "--out".to_string(),
+                "out/unified-runtime-kernel".to_string(),
+            ],
+            &repo,
+        ),
+        &out_dir,
+    );
 
     fs::remove_dir_all(repo).ok();
 }
@@ -1625,8 +1508,11 @@ fn trace_runtime_v2_unified_runtime_kernel_writes_proof_bundle() {
 fn trace_runtime_v2_unified_runtime_kernel_validates_stdout_help_and_output_path_rules() {
     let repo = temp_repo("unified-runtime-kernel-branches");
 
-    real_runtime_v2_in_repo(&["unified-runtime-kernel".to_string()], &repo)
-        .expect("stdout unified runtime kernel summary");
+    let err = real_runtime_v2_in_repo(&["unified-runtime-kernel".to_string()], &repo)
+        .expect_err("production execution must refuse the historical fixture adapter");
+    assert!(err
+        .to_string()
+        .contains("historical governed adapter is test-only"));
     real_runtime_v2_in_repo(
         &["unified-runtime-kernel".to_string(), "--help".to_string()],
         &repo,
@@ -1805,49 +1691,17 @@ fn trace_runtime_v2_governed_tools_flagship_demo_writes_proof_bundle() {
     let repo = temp_repo("governed-tools-flagship-demo");
     let out_dir = repo.join("out/governed-tools-flagship");
 
-    real_runtime_v2_in_repo(
-        &[
-            "governed-tools-flagship-demo".to_string(),
-            "--out".to_string(),
-            "out/governed-tools-flagship".to_string(),
-        ],
-        &repo,
-    )
-    .expect("governed-tools flagship demo");
-
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/flagship_proof_packet.json")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/flagship_operator_report.md")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/flagship_public_report.md")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/support/model_proposal_benchmark_report.json")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/support/dangerous_negative_suite_report.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-wp18-allowed-read/logs/activation_log.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-wp18-allowed-read/governed/proposal_arguments.redacted.json")
-        .is_file());
-
-    let json: serde_json::Value = serde_json::from_slice(
-        &fs::read(out_dir.join("runtime_v2/governed_tools/flagship_proof_packet.json"))
-            .expect("proof packet should exist"),
-    )
-    .expect("valid json");
-    assert_eq!(
-        json["schema_version"],
-        "runtime_v2.governed_tools_flagship_proof_packet.v1"
+    assert_production_fixture_refusal(
+        real_runtime_v2_in_repo(
+            &[
+                "governed-tools-flagship-demo".to_string(),
+                "--out".to_string(),
+                "out/governed-tools-flagship".to_string(),
+            ],
+            &repo,
+        ),
+        &out_dir,
     );
-    assert_eq!(json["demo_id"], "D11");
-    assert_eq!(json["proof_classification"], "proving");
 
     fs::remove_dir_all(repo).ok();
 }
@@ -1856,8 +1710,11 @@ fn trace_runtime_v2_governed_tools_flagship_demo_writes_proof_bundle() {
 fn trace_runtime_v2_governed_tools_flagship_demo_validates_stdout_help_and_output_path_rules() {
     let repo = temp_repo("governed-tools-flagship-demo-branches");
 
-    real_runtime_v2_in_repo(&["governed-tools-flagship-demo".to_string()], &repo)
-        .expect("stdout governed-tools flagship demo");
+    let err = real_runtime_v2_in_repo(&["governed-tools-flagship-demo".to_string()], &repo)
+        .expect_err("production stdout demo must refuse the historical fixture adapter");
+    assert!(err
+        .to_string()
+        .contains("historical governed adapter is test-only"));
     real_runtime_v2_in_repo(
         &[
             "governed-tools-flagship-demo".to_string(),

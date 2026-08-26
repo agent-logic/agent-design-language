@@ -1,0 +1,4 @@
+{"status":"passed","source_sha":"6b8639fbf584fb5524eb15313c43988460a17cfe","denominator":".csdlc/evidence/217/retained-proof-denominator.json","retained_manifest":".csdlc/evidence/217/h2-retained-surface-manifest.json"}
+{"status":"passed","source_sha":"6b8639fbf584fb5524eb15313c43988460a17cfe","receipt_anchor":{"commit":"1caaa08e10c91a0cfd93fbf49485ff9cc383c6cf","blob":"32c6ea4d6835049bccededca6ca6827d74e820f6","sha256":"c6b4af46ea1b67a26a43350784fe8f953267b8baf09816b55d8078e9df936dab"},"relation":"retained_surface"}
+{"status":"passed","source_sha":"6b8639fbf584fb5524eb15313c43988460a17cfe","receipt_anchor":{"commit":"1caaa08e10c91a0cfd93fbf49485ff9cc383c6cf","blob":"32c6ea4d6835049bccededca6ca6827d74e820f6","sha256":"c6b4af46ea1b67a26a43350784fe8f953267b8baf09816b55d8078e9df936dab"},"relation":"retained_surface"}
+{"status":"passed","check":"retained-native-proof-contract"}

@@ -1,0 +1,110 @@
+
+running 35 tests
+test caller_path_rejected ... proved:case:caller_path_rejected
+denied:path:caller_path_absent
+denied:path:traversal_filename_denied
+ok
+test cancellation_no_partial ... proved:case:cancellation_no_partial
+accepted:lifecycle:cleanup_permit_survives_cancellation
+ok
+test corrupt_content ... proved:case:corrupt_content
+ok
+test crash_after_bundle_commit ... proved:case:crash_after_bundle_commit
+ok
+test deadline_before_effect ... proved:case:deadline_before_effect
+accepted:lifecycle:cleanup_permit_survives_expiry
+ok
+test discard_exact_retry ... proved:case:discard_exact_retry
+accepted:lifecycle:discard_receipt_restart_reconciled
+ok
+test dual_open ... proved:case:dual_open
+ok
+test evidence_redaction ... proved:case:evidence_redaction
+ok
+test export_bounds ... proved:case:export_bounds
+accepted:size:frame_n_accepted
+denied:size:frame_n_plus_1_denied
+accepted:size:blob_n_accepted
+accepted:size:total_bytes_n_accepted
+ok
+test export_exact_retry ... proved:case:export_exact_retry
+ok
+test guardian_initialization_live ... proved:case:guardian_initialization_live
+accepted:lifecycle:activation_effect_owned_by_208
+ok
+test isolated_import_validate ... proved:case:isolated_import_validate
+accepted:prefix:accepted_prefix_exact
+accepted:prefix:snapshot_generation_exact
+accepted:prefix:predecessor_exact
+accepted:prefix:topology_and_config_exact
+accepted:prefix:service_and_content_exact
+denied:path:duplicate_filename_denied
+ok
+test isolated_stage ... proved:case:isolated_stage
+accepted:path:opaque_handle_root_fixed
+ok
+test opened_handle_replacement ... proved:case:opened_handle_replacement
+denied:path:opened_inode_replacement_denied
+ok
+test oversized_bundle ... proved:case:oversized_bundle
+denied:size:blob_n_plus_1_denied
+denied:size:total_bytes_n_plus_1_denied
+ok
+test partial_quiesce_rollback ... proved:case:partial_quiesce_rollback
+ok
+test participant_registry_complete ... proved:case:participant_registry_complete
+accepted:size:service_count_n_accepted
+denied:size:service_count_n_plus_1_denied
+ok
+test public_surface_absent ... proved:case:public_surface_absent
+denied:lifecycle:activation_decision_requires_204
+ok
+test real_quiesce_checkpoint ... proved:case:real_quiesce_checkpoint
+ok
+test restart_after_accept ... proved:case:restart_after_accept
+accepted:lifecycle:cleanup_permit_restart_reconciled
+accepted:lifecycle:activation_receipt_durable
+accepted:lifecycle:activation_receipt_exact_retry
+ok
+test signed_bundle_export ... proved:case:signed_bundle_export
+ok
+test source_resume ... proved:case:source_resume
+ok
+test source_resume_exact_retry ... proved:case:source_resume_exact_retry
+accepted:lifecycle:source_resume_receipt_restart_reconciled
+ok
+test symlink_path_rejected ... proved:case:symlink_path_rejected
+denied:path:parent_symlink_denied
+denied:path:leaf_symlink_denied
+ok
+test target_discard ... proved:case:target_discard
+accepted:lifecycle:activation_consumes_cleanup_permit
+denied:lifecycle:activated_stage_discard_denied
+ok
+test validated_target_discard ... proved:case:validated_target_discard
+accepted:lifecycle:validated_stage_discardable
+ok
+test wrong_accepted_prefix ... proved:case:wrong_accepted_prefix
+denied:prefix:accepted_prefix_mismatch_denied
+ok
+test wrong_config ... proved:case:wrong_config
+ok
+test wrong_generation ... proved:case:wrong_generation
+denied:prefix:snapshot_generation_mismatch_denied
+ok
+test wrong_manifest_signature ... proved:case:wrong_manifest_signature
+ok
+test wrong_predecessor ... proved:case:wrong_predecessor
+denied:prefix:predecessor_mismatch_denied
+ok
+test wrong_service_schema ... proved:case:wrong_service_schema
+ok
+test wrong_service_set ... proved:case:wrong_service_set
+ok
+test wrong_topology ... proved:case:wrong_topology
+ok
+test zero_residue ... proved:case:zero_residue
+accepted:path:discard_zero_entries
+ok
+
+test result: ok. 35 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.09s

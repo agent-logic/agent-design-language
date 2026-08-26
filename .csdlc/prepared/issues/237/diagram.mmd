@@ -1,0 +1,11 @@
+flowchart LR
+  I["Verified Birthday identity"] --> V["Runtime continuity verifier"]
+  R["Public continuity record"] --> V
+  C["Opaque verified cycles"] --> V
+  V --> T["Opaque VerifiedBirthdayContinuity"]
+  T --> B["Birthday candidate canonical head"]
+  B --> E["Capability envelope"]
+  T --> E
+  E --> P["Governed cognitive profile"]
+  T --> P
+  X["Self-consistently rehashed substitution"] -->|"cannot forge opaque cycles"| F["Typed rejection"]

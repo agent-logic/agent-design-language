@@ -43,6 +43,12 @@ fn main() -> ExitCode {
             std::fs::write(output, vec![b'x'; 1_048_576]).expect("write oversized fixture");
             ExitCode::SUCCESS
         }
+        Some("output-limit-then-hang") => {
+            let output = std::env::args().nth(2).expect("output path");
+            std::fs::write(output, vec![b'x'; 64]).expect("fill bounded output fixture");
+            thread::sleep(Duration::from_secs(30));
+            ExitCode::SUCCESS
+        }
         Some("json") => {
             println!(r#"{{"status":"ok"}}"#);
             ExitCode::SUCCESS

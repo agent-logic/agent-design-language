@@ -190,6 +190,7 @@ if [ "$MODE" = "full_authoritative_default_features" ]; then
   echo "Authoritative coverage test threads: $TEST_THREADS"
   echo "Authoritative coverage skip patterns: $SKIP_PATTERNS_RAW"
   coverage_command=(cargo nextest run \
+    --profile ci-coverage \
     --workspace \
     --no-fail-fast \
     --no-tests pass \
@@ -201,6 +202,7 @@ else
   echo "Authoritative coverage test threads: $TEST_THREADS"
   echo "Authoritative coverage skip patterns: $SKIP_PATTERNS_RAW"
   coverage_command=(cargo nextest run \
+    --profile ci-coverage \
     --workspace \
     --no-fail-fast \
     --no-tests pass \

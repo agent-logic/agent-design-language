@@ -1,0 +1,37 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 24,
+  "expected_digest": "49256b746650ca9dd90e75761ec9a4413e63504082f51fd9f773a95ef38ceebe",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6",
+  "reason": "Resolve exact-head review by making the AC-4 and AC-5 per-voter fresh-CAS exact-once sequence operative in the implementation plan.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "After PR #197 merges ancestrally, bind #201 and freeze canonical committed intent, quorum-attested time, opaque local endorsement, durable result-cache, checkpoint, private exact-artifact, sealed continuity-transfer lineage, SourceCheckpointHandle, bundle-handle, and legacy-log compatibility contracts.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement only the core authority protocol, private exact-artifact views, and the sealed #210 continuity-transfer projection bound to exact lineage, SourceCheckpointHandle identity, and byte-identical bundle-handle identity; retire or fail-close legacy direct authority command application without executing downstream effects.",
+        "acceptance_ids": ["AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Implement and prove the AC-4 and AC-5 per-voter fresh-CAS exact-once sequence: three independent node-local checkpoint authorities each record expected old and new checkpoints, perform only their own fresh compare-and-swap, reconcile only the exact same operation after any proved partial commit, and withhold token, projection, canonical-response, and Raft-apply publication until that voter's canonical result, retry record, and external checkpoint are durable and agree; cover every node-local crash boundary, retry/conflict, rollback, corruption, capacity, path-safety, legacy-command, artifact, projection, wrong-consumer, wrong-lineage, wrong-SourceCheckpointHandle, and wrong-bundle-handle outcome in the exact forty-seven-case proof.",
+        "acceptance_ids": ["AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Resolve fresh exact-head review, publish a ready PR closing #201, shepherd hosted CI, and wait for operator review and merge authorization.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

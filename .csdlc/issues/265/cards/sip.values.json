@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 265,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02b][112.b] Enforce Layer 8 authority at Runtime kernel conversation ingress",
+    "slug": "v0-92-wp-18c-02b-112-b-layer8-authority-runtime-kernel-ingress",
+    "version": "v0.92.0",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Design and later implement Runtime kernel conversation-ingress enforcement for #112 Layer 8 signed authority, after #112 is terminal and ancestral.",
+      "required_outcome": "Runtime conversation ingress refuses unauthorized, revoked, replayed, or scope-escalated conversation attempts before production side effects by consuming #112 shared authority primitives.",
+      "declared_scope": [
+        "Runtime kernel conversation ingress authority enforcement",
+        "Pre-side-effect refusal for unauthorized, revoked, replayed, stale-generation, or scope-escalated attempts",
+        "Refusal and audit outcomes without secrets, private cognition, or raw provider payloads",
+        "Production conversation-boundary proof after #112 terminal"
+      ],
+      "authority_boundary": [
+        "#112 owns shared Layer 8 signed authority primitives and identity-message contract",
+        "#265 consumes #112 authority and enforces it at Runtime kernel conversation ingress",
+        "#270 owns trusted recipient acknowledgement served API/protocol and follows #265",
+        "#265 does not own durable transcript storage, Observatory/UI, #115 room/UI behavior, or cloud exposure"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not bind or implement #265 until #112 is terminal and ancestral to the execution base",
+        "Do not mutate #112 parent/prep, #270, #276, #277, #278, or #115 in this bootstrap/design step",
+        "Use typed v2 lifecycle routes only; no raw GitHub lifecycle writes",
+        "No Runtime product/test/docs implementation in this design-only step"
+      ]
+    }
+  }
+}

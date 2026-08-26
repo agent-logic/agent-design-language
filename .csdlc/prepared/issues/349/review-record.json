@@ -1,0 +1,22 @@
+{
+  "issue": 349,
+  "expected_generation": 5,
+  "expected_digest": "7f694cfbd31efba93c4693f78617a9a03f5989d14feb989d0daa437a7b720b34",
+  "actor": "/root/issue_349_prepare/fresh_impl_review",
+  "evidence": {
+    "reviewer": "/root/issue_349_prepare/fresh_impl_review",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/349",
+      ".csdlc/evidence/349"
+    ],
+    "reviewed_revision": "git-blake3:ffa42c7dd9b791e3758ed1b8551954ecfcfa94cf:a2071607330777626935bd888173658acb10a2835da8cd9b3369d4c292ca0d8c",
+    "findings": [],
+    "residual_risks": [
+      "Fresh inspection verified the immutable assigned commit and independently reran both exact Gate 2 tests plus diff hygiene. Hosted CI remains deferred to publication. Post-commit typed assignment projections were excluded from substantive review, as intended."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "issue":319,"expected_generation":3,"expected_digest":"a6a71c2944bc28238aa741f4a3a0962f351a774e6e07f682c9c28cb206f66c2b","actor":"codex:/root","card":"sor","reason":"Record focused release ceremony validation.",
+  "operation":{"operation":"record_validation","result":{"purpose":"Prove merge-based predecessor truth, negative ceremony behavior, and the real non-mutating candidate preflight.","command":["ruby .csdlc/prepared/issues/319/validate-release-evidence.rb all","bash adl/tools/test_release_ceremony.sh","bash adl/tools/release_ceremony.sh --version v0.92 --target-branch codex/319-v092-wp30-release-ceremony","git diff --check"],"outcome":"passed","evidence_ref":".csdlc/evidence/319/candidate-ceremony-receipt.json"}}
+}

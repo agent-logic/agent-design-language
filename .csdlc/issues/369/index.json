@@ -1,0 +1,198 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 369,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "21e4269b65dfa9141c322f71c65c8792b2615b58497f14b14eeb724c43c21a15",
+  "phase": "published",
+  "generation": 5,
+  "digest": "8ee010498a31cb2cec6d095ffe9bc1ecda46a95c1493a195fda1502a9d1de56c",
+  "branch": "codex/369-bound-false-design-review-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-369-bound-false-design-review-recovery",
+  "review_assignment": {
+    "reviewer": "fresh-session:9d46fb13-62d3-4d44-a760-4b6d6af4e1b5",
+    "assigned_by": "codex:issue-369-implementation",
+    "revision": "git-blake3:633b94770e2dc667ec3719cd8d9c64bd312f388c:39a4de521456cf6a3b98db532281ed9aeea835094e952dcca1d39f3cf5bf4927",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/prepared/issues/369/run_exact_focused_matrix.py",
+      ".csdlc/prepared/issues/369/validate_exact_scope.py",
+      ".csdlc/issues/369",
+      ".csdlc/evidence/369"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:9d46fb13-62d3-4d44-a760-4b6d6af4e1b5",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/prepared/issues/369/run_exact_focused_matrix.py",
+      ".csdlc/prepared/issues/369/validate_exact_scope.py",
+      ".csdlc/issues/369",
+      ".csdlc/evidence/369"
+    ],
+    "reviewed_revision": "git-blake3:633b94770e2dc667ec3719cd8d9c64bd312f388c:39a4de521456cf6a3b98db532281ed9aeea835094e952dcca1d39f3cf5bf4927",
+    "findings": [],
+    "residual_risks": [
+      "Inspection-only review; reviewer did not rerun tests and relied on recorded focused matrix, scope, and Clippy evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 369,
+    "pull_request": 370,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/370",
+    "base": "main",
+    "head": "codex/369-bound-false-design-review-recovery",
+    "revision": "git-blake3:4619c1a296c355f0c81c4c98598288fa848feddc:ecf88d96559a616de4bd063525f5fb8df98c2f52119006733508378c9a2eb75a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/369/design.md",
+  "diagram_path": ".csdlc/prepared/issues/369/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:23709f76-9b8a-4a74-9d9f-1f488eab25b2",
+      "revision": "2ad9cf776f3eba1b88207f5bbf08aa2798284932a4ef443498aaec4de3017b77"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "fd0c643fb20f4b6b72684a42fc4ecebdad97d433017159a380df3f060de18937",
+      "rendered_digest": "0ae671d465a1ebb13358295348efe6342a2fa5701082a95277c271c7461e34cb",
+      "ast_digest": "19e83ca4d04b72858675ecced4c5dd18daa3344a71a68d4c32e9d7f96d9be0c7"
+    },
+    "stp": {
+      "values_digest": "c1e3a91099f8a4f61dd04bcdf10ac300e4e353911951f09fda4534d2ae7a7e17",
+      "rendered_digest": "9d27e5b6452376263777a6c51ef511e61673002cecdd46f40c588a240152f956",
+      "ast_digest": "6dc7fb71b5e35df59f8e5f339cf9a2751c391e4c8cfa08dcf4a85179f78cc79d"
+    },
+    "spp": {
+      "values_digest": "2b14250302eb2ce7922425c0e9c7126b623eff26e7e56f72c2303d567fb2da18",
+      "rendered_digest": "91848df8339b8523f662fa7a12d374eca808a32ec70c5b48f27d27dbfee37dfc",
+      "ast_digest": "6a5f3158a639bf81c1d422f001ca53ba54e9029faafc65c38ea1fbb92cf81486"
+    },
+    "vpp": {
+      "values_digest": "63a4801e5614297c73df9edb725a3b44267011022a0527878ed2c8f946bc6cfd",
+      "rendered_digest": "500bd64eaa0f20185752a4cc33a01dea5dc082b9fb2d6fedf94b6dcbf7c9b3ca",
+      "ast_digest": "2f3a79239c7e56723179cbbc976408e68acceafc09c8bc555a33ffc36cee282f"
+    },
+    "srp": {
+      "values_digest": "2deec9d9129d3982011bd1264a64454937344b56dc08bdea852756f0926c1d71",
+      "rendered_digest": "2a77153f28770dba50867a85fc4b0ad12ad38336f5ec79a3392b64564fe731ca",
+      "ast_digest": "76f2692785459b944646e61fb63d5bf01073354887489119a50b5292d129f963"
+    },
+    "sor": {
+      "values_digest": "1056a8e2349745879029ca4ea34f1ec43495192999e9dd54053fef04097226ae",
+      "rendered_digest": "7c5f3e3d4b114c6a3b9009e29fb796cccd82d4b33b2f30abd6c93b2e167d1d87",
+      "ast_digest": "39bc44e4c38001661cc9bcc2a85169fa7531030d6f6dca5a89c4967ceb28dcdf"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-369-implementation",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:9d46fb13-62d3-4d44-a760-4b6d6af4e1b5",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-369-publication",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-369-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:23709f76-9b8a-4a74-9d9f-1f488eab25b2",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-369-implementation",
+      "reason": "Activate the exact reviewed focused and Clippy lanes after their implementation targets exist; commands, proof roles, ownership, and budgets remain unchanged.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-exact\",\"proof_role\":\"Prove exactly four named bound implemented refusal and issue-275 recovery cases with nonzero per-case denominators.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"python3\",\".csdlc/prepared/issues/369/run_exact_focused_matrix.py\"],\"parallel_group\":\"369-01\",\"defer_reason\":null},{\"lane\":\"clippy\",\"proof_role\":\"Reject warnings across the changed owner binary and library.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"369-02\",\"defer_reason\":null},{\"lane\":\"scope-exact\",\"proof_role\":\"Reject any committed staged unstaged or untracked path outside five tooling files and exact issue-owned surfaces; enforce diff hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/369/validate_exact_scope.py\"],\"parallel_group\":\"369-03\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-369-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-369-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "fresh-session:9d46fb13-62d3-4d44-a760-4b6d6af4e1b5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-369-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

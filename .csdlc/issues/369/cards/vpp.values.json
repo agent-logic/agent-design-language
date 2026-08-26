@@ -1,0 +1,90 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 369,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover false design approval on bound issues",
+    "slug": "bound-false-design-review-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused-exact",
+          "proof_role": "Prove exactly four named bound implemented refusal and issue-275 recovery cases with nonzero per-case denominators.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 12000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/369/run_exact_focused_matrix.py"
+          ],
+          "parallel_group": "369-01",
+          "defer_reason": null
+        },
+        {
+          "lane": "clippy",
+          "proof_role": "Reject warnings across the changed owner binary and library.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "369-02",
+          "defer_reason": null
+        },
+        {
+          "lane": "scope-exact",
+          "proof_role": "Reject any committed staged unstaged or untracked path outside five tooling files and exact issue-owned surfaces; enforce diff hygiene.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/369/validate_exact_scope.py"
+          ],
+          "parallel_group": "369-03",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on stale CAS wrong phase or approval identity later authority repeated correction topology drift scope drift or review finding.",
+      "design_ref": ".csdlc/prepared/issues/369/design.md",
+      "design_digest": "2ad9cf776f3eba1b88207f5bbf08aa2798284932a4ef443498aaec4de3017b77",
+      "diagram_ref": ".csdlc/prepared/issues/369/diagram.mmd",
+      "diagram_digest": "1924ab6c91d8cd135a5ac7f4fc5cd0c00d3acf8d4ff3245fbd152ff4db3c0712"
+    }
+  }
+}

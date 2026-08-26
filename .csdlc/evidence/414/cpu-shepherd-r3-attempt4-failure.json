@@ -1,0 +1,23 @@
+{
+  "schema": "adl.issue414.model_attempt_failure.v1",
+  "attempt": 4,
+  "classification": "failed_non_proving",
+  "host_class": "reference",
+  "qualification": false,
+  "completed_before_failure": [
+    "exact source preflight",
+    "llama3.1:8b cold useful work",
+    "qwen3:8b cold useful work with think=false",
+    "phi4-mini cold useful work",
+    "signed dehydration",
+    "validator-gated restore before admission",
+    "llama3.1:8b warm continuation",
+    "qwen3:8b warm continuation with think=false",
+    "phi4-mini warm continuation"
+  ],
+  "failure": "final receipt generator raised NameError because os was not imported",
+  "retained_model_outputs": false,
+  "proof_claim": "none",
+  "retry_authorized": false,
+  "disposition": "runner import fixed structurally; exact Linux r7i.2xlarge proof remains deferred to issue 268"
+}

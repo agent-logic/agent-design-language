@@ -1,0 +1,8 @@
+revision_state: uncommitted combined #244 + reviewed #248 substantive integration
+cleanup_attachment_command: cargo test --quiet --manifest-path adl-runtime-kernel/Cargo.toml --lib conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress -- --exact
+cleanup_attachment_repetitions: 30
+cleanup_attachment_result: 30 passed, 0 failed
+process_precedence_command: cargo test --quiet --manifest-path adl-runtime-kernel/Cargo.toml --test parity process_backend_timeout_and_oversized_file_leave_no_artifacts -- --exact
+process_precedence_repetitions: 20
+process_precedence_result: 20 passed, 0 failed
+semantics: ordinary hang reports timeout; exact-limit-then-hang and oversized file report output_limit; every case leaves zero output artifacts.

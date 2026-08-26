@@ -1,0 +1,214 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 252,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c918bb9636465a8c8eaafa40fb2850a329c51ecb0c7fa000392e82004b33eb01",
+  "phase": "published",
+  "generation": 8,
+  "digest": "d156d1135c2391c8afbe43dcf10ec596ce95b323164e295febe293a4be68a71d",
+  "branch": "codex/252-guardian-hosted-spawn-flake",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-252-guardian-hosted-spawn-flake",
+  "review_assignment": {
+    "reviewer": "fresh-agent:issue-252-rereview",
+    "assigned_by": "codex:guardian-spawn-flake",
+    "revision": "git-blake3:13b88a96186c55d4320758e21aae3ba5c33b08c6:1707656d026a18098d6de4df998ea3725f4135b1a46becdf0f4e204d27d7b2f0",
+    "scope": [
+      "adl-runtime/src/guardian.rs test-only serialization correctness",
+      "retained ten-run eight-thread proof from repository-root and crate caller cwd",
+      "both hosted SpawnFailed regressions, missing-program fail-closed semantics, typed validation evidence, and all #252 acceptance criteria"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-agent:issue-252-rereview",
+    "scope": [
+      "adl-runtime/src/guardian.rs test-only serialization correctness",
+      "retained ten-run eight-thread proof from repository-root and crate caller cwd",
+      "both hosted SpawnFailed regressions, missing-program fail-closed semantics, typed validation evidence, and all #252 acceptance criteria"
+    ],
+    "reviewed_revision": "git-blake3:13b88a96186c55d4320758e21aae3ba5c33b08c6:1707656d026a18098d6de4df998ea3725f4135b1a46becdf0f4e204d27d7b2f0",
+    "findings": [],
+    "residual_risks": [
+      "Hosted Linux confirmation remains required CI evidence after publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 252,
+    "pull_request": 253,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/253",
+    "base": "main",
+    "head": "codex/252-guardian-hosted-spawn-flake",
+    "revision": "git-blake3:cbb14415603658bbe31fa7f4133c0f027d54d50f:a5eb7cf3bd633cd7c1c63500251ddd4948875e98a3b2fcc53359995e5b77c4f5",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/252/design.md",
+  "diagram_path": ".csdlc/prepared/issues/252/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:bounded-follow-on-directive",
+      "revision": "618969e8355ffa07062849f5120390f7edf94bfea4a1d54cf91b4eb31edb3461"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ca2664a8dd8662eeacd1cfd5b6fbc851f9dd913d7c5025ee0ed8caf140c87933",
+      "rendered_digest": "8d495ba3d16dc3181f2a2d3ce6769ef4303f713591405dc2d9b9134fb0a9c68a",
+      "ast_digest": "cae194592e2c9407460f1853c8cab08d3149b0d7f2612ceaa7ca8c5d8dc7429d"
+    },
+    "stp": {
+      "values_digest": "a8d0a8a04e35e3a10817e687ce947a8dcde883d3159c90b9e758564a3cdcfdea",
+      "rendered_digest": "76b75912e55fb272675cbd868e608ced5a7213d7b6a230ddb05036aacca67842",
+      "ast_digest": "8e481c6242952de2ed1a4a022d2ab3d97ec5a5a1f85173a17b4a98503d23297a"
+    },
+    "spp": {
+      "values_digest": "160557317962cfdff39b5c9436df3999992815fb4533d00153ddd117de4342ba",
+      "rendered_digest": "0d7ca74556b4e3b88aef2f126fa85bc3d3a5396f3fab1a806ddc365196def216",
+      "ast_digest": "0f7a696319609f841ae04a1a76d6289f359048de9671c42938efc3179a4d9bd0"
+    },
+    "vpp": {
+      "values_digest": "7c0e733e64f9b1733267c864d05c7bf6bfd794be8716c06bce47195b536c48d2",
+      "rendered_digest": "0dfbd2b92e106b92926dc8154436675448936528ff36559a102644319e8e94c1",
+      "ast_digest": "1c9fe52e3b83bb390150522900188bcc23838d49b62e6f50f6ac211ace9bc59d"
+    },
+    "srp": {
+      "values_digest": "6e823ee8476ad8e3f48c44c44d051b859cfed4c53605c93ae67842b929429e89",
+      "rendered_digest": "ae8585ee2dbcfade7dab470b1c028fefb28ebda1c006ddcc9e2cd3325d98f19c",
+      "ast_digest": "8bdce42a064a7c427e9baf97ef2bbe882bf01d66112df42e336c2c827b9fe244"
+    },
+    "sor": {
+      "values_digest": "185051f4ecda2eee8e2abcd51bfdeadc7ad7219f2bc63f349535160a64de4ef3",
+      "rendered_digest": "abfe4ad58be27400f0c388aa3490019f76d2f53e9e3c70eda540face8ee449e0",
+      "ast_digest": "b08b01c96151c2db6120af3adc0b4641c7c3b6568f5ca27a70295737fa7ddae6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "Advance the operator-approved, typed-validator-ready remediation packet to ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "operator:bounded-follow-on-directive",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "Replace the shell wrapper with its governed required Runtime Cargo boundary so readiness remains executable through typed validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"guardian-parity-focused\",\"proof_role\":\"Prove the exact parity_b_live_kernel target containing both observed Guardian regressions and genuine SpawnFailed coverage.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"parity_b_live_kernel\"],\"parallel_group\":\"runtime-local\",\"defer_reason\":null},{\"lane\":\"runtime-required-local\",\"proof_role\":\"Run the same complete Runtime-kernel Cargo test boundary used by the hosted Runtime v3 focused-tests step.\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-local\",\"defer_reason\":null},{\"lane\":\"runtime-strict-clippy\",\"proof_role\":\"Prove warning-free Runtime kernel production and test targets before exact-head review.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "Advance the operator-approved, typed-validator-ready remediation packet to ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "Clear the completed changes-required review after retaining its requested repeated cwd/thread proof for fresh exact-head rereview.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:guardian-spawn-flake",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+flowchart TD
+  A["WP-23 and WP-24 terminal gates; WP-24A deferred to v0.92.1"] --> B["Freeze clean exact target SHA"]
+  B --> C["Build scoped packet and digest manifest"]
+  C --> L1["Correctness"]
+  C --> L2["Architecture"]
+  C --> L3["Tests, PVF, and CI"]
+  C --> L4["Security and privacy"]
+  C --> L5["Dependencies"]
+  C --> L6["Docs and claims"]
+  C --> L7["Lifecycle and evidence"]
+  C --> L8["Demos and integration"]
+  C --> L9["Release and publication"]
+  L1 --> S["Findings-first synthesis"]
+  L2 --> S
+  L3 --> S
+  L4 --> S
+  L5 --> S
+  L6 --> S
+  L7 --> S
+  L8 --> S
+  L9 --> S
+  S --> V["Schema, digest, redaction, and identity validation"]
+  V --> M["Independent meta-review"]
+  M --> H["WP-26 handoff candidate; no remediation or release claim"]

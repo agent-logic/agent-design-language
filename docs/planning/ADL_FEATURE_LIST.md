@@ -126,10 +126,11 @@ Current roadmap planning truth, last verified 2026-08-05:
 - `v0.91.7` is retained implementation and proof history, not the active
   closeout tail
 - `v0.91.8` is the retained reviewed platform-acceptance and handoff bridge
-- `v0.92` is the active development milestone and consumes the exact v0.91.8
-  handoff rather than v0.91.7 prose directly
-- `v0.92` remains the first true identity, continuity, and birthday milestone;
-  its planned outcomes are not complete merely because the milestone is active
+- `v0.92` is the completed identity, continuity, and birthday engineering
+  milestone and consumed the exact v0.91.8 handoff rather than v0.91.7 prose
+  directly
+- `v0.92.1` is the next planning and execution band; it must preserve v0.92
+  evidence and non-claims rather than rewriting completed milestone truth
 - `v0.95` remains MVP convergence and packaging, not first implementation of
   major cognitive or product systems
 
@@ -310,11 +311,11 @@ ADL already provides a serious platform baseline:
 | Curiosity Engine and Discovery Substrate | Bounded Runtime v2 cycle implemented/proven | closed `#4692`, `docs/milestones/v0.91.7/features/CURIOSITY_ENGINE_DISCOVERY_SUBSTRATE_v0.91.7.md`, and the WP-10 review packet | One governed discovery cycle is retained; autonomous or unbounded discovery is not claimed. |
 | Constructability Gate for shared ADL reality | Bounded Runtime v2 validator implemented/proven | closed `#4693`, `docs/milestones/v0.91.7/features/CONSTRUCTABILITY_GATE_v0.91.7.md`, and the WP-10 review packet | Construction-event, anchor, admissibility, and fail-closed proof is retained; broader shared-reality authority is not claimed. |
 | Reasoning graph, loop runtime, and `adl.skill.v1` | Bounded Runtime v2 implementation/proof retained; Runtime v3 parity proof retained | closed `#4694`-`#4697`, WP-11 review and cognitive-control evidence packets, follow-ons `#4912`, `#5096`, `#5136`, v0.91.8 `#5592`, and WP-16 issue-outcome audit | Runtime v3 receives no parity credit from metadata or fixtures; #5592 supplies the bounded live kernel parity path. Full adaptive-learning and final-standard convergence remain later work. |
-| ACP / cognitive profiles runtime surface | Planned | `docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md` | `v0.92` |
+| ACP / cognitive profiles runtime surface | Runtime resident-cycle integration in progress | `docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md`, issue `#448` | `v0.92` now distinguishes the implemented governed profile substrate from the Runtime resident-cycle consumer that builds verified handles |
 | ACIP binary schema and WebSocket carrier | Planned | `docs/milestones/v0.91.6/features/ACIP_A2A_PROVIDER_COMMUNICATIONS_v0.91.6.md`, `docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md`, and `docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md` | `v0.92` binary/schema carrier; `v0.93` security; `v0.94` signed trace |
 | Identity, stable name, and continuity substrate | Planned | `docs/milestones/v0.91.6/features/IDENTITY_CONTINUITY_CAPABILITY_SELECTOR_BRIDGE_v0.91.6.md`, `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`, and `docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md` | `v0.92` |
-| Memory grounding, capability envelope, and birth witnesses/receipt | Planned | `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md` | `v0.92` |
-| Memory Palace navigable context topology | Required v0.92 implementation/proof slice under development | `docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md` plus context-problem planning | v0.92 must include the smallest implemented/proven slice that distinguishes ObsMem, palace topology, working set, and context cache. |
+| Memory grounding, capability envelope, and birth witnesses/receipt | Production composition implemented | `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`, issues `#448` and `#451` | The verified resident-cycle handles, authenticated ACC receipt, Adaptive Learning receipt, witness packet, and Memory Palace authority converge through the exactly-once production birthday store; retained #451 audit evidence proves the complete live wiring denominator. |
+| Memory Palace navigable context topology | Implemented Runtime-kernel production-authority slice | `docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md`, issue `#450`, PR `#458`, `adl-runtime-kernel::memory_palace`, `adl-runtime::memory_palace`, and `adl::memory_palace` adapter tests | `v0.92` now names `adl-runtime-kernel::memory_palace` as the production authority for admission, topology, working set, context cache, and canonical digest. `adl-runtime` owns durable retained checkpoint/latest/journal state, and `adl` consumes that authority through a compatibility projection; distributed or unbounded Memory Palace expansion remains later work. |
 | First true Gödel-agent birthday | Planned | `docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md` and `docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | `v0.92` |
 | Constitutional citizenship, rights/duties, and governance review | Planned | `docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md` plus the `v0.93` citizenship/governance allocation plan | `v0.93` |
 | Bounded Theory of Mind, relationship, reputation, and shared social memory boundary | Planned | `docs/milestones/v0.93/features/THEORY_OF_MIND_AND_SOCIAL_COGNITION_v0.93.md` and `docs/milestones/v0.93/features/SOCIAL_RELATIONSHIP_REPUTATION_AND_SHARED_MEMORY_v0.93.md` | `v0.93` |
@@ -326,7 +327,7 @@ ADL already provides a serious platform baseline:
 | Payments, settlement, economic agency, and `x402` / Lightning adapters | Planned | `docs/milestones/v0.94.1/features/PAYMENTS_SETTLEMENT_AND_X402_v0.94.1.md` and the tracked `v0.94.1` milestone package | `v0.94.1` |
 | Bounded contract-market and resource-stewardship bridge | Implemented baseline | `docs/milestones/v0.90.4` contract-market docs, proof coverage, and demo matrix | Completed bounded baseline by `v0.90.4` |
 | Distributed execution integration | Partially implemented; AEE/multi-agent boundary subset pulled forward | `docs/milestones/v0.95/features/DISTRIBUTED_EXECUTION_INTEGRATION_v0.95.md`, ADR 0003, cluster-execution groundwork docs, and `docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md` | AEE/multi-agent boundary proof targeted for `v0.91.5`/`v0.92`; broad distributed integration by `v0.95` |
-| CodeFriend v1 and portable adapter v2 | MVP-scoped planned product proof | `docs/milestones/v0.95/features/CODEFRIEND_V1_PORTABLE_ADAPTER_V2_PROOF_v0.95.md` plus tracked CodeFriend planning | CodeFriend v1 plus adapter v2 must land after v0.92 and before v0.95; broad product UX/accounts/billing/report UX remain post-v0.95 |
+| CodeFriend Beta 1 and portable Adapter v2 | Planned complete beta milestone | `docs/milestones/v0.92.2/README.md` and its feature/proof package | v0.92.2 must deliver the usable Beta 1 product, not another prototype; v0.95 consumes and hardens that beta toward MVP convergence |
 | Capability-testing evidence consumption / Aptitude Atlas boundary | MVP-scoped evidence consumption; productization post-v0.95 | capability-testing harness docs, local capability-testing planning, and `LB-046` | v0.95 consumes capability-testing evidence only; Aptitude Atlas product/baseline productization is post-v0.95 |
 | Demo catalog and polished MVP walkthrough | Partially implemented | `docs/milestones/v0.95/features/DEMO_CATALOG_AND_MVP_WALKTHROUGH_v0.95.md` plus milestone demo matrices and reviewer packages | `v0.95` |
 | Control-plane Rust migration / tooling hardening | Partially implemented | `docs/milestones/v0.95/features/CONTROL_PLANE_RUST_MIGRATION_AND_TOOLING_HARDENING_v0.95.md` and Python-elimination/tooling-hardening planning | `v0.95` |
@@ -364,7 +365,9 @@ has already landed, is landing now, or has explicitly placed on the path to the
 | `v0.91.6` | First required pre-v0.92 readiness tranche: resilience/citizen persistence, logging/tooling proof-loop fixes, public prompt records, provider/model reliability, first ACIP/A2A/security decisions, and feature-doc issue-wave setup. |
 | `v0.91.7` | Historical implementation and proof tranche: bounded evidence exists for logging/OTel, goals/metrics, lifecycle tooling, validation/build throughput, scheduler/provider/local agents, Soak #2, signal operations, Observatory/Unity, Curiosity, Constructability, reasoning graph/loops/`adl.skill.v1`, security, guild/CodeFriend boundaries, and ACIP/A2A decisions. Its WP-17 closed through #4644 / PR #5539; v0.91.8 owns the current release-truth alignment and handoff. |
 | `v0.91.8` | Required bridge for exact-revision ADL v2, Runtime v3, and C-SDLC v2 platform acceptance, deployment/cutover truth, rollback, and reviewed handoff into v0.92. |
-| `v0.92` | **Active development milestone.** Identity-bearing agent substrate, stable names, cognitive profiles, model/provider capability contracts, continuity across runs, memory grounding, Memory Palace proof slice, witnesses, receipts, and the first true Gödel-agent birthday. Activation identifies the current work band; it does not mark planned outcomes complete. |
+| `v0.92` | **Completed engineering milestone.** Identity-bearing agent substrate, stable names, cognitive profiles, model/provider capability contracts, continuity across runs, memory grounding, Memory Palace proof slice, witnesses, receipts, and the bounded first-birthday proof. External publication and later governance remain separately authorized. |
+| `v0.92.1` | Integration and product-readiness work: corporate/IP transfer, C-SDLC v3, distributed Runtime qualification, podcast and Studio, hot reload, Observatory redesign, Runtime v2/v3 decoupling, provider inference profiles, and GCP qualification sidecar. |
+| `v0.92.2` | CodeFriend Beta 1: product shell, Adapter v2, evidence core, architecture cognition, executable governance, specialist review, human publication controls, longitudinal intelligence, exports, documentation, and bounded product proof. |
 | `v0.93` | Constitutional citizenship, rights/duties, social contract, delegation/upstream delegation/IAM, standing/challenge/appeal governance, guilds, relationship model, reputation/trust, shared social memory, ToM/social cognition, security governance, and enterprise security for the ADL polis. |
 | `v0.94` | Secure execution, policy-engine and identity/auth convergence, provider trust and isolation, secrets/data governance, signed/queryable trace and reasoning/provenance closure, bounded mental time travel / temporal self-projection, and cross-band convergence before MVP freeze. |
 | `v0.94.1` | Payments, settlement, accounting/ledger/economic trace, economic agency, and `x402` / Lightning adapter follow-on work. |
@@ -511,20 +514,21 @@ practical long-lived runtime supervision:
 The truthful v0.90 story is implemented baseline, with Runtime v2 consuming
 those surfaces rather than replacing them.
 
-## Current Planning Focus: Execute v0.92 From The Retained v0.91.8 Handoff
+## Current Planning Focus: Preserve v0.92 Truth And Execute The Next Band
 
 `v0.91.4` is no longer the active planning center in this feature list. Its
 role is the completed Cognitive SDLC default-operation hardening band that the
 current workflow now consumes.
 
-The current planning focus is the active v0.92 implementation and proof wave,
-using the reviewed v0.91.8 bridge as retained upstream evidence:
+The current planning focus is the post-v0.92 execution band while preserving
+the reviewed v0.91.8 bridge and completed v0.92 evidence:
 
 - consume the completed `v0.91.6` readiness tranche truthfully
 - retain `v0.91.7` as historical implementation and proof input
 - consume the completed v0.91.8 handoff without rewriting its historical proof
-- execute v0.92 as the first true identity/continuity/birthday milestone while
-  preserving issue-level planned, active, implemented, and reviewed truth
+- retain v0.92 as the completed identity/continuity/birthday engineering
+  milestone while preserving issue-level implemented and reviewed truth
+- route new v0.92.1 work through its own planning and issue authority
 - keep v0.95 as convergence and packaging, not first implementation of major
   cognitive systems
 
@@ -700,8 +704,12 @@ constitutional/social-governance band.
 `v0.92` is the move from bounded cognitive behavior to identity-bearing
 agents:
 - first-class identity
-- ACP / cognitive profiles runtime surface
-- provider/model capability contracts
+- ACP / cognitive profiles runtime surface, with `#448` as the Runtime
+  resident-cycle integration slice that consumes verified handles rather than
+  caller-authored profile metadata
+- provider/model capability contracts, with `#448` as the resident-cycle
+  capability-envelope consumption slice rather than the lower-level envelope
+  substrate alone
 - stable names
 - continuity hooks across runs
 - Memory Palace proof slice for navigable long-running context, after the
@@ -795,6 +803,27 @@ it or explicitly remove it from MVP scope. It is no longer allowed to sit as
 open-ended post-`v0.95` ambiguity in the feature list.
 
 ## Summary
+
+## Near-Term Integration Milestones
+
+### `v0.92.1` — Integration and Product Readiness
+
+The v0.92.1 package carries the original six bounded lanes—Corporate and IP
+transfer, C-SDLC v3, distributed multi-agent Runtime qualification, Podcast and
+Studio, Axum configuration hot reload, and Observatory redesign—plus explicit
+Runtime v2/v3 decoupling, provider inference profiles, and a portable GCP
+qualification sidecar. Repository authority cleanup is the shared prerequisite.
+Runtime v4 is a rebaseline risk rather than implicit scope.
+
+### `v0.92.2` — CodeFriend Beta 1
+
+CodeFriend Beta 1 follows v0.92.1. It turns the existing review, diagram, test,
+remediation, and reporting capabilities into a usable integrated product with a
+shell and onboarding, portable Adapter v2, governed evidence, architecture
+cognition, executable fitness functions, multi-perspective review, human
+publication controls, longitudinal comparison, exports, documentation, and
+bounded proof on ADL plus one external repository. v0.92.2 completes Beta 1;
+v0.95 consumes and hardens it toward MVP convergence.
 
 ADL already has a substantial platform:
 - deterministic execution

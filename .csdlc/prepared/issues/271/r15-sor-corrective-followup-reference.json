@@ -1,0 +1,12 @@
+{
+  "issue": 271,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "07169e9a52e79253cac187a8109754efdd828ffb9290814c309cf6dbf483edcd",
+  "actor": "codex:sprint5-271-r1-remediation",
+  "reason": "Record supported SOR correction that prior follow-up bullets are completed/superseded after bind, implementation proof, review recovery, and R1 remediation; implemented-phase typed owner does not expose follow-up replacement.",
+  "operation": {
+    "operation": "append_reference",
+    "value": "R1 remediation note: the prior design-review and proof-before-review follow-up bullets are completed/superseded by generation 13 typed state; remaining gate is fresh exact-head implementation rereview and publication."
+  }
+}

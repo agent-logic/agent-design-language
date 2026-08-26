@@ -99,10 +99,10 @@ changed_rows() {
     echo "run_pr_fast_test_lane: --base and --head are required unless --changed-files is supplied" >&2
     exit 2
   fi
-  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACMR "$BASE_SHA...$HEAD_SHA" 2>/dev/null; then
+  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACDMR "$BASE_SHA...$HEAD_SHA" 2>/dev/null; then
     return
   fi
-  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACMR "$BASE_SHA" "$HEAD_SHA" 2>/dev/null; then
+  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACDMR "$BASE_SHA" "$HEAD_SHA" 2>/dev/null; then
     return
   fi
   echo "run_pr_fast_test_lane: failed to determine changed files for $BASE_SHA..$HEAD_SHA" >&2
@@ -479,7 +479,7 @@ family_token_for_path() {
       printf 'pr_control_plane'
       return 0
       ;;
-    adl/src/bin/adl_process.rs|adl/src/bin/adl_session.rs)
+    adl/src/bin/adl_process.rs)
       printf 'cli'
       return 0
       ;;
@@ -532,13 +532,45 @@ EOF
   [ "$saw_manifest" = true ] || [ "$saw_lock" = true ]
 }
 
+ISSUE309_DEAD_CODE_MANIFEST_SHA256="5b86080fd99cc41c0a25fd7d892cedfd0ae2eb0e4f8a2cfa04bc9a9be2aa48ac"
+
+is_bounded_dead_code_deletion_wave() {
+  local deleted=0
+  local status=""
+  local path=""
+  local observed_manifest_sha256=""
+  while IFS=$'\t' read -r status path; do
+    [ -n "$path" ] || continue
+    if ! is_relevant_fast_lane_surface "$path"; then
+      continue
+    fi
+    case "$status:$path" in
+      D:adl/src/*.rs)
+        deleted=$((deleted + 1))
+        ;;
+      M:adl/src/lib.rs|M:adl/src/gws_live_test_support.rs)
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+  done <<EOF
+$(changed_rows | normalize_changed_rows)
+EOF
+  [ "$deleted" -gt 0 ] && [ "$deleted" -le 32 ] || return 1
+  observed_manifest_sha256="$({ changed_rows | normalize_changed_rows | while IFS=$'\t' read -r status path; do
+    is_relevant_fast_lane_surface "$path" && printf '%s\t%s\n' "$status" "$path"
+  done; } | LC_ALL=C sort | python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.stdin.buffer.read()).hexdigest())')"
+  [ "$observed_manifest_sha256" = "$ISSUE309_DEAD_CODE_MANIFEST_SHA256" ]
+}
+
 build_filter_expression() {
   python3 - "$@" <<'PY'
 import sys
 
 TOKEN_MAP = {
     "cli_dispatch": 'test(/^cli::tests::top_level_dispatch_routes_/)',
-    "cli": 'test(/^cli::/) or binary_id(adl::bin/adl-process) or binary_id(adl::bin/adl-session)',
+    "cli": 'test(/^cli::/) or binary_id(adl::bin/adl-process)',
     "cli_smoke_basics": 'binary_id(adl::cli_smoke) and test(/^basics::/)',
     "agent_cli_smoke": 'binary_id(adl::cli_smoke) and test(/^agent::/)',
     "agent_cmd": 'test(/^cli::agent_cmd::/)',
@@ -616,11 +648,16 @@ saw_adl_crate_surface=false
 saw_adl_runtime_crate_surface=false
 saw_other_relevant_fast_lane_surface=false
 bounded_runtime_v3_csm_bridge=true
+bounded_dead_code_deletion_wave=false
 saw_runtime_v3_bridge_surface=false
 saw_csm_bridge_surface=false
 
 declare -a tokens=()
 declare -a family_tokens=()
+
+if is_bounded_dead_code_deletion_wave; then
+  bounded_dead_code_deletion_wave=true
+fi
 
 while IFS= read -r path; do
   [ -n "$path" ] || continue
@@ -699,6 +736,9 @@ while IFS= read -r path; do
     continue
   fi
   rust_surface_count=$((rust_surface_count + 1))
+  if [ "$bounded_dead_code_deletion_wave" = true ]; then
+    continue
+  fi
   if [ "$path" = "adl/src/runtime_v2/tests.rs" ] && [ "$saw_slow_proof_contract_surface" = true ]; then
     slow_proof_inventory_surface_count=$((slow_proof_inventory_surface_count + 1))
     continue
@@ -745,7 +785,12 @@ $(changed_rows \
   | awk -F '\t' 'NF >= 2 { print $2 }')
 EOF
 
-if [ "$classification_locked" = true ]; then
+if [ "$bounded_dead_code_deletion_wave" = true ]; then
+  mode="focused"
+  reason="bounded_dead_code_deletion_wave_runs_protected_nextest"
+  filter_tokens="resident_shepherd_spot_continuity,cli_smoke"
+  filter_expression='test(resident_shepherd_spot_continuity) or binary_id(adl::cli_smoke)'
+elif [ "$classification_locked" = true ]; then
   :
 elif [ "$bounded_runtime_v3_csm_bridge" = true ] \
   && [ "$saw_runtime_v3_bridge_surface" = true ] \

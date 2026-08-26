@@ -1,0 +1,21 @@
+{
+  "issue": 111,
+  "card": "spp",
+  "expected_generation": 25,
+  "expected_digest": "a96137949f2fcadba8b17e53edf84b2f52d3e265f64071c052189b1db1ffa6bb",
+  "actor": "codex:111-execution",
+  "reason": "Replace the superseded issue 83 merge risk with current bounded conversation execution risks.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "risks",
+    "values": [
+      "Concurrent #113 roster work overlaps Runtime control and Observatory paths, so integration must preserve both issue-owned commits and rerun exact focused proof",
+      "A public helper or browser-held key could bypass authenticated WSS authority unless the conversation entrypoint remains private and session-gated",
+      "Duplicate turn identifiers, disconnects, and late adapter completion can confuse visible outcome truth unless canonical ingress remains the sole idempotency authority",
+      "An adapter could return arbitrary fields or a mismatched recipient unless the public projection is strict and fail closed",
+      "A browser may accidentally render an acknowledgement, result hash, stale replay, or arbitrary adapter output as conversational content",
+      "Durable history, rooms, and broader identity hardening must remain routed to #114, #115/#116, and #112"
+    ]
+  },
+  "fail_after_backup": false
+}

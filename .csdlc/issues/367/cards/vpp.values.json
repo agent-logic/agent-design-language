@@ -1,0 +1,238 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 367,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Bind sealed child projections to one authority lineage",
+    "slug": "sealed-child-pairing-lineage",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "shepherd-private-unit",
+          "proof_role": "Run the exact source-unit filter proving missing lineage denial, sealed preimage tamper rejection, and private pair-adapter construction/accessor invariants.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "shepherd_serving_eligibility::tests::sealed_committed_projection_private_provenance",
+            "--features",
+            "internal-test-fixtures"
+          ],
+          "parallel_group": "367-serial-01",
+          "defer_reason": "Deferred until adapter implementation; zero tests fail closed."
+        },
+        {
+          "lane": "normal-build-api-denial",
+          "proof_role": "Run normal-build rustdoc compile-fail examples proving sealed DTO/raw lineage and pair-adapter struct construction are unavailable.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--doc"
+          ],
+          "parallel_group": "367-serial-02",
+          "defer_reason": "Deferred until adapter compile-fail docs exist; zero tests fail closed."
+        },
+        {
+          "lane": "shepherd-focused",
+          "proof_role": "Run the exact feature-bearing Shepherd target proving verifier-derived lineage persistence, replacement/end preservation, legacy denial, redaction, and unchanged lifecycle behavior.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_shepherd_serving_eligibility",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "--test-threads=1"
+          ],
+          "parallel_group": "367-serial-04",
+          "defer_reason": "Deferred until implementation; missing or zero tests fail closed."
+        },
+        {
+          "lane": "observatory-focused",
+          "proof_role": "Run the exact feature-bearing Observatory target proving opaque adapter A/A success, authentic A/B first-use/restart denial, exact-child borrows, and redaction.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_serving_eligibility",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "--test-threads=1"
+          ],
+          "parallel_group": "367-serial-05",
+          "defer_reason": "Deferred until implementation; missing or zero tests fail closed."
+        },
+        {
+          "lane": "library-clippy",
+          "proof_role": "Reject warnings and hidden API drift across the feature-bearing library and private verifier/adapter surfaces.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "367-serial-06",
+          "defer_reason": "Deferred until implementation."
+        },
+        {
+          "lane": "shepherd-clippy",
+          "proof_role": "Reject warnings in the exact feature-bearing Shepherd target.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_shepherd_serving_eligibility",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "367-serial-07",
+          "defer_reason": "Deferred until implementation."
+        },
+        {
+          "lane": "observatory-clippy",
+          "proof_role": "Reject warnings in the exact feature-bearing Observatory target.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_serving_eligibility",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "367-serial-08",
+          "defer_reason": "Deferred until implementation."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject patch hygiene outside the immutable #365 terminal base.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "a4801fbb3a58bed27ba53367cbda8b31a1f56083...HEAD"
+          ],
+          "parallel_group": "367-serial-09",
+          "defer_reason": "Deferred until implementation revision."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on raw or caller pairing authority missing lineage unverified/corrupt provenance authentic A/B substitution restart drift policy change scope drift review finding CI failure or terminal mismatch.",
+      "design_ref": ".csdlc/prepared/issues/367/design.md",
+      "design_digest": "ddca0a5ce38a8dfed01754222b7b1e790d8c3faba374a6db1e0e6ad3b2475d4b",
+      "diagram_ref": ".csdlc/prepared/issues/367/diagram.mmd",
+      "diagram_digest": "43f7f1c44c3d8e8fd8969ffbab8421b8721f65fc61fbca84bd0c58398709c463"
+    }
+  }
+}

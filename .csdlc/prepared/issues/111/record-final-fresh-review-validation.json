@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 63,
+  "expected_digest": "bb6e1782dca3d027c4f73710f96f39e7a552b4a2bfd1efd0ca24aea7bc2e2571",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Record focused exact-head validation and issue-owned coverage after final roster-stack integration.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["focused WP-18C.01 Runtime, WSS, browser, OpenAPI, lint, format, diff, and issue-owned coverage gates"],
+      "purpose": "Prove generation-bound result authorization, bounded duplicate handling, exact policy-visible recipient resolution, and preservation of the integrated conversation and roster contracts.",
+      "outcome": "passed",
+      "evidence_ref": "git:17044db84; conversation_sessions 1/1, control 25/25, observatory 7/7, openapi_contract 6/6 PASS; conversation browser contract PASS; combined HTML Observatory contract PASS; strict lib+binary Clippy PASS; cargo fmt and diff hygiene PASS; exact conversation_sessions llvm-cov PASS with control.rs 42.94%, ingress.rs 76.66%, operations.rs 48.44%, telemetry.rs 65.06%. Long-running validation remains out of band under #226."
+    }
+  },
+  "fail_after_backup": false
+}

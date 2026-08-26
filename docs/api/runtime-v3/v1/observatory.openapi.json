@@ -4,7 +4,7 @@
     "title": "ADL Observatory API",
     "version": "1.0.0",
     "summary": "Live runtime state for Observatory clients",
-    "description": "Read current runtime state without login. Login is required only to send signed control commands or ACIP work over the full-duplex WebSocket."
+    "description": "Read current runtime state without login. Login is required to submit bounded conversation intents, signed control commands, or ACIP work over the full-duplex WebSocket."
   },
   "servers": [
     {
@@ -25,6 +25,62 @@
     }
   ],
   "paths": {
+    "/v1/agents": {
+      "get": {
+        "operationId": "readAgentRosterPage",
+        "tags": ["observatory"],
+        "summary": "Read one policy-filtered local Runtime roster page",
+        "security": [],
+        "parameters": [
+          {"name": "page_size", "in": "query", "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 50}},
+          {"name": "page_token", "in": "query", "schema": {"type": "string", "maxLength": 1024}},
+          {"name": "filter", "in": "query", "schema": {"type": "string", "maxLength": 64}},
+          {"name": "event_cursor", "in": "query", "schema": {"type": "string", "maxLength": 1024}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Current policy-filtered roster page.",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentPopulationFeed"}}}
+          },
+          "400": {"description": "Invalid, stale, cross-policy, or tampered roster query."},
+          "403": {"$ref": "#/components/responses/OriginForbidden"}
+        }
+      },
+      "options": {
+        "operationId": "agentRosterCorsPreflight",
+        "tags": ["observatory"],
+        "summary": "Validate an allowed roster origin",
+        "responses": {
+          "204": {"description": "Allowed origin preflight."},
+          "403": {"$ref": "#/components/responses/OriginForbidden"}
+        }
+      }
+    },
+    "/v1/agents/{agent_id}": {
+      "get": {
+        "operationId": "readAgentDetail",
+        "tags": ["observatory"],
+        "summary": "Read one policy-filtered agent detail projection",
+        "security": [],
+        "parameters": [
+          {"name": "agent_id", "in": "path", "required": true, "schema": {"type": "string", "minLength": 1, "maxLength": 128}}
+        ],
+        "responses": {
+          "200": {"description": "Current policy-filtered agent detail.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/AgentRosterEntry"}}}},
+          "404": {"description": "Agent is absent or not visible under Runtime policy."},
+          "403": {"$ref": "#/components/responses/OriginForbidden"}
+        }
+      },
+      "options": {
+        "operationId": "agentDetailCorsPreflight",
+        "tags": ["observatory"],
+        "summary": "Validate an allowed agent-detail origin",
+        "responses": {
+          "204": {"description": "Allowed origin preflight."},
+          "403": {"$ref": "#/components/responses/OriginForbidden"}
+        }
+      }
+    },
     "/v1/observatory": {
       "get": {
         "operationId": "readObservatorySnapshot",
@@ -73,7 +129,7 @@
         "operationId": "openObservatoryWebSocket",
         "tags": ["observatory"],
         "summary": "Open a public-read, authenticated-write Observatory WSS session",
-        "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands or bounded ACIP Protobuf binary envelopes.",
+        "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands, bounded conversation intents or cancellations, or bounded ACIP Protobuf binary envelopes. Conversation acceptance and terminal outcomes are Runtime-authoritative and correlated by conversation, turn, recipient, and correlation identifiers.",
         "security": [],
         "responses": {
           "101": {
@@ -104,6 +160,14 @@
               "$ref": "#/components/schemas/SignedControlCommand"
             },
             {
+              "$ref": "#/components/schemas/ObservatoryConversationIntent",
+              "purpose": "selected_agent_conversation"
+            },
+            {
+              "$ref": "#/components/schemas/ObservatoryConversationCancel",
+              "purpose": "cancel_in_flight_conversation_turn"
+            },
+            {
               "binarySchema": "adl.csm.acip_carrier.protobuf_envelope.v1",
               "serverReply": "adl.csm.acip_carrier.websocket_frame.v1"
             }
@@ -114,6 +178,9 @@
             },
             {
               "$ref": "#/components/schemas/ObservatoryWsControlResult"
+            },
+            {
+              "$ref": "#/components/schemas/ObservatoryConversationResult"
             }
           ],
           "publicReadFrames": true,
@@ -147,6 +214,47 @@
           }
         }
       },
+      "ObservatoryConversationIntent": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "conversation_id", "turn_id", "recipient_id", "correlation_id", "message"],
+        "properties": {
+          "schema": { "const": "adl.runtime_v3.observatory_conversation_intent.v1" },
+          "conversation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "turn_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "recipient_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "correlation_id": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+          "message": { "type": "string", "minLength": 1, "maxLength": 4096 }
+        }
+      },
+      "ObservatoryConversationResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "status", "conversation_id", "turn_id", "recipient_id", "correlation_id"],
+        "properties": {
+          "schema": { "const": "adl.runtime_v3.observatory_conversation_result.v1" },
+          "status": { "enum": ["accepted", "delivered", "refused", "timed_out", "cancelled", "failed"] },
+          "conversation_id": { "type": "string" },
+          "turn_id": { "type": "string" },
+          "recipient_id": { "type": "string" },
+          "correlation_id": { "type": "string" },
+          "reply": { "type": "string", "maxLength": 4096 },
+          "accepted_sequence": { "type": "integer", "minimum": 1 },
+          "turn_sequence": { "type": "integer", "minimum": 1 },
+          "error": { "type": "string" }
+        }
+      },
+      "ObservatoryConversationCancel": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "conversation_id", "turn_id", "correlation_id"],
+        "properties": {
+          "schema": { "const": "adl.runtime_v3.observatory_conversation_cancel.v1" },
+          "conversation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "turn_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "correlation_id": { "type": "string", "pattern": "^[0-9a-f]{32}$" }
+        }
+      },
       "DomainWork": {
         "type": "object",
         "additionalProperties": false,
@@ -165,7 +273,7 @@
       "SignedControlCommand": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
+      "required": [
           "schema",
           "runtime_instance_id",
           "command_id",
@@ -287,6 +395,8 @@
         "required": [
           "schema",
           "runtime_instance_id",
+          "runtime_incarnation_id",
+          "runtime_process_id",
           "default_runtime_changed",
           "runtime_selection",
           "control",
@@ -303,6 +413,14 @@
           },
           "runtime_instance_id": {
             "type": "string"
+          },
+          "runtime_incarnation_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "runtime_process_id": {
+            "type": "integer",
+            "minimum": 1
           },
           "default_runtime_changed": {
             "type": "boolean"
@@ -410,15 +528,53 @@
       },
       "AgentPopulationFeed": {
         "type": "object",
-        "required": ["total_count", "rendered_sample_count", "sample"],
+        "required": [
+          "schema",
+          "revision",
+          "scope",
+          "total_count",
+          "rendered_sample_count",
+        "has_more",
+          "next_page_token",
+          "event_cursor",
+          "population_complete",
+          "sample"
+        ],
         "properties": {
-          "total_count": {
+          "schema": {
+            "const": "adl.runtime_v3.agent_roster_page.v1"
+          },
+          "revision": {
             "type": "integer",
             "minimum": 0
+          },
+          "scope": {
+            "const": "local_runtime"
+          },
+          "total_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of policy-visible agents in the current local Runtime scope; this is not a global Polis count."
           },
           "rendered_sample_count": {
             "type": "integer",
             "minimum": 0
+          },
+        "has_more": {
+          "type": "boolean"
+        },
+        "next_page_token": {
+          "type": ["string", "null"],
+          "maxLength": 1024
+        },
+        "event_cursor": {
+          "type": ["string", "null"],
+          "maxLength": 1024,
+          "description": "Runtime-authenticated revision, policy, and query cursor for the next first-page update."
+        },
+          "population_complete": {
+            "const": false,
+            "description": "False until a separately governed distributed projection can prove global completeness."
           },
           "sample": {
             "type": "array",
@@ -429,9 +585,46 @@
           }
         }
       },
+      "AgentRosterEntry": {
+        "type": "object",
+        "required": ["schema", "id", "label", "role", "presence", "health", "availability", "activity", "capabilities", "location", "communication_eligible", "observed_at_unix_millis", "freshness_deadline_unix_millis", "source_revision", "provenance"],
+        "properties": {
+          "schema": {"const": "adl.runtime_v3.agent_roster_entry.v1"},
+          "id": {"type": "string"},
+          "label": {"type": "string"},
+          "role": {"type": "string"},
+          "presence": {"type": "string", "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]},
+          "health": {"type": "string"},
+          "availability": {"type": "string"},
+          "activity": {"type": ["string", "null"]},
+          "capabilities": {"type": "array", "maxItems": 32, "items": {"type": "string"}},
+          "location": {"type": ["string", "null"]},
+          "communication_eligible": {"type": "boolean"},
+          "observed_at_unix_millis": {"type": "integer", "minimum": 1},
+          "freshness_deadline_unix_millis": {"type": "integer", "minimum": 1},
+          "source_revision": {"type": "string"},
+          "provenance": {"type": "string"}
+        }
+      },
       "AgentSample": {
         "type": "object",
-        "required": ["id", "label", "role", "state", "detail"],
+        "required": [
+          "id",
+          "label",
+          "role",
+          "state",
+          "detail",
+          "health",
+          "availability",
+          "activity",
+          "capabilities",
+          "location",
+          "communication_eligible",
+          "observed_at_unix_millis",
+          "freshness_deadline_unix_millis",
+          "source_revision",
+          "provenance"
+        ],
         "properties": {
           "id": {
             "type": "string"
@@ -443,9 +636,44 @@
             "type": "string"
           },
           "state": {
-            "type": "string"
+            "type": "string",
+            "enum": ["ready", "busy", "sleeping", "degraded", "unreachable", "migrating", "unknown"]
           },
           "detail": {
+            "type": "string"
+          },
+          "health": {
+            "type": "string"
+          },
+          "availability": {
+            "type": "string"
+          },
+          "activity": {
+            "type": ["string", "null"]
+          },
+          "capabilities": {
+            "type": "array",
+            "maxItems": 32,
+            "items": { "type": "string", "maxLength": 128 }
+          },
+          "location": {
+            "type": ["string", "null"]
+          },
+          "communication_eligible": {
+            "type": "boolean"
+          },
+          "observed_at_unix_millis": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "freshness_deadline_unix_millis": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source_revision": {
+            "type": "string"
+          },
+          "provenance": {
             "type": "string"
           }
         }

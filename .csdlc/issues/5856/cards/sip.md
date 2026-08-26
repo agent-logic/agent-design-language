@@ -16,7 +16,7 @@ Coordinate cleanup, refactoring, quality gates, reviews, remediation, planning, 
 
 ## Required Outcome
 
-A reviewable sprint coordination lane can route #5786, #5841, #5842, #5843, #5846, #5847, #5848, #5849, #5850, #5851, #5852 through their own typed lifecycles without scope collision or false completion.
+A reviewable final-sprint coordination lane routes #5840, #5786, #5841, #5842, #5843, #5846, #5847, #5848, #5849, #5850, #5851, and #5852 through their own typed lifecycles in strict dependency order without scope collision or false completion.
 
 ## Scope
 

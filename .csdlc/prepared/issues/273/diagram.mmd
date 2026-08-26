@@ -1,0 +1,14 @@
+flowchart LR
+  P["Terminal predecessors #191/#199/#200/#201/#202/#203"] --> F["#272 terminal durable foundation"]
+  F --> V["Validate exact published foundation binding"]
+  V --> S["#273 Shepherd eligibility state machine"]
+  S --> A["Acquire"]
+  S --> R["Atomic replace"]
+  S --> X["Revoke or expire"]
+  A --> O["One redacted eligible projection"]
+  R --> O
+  X --> N["No eligible Shepherd"]
+  S -. "new module only" .-> M["shepherd_serving_eligibility.rs"]
+  M -. "single serialized registration" .-> D["distributed/mod.rs"]
+  Q["#274 Observatory module"] -. "waits for #273 terminal ancestry before shared registration" .-> D
+  O --> I["#275 integrated proof after #273 and #274"]

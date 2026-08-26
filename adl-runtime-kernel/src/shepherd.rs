@@ -463,13 +463,13 @@ impl Drop for ImmutableRunnerProgram {
 
 fn immutable_runner_launch(
     _bytes: &[u8],
-    path: &Path,
+    _path: &Path,
 ) -> Result<ImmutableRunnerLaunch, ShepherdError> {
     #[cfg(target_os = "linux")]
     return Ok(ImmutableRunnerLaunch::Descriptor);
 
     #[allow(unreachable_code)]
-    Ok(ImmutableRunnerLaunch::Path(path.to_path_buf()))
+    Ok(ImmutableRunnerLaunch::Path(_path.to_path_buf()))
 }
 
 impl LocalShepherdExecutor {

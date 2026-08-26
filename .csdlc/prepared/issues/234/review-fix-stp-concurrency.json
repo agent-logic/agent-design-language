@@ -1,0 +1,22 @@
+{
+  "issue": 234,
+  "card": "stp",
+  "expected_generation": 18,
+  "expected_digest": "88c427c1f827a53895a9601ec9c28373f1d2f9004c5e11218c92791e8405abe3",
+  "actor": "codex:234-review-fix",
+  "reason": "Replace the impossible SHA-only supersession claim with the source repository and branch identity that coalesces duplicate PRs and cancels older commits.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: Only ci.yaml subscribes directly to pull_request; every standalone proof workflow requires explicit dispatch or an intentional reusable-workflow call.",
+      "AC-2: Every required heavy job remains path-policy gated and uses vars.ADL_HEAVY_RUNNER with the 16-core approved default.",
+      "AC-3: Optional, unrelated, soak, demo, provider, retained-proof, nightly, and release-only coverage lanes skip before acquiring a runner on ordinary PRs.",
+      "AC-4: CI concurrency is keyed by target repository and workflow plus source repository, source branch, and target base, so duplicate PR objects for one effective surface share one fleet and a newer commit cancels the older branch run.",
+      "AC-5: Unknown paths fail closed to a conservative required baseline without selecting the optional fleet.",
+      "AC-6: Focused Runtime and Observatory changes select only their declared required checks and issue-owned coverage, with long soaks excluded.",
+      "AC-7: A deterministic repository contract scans all workflows and fails on unauthorized PR triggers, heavy-runner bypass, concurrency regression, or optional fanout.",
+      "AC-8: The procedure records machine-readable selected, skipped, deferred, and canceled reasons without starting skipped workflows.",
+      "AC-9: Local focused proof and bounded exact-head review pass before one publication push; no optional GitHub workflow is used as development feedback."
+    ]
+  }
+}

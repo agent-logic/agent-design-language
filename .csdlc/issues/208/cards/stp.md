@@ -1,0 +1,83 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 208
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement and publish the production Guardian-kernel private continuity bridge, live quiesce/export, isolated stage/validate/activate/discard effects, and sealed integration ports. #210 receives only ContinuityBundleSourcePort and TargetContinuityEffectPort stage/verify operations plus TargetCleanupPermit request access; it returns verified possession and never deletes or activates. #204 owns the executor/control-operation adapter and authority decisions and consumes SourceContinuityEffectPort, TargetContinuityEffectPort activation, and TargetCleanupPermit discard. #208 alone performs every kernel/filesystem effect, revalidates signed expected chunk/range/entry commitments before writes, and keeps the exact-stage discard-only permit valid after transfer expiry/cancellation until verified Discarded or Activated. No caller path, generic trait, normal-build mock, transfer policy, migration decision, fence, ownership, or serving authority is exposed.
+
+## Deliverables
+
+- adl-runtime-kernel/src/continuity_control.rs
+- adl-runtime-kernel/src/continuity.rs
+- adl-runtime-kernel/src/live_continuity.rs
+- adl-runtime-kernel/src/assembly.rs
+- adl-runtime-kernel/src/ingress.rs
+- adl-runtime-kernel/src/reasoning.rs
+- adl-runtime-kernel/src/governance.rs
+- adl-runtime-kernel/src/operations.rs
+- adl-runtime-kernel/src/config.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime/src/kernel_continuity_client.rs
+- adl-runtime/src/config.rs
+- adl-runtime/src/guardian.rs
+- adl-runtime/src/distributed/mod.rs
+- adl-runtime/src/distributed/polis_runtime.rs
+- adl-runtime/src/lib.rs
+- adl-runtime/src/bin/adl-runtime-guardian.rs
+- adl-runtime/tests/kernel_continuity_client.rs
+- adl-runtime-kernel/tests/kernel_continuity_control.rs
+- adl-runtime-kernel/Cargo.toml
+- adl-runtime/Cargo.toml
+- adl-runtime-kernel/Cargo.lock
+- adl-runtime/Cargo.lock
+- .csdlc/prepared/issues/208/continuity-boundary-subassertion-map.json
+- .csdlc/prepared/issues/208/verify-diff-hygiene.rb
+- .csdlc/prepared/issues/208/produce-proof-receipt.rb
+- .csdlc/prepared/issues/208/validate-proof-receipt.rb
+- .csdlc/evidence/208
+- .csdlc/issues/208
+
+## Acceptance
+
+1. AC-1: Both production binaries consume one validated Runtime init contract: the Guardian constructs the opaque client and establishes the supervised-kernel session before distributed-runtime readiness, while the kernel binds the private listener before public readiness; missing wiring, a standalone library, mock, or fixture cannot satisfy closure.
+2. AC-2: Configuration rejects non-loopback, wildcard, multicast, public, zero or duplicate ports, overlapping/symlinked/replaceable roots, missing or duplicate identities, invalid TLS material/EKU/trust, and zero or excessive bounds before either listener reports ready.
+3. AC-3: TLS 1.3 mutual authentication, an RFC 9266 tls-exporter binding on every transient envelope, and strict RFC 8785 canonical operation bodies authorize only the exact logical Guardian and kernel channel; schema/domain/polis/node/identity/epoch/sequence/kind/deadline/prefix/payload bindings reject captured-session replay, bearer-only, agent, voter, Shepherd, public-control, stale, reordered, conflicting, cross-domain, or wrong-peer work before dispatch.
+4. AC-4: A persisted logical channel identity and epoch survives Guardian/kernel process restart; explicit two-phase certificate succession permits predecessor exact retries and successor reconciliation of accepted work but forbids predecessor new work, skipped epochs, ambiguous lineage, or retirement while accepted work remains.
+5. AC-5: The live assembly supplies one sealed complete registry for admission, recorder/accepted prefix, reasoning/mutation, governance, and production operation state; startup and checkpoint fail on missing, extra, duplicate, test-only, or replaced participants, and quiesce/export uses those exact live handles rather than synthetic snapshot bytes.
+6. AC-6: A pre-commit participant failure, deadline, or cancellation triggers receipt-bound resume for every applied or uncertain participant and reopens admission only after all resume receipts reconcile; otherwise the source stays closed with RecoveryRequired. A committed bundle stays quiesced until exact resume or downstream fencing.
+7. AC-7: Stage/validate accepts only bounded streamed bytes under a fixed isolated root and verifies signature, generation, predecessor, accepted prefix, topology, configuration, service set/schema, canonical file names, sizes, and content; every Staging or Validated nonactivated target can be receipt-bound discarded with durable zero-residue proof and exact retry.
+8. AC-8: Client/server journals, participant/effect receipts, results, checkpoints, markers, caches, deadlines, restart, reply loss, capacity and opened-handle safety reconcile without duplicate effects, false no-effect claims, arbitrary paths, residue, secrets, or public continuity routes; #204 alone decides activation, while #208 owns the exact activation effect, durable exact-retry TargetActivationReceipt, cleanup-permit consumption, and denial of discard after activation.
+9. AC-9: Exact ordered fifty-six-case proof, contiguous unique ordinals and name/outcome/marker parity, byte-for-byte parity with the tracked eight-row sixty-four-boundary-subassertion plus twelve-lifecycle-subassertion map, Runtime and kernel Clippy, exact-range diff hygiene, producer, fresh independent exact-head review, and distinct merge-safe immutable validation pass serially before a ready unmerged PR opens.
+
+## Dependencies
+
+- Issue #191 / PR #197 externally reviewed and merged as an ancestor
+- Issue #210 remote transfer remains blocked until #208 merges
+- Issues #204 and #211 migration/recovery execution remain downstream
+- Final #142 operational integration remains downstream
+
+## Inputs
+
+- agent-logic/agent-design-language#208
+- adl-runtime-kernel/src/continuity.rs and live_continuity.rs
+- adl-runtime-kernel/src/assembly.rs, ingress.rs, reasoning.rs, governance.rs, and operations.rs
+- adl-runtime-kernel/src/config.rs and bin/adl-runtime-kernel.rs
+- adl-runtime/src/guardian.rs, bin/adl-runtime-guardian.rs, and Runtime init surfaces
+- adl-runtime/src/distributed/polis_runtime.rs from merged #191
+- .csdlc/issues/142 operational design as read-only umbrella truth
+
+## Non Goals
+
+- Consensus, authority protocol, membership, certificate issuance, lease, fencing, ownership, activation decisions, or serving eligibility; #204 alone owns the activation decision, while #208 owns only the target activation effect and TargetActivationReceipt invoked through #204's finalized decision
+- Remote bundle transport (#210), migration orchestration and decisions (#204), or recovery orchestration and decisions (#211)
+- Public continuity API, Shepherd/model execution, AWS, live Wuji/AWS qualification, final #142 delivery, merge without operator authorization, or lifecycle closeout

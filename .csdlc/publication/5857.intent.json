@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5857,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5857-sprint4-review",
+  "title": "[v0.92][Sprint 4] First-birthday core review",
+  "body": "Closes danielbaustin/agent-design-language#5857\n\n## Findings\nNo unresolved P1 or P2 finding remains after independent sprint review. The initial validator/lifecycle findings were repaired and freshly approved.\n\n## Summary\n- retain the findings-first Sprint 4 review across nine merged children\n- bind exact qualified PR/head/merge mappings and finding-free merge-tree reviews\n- retain corrective authorities agent-logic#144/PR147 and agent-logic#209/PR215\n- execute four fail-closed mapping/review mutations and the integrated WP-16 validator\n- preserve merge-only umbrella activity truth and asynchronous administrative cleanup\n\n## Validation\n- Sprint validator with self-test: 9 children, 2 repairs, 4 negatives, passed\n- integrated WP-16 packet: 9 entries, passed\n- Ruby syntax, JSON/JSONL, typed issue validation, and diff hygiene: passed\n- independent exact-head sprint review: APPROVED, no actionable findings\n\n## Non-claims\nThis PR does not authorize the downstream birthday demo, public release, legal personhood, citizenship, consciousness, or governance approval.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:0f16859dbf9b33da7dc18bf581a4d235101fbb9b:ca9f0cd9098e611a1d6bcbb45401a4919dcfbc621820f2bfc42a4e35c50451b9",
+  "commit_sha": "0f16859dbf9b33da7dc18bf581a4d235101fbb9b"
+}

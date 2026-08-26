@@ -1,0 +1,109 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 340
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Bootstrap and bind #340, then implement the smallest real Runtime v3 plus HTML Observatory restart/reconnect proof over the merged CSMctl surface, validate endpoints/replay/redaction, obtain fresh exact-head review, and publish when typed gates pass.
+
+## Plan
+
+Revision 3
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Bootstrap, design-review, and bind #340 over the current live issue contract and merged #424 CSMctl input.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-6"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S2",
+    "action": "Implement or repair Runtime/CSMctl start, stop, endpoint readiness, PID/lease cleanup, and graceful restart behavior.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S3",
+    "action": "Implement restart/reconnect validation for bounded replay, no duplicates, fresh correlation, unchanged authorization, and redacted projections.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S4",
+    "action": "Run focused proof, fresh exact-head review, publish, and shepherd CI if review passes.",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "status": "in_progress"
+  }
+]
+
+## Invariants
+
+- Start is successful only after /v1/ready, /v1/observatory, and /v1/health all return HTTP 200
+- Stop is graceful and removes script-owned PID and lease files
+- Restart replay is bounded and idempotent
+- Correlation after reconnect is fresh while authorization is unchanged
+- Projection redaction remains audience-appropriate
+- Unity, TLS backlog, AWS/public, provider, #341, and #343 remain excluded
+
+## Risks
+
+- Runtime and Observatory may not expose enough live replay/cursor evidence yet
+- Local TLS/browser trust can differ from CI or another machine
+- CSMctl merged startup helper may need narrow repair before exact restart proof is reliable
+- The proof can accidentally become fixture-only unless live Runtime service evidence is checked explicitly
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/340/design.md
+
+Digest: f1bbdb3aa8e99476555c67f3d6c587b310f4ffa0ef0b577ab1a9b7b24ea85c37
+
+## Diagram
+
+.csdlc/prepared/issues/340/diagram.mmd
+
+Digest: 2dc5687f36dc3a75ff07737999c3e23257fbe198705d675f219a5cb4a48a7e00
+
+## Stop Conditions
+
+- Current dependencies are not terminal and ancestral
+- A required proof would need Unity, #84, #122, #251, AWS/public launch, provider credentials, #341, or #343
+- Implementation would require HTML child redesign or Runtime protocol redesign
+- CSMctl cannot start/stop a real Runtime service with all required endpoints returning HTTP 200
+- Fresh exact-head review returns actionable findings
+
+## Handoff
+
+Proceed only after doctor readiness.

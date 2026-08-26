@@ -1,0 +1,23 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 58,
+  "expected_digest": "a5364238475bfb142fc96735d7b5bc062cc76e1c5e8a8680ef8d694a07248f08",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Record remediation of every actionable finding from the fresh-session review of PR #223.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Closed both fresh-session review findings at exact product revision fb4003c15a1eefd9daf780bf5c397dd887185b75.",
+    "changes": [
+      "Bound every asynchronous conversation terminal result to the digest of the exact Observatory credential that accepted it, revalidated current authorization immediately before delivery, and discarded results when the session credential changed.",
+      "Traversed the Runtime roster through revision-bound continuation pages with a finite population-derived bound so eligible recipients beyond the first 100 entries are resolved without bypassing policy projection.",
+      "Added authenticated production-WSS regressions for in-flight credential rotation across reauthentication and successful conversation delivery to agent-0100 on the second roster page."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "fb4003c15a1eefd9daf780bf5c397dd887185b75"
+    ]
+  },
+  "fail_after_backup": false
+}

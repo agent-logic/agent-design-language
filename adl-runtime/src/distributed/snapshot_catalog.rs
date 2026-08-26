@@ -1,7 +1,6 @@
 use std::{
     fmt, fs,
     path::{Component, Path, PathBuf},
-    sync::Arc,
 };
 
 use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
@@ -10,10 +9,46 @@ use redb::{Database, Durability, ReadableTable, ReadableTableMetadata, TableDefi
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+#[cfg(not(test))]
+use super::authority_store_adapters::{AuthorityBoundCertificateStore, AuthorityBoundFencingStore};
+#[cfg(test)]
+use super::certificates::{DistributedCertificateStore, AUTHORITY_BOUND_CERTIFICATE_ACCESS};
+#[cfg(test)]
+use super::fencing::{FencingStore, AUTHORITY_BOUND_FENCING_ACCESS};
 use super::{
-    certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
-    fencing::{ActiveLeaseCheck, FencingStore},
+    certificates::{AuthorityCertificate, CertificatePurpose},
+    fencing::ActiveLeaseCheck,
 };
+#[cfg(test)]
+use std::sync::Arc;
+
+mod fencing_authority_seal {
+    pub trait Sealed {}
+}
+
+pub trait SnapshotFencingAuthority: fencing_authority_seal::Sealed {
+    fn authorize_snapshot_lease(&self, check: ActiveLeaseCheck<'_>) -> SnapshotResult<()>;
+}
+
+#[cfg(not(test))]
+impl fencing_authority_seal::Sealed for AuthorityBoundFencingStore {}
+#[cfg(not(test))]
+impl SnapshotFencingAuthority for AuthorityBoundFencingStore {
+    fn authorize_snapshot_lease(&self, check: ActiveLeaseCheck<'_>) -> SnapshotResult<()> {
+        self.authorize_active_lease(check)
+            .map_err(|_| SnapshotError::FencedAuthority)
+    }
+}
+
+#[cfg(test)]
+impl fencing_authority_seal::Sealed for FencingStore {}
+#[cfg(test)]
+impl SnapshotFencingAuthority for FencingStore {
+    fn authorize_snapshot_lease(&self, check: ActiveLeaseCheck<'_>) -> SnapshotResult<()> {
+        self.authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)
+            .map_err(|_| SnapshotError::FencedAuthority)
+    }
+}
 
 pub const SNAPSHOT_CATALOG_SCHEMA: &str = "adl.distributed.snapshot_catalog_entry.v1";
 pub const TRANSFER_MANIFEST_SCHEMA: &str = "adl.distributed.snapshot_transfer_manifest.v1";
@@ -491,13 +526,76 @@ struct ReplayRecord {
 }
 
 pub struct SnapshotCatalogVerifier {
-    certificate_store: Arc<DistributedCertificateStore>,
+    certificate_store: SnapshotCertificateAuthority,
     policy: SnapshotCatalogPolicy,
     replay_database: Database,
 }
 
+enum SnapshotCertificateAuthority {
+    #[cfg(not(test))]
+    Bound(AuthorityBoundCertificateStore),
+    #[cfg(test)]
+    TestRaw(Arc<DistributedCertificateStore>),
+}
+
+impl SnapshotCertificateAuthority {
+    fn authorize(
+        &self,
+        holder_id: &str,
+        purpose: CertificatePurpose,
+        generation: u64,
+        now_unix_secs: u64,
+    ) -> Result<super::certificates::VerifiedCertificate, ()> {
+        match self {
+            #[cfg(not(test))]
+            Self::Bound(store) => store
+                .authorize(holder_id, purpose, generation, now_unix_secs)
+                .map_err(|_| ()),
+            #[cfg(test)]
+            Self::TestRaw(store) => store
+                .authorize(
+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+                    holder_id,
+                    purpose,
+                    generation,
+                    now_unix_secs,
+                )
+                .map_err(|_| ()),
+        }
+    }
+}
+
 impl SnapshotCatalogVerifier {
+    #[cfg(not(test))]
     pub fn open(
+        certificate_store: AuthorityBoundCertificateStore,
+        policy: SnapshotCatalogPolicy,
+        replay_database_path: impl AsRef<Path>,
+    ) -> SnapshotResult<Self> {
+        let replay_database_path = validate_database_path(replay_database_path.as_ref())?;
+        let replay_database =
+            Database::create(replay_database_path).map_err(|_| SnapshotError::StateUnavailable)?;
+        let mut write = replay_database
+            .begin_write()
+            .map_err(|_| SnapshotError::StateUnavailable)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(|_| SnapshotError::StateUnavailable)?;
+        write
+            .open_table(ACCEPTED_TRANSFERS)
+            .map_err(|_| SnapshotError::StateUnavailable)?;
+        write
+            .commit()
+            .map_err(|_| SnapshotError::StateUnavailable)?;
+        Ok(Self {
+            certificate_store: SnapshotCertificateAuthority::Bound(certificate_store),
+            policy,
+            replay_database,
+        })
+    }
+
+    #[cfg(test)]
+    pub fn open_for_test(
         certificate_store: Arc<DistributedCertificateStore>,
         policy: SnapshotCatalogPolicy,
         replay_database_path: impl AsRef<Path>,
@@ -518,16 +616,16 @@ impl SnapshotCatalogVerifier {
             .commit()
             .map_err(|_| SnapshotError::StateUnavailable)?;
         Ok(Self {
-            certificate_store,
+            certificate_store: SnapshotCertificateAuthority::TestRaw(certificate_store),
             policy,
             replay_database,
         })
     }
 
-    pub fn decode_catalog_and_verify(
+    pub fn decode_catalog_and_verify<F: SnapshotFencingAuthority>(
         &self,
         bytes: &[u8],
-        fencing: &FencingStore,
+        fencing: &F,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotCatalogEntry> {
         if bytes.is_empty() || bytes.len() > self.policy.max_encoded_bytes {
@@ -540,10 +638,10 @@ impl SnapshotCatalogVerifier {
         self.verify_catalog(&entry, fencing, active_lease)
     }
 
-    pub fn verify_catalog(
+    pub fn verify_catalog<F: SnapshotFencingAuthority>(
         &self,
         entry: &SignedSnapshotCatalogEntry,
-        fencing: &FencingStore,
+        fencing: &F,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotCatalogEntry> {
         if catalog_bytes(entry)?.len() > self.policy.max_encoded_bytes {
@@ -573,13 +671,13 @@ impl SnapshotCatalogVerifier {
         })
     }
 
-    pub fn decode_transfer_and_verify(
+    pub fn decode_transfer_and_verify<F: SnapshotFencingAuthority>(
         &self,
         encoded_manifest: &[u8],
         encoded_catalog: &[u8],
         chunks: &[Vec<u8>],
         expected_target_id: &[u8],
-        fencing: &FencingStore,
+        fencing: &F,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotTransfer> {
         if encoded_manifest.is_empty()
@@ -606,13 +704,13 @@ impl SnapshotCatalogVerifier {
         )
     }
 
-    pub fn verify_transfer(
+    pub fn verify_transfer<F: SnapshotFencingAuthority>(
         &self,
         manifest: &SignedTransferManifest,
         catalog: &SignedSnapshotCatalogEntry,
         chunks: &[Vec<u8>],
         expected_target_id: &[u8],
-        fencing: &FencingStore,
+        fencing: &F,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotTransfer> {
         if manifest_bytes(manifest)?.len() > self.policy.max_encoded_bytes
@@ -865,9 +963,9 @@ fn active_time(check: &ActiveLeaseCheck<'_>) -> SnapshotResult<u64> {
     u64::try_from(check.now_unix_seconds).map_err(|_| SnapshotError::InvalidLifetime)
 }
 
-fn verify_live_authority(
+fn verify_live_authority<F: SnapshotFencingAuthority>(
     snapshot: &SnapshotDescriptor,
-    fencing: &FencingStore,
+    fencing: &F,
     check: ActiveLeaseCheck<'_>,
 ) -> SnapshotResult<()> {
     let lease = check.lease;
@@ -883,9 +981,7 @@ fn verify_live_authority(
     {
         return Err(SnapshotError::AuthorityMismatch);
     }
-    fencing
-        .authorize_active_lease(check)
-        .map_err(|_| SnapshotError::FencedAuthority)
+    fencing.authorize_snapshot_lease(check)
 }
 
 fn verify_content(snapshot: &SnapshotDescriptor, chunks: &[Vec<u8>]) -> SnapshotResult<()> {

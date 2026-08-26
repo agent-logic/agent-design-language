@@ -1,0 +1,124 @@
+schema: adl.milestone.execution-specifications.v1
+milestone: v0.92.2
+status: planned
+specifications:
+  - id: WP-01
+    outcome: A reviewed canonical package and bounded, dependency-correct execution wave.
+    owned_surfaces: [docs/milestones/v0.92.2]
+    acceptance: [inventory_complete, issue_wave_number_free, no_unapproved_issue_creation, release_tail_exact]
+    pvf: [docs_contract, yaml_contract, link_integrity]
+    stop_conditions: [missing_authority, unresolved_scope_conflict]
+    non_goals: [implementation, release_approval]
+  - id: CF-SHELL
+    outcome: An operator can configure, start, inspect, and control a review without hidden state.
+    owned_surfaces: [product_shell, onboarding, operator_controls]
+    acceptance: [guided_setup, explicit_run_state, inspectable_artifacts, accessible_failure_states]
+    pvf: [operator_journey, component_contract, accessibility]
+    stop_conditions: [implicit_publication, secret_exposure]
+    non_goals: [enterprise_connectors, autonomous_mutation]
+  - id: CF-ADAPTER
+    outcome: Local, GitHub, and CI sources produce the same portable repository-packet contract.
+    owned_surfaces: [adapter_v2, repository_packet]
+    acceptance: [portable_paths, bounded_inputs, partial_state_explicit, adapter_parity]
+    pvf: [fixture_conformance, negative_inputs, portability]
+    stop_conditions: [host_bound_packet, credential_capture]
+    non_goals: [jira, linear, slack, broad_workspace]
+  - id: CF-EVIDENCE
+    outcome: Every review claim traces to stable, provenance-bound, redacted, policy-retained evidence.
+    owned_surfaces: [artifact_identity, provenance, redaction, retention]
+    acceptance: [stable_identity, immutable_provenance, fail_closed_redaction, explicit_retention]
+    pvf: [determinism, tamper_detection, redaction_negative_suite, retention_contract]
+    stop_conditions: [unredacted_secret, mutable_identity, unverifiable_provenance]
+    non_goals: [public_evidence_hosting]
+  - id: CF-COG
+    outcome: Architecture and change-risk findings are explainable and evidence grounded.
+    owned_surfaces: [dependencies, boundaries, coupling, connascence, drift, blast_radius, architectural_quanta, adr_rationale]
+    acceptance: [finding_to_evidence_trace, confidence_or_unknowns, explicit_boundary_model, actionable_risk]
+    pvf: [known_fixture, reviewer_calibration, false_positive_sample]
+    stop_conditions: [unsupported_architecture_claim, opaque_score_only]
+    non_goals: [automatic_architecture_rewrite]
+  - id: CF-GOV
+    outcome: Teams can express and run bounded architecture fitness functions locally and in CI.
+    owned_surfaces: [fitness_contract, policy_runner, ci_adapter]
+    acceptance: [machine_checkable_invariants, human_judgment_separated, deterministic_results, clear_failure_output]
+    pvf: [pass_fixture, fail_fixture, repeatability, ci_contract]
+    stop_conditions: [policy_hidden_in_tests, nondeterministic_gate]
+    non_goals: [general_ci_orchestration]
+  - id: CF-REVIEW
+    outcome: Four attributed perspectives produce a deduplicated, severity-grounded review plus bounded remediation and test plans.
+    owned_surfaces: [correctness, security, adversarial, constitutional, synthesis, remediation, test_planning]
+    acceptance: [perspectives_preserved, evidence_citations, severity_rationale, duplicate_control, no_silent_mutation]
+    pvf: [review_fixtures, synthesis_contract, severity_calibration, action_plan_schema]
+    stop_conditions: [finding_without_evidence, hidden_perspective, source_mutation]
+    non_goals: [security_tournament, autonomous_fixing]
+  - id: CF-MEMORY
+    outcome: A second review reports stable, explainable change from the first.
+    owned_surfaces: [baseline_store, compatibility, comparison, delta_report]
+    acceptance: [stable_matching, added_resolved_changed_classification, schema_policy, missing_baseline_explicit]
+    pvf: [two_run_fixture, version_mismatch, deleted_artifact, deterministic_delta]
+    stop_conditions: [silent_incompatible_compare, identity_collision]
+    non_goals: [unbounded organizational_memory]
+  - id: CF-UX
+    outcome: Approved findings can be published consistently as Markdown, HTML, and PDF with complete governance metadata.
+    owned_surfaces: [approval, claims, nonclaims, privacy, legal, manifests, renderers, release_notes]
+    acceptance: [human_approval_required, output_parity, manifest_complete, withheld_state_supported]
+    pvf: [approval_negative_test, renderer_snapshot, manifest_validation, redaction_recheck]
+    stop_conditions: [automatic_publication, renderer_claim_drift]
+    non_goals: [public_customer_scale]
+  - id: CF-PROOF
+    outcome: Documentation and realistic proof show Beta 1 can be operated on ADL and one bounded external open-source repository.
+    owned_surfaces: [docs, examples, fixtures, self_review, external_oss_review]
+    acceptance: [fresh_operator_success, reproducible_fixtures, bounded_external_scope, explicit_nonclaims]
+    pvf: [docs_walkthrough, adl_packet_review, external_packet_review, privacy_audit]
+    stop_conditions: [unlicensed_fixture, private_data_leak, synthetic_only_acceptance]
+    non_goals: [broad_public_benchmark]
+  - id: CF-INTEGRATE
+    outcome: All Beta 1 tracks operate as one governed end-to-end product.
+    owned_surfaces: [integrated_flow, schemas, failure_states, acceptance_packet]
+    acceptance: [all_exit_bar_items_mapped, end_to_end_success, end_to_end_failure, residual_risks_recorded]
+    pvf: [integrated_demo, failure_matrix, coverage_reconciliation, package_validation]
+    stop_conditions: [missing_exit_bar_item, unresolved_p1, unowned_failure]
+    non_goals: [deferred_tracks]
+  - id: TAIL-01
+    outcome: Integrated quality evidence is reconciled into an explicit pass, fail, or not-proven result.
+    acceptance: [quality_gate_evaluated, no_unresolved_p1]
+    pvf: [release_evidence_audit]
+  - id: TAIL-02
+    outcome: Canonical documentation and release claims match merged evidence.
+    acceptance: [docs_truth_current, feature_coverage_reconciled]
+    pvf: [docs_contract, link_integrity]
+  - id: TAIL-03
+    outcome: Governed release artifacts and manifests are finalized without releasing them silently.
+    acceptance: [artifacts_versioned, manifests_complete, approval_pending_or_explicit]
+    pvf: [artifact_integrity]
+  - id: TAIL-04
+    outcome: A current internal milestone review is retained and findings are triaged.
+    acceptance: [exact_candidate_review, findings_dispositioned]
+    pvf: [internal_review]
+  - id: TAIL-05
+    outcome: A context-free external review is retained against the exact candidate.
+    acceptance: [external_handoff_complete, external_findings_retained]
+    pvf: [external_review]
+  - id: TAIL-06
+    outcome: Accepted findings are remediated or explicitly deferred with ownership and risk.
+    acceptance: [accepted_findings_closed_or_deferred, quality_gate_rechecked]
+    pvf: [remediation_validation]
+  - id: TAIL-07
+    outcome: The successor milestone receives an evidence-backed planning package.
+    acceptance: [successor_scope_defined, residual_risks_routed]
+    pvf: [planning_contract]
+  - id: TAIL-08
+    outcome: Successor closeout and release-tail responsibilities are planned.
+    acceptance: [closeout_roles_defined, async_closeout_preserved]
+    pvf: [planning_contract]
+  - id: TAIL-09
+    outcome: Successor planning receives independent review and disposition.
+    acceptance: [successor_plan_reviewed, findings_dispositioned]
+    pvf: [planning_review]
+  - id: TAIL-10
+    outcome: Human release authority records ceremony and milestone-close truth.
+    acceptance: [release_decision_recorded, milestone_state_truthful]
+    pvf: [release_authority_check]
+release_tail:
+  order: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
+  merge_dependency_rule: Downstream execution depends on merged authority and explicit gates, never individual closeout bookkeeping.

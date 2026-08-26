@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.derived_terminal.v1",
+  "issue": 5839,
+  "repository": "danielbaustin/agent-design-language",
+  "initialization_digest": "10b57804d863de9ac5cda1e29dd5aeee90e4b00bd8f1569549bc8a878b5c5d6c",
+  "canonical_generation": 38,
+  "canonical_digest": "93a28ce3d40b0eb0444c1c7d011401856db489075da1cbf6221f45a74546fa7e",
+  "pull_request": 289,
+  "disposition": "merged",
+  "head_sha": "042710838de804f4ccd85a46b48e8e6b7daab1a4",
+  "merge_sha": "7f88697ce82215188af941e15cf02a6220c9ad63",
+  "issue_state": "closed_by_merged_pr",
+  "pr_state": "closed",
+  "approved_reason": null,
+  "observed_unix_seconds": 1787178282,
+  "mutable_fresh_until_unix_seconds": null,
+  "source": "live_github_historical_reconciliation",
+  "digest": "bd650eddf942cd4819cfcf009506f4ca146eb9076b18003fe30b2a10acb9f556"
+}

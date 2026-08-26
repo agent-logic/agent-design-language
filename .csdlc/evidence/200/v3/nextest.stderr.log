@@ -1,0 +1,84 @@
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:422:19
+    |
+265 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:794:19
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+807 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:643:19
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+────────────
+ Nextest run ID f36b7eb2-23cf-4038-b40c-896aab3c82b2 with nextest profile: default
+    Starting 36 tests across 2 binaries (230 tests skipped)
+        PASS [   0.206s] ( 1/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_capacity_n_plus_one_no_partial
+        PASS [   0.042s] ( 2/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_checkpoint_object_collision
+        PASS [   0.215s] ( 3/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_coherent_rollback
+        PASS [   0.185s] ( 4/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_conflicting_retry
+        PASS [   0.053s] ( 5/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_corrupt_journal_rejected
+        PASS [   0.707s] ( 6/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_crash_after_checkpoint
+        PASS [   0.248s] ( 7/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_crash_after_journal
+        PASS [   0.255s] ( 8/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_crash_after_result
+        PASS [   0.227s] ( 9/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_crash_before_checkpoint
+        PASS [   1.369s] (10/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_crash_each_step
+        PASS [   0.130s] (11/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_duplicate_step
+        PASS [   0.747s] (12/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_exact_retry_cached_result
+        PASS [   0.075s] (13/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_forged_step_receipt
+        PASS [   0.296s] (14/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_happy_multi_step
+        PASS [   0.252s] (15/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_happy_single_step
+        PASS [   0.010s] (16/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_legacy_command_denied
+        PASS [   0.009s] (17/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_missing_step
+        PASS [   0.030s] (18/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_noncanonical_state_rejected
+        PASS [   0.033s] (19/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_opened_handle_growth_rejected
+        PASS [   0.052s] (20/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_pending_blocks_mutation
+        PASS [   0.051s] (21/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_pending_blocks_read
+        PASS [   0.258s] (22/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_published_permit_current
+        PASS [   0.075s] (23/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_reordered_step
+        PASS [   0.016s] (24/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_state_or_lock_symlink_rejected
+        PASS [   0.072s] (25/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_adapter_version
+        PASS [   0.031s] (26/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_boot
+        PASS [   0.030s] (27/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_domain
+        PASS [   0.031s] (28/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_guardian
+        PASS [   0.041s] (29/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_membership
+        PASS [   0.032s] (30/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_node
+        PASS [   0.030s] (31/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_operation_kind
+        PASS [   0.038s] (32/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_polis
+        PASS [   0.049s] (33/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_protocol_instance
+        PASS [   0.465s] (34/36) adl-runtime distributed::authority_reconciliation::tests::authority_reconciliation_wrong_time_digest
+        PASS [   0.032s] (35/36) adl-runtime::distributed_authority_reconciliation authority_reconciliation_missing_201_token
+        PASS [   0.029s] (36/36) adl-runtime::distributed_authority_reconciliation authority_reconciliation_public_token_forgery_denied
+────────────
+     Summary [   6.420s] 36 tests run: 36 passed, 230 skipped

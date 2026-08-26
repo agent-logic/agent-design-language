@@ -1,0 +1,7 @@
+flowchart LR
+  A["PublishedAuthorityResult"] --> V["#350 sealed verifier"]
+  C["VerifiedServingAuthorityCut"] --> V
+  V --> P["VerifiedObservatoryAuthorityProjection"]
+  P --> R["#356 read-only redacted accessors"]
+  R --> O["#274 sibling consumer"]
+  X["Raw quorum, membership, OwnerCommit, lease, artifact"] -. "never exposed" .-> O

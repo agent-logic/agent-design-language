@@ -1,0 +1,14 @@
+flowchart TD
+  I283["#283 ADR 0065 terminal evidence"] --> S288["#288 final shared ADR serialization"]
+  I284["#284 ADR 0066 residual-gap evidence"] --> S288
+  I285["#285 ADR 0068 residual-gap evidence"] --> S288
+  I286["#286 ADR 0069 residual-gap evidence"] --> S288
+  I287["#287 ADR 0071 residual-gap evidence"] --> S288
+  S288 --> IDX["ADR index"]
+  S288 --> PLAN["v0.92 ADR plan"]
+  S288 --> MANIFEST["review evidence manifest"]
+  S288 --> HANDOFF["internal review handoff packet"]
+  IDX --> REVIEW["fresh exact review before publication"]
+  PLAN --> REVIEW
+  MANIFEST --> REVIEW
+  HANDOFF --> REVIEW

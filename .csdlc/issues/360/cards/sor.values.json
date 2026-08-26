@@ -1,0 +1,86 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 360,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Add authentic distinct Observatory transition fixture builder",
+    "slug": "observatory-authentic-transition-fixture",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Add authentic distinct Observatory transition fixtures without production authority changes.",
+      "actual_changes": [
+        "Feature-gated distinct operation and log-index publication fixture",
+        "Feature-gated Observatory binding operation setter",
+        "Authentic A/R/T/R projection and A/B substitution proof"
+      ],
+      "artifacts": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "--test-threads=1"
+          ],
+          "purpose": "Run the Observatory authority projection target.",
+          "outcome": "passed",
+          "evidence_ref": "focused.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "check",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib"
+          ],
+          "purpose": "Run the production no-feature library check.",
+          "outcome": "passed",
+          "evidence_ref": "production.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

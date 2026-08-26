@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 49,
+  "expected_digest": "c968c8da1ddd9d6c7f368cc178e7e4169ee571c037742b7b5340337209909e21",
+  "actor": "codex:wp18c01-execution",
+  "reason": "Record typed card and lifecycle validation after integrated evidence reconciliation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["csdlc-validate", "--root", ".", "issue", "--issue", "111"],
+      "purpose": "Prove all six issue cards and implemented lifecycle truth are structurally current after roster integration.",
+      "outcome": "passed",
+      "evidence_ref": "issue 111 generation 49: status pass, zero findings"
+    }
+  },
+  "fail_after_backup": false
+}

@@ -373,6 +373,18 @@ impl ProcessBackend {
                 stderr_task.abort();
                 let _ = stdout_task.await;
                 let _ = stderr_task.await;
+                // A file-backed child can hit RLIMIT_FSIZE at the same time as
+                // its execution deadline. Arbitrate after termination, while
+                // the bounded output is still observable: reaching the limit
+                // is more specific than the otherwise generic timeout.
+                if self.output == ProcessOutput::FileJson
+                    && file_reached_output_limit(output_path, self.max_output_bytes).await
+                {
+                    return Err(BackendFailure::classified(
+                        BackendFailureKind::OutputLimit,
+                        "output_limit",
+                    ));
+                }
                 return Err(BackendFailure::classified(
                     BackendFailureKind::Timeout,
                     "timeout",
@@ -490,6 +502,13 @@ impl ProcessBackend {
         })?;
         (self.normalize)(&value).map(NormalizedOutcome::canonicalize)
     }
+}
+
+async fn file_reached_output_limit(output_path: &std::path::Path, max_output_bytes: usize) -> bool {
+    tokio::fs::metadata(output_path)
+        .await
+        .map(|metadata| metadata.len() >= max_output_bytes as u64)
+        .unwrap_or(false)
 }
 
 fn is_shell_interpreter(program: &std::path::Path) -> bool {

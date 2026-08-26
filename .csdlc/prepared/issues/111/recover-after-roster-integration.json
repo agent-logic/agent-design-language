@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 111,
+  "expected_generation": 44,
+  "expected_digest": "c1f0c04dfac44d3a15562dcdea56aad958e04d13838d1c1b99fd7b446d2cef4e",
+  "actor": "codex:wp18c01-execution",
+  "reason": "Refresh exact-head execution and review truth after integrating the published #113 roster branch and aligning conversation admission with live communication eligibility."
+}

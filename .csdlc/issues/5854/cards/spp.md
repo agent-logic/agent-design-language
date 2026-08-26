@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, #5839, and #5840 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated sprint review after the five operative children complete.
+Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, and #5839 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated Sprint 5 review after the four operative children complete.
 
 ## Plan
 
-Revision 7
+Revision 8
 
 ## Steps
 
@@ -30,7 +30,7 @@ Revision 7
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "coordinate",
@@ -58,6 +58,7 @@ Revision 7
 - No child begins before its declared dependencies
 - No umbrella closeout substitutes for child closeout
 - Parallel lanes use separate child worktrees and issue-bound goals
+- Sprint 5 hands proof-producer truth to WP-20 under final sprint #5856 and does not bind, execute, or await #5840 for its own closeout
 
 ## Risks
 
@@ -77,13 +78,13 @@ Revision 7
 
 .csdlc/prepared/issues/5854/design.md
 
-Digest: a0a6e1b058b5e13de3776447dc39c940a3bf51a0d1b80b51e31fa1fbeb16a477
+Digest: 46ea958c342320230cc985996de44ddb78e448ee7db590febb9a007c45446cd6
 
 ## Diagram
 
 .csdlc/prepared/issues/5854/diagram.mmd
 
-Digest: 18ce9d40dd473f07a2fee4d52ebcdeae0635b197e62c970ec5d507c77ca279d8
+Digest: bf28c2f6e20e06f6d35dec5469ede2292d9cd188f5e9349b327bc064bd1c4eac
 
 ## Stop Conditions
 

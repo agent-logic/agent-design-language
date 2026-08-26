@@ -1,36 +1,36 @@
 use std::fs;
 use std::path::PathBuf;
 
-use clap::Parser;
+use clap::{Parser, Subcommand};
 use csdlc_v2::finish::{
-    envelope_matches_record, execute_finish, execute_historical_finish, load_cached_terminal,
-    FinishRequest, HistoricalFinishRequest,
+    envelope_matches_record_in_repo, execute_finish, execute_historical_finish,
+    execute_recordless_closeout, load_cached_terminal, FinishRequest, HistoricalFinishRequest,
+    RecordlessCloseoutRequest,
 };
 use csdlc_v2::{ErrorCode, Store, V2Error};
 
 #[derive(Parser)]
 #[command(about = "Finish one C-SDLC v2 issue from exact live GitHub terminal truth")]
 struct Cli {
-    #[arg(long)]
+    #[arg(long, default_value = ".")]
     root: PathBuf,
-    #[arg(
-        long,
-        conflicts_with_all = ["validate_cached_issue", "historical_request"],
-        required_unless_present_any = ["validate_cached_issue", "historical_request"]
-    )]
+    #[arg(long, conflicts_with_all = ["validate_cached_issue", "historical_request"])]
     request: Option<PathBuf>,
-    #[arg(
-        long,
-        conflicts_with_all = ["request", "historical_request"],
-        required_unless_present_any = ["request", "historical_request"]
-    )]
+    #[arg(long, conflicts_with_all = ["request", "historical_request"])]
     validate_cached_issue: Option<u64>,
-    #[arg(
-        long,
-        conflicts_with_all = ["request", "validate_cached_issue"],
-        required_unless_present_any = ["request", "validate_cached_issue"]
-    )]
+    #[arg(long, conflicts_with_all = ["request", "validate_cached_issue"])]
     historical_request: Option<PathBuf>,
+    #[command(subcommand)]
+    command: Option<Command>,
+}
+
+#[derive(Subcommand)]
+enum Command {
+    /// Reconcile already-merged issues that never had a local issue projection.
+    RecordlessCloseout {
+        #[arg(long)]
+        request: PathBuf,
+    },
 }
 
 #[tokio::main]
@@ -49,6 +49,16 @@ async fn main() {
 }
 
 async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
+    if let Some(command) = cli.command {
+        return match command {
+            Command::RecordlessCloseout { request } => {
+                let request: RecordlessCloseoutRequest =
+                    serde_json::from_slice(&fs::read(request)?)?;
+                serde_json::to_value(execute_recordless_closeout(&cli.root, &request).await?)
+                    .map_err(Into::into)
+            }
+        };
+    }
     if let Some(issue) = cli.validate_cached_issue {
         let store = Store::new(&cli.root);
         let record = store.load_record(issue)?;
@@ -58,7 +68,7 @@ async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
                 "derived terminal cache is missing",
             )
         })?;
-        if !envelope_matches_record(&terminal, &record)? {
+        if !envelope_matches_record_in_repo(&cli.root, &terminal, &record)? {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "derived terminal envelope does not match canonical issue truth",
@@ -75,7 +85,12 @@ async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
         return serde_json::to_value(execute_historical_finish(&cli.root, &request).await?)
             .map_err(Into::into);
     }
-    let request = cli.request.expect("clap requires finish request");
+    let request = cli.request.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "finish requires --request, --validate-cached-issue, --historical-request, or a subcommand",
+        )
+    })?;
     let request: FinishRequest = serde_json::from_slice(&fs::read(request)?)?;
     serde_json::to_value(execute_finish(&cli.root, &request).await?).map_err(Into::into)
 }

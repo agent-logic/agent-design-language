@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 306,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
+    "slug": "publication-metadata-tail-exact-clean-finish",
+    "version": "v0.92",
+    "generation": 45
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "publication-tail-exact-clean",
+          "proof_role": "Focused Rust integration tests proving publication create/update/noop, interrupted-after-intent, interrupted-after-push, interrupted-after-record, metadata-tail classification, retry determinism, and exact-clean finish readiness through referenced finish-contract behavior.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "publication_tail"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Deferred only for initialized bind readiness: #306 implementation must create issue-owned csdlc-v2/tests/publication_tail.rs in the bound worktree before validation can pass; publication remains fail-closed without this target."
+        },
+        {
+          "lane": "strict-clippy-publication-tail",
+          "proof_role": "Strict warning-free proof for touched publication code plus referenced finish-contract interactions through the focused publication_tail test target; finish.rs remains read-only unless Planning explicitly widens #306.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "publication_tail",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Deferred only for initialized bind readiness: #306 implementation must create issue-owned csdlc-v2/tests/publication_tail.rs in the bound worktree before strict Clippy can pass; publication remains fail-closed without this target."
+        },
+        {
+          "lane": "fresh-exact-head-review-guard",
+          "proof_role": "Typed review guard verifies the fresh exact-head review packet and prevents publication without current review truth; this is the review evidence lane for AC-7, not a Rust behavioral test.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            ".adl/bin/csdlc-v2/csdlc-review",
+            "guard",
+            "--request",
+            ".git/csdlc-v2/requests/306-review-guard.json"
+          ],
+          "parallel_group": "review",
+          "defer_reason": "Runs only after implementation and fresh exact-head review produce .git/csdlc-v2/requests/306-review-guard.json; publication remains fail-closed without that typed review truth."
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on dirty required metadata, unsafe untracked files, mismatched remote head, duplicate publication records, retry ambiguity, stale review, or incomplete interruption proof.",
+      "design_ref": ".csdlc/prepared/issues/306/design.md",
+      "design_digest": "100d95e5c26c97b0978f64ffeef2dd8da79771ae2ca1d4028bd32ec3aa1b5271",
+      "diagram_ref": ".csdlc/prepared/issues/306/diagram.mmd",
+      "diagram_digest": "c49ebb317100ef859df21849967c3db0e4384c5e50f11b406d59c18bfaa42af4"
+    }
+  }
+}

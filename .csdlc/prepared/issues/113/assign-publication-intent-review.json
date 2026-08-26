@@ -1,0 +1,12 @@
+{
+  "issue": 113,
+  "expected_generation": 37,
+  "expected_digest": "340d123bad5df67ea2d0d0885945ddc49872afb65afe7edec1844c6ff2f03f5e",
+  "reviewer": "subagent:019fef34-1897-7353-96e7-49320ae0043a",
+  "assigned_by": "codex:wp18c03-execution",
+  "scope": [
+    ".csdlc/issues/113",
+    ".csdlc/prepared/issues/113/publish-reviewable.json",
+    ".csdlc/prepared/issues/113/recover-publication-intent-review.json"
+  ]
+}

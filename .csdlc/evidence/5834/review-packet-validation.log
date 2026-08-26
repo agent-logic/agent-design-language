@@ -1,0 +1,4 @@
+command=ruby .csdlc/prepared/issues/5834/validate-review-packet.rb --packet docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md --manifest docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json --schema docs/milestones/v0.92/review/first-birthday-review-packet.schema.json
+source_revision=971607e5ef51822965b1937ff375ef66871d1778
+source_tree=94b614d0fadf7dcb434f05ac8ad1acd053e520a7
+{"schema":"adl.v092.birthday-review-packet-validation.v1","entries":9,"outcome":"passed"}

@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 296,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
+    "slug": "implemented-authored-design-refresh",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Provide a typed, fail-closed authored-design refresh after implemented review recovery.",
+      "required_outcome": "An implemented issue with current review-recovery provenance can atomically refresh repository-owned design and diagram bindings, invalidate stale approval, preserve lifecycle history and topology, and require a new canonical design review before review or publication continues.",
+      "declared_scope": [
+        "csdlc-v2 typed semantic edit contract",
+        "implemented review-recovery authorization",
+        "authored design and diagram binding refresh",
+        "focused lifecycle, CAS, path, atomicity, and history tests"
+      ],
+      "authority_boundary": [
+        "Only implemented records with current recover_review provenance are eligible",
+        "No direct card, record, or authored-artifact mutation by the operator",
+        "No phase, topology, execution-evidence, or historical audit rewrite",
+        "Issue #294 is blocked and is not mutated",
+        "Issue #291 store work remains excluded"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 binaries only",
+        "Bind under /Volumes/FastWork/adl-worktrees",
+        "Preserve root #292 staging and known locks",
+        "Coordinate exclusive csdlc-v2 file ownership with #291 and #294",
+        "Use canonical fresh-session UUID design and exact-head review evidence",
+        "Publish ready with Closes #296 and stop before merge"
+      ]
+    }
+  }
+}

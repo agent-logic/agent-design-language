@@ -1,0 +1,90 @@
+{
+  "schema": "csdlc.review.findings.retained.v1",
+  "issue": 291,
+  "review": {
+    "identity": "fresh-session:019ff5cc-1b7a-7d52-87fd-f94c1a8a05f8",
+    "thread": "019ff5cc-1b7a-7d52-87fd-f94c1a8a05f8",
+    "result": "fail",
+    "reviewed_generation": 4,
+    "reviewed_digest": "8a268aedefe688ab543b2265f79ac0037590efef2c97e3f8753416255b559b20"
+  },
+  "immutable_snapshot": {
+    "path": ".csdlc/evidence/291/review-r2-historical-findings.json",
+    "sha256": "f54c2fdd20b44470f9b2dc0b4b95a6fb4ef4dfe1b382eda2a9908db7550157aa",
+    "capture_mode": "verbatim_structured_transcription_from_codex_task_output",
+    "line_references_are_original_r2_evidence": true,
+    "line_references_are_not_current_live_file_proof": true
+  },
+  "findings": [
+    {
+      "id": "R2-P1-1",
+      "severity": "p1",
+      "summary": "The recovery audit did not preserve the falsely claimed reviewer identity; current design_review is pending but the removed operator:planning-1-assignment approval was not explicitly captured as old/new approval state.",
+      "evidence": [
+        ".csdlc/issues/291/index.json:11",
+        ".csdlc/issues/291/index.json:19",
+        ".csdlc/issues/291/index.json:61-66",
+        ".csdlc/issues/291/audit.jsonl:2"
+      ]
+    },
+    {
+      "id": "R2-P1-2",
+      "severity": "p1",
+      "summary": "Atomic cross-card replacement lacked an implementable transaction contract across values, rendered cards, index projections, and audit representations.",
+      "evidence": [
+        ".csdlc/prepared/issues/291/design.md:21-37",
+        ".csdlc/issues/291/cards/spp.md:79-85"
+      ]
+    },
+    {
+      "id": "R2-P1-3",
+      "severity": "p1",
+      "summary": "Request-root and cwd safety were unspecified for the absolute #114 fixture path, including canonical root resolution, containment, symlink rejection, issue/path identity, and isolated golden-root mutation tests.",
+      "evidence": [
+        ".csdlc/prepared/issues/291/design.md:9-17",
+        ".csdlc/prepared/issues/291/design.md:24-28",
+        ".csdlc/prepared/issues/291/design.md:39-57",
+        ".csdlc/issues/291/cards/stp.md:48-54"
+      ]
+    },
+    {
+      "id": "R2-P2-1",
+      "severity": "p2",
+      "summary": "Graph validation was fixture-specific instead of a generic typed recovery contract with node roles, edge orientation, integration ownership, acyclicity, in-scope checks, and forbidden trust redefinition.",
+      "evidence": [
+        ".csdlc/prepared/issues/291/design.md:36-37",
+        ".csdlc/prepared/issues/291/design.md:56-57",
+        ".csdlc/issues/291/cards/stp.md:35"
+      ]
+    },
+    {
+      "id": "R2-P2-2",
+      "severity": "p2",
+      "summary": "The semantic replacement surface was incomplete and ambiguous relative to the live issue, including selected planning fields and consistent identity propagation across all cards.",
+      "evidence": [
+        ".csdlc/prepared/issues/291/design.md:31-33",
+        ".csdlc/issues/291/cards/sip.md:23-27"
+      ]
+    },
+    {
+      "id": "R2-P2-3",
+      "severity": "p2",
+      "summary": "The validation plan did not explicitly cover negative bootstrap overwrite, request-root/cwd and symlink safety, exact one-entry audit consistency, failure atomicity, or preservation of already-repaired fields unless superseded.",
+      "evidence": [
+        ".csdlc/issues/291/cards/vpp.md:25-54",
+        ".csdlc/issues/291/cards/vpp.md:139-145"
+      ]
+    }
+  ],
+  "disposition": "retained_as_prebind_design_review_failure; repaired through prepared design and typed card updates before any approval, bind, or implementation; exact R2 historical findings are preserved in the immutable_snapshot artifact above because live files changed after generation 4",
+  "limitations": [
+    "R2 was a read-only packet/design review.",
+    "Reviewer inspected issue #291 supplied cards, index, audit, design, diagram, and live issue body.",
+    "Reviewer did not inspect implementation code.",
+    "Reviewer did not mutate or execute against #114.",
+    "Reviewer did not run validators.",
+    "Reviewer did not verify the external fixture or pinned origin/main SHA.",
+    "The supplied record identity matched generation 4 and digest 8a268aedefe688ab543b2265f79ac0037590efef2c97e3f8753416255b559b20; branch/worktree were null and approval remained pending."
+  ],
+  "audit_boundary": "Current typed v2 has no standalone initialized design-approval reversal audit event. The prior invalid approval remains preserved in audit sequence 1 as bootstrap truth, current design_review is pending, and #291 implementation must add an exact old/new design-review reversal audit requirement for the new recovery route rather than hand-editing audit."
+}

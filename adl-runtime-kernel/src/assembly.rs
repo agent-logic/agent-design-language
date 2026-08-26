@@ -32,10 +32,11 @@ use crate::{
     MutationAuthority, MutationGate, OperationError, OperationExecutor, OperationRequest,
     OperationalAdapter, OperationalFactory, QualifiedTimeFactory, ReasoningGraphDefinition,
     ReasoningNode, ReasoningServices, RecordedObservation, RecorderTrustedTime, RuntimeConfig,
-    RuntimeRecorder, ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds,
-    TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph,
-    ValidatedTopology, WeatherConfig, WeatherObserver, OPERATION_REQUEST_SCHEMA,
-    REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
+    RuntimeMemoryPalaceProvisioner, RuntimeRecorder, ServiceContract, SysinfoWeatherObserver,
+    TimeQualificationBounds, TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts,
+    ValidatedReasoningGraph, ValidatedTopology, WeatherConfig, WeatherObserver,
+    OPERATION_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA,
+    SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
@@ -54,8 +55,10 @@ const LOCAL_WRITER_LOCK_SCHEMA: &str = "adl.runtime.local_writer_lock.v1";
 
 pub struct LiveBindings {
     pub recorder: RuntimeRecorder,
+    pub canonical_ingress_capacity: usize,
     pub operation_executors: BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
     pub permit_keys: BTreeMap<String, ed25519_dalek::VerifyingKey>,
+    pub birthday_authority: crate::BirthdayAuthorityBootstrap,
     pub reasoning: Arc<ReasoningServices>,
     pub time_source: Arc<dyn TimeSampleSource>,
     pub time_bounds: TimeQualificationBounds,
@@ -68,6 +71,195 @@ pub struct LiveAssembly {
     pub topology_hash: String,
     pub config_hash: String,
     pub canonical_ingress: CanonicalIngress,
+    pub(crate) operation_continuity: crate::LiveOperationContinuity,
+    capability_provisioner: crate::RuntimeCapabilityProvisioner,
+    memory_palace_provisioner: RuntimeMemoryPalaceProvisioner,
+}
+
+impl LiveAssembly {
+    /// Final Runtime-owned production birthday commit boundary.
+    ///
+    /// All prerequisite authorities must already have produced the exact
+    /// cross-bound input. The store revalidates those bindings and owns the
+    /// durable exactly-once transaction; ordinary assembly/startup paths do
+    /// not call this method.
+    pub fn activate_production_birthday(
+        &self,
+        store: &crate::ProductionBirthdayStore,
+        input: &crate::ProductionBirthdayInput,
+    ) -> Result<crate::ProductionBirthdayReceipt, crate::ProductionBirthdayError> {
+        let _ = self;
+        store.activate(input)
+    }
+
+    /// Explicit Runtime-owned reauthorization boundary for capability policy.
+    pub fn provision_capability_authority(
+        &self,
+        policy: &crate::CapabilityEnvelopePolicy,
+        continuity: &crate::VerifiedBirthdayContinuity,
+    ) -> Result<crate::CapabilityAuthorityPolicy, Vec<crate::CapabilityEnvelopeRejection>> {
+        self.capability_provisioner.provision(policy, continuity)
+    }
+
+    /// Runtime-owned provisioning boundary for Memory Palace Birthday authority.
+    pub fn provision_memory_palace_authority(
+        &self,
+        evidence: crate::MemoryPalaceAuthorityEvidence<'_>,
+    ) -> Result<crate::VerifiedMemoryPalaceAuthority, crate::MemoryPalaceAuthorityError> {
+        self.memory_palace_provisioner.provision(evidence)
+    }
+
+    /// Runtime-owned resident-cycle integration for capability envelopes and
+    /// governed cognitive profiles.
+    ///
+    /// The live assembly provisions capability authority first, then builds and
+    /// revalidates the resident's governed profile from the exact verified
+    /// continuity token. Downstream consumers receive verified handles instead
+    /// of caller-authored digest/status metadata.
+    #[allow(clippy::too_many_arguments)]
+    pub fn build_verified_resident_cycle(
+        &self,
+        resident_id: &str,
+        cycle_id: &str,
+        implementation_revision_sha256: &str,
+        birthday: &crate::BirthdayCandidate,
+        identity: &crate::BirthdayIdentityRecord,
+        continuity: &crate::VerifiedBirthdayContinuity,
+        capability_input: &crate::CapabilityEnvelopeInput,
+        capability_policy: &crate::CapabilityEnvelopePolicy,
+        cognitive_input: &crate::CognitiveProfileInput,
+        cognitive_policy: &crate::CognitiveProfilePolicy,
+        complete_history: &[crate::CognitiveProfile],
+        authority: crate::ResidentCycleAuthority,
+        rotation: Option<crate::ResidentCycleAuthorityRotation>,
+    ) -> Result<crate::VerifiedResidentCycle, crate::ResidentCycleError> {
+        let capability_authority = self
+            .provision_capability_authority(capability_policy, continuity)
+            .map_err(crate::ResidentCycleError::Capability)?;
+        crate::build_verified_resident_cycle(
+            resident_id,
+            cycle_id,
+            implementation_revision_sha256,
+            birthday,
+            identity,
+            continuity,
+            &capability_authority,
+            capability_input,
+            capability_policy,
+            cognitive_input,
+            cognitive_policy,
+            complete_history,
+            authority,
+            rotation,
+        )
+    }
+
+    /// Runtime-owned restart boundary for durable resident-cycle records.
+    ///
+    /// Rehydration is deliberately not a public self-certifying struct check:
+    /// the assembly replays capability and cognitive validation from the exact
+    /// continuity, policy, complete history, and sealed resident authority
+    /// inputs before returning verified handles.
+    #[allow(clippy::too_many_arguments)]
+    pub fn rehydrate_verified_resident_cycle(
+        &self,
+        record: &crate::ResidentCycleRecord,
+        capability: crate::CapabilityEnvelope,
+        profile: crate::CognitiveProfile,
+        birthday: &crate::BirthdayCandidate,
+        identity: &crate::BirthdayIdentityRecord,
+        continuity: &crate::VerifiedBirthdayContinuity,
+        capability_policy: &crate::CapabilityEnvelopePolicy,
+        cognitive_policy: &crate::CognitiveProfilePolicy,
+        complete_history: &[crate::CognitiveProfile],
+        authority: crate::ResidentCycleAuthority,
+    ) -> Result<crate::VerifiedResidentCycle, crate::ResidentCycleError> {
+        let capability_authority = self
+            .provision_capability_authority(capability_policy, continuity)
+            .map_err(crate::ResidentCycleError::Capability)?;
+        crate::rehydrate_verified_resident_cycle(
+            record,
+            capability,
+            profile,
+            birthday,
+            identity,
+            continuity,
+            &capability_authority,
+            capability_policy,
+            cognitive_policy,
+            complete_history,
+            authority,
+        )
+    }
+
+    /// Create an opaque resident-cycle signing authority token through the
+    /// live assembly boundary. External callers can hold the token but cannot
+    /// construct or rewrite its fields directly.
+    pub fn provision_resident_cycle_authority(
+        &self,
+        authority_id: String,
+        key_id: String,
+        epoch: u64,
+        signing_key: ed25519_dalek::SigningKey,
+    ) -> Result<crate::ResidentCycleAuthority, crate::ResidentCycleError> {
+        let _ = self;
+        crate::ResidentCycleAuthority::new(authority_id, key_id, epoch, signing_key)
+    }
+
+    /// Create an opaque resident-cycle rotation token through the live assembly
+    /// boundary.
+    pub fn provision_resident_cycle_authority_rotation(
+        &self,
+        key_id: String,
+        epoch: u64,
+        signing_key: ed25519_dalek::SigningKey,
+    ) -> Result<crate::ResidentCycleAuthorityRotation, crate::ResidentCycleError> {
+        let _ = self;
+        crate::ResidentCycleAuthorityRotation::new(key_id, epoch, signing_key)
+    }
+}
+
+/// Construct the continuity registry from the same live handles and durable
+/// operation root consumed by the production kernel assembly.
+pub fn build_live_continuity_registry(
+    assembly: &LiveAssembly,
+    recorder: RuntimeRecorder,
+    reasoning: Arc<ReasoningServices>,
+    operation_state_root: &Path,
+    max_services: usize,
+) -> Result<crate::LiveContinuityRegistry, crate::ContinuityControlError> {
+    crate::LiveContinuityRegistry::from_production_handles(
+        assembly.canonical_ingress.clone(),
+        recorder,
+        reasoning,
+        operation_state_root.to_path_buf(),
+        assembly.operation_continuity.clone(),
+        max_services,
+    )
+}
+
+pub(crate) fn operation_state_projection(
+    root: &Path,
+) -> Result<Vec<u8>, crate::ContinuityControlError> {
+    let metadata = fs::symlink_metadata(root)?;
+    if metadata.file_type().is_symlink() || !metadata.is_dir() {
+        return Err(crate::ContinuityControlError::UnsafeRoot);
+    }
+    let mut entries = Vec::new();
+    for entry in fs::read_dir(root)? {
+        let entry = entry?;
+        let metadata = entry.file_type()?;
+        if metadata.is_symlink() {
+            return Err(crate::ContinuityControlError::UnsafePath);
+        }
+        entries.push(entry.file_name().to_string_lossy().into_owned());
+    }
+    entries.sort();
+    serde_jcs::to_vec(&serde_json::json!({
+        "schema": "adl.runtime.operation_state_registry.v1",
+        "entries": entries,
+    }))
+    .map_err(|error| crate::ContinuityControlError::Encoding(error.to_string()))
 }
 
 #[derive(Debug, Error)]
@@ -80,6 +272,8 @@ pub enum AssemblyError {
     Topology(#[from] TopologyError),
     #[error("live topology could not be encoded: {0}")]
     Encoding(String),
+    #[error("memory palace authority bootstrap invalid: {0}")]
+    MemoryPalaceAuthority(String),
 }
 
 /// Reject placeholder executors before a production listener can report ready.
@@ -111,6 +305,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
 
     let mut registrations = Vec::<(Arc<dyn ComponentFactory>, ServiceContract)>::new();
     let mut ingress_dispatchers = BTreeMap::new();
+    let mut continuity_factories = BTreeMap::new();
     let dependencies = representative_dependencies();
     for kind in REQUIRED_OPERATIONAL_ADAPTERS {
         let policy = AdapterPolicy {
@@ -151,7 +346,9 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
                 ingress_dispatchers.insert("parity-a".to_owned(), factory.clone());
             }
         }
+        continuity_factories.insert(kind.service_name().to_owned(), factory.clone());
         let mut contract = adapter.contract(kinds);
+        contract.inputs = factory.spec().inputs;
         if kind == AdapterKind::Chronosense {
             contract.requires.push(CapabilityRequirement {
                 name: "runtime.trusted_time".to_owned(),
@@ -184,8 +381,12 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         let factory = InfrastructureFactory { role };
         registrations.push((Arc::new(factory), role.contract()));
     }
-    let canonical_ingress =
-        CanonicalIngress::new(64, bindings.recorder.clone(), ingress_dispatchers);
+    let canonical_ingress = CanonicalIngress::new(
+        bindings.canonical_ingress_capacity,
+        bindings.recorder.clone(),
+        ingress_dispatchers,
+    );
+    let canonical_ingress_inputs = canonical_ingress.spec().inputs;
     registrations.push((
         Arc::new(canonical_ingress.clone()),
         ServiceContract {
@@ -200,13 +401,15 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
                 bounded_shutdown_millis: 1_000,
                 restart_safe: true,
                 idempotent_start: true,
+                role: crate::LifecycleRole::Ingress,
+                required_core: true,
             },
             provides: vec![Capability {
                 name: "runtime.canonical_ingress".to_owned(),
                 version: Version::new(1, 0, 0),
             }],
             requires: vec![],
-            inputs: vec![],
+            inputs: canonical_ingress_inputs,
             outputs: vec![],
             failure_policy: FailurePolicy::Fatal,
         },
@@ -248,6 +451,12 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
     let config_hash = blake3::hash(effective_config.as_bytes())
         .to_hex()
         .to_string();
+    let memory_palace_provisioner = RuntimeMemoryPalaceProvisioner::from_bootstrap(
+        bindings.birthday_authority,
+        topology_hash.clone(),
+        config_hash.clone(),
+    )
+    .map_err(|error| AssemblyError::MemoryPalaceAuthority(format!("{error:?}")))?;
     let (topology, contracts, _) = configured.into_parts();
     Ok(LiveAssembly {
         topology,
@@ -256,6 +465,10 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         topology_hash,
         config_hash,
         canonical_ingress,
+        operation_continuity: crate::LiveOperationContinuity::from_factories(continuity_factories)
+            .map_err(|error| AssemblyError::Encoding(error.to_string()))?,
+        capability_provisioner: crate::RuntimeCapabilityProvisioner::new(),
+        memory_palace_provisioner,
     })
 }
 
@@ -282,6 +495,97 @@ fn enforce_chronosense_foundation(
                 optional: false,
             });
         }
+        // Every live component is control-bound to qualified Chronosense. That
+        // clock observation is governed nondeterministic input, so retaining a
+        // deterministic-core declaration here would be false authority.
+        contract.determinism = crate::DeterminismClass::GovernedNondeterministicShell;
+    }
+}
+
+#[cfg(test)]
+mod capability_authority_tests {
+    use super::*;
+    use ed25519_dalek::SigningKey;
+    use std::{collections::BTreeMap, sync::Arc, time::Duration};
+
+    struct FixedTime;
+
+    #[async_trait::async_trait]
+    impl TimeSampleSource for FixedTime {
+        async fn sample(&self) -> Result<crate::TimeSample, crate::TimeSampleError> {
+            Ok(crate::TimeSample {
+                source: "assembly-authority-test".to_owned(),
+                unix_millis: 1_720_000_000_000,
+                offset_millis: 0,
+                round_trip: Duration::from_millis(1),
+            })
+        }
+    }
+
+    #[tokio::test]
+    async fn live_assembly_is_the_capability_authority_provisioning_boundary() {
+        let root = tempfile::tempdir().unwrap();
+        let recorder = RuntimeRecorder::new(16);
+        let key = SigningKey::from_bytes(&[31; 32]);
+        let private_key = SigningKey::from_bytes(&[23; 32]);
+        let continuity_key = SigningKey::from_bytes(&[19; 32]);
+        let assembly = build_live_assembly(LiveBindings {
+            recorder: recorder.clone(),
+            canonical_ingress_capacity: 64,
+            operation_executors: crate::build_production_operation_executors_with_recorder(
+                root.path().join("production"),
+                recorder.clone(),
+            )
+            .unwrap(),
+            permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
+            birthday_authority: crate::birthday_authority_bootstrap_from_runtime_keys(
+                "operator",
+                key.verifying_key(),
+                "memory-palace-private",
+                private_key.verifying_key(),
+                "runtime-continuity",
+                continuity_key.verifying_key(),
+                1,
+                1,
+                1,
+            ),
+            reasoning: crate::bootstrap_reasoning_services(recorder).unwrap(),
+            time_source: Arc::new(FixedTime),
+            time_bounds: TimeQualificationBounds {
+                timeout: Duration::from_secs(1),
+                max_offset: Duration::from_millis(100),
+                max_round_trip: Duration::from_millis(100),
+                retry_delay: Duration::from_millis(10),
+                refresh_interval: Duration::from_secs(60),
+            },
+        })
+        .unwrap();
+
+        let (identity, continuity_policy, manifests) =
+            crate::birthday_continuity::authority_tests::real_live_material().await;
+        let cycles = crate::birthday_continuity::authority_tests::verify(
+            &continuity_policy,
+            &identity,
+            &manifests,
+        )
+        .unwrap();
+        let record = crate::build_birthday_continuity(&identity, &cycles).unwrap();
+        let continuity =
+            crate::verify_birthday_continuity_record(&record, &identity, &cycles).unwrap();
+        let mut birthday =
+            crate::cognitive_profile::authority_tests::birthday(&identity.identity_root);
+        birthday.stable_name = identity.stable_name.clone();
+        birthday.continuity_head = continuity.identity_checkpoint_head().to_owned();
+        for cycle in &mut birthday.bounded_cycles {
+            cycle.continuity_head = birthday.continuity_head.clone();
+        }
+        birthday.packet_sha256 = crate::candidate_digest(&birthday).unwrap();
+        let (_, policy) =
+            crate::cognitive_profile::authority_tests::capability(&birthday, &identity);
+
+        assembly
+            .provision_capability_authority(&policy, &continuity)
+            .unwrap();
     }
 }
 
@@ -301,6 +605,18 @@ impl ComponentFactory for ControlDependencyFactory {
 
     fn build(&self) -> Box<dyn Component> {
         self.inner.build()
+    }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        self.inner.lifecycle_role()
+    }
+
+    fn required_core(&self) -> bool {
+        self.inner.required_core()
+    }
+
+    fn external_inputs(&self) -> Vec<crate::ExternalInputBinding> {
+        self.inner.external_inputs()
     }
 }
 
@@ -372,6 +688,12 @@ impl InfrastructureRole {
                 bounded_shutdown_millis: 1_000,
                 restart_safe: true,
                 idempotent_start: true,
+                role: match self {
+                    Self::Observability => crate::LifecycleRole::Telemetry,
+                    Self::SignedContinuity => crate::LifecycleRole::Checkpoint,
+                    Self::SystemWeather => crate::LifecycleRole::Workload,
+                },
+                required_core: matches!(self, Self::SignedContinuity),
             },
             provides: vec![Capability {
                 name: format!("runtime.{}", self.name()),
@@ -405,6 +727,18 @@ impl ComponentFactory for InfrastructureFactory {
 
     fn build(&self) -> Box<dyn Component> {
         Box::new(InfrastructureComponent { role: self.role })
+    }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        match self.role {
+            InfrastructureRole::Observability => crate::LifecycleRole::Telemetry,
+            InfrastructureRole::SignedContinuity => crate::LifecycleRole::Checkpoint,
+            InfrastructureRole::SystemWeather => crate::LifecycleRole::Workload,
+        }
+    }
+
+    fn required_core(&self) -> bool {
+        matches!(self.role, InfrastructureRole::SignedContinuity)
     }
 }
 
@@ -507,7 +841,8 @@ impl InProcessOperationExecutor {
             kind,
             state: Arc::new(LocalRuntimeState::new_in(
                 state_dir.into(),
-                Arc::new(RecorderTrustedTime::new(recorder)),
+                Arc::new(RecorderTrustedTime::new(recorder.clone())),
+                recorder,
             )?),
         })
     }
@@ -526,6 +861,7 @@ struct LocalRuntimeState {
     writer_pid: u32,
     writer_lock_path: PathBuf,
     trusted_time: Arc<dyn TrustedTime>,
+    recorder: RuntimeRecorder,
 }
 
 #[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -536,7 +872,11 @@ struct WriterLockOwner {
 }
 
 impl LocalRuntimeState {
-    fn new_in(state_dir: PathBuf, trusted_time: Arc<dyn TrustedTime>) -> std::io::Result<Self> {
+    fn new_in(
+        state_dir: PathBuf,
+        trusted_time: Arc<dyn TrustedTime>,
+        recorder: RuntimeRecorder,
+    ) -> std::io::Result<Self> {
         if state_dir.as_os_str().is_empty() || !state_dir.is_absolute() {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -564,6 +904,7 @@ impl LocalRuntimeState {
             writer_pid,
             writer_lock_path: lock_path,
             trusted_time,
+            recorder,
         })
     }
 
@@ -755,7 +1096,8 @@ pub fn build_production_operation_executors_with_recorder(
 ) -> io::Result<BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>> {
     let state = Arc::new(LocalRuntimeState::new_in(
         state_dir.into(),
-        Arc::new(RecorderTrustedTime::new(recorder)),
+        Arc::new(RecorderTrustedTime::new(recorder.clone())),
+        recorder,
     )?);
     Ok(REQUIRED_OPERATIONAL_ADAPTERS
         .into_iter()
@@ -851,16 +1193,18 @@ impl InProcessOperationExecutor {
                 .as_str()
                 .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_work_malformed"))?;
             let output = match op {
-                "blake3" => blake3::hash(
-                    task["input"]
-                        .as_str()
-                        .ok_or_else(|| {
-                            adapter_error(FailureClass::Fatal, "agent_blake3_malformed")
-                        })?
-                        .as_bytes(),
-                )
-                .to_hex()
-                .to_string(),
+                "blake3" => serde_json::Value::String(
+                    blake3::hash(
+                        task["input"]
+                            .as_str()
+                            .ok_or_else(|| {
+                                adapter_error(FailureClass::Fatal, "agent_blake3_malformed")
+                            })?
+                            .as_bytes(),
+                    )
+                    .to_hex()
+                    .to_string(),
+                ),
                 "sleep_millis" => {
                     let millis = task["millis"].as_u64().ok_or_else(|| {
                         adapter_error(FailureClass::Fatal, "agent_sleep_malformed")
@@ -870,8 +1214,27 @@ impl InProcessOperationExecutor {
                     }
                     tokio::select! {
                         _ = cancellation.cancelled() => return Err(adapter_error(FailureClass::Fatal, "operation cancelled")),
-                        _ = tokio::time::sleep(std::time::Duration::from_millis(millis)) => "slept".to_owned(),
+                        _ = tokio::time::sleep(std::time::Duration::from_millis(millis)) => serde_json::Value::String("slept".to_owned()),
                     }
+                }
+                "conversation_message" => {
+                    let input = task["input"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "agent_conversation_malformed")
+                    })?;
+                    let recipient_id = task["recipient_id"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "agent_conversation_malformed")
+                    })?;
+                    if input.trim().is_empty()
+                        || input.len() > 4_096
+                        || recipient_id.is_empty()
+                        || recipient_id.len() > 128
+                    {
+                        return Err(adapter_error(
+                            FailureClass::Fatal,
+                            "agent_conversation_bound",
+                        ));
+                    }
+                    return_output(recipient_id)
                 }
                 _ => return Err(adapter_error(FailureClass::Fatal, "agent_work_unknown")),
             };
@@ -922,7 +1285,29 @@ impl InProcessOperationExecutor {
             .admitted
             .lock()
             .expect("local shepherd state poisoned")
-            .insert(request.idempotency_key.clone());
+            .insert("shepherd".to_owned());
+        let admitted_at = self.state.trusted_time.now_unix_millis();
+        let freshness_deadline = admitted_at
+            .checked_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
+            .unwrap_or(0);
+        if admitted
+            && !self.state.recorder.record_agent_admission(
+                "shepherd",
+                admitted_at,
+                freshness_deadline,
+                env!("ADL_RUNTIME_SOURCE_REVISION"),
+            )
+        {
+            self.state
+                .admitted
+                .lock()
+                .expect("local shepherd state poisoned")
+                .remove("shepherd");
+            return Err(adapter_error(
+                FailureClass::Retryable,
+                "shepherd admission evidence unavailable",
+            ));
+        }
         let mut value = self.result(request, if admitted { "admitted" } else { "duplicate" });
         value["admitted"] = admitted.into();
         Ok(value)
@@ -1075,6 +1460,13 @@ impl InProcessOperationExecutor {
             )
             .map_err(|error| local_io("lifelog_unavailable", error))
     }
+}
+
+fn return_output(recipient_id: &str) -> serde_json::Value {
+    serde_json::json!({
+        "recipient_id": recipient_id,
+        "message": format!("{recipient_id} received your message."),
+    })
 }
 
 fn adapter_error(class: FailureClass, message: impl Into<String>) -> ExecutorError {

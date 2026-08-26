@@ -1,0 +1,23 @@
+flowchart TD
+  A["Typed #298 terminal + ancestry"] --> C["#300 pre-bind gate"]
+  B["Typed #299 terminal + ancestry"] --> C
+  C --> D["Bind exact integrated base"]
+  D --> E["Production fixture and authority outputs"]
+  E --> F["Failpoint row: operation, boundary, before/after"]
+  F --> S0["FixtureReady"]
+  S0 --> S1["IntentDurable"]
+  S1 --> S2["MutationObserved"]
+  S2 --> S3["CompletionDurable"]
+  S3 --> S4["Verified"]
+  S1 --> R["Drop memory; restart from durable receipts"]
+  S2 --> R
+  S3 --> R
+  R --> V["Exact convergence or RejectedPreserved"]
+  V --> N["Topology, identity, symlink, inode, ancestor and destination races"]
+  N --> I["Same-operation idempotency; conflicting operation rejection"]
+  I --> O["Recovery + cleanup + later ordinary commit"]
+  O --> P["Issue-local immutable evidence"]
+  P --> Q["Fresh #119 exact-head review"]
+  C --> X["Stop: missing, stale or non-ancestral authority"]
+  E --> Y["Stop: mock or self-authored authority"]
+  F --> Z["Stop: missing hook, collision or nondeterminism"]

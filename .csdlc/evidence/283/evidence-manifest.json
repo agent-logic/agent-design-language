@@ -1,0 +1,51 @@
+{
+  "schema": "adl.issue283.adr0065_evidence_reconciliation.v1",
+  "issue": 283,
+  "parent_issue": 207,
+  "adr": "0065",
+  "classification": "reconciled_with_replacement_terminal_authority",
+  "adr_status_boundary": "not_accepted_by_283",
+  "shared_serialization_owner": 288,
+  "current_terminal_authority": {
+    "issue": 209,
+    "pull_request": 215,
+    "head_sha": "c640066f284a915b638add377cc4b0a2e221e6f9",
+    "merge_sha": "a77519c3fca9f64752af41c9a2ebd396468891f7",
+    "derived_terminal_digest": "734004c08c91c71c12a60728c66d83c5d1b2019ab1ae67f05b3fcb05d3d57448",
+    "derived_terminal_file_sha256": "2db7585030569dbf7350e1ce2cedc70e8c6f90ca7d7d08476f2be0ecac9cc59a"
+  },
+  "validation": {
+    "focused_command": [
+      ".csdlc/prepared/issues/283/validate-adr0065-evidence.sh"
+    ],
+    "pvf_log": ".csdlc/evidence/283/adr0065-evidence-reconciliation.log",
+    "pvf_log_sha256": "623644f28d5c513d017d283e4dcc5f7e6fd0c9959ae5539c872691b77de2e8c0",
+    "outcome": "passed"
+  },
+  "artifacts": [
+    {
+      "path": ".csdlc/evidence/209/local-validation-manifest.json",
+      "sha256": "33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74",
+      "role": "replacement local validation manifest"
+    },
+    {
+      "path": ".csdlc/evidence/209/native-validation-manifest.json",
+      "sha256": "c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987",
+      "role": "replacement native validation manifest"
+    },
+    {
+      "path": ".csdlc/evidence/5832/acip-native-receipts.json",
+      "sha256": "eb69f742c8074ea96d3bfb9a6d846001a9a4abfe9caf25bdb237b1bac4d11f4c",
+      "role": "historical superseded receipt manifest"
+    },
+    {
+      "path": ".csdlc/prepared/issues/283/validate-adr0065-evidence.sh",
+      "sha256": "f1fbf834696059b22fc8082d1a6a86dcf9f05fd373fccd5976be7893ca6e4e98",
+      "role": "issue-owned focused validator with manifest-declared artifact SHA-256 binding"
+    }
+  ],
+  "residual_gaps": [
+    "Issue #288 must serialize shared ADR docs and cross-ADR review truth after #283-#287 are complete.",
+    "Issue #283 does not and must not move ADR 0065 to Accepted."
+  ]
+}

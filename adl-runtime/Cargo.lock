@@ -60,6 +60,7 @@ dependencies = [
  "base64",
  "blake3",
  "ed25519-dalek",
+ "fs2",
  "futures",
  "hex",
  "libc",

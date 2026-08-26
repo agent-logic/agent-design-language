@@ -1,0 +1,35 @@
+{
+  "issue": 201,
+  "card": "sor",
+  "expected_generation": 42,
+  "expected_digest": "45c68c3896f9eff54633b5592f398d6af5fdb884651d8b57fa74ec3222af8b8c",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Record the exact route-custody, pending-response, local publication-context, and independent validator implementation truth.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Authority-protocol review repairs are implemented, but the superseded v6 proof has been removed and exact current-source proof regeneration, full and shallow validation, and fresh independent review remain pending.",
+    "changes": [
+      "Bound production PrepareAuthority to the state-held verified route cut's exact polis id and membership epoch as well as its authority membership and boot generations, with real OpenRaft rejection of relabeled polis, epoch, and self-consistent wrong authority cuts.",
+      "Kept Guardian signer custody opaque, crate-private, runtime-local, and non-serialized; signatures bind guardian, certificate generation, boot generation, membership index, intent digest, committed prepare index, and finalization time, while actual finalize apply index is separately verified and recorded.",
+      "Made valid committed finalize return a fail-closed authority_publication_pending response with no token, artifact, projection, or authority-restoring read.",
+      "Removed caller-selected publication identity, root, and checkpoint authority from the public reconcile method; each store uses only its configured local voter context and proves fake-node, fake-root, fake-CAS, retry, and restart denial or reconciliation.",
+      "Retained direct protocol fault cases under cfg(test), kept production legacy command shapes fail-closed, and preserved exclusive voter-certificate not_after plus inclusive intent deadline boundaries.",
+      "Made the v6 validator independently enforce exact ordered canonical 47 case names, expected results, and marker hashes, with built-in substitution and reorder rejection in both full and shallow validation."
+    ],
+    "artifacts": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_authority_protocol.rs",
+      ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
+      ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+      ".csdlc/evidence/201/v6/execution-proof.json"
+    ],
+    "validation": [
+      {"command": ["ruby", ".csdlc/prepared/issues/201/produce-proof-receipt.rb"], "purpose": "Regenerate exact current-source 47-case, OpenRaft, and strict Clippy proof.", "outcome": "deferred", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"},
+      {"command": ["ruby", ".csdlc/prepared/issues/201/validate-proof-receipt.rb"], "purpose": "Validate the independent exact-case contract in full and depth-one history after regeneration.", "outcome": "deferred", "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"}
+    ]
+  }
+}

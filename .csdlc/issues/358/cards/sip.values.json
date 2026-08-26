@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 358,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
+    "slug": "observatory-transition-intent-time",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Authenticate exact Observatory transition intent and expose complete committed canonical time through the sealed projection.",
+      "required_outcome": "#274 can select no transition action and invent no deadline truth: action/predecessor and full committed time are authenticated by the canonical artifact and sealed verifier.",
+      "declared_scope": [
+        "Canonical action/predecessor binding",
+        "Full canonical time projection accessors",
+        "Focused mutation, boundary, restart, and redaction proof"
+      ],
+      "authority_boundary": [
+        "Only sealed verification constructs projection",
+        "No caller-selected action or caller deadline authority",
+        "No raw quorum/membership/OwnerCommit/lease/artifact exposure"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Exact base terminal #356 merge abadc7c4501b9a26ae841206704bdfd1fee8508f",
+        "FastWork bound implementation only",
+        "No paid runner"
+      ]
+    }
+  }
+}

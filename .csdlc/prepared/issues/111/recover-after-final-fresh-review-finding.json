@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 111,
+  "expected_generation": 65,
+  "expected_digest": "be07968df1b25c216bdc0f714b6ac3e2273cf40dda8cb32e10982286686c0656",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Remediate the final review proof gap with a deterministic barrier-controlled stale-completion cleanup regression."
+}

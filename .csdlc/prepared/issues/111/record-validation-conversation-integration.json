@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 36,
+  "expected_digest": "1ec05af46b09c1840690b1b49372c993b178c63953aaabcba75c51ce2124a0bd",
+  "actor": "codex:111-execution",
+  "reason": "Record the focused production conversation-session integration proof run against product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "conversation_sessions"],
+      "purpose": "Prove Runtime-owned session identity, ordered dispatch, duplicate handling, one absolute timeout budget, cancellation, reconnect retrieval, and bounded capacity behavior.",
+      "outcome": "passed",
+      "evidence_ref": "git:058635d7db00cde88714e84c158a5c70bc59411d; independent-review:019fef02-f7cd-7c11-bea0-4d1bf0ddb133"
+    }
+  },
+  "fail_after_backup": false
+}

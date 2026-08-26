@@ -1,0 +1,16 @@
+
+running 2 tests
+test initialized_decomposition_recovery_accepts_preserved_114_gen35_golden_fixture_when_available ... ok
+test initialized_decomposition_recovery_preserves_history_and_recovers_crashes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 50.87s
+
+   Compiling ring v0.17.14
+   Compiling rustls v0.23.41
+   Compiling rustls-webpki v0.103.13
+   Compiling tokio-rustls v0.26.4
+   Compiling hyper-rustls v0.27.9
+   Compiling octocrab v0.53.1
+   Compiling csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 14.64s
+     Running tests/initialized_decomposition_recovery.rs (csdlc-v2/target/debug/deps/initialized_decomposition_recovery-d5f39a0eca29aa69)

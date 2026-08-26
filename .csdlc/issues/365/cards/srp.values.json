@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 365,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Seal committed child eligibility projections for integrated proof",
+    "slug": "sealed-child-eligibility-provenance",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/365\n.csdlc/prepared/issues/365\n.csdlc/evidence/365\nadl-runtime/src/distributed/shepherd_serving_eligibility.rs\nadl-runtime/src/distributed/observatory_serving_eligibility.rs\nadl-runtime/tests/distributed_shepherd_serving_eligibility.rs\nadl-runtime/tests/distributed_observatory_serving_eligibility.rs",
+      "review_revision": "git-blake3:e8d3c6a08e7586a2c4bae6f0d996720abfe15afd:3ef477e631427c4c54068c7daa319f3485d17f024850c1131ee2fa9398ed6d37",
+      "reviewer": "fresh-session:e7143fdd-d9fc-47ef-b82d-859b8426fc39",
+      "review_prompts": [
+        "Can any caller fabricate or convert a public projection into the opaque type?",
+        "Does private construction recompute receipt state payload generation/index and child-kind binding from store-owned truth?",
+        "Do reopen corruption rollback and A/B tests use real persistence boundaries?",
+        "Are getters/canonical bytes fully redacted?",
+        "Are existing transition policies and exact four-path ownership unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Hosted CI, publication, merge, terminal cache, and ancestry remain later typed gates."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

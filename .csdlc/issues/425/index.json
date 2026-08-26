@@ -1,0 +1,375 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 425,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
+  "phase": "published",
+  "generation": 20,
+  "digest": "8c35e1bd6e8fd2edb63f00ac73bf1f60a3a81ac1f885eed2fb78d1a122da2c3c",
+  "branch": "codex/425-recordless-closeout-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
+  "review_assignment": {
+    "reviewer": "fresh-session:28762e94-2dfd-446d-8227-15e5bb84dc2c",
+    "assigned_by": "codex-worker-4",
+    "revision": "git-blake3:ba8bf45496d35cae972d8dfbcd4c8132f9fcddf6:e06434e963c668ec21f17cadd1b1c816ea83a74d233a42964159282f19fa9290",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:28762e94-2dfd-446d-8227-15e5bb84dc2c",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ],
+    "reviewed_revision": "git-blake3:ba8bf45496d35cae972d8dfbcd4c8132f9fcddf6:e06434e963c668ec21f17cadd1b1c816ea83a74d233a42964159282f19fa9290",
+    "findings": [],
+    "residual_risks": [
+      "No actionable implementation or lifecycle risks identified in scoped exact-head review; stale exact-head SOR wording repaired and old SHA remains only in append-only audit history."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 425,
+    "pull_request": 428,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/428",
+    "base": "main",
+    "head": "codex/425-recordless-closeout-recovery",
+    "revision": "git-blake3:a8b523c2b158606354ee2ee02bff9605b9ca7191:e94a0d7dce4534ccb8ce4d040559b7cc4ecc42fa231a8da90870d95994a074c8",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/425/design.md",
+  "diagram_path": ".csdlc/prepared/issues/425/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:76961900-61b7-494f-b08f-e150096d9504",
+      "revision": "c638a8436ab15d5674274765a3bb846ea607634b0ee7bdbb9e299139f2481e99"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a49871111c52956b96d3797b5d26b349b8ee39ab28ce0c833efda3312d37c1dd",
+      "rendered_digest": "cc83623a3de6c8063b7db5e0c3a0ba3924aa50ac071e49476c34290fc886bc5a",
+      "ast_digest": "1dd75a8295155fbe787c7264ab83bd0f5eaf04da00ce64b71f8d06514a89e325"
+    },
+    "stp": {
+      "values_digest": "9102d0ea1a801b67984d68b0fad61140dd3d90cf62f958b81089d9dd43264709",
+      "rendered_digest": "bf04bc821ead770f8bb048a8163d3a4d6d74769d4ffba2ddda54e28f33ab2a84",
+      "ast_digest": "44c14d7d86cec8e8c7ae792a5b3d8d6dfc3554f3a150984bc7a5b09ba2930571"
+    },
+    "spp": {
+      "values_digest": "88a41ba6a647d9c42f58eb0ce32c75c2765d0a8aa22d631f525b4dbe5775b17b",
+      "rendered_digest": "1a6d536268cc7d3ec39c45272b17ff50736ff2f4e09854cb33a29c193e7e3847",
+      "ast_digest": "276c05c7408db0cb043143a4df1b240a8277df6e0cbffcc659efe10f2cec7a5b"
+    },
+    "vpp": {
+      "values_digest": "4b3f6d586fb5ec1c439888853b1740efaf54d00598a83e3e446ee529cfde5c33",
+      "rendered_digest": "6c19c5636e13f7135afe61469801392e2a753414aedba2398c792d6db155ab5a",
+      "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
+    },
+    "srp": {
+      "values_digest": "4afd5abb94aff480b033d69498b1bfce2312d81a5fb4e52ea1df40b1fbabb93b",
+      "rendered_digest": "dde0bd1e070554c6b07c06c8224bdea3b960fd4d129700db85579d785ed4c2de",
+      "ast_digest": "222a0aacc2532427f012f29b58c2fddce7ece46929fa17b4d6cf50e50af88cbe"
+    },
+    "sor": {
+      "values_digest": "c5c0732fa8d470cd8a66d076513b506b3460f56d99f1eb6a7415e7a261dd38ff",
+      "rendered_digest": "6080b65e9383761fe3b10c916cf994c5e79c86e6081af797b24dfc2b9e5f1706",
+      "ast_digest": "4a255a3ab0f0ad92cd0ace6382d81939f3aab5da20da7026f62ad19d3513b31b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-worker-4",
+      "reason": "advance #425 to implemented after typed execution evidence and green focused validation"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-worker-4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-worker-4",
+      "reason": "recover reviewed state for exact re-review after publication guard rejected tracked request-file drift"
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-worker-4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-worker-4",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-worker-4",
+      "reason": "recover published state after CI strict clippy finding required source repair"
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-worker-4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-worker-4",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Resolve fresh design review findings by adding the retained nine-residual dry-run lane and AC-4 safety assertions to the focused proof lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-recordless-closeout-tests\",\"proof_role\":\"Prove typed recordless closeout positive/negative behavior, including no product writes, no GitHub writes, no historical issue/card rewrite, and no synthesized review/implementation evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_recordless_closeout\"],\"parallel_group\":\"425-serial-01-tests\",\"defer_reason\":\"Deferred until implementation.\"},{\"lane\":\"retained-v092-residual-dry-run\",\"proof_role\":\"Run a retained classify-only dry-run over #204/#207/#211/#248/#266/#267/#373/#374/#401 before applying eligible recordless closeouts, proving exact live evidence and fail-closed #248 precedence.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-finish\",\"recordless-closeout\",\"--request\",\".git/csdlc-v2/requests/425-v092-residual-dry-run.json\"],\"parallel_group\":\"425-serial-02-live-dry-run\",\"defer_reason\":\"Deferred until the typed recovery command exists and focused tests pass.\"},{\"lane\":\"csdlc-v2-check\",\"proof_role\":\"Compile touched C-SDLC v2 owner binaries and ensure the recovery route integrates with existing typed finish/clean code.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"check\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"425-serial-03-check\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace or conflict artifacts and confirm no unintended product files remain in the diff.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"425-serial-04-diff\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:76961900-61b7-494f-b08f-e150096d9504",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"c638a8436ab15d5674274765a3bb846ea607634b0ee7bdbb9e299139f2481e99\",\"design_ref\":\".csdlc/prepared/issues/425/design.md\",\"diagram_digest\":\"cead0c7fe405f4400fff0cca3845eb7ea64b4901928414b0ac8be7c06317481a\",\"diagram_ref\":\".csdlc/prepared/issues/425/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex-worker-4",
+      "reason": "record #425 implementation evidence before exact review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented recordless closeout classification and receipt retention support in csdlc-finish, with fail-closed handling for contradictory historical publication evidence.\",\"changes\":[\"csdlc-v2/src/bin/csdlc-finish.rs: add recordless-closeout subcommand while preserving existing finish flags\",\"csdlc-v2/src/finish.rs: add recordless closeout request/result/receipt types, live classification, no-projection checks, historical-publication conflict detection, and recordless receipt retention\",\"csdlc-v2/src/lib.rs: export recordless closeout request/result types\",\"csdlc-v2/tests/gate_recordless_closeout.rs: add focused fail-closed classifier tests for eligible, source-projection, conflicting publication, and PR identity mismatch paths\",\".csdlc/evidence/425-v092-residual-dry-run-result.json: retained live classify-only evidence over the nine v0.92 residuals\"],\"artifacts\":[\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 4 passed\",\"cargo check --manifest-path csdlc-v2/Cargo.toml: passed\",\"git diff --check: passed\",\"recordless dry-run: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex-worker-4",
+      "reason": "advance #425 to implemented after typed execution evidence and green focused validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-worker-4",
+      "reason": "repair #425 VPP dry-run lane to use an executable bound-worktree command path after validation found missing .adl/bin target",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-recordless-closeout-tests\",\"proof_role\":\"Prove typed recordless closeout positive/negative behavior, including no product writes, no GitHub writes, no historical issue/card rewrite, and no synthesized review/implementation evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_recordless_closeout\"],\"parallel_group\":\"425-serial-01-tests\",\"defer_reason\":\"Deferred until implementation.\"},{\"lane\":\"retained-v092-residual-dry-run\",\"proof_role\":\"Run a retained classify-only dry-run over #204/#207/#211/#248/#266/#267/#373/#374/#401 before applying eligible recordless closeouts, using the built csdlc-finish owner binary through cargo and proving exact live evidence plus fail-closed #248 precedence.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-finish\",\"--\",\"recordless-closeout\",\"--request\",\".csdlc/requests/425-v092-residual-dry-run.json\"],\"parallel_group\":\"425-serial-02-live-dry-run\",\"defer_reason\":\"Deferred until the typed recovery command exists and focused tests pass.\"},{\"lane\":\"csdlc-v2-check\",\"proof_role\":\"Compile touched C-SDLC v2 owner binaries and ensure the recovery route integrates with existing typed finish/clean code.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-6\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"check\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"425-serial-03-check\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace or conflict artifacts and confirm no unintended product files remain in the diff.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"425-serial-04-diff\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex-worker-4",
+      "reason": "clear stale review assignment after VPP executable-path repair before assigning exact-head review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex-worker-4",
+      "reason": "clear r6 review assignment after actionable P1 finding was repaired before fresh exact review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex-worker-4",
+      "reason": "record r6 P1 review finding repair before fresh exact review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired #425 review finding: recordless source-projection proof now fails closed when the expected PR head SHA is not available as a local commit object before checking the issue projection path.\",\"changes\":[\"csdlc-v2/src/finish.rs: source_projection_at_revision now verifies expected_head_sha resolves to a commit object and returns ReconciliationRequired when missing\",\"csdlc-v2/tests/gate_recordless_closeout.rs: added negative test for unavailable expected head before projection check\",\".csdlc/evidence/425-v092-residual-dry-run-result.json: refreshed live dry-run evidence after the fix\"],\"artifacts\":[\"r6 review P1 fixed: missing/unfetched PR head no longer collapses to projection-absent false\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed\",\"cargo check --manifest-path csdlc-v2/Cargo.toml: passed\",\"git diff --check: passed\",\"recordless dry-run refreshed: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex-worker-4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex-worker-4",
+      "reason": "recover reviewed state for exact re-review after publication guard rejected tracked request-file drift",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex-worker-4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex-worker-4",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex-worker-4",
+      "reason": "recover published state after CI strict clippy finding required source repair",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex-worker-4",
+      "reason": "record CI strict clippy repair before fresh review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired PR #428 CI failure by reducing recordless_blocker argument count below strict Clippy threshold.\",\"changes\":[\"csdlc-v2/src/finish.rs: grouped recordless_blocker inputs in RecordlessBlockerContext to satisfy clippy::too_many_arguments without changing behavior\"],\"artifacts\":[\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --check: passed\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed\",\"cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings: passed\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex-worker-4",
+      "reason": "clear r9 finding before clarifying stale PR publication state",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex-worker-4",
+      "reason": "clarify that PR #428 remains open at stale remote head while current repaired local head is not yet republished",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Clarified post-CI publication truth: PR #428 remains open from the earlier publication, but the current repaired local head is intentionally treated as unpublished until csdlc-publish observes and records the updated PR head.\",\"changes\":[\"Preserve audit history that PR #428 was previously published while keeping current generation review/publication reset truthful for the unre-published Clippy repair head\",\"Document that SOR not_published/worktree_only applies to the current repaired local revision, not to historical existence of PR #428\"],\"artifacts\":[\"gh pr view 428 --repo agent-logic/agent-design-language: PR open on codex/425-recordless-closeout-recovery from prior publication\",\"Current local head 2dd5d79a1 is ahead of the last observed publication and requires fresh review plus republish before publication truth is restored\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex-worker-4",
+      "reason": "clear r10 P3 exact-head wording finding before replacing stale SOR artifact wording",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex-worker-4",
+      "reason": "replace stale exact-head SOR artifact wording after r10 P3 finding",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Clarified post-CI publication truth without embedding a stale current-head SHA: PR #428 remains open from the earlier publication, but the current repaired branch head is intentionally treated as unpublished until csdlc-publish observes and records the updated PR head.\",\"changes\":[\"csdlc-v2/src/bin/csdlc-finish.rs: add recordless-closeout subcommand while preserving existing finish flags\",\"csdlc-v2/src/finish.rs: add recordless closeout request/result/receipt types, live classification, no-projection checks, historical-publication conflict detection, and recordless receipt retention\",\"csdlc-v2/src/lib.rs: export recordless closeout request/result types\",\"csdlc-v2/tests/gate_recordless_closeout.rs: add focused fail-closed classifier tests for eligible, source-projection, conflicting publication, and PR identity mismatch paths\",\".csdlc/evidence/425-v092-residual-dry-run-result.json: retained live classify-only evidence over the nine v0.92 residuals\",\"csdlc-v2/src/finish.rs: source_projection_at_revision now verifies expected_head_sha resolves to a commit object and returns ReconciliationRequired when missing\",\"csdlc-v2/tests/gate_recordless_closeout.rs: added negative test for unavailable expected head before projection check\",\".csdlc/evidence/425-v092-residual-dry-run-result.json: refreshed live dry-run evidence after the fix\",\"csdlc-v2/src/finish.rs: grouped recordless_blocker inputs in RecordlessBlockerContext to satisfy clippy::too_many_arguments without changing behavior\",\"Preserve audit history that PR #428 was previously published while keeping current generation review/publication reset truthful for the unre-published Clippy repair head\",\"Document that SOR not_published/worktree_only applies to the current repaired local revision, not to historical existence of PR #428\",\"Replace stale exact-SHA wording in the current SOR artifact list with branch-head wording so lifecycle truth does not become stale after review-assignment commits.\"],\"artifacts\":[\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 4 passed\",\"cargo check --manifest-path csdlc-v2/Cargo.toml: passed\",\"git diff --check: passed\",\"recordless dry-run: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)\",\"r6 review P1 fixed: missing/unfetched PR head no longer collapses to projection-absent false\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed\",\"cargo check --manifest-path csdlc-v2/Cargo.toml: passed\",\"git diff --check: passed\",\"recordless dry-run refreshed: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)\",\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --check: passed\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed\",\"cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings: passed\",\"gh pr view 428 --repo agent-logic/agent-design-language: PR open on codex/425-recordless-closeout-recovery from prior publication\",\"Current repaired branch head is ahead of the last observed publication and requires fresh review plus republish before publication truth is restored; exact publish truth must come from csdlc-publish after review.\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"format proof for touched csdlc-v2 Rust surface\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output 2026-08-19 after CI repair\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_recordless_closeout\"],\"purpose\":\"focused recordless closeout behavior regression proof\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output 2026-08-19 after CI repair\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"strict clippy proof for PR #428 red job\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output 2026-08-19 after CI repair\"}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex-worker-4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex-worker-4",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

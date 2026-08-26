@@ -1,0 +1,20 @@
+{
+  "issue": 226,
+  "card": "stp",
+  "expected_generation": 8,
+  "expected_digest": "711fd4ccd2047fc72f1d9bdfe751ee069cacd5c11699748638ac6829a56cef5d",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Align acceptance truth with the direct syntax lane that avoids unnecessary integrated Observatory work.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: The exact #111/#113 changed-path set no longer reports unmapped_change_surface",
+      "AC-2: The two HTML Observatory validation tools map to a direct bounded shell and JavaScript syntax lane",
+      "AC-3: design/*.mmd maps to docs diff hygiene",
+      "AC-4: Focused PR routing does not select slow proof or authoritative full coverage",
+      "AC-5: An unknown source or tooling path still fails closed",
+      "AC-6: Exact-head independent review has no unresolved findings"
+    ]
+  },
+  "fail_after_backup": false
+}

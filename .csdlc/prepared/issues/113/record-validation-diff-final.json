@@ -1,0 +1,17 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 33,
+  "expected_digest": "52b6c46eb7fb3cf983d86a440baa935287048f4cc9bf8b688993eb68e3839a3f",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record exact candidate diff hygiene.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["git", "diff", "--check"],
+      "purpose": "Reject malformed whitespace and patch artifacts before final independent review.",
+      "outcome": "passed",
+      "evidence_ref": "Exact product candidate ef1238cd9bca0085d21dc74361308804e91d3ae1 and the lifecycle-only evidence delta both pass git diff --check."
+    }
+  }
+}

@@ -1,0 +1,9 @@
+flowchart TD
+  A["operator runs adl-review"] --> B{"review-only command?"}
+  B -->|verify-repo-contract| C["internal markdown contract verifier"]
+  B -->|code-review fixture mode| D["deterministic local CodeFriend smoke output"]
+  B -->|lifecycle or runtime command| E["fail closed with review-boundary diagnostic"]
+  C --> F["focused compatibility regression"]
+  D --> F
+  E --> F
+  F --> G["strict adl-review clippy"]

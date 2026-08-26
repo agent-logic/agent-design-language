@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 234,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tooling][CI] Prevent unrelated workflow fanout and isolate expensive proof",
+    "slug": "systemic-ci-cost-control",
+    "version": "v0.92",
+    "generation": 42
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".github/workflows/ci.yaml\nadl/tools/test_ci_runtime_contracts.sh\n.csdlc/issues/234",
+      "review_revision": "git-blake3:b63314b2cd02a668f5ab07c427aa922ca9516c34:47528bcd3c8657705c5d7644b0ce0c9b1d0764e7ed302ec40e165f67e078a363",
+      "reviewer": "provider:gemini-3.1-pro-preview",
+      "review_prompts": [
+        "Does any optional, unrelated, retained-proof, soak, demo, provider, nightly, or release workflow still acquire a runner automatically for an ordinary PR?",
+        "Do all required heavy lanes remain path-policy gated and routed to the configured 16-core runner?",
+        "Can two PR objects for one branch and head SHA execute duplicate required fleets?",
+        "Can an unknown or focused shared-path change fan out to optional workflows or full coverage?",
+        "Are long soaks explicitly isolated from normal tests and PR coverage?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 467,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-22A] Repair quality-gate evidence hydration and release-credit semantics",
+    "slug": "v092-wp22a-quality-gate-evidence-hydration",
+    "version": "v0.92",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Replace the vacuous #311 all-blocked quality-gate packet with a corrective v0.92 quality gate that deterministically hydrates all 13 feature and 20 critical-path rows from canonical evidence and classifies real blockers truthfully.",
+      "required_outcome": "A reviewable PR for #467 that repairs the generator, validator, adversarial tests, matrix, gate record, blocker report, validation receipt, v0.92 quality/readiness docs, and #311 supersession note without rewriting #311/PR #466 history.",
+      "declared_scope": [
+        "#467 corrective quality-gate generator and validator",
+        "33-row v0.92 quality-gate matrix and blocker report",
+        "adversarial and positive control tests for canonical hydration",
+        "v0.92 quality/readiness/proof documentation",
+        ".csdlc/evidence/467 validation and review evidence"
+      ],
+      "authority_boundary": [
+        "#467 supersedes #311 evidence semantically but does not rewrite #311 or PR #466 history",
+        "#467 does not implement product features or waive real missing proof",
+        "#312, administrative closeout, and unrelated release ceremony work are outside scope",
+        "typed C-SDLC v2 is lifecycle authority; raw GitHub writes are not used for covered lifecycle state",
+        "only merged predecessor work and authoritative evidence may grant release credit"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Bind beneath /Volumes/FastWork/adl-worktrees before implementation edits",
+        "Do not mutate #312",
+        "Do not use administrative closeout as a dependency",
+        "Do not use /private/tmp",
+        "Do not edit main for implementation",
+        "Preserve #311/PR #466 as historical provenance",
+        "Publish only after one fresh exact-head review"
+      ]
+    }
+  }
+}

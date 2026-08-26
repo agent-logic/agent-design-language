@@ -1,0 +1,70 @@
+{
+  "assertions": [
+    {
+      "class": "lifecycle",
+      "evidence": "CARGO_BIN_EXE_adl-runtime-kernel reported control_ready on its configured TLS listener",
+      "name": "exact_production_binary_tls_ready",
+      "result": "passed"
+    },
+    {
+      "class": "negative_case",
+      "evidence": "the production ACIP upgrade returned HTTP 401 for the Observatory read credential",
+      "name": "observatory_read_token_rejected",
+      "result": "passed"
+    },
+    {
+      "class": "successful_exchange",
+      "evidence": "the production WSS listener emitted its server-first authenticated frame",
+      "name": "acip_write_token_authenticated",
+      "result": "passed"
+    },
+    {
+      "class": "successful_exchange",
+      "evidence": "a binary Protobuf ACIP envelope completed through canonical production ingress",
+      "name": "binary_protobuf_dispatch_completed",
+      "result": "passed"
+    },
+    {
+      "class": "negative_case",
+      "evidence": "the production WSS endpoint returned typed saturation, released its replay reservation, and completed an exact corrected retry",
+      "name": "production_wss_pressure_rolls_back_and_recovers",
+      "result": "passed"
+    },
+    {
+      "class": "negative_case",
+      "evidence": "the production ingress rejected a repeated monotonic sequence",
+      "name": "replay_rejected",
+      "result": "passed"
+    },
+    {
+      "class": "negative_case",
+      "evidence": "u64::MAX was rejected and an independent authenticated replay domain still completed sequence 1",
+      "name": "terminal_sequence_rejected_without_cross_domain_poisoning",
+      "result": "passed"
+    },
+    {
+      "class": "negative_case",
+      "evidence": "unsupported work produced a structured rejection and corrected work reused the sequence successfully",
+      "name": "typed_ingress_error_rolls_back_sequence",
+      "result": "passed"
+    },
+    {
+      "class": "negative_case",
+      "evidence": "the production listener closed text traffic with the binary-only policy code",
+      "name": "text_frame_rejected",
+      "result": "passed"
+    },
+    {
+      "class": "lifecycle",
+      "evidence": "the exact production binary accepted signed shutdown and exited successfully",
+      "name": "signed_graceful_shutdown",
+      "result": "passed"
+    }
+  ],
+  "negative_cases": 6,
+  "platform": "macos",
+  "producer": "adl-runtime-kernel/tests/production_acip_wss.rs::production_binary_acip_wss_produces_observed_receipt",
+  "production_binary": "CARGO_BIN_EXE_adl-runtime-kernel",
+  "schema": "adl.acip_native_platform_proof.v2",
+  "successful_exchanges": 2
+}

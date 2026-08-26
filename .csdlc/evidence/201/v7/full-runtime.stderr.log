@@ -1,0 +1,278 @@
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:422:19
+    |
+265 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:794:19
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+807 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:643:19
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+────────────
+ Nextest run ID a617502a-556f-40c6-ba8a-96a6fd331e94 with nextest profile: default
+    Starting 230 tests across 1 binary
+        PASS [   0.008s] (  1/230) adl-runtime acip::tests::acip_status_rejects_missing_cav_gate
+        PASS [   0.008s] (  2/230) adl-runtime acip::tests::acip_status_requires_embedded_governed_runtime_component
+        PASS [   0.009s] (  3/230) adl-runtime acip::tests::deterministic_json_rejects_unknown_fields_and_numeric_u64
+        PASS [   0.008s] (  4/230) adl-runtime acip::tests::legacy_seven_field_v1_envelope_is_normalized
+        PASS [   0.008s] (  5/230) adl-runtime acip::tests::malformed_or_unauthorized_websocket_frames_fail_closed
+        PASS [   0.008s] (  6/230) adl-runtime acip::tests::negotiation_rejects_unknown_major_and_required_feature
+        PASS [   0.008s] (  7/230) adl-runtime acip::tests::protobuf_decode_rejects_noncanonical_payload_json
+        PASS [   0.008s] (  8/230) adl-runtime acip::tests::protobuf_projection_round_trips_with_deterministic_json
+        PASS [   0.008s] (  9/230) adl-runtime backpressure::tests::backpressure_contract_keeps_required_state_fail_closed
+        PASS [   0.062s] ( 10/230) adl-runtime backpressure::tests::blocked_send_cancellation_durably_spools_required_message
+        PASS [   0.009s] ( 11/230) adl-runtime backpressure::tests::checkpoint_and_lifelog_use_durable_spool_under_pressure
+        PASS [   0.008s] ( 12/230) adl-runtime backpressure::tests::cloud_bridge_cursor_waits_for_publishable_ack
+        PASS [   0.130s] ( 13/230) adl-runtime backpressure::tests::cloud_cursor_rejects_gaps_and_sequence_survives_restart
+        PASS [   0.065s] ( 14/230) adl-runtime backpressure::tests::cloud_cursor_waits_for_explicit_publishable_ack
+        PASS [   0.055s] ( 15/230) adl-runtime backpressure::tests::cloud_publish_ack_rejects_unknown_spool_sequence
+        PASS [   0.053s] ( 16/230) adl-runtime backpressure::tests::concurrent_receive_cannot_underflow_queue_depth
+        PASS [   0.009s] ( 17/230) adl-runtime backpressure::tests::critical_channels_do_not_silently_drop_when_full
+        PASS [   0.008s] ( 18/230) adl-runtime backpressure::tests::full_queue_projection_reports_overload_and_accounted_degrade
+        PASS [   0.008s] ( 19/230) adl-runtime backpressure::tests::observability_sheds_only_low_priority_metrics_with_accounting
+        PASS [   0.051s] ( 20/230) adl-runtime backpressure::tests::observability_spools_audit_and_accounts_low_priority_shed
+        PASS [   0.082s] ( 21/230) adl-runtime backpressure::tests::real_bounded_channel_blocks_until_receiver_releases_capacity
+        PASS [   0.096s] ( 22/230) adl-runtime backpressure::tests::required_message_is_committed_and_replayed_from_redb_spool
+        PASS [   0.008s] ( 23/230) adl-runtime backpressure::tests::runtime_api_projects_overload_readiness_for_control_plane
+        PASS [   0.312s] ( 24/230) adl-runtime backpressure::tests::runtime_channel_fabric_owns_all_channels_and_transits_messages
+        PASS [   0.466s] ( 25/230) adl-runtime backpressure::tests::runtime_channel_fabric_replays_and_acknowledges_oldest_durable_record
+        PASS [   0.008s] ( 26/230) adl-runtime backpressure::tests::scheduler_to_reasoning_runtime_blocks_full_queue
+        PASS [   0.008s] ( 27/230) adl-runtime backpressure::tests::typed_matrix_covers_required_runtime_channels
+        PASS [   0.008s] ( 28/230) adl-runtime cav::tests::cav_component_contract_rejects_non_fail_closed_status
+        PASS [   0.008s] ( 29/230) adl-runtime cav::tests::cav_component_contract_rejects_sidecar_model
+        PASS [   0.008s] ( 30/230) adl-runtime cav::tests::default_cav_component_status_is_valid_and_embedded
+        PASS [   0.009s] ( 31/230) adl-runtime constructability::tests::channels_never_silently_drop_constructability_decisions
+        PASS [   0.009s] ( 32/230) adl-runtime constructability::tests::request_rejects_host_paths_and_missing_required_evidence_kinds
+        PASS [   0.055s] ( 33/230) adl-runtime continuity_history::tests::checkpoint_chain_cannot_switch_agent_identity
+        PASS [   0.077s] ( 34/230) adl-runtime continuity_history::tests::checkpoint_chain_rejects_regression_and_wrong_predecessor
+        PASS [   0.009s] ( 35/230) adl-runtime continuity_history::tests::checkpoint_hash_tampering_fails_closed
+        PASS [   0.108s] ( 36/230) adl-runtime continuity_history::tests::checkpoint_health_fails_when_restore_metadata_is_missing
+        PASS [   0.056s] ( 37/230) adl-runtime continuity_history::tests::checkpoint_ids_are_immutable
+        PASS [   0.055s] ( 38/230) adl-runtime continuity_history::tests::cross_references_are_validated_but_not_transactionally_coupled
+        PASS [   0.101s] ( 39/230) adl-runtime continuity_history::tests::domains_use_independent_files_and_restore_only_checkpoint_state
+        PASS [   0.125s] ( 40/230) adl-runtime continuity_history::tests::lifelog_failure_does_not_invalidate_checkpoint_recovery
+        PASS [   0.149s] ( 41/230) adl-runtime continuity_history::tests::lifelog_retention_never_deletes_checkpoints
+        PASS [   0.009s] ( 42/230) adl-runtime continuity_history::tests::schemas_reject_secret_like_and_unknown_state
+        PASS [   0.008s] ( 43/230) adl-runtime curiosity::tests::curiosity_proposals_reject_missing_governance_gate
+        PASS [   0.008s] ( 44/230) adl-runtime curiosity::tests::curiosity_status_requires_embedded_fail_closed_component
+        PASS [   0.009s] ( 45/230) adl-runtime determinism::tests::chronosense_payload_fingerprint_survives_json_roundtrip
+        PASS [   0.008s] ( 46/230) adl-runtime determinism::tests::contract_uses_typed_core_and_shell_classifications
+        PASS [   0.007s] ( 47/230) adl-runtime determinism::tests::event_class_relabeling_is_quarantined
+        PASS [   0.008s] ( 48/230) adl-runtime determinism::tests::event_fingerprint_mutation_is_quarantined
+        PASS [   0.008s] ( 49/230) adl-runtime determinism::tests::retained_payload_is_replayable_and_tamper_evident
+        PASS [   0.008s] ( 50/230) adl-runtime determinism::tests::scheduler_decision_replays_from_retained_typed_inputs
+        PASS [   0.028s] ( 51/230) adl-runtime distributed::authority_protocol::contract_tests::artifact_bytes_digest_substitution_rejected
+        PASS [   0.052s] ( 52/230) adl-runtime distributed::authority_protocol::contract_tests::capacity_n_plus_one_no_partial
+        PASS [   0.028s] ( 53/230) adl-runtime distributed::authority_protocol::contract_tests::checkpoint_object_collision
+        PASS [   0.046s] ( 54/230) adl-runtime distributed::authority_protocol::contract_tests::checkpoint_result_retry_digest_mismatch
+        PASS [   0.054s] ( 55/230) adl-runtime distributed::authority_protocol::contract_tests::coherent_rollback_rejected
+        PASS [   0.027s] ( 56/230) adl-runtime distributed::authority_protocol::contract_tests::config_digest_mismatch
+        PASS [   0.009s] ( 57/230) adl-runtime distributed::authority_protocol::contract_tests::continuity_projection_consumer_confusion_rejected
+        PASS [   0.008s] ( 58/230) adl-runtime distributed::authority_protocol::contract_tests::continuity_projection_wrong_bundle_handle_rejected
+        PASS [   0.009s] ( 59/230) adl-runtime distributed::authority_protocol::contract_tests::continuity_projection_wrong_lineage_rejected
+        PASS [   0.009s] ( 60/230) adl-runtime distributed::authority_protocol::contract_tests::continuity_projection_wrong_source_checkpoint_handle_rejected
+        PASS [   0.025s] ( 61/230) adl-runtime distributed::authority_protocol::contract_tests::corrupt_journal_rejected
+        PASS [   0.048s] ( 62/230) adl-runtime distributed::authority_protocol::contract_tests::corrupt_retry_cache_rejected
+        PASS [   0.049s] ( 63/230) adl-runtime distributed::authority_protocol::contract_tests::current_three_voter_finalize
+        PASS [   0.026s] ( 64/230) adl-runtime distributed::authority_protocol::contract_tests::declared_finalize_time_after_deadline
+        PASS [   0.027s] ( 65/230) adl-runtime distributed::authority_protocol::contract_tests::duplicate_signer
+        PASS [   0.050s] ( 66/230) adl-runtime distributed::authority_protocol::contract_tests::exact_retry_returns_cached_result
+        PASS [   0.049s] ( 67/230) adl-runtime distributed::authority_protocol::contract_tests::exact_store_artifact_bytes_retained
+        PASS [   0.028s] ( 68/230) adl-runtime distributed::authority_protocol::contract_tests::expired_signer_cert
+        PASS [   0.029s] ( 69/230) adl-runtime distributed::authority_protocol::contract_tests::finalize_at_deadline
+        PASS [   0.026s] ( 70/230) adl-runtime distributed::authority_protocol::contract_tests::finalize_before_prepare_time
+        PASS [   0.028s] ( 71/230) adl-runtime distributed::authority_protocol::contract_tests::joint_duplicate_guardian_reuse
+        PASS [   0.031s] ( 72/230) adl-runtime distributed::authority_protocol::contract_tests::joint_majority_each_config
+        PASS [   0.032s] ( 73/230) adl-runtime distributed::authority_protocol::contract_tests::joint_new_only
+        PASS [   0.031s] ( 74/230) adl-runtime distributed::authority_protocol::contract_tests::joint_old_only
+        PASS [   0.032s] ( 75/230) adl-runtime distributed::authority_protocol::contract_tests::joint_union_majority_only
+        PASS [   0.009s] ( 76/230) adl-runtime distributed::authority_protocol::contract_tests::legacy_acquire_observatory_rejected
+        PASS [   0.008s] ( 77/230) adl-runtime distributed::authority_protocol::contract_tests::legacy_activate_owner_rejected
+        PASS [   0.008s] ( 78/230) adl-runtime distributed::authority_protocol::contract_tests::legacy_activate_shepherd_rejected
+        PASS [   0.008s] ( 79/230) adl-runtime distributed::authority_protocol::contract_tests::legacy_demote_voter_rejected
+        PASS [   0.008s] ( 80/230) adl-runtime distributed::authority_protocol::contract_tests::legacy_fence_voter_rejected
+        PASS [   0.029s] ( 81/230) adl-runtime distributed::authority_protocol::contract_tests::local_clock_skew_apply_parity
+        PASS [   0.010s] ( 82/230) adl-runtime distributed::authority_protocol::contract_tests::lock_symlink_rejected
+        PASS [   0.029s] ( 83/230) adl-runtime distributed::authority_protocol::contract_tests::missing_quorum
+        PASS [   0.051s] ( 84/230) adl-runtime distributed::authority_protocol::contract_tests::node_a_cas_before_final_marker
+        PASS [   0.077s] ( 85/230) adl-runtime distributed::authority_protocol::contract_tests::node_a_local_before_cas
+        PASS [   0.051s] ( 86/230) adl-runtime distributed::authority_protocol::contract_tests::node_b_cas_before_final_marker
+        PASS [   0.077s] ( 87/230) adl-runtime distributed::authority_protocol::contract_tests::node_b_local_before_cas
+        PASS [   0.049s] ( 88/230) adl-runtime distributed::authority_protocol::contract_tests::node_c_cas_before_final_marker
+        PASS [   0.075s] ( 89/230) adl-runtime distributed::authority_protocol::contract_tests::node_c_local_before_cas
+        PASS [   0.052s] ( 90/230) adl-runtime distributed::authority_protocol::contract_tests::replay_with_regressed_finalize_time
+        PASS [   0.009s] ( 91/230) adl-runtime distributed::authority_protocol::contract_tests::sealed_continuity_transfer_projection
+        PASS [   0.026s] ( 92/230) adl-runtime distributed::authority_protocol::contract_tests::signer_rotation_current_generation
+        PASS [   0.032s] ( 93/230) adl-runtime distributed::authority_protocol::contract_tests::signer_unavailable
+        PASS [   0.028s] ( 94/230) adl-runtime distributed::authority_protocol::contract_tests::stale_membership
+        PASS [   0.017s] ( 95/230) adl-runtime distributed::authority_protocol::contract_tests::state_symlink_rejected
+        PASS [   0.145s] ( 96/230) adl-runtime distributed::authority_protocol::contract_tests::three_node_checkpoint_restart_reconcile
+        PASS [   0.031s] ( 97/230) adl-runtime distributed::authority_protocol::contract_tests::wrong_voter
+        PASS [   0.009s] ( 98/230) adl-runtime distributed::authority_protocol::tests::continuity_projection_consumer_confusion_rejected
+        PASS [   0.009s] ( 99/230) adl-runtime distributed::authority_protocol::tests::continuity_projection_wrong_bundle_handle_rejected
+        PASS [   0.009s] (100/230) adl-runtime distributed::authority_protocol::tests::continuity_projection_wrong_lineage_rejected
+        PASS [   0.009s] (101/230) adl-runtime distributed::authority_protocol::tests::continuity_projection_wrong_source_checkpoint_handle_rejected
+        PASS [   0.009s] (102/230) adl-runtime distributed::authority_protocol::tests::sealed_continuity_transfer_projection
+        PASS [   2.032s] (103/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids
+        PASS [   0.042s] (104/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_current_boot_mismatch
+        PASS [   0.043s] (105/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_current_epoch_mismatch
+        PASS [   0.044s] (106/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_current_membership_mismatch
+        PASS [   0.043s] (107/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_current_polis_mismatch
+        PASS [   0.042s] (108/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_byte_digest_mismatch
+        PASS [   0.040s] (109/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_injected
+        PASS [   0.042s] (110/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_omitted
+        PASS [   0.044s] (111/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_reencoded
+        PASS [   0.043s] (112/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_substituted
+        PASS [   0.043s] (113/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_byte_digest_mismatch
+        PASS [   0.038s] (114/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_injected
+        PASS [   0.040s] (115/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_omitted
+        PASS [   0.043s] (116/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_reencoded
+        PASS [   0.043s] (117/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_substituted
+        PASS [   0.043s] (118/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_bad_signature
+        PASS [   0.044s] (119/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_duplicate_quorum
+        PASS [   0.043s] (120/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_insufficient_quorum
+        PASS [   0.045s] (121/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_invalid_time
+        PASS [   0.043s] (122/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_missing_endorsements
+        PASS [   0.038s] (123/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_missing_proposal
+        PASS [   0.043s] (124/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_stale_certificate
+        PASS [   0.043s] (125/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_boot
+        PASS [   0.043s] (126/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_finalize_index
+        PASS [   0.043s] (127/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_operation
+        PASS [   0.044s] (128/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_prepare_index
+        PASS [   0.042s] (129/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_later_prepared_custody_mismatch
+        PASS [   0.043s] (130/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_demotion_injection
+        PASS [   0.042s] (131/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_fence_injection
+        PASS [   0.043s] (132/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_observatory_injection
+        PASS [   0.043s] (133/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_owner_injection
+        PASS [   0.042s] (134/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_shepherd_injection
+        PASS [   0.043s] (135/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_boot_mismatch
+        PASS [   0.042s] (136/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_epoch_mismatch
+        PASS [   0.043s] (137/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_membership_mismatch
+        PASS [   0.042s] (138/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_polis_mismatch
+        PASS [   0.664s] (139/230) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_valid_multi_prepared_finalized_restart
+        PASS [   0.009s] (140/230) adl-runtime freedom_gate::tests::default_freedom_gate_status_is_csm_owned_and_fail_closed
+        PASS [   0.008s] (141/230) adl-runtime freedom_gate::tests::freedom_gate_rejects_unmediated_executor_access
+        PASS [   0.486s] (142/230) adl-runtime guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget
+        PASS [   0.017s] (143/230) adl-runtime guardian::tests::captured_output_is_bounded
+        PASS [   0.248s] (144/230) adl-runtime guardian::tests::child_exit_terminates_orphaned_descendants_before_returning
+        PASS [   0.147s] (145/230) adl-runtime guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child
+        PASS [   0.008s] (146/230) adl-runtime guardian::tests::cleanup_time_does_not_extend_authenticated_health_window
+        PASS [   0.012s] (147/230) adl-runtime guardian::tests::configuration_exit_does_not_restart
+        PASS [   0.012s] (148/230) adl-runtime guardian::tests::injects_configured_environment
+        PASS [   0.007s] (149/230) adl-runtime guardian::tests::invalid_configuration_and_spawn_failure_fail_closed
+        PASS [   0.008s] (150/230) adl-runtime guardian::tests::missing_child_program_is_reported_without_restart
+        PASS [   0.103s] (151/230) adl-runtime guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime
+        PASS [   0.023s] (152/230) adl-runtime guardian::tests::restart_budget_exhaustion_is_terminal
+        PASS [   0.377s] (153/230) adl-runtime guardian::tests::restart_budget_resets_after_healthy_window
+        PASS [   0.031s] (154/230) adl-runtime guardian::tests::restarts_until_child_exits_successfully_and_captures_output
+        PASS [   0.008s] (155/230) adl-runtime guardian::tests::runtime_kernel_config_preserves_single_init_path
+        PASS [   0.218s] (156/230) adl-runtime guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child
+        PASS [   0.214s] (157/230) adl-runtime guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force
+        PASS [   0.078s] (158/230) adl-runtime guardian::tests::shutdown_timeout_forces_process_group_before_reap
+        PASS [   0.008s] (159/230) adl-runtime guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced
+        PASS [   0.200s] (160/230) adl-runtime guardian::tests::unauthenticated_uptime_never_resets_restart_budget
+        PASS [   0.009s] (161/230) adl-runtime networking::tests::canonical_csm_port_is_inside_reserved_range
+        PASS [   0.008s] (162/230) adl-runtime observability::tests::config_routes_all_signals_through_redaction_to_bounded_local_sinks
+        PASS [   0.008s] (163/230) adl-runtime observability::tests::configured_remote_routes_use_native_vector_cloudwatch_and_otlp_components
+        PASS [   0.919s] (164/230) adl-runtime observability::tests::csm_owns_child_and_applies_bounded_shutdown
+        PASS [   0.047s] (165/230) adl-runtime observability::tests::ingress_redacts_before_durable_handoff_and_fails_closed_on_key_material
+        PASS [   0.030s] (166/230) adl-runtime observability::tests::missing_vector_degrades_without_claiming_external_health
+        PASS [   0.008s] (167/230) adl-runtime observability::tests::remote_otlp_requires_https_except_for_loopback_proof_receivers
+        PASS [   1.730s] (168/230) adl-runtime observability::tests::supervisor_restarts_exited_vector_child_without_a_restart_budget
+        PASS [   0.010s] (169/230) adl-runtime reasoning_runtime::tests::adaptive_dag_replays_without_provider_access
+        PASS [   0.008s] (170/230) adl-runtime reasoning_runtime::tests::bounded_loop_and_checkpoint_restore_advance_continuity
+        PASS [   0.008s] (171/230) adl-runtime reasoning_runtime::tests::cancelled_saturated_admission_releases_waiter_accounting
+        PASS [   0.009s] (172/230) adl-runtime reasoning_runtime::tests::channel_closure_preserves_stopped_health_while_releasing_waiter
+        PASS [   0.009s] (173/230) adl-runtime reasoning_runtime::tests::cold_restore_requires_authentication_and_preserves_cursor
+        PASS [   0.008s] (174/230) adl-runtime reasoning_runtime::tests::component_exposes_lifecycle_health_and_typed_admission
+        PASS [   0.008s] (175/230) adl-runtime reasoning_runtime::tests::concurrent_saturation_stays_overloaded_until_every_waiter_unblocks
+        PASS [   0.009s] (176/230) adl-runtime reasoning_runtime::tests::graph_order_is_canonical_and_governed_before_aee
+        PASS [   0.008s] (177/230) adl-runtime reasoning_runtime::tests::malformed_cycle_runaway_and_gate_fail_closed_are_quarantined
+        PASS [   0.008s] (178/230) adl-runtime reasoning_runtime::tests::provider_capture_rejects_mutated_or_unretained_evidence
+        PASS [   0.008s] (179/230) adl-runtime reasoning_runtime::tests::reasoning_core_debug_never_discloses_continuity_authority
+        PASS [   0.008s] (180/230) adl-runtime resident_agent::tests::resident_agent_requires_affect_model_boundary
+        PASS [   0.008s] (181/230) adl-runtime resident_agent::tests::resident_agent_set_requires_one_shepherd_and_provider_bindings
+        PASS [   0.008s] (182/230) adl-runtime resident_agent::tests::shepherd_cannot_bypass_runtime_policy_gates
+        PASS [   0.008s] (183/230) adl-runtime runtime_api::tests::runtime_api_contract_constants_remain_stable
+        PASS [   0.008s] (184/230) adl-runtime runtime_api::tests::runtime_api_helper_payloads_preserve_operator_contracts
+        PASS [   0.008s] (185/230) adl-runtime runtime_api::tests::telemetry_events_filter_supported_fields_and_feature_matrix_flags_unhealthy_claims
+        PASS [   0.077s] (186/230) adl-runtime runtime_api_auth::tests::authorization_decision_serializes_with_terminal_revoke
+        PASS [   0.028s] (187/230) adl-runtime runtime_api_auth::tests::authorization_renews_a_long_lived_server_before_expiry
+        PASS [   0.011s] (188/230) adl-runtime runtime_api_auth::tests::credential_metadata_is_read_only_when_store_is_missing
+        PASS [   0.040s] (189/230) adl-runtime runtime_api_auth::tests::credential_store_fails_closed_and_rotates_without_exposing_token
+        PASS [   0.028s] (190/230) adl-runtime runtime_api_auth::tests::credential_store_recovers_expired_non_revoked_material_without_overlap
+        PASS [   0.013s] (191/230) adl-runtime runtime_api_auth::tests::credential_store_rejects_group_or_world_readable_file
+        PASS [   0.024s] (192/230) adl-runtime runtime_api_auth::tests::credential_store_renews_before_expiry
+        PASS [   0.027s] (193/230) adl-runtime runtime_api_auth::tests::expired_overlap_rejects_previous_generation
+        PASS [   0.031s] (194/230) adl-runtime runtime_api_auth::tests::gateway_identity_is_signed_verified_and_credential_free
+        PASS [   0.042s] (195/230) adl-runtime runtime_api_auth::tests::one_second_rotation_overlap_uses_the_replacement_timestamp
+        PASS [   0.013s] (196/230) adl-runtime runtime_api_auth::tests::ordinary_authorization_uses_the_shared_credential_lock
+        PASS [   0.175s] (197/230) adl-runtime runtime_api_auth::tests::terminal_revoke_cannot_be_resurrected_by_concurrent_rotation
+        PASS [   0.077s] (198/230) adl-runtime runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay
+        PASS [   0.009s] (199/230) adl-runtime shutdown::tests::incomplete_shutdown_cannot_claim_final_disposition
+        PASS [   0.008s] (200/230) adl-runtime shutdown::tests::partial_or_degraded_shutdown_is_never_publishable
+        PASS [   0.008s] (201/230) adl-runtime shutdown::tests::shutdown_disposition_counts_degraded_and_partial_outcomes
+        PASS [   0.008s] (202/230) adl-runtime shutdown::tests::shutdown_state_enforces_order_and_evidence
+        PASS [   0.118s] (203/230) adl-runtime supervision::tests::acknowledgement_timeout_reports_unknown_instead_of_false_retention
+        PASS [   0.009s] (204/230) adl-runtime supervision::tests::backoff_is_exponential_and_capped_without_a_stop_budget
+        PASS [   0.018s] (205/230) adl-runtime supervision::tests::cancellation_aborts_uncooperative_child_and_records_stop
+        PASS [   0.008s] (206/230) adl-runtime supervision::tests::cav_policy_is_security_critical_and_not_telemetry_only
+        PASS [   0.017s] (207/230) adl-runtime supervision::tests::checkpoint_failure_is_fail_closed_without_panicking_or_false_health
+        PASS [   0.018s] (208/230) adl-runtime supervision::tests::chronosense_failure_degrades_truthfully
+        PASS [   0.280s] (209/230) adl-runtime supervision::tests::component_panic_is_governed_and_then_restarted
+        PASS [   0.018s] (210/230) adl-runtime supervision::tests::corrupt_prior_jsonl_does_not_stop_component_supervision
+        PASS [   0.008s] (211/230) adl-runtime supervision::tests::freedom_gate_policy_is_runtime_critical_and_fail_closed
+        PASS [   0.008s] (212/230) adl-runtime supervision::tests::in_memory_lifecycle_window_is_bounded_while_durable_history_remains_external
+        PASS [   0.008s] (213/230) adl-runtime supervision::tests::matrix_covers_every_runtime_component_with_explicit_policy
+        PASS [   0.754s] (214/230) adl-runtime supervision::tests::repeated_failure_escalates_but_never_exhausts_into_runtime_stop
+        PASS [   0.037s] (215/230) adl-runtime supervision::tests::replay_waits_for_data_lock_and_never_reads_partial_record
+        PASS [   0.349s] (216/230) adl-runtime supervision::tests::restartable_component_recovers_and_replays_durable_lifecycle
+        PASS [   0.041s] (217/230) adl-runtime supervision::tests::shared_lifecycle_sink_serializes_concurrent_component_events
+        PASS [   0.130s] (218/230) adl-runtime supervision::tests::synchronous_future_construction_panic_is_governed_and_restarted
+        PASS [   0.022s] (219/230) adl-runtime supervision::tests::torn_final_jsonl_record_is_preserved_and_separated_from_new_events
+        PASS [   0.009s] (220/230) adl-runtime supervision::tests::unwritable_lifecycle_target_degrades_retention_without_crashing_component
+        PASS [   0.008s] (221/230) adl-runtime topology::tests::production_assembly_covers_every_component_and_channel
+        PASS [   1.405s] (222/230) adl-runtime topology::tests::production_primitives_soak_real_tasks_channels_failure_and_recovery
+        PASS [   0.009s] (223/230) adl-runtime topology::tests::production_topology_does_not_claim_static_readiness_or_independent_tasks
+        PASS [   0.008s] (224/230) adl-runtime topology::tests::runtime_stack_projects_freedom_gate_contract
+        PASS [   0.008s] (225/230) adl-runtime topology::tests::topology_contains_core_runtime_components
+        PASS [   0.008s] (226/230) adl-runtime topology::tests::topology_keeps_cav_in_security_plane
+        PASS [   0.008s] (227/230) adl-runtime weather::tests::cloudwatch_event_is_vector_deliverable_without_credentials
+        PASS [   0.361s] (228/230) adl-runtime weather::tests::collect_weather_reports_local_host_shape
+        PASS [   0.009s] (229/230) adl-runtime weather::tests::disk_pressure_requests_serialize_then_stop
+        PASS [   0.008s] (230/230) adl-runtime weather::tests::weather_report_stays_nominal_below_stop_thresholds
+────────────
+     Summary [  17.628s] 230 tests run: 230 passed, 0 skipped

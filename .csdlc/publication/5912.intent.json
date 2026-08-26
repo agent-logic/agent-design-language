@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5912,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5912-runtime-birth-witness",
+  "title": "[v0.92][runtime][birth-witness] Add production policy and receipt boundary",
+  "body": "Closes danielbaustin/agent-design-language#5912\n\n## Summary\n- seal the four-role birth-witness trust manifest inside validated Runtime credential initialization\n- retain a Runtime-owned operator in production serve that provisions opaque policy and invokes build, reconstruction validation, canonical staging, and commit\n- prevent library/request callers from constructing authority roots or redirecting the validated trust path\n- preserve guardian and lifecycle-soak Runtime configuration consumers\n\n## Validation\n- production owner receipt path: 1 passed\n- retained authority/privacy/canonicalization suite: 13 passed\n- downstream guardian consumer: 1 passed\n- lifecycle-soak binary compile check: passed\n- strict runtime-kernel all-target Clippy: passed\n- fresh independent exact-head review: PASS with no P0-P3 findings\n\n## Non-claims\nThis PR does not alter the witness algorithm or receipt schema and does not claim birth, citizenship, governance, legal, or launch authority.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:49070e813827e1dd1ff19d28ac071488a06f7b1b:8aa79dfc9b4e8eed2f0fecaa78d8fb7b31f914f0723c88b164014fc2fa75bd11",
+  "commit_sha": "49070e813827e1dd1ff19d28ac071488a06f7b1b"
+}

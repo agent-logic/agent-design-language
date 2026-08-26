@@ -2,10 +2,11 @@
 
 ## Purpose
 
-Coordinate WP-17, WP-18, WP-18B, WP-19, and WP-20 while preserving the
+Coordinate WP-17, WP-18, WP-18B, and WP-19 while preserving the
 completed WP-24 product result and preventing private production artifacts
 from becoming release claims. WP-24A is an independent out-of-band stream and
-cannot gate this sprint's readiness, execution, review, or closeout.
+cannot gate this sprint's readiness, execution, review, or closeout. WP-20 is
+the first child of the final release-tail sprint #5856.
 
 ## Execution Contract
 
@@ -17,11 +18,11 @@ cannot gate this sprint's readiness, execution, review, or closeout.
 - Run WP-18 only after WP-08 through WP-13, WP-14, WP-15, and WP-16 are
   terminal.
 - Run provider-neutral proof only after protocol and birthday dependencies.
-- Converge all demos and coverage in WP-20.
+- Hand completed proof producers to WP-20 under release-tail sprint #5856.
 - Finalize public claims only after WP-23 release truth and explicit operator
   authorization.
 - Bind each unbound child in a dedicated FastWork worktree with the company
-  code repository recorded by typed C-SDLC v2. The exact five requests are
+  code repository recorded by typed C-SDLC v2. The exact four requests are
   retained in `split-authority-bind-requests.json`; ordinary doctor is expected
   to report repository identity drift before bind, while typed bind performs
   the explicit code-repository diagnosis before any Git mutation.

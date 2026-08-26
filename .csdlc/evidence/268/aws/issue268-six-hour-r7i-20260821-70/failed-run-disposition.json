@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "ssm_command_timeout_not_bound_to_provider_deadline",
+  "estimated_compute_cost_usd": 0.627102,
+  "fallback": "disabled",
+  "portable_request_sha256": "22f4388ab37ca5802c59fba859af0eca6c23cc66d2b28ecc8848998d1952daf0",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-70",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_partial_qualification",
+  "summary_sha256": "3739a3fe16f072e327b9f9cca153febfa7c42c444902251de79201d0bdc684d5",
+  "truth": "The Runtime reached the sustained exposure phase, but SSM killed the command at its implicit one-hour command timeout before the required six-hour exposure completed. The owner then failed to classify ExecutionTimedOut as terminal. Exact run compute and stack cleanup completed, the persistent warm Runtime volume was preserved and detached, and fallback did not run."
+}

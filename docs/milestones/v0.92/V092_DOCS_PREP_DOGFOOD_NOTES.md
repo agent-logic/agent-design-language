@@ -31,8 +31,8 @@ and editor work.
   canonical docs lacked `Metadata` sections even though their content was good.
 - The existing v0.92 docs said there was no issue wave, but WP-01 needed a
   concrete candidate issue-wave seed to move quickly later.
-- The ACIP feature doc still referenced local-only `.adl/docs/TBD/` source
-  notes as if they were canonical public inputs.
+- The ACIP feature doc previously treated local-only source notes as canonical
+  public inputs; the tracked milestone package must remain authoritative.
 - Adding template metadata is not enough. The planning-template validator
   requires exact required section headings, so legacy-but-good docs still fail
   until they are structurally normalized.

@@ -1,0 +1,16 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+
+running 5 tests
+adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_tampered_credential_generation_before_side_effects ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_unrelated_signed_payload ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_refuses_recipient_signed_delivery_refusal ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_api_delivers_verified_ack_with_redacted_correlation ... ok
+test control::layer8_conversation_ingress_tests::recipient_acknowledgement_route_serves_delivery_without_raw_correlation ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 95 filtered out; finished in 0.00s

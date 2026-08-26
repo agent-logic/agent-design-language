@@ -3,6 +3,38 @@
 #[allow(dead_code)]
 #[path = "../src/distributed/certificates.rs"]
 mod certificates;
+#[allow(dead_code)]
+#[path = "../src/distributed/lease.rs"]
+mod lease;
+#[allow(dead_code)]
+#[path = "../src/distributed/membership.rs"]
+mod membership;
+mod authority_store_adapters {
+    use super::certificates::{CertificateError, CertificatePurpose, VerifiedCertificate};
+
+    #[derive(Clone)]
+    pub struct AuthorityBoundCertificateStore;
+
+    #[allow(dead_code)]
+    #[derive(Clone, Debug, Eq, PartialEq)]
+    pub enum AuthorityStoreAdapterError {
+        Certificate(CertificateError),
+        Reconciliation,
+    }
+
+    impl AuthorityBoundCertificateStore {
+        pub fn authorize(
+            &self,
+            _holder_id: &str,
+            _purpose: CertificatePurpose,
+            _generation: u64,
+            _now_unix_secs: u64,
+        ) -> Result<VerifiedCertificate, AuthorityStoreAdapterError> {
+            Err(AuthorityStoreAdapterError::Reconciliation)
+        }
+    }
+}
+#[allow(dead_code)]
 #[path = "../src/distributed/transport.rs"]
 mod transport;
 
@@ -16,6 +48,7 @@ use std::{
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
     CertificateValidity, DistributedCertificateStore, RevocationReason,
+    TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use prost::Message;
@@ -32,6 +65,27 @@ use transport::{
 };
 
 const DOMAIN: &str = "polis.example";
+
+#[test]
+fn transport_raw_store_constructor_remains_cfg_test_crate_private() {
+    let source = include_str!("../src/distributed/transport/core.rs");
+    assert!(
+        source.contains(
+            "pub fn new(\n        store: AuthorityBoundCertificateStore,\n        certificate: &AuthorityCertificate,"
+        ),
+        "production TransportAuthorization::new must require the #258 authority-bound adapter"
+    );
+    assert!(
+        source.contains(
+            "#[cfg(test)]\n    pub(crate) fn new_for_test(\n        store: Arc<DistributedCertificateStore>,"
+        ),
+        "raw-store test constructor must stay cfg(test) and crate-private"
+    );
+    assert!(
+        !source.contains("#[cfg(feature = \"internal-test-fixtures\")]\n    pub fn new_for_test"),
+        "raw-store transport constructor must not become a public feature-gated bypass"
+    );
+}
 
 struct EndpointMaterial {
     certificate: CertificateDer<'static>,
@@ -92,9 +146,12 @@ fn authority_store() -> (Arc<DistributedCertificateStore>, SigningKey) {
         .unwrap();
     let directory = tempfile::tempdir().unwrap();
     let canonical_directory = directory.path().canonicalize().unwrap();
-    let store =
-        DistributedCertificateStore::open(canonical_directory.join("certificates.redb"), policy)
-            .unwrap();
+    let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
+        canonical_directory.join("certificates.redb"),
+        policy,
+    )
+    .unwrap();
     let _ = directory.keep();
     (Arc::new(store), root)
 }
@@ -120,7 +177,9 @@ fn activate_authority_with_subject(
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, now()).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
+        .unwrap();
     certificate
 }
 
@@ -139,7 +198,7 @@ fn transport_authority(
     );
     let certificate_id = certificate.certificate_id().unwrap();
     (
-        TransportAuthorization::new(store.clone(), &certificate).unwrap(),
+        TransportAuthorization::new_for_test(store.clone(), &certificate).unwrap(),
         certificate_id,
     )
 }
@@ -436,6 +495,7 @@ async fn revocation_closes_an_established_authorized_session() {
         connected_pair_with_expected_client_node(Duration::from_secs(30), "node-client").await;
     store
         .revoke(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &client_certificate_id,
             now(),
             RevocationReason::OperatorRevoked,
@@ -606,7 +666,7 @@ fn non_transport_purpose_cannot_authorize_a_transport_session() {
         CertificatePurpose::GuardianControl,
     );
     assert!(matches!(
-        TransportAuthorization::new(store, &certificate),
+        TransportAuthorization::new_for_test(store, &certificate),
         Err(TransportError::CertificateAuthorization)
     ));
 }

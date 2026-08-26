@@ -1,0 +1,7 @@
+flowchart LR
+  A["Trusted roster configuration"] --> B["Runtime birth-witness service"]
+  C["Candidate context and attestations"] --> B
+  B --> D["Build witness packet"]
+  D --> E["Validate witness packet"]
+  E --> F["Canonical caveated receipt"]
+  F --> G["Injected receipt sink"]

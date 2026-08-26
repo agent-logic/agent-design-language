@@ -1,0 +1,17 @@
+
+running 9 tests
+test acquire_retry_replace_never_exposes_two_shepherds ... ok
+test authenticated_lineage_is_replaced_and_terminal_transitions_preserve_it ... ok
+test capacity_failure_preserves_last_commit ... ok
+test conflicting_retry_and_stale_fence_fail_closed ... ok
+test corrupt_durable_payload_cannot_yield_committed_projection ... ok
+test empty_store_has_no_committed_projection ... ok
+test projection_is_redacted ... ok
+test restart_recovers_exact_committed_projection ... ok
+test revoke_and_expiry_are_terminal_for_old_cut ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.70s
+
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-367-sealed-child-pairing-lineage/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.21s
+     Running tests/distributed_shepherd_serving_eligibility.rs (adl-runtime/target/debug/deps/distributed_shepherd_serving_eligibility-2e7ed127d415da44)

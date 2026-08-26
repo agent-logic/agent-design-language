@@ -1,0 +1,31 @@
+{
+  "schema": "adl.v092.wp17_dependency_authority.v1",
+  "observed_at": "2026-08-11T21:58:47Z",
+  "observation_route": "csdlc-github-issue and csdlc-github-pr typed read-only owner binaries",
+  "base_revision": "1567469e395f9a6ea6c2e736366a8008f5ee1e06",
+  "trusted_source_anchor": {
+    "issue_repository": "danielbaustin/agent-design-language",
+    "code_repository": "agent-logic/agent-design-language",
+    "birthday_manifest_path": "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+    "birthday_manifest_sha256": "57433b3f9723f12c3a0cd2689686715fee33a1b08de3bf3819fdcfa449b936e8",
+    "sprint_review_path": ".csdlc/evidence/5857/sprint-review.json",
+    "sprint_review_sha256": "93fe3515d1b54a8179868ad05121067877b0ce3596d8696b96d6c8a82abfdec5"
+  },
+  "acip_authority": {
+    "issue_repository": "agent-logic/agent-design-language",
+    "code_repository": "agent-logic/agent-design-language",
+    "issue": 209,
+    "pull_request": 215,
+    "head_sha": "c640066f284a915b638add377cc4b0a2e221e6f9",
+    "merge_sha": "a77519c3fca9f64752af41c9a2ebd396468891f7",
+    "local_manifest_path": ".csdlc/evidence/209/local-validation-manifest.json",
+    "local_manifest_sha256": "33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74",
+    "native_manifest_path": ".csdlc/evidence/209/native-validation-manifest.json",
+    "native_manifest_sha256": "c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987"
+  },
+  "dependencies": [
+    {"issue":5826,"issue_repository":"danielbaustin/agent-design-language","issue_state":"closed","code_repository":"agent-logic/agent-design-language","pull_request":118,"pr_state":"merged","head_sha":"b0b2a00cbb8434375dc84d63d8da9db4d51eb03d","merge_sha":"755d4032c7e48306d2d5f5f1b0c19edadf19c822","authority_path":"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json"},
+    {"issue":5827,"issue_repository":"danielbaustin/agent-design-language","issue_state":"closed","code_repository":"agent-logic/agent-design-language","pull_request":127,"pr_state":"merged","head_sha":"6694a57a0d8381dfca90b5082f616f4dea5488f0","merge_sha":"02b4ad6651fd87100184395d18d4d49f0183f360","authority_path":"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json"},
+    {"issue":5834,"issue_repository":"danielbaustin/agent-design-language","issue_state":"closed","code_repository":"agent-logic/agent-design-language","pull_request":218,"pr_state":"merged","head_sha":"6fd00ec264393234a44552d659a422333e5ec8be","merge_sha":"f107ac38b3ccc9b050d562c735184351acd35fd3","authority_path":".csdlc/evidence/5857/sprint-review.json"}
+  ]
+}

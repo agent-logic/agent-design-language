@@ -1,0 +1,60 @@
+{
+  "issue": 200,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "56cb4775f0fde6e6a92ccc6d21f29bf1a3e6f7190b5fe344f88650395c99d8ec",
+  "actor": "codex:/root/advance_200_after_201",
+  "reason": "Record exact branch-only implementation and portable retained proof truth while leaving independent review, publication, merge, and terminal closeout pending.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented the #200 crash-safe concrete authority reconciliation barrier behind the opaque #201 publication token. The retained portable receipt at source 977213b66f131c8ff811274ed5293e8814303e02 binds exactly 36 focused cases, strict Clippy, immutable source/proof digests, and merge-safe ancestry. The broader runtime library also passes 264/264. SPP S4 independent review remains pending; nothing is published, merged, or closed.",
+    "changes": [
+      "Added the sealed concrete reconciliation registry with Pending, Reconciling, Checkpointed, and Published durable phases; exact retry caching; bounded canonical journal state; external checkpoint CAS; marker/view publication; and fail-closed lineage-bound read and mutation permits.",
+      "Extended the #201 published result with runtime-only node identity and a crate-private projection while preserving the persisted #201 schema and digest, then routed Polis runtime reconciliation through the opaque publication result.",
+      "Added a cfg(test)-only deterministic adapter and fault hooks plus 34 module tests and two production integration tests, yielding the exact approved 36-case denominator without exposing a production adapter.",
+      "Added portable proof producer and validator scripts with immutable protected-source, stream, case-marker, ancestry, and squash-safe checks; retained v2 proof supersedes the initial host-Ruby-specific v1 attempt."
+    ],
+    "artifacts": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/authority_reconciliation/tests.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_authority_reconciliation.rs",
+      ".csdlc/prepared/issues/200/produce-proof-receipt.rb",
+      ".csdlc/prepared/issues/200/validate-proof-receipt.rb",
+      ".csdlc/evidence/200/v2/execution-proof.json"
+    ],
+    "validation": [
+      {
+        "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--test", "distributed_authority_reconciliation", "--no-tests=fail", "-E", "test(/authority_reconciliation/)"],
+        "purpose": "Prove the exact approved unit-plus-integration reconciliation denominator: 36 tests run and 36 passed.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/200/v2/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "clippy", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--test", "distributed_authority_reconciliation", "--", "-D", "warnings"],
+        "purpose": "Prove production library and public integration target are warning-free.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/200/v2/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--no-tests=fail"],
+        "purpose": "Prove the full runtime library remains green after the bounded change: 264 tests run and 264 passed.",
+        "outcome": "passed",
+        "evidence_ref": "adl-runtime/src/distributed/authority_reconciliation.rs"
+      },
+      {
+        "command": ["ruby", ".csdlc/prepared/issues/200/validate-proof-receipt.rb"],
+        "purpose": "Prove portable immutable receipt, exact markers, protected digests, ancestry, and clean proof paths.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/200/v2/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "fmt", "--check", "--manifest-path", "adl-runtime/Cargo.toml"],
+        "purpose": "Prove Rust formatting hygiene.",
+        "outcome": "passed",
+        "evidence_ref": "adl-runtime/src/distributed/authority_reconciliation.rs"
+      }
+    ]
+  }
+}

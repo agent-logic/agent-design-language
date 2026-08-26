@@ -1,0 +1,80 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 421,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Accept intentional deletion deliverables during readiness validation",
+    "slug": "intentional-deletion-deliverables-readiness",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented fail-closed intentional deletion deliverable support in C-SDLC readiness validation: exact issue-owned validator paths can satisfy readiness only when an explicit intentional-deletion deliverable marker is present, fail-closed policy is in force, the path existed at the governed merge-base, and the candidate proves the exact path was deleted. Added focused positive and negative gate2 coverage, including branch-local add-then-delete rejection.",
+      "actual_changes": [
+        "csdlc-v2/src/cards.rs: classify intentionally deleted validator deliverables with explicit marker, owned path, fail-closed policy, governed-base existence proof, and exact candidate deletion proof.",
+        "csdlc-v2/tests/gate2.rs: add focused positive proof plus fail-closed negative cases for missing marker, non-fail-closed policy, unowned target, base absence, and branch-local add-then-delete."
+      ],
+      "artifacts": [
+        "commit:7861debb3ac22eb1b33db9df02fc23479d768699",
+        "local-command:7861debb3ac22eb1b33db9df02fc23479d768699:gate2-intentional-deletion-deliverable:3-of-3-passed",
+        "local-command:7861debb3ac22eb1b33db9df02fc23479d768699:csdlc-v2-lib:86-of-86-passed",
+        "local-command:7861debb3ac22eb1b33db9df02fc23479d768699:csdlc-v2-clippy-all-targets:-D-warnings:passed",
+        "fresh-review:/root/issue_421_exact_review:6c9f3f89-4ce4-4f1a-b816-0df6ad1e4a90:PASS"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2",
+            "intentional_deletion_deliverable",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Focused positive and fail-closed readiness proof for intentional deletion validator deliverables.",
+          "outcome": "passed",
+          "evidence_ref": "local-command:7861debb3ac22eb1b33db9df02fc23479d768699:gate2-intentional-deletion-deliverable:3-of-3-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib"
+          ],
+          "purpose": "Library regression proof for readiness validation changes.",
+          "outcome": "passed",
+          "evidence_ref": "local-command:7861debb3ac22eb1b33db9df02fc23479d768699:csdlc-v2-lib:86-of-86-passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Strict warning-free proof for readiness validation and focused tests.",
+          "outcome": "passed",
+          "evidence_ref": "local-command:7861debb3ac22eb1b33db9df02fc23479d768699:csdlc-v2-clippy-all-targets:-D-warnings:passed"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

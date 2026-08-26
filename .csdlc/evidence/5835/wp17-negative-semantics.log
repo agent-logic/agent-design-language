@@ -1,0 +1,14 @@
+{
+  "schema": "adl.v092.wp17_negative_validation.v1",
+  "result": "passed",
+  "mutations": {
+    "copied_state": "copy_semantics: copy must not become continuity",
+    "ambiguous_head": "ambiguity_semantics: competing heads must remain quarantined",
+    "raw_private": "private_state: raw/private state must be excluded",
+    "wp04_capture": "wp04_boundary: runtime mechanics must remain WP-04",
+    "governance_default": "governance_boundary: missing v0.93 authority must defer",
+    "production_overclaim": "nonclaim: production nonclaim is required",
+    "caller_anchor": "trusted_anchor: caller claims must not establish source or policy authority",
+    "superseded_acip": "acip_authority: ACIP row must bind replacement issue, PR, merge, and native proof"
+  }
+}

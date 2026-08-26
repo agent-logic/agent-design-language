@@ -1,0 +1,1 @@
+{"issue":318,"card":"spp","expected_generation":21,"expected_digest":"018a17f7d8a712d718b8c9db7c7381868608beaa73bf7127e7163d4c6e4735bd","actor":"codex:root","reason":"record completed successor handoff review","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"},"fail_after_backup":false}

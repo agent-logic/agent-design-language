@@ -7,7 +7,7 @@
     "title": "Quality and release-tail sprint",
     "slug": "quality-and-release-tail",
     "version": "v0.92",
-    "generation": 0
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
@@ -17,8 +17,9 @@
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Does the packet preserve exact child ownership and dependency truth?",
-        "Are parallel lanes actually independent and are serial gates explicit?",
+        "Does the packet preserve exact child ownership and dependency truth, including WP-20 as the first final-sprint child?",
+        "Does WP-20 wait for #5836, #5837, #5838, and #5839 before WP-21 begins?",
+        "Are the final-sprint serial gates explicit and free of parallel execution claims?",
         "Can the umbrella close only after every child has truthful terminal state?"
       ],
       "findings": [],

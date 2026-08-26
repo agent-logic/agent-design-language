@@ -1,0 +1,16 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running tests/distributed_runtime_transport.rs (adl-runtime/target/debug/deps/distributed_runtime_transport-2d0fa9098de05574)
+ADL_ISSUE_191_CASE signed_mtls_polis_session=passed
+ADL_ISSUE_191_CASE certificate_overlap_boundary=passed
+ADL_ISSUE_191_CASE boot_generation_rollback=passed
+ADL_ISSUE_191_CASE retry_cache_conflict_and_rollback=passed
+ADL_ISSUE_191_CASE path_and_state_bounds=passed
+ADL_ISSUE_191_CASE journaled_initial_checkpoint=passed
+ADL_ISSUE_191_CASE durable_vote_restart=passed
+ADL_ISSUE_191_CASE unproved_polis_and_oversized_frame=passed
+ADL_ISSUE_191_CASE exact_retry_after_boot_and_cert_rotation=passed
+ADL_ISSUE_191_CASE canonical_snapshot_identity=passed
+ADL_ISSUE_191_CASE stalled_rpc_idle_timeout=passed
+ADL_ISSUE_191_CASE secure_three_two_one_real_restart=passed
+ADL_ISSUE_191_CASE authority_cut_and_polis_quorum=passed
+ADL_ISSUE_191_CASE canonical_transport_frame=passed

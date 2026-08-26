@@ -309,6 +309,15 @@ fn crypto_provider() -> Arc<rustls::crypto::CryptoProvider> {
     Arc::new(rustls::crypto::aws_lc_rs::default_provider())
 }
 
+async fn read(path: &Path) -> Result<Vec<u8>, TlsConfigError> {
+    tokio::fs::read(path)
+        .await
+        .map_err(|source| TlsConfigError::Read {
+            path: path.to_path_buf(),
+            source,
+        })
+}
+
 #[cfg(test)]
 mod tests {
     use rcgen::{
@@ -418,13 +427,4 @@ mod tests {
             .to_string()
             .contains("does not permit certificate signing"));
     }
-}
-
-async fn read(path: &Path) -> Result<Vec<u8>, TlsConfigError> {
-    tokio::fs::read(path)
-        .await
-        .map_err(|source| TlsConfigError::Read {
-            path: path.to_path_buf(),
-            source,
-        })
 }

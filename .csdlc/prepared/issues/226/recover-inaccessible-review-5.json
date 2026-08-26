@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 226,
+  "expected_generation": 16,
+  "expected_digest": "54fb1b29b4bb3fb325d3075268bf5732af164c7056a363f51ee096915cbfb9de",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Replace the inaccessible codex-exec reviewer after repeated bounded waits; preserve the exact validated routing implementation for a FastWork-capable independent subagent review."
+}

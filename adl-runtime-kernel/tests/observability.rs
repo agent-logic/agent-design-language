@@ -457,6 +457,8 @@ async fn runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagn
     assert!(records.iter().any(|record| {
         record["operation"] == "vector_pipeline_restarting"
             && record["reason"] == "master_log_liveness_stalled"
+            && record["severity"] == "WARN"
+            && record["fields"]["service_continues"] == true
     }));
     assert!(records
         .iter()

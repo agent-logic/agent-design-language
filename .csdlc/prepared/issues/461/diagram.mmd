@@ -1,0 +1,5 @@
+flowchart LR
+    C[Runtime init config api.tls] --> V[Fail-closed TLS path validation]
+    V --> S[Lifecycle soak Runtime startup]
+    S --> H[HTTPS and WSS lifecycle proof]
+    A[CLI arguments] -. TLS overrides rejected .-> V

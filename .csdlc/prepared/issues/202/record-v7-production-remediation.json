@@ -1,0 +1,43 @@
+{
+  "actor": "codex:/root/resolve_202_production_final",
+  "card": "sor",
+  "expected_digest": "7cee58a09c5753516da90e79b25d2d6f7b095a90bb1515a502ae2ab63f97e7b3",
+  "expected_generation": 42,
+  "issue": 202,
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Resolved all four generation-38 production review findings on exact current origin/main ancestry. A distinct learner-owned factory now holds its own durable transport instance and live boot custody; pending exclusion governs recovery admission and route retention; removal binds target membership and deadline with cache-first exact retry; and immutable v7 proof requires a fully clean worktree plus exact current origin/main. The STP v6 evidence entry remains immutable historical design-time input because typed lifecycle policy forbids STP mutation after implemented; current proof authority is the v7 VPP, SOR, SRP, and evidence packet.",
+    "changes": [
+      "Added SecureLearnerNetworkFactory as a learner-owned production ingress path with distinct durable ProductionLearnerAuthority, TransportAuthorityOwner, transport instance, peer pins, and nonextractable LearnerBootAttestationCustody.",
+      "Proved the voter and learner factories complete a production handshake over Quinn and replicate snapshot plus append traffic into a real fourth PolisRaft while the learner-owned expiry writer waits through the actual Raft effect and response.",
+      "Made pending exclusion govern admission currentness, session currentness, voter-side route installation, learner-side ingress, and recovery of the same stable Raft id under a new node and Guardian identity with a higher committed index.",
+      "Bound removal activation and durable recovery state to the exact target-membership digest and live authorization deadline while serving exact retries from durable cache before re-decoding an expired result.",
+      "Drained learner routes denied by exclusion and retained transition serialization across ordinary and learner dispatch locks.",
+      "Rebased onto exact origin/main 1567469e395f9a6ea6c2e736366a8008f5ee1e06 and introduced immutable v7 evidence with no temporary-directory or machine-local cleanliness exceptions."
+      ,"Recorded v7 as current validation and review authority while preserving the typed lifecycle's immutable implemented-phase STP history."
+    ],
+    "artifacts": [
+      "adl-runtime/src/distributed/transport/governed/learner_transport.rs",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+      ".csdlc/prepared/issues/202/produce-proof-receipt.rb",
+      ".csdlc/prepared/issues/202/validate-proof-receipt.rb",
+      ".csdlc/evidence/202/v7/execution-proof.json"
+    ],
+    "validation": [
+      {
+        "command": ["ruby", ".csdlc/prepared/issues/202/produce-proof-receipt.rb"],
+        "purpose": "Produce exact clean-source v7 evidence for 36 semantic cases, 42 private runner tests, 13 public tests, 31 named behavior assertions, three integration compiles, and strict library and public Clippy.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/202/v7/execution-proof.json"
+      },
+      {
+        "command": ["ruby", ".csdlc/prepared/issues/202/validate-proof-receipt.rb"],
+        "purpose": "Validate immutable v7 protected-source parity, exact current origin/main ancestry, proof denominators, command streams, and absence of post-proof drift.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/202/v7/execution-proof.json"
+      }
+    ]
+  },
+  "reason": "Record the completed generation-38 production remediation and immutable v7 proof without claiming fresh independent review, publication, merge, or closeout."
+}

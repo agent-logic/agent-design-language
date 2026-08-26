@@ -33,7 +33,7 @@ CSM_READY_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_49
 CSM_METRICS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json"
 CSM_EVENTS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
 RUNTIME_V3_CONFIG_REF = "./runtime-v3.config.json"
-RUNTIME_V3_OBSERVATORY_ENDPOINT = "https://localhost:20997/v1/observatory"
+RUNTIME_V3_OBSERVATORY_ENDPOINT = "https://runtime.dev.agent-logic.ai:20997/v1/observatory"
 
 
 def fail(message: str) -> None:
@@ -188,14 +188,42 @@ def run_js_view_model(
             stale: false
           }}
         }});
+        const runtimeV3Health = JSON.stringify({{
+          schema: "adl.runtime_v3.health.v1",
+          status: "healthy",
+          observability_ready: true,
+          runtime_instance_id: "runtime-v3-test",
+          components: {{ runtime_api: "running", checkpoint: "running" }},
+          weather_freshness: {{
+            observed_at_unix_millis: 1789000000,
+            age_millis: 250,
+            stale_after_millis: 2000,
+            stale: false
+          }},
+          snapshot: {{
+            schema: "adl.runtime.control_snapshot.v1",
+            revision: 7,
+            topology_generation: 3,
+            components: {{ runtime_api: "running", checkpoint: "running" }},
+            restart_counts: {{}},
+            queues: {{}},
+            clock: {{ status: "authoritative", source: "sntp", unix_millis: 1789000000 }},
+            continuity_head: {{ generation: 2, accepted_through: 19, topology_hash: "topology", config_hash: "config", integrity: "snapshot" }},
+            lifecycle: "running",
+            event_count: 2,
+            observability: {{ status: "ready" }},
+            observability_ready: true
+          }}
+        }});
         const livePayloads = new Map([
           ["http://localhost:49210/status", retainedFiles.get(retainedRefs.statusRef)],
           ["http://localhost:49210/health", retainedFiles.get(retainedRefs.healthRef)],
           ["http://localhost:49210/ready", retainedFiles.get(retainedRefs.readyRef)],
           ["http://localhost:49210/metrics", retainedFiles.get(retainedRefs.metricsRef)],
           ["http://localhost:49210/events", retainedFiles.get(retainedRefs.eventsRef)],
-          ["https://localhost:20997/v1/observatory", runtimeV3Feed],
-          ["https://localhost:20997/v1/ready", runtimeV3Readiness]
+          ["https://runtime.dev.agent-logic.ai:20997/v1/observatory", runtimeV3Feed],
+          ["https://runtime.dev.agent-logic.ai:20997/v1/health", runtimeV3Health],
+          ["https://runtime.dev.agent-logic.ai:20997/v1/ready", runtimeV3Readiness]
         ]);
         const textWrites = [];
         const datasetWrites = [];
@@ -440,8 +468,8 @@ def run_js_view_model(
         const retainedFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(retainedSnapshot, packet);
         const liveSnapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("http://localhost:49210");
         const liveFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(liveSnapshot, packet);
-        mockLocation.search = "?runtime=v3&runtimeApiBase=https://localhost:20997";
-        const runtimeV3Snapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("https://localhost:20997");
+        mockLocation.search = "?runtime=v3&runtimeApiBase=https://runtime.dev.agent-logic.ai:20997";
+        const runtimeV3Snapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("https://runtime.dev.agent-logic.ai:20997");
         const runtimeV3Panopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(runtimeV3Snapshot, packet);
         mockLocation.search = "?csmApiBase=http://localhost:49210";
         context.AdlHtmlObservatory.bindLivePanopticon(packet);
@@ -465,8 +493,8 @@ def run_js_view_model(
           connectionState: observatoryElement["data-live-connection"]
         }};
         fetchMode = "immediate";
-        mockLocation.search = "?runtime=v3&runtimeApiBase=https://localhost:20997";
-        elements.get("dashboard-live-api-base").value = "https://localhost:20997";
+        mockLocation.search = "?runtime=v3&runtimeApiBase=https://runtime.dev.agent-logic.ai:20997";
+        elements.get("dashboard-live-api-base").value = "https://runtime.dev.agent-logic.ai:20997";
         elements.get("operator-write-token").value = "operator-write-token-5757";
         await elements.get("dashboard-connect-live").onclick();
         const socket = MockWebSocket.instances[MockWebSocket.instances.length - 1];
@@ -488,7 +516,7 @@ def run_js_view_model(
         let rejectedUntrustedWss = false;
         try {{
           context.AdlHtmlObservatory.connectRuntimeV3ObservatoryWebSocket(
-            "https://example.com?runtimeApiBase=https://localhost:20997",
+            "https://example.com?runtimeApiBase=https://runtime.dev.agent-logic.ai:20997",
             () => {{}},
             () => {{}}
           );
@@ -524,13 +552,13 @@ def run_js_view_model(
           operatorEnvelope,
           loopbackPolicy: {{
             localhostHttp: context.AdlHtmlObservatory.isLoopbackApiBase("http://localhost:49210"),
-            runtimeTrustedLocalhost: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://localhost:20997"),
+            runtimeTrustedLocalhost: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997"),
             runtimeRemoteHttps: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://runtime-gateway-host"),
             runtimeWrongPort: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://localhost:8765"),
-            runtimeUrlCredentials: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://operator:token@localhost:20997"),
-            runtimeUrlQuery: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://localhost:20997?runtimeApiBase=https://example.com"),
-            runtimePath: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://localhost:20997/collect"),
-            runtimeHttp: context.AdlHtmlObservatory.isRuntimeV3ApiBase("http://localhost:20997"),
+            runtimeUrlCredentials: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://operator:token@runtime.dev.agent-logic.ai:20997"),
+            runtimeUrlQuery: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997?runtimeApiBase=https://example.com"),
+            runtimePath: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997/collect"),
+            runtimeHttp: context.AdlHtmlObservatory.isRuntimeV3ApiBase("http://runtime.dev.agent-logic.ai:20997"),
             remoteHttp: context.AdlHtmlObservatory.isLoopbackApiBase("https://example.com"),
             malformed: context.AdlHtmlObservatory.isLoopbackApiBase("not a url")
           }},
@@ -734,7 +762,12 @@ def main() -> int:
     assert_contains("HTML published mirror default mode", html, '<option value="published">Published Mirror</option>')
     assert_contains("HTML retained mirror mode", html, '<option value="retained">Retained Mirror</option>')
     assert_contains("HTML live loopback mode", html, '<option value="live">Live Loopback</option>')
-    assert_contains("HTML truthful runtime mirror label", html, "<span>Runtime Mirror</span>")
+    assert_contains("HTML truthful runtime source label", html, '<span id="runtime-source-label">Runtime Source</span>')
+    assert_contains(
+        "HTML truthful runtime mirror label",
+        html,
+        '<h3 id="dashboard-focus-title">Runtime mirror</h3>',
+    )
     assert_contains("HTML source-driven event title", html, 'id="hero-event-title">Event Stream</h2>')
     assert_contains("HTML dashboard truthful operator CTA", html, "Draft operator probe")
     assert_contains("HTML dashboard focus action", html, "Focus panopticon")
@@ -777,7 +810,11 @@ def main() -> int:
     assert_contains("CSS dashboard graph", css, ".hero-agent-map")
     assert_contains("CSS dashboard graph nodes", css, ".hero-agent-node")
     assert_contains("CSS dashboard icons", css, ".stat-icon")
-    assert_contains("CSS fixed cockpit overflow", css, ".observatory > .panopticon-shell")
+    assert_contains(
+        "CSS fixed cockpit overflow",
+        css,
+        '.observatory[data-dashboard-surface="agents"] > .panopticon-shell',
+    )
     assert_contains("CSS dashboard event table", css, ".event-table-header")
     assert_contains("CSS dashboard API mini rows", css, ".api-mini-row")
     assert_contains("CSS dashboard real runtime test card", css, ".runtime-test-card")
@@ -804,8 +841,10 @@ def main() -> int:
     assert_contains("JS Runtime v3 config fallback", js, f'root?.dataset.runtimeV3ConfigRef || "{RUNTIME_V3_CONFIG_REF}"')
     if runtime_v3_config.get("schema") != "adl.html_observatory.runtime_v3_config.v1":
       fail("Runtime v3 Observatory config schema mismatch")
-    if runtime_v3_config.get("api_base") != "https://localhost:20997":
-      fail("Runtime v3 Observatory config must declare the trusted https://localhost:20997 API base")
+    if runtime_v3_config.get("api_base") != "https://runtime.dev.agent-logic.ai:20997":
+      fail("Runtime v3 Observatory config must declare the trusted public HTTPS API base")
+    if runtime_v3_config.get("health_endpoint") != "/v1/health":
+      fail("Runtime v3 Observatory config must declare /v1/health")
     if runtime_v3_config.get("observatory_endpoint") != "/v1/observatory":
       fail("Runtime v3 Observatory config must declare /v1/observatory")
     if runtime_v3_config.get("readiness_endpoint") != "/v1/ready":
@@ -816,7 +855,8 @@ def main() -> int:
       fail("Runtime v3 Observatory config must declare /v1/control for signed commands")
     assert_contains("JS Runtime v3 observatory schema", js, 'RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2"')
     assert_contains("JS trusted Runtime v3 origin normalizer", js, "normalizeTrustedRuntimeV3ApiBase")
-    assert_contains("JS trusted Runtime v3 localhost port", js, 'parsed.port !== "20997"')
+    assert_contains("JS trusted Runtime v3 public host", js, "parsed.hostname === RUNTIME_V3_TRUSTED_HOST")
+    assert_contains("JS trusted Runtime v3 HTTPS", js, 'parsed.protocol !== "https:"')
     assert_contains("JS trusted Runtime v3 root path", js, 'parsed.pathname !== "/"')
     assert_contains("JS shared live generation guard", js, "isCurrentLiveGeneration")
     assert_contains("JS retained generation guard", js, "refreshRetained = async (extraErrors = {}, requestGeneration = nextLiveGeneration())")
@@ -1080,8 +1120,8 @@ def main() -> int:
     if async_race.get("wssStopWebsocketStatus") != "stopped":
       fail(f"late WSS completion overwrote stopped WebSocket status: {async_race!r}")
     trusted_wss = smoke["trustedWss"]
-    if trusted_wss.get("endpoint") != "wss://localhost:20997/v1/observatory/ws":
-      fail(f"trusted WSS endpoint was not localhost:20997: {trusted_wss!r}")
+    if trusted_wss.get("endpoint") != "wss://runtime.dev.agent-logic.ai:20997/v1/observatory/ws":
+      fail(f"trusted WSS endpoint was not the configured public Runtime host: {trusted_wss!r}")
     if trusted_wss.get("authFrameSent") is not True:
       fail(f"operator token was not sent after trusted localhost WSS open: {trusted_wss!r}")
     if trusted_wss.get("rejectedUntrustedWss") is not True or trusted_wss.get("rejectedUntrustedCreatedSocket") is not False:

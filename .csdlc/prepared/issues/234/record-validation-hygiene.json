@@ -1,0 +1,17 @@
+{
+  "issue": 234,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "3924f387cfa30178d789cd4d76e05ece920c8e3849a8b73c4a521c700ed02229",
+  "actor": "codex:234-validation",
+  "reason": "Record workflow YAML, shell and Ruby syntax, and diff-hygiene proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "-n", "adl/tools/ci_path_policy.sh", "adl/tools/test_ci_runtime_contracts.sh", "adl/tools/test_ci_path_policy.sh"],
+      "purpose": "Prove shell syntax, Ruby syntax, all workflow YAML parsing, and clean patch whitespace.",
+      "outcome": "passed",
+      "evidence_ref": "local:issue-234-syntax-yaml-diff-hygiene:passed"
+    }
+  }
+}

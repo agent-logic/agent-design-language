@@ -1,0 +1,3 @@
+command: bash adl/tools/check_coverage_impact.sh --changed-files .csdlc/evidence/273/coverage-impact-changed-files.txt --summary adl/target/coverage-impact-summary.json
+result: PASS
+proof: the focused summary satisfies the changed production module coverage-impact denominator

@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 258,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
+    "slug": "issue-203-authority-store-boundary-slice1",
+    "version": "v0.92",
+    "generation": 57
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "authority-store-boundary",
+          "proof_role": "Focused authority boundary proof",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_identity_lease_authority",
+            "--",
+            "--nocapture",
+            "--test-threads=1"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale review, validation failure, or typed publication mismatch.",
+      "design_ref": ".csdlc/prepared/issues/258/design.md",
+      "design_digest": "7111b0edd969a6bda2e853f665ba8a86d249ed43597b60a5ad4f2008f0285439",
+      "diagram_ref": ".csdlc/prepared/issues/258/diagram.mmd",
+      "diagram_digest": "b7b2752d8925ace806dbf18f75c75678dae6c72cc81e1262ef50a2706aaaa6e1"
+    }
+  }
+}

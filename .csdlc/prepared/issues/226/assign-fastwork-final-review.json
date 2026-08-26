@@ -1,0 +1,14 @@
+{
+  "issue": 226,
+  "expected_generation": 22,
+  "expected_digest": "b63abf661e9e8ed22a0ccec6e1a5bb1f7d022e82e6bedd743bc450f4bcee048b",
+  "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+  "assigned_by": "codex:226-focused-runtime-validation-routing",
+  "scope": [
+    "adl/config/validation_lane_selector.v0.91.6.json",
+    "adl/tools/test_select_validation_lanes.sh",
+    "adl/tools/test_ci_path_policy.sh",
+    ".csdlc/evidence/226",
+    ".csdlc/prepared/issues/226/design.md"
+  ]
+}

@@ -10,15 +10,25 @@ use std::{
 #[path = "../observability.rs"]
 mod observability;
 
+use adl_runtime_kernel::layer8_authority::{
+    ConversationAuthorityProfile, ConversationSigningProfile, Layer8AuthorityStore,
+    Layer8ConversationAuthority, Layer8SignedExchange,
+};
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly,
-    build_production_operation_executors_with_recorder, generate_runtime_instance_id,
-    load_control_tls, monitor_until_stop, serve_control_listener_until_ready,
-    validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
-    CheckpointShutdownRequest, CheckpointingControl, ControlApiPolicy, ControlAuthority,
-    ControlCapability, ControlService, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TimeQualificationBounds, TimeSampleSource, TrustedControlKey,
+    birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
+    build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
+    build_production_operation_executors_with_recorder, load_control_tls, load_identity,
+    load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
+    serve_control_listener_until_ready, serve_private_continuity_listener,
+    validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
+    AgentPopulationFeed, CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
+    ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
+    ControlService, DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity,
+    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
+    RecorderTrustedTime, RsntpTimeSampleSource, RunningState, RuntimeInitConfig, RuntimeRecorder,
+    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
+    TlsIdentityPaths, TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS,
+    OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -55,6 +65,20 @@ async fn main() -> ExitCode {
                 Ok(config) => config,
                 Err(error) => {
                     eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let _birth_witness_owner = match init.birth_witness_owner() {
+                Ok(owner) => owner,
+                Err(error) => {
+                    eprintln!("runtime birth-witness trust invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let continuity_control_config = match init.continuity_control.clone() {
+                Some(config) => config,
+                None => {
+                    eprintln!("runtime private continuity configuration is required");
                     return ExitCode::from(78);
                 }
             };
@@ -103,6 +127,59 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let private_listener = match tokio::net::TcpListener::bind(
+                continuity_control_config
+                    .socket_addr()
+                    .expect("validated continuity address"),
+            )
+            .await
+            {
+                Ok(listener) => listener,
+                Err(error) => {
+                    eprintln!("runtime private continuity bind failed: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let private_identity = match load_identity(&TlsIdentityPaths {
+                certificate_chain_path: continuity_control_config
+                    .tls
+                    .server_certificate_chain_path
+                    .clone(),
+                private_key_path: continuity_control_config
+                    .tls
+                    .server_private_key_path
+                    .clone(),
+            })
+            .await
+            {
+                Ok(identity) => identity,
+                Err(error) => {
+                    eprintln!("runtime private continuity TLS identity invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let private_client_roots = match load_trust_roots(
+                &continuity_control_config.tls.server_trust_roots_path,
+            )
+            .await
+            {
+                Ok(roots) => roots,
+                Err(error) => {
+                    eprintln!("runtime private continuity client roots invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let private_tls = match build_mutual_tls_server_config(
+                private_identity,
+                private_client_roots,
+                PRIVATE_ALPN,
+            ) {
+                Ok(config) => config,
+                Err(error) => {
+                    eprintln!("runtime private continuity TLS invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let continuity_secret_text = match read_trimmed_config_file(
                 &init.credentials.continuity_signing_key_path,
                 "runtime continuity signing key",
@@ -136,8 +213,15 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let instance_id = generate_runtime_instance_id();
+            let instance_id = match load_or_create_runtime_instance_id(&operation_state_identity) {
+                Ok(instance_id) => instance_id,
+                Err(error) => {
+                    eprintln!("runtime instance identity invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let recorder = RuntimeRecorder::new(init.kernel.recorder_capacity);
+            let roster_trusted_time = RecorderTrustedTime::new(recorder.clone());
             let reasoning = match bootstrap_reasoning_services(recorder.clone()) {
                 Ok(reasoning) => reasoning,
                 Err(error) => {
@@ -145,6 +229,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let continuity_reasoning = reasoning.clone();
             let operation_executors = match build_production_operation_executors_with_recorder(
                 operation_state_identity.clone(),
                 recorder.clone(),
@@ -159,6 +244,10 @@ async fn main() -> ExitCode {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
             }
+            let resident_shepherd_executor = operation_executors
+                .get(&AdapterKind::Shepherd)
+                .cloned()
+                .expect("validated production assembly contains Shepherd adapter");
             let operation_key_text = match read_trimmed_config_file(
                 &init.credentials.operation_public_key_path,
                 "runtime operation permit key",
@@ -185,14 +274,57 @@ async fn main() -> ExitCode {
                 return ExitCode::from(78);
             }
             let operation_key_id = init.credentials.operation_key_id.clone();
+            let migration_decision_key_text = match read_trimmed_config_file(
+                &init.credentials.migration_decision_public_key_path,
+                "runtime migration decision key",
+            )
+            .await
+            {
+                Ok(value) => value,
+                Err(error) => {
+                    eprintln!("{error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let migration_decision_key = match verifying_key_from_hex(&migration_decision_key_text)
+            {
+                Ok(key) if key != operation_key => key,
+                _ => {
+                    eprintln!(
+                            "runtime migration decision key is invalid or aliases the operation permit key"
+                        );
+                    return ExitCode::from(78);
+                }
+            };
+            let migration_decision_key_id = init.credentials.migration_decision_key_id.clone();
+            let migration_decision_key_generation =
+                init.credentials.migration_decision_key_generation;
+            let continuity_public_key =
+                ed25519_dalek::SigningKey::from_bytes(&continuity_secret).verifying_key();
             let time_source_identity = format!("sntp:{}", init.credentials.sntp_server);
             let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
                 init.credentials.sntp_server.clone(),
             ));
+            let birthday_generations = birthday_authority_generations(
+                migration_decision_key_generation,
+                init.credentials.continuity_min_generation,
+            );
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
+                canonical_ingress_capacity: init.kernel.canonical_ingress_capacity,
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
+                birthday_authority: birthday_authority_bootstrap_from_runtime_keys(
+                    operation_key_id.clone(),
+                    operation_key,
+                    migration_decision_key_id.clone(),
+                    migration_decision_key,
+                    init.credentials.continuity_key_id.clone(),
+                    continuity_public_key,
+                    birthday_generations.0,
+                    birthday_generations.1,
+                    birthday_generations.2,
+                ),
                 reasoning,
                 time_source,
                 time_bounds: TimeQualificationBounds {
@@ -219,6 +351,78 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
+            let continuity_registry = match build_live_continuity_registry(
+                &assembly,
+                recorder.clone(),
+                continuity_reasoning.clone(),
+                &operation_state_identity,
+                continuity_control_config.bounds.max_services,
+            ) {
+                Ok(registry) => registry,
+                Err(error) => {
+                    eprintln!("runtime live continuity registry invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let catalog_authority = match CatalogSigningAuthority::from_secret(
+                init.credentials.continuity_key_id.clone(),
+                1,
+                &continuity_secret,
+            ) {
+                Ok(authority) => authority,
+                Err(error) => {
+                    eprintln!("runtime private continuity authority invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let catalog_verifying_key = catalog_authority.verifying_key();
+            let source_effects = match adl_runtime_kernel::SourceContinuityEffectPort::open(
+                continuity_root.join("private-exports"),
+                continuity_registry,
+                catalog_authority,
+                continuity_control_config.bounds.clone(),
+                continuity_control_config.channel_epoch,
+            ) {
+                Ok(port) => Arc::new(port),
+                Err(error) => {
+                    eprintln!("runtime source continuity effects invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let target_effects = match TargetContinuityCoordinator::open(
+                continuity_control_config.clone(),
+                BTreeMap::from([(
+                    (init.credentials.continuity_key_id.clone(), 1),
+                    catalog_verifying_key,
+                )]),
+                BTreeMap::from([(
+                    (
+                        migration_decision_key_id.clone(),
+                        migration_decision_key_generation,
+                    ),
+                    migration_decision_key,
+                )]),
+            ) {
+                Ok(port) => Arc::new(port),
+                Err(error) => {
+                    eprintln!("runtime target continuity effects invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let continuity_journal =
+                match DurableContinuityJournal::open(&continuity_control_config) {
+                    Ok(journal) => journal,
+                    Err(error) => {
+                        eprintln!("runtime private continuity journal invalid: {error}");
+                        return ExitCode::from(78);
+                    }
+                };
+            let private_service = Arc::new(ContinuityControlService::new(
+                continuity_control_config,
+                continuity_journal,
+                source_effects,
+                target_effects,
+            ));
             let minimum_generation = init.credentials.continuity_min_generation;
             let public_key_text = match read_trimmed_config_file(
                 &init.credentials.control_public_key_path,
@@ -239,10 +443,14 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let continuity_public_key =
-                ed25519_dalek::SigningKey::from_bytes(&continuity_secret).verifying_key();
-            if public_key == operation_key || public_key == continuity_public_key {
-                eprintln!("runtime control, operation, and continuity keys must be distinct");
+            if public_key == operation_key
+                || public_key == continuity_public_key
+                || public_key == migration_decision_key
+                || migration_decision_key == continuity_public_key
+            {
+                eprintln!(
+                    "runtime control, operation, migration decision, and continuity keys must be distinct"
+                );
                 return ExitCode::from(78);
             }
             let key_id = init.credentials.control_key_id.clone();
@@ -272,6 +480,9 @@ async fn main() -> ExitCode {
                 "time_source": &time_source_identity,
                 "operation_key_id": &operation_key_id,
                 "operation_key": hex::encode(operation_key.as_bytes()),
+                "migration_decision_key_id": &migration_decision_key_id,
+                "migration_decision_key_generation": migration_decision_key_generation,
+                "migration_decision_key": hex::encode(migration_decision_key.as_bytes()),
                 "control_key_id": &key_id,
                 "control_principal": &principal,
                 "control_key": hex::encode(public_key.as_bytes()),
@@ -317,18 +528,91 @@ async fn main() -> ExitCode {
             )]));
             let (lifecycle, mut shutdown_requests) =
                 CheckpointingControl::channel(init.kernel.checkpoint_channel_capacity);
-            let service = Arc::new(
-                ControlService::new_with_observatory_config_and_agents(
-                    instance_id.clone(),
-                    recorder.clone(),
-                    lifecycle,
-                    authority,
-                    init.kernel.control_history_capacity,
-                    init.observatory_allowed_origins(),
-                    AgentPopulationFeed::single(),
-                )
-                .with_canonical_ingress(assembly.canonical_ingress.clone()),
-            );
+            let layer8 = match (
+                std::env::var_os("ADL_LAYER8_AUTHORITY_PROFILE"),
+                std::env::var_os("ADL_LAYER8_SIGNING_PROFILE"),
+            ) {
+                (None, None) => None,
+                (Some(profile_path), Some(signing_profile_path)) => {
+                    let profile = std::fs::read(profile_path).ok().and_then(|bytes| {
+                        serde_json::from_slice::<ConversationAuthorityProfile>(&bytes).ok()
+                    });
+                    let signing_profile =
+                        std::fs::read(signing_profile_path).ok().and_then(|bytes| {
+                            serde_json::from_slice::<ConversationSigningProfile>(&bytes).ok()
+                        });
+                    let loaded = profile.zip(signing_profile).and_then(
+                        |(authority_profile, signing_profile)| {
+                            let sender = &signing_profile.sender;
+                            if authority_profile.evidence.polis_id != instance_id
+                                || sender.principal_id != authority_profile.evidence.principal_id
+                                || sender.polis_id != authority_profile.evidence.polis_id
+                                || sender.signing_key_id
+                                    != authority_profile.evidence.signing_key_id
+                                || std::fs::read_to_string(&sender.private_key_file)
+                                    .ok()
+                                    .and_then(|encoded| hex::decode(encoded.trim()).ok())
+                                    .and_then(|secret| <[u8; 32]>::try_from(secret).ok())
+                                    .map(|secret| {
+                                        hex::encode(
+                                            ed25519_dalek::SigningKey::from_bytes(&secret)
+                                                .verifying_key()
+                                                .to_bytes(),
+                                        )
+                                    })
+                                    .as_deref()
+                                    != Some(&authority_profile.evidence.verifying_key_hex)
+                                || signing_profile
+                                    .recipients
+                                    .iter()
+                                    .any(|recipient| recipient.polis_id != instance_id)
+                            {
+                                return None;
+                            }
+                            let store = Layer8AuthorityStore::open(
+                                operation_state_identity
+                                    .join("authority/layer8-conversation-audit.jsonl"),
+                            )
+                            .ok()?;
+                            Some((
+                                Layer8ConversationAuthority::new(store, authority_profile).ok()?,
+                                Layer8SignedExchange::load(signing_profile).ok()?,
+                            ))
+                        },
+                    );
+                    match loaded {
+                        Some(value) => Some(value),
+                        None => {
+                            eprintln!("runtime Layer 8 authority configuration invalid");
+                            return ExitCode::from(78);
+                        }
+                    }
+                }
+                _ => {
+                    eprintln!("runtime Layer 8 authority configuration incomplete");
+                    return ExitCode::from(78);
+                }
+            };
+            let mut service = ControlService::new_with_observatory_config_and_agents(
+                instance_id.clone(),
+                recorder.clone(),
+                lifecycle,
+                authority,
+                init.kernel.control_history_capacity,
+                init.observatory_allowed_origins(),
+                AgentPopulationFeed::resident_shepherd(),
+            )
+            .with_canonical_ingress(assembly.canonical_ingress.clone());
+            if let Some((authority, exchange)) = layer8 {
+                service = service
+                    .with_layer8_authority(authority)
+                    .with_layer8_signed_exchange(exchange);
+            }
+            let service = Arc::new(service);
+            service.set_agent_roster_token_key(blake3::derive_key(
+                "adl.runtime_v3.agent_roster.page_token.continuity.v1",
+                &continuity_secret,
+            ));
             let api_policy = ControlApiPolicy::new(
                 api_drain_timeout,
                 std::time::Duration::from_millis(init.api.websocket_auth_timeout_millis),
@@ -387,30 +671,31 @@ async fn main() -> ExitCode {
             let pressure_checkpoint_deadline =
                 std::time::Duration::from_millis(init.weather.checkpoint_deadline_millis);
             let api_shutdown = tokio_util::sync::CancellationToken::new();
-            let vector_config = match RuntimeVectorConfig::from_init_config(
+            let vector_config = RuntimeVectorConfig::from_init_config(
                 init.runtime_observability(),
                 init.paths.observability_root(&operation_state_identity),
                 instance_id.clone(),
-            ) {
-                Ok(config) => config,
+            );
+            let mut observability = match vector_config.and_then(RuntimeVectorPipeline::start) {
+                Ok(pipeline) => Some(pipeline),
                 Err(error) => {
-                    eprintln!("runtime observability configuration invalid: {error}");
-                    return ExitCode::from(78);
+                    eprintln!("runtime observability degraded; Runtime remains available: {error}");
+                    recorder.initialize_observability(ObservabilityHealth::Degraded {
+                        reason: ObservabilityDegradation::ExporterUnavailable,
+                    });
+                    None
                 }
             };
-            let mut observability = match RuntimeVectorPipeline::start(vector_config) {
-                Ok(pipeline) => pipeline,
-                Err(error) => {
-                    eprintln!("runtime observability pipeline unavailable: {error}");
-                    return ExitCode::from(78);
-                }
-            };
-            recorder.set_observability_pipeline(observability.snapshot());
+            if let Some(observability) = observability.as_ref() {
+                recorder.set_observability_pipeline(observability.snapshot());
+            }
             let mut shutdown_signal = match ShutdownSignalReceiver::register() {
                 Ok(signal) => signal,
                 Err(error) => {
                     eprintln!("runtime signal handler registration failed: {error}");
-                    let _ = observability.shutdown().await;
+                    if let Some(observability) = observability.as_mut() {
+                        let _ = observability.shutdown().await;
+                    }
                     return ExitCode::from(78);
                 }
             };
@@ -424,7 +709,9 @@ async fn main() -> ExitCode {
                 Ok(listener) => listener,
                 Err(error) => {
                     eprintln!("runtime control API bind failed: {error}");
-                    let _ = observability.shutdown().await;
+                    if let Some(observability) = observability.as_mut() {
+                        let _ = observability.shutdown().await;
+                    }
                     return ExitCode::from(70);
                 }
             };
@@ -438,10 +725,38 @@ async fn main() -> ExitCode {
                 Ok(handle) => handle,
                 Err(error) => {
                     eprintln!("runtime kernel failed to start: {error}");
-                    let _ = observability.shutdown().await;
+                    if let Some(observability) = observability.as_mut() {
+                        let _ = observability.shutdown().await;
+                    }
                     return ExitCode::from(70);
                 }
             };
+            let shepherd_admission = OperationRequest {
+                schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                request_id: format!("{instance_id}:resident-shepherd-admission"),
+                idempotency_key: "resident-shepherd-admission".to_owned(),
+                principal: "runtime-bootstrap".to_owned(),
+                payload: br#"{"schema":"adl.runtime.local_shepherd_admission.v1","admit":true}"#
+                    .to_vec(),
+                permit: None,
+            };
+            if let Err(error) = resident_shepherd_executor
+                .execute(&shepherd_admission)
+                .await
+            {
+                eprintln!("runtime resident Shepherd admission failed: {error}");
+                let _ = handle.shutdown(kernel_shutdown_grace).await;
+                if let Some(observability) = observability.as_mut() {
+                    let _ = observability.shutdown().await;
+                }
+                return ExitCode::from(70);
+            }
+            let mut private_api = tokio::spawn(serve_private_continuity_listener(
+                private_listener,
+                private_tls,
+                private_service,
+                api_shutdown.child_token(),
+            ));
             let (ready_sender, ready_receiver) = tokio::sync::oneshot::channel();
             let mut api = tokio::spawn(serve_control_listener_until_ready(
                 service.clone(),
@@ -457,7 +772,10 @@ async fn main() -> ExitCode {
                     eprintln!("runtime control API failed before readiness");
                     let _ = handle.shutdown(kernel_shutdown_grace).await;
                     drain_control_api(&mut api, api_drain_timeout).await;
-                    let _ = observability.shutdown().await;
+                    drain_private_api(&mut private_api, api_drain_timeout).await;
+                    if let Some(observability) = observability.as_mut() {
+                        let _ = observability.shutdown().await;
+                    }
                     return ExitCode::from(70);
                 }
             };
@@ -472,12 +790,17 @@ async fn main() -> ExitCode {
             let mut pressure_retry_at = None;
             let mut observability_tick = tokio::time::interval(observability_poll);
             observability_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let mut shepherd_heartbeat =
+                tokio::time::interval(std::time::Duration::from_millis(1_000));
+            shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let serve_result = 'serve: loop {
-                if let Err(error) = observability.poll_health() {
+                if let Some(observability) = observability.as_mut() {
+                    if let Err(error) = observability.poll_health() {
+                        recorder.set_observability_pipeline(observability.snapshot());
+                        eprintln!("runtime observability pipeline failed: {error}");
+                    }
                     recorder.set_observability_pipeline(observability.snapshot());
-                    eprintln!("runtime observability pipeline failed: {error}");
                 }
-                recorder.set_observability_pipeline(observability.snapshot());
                 let weather_service = service.clone();
                 let pressure_delay = pressure_retry_at.take();
                 let pressure_monitor = async {
@@ -500,11 +823,31 @@ async fn main() -> ExitCode {
                         break 'wait TerminalTrigger::Pressure;
                     },
                     _ = observability_tick.tick() => {
-                        if let Err(error) = observability.poll_health() {
+                        if let Some(observability) = observability.as_mut() {
+                            if let Err(error) = observability.poll_health() {
+                                recorder.set_observability_pipeline(observability.snapshot());
+                                eprintln!("runtime observability pipeline failed: {error}");
+                            }
                             recorder.set_observability_pipeline(observability.snapshot());
-                            eprintln!("runtime observability pipeline failed: {error}");
                         }
-                        recorder.set_observability_pipeline(observability.snapshot());
+                    },
+                    _ = shepherd_heartbeat.tick() => {
+                        let snapshot = recorder.snapshot();
+                        if snapshot.components.get(&adl_runtime_kernel::ComponentId::new("shepherd"))
+                            == Some(&RunningState::Running)
+                        {
+                            let observed_at = roster_trusted_time.now_unix_millis();
+                            if let Some(deadline) = observed_at
+                                .checked_add(AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
+                                .filter(|_| observed_at > 0)
+                            {
+                                let _ = recorder.record_agent_heartbeat(
+                                    "shepherd",
+                                    observed_at,
+                                    deadline,
+                                );
+                            }
+                        }
                     },
                     signal = shutdown_signal.recv() => {
                         if let Err(error) = signal {
@@ -512,6 +855,7 @@ async fn main() -> ExitCode {
                             api_shutdown.cancel();
                             let _ = handle.shutdown(kernel_shutdown_grace).await;
                             drain_control_api(&mut api, api_drain_timeout).await;
+                            drain_private_api(&mut private_api, api_drain_timeout).await;
                             break 'serve ExitCode::from(70);
                         }
                         break 'wait TerminalTrigger::Signal;
@@ -522,6 +866,7 @@ async fn main() -> ExitCode {
                             api_shutdown.cancel();
                             let _ = handle.shutdown(kernel_shutdown_grace).await;
                             drain_control_api(&mut api, api_drain_timeout).await;
+                            drain_private_api(&mut private_api, api_drain_timeout).await;
                             break 'serve ExitCode::from(70);
                         };
                         break 'wait TerminalTrigger::Signed(request);
@@ -534,6 +879,7 @@ async fn main() -> ExitCode {
                         Ok(exit) => {
                             api_shutdown.cancel();
                             drain_control_api(&mut api, api_drain_timeout).await;
+                            drain_private_api(&mut private_api, api_drain_timeout).await;
                             break 'serve process_exit(exit);
                         },
                         Err(error) => {
@@ -541,6 +887,7 @@ async fn main() -> ExitCode {
                             api_shutdown.cancel();
                             let _ = handle.shutdown(kernel_shutdown_grace).await;
                             drain_control_api(&mut api, api_drain_timeout).await;
+                            drain_private_api(&mut private_api, api_drain_timeout).await;
                             break 'serve ExitCode::from(70);
                         }
                     },
@@ -550,7 +897,20 @@ async fn main() -> ExitCode {
                             Ok(Err(error)) => eprintln!("runtime control API failed: {error}"),
                             Err(error) => eprintln!("runtime control API task failed: {error}"),
                         }
+                        api_shutdown.cancel();
                         let _ = handle.shutdown(kernel_shutdown_grace).await;
+                        drain_private_api(&mut private_api, api_drain_timeout).await;
+                        break 'serve ExitCode::from(70);
+                    },
+                    result = &mut private_api => {
+                        match result {
+                            Ok(Ok(())) => eprintln!("runtime private continuity API stopped unexpectedly"),
+                            Ok(Err(error)) => eprintln!("runtime private continuity API failed: {error}"),
+                            Err(error) => eprintln!("runtime private continuity API task failed: {error}"),
+                        }
+                        api_shutdown.cancel();
+                        let _ = handle.shutdown(kernel_shutdown_grace).await;
+                        drain_control_api(&mut api, api_drain_timeout).await;
                         break 'serve ExitCode::from(70);
                     },
                     };
@@ -607,17 +967,23 @@ async fn main() -> ExitCode {
                     api_shutdown.cancel();
                     let _ = handle.shutdown(kernel_shutdown_grace).await;
                     drain_control_api(&mut api, api_drain_timeout).await;
+                    drain_private_api(&mut private_api, api_drain_timeout).await;
                     break 'serve ExitCode::from(74);
                 }
 
                 api_shutdown.cancel();
                 let shutdown = handle.shutdown(grace).await;
+                let restart_requested = request.as_ref().is_some_and(|request| request.restart);
                 let terminal = match shutdown {
                     Ok(exit) => {
                         if let Some(request) = request.take() {
                             request.respond(Ok(exit.clone()));
                         }
-                        process_exit(exit)
+                        if restart_requested {
+                            ExitCode::from(75)
+                        } else {
+                            process_exit(exit)
+                        }
                     }
                     Err(error) => {
                         eprintln!("runtime {label} shutdown failed: {error}");
@@ -628,20 +994,21 @@ async fn main() -> ExitCode {
                     }
                 };
                 drain_control_api(&mut api, api_drain_timeout).await;
+                drain_private_api(&mut private_api, api_drain_timeout).await;
                 break 'serve terminal;
             };
-            recorder.set_observability_pipeline(observability.snapshot());
-            match observability.shutdown().await {
-                Ok(()) => {
+            let mut observability_shutdown_error = None;
+            if let Some(observability) = observability.as_mut() {
+                recorder.set_observability_pipeline(observability.snapshot());
+                if let Err(error) = observability.shutdown().await {
+                    observability_shutdown_error = Some(error.to_string());
                     recorder.set_observability_pipeline(observability.snapshot());
-                    serve_result
-                }
-                Err(error) => {
-                    eprintln!("runtime observability shutdown failed: {error}");
-                    recorder.set_observability_pipeline(observability.snapshot());
-                    ExitCode::from(70)
                 }
             }
+            preserve_runtime_result_after_observability(
+                serve_result,
+                observability_shutdown_error.as_deref(),
+            )
         }
         _ => {
             eprintln!("{}", usage());
@@ -944,6 +1311,27 @@ fn process_exit(exit: KernelExit) -> ExitCode {
     }
 }
 
+fn preserve_runtime_result_after_observability<T>(
+    runtime_result: T,
+    observability_shutdown_error: Option<&str>,
+) -> T {
+    if let Some(error) = observability_shutdown_error {
+        eprintln!("runtime observability shutdown failed; Runtime result preserved: {error}");
+    }
+    runtime_result
+}
+
+/// Memory Palace birthday authority begins its own signed lineage at genesis.
+/// The live-continuity minimum is an anti-rollback floor enforced separately by
+/// `LiveContinuity`; treating that floor as a birthday generation greater than
+/// one would require a predecessor digest that does not belong to this lineage.
+fn birthday_authority_generations(
+    identity_generation: u64,
+    _live_continuity_minimum_generation: u64,
+) -> (u64, u64, u64) {
+    (identity_generation, 1, 1)
+}
+
 async fn drain_control_api(
     api: &mut tokio::task::JoinHandle<Result<(), adl_runtime_kernel::ControlApiError>>,
     timeout: std::time::Duration,
@@ -953,9 +1341,38 @@ async fn drain_control_api(
     }
 }
 
+async fn drain_private_api(
+    api: &mut tokio::task::JoinHandle<Result<(), adl_runtime_kernel::ContinuityControlError>>,
+    timeout: std::time::Duration,
+) {
+    if tokio::time::timeout(timeout, &mut *api).await.is_err() {
+        api.abort();
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::bind_control_listener;
+    use super::{
+        bind_control_listener, birthday_authority_generations,
+        preserve_runtime_result_after_observability,
+    };
+
+    #[test]
+    fn live_continuity_floor_does_not_rebase_birthday_authority_genesis() {
+        assert_eq!(birthday_authority_generations(7, 0), (7, 1, 1));
+        assert_eq!(birthday_authority_generations(7, 41), (7, 1, 1));
+    }
+
+    #[test]
+    fn observability_shutdown_failure_preserves_runtime_result() {
+        assert_eq!(
+            preserve_runtime_result_after_observability(
+                "runtime-clean-exit",
+                Some("master_log_drain_incomplete")
+            ),
+            "runtime-clean-exit"
+        );
+    }
 
     #[tokio::test]
     async fn control_listener_rebinds_immediately_after_a_connection_closes() {

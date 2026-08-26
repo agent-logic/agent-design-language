@@ -1,0 +1,23 @@
+{
+  "issue": 300,
+  "expected_generation": 11,
+  "expected_digest": "f64db666ab251997b2a0bb176855cc33391d27ba23134bbe59816a9a245c923d",
+  "actor": "codex:worker-5",
+  "evidence": {
+    "reviewer": "fresh-session:hopper-300-bridge-fed-r5",
+    "scope": [
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      ".csdlc/evidence/300/bridge-fed-r4",
+      ".csdlc/requests/300/recover-review-curie-r3.json",
+      ".csdlc/requests/300/recover-review-lovelace-scope-dead-end.json",
+      ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
+    ],
+    "reviewed_revision": "git-blake3:17a33ed44a074ad8105edef574721a366ec771bc:9a89e884794cdcb94f5d8d6b6adc2ede2d9f1599963f24dc2eded1522dc23ce0",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not rerun cargo, Clippy, fmt, or diff-check; PASS is based on inspection-only exact-head review of immutable commit 17a33ed44a074ad8105edef574721a366ec771bc and recorded r4 evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

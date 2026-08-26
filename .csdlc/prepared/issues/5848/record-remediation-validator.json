@@ -1,0 +1,20 @@
+{
+  "issue": 5848,
+  "card": "sor",
+  "expected_generation": 20,
+  "expected_digest": "1894f9300690b603726bf7f6672c2bac6717496cc1be5ba76fe97760e9ac60de",
+  "actor": "codex:issue-315-wp27-remediation",
+  "reason": "Record complete remediation-disposition validator proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "ruby",
+        ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb"
+      ],
+      "purpose": "Validate complete internal/external finding universe, authoritative dispositions, evidence digests, external-review intake regression, and current-head production birthday focused regression.",
+      "outcome": "passed",
+      "evidence_ref": "local:issue-315-remediation-validator:passed"
+    }
+  }
+}

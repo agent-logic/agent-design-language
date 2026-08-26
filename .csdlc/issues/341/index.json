@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 341,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "856115fcb81c8bc7294e1fa19e514bb65f7d9569133521c7e793bf6f8e6798ec",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "31d3e54f171dbd164ef1de1bc4504110e0de1f3de44c206eb667770c4dad1141",
+  "branch": "codex/341-provider-neutral-multi-agent-proof",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-341-provider-neutral-multi-agent-proof",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/341/design.md",
+  "diagram_path": ".csdlc/prepared/issues/341/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:daniel",
+      "revision": "c6789dcf9bdcfa45b396282dd8175bf91e711756696868a609a4445d8909d951"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7f9aab690971546deea10896a3c222040c5534843efd90ff8f0de8a8dd04333d",
+      "rendered_digest": "ff04b9688df973faa3168bdfbd18c084d74d0c58ae22355a72da336df6badb7f",
+      "ast_digest": "65c0a0ea8ab52a9081d8b656e7fcfd0f9afcecf54e6097b1a3bea340865d8a84"
+    },
+    "stp": {
+      "values_digest": "b62eaffa25b5bcfadcf70c44f7e27938998201988d4e6414c60ef019787844b2",
+      "rendered_digest": "1b267bad9b52a7403a6559e1a3d4a3c24374eef1da5ab4c367420e1121c2a030",
+      "ast_digest": "1fb91f8ac003280acbf09394d5d1f90b58804a2ca6554ea09f39163befd00dbf"
+    },
+    "spp": {
+      "values_digest": "ed966a7d739ae7b21a7257ec89ee06884bec5c95ee3616a11eb6ce1a4ff00c03",
+      "rendered_digest": "0d1c91eaae26fc7d4dd763613f21e45002d95e9776574d63506ea2128294d122",
+      "ast_digest": "08766b5afaef56942dbe358afe456fc6735ef5b123f79b22a62af6dd4ad6d439"
+    },
+    "vpp": {
+      "values_digest": "fae3fcec566b5487d9aa509878f9273027876cc328b61e9170ed7048b63341ac",
+      "rendered_digest": "5e00b6af3d260c08673e0b39097b258085b221c329df0375181ca6d70be982e8",
+      "ast_digest": "bcbb77333f63b61a252a79e95365e7c9154774810effd5664840430bde263e8e"
+    },
+    "srp": {
+      "values_digest": "4dc487bc973309e52aa320bb354fd25a00d2e1a249d695d249dba8ab5d690ce3",
+      "rendered_digest": "4ee08cbcaaae0947c00ef97d3b6293d15856c265ec3f48d44d624edcbd2de824",
+      "ast_digest": "fc8e97a4f16acd5e7989092a399078ab486924e46912569ce23e3c8d974ef939"
+    },
+    "sor": {
+      "values_digest": "5188eef54ba1097ae1666ace6e134a70d742fe388c80008c02348025ef0e6c23",
+      "rendered_digest": "0f4db38df3a882fb396984339c1aebf5082a089697abdacc54370ebf78cbbb2c",
+      "ast_digest": "3294a163aa1372d7493591e5f35529c65905dcfe1f43428c4f4498a54973a4e1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Doctor readiness passed for #341 after executable issue-owned VPP targets and current prerequisite gates were established."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:/root",
+      "reason": "Record manual worktree adoption after typed bind refused the existing manually-created #341 worktree."
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Record implemented #341 proof truth after typed bind/adoption refused the existing manually-created worktree."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair initial VPP readiness by removing review as a validation command and mapping AC-5 to lifecycle review truth plus focused proof tests.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"provider-positive-matrix\",\"proof_role\":\"Run at least two approved real-provider positive columns through the identical scenario and retain redacted receipts.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/demo_v092_provider_neutral_birthday.sh\",\"--mode\",\"positive\"],\"parallel_group\":\"provider-proof\",\"defer_reason\":null},{\"lane\":\"proof-validator-tests\",\"proof_role\":\"Run focused validator and negative-case tests without provider credentials; exact-head review remains SRP/review lifecycle truth.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_v092_provider_neutral_proof.sh\"],\"parallel_group\":\"local-proof\",\"defer_reason\":null},{\"lane\":\"proof-matrix-validator\",\"proof_role\":\"Validate redaction, parity, outcome classifications, digests, and no fixture/cached substitution.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/validate_v092_provider_neutral_proof.py\",\"demos/v0.92/provider-neutral-birthday/proof-matrix.json\"],\"parallel_group\":\"local-proof\",\"defer_reason\":null},{\"lane\":\"private-observatory-demo\",\"proof_role\":\"Show several private agents running in the Observatory without public exposure.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/demo_v092_provider_neutral_birthday.sh\",\"--mode\",\"observatory\"],\"parallel_group\":\"demo\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Doctor readiness passed for #341 after executable issue-owned VPP targets and current prerequisite gates were established.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

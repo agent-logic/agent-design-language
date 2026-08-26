@@ -1,0 +1,69 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5911,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Archive local Codex transcripts to FastWork and recover disk space",
+    "slug": "fastwork-transcript-archive-worktree-policy",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-v2-standalone-fastwork-policy",
+          "proof_role": "The complete standalone C-SDLC v2 suite proves case-insensitive mandatory FastWork enforcement and all linked-worktree fixture compatibility paths changed by this issue.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "transcript-archive-verification",
+          "proof_role": "Issue-owned archive tests prove manifest generation, digest verification, source preservation, and canonical FastWork containment.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 3000,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "adl/tools/test_archive_codex_sessions_to_fastwork.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on invalid lifecycle state, non-FastWork worktree placement, unavailable storage, checksum mismatch, or any unapproved destructive action.",
+      "design_ref": ".csdlc/prepared/issues/5911/design.md",
+      "design_digest": "d1c9aa19f2fe9852933e714905eb7ee5d03620078721157ccdafdb9b286d1991",
+      "diagram_ref": ".csdlc/prepared/issues/5911/design.mmd",
+      "diagram_digest": "093bb447659406894084abe6e3b3e94b08c8e75b565714d53082db9b5a0a30ad"
+    }
+  }
+}

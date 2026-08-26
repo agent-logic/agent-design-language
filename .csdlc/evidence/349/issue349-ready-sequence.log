@@ -1,0 +1,8 @@
+
+running 1 test
+test initialized_deferred_distributed_targets_bind_only_through_exact_path_harnesses ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 6.61s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/gate2.rs (csdlc-v2/target/debug/deps/gate2-9bb4b4c54bebd02b)

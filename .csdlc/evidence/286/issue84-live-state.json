@@ -1,0 +1,11 @@
+{
+  "schema": "adl.issue_state_observation.v1",
+  "observed_at": "2026-08-17T21:22:00-07:00",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 84,
+  "state": "OPEN",
+  "title": "[v0.92][WP-18A-Unity] Complete live Unity Observatory Runtime v3 integration",
+  "url": "https://github.com/agent-logic/agent-design-language/issues/84",
+  "classification": "partial_non_terminal",
+  "blocks": "ADR 0069 promotion because real Unity Observatory Runtime v3 consumer proof remains open WP-18A work."
+}

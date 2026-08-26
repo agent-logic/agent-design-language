@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 356,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose minimal sealed Observatory projection accessors",
+    "slug": "sealed-observatory-projection-accessors",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Add minimal accessors and focused proof only; no Observatory eligibility state machine or predecessor redesign.",
+      "deliverables": [
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs",
+        ".csdlc/evidence/356",
+        ".csdlc/issues/356"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Borrowed/copy accessors expose exactly the existing redacted projection fields required by #274.",
+        "AC-2: No constructor, mutation, raw quorum/membership, OwnerCommit, lease, artifact, token, signature, key, endpoint, path, or provider data becomes accessible.",
+        "AC-3: A/A accessor values match sealed verification and A/B substitution fails before projection creation.",
+        "AC-4: Debug/serialization proof remains redacted.",
+        "AC-5: Focused tests, strict Clippy, diff hygiene, exact-head review, hosted CI, and typed finish pass."
+      ],
+      "dependencies": [
+        "#350 terminal cache canonical and merge ancestral",
+        "Blocks #274 until terminal and ancestral"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#356",
+        "adl-runtime/src/distributed/serving_authority.rs at terminal #350",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs at terminal #350"
+      ],
+      "non_goals": [
+        "#274 state machine",
+        "#273, #272, #203, #205, or #275 behavior",
+        "UI, listener, transport, cloud, provider, deployment"
+      ]
+    }
+  }
+}

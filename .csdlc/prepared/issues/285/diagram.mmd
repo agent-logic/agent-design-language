@@ -1,0 +1,9 @@
+flowchart TD
+    A["#285 ADR 0068 evidence reconciliation"] --> B["#5839 terminal handoff evidence"]
+    A --> C["#5836 non-terminal retained state"]
+    B --> D["Issue-local evidence packet"]
+    C --> D
+    D --> E["#207 coordination input"]
+    D --> F["#288 final ADR serialization input"]
+    A -. non-goal .-> G["No ADR acceptance"]
+    A -. non-goal .-> H["No shared ADR/index/manifest edits"]

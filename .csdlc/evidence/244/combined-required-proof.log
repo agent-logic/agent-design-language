@@ -1,0 +1,7 @@
+runtime_command: cargo test --manifest-path adl-runtime-kernel/Cargo.toml
+runtime_result: passed; 69 lib tests passed, all integration targets passed, one explicitly ignored live binary parity test, 4 doc tests passed
+clippy_command: cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings
+clippy_result: passed
+observatory_command: bash adl/tools/test_v0917_html_observatory_integrated_proof.sh
+observatory_result: passed
+scope: combined #244 cleanup attachment synchronization plus reviewed #248 process-backend terminal precedence

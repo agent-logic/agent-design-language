@@ -1,0 +1,19 @@
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=started issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=0
+2026-08-22T01:14:54.070411+00:00 status=ssm_online instance_id=<aws-identifier-redacted> ping_status=Online
+2026-08-22T01:14:54.206277+00:00 status=command_sent instance_id=<aws-identifier-redacted> command_id=18c0fd95-3aea-41cb-9ae2-1223b64ceb4a
+2026-08-22T01:14:54.327302+00:00 status=command_poll_retry instance_id=<aws-identifier-redacted> command_id=18c0fd95-3aea-41cb-9ae2-1223b64ceb4a detail=service error
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=5001
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=10005
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=15009
+2026-08-22T01:15:09.405181+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=18c0fd95-3aea-41cb-9ae2-1223b64ceb4a status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=20012
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=25016
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=30020
+2026-08-22T01:15:24.735624+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=18c0fd95-3aea-41cb-9ae2-1223b64ceb4a status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=35022
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=40027
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=45033
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=50036
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=55041
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=60046
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=completed issue=268 run_id=issue268-six-hour-r7i-20260821-54 attempt=0 elapsed_ms=64149 result=completed

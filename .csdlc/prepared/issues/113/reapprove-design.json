@@ -1,0 +1,6 @@
+{
+  "issue": 113,
+  "expected_generation": 2,
+  "expected_digest": "f755a985a50756412fda32d372da5c90a4890a866bf52771885b7e5bf6b589d1",
+  "reviewer": "codex:113-live-dependency-design-refresh"
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 316,
+  "expected_generation": 21,
+  "expected_digest": "9885a99e8e8abf50f8150ce1c087850173bd9842919fc7c9f1a3d68399a5711d",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "subagent:/root/review_316_conductor_fix",
+    "scope": [
+      "docs/milestones/v0.92.1",
+      ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
+    ],
+    "reviewed_revision": "git-blake3:de8e2fc004145b91d015de5a1dc941656b5fd5ec:4624b9c1f3d41c3a04fb21b462baa943131c614c3ea60da3c209ff621ee9ba2b",
+    "findings": [],
+    "residual_risks": [
+      "WP-01 remains number-free until the operator explicitly declares v0.92.1 ready to open; merging this planning package does not create or schedule any issue."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

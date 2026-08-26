@@ -1,0 +1,3 @@
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-203-authority-serving-adapters/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.32s
+     Running tests/distributed_authority_adapter_callers_260.rs (adl-runtime/target/debug/deps/distributed_authority_adapter_callers_260-d2b658ea91e3b222)

@@ -1,0 +1,10 @@
+stateDiagram-v2
+  [*] --> Initialized
+  Initialized --> InitializedPending: current binding refresh plus AC or step repair
+  InitializedPending --> InitializedPending: complementary repair under fresh CAS
+  InitializedPending --> InitializedApproved: independent approve design
+  InitializedApproved --> Ready: advance ready
+  Ready --> ReadyPending: current binding refresh plus AC or step repair
+  ReadyPending --> ReadyPending: complementary repair under fresh CAS
+  ReadyPending --> Ready: independent approve design
+  Ready --> Bound: dependency-safe bind

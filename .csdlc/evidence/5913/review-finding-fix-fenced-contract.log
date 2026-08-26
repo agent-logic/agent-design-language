@@ -1,0 +1,29 @@
+# #5913 fenced-code contract bypass fix evidence
+
+Context:
+- Fresh-session reviewer `fresh-session:ddde45ff-8633-4ac1-892b-06a90d71524f` found P2 `DDDE-P2-FENCED-CONTRACT-BYPASS`.
+- Finding: `verify_repo_review_contract` accepted required review headings and fields when they appeared only inside a fenced Markdown code block.
+
+Change validated:
+- `adl/src/cli/mod.rs` now strips fenced code blocks before checking required review sections, metadata/scope fields, and findings content.
+- `adl/tools/test_adl_review_compatibility.sh` now includes a fenced-code-only negative review fixture and requires `verify-repo-contract` to fail it.
+
+Validation run locally from `/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing` on 2026-08-13:
+
+1. `cargo fmt --manifest-path adl/Cargo.toml -- --check`
+   - result: PASS
+
+2. `bash adl/tools/test_adl_review_compatibility.sh`
+   - result: PASS
+   - proof role: covers valid review contract, incomplete bad review, fenced-code-only bad review, deterministic fixture code-review smoke, provider-backed backend refusal, and stale command diagnostics.
+
+3. `bash adl/tools/test_run_pr_fast_test_lane.sh`
+   - result: PASS
+   - proof role: preserves the PR-fast selector fix from the prior CI failure.
+
+4. `cargo clippy --manifest-path adl/Cargo.toml --bin adl-review -- -D warnings`
+   - result: PASS
+
+Non-claims:
+- This evidence does not claim full workspace tests.
+- Hosted PR CI must still re-run after this fix is committed, reviewed, published, and pushed.

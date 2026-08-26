@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 226,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
+    "slug": "focused-runtime-validation-routing",
+    "version": "v0.92",
+    "generation": 31
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Add three narrow path selectors, prove exact focused routing, retain unknown-path fail-closed behavior, review, and publish the small tooling repair.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Add narrow selectors for the two Observatory validators and design diagrams.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Add focused selector and CI path-policy regressions for the exact mixed path set.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Run only focused contract tests, obtain exact-head review, and publish the bounded repair.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/test_select_validation_lanes.sh",
+        "adl/tools/test_ci_path_policy.sh"
+      ],
+      "invariants": [
+        "Unknown paths continue to fail closed",
+        "No selector maps Runtime source to docs-only proof",
+        "The two Observatory tooling paths select direct syntax proof without triggering integrated proof by themselves",
+        "Observatory product and demo changes continue to select the existing integrated Observatory proof",
+        "No slow or coverage job is selected solely by lifecycle metadata, issue diagrams, or the two tooling paths"
+      ],
+      "risks": [
+        "An overbroad selector could hide a real tooling change",
+        "Path-policy post-processing could still escalate despite selector coverage"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "The repair requires weakening unknown-path escalation",
+        "The exact path set still selects slow proof or authoritative full coverage",
+        "Scope expands into Runtime product or soak implementation"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/226/design.md",
+      "design_digest": "8e7a82a12f08c297ecfea3ace63dc6a58dac473fe98462e632c81328dd9e205e",
+      "diagram_ref": ".csdlc/prepared/issues/226/diagram.mmd",
+      "diagram_digest": "8c56bd5b5995ff707eb45e3fc1afc455d18137f95ac93d1b4aef9c0d5a5457ab"
+    }
+  }
+}

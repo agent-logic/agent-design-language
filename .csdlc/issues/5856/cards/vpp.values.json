@@ -7,7 +7,7 @@
     "title": "Quality and release-tail sprint",
     "slug": "quality-and-release-tail",
     "version": "v0.92",
-    "generation": 0
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -16,8 +16,8 @@
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
         {
-          "lane": "v092-sprint-package",
-          "proof_role": "Sprint membership, packet completeness, child authority boundaries, and review-ready coordination truth",
+          "lane": "v092-final-sprint-readiness",
+          "proof_role": "Prove exact final-sprint membership, strict WP-20-through-WP-30 ordering, typed child denominator, and retained live #5856 readback without executing a child.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -25,25 +25,25 @@
             "AC-4",
             "AC-5"
           ],
-          "deterministic": true,
+          "deterministic": false,
           "resource_profile": "small",
-          "budget_seconds": 300,
-          "budget_tokens": 3000,
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
           "argv": [
             "ruby",
-            ".csdlc/prepared/issues/5817/validate-v092-package.rb"
+            ".csdlc/prepared/issues/5856/validate-sprint-readiness.rb"
           ],
           "parallel_group": "v092-docs",
-          "defer_reason": null
+          "defer_reason": "Repository and packet checks are deterministic, but the retained GitHub readback is time-bound external state."
         }
       ],
       "planned_validation_seconds": 3600,
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on overlapping ownership, unmet serial gates, missing child readiness, or unsupported completion claims.",
       "design_ref": ".csdlc/prepared/issues/5856/design.md",
-      "design_digest": "c874e9d3a3705a6ab9c92c4594ff685b9fccb1cdd5180cbd3e50da7459a0ef9b",
+      "design_digest": "ffb2155a6bd9d980c3a587e716f9643e5b08ea84980b0c04ecb885d38ad95441",
       "diagram_ref": ".csdlc/prepared/issues/5856/diagram.mmd",
-      "diagram_digest": "fa70af54fd83eac4680092e86495ef246cc57892be3e5fb1322c66982f5d4f11"
+      "diagram_digest": "c1817d53601997245eb63ec05c5b94d57d7520beaa4ab96860d3e5cf8b70a172"
     }
   }
 }

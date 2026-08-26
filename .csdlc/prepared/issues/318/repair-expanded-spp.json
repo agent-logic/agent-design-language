@@ -1,0 +1,18 @@
+{
+  "issue": 318,
+  "card": "spp",
+  "expected_generation": 16,
+  "expected_digest": "f053df786f8c2ea2427ea49e4158b453be59eac932d145c8585e74cb9deadfeb",
+  "actor": "codex:root",
+  "reason": "align SPP execution truth with the completed 45-slot single-unit milestone package",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {"id":"S1","action":"Confirm #317 reviewed-green merge ancestry and independently reconstruct the live-checked normalized #307-#319 issue universe.","acceptance_ids":["AC-1","AC-2"],"status":"pending"},
+      {"id":"S2","action":"Review v0.92.1 and v0.92.2 handoff truth without creating issues or activating a successor milestone.","acceptance_ids":["AC-3"],"status":"pending"},
+      {"id":"S3","action":"Audit and correct the canonical v0.92.1 planning package so exact tail identity, dependency order, source provenance, and all 45 structured single-unit issue contracts hold.","acceptance_ids":["AC-4"],"status":"pending"},
+      {"id":"S4","action":"Run the focused validator and ten exact negative fixtures, disposition findings, and obtain independent exact-head review.","acceptance_ids":["AC-5","AC-6"],"status":"pending"}
+    ]
+  },
+  "fail_after_backup": false
+}

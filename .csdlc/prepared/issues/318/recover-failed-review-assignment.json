@@ -1,0 +1,7 @@
+{
+  "issue": 318,
+  "expected_generation": 13,
+  "expected_digest": "806fd3b78fe009e73415074d109bd56393ab355e1efeb3d97ebd48218b7e7a9a",
+  "actor": "codex:root",
+  "reason": "recover failed exact-head assignment before authored design and scope remediation"
+}

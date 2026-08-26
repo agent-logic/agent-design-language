@@ -1,0 +1,20 @@
+{
+  "issue": 111,
+  "card": "spp",
+  "expected_generation": 24,
+  "expected_digest": "31e5d2b2c2666528890ab0eb006f49aee134c3d39f7c33919ec9b09683c36dc3",
+  "actor": "codex:111-execution",
+  "reason": "Replace the superseded issue 83 ancestry step with live umbrella 110 decomposition validation while preserving the execution sequence.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {"id":"P1","action":"Revalidate live #110 decomposition authority, inspect the existing Runtime ingress and Observatory contract, bind #111, and record any topology divergence through a typed replan.","acceptance_ids":["AC-1","AC-4"],"status":"pending"},
+      {"id":"P2","action":"Implement canonical conversation contracts and the Runtime-owned bounded session engine with ordering, idempotency, explicit negative outcomes, and a fail-closed unavailable boundary.","acceptance_ids":["AC-1","AC-2","AC-3"],"status":"pending"},
+      {"id":"P3","action":"Integrate the provider-neutral adapter and authenticated Runtime ingress/egress without widening existing identity or policy authority.","acceptance_ids":["AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"P4","action":"Integrate the Observatory client using Runtime conversation identity and correlation while prohibiting acknowledgement, result hash, or arbitrary adapter output from appearing as an agent response.","acceptance_ids":["AC-1","AC-4"],"status":"pending"},
+      {"id":"P5","action":"Run the declared focused PVF lanes and fix all failures at the exact implementation revision.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"},
+      {"id":"P6","action":"Run bounded exact-head review, fix every actionable finding, and record truthful residual risk before publication handoff.","acceptance_ids":["AC-6"],"status":"pending"}
+    ]
+  },
+  "fail_after_backup": false
+}

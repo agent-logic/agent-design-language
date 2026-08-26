@@ -1,0 +1,3 @@
+command: /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary issue --issue 258
+output:
+{"findings":[],"generation":23,"issue":258,"next_operation":"inspect_phase","phase":"implemented","ready":false,"schema":"csdlc.doctor.report.v1","status":"pass"}

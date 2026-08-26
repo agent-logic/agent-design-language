@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 46,
+  "expected_digest": "1a550631ebb173742394539b8f89a5e1e461d47caf6075072bdc91372b11921d",
+  "actor": "codex:wp18c01-execution",
+  "reason": "Record exact integrated Runtime and contract proof at product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "conversation_sessions", "--test", "agent_roster", "--test", "control", "--test", "openapi_contract"],
+      "purpose": "Prove canonical conversations and the live roster/presence authority compose across Runtime admission, control, ordering, cancellation, reconnect, pagination, and OpenAPI boundaries.",
+      "outcome": "passed",
+      "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; conversation_sessions 1/1, agent_roster 10/10, control 24/24, openapi_contract 6/6 PASS"
+    }
+  },
+  "fail_after_backup": false
+}

@@ -11,7 +11,7 @@ use thiserror::Error;
 use crate::{
     Capability, CapabilityRequirement, CheckpointParticipant, Component, ComponentContext,
     ComponentError, ComponentFactory, ComponentId, ComponentSpec, DeterminismClass, FailurePolicy,
-    LifecycleGuarantees, PortSpec, ServiceContract, SERVICE_CONTRACT_SCHEMA,
+    LifecycleGuarantees, ServiceContract, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const COMMITMENT_SCHEMA: &str = "adl.runtime.commitment.v1";
@@ -961,43 +961,17 @@ impl ComponentFactory for GovernanceComponentFactory {
 
 pub fn governance_component_specs() -> Vec<ComponentSpec> {
     [
-        (
-            "governance_ingress",
-            vec![],
-            vec![],
-            vec![PortSpec::typed::<GovernedActionRequest>("request")],
-        ),
-        (
-            "freedom_gate",
-            vec![ComponentId::new("governance_ingress")],
-            vec![PortSpec::typed::<GovernedActionRequest>("request")],
-            vec![
-                PortSpec::typed::<MediationDecision>("decision"),
-                PortSpec::typed::<ExecutionPermit>("permit"),
-            ],
-        ),
-        (
-            "aee",
-            vec![ComponentId::new("freedom_gate")],
-            vec![PortSpec::typed::<ExecutionPermit>("permit")],
-            vec![
-                PortSpec::typed::<RecordedActuationResult>("result"),
-                PortSpec::typed::<AuditEvent>("audit"),
-            ],
-        ),
-        (
-            "governance_audit",
-            vec![ComponentId::new("aee")],
-            vec![PortSpec::typed::<AuditEvent>("audit")],
-            vec![],
-        ),
+        ("governance_ingress", vec![]),
+        ("freedom_gate", vec![ComponentId::new("governance_ingress")]),
+        ("aee", vec![ComponentId::new("freedom_gate")]),
+        ("governance_audit", vec![ComponentId::new("aee")]),
     ]
     .into_iter()
-    .map(|(id, dependencies, inputs, outputs)| ComponentSpec {
+    .map(|(id, dependencies)| ComponentSpec {
         id: ComponentId::new(id),
         dependencies,
-        inputs,
-        outputs,
+        inputs: Vec::new(),
+        outputs: Vec::new(),
         failure_policy: FailurePolicy::Fatal,
     })
     .collect()
@@ -1021,7 +995,7 @@ pub fn governance_service_contracts() -> Vec<ServiceContract> {
                 service: name.clone(),
                 version: Version::new(1, 0, 0),
                 config_schema: format!("adl.runtime.{name}.config.v1"),
-                determinism: if name == "aee" {
+                determinism: if matches!(name.as_str(), "aee" | "governance_audit") {
                     DeterminismClass::GovernedNondeterministicShell
                 } else {
                     DeterminismClass::DeterministicCore
@@ -1031,6 +1005,8 @@ pub fn governance_service_contracts() -> Vec<ServiceContract> {
                     bounded_shutdown_millis: 1_000,
                     restart_safe: true,
                     idempotent_start: true,
+                    role: crate::LifecycleRole::Workload,
+                    required_core: false,
                 },
                 provides: vec![Capability {
                     name: format!("governance.{name}"),
@@ -1048,6 +1024,42 @@ pub fn governance_service_contracts() -> Vec<ServiceContract> {
             }
         })
         .collect()
+}
+
+impl crate::PortProtocol for GovernedActionRequest {
+    const PROTOCOL: &'static str = "adl.runtime.governance.action-request.v1";
+}
+
+impl crate::PortProtocol for MediationDecision {
+    const PROTOCOL: &'static str = "adl.runtime.governance.mediation-decision.v1";
+}
+
+impl crate::PortProtocol for ExecutionPermit {
+    const PROTOCOL: &'static str = "adl.runtime.governance.execution-permit.v1";
+}
+
+impl crate::PortProtocol for AuditEvent {
+    const PROTOCOL: &'static str = "adl.runtime.governance.audit-event.v1";
+}
+
+impl crate::PortProtocol for RecordedActuationResult {
+    const PROTOCOL: &'static str = "adl.runtime.governance.actuation-result.v1";
+}
+
+/// Canonical snapshot of the production governance components actually
+/// admitted into live topology.  Their component loops are intentionally
+/// stateless; durable FreedomGate/AEE state remains in their receipt-bearing
+/// stores when configured by the governed operation surface.
+pub fn governance_live_registry_snapshot() -> Result<Vec<u8>, GovernanceError> {
+    let services = governance_component_specs()
+        .into_iter()
+        .map(|spec| spec.id.as_str().to_owned())
+        .collect::<Vec<_>>();
+    serde_jcs::to_vec(&serde_json::json!({
+        "schema": "adl.runtime.governance_live_registry.v1",
+        "services": services,
+    }))
+    .map_err(|error| GovernanceError::Encoding(error.to_string()))
 }
 
 fn requirement(name: &str) -> CapabilityRequirement {

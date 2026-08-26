@@ -1,0 +1,262 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 199,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b2] Govern learner, joint, and final voter membership transitions",
+    "slug": "governed-voter-membership-transitions",
+    "version": "v0.92",
+    "generation": 72
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "governed-membership-transition",
+          "proof_role": "Prove exactly twelve behavior-specific public membership contracts without name substitution; production lanes separately bind governed receipts, authorized target maps, current-operation membership history, crash recovery, and strict Clippy.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1200,
+          "budget_tokens": 12000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_membership_transition",
+            "--",
+            "--nocapture",
+            "--test-threads=1"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "governed-membership-saga-unit",
+          "proof_role": "Prove seven coordinator unit cases including exact authorized stable-map/target binding, current-operation log-index history, durable phase recovery, exact retry, conflicting operation and receipt denial, and single publication.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "distributed::membership_coordinator::tests",
+            "--",
+            "--nocapture",
+            "--test-threads=1"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "governed-membership-admission-receipt",
+          "proof_role": "Prove the real fourth-node admission receipt, exact-current observation, and mismatch denial.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication",
+            "--",
+            "--exact",
+            "--nocapture",
+            "--test-threads=1"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "governed-membership-exclusion-receipt",
+          "proof_role": "Prove exact pending-exclusion receipt observation and mismatch denial.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "distributed::transport::governed::learner_transport::tests::excluded_node_recovery_learner",
+            "--",
+            "--exact",
+            "--nocapture",
+            "--test-threads=1"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "governed-membership-history",
+          "proof_role": "Prove same-batch joint and uniform OpenRaft membership history survives restart.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "distributed::transport::governed::polis_runtime::authority_consensus_tests::membership_history_retains_joint_and_uniform_entries_from_one_apply_batch",
+            "--",
+            "--exact",
+            "--nocapture",
+            "--test-threads=1"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "governed-membership-lib-clippy",
+          "proof_role": "Reject warnings and API misuse across the production library.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "governed-membership-target-clippy",
+          "proof_role": "Reject warnings and API misuse across the exact public transition target.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_membership_transition",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "199-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "governed-membership-proof-producer",
+          "proof_role": "Produce retained .csdlc/evidence/199/v19/execution-proof.json with schema adl.issue199.governed_membership_transition_proof.v19, exact command streams, twelve behavior cases, nine production assertions, protected-source ancestry, and cleanliness.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1500,
+          "budget_tokens": 8000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/199/produce-proof-receipt.rb"
+          ],
+          "parallel_group": "199-proof",
+          "defer_reason": null
+        },
+        {
+          "lane": "governed-membership-proof-validator",
+          "proof_role": "Validate immutable v19 evidence, exact twelve/nine denominators, protected-source and evidence drift, and current-main ancestry.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/199/validate-proof-receipt.rb"
+          ],
+          "parallel_group": "199-proof",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing or invalid #201 token, authority-cut drift, learner lag/divergence, joint/final mismatch, stale or removed voter authority, unstable Raft ids, incomplete parity, checkpoint ambiguity, rollback, retry conflict, corruption, unsafe paths, zero-test proof, source drift, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/199/design.md",
+      "design_digest": "2f586106b23edf6709f77f9065e5df5afca1dbfcfdf10700154d81d5e743fdb9",
+      "diagram_ref": ".csdlc/prepared/issues/199/diagram.mmd",
+      "diagram_digest": "b193376447764581c50ca5906de1c770a3bfa4d3aabac113444595588c349eda"
+    }
+  }
+}

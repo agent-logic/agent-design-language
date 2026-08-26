@@ -1,0 +1,9 @@
+{
+  "admission_open_after_validated_restore": true,
+  "continuation_count": 3,
+  "generation": 1,
+  "population_sha256": "ca0c9624c46a525f08cdc8e87769f402b66c7c78e7c9779e3eee8a72f72344fa",
+  "quiescent_round_trip_count": 3,
+  "resident_count": 3,
+  "schema": "adl.runtime.resident_shepherd_end_to_end_receipt.v1"
+}

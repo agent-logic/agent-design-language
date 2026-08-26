@@ -144,6 +144,14 @@ if grep -F "cli_basics" <<<"$csmctl_expression" >/dev/null; then
   exit 1
 fi
 
+observatory_static_changed="$TMP/observatory-static-changed.txt"
+printf 'A\tadl-runtime/src/bin/adl-observatory-static.rs\n' >"$observatory_static_changed"
+observatory_static_filters="$TMP/observatory-static-filters.txt"
+bash "$SCRIPT" --changed-files "$observatory_static_changed" --print-risk-filters >"$observatory_static_filters"
+grep -Fx "runtime_v3_observatory_static" "$observatory_static_filters" >/dev/null
+observatory_static_expression="$(bash "$SCRIPT" --changed-files "$observatory_static_changed" --print-risk-nextest-expression)"
+grep -Fx "test(adl_observatory_static)" <<<"$observatory_static_expression" >/dev/null
+
 long_lived_agent_storage_changed="$TMP/long-lived-agent-storage-changed.txt"
 printf 'M\tadl/src/long_lived_agent/storage.rs\n' >"$long_lived_agent_storage_changed"
 long_lived_agent_storage_filters="$TMP/long-lived-agent-storage-filters.txt"
@@ -216,6 +224,22 @@ if grep -F "test(long_lived_agent)" <<<"$csm_runtime_agent_expression" >/dev/nul
   exit 1
 fi
 
+runtime_memory_palace_changed="$TMP/runtime-memory-palace-changed.txt"
+printf 'M\tadl-runtime/src/memory_palace.rs\t177\n' >"$runtime_memory_palace_changed"
+runtime_memory_palace_filters="$TMP/runtime-memory-palace-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_memory_palace_changed" --print-risk-filters >"$runtime_memory_palace_filters"
+grep -Fx "runtime_memory_palace" "$runtime_memory_palace_filters" >/dev/null
+runtime_memory_palace_expression="$(bash "$SCRIPT" --changed-files "$runtime_memory_palace_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime) and test(/^memory_palace::tests::/)" <<<"$runtime_memory_palace_expression" >/dev/null
+
+adl_memory_palace_changed="$TMP/adl-memory-palace-changed.txt"
+printf 'M\tadl/src/memory_palace.rs\t177\n' >"$adl_memory_palace_changed"
+adl_memory_palace_filters="$TMP/adl-memory-palace-filters.txt"
+bash "$SCRIPT" --changed-files "$adl_memory_palace_changed" --print-risk-filters >"$adl_memory_palace_filters"
+grep -Fx "memory_palace" "$adl_memory_palace_filters" >/dev/null
+adl_memory_palace_expression="$(bash "$SCRIPT" --changed-files "$adl_memory_palace_changed" --print-risk-nextest-expression)"
+grep -Fx "test(memory_palace)" <<<"$adl_memory_palace_expression" >/dev/null
+
 csm_runtime_cli_companion_changed="$TMP/csm-runtime-cli-companion-changed.txt"
 cat >"$csm_runtime_cli_companion_changed" <<'EOF'
 M	adl/src/cli/csm_cmd.rs	2
@@ -266,6 +290,160 @@ if bash "$SCRIPT" --changed-files "$csm_runtime_cli_substantial_changed" --summa
 fi
 grep -F "adl/src/cli/csm_cmd.rs (no coverage row" "$csm_runtime_cli_substantial_out" >/dev/null
 
+authority_protocol_changed="$TMP/authority-protocol-changed.txt"
+cat >"$authority_protocol_changed" <<'EOF'
+A	adl-runtime/src/distributed/authority_protocol.rs	1727
+A	adl-runtime/src/distributed/authority_protocol_contract_tests.rs	1256
+M	adl-runtime/src/distributed/identity.rs	42
+M	adl-runtime/src/distributed/polis_runtime.rs	600
+M	adl-runtime/src/distributed/transport.rs	42
+EOF
+authority_protocol_filters="$TMP/authority-protocol-filters.txt"
+bash "$SCRIPT" --changed-files "$authority_protocol_changed" --print-risk-filters >"$authority_protocol_filters"
+grep -Fx "runtime_v3_authority_protocol" "$authority_protocol_filters" >/dev/null
+[ "$(wc -l <"$authority_protocol_filters" | tr -d ' ')" -eq 1 ]
+authority_protocol_expression="$(bash "$SCRIPT" --changed-files "$authority_protocol_changed" --print-risk-nextest-expression)"
+grep -Fx "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))" <<<"$authority_protocol_expression" >/dev/null
+
+authority_protocol_summary="$TMP/authority-protocol-summary.json"
+cat >"$authority_protocol_summary" <<'EOF'
+{
+  "data": [{
+    "files": [
+      {"filename":"adl-runtime/src/distributed/authority_protocol.rs","summary":{"lines":{"covered":850,"count":1000}}},
+      {"filename":"adl-runtime/src/distributed/identity.rs","summary":{"lines":{"covered":900,"count":1028}}},
+      {"filename":"adl-runtime/src/distributed/polis_runtime.rs","summary":{"lines":{"covered":850,"count":1000}}},
+      {"filename":"adl-runtime/src/distributed/transport.rs","summary":{"lines":{"covered":900,"count":1000}}}
+    ]
+  }]
+}
+EOF
+bash "$SCRIPT" --changed-files "$authority_protocol_changed" --summary "$authority_protocol_summary" >"$TMP/authority-protocol-pass.out"
+grep -F "Coverage-impact preflight passed" "$TMP/authority-protocol-pass.out" >/dev/null
+
+authority_contract_tests_only="$TMP/authority-contract-tests-only.txt"
+printf 'A\tadl-runtime/src/distributed/authority_protocol_contract_tests.rs\t1256\n' >"$authority_contract_tests_only"
+bash "$SCRIPT" --changed-files "$authority_contract_tests_only" --require-summary-for-risk >"$TMP/authority-contract-tests-only.out"
+grep -F "no changed production adl/src Rust files" "$TMP/authority-contract-tests-only.out" >/dev/null
+
+authority_identity_alone="$TMP/authority-identity-alone.txt"
+printf 'M\tadl-runtime/src/distributed/identity.rs\t42\n' >"$authority_identity_alone"
+authority_runtime_low_summary="$TMP/authority-runtime-low-summary.json"
+cat >"$authority_runtime_low_summary" <<'EOF'
+{"data":[{"files":[
+  {"filename":"adl-runtime/src/distributed/authority_protocol.rs","summary":{"lines":{"covered":850,"count":1000}}},
+  {"filename":"adl-runtime/src/distributed/identity.rs","summary":{"lines":{"covered":58,"count":1028}}},
+  {"filename":"adl-runtime/src/distributed/polis_runtime.rs","summary":{"lines":{"covered":850,"count":1000}}},
+  {"filename":"adl-runtime/src/distributed/transport.rs","summary":{"lines":{"covered":494,"count":1458}}}
+]}]}
+EOF
+if bash "$SCRIPT" --changed-files "$authority_identity_alone" --summary "$authority_runtime_low_summary" >"$TMP/authority-identity-alone.out" 2>&1; then
+  echo "expected standalone production identity change to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "adl-runtime/src/distributed/identity.rs (58/1028, 5.64% < 80%)" "$TMP/authority-identity-alone.out" >/dev/null
+grep -F "candidate filter: runtime_v3_authority_protocol" "$TMP/authority-identity-alone.out" >/dev/null
+
+authority_store_boundary_changed="$TMP/authority-store-boundary-changed.txt"
+cat >"$authority_store_boundary_changed" <<'EOF'
+A	adl-runtime/src/distributed/authority_store_adapters.rs	902
+M	adl-runtime/src/distributed/authority_protocol.rs	2
+M	adl-runtime/src/distributed/authority_reconciliation.rs	67
+M	adl-runtime/src/distributed/capability_advertisement.rs	6
+M	adl-runtime/src/distributed/certificates.rs	25
+M	adl-runtime/src/distributed/fencing.rs	34
+M	adl-runtime/src/distributed/lease.rs	24
+M	adl-runtime/src/distributed/migration.rs	89
+M	adl-runtime/src/distributed/placement.rs	5
+M	adl-runtime/src/distributed/recovery.rs	76
+M	adl-runtime/src/distributed/resource_weather.rs	6
+M	adl-runtime/src/distributed/snapshot_catalog.rs	10
+M	adl-runtime/src/distributed/transport/core.rs	9
+EOF
+authority_store_boundary_filters="$TMP/authority-store-boundary-filters.txt"
+bash "$SCRIPT" --changed-files "$authority_store_boundary_changed" --print-risk-filters >"$authority_store_boundary_filters"
+grep -Fx "runtime_v3_authority_store_boundary" "$authority_store_boundary_filters" >/dev/null
+[ "$(wc -l <"$authority_store_boundary_filters" | tr -d ' ')" -eq 1 ]
+authority_store_boundary_expression="$(bash "$SCRIPT" --changed-files "$authority_store_boundary_changed" --print-risk-nextest-expression)"
+grep -F "package(adl-runtime) and (" <<<"$authority_store_boundary_expression" >/dev/null
+grep -F "binary_id(adl-runtime::distributed_identity_lease_authority)" <<<"$authority_store_boundary_expression" >/dev/null
+grep -F "binary_id(adl-runtime) and test(/^distributed::authority_store_adapters::/)" <<<"$authority_store_boundary_expression" >/dev/null
+grep -F "binary_id(adl-runtime::distributed_transport) and not test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)" <<<"$authority_store_boundary_expression" >/dev/null
+if grep -F "binary_id(adl-runtime::distributed_transport))" <<<"$authority_store_boundary_expression" >/dev/null; then
+  echo "authority-store boundary coverage must stay PR-fast and avoid the known long transport test" >&2
+  exit 1
+fi
+
+authority_store_without_adapter_changed="$TMP/authority-store-without-adapter-changed.txt"
+printf 'M\tadl-runtime/src/distributed/certificates.rs\t25\n' >"$authority_store_without_adapter_changed"
+if bash "$SCRIPT" --changed-files "$authority_store_without_adapter_changed" --print-risk-filters >"$TMP/authority-store-without-adapter.out" 2>"$TMP/authority-store-without-adapter.err"; then
+  echo "expected standalone certificate source change to remain unmapped without the #258 adapter boundary" >&2
+  exit 1
+fi
+grep -F "adl-runtime/src/distributed/certificates.rs" "$TMP/authority-store-without-adapter.err" >/dev/null
+
+shepherd_serving_eligibility_changed="$TMP/shepherd-serving-eligibility-changed.txt"
+printf 'A\tadl-runtime/src/distributed/shepherd_serving_eligibility.rs\t334\n' >"$shepherd_serving_eligibility_changed"
+shepherd_serving_eligibility_filters="$TMP/shepherd-serving-eligibility-filters.txt"
+bash "$SCRIPT" --changed-files "$shepherd_serving_eligibility_changed" --print-risk-filters >"$shepherd_serving_eligibility_filters"
+grep -Fx "runtime_v3_shepherd_serving_eligibility" "$shepherd_serving_eligibility_filters" >/dev/null
+[ "$(wc -l <"$shepherd_serving_eligibility_filters" | tr -d ' ')" -eq 1 ]
+shepherd_serving_eligibility_expression="$(bash "$SCRIPT" --changed-files "$shepherd_serving_eligibility_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime::distributed_shepherd_serving_eligibility)" <<<"$shepherd_serving_eligibility_expression" >/dev/null
+
+observatory_serving_eligibility_changed="$TMP/observatory-serving-eligibility-changed.txt"
+printf 'A\tadl-runtime/src/distributed/observatory_serving_eligibility.rs\t520\n' >"$observatory_serving_eligibility_changed"
+observatory_serving_eligibility_filters="$TMP/observatory-serving-eligibility-filters.txt"
+bash "$SCRIPT" --changed-files "$observatory_serving_eligibility_changed" --print-risk-filters >"$observatory_serving_eligibility_filters"
+grep -Fx "runtime_v3_observatory_serving_eligibility" "$observatory_serving_eligibility_filters" >/dev/null
+[ "$(wc -l <"$observatory_serving_eligibility_filters" | tr -d ' ')" -eq 1 ]
+observatory_serving_eligibility_expression="$(bash "$SCRIPT" --changed-files "$observatory_serving_eligibility_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))" <<<"$observatory_serving_eligibility_expression" >/dev/null
+
+integrated_serving_authority_changed="$TMP/integrated-serving-authority-changed.txt"
+printf 'M\tadl-runtime/src/distributed/integrated_serving_authority_snapshot.rs\t409\n' >"$integrated_serving_authority_changed"
+integrated_serving_authority_filters="$TMP/integrated-serving-authority-filters.txt"
+bash "$SCRIPT" --changed-files "$integrated_serving_authority_changed" --print-risk-filters >"$integrated_serving_authority_filters"
+grep -Fx "runtime_v3_integrated_serving_authority" "$integrated_serving_authority_filters" >/dev/null
+[ "$(wc -l <"$integrated_serving_authority_filters" | tr -d ' ')" -eq 1 ]
+integrated_serving_authority_expression="$(bash "$SCRIPT" --changed-files "$integrated_serving_authority_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime::distributed_integrated_serving_authority) or (binary_id(adl-runtime) and test(/^distributed::integrated_serving_authority_snapshot::tests::/))" <<<"$integrated_serving_authority_expression" >/dev/null
+if bash "$SCRIPT" --changed-files "$integrated_serving_authority_changed" --require-summary-for-risk >"$TMP/integrated-serving-authority-missing-summary.out" 2>&1; then
+  echo "expected integrated serving authority source change to require focused coverage summary" >&2
+  exit 1
+fi
+grep -F "generate focused summary: bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression 'binary_id(adl-runtime::distributed_integrated_serving_authority) or (binary_id(adl-runtime) and test(/^distributed::integrated_serving_authority_snapshot::tests::/))'" "$TMP/integrated-serving-authority-missing-summary.out" >/dev/null
+
+authority_identity_combined="$TMP/authority-identity-combined.txt"
+cat >"$authority_identity_combined" <<'EOF'
+A	adl-runtime/src/distributed/authority_protocol.rs	1727
+M	adl-runtime/src/distributed/identity.rs	42
+EOF
+if bash "$SCRIPT" --changed-files "$authority_identity_combined" --summary "$authority_runtime_low_summary" >"$TMP/authority-identity-combined.out" 2>&1; then
+  echo "expected low-coverage production identity change to stay threshold-gated in a combined authority change" >&2
+  exit 1
+fi
+grep -F "adl-runtime/src/distributed/identity.rs (58/1028, 5.64% < 80%)" "$TMP/authority-identity-combined.out" >/dev/null
+
+authority_transport_alone="$TMP/authority-transport-alone.txt"
+printf 'M\tadl-runtime/src/distributed/transport.rs\t42\n' >"$authority_transport_alone"
+if bash "$SCRIPT" --changed-files "$authority_transport_alone" --summary "$authority_runtime_low_summary" >"$TMP/authority-transport-alone.out" 2>&1; then
+  echo "expected standalone production transport change to stay threshold-gated" >&2
+  exit 1
+fi
+grep -F "candidate filter: runtime_v3_distributed_transport" "$TMP/authority-transport-alone.out" >/dev/null
+
+authority_transport_combined="$TMP/authority-transport-combined.txt"
+cat >"$authority_transport_combined" <<'EOF'
+A	adl-runtime/src/distributed/authority_protocol.rs	1727
+M	adl-runtime/src/distributed/transport.rs	42
+EOF
+if bash "$SCRIPT" --changed-files "$authority_transport_combined" --summary "$authority_runtime_low_summary" >"$TMP/authority-transport-combined.out" 2>&1; then
+  echo "expected low-coverage production transport change to stay threshold-gated in a combined authority change" >&2
+  exit 1
+fi
+grep -F "candidate filter: runtime_v3_authority_protocol" "$TMP/authority-transport-combined.out" >/dev/null
+
 ADL_COVERAGE_CONTRACT_NESTED="${ADL_COVERAGE_CONTRACT_NESTED:-0}"
 if [ "$ADL_COVERAGE_CONTRACT_NESTED" != "1" ]; then
   ADL_COVERAGE_CONTRACT_NESTED=1 bash "$ROOT/adl/tools/test_run_authoritative_coverage_lane.sh"
@@ -293,6 +471,14 @@ grep -Fx "pr_shepherd" "$shepherd_bin_filters" >/dev/null
 shepherd_bin_expression="$(bash "$SCRIPT" --changed-files "$shepherd_bin_changed" --print-risk-nextest-expression)"
 grep -F "binary_id(adl::bin/adl-pr-shepherd) and test(/^cli::pr_cmd::/)" <<<"$shepherd_bin_expression" >/dev/null
 grep -F "binary_id(adl::bin/adl-pr-shepherd) and test(/^tests::adl_pr_shepherd_/)" <<<"$shepherd_bin_expression" >/dev/null
+
+resident_shepherd_spot_continuity_changed="$TMP/resident-shepherd-spot-continuity-changed.txt"
+printf 'M\tadl/src/resident_shepherd_spot_continuity.rs\n' >"$resident_shepherd_spot_continuity_changed"
+resident_shepherd_spot_continuity_filters="$TMP/resident-shepherd-spot-continuity-filters.txt"
+bash "$SCRIPT" --changed-files "$resident_shepherd_spot_continuity_changed" --print-risk-filters >"$resident_shepherd_spot_continuity_filters"
+grep -Fx "resident_shepherd_spot_continuity" "$resident_shepherd_spot_continuity_filters" >/dev/null
+resident_shepherd_spot_continuity_expression="$(bash "$SCRIPT" --changed-files "$resident_shepherd_spot_continuity_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl) and test(/^resident_shepherd_spot_continuity::/)" <<<"$resident_shepherd_spot_continuity_expression" >/dev/null
 
 split_runtime_changed="$TMP/split-runtime-changed.txt"
 printf 'A\tadl/src/runtime_v2/cultivating_intelligence_parts/builder.rs\n' >"$split_runtime_changed"
@@ -355,7 +541,7 @@ if grep -Fq "binary_id(adl-runtime)" <<<"$runtime_v3_expression"; then
 fi
 
 runtime_v3_transport_changed="$TMP/runtime-v3-transport-changed.txt"
-printf 'M\tadl-runtime/src/distributed/transport.rs\n' >"$runtime_v3_transport_changed"
+printf 'M\tadl-runtime/src/distributed/transport/core.rs\n' >"$runtime_v3_transport_changed"
 runtime_v3_transport_filters="$TMP/runtime-v3-transport-filters.txt"
 bash "$SCRIPT" --changed-files "$runtime_v3_transport_changed" --print-risk-filters >"$runtime_v3_transport_filters"
 grep -Fx "runtime_v3_distributed_transport" "$runtime_v3_transport_filters" >/dev/null
@@ -366,6 +552,18 @@ cargo nextest list --manifest-path "$ROOT/adl-runtime/Cargo.toml" \
   -E "$runtime_v3_transport_expression" >"$runtime_v3_transport_inventory"
 grep -Fx "adl-runtime::distributed_transport mutual_tls_loopback_carries_identity_bound_messages_both_ways" \
   "$runtime_v3_transport_inventory" >/dev/null
+
+runtime_v3_governed_transport_changed="$TMP/runtime-v3-governed-transport-changed.txt"
+printf 'M\tadl-runtime/src/distributed/transport/governed/learner_transport.rs\n' >"$runtime_v3_governed_transport_changed"
+runtime_v3_governed_transport_filters="$TMP/runtime-v3-governed-transport-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_v3_governed_transport_changed" --print-risk-filters >"$runtime_v3_governed_transport_filters"
+grep -Fx "runtime_v3_distributed_transport" "$runtime_v3_governed_transport_filters" >/dev/null
+
+runtime_v3_transport_shim_changed="$TMP/runtime-v3-transport-shim-changed.txt"
+printf 'M\tadl-runtime/src/distributed/transport.rs\n' >"$runtime_v3_transport_shim_changed"
+runtime_v3_transport_shim_filters="$TMP/runtime-v3-transport-shim-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_v3_transport_shim_changed" --print-risk-filters >"$runtime_v3_transport_shim_filters"
+[ ! -s "$runtime_v3_transport_shim_filters" ]
 
 runtime_v3_auth_changed="$TMP/runtime-v3-auth-changed.txt"
 printf 'M\tadl-runtime/src/runtime_api_auth.rs\n' >"$runtime_v3_auth_changed"
@@ -491,12 +689,27 @@ bash "$SCRIPT" \
 grep -F "Coverage-impact preflight passed for changed Rust source files" \
   /tmp/coverage-impact-runtime-qualification-harness.out >/dev/null
 
+distributed_lease_changed="$TMP/distributed-lease-changed.txt"
+printf 'M\tadl-runtime/src/distributed/lease.rs\n' >"$distributed_lease_changed"
+distributed_lease_filters="$TMP/distributed-lease-filters.txt"
+bash "$SCRIPT" --changed-files "$distributed_lease_changed" --print-risk-filters >"$distributed_lease_filters"
+grep -Fx "runtime_v3_distributed_projection" "$distributed_lease_filters" >/dev/null
+distributed_lease_expression="$(bash "$SCRIPT" --changed-files "$distributed_lease_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime::distributed_projection)" <<<"$distributed_lease_expression" >/dev/null
+distributed_lease_summary="$TMP/distributed-lease-summary.json"
+distributed_lease_out="$TMP/coverage-impact-distributed-lease.out"
+make_summary "adl-runtime/src/distributed/lease.rs" 80 100 "$distributed_lease_summary"
+bash "$SCRIPT" \
+  --changed-files "$distributed_lease_changed" \
+  --summary "$distributed_lease_summary" \
+  --threshold 80 \
+  >"$distributed_lease_out"
+grep -F "Coverage-impact preflight passed for changed Rust source files" \
+  "$distributed_lease_out" >/dev/null
+
 gws_live_changed="$TMP/gws-live-changed.txt"
 cat >"$gws_live_changed" <<'EOF'
-A	adl/src/gws_live_capability_execution_surface.rs
-M	adl/src/gws_live_content_card_roundtrip.rs
-M	adl/src/gws_live_content_card_roundtrip/logic.rs
-M	adl/src/gws_live_content_card_roundtrip/types.rs
+M	adl/src/gws_live_test_support.rs
 EOF
 gws_live_filters="$TMP/gws-live-filters.txt"
 bash "$SCRIPT" --changed-files "$gws_live_changed" --print-risk-filters >"$gws_live_filters"

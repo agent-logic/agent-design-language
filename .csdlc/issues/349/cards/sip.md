@@ -1,0 +1,47 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 349
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Make doctor guidance, explicit ready transition, deferred-validator admission, and bind behavior one coherent fail-closed protocol.
+
+## Required Outcome
+
+An unchanged exact #79 deferred-target packet remains bindable after following doctor's advertised advance_ready operation, while bound and later phases continue to require materialized proving targets.
+
+## Scope
+
+- csdlc-v2/src/cards.rs
+- csdlc-v2/src/doctor.rs
+- csdlc-v2/tests/gate2.rs
+- .csdlc/prepared/issues/349/validate_preparation.rb
+- .csdlc/issues/349
+- .csdlc/evidence/349
+
+## Authority
+
+- #349 owns only deferred-validator readiness consistency and its regression proof
+- #342 is read-only reproduction evidence and receives no lifecycle, card, product, bind, or GitHub mutation
+- Pre-bind deferred admission remains planning admission and is never execution proof
+- csdlc-v2/src/lifecycle.rs is read-only evidence unless independent review proves a necessary bind defect
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use typed C-SDLC v2 only
+- Do not bind or implement before fresh design PASS
+- Never create placeholder product or validator targets
+- Never modify #342
+- Bind beneath /Volumes/FastWork/adl-worktrees only after approval and doctor PASS

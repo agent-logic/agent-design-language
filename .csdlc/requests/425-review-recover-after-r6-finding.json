@@ -1,0 +1,7 @@
+{
+  "actor": "codex-worker-4",
+  "expected_digest": "9e0506c243b69428874ab6b5c3ffcf3591fb9099b01690eca39c044fb897aafc",
+  "expected_generation": 6,
+  "issue": 425,
+  "reason": "clear r6 review assignment after actionable P1 finding was repaired before fresh exact review"
+}

@@ -168,6 +168,83 @@ If a repo-native lifecycle command fails or hangs:
 This rule exists so emergency cleanup does not become a second, undocumented
 workflow.
 
+### Audited raw-`gh` break-glass transport
+
+Typed owners remain the normal and final authority. Raw `gh` may transport a
+covered remote write only when every prerequisite in `AGENTS.md` is satisfied:
+the applicable typed owner has a confirmed reproducible regression, a durable
+tooling issue contains safe reproduction evidence, and the operator has
+explicitly authorized this exact repository, numeric issue or pull request (or
+exact PR-creation head), and operation after seeing the blocker.
+
+The only allowed canonical argv shapes are shown below. Argument order is part
+of the contract; angle-bracket values are single arguments, not shell
+expressions.
+
+```text
+gh issue comment <number> --repo <owner/name> --body-file <safe-relative-path>
+gh issue edit <number> --repo <owner/name> --body-file <safe-relative-path>
+gh pr create --repo <owner/name> --base <branch> --head <branch> --title <text> --body-file <safe-relative-path>
+gh pr create --repo <owner/name> --base <branch> --head <branch> --title <text> --body-file <safe-relative-path> --draft
+gh pr edit <number> --repo <owner/name> --body-file <safe-relative-path>
+gh pr ready <number> --repo <owner/name>
+gh pr comment <number> --repo <owner/name> --body-file <safe-relative-path>
+```
+
+Run the command from the primary checkout so the body path is exactly
+`.git/csdlc-v2/break-glass/<invocation-id>/body.md`. The invocation ID must be
+a non-empty ASCII alphanumeric-led component containing only ASCII
+alphanumerics, dot, underscore, or hyphen, and must not be `.` or `..`. The
+body must be a current-user-owned regular final-component non-symlink with mode
+0600. The title must be non-sensitive. No other flags, flag order, repeated
+flags, stdin body, absolute or traversing body path, shell expansion, alias,
+extension, `gh api`, target alias, or bulk selector is allowed.
+
+The denylist is structural, not advisory. It includes issue creation or close;
+PR close, merge, or base mutation; labels, milestones, projects, assignees, or
+reviewers; finish or cleanup; release, repository, workflow, secret, variable,
+administrative, deletion, force, and bulk operations. Additional operator
+wording cannot widen this list; a policy change requires its own review and
+merge.
+
+#### Break-glass receipt protocol
+
+Create one unique directory with mode 0700 beneath
+`.git/csdlc-v2/break-glass/`. Create each event with exclusive create-new
+semantics. `intent.json`, `result.json`, and `reconciliation.json` must never be overwritten,
+truncated, replaced, or amended. The body file is transient input, not a
+receipt; remove it after the result event is durably created without changing
+the event files.
+
+`intent.json` is created before the command and records:
+
+- `schema`, `timestamp_utc`, `actor`, `regression_issue`, and
+  `authorization_reference`;
+- `repository`, numeric `issue` or `pull_request`, `operation_class`, and
+  `redacted_argv` (replace title/body values with digests or fixed redactions);
+- `bound_worktree`, `branch`, `exact_head`, `typed_generation`, and
+  `typed_digest`;
+- `remote_pre_state` or, for PR creation, the exact head plus proof that no PR
+  currently exists for it; and
+- the planned typed reconciliation owner and operation.
+
+`result.json` is created after the command and binds the SHA-256 digest of
+`intent.json`, completion timestamp, exit classification, and only safe remote
+identity fields such as issue or PR number, URL, state, and exact head. It must
+not contain request/response bodies.
+
+`reconciliation.json` is created only after the typed owner successfully
+observes and reconciles the exact remote post-state. It binds the SHA-256
+digests of both prior events, timestamp, reconciliation owner and operation,
+exact remote post-state, resulting `typed_generation`, resulting
+`typed_digest`, and `reconciliation_status: succeeded`.
+
+All three events must declare that they contain no credentials, token values, token-file contents, environment dumps, sensitive request bodies, or raw response bodies.
+The affected lifecycle enters a freeze after the intent event. A failed or
+missing result does not erase the freeze. Only a successful typed operation and
+matching create-only reconciliation event release it; until then, readiness,
+review, publication, merge-ready, terminal, and finish claims remain denied.
+
 ## Non-Goals
 
 This policy does not:

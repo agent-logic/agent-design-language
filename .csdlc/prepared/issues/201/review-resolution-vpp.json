@@ -1,0 +1,73 @@
+{
+  "issue": 201,
+  "card": "vpp",
+  "expected_generation": 33,
+  "expected_digest": "ad1e47bedc63ae2fcce8904a91b5fdf18ddbfb588d09b0ae60ae20a0b1e386fa",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Bind the fixed 47-case unit contract, production OpenRaft path, strict Clippy, immutable receipt, and shallow-history validator regression as distinct proving lanes.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "committed-authority-contract-47",
+        "proof_role": "Prove the exact ordered 47-case authority protocol contract from the internal cfg(test) module with no production-selectable bypass feature.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 1200,
+        "budget_tokens": 15000,
+        "argv": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "-E", "test(/^distributed::authority_protocol::contract_tests::/)", "--no-tests=fail"],
+        "parallel_group": "201-runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "production-three-voter-openraft",
+        "proof_role": "Exercise production PrepareAuthority, FinalizeAuthority, actual applied log IDs, trusted route-cut custody, wrong self-consistent cut denial, pending response, and per-node publication reconciliation through a real three-voter OpenRaft cluster.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 1200,
+        "budget_tokens": 10000,
+        "argv": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids", "--", "--exact", "--nocapture"],
+        "parallel_group": "201-runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "committed-authority-production-clippy",
+        "proof_role": "Reject warnings and API misuse across the production library without compiling cfg(test)-only direct fault helpers.",
+        "acceptance_ids": ["AC-8"],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 900,
+        "budget_tokens": 8000,
+        "argv": ["cargo", "clippy", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--", "-D", "warnings"],
+        "parallel_group": "201-runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "committed-authority-proof-producer",
+        "proof_role": "Produce one v6 packet binding the protected source, strict production Clippy, exact 47/47 contract, and real three-voter OpenRaft result.",
+        "acceptance_ids": ["AC-8"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1800,
+        "budget_tokens": 10000,
+        "argv": ["ruby", ".csdlc/prepared/issues/201/produce-proof-receipt.rb"],
+        "parallel_group": "201-proof",
+        "defer_reason": null
+      },
+      {
+        "lane": "committed-authority-proof-validator",
+        "proof_role": "Validate the immutable v6 packet by ancestry when source objects exist or exact protected-tree equivalence in a depth-one or squash-like history when they do not.",
+        "acceptance_ids": ["AC-8"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 5000,
+        "argv": ["ruby", ".csdlc/prepared/issues/201/validate-proof-receipt.rb"],
+        "parallel_group": "201-proof",
+        "defer_reason": null
+      }
+    ]
+  }
+}

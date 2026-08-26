@@ -1,0 +1,6 @@
+{
+  "issue": 271,
+  "expected_generation": 12,
+  "expected_digest": "c70967e5b7874a4fbb6bcfc3a529daac03b4448e1feb0d99c42682c2b6f481a2",
+  "reviewer": "fresh-session:/root/review_271_design_r1"
+}

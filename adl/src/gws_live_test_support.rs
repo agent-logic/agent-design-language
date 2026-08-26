@@ -21,14 +21,6 @@ impl EnvVarGuard {
         }
         Self { key, original }
     }
-
-    pub(crate) fn remove(key: &'static str) -> Self {
-        let original = std::env::var(key).ok();
-        unsafe {
-            std::env::remove_var(key);
-        }
-        Self { key, original }
-    }
 }
 
 impl Drop for EnvVarGuard {

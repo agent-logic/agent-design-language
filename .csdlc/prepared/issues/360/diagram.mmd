@@ -1,0 +1,7 @@
+flowchart LR
+  T["Test-only distinct descriptor"] --> A["Real PublishedAuthorityResult fixture"]
+  T --> B["Canonical Observatory artifact and cut"]
+  A --> V["Production sealed verifier"]
+  B --> V
+  V --> P["Distinct authenticated A/R/T/R projections"]
+  P --> N["#274 authentic integration proof"]

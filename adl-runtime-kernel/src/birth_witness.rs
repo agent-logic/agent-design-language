@@ -86,6 +86,29 @@ pub struct BirthWitnessPolicy {
     policy_sha256: String,
 }
 
+/// Trusted Runtime configuration for one birth-witness authority.
+///
+/// This is an initialization input, not an attestation or receipt. Runtime
+/// owners are responsible for loading it from their trusted configuration
+/// boundary; request payloads must never be promoted into this type.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub(crate) struct RuntimeBirthWitnessAuthority {
+    pub witness_id: String,
+    pub role: BirthWitnessRole,
+    pub signing_key_id: String,
+    pub verifying_key: [u8; 32],
+}
+
+/// Runtime-owned production boundary for governed birth-witness receipts.
+///
+/// The service retains the opaque policy and never exposes its trusted roster.
+/// Its only execution path builds and revalidates the packet before emitting
+/// the canonical receipt bytes.
+#[derive(Clone, Debug)]
+pub struct RuntimeBirthWitnessService {
+    policy: BirthWitnessPolicy,
+}
+
 impl BirthWitnessPolicy {
     #[cfg_attr(not(test), allow(dead_code))]
     pub(crate) fn establish(
@@ -145,6 +168,64 @@ impl BirthWitnessPolicy {
 
     pub fn policy_sha256(&self) -> &str {
         &self.policy_sha256
+    }
+}
+
+impl RuntimeBirthWitnessService {
+    pub(crate) fn provision(
+        authority_context: impl Into<String>,
+        candidate_sha256: impl Into<String>,
+        current_generation: u64,
+        authorities: Vec<RuntimeBirthWitnessAuthority>,
+    ) -> Result<Self, BirthWitnessError> {
+        let trusted = authorities
+            .into_iter()
+            .map(|authority| {
+                let verifying_key = VerifyingKey::from_bytes(&authority.verifying_key)
+                    .map_err(|_| BirthWitnessError::InvalidPolicy)?;
+                Ok(TrustedBirthWitness {
+                    witness_id: authority.witness_id,
+                    role: authority.role,
+                    signing_key_id: authority.signing_key_id,
+                    verifying_key,
+                })
+            })
+            .collect::<Result<Vec<_>, BirthWitnessError>>()?;
+        let policy = BirthWitnessPolicy::establish(
+            authority_context,
+            candidate_sha256,
+            current_generation,
+            trusted,
+        )?;
+        Ok(Self { policy })
+    }
+
+    pub fn roster_sha256(&self) -> &str {
+        self.policy.roster_sha256()
+    }
+
+    pub fn policy_sha256(&self) -> &str {
+        self.policy.policy_sha256()
+    }
+
+    pub fn build_validate_and_emit<F, C>(
+        &self,
+        candidate: &BirthdayCandidate,
+        decision: &BirthdayDecision,
+        attestations: &[BirthWitnessAttestation],
+        prepare_receipt: F,
+    ) -> Result<BirthWitnessPacket, BirthWitnessError>
+    where
+        F: FnOnce(&[u8]) -> Result<C, ()>,
+        C: FnOnce(),
+    {
+        let packet = build_birth_witness_packet(candidate, decision, &self.policy, attestations)?;
+        validate_birth_witness_packet(&packet, candidate, decision, &self.policy, attestations)?;
+        let receipt =
+            serde_jcs::to_vec(&packet.receipt).map_err(|_| BirthWitnessError::Encoding)?;
+        let commit = prepare_receipt(&receipt).map_err(|()| BirthWitnessError::ReceiptEmission)?;
+        commit();
+        Ok(packet)
     }
 }
 
@@ -223,6 +304,24 @@ pub struct BirthWitnessPacket {
     pub packet_sha256: String,
 }
 
+/// Opaque proof that a packet was emitted by the Runtime-provisioned witness
+/// owner after signature, roster, freshness, policy, and receipt validation.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct VerifiedBirthWitnessBinding {
+    pub(crate) packet: BirthWitnessPacket,
+    pub(crate) observed_generation: u64,
+}
+
+impl VerifiedBirthWitnessBinding {
+    pub fn packet(&self) -> &BirthWitnessPacket {
+        &self.packet
+    }
+
+    pub fn observed_generation(&self) -> u64 {
+        self.observed_generation
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Error)]
 pub enum BirthWitnessError {
     #[error("invalid provisioned witness policy")]
@@ -255,6 +354,8 @@ pub enum BirthWitnessError {
     Encoding,
     #[error("packet does not reconstruct canonically")]
     PacketMismatch,
+    #[error("validated receipt emission could not be prepared")]
+    ReceiptEmission,
 }
 
 #[derive(Serialize)]

@@ -1,0 +1,11 @@
+flowchart TD
+    A["Runtime delivery attempt"] --> B["#277 continuity store"]
+    B --> C["#276 ConversationJournal append-only record"]
+    C --> D["Restart snapshot rebuild"]
+    D --> E["Replay/idempotency decision"]
+    F["#270 trusted acknowledgement"] --> G["Ack receipt and watermark"]
+    G --> B
+    E --> H["Retry definite pre-dispatch only"]
+    E --> I["Suppress duplicate completed or ambiguous attempts"]
+    B --> J["Delivery/response/ack receipts"]
+    J --> K["Future #278 history integration"]

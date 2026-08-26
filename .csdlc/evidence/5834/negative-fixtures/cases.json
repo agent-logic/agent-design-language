@@ -1,0 +1,18 @@
+{
+  "schema": "adl.v092.birthday-review-negative-fixtures.v1",
+  "packet": "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+  "manifest": "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+  "schema_path": "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json",
+  "cases": [
+    {"name":"stale-digest","mutation":"stale_digest"},
+    {"name":"missing-roster","mutation":"missing_roster"},
+    {"name":"private-path","mutation":"private_path"},
+    {"name":"contradictory-status","mutation":"contradictory_status"},
+    {"name":"forbidden-public-claim","mutation":"forbidden_public_claim"},
+    {"name":"publication-ready-overclaim","mutation":"publication_ready_overclaim"},
+    {"name":"unreviewed-entry","mutation":"unreviewed_entry"},
+    {"name":"unknown-manifest-field","mutation":"unknown_manifest_field"},
+    {"name":"forbidden-projection","mutation":"forbidden_projection"},
+    {"name":"wrong-issue-repository","mutation":"wrong_issue_repository"}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "issue":201,"card":"srp","expected_generation":49,"expected_digest":"4b356972def968844a688ff4cc2bd376a3a50be504ed9e4ddd9552eb84cd4fd4","actor":"codex:/root/resolve_201_review_129ea","reason":"Require fresh review of snapshot custody/evidence validation and exact validator ancestry behavior.",
+  "operation":{"operation":"replace_planning_collection","field":"review_prompts","values":[
+    "Can any public constructor, caller signer, leader, harness, or one voter mint an endorsement or verified authority token?",
+    "Does production prepare match the state-held verified route cut's exact polis, membership epoch, authority membership, and boot generations?",
+    "Is trusted custody retained outside snapshot-replaceable state, with snapshot install requiring exact current and every prepared custody plus empty legacy authority fields?",
+    "Does every restored finalized entry retain complete proposal/endorsement evidence and rerun the same quorum, signature, time, operation, prepare-index, and finalize-index verification before publication?",
+    "Do production state-machine tests prove legitimate snapshot install/restart and reject altered polis, epoch, membership, boot, prepared custody, finalized evidence/quorum, and legacy-field injection?",
+    "Does deterministic finalize apply return pending with no token while runtime reconciliation uses only state-held local identity, root, and checkpoint authority?",
+    "Are actual signature fields stated exactly, with committed prepare index and finalization time bound while actual finalize apply index is separately verified and recorded?",
+    "Are all legacy direct authority commands retired or fail-closed across apply, log replay, and snapshot restore?",
+    "Does the validator require ancestry whenever the source object exists, reject an available divergent source, and use protected-tree fallback only when the object is genuinely unavailable in a depth-one history?",
+    "Does exact proof independently bind ordered forty-seven names, results, marker hashes, protected source, strict Clippy, production OpenRaft, and merge topology?"
+  ]}
+}

@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 407,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase SIP recovery cannot repair review-blocking goal truth",
+    "slug": "implemented-sip-goal-recovery",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement one guarded csdlc-v2 SIP Goal recovery operation and tests.",
+      "deliverables": [
+        "Semantic operation and card application support for recovered SIP Goal repair.",
+        "Implemented-phase recovery authorization and audit/projection support.",
+        "Focused csdlc-v2 regression tests."
+      ],
+      "acceptance_criteria": [
+        "AC-1: A recovered implemented issue can repair SIP goal through a typed operation.",
+        "AC-2: The operation rejects stale generation/digest and unrecovered reviewed/published/terminal state.",
+        "AC-3: Existing implemented-phase SIP guards remain fail-closed for unrelated SIP mutations.",
+        "AC-4: Focused regression proves #286-style SIP goal recovery without permitting arbitrary implemented SIP edits."
+      ],
+      "dependencies": [
+        "#400/#404 implemented-phase recovery patterns are landed references.",
+        "#286 supplies the motivating reproduction but is not mutated by #407."
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs",
+        ".git/csdlc-v2/requests/286-sip-goal-r5-attempt.json"
+      ],
+      "non_goals": [
+        "No direct #286 card repair.",
+        "No general implemented-phase SIP set_field support.",
+        "No publication or review guard weakening."
+      ]
+    }
+  }
+}

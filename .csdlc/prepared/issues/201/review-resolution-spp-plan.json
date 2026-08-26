@@ -1,0 +1,37 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 31,
+  "expected_digest": "3c9242467a76701a2937732a4ee2bb287d5b3642de72449cdf7c8109769eb2ef",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Reconcile the operative plan with the production OpenRaft and node-local publication barriers required by independent review.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bind production PrepareAuthority and FinalizeAuthority commands to the actual OpenRaft applied log IDs and an already-approved current authority cut bootstrapped from the verified route cut; reject caller-selected authority, caller indices, legacy replay, relabeling, and stale custody.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Keep opaque signer custody runtime-local and non-serialized, cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare, finalize time, and actual finalize apply index, and deny every non-replicated route to a sealed artifact or projection.",
+        "acceptance_ids": ["AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Withhold authority publication while replicated finalize remains pending, then reconcile each voter's exact result, retry record, journal, and node-local fresh CAS before returning an opaque PublishedAuthorityResult; prove the fixed 47-case contract and a separate real three-voter production OpenRaft path including wrong self-consistent authority-cut denial.",
+        "acceptance_ids": ["AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Retain one immutable v6 proof, validate it in full-history and depth-one squash-like history, obtain fresh independent exact-head review, and stop before publication or merge.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

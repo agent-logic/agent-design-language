@@ -1,0 +1,21 @@
+{
+  "issue": 331,
+  "expected_generation": 9,
+  "expected_digest": "591e8ea71cd7d0a4d3fe46381718fc1cac8a72c962d283a1f91208fcca511414",
+  "reviewer": "fresh-session:468a4def-e0f5-4709-81c8-a687759ff58a",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "csdlc-v2/src/migration.rs",
+    "csdlc-v2/src/store.rs",
+    "csdlc-v2/src/bin/csdlc-issue.rs",
+    "csdlc-v2/src/schema.rs",
+    "csdlc-v2/src/lib.rs",
+    "csdlc-v2/tests/code_repository_migration.rs",
+    ".csdlc/evidence/331",
+    ".csdlc/prepared/issues/331/design.md",
+    ".csdlc/prepared/issues/331/diagram.mmd",
+    ".csdlc/prepared/issues/331/finalize-implementation.json",
+    ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+    ".csdlc/prepared/issues/331/review-recover-after-main-merge.json"
+  ]
+}

@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeMap, VecDeque},
+    collections::{BTreeMap, BTreeSet, VecDeque},
     sync::{Arc, Mutex},
     time::Instant,
 };
@@ -12,6 +12,7 @@ pub const RUNTIME_SNAPSHOT_SCHEMA: &str = "adl.runtime.control_snapshot.v1";
 pub const RUNTIME_MASTER_LOG_RECORD_SCHEMA: &str = "adl.runtime.master_log_record.v1";
 pub const RUNTIME_MASTER_LOG_AUDIT_SCHEMA: &str = "adl.runtime.master_log_audit.v1";
 pub const RUNTIME_OBSERVABILITY_PIPELINE_SCHEMA: &str = "adl.runtime_v3.observability.pipeline.v1";
+pub const AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS: u64 = 5_000;
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "status", rename_all = "snake_case")]
@@ -66,6 +67,7 @@ pub enum RuntimeEvent {
     KernelBootstrapStarted,
     StartupEventsFlushed(usize),
     ComponentDegraded,
+    CapabilityUnavailable,
     ComponentState(RunningState),
     ClockAuthorityUpdated,
     ControlCommandCompleted,
@@ -80,6 +82,7 @@ impl RuntimeEvent {
             Self::KernelBootstrapStarted => "kernel_bootstrap_started".to_owned(),
             Self::StartupEventsFlushed(count) => format!("startup_events_flushed:{count}"),
             Self::ComponentDegraded => "component_degraded".to_owned(),
+            Self::CapabilityUnavailable => "capability_unavailable".to_owned(),
             Self::ComponentState(state) => format!("state:{state:?}"),
             Self::ClockAuthorityUpdated => "clock_authority_updated".to_owned(),
             Self::ControlCommandCompleted => "control_command_completed".to_owned(),
@@ -125,6 +128,7 @@ pub struct RuntimeSnapshot {
     pub topology_generation: u64,
     pub components: BTreeMap<ComponentId, RunningState>,
     pub restart_counts: BTreeMap<ComponentId, u32>,
+    pub unavailable_capabilities: BTreeSet<ComponentId>,
     pub queues: BTreeMap<String, QueueHealth>,
     pub clock: ClockAuthority,
     pub continuity_head: Option<ContinuityHead>,
@@ -133,6 +137,25 @@ pub struct RuntimeSnapshot {
     pub observability: ObservabilityHealth,
     pub observability_ready: bool,
     pub observability_pipeline: Option<ObservabilityPipelineSnapshot>,
+    pub agent_admissions: BTreeMap<String, AgentAdmissionEvidence>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct RuntimeHealth {
+    pub lifecycle: LifecycleState,
+    pub ready: bool,
+    pub live: bool,
+    pub degraded_components: Vec<ComponentId>,
+    pub failed_components: Vec<ComponentId>,
+    pub restarting_components: Vec<ComponentId>,
+    pub saturated_queues: Vec<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct AgentAdmissionEvidence {
+    pub observed_at_unix_millis: u64,
+    pub freshness_deadline_unix_millis: u64,
+    pub source_revision: String,
 }
 
 #[derive(Debug)]
@@ -144,12 +167,14 @@ struct RecorderState {
     retained: Vec<BootstrapEvent>,
     components: BTreeMap<ComponentId, RunningState>,
     restart_counts: BTreeMap<ComponentId, u32>,
+    unavailable_capabilities: BTreeSet<ComponentId>,
     queues: BTreeMap<String, ChannelMetrics>,
     clock: ClockAuthority,
     continuity_head: Option<ContinuityHead>,
     observability: ObservabilityHealth,
     observability_pipeline: Option<ObservabilityPipelineSnapshot>,
     lifecycle: LifecycleState,
+    agent_admissions: BTreeMap<String, AgentAdmissionEvidence>,
 }
 
 #[derive(Clone, Debug)]
@@ -176,6 +201,7 @@ impl RuntimeRecorder {
                 retained: Vec::new(),
                 components: BTreeMap::new(),
                 restart_counts: BTreeMap::new(),
+                unavailable_capabilities: BTreeSet::new(),
                 queues: BTreeMap::new(),
                 clock: ClockAuthority::Degraded {
                     reason: "wall_clock_unsynchronized".to_owned(),
@@ -184,6 +210,7 @@ impl RuntimeRecorder {
                 observability: ObservabilityHealth::Pending,
                 observability_pipeline: None,
                 lifecycle: LifecycleState::Starting,
+                agent_admissions: BTreeMap::new(),
             })),
         }
     }
@@ -290,6 +317,12 @@ impl RuntimeRecorder {
         state.revision += 1;
     }
 
+    pub fn set_capability_unavailable(&self, id: ComponentId) {
+        let mut state = self.state.lock().expect("recorder state mutex poisoned");
+        state.unavailable_capabilities.insert(id);
+        state.revision += 1;
+    }
+
     pub fn set_clock_authority(&self, authority: ClockAuthority) {
         {
             let mut state = self.state.lock().expect("recorder state mutex poisoned");
@@ -325,6 +358,65 @@ impl RuntimeRecorder {
         state.revision += 1;
     }
 
+    pub fn record_agent_admission(
+        &self,
+        agent_id: impl Into<String>,
+        observed_at_unix_millis: u64,
+        freshness_deadline_unix_millis: u64,
+        source_revision: impl Into<String>,
+    ) -> bool {
+        if observed_at_unix_millis == 0 || freshness_deadline_unix_millis <= observed_at_unix_millis
+        {
+            return false;
+        }
+        let agent_id = safe_field(&agent_id.into());
+        let source_revision = source_revision.into();
+        if agent_id == "redacted"
+            || source_revision.len() != 40
+            || !source_revision.bytes().all(|byte| byte.is_ascii_hexdigit())
+        {
+            return false;
+        }
+        let mut state = self.state.lock().expect("recorder state mutex poisoned");
+        if state.agent_admissions.contains_key(&agent_id) {
+            return false;
+        }
+        state.agent_admissions.insert(
+            agent_id,
+            AgentAdmissionEvidence {
+                observed_at_unix_millis,
+                freshness_deadline_unix_millis,
+                source_revision,
+            },
+        );
+        state.revision += 1;
+        true
+    }
+
+    pub fn record_agent_heartbeat(
+        &self,
+        agent_id: &str,
+        observed_at_unix_millis: u64,
+        freshness_deadline_unix_millis: u64,
+    ) -> bool {
+        if observed_at_unix_millis == 0 || freshness_deadline_unix_millis <= observed_at_unix_millis
+        {
+            return false;
+        }
+        let agent_id = safe_field(agent_id);
+        let mut state = self.state.lock().expect("recorder state mutex poisoned");
+        let Some(admission) = state.agent_admissions.get_mut(&agent_id) else {
+            return false;
+        };
+        if observed_at_unix_millis <= admission.observed_at_unix_millis {
+            return false;
+        }
+        admission.observed_at_unix_millis = observed_at_unix_millis;
+        admission.freshness_deadline_unix_millis = freshness_deadline_unix_millis;
+        state.revision += 1;
+        true
+    }
+
     pub fn events(&self) -> Vec<BootstrapEvent> {
         let state = self.state.lock().expect("recorder state mutex poisoned");
         if matches!(state.observability, ObservabilityHealth::Pending) {
@@ -342,6 +434,7 @@ impl RuntimeRecorder {
             topology_generation: state.topology_generation,
             components: state.components.clone(),
             restart_counts: state.restart_counts.clone(),
+            unavailable_capabilities: state.unavailable_capabilities.clone(),
             queues: state
                 .queues
                 .iter()
@@ -372,6 +465,69 @@ impl RuntimeRecorder {
             observability_ready: !matches!(state.observability, ObservabilityHealth::Pending),
             observability: state.observability.clone(),
             observability_pipeline: state.observability_pipeline.clone(),
+            agent_admissions: state.agent_admissions.clone(),
+        }
+    }
+
+    pub fn health(&self) -> RuntimeHealth {
+        let snapshot = self.snapshot();
+        let components_in = |state| {
+            snapshot
+                .components
+                .iter()
+                .filter_map(|(id, actual)| (*actual == state).then_some(id.clone()))
+                .collect::<Vec<_>>()
+        };
+        let mut degraded_components = components_in(RunningState::Degraded)
+            .into_iter()
+            .chain(snapshot.unavailable_capabilities.iter().cloned())
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect::<Vec<_>>();
+        degraded_components.sort();
+        let failed_components = components_in(RunningState::Failed);
+        let restarting_components = components_in(RunningState::Restarting);
+        let saturated_queues = snapshot
+            .queues
+            .iter()
+            .filter_map(|(name, queue)| {
+                (queue.capacity > 0 && queue.depth >= queue.capacity as u64).then_some(name.clone())
+            })
+            .collect::<Vec<_>>();
+        let live_component_count = snapshot
+            .components
+            .values()
+            .filter(|state| {
+                matches!(
+                    state,
+                    RunningState::Starting
+                        | RunningState::Ready
+                        | RunningState::Running
+                        | RunningState::Restarting
+                        | RunningState::Stopping
+                )
+            })
+            .count();
+        let live = matches!(
+            snapshot.lifecycle,
+            LifecycleState::Starting | LifecycleState::Running | LifecycleState::Stopping
+        ) && live_component_count > 0
+            && failed_components.is_empty();
+        let ready = snapshot.lifecycle == LifecycleState::Running
+            && live_component_count == snapshot.components.len()
+            && !snapshot.components.is_empty()
+            && degraded_components.is_empty()
+            && failed_components.is_empty()
+            && restarting_components.is_empty()
+            && saturated_queues.is_empty();
+        RuntimeHealth {
+            lifecycle: snapshot.lifecycle,
+            ready,
+            live,
+            degraded_components,
+            failed_components,
+            restarting_components,
+            saturated_queues,
         }
     }
 }

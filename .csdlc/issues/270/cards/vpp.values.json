@@ -1,0 +1,145 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 270,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02c][112.c] Define and serve trusted recipient-acknowledgement Runtime API protocol",
+    "slug": "v0-92-wp-18c-02c-112-c-trusted-recipient-acknowledgement-runtime-api",
+    "version": "v0.92.0",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-270-preparation-validator",
+          "proof_role": "Prove #270 remains open, ready/unbound before bind, dependency-terminal on #112/#265, and scoped to trusted recipient acknowledgement Runtime API only.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/270/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-doctor-270",
+          "proof_role": "Prove #270 lifecycle/card packet is mechanically coherent before and after bind.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            ".adl/bin/csdlc-v2/csdlc-doctor",
+            "--repo",
+            ".",
+            "--issue",
+            "270"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-validate-270",
+          "proof_role": "Prove rendered #270 card structure is valid.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            ".adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "270"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-ack-api-focused",
+          "proof_role": "Focused Runtime tests proving production served acknowledgement route, verify-before-side-effects, credential-generation binding, refusal/delivery distinction, and correlation redaction.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "recipient_ack",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-ack-api-strict-clippy",
+          "proof_role": "Strict warning-free proof for touched Runtime acknowledgement API surfaces.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed: #270 may bind and implement only while #112/#265 terminal caches validate and their merge SHAs remain ancestral to current main; any failed preparation validator, doctor, focused Runtime proof, strict lint, fresh exact-head review, publication check, or required CI gate blocks publication/finish until repaired through typed v2.",
+      "design_ref": ".csdlc/prepared/issues/270/design.md",
+      "design_digest": "6b9e4e639e64f60d19156b35ee3aaa9d16ab41d9156672d6cca7db124527e505",
+      "diagram_ref": ".csdlc/prepared/issues/270/diagram.mmd",
+      "diagram_digest": "b7789ac22ad8651373e86c46e8d73c0b27a36abf7070845443b914174729df2e"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 201,
+  "expected_generation": 65,
+  "expected_digest": "583816ae63df0193956845f7e0e94f63ceadb5d4f02a1cef1e8972d516a14ba2",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "reason": "Recover published review truth for the material stable replicated authority versus runtime-external current boot-cut correction."
+}

@@ -1,0 +1,15 @@
+{
+  "issue": 271,
+  "expected_generation": 17,
+  "expected_digest": "a30003e0b8c1f2ada1b539c2d4e5b7b7e35c6b9c84e5671446cf057669d75f98",
+  "reviewer": "fresh-session:/root/review_271_impl_r4",
+  "assigned_by": "codex:root",
+  "scope": [
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/styles.css",
+    "adl/tools/validate_layer8_authority_observatory_ui.sh",
+    ".csdlc/evidence/271",
+    ".csdlc/issues/271",
+    ".csdlc/prepared/issues/271"
+  ]
+}

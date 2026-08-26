@@ -1,0 +1,67 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 275
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement only a new integrated snapshot module, its focused test, and one additive registration line; treat all foundation, child authority, and #365 sealed-provenance implementations as immutable inputs.
+
+## Deliverables
+
+- adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs
+- adl-runtime/tests/distributed_integrated_serving_authority.rs
+- adl-runtime/src/distributed/mod.rs
+- .csdlc/prepared/issues/275/validate_bound_contract.py
+- .csdlc/prepared/issues/275/run_exact_focused_matrix.py
+- .csdlc/prepared/issues/275/validate_exact_scope.py
+- .csdlc/prepared/issues/275
+- .csdlc/issues/275
+- .csdlc/evidence/275
+
+## Acceptance
+
+1. AC-1: Integrated snapshots are deterministic redacted and derived only from a borrowed #367 VerifiedCommittedChildLineagePair; separate sealed children and caller-constructible DTOs or raw lineage cannot enter the API.
+2. AC-2: Exact replay and restart are idempotent; conflicting replay and duplicate authority fail closed.
+3. AC-3: Crash rollback corruption capacity and serialization failures preserve the last committed proof and publish no contradictory eligibility.
+4. AC-4: Shepherd replacement and Observatory renew or transfer preserve strict fence non-overlap and terminal revoke or expiry truth without recreating child authority semantics.
+5. AC-5: Exact receipts distinguish success no-op rejection and recovery while binding inputs prior/result state authority references generations fences and redacted outcomes without secret leakage.
+6. AC-6: Product ownership is exactly the new module focused test and one additive mod.rs line; all #272 #273 #274 #365 and #205 owned source remains unchanged.
+7. AC-7: Focused matrix strict Clippy exact scope/diff fresh exact-head review hosted CI typed finish cache canonicality and merge ancestry pass before #205 reconciliation.
+
+## Dependencies
+
+- #191 terminal cache canonical and merge ancestral
+- #199 terminal cache canonical and merge ancestral
+- #200 terminal cache canonical and merge ancestral
+- #201 terminal cache canonical and merge ancestral
+- #202 terminal cache canonical and merge ancestral
+- #203 terminal cache canonical and merge ancestral
+- #272 terminal cache canonical and merge ancestral
+- #273 terminal cache canonical and merge ancestral
+- #274 terminal cache canonical and merge ancestral
+- #365 terminal cache canonical and merge ancestral
+- #367 terminal cache canonical and merge ancestral
+
+## Inputs
+
+- agent-logic/agent-design-language#275 live issue
+- agent-logic/agent-design-language#205 coordination graph
+- terminal #272 serving_authority.rs
+- terminal #273 shepherd_serving_eligibility.rs and focused proof
+- terminal #274 observatory_serving_eligibility.rs and focused proof
+- terminal #365 opaque sealed committed projection APIs
+- terminal #367 opaque borrowed VerifiedCommittedChildLineagePair verifier API
+
+## Non Goals
+
+- Any new authority model verifier or child lifecycle behavior
+- Any edit to serving_authority.rs Shepherd source/test Observatory source/test #365 sealed-provenance paths authority protocol adapters or reconciliation
+- Process listener HTTP WSS migration #204 UI cloud deployment qualification provider mutation or parent #205 implementation

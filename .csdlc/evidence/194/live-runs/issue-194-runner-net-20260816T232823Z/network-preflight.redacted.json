@@ -1,0 +1,41 @@
+{
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "aws_voters": [
+    {
+      "ami_id_sha256": "29989d431ccb37336cf65ca487f5650a5f3b640c10e84dc8a89178dd1bd09934",
+      "aws_cli_preview": "aws ec2 run-instances --profile agent-logic-admin --region us-west-2 --image-id <redacted-ami> --instance-type m7i.large --subnet-id <redacted-subnet> --no-associate-public-ip-address --iam-instance-profile Name=ADLRemoteValidationPermanentProfile --security-group-ids <redacted-sg> --tag-specifications ResourceType=instance,Tags=[Name=issue-194-runner-net-20260816T232823Z,adl:cleanup_required=true,adl:component=private-wuji-aws-recovery,adl:hosted_model_fallback=false,adl:issue=194,adl:public_runtime_exposure=false,adl:run_id=issue-194-runner-net-20260816T232823Z,adl:ttl_expires_at=2026-08-16T23:44:47.227311Z]",
+      "az": "us-west-2a",
+      "instance_profile_name": "ADLRemoteValidationPermanentProfile",
+      "instance_type": "m7i.large",
+      "node_id": "aws-voter-a",
+      "security_group_id_sha256": "2263fbe50e61d91f8da1eb5605aeb4f4283364b43c3839ed3028ed8c37262571",
+      "subnet_id_sha256": "1879111aad45b58d13ddcfe32a6778903bd014ecc00d04afd620d65cebc02ff3"
+    },
+    {
+      "ami_id_sha256": "29989d431ccb37336cf65ca487f5650a5f3b640c10e84dc8a89178dd1bd09934",
+      "aws_cli_preview": "aws ec2 run-instances --profile agent-logic-admin --region us-west-2 --image-id <redacted-ami> --instance-type m7i.large --subnet-id <redacted-subnet> --no-associate-public-ip-address --iam-instance-profile Name=ADLRemoteValidationPermanentProfile --security-group-ids <redacted-sg> --tag-specifications ResourceType=instance,Tags=[Name=issue-194-runner-net-20260816T232823Z,adl:cleanup_required=true,adl:component=private-wuji-aws-recovery,adl:hosted_model_fallback=false,adl:issue=194,adl:public_runtime_exposure=false,adl:run_id=issue-194-runner-net-20260816T232823Z,adl:ttl_expires_at=2026-08-16T23:44:47.227311Z]",
+      "az": "us-west-2b",
+      "instance_profile_name": "ADLRemoteValidationPermanentProfile",
+      "instance_type": "m7i.large",
+      "node_id": "aws-voter-b",
+      "security_group_id_sha256": "2263fbe50e61d91f8da1eb5605aeb4f4283364b43c3839ed3028ed8c37262571",
+      "subnet_id_sha256": "b8d6b0055fa19ff418f77725d4f4fce9cf4eb8b4f7fb5501e4e557f41070d3ae"
+    }
+  ],
+  "findings": [],
+  "issue": 194,
+  "non_claims": [
+    "dry-run preflight only; no AWS instance was launched",
+    "does not claim #142 completion",
+    "does not claim Observatory terminal evidence",
+    "does not expose raw AWS account id, subnet id, security group id, AMI id, or instance id"
+  ],
+  "profile": "agent-logic-admin",
+  "reaper_actions_if_expired_now": [],
+  "region": "us-west-2",
+  "run_id": "issue-194-runner-net-20260816T232823Z",
+  "schema": "adl.issue194.private_wuji_aws_recovery.receipt.v1",
+  "status": "dry_run_preflight_passed",
+  "ttl_expires_at": "2026-08-16T23:44:47.227311Z",
+  "ttl_minutes": 15
+}

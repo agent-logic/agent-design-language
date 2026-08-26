@@ -1,0 +1,9 @@
+{
+  "issue":201,"card":"spp","expected_generation":54,"expected_digest":"9374f1ab9c4484468eb330fd7fa18a20151f4fa65b1a3459182089a05f227add","actor":"codex:/root/resolve_201_review_129ea","reason":"Bind the operative plan to design-only rework and the exact replacement 86-case v7 proof.",
+  "operation":{"operation":"replace_plan_steps","steps":[
+    {"id":"S1","action":"Preserve actual OpenRaft apply IDs, exact verified route custody, opaque runtime signer custody, pending finalize response, and runtime-owned publication context without reopening prior bypasses.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-7"],"status":"pending"},
+    {"id":"S2","action":"Keep trusted custody outside snapshot-replaceable state and validate current plus every prepared custody and empty legacy authority fields before snapshot install.","acceptance_ids":["AC-5","AC-6"],"status":"pending"},
+    {"id":"S3","action":"Retain complete finalized proposal and endorsement evidence and rerun live quorum, signature, certificate, boot, time, operation, prepare-index, and finalize-index verification during install; implement every exact snapshot case named in AC-8.","acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+    {"id":"S4","action":"Replace the superseded 47-case v6 packet with one immutable v7 proof binding the exact ordered 86 names, results, and ADL_ISSUE_201_CASE_V2 marker hashes; require ancestry whenever source exists, prove available-divergent rejection and unavailable depth-one fallback, then obtain fresh exact-head review and stop before publication.","acceptance_ids":["AC-8"],"status":"pending"}
+  ]}
+}

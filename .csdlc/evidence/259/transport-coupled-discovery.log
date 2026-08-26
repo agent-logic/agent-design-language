@@ -1,0 +1,20 @@
+
+running 13 tests
+test configured_seed_identity_is_not_enrollment_authority ... ok
+test discovery_timeout_and_cancellation_are_finite ... ok
+test expiry_and_candidate_revocation_or_rotation_during_exchange_fail_closed ... ok
+test malformed_payload_and_transport_generation_mismatch_fail_closed ... ok
+test proposal_derivation_is_deterministic_and_future_requests_fail_closed ... ok
+test public_discovery_rejects_cross_call_replay_duplicate_and_stale_seeds ... ok
+test real_quinn_rustls_discovery_returns_deterministic_non_voting_proposal ... ok
+test replay_window_denies_live_entries_and_recovers_capacity_after_expiry ... ok
+test replay_window_survives_restart_within_the_signed_validity_horizon ... ok
+test seed_and_message_resource_bounds_reject_before_work ... ok
+test stale_wrong_domain_and_replayed_proposals_fail_closed ... ok
+test tampered_expiry_and_inconsistent_authority_identity_fail_closed ... ok
+test unsafe_time_policy_bounds_are_rejected ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.65s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/distributed_discovery.rs (adl-runtime/target/debug/deps/distributed_discovery-187d473a6d0ddc68)

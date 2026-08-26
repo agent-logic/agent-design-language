@@ -1,0 +1,31 @@
+{
+  "schema": "csdlc.review.findings.retained.v1",
+  "issue": 291,
+  "review": {
+    "identity": "fresh-session:019ff5dd-185d-74a3-97ce-b4b845e43d6c",
+    "thread": "019ff5dd-185d-74a3-97ce-b4b845e43d6c",
+    "turn": "019ff5dd-8706-7803-9ae0-92a7a8b7a529",
+    "result": "fail",
+    "reviewed_generation": 20,
+    "reviewed_digest": "dd687ac8860ca3cc33830d530ac6258f4676602b2e883930fe4af81d55e8e6c2",
+    "reviewed_head": "7f88697ce82215188af941e15cf02a6220c9ad63"
+  },
+  "findings": [
+    {
+      "id": "R4-P1-1",
+      "severity": "p1",
+      "summary": "The prepared-without-commit recovery path cannot restore the promised exact pre-state because the journal stores post-state bytes but only preimage hashes/metadata, then requires exact pre-state after target replacement without recoverable old bytes.",
+      "verbatim_body": "The journal stores only post-state bytes as staged blobs; for pre-state it records hashes and metadata, not recoverable preimage content. After target replacement, recovery nevertheless requires exact pre-state when no commit marker exists. It neither rolls back targets already equal to their postimages nor identifies where their preimage bytes can be recovered. A crash after one or more replacements can therefore leave mixed pre/post targets with no defined mechanism to reconstruct the old bytes. The mismatch path is also contradictory: lines 87–90 propose restoring a target whose hash is neither preimage nor postimage, while lines 94–95 require that same condition to fail closed for manual intervention.",
+      "required_repair": "Either stage and durably record content-addressed preimage bytes and explicitly roll every postimage target back before clearing an uncommitted transaction, or define deterministic roll-forward from prepared state. Specify one conflict-free rule for unexpected hashes.",
+      "evidence": [
+        ".csdlc/prepared/issues/291/design.md"
+      ]
+    }
+  ],
+  "limitations": [
+    "Read-only design review only.",
+    "Reviewer did not inspect implementation code, run validators/doctor/product proofs, inspect or mutate #114, consult the live issue body, or verify implementation behavior.",
+    "The supplied R2 artifact hashes matched exactly, and its retained record correctly binds the immutable snapshot while marking original line references as historical rather than current live-line proof."
+  ],
+  "disposition": "retained_as_prebind_design_review_failure; repaired through prepared design and typed card updates before any approval, bind, or implementation"
+}

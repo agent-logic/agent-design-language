@@ -1,0 +1,33 @@
+{
+  "architecture": "x86_64",
+  "continuity_uts": {
+    "acc_runtime_tool_execution_verified": true,
+    "admission_closed_during_dehydration": true,
+    "admission_open_after_restore": true,
+    "completion_receipt_sha256": "03fbc947b72ed2d09b086987e0de9f139d470b3ce828dd4e545ff69ae0456a3d",
+    "continuity_orchestrator_sha256": "dbbca6cebac899ea59d7617a93220e22fd708e5e12d58f69b6e32ae4882cda85",
+    "pending_only_post_cycle": true,
+    "private_command_stdout_sha256": "5c506db5f98d205a6167466642930322d2284974ef86112d31f36491412aece6",
+    "private_dehydration_and_restore_receipts_retained_on_runtime_volume": true,
+    "replay_denial_count": 6,
+    "six_resident_cycle_runner_sha256": "8438cfb9c61ccded1264813a653f825330ac37991d9a5dad7f9ba19ad72beb85",
+    "signed_population_sha256": "0d3d4d538a43bcb8bc2196a6dcb93e69901740553b11c4c25313daa58749058d"
+  },
+  "authenticated_https_connections": 50,
+  "authenticated_wss_connections": 50,
+  "completed_cycles": 21594,
+  "continuation_verified": true,
+  "continuity_generation": 1,
+  "logging_complete": true,
+  "master_log_status": "clean",
+  "measured_exposure_seconds": 21601,
+  "minimum_exposure_seconds": 21600,
+  "platform": "linux",
+  "replay_denied": true,
+  "resident_count": 6,
+  "revision": "8947231b6549f6b43f76c5d4656b333868a032ae",
+  "schema": "adl.issue268.qualification_proof.v1",
+  "status": "passed",
+  "total_restarts": 1,
+  "websocket_full_duplex_observed": true
+}

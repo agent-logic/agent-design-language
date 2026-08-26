@@ -1,0 +1,105 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 323
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented a typed C-SDLC v2 bound issue identity migration operation that retargets an active nonterminal issue namespace to a canonical issue identity without hand-editing lifecycle records.
+
+## Artifacts
+
+- csdlc-v2/src/migration.rs
+- csdlc-v2/src/bin/csdlc-issue.rs
+- csdlc-v2/src/lib.rs
+- csdlc-v2/src/schema.rs
+- csdlc-v2/tests/topology_migration.rs
+- csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md
+
+## Execution
+
+- Added BoundIssueIdentityMigrationRequest/Report/Evidence schemas and migration owner implementation.
+- Exposed migrate_bound_issue_identity through lib exports and csdlc-issue migrate-bound-issue-identity.
+- Updated public schema bundle and csdlc-v2-init operator note.
+- Added topology_migration regression coverage for published #5913 -> #322 shape plus stale, conflicting target, dirty worktree, and terminal refusal cases.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "topology_migration"
+    ],
+    "purpose": "Focused Rust integration proof for bound issue identity migration and existing topology migration invariants.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:topology_migration:11-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict warning-free proof for C-SDLC v2 owner operation changes.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:csdlc-v2-clippy:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "run",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-issue",
+      "--",
+      "--help",
+      "and",
+      "cargo",
+      "run",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-edit",
+      "--",
+      "schema"
+    ],
+    "purpose": "Smoke proof that csdlc-issue exposes migrate-bound-issue-identity and the public schema includes bound_issue_identity_migration_request/report.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:cli-schema-smoke:passed"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

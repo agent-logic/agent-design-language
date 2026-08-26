@@ -1,0 +1,7 @@
+flowchart TD
+  A["initialized legacy issue record"] --> B["typed migrate-code-repository request"]
+  B --> C{"CAS and repository checks pass?"}
+  C -- no --> D["typed fail-closed error"]
+  C -- yes --> E["set explicit code_repository"]
+  E --> F["append audit and advance digest"]
+  F --> G["doctor no longer reports repository_identity_drift"]

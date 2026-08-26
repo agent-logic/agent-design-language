@@ -1,0 +1,83 @@
+{
+  "issue": 300,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "44309f3a9a273da4697c6b64edfbcd78537913942ed4650b50b1b9c18c53b115",
+  "actor": "codex:worker-5",
+  "reason": "Refresh #300 SOR after P1 review remediation added the missing #299 terminal digest assertion and exact-head r4 validation evidence.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented the issue-owned projection recovery integration proof target without production edits, refreshed it after #330 terminal ancestry, and remediated the r3 P1 review finding by explicitly pinning #299 terminal digest truth in the prerequisite gate.",
+    "changes": [
+      "Added and repaired csdlc-v2/tests/projection_recovery_integration.rs to verify #298, #299, and #330 terminal ancestry before #300 execution.",
+      "Pinned terminal digest assertions for #298, #299, and #330, including #299 digest 8a108811e5ed40a3f643ac159fc6255081e0b4a2824db1a386aecd1015415179.",
+      "Proved production recovery-to-cleanup composition by deriving cleanup authority from recovered projection receipts, replaying archived cleanup, rejecting conflicting cleanup authority, and permitting a later ordinary typed commit.",
+      "Aligned the test fixture with production recovery-root cleanup ledger layout introduced by the #297/#330 bridge, without editing production files.",
+      "Retained fail-closed race coverage by injecting a forged final cleanup receipt after recovery-derived authority construction and before cleanup node mutation, asserting no new ledger, namespace, or receipt bytes are created or rewritten.",
+      "Kept the mechanical matrix proof in the #300 integration target so the existing gate5 recovery and archived cleanup suites remain invoked from the integration surface rather than merely cited."
+    ],
+    "artifacts": [
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      ".csdlc/evidence/300/bridge-fed-r4/projection-recovery-integration.log sha256=27c3f27f2c490040e677f4e5b619ed0ee96a1107fbf922f13f01cf901d4bed6f",
+      ".csdlc/evidence/300/bridge-fed-r4/csdlc-v2-strict-clippy.log sha256=ac45156c29f6fdb7e6282c5adce970512ffe7974b220b8a97a543ca2e765132c",
+      ".csdlc/evidence/300/bridge-fed-r4/csdlc-v2-fmt-check.log sha256=e52ad16559a06b8b8cc526fa01a8dccc20ec5dc312be3281f34825544963a337",
+      ".csdlc/evidence/300/bridge-fed-r4/git-diff-check-head.log sha256=d10d0d73af2399c7189988724bbe8f9b0eb48c517f1941c678d083e84aa345eb"
+    ],
+    "validation": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--test",
+          "projection_recovery_integration",
+          "--",
+          "--nocapture"
+        ],
+        "purpose": "Run the issue-owned bridge-fed projection recovery integration target, including terminal prerequisite ancestry/digest pins for #298/#299/#330, recovery-to-cleanup bridge replay/rejection, later typed commit, raced-final fail-closed no-mutation proof, and mechanical invocation of approved recovery and cleanup matrix tests.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/300/bridge-fed-r4/projection-recovery-integration.log sha256=27c3f27f2c490040e677f4e5b619ed0ee96a1107fbf922f13f01cf901d4bed6f head=864bab0f149f8a86d7e3ea7df0ebf34b731aafb8 status=0"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "purpose": "Run strict Clippy with warnings denied across the C-SDLC v2 crate and tests.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/300/bridge-fed-r4/csdlc-v2-strict-clippy.log sha256=ac45156c29f6fdb7e6282c5adce970512ffe7974b220b8a97a543ca2e765132c head=864bab0f149f8a86d7e3ea7df0ebf34b731aafb8 status=0"
+      },
+      {
+        "command": [
+          "cargo",
+          "fmt",
+          "--manifest-path",
+          "csdlc-v2/Cargo.toml",
+          "--check"
+        ],
+        "purpose": "Verify Rust formatting at the exact immutable remediation checkpoint.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/300/bridge-fed-r4/csdlc-v2-fmt-check.log sha256=e52ad16559a06b8b8cc526fa01a8dccc20ec5dc312be3281f34825544963a337 head=864bab0f149f8a86d7e3ea7df0ebf34b731aafb8 status=0"
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "HEAD"
+        ],
+        "purpose": "Verify whitespace hygiene for the exact remediation checkpoint plus evidence/card dirt before evidence commit.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/300/bridge-fed-r4/git-diff-check-head.log sha256=d10d0d73af2399c7189988724bbe8f9b0eb48c517f1941c678d083e84aa345eb head=864bab0f149f8a86d7e3ea7df0ebf34b731aafb8 status=0"
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

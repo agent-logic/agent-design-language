@@ -1,0 +1,20 @@
+# Issue #5913 review finding fix: long fenced contract bypass
+
+Finding resolved:
+- `C723-P2-LONG-FENCE-CONTRACT-BYPASS`
+- Fresh-session c723 found that `verify_repo_review_contract` could expose hidden contract markers when a shorter triple-fence line appeared inside a longer four-delimiter fenced block.
+
+Bounded implementation:
+- `adl/src/cli/mod.rs` now tracks Markdown fence character and opening delimiter length when stripping fenced code blocks before contract validation.
+- A fence closes only when the same marker character repeats at least the opening delimiter length and the remaining line is whitespace.
+- `adl/tools/test_adl_review_compatibility.sh` adds a long-fence negative fixture with hidden review markers inside a four-backtick block.
+
+Validation run locally from `/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing`:
+- `cargo fmt --manifest-path adl/Cargo.toml -- --check` — passed.
+- `bash adl/tools/test_adl_review_compatibility.sh` — passed, including the long-fence negative fixture.
+- `bash adl/tools/test_run_pr_fast_test_lane.sh` — passed.
+- `cargo clippy --manifest-path adl/Cargo.toml --bin adl-review -- -D warnings` — passed.
+
+Non-claims:
+- This evidence does not call provider credentials.
+- This evidence does not publish, merge, or close #5913.

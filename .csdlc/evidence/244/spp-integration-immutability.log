@@ -1,0 +1,5 @@
+command: csdlc-edit --repo /Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race apply --request .csdlc/prepared/issues/244/integrate-248-spp-summary.json
+outcome: rejected_by_typed_owner
+code: invalid_transition
+message: spp mutation is not allowed during implemented
+disposition: Planning #1 authorized preserving SPP as immutable historical design-time truth and recording the combined final diff through supported SOR, SRP, and publication surfaces.

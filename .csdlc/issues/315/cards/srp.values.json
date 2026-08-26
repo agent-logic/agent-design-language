@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 315,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-27] Review findings remediation",
+    "slug": "v0-92-wp-27-review-findings-remediation",
+    "version": "v0.92",
+    "generation": 36
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every internal and external finding retain provenance, evidence, severity, owner, scope decision, and one truthful disposition?",
+        "Are remediation slices narrowly owner-aligned with exact positive, negative, rollback, and platform/security/privacy proof?",
+        "Does every fixed row name exact validated, reviewed, merged identity and updated quality/release evidence?",
+        "Could any open, stale, unproven, unowned, or unauthorized-risk row incorrectly release WP-28?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

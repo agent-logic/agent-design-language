@@ -20,6 +20,8 @@ use crate::{
 pub const LIVE_KERNEL_SNAPSHOT_SCHEMA: &str = "adl.runtime.live_kernel_snapshot.v1";
 pub const LIVE_KERNEL_CHECKPOINT_SCHEMA: &str = "adl.runtime.live_kernel_checkpoint.v1";
 
+type ResidentPopulationValidator<'a> = &'a mut dyn FnMut(&[u8]) -> Result<(), String>;
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct LiveKernelSnapshot {
     pub schema: String,
@@ -50,6 +52,17 @@ pub struct LiveKernelCheckpoint {
     pub runtime: RuntimeSnapshot,
     #[serde(default)]
     pub ingress: IngressSnapshot,
+    /// Runtime-owned resident population subrecord. It remains inside the
+    /// existing signed `live_kernel` participant rather than creating a new
+    /// checkpoint authority or service.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resident_population: Option<Vec<u8>>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RestoredLiveContinuity {
+    pub generation: u64,
+    pub resident_population: Option<Vec<u8>>,
 }
 
 #[derive(Debug, Error)]
@@ -66,6 +79,10 @@ pub enum LiveContinuityError {
     Lineage { generation: u64 },
     #[error("continuity signing key must be exactly 32 bytes of hex")]
     SigningKey,
+    #[error("resident population checkpoint requires resident-aware restore before admission")]
+    ResidentPopulationRequired,
+    #[error("resident population checkpoint validation failed: {0}")]
+    ResidentPopulationValidation(String),
 }
 
 pub struct LiveContinuity {
@@ -77,6 +94,7 @@ pub struct LiveContinuity {
     generation: u64,
     last_integrity: Option<String>,
     ingress: Option<CanonicalIngress>,
+    resident_population: Option<Vec<u8>>,
 }
 
 impl LiveContinuity {
@@ -100,12 +118,22 @@ impl LiveContinuity {
             generation: 0,
             last_integrity: None,
             ingress: None,
+            resident_population: None,
         }
     }
 
     pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
         self.ingress = Some(ingress);
         self
+    }
+
+    pub fn with_resident_population(mut self, resident_population: Vec<u8>) -> Self {
+        self.resident_population = Some(resident_population);
+        self
+    }
+
+    pub fn set_resident_population(&mut self, resident_population: Vec<u8>) {
+        self.resident_population = Some(resident_population);
     }
 
     pub fn signing_key_from_hex(value: &str) -> Result<[u8; 32], LiveContinuityError> {
@@ -119,6 +147,27 @@ impl LiveContinuity {
         &mut self,
         recorder: &RuntimeRecorder,
     ) -> Result<Option<u64>, LiveContinuityError> {
+        let restored = self.restore_latest_inner(recorder, None).await?;
+        Ok(restored.map(|value| value.generation))
+    }
+
+    pub async fn restore_latest_with_resident_population<F>(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        mut validate: F,
+    ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError>
+    where
+        F: FnMut(&[u8]) -> Result<(), String>,
+    {
+        self.restore_latest_inner(recorder, Some(&mut validate))
+            .await
+    }
+
+    async fn restore_latest_inner(
+        &mut self,
+        recorder: &RuntimeRecorder,
+        mut resident_validator: Option<ResidentPopulationValidator<'_>>,
+    ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError> {
         let Some(generation) = latest_generation(&self.root).await? else {
             if self.minimum_generation > 0 {
                 return Err(LiveContinuityError::Rollback {
@@ -136,7 +185,7 @@ impl LiveContinuity {
         }
         let (loaded, schema) = self.load_generation(generation).await?;
         let bytes = &loaded.blobs["live_kernel"];
-        let (restored, ingress) = match schema {
+        let (restored, ingress, resident_population) = match schema {
             LIVE_KERNEL_CHECKPOINT_SCHEMA => {
                 let checkpoint: LiveKernelCheckpoint = serde_json::from_slice(bytes)
                     .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
@@ -153,11 +202,16 @@ impl LiveContinuity {
                         "live runtime snapshot does not match the signed manifest".to_owned(),
                     ));
                 }
-                (checkpoint.identity, Some(checkpoint.ingress))
+                (
+                    checkpoint.identity,
+                    Some(checkpoint.ingress),
+                    checkpoint.resident_population,
+                )
             }
             LIVE_KERNEL_SNAPSHOT_SCHEMA => (
                 serde_json::from_slice::<LiveKernelSnapshot>(bytes)
                     .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?,
+                None,
                 None,
             ),
             _ => unreachable!("load_generation only accepts known schemas"),
@@ -165,10 +219,16 @@ impl LiveContinuity {
         if restored != self.snapshot {
             return Err(LiveContinuityError::SnapshotIdentity);
         }
+        if let Some(population) = resident_population.as_deref() {
+            let validator = resident_validator
+                .as_mut()
+                .ok_or(LiveContinuityError::ResidentPopulationRequired)?;
+            validator(population).map_err(LiveContinuityError::ResidentPopulationValidation)?;
+        }
+        self.validate_lineage(&loaded.manifest).await?;
         if let (Some(target), Some(snapshot)) = (&self.ingress, ingress) {
             target.restore(snapshot);
         }
-        self.validate_lineage(&loaded.manifest).await?;
         self.generation = generation;
         self.last_integrity = Some(loaded.manifest.integrity.clone());
         recorder.set_continuity_head(ContinuityHead {
@@ -178,7 +238,10 @@ impl LiveContinuity {
             config_hash: loaded.manifest.config_hash,
             integrity: loaded.manifest.integrity,
         });
-        Ok(Some(generation))
+        Ok(Some(RestoredLiveContinuity {
+            generation,
+            resident_population,
+        }))
     }
 
     pub async fn checkpoint(
@@ -198,6 +261,7 @@ impl LiveContinuity {
                     .as_ref()
                     .map(CanonicalIngress::snapshot)
                     .unwrap_or_default(),
+                resident_population: self.resident_population.clone(),
             },
         });
         let manifest = self
@@ -359,12 +423,15 @@ impl CheckpointingControl {
 
 pub struct CheckpointShutdownRequest {
     pub grace: Duration,
-    response: tokio::sync::oneshot::Sender<Result<KernelExit, ()>>,
+    pub restart: bool,
+    response: Option<tokio::sync::oneshot::Sender<Result<KernelExit, ()>>>,
 }
 
 impl CheckpointShutdownRequest {
     pub fn respond(self, result: Result<KernelExit, ()>) {
-        let _ = self.response.send(result);
+        if let Some(response) = self.response {
+            let _ = response.send(result);
+        }
     }
 }
 
@@ -373,10 +440,26 @@ impl LifecycleControl for CheckpointingControl {
     async fn shutdown(&self, grace: Duration) -> Result<KernelExit, ()> {
         let (response, result) = tokio::sync::oneshot::channel();
         self.requests
-            .send(CheckpointShutdownRequest { grace, response })
+            .send(CheckpointShutdownRequest {
+                grace,
+                restart: false,
+                response: Some(response),
+            })
             .await
             .map_err(|_| ())?;
         result.await.map_err(|_| ())?
+    }
+
+    async fn restart(&self, grace: Duration) -> Result<(), ()> {
+        self.requests
+            .send(CheckpointShutdownRequest {
+                grace,
+                restart: true,
+                response: None,
+            })
+            .await
+            .map_err(|_| ())?;
+        Ok(())
     }
 }
 

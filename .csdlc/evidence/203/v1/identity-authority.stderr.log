@@ -1,0 +1,4 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-203-authority-serving-adapters/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-203-authority-serving-adapters/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.83s
+     Running tests/distributed_identity_lease_authority.rs (adl-runtime/target/debug/deps/distributed_identity_lease_authority-97ee4e457e285479)

@@ -3,8 +3,11 @@ use serde_json::Value;
 use std::{env, fs};
 
 const ROUTE_OWNER_CONTRACT: &str = "Covered C-SDLC GitHub route owners: issue actions = `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication = `csdlc-publish`; terminal delivery = `csdlc-finish`.";
-const ROUTE_PROHIBITION_CONTRACT: &str = "Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for covered lifecycle writes; missing or unavailable owner binaries fail closed and never authorize fallback.";
-const CONNECTOR_403_CONTRACT: &str = "A connector `403 Resource not accessible by integration` is an integration authorization failure. It is not evidence that the shared token resolver or operator-approved token failed, and it does not authorize connector retry or raw-`gh` fallback.";
+const ROUTE_PROHIBITION_CONTRACT: &str = "Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for covered lifecycle writes except for the audited break-glass transport below. A missing binary, unfamiliar error, timeout, or operator preference is not by itself break-glass authority.";
+const BREAK_GLASS_DEFAULT_CONTRACT: &str =
+    "Typed C-SDLC v2 remains the default and final lifecycle authority.";
+const BREAK_GLASS_RECONCILIATION_CONTRACT: &str = "After a transported write, readiness, review, publication, merge-ready, terminal, and finish claims remain denied until the typed owner reconciles exact remote state and the immutable reconciliation event records success.";
+const CONNECTOR_403_CONTRACT: &str = "A connector `403 Resource not accessible by integration` is an integration authorization failure. It is not evidence that the shared token resolver or operator-approved token failed, and it does not authorize connector retry or the audited raw-`gh` exception.";
 const DEDICATED_PROOF_HOOK: &str =
     "cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy";
 const ROUTE_OWNER_BINARIES: [&str; 4] = [
@@ -27,6 +30,10 @@ fn github_route_policy_is_consistent_and_fail_closed() {
     let boundary =
         fs::read_to_string(repository.join("docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md"))
             .expect("read GitHub client boundary");
+    let coordination = fs::read_to_string(
+        repository.join("docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md"),
+    )
+    .expect("read session coordination policy");
 
     for (name, document) in [
         ("AGENTS.md", agents.as_str()),
@@ -39,7 +46,28 @@ fn github_route_policy_is_consistent_and_fail_closed() {
         );
         assert!(
             document.contains(ROUTE_PROHIBITION_CONTRACT),
-            "{name} must retain the exact fail-closed route prohibition"
+            "{name} must retain the exact fail-closed route and exception boundary"
+        );
+        assert!(
+            document.contains(BREAK_GLASS_DEFAULT_CONTRACT),
+            "{name} must preserve typed v2 as default and final authority"
+        );
+    }
+    assert!(
+        normalized_policy(&boundary).contains(BREAK_GLASS_RECONCILIATION_CONTRACT),
+        "client boundary must deny later lifecycle claims until exact typed reconciliation"
+    );
+    let coordination = normalized_policy(&coordination);
+    for required in [
+        "intent.json",
+        "result.json",
+        "reconciliation.json",
+        "must never be overwritten",
+        "reconciliation_status: succeeded",
+    ] {
+        assert!(
+            coordination.contains(required),
+            "coordination policy must retain break-glass receipt contract: {required}"
         );
     }
 

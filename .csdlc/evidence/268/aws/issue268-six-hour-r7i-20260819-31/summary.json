@@ -1,0 +1,144 @@
+{
+  "account_identity": {
+    "account_id": {
+      "redacted": true,
+      "sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9"
+    },
+    "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+    "arn": {
+      "redacted": true,
+      "sha256": "272868f4c01d7120d436554d4bc3e45a9951cd70114a5e39ab66375d29e0de62"
+    },
+    "user_id": {
+      "redacted": true,
+      "sha256": "f51eca20d9c0df8567d47828dbd5f5cc9305822517decf930708b406c61df3c1"
+    }
+  },
+  "artifact_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification/.csdlc/evidence/268/aws/issue268-six-hour-r7i-20260819-31/artifacts/attempt-0",
+  "attempts": [
+    {
+      "instance_type": "r7i.2xlarge",
+      "message": "InsufficientInstanceCapacity: There is no Spot capacity available that matches your request.",
+      "purchase_option": "spot",
+      "status": "failed"
+    }
+  ],
+  "budget_snapshot": null,
+  "cache_volume": null,
+  "cleanup": {
+    "final_instance_state": null,
+    "termination_attempted": false,
+    "termination_error": null
+  },
+  "command": null,
+  "cost_explorer": {
+    "amount": "1.1153800596",
+    "delayed_billing_boundary": true,
+    "end": "2026-08-20T22:37:52.858928+00:00",
+    "note": "Cost Explorer reflects account spend on AWS delay; treat this as supporting cost evidence rather than exact per-run billing.",
+    "service": "Amazon Elastic Compute Cloud - Compute",
+    "start": "2026-08-01T00:00:00+00:00",
+    "unit": "USD"
+  },
+  "event_log_path": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification/.csdlc/evidence/268/aws/issue268-six-hour-r7i-20260819-31/artifacts/attempt-0/events.jsonl",
+  "expected_max_cost_usd": 20.0,
+  "failure_reason": null,
+  "finished_at": "2026-08-19T22:37:53.406880+00:00",
+  "issue": 268,
+  "launch": null,
+  "launch_surface": {
+    "ami_id": "ami-08b7b9fdd7a1edf3d",
+    "ami_source": "explicit_input",
+    "availability_zone": "us-west-2c",
+    "instance_profile_created": true,
+    "instance_profile_name": "ADLAwsRemoteValidationProfile-268-issue268-six-hour-r7i-20260819-31",
+    "notes": [
+      "Created temporary security group for disposable builder",
+      "Created temporary IAM role and instance profile with AmazonSSMManagedInstanceCore"
+    ],
+    "provisioning_mode": "ephemeral_aws_surface",
+    "role_name": "ADLAwsRemoteValidationRole-268-issue268-six-hour-r7i-20260819-31",
+    "security_group_created": true,
+    "security_group_id": {
+      "redacted": true,
+      "sha256": "062f6ed528ac1954f36a50eac0dc4f3a30e21a1be43dd676caef2ca8747de463"
+    },
+    "security_group_name": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260819-31",
+    "ssh_allowed_cidr": "<ip-address-redacted>/32",
+    "ssh_debug_enabled": true,
+    "subnet_id": {
+      "redacted": true,
+      "sha256": "83fe4e890405df0a3c1aeb6da6353f869fd688e7894bfd0aade4e8f7ff19866e"
+    },
+    "vpc_id": {
+      "redacted": true,
+      "sha256": "d3b6584eba721393ae1bfa9e809867572a9b4d697869e1dbe555a18fb793082b"
+    }
+  },
+  "launch_surface_cleanup": {
+    "instance_profile_deleted": true,
+    "notes": [
+      "Removed role 'ADLAwsRemoteValidationRole-268-issue268-six-hour-r7i-20260819-31' from instance profile 'ADLAwsRemoteValidationProfile-268-issue268-six-hour-r7i-20260819-31'"
+    ],
+    "role_deleted": true,
+    "security_group_deleted": true
+  },
+  "non_claims": [
+    "This summary does not claim broad CI migration to EC2.",
+    "This summary does not claim Spot savings unless a Spot-backed run retained cost and timing evidence.",
+    "This summary does not claim per-run final AWS billing line items when Cost Explorer data is delayed."
+  ],
+  "profile": "agent-logic-admin",
+  "quota_snapshot": {
+    "notes": [
+      "spot quota 'All Standard (A, C, D, H, I, M, R, T, Z) Spot Instance Requests' not found",
+      "on-demand quota 'Running On-Demand Standard (A, C, D, H, I, M, R, T, Z) instances' not found"
+    ],
+    "on_demand_vcpu_quota": null,
+    "spot_vcpu_quota": null
+  },
+  "region": "us-west-2",
+  "remote_summary": null,
+  "resilience": {
+    "cleanup_complete": true,
+    "cleanup_recorded": true,
+    "cost_evidence_recorded": true,
+    "disposition": "succeeded",
+    "evidence_refs": [
+      "attempts",
+      "cleanup",
+      "timings",
+      "cost_or_budget"
+    ],
+    "fault_class": "none",
+    "operator_action": null,
+    "policy": {
+      "cleanup_required": true,
+      "cost_evidence_required": true,
+      "max_launch_attempts": 1,
+      "operator_gated_classes": [
+        "quota_blocked",
+        "auth_permission_failure",
+        "cleanup_partial_failure"
+      ],
+      "policy_id": "adl.aws_remote_validation.resilience.v1",
+      "retryable_classes": [],
+      "spot_fallback_enabled": false
+    },
+    "retryable": false,
+    "schema_version": "adl.aws_remote_validation.resilience.v1",
+    "summary": "remote validation completed and cleanup evidence was recorded"
+  },
+  "run_id": "issue268-six-hour-r7i-20260819-31",
+  "schema_version": "adl.aws_remote_validation_run.v1",
+  "spot_termination_evidence": null,
+  "started_at": "2026-08-19T22:37:47.563329+00:00",
+  "status": "passed",
+  "timings": {
+    "launch_seconds": 4,
+    "remote_command_seconds": null,
+    "ssm_ready_seconds": null,
+    "teardown_seconds": null,
+    "total_seconds": 5
+  }
+}

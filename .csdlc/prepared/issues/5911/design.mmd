@@ -1,0 +1,9 @@
+flowchart LR
+  Request["Typed bind request"] --> Canonicalize["Canonicalize worktree path"]
+  Canonicalize --> Check{"Under /Volumes/FastWork/adl-worktrees?"}
+  Check -->|yes| Bind["Bind branch and worktree"]
+  Check -->|no| Refuse["Typed fail-closed refusal"]
+  Transcript["Local transcript store"] --> Archive["FastWork archive"]
+  Archive --> Verify["Checksum manifest verification"]
+  Verify --> Approval["Separate deletion approval"]
+

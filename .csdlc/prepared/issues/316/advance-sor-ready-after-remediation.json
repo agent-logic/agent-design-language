@@ -1,0 +1,9 @@
+{
+  "issue": 316,
+  "card": "sor",
+  "expected_generation": 12,
+  "expected_digest": "acfe61e0eba7a299250eb1ee4416c8a46abfc9ba967b195ba989e989544d6cbf",
+  "actor": "codex:/root",
+  "reason": "The implemented planning output is ready for final exact-head review before publication.",
+  "operation": {"operation":"advance_status","status":"ready"}
+}

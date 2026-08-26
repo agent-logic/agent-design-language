@@ -1,0 +1,141 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 209,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
+    "slug": "wp14-production-acip-authority-repair",
+    "version": "v0.92",
+    "generation": 33
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "production-acip-wss",
+          "proof_role": "Prove real production binary dispatch, typed errors, WSS-observed saturation rollback and exact retry.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "production_acip_wss",
+            "--no-tests=fail"
+          ],
+          "parallel_group": "209-core",
+          "defer_reason": null
+        },
+        {
+          "lane": "acip-replay-authority",
+          "proof_role": "Prove collision-free typed domains, per-principal capacity, and pending/committed concurrent rollback semantics.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "control::acip_replay_tests"
+          ],
+          "parallel_group": "209-core",
+          "defer_reason": null
+        },
+        {
+          "lane": "acip-contract-parity",
+          "proof_role": "Prove the canonical served OpenAPI bearer/binary dispatch contract and separately retained legacy signed-frame admission boundary.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "openapi_contract"
+          ],
+          "parallel_group": "209-contract",
+          "defer_reason": null
+        },
+        {
+          "lane": "legacy-signed-admission",
+          "proof_role": "Prove the non-public retained admission path still rejects unsigned control and terminal replay poisoning.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay",
+            "--lib",
+            "--",
+            "--exact"
+          ],
+          "parallel_group": "209-contract",
+          "defer_reason": null
+        },
+        {
+          "lane": "production-acip-native",
+          "proof_role": "Retain exact-head Linux/macOS receipts for production dispatch, replay isolation, WSS pressure/errors, path hygiene, platform-neutral semantic equivalence, and source provenance.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+            ".csdlc/evidence/209/native-platform/linux.json",
+            ".csdlc/evidence/209/native-platform/macos.json"
+          ],
+          "parallel_group": "209-native",
+          "defer_reason": "Runs after reviewed publication on native GitHub Actions Linux and macOS; merge remains blocked until retained proof and fresh post-native review pass."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on echo-only substitution, missing production dispatch, pressure without typed error, replay-domain ambiguity, max-value poisoning, cross-principal interference, schema/runtime mismatch, stale evidence, or missing exact-head review.",
+      "design_ref": ".csdlc/prepared/issues/209/design.md",
+      "design_digest": "c7c0d740c2ada0040066a789f4966a9281a24998e794e7c715d54c9786f28c69",
+      "diagram_ref": ".csdlc/prepared/issues/209/diagram.mmd",
+      "diagram_digest": "6cf31b19e67ab3d9b3b5e0570f05943a78d7ee7615d0fcec9fc54c6309c4fe3b"
+    }
+  }
+}

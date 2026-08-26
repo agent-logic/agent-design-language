@@ -1,0 +1,287 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 349,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "340e5118c1f57c82d2f683cb6401f377a5a472c61b57fbe107d6f2df2fc599a1",
+  "phase": "published",
+  "generation": 12,
+  "digest": "0d7cfb9c7310e771dc969020dc49bb5fc2828bf85ad0987c296786b2746b49ff",
+  "branch": "codex/349-ready-deferred-validator-admission",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-349-ready-deferred-validator-admission",
+  "review_assignment": {
+    "reviewer": "/root/issue_349_prepare/fresh_postpub_review",
+    "assigned_by": "codex:issue-349-postpublication-recovery",
+    "revision": "git-blake3:14c6771d1d7710423bd14f371e50daf00fa903ac:60c25fcac61ad441a91c4929b8861bc1d2afb087e561af068f08eb7a51e0cb39",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/349",
+      ".csdlc/evidence/349"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/issue_349_prepare/fresh_postpub_review",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/349",
+      ".csdlc/evidence/349"
+    ],
+    "reviewed_revision": "git-blake3:14c6771d1d7710423bd14f371e50daf00fa903ac:60c25fcac61ad441a91c4929b8861bc1d2afb087e561af068f08eb7a51e0cb39",
+    "findings": [],
+    "residual_risks": [
+      "Recovery review was read-only and did not rerun validation; substantive implementation is byte-identical and historical PR #352 proving CI was green, but republished metadata requires renewed hosted observation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 349,
+    "pull_request": 352,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/352",
+    "base": "main",
+    "head": "codex/349-ready-deferred-validator-admission",
+    "revision": "git-blake3:14c6771d1d7710423bd14f371e50daf00fa903ac:60c25fcac61ad441a91c4929b8861bc1d2afb087e561af068f08eb7a51e0cb39",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/349/design.md",
+  "diagram_path": ".csdlc/prepared/issues/349/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "/root/issue_349_prepare/fresh_design_review_r3",
+      "revision": "e601e50fd2ddad122e9f9e75aa1e11d03ef5468de831f03aa4ec7519187f7e5e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c5fce446b8d78cf0707c9763aca54cf018ebfe9f50e7e149638e6920e565b05c",
+      "rendered_digest": "d7d13b0f0c69af7f44bee9483e5d7f15873120847bb563ca3feebf4e19afcc41",
+      "ast_digest": "fc6a4f87f994cfdcb23677d2985bdce92cba57716c7e081e740b96e78db50bcf"
+    },
+    "stp": {
+      "values_digest": "7ca542221123e1c5e0b4f2ee733c9c9226020a3ebc24f9f9dfddc58c9d3e3234",
+      "rendered_digest": "c53c38ff0b6341444e176ae0bf18d489acd4d57ceddc9c93cee1c5036a9f3e89",
+      "ast_digest": "992911b92358c2253b931bf546e2173a9ff49ab492abf3ec77eacf6930bc4d2b"
+    },
+    "spp": {
+      "values_digest": "35801e9c891fee93ce9b1e3c22f74ed867f45badb79e74bb45987635311cbf68",
+      "rendered_digest": "132818788dec9eaa690605be61d446b6a23d7c67e2cff8caf935c78873d9180c",
+      "ast_digest": "8328735149e2966a6755567c96dbb4e3b6f2a9f3f123f91bae00fe490a91f32e"
+    },
+    "vpp": {
+      "values_digest": "c41aa29c0f06897be41515a4dfd2bdfca3730989df6067aa46a2b37f6b993280",
+      "rendered_digest": "e8270b935f196259307fff008e652ed59fbb4f17b2f60b53adb76b979abe4977",
+      "ast_digest": "98bc2b3c8c496edc9b161278bb6febe6c34e629d49a9363f7b451404f4e67ce0"
+    },
+    "srp": {
+      "values_digest": "0fc221752fde0571f805b39ac056974acb0f0548ef416203b424d40e3e1a65f4",
+      "rendered_digest": "d765cbf4991c5dbe847e7bdee1d029bf61e9bbeb0c8555446924cc002f04da64",
+      "ast_digest": "f327bc5ca0a2860e1689c6c7e3f3d9f71e29496ff376512f5e57f442542311a5"
+    },
+    "sor": {
+      "values_digest": "d25393bf135430cf3c4c7ecf9eddb0f1e424ac510a19755ab1a82d00f685e740",
+      "rendered_digest": "c12f791096f0b51e892e4e162c648b392492744a6314325d7dfb3a152c124771",
+      "ast_digest": "84a0ba57130208c89d4deecbfc0d3e47bd692ffc69b27e47365a513724c74b92"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-349-implementation",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/issue_349_prepare/fresh_impl_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-349-implementation",
+      "reason": "Recover review authority onto the exact governed review-metadata commit after publication correctly rejected stale scoped lifecycle projections."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/issue_349_prepare/fresh_metadata_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-349-implementation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-349-postpublication-recovery",
+      "reason": "Clear stale publication and review authority after finish proved the publication commit retained the earlier review identity; preserve immutable implementation and green PR #352 CI as historical evidence before fresh exact-head review and republish."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/issue_349_prepare/fresh_postpub_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-349-postpublication-recovery",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-349-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-349-preparation",
+      "reason": "Keep lifecycle review as a typed gate rather than misclassifying its external owner binary as an issue validation target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-349-preparation\",\"proof_role\":\"Prove the exact pre-bind issue/card/design scope and #342 boundary.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/349/validate_preparation.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"gate2-deferred-ready-regression\",\"proof_role\":\"Exercise the actual initialized doctor, advance_ready, ready bind, bound failure, and materialized PASS sequence with the #79 negative matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"initialized_deferred_distributed_targets_bind_only_through_exact_path_harnesses\"],\"parallel_group\":\"local\",\"defer_reason\":\"Runs after typed bind and the bounded source/test correction exists.\"},{\"lane\":\"csdlc-v2-strict-clippy\",\"proof_role\":\"Reject warnings and lifecycle implementation defects in the touched C-SDLC v2 crate.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-349-design-r1-repair",
+      "reason": "Repair R1 P1 by declaring the separate #79 negative-predicate regression as its own exact proving lane instead of overclaiming it through the positive-sequence test filter.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-349-preparation\",\"proof_role\":\"Prove the exact pre-bind issue/card/design scope and #342 boundary.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/349/validate_preparation.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"gate2-deferred-ready-sequence\",\"proof_role\":\"Exercise initialized doctor PASS, advertised advance_ready, unchanged ready doctor and bind, bound missing-target failure, and materialized-target PASS.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"initialized_deferred_distributed_targets_bind_only_through_exact_path_harnesses\"],\"parallel_group\":\"local\",\"defer_reason\":\"Runs after typed bind and the bounded lifecycle/test correction exists.\"},{\"lane\":\"gate2-deferred-negative-predicate-matrix\",\"proof_role\":\"Prove each missing #79 admission predicate fails closed: exact ownership, validator deliverable, bounded non-placeholder deferral, proving route, and failure policy remain mandatory.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-strict-clippy\",\"proof_role\":\"Reject warnings and lifecycle implementation defects in the touched C-SDLC v2 crate.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-349-design-r2-repair",
+      "reason": "Repair R2 P2 by adding the exact deterministic formatting-check lane promised by AC-7, STP, SPP, and the authored design.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-349-preparation\",\"proof_role\":\"Prove exact generation/digest and six-card integrity, authored design bindings, and absence of local #342 paths or status mutations.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/349/validate_preparation.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"gate2-deferred-ready-sequence\",\"proof_role\":\"Exercise initialized doctor PASS, advertised advance_ready, unchanged ready doctor and bind, bound missing-target failure, and materialized-target PASS.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"initialized_deferred_distributed_targets_bind_only_through_exact_path_harnesses\"],\"parallel_group\":\"local\",\"defer_reason\":\"Runs after typed bind and the bounded lifecycle/test correction exists.\"},{\"lane\":\"gate2-deferred-negative-predicate-matrix\",\"proof_role\":\"Prove each missing #79 admission predicate fails closed: exact ownership, validator deliverable, bounded non-placeholder deferral, proving route, and failure policy remain mandatory.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-format-check\",\"proof_role\":\"Prove the touched C-SDLC v2 Rust source and regression remain canonically formatted.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-strict-clippy\",\"proof_role\":\"Reject warnings and lifecycle implementation defects in the touched C-SDLC v2 crate.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "/root/issue_349_prepare/fresh_design_review_r3",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-349-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-349-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "/root/issue_349_prepare/fresh_impl_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-349-implementation",
+      "reason": "Recover review authority onto the exact governed review-metadata commit after publication correctly rejected stale scoped lifecycle projections.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-349-review-recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "/root/issue_349_prepare/fresh_metadata_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-349-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-349-postpublication-recovery",
+      "reason": "Clear stale publication and review authority after finish proved the publication commit retained the earlier review identity; preserve immutable implementation and green PR #352 CI as historical evidence before fresh exact-head review and republish.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:issue-349-postpublication-recovery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "/root/issue_349_prepare/fresh_postpub_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:issue-349-postpublication-recovery",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 117,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
+    "slug": "production-polis-interface-qualification-parent",
+    "version": "v0.92",
+    "generation": 37
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-terminal-cache-validator",
+          "proof_role": "Verify #117 preparation consumes canonical terminal #271/#114/#115/#116/#279/#280/#281/#282 evidence and remains parent-only.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/117/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "117-parent-proof",
+          "defer_reason": null
+        },
+        {
+          "lane": "parent-closeout-validator",
+          "proof_role": "Verify #117 parent closeout evidence, terminal child/prerequisite caches, exact #282 integrated qualification truth, residual risks, non-claims, and #110 handoff.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1500,
+          "argv": [
+            "python3",
+            ".csdlc/evidence/117/validate_parent_closeout.py"
+          ],
+          "parallel_group": "117-parent-proof",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace or patch artifacts before exact-head review and publication.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "117-parent-proof",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on stale child terminal cache, non-canonical child receipt, missing merged disposition, missing issue closure, umbrella overclaim, or any product/runtime/cloud/provider scope expansion.",
+      "design_ref": ".csdlc/prepared/issues/117/design.md",
+      "design_digest": "0c3bdcb8801003259e8526f09cb5775bbe5f07e41dc2ac2f9f3aa5efe720bc6c",
+      "diagram_ref": ".csdlc/prepared/issues/117/diagram.mmd",
+      "diagram_digest": "1f3b962568687426bd66d190e0c022dfa9b563bf5d826040773239ac61cc23a8"
+    }
+  }
+}

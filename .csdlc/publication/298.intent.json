@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 298,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/298-anchored-classification-recovery",
+  "title": "[v0.92][C-SDLC v2] Add anchored projection classification and recovery",
+  "body": "## Summary\n\n- add read-only anchored projection classification with exact candidate and attempt inventory\n- retain descriptor authority through recovery receipts, inventory, candidate construction, archive, displacement, and publication mutations\n- add immutable recovery and per-node receipt ledgers with deterministic restart across exchange and non-exchange anchors\n- enforce portable fail-closed mount identity on macOS and Linux, including explicit STATX_MNT_ID authority\n- preserve current main initialized recovery journal behavior after resolving the PR #305 store.rs merge conflict\n\n## Validation\n\n- governed focused recovery lane: 37 passed, 19 filtered\n- governed csdlc-v2 library suite: 78 passed\n- governed strict all-target Clippy: passed\n- cargo fmt --check: passed\n- git diff --check: passed\n- independent exact-revision review R26: PASS, no actionable findings\n\nR26 review is bound to scoped revision git-blake3:222abd504d99a3bedc224699c0b68d302aac25b7:84e0aadc005c93ddf4bf88ac30533059fc92a2038fae8d23f727d44885c3e4fd. Publication head 41a64d3c94972a5f305f9271ea847146b018204f adds only typed review metadata after that reviewed source tree. Hosted CI is required after republication before terminal finish. No dynamic cross-mount injection is claimed.\n\nCloses #298",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:41a64d3c94972a5f305f9271ea847146b018204f:3eb32f889e62a892b58a0a8c5096acd7a1918f4e257d5fa70922f3877ffdcec2",
+  "commit_sha": "41a64d3c94972a5f305f9271ea847146b018204f"
+}

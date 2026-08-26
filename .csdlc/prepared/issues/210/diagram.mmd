@@ -1,0 +1,24 @@
+flowchart LR
+    T["#201 sealed ContinuityTransferGrantProjection"] --> S["Established typed transfer session"]
+    R["Current #191 route cut and #203 certificate truth"] --> S
+    B["#208 ContinuityBundleSourcePort"] --> F["Bounded canonical frames"]
+    S --> F
+    T --> E["Signed manifest catalog entry chunk and range expectations"]
+    E --> V["#210 then #208 independently verify before write"]
+    F --> V
+    V --> J["Journaled bytes verifier prefix effect"]
+    J --> P["Durable accepted prefix before acknowledgment"]
+    P --> I["Incremental catalog and whole-content verifier"]
+    I --> W["#208 TargetStageHandle plus TargetPossessionEvidence"]
+    W --> VP["#210 VerifiedTransferPossession only"]
+    VP --> C["Result checkpoint marker and published completion"]
+    X["Partition cancellation restart disk full or reply loss"] --> Y["Exact prefix reconciliation and resume"]
+    Y --> P
+    W --> K["Separate #208 TargetCleanupPermit"]
+    A["Authorized transfer abort"] --> K
+    K --> D["#208-owned discard plus live TargetDiscardReceipt"]
+    S --> NA["#210 has no activation or deletion authority"]
+    NA --> D
+    M["#204 migration decision"] --> U["#208 source resume target activate or discard effect"]
+    Q["Raft generic public or unknown message"] --> N["Rejected before transfer dispatch"]
+    C --> Z["No deletion migration ownership activation serving or cloud authority"]

@@ -1,0 +1,11 @@
+flowchart LR
+  B["HTML Observatory client"] -->|"signed turn plus conversation and cursor"| W["Authenticated Observatory WSS"]
+  W -->|"canonical conversation ingress"| S["Runtime conversation session owner"]
+  S -->|"recipient and policy decision"| A["Existing Layer 8 admission boundary"]
+  A -->|"allowed"| P["Provider-neutral agent adapter"]
+  A -->|"refused"| O["Typed delivery outcome"]
+  P -->|"bounded public response or typed failure"| S
+  S -->|"ordered events and Runtime cursor"| O
+  O --> B
+  R["Runtime restart"] -->|"old in-memory session unavailable"| O
+  D["Future durable history issue 114"] -.->|"not owned by issue 111"| S

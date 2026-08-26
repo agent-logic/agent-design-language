@@ -1,0 +1,115 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 225
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Review and approve the two-operation design, bind #225, implement exact authorization and audit semantics, prove both accepted paths and adjacent rejection boundaries, obtain exact-head review, and publish a ready unmerged PR.
+
+## Plan
+
+Revision 2
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Review and approve exact operation, phase, card, topology, recovery, and audit contracts, then bind #225.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S2",
+    "action": "Implement both semantic operations through the existing store transaction and renderer.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S3",
+    "action": "Add focused Gate 2 and Gate 5 accepted and fail-closed regression sequences.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S4",
+    "action": "Run focused validation, resolve independent exact-head review, and publish a ready PR closing #225.",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "status": "completed"
+  }
+]
+
+## Invariants
+
+- No correction grants Git topology or execution authority
+- Only the two named card fields are mutable through the new operations
+- CAS, renderer, AST, cross-card validation, audit, and transaction atomicity remain fail closed
+- Pre-bind SIP correction invalidates stale design approval
+- Post-recovery SPP correction requires cleared review/publication/readiness truth
+
+## Risks
+
+- Over-broad matching could authorize adjacent fields or phases
+- Recovery checks could rely only on phase and ignore retained truth
+- Audit serialization could omit the previous value
+- Tests could bypass the real editor/store/render path
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/225/design.md
+
+Digest: a80c5320b725b320199840ac97071c113a66856de8ebbb740f4772db558d4a11
+
+## Diagram
+
+.csdlc/prepared/issues/225/diagram.mmd
+
+Digest: 92cdb7af07ad5966b68f4a331c8e26c2bcba95b142f3a5f515d26d1912f05070
+
+## Stop Conditions
+
+- A direct card/state mutation is required
+- Either operation cannot remain field- and phase-specific
+- Review recovery or binding authority must move into csdlc-edit
+- Atomic rendering, audit preservation, or negative proof fails
+
+## Handoff
+
+Proceed only after doctor readiness.

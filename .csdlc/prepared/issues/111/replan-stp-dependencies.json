@@ -1,0 +1,20 @@
+{
+  "issue": 111,
+  "card": "stp",
+  "expected_generation": 21,
+  "expected_digest": "25d9aca0c86a1d8350ea10351d603fc76f5324a122b40bd2b360c9136620eac1",
+  "actor": "codex:111-execution",
+  "reason": "Align execution dependencies with live umbrella 110 decomposition authority.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "#110 is the live WP-18C umbrella and authorizes #111 and #113 as separate initial execution slices",
+      "#92 is closed and supplies the trusted TLS baseline",
+      "#83 remains asynchronous decomposition reconciliation and is not an execution gate",
+      "#122 is deferred beyond v0.92 and is not a #111 execution gate",
+      "#112 consumes #111 later and supplies no authority or dependency to this issue"
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,17 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 27,
+  "expected_digest": "d50a5c5bb8c8f1c17a783bf8e055386875044f8df91a81845433f046ebe31b7e",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record exact Runtime control and roster projection proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--test", "control"],
+      "purpose": "Prove production roster projection, signed restart acceptance, control policy, and Runtime observatory behavior.",
+      "outcome": "passed",
+      "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: control passed 24/24."
+    }
+  }
+}

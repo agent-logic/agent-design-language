@@ -1,0 +1,18 @@
+flowchart TD
+    I283["#283 ADR 0065 evidence reconciliation"]
+    P207["#207 ADR proof-gate coordinator"]
+    H5832["#5832 historical ACIP receipts"]
+    R209["#209 / PR #215 replacement ACIP authority"]
+    T209["derived terminal cache for #209"]
+    M209["#209 local/native validation manifests"]
+    E283["issue-local #283 reconciliation evidence"]
+    I288["#288 final ADR serialization"]
+
+    P207 --> I283
+    H5832 --> I283
+    R209 --> T209
+    R209 --> M209
+    T209 --> I283
+    M209 --> I283
+    I283 --> E283
+    E283 --> I288

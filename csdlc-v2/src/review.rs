@@ -1,8 +1,8 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use crate::cards::{FindingDisposition, ReviewResult};
-use crate::model::{LifecyclePhase, ReviewAssignment, ReviewEvidence};
+use crate::cards::{digest, FindingDisposition, ReviewResult};
+use crate::model::{DesignReview, LifecyclePhase, ReviewAssignment, ReviewEvidence};
 use crate::store::{ReviewCommit, Store};
 use crate::{ErrorCode, IssueRecord, Result, V2Error};
 
@@ -44,6 +44,7 @@ pub struct PublicationReviewReport {
 }
 
 pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<IssueRecord> {
+    let _binding_lock = store.binding_lock()?;
     let record = store.load_record(request.issue)?;
     require_cas(
         &record,
@@ -56,6 +57,7 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
             "review assignment requires implemented phase",
         ));
     }
+    require_registered_worktree(store, &record)?;
     if request.reviewer.trim().is_empty()
         || request.assigned_by.trim().is_empty()
         || request.scope.is_empty()
@@ -74,6 +76,7 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
             "review assignment requires a clean substantive commit",
         ));
     }
+    require_current_design_approval(store, &record)?;
     let assignment = ReviewAssignment {
         reviewer: request.reviewer,
         assigned_by: request.assigned_by.clone(),
@@ -83,11 +86,96 @@ pub fn assign_review(store: &Store, request: ReviewAssignmentRequest) -> Result<
     store.commit_review_assignment(request.issue, &request.expected_digest, assignment)
 }
 
+fn require_registered_worktree(store: &Store, record: &crate::IssueRecord) -> Result<()> {
+    let registered = record.worktree.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "review assignment requires registered worktree",
+        )
+    })?;
+    let branch = record.branch.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "review assignment requires registered branch",
+        )
+    })?;
+    let actual = std::fs::canonicalize(store.root())?;
+    let expected = std::fs::canonicalize(registered)?;
+    if actual != expected || crate::git::current_branch(store.root())? != *branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "review assignment invocation does not match registered branch and worktree",
+        ));
+    }
+    Ok(())
+}
+
+fn require_current_design_approval(store: &Store, record: &crate::IssueRecord) -> Result<()> {
+    let cards = store.load_cards(record.issue)?;
+    let (design_ref, design_digest, diagram_ref, diagram_digest) =
+        match &cards[&crate::cards::CardKind::Spp].content {
+            crate::cards::CardContent::Spp(values) => (
+                values.design_ref.as_str(),
+                values.design_digest.as_str(),
+                values.diagram_ref.as_str(),
+                values.diagram_digest.as_str(),
+            ),
+            _ => unreachable!("SPP"),
+        };
+    let approved = matches!(
+        &record.design_review,
+        DesignReview::Approved { revision, .. } if revision == design_digest
+    );
+    let refresh_used = record.audit.iter().any(|event| {
+        event
+            .operation
+            .contains("refresh_authored_design_after_recovery")
+    });
+    let tuple_approved = !refresh_used
+        || record
+            .audit
+            .iter()
+            .rev()
+            .find_map(|event| {
+                let value: serde_json::Value = serde_json::from_str(&event.operation).ok()?;
+                (value["operation"] == "approve_design").then_some(value)
+            })
+            .is_some_and(|value| {
+                value["design_ref"] == design_ref
+                    && value["design_digest"] == design_digest
+                    && value["diagram_ref"] == diagram_ref
+                    && value["diagram_digest"] == diagram_digest
+            });
+    let design_current = crate::store::read_regular_authored_artifact(
+        store.root(),
+        std::path::Path::new(design_ref),
+    )?
+    .is_some_and(|bytes| digest(&bytes) == design_digest);
+    let diagram_current = crate::store::read_regular_authored_artifact(
+        store.root(),
+        std::path::Path::new(diagram_ref),
+    )?
+    .is_some_and(|bytes| digest(&bytes) == diagram_digest);
+    if !approved
+        || !tuple_approved
+        || design_ref != record.design_path
+        || diagram_ref != record.diagram_path
+        || !design_current
+        || !diagram_current
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "review assignment requires current approved authored design tuple",
+        ));
+    }
+    Ok(())
+}
+
 pub fn recover_review(store: &Store, request: ReviewRecoveryRequest) -> Result<IssueRecord> {
-    if request.reason.trim().is_empty() {
+    if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "review recovery reason is required",
+            "review recovery actor and reason are required",
         ));
     }
     store.commit_review_recovery(

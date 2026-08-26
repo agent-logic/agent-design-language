@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 316,
+  "expected_generation": 10,
+  "expected_digest": "2c5fb6a7e92d846f899d4dcdacc3caa8fb2265091083f822e47b5446ce9d10fe",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "fresh-session:0B86DEBE-15FB-4E7E-BA2E-DA5CC5DE75CA",
+    "scope": ["docs/milestones/v0.92.1", "docs/milestones/v0.92.2", "docs/planning/ADL_FEATURE_LIST.md", ".csdlc/prepared/issues/316", ".csdlc/evidence/316", ".csdlc/issues/316"],
+    "reviewed_revision": "git-blake3:acca571e36288b753ad5f9dcff5105f52f9b0b18:3b545fea2d83b59b78e2dd206bc4d2cc9054f06d709f2ce90dd8dcb980720ab5",
+    "findings": [
+      {"id":"P1-source-disposition-denominator","severity":"p1","summary":"The candidate lacked a one-row-per-source TBD and Drive disposition ledger with source identity and reasons.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":"Add and mechanically validate the exact source disposition ledger before rereview."},
+      {"id":"P1-sor-proof-lifecycle-truth","severity":"p1","summary":"SOR overstated structural validator proof and retained stale pre-phase and pre-bind wording.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":"Replace execution proof wording and normalize implemented pre-publication SOR truth before rereview."}
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

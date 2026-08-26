@@ -1,0 +1,29 @@
+{
+  "schema": "csdlc.issue-validation-summary.v1",
+  "issue": 225,
+  "implementation_revision": "d5d6e02820ac56e23e025f077fbd0dc4d7c02f33",
+  "results": [
+    {
+      "command": "cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate2",
+      "outcome": "passed",
+      "summary": "7 passed; 0 failed"
+    },
+    {
+      "command": "cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate5",
+      "outcome": "passed",
+      "summary": "18 passed; 0 failed"
+    },
+    {
+      "command": "cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --lib --bin csdlc-edit -- -D warnings",
+      "outcome": "passed"
+    },
+    {
+      "command": "cargo fmt --manifest-path csdlc-v2/Cargo.toml -- --check",
+      "outcome": "passed"
+    },
+    {
+      "command": "git diff --check",
+      "outcome": "passed"
+    }
+  ]
+}

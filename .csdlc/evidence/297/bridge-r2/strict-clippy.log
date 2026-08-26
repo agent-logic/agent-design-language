@@ -1,0 +1,5 @@
+sha=3f38a135e939264e5b4f66ed4477d32c56abce61
+argv=cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings
+    Checking csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery/csdlc-v2)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 9.05s
+status=0

@@ -1,0 +1,13 @@
+
+running 5 tests
+test rejects_denial_and_cross_binding_drift ... ok
+test two_independent_stores_commit_one_lineage ... ok
+test rejects_changed_transaction_after_commit ... ok
+test commits_once_and_restores_exact_receipt ... ok
+test recovers_each_durable_interruption_boundary ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s
+     Running tests/production_birthday.rs (adl-runtime-kernel/target/debug/deps/production_birthday-e1c3b0e67965655c)

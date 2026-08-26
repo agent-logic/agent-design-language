@@ -1,0 +1,70 @@
+[
+  {
+    "path": "adl-runtime-kernel/Cargo.toml",
+    "sha256": "92466f21e0dfd70d6ba8b6fe7d9674b2a5a75eb624e422c46de3e7d79f2117a7"
+  },
+  {
+    "path": "adl-runtime-kernel/src/assembly.rs",
+    "sha256": "4e55851513e67635c903b823f6642632382c51ab5ab95a4b82edf9195cb6740a"
+  },
+  {
+    "path": "adl-runtime-kernel/src/acip.rs",
+    "sha256": "d124a12d9b399f3efc92195eb21954dfa58fbef3c2af650a7958542ebf3c3808"
+  },
+  {
+    "path": "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "sha256": "6910de629930ee884e6784e3e585a5a234ec7a85eb7478059c3ce9ce269b257c"
+  },
+  {
+    "path": "adl-runtime-kernel/src/config.rs",
+    "sha256": "5b1cd2029f56327c20c358aeeaa32bb2f45ef948a04caf86f129e25b577fd307"
+  },
+  {
+    "path": "adl-runtime-kernel/src/control.rs",
+    "sha256": "25877559d147c07921f2d177f70c78bf7c2dae222439d7d4fa407f2dad394d31"
+  },
+  {
+    "path": "adl-runtime-kernel/src/governed_operations.rs",
+    "sha256": "b459b561ef86973d45c8c73d4e1be846319ca397f938a1b5284b47b179261860"
+  },
+  {
+    "path": "adl-runtime-kernel/src/lib.rs",
+    "sha256": "5d41f196813ecac84c887444dee9f0926e9bad2ee021d2754f1d2fe98a72edd3"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/assembly.rs",
+    "sha256": "f4b7328d64c5cc24e0876aac2429da035e68c0706907d6ec621598b998b55292"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/openapi_contract.rs",
+    "sha256": "a0be05cd073ba5bf4c0393d3df541f5160643b3265f032db15ce64b6631056ae"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/production_acip_wss.rs",
+    "sha256": "0528fcbe1ddea9222f11b908855a1cb6e2fe960dc0dacb7c23c2b8efe94e767a"
+  },
+  {
+    "path": "adl-runtime-kernel/tests/support/runtime_init.rs",
+    "sha256": "593517d454e4cfddd34979783e7f03a6a1bec154255fbd4ef0f2738447c78e8e"
+  },
+  {
+    "path": "adl-runtime/Cargo.toml",
+    "sha256": "a93efd3c6434492e482473309b806968017d597bf5256320ffd41ffc00a4e7e6"
+  },
+  {
+    "path": "adl-runtime/src/runtime_api_auth.rs",
+    "sha256": "9c1d2f75cf33e91eb8bea0cf9259145ccca17bae73beff988550f4077d8c08b1"
+  },
+  {
+    "path": "adl/tools/install_vector_component.sh",
+    "sha256": "7e4d9ff2034d75273837e301e76daeceaeb8588cccbfda77715f49192118c045"
+  },
+  {
+    "path": "docs/api/runtime-v3/v1/openapi.json",
+    "sha256": "12f01f4601e46a51d88e99b991330e824b734216c4fb770a55fd6aff2d332e83"
+  },
+  {
+    "path": "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
+    "sha256": "04a04b8a88f6ba87aa27b47a1154ca5c82d8c8ca4dcdaf6dd1d401f50ac5b570"
+  }
+]

@@ -30,6 +30,7 @@ Prepare and operate only the quality-and-release-tail sprint umbrella; do not im
 
 ## Dependencies
 
+- #5840
 - #5786
 - #5841
 - #5842
@@ -47,6 +48,7 @@ Prepare and operate only the quality-and-release-tail sprint umbrella; do not im
 - docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml
 - docs/milestones/v0.92/SPRINT_v0.92.md
 - .csdlc/prepared/issues/5856/sprint-execution-packet.yaml
+- #5840
 - #5786
 - #5841
 - #5842

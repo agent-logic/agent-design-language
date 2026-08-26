@@ -572,6 +572,13 @@ def local_runtime_busy_note(entry: dict[str, Any]) -> str | None:
     except Exception as exc:  # noqa: BLE001
         return f"local_runtime_unverified: could not inspect Ollama residency: {exc}"
     expected = entry["model_id"]
+    if os.getenv("ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY", "").lower() == "true":
+        if expected not in resident:
+            return (
+                "local_runtime_unverified: target model is not resident while "
+                f"testing {expected}: {', '.join(resident) or 'none'}"
+            )
+        return None
     foreign = [name for name in resident if name != expected]
     if foreign:
         return (
@@ -688,6 +695,9 @@ def adapter_request(entry: dict[str, Any], prompt: str, lane_ref: str = "benchma
             "retry_backoff_ms": 1000,
         },
         "input_text": prompt,
+        "max_output_tokens": LOCAL_NUM_PREDICT,
+        "context_window_tokens": LOCAL_NUM_CTX,
+        "local_keep_alive": LOCAL_KEEP_ALIVE,
     }
 
 
@@ -1322,6 +1332,10 @@ def main() -> int:
     parser.add_argument("out_json", nargs="?")
     parser.add_argument("--panel-file", default=str(DEFAULT_MODEL_PANEL))
     parser.add_argument("--task-panel-file", default=str(DEFAULT_TASK_PANEL))
+    parser.add_argument(
+        "--self-check-task-panel-file",
+        help="canonical task panel used only for deterministic fixture validation",
+    )
     parser.add_argument("--doctor-hosted-auth", action="store_true", help="check hosted credential setup without making provider calls")
     parser.add_argument("--doctor-models-file", help="optional hosted model list for --doctor-hosted-auth")
     parser.add_argument("--include-governed", action="store_true", help="also run the Rust-backed UTS+ACC governed lane")
@@ -1332,6 +1346,7 @@ def main() -> int:
 
     panel_file = Path(args.panel_file)
     task_panel_file = Path(args.task_panel_file)
+    self_check_task_panel_file = Path(args.self_check_task_panel_file) if args.self_check_task_panel_file else task_panel_file
     if args.doctor_hosted_auth:
         doctor_models_file = Path(args.doctor_models_file) if args.doctor_models_file else None
         return doctor_hosted_auth(panel_file, doctor_models_file)
@@ -1364,7 +1379,7 @@ def main() -> int:
             logger.event("run_finish", status="failed", provider_failure_kind="provider_auth_missing")
             logger.close()
             return auth_status
-    self_check = run_deterministic_self_check(str(panel_file), str(task_panel_file))
+    self_check = run_deterministic_self_check(str(panel_file), str(self_check_task_panel_file))
     self_check_out = self_check_path_for(out_path)
     self_check_out.parent.mkdir(parents=True, exist_ok=True)
     self_check_out.write_text(json.dumps(self_check, indent=2) + "\n", encoding="utf-8")

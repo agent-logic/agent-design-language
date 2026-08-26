@@ -1,0 +1,128 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 217
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Restored the exact ten-file #209 native packet as provenance and implemented a fresh current-head native proof workflow plus merge-safe retained validator without changing production behavior.
+
+## Artifacts
+
+- .csdlc/evidence/209/native-platform/linux-nextest.log
+- .csdlc/evidence/209/native-platform/linux-semantic.json
+- .csdlc/evidence/209/native-platform/linux-source-manifest.json
+- .csdlc/evidence/209/native-platform/linux.json
+- .csdlc/evidence/209/native-platform/macos-nextest.log
+- .csdlc/evidence/209/native-platform/macos-semantic.json
+- .csdlc/evidence/209/native-platform/macos-source-manifest.json
+- .csdlc/evidence/209/native-platform/macos.json
+- .csdlc/evidence/209/native-receipts-validation.log
+- .csdlc/evidence/209/native-validation-manifest.json
+- .csdlc/prepared/issues/217/historical-c640-denominator.json
+- .csdlc/prepared/issues/217/protected-source-denominator.json
+- .csdlc/prepared/issues/217/proof-contract-paths.json
+- .csdlc/prepared/issues/217/h2-retention-allowlist.json
+- .csdlc/prepared/issues/217/verify-historical-c640-packet.rb
+- .csdlc/prepared/issues/217/produce-native-receipt.rb
+- .csdlc/prepared/issues/217/validate-retained-native-proof.rb
+- .github/workflows/wp14-retained-native-proof.yml
+
+## Execution
+
+- Restored all ten historical #209 packet files byte-for-byte and retained a machine-consumed historical denominator.
+- Added exact seventeen-path source and eight-path proof denominators, a fresh Linux/macOS producer workflow, and a nineteen-entry retained-surface contract.
+- Added H-to-H2 and H2-to-H3 allowlist enforcement plus an immutable ancestral receipt-blob anchor that remains verifiable when H2 objects are unavailable.
+- Added fail-closed packet, aggregate, manifest, source, proof, semantic, runner provenance, path, and coherent-rewrite validation with adversarial self-tests.
+
+## Validation
+
+[
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+      "--self-test"
+    ],
+    "purpose": "Prove exact source/proof denominators, confined outputs, normalization, and crate-working-directory independence.",
+    "outcome": "passed",
+    "evidence_ref": "fresh-native-producer-contract.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb"
+    ],
+    "purpose": "Prove the restored ten files remain valid historical provenance without treating them as current-head proof.",
+    "outcome": "passed",
+    "evidence_ref": "historical-c640-packet.log"
+  },
+  {
+    "command": [
+      "jq",
+      "-e",
+      ".expected_file_count == 10 and (.files | length) == 10 and ([.files[].path] | unique | length) == 10 and ([.files[].sha256 | test(\"^[0-9a-f]{64}$\")] | all)",
+      ".csdlc/prepared/issues/217/historical-c640-denominator.json"
+    ],
+    "purpose": "Prove exact count, uniqueness, and digest shape for the restored provenance packet.",
+    "outcome": "passed",
+    "evidence_ref": "historical-denominator-contract.log"
+  },
+  {
+    "command": [
+      "jq",
+      "-e",
+      ".expected_path_count == 17 and (.paths | length) == 17 and (.paths | unique | length) == 17",
+      ".csdlc/prepared/issues/217/protected-source-denominator.json"
+    ],
+    "purpose": "Prove exact count and uniqueness for protected production sources.",
+    "outcome": "passed",
+    "evidence_ref": "protected-source-denominator-contract.log"
+  },
+  {
+    "command": [
+      "jq",
+      "-e",
+      ".expected_evidence_file_count == 10 and .expected_proof_path_count == 8 and (.proof_paths | length) == 8 and (.proof_paths | unique | length) == 8 and .expected_lifecycle_path_count == 14 and (.lifecycle_paths | length) == 14 and (.lifecycle_paths | unique | length) == 14 and .expected_retained_surface_entry_count == 19 and .h3_allowed_addition_paths == [.review_receipt_path]",
+      ".csdlc/prepared/issues/217/h2-retention-allowlist.json"
+    ],
+    "purpose": "Prove the eight proof paths, fourteen lifecycle paths, and nineteen retained entries are explicit and unique.",
+    "outcome": "passed",
+    "evidence_ref": "retention-allowlist-contract.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+      "--self-test"
+    ],
+    "purpose": "Prove shallow later-head validation and fail-closed source, proof, workflow, semantic, provenance, aggregate, manifest, anchor, and path tampering.",
+    "outcome": "passed",
+    "evidence_ref": "retention-chain-regressions.log"
+  }
+]
+
+## Integration
+
+worktree_only
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

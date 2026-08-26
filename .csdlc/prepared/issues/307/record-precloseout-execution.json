@@ -1,0 +1,43 @@
+{
+  "issue": 307,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "5d2e09fa2d763efca8eb5e222283970422e7c1262b14010820fd4949500db549",
+  "actor": "codex:issue-307-closeout",
+  "reason": "Record the bounded #307 closeout packet and truthful remaining gates before final ceremony reconciliation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Bound the current-main #307 closeout worktree, reconciled the live child graph through closed #318, retained #268 and #471 routing truth, removed three verified terminal worktrees, and preserved #319 plus #314 as explicit unresolved terminal gates.",
+    "changes": [
+      ".csdlc/evidence/307/precloseout-status.json records the live child, terminal, cleanup, carryover, and nested-remediation boundary",
+      "docs/milestones/v0.92/review/sprint_307/README.md records final review gates without taking #319 authority",
+      ".csdlc/prepared/issues/307 validators and typed request artifacts preserve the exact #308-through-#319 denominator"
+    ],
+    "artifacts": [
+      ".csdlc/evidence/307/precloseout-status.json",
+      "docs/milestones/v0.92/review/sprint_307/README.md",
+      "typed recordless terminal receipt for #310",
+      "typed cleanup results for #311, #314, #315, #316, and #317"
+    ],
+    "validation": [
+      {
+        "command": ["python3", ".csdlc/prepared/issues/307/validate_preparation_bundle.py"],
+        "outcome": "passed",
+        "purpose": "prove exact preparation scope and child graph",
+        "evidence_ref": "local exact-head output"
+      },
+      {
+        "command": ["csdlc-doctor", "--repo", ".", "--issue", "307"],
+        "outcome": "passed",
+        "purpose": "prove typed bound record integrity",
+        "evidence_ref": "local exact-head output"
+      },
+      {
+        "command": ["git", "diff", "--check"],
+        "outcome": "passed",
+        "purpose": "reject whitespace and conflict artifacts",
+        "evidence_ref": "local exact-head output"
+      }
+    ]
+  }
+}

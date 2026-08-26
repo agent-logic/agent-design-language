@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 200,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
+    "slug": "crash-safe-authority-reconciliation-barrier",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Add one opaque crash-safe reconciliation barrier between finalized #201 operation tokens and later concrete authority adapters without claiming a transaction across independent stores.",
+      "required_outcome": "Exact token-bound adapter steps reconcile through a journal, result cache, node-local checkpoint, and one atomic published generation; authority-restoring reads and mutations remain denied until publication, and exact retry returns the retained result without re-execution.",
+      "declared_scope": [
+        "Private AuthorityReconciliationBarrier and sealed adapter/result contracts",
+        "Pending, Reconciling, Checkpointed, and Published durable phases",
+        "Deterministic committed-time evidence transport from #201",
+        "Fail-safe read and mutation permit boundary",
+        "Crash, retry, rollback, corruption, capacity, and path-safety proof with a test-only adapter"
+      ],
+      "authority_boundary": [
+        "Only an opaque finalized #201 operation token can create a reconciliation plan",
+        "Production callers cannot inject an adapter trait object, closure, step receipt, completion boolean, or permit",
+        "The barrier transports committed time evidence unchanged and never uses a local clock to choose replicated results",
+        "No permit exists before exact state, result, checkpoint, marker, and published view agree",
+        "No cross-store atomicity or concrete #203/#204 side effect is claimed",
+        "Legacy direct PolisCommand variants cannot create authority or reconciliation success"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not bind or edit product source until PR #197 and #201 are externally reviewed, merged, and ancestral",
+        "Keep this issue limited to the reusable barrier; concrete stores are #203 and migration/recovery is #204",
+        "Use opaque/private authority types and a sealed registry rather than caller-provided adapters or receipts",
+        "Run fresh independent exact-head review before publication",
+        "Open a ready PR for visibility but never merge before operator review and authorization",
+        "No AWS use and no lifecycle closeout"
+      ]
+    }
+  }
+}

@@ -7,23 +7,26 @@
     "title": "First-birthday core sprint",
     "slug": "first-birthday-core",
     "version": "v0.92",
-    "generation": 1
+    "generation": 11
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review the exact sprint issue record, design, diagram, Sprint Execution Packet, child membership, parallel-lane independence, serial gates, child-authority boundary, review path, activity-log declaration, and terminal closeout rule.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5857\n.csdlc/prepared/issues/5857/sprint-execution-packet.md\n.csdlc/prepared/issues/5857/sprint-execution-packet.yaml\n.csdlc/prepared/issues/5857/validate-sprint-review.rb\n.csdlc/evidence/5857\n.csdlc/issues/5825\n.csdlc/issues/5826\n.csdlc/issues/5827\n.csdlc/issues/5828\n.csdlc/issues/5829\n.csdlc/issues/5830\n.csdlc/issues/5831\n.csdlc/issues/5833\n.csdlc/issues/5834\n.csdlc/prepared/issues/5834/validate-review-packet.rb\ndocs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md\ndocs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\ndocs/milestones/v0.92/review/first-birthday-review-packet.schema.json",
+      "review_revision": "git-blake3:9a7b96b6aae5831701bf2705942787f26ea79f90:7fe98cb22a45243c3a20962a1d56694006d2bf4727219b53d55ca2fca23c0429",
+      "reviewer": "/root/sprint4_5857/review_5857_exact_head",
       "review_prompts": [
         "Does the packet preserve exact child ownership and dependency truth?",
         "Are parallel lanes actually independent and are serial gates explicit?",
         "Can the umbrella close only after every child has truthful terminal state?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Administrative child worktree cleanup and historical closeout normalization remain asynchronous and do not authorize runtime, demo, or public-release claims.",
+        "Superseded WP-14 PR 76 remains excluded; agent-logic/agent-design-language#209 and PR 215 are the replacement production authority."
+      ],
+      "review_result": "pass"
     }
   }
 }

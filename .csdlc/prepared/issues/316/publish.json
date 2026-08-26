@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 316,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 17,
+  "expected_digest": "ae93a848c9f3959158e138a874d469c1889af4a7aca3fe14981add52e93eb532",
+  "actor": "codex:/root",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/316-v0921-v0922-planning",
+  "title": "[v0.92][WP-28] Reconcile v0.92.1 and plan CodeFriend Beta 1",
+  "body": "Closes #316\n\nPublishes the complete canonical v0.92.1 planning reconciliation and a number-free v0.92.2 CodeFriend Beta 1 milestone package. The package includes the standard milestone documents, feature and proof surfaces, execution specifications, dependency graph, full canonical release tail, explicit deferrals, and the global feature-list handoff.\n\nA 40-row source-disposition ledger accounts for every selected local TBD, CodeFriend incubation input, five historical CodeFriend Drive snapshots, the ATE Drive design, and the Runtime decoupling input without creating runtime dependencies on local or Drive files. Focused validators prove 39 v0.92.1 planned IDs with 31 creation slots, 21 v0.92.2 planned IDs with nine feature documents, both ten-step release tails, links, portability, and exact source-denominator truth.\n\nNo implementation issues are created by this PR, no future product completion is claimed, and merge is left to the operator. Independent exact-head review passed with no findings.",
+  "draft": false,
+  "token_file": null
+}

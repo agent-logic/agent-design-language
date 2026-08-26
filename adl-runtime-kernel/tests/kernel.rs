@@ -1,8 +1,8 @@
 use std::{
     future::pending,
     sync::{
-        atomic::{AtomicU32, Ordering},
-        Arc,
+        atomic::{AtomicBool, AtomicU32, Ordering},
+        Arc, Mutex,
     },
     time::Duration,
 };
@@ -12,7 +12,8 @@ use adl_runtime_kernel::{
     proof::{build_proof_runtime, load_capsule, run_proof},
     ChannelFullPolicy, ClockAuthority, Component, ComponentContext, ComponentError,
     ComponentFactory, ComponentId, ComponentRegistry, ComponentSpec, FailurePolicy, Kernel,
-    KernelExit, PortSpec, RunningState, RuntimeRecorder, TopologyError,
+    KernelExit, LifecycleRole, PortSpec, RunningState, RuntimeRecorder, SupervisionScope,
+    TopologyError,
 };
 use async_trait::async_trait;
 
@@ -23,6 +24,39 @@ async fn bounded_reject_channel_reports_saturation() {
     assert!(sender.send(2_u8).await.is_err());
     assert_eq!(sender.metrics().sent(), 1);
     assert_eq!(sender.metrics().rejected(), 1);
+}
+
+#[tokio::test]
+async fn channel_metrics_remain_safe_under_concurrent_pressure() {
+    let (sender, mut receiver) = channel(8, ChannelFullPolicy::Reject);
+    let metrics = sender.metrics();
+    let mut producers = Vec::new();
+    for producer in 0..8_u64 {
+        let sender = sender.clone();
+        producers.push(tokio::spawn(async move {
+            for sequence in 0..1_000_u64 {
+                let _ = sender.send((producer, sequence)).await;
+                tokio::task::yield_now().await;
+            }
+        }));
+    }
+    drop(sender);
+    let consumer = tokio::spawn(async move {
+        let mut received = 0_u64;
+        while receiver.recv().await.is_some() {
+            received += 1;
+        }
+        received
+    });
+    for producer in producers {
+        producer.await.unwrap();
+    }
+    let received = consumer.await.unwrap();
+    let (_, capacity, depth, high_water, sent, rejected) = metrics.snapshot();
+    assert_eq!(depth, 0);
+    assert!(high_water <= capacity as u64);
+    assert_eq!(sent, received);
+    assert_eq!(sent + rejected, 8_000);
 }
 
 #[test]
@@ -251,6 +285,58 @@ fn topology_rejects_mismatched_port_types() {
     ));
 }
 
+#[test]
+fn topology_rejects_duplicate_and_ambiguous_port_authority() {
+    let duplicate = TypedFactory {
+        spec: ComponentSpec {
+            id: ComponentId::from("duplicate"),
+            dependencies: vec![],
+            inputs: vec![],
+            outputs: vec![
+                PortSpec::typed::<u8>("values"),
+                PortSpec::typed::<u8>("values"),
+            ],
+            failure_policy: FailurePolicy::Fatal,
+        },
+    };
+    let mut registry = ComponentRegistry::new();
+    registry.register(duplicate);
+    assert!(matches!(
+        registry.validate(),
+        Err(TopologyError::DuplicatePort { .. })
+    ));
+
+    let input = PortSpec::typed::<u8>("values");
+    let mut registry = ComponentRegistry::new();
+    registry
+        .register(TypedFactory::producer())
+        .register(TypedFactory {
+            spec: ComponentSpec {
+                id: ComponentId::from("producer_two"),
+                dependencies: vec![],
+                inputs: vec![],
+                outputs: vec![input.clone()],
+                failure_policy: FailurePolicy::Fatal,
+            },
+        })
+        .register(TypedFactory {
+            spec: ComponentSpec {
+                id: ComponentId::from("consumer"),
+                dependencies: vec![
+                    ComponentId::from("producer"),
+                    ComponentId::from("producer_two"),
+                ],
+                inputs: vec![input],
+                outputs: vec![],
+                failure_policy: FailurePolicy::Fatal,
+            },
+        });
+    assert!(matches!(
+        registry.validate(),
+        Err(TopologyError::AmbiguousInput { .. })
+    ));
+}
+
 #[derive(Clone)]
 struct SimpleFactory {
     id: &'static str,
@@ -448,4 +534,782 @@ impl Component for StuckComponent {
         pending::<()>().await;
         Ok(())
     }
+}
+
+#[derive(Clone)]
+struct PortFactory {
+    producer: bool,
+    observed: Arc<AtomicU32>,
+}
+
+impl ComponentFactory for PortFactory {
+    fn spec(&self) -> ComponentSpec {
+        let port = PortSpec::bounded("events", "adl.test.events.v1", 1, ChannelFullPolicy::Reject);
+        ComponentSpec {
+            id: ComponentId::from(if self.producer {
+                "producer"
+            } else {
+                "consumer"
+            }),
+            dependencies: if self.producer {
+                vec![]
+            } else {
+                vec![ComponentId::from("producer")]
+            },
+            inputs: if self.producer {
+                vec![]
+            } else {
+                vec![port.clone()]
+            },
+            outputs: if self.producer { vec![port] } else { vec![] },
+            failure_policy: FailurePolicy::Fatal,
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        Box::new(PortComponent {
+            producer: self.producer,
+            observed: self.observed.clone(),
+        })
+    }
+}
+
+struct PortComponent {
+    producer: bool,
+    observed: Arc<AtomicU32>,
+}
+
+#[derive(serde::Serialize, serde::Deserialize)]
+struct TestEvent {
+    sequence: u32,
+}
+
+impl adl_runtime_kernel::PortProtocol for TestEvent {
+    const PROTOCOL: &'static str = "adl.test.events.v1";
+}
+
+#[async_trait]
+impl Component for PortComponent {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        if self.producer {
+            context
+                .send("events", &TestEvent { sequence: 7 })
+                .await
+                .map_err(|error| ComponentError::new(error.to_string()))?;
+            assert!(context
+                .send("undeclared", &TestEvent { sequence: 0 })
+                .await
+                .is_err());
+            context.ready();
+            context.cancellation.cancelled().await;
+        } else {
+            let value = context
+                .recv::<TestEvent>("events")
+                .await
+                .map_err(|error| ComponentError::new(error.to_string()))?
+                .ok_or_else(|| ComponentError::new("declared input closed"))?;
+            self.observed.store(value.sequence, Ordering::SeqCst);
+            assert!(context.recv::<TestEvent>("undeclared").await.is_err());
+            context.ready();
+            context.cancellation.cancelled().await;
+        }
+        Ok(())
+    }
+}
+
+#[tokio::test]
+async fn kernel_owned_ports_are_operational_and_undeclared_access_is_denied() {
+    let observed = Arc::new(AtomicU32::new(0));
+    let mut registry = ComponentRegistry::new();
+    registry
+        .register(PortFactory {
+            producer: true,
+            observed: observed.clone(),
+        })
+        .register(PortFactory {
+            producer: false,
+            observed: observed.clone(),
+        });
+    let recorder = RuntimeRecorder::new(32);
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    assert_eq!(observed.load(Ordering::SeqCst), 7);
+    let snapshot = recorder.snapshot();
+    assert_eq!(snapshot.queues.len(), 1);
+    assert_eq!(snapshot.queues.values().next().unwrap().sent, 1);
+    assert!(recorder.health().ready);
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+struct WindowRestartFactory {
+    builds: Arc<AtomicU32>,
+}
+
+impl ComponentFactory for WindowRestartFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from("windowed"),
+            dependencies: vec![],
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: FailurePolicy::restart_windowed(
+                1,
+                Duration::from_millis(1),
+                Duration::from_millis(10),
+                SupervisionScope::OneForOne,
+            ),
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        Box::new(WindowRestartComponent {
+            generation: self.builds.fetch_add(1, Ordering::SeqCst),
+        })
+    }
+}
+
+struct WindowRestartComponent {
+    generation: u32,
+}
+
+#[async_trait]
+impl Component for WindowRestartComponent {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        context.ready();
+        if self.generation < 2 {
+            if self.generation == 1 {
+                tokio::time::sleep(Duration::from_millis(20)).await;
+            }
+            return Err(ComponentError::new("windowed failure"));
+        }
+        context.cancellation.cancelled().await;
+        Ok(())
+    }
+}
+
+#[tokio::test]
+async fn restart_budget_resets_after_the_declared_time_window() {
+    let builds = Arc::new(AtomicU32::new(0));
+    let mut registry = ComponentRegistry::new();
+    registry.register(WindowRestartFactory {
+        builds: builds.clone(),
+    });
+    let handle = Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(16))
+        .start()
+        .await
+        .unwrap();
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while builds.load(Ordering::SeqCst) < 3 {
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .unwrap();
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+struct ReadinessRestartFactory {
+    builds: Arc<AtomicU32>,
+}
+
+impl ComponentFactory for ReadinessRestartFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from("readiness_restart"),
+            dependencies: vec![],
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: FailurePolicy::restart_windowed(
+                2,
+                Duration::from_millis(1),
+                Duration::from_secs(1),
+                SupervisionScope::OneForOne,
+            ),
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        Box::new(ReadinessRestartComponent {
+            generation: self.builds.fetch_add(1, Ordering::SeqCst),
+        })
+    }
+}
+
+struct ReadinessRestartComponent {
+    generation: u32,
+}
+
+#[async_trait]
+impl Component for ReadinessRestartComponent {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        match self.generation {
+            0 => {
+                context.cancellation.cancelled().await;
+                Ok(())
+            }
+            1 => {
+                context.cancellation.cancelled().await;
+                Ok(())
+            }
+            _ => {
+                context.ready();
+                context.cancellation.cancelled().await;
+                Ok(())
+            }
+        }
+    }
+}
+
+#[tokio::test]
+async fn initial_readiness_failure_uses_the_declared_restart_policy() {
+    let builds = Arc::new(AtomicU32::new(0));
+    let mut registry = ComponentRegistry::new();
+    registry.register(ReadinessRestartFactory {
+        builds: builds.clone(),
+    });
+    let handle = Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(16))
+        .with_readiness_timeout(Duration::from_millis(10))
+        .start()
+        .await
+        .unwrap();
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while builds.load(Ordering::SeqCst) < 3 {
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .unwrap();
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+#[derive(Clone)]
+struct ScopeFactory {
+    id: &'static str,
+    dependency: Option<&'static str>,
+    builds: Arc<AtomicU32>,
+    fail_first: bool,
+    slow_cancel_first: bool,
+}
+
+impl ComponentFactory for ScopeFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from(self.id),
+            dependencies: self.dependency.into_iter().map(ComponentId::from).collect(),
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: if self.fail_first {
+                FailurePolicy::restart_windowed(
+                    1,
+                    Duration::from_millis(1),
+                    Duration::from_secs(1),
+                    SupervisionScope::OneForAll,
+                )
+            } else {
+                FailurePolicy::Fatal
+            },
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        Box::new(ScopeComponent {
+            generation: self.builds.fetch_add(1, Ordering::SeqCst),
+            fail_first: self.fail_first,
+            slow_cancel_first: self.slow_cancel_first,
+        })
+    }
+}
+
+struct ScopeComponent {
+    generation: u32,
+    fail_first: bool,
+    slow_cancel_first: bool,
+}
+
+#[async_trait]
+impl Component for ScopeComponent {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        context.ready();
+        if self.fail_first && self.generation == 0 {
+            tokio::task::yield_now().await;
+            return Err(ComponentError::new("one-for-all trigger"));
+        }
+        context.cancellation.cancelled().await;
+        if self.slow_cancel_first && self.generation == 0 {
+            tokio::time::sleep(Duration::from_millis(50)).await;
+            context.degraded().await?;
+        }
+        Ok(())
+    }
+}
+
+#[tokio::test]
+async fn one_for_all_restarts_transitive_dependents() {
+    let parent_builds = Arc::new(AtomicU32::new(0));
+    let child_builds = Arc::new(AtomicU32::new(0));
+    let mut registry = ComponentRegistry::new();
+    registry
+        .register(ScopeFactory {
+            id: "parent",
+            dependency: None,
+            builds: parent_builds.clone(),
+            fail_first: true,
+            slow_cancel_first: false,
+        })
+        .register(ScopeFactory {
+            id: "child",
+            dependency: Some("parent"),
+            builds: child_builds.clone(),
+            fail_first: false,
+            slow_cancel_first: true,
+        });
+    let recorder = RuntimeRecorder::new(32);
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while parent_builds.load(Ordering::SeqCst) < 2 || child_builds.load(Ordering::SeqCst) < 2 {
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .unwrap();
+    tokio::time::sleep(Duration::from_millis(100)).await;
+    assert_eq!(
+        recorder.snapshot().components[&ComponentId::from("child")],
+        RunningState::Running,
+        "a delayed old incarnation must not close or stop its replacement"
+    );
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+#[derive(Clone)]
+struct DegradeFactory {
+    id: &'static str,
+    dependencies: &'static [&'static str],
+    degrade: bool,
+    required_core: bool,
+}
+
+struct InitialDegradeFactory {
+    id: &'static str,
+    dependencies: &'static [&'static str],
+    builds: Arc<AtomicU32>,
+    readiness_degrades: bool,
+}
+
+impl ComponentFactory for InitialDegradeFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from(self.id),
+            dependencies: self
+                .dependencies
+                .iter()
+                .copied()
+                .map(ComponentId::from)
+                .collect(),
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: if self.readiness_degrades {
+                FailurePolicy::Degrade
+            } else {
+                FailurePolicy::Fatal
+            },
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        self.builds.fetch_add(1, Ordering::SeqCst);
+        if self.readiness_degrades {
+            Box::new(NeverReadyComponent)
+        } else {
+            Box::new(WaitingComponent)
+        }
+    }
+}
+
+struct NeverReadyComponent;
+
+#[async_trait]
+impl Component for NeverReadyComponent {
+    async fn run(self: Box<Self>, context: ComponentContext) -> Result<(), ComponentError> {
+        context.cancellation.cancelled().await;
+        Ok(())
+    }
+}
+
+#[tokio::test]
+async fn initial_readiness_degradation_suppresses_unavailable_dependents() {
+    let optional_builds = Arc::new(AtomicU32::new(0));
+    let dependent_builds = Arc::new(AtomicU32::new(0));
+    let mut registry = ComponentRegistry::new();
+    registry
+        .register(InitialDegradeFactory {
+            id: "optional",
+            dependencies: &[],
+            builds: optional_builds.clone(),
+            readiness_degrades: true,
+        })
+        .register(InitialDegradeFactory {
+            id: "dependent",
+            dependencies: &["optional"],
+            builds: dependent_builds.clone(),
+            readiness_degrades: false,
+        });
+    let recorder = RuntimeRecorder::new(16);
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .with_readiness_timeout(Duration::from_millis(10))
+        .start()
+        .await
+        .unwrap();
+    assert_eq!(optional_builds.load(Ordering::SeqCst), 1);
+    assert_eq!(
+        dependent_builds.load(Ordering::SeqCst),
+        0,
+        "an unavailable dependent must never be spawned"
+    );
+    assert_eq!(
+        recorder.snapshot().components[&ComponentId::from("dependent")],
+        RunningState::Degraded
+    );
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+impl ComponentFactory for DegradeFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from(self.id),
+            dependencies: self
+                .dependencies
+                .iter()
+                .copied()
+                .map(ComponentId::from)
+                .collect(),
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: if self.degrade {
+                FailurePolicy::Degrade
+            } else {
+                FailurePolicy::Fatal
+            },
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        if self.degrade {
+            Box::new(AlwaysFailComponent)
+        } else {
+            Box::new(WaitingComponent)
+        }
+    }
+
+    fn required_core(&self) -> bool {
+        self.required_core
+    }
+}
+
+#[tokio::test]
+async fn degradation_propagates_capability_loss_to_dependents() {
+    let mut registry = ComponentRegistry::new();
+    registry
+        .register(DegradeFactory {
+            id: "foundation",
+            dependencies: &[],
+            degrade: false,
+            required_core: true,
+        })
+        .register(DegradeFactory {
+            id: "optional",
+            dependencies: &["foundation"],
+            degrade: true,
+            required_core: false,
+        })
+        .register(DegradeFactory {
+            id: "dependent",
+            dependencies: &["optional"],
+            degrade: false,
+            required_core: false,
+        });
+    let recorder = RuntimeRecorder::new(32);
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while recorder.health().degraded_components.len() < 2 {
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .unwrap();
+    assert_eq!(
+        recorder.health().degraded_components,
+        vec![
+            ComponentId::from("dependent"),
+            ComponentId::from("optional")
+        ]
+    );
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+#[tokio::test]
+async fn declared_required_core_degradation_is_terminal() {
+    let mut registry = ComponentRegistry::new();
+    registry.register(DegradeFactory {
+        id: "required-core",
+        dependencies: &[],
+        degrade: true,
+        required_core: true,
+    });
+    let mut handle = Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(16))
+        .start()
+        .await
+        .unwrap();
+    assert_eq!(
+        handle.wait_for_exit().await.unwrap(),
+        KernelExit::Fatal {
+            component: ComponentId::from("required-core")
+        }
+    );
+}
+
+#[derive(Clone)]
+struct LayerBarrierFactory {
+    id: &'static str,
+    entered: Arc<AtomicU32>,
+}
+
+impl ComponentFactory for LayerBarrierFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from(self.id),
+            dependencies: vec![],
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: FailurePolicy::Fatal,
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        Box::new(LayerBarrierComponent {
+            entered: self.entered.clone(),
+        })
+    }
+}
+
+struct LayerBarrierComponent {
+    entered: Arc<AtomicU32>,
+}
+
+#[async_trait]
+impl Component for LayerBarrierComponent {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        self.entered.fetch_add(1, Ordering::SeqCst);
+        tokio::time::timeout(Duration::from_millis(100), async {
+            while self.entered.load(Ordering::SeqCst) < 2 {
+                tokio::task::yield_now().await;
+            }
+        })
+        .await
+        .map_err(|_| ComponentError::new("same-layer startup was serialized"))?;
+        context.ready();
+        context.cancellation.cancelled().await;
+        Ok(())
+    }
+}
+
+#[tokio::test]
+async fn independent_components_start_concurrently_within_a_topology_layer() {
+    let entered = Arc::new(AtomicU32::new(0));
+    let mut registry = ComponentRegistry::new();
+    registry
+        .register(LayerBarrierFactory {
+            id: "first",
+            entered: entered.clone(),
+        })
+        .register(LayerBarrierFactory {
+            id: "second",
+            entered,
+        });
+    let handle = Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(16))
+        .with_readiness_timeout(Duration::from_millis(200))
+        .start()
+        .await
+        .unwrap();
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+}
+
+#[derive(Clone)]
+struct HealthReportingFactory {
+    stopped: Arc<AtomicBool>,
+}
+
+impl ComponentFactory for HealthReportingFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from("health-reporter"),
+            dependencies: vec![],
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: FailurePolicy::Fatal,
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        Box::new(HealthReportingComponent {
+            stopped: self.stopped.clone(),
+        })
+    }
+}
+
+struct HealthReportingComponent {
+    stopped: Arc<AtomicBool>,
+}
+
+#[async_trait]
+impl Component for HealthReportingComponent {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        context.ready();
+        tokio::task::yield_now().await;
+        context.degraded().await?;
+        context.cancellation.cancelled().await;
+        self.stopped.store(true, Ordering::SeqCst);
+        Ok(())
+    }
+}
+
+#[tokio::test]
+async fn live_component_can_report_degraded_health_without_terminating() {
+    let mut registry = ComponentRegistry::new();
+    let stopped = Arc::new(AtomicBool::new(false));
+    registry.register(HealthReportingFactory {
+        stopped: stopped.clone(),
+    });
+    let recorder = RuntimeRecorder::new(16);
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
+        .start()
+        .await
+        .unwrap();
+    tokio::time::timeout(Duration::from_secs(1), async {
+        while recorder.health().degraded_components.is_empty() {
+            tokio::task::yield_now().await;
+        }
+    })
+    .await
+    .unwrap();
+    assert_eq!(
+        recorder.health().degraded_components,
+        vec![ComponentId::from("health-reporter")]
+    );
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+    assert!(
+        stopped.load(Ordering::SeqCst),
+        "staged shutdown must cancel and await a live degraded component"
+    );
+}
+
+#[derive(Clone)]
+struct LifecycleFactory {
+    id: &'static str,
+    dependency: Option<&'static str>,
+    role: LifecycleRole,
+    stopped: Arc<Mutex<Vec<&'static str>>>,
+}
+
+impl ComponentFactory for LifecycleFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::from(self.id),
+            dependencies: self.dependency.into_iter().map(ComponentId::from).collect(),
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: FailurePolicy::Fatal,
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        Box::new(LifecycleComponent {
+            id: self.id,
+            stopped: self.stopped.clone(),
+        })
+    }
+
+    fn lifecycle_role(&self) -> LifecycleRole {
+        self.role
+    }
+}
+
+struct LifecycleComponent {
+    id: &'static str,
+    stopped: Arc<Mutex<Vec<&'static str>>>,
+}
+
+#[async_trait]
+impl Component for LifecycleComponent {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        context.ready();
+        context.cancellation.cancelled().await;
+        self.stopped.lock().unwrap().push(self.id);
+        Ok(())
+    }
+}
+
+#[tokio::test]
+async fn shutdown_stops_ingress_then_flushes_checkpoint_telemetry_and_egress() {
+    let stopped = Arc::new(Mutex::new(Vec::new()));
+    let declarations = [
+        ("ingress", None, LifecycleRole::Ingress),
+        ("workload", Some("ingress"), LifecycleRole::Workload),
+        ("checkpoint", Some("workload"), LifecycleRole::Checkpoint),
+        ("telemetry", Some("checkpoint"), LifecycleRole::Telemetry),
+        ("egress", Some("telemetry"), LifecycleRole::Egress),
+    ];
+    let mut registry = ComponentRegistry::new();
+    for (id, dependency, role) in declarations {
+        registry.register(LifecycleFactory {
+            id,
+            dependency,
+            role,
+            stopped: stopped.clone(),
+        });
+    }
+    let handle = Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(32))
+        .start()
+        .await
+        .unwrap();
+    assert_eq!(
+        handle.shutdown(Duration::from_secs(1)).await.unwrap(),
+        KernelExit::Clean
+    );
+    assert_eq!(
+        *stopped.lock().unwrap(),
+        vec!["ingress", "workload", "checkpoint", "telemetry", "egress"]
+    );
 }

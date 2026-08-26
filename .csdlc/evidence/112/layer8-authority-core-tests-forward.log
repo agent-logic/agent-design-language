@@ -1,0 +1,11 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+     Running tests/layer8_authority.rs (adl-runtime-kernel/target/debug/deps/layer8_authority-f9c31c5c032866ed)
+
+running 4 tests
+test layer8_signed_exchange_rejects_tamper_noncanonical_payloads_and_ack_substitution ... ok
+test layer8_identity_precheck_refusals_are_hash_chain_audited ... ok
+test layer8_authority_core_rejects_replay_and_requires_known_recipient ... ok
+test layer8_capability_policy_and_corrupt_audit_fail_closed ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

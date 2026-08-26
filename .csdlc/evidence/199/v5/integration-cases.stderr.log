@@ -1,0 +1,4 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-199-governed-membership-preparation/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-199-governed-membership-preparation/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.09s
+     Running tests/distributed_membership_transition.rs (adl-runtime/target/debug/deps/distributed_membership_transition-ab54c3c174bf769a)

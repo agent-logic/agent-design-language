@@ -1,0 +1,206 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 421,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0cd5a0d27749713bf2f50ce8d2fc0b5283ebb22cd2578be2e6ff0cf8a65f1737",
+  "phase": "published",
+  "generation": 8,
+  "digest": "fc94c87062d2107b7d405ee7cbd21836e96a02ccaa2adb8d4edf8c0bbe40b074",
+  "branch": "codex/421-intentional-deletion-deliverables",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-421-intentional-deletion-deliverables",
+  "review_assignment": {
+    "reviewer": "fresh-session:6c9f3f89-4ce4-4f1a-b816-0df6ad1e4a90",
+    "assigned_by": "codex:issue-421",
+    "revision": "git-blake3:7861debb3ac22eb1b33db9df02fc23479d768699:0c23e657acc003695d075cdf17565f5d4e541a299e43a012e5a206d6bfbb5566",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:6c9f3f89-4ce4-4f1a-b816-0df6ad1e4a90",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/tests/gate2.rs"
+    ],
+    "reviewed_revision": "git-blake3:7861debb3ac22eb1b33db9df02fc23479d768699:0c23e657acc003695d075cdf17565f5d4e541a299e43a012e5a206d6bfbb5566",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to the implementation source/test scope; lifecycle metadata and hosted CI publication checks remain separate typed publication evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 421,
+    "pull_request": 423,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/423",
+    "base": "main",
+    "head": "codex/421-intentional-deletion-deliverables",
+    "revision": "git-blake3:7861debb3ac22eb1b33db9df02fc23479d768699:0c23e657acc003695d075cdf17565f5d4e541a299e43a012e5a206d6bfbb5566",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/421/design.md",
+  "diagram_path": ".csdlc/prepared/issues/421/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:484abe5c-49cc-4df6-b447-96bbb74e4680",
+      "revision": "d9c2906a6079f9d902d500dff7e938c2fd78dc5d08f60c9dc6b88569e5f17467"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ed3c851f98bd97d6f87228edff3db36e575bdb0a5de37cfa3058bbc5b694272c",
+      "rendered_digest": "5bc4b053fcf1f018e418bb38f79d9f1478898c1c00e67073d2073e8be8aff791",
+      "ast_digest": "7e3df3d09b42a50bac49f6671226741c49001d58bbfb9e06937c7cd919ab3866"
+    },
+    "stp": {
+      "values_digest": "6bb2e45ab9259d955fcfff6a6ccc9d6a49e7e4088656b6e74cc1b429619a63ae",
+      "rendered_digest": "d749da11497898b09e76cc97fb90dc2b9dbc6b68ac46d12f8df8f83fe6afa572",
+      "ast_digest": "713d0e6327faa45e800f6d33613d48fe54e12c1dca69c05af2629d6f94dd5ac9"
+    },
+    "spp": {
+      "values_digest": "d1f850bedebd6dfbd5cbf928e5db718784d12eb8d7ad3cec483400e37606e881",
+      "rendered_digest": "a9fdc1c72ea7e94a1975df99eb71f0ffbc857ad097471f7c5de2bb369e2c5eec",
+      "ast_digest": "86cfbb49323d4a3e37372d7ea7c1f2c924d0a7446d70113f50a4b0392fefa3ff"
+    },
+    "vpp": {
+      "values_digest": "40fcd0d480d7988ec9b92d7ff3b2deeacb8d9af79c2642870f98164881d2ad29",
+      "rendered_digest": "dc03e2e3b3df2ad64cc27dd4b8eb9ce1432442d4d13dff1f243d8dd3c0fe9635",
+      "ast_digest": "1467f7212a70cc08bdbe19487a17d2e19899ca345abdb3a82984616bdcf960b5"
+    },
+    "srp": {
+      "values_digest": "c692d229126b25150b29b1af2469094fb59f506fa3bc9c72fff567915424f67c",
+      "rendered_digest": "22bc85043235abf060a2c421996273919f4ecb4fd368352fb7a6d68a22a958cf",
+      "ast_digest": "2c394e4f5ea41ebe812fdf8cc994b479635a8719434514dde67224b0eb623ebf"
+    },
+    "sor": {
+      "values_digest": "c9ae4cb6643bc6666a4af364cb6c3602e752919364fabc36b80e4051c0f0e2e5",
+      "rendered_digest": "6c99e1992e5b672d1a1455b5b6bf08e86caa255c2e70f4bdd5974185a0915384",
+      "ast_digest": "67483750249a8c9c32aab8c524ff89bcb0c21f1208fdd5a158ed47f7536db634"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-421",
+      "reason": "Advance #421 to implemented after bounded source change and recorded execution/validation evidence."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:6c9f3f89-4ce4-4f1a-b816-0df6ad1e4a90",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-421",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-421",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:484abe5c-49cc-4df6-b447-96bbb74e4680",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d9c2906a6079f9d902d500dff7e938c2fd78dc5d08f60c9dc6b88569e5f17467\",\"design_ref\":\".csdlc/prepared/issues/421/design.md\",\"diagram_digest\":\"b11d9df8a22557ceb6e7b970ff21e0533ed86a865c52802d6234ae5c57cb885b\",\"diagram_ref\":\".csdlc/prepared/issues/421/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-421",
+      "reason": "Record focused #421 intentional deletion readiness regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"intentional_deletion_deliverable\",\"--\",\"--nocapture\"],\"purpose\":\"Focused positive and fail-closed readiness proof for intentional deletion validator deliverables.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:7861debb3ac22eb1b33db9df02fc23479d768699:gate2-intentional-deletion-deliverable:3-of-3-passed\"}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-421",
+      "reason": "Record #421 csdlc-v2 library regression proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Library regression proof for readiness validation changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:7861debb3ac22eb1b33db9df02fc23479d768699:csdlc-v2-lib:86-of-86-passed\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-421",
+      "reason": "Record #421 strict clippy proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for readiness validation and focused tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:7861debb3ac22eb1b33db9df02fc23479d768699:csdlc-v2-clippy-all-targets:-D-warnings:passed\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-421",
+      "reason": "Record #421 implementation summary before implemented transition.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented fail-closed intentional deletion deliverable support in C-SDLC readiness validation: exact issue-owned validator paths can satisfy readiness only when an explicit intentional-deletion deliverable marker is present, fail-closed policy is in force, the path existed at the governed merge-base, and the candidate proves the exact path was deleted. Added focused positive and negative gate2 coverage, including branch-local add-then-delete rejection.\",\"changes\":[\"csdlc-v2/src/cards.rs: classify intentionally deleted validator deliverables with explicit marker, owned path, fail-closed policy, governed-base existence proof, and exact candidate deletion proof.\",\"csdlc-v2/tests/gate2.rs: add focused positive proof plus fail-closed negative cases for missing marker, non-fail-closed policy, unowned target, base absence, and branch-local add-then-delete.\"],\"artifacts\":[\"commit:7861debb3ac22eb1b33db9df02fc23479d768699\",\"local-command:7861debb3ac22eb1b33db9df02fc23479d768699:gate2-intentional-deletion-deliverable:3-of-3-passed\",\"local-command:7861debb3ac22eb1b33db9df02fc23479d768699:csdlc-v2-lib:86-of-86-passed\",\"local-command:7861debb3ac22eb1b33db9df02fc23479d768699:csdlc-v2-clippy-all-targets:-D-warnings:passed\",\"fresh-review:/root/issue_421_exact_review:6c9f3f89-4ce4-4f1a-b816-0df6ad1e4a90:PASS\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-421",
+      "reason": "Advance #421 to implemented after bounded source change and recorded execution/validation evidence.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-421",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "fresh-session:6c9f3f89-4ce4-4f1a-b816-0df6ad1e4a90",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-421",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

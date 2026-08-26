@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 350,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
+    "slug": "authenticated-observatory-authority-projection",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact HEAD 4a79237556462e38c6216b123071a8b9f8ed0749\nadl-runtime/Cargo.toml\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/authority_protocol_contract_tests.rs\nadl-runtime/src/distributed/serving_authority.rs\nadl-runtime/tests/distributed_observatory_authority_projection.rs\n.csdlc/prepared/issues/350/design.md\n.csdlc/prepared/issues/350/diagram.mmd\n.csdlc/issues/350\n.csdlc/evidence/350\nAll R1/R2b finding, recovery, remediation, SOR mapping and interrupted no-result assignment audit history",
+      "review_revision": "git-blake3:4a79237556462e38c6216b123071a8b9f8ed0749:84b06f5351d2fb4e6eba6e8ba94ddc7bac9b074111fb29b3153e8a03e80ad9b3",
+      "reviewer": "fresh-session:4f98d5e6-7a3c-4b21-9d60-2c8a1f73b945",
+      "review_prompts": [
+        "Can any caller, legacy-direct result, config value, or unrelated valid authority/cut pair construct, substitute, or combine sealed authority fields?",
+        "Does replicated publication alone capture the complete authoritative old/joint voter eligibility basis and committed inclusive deadline, with restore revalidation and no synthetic legacy quorum truth?",
+        "Does authority_protocol_contract_tests.rs remain a bounded compatibility-only change and does its exact 52-case denominator prove existing behavior on the replicated sealed path?",
+        "Are canonical JCS bytes, every cut/operation/identity/quorum/lineage binding, deadline ordering, restore behavior, output, and errors exact and redacted?",
+        "Do changed paths remain inside #350 while #274/#273/#203/#205/#275 stay excluded?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Inspection-only exact-head review; hosted CI and terminal merge authority remain pending."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

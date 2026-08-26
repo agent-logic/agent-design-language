@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 331,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support initialized code-repository declaration for legacy issue authority",
+    "slug": "initialized-code-repository-recovery",
+    "version": "v0.92.0",
+    "generation": 22
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/migration.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/code_repository_migration.rs\n.csdlc/evidence/331\n.csdlc/prepared/issues/331/design.md\n.csdlc/prepared/issues/331/diagram.mmd\n.csdlc/prepared/issues/331/finalize-implementation.json\n.csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py\n.csdlc/prepared/issues/331/sor-record-post-p1-remediation.json\n.csdlc/prepared/issues/331/review-recover-after-publication-evidence-drift.json",
+      "review_revision": "git-blake3:c4848ee3d3fd040d65dc67f6e247f4fa2870156d:8f3e2afda1d8c3640af279612899fffca2de1e64d58de2085d9c183b705c8920",
+      "reviewer": "fresh-session:4f6d4dcc-c379-4544-9c8a-bb34eaeb80f9",
+      "review_prompts": [
+        "Does the new route only allow initialized repository declaration without broad lifecycle identity rewrite?",
+        "Are stale CAS, existing code_repository, branch/worktree, publication, terminal, and ambiguous repository cases fail-closed?",
+        "Does doctor/readiness clear repository_identity_drift for explicit canonical code_repository while preserving issue repository authority?",
+        "Is existing bound/implemented/reviewed migration behavior unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Review was read-only and bounded to assigned paths at immutable commit c4848ee3d3fd040d65dc67f6e247f4fa2870156d.",
+        "Validation logs were inspected as evidence, but tests were not rerun by this reviewer."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

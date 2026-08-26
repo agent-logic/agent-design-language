@@ -1,0 +1,20 @@
+{
+  "issue": 111,
+  "card": "stp",
+  "expected_generation": 33,
+  "expected_digest": "cb1c55a1b6edb00eb428c5d131d14c74ce9a2e74af48b0d4777d2e9a022c8b9b",
+  "actor": "codex:111-review-remediation",
+  "reason": "Align acceptance with the live bounded conversation issue and the exact remediation proof surface.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: Conversation identity, recipient binding, per-turn sequence, exact duplicate state, and terminal outcome are Runtime-owned; disconnect and bounded reconnect retrieve the same turn without duplicate dispatch or transcript entries",
+      "AC-2: Every accepted turn has stable conversation, turn, recipient, sequence, correlation, submission, and outcome identity under versioned provider-neutral schemas",
+      "AC-3: Unknown or unavailable recipients, malformed input, conflicting duplicates, cancellation, timeout, saturation, shutdown, and adapter failure fail closed with deterministic typed outcomes",
+      "AC-4: The Observatory submits through canonical authenticated ingress and renders operator text or an agent reply only after a fully correlated Runtime result; acknowledgements, hashes, browser-generated acceptance, and arbitrary adapter fields are never replies",
+      "AC-5: Focused deterministic conversation, Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, card, and diff-hygiene validation passes at the exact implementation revision",
+      "AC-6: Exact-head independent review resolves all actionable findings and records residual risks without claiming durable history, multi-agent routing, or broader Layer 8 authority"
+    ]
+  },
+  "fail_after_backup": false
+}

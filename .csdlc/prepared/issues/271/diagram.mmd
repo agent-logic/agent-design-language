@@ -1,0 +1,9 @@
+flowchart LR
+  Operator["Authorized operator"] --> Observatory["Observatory browser"]
+  Observatory -->|"POST signed request plus acknowledgement"| Runtime["Runtime #270 served verifier"]
+  Runtime -->|"delivered or refused or failed; redacted correlation hash"| Observatory
+  Observatory --> Delivered["Visible delivered state"]
+  Observatory --> Refused["Visible refusal state"]
+  Observatory --> Failed["Visible failure and recovery state"]
+  Runtime --> Authority["#112 authority and #265 ingress enforcement"]
+  Observatory -. "no keys, policy, signing, raw correlation, or invented acknowledgement" .-> Boundary["Browser non-authority boundary"]

@@ -1,0 +1,41 @@
+{
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "aws_voters": [
+    {
+      "ami_id_sha256": "6beb1790eba968cfcc90a78a7e35cea230a53fb04fe09cd13fb24d4e63077d5c",
+      "aws_cli_preview": "aws ec2 run-instances --profile agent-logic-admin --region us-west-2 --image-id <redacted-ami> --instance-type g6.xlarge --subnet-id <redacted-subnet> --no-associate-public-ip-address --iam-instance-profile Name=ADLRemoteValidationPermanentProfile --security-group-ids <redacted-sg> --tag-specifications ResourceType=instance,Tags=[Name=issue-194-one-gpu-model-active-20260817T013719Z,adl:cleanup_required=true,adl:component=private-wuji-aws-recovery,adl:hosted_model_fallback=false,adl:issue=194,adl:public_runtime_exposure=false,adl:run_id=issue-194-one-gpu-model-active-20260817T013719Z,adl:ttl_expires_at=2026-08-17T02:23:53.751869Z]",
+      "az": "us-west-2a",
+      "instance_profile_name": "ADLRemoteValidationPermanentProfile",
+      "instance_type": "g6.xlarge",
+      "node_id": "aws-voter-a",
+      "security_group_id_sha256": "9804cc7eeb21bad083b94d1b267ad82ba1c0452ed3dc66be596fcd817d1a0994",
+      "subnet_id_sha256": "62131470dabdd698e2bcca0c422a5df294623c45e6c156500408876a16f44f41"
+    },
+    {
+      "ami_id_sha256": "6beb1790eba968cfcc90a78a7e35cea230a53fb04fe09cd13fb24d4e63077d5c",
+      "aws_cli_preview": "aws ec2 run-instances --profile agent-logic-admin --region us-west-2 --image-id <redacted-ami> --instance-type g6.xlarge --subnet-id <redacted-subnet> --no-associate-public-ip-address --iam-instance-profile Name=ADLRemoteValidationPermanentProfile --security-group-ids <redacted-sg> --tag-specifications ResourceType=instance,Tags=[Name=issue-194-one-gpu-model-active-20260817T013719Z,adl:cleanup_required=true,adl:component=private-wuji-aws-recovery,adl:hosted_model_fallback=false,adl:issue=194,adl:public_runtime_exposure=false,adl:run_id=issue-194-one-gpu-model-active-20260817T013719Z,adl:ttl_expires_at=2026-08-17T02:23:53.751869Z]",
+      "az": "us-west-2b",
+      "instance_profile_name": "ADLRemoteValidationPermanentProfile",
+      "instance_type": "g6.xlarge",
+      "node_id": "aws-voter-b",
+      "security_group_id_sha256": "9804cc7eeb21bad083b94d1b267ad82ba1c0452ed3dc66be596fcd817d1a0994",
+      "subnet_id_sha256": "a6d64c78953032f71a115368e9b84723ad395e2421dc34f8f157703fa4ce15a9"
+    }
+  ],
+  "findings": [],
+  "issue": 194,
+  "non_claims": [
+    "dry-run preflight only; no AWS instance was launched",
+    "does not claim #142 completion",
+    "does not claim Observatory terminal evidence",
+    "does not expose raw AWS account id, subnet id, security group id, AMI id, or instance id"
+  ],
+  "profile": "agent-logic-admin",
+  "reaper_actions_if_expired_now": [],
+  "region": "us-west-2",
+  "run_id": "issue-194-one-gpu-model-active-20260817T013719Z",
+  "schema": "adl.issue194.private_wuji_aws_recovery.receipt.v1",
+  "status": "dry_run_preflight_passed",
+  "ttl_expires_at": "2026-08-17T02:23:53.751869Z",
+  "ttl_minutes": 45
+}

@@ -1,0 +1,28 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 51,
+  "expected_digest": "9a6edd53e9e393a54d3b3006abd275ef756e54209884e8a50e4b64e396f5c6cb",
+  "actor": "codex:wp18c03-locke-remediation",
+  "reason": "Record remediation of every actionable finding from the assigned final review.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Closed all three assigned final-review findings for the Runtime-owned local roster and Observatory projection.",
+    "changes": [
+      "Added the versioned policy-filtered /v1/agents/{agent_id} detail route, OpenAPI contract, browser consumption, and negative visibility behavior.",
+      "Added MAC-protected event cursors bound to revision, policy, filter, and page size; exact successor updates pass while replay-at-current-revision, gaps, policy drift, and query drift fail closed for full resynchronization.",
+      "Removed per-request full-population cloning and BTree reconstruction; Runtime now scans the pre-sorted population once under the explicit 10000-entry ceiling and allocates only the requested page projection.",
+      "Made the production public Observatory policy redact capabilities and location before serialization and aligned proof claims to that behavior."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "adl/tools/test_html_observatory.sh"
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,8 @@
+
+running 1 test
+test recovered_issue_can_correct_only_the_spp_plan_summary ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 57 filtered out; finished in 5.21s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-e28c1edfb2149aea)

@@ -1,0 +1,7 @@
+command: bash adl/tools/test_check_coverage_impact.sh
+result: PASS test_check_coverage_impact
+command: bash adl/tools/test_run_pr_fast_coverage_lane.sh
+result: PASS test_run_pr_fast_coverage_lane
+command: bash adl/tools/check_coverage_impact.sh --changed-files .csdlc/evidence/274/coverage-impact-changed-files.txt --summary adl/target/coverage-impact-summary.json
+result: Coverage-impact preflight passed for changed Rust source files using adl/target/coverage-impact-summary.json.
+source commit: 02ed85c37

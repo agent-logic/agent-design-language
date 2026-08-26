@@ -51,10 +51,14 @@ control_key_id = "operator"
 control_principal = "operator"
 operation_public_key_path = "/var/lib/adl/runtime-v3/credentials/operation-public-key.hex"
 operation_key_id = "runtime-operations"
+migration_decision_public_key_path = "/var/lib/adl/runtime-v3/credentials/migration-decision-public-key.hex"
+migration_decision_key_id = "runtime-migration-decisions"
+migration_decision_key_generation = 1
 continuity_signing_key_path = "/var/lib/adl/runtime-v3/credentials/continuity-signing-key.hex"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "/var/lib/adl/runtime-v3/credentials/observatory-token.txt"
 acip_write_token_path = "/var/lib/adl/runtime-v3/credentials/acip-write-token.txt"
+birth_witness_trust_manifest_path = "/var/lib/adl/runtime-v3/credentials/birth-witness-trust.json"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 

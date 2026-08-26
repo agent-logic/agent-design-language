@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 425,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
+    "slug": "recordless-already-merged-closeout-recovery",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/bin/csdlc-finish.rs\ncsdlc-v2/src/finish.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/gate_recordless_closeout.rs\n.csdlc/evidence/425-v092-residual-dry-run-result.json\n.csdlc/issues/425",
+      "review_revision": "git-blake3:ba8bf45496d35cae972d8dfbcd4c8132f9fcddf6:e06434e963c668ec21f17cadd1b1c816ea83a74d233a42964159282f19fa9290",
+      "reviewer": "fresh-session:28762e94-2dfd-446d-8227-15e5bb84dc2c",
+      "review_prompts": [
+        "Does #425 avoid synthesizing normal implementation/card proof for recordless issues?",
+        "Does live GitHub validation prove exact closed-by-merged authority before any receipt is written?",
+        "Are contradictory retained publication paths, especially #248, fail-closed?",
+        "Do tests cover both no-projection positives and ambiguity negatives without weakening active issue publication gates?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "No actionable implementation or lifecycle risks identified in scoped exact-head review; stale exact-head SOR wording repaired and old SHA remains only in append-only audit history."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

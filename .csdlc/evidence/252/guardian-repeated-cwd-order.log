@@ -1,0 +1,277 @@
+issue=252
+proof=repeated Guardian parity under parallel harness request and caller cwd variation
+runs=10
+test_threads=8
+command_root=cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test parity_b_live_kernel runtime_guardian::tests:: -- --test-threads=8
+command_crate=cargo test --locked --manifest-path Cargo.toml --test parity_b_live_kernel runtime_guardian::tests:: -- --test-threads=8
+caller_cwd=repository_root attempt=1
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-252-guardian-hosted-spawn-flake/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.13s
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.54s
+
+caller_cwd=repository_root attempt=2
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.50s
+
+caller_cwd=repository_root attempt=3
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.52s
+
+caller_cwd=repository_root attempt=4
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.55s
+
+caller_cwd=repository_root attempt=5
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.59s
+
+caller_cwd=adl-runtime-kernel attempt=6
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/parity_b_live_kernel.rs (target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.55s
+
+caller_cwd=adl-runtime-kernel attempt=7
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/parity_b_live_kernel.rs (target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.55s
+
+caller_cwd=adl-runtime-kernel attempt=8
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/parity_b_live_kernel.rs (target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.53s
+
+caller_cwd=adl-runtime-kernel attempt=9
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/parity_b_live_kernel.rs (target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.54s
+
+caller_cwd=adl-runtime-kernel attempt=10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/parity_b_live_kernel.rs (target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)
+
+running 19 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 1.55s
+

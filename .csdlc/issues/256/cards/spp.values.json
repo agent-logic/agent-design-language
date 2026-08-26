@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 256,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
+    "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 4,
+      "summary": "Implement and prove the #256 local birthday-demo-after-Observatory packet after #424 merged: consume legacy #5836 only as input evidence, consume #414 accepted local resident Shepherd reference evidence, validate the current HTML Observatory startup surface, preserve public/AWS and Unity as non-claims, then obtain fresh exact-head review and publish if all typed gates pass.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Record current #256 successor authority, packet input-only truth, and downstream serialization.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Require Observatory, #345/operator launch gates, and terminal canonical ancestral #414 before birthday-demo acceptance.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Consume #414 evidence proving the exact existing-lifecycle resident CPU Shepherd useful-task, dehydration, restore, resource, control, and fail-closed denominator.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "After all gates, run fresh exact-head birthday-demo integration review without absorbing predecessor implementation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "in_progress"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/evidence/256/validate_preparation_gate.py"
+      ],
+      "invariants": [
+        "Current #256 authority is not replaced by legacy #5836 local state",
+        "Terminal demo acceptance requires Observatory proof",
+        "Public/AWS execution waits for #345",
+        "No #271 or non-Sprint-5 implementation work is touched",
+        "Downstream #341/#343 do not advance past #256"
+      ],
+      "risks": [
+        "Overclaiming packet proof as terminal demo proof",
+        "Accidentally absorbing Observatory implementation work",
+        "Accidentally treating public/AWS proof as local Sprint 5 prerequisite execution",
+        "Leaving #341/#343 ambiguous while #256 remains open"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Observatory terminal/visible proof is absent",
+        "#345 AWS/public proof-runner prerequisite is required for the selected demo variant and is not terminal",
+        "Any requested action would touch #271 or another excluded implementation surface",
+        "Typed lifecycle owner rejects initialized preparation truth"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/256/design.md",
+      "design_digest": "4a74fa3abdec6027601f8dd8e056ec2bbe7cc61e9042363e7a77d71ff3c19948",
+      "diagram_ref": ".csdlc/prepared/issues/256/diagram.mmd",
+      "diagram_digest": "564b28517279f4f382ecd81e7343ebdd23888ef1471c16e48e6916b096e50041"
+    }
+  }
+}

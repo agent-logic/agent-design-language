@@ -1,0 +1,13 @@
+{
+  "actor": "codex-worker-4",
+  "card": "sip",
+  "expected_digest": "d29427bb2ab74bc8bede8721fdcc14a8236a54453ed1f5f474c6d3e26434b149",
+  "expected_generation": 3,
+  "fail_after_backup": false,
+  "issue": 425,
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "reason": "advance #425 to implemented after typed execution evidence and green focused validation"
+}

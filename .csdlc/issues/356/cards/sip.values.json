@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 356,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose minimal sealed Observatory projection accessors",
+    "slug": "sealed-observatory-projection-accessors",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Expose only minimal read-only redacted accessors on the sealed terminal #350 Observatory authority projection so #274 can consume authenticated state without caller-minted authority.",
+      "required_outcome": "#274 can read the sealed projection's existing redacted identity references and scalar monotonicity/receipt fields, while private construction and all raw quorum, membership, OwnerCommit, lease, artifact, and secret authority remain inaccessible.",
+      "declared_scope": [
+        "Read-only accessors on VerifiedObservatoryAuthorityProjection",
+        "Focused accessor and mismatch/redaction proof",
+        "Exact-head review, hosted CI, typed terminal finish"
+      ],
+      "authority_boundary": [
+        "Projection construction remains private and only the #350 verifier can mint it",
+        "No raw quorum, membership, OwnerCommit, lease, artifact, or secret authority is exposed",
+        "#274 remains unbound until #356 is terminal and ancestral"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Base is exact terminal #350 merge 5bff0099858f005bcc045b0aa7548be4892a2acb",
+        "Use only the bound FastWork issue worktree",
+        "No optional or paid runner"
+      ]
+    }
+  }
+}

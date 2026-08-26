@@ -1,0 +1,18 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 46,
+  "expected_digest": "4593d5e856c35afc100bc90f45ed46b07b393fac7b8256da2325664e7dac2e12",
+  "actor": "codex:wp18c03-fresh-review-remediation",
+  "reason": "Record exact focused and retained live proof for all fresh-session review fixes.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["focused issue-113 Runtime, roster, control, OpenAPI, browser, managed-Chrome live restart, lint, format, and diff gates"],
+      "purpose": "Prove explicit public authorization and redaction, bounded pagination, revision-gap resynchronization, stable Runtime identity, recovered readiness, and retained exact-head evidence.",
+      "outcome": "passed",
+      "evidence_ref": "git:2118c05b3fe503a0f7c902dcc766a90b9cd9c246; agent_roster 13/13; control 25/25; openapi_contract 6/6; HTML Observatory PASS; strict lib+binary Clippy PASS; fmt PASS; diff PASS; managed Chrome public-TLS live proof 22/22 with stable runtime_instance_id, changed incarnation, ready recovery, desktop/mobile screenshots, and digest manifest at .csdlc/evidence/113/roster-live-proof-2118c05b3"
+    }
+  },
+  "fail_after_backup": false
+}

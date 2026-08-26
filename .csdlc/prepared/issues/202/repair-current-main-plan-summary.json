@@ -1,0 +1,13 @@
+{
+  "issue": 202,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "e1ebe73cd235410173ad3ecb6e5ed70112c6af7976b883a6d6303060650baf21",
+  "actor": "codex:/root/advance_202_after_201:review-resolution",
+  "reason": "Make the serial #200-first order and exact merged #201 artifact contract operative in the issue-local plan.",
+  "operation": {
+    "operation": "set_field",
+    "field": "plan_summary",
+    "value": "Remain unbound while #200 is active or unmerged; after #200 merges, synchronize to its exact ancestry, revalidate, then bind and implement one replication-only learner topology plus shared pending exclusion by consuming coarse #201 Membership operations through a crate-private exact-artifact adapter, prove it over real Quinn/OpenRaft, independently review it, and publish a ready unmerged PR before releasing #199."
+  }
+}

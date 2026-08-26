@@ -1,0 +1,37 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "credential_ref": "env:GEMINI_API_KEY"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "unix:1"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1786528311",
+      "duration_ms": 36117,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=5829]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 36118,
+  "request_id": "issue-203-gemini-decomposition-f7d81e9b-dirty",
+  "output_text": "{\n  \"verdict\": \"split_required\",\n  \"reason\": \"The changeset introduces over 2,500 lines of complex architectural boundaries, security enforcements (access tokens), and broad peripheral migrations. Bundling raw store encapsulation, authority adapter implementation, transport governance, and peripheral system updates into a single PR obscures the critical security review of the ledger and store access boundaries, increasing the risk of missing a bypass vulnerability.\",\n  \"proposed_slices\": [\n    {\n      \"name\": \"01-core-authority-protocol-and-tokens\",\n      \"purpose\": \"Define the foundational authority access token types, sealed traits, and the expanded PublishedStoreAuthorityReceiptView to address the P1 concerns without mutating existing implementations.\",\n      \"paths\": [\n        \"adl-runtime/src/distributed/authority_protocol.rs\",\n        \"adl-runtime/src/distributed/certificates.rs\",\n        \"adl-runtime/src/distributed/fencing.rs\",\n        \"adl-runtime/src/distributed/lease.rs\"\n      ],\n      \"depends_on\": [],\n      \"validation\": \"Unit tests ensuring the PublishedStoreAuthorityReceiptView contains lineage, action class, adapter version, published generation, canonical result digest, and receipt digest. Token type construction tests.\",\n      \"risk\": \"Low. Purely additive definitions and types.\"\n    },\n    {\n      \"name\": \"02-authority-adapters-and-store-sealing\",\n      \"purpose\": \"Implement the governed authority-serving adapters and seal the raw stores. Update DistributedCertificateStore, AuthorityLedger, and FencingStore to require the new access tokens for open/activate/authorize/revoke/apply/commit methods.\",\n      \"paths\": [\n        \"adl-runtime/src/distributed/authority_store_adapters.rs\",\n        \"adl-runtime/src/distributed/authority_reconciliation.rs\",\n        \"adl-runtime/src/distributed/certificates.rs\",\n        \"adl-runtime/src/distributed/fencing.rs\",\n        \"adl-runtime/src/distributed/lease.rs\"\n      ],\n      \"depends_on\": [\n        \"01-core-authority-protocol-and-tokens\"\n      ],\n      \"validation\": \"Integration tests explicitly attempting (and failing) to bypass the adapter to access raw store methods directly. Verification of token verification logic.\",\n      \"risk\": \"High. This is the primary security boundary. Any flaw here allows raw-store bypass.\"\n    },\n    {\n      \"name\": \"03-governed-transport-integration\",\n      \"purpose\": \"Wire the governed transport layer to utilize the new authority adapters and correctly issue/route access tokens.\",\n      \"paths\": [\n        \"adl-runtime/src/distributed/transport/core.rs\",\n        \"adl-runtime/src/distributed/transport/governed/*\",\n        \"adl-runtime/tests/distributed_runtime_transport.rs\",\n        \"adl-runtime/tests/distributed_transport.rs\"\n      ],\n      \"depends_on\": [\n        \"02-authority-adapters-and-store-sealing\"\n      ],\n      \"validation\": \"Transport integration tests verifying governed message flow and token attachment/validation across nodes.\",\n      \"risk\": \"Medium. Ensures network-level requests properly interface with the new sealed adapters.\"\n    },\n    {\n      \"name\": \"04-peripheral-migration-and-lifecycle\",\n      \"purpose\": \"Migrate all peripheral runtime callers to the new adapter facade, update lifecycle/recovery mechanisms, and finalize proof artifacts.\",\n      \"paths\": [\n        \"adl-runtime/src/distributed/migration.rs\",\n        \"adl-runtime/src/distributed/recovery.rs\",\n        \"adl-runtime/src/distributed/placement.rs\",\n        \"adl-runtime/src/distributed/projection.rs\",\n        \"adl-runtime/src/distributed/resource_weather.rs\",\n        \"adl-runtime/src/distributed/snapshot_catalog.rs\",\n        \"adl-runtime/src/distributed/capability_advertisement.rs\",\n        \"adl-runtime/tests/distributed_identity_lease_authority.rs\",\n        \"adl-runtime/tests/distributed_certificates.rs\",\n        \"adl-runtime/tests/distributed_fencing.rs\",\n        \"adl-runtime/tests/distributed_lease.rs\",\n        \"adl-runtime/tests/distributed_migration.rs\",\n        \"adl-runtime/tests/distributed_recovery.rs\",\n        \"*.csdlc\"\n      ],\n      \"depends_on\": [\n        \"03-governed-transport-integration\"\n      ],\n      \"validation\": \"End-to-end integration tests, lifecycle recovery tests, and successful CSDLC proof verification.\",\n      \"risk\": \"Medium. Large surface area, but mechanical updates to callers now that the core security boundary is established.\"\n    }\n  ],\n  \"architecture_advice\": \"To effectively seal the raw stores, employ Rust's visibility modifiers (e.g., `pub(crate)`) or the Sealed Trait pattern alongside Zero-Sized Type (ZST) access tokens. The raw store mutating methods (open/activate/authorize/revoke/apply/commit) must enforce cryptographic or syntactic proof of origin from the `AuthorityStoreAdapter`. Do not allow the rest of the crate to construct these tokens arbitrarily; restrict their instantiation strictly to the adapter boundary.\",\n  \"must_fix_before_publication\": [\n    \"Verify that DistributedCertificateStore, AuthorityLedger, and FencingStore cannot be mutated without a valid, strictly-typed authority access token.\",\n    \"Ensure PublishedStoreAuthorityReceiptView is fully extended to include 'lineage', 'action class', 'adapter version', 'published generation', 'canonical result digest', and 'receipt digest' as identified in the P1 concern.\",\n    \"Confirm that the uncommitted remediation successfully removes any fallback paths that would allow legacy direct-access to the raw stores.\"\n  ],\n  \"notes\": \"The net code volume (+2511 LoC) is far too large for a single PR encompassing a critical trust boundary shift. Phasing the delivery into Protocol -> Adapters -> Transport -> Callers ensures reviewers can isolate and rigorously audit the security mechanisms preventing raw-store bypass before looking at mechanical peripheral updates.\"\n}",
+  "output_text_excerpt": "[redacted provider text len=5829]",
+  "artifact_ref": ".csdlc/evidence/203/provider-reviews/gemini-adapter-decomposition-result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

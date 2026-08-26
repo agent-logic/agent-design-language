@@ -1,0 +1,21 @@
+flowchart LR
+  A["No-mutation Agent Logic preflight"] --> B{"All gates pass and total <= USD 20?"}
+  B -->|no| X["Stop without AWS mutation"]
+  B -->|yes| C["Launch one r7i.2xlarge Spot instance"]
+  C --> D["User data installs Amazon Linux packages"]
+  D --> E["Mount persistent Runtime EBS"]
+  S3["Version-pinned Linux/x86 Ollama and models in S3"] --> E
+  E --> F{"Valid reviewed Runtime already installed?"}
+  F -->|yes| G["Reuse installed Runtime"]
+  F -->|no| H["Build only ADL Runtime in ephemeral cache"]
+  H --> G
+  G --> I["Start Ollama and six distinct residents"]
+  I --> J["UTS pre-cycle, signed dehydration, restore, pending-only post-cycle"]
+  J --> K["Keep residents alive for at least 21,600 seconds"]
+  K --> L["Retain terminal evidence and terminate exact compute"]
+  C -->|early interruption| L
+  K -->|ready interruption| M["Signed #414 dehydration"]
+  M --> L
+  L --> N{"Independent zero-resource proof"}
+  N -->|no| O["Terminal failure and escalation"]
+  N -->|yes| P["Exact-head review, PR, finish"]

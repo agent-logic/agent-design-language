@@ -1,0 +1,16 @@
+{
+  "schema": "adl.issue_115.governed_room_observatory_validation.v1",
+  "status": "passed",
+  "cases": [
+    "participants_filtered_and_state_mapped",
+    "explicit_recipient_intent_sorted",
+    "per_room_turn_sequence_preserved_across_room_switching",
+    "implicit_broadcast_denied",
+    "room_recipient_limit_enforced",
+    "partial_delivery_rows_attributed",
+    "unavailable_and_revoked_rows_attributed",
+    "duplicate_and_reordered_refusals_visible",
+    "static_room_dom_anchors_present",
+    "served_room_route_frames_dispatched"
+  ]
+}

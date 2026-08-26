@@ -1,0 +1,9 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 40,
+  "expected_digest": "18e6b816425cc08f65282c1ac9be3d87a175f068a06d38e0033bd53ceafd9832",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Valid finalize apply returns pending and runtime reconciliation uses only configured local publication context.",
+  "operation": {"operation": "update_plan_step", "step_id": "S3", "status": "completed"}
+}

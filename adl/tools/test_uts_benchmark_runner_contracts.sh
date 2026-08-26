@@ -15,6 +15,15 @@ module = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
 spec.loader.exec_module(module)
 
+local_entry = {"provider_kind": "local", "model_id": "llama3.1:8b"}
+module.ollama_resident_models = lambda: ["llama3.1:8b", "qwen3:8b", "phi4-mini:latest"]
+assert "local_runtime_busy" in module.local_runtime_busy_note(local_entry)
+module.os.environ["ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY"] = "true"
+assert module.local_runtime_busy_note(local_entry) is None
+missing_entry = {"provider_kind": "local", "model_id": "missing:latest"}
+assert "target model is not resident" in module.local_runtime_busy_note(missing_entry)
+module.os.environ.pop("ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY")
+
 panel = {
     "models": [
         {

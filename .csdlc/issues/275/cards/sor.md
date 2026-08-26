@@ -1,0 +1,152 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 275
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented and repaired the bounded #275 integrated serving-authority snapshot store from terminal borrowed #367 child-lineage pairs. The repaired store denies caller-minted recovery receipts, permits recovery only from reopened committed state, hashes state through the domain-tagged revision-ordered prefix required by design, enforces same-lineage strictly newer fencing/generation for replacement and transfer observations, and keeps exact product scope to the integrated store module, one module registration, and the focused integration target.
+
+## Artifacts
+
+- adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs
+- adl-runtime/tests/distributed_integrated_serving_authority.rs
+- adl-runtime/src/distributed/mod.rs
+- .csdlc/prepared/issues/275/run_exact_focused_matrix.py
+- .csdlc/prepared/issues/275/validate_exact_scope.py
+- .csdlc/issues/275
+
+## Execution
+
+- Added `adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs` with a store API accepting only borrowed `VerifiedCommittedChildLineagePair` inputs from #367.
+- Registered the new integrated serving-authority snapshot module from `adl-runtime/src/distributed/mod.rs`.
+- Added `adl-runtime/tests/distributed_integrated_serving_authority.rs` with the exact eight-case matrix for authentic pairs, immutable prefix validation, caller-outcome/reopen-derived recovery separation, retry/reopen, capacity, CAS rollback, corruption, terminal child evidence, A/B denial, redaction, and tamper denial.
+- Repaired review findings by blocking `observe(..., Recovery)`, making `recover()` require a non-empty reopened committed state with no intervening live append, implementing the `ADL-INTEGRATED-SERVING-AUTHORITY-STATE-PREFIX-V1` revision/ordered-receipts digest, and adding renew/transfer/revoke/expiry coverage inside the existing exact denominator.
+- Re-anchored `.csdlc/prepared/issues/275/validate_exact_scope.py` to the current `origin/main` merge-base so the exact scope proof no longer flags already-merged #369 lifecycle records as #275 drift.
+
+## Validation
+
+[
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/275/run_exact_focused_matrix.py"
+    ],
+    "purpose": "Prove the exact eight-case #275 focused integration denominator after recovery/non-overlap repairs.",
+    "outcome": "passed",
+    "evidence_ref": "PASS: exact #275 focused matrix 8 passed, 0 failed, 0 ignored at HEAD 86a59bde2d85d8a6ed78c542e6cace0a4fc8a459."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--features",
+      "internal-test-fixtures",
+      "distributed::integrated_serving_authority_snapshot::tests::normalized_receipt_rejects_tamper",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Prove private normalized receipt tamper denial.",
+    "outcome": "passed",
+    "evidence_ref": "1 passed; 0 failed; 0 ignored."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--doc",
+      "integrated_serving_authority_snapshot"
+    ],
+    "purpose": "Prove the three compile-fail API denial examples.",
+    "outcome": "passed",
+    "evidence_ref": "3 passed; 0 failed; 0 ignored selected doctests."
+  },
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/275/validate_exact_scope.py"
+    ],
+    "purpose": "Prove exact #275 product scope and sole additive registration hunk against current main.",
+    "outcome": "passed",
+    "evidence_ref": "PASS: exact #275 scope and sole additive registration hunk."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warnings and hidden API drift in the feature-bearing library.",
+    "outcome": "passed",
+    "evidence_ref": "Finished dev profile with -D warnings."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_integrated_serving_authority",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Reject warnings in the exact focused integration target.",
+    "outcome": "passed",
+    "evidence_ref": "Finished dev profile with -D warnings."
+  },
+  {
+    "command": [
+      "fresh",
+      "design-review",
+      "review_issue_275_design_r3"
+    ],
+    "purpose": "Verify the post-repair design boundary after false design-review recovery.",
+    "outcome": "passed",
+    "evidence_ref": "Fresh read-only design review PASS at exact HEAD 86a59bde2d85d8a6ed78c542e6cace0a4fc8a459."
+  }
+]
+
+## Integration
+
+not_started
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

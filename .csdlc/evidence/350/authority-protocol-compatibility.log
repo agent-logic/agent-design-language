@@ -1,0 +1,5 @@
+command: cargo test --locked --manifest-path adl-runtime/Cargo.toml --features internal-test-fixtures --lib authority_protocol -- --test-threads=1
+candidate_source_commit: 76215e811783d3b753434fc5300d1ea2bfe55f4d
+result: PASS
+tests: 53 passed; 0 failed; 0 ignored; 267 filtered out
+required_case: distributed::authority_protocol::contract_tests::legacy_direct_verification_cannot_publish ... ok

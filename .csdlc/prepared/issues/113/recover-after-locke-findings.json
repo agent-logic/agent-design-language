@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 113,
+  "expected_generation": 50,
+  "expected_digest": "50e9778133e60d2cd185717d1507e83a6daec7421911a604ccb898efbb480e45",
+  "actor": "codex:wp18c03-execution",
+  "reason": "Recover review readiness to remediate all three actionable findings from the assigned independent final review."
+}

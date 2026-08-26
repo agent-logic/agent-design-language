@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 117,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
+    "slug": "production-polis-interface-qualification-parent",
+    "version": "v0.92",
+    "generation": 37
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/117/production-polis-interface-parent-closeout.md\n.csdlc/evidence/117/validate_parent_closeout.py\n.csdlc/prepared/issues/117/validate_preparation_bundle.py\n.csdlc/prepared/issues/117/design.md\n.csdlc/prepared/issues/117/diagram.mmd\n.csdlc/issues/117",
+      "review_revision": "git-blake3:6ce36effa6f571328319edbc087e0d2cc751dcf4:0559566439881497ec8816c442ec05cd9846880b30e7dfe710b8978f0e9c77dc",
+      "reviewer": "fresh-session:bb641977-06c4-4f64-a281-545f0e88f7e5",
+      "review_prompts": [
+        "Verify #117 remains coordination-only and does not absorb child implementation or umbrella closeout authority.",
+        "Verify terminal child evidence is exact, canonical, and consumed read-only.",
+        "Verify residual risks, non-claims, and #110 handoff are truthful."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Hosted publication, CI, merge, and typed finish for #117 remain pending.",
+        "#110 must still consume terminal #117 and reconcile the remaining umbrella evidence.",
+        "#207 and #286 remain separate coordination work.",
+        "This review adds no credentialed provider, Unity, cloud, Runtime, API, storage, or Observatory implementation proof."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

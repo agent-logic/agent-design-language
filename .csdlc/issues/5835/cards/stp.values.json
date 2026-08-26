@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 34
+    "generation": 58
   },
   "status": "ready",
   "content": {
@@ -17,14 +17,13 @@
       "deliverables": [
         "Field-level continuity-transfer matrix",
         "Cross-polis continuity design note with WP-04 boundary",
-        "Updated v0.93 handoff inputs",
         "Copied-state, ambiguity, redaction, and forbidden-claim validation evidence",
         ".csdlc/evidence/5835/validate-continuity-transfer.rb"
       ],
       "acceptance_criteria": [
         "AC-1: The transfer matrix covers every declared birthday artifact with portability, locality, governance, transport, lineage, and redaction dispositions.",
         "AC-2: Copied, conflicting, ambiguous, and raw-private-state cases fail closed or quarantine explicitly.",
-        "AC-3: The feature/design notes preserve the exact boundary against WP-04 and v0.93 authority.",
+        "AC-3: Only the owned feature/design notes may change; the v0.93 handoff remains byte-identical and read-only while WP-04 and v0.93 authority stay downstream.",
         "AC-4: Every cited path resolves and forbidden production/governance claims are absent.",
         "AC-5: Exact-head review has no unresolved actionable finding."
       ],

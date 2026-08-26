@@ -1,0 +1,1 @@
+{"issue":318,"card":"spp","expected_generation":22,"expected_digest":"ad5eefe72ed0d48cba840815743a0d1d4707c04cd48650259bed60d34e247eac","actor":"codex:root","reason":"record completed canonical 45-slot planning reconciliation","operation":{"operation":"update_plan_step","step_id":"S3","status":"completed"},"fail_after_backup":false}

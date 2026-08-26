@@ -1,0 +1,441 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 322,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6a5a8a2f2350b7ffe3899f5dad5e5b39a2054da2f0c9138ac388b2c93b8ff5e7",
+  "phase": "published",
+  "generation": 30,
+  "digest": "f5f5e7357af8d33f9234cace2fcfad04795ef2f636d2c52a6a7a79ffe7b651ce",
+  "branch": "codex/5913-repair-adl-review-compatibility-routing",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing",
+  "review_assignment": {
+    "reviewer": "fresh-session:aef4db36-d5be-4dc2-80df-00067c3cac7d",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:88aea76500cacf1cbdec935c477b438331397bc3:576a799a9129870d5b9af64b7545f39ecf05ffebed9933c7e5ec55e4f7089fe0",
+    "scope": [
+      ".csdlc/evidence/5913",
+      ".csdlc/issues/5913",
+      ".csdlc/prepared/issues/5913",
+      "adl/src/cli/mod.rs",
+      "adl/tools/test_adl_review_compatibility.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:aef4db36-d5be-4dc2-80df-00067c3cac7d",
+    "scope": [
+      ".csdlc/evidence/5913",
+      ".csdlc/issues/5913",
+      ".csdlc/prepared/issues/5913",
+      "adl/src/cli/mod.rs",
+      "adl/tools/test_adl_review_compatibility.sh",
+      "adl/tools/run_pr_fast_test_lane.sh",
+      "adl/tools/test_run_pr_fast_test_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:88aea76500cacf1cbdec935c477b438331397bc3:576a799a9129870d5b9af64b7545f39ecf05ffebed9933c7e5ec55e4f7089fe0",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #5913 assigned scope and focused local validation; full workspace tests, hosted CI, publication, merge, terminal finish, provider credential calls, and broad lifecycle/GitHub writes were not run by the reviewer.",
+      "The reviewer observed pre-existing typed assignment/recovery projection dirt plus .csdlc/locks/5913.lock; their local validation dirtied adl/Cargo.lock, which was restored by the implementation session as generated churn outside #5913 scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 322,
+    "pull_request": 320,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/320",
+    "base": "main",
+    "head": "codex/5913-repair-adl-review-compatibility-routing",
+    "revision": "git-blake3:1564d0618deca40852fcb6789a9948cb279a5427:b23f4cc2777ab03e53439dc2ee33aa5c08d3c844b04589589163a7006a749b3e",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5913/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5913/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:issue5913_fresh_design_review_6",
+      "revision": "61e3dce4250f315ea1afafe8a84d54e1433ca4bd1621a47e75e1c66c0fd85df3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "fab3a007a149a1b2664f15a6e75dcd97324a60735fbcf998a0424f43ef21981b",
+      "rendered_digest": "4d63d43ddbbd90aad214ab855f64f778df1cc7a11b055f491c9ef3777be097a9",
+      "ast_digest": "3a88693e286a176940ff7c96c90a04efaf9b19091d5d23cdb8b991e306a89a37"
+    },
+    "stp": {
+      "values_digest": "b4eaf506c0cec3c042a8594e5d5edd3641d35a14aab3664eadb6b1d091f3478e",
+      "rendered_digest": "ce3d185088ea504b3197e08213342e0112163db263360a8627f4689fedd4ba8c",
+      "ast_digest": "7f42c7141ba8c695f468532923c3df2b24325e8c1a1c0b44d2ea275e8855ff45"
+    },
+    "spp": {
+      "values_digest": "b43504a1a43fa86838e806d21a7fefa11164f4a87ff58b728b1e3dc0317b8a6e",
+      "rendered_digest": "006ced42b97a3e0bfa1a6950c4a2c80bff976bb96d15a3679926d78ae0e0a151",
+      "ast_digest": "9fb3bf9163c768fc903844432f3fc40be85303ab65a29a6f03afc77925677074"
+    },
+    "vpp": {
+      "values_digest": "d4ae2ca027ac1dda3e336b5ae0a00f5d865511b9bd4d832488b0320e31d79b7c",
+      "rendered_digest": "0c2581d8b9d5d97aeefad4f7ed5da8b8b2f34d27eba7acf93af98c7eaea67c6b",
+      "ast_digest": "31390f2b07d03e16b28de5febafdd589d589e285e7e4a42ad4030c9890dedac6"
+    },
+    "srp": {
+      "values_digest": "80ff3bffe87090d7321a271a68e78ddc0543526f16f5155dfc6df2054c54d561",
+      "rendered_digest": "6243010e02ce86468e3eceaff7694df1873e46b70ca47d2bc3a9999811cc8769",
+      "ast_digest": "04066221e63cd6305aa96f2cd9f58b7f236b132f5303222154c1fad9d8636259"
+    },
+    "sor": {
+      "values_digest": "8b612422fd474edeb300859730a82e286b59142654d278afaaaa16223fab2295",
+      "rendered_digest": "b8e629e0aee20b87b5c43f1f5ad92c3cf8f70a46887e7f4ad164ba27073f265f",
+      "ast_digest": "f1b8bd3e8b47f207ecaf2ab554e636cb166488277f3e318561e60a2b187a9f83"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after published PR #320 CI found stale PR-fast nextest binary_id routing for removed adl-session binary; fix requires a new substantive commit and fresh exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-2-codefriend-tooling",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Refresh pre-bind design and diagram digests after replacing placeholder #5913 design packet with bounded implementation design; preserve the existing pending plan denominator.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/5913/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/5913/diagram.mmd\",\"new_design_digest\":\"61e3dce4250f315ea1afafe8a84d54e1433ca4bd1621a47e75e1c66c0fd85df3\",\"new_diagram_digest\":\"a67429101e30164192a2e66b9be496fe1f7cc3f07907e79241a4b2fcb270ce15\",\"old_design_digest\":\"54a9ab97a20b22f26745e1d8b0518184b4a7b6f54333c4542a35722def8ded0b\",\"old_diagram_digest\":\"9a5b47e34fe492eda5c0a57bba4aaefbfd6d29d1a5a9a8c8bd1f0c1c5e0ba696\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Bootstrap and approve the bounded routing-repair design.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Implement the smallest read-only adl-review compatibility routing repair.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Run focused compatibility validation and strict relevant Clippy.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Obtain fresh exact-head review and stop before publication.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Correct #5913 VPP lane mapping so strict Clippy proves AC-5 only; AC-6 remains the separate fresh exact-head review gate recorded through SRP/review truth.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"adl-review-compatibility\",\"proof_role\":\"Focused compatibility regression for adl-review help/dispatch and CodeFriend deterministic smoke routing\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"strict-clippy-adl-review\",\"proof_role\":\"Strict relevant Rust lint for adl-review dispatch changes\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"fresh-exact-head-review\",\"proof_role\":\"Typed fresh-session exact-head review gate before publication; not a Rust lint proof\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"--root\",\".\",\"assign\",\"--request\",\".git/csdlc-v2/requests/5913-review-assign.json\"],\"parallel_group\":\"review\",\"defer_reason\":\"Runs only after #5913 reaches implemented phase with a clean substantive exact head.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:issue5913_fresh_design_review_6",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh exact-head review found actionable P2 stale adl-review help advertising; fix requires new substantive commit and fresh assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record focused compatibility rerun after resolving exact-review P2 stale help advertising finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Focused compatibility regression after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-compatibility.log\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record strict Clippy rerun after resolving exact-review P2 stale help advertising finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict relevant Rust lint after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-clippy.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh exact-head review found actionable P2 hidden stale commands still mention removed v1 tooling multiplexer wording.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record focused compatibility rerun after resolving exact-review P2 stale help advertising finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Focused compatibility regression after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-compatibility.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record strict Clippy rerun after resolving exact-review P2 stale help advertising finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict relevant Rust lint after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-clippy.log\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh exact-head review found actionable P3 validation-record purpose drift for the hidden-command diagnostic fix.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Correct #5913 SOR validation purpose truth after hidden-command diagnostic review finding; dedupe repeated stale-help validation entries.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repair #5913 adl-review read-only compatibility routing for verify-repo-contract and deterministic fixture code-review without provider credentials or v1 lifecycle resurrection.\",\"changes\":[\"Route adl-review verify-repo-contract to a direct markdown repository-review contract verifier instead of the removed v1 tooling multiplexer.\",\"Route adl-review code-review fixture mode to the deterministic CodeBuddy/CodeFriend showcase smoke path and validator, rejecting provider-backed backends for this bounded issue.\",\"Update the focused compatibility regression so it no longer uses adl tooling as an oracle and covers good/bad contract packets, deterministic fixture smoke, narrowed help output, and hidden stale command diagnostics without v1/multiplexer wording.\"],\"artifacts\":[\"adl/src/cli/mod.rs\",\"adl/tools/test_adl_review_compatibility.sh\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Initial focused compatibility regression for repaired adl-review read-only compatibility surface and fail-closed command boundaries\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-review-compatibility.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Initial strict relevant Rust lint for repaired adl-review dispatch changes\",\"outcome\":\"passed\",\"evidence_ref\":\"strict-clippy-adl-review.log\"},{\"command\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Focused compatibility regression after hidden stale-command diagnostic wording fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-compatibility.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict relevant Rust lint after hidden stale-command diagnostic wording fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-clippy.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after published PR #320 CI found stale PR-fast nextest binary_id routing for removed adl-session binary; fix requires a new substantive commit and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record the bounded post-publication CI routing fix for stale PR-fast nextest binary_id selection.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repair #5913 adl-review compatibility routing and the PR-fast CI selector needed to validate that routing after publication.\",\"changes\":[\"Remove the stale `binary_id(adl::bin/adl-session)` selector from the CLI-family PR-fast test lane because `adl-session` is no longer a declared binary.\",\"Update the PR-fast selector contract test expectations so the generated focused filter matches the current declared CLI/process binary surface.\"],\"artifacts\":[\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\".csdlc/evidence/5913/ci-fix-pr-fast-routing.log\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Record local proof that the PR-fast selector no longer emits the removed adl-session binary id and original #5913 compatibility still passes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\"+\",\"bash\",\"adl/tools/run_pr_fast_test_lane.sh\",\"--base\",\"5a1d3bfda7108bede1572cbd9dc9e2af19d9eedb\",\"--head\",\"HEAD\",\"--print-plan\",\"+\",\"cargo\",\"nextest\",\"list\",\"--workspace\",\"-E\",\"test(/^cli::/) or binary_id(adl::bin/adl-process)\",\"+\",\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Post-publication CI-fix validation for stale PR-fast nextest binary_id routing plus original adl-review compatibility smoke.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/ci-fix-pr-fast-routing.log\"}}"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh-session ddde review found P2 fenced-code contract bypass in verify_repo_review_contract; fix requires a new substantive commit and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Record the fix for fresh-review P2 fenced-code contract bypass.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, and fenced-code-safe review contract validation.\",\"changes\":[\"Strip fenced code blocks before verifying repository-review contract sections, fields, and finding markers.\",\"Add a fenced-code-only negative fixture proving required review markers inside examples do not satisfy the contract verifier.\"],\"artifacts\":[\"adl/src/cli/mod.rs\",\"adl/tools/test_adl_review_compatibility.sh\",\".csdlc/evidence/5913/review-finding-fix-fenced-contract.log\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Record focused validation for the fenced-code contract bypass fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--\",\"--check\",\"+\",\"bash\",\"adl/tools/test_adl_review_compatibility.sh\",\"+\",\"bash\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\"+\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Focused validation for fenced-code-safe repo-review contract verification, preserved adl-review compatibility behavior, PR-fast selector contract, formatting, and strict relevant Rust lint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-fenced-contract.log\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh-session c723 review found P2 long-fence contract bypass in fenced-code stripping; fix requires a new substantive commit and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Record the fix for fresh-review P2 long-fence contract bypass.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, fenced-code-safe review contract validation, and long-fence delimiter handling.\",\"changes\":[\"Track Markdown fence character and opening delimiter length when hiding fenced code blocks before repo-review contract validation.\",\"Require a closing fence to use the same marker character, at least the opening delimiter length, and only trailing whitespace.\",\"Add a long-fence negative fixture proving required review markers inside a four-backtick block do not satisfy the contract verifier.\"],\"artifacts\":[\"adl/src/cli/mod.rs\",\"adl/tools/test_adl_review_compatibility.sh\",\".csdlc/evidence/5913/review-finding-fix-long-fence-contract.log\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Record focused validation for the long-fence contract bypass fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--\",\"--check\",\"+\",\"bash\",\"adl/tools/test_adl_review_compatibility.sh\",\"+\",\"bash\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\"+\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Focused validation for long-fence-safe repo-review contract verification, preserved adl-review compatibility behavior, PR-fast selector contract, formatting, and strict relevant Rust lint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-long-fence-contract.log\"}}"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh-session 51a4890e review assignment exceeded wait intervals and was interrupted without a result; implementation head remains unchanged and requires a different fresh no-context reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover the published #5913 lifecycle record from legacy/current issue identity mismatch to canonical current-repo issue #322 before merging PR #320.",
+      "operation": "{\"cleared_publication\":true,\"cleared_readiness\":false,\"operation\":\"migrate_bound_issue_identity\",\"source_issue\":5913,\"source_repository\":\"agent-logic/agent-design-language\",\"target_issue\":322,\"target_issue_evidence\":\".csdlc/locks/5913-target-issue-322-evidence.lock\",\"target_issue_evidence_digest\":\"4555c8cee6944538b1771862847ebef646b8f3a2a6b718cb11de2827fbc934f4\",\"target_repository\":\"agent-logic/agent-design-language\"}"
+    },
+    {
+      "sequence": 40,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

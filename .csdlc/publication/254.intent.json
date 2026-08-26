@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 254,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/254-hosted-coverage-compile",
+  "title": "CI: stop hosted coverage aggregate from recompiling Rust",
+  "body": "Closes #254\n\n## Summary\n- make the full hosted workspace coverage producer compile once and publish the authoritative workspace summary/provenance artifact\n- convert `adl-coverage-hosted` into a light `ubuntu-latest` verification/merge gate instead of an Azure-heavy Rust coverage rerun\n- update CI contract tests and workflow policy validation so aggregate Rust/toolchain/cache/profraw recompile paths fail the contract\n\n## Validation\n- `bash adl/tools/test_ci_runtime_contracts.sh` — PASS\n- `bash adl/tools/test_ci_path_policy.sh` — PASS\n- `ruby adl/tools/validate_ci_workflow_policy.rb` — PASS\n- `git diff --check origin/main..HEAD` — PASS\n- exact-head review at `402d605a546a93135dd6a9584b6d1ff801240cce` — PASS; review metadata recorded in typed SRP\n\n## Non-claims\n- No optional, cloud, paid, native, slow, soak, or spot validation jobs were dispatched.\n- This does not change #199 runtime behavior or coverage thresholds.\n- Remote GitHub CI remains the integration proof after publication.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:6a0bc6d1f49bb64fa3d2784ef44f9df0c26a684a:d499410b71d703a04c77f3af3d61ba45b8cef3d2d1ed75b3d472c22cae22ad5a",
+  "commit_sha": "6a0bc6d1f49bb64fa3d2784ef44f9df0c26a684a"
+}

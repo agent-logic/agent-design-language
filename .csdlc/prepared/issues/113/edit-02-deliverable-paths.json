@@ -1,0 +1,22 @@
+{
+  "issue": 113,
+  "card": "stp",
+  "expected_generation": 1,
+  "expected_digest": "99e2d8fc38d98cbd40e6de5b3c648483f359eafc328a9079b29288026f2dd634",
+  "actor": "codex:113-roster-presence-preparation",
+  "reason": "Name the issue-owned new source, exact test target, and browser validator as typed deliverables alongside the product outcomes.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      "Versioned paginated Runtime roster and policy-safe agent-detail projections",
+      "Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model",
+      "Opaque revision-bound pagination and bounded reconnect/event update contract",
+      "Search, filter, sort, selection, and status-change Observatory UI",
+      "Exact positive, negative, scale, browser, OpenAPI, reconnect, and rollback proof"
+    ]
+  }
+}

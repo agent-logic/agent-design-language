@@ -1,0 +1,20 @@
+command: git -C /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary fetch origin main
+output:
+From https://github.com/agent-logic/agent-design-language
+ * branch                main       -> FETCH_HEAD
+
+command: git -C /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary rev-parse HEAD
+output:
+dac45ca5204664b5b35495c0ecf6c531c3356e70
+
+command: git -C /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary rev-parse origin/main
+output:
+7f88697ce82215188af941e15cf02a6220c9ad63
+
+command: git -C /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary merge-base origin/main HEAD
+output:
+7f88697ce82215188af941e15cf02a6220c9ad63
+
+command: git -C /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary merge-base --is-ancestor origin/main HEAD
+outcome: passed
+exit_code: 0

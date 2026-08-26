@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 34
+    "generation": 58
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review only the WP-17 transfer contract, design note, v0.93 handoff edits, issue proof, and their exact candidate paths for evidence fidelity, copied-state rejection, privacy, and WP-04/v0.93 boundary discipline.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5835\n.csdlc/prepared/issues/5835\n.csdlc/evidence/5835\ndocs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\ndocs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md\ndocs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
+      "review_revision": "git-blake3:1d765ecfd61fcd7bccd50b37d0dc660a8ccf9f43:9680eda0b55c2b0565ad3798dda9dfa225f4bf9866492f2e534d953e83476cd6",
+      "reviewer": "/root/sprint5_5835/review_5835_remediation_exact_head",
       "review_prompts": [
         "Does every movement-semantics row cite landed v0.92 evidence and preserve lineage?",
         "Can copied, ambiguous, or private state be misread as transferable continuity?",
@@ -23,8 +23,10 @@
         "Are the exact candidate paths and validation artifacts independently usable?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The legacy STP task-boundary phrase mentions v0.93 handoff inputs, but typed declared scope, deliverables, AC-3, SPP S3, prepared ownership, empty branch diff, and executable validation all make the handoff byte-identical and read-only."
+      ],
+      "review_result": "pass"
     }
   }
 }

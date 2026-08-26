@@ -1,0 +1,350 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 461,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c3772d9c4f3292d1eb16999797038d6bc5c89cda26f7d3cf00f3bdd501aefc8c",
+  "phase": "published",
+  "generation": 19,
+  "digest": "ee8a345d5e6a37699e18d0bf7633420fea101259556c0c0607dbd98349e851e2",
+  "branch": "codex/461-runtime-lifecycle-tls-config-only",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only",
+  "review_assignment": {
+    "reviewer": "/root/review_461_flake_fix",
+    "assigned_by": "codex",
+    "revision": "git-blake3:8ec49d91017599db89c85c545683095f7e7ad47c:9d739f59b73f9db821f049aa0902d0a37dc76a5d826560a2d9a553b7d898cab9",
+    "scope": [
+      ".csdlc/evidence/461",
+      ".csdlc/issues/461",
+      ".csdlc/prepared/issues/461",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime-kernel/src/observability.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl/tools/run_runtime_v3_operational_proof.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_461_flake_fix",
+    "scope": [
+      ".csdlc/evidence/461",
+      ".csdlc/issues/461",
+      ".csdlc/prepared/issues/461",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime-kernel/src/observability.rs",
+      "adl-runtime-kernel/tests/observability.rs",
+      "adl/tools/run_runtime_v3_operational_proof.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:8ec49d91017599db89c85c545683095f7e7ad47c:9d739f59b73f9db821f049aa0902d0a37dc76a5d826560a2d9a553b7d898cab9",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 461,
+    "pull_request": 462,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/462",
+    "base": "main",
+    "head": "codex/461-runtime-lifecycle-tls-config-only",
+    "revision": "git-blake3:36ccca8643a0c2052ee3269e69f726ce207cfb1a:5766859b46cb43897b7e3e9345d6c4e8e17d46b8d3c43cbaf89c16f09f4ffe6d",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/461/design.md",
+  "diagram_path": ".csdlc/prepared/issues/461/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "revision": "d900815e5a20e2406883bde10ba970d7e0e1083a737a14d96a7b4709b2c43246"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c036e33ab894a873e78d178088c66d7596d30f0d4556416523a717c29bd46581",
+      "rendered_digest": "8a9fbfce0d69f1910ca948878ba44a0ed1a27dc347aea5bcda1970e19aab5739",
+      "ast_digest": "26a15fdc1672fa0189ff9832c8f1e7ee65d433eb087bb9bb47008db0d56fbe20"
+    },
+    "stp": {
+      "values_digest": "b881289cddead0ed0a573f713b9c6fdbd4650271ce3e21eebb7673fa80921b3c",
+      "rendered_digest": "4ce1e9873090a53138f6d839f5e8671d698b8daf3c33233396500ec87c6c9efc",
+      "ast_digest": "88dbeb732474d45c8e8f6449cb1e1a9b93d66cea7851f51a080a74a9ade7e1f7"
+    },
+    "spp": {
+      "values_digest": "327784d9870a9e16d8794735e8a785a77f3b60bc5cb8fd14c701abafc6c48ef2",
+      "rendered_digest": "dc6a0376f7c799fd51e817b38d7c5d127a4333d909b1ae05dc90d018a7f606b6",
+      "ast_digest": "0a12c0d5428d828b25a9132d5d5d6e05a62844891dcb4fba7d8c2ff90715333f"
+    },
+    "vpp": {
+      "values_digest": "37b818f7203779a9871d009975102c5d6f1b3b8713e9d1285228131f19f63135",
+      "rendered_digest": "36fbf6002ff5cfab2daffd2947e93f99865d0fcb06083b41f144d64e249ea8b9",
+      "ast_digest": "686a90346eb7ef2cca2da2554889e3e2a978a91b5bce607a522b277bf2cd07ce"
+    },
+    "srp": {
+      "values_digest": "f4cba2e28c1b05a97d6d8cabc66939b0ac31965c139318bcf33dc379570f8618",
+      "rendered_digest": "eeff15cfe34241f6c9e9eb98ff79ca1ee2047fa9895ac7157c25e984f48ccf9e",
+      "ast_digest": "a0435d394759139e1015f814df201f4ead689c12c1944281e9a66c8aac339236"
+    },
+    "sor": {
+      "values_digest": "e85fdaf06691aa9a6e30e5e3bfd1828f218ef8f4b4ff1bf83014389426915808",
+      "rendered_digest": "90f06104f3fe116cb2db71cede7ce4356d7aaddaa51a97c1ee375e6eb686fddd",
+      "ast_digest": "54e07527e1529dc83bcf054d5d9b98c74d6db71f966f1c5874723ae6d4ce7d74"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "typed doctor reports the approved issue design and validation plan execution-ready"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Recover reviewed publication truth after the hosted runtime lane exposed a flaky learner convergence assertion and the bounded exact-head repair was reviewed."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d900815e5a20e2406883bde10ba970d7e0e1083a737a14d96a7b4709b2c43246\",\"design_ref\":\".csdlc/prepared/issues/461/design.md\",\"diagram_digest\":\"7708a92f20db0256d0d15f5690a029e2a705848c1729de336f54c8b7da95b2ec\",\"diagram_ref\":\".csdlc/prepared/issues/461/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "bind validation planning to the existing issue-owned executable Guardian lifecycle validator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-tls-config-only-focused\",\"proof_role\":\"prove config-owned TLS through the executable Guardian lifecycle validator\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "typed doctor reports the approved issue design and validation plan execution-ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "Clear the completed failing review before exact-head scope correction and fresh assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "Correct the declared scope to include the recovered Vector restart audit semantics required by the executable TLS lifecycle proof.",
+      "operation": "{\"new_values\":[\"adl-runtime lifecycle soak TLS argument and configuration handling\",\"bounded Guardian lifecycle harness\",\"Runtime-kernel observability classification for automatically recovered Vector restarts\",\"focused config-only TLS and recovered-observability regression tests\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"adl-runtime lifecycle soak TLS argument and configuration handling\",\"bounded Guardian lifecycle harness\",\"focused config-only TLS regression tests\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "Replace stale pre-remediation execution truth with the actual config-owned TLS, TOCTOU, redaction, HTTPS/WSS, and recovered Vector validation evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Make lifecycle TLS authority config-only, snapshot validated opened-file bytes into Runtime-owned state, redact external paths, and prove real HTTPS/WSS Guardian lifecycle and recovered Vector operation.\",\"changes\":[\"Removed lifecycle TLS command inputs and load certificate, private-key, trust-root, and private-continuity TLS authority only from Runtime configuration.\",\"Opened and identity-checked configured TLS files once, captured bytes from the validated handles, and copied them into protected Runtime-owned snapshots before downstream use.\",\"Removed configured external paths from PEM and Guardian diagnostics and added adversarial path-substitution coverage.\",\"Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.\",\"Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\".csdlc/evidence/461/runtime-guardian-config-owned-tls.log\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"preflight_1x\"],\"purpose\":\"Execute the real config-owned TLS Guardian lifecycle with HTTPS, WSS, continuity TLS, Vector recovery, and restart.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-guardian-config-owned-tls.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\",\"runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagnation\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a recovered Vector restart is warning-classified and retains service continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-vector-recovery.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"configured_tls\",\"--\",\"--nocapture\"],\"purpose\":\"Prove config-owned TLS permission, symlink, and identity-substitution denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-tls-configured-files.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run focused lifecycle-soak Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-clippy.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run Runtime-kernel Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-clippy.log\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/run_runtime_v3_operational_proof.sh\"],\"purpose\":\"Validate the lifecycle launch scripts syntactically.\",\"outcome\":\"passed\",\"evidence_ref\":\"tls-launch-shell-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "Recover the failing exact-head review before correcting bounded-soak evaluation propagation, duplicate sample scheduling, cleanup truth, and retained diff evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Refresh execution truth after enforcing nested bounded-soak verdict propagation, collision-safe sampling, and exact branch diff hygiene.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Make lifecycle TLS authority config-only, snapshot validated opened-file bytes into Runtime-owned state, redact external paths, and prove real HTTPS/WSS Guardian lifecycle and recovered Vector operation.\",\"changes\":[\"Removed lifecycle TLS command inputs and load certificate, private-key, trust-root, and private-continuity TLS authority only from Runtime configuration.\",\"Opened and identity-checked configured TLS files once, captured bytes from the validated handles, and copied them into protected Runtime-owned snapshots before downstream use.\",\"Removed configured external paths from PEM and Guardian diagnostics and added adversarial path-substitution coverage.\",\"Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.\",\"Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.\",\"Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\".csdlc/evidence/461/runtime-guardian-config-owned-tls.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"short_qualification\",\"--\",\"--nocapture\"],\"purpose\":\"Prove collision-safe short-qualification sampling and fail-closed bounded-soak semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-guardian-config-owned-tls.log\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"preflight_1x\"],\"purpose\":\"Execute the real config-owned TLS Guardian lifecycle with HTTPS, WSS, continuity TLS, Vector recovery, and restart.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-guardian-config-owned-tls.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\",\"runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagnation\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a recovered Vector restart is warning-classified and retains service continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-vector-recovery.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"configured_tls\",\"--\",\"--nocapture\"],\"purpose\":\"Prove config-owned TLS permission, symlink, and identity-substitution denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-tls-configured-files.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run focused lifecycle-soak Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-clippy.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run Runtime-kernel Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-clippy.log\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/run_runtime_v3_operational_proof.sh\"],\"purpose\":\"Validate the lifecycle launch scripts syntactically.\",\"outcome\":\"passed\",\"evidence_ref\":\"tls-launch-shell-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "Recover the failing review before adding fail-closed Runtime state path containment and refreshing the exact focused test evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "Refresh execution truth after enforcing Runtime-owned state path containment and retaining exact complete lifecycle-soak test evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Make lifecycle TLS authority config-only, snapshot validated opened-file bytes into Runtime-owned state, redact external paths, and prove real HTTPS/WSS Guardian lifecycle and recovered Vector operation.\",\"changes\":[\"Removed lifecycle TLS command inputs and load certificate, private-key, trust-root, and private-continuity TLS authority only from Runtime configuration.\",\"Opened and identity-checked configured TLS files once, captured bytes from the validated handles, and copied them into protected Runtime-owned snapshots before downstream use.\",\"Removed configured external paths from PEM and Guardian diagnostics and added adversarial path-substitution coverage.\",\"Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.\",\"Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.\",\"Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract.\",\"Rejected absolute, traversal, non-directory, and symlink escape in configured Runtime state roots before TLS snapshots or observability files are created.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\".csdlc/evidence/461/runtime-guardian-config-owned-tls.log\",\".csdlc/evidence/461/runtime-lifecycle-soak-tests.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"short_qualification\",\"--\",\"--nocapture\"],\"purpose\":\"Prove collision-safe short-qualification sampling and fail-closed bounded-soak semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-tests.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"runtime_state_directories\",\"--\",\"--nocapture\"],\"purpose\":\"Prove absolute, traversal, and symlinked configured state roots cannot escape Runtime-owned state.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-tests.log\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"preflight_1x\"],\"purpose\":\"Execute the real config-owned TLS Guardian lifecycle with HTTPS, WSS, continuity TLS, Vector recovery, and restart.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-guardian-config-owned-tls.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\",\"runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagnation\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a recovered Vector restart is warning-classified and retains service continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-vector-recovery.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"configured_tls\",\"--\",\"--nocapture\"],\"purpose\":\"Prove config-owned TLS permission, symlink, and identity-substitution denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-tls-configured-files.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run focused lifecycle-soak Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-clippy.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run Runtime-kernel Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-clippy.log\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/run_runtime_v3_operational_proof.sh\"],\"purpose\":\"Validate the lifecycle launch scripts syntactically.\",\"outcome\":\"passed\",\"evidence_ref\":\"tls-launch-shell-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "Recover the failing review before applying the same symlink-safe containment to private-continuity state and correcting exact test evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "Refresh execution truth after enforcing Runtime-owned state path containment and retaining exact complete lifecycle-soak test evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Make lifecycle TLS authority config-only, snapshot validated opened-file bytes into Runtime-owned state, redact external paths, and prove real HTTPS/WSS Guardian lifecycle and recovered Vector operation.\",\"changes\":[\"Removed lifecycle TLS command inputs and load certificate, private-key, trust-root, and private-continuity TLS authority only from Runtime configuration.\",\"Opened and identity-checked configured TLS files once, captured bytes from the validated handles, and copied them into protected Runtime-owned snapshots before downstream use.\",\"Removed configured external paths from PEM and Guardian diagnostics and added adversarial path-substitution coverage.\",\"Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.\",\"Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.\",\"Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract.\",\"Rejected absolute, traversal, non-directory, and symlink escape in configured Runtime roots, including all three private-continuity directories, before state is created.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\".csdlc/evidence/461/runtime-guardian-config-owned-tls.log\",\".csdlc/evidence/461/runtime-lifecycle-soak-tests.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--\",\"--nocapture\"],\"purpose\":\"Run all 19 lifecycle-soak tests, including collision-safe bounded-soak sampling and absolute, traversal, and symlink state-containment denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-tests.log\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"preflight_1x\"],\"purpose\":\"Execute the real config-owned TLS Guardian lifecycle with HTTPS, WSS, continuity TLS, Vector recovery, and restart.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-guardian-config-owned-tls.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\",\"runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagnation\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a recovered Vector restart is warning-classified and retains service continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-vector-recovery.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"configured_tls\",\"--\",\"--nocapture\"],\"purpose\":\"Prove config-owned TLS permission, symlink, and identity-substitution denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-tls-configured-files.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run focused lifecycle-soak Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-clippy.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run Runtime-kernel Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-clippy.log\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/run_runtime_v3_operational_proof.sh\"],\"purpose\":\"Validate the lifecycle launch scripts syntactically.\",\"outcome\":\"passed\",\"evidence_ref\":\"tls-launch-shell-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "Recover reviewed publication truth after the hosted runtime lane exposed a flaky learner convergence assertion and the bounded exact-head repair was reviewed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

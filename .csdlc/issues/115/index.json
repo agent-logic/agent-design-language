@@ -1,0 +1,528 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 115,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
+  "phase": "published",
+  "generation": 43,
+  "digest": "168df1c1899aa77faf8fbc256e5d75c8e01469ffae28b2fdc560071bc973238a",
+  "branch": "codex/115-governed-multi-agent-rooms",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
+  "review_assignment": {
+    "reviewer": "fresh-session:c98af1d7-23f3-4826-a820-7d48a41dfb02",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:28da28014cf0db439100e08f4f8436e46ed61844:babb103592fd2dfef7aaf86fa2382ddcb6e5aaa8c6e43688f95822a60478c00e",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_rooms.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_governed_room_observatory.mjs",
+      "adl/tools/test_html_observatory.sh",
+      ".csdlc/prepared/issues/115/validate_governed_room_implementation.py",
+      ".csdlc/issues/115"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:c98af1d7-23f3-4826-a820-7d48a41dfb02",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_rooms.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_governed_room_observatory.mjs",
+      "adl/tools/test_html_observatory.sh",
+      ".csdlc/prepared/issues/115/validate_governed_room_implementation.py",
+      ".csdlc/issues/115"
+    ],
+    "reviewed_revision": "git-blake3:28da28014cf0db439100e08f4f8436e46ed61844:babb103592fd2dfef7aaf86fa2382ddcb6e5aaa8c6e43688f95822a60478c00e",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 115,
+    "pull_request": 384,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/384",
+    "base": "main",
+    "head": "codex/115-governed-multi-agent-rooms",
+    "revision": "git-blake3:c9ce6ce6c6db20db8fe65370bbb35b755316af92:c8da133b42c5af405a590a2dca16a42ae813687fccf06372fc0155ac90251a17",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/115/design.md",
+  "diagram_path": ".csdlc/prepared/issues/115/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "/root/issue_259_takeover/review_259_exact_r1",
+      "revision": "d31a0fb00e55da6078c092f3d05b1f865035e7a2b745a671a5d2067f9bed9df2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7266af4ba7c87b21c7a67d6727f91adb1e757dace4b09bd7f628e4a906df4b87",
+      "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
+      "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
+    },
+    "stp": {
+      "values_digest": "b25e44812e25b8c2cb1135f40073bd8afacd9f090a42faea6aef0b63821397ab",
+      "rendered_digest": "26ffe471f874105d9aa4826b57ce59a2248f61ed6620ba26f582fcb4e548336e",
+      "ast_digest": "591074b50f7551f7504beccd7cf7f78f96b394317692b5e134c3102d87d1e22d"
+    },
+    "spp": {
+      "values_digest": "b472fad339ff63601047af8b9781fb2d517c8b97725c58ccc1ba028555325db7",
+      "rendered_digest": "4ef2609ec1237bf5c41a8e7e9cd125f0f765488281fe2fd91929f6b7ec5c5c58",
+      "ast_digest": "bdaa7b224835ac227316f8aeb1697414ec3d9a26a8fb5ef6bf886d317f2f09f8"
+    },
+    "vpp": {
+      "values_digest": "877f3ae849f4526e40cd97b738b3b20b7206168d396d75c512e94d0747f63050",
+      "rendered_digest": "64cdef83233be96362daa2ceb5edc28d49e2db9b87ea9c95cd1b7137688394fe",
+      "ast_digest": "c3cb9142b38708e33c36615802b2a5697531c12af32bed39e5e2b63c43735771"
+    },
+    "srp": {
+      "values_digest": "0850de5be9c22a674fc206f8895d90b04fd47f0e90e95a156dc33ff1ac974397",
+      "rendered_digest": "1ec7b53b7e210d19a81ec7b08cb9102d6793c353f061f22ff424cc5bd1d7faf4",
+      "ast_digest": "3c3772196389a3c62f663f8e0db5abfd3f55d1c4e2fa8134a44b22595143f42b"
+    },
+    "sor": {
+      "values_digest": "284856645164790fe60fab12f5b6a9161ac206fc474b61720c5c1654bbf1dd50",
+      "rendered_digest": "42b817918854e2c91be75e683d0ce85de6060a7f0491c4f709287cc15bd30024",
+      "ast_digest": "6afa3bbaa5673f54f70b7a0431708b5299ff3fe9b4926c31b6d2e9e5b06928f4"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/issue_115_canonical_recovery",
+      "reason": "Advance #115 to ready/unbound after current-main recovery, hardened canonical dependency and path proof, fresh R4 design/readiness PASS, typed validate PASS, and doctor PASS; stop before bind or implementation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #115 after governed-room implementation, current-main merge, and focused proof capture before exact review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/issue_115_canonical_recovery",
+      "reason": "Refresh #115 preparation input to the current typed live issue read before fresh design review; preserve all other plan semantics and remain unbound.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\".git/csdlc-v2/requests/issue115-typed-read-canonical-recovery-20260813T1705Z.result.json\",\".csdlc/prepared/issues/110/graph.json\",\".git/csdlc-v2/derived-terminal/111.json\",\".git/csdlc-v2/derived-terminal/112.json\",\".git/csdlc-v2/derived-terminal/113.json\",\".git/csdlc-v2/derived-terminal/270.json\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/issue_115_canonical_recovery",
+      "reason": "Resolve fresh-review P2 by making the preparation validator lane's AC-7 role explicitly partial; full AC-7 remains gated by post-approval typed validate and doctor.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-115-preparation-validator\",\"proof_role\":\"Prove current live #115 identity, unbound branch/worktree state, exact #110 dependency graph and #270 marker, concrete governed-room scope/non-goals from cards and design, typed-canonical #111/#112/#113/#270 terminal ancestry, preparation-only changed-path containment, and only the preparation-validator component of AC-7; typed validate and doctor remain separate post-approval gates before ready.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/115/validate_preparation_bundle.py\"],\"parallel_group\":\"local-preparation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "/root/issue_259_takeover/review_259_exact_r1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/issue_115_canonical_recovery",
+      "reason": "Advance #115 to ready/unbound after current-main recovery, hardened canonical dependency and path proof, fresh R4 design/readiness PASS, typed validate PASS, and doctor PASS; stop before bind or implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:root",
+      "reason": "Record #115 partial Runtime room-routing execution while Observatory UI remains gated on terminal #271",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the Runtime governed room-routing contract slice for #115 while deferring Observatory UI edits until #271 terminal ancestry clears.\",\"changes\":[\"Added exported adl-runtime-kernel conversation_rooms module for explicit governed room turns.\",\"Denied implicit broadcast, duplicate recipients, unknown recipients, ineligible recipients, cross-Polis recipients, unavailable left/revoked recipients, duplicate turns, and reordered turns.\",\"Mapped accepted room routes to Layer 8 AddressRecipients authority scope and preserved partial delivery/refusal/timeout/unavailable/revoked states without hiding recipient identity.\",\"Quarantined an unexported duplicate multi_agent_rooms.rs draft under Git-common quarantine before removing it from the publishable worktree.\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/lib.rs\",\".csdlc/evidence/115/runtime-proof-summary.json\",\".git/csdlc-v2/quarantine/115-duplicate-room-draft-20260816T2322Z/MANIFEST.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:root",
+      "reason": "Record #115 Runtime fmt proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Format check for #115 Runtime governed room-routing slice\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-fmt-check.log\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:root",
+      "reason": "Record #115 Runtime conversation_rooms proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"conversation_rooms\",\"--\",\"--nocapture\"],\"purpose\":\"Focused Runtime governed room-routing proof: explicit recipients, policy/membership denial, partial delivery, Layer 8 scope reuse, ordering, and replay\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/conversation-rooms-test.log; summary .csdlc/evidence/115/runtime-proof-summary.json; 6 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:root",
+      "reason": "Record #115 Runtime strict clippy proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy for #115 Runtime governed room-routing library slice\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-clippy-lib.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:root",
+      "reason": "Record #115 Runtime mention contract refinement",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Refined the #115 Runtime governed room-routing slice with an explicit mention contract for accepted room turns.\",\"changes\":[\"Added governed room mention schema and route payload entries derived from authorized room participants.\",\"Preserved stable recipient ordering and display names so Observatory can render recipient mentions without inferring or expanding recipients in the browser.\",\"Extended the focused runtime proof to assert exact mention identities for accepted room turns.\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\".csdlc/evidence/115/conversation-rooms-test.log\",\".csdlc/evidence/115/cargo-fmt-check.log\",\".csdlc/evidence/115/cargo-clippy-lib.log\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:root",
+      "reason": "Record #115 mention-contract fmt proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Format check after adding #115 governed room mention contract\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-fmt-check.log\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "Record #115 mention-contract runtime proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"conversation_rooms\",\"--\",\"--nocapture\"],\"purpose\":\"Focused Runtime governed room-routing proof after adding stable mention contract\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/conversation-rooms-test.log; summary .csdlc/evidence/115/runtime-proof-summary.json; 6 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:root",
+      "reason": "Record #115 mention-contract strict clippy proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy for #115 Runtime governed room-routing library after mention contract refinement\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-clippy-lib.log\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:root",
+      "reason": "Record #115 Observatory governed room UI slice",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added the #115 Observatory governed multi-agent room surface for explicit participant selection, room turns, and per-recipient delivery rendering.\",\"changes\":[\"Added a Multi-agent room panel to the HTML Observatory communication surface with explicit multi-select participants, participant chips, transcript, composer, and send control.\",\"Added exported governed-room JavaScript helpers for participant normalization, explicit recipient validation, room-turn intent creation, route normalization, and per-recipient delivery rows.\",\"Wired Runtime v3 roster updates into the room participant selector without allowing hidden browser-side recipient expansion.\",\"Added a focused non-credential validator for explicit recipient denial, stable recipient ordering, attributed partial delivery rows, and static DOM anchors.\"],\"artifacts\":[\"demos/html-observatory/index.html\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_governed_room_observatory.mjs\",\".csdlc/evidence/115/governed-room-observatory-validation.json\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "Record #115 Observatory governed room UI validator proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node\",\"adl/tools/validate_v092_governed_room_observatory.mjs\"],\"purpose\":\"Focused #115 Observatory room proof: explicit recipients, no implicit broadcast, stable room intent, attributed partial delivery rows, and static DOM anchors\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/governed-room-observatory-validation.json\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "Record #115 HTML Observatory smoke proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"purpose\":\"Existing HTML Observatory Runtime v3, signed command, and roster projection contract smoke after adding governed room UI\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/html-observatory-smoke.log\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "Record #115 bounded governed room hardening",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Hardened the #115 governed room UI against accidental broad room sends by enforcing an explicit 1-8 recipient bound and removing a fragile CSS.escape selector dependency.\",\"changes\":[\"Rejected room turns with more than eight explicit recipients before send.\",\"Updated the UI help text to disclose the bounded 1-8 recipient contract.\",\"Rendered prepared room delivery labels from selected options without relying on CSS.escape availability.\"],\"artifacts\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"adl/tools/validate_v092_governed_room_observatory.mjs\",\".csdlc/evidence/115/governed-room-observatory-validation.json\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "Record #115 bounded governed room validator proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node\",\"adl/tools/validate_v092_governed_room_observatory.mjs\"],\"purpose\":\"Focused #115 Observatory room proof after enforcing 1-8 explicit recipient bound\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/governed-room-observatory-validation.json\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Advance #115 after governed-room implementation, current-main merge, and focused proof capture before exact review.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Fresh review assignment fresh-session:cc048107-993f-4d25-9a71-95bc411cdc72 produced no verdict after a bounded interval and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged #115 governed-room scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Recover #115 review after fresh-session:e7449ffa-ab24-4a8e-a279-a8b8b04d5e1d found P1 Observatory per-room sequencing bug. Implementation fixed by preserving turn sequences per stable room identity and adding focused room-switch regression proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Record #115 R6 P1 per-room turn sequence remediation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved the fresh exact-review P1 by preserving Observatory governed-room turn sequences per stable room identity instead of using one global UI counter.\",\"changes\":[\"Derived stable governed room identity from normalized explicit recipients for the served Observatory composer.\",\"Tracked next turn sequence per governed room id so switching rooms and returning to a prior room continues the correct Runtime sequence.\",\"Added focused validator coverage for switch-return behavior that would previously trigger a false reordered-turn refusal.\"],\"artifacts\":[\"demos/html-observatory/app.js\",\"adl/tools/validate_v092_governed_room_observatory.mjs\",\".csdlc/evidence/115/governed-room-observatory-validation.json\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Record #115 post-R6-fix focused validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml conversation_rooms -- --nocapture\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml governed_room -- --nocapture\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings\",\"node adl/tools/validate_v092_governed_room_observatory.mjs\",\"bash adl/tools/test_html_observatory.sh\"],\"purpose\":\"Reprove the #115 governed-room Runtime and Observatory surfaces after the per-room turn-sequence remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-fix run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed with per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover stale #115 review assignment fresh-session:92f416b8-2e7f-4afa-9fb2-b8b30caa93cd because validation/lifecycle truth was recorded after its assigned revision; no review verdict is accepted from that stale assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Recover #115 review assignment fresh-session:46dbd343-a3fd-41f8-8b19-fd64543cdb67 after the reviewer correctly failed a prompt-shape mismatch: the typed assignment bound clean substantive revision 78300a633 while live HEAD was the assignment metadata commit 56a6aa353. No product review verdict is accepted from that assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Recover #115 review assignment fresh-session:309b4e3e-2a97-4af5-b6aa-bd42c4c21169 because its assigned revision still includes known R8 scope findings: tracked issue-110 graph artifact and empty lock file. No verdict will be accepted until those artifacts are removed and a fresh exact review is assigned.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Record #115 R8 scope-hygiene remediation before fresh exact review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed out-of-scope tracked lifecycle byproducts from the #115 governed-room implementation branch after fresh review identified them as scope leaks.\",\"changes\":[\"Removed the tracked issue-110 coordination graph artifact from the #115 branch.\",\"Removed the tracked empty #115 lock file from the publishable #115 branch.\",\"Kept the governed-room Runtime and Observatory product implementation unchanged.\"],\"artifacts\":[\".csdlc/prepared/issues/110/graph.json\",\".csdlc/locks/115.lock\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Record #115 accepted-vs-delivered governed-room remediation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Distinguished Runtime-accepted governed-room routes from recipient-delivered routes so the Observatory does not claim delivery before recipient delivery evidence exists.\",\"changes\":[\"Added an accepted governed-room delivery state for Runtime-accepted but not yet recipient-delivered turns.\",\"Mapped served Runtime room intent acknowledgements to accepted rather than delivered.\",\"Extended Runtime and Observatory proof so accepted route rows do not invent delivery evidence.\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl/tools/validate_v092_governed_room_observatory.mjs\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "Record #115 accepted-vs-delivered remediation proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml conversation_rooms -- --nocapture\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml governed_room -- --nocapture\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings\",\"node adl/tools/validate_v092_governed_room_observatory.mjs\",\"bash adl/tools/test_html_observatory.sh\",\"git diff --check\"],\"purpose\":\"Prove #115 governed-room accepted-vs-delivered remediation, prior per-room sequencing fix, Runtime routing, Observatory rendering, and diff hygiene before fresh exact review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed including accepted_route_rows_do_not_claim_delivery and per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover premature #115 review assignment fresh-session:e96514a5-0b28-4dad-96b4-5f4a1ca8460d because P2 card truth drift is still known and must be repaired through supported typed routes before another exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "Replace stale #115 preparation-only VPP with implemented governed-room proof lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-governed-room-model\",\"proof_role\":\"Prove explicit governed-room recipients, no implicit broadcast, membership/policy refusal, ordering/replay rejection, authority-scope reuse, and accepted-vs-delivered distinction in the Runtime room model.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_rooms\",\"--\",\"--nocapture\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"runtime-governed-room-served-route\",\"proof_role\":\"Prove the served Runtime governed-room WebSocket route accepts explicit recipients, rejects implicit broadcast without consuming sequence, and returns accepted rather than fabricated delivered state.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"governed_room\",\"--\",\"--nocapture\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"observatory-governed-room-ui\",\"proof_role\":\"Prove the HTML Observatory room composer uses explicit bounded recipients, stable per-room turn sequences, accepted route rows that do not claim delivery, partial/refused/unavailable/revoked delivery rendering, static DOM anchors, and served frame dispatch.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1200,\"argv\":[\"node\",\"adl/tools/validate_v092_governed_room_observatory.mjs\"],\"parallel_group\":\"local-ui\",\"defer_reason\":null},{\"lane\":\"html-observatory-smoke\",\"proof_role\":\"Prove the existing HTML Observatory Runtime v3, signed-command, roster projection, and control-frame smoke still passes after the governed-room UI changes.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"local-ui\",\"defer_reason\":null},{\"lane\":\"format-clippy-diff-hygiene\",\"proof_role\":\"Prove formatting, warning-free Runtime library code, and diff hygiene for the #115 touched surfaces.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":\"Strict clippy and git diff --check are recorded in SOR validation because this lane has a single argv vector.\"}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "Replace stale #115 design-readiness prompts with implemented exact-review prompts",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Verify #115 implements governed multi-agent rooms and message routing only within its owned Runtime/Observatory scope.\",\"Verify Runtime governed-room routes require explicit bounded recipients, reject implicit broadcast, preserve ordering/replay refusal, and reuse Layer 8 AddressRecipients authority without redefining #112 or #270.\",\"Verify accepted governed-room routes do not claim recipient delivery unless actual delivery evidence exists; #270 acknowledgement trust remains a dependency/non-goal.\",\"Verify Observatory renders participant selection, room transcript, accepted/partial/refused/unavailable/revoked states, and per-room turn sequencing without hidden browser recipient expansion.\",\"Verify focused Runtime, UI, smoke, formatting, clippy, and diff-hygiene proof truth matches the exact reviewed revision and no #278/#114/#116/#117/#110 work is absorbed.\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "Replace stale #115 preparation acceptance criteria with implemented governed-room criteria",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Runtime governed-room turns require explicit bounded recipients and deny implicit broadcast or browser-expanded participant sets.\",\"AC-2: Runtime room routing rejects duplicate, unknown, ineligible, unavailable, revoked, cross-Polis, duplicate-turn, and reordered-turn requests without consuming invalid turns incorrectly.\",\"AC-3: Accepted room turns reuse Layer 8 AddressRecipients authority scope without redefining #112 authority or #270 acknowledgement trust.\",\"AC-4: Runtime distinguishes accepted room turns from recipient-delivered turns and does not fabricate delivered state without delivery evidence.\",\"AC-5: Observatory renders explicit participants, room transcript, composer, per-room turn sequencing, and accepted/partial/refused/unavailable/revoked delivery states.\",\"AC-6: #115 excludes #278 durability, #114 parent coordination, #116/#117 qualification work, and #110 parent mutation.\",\"AC-7: Focused Runtime, Observatory, smoke, formatting, strict clippy, diff hygiene, and exact fresh review pass before publication.\"]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Recover intentionally undispatched #115 card-repair-window assignment so supported post-recovery SPP summary and STP deliverable corrections can be applied before the real exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 34,
+      "actor": "codex:/root",
+      "reason": "Correct #115 STP deliverables after review recovery to implemented governed-room product/proof surfaces",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/lib.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_governed_room_observatory.mjs\",\".csdlc/evidence/115/governed-room-observatory-validation.json\",\".csdlc/issues/115\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\".csdlc/prepared/issues/115/readiness-packet.md\",\".csdlc/prepared/issues/115/design.md\",\".csdlc/prepared/issues/115/diagram.mmd\",\".csdlc/prepared/issues/115/validate_preparation_bundle.py\",\"Typed #115 initialized/ready unbound record and rendered cards\",\"Fresh design/readiness review and typed design approval only if review passes\"]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 34,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 35,
+      "actor": "codex:/root",
+      "reason": "Replace #115 VPP with issue-owned governed implementation validator after doctor rejected shared-path lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-115-governed-room-implementation-validator\",\"proof_role\":\"Issue-owned validator proving Runtime governed-room model and served route behavior, accepted-vs-delivered semantics, Observatory governed-room UI rendering, HTML Observatory smoke, formatting, strict clippy, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"python3\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\"],\"parallel_group\":\"local-implementation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 36,
+      "actor": "codex:/root",
+      "reason": "Recover stale #115 review assignment fresh-session:da7c027e-acfa-4187-9a36-6ada962338a1 because the issue-owned VPP validator and final card/source commit moved HEAD after the assigned revision.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 37,
+      "actor": "codex:/root",
+      "reason": "Correct #115 STP deliverables to avoid shared validator/evidence paths after doctor rejected them as unowned validator deliverables",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/lib.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\",\".csdlc/issues/115\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/lib.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_governed_room_observatory.mjs\",\".csdlc/evidence/115/governed-room-observatory-validation.json\",\".csdlc/issues/115\"]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 38,
+      "actor": "codex",
+      "reason": "Align implemented #115 SPP affected areas with owned product paths and the issue-owned validator required by VPP/doctor after accepted-vs-delivered remediation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/lib.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\",\".csdlc/issues/115\"]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 38,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 39,
+      "actor": "codex:/root",
+      "reason": "Recover #115 exact review R11 after fresh-session:ad5f4ae4-2e2d-4c83-9b16-a888b1ee5514 found P1 served governed rooms accept arbitrary first turn_sequence for newly created rooms. Fix must reject or canonicalize first-turn ordering before a fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 40,
+      "actor": "codex:/root",
+      "reason": "Record #115 R11 P1 remediation: served governed rooms now reject a non-initial first turn sequence instead of accepting arbitrary client-selected starting sequence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed the #115 governed-room served route so newly created Runtime rooms start at canonical turn sequence 1 and reject first-turn sequence gaps.\",\"changes\":[\"Initialized newly created served governed rooms with next_turn_sequence 1 instead of trusting envelope.intent.turn_sequence.\",\"Added served-path regression coverage proving first turn_sequence 2 is refused as reordered_room_turn and does not prevent a subsequent canonical sequence 1 turn from being accepted.\",\"Preserved existing governed-room Runtime, Layer 8 dependency, Observatory UI, and #278 durability boundaries.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\"]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 41,
+      "actor": "codex:/root",
+      "reason": "Record focused proof after #115 R11 P1 first-turn sequence remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\"],\"purpose\":\"Prove #115 governed-room Runtime and Observatory implementation after first-turn sequence-gap remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run: fmt passed; conversation_rooms 6 passed; governed_room 3 passed including governed_room_ws_intent_rejects_non_initial_first_sequence; strict clippy passed; governed-room Observatory validator passed; HTML Observatory smoke passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 53,
+      "generation": 41,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 42,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 43,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "azs": [
+    "us-west-2a",
+    "us-west-2b"
+  ],
+  "cleanup": {
+    "active_instances": 0,
+    "delete_status": "absent",
+    "network_interfaces": 0,
+    "security_groups": 0,
+    "vpc_endpoints": 0
+  },
+  "issue": 194,
+  "non_claims": [
+    "infrastructure and SSM smoke only",
+    "does not claim private local model health/restart",
+    "does not claim snapshot recovery, partition, demotion, or one-of-three halt",
+    "does not claim #142 completion",
+    "omits raw AWS identifiers and machine-local paths"
+  ],
+  "preflight_status": "dry_run_preflight_passed",
+  "private_artifact_delivery": {
+    "bucket": "adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2",
+    "control_plane": "SSM invoked shepherd maintenance command; S3 artifact reads used private endpoint path from voters",
+    "prefix": "shepherd/",
+    "ssm_command_complete_count": 2,
+    "ssm_command_failed_count": 0,
+    "status": "passed"
+  },
+  "profile": "agent-logic-admin",
+  "region": "us-west-2",
+  "run_id": "issue-194-s3-fixed-smoke-20260817T003830Z",
+  "schema": "adl.issue194.private_wuji_aws_recovery.live_smoke_receipt.v1",
+  "ssm_command_attempt": 12,
+  "ssm_command_complete_count": 2,
+  "ssm_command_failed_count": 0,
+  "ssm_command_id_sha256": "abe8e3b9fceafb08bad2398b4540778838512664d4ebce15787cee3698e43d87",
+  "ssm_online_attempt": 23,
+  "ssm_online_count": 2,
+  "ssm_smoke_node_outputs": [
+    "issue-194-s3-fixed-smoke-20260817T003830Z aws-voter-a",
+    "issue-194-s3-fixed-smoke-20260817T003830Z aws-voter-b"
+  ],
+  "ssm_smoke_statuses": [
+    "Success",
+    "Success"
+  ],
+  "stack_outputs_sha256": {
+    "AwsVoterAInstanceIdSha256": "0ddc6d99edd5c8b5be598a76c33c9325bccea5442dc72c4e5abfcd6917b0e636",
+    "AwsVoterBInstanceIdSha256": "e4e9dec4fb6ea69b1df95e5a9938bd6e0a88fffd5a7390fbb7983e2599316af7",
+    "InstanceSecurityGroupIdSha256": "d96f91939495a2260de586ccc320c2e3f51aab44c3e85c7eadae7588b569c741",
+    "PrivateSubnetASha256": "b7dae9b7a248c3ee0a656e5dc7f6ba2e6be3a809ee050bcb6a44648efb2800df",
+    "PrivateSubnetBSha256": "9dceff10e0ced4be484017d2fd5bfceebacb243df45399c1cf4a80180d4490b7",
+    "S3GatewayEndpointIdSha256": "391bf04701f5fb6e0118b5cea9b43fde704a8d317fc411a953357c601b35765e",
+    "VpcIdSha256": "e53729f3b747863731d4cc61830d31056d9a86aff37634f7f2ca199a9cb5b8f9"
+  },
+  "status": "passed",
+  "ttl_expires_at": "2026-08-17T00:53:31.790025Z",
+  "ttl_minutes": 15,
+  "voter_mesh": {
+    "control_plane": "SSM invoked shepherd maintenance commands only; peer payloads flowed over direct private TCP",
+    "directions": [
+      "aws-voter-a-to-b",
+      "aws-voter-b-to-a"
+    ],
+    "proof_role": "private_acip_ready_tcp_adjacency",
+    "status": "passed"
+  }
+}

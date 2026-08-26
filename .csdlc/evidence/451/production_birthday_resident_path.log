@@ -1,0 +1,12 @@
+
+running 2 tests
+test tampered_tool_receipt_cannot_enter_birthday_authority ... ok
+test authenticated_runtime_receipt_drives_exactly_once_birthday_and_restart ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation/adl-runtime)
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s
+     Running tests/production_birthday_runtime.rs (adl/target/debug/deps/production_birthday_runtime-db61e823cf846c63)

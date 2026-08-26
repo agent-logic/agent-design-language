@@ -1,0 +1,62 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 270
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Bind and implement #270 only within the trusted recipient-acknowledgement Runtime API/protocol scope, then validate, obtain fresh exact-head review, publish, observe CI, and finish through typed authority if all gates pass; do not mutate or absorb #271, #114 children, #115, #112 core, or #265 ingress enforcement.
+
+## Deliverables
+
+- .csdlc/prepared/issues/270/readiness-packet.md
+- .csdlc/prepared/issues/270/design.md
+- .csdlc/prepared/issues/270/diagram.mmd
+- .csdlc/prepared/issues/270/validate_preparation_bundle.py
+- Typed #270 bootstrap record and rendered SIP/STP/SPP/VPP/SRP/SOR cards
+- Fresh design/card review and typed design approval if review passes
+
+## Acceptance
+
+1. AC-1: #270 records the live issue identity and #112 child role while binding only through the typed FastWork worktree route.
+2. AC-2: Cards state that #270 consumed terminal+ancestral #112 and #265 before bind or implementation.
+3. AC-3: Scope is limited to trusted recipient-acknowledgement Runtime API/protocol, production served route, verify-before-side-effects, credential-generation binding, refusal/delivery distinction, and correlation redaction.
+4. AC-4: Non-goals exclude #112 authority invention, #265 ingress enforcement, #115 room/UI behavior, Observatory/UI, durable transcript storage, acknowledgement-watermark persistence, cloud exposure, and sibling/downstream mutation.
+5. AC-5: #270 binds and implements only after #112/#265 terminal caches validate and their merge SHAs are ancestral to current main.
+6. AC-6: Preparation validator, doctor, validate, focused implementation proof, and strict relevant lint/format checks pass for the #270 scope.
+7. AC-7: Fresh design/card review and fresh exact-head implementation review have no unresolved actionable findings before approval/publication.
+
+## Dependencies
+
+- #112 terminal and ancestral to execution base
+- #265 terminal and ancestral to execution base
+- #115 follows #270 and must not be absorbed here
+- #114/#276/#277/#278 durable-history chain remains downstream and out of scope
+
+## Inputs
+
+- agent-logic/agent-design-language#112
+- agent-logic/agent-design-language#265
+- agent-logic/agent-design-language#270
+- .git/csdlc-v2/requests/issue112-typed-read-for-265-readiness-20260813T1128Z.result.json
+- .git/csdlc-v2/requests/issue265-typed-read-for-readiness-20260813T1128Z.result.json
+- .git/csdlc-v2/requests/issue270-typed-read-for-265-readiness-20260813T1128Z.result.json
+- .csdlc/issues/265/index.json
+
+## Non Goals
+
+- Defining #112 authority primitives or identity-message contract
+- Implementing #265 Runtime kernel ingress enforcement
+- Implementing #115 multi-agent room or UI behavior
+- Implementing #271 Observatory/UI integration
+- Implementing #114 durable transcript storage or acknowledgement-watermark persistence
+- Creating cloud/public exposure work
+- Mutating #112 parent/prep, #265, #271, #115, #114, #276, #277, or #278
+- Publishing, merging, or finishing before fresh exact-head review and required CI are green

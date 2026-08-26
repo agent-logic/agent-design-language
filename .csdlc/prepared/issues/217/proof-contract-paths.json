@@ -1,0 +1,16 @@
+{
+  "schema": "adl.proof_contract_paths.v1",
+  "issue": 217,
+  "purpose": "Freeze every preparation contract, proof tool, and workflow path whose bytes must remain identical from reviewed producer head H through independently reviewed retention head H2.",
+  "expected_path_count": 8,
+  "paths": [
+    ".csdlc/prepared/issues/217/historical-c640-denominator.json",
+    ".csdlc/prepared/issues/217/protected-source-denominator.json",
+    ".csdlc/prepared/issues/217/proof-contract-paths.json",
+    ".csdlc/prepared/issues/217/h2-retention-allowlist.json",
+    ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb",
+    ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+    ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+    ".github/workflows/wp14-retained-native-proof.yml"
+  ]
+}

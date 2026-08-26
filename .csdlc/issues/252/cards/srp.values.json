@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 252,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: eliminate hosted Guardian executable spawn flake",
+    "slug": "guardian-hosted-spawn-flake",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime/src/guardian.rs test-only serialization correctness\nretained ten-run eight-thread proof from repository-root and crate caller cwd\nboth hosted SpawnFailed regressions, missing-program fail-closed semantics, typed validation evidence, and all #252 acceptance criteria",
+      "review_revision": "git-blake3:13b88a96186c55d4320758e21aae3ba5c33b08c6:1707656d026a18098d6de4df998ea3725f4135b1a46becdf0f4e204d27d7b2f0",
+      "reviewer": "fresh-agent:issue-252-rereview",
+      "review_prompts": [
+        "Does the correction address the shared deterministic cause rather than mask SpawnFailed?",
+        "Can parallel tests still collide on a child executable or path?",
+        "Do missing programs retain fail-closed behavior?",
+        "Do focused and full Runtime proofs cover both hosted failures?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Hosted Linux confirmation remains required CI evidence after publication."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 407,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "5ba38da70ce5022a29ce1dac564b5e30e24972939e4fc6fedddf1301bbdc13fa",
+  "phase": "published",
+  "generation": 7,
+  "digest": "53e834aead1718ced6a232b4c3c661ebae56fad54b21ffefe2f497011ceeb7d1",
+  "branch": "codex/407-implemented-sip-goal-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-407-implemented-sip-goal-recovery",
+  "review_assignment": {
+    "reviewer": "fresh-session:5842e447-3520-4686-ab09-08b49d028904",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:1cc0afa63b1906b18064778d0f367bf93e5b20b6:167be6441a652fdf1fdfdc491c860ecbb46ce103f4cd74c680c57bdc25085e51",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/407",
+      ".csdlc/prepared/issues/407",
+      ".csdlc/evidence/407"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:5842e447-3520-4686-ab09-08b49d028904",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/407",
+      ".csdlc/prepared/issues/407",
+      ".csdlc/evidence/407"
+    ],
+    "reviewed_revision": "git-blake3:1cc0afa63b1906b18064778d0f367bf93e5b20b6:167be6441a652fdf1fdfdc491c860ecbb46ce103f4cd74c680c57bdc25085e51",
+    "findings": [],
+    "residual_risks": [
+      "Validation is focused rather than full-suite; no uncovered issue-specific correctness risk was identified."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 407,
+    "pull_request": 408,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/408",
+    "base": "main",
+    "head": "codex/407-implemented-sip-goal-recovery",
+    "revision": "git-blake3:a974e353e675b01bab614a1874d1d7da268b5212:9a954ccd0af6c5d4f5a7a11aa7570eac15c0188d2980a5de20f95d212367b957",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/407/design.md",
+  "diagram_path": ".csdlc/prepared/issues/407/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:8ab0950a-2247-4141-8af8-3f36f169d4a3",
+      "revision": "21f11538fd99055fdb1089c53fcf59972bc5e26503446eaf7c5b7b8d49918387"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f68ee25a621d4a746cb7bdbe6154c3c46e07677b588f6b7d6d060f4deee9a37b",
+      "rendered_digest": "1d17f05e60722cfef777403a59b6599bfac39a9d6a8c935c57ecd6a22c4fef4e",
+      "ast_digest": "0ab2111b6f1ff8db235bf8c86df391aa13f38084f0f39a3e5098277dee40382c"
+    },
+    "stp": {
+      "values_digest": "f2db27ba113f928449bcc5ea827957097b0e3da8f783760e33642c8c283702f9",
+      "rendered_digest": "84b2bc9f8079899d04e173e8c64cb657af7a671ea42b8a6f98f87f251b886618",
+      "ast_digest": "85a44608630987708aec871520be4e48b4b9423796316dba43385a698c8d199f"
+    },
+    "spp": {
+      "values_digest": "7a56eb71b981407c3c7e99ceaf6ed4adf2100f7db94586af54de502087155305",
+      "rendered_digest": "44ad4d3585b009a3ad38d47de81d98135845d86d81c288c332ec82f699a68304",
+      "ast_digest": "a25e3e734122053944c029a16d47a278911d930b11ea6150e45bcb41ab861787"
+    },
+    "vpp": {
+      "values_digest": "3b31c533c43d00d32c1cf1868b6ba22496960923b651c2a9a657d6326b96d82b",
+      "rendered_digest": "6f1d5c3d1307f66db56b85e9f89e224e5ea676bb4bdc7a2c4bb0bc08fe73a38b",
+      "ast_digest": "de78d5bb39a3c51f8fbfbcacfaaeff97cc5014e9d4d7301f2c84d6d59f987f42"
+    },
+    "srp": {
+      "values_digest": "4e27bb5f9cdccc5aaa0190a6a7fb7b313361ccf72620ccad36320503edcba6c4",
+      "rendered_digest": "2738392c8b957273f5bea611d9c709161a67df5e69bfcc6f08b420294b56deb9",
+      "ast_digest": "7d7abd230f2be62b47492e5dc98cdc45ea2f4339fab844d836b3bfd56ff095d4"
+    },
+    "sor": {
+      "values_digest": "0aaefed6ee88697e0f07909fa3f38cc3cca3dfc6a69015584d6590c0bb9bb1cd",
+      "rendered_digest": "d7869ab20e78671756c6f03282b2719f8fff72f70d105f4af2dc9b1951bb4977",
+      "ast_digest": "05b6a35690d72c609b65bcd7181e8ad60bc2cc80af2b9cab168aa6b28afc8971"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:root",
+      "reason": "Advance #407 to ready/unbound after canonical fresh design review PASS, typed design approval, and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:5842e447-3520-4686-ab09-08b49d028904",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:root",
+      "reason": "Refresh #407 design digest after design-review proof-plan findings while preserving the exact AC-1 through AC-4 denominator.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/407/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/407/diagram.mmd\",\"new_design_digest\":\"21f11538fd99055fdb1089c53fcf59972bc5e26503446eaf7c5b7b8d49918387\",\"new_diagram_digest\":\"a76d9879e62ccf451ae3864ba83c6ba9018f82edcb111284d206500074693eac\",\"old_design_digest\":\"251dd091bb976349c42c9c572727aac05c3b18b71abe9862c7697a38bf98cb20\",\"old_diagram_digest\":\"a76d9879e62ccf451ae3864ba83c6ba9018f82edcb111284d206500074693eac\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A recovered implemented issue can repair SIP goal through a typed operation.\",\"AC-2: The operation rejects stale generation/digest and unrecovered reviewed/published/terminal state.\",\"AC-3: Existing implemented-phase SIP guards remain fail-closed for unrelated SIP mutations.\",\"AC-4: Focused regression proves #286-style SIP goal recovery without permitting arbitrary implemented SIP edits.\"]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:8ab0950a-2247-4141-8af8-3f36f169d4a3",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"21f11538fd99055fdb1089c53fcf59972bc5e26503446eaf7c5b7b8d49918387\",\"design_ref\":\".csdlc/prepared/issues/407/design.md\",\"diagram_digest\":\"a76d9879e62ccf451ae3864ba83c6ba9018f82edcb111284d206500074693eac\",\"diagram_ref\":\".csdlc/prepared/issues/407/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:root",
+      "reason": "Advance #407 to ready/unbound after canonical fresh design review PASS, typed design approval, and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:root",
+      "reason": "Align #407 VPP focused lane with the exact regression test filter that proved the SIP Goal recovery path.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-focused\",\"proof_role\":\"focused regression\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"recovered_implemented_issue_can_correct_only_the_sip_goal\",\"--test\",\"gate5\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:5842e447-3520-4686-ab09-08b49d028904",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

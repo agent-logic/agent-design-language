@@ -1,0 +1,16 @@
+{
+  "schema": "adl.observatory.security_privacy_adversarial_proof.v1",
+  "issue": 281,
+  "source": "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+  "proof": [
+    "xss_fixture_text_only",
+    "credential_token_redaction",
+    "trusted_https_origin_only",
+    "replay_confused_deputy_stale_denial_fail_closed",
+    "operator_attention_no_authority_grant"
+  ],
+  "public_safe": true,
+  "contains_secrets": false,
+  "contains_private_cognition": false,
+  "contains_raw_provider_payloads": false
+}

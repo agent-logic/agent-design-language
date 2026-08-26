@@ -1,0 +1,95 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 237,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Reconcile Birthday continuity binding across capability and cognitive authorities",
+    "slug": "birthday-continuity-binding-reconciliation",
+    "version": "v0.92",
+    "generation": 34
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Introduce the smallest typed continuity-record binding at the capability boundary, update callers, and prove real composition plus substitution and retained negative behavior.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Confirm and independently review the canonical continuity-record design.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Implement the narrow continuity binding and update existing callers.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Add real signed composition and substitution regression proof.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run exact proof, fresh independent review, required CI, merge, and typed finish.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/birthday_continuity.rs",
+        "adl-runtime-kernel/src/capability_envelope.rs",
+        "adl-runtime-kernel/src/cognitive_profile.rs",
+        "adl-runtime-kernel/tests/capability_envelope.rs",
+        "adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs",
+        "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
+        ".csdlc/issues/237",
+        ".csdlc/evidence/237"
+      ],
+      "invariants": [
+        "Continuity identity bindings are verified",
+        "Authority and privacy checks are not weakened",
+        "Substitution fails closed",
+        "Positive proof is Runtime-produced"
+      ],
+      "risks": [
+        "API churn across retained tests",
+        "Accidental acceptance of a digest-only unverified record",
+        "A compatibility shortcut could weaken substitution resistance"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The fix requires public trust constructors",
+        "The fix requires broader Runtime redesign",
+        "A real signed continuity record cannot be verified without fixture authority",
+        "Any source edit begins before design approval"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/237/design.md",
+      "design_digest": "6e6e122d1b8ed8399e47793e9aab12131f107bb66ebba8a573482bc750992c9d",
+      "diagram_ref": ".csdlc/prepared/issues/237/diagram.mmd",
+      "diagram_digest": "5cfcdecfc7cf13d3a56ebf2d905ea63c4a59781cbff3c3b9b839e8c78780c9b4"
+    }
+  }
+}

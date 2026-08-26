@@ -1,0 +1,21 @@
+flowchart TD
+    Reviewed["Reviewed exact head"]
+    Intent["Publish computes intent and metadata obligations before success"]
+    Push["Push or reconcile exact PR head"]
+    Tail{"Post-push tail exists?"}
+    Required{"Tail contains required lifecycle or finish-consumed metadata?"}
+    SafeTail{"Only explicit safe cache absent from finish status remains?"}
+    Success["Publication success: finish can verify exact head"]
+    Fail["Fail closed with actionable dirty-tail evidence"]
+    Finish["csdlc-finish terminal verification"]
+
+    Reviewed --> Intent
+    Intent --> Push
+    Push --> Tail
+    Tail -- "none" --> Success
+    Tail -- "yes" --> Required
+    Required -- "yes" --> Fail
+    Required -- "no" --> SafeTail
+    SafeTail -- "yes" --> Success
+    SafeTail -- "no or ambiguous" --> Fail
+    Success --> Finish

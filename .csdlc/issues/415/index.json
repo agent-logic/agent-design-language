@@ -1,0 +1,213 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 415,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6037409f66fba3a4ebafae9a06b9df42e8c8a1a9983858fcbbfa7826db44bce6",
+  "phase": "published",
+  "generation": 7,
+  "digest": "83d3472e5c251e67de9262aa12591109c3e8d802daed8a14a2f66f67b21083e9",
+  "branch": "codex/415-builder-preflight-diagnostics",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-415-builder-preflight-diagnostics",
+  "review_assignment": {
+    "reviewer": "fresh-session:3c69e04a-000a-402d-b62a-7b9d865553f1",
+    "assigned_by": "codex:issue-415",
+    "revision": "git-blake3:78112644e520b52e8f221645d570d0c30bbf84ef:32d971bd2da7f7af4a5e77b3e37c9038d9300fd8172eb2631a35864db2c2421c",
+    "scope": [
+      ".csdlc/issues/415",
+      ".csdlc/prepared/issues/415",
+      ".csdlc/evidence/415",
+      "adl/tools/run_aws_spot_builder_image_validation.sh",
+      "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "tools/aws_remote_validation/scripts/remote_validation_runner.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3c69e04a-000a-402d-b62a-7b9d865553f1",
+    "scope": [
+      ".csdlc/issues/415",
+      ".csdlc/prepared/issues/415",
+      ".csdlc/evidence/415",
+      "adl/tools/run_aws_spot_builder_image_validation.sh",
+      "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+      "tools/aws_remote_validation/scripts/remote_validation_runner.sh"
+    ],
+    "reviewed_revision": "git-blake3:78112644e520b52e8f221645d570d0c30bbf84ef:32d971bd2da7f7af4a5e77b3e37c9038d9300fd8172eb2631a35864db2c2421c",
+    "findings": [],
+    "residual_risks": [
+      "No live AWS validation ran because issue #415 explicitly prohibits paid launch; the deterministic local runner and fake-provider fixtures are the proving boundary."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 415,
+    "pull_request": 416,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/416",
+    "base": "main",
+    "head": "codex/415-builder-preflight-diagnostics",
+    "revision": "git-blake3:5a152fee214c8c4c62e281691926f0a35021269f:751c159827c73cf11a841084c5600c158faba2fe9787241c127bb7232f6add05",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/415/design.md",
+  "diagram_path": ".csdlc/prepared/issues/415/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:2122ed79-2171-4ed0-a166-d72146804afc",
+      "revision": "464d54f4988eaaeebc78a4cbb18f5d5b67ffe3766b4e68de6725f4e50b264c4d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e589cfb20b1125613c04eaa7cd8a484c981078d300c5140d04d4b9ebbd043dcd",
+      "rendered_digest": "a808919bd08ac8d6cabb709455b6ed918578fdd4084b39340e09abec259f15d9",
+      "ast_digest": "0e2b3caba2da4dbf59f8028a135511fda8535648f0c19a096da6e9374791d573"
+    },
+    "stp": {
+      "values_digest": "8a23625488d5c76dcf1fc5f2fddd34efba499bf50fce0219b0e52839e4eb0f9c",
+      "rendered_digest": "49c7c64933d265f18bc89ab562868438aaa5af448489f0906e074b2a14355e01",
+      "ast_digest": "3842e82a542b09ffef44fd24d7ce1abb44ea05fb0b8401c70a85ca4b225a52cb"
+    },
+    "spp": {
+      "values_digest": "53dfeff68998da93cbf9fca620a08b64754acbaab871a2fae78852e71b83b838",
+      "rendered_digest": "6d8a90d815dca253ca2574dbad36973f9ee330d622cd6eae3b493673f112e9bf",
+      "ast_digest": "529365bac42bf9c7d841ac9cd2e7ababb12a903a12da342d112da87a1f37bff7"
+    },
+    "vpp": {
+      "values_digest": "64b09556cf6ec1480af6b170139e8153edd760b147d284bb36d6ded593baa1d7",
+      "rendered_digest": "aa608f04e26efd1bc935396ae3c50f7bed6114bead8121d023ed8ef641b93614",
+      "ast_digest": "b497eda96940af7d0e123be9a734c4766ff6c0b914f638f4506ca61b4ce84f44"
+    },
+    "srp": {
+      "values_digest": "beed3edd55d9c37560be33a2f105439f0dbc412f7c5e1fe03f6a7fcec902fde2",
+      "rendered_digest": "adb1ab272412f07f7ab5e61a2b9a60f3c6a315a4c0014bd83c19c8c2f9cac791",
+      "ast_digest": "9df63e7aee1311fbb09a468b647a0aa1f808ac2b92e1a37926e8016ab8a3cf71"
+    },
+    "sor": {
+      "values_digest": "aba3e89615a850e3ebded9580f6bbe3ad717f89254d21c4da7bb8c52c988c4da",
+      "rendered_digest": "84fd0c479bad48f747db4402048b30cac15c0fb1c53515b0705886a0d00bbbd1",
+      "ast_digest": "23437ae48aa3dbd585b3d8cc4a85987348634aef6f60bed9f7b0d68b5bda04ad"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-415-bootstrap",
+      "reason": "Advance #415 after complete typed bootstrap, fresh design review PASS, governed validation lanes, and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-415",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-415",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-415",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-415-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-415-bootstrap",
+      "reason": "Remove the non-executable multi-file bash -n lane; the focused script owns syntax, diagnostics, cleanup-compatibility, and exact-scope proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"builder-diagnostics-focused\",\"proof_role\":\"Prove labeled preflight success, missing-tool retained diagnostics, runner emission, cleanup compatibility, syntax, and exact scope without AWS.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_run_aws_spot_builder_image_validation.sh\"],\"parallel_group\":\"415-local\",\"defer_reason\":null},{\"lane\":\"typed-finalization-gates\",\"proof_role\":\"Require current typed validation, fresh exact-head review, hosted readiness, and terminal finish before #268 retry.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"doctor\",\"--issue\",\"415\"],\"parallel_group\":\"415-final\",\"defer_reason\":\"Run after implementation evidence is recorded and before review/publication.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-415-bootstrap",
+      "reason": "Advance #415 after complete typed bootstrap, fresh design review PASS, governed validation lanes, and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-415",
+      "reason": "Keep the governed validation manifest executable from the bound worktree while the focused lane proves all six acceptance criteria, including exact lifecycle and scope assertions.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"builder-diagnostics-focused\",\"proof_role\":\"Prove labeled preflight success, missing-tool retained diagnostics, runner emission, cleanup compatibility, syntax, exact scope, and lifecycle non-mutation without AWS.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_run_aws_spot_builder_image_validation.sh\"],\"parallel_group\":\"415-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-415",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-415",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-415",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:issue-415",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:issue-415",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-415",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

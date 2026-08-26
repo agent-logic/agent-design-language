@@ -1,0 +1,22 @@
+flowchart TD
+    D191["#191 secure authority"] --> F272["#272 durable foundation"]
+    D199["#199 membership truth"] --> F272
+    D200["#200 reconciliation barrier"] --> F272
+    D201["#201 committed operation"] --> F272
+    D202["#202 learner exclusion"] --> F272
+    D203["#203 opaque published receipt view"] --> F272
+
+    F272 --> PEND["Pending durable intent"]
+    PEND --> RECON["Revalidate exact authority cut"]
+    RECON --> STORE["Commit bounded durable state"]
+    STORE --> PUB["Publish redacted base projection"]
+
+    F272 -. "terminal and ancestral" .-> S273["#273 Shepherd authority"]
+    F272 -. "terminal and ancestral" .-> O274["#274 Observatory authority"]
+    S273 -.-> I275["#275 integrated proof"]
+    O274 -.-> I275
+    I275 -.-> P205["#205 coordination closeout"]
+
+    F272 --> N1["No #203 registry edits"]
+    F272 --> N2["No eligibility lifecycle"]
+    F272 --> N3["No process, listener, migration, UI, or cloud"]

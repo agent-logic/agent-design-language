@@ -1,0 +1,24 @@
+{
+  "issue": 111,
+  "expected_generation": 64,
+  "expected_digest": "09513904016ba5aa034e1f6e47b54584572533e63b91de85169bcc6c2dbd1358",
+  "reviewer": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+  "assigned_by": "codex:wp18c01-fresh-review-remediation",
+  "scope": [
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/ingress.rs",
+    "adl-runtime-kernel/src/operations.rs",
+    "adl-runtime-kernel/tests/conversation_sessions.rs",
+    "adl-runtime-kernel/tests/agent_roster.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime-kernel/tests/observatory.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/index.html",
+    "demos/html-observatory/styles.css",
+    "demos/html-observatory/tests/conversation_sessions.test.mjs",
+    ".csdlc/issues/111"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 239,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/239-terminal-envelope-reconciliation",
+  "title": "Fix derived terminal metadata-head reconciliation",
+  "body": "## Outcome\n\nReconcile cached derived-terminal envelopes when typed review and publication add only governed metadata commits after the reviewed implementation head.\n\n## Proof\n\n- Focused PR #238-shaped acceptance and fail-closed regression passes.\n- Full `gate_finish` suite passes 18/18.\n- Cached #5835 validation passes with the repaired source binary.\n- Independent exact-head review approved with no findings.\n\n## Scope\n\nRoot-aware terminal-envelope validation, its two consumers, focused regression coverage, and typed evidence only. No #5835 cards were rewritten.\n\nCloses agent-logic/agent-design-language#239",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:d55bcb3cd718fae51f48f7d7b106141313a4448d:2f29a97d2d009bab29dd54407963029869567fcc83a053218f9728dcda2057c5",
+  "commit_sha": "d55bcb3cd718fae51f48f7d7b106141313a4448d"
+}

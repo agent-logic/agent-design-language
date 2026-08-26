@@ -1,0 +1,39 @@
+{
+  "schema": "adl.external_review.validation.v1",
+  "canonical_issue": 314,
+  "legacy_csdlc_issue": 5847,
+  "report_received": true,
+  "source_report_count": 3,
+  "source_finding_count": 10,
+  "unique_finding_count_after_deduplication": 7,
+  "authority_checks": [
+    "source reports retained byte-for-byte under docs/reviews/v0.92/external-review-5847",
+    "reviewer authority is read-only and grants no product, GitHub, lifecycle, release, deployment, or remediation authority",
+    "actionable remediation is routed to #315 / WP-27",
+    "operator-designated remediation child #471 is routed under #315 / WP-27 and not under #314 or #316",
+    "#316 / WP-28 remains independent and is not a remediation owner for this external-review intake",
+    "deduplication is recorded only in cross-report-deduplication-index.json"
+  ],
+  "blockers": [
+    {
+      "code": "target_revision_not_established_by_reviewer_reports",
+      "message": "The documentation review says no dispatch, exact head SHA, or corpus digest was provided; the code reviews say no git operations were run."
+    },
+    {
+      "code": "documentation_review_verdict_blocked",
+      "message": "The documentation report verdict is BLOCKED on the handoff Send Gate."
+    },
+    {
+      "code": "code_review_outside_documentation_packet",
+      "message": "The code review reports state they were operator-requested and outside the WP-23/#312 documentation packet."
+    }
+  ],
+  "live_issue_metadata_read": {
+    "date": "2026-08-24",
+    "issues": ["#315", "#316", "#471"],
+    "remote_mutation_performed": false,
+    "note": "Local routing artifacts reflect the operator update; no live GitHub issue body or metadata was changed in this intake step."
+  },
+  "ready_for_315_handoff": true,
+  "ready_for_release_or_closeout": false
+}

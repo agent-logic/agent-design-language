@@ -1,0 +1,13 @@
+
+running 6 tests
+test runtime_serves_machine_and_human_readable_openapi_docs ... ok
+test runtime_core_wss_documents_real_bidirectional_acip_boundary ... ok
+test observatory_wss_documents_real_bidirectional_frame_boundary ... ok
+test openapi_operations_are_deterministic_client_generation_ready ... ok
+test openapi_paths_match_current_runtime_v3_axum_route_inventory ... ok
+test runtime_and_observatory_openapi_contracts_are_valid_and_disjoint ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/openapi_contract.rs (adl-runtime-kernel/target/debug/deps/openapi_contract-5c45175c8c0e60b4)

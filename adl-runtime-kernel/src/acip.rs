@@ -198,6 +198,9 @@ fn validate(envelope: &AcipEnvelope) -> Result<(), String> {
     required(&envelope.capability, "capability")?;
     required(&envelope.authority, "authority")?;
     required(&envelope.payload_type, "payload_type")?;
+    if envelope.replay_id != format!("{}:{}", envelope.source, envelope.monotonic_sequence) {
+        return Err("replay_id must bind source and monotonic_sequence".to_owned());
+    }
     if envelope.required_features.len() > 32
         || envelope
             .required_features

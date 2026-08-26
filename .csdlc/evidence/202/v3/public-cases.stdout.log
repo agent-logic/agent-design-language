@@ -1,0 +1,17 @@
+
+running 13 tests
+test artifact_kind_remains_coarse_membership ... ok
+test public_empty_domain_denied ... ok
+test public_empty_guardian_denied ... ok
+test public_empty_node_denied ... ok
+test public_empty_polis_denied ... ok
+test public_enrollment_is_canonical_membership_artifact ... ok
+test public_invalid_deadline_denied ... ok
+test public_removal_is_distinct_canonical_membership_artifact ... ok
+test public_zero_boot_generation_denied ... ok
+test public_zero_certificate_generation_denied ... ok
+test public_zero_cut_digest_denied ... ok
+test public_zero_membership_digest_denied ... ok
+test public_zero_raft_id_denied ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s

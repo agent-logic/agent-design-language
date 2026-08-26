@@ -1,0 +1,34 @@
+{
+  "issue": 318,
+  "card": "sor",
+  "expected_generation": 18,
+  "expected_digest": "6610dbc34d934de401c9df2de70611f20216b26a6a432b74038fc334ff97fe55",
+  "actor": "codex:root",
+  "reason": "replace stale execution truth with the completed 45-slot readiness package and current focused proof",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Completed the WP-29 next-milestone readiness review, live-checked the canonical #307-#319 issue universe, and reconciled the canonical v0.92.1 planning package so all 45 creation-owned issues are independently finishable single units with exact release-tail identity and merge-only ordering.",
+    "changes": [
+      "Normalized exact INT-01 and TAIL-01 through TAIL-10 titles and serial dependencies.",
+      "Defined structured one-objective, one-primary-deliverable, one-verifiable-result contracts for all 45 creation-owned issues.",
+      "Added bounded AWS and GCP move-in units, cross-cloud Terraform conversion, Rust resilience refactoring, and governed Agent Toolkit setup under AWS-B.",
+      "Added live GitHub and Git reconciliation, source-provenance guards, ten exact negative cases, and an evidence-backed finding disposition."
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
+      "docs/milestones/v0.92.1",
+      ".csdlc/evidence/318/issue-universe.json",
+      ".csdlc/evidence/318/findings.json",
+      ".csdlc/evidence/318/readiness-review.json",
+      ".csdlc/evidence/318/planning-source-addendum.json",
+      ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+      ".csdlc/prepared/issues/318/test-validate-readiness-review.rb"
+    ],
+    "validation": [
+      {"command":["ruby",".csdlc/prepared/issues/316/validate-v0921-plan.rb"],"purpose":"Validate 55 planned IDs, 45 creation slots, the exact ten-step release tail, source dispositions, and dependency closure.","outcome":"passed","evidence_ref":"docs/milestones/v0.92.1"},
+      {"command":["ruby",".csdlc/prepared/issues/318/validate-readiness-review.rb","all"],"purpose":"Live-check the 13-row issue/PR universe and validate all 45 structured unit contracts, exact tail order and dependencies, source provenance, and successor non-claims.","outcome":"passed","evidence_ref":".csdlc/evidence/318"},
+      {"command":["ruby",".csdlc/prepared/issues/318/test-validate-readiness-review.rb"],"purpose":"Prove fail-closed rejection of ten exact planning and unit-contract defects.","outcome":"passed","evidence_ref":".csdlc/evidence/318"}
+    ]
+  },
+  "fail_after_backup": false
+}

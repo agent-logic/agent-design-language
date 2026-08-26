@@ -1,0 +1,46 @@
+flowchart TD
+  A["Typed classify request with tagged CAS anchor"] --> B["Acquire issue lock and verify topology/CAS"]
+  B --> C["Open canonical, backup, and preserved nodes without following links"]
+  C --> D{"Exactly one verified prior candidate and unambiguous rejected evidence?"}
+  D -- "No" --> X["Fail closed: ambiguous or unsafe; preserve everything"]
+  D -- "Yes" --> E["Write PREPARED and ARCHIVE_INTENT receipts"]
+  E --> F["Archive exact rejected inode; adopt exact post-state after crash"]
+  F --> G["Write REJECTED_ARCHIVED and CANONICAL_CREATE_INTENT"]
+  G --> H0["Write candidate root and per-node CREATE_INTENT receipts"]
+  H0 --> H["Exclusive create, fsync, and record exact CREATED identities for complete embedded-audit candidate"]
+  H --> I["Verify all created receipts; write RECOVERY_CANONICAL_PREPARED and INSTALL_INTENT"]
+  I --> J["Install/adopt exact candidate and fsync issue parent"]
+  J --> K["Write RECOVERY_CANONICAL_INSTALLED then CANONICAL_VERIFIED receipts"]
+  K --> L["Write final RECOVERED receipt and fsync"]
+  L --> M["Ordinary typed commits may resume"]
+  L --> N["Separate exact-identity cleanup request"]
+  N --> O0["Write CLEANUP_PREPARED and PRIVATE_DELETE_NAMESPACE_CREATE_INTENT"]
+  O0 --> O1["Separate stable cleanup ledger authorizes exclusive empty 0700 namespace creation; write PRIVATE_DELETE_NAMESPACE_CREATED"]
+  O1 --> O2["Write ROOT_PLACEHOLDER_CREATE_INTENT"]
+  O2 --> O["Exclusive create and fsync 0600 placeholder; write ROOT_PLACEHOLDER_CREATED"]
+  O --> P["Intent then exchange exact archive with placeholder; fsync both parents"]
+  P --> Q["Per-node TOMBSTONE_CREATE_INTENT to CREATED, then CAPTURE_INTENT to CAPTURED to REMOVED"]
+  Q --> Q1{"Placeholder is regular file or empty directory?"}
+  Q1 -- "No" --> X
+  Q1 -- "Yes" --> Q2["Create and fsync exact type-matched counterpart; write CREATE_INTENT then CREATED"]
+  Q2 --> Q3["Exchange exact identities; fsync both parents; write PLACEHOLDER_CAPTURED"]
+  Q3 --> Q4["ORIGINAL REMOVE_INTENT; unlink file or rmdir empty directory; fsync; write ORIGINAL REMOVED"]
+  Q4 --> Q5["COUNTERPART CAPTURE_INTENT; no-replace rename; fsync both parents; write CAPTURED"]
+  Q5 --> Q6["COUNTERPART REMOVE_INTENT; unlink or rmdir; fsync; write COUNTERPART REMOVED"]
+  Q6 --> V["Verify exact private namespace identity is empty; write CLEANUP_REMOVED then CLEANUP_COMPLETE"]
+
+  R["Restart after any boundary"] --> S["Scan immutable receipt chain"]
+  S --> T{"Recorded inode identities still match?"}
+  T -- "No" --> X
+  T -- "Yes" --> U["Resume idempotently from last durable receipt and embedded operation id"]
+  U --> F
+  U --> H0
+  U --> J
+  U --> L
+  U --> O0
+  U --> O2
+  U --> Q2
+  U --> Q3
+  U --> Q4
+  U --> Q5
+  U --> Q6

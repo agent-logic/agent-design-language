@@ -1,0 +1,5 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running tests/distributed_runtime_transport.rs (adl-runtime/target/debug/deps/distributed_runtime_transport-fdba6062feba61e2)
+
+running 1 test
+test three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state ...

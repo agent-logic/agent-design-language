@@ -1,0 +1,585 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 450,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "2ba84a82b33fdb23b6c516a95a7dcd1b9311eefaea6b2e4c9c9ab1391c925625",
+  "phase": "published",
+  "generation": 27,
+  "digest": "949d438da46ec4324e9b2d6c7647bbab20e3cd5e2e91da98a6b908744f8ad221",
+  "branch": "codex/450-memory-palace-production-authority",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority",
+  "review_assignment": {
+    "reviewer": "fresh-session:e14a6aa9-a471-4d29-9120-75cd4c0e96f9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:c33e65009d105b27f7f1dc557f5d95b3aca305af:4c74b3c9dad4579ebb7a47b1c6170e1ea93b03f8ed106009a42d41976ed7c379",
+    "scope": [
+      ".csdlc/issues/450/audit.jsonl",
+      ".csdlc/issues/450/cards/sip.values.json",
+      ".csdlc/issues/450/cards/sor.md",
+      ".csdlc/issues/450/cards/sor.values.json",
+      ".csdlc/issues/450/cards/spp.values.json",
+      ".csdlc/issues/450/cards/srp.md",
+      ".csdlc/issues/450/cards/srp.values.json",
+      ".csdlc/issues/450/cards/stp.values.json",
+      ".csdlc/issues/450/cards/vpp.values.json",
+      ".csdlc/issues/450/index.json",
+      "adl/tests/memory_palace_tests.rs",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:e14a6aa9-a471-4d29-9120-75cd4c0e96f9",
+    "scope": [
+      ".csdlc/issues/450/audit.jsonl",
+      ".csdlc/issues/450/cards/sip.values.json",
+      ".csdlc/issues/450/cards/sor.md",
+      ".csdlc/issues/450/cards/sor.values.json",
+      ".csdlc/issues/450/cards/spp.values.json",
+      ".csdlc/issues/450/cards/srp.md",
+      ".csdlc/issues/450/cards/srp.values.json",
+      ".csdlc/issues/450/cards/stp.values.json",
+      ".csdlc/issues/450/cards/vpp.values.json",
+      ".csdlc/issues/450/index.json",
+      "adl/tests/memory_palace_tests.rs",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:c33e65009d105b27f7f1dc557f5d95b3aca305af:4c74b3c9dad4579ebb7a47b1c6170e1ea93b03f8ed106009a42d41976ed7c379",
+    "findings": [],
+    "residual_risks": [
+      "Review was scoped to the #450 AC8 docs/assertion repair and lifecycle metadata only.",
+      "Reviewer reported PASS with no actionable P1/P2 findings.",
+      "Reviewer explicitly did not inspect PR #455 or the protected #446 paths.",
+      "Local validation passed: cargo fmt --manifest-path adl/Cargo.toml --all -- --check; cargo test --manifest-path adl/Cargo.toml --test memory_palace_tests -- --nocapture."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 450,
+    "pull_request": 458,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/458",
+    "base": "main",
+    "head": "codex/450-memory-palace-production-authority",
+    "revision": "git-blake3:39c9c5d5ddaddd5882bad7d609cc2d2393179b94:5bc19a2efbc02846beb4c70fce728dd5fe6a48a681e3061597afd294b97c15f2",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/450/design.md",
+  "diagram_path": ".csdlc/prepared/issues/450/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:85e53605-b8b3-4d02-a162-66b3aa855edb",
+      "revision": "42bd13f41b0c2bb00527dbced97e3ce57d46f4fc4418d82deecd0e7ef7dc83a4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "cbb60e0cdb4a93f3ffff6d065748800ef98a069c0e83fa1292035403302fabb4",
+      "rendered_digest": "bc05390fa59e1fdfd58f2a28c97735cbab105c0abd7922757f7e189e7294d71c",
+      "ast_digest": "d07f704144b9191f595ce437134d39e0dbc0193195493e4825550db98d9c49f1"
+    },
+    "stp": {
+      "values_digest": "6e78f8e299753af3f2830ad85a6552c20d72247abf5763141fd2fb2ba2685c6d",
+      "rendered_digest": "085979d3227cb2fb241df3c7b7921904b1e6ddaf0aa9bc4f17742f416098087c",
+      "ast_digest": "cf4959ce1996b71005f67c579e4d6acdc3e9ec8ccfc1a30ce4141821988a63db"
+    },
+    "spp": {
+      "values_digest": "5216325a2ebf6c35630efcebc4433e2816d43849f0fb9dcb688bc306784bfe0a",
+      "rendered_digest": "948f106d0030483b54120316f4337b5973bde103f0005718f269c1a159c01968",
+      "ast_digest": "8d7b09c325b4f31bd00467499e5577f56d4fcdd6fe6bfc369a83e8c802463990"
+    },
+    "vpp": {
+      "values_digest": "fd28383d462e6e2711253a83aafb968e1d3bdf0fd3797c6bce9db5e1b026f86f",
+      "rendered_digest": "de962a78c6125bbd3abc1116e974ab6584dcf0a48ce16568b7bf903a592921e5",
+      "ast_digest": "542b9447dd7c09de1122382bc923af80c88364cf6ac5240bed7eec2370f5637e"
+    },
+    "srp": {
+      "values_digest": "554602fda2125edd70232e337f6d9bbe7ece46e099744070d1c135ed204b1090",
+      "rendered_digest": "cb315509bb078501a72415e24dbe912fac4e451efb7a83013aa9f6b43eb46d24",
+      "ast_digest": "672bf75c326682f4a9841ef1ca98bf2e4fa065d2ded05a98dea353342985458f"
+    },
+    "sor": {
+      "values_digest": "2f9ea0581bca4109c19d20b22edcbf395a57cda182c432f14a9b2efdf4226846",
+      "rendered_digest": "46ff9c72a36a3ed2426563f3b2a36c5d6914aea6f096d6e842a5f2bf382dad1c",
+      "ast_digest": "45727f2ca8947fcb43a5e1ac7eb6a5d99527291d4a19dfdcf078254a3660e8cc"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover review after post-publication main merge conflict resolution changed the PR head"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover review after CI workspace coverage exposed read-only retained-status mutation and the fix changed the published head"
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover review after CI workspace coverage exposed CSM Runtime API ready fixtures missing the required validated Memory Palace retained service"
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover review after CI coverage-impact exposed missing Memory Palace coverage route and sub-threshold adl-runtime Memory Palace module coverage"
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 18,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover review after post-publication CI fmt/clippy exposed a Memory Palace runtime lock/open-options lint and formatting drift; typed post-publication review assignment is unavailable in published phase, so recover to implemented before recording the reserved fresh-session review for exact head 9770c6bb8c88acb449a3d7927ef001bd7c5d54ce"
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 20,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 21,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover review after post-publication CI rust-test canary exposed the service-local startup smoke test needed to classify memory_palace_not_ready as an allowed startup-window readiness blocker for exact head ebf4a508d"
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 23,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 24,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "recover review after completion audit found AC8 feature-list and v0.92 evidence-matrix language did not yet name the #450 Memory Palace Runtime-kernel production authority or guard against broad completion overclaim"
+    },
+    {
+      "sequence": 25,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 26,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:85e53605-b8b3-4d02-a162-66b3aa855edb",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"42bd13f41b0c2bb00527dbced97e3ce57d46f4fc4418d82deecd0e7ef7dc83a4\",\"design_ref\":\".csdlc/prepared/issues/450/design.md\",\"diagram_digest\":\"7678cfb5fdfde0511003037871cefca1a4a05fc4978178be019f736ff40482aa\",\"diagram_ref\":\".csdlc/prepared/issues/450/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "Recover after exact-head review found direct-packet authority bypass; implementation fix committed in 37110b4ab.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "recover review after post-publication main merge conflict resolution changed the PR head",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "recover review after CI workspace coverage exposed read-only retained-status mutation and the fix changed the published head",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "recover review after CI workspace coverage exposed CSM Runtime API ready fixtures missing the required validated Memory Palace retained service",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "recover review after CI coverage-impact exposed missing Memory Palace coverage route and sub-threshold adl-runtime Memory Palace module coverage",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "recover review after post-publication CI fmt/clippy exposed a Memory Palace runtime lock/open-options lint and formatting drift; typed post-publication review assignment is unavailable in published phase, so recover to implemented before recording the reserved fresh-session review for exact head 9770c6bb8c88acb449a3d7927ef001bd7c5d54ce",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "recover review after post-publication CI rust-test canary exposed the service-local startup smoke test needed to classify memory_palace_not_ready as an allowed startup-window readiness blocker for exact head ebf4a508d",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 23,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 37,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "recover review after completion audit found AC8 feature-list and v0.92 evidence-matrix language did not yet name the #450 Memory Palace Runtime-kernel production authority or guard against broad completion overclaim",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

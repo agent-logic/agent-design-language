@@ -1,0 +1,24 @@
+{
+  "issue": 111,
+  "expected_generation": 72,
+  "expected_digest": "74e535c4df93b40f0eaee8c0b407dd96017a39361b1af256eec126c1fc64db65",
+  "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+  "evidence": {
+    "reviewer": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:078da534e9666acb443fb851ba0536fc617e0933:84105e0eeb1a0507e600532998cd980cfd84837f96f96875870bbe1221c29a0a",
+    "findings": [],
+    "residual_risks": [
+      "Durable cross-restart conversation history remains owned by downstream issue #114.",
+      "The environment-dependent trusted public-TLS browser proof remains an out-of-band validation lane."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

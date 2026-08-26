@@ -1,0 +1,90 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 407,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase SIP recovery cannot repair review-blocking goal truth",
+    "slug": "implemented-sip-goal-recovery",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Mirror the existing required_outcome recovery path for SIP goal with narrow authorization and regression proof.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and review #407 design.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Bind in FastWork and implement the narrow SIP Goal recovery operation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused regression coverage and run csdlc-v2 tests.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain fresh exact review, publish, CI, and finish.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs"
+      ],
+      "invariants": [
+        "Recovery must be typed, generation/digest gated, and audit-preserving.",
+        "Unrecovered implemented SIP goal mutation must remain rejected.",
+        "No lifecycle publication guard is weakened."
+      ],
+      "risks": [
+        "Accidentally authorizing broad implemented-phase SIP edits.",
+        "Missing recovery-provenance guard parity with existing required_outcome repair."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Regression cannot distinguish recovered from unrecovered implemented state.",
+        "Change requires broad lifecycle reset or raw card edits."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/407/design.md",
+      "design_digest": "21f11538fd99055fdb1089c53fcf59972bc5e26503446eaf7c5b7b8d49918387",
+      "diagram_ref": ".csdlc/prepared/issues/407/diagram.mmd",
+      "diagram_digest": "a76d9879e62ccf451ae3864ba83c6ba9018f82edcb111284d206500074693eac"
+    }
+  }
+}

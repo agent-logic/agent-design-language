@@ -1,0 +1,56 @@
+{
+  "schema": "adl.issue307.precloseout.v1",
+  "observed_date": "2026-08-25",
+  "base_revision": "737257211b08ac90bdb9a2537455de17ac5df1a3",
+  "sequence": [308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319],
+  "closed_through": 319,
+  "execution_gate": {
+    "issue": 319,
+    "state": "closed",
+    "owner": "completed_external_session",
+    "mutation_allowed_here": false,
+    "pull_request": 479,
+    "reviewed_head": "96f1dd343d0954a133529924b3c9978282d84425",
+    "publication_head": "d394671a84c6a1ae20d0109c7c873a7fd800aa3d",
+    "merge_sha": "aa5766d71864713b97210abdb5aa8e5c2481ed31",
+    "terminal_digest": "8c5d001d2784824c08091fbd94aa75d378ac82d47f56aa9f8b5bc1ddc43d2115",
+    "canonical_match": true,
+    "worktree_cleaned": true,
+    "final_ceremony_receipt": ".csdlc/evidence/307/issue-319-final-ceremony-receipt.json",
+    "final_ceremony_output_sha256": "a31da60da33a208c3fc00e1e9af1fab8d3e634b7b368f0588897bc81163938d9",
+    "release_mutation_performed": false
+  },
+  "terminal_reconciliation": {
+    "canonical_cached": [268, 308, 309, 311, 312, 313, 315, 316, 317, 318, 319, 471],
+    "recordless_receipt": [310],
+    "no_pr_closeout_async": {
+      "issues": [314],
+      "disposition": "async_pending",
+      "terminal_cache_claimed": false,
+      "release_gate": false,
+      "authority": "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md"
+    }
+  },
+  "cleanup": {
+    "removed_in_this_session": [311, 316, 317],
+    "historical_projectionless_preparation_residue": [314, 315],
+    "forced_cleanup_performed": false
+  },
+  "nested_routes": {
+    "471": {
+      "parent_issue": 315,
+      "wp": "WP-27",
+      "release_tail_lane": false,
+      "state": "closed",
+      "merge_sha": "b1e4ab4777e3e818a3cd2e14524ebe4c519f340e"
+    }
+  },
+  "carryover": {
+    "268": {
+      "state": "closed",
+      "qualification": "passed",
+      "merge_sha": "edbc0d03b454e7dbd6fd11fc3c01000b021ce75c",
+      "canonical_match": true
+    }
+  }
+}

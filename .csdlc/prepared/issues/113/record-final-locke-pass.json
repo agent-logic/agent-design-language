@@ -1,0 +1,15 @@
+{
+  "issue": 113,
+  "expected_generation": 57,
+  "expected_digest": "479b4bad5aa930420645c96ab9d20c34557d4e35aa4a5e313c8be09ba3675915",
+  "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+  "evidence": {
+    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+    "scope": ["adl-runtime-kernel/src/agent_roster.rs","adl-runtime-kernel/src/control.rs","adl-runtime-kernel/tests/agent_roster.rs","adl-runtime-kernel/tests/control.rs","adl-runtime-kernel/tests/openapi_contract.rs","docs/api/runtime-v3/v1/observatory.openapi.json","demos/html-observatory/app.js","adl/tools/test_html_observatory.sh",".csdlc/evidence/113/roster-live-proof-2118c05b3",".csdlc/issues/113"],
+    "reviewed_revision": "git-blake3:ba4b4bb5cdae10be896a33b21e53a05cd5763138:bd12f7e87a54b35d0a9d2574c5f064d5068068b8937ee1490e7664abf7cd0ebb",
+    "findings": [],
+    "residual_risks": ["Distributed and non-local roster projection remains outside #113 under #142.","Long-running distributed and soak-style validation is out of band under #226 and is not a focused #113 gate."],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

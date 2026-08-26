@@ -1,11 +1,17 @@
 //! Deterministic Memory Palace context packets for long-lived agent handoff.
 use crate::obsmem_contract::{MemoryCitation, MemoryRecord, MemoryTemporalAnchor};
+use adl_runtime_kernel::{
+    validate_memory_palace_packet, MemoryPalaceContextPacket as KernelMemoryPalaceContextPacket,
+    MemoryPalaceRecordStatus,
+};
 use anyhow::{anyhow, Context, Result};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
+#[cfg(test)]
 use sha2::{Digest, Sha256};
-use std::collections::{BTreeMap, BTreeSet};
-use std::fs;
+use std::collections::BTreeMap;
+#[cfg(test)]
+use std::collections::BTreeSet;
 use std::path::{Component, Path, PathBuf};
 
 pub const MEMORY_PALACE_CONTEXT_SCHEMA: &str = "adl.memory_palace_context.v1";
@@ -121,23 +127,151 @@ pub fn build_context_from_agent_memory(
     let config: MemoryPalaceAgentConfig = serde_json::from_value(raw_config.clone())
         .context("memory.memory_palace must be an object with input_ref and bounds")?;
     let observed = config.observed_epoch_ms.unwrap_or(observed_epoch_ms);
-    let input_path = resolve_declared_input(spec_dir, &config.input_ref)?;
-    let raw = fs::read(&input_path).with_context(|| {
-        format!(
-            "failed reading Memory Palace input {}",
-            input_path.display()
-        )
+    let latest_path = resolve_declared_input(spec_dir, &config.input_ref)?;
+    if latest_path.file_name().and_then(|name| name.to_str()) != Some("latest.json") {
+        return Err(anyhow!(
+            "Memory Palace input_ref must point to Runtime service latest.json"
+        ));
+    }
+    let service_root = latest_path.parent().ok_or_else(|| {
+        anyhow!("Memory Palace Runtime service latest.json must have a service directory")
     })?;
-    let input: MemoryPalaceInput = serde_json::from_slice(&raw).with_context(|| {
-        format!(
-            "failed parsing Memory Palace input {}",
-            input_path.display()
-        )
-    })?;
-    build_context_packet(cycle_id, &config, &input, observed).map(Some)
+    let commit = adl_runtime::memory_palace::RuntimeMemoryPalaceService::new(service_root)
+        .load_latest()
+        .map_err(|error| {
+            anyhow!("Runtime Memory Palace service failed durable latest validation: {error:?}")
+        })?
+        .ok_or_else(|| anyhow!("Runtime Memory Palace service has no validated latest packet"))?;
+    project_runtime_packet(cycle_id, &config, &commit.packet, observed).map(Some)
 }
 
-pub fn build_context_packet(
+pub fn project_runtime_packet(
+    cycle_id: &str,
+    config: &MemoryPalaceAgentConfig,
+    packet: &KernelMemoryPalaceContextPacket,
+    observed_epoch_ms: u128,
+) -> Result<MemoryPalaceContextPacket> {
+    validate_config(config)?;
+    if cycle_id.trim().is_empty() {
+        return Err(anyhow!("Memory Palace cycle_id must be non-empty"));
+    }
+    validate_memory_palace_packet(packet).map_err(|error| {
+        anyhow!("Runtime Memory Palace packet failed kernel validation: {error:?}")
+    })?;
+    if config.max_working_set_items != packet.max_working_set_items {
+        return Err(anyhow!(
+            "Memory Palace config max_working_set_items does not match Runtime packet"
+        ));
+    }
+    if u64::try_from(config.stale_after_ms).ok() != Some(packet.stale_after_ms) {
+        return Err(anyhow!(
+            "Memory Palace config stale_after_ms does not match Runtime packet"
+        ));
+    }
+    if u64::try_from(observed_epoch_ms).ok() != Some(packet.observed_epoch_ms) {
+        return Err(anyhow!(
+            "Memory Palace observed_epoch_ms does not match Runtime packet"
+        ));
+    }
+    if config
+        .required_continuity_id
+        .as_ref()
+        .is_some_and(|id| id != &packet.continuity_head)
+    {
+        return Err(anyhow!(
+            "Memory Palace required_continuity_id does not match Runtime packet continuity head"
+        ));
+    }
+    let topology = MemoryPalaceTopologyPacket {
+        rooms: packet
+            .rooms
+            .iter()
+            .map(|room| MemoryPalaceRoom {
+                room_id: room.room_id.clone(),
+                workflow_id: room.workflow_id.clone(),
+                record_ids: room.record_ids.clone(),
+            })
+            .collect(),
+        anchors: packet
+            .record_index
+            .iter()
+            .map(|entry| MemoryPalaceAnchor {
+                anchor_id: entry.anchor_id.clone(),
+                record_id: entry.record_id.clone(),
+                run_id: entry.run_id.clone(),
+                continuity_id: Some(entry.temporal_anchor.continuity_head.clone()),
+                effective_epoch_ms: u128::from(entry.temporal_anchor.effective_epoch_ms),
+                citations: entry.citations.iter().map(memory_citation).collect(),
+            })
+            .collect(),
+    };
+    let selected_by_id = packet
+        .working_set
+        .iter()
+        .map(|item| (item.record_id.as_str(), item))
+        .collect::<BTreeMap<_, _>>();
+    let selected = packet
+        .record_index
+        .iter()
+        .filter(|entry| entry.status == MemoryPalaceRecordStatus::Selected)
+        .map(|entry| {
+            let item = selected_by_id
+                .get(entry.record_id.as_str())
+                .ok_or_else(|| anyhow!("Runtime Memory Palace packet missing selected item"))?;
+            Ok(MemoryPalaceWorkingSetItem {
+                record_id: entry.record_id.clone(),
+                room_id: entry.room_id.clone(),
+                anchor_id: entry.anchor_id.clone(),
+                payload: item.payload.clone(),
+                provenance: entry.citations.iter().map(memory_citation).collect(),
+                temporal_anchor: memory_temporal_anchor(&entry.temporal_anchor),
+                inclusion_reason: entry.disposition_reason.clone(),
+            })
+        })
+        .collect::<Result<Vec<_>>>()?;
+    let excluded = packet
+        .record_index
+        .iter()
+        .filter(|entry| entry.status == MemoryPalaceRecordStatus::Excluded)
+        .map(|entry| MemoryPalaceExclusion {
+            record_id: entry.record_id.clone(),
+            reason: entry.disposition_reason.clone(),
+        })
+        .collect();
+    let dispositions = packet
+        .record_index
+        .iter()
+        .map(|entry| MemoryPalaceDisposition {
+            record_id: entry.record_id.clone(),
+            status: match entry.status {
+                MemoryPalaceRecordStatus::Selected => "selected".to_owned(),
+                MemoryPalaceRecordStatus::Excluded => "excluded".to_owned(),
+            },
+            reason: entry.disposition_reason.clone(),
+        })
+        .collect();
+    Ok(MemoryPalaceContextPacket {
+        schema: MEMORY_PALACE_CONTEXT_SCHEMA.to_string(),
+        cycle_id: cycle_id.to_string(),
+        input_ref: config.input_ref.clone(),
+        canonical_input_sha256: format!("sha256:{}", packet.canonical_input_sha256),
+        topology,
+        working_set: MemoryPalaceWorkingSetPacket {
+            max_items: packet.max_working_set_items,
+            selected,
+            excluded,
+        },
+        stale_context_report: MemoryPalaceStaleContextReport {
+            observed_epoch_ms,
+            stale_after_ms: u128::from(packet.stale_after_ms),
+            fail_closed: false,
+            dispositions,
+        },
+    })
+}
+
+#[cfg(test)]
+fn build_context_packet(
     cycle_id: &str,
     config: &MemoryPalaceAgentConfig,
     input: &MemoryPalaceInput,
@@ -221,6 +355,26 @@ fn validate_config(config: &MemoryPalaceAgentConfig) -> Result<()> {
     Ok(())
 }
 
+fn memory_citation(reference: &adl_runtime_kernel::MemoryReference) -> MemoryCitation {
+    MemoryCitation {
+        path: reference.path.clone(),
+        hash: format!("sha256:{}", reference.sha256),
+    }
+}
+
+fn memory_temporal_anchor(
+    anchor: &adl_runtime_kernel::MemoryTemporalAnchor,
+) -> MemoryTemporalAnchor {
+    MemoryTemporalAnchor {
+        t_created_epoch_ms: u128::from(anchor.created_epoch_ms),
+        t_observed_epoch_ms: Some(u128::from(anchor.observed_epoch_ms)),
+        t_effective_epoch_ms: Some(u128::from(anchor.effective_epoch_ms)),
+        continuity_id: Some(anchor.continuity_head.clone()),
+        event_sequence: Some(anchor.event_sequence as usize),
+    }
+}
+
+#[cfg(test)]
 fn validate_record(
     record: &MemoryRecord,
     input: &MemoryPalaceInput,
@@ -288,6 +442,7 @@ fn validate_record(
     Ok(())
 }
 
+#[cfg(test)]
 fn validate_citation(citation: &MemoryCitation, input: &MemoryPalaceInput) -> Result<()> {
     validate_relative_ref(&citation.path)?;
     if !is_sha256_ref(&citation.hash) {
@@ -307,6 +462,7 @@ fn validate_citation(citation: &MemoryCitation, input: &MemoryPalaceInput) -> Re
     Ok(())
 }
 
+#[cfg(test)]
 fn build_topology(records: &[MemoryRecord]) -> MemoryPalaceTopologyPacket {
     let mut rooms = BTreeMap::<String, BTreeSet<String>>::new();
     let mut anchors = Vec::new();
@@ -341,6 +497,7 @@ fn build_topology(records: &[MemoryRecord]) -> MemoryPalaceTopologyPacket {
     }
 }
 
+#[cfg(test)]
 fn build_working_set(
     records: &[MemoryRecord],
     max_items: usize,
@@ -390,6 +547,7 @@ fn build_working_set(
     )
 }
 
+#[cfg(test)]
 fn record_order(left: &MemoryRecord, right: &MemoryRecord) -> std::cmp::Ordering {
     left.workflow_id
         .cmp(&right.workflow_id)
@@ -398,6 +556,7 @@ fn record_order(left: &MemoryRecord, right: &MemoryRecord) -> std::cmp::Ordering
         .then_with(|| left.id.cmp(&right.id))
 }
 
+#[cfg(test)]
 fn continuity(record: &MemoryRecord) -> String {
     record
         .temporal_anchor
@@ -406,12 +565,14 @@ fn continuity(record: &MemoryRecord) -> String {
         .unwrap_or_default()
 }
 
+#[cfg(test)]
 fn sorted_citations(citations: &[MemoryCitation]) -> Vec<MemoryCitation> {
     let mut sorted = citations.to_vec();
     sorted.sort_by(|a, b| a.path.cmp(&b.path).then_with(|| a.hash.cmp(&b.hash)));
     sorted
 }
 
+#[cfg(test)]
 fn canonical_input_sha256(input: &MemoryPalaceInput, records: &[MemoryRecord]) -> Result<String> {
     let mut canonical = input.clone();
     canonical.records = records.to_vec();
@@ -444,10 +605,12 @@ fn canonical_input_sha256(input: &MemoryPalaceInput, records: &[MemoryRecord]) -
     sha256_json(&canonical)
 }
 
+#[cfg(test)]
 fn room_id(workflow_id: &str) -> String {
     format!("room:{}", stable_id(workflow_id))
 }
 
+#[cfg(test)]
 fn anchor_id(record: &MemoryRecord) -> String {
     format!(
         "anchor:{}:{}",
@@ -456,6 +619,7 @@ fn anchor_id(record: &MemoryRecord) -> String {
     )
 }
 
+#[cfg(test)]
 fn stable_id(value: &str) -> String {
     value
         .chars()
@@ -513,6 +677,7 @@ fn contains_disallowed_content(value: &str) -> bool {
     .any(|needle| lower.contains(needle))
 }
 
+#[cfg(test)]
 fn is_sha256_ref(value: &str) -> bool {
     let Some(hex) = value.strip_prefix("sha256:") else {
         return false;
@@ -520,6 +685,7 @@ fn is_sha256_ref(value: &str) -> bool {
     hex.len() == 64 && hex.chars().all(|ch| ch.is_ascii_hexdigit())
 }
 
+#[cfg(test)]
 fn sha256_json<T: Serialize>(value: &T) -> Result<String> {
     let bytes = serde_json::to_vec(value)?;
     let digest = Sha256::digest(bytes);

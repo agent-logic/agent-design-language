@@ -1,0 +1,183 @@
+{
+  "issue": 113,
+  "card": "vpp",
+  "expected_generation": 11,
+  "expected_digest": "84530f9015d25bc85916c1de19e9a2829bf2e0abbb56eaa70884c29a4fa9b4f5",
+  "actor": "codex:113-final-bind-readiness-repair",
+  "reason": "Retain explicit fail-closed issue-owned sentinels, restore the design-required exact control/WSS and OpenAPI parity lanes, and keep independent-review acceptance out of ordinary product and diff proof mappings.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "agent-roster-contract",
+        "proof_role": "Run the exact nonzero issue-owned agent_roster integration target for deterministic paginated roster and detail projection, stable identity, every declared presence state, freshness deadlines, provenance, policy filtering and redaction, relocation fencing, capability and communication eligibility, token and cursor integrity, reconnect and restart behavior, and large-Polis resource bounds.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 10000,
+        "argv": [
+          "cargo",
+          "nextest",
+          "run",
+          "--manifest-path",
+          "adl-runtime-kernel/Cargo.toml",
+          "--test",
+          "agent_roster",
+          "--no-tests=fail"
+        ],
+        "parallel_group": "runtime",
+        "defer_reason": "The checked-in target is an explicit one-test fail-closed sentinel until #113 implementation replaces it after the #83 and #142 serial gates pass; it must never report product proof from missing or zero selected tests."
+      },
+      {
+        "lane": "observatory-control-wss-parity",
+        "proof_role": "Run the exact control integration target required by the design for authenticated roster and detail routes, WSS revision updates, policy-safe denial, reconnect behavior, and removal of sample-as-complete behavior.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 8000,
+        "argv": [
+          "cargo",
+          "nextest",
+          "run",
+          "--manifest-path",
+          "adl-runtime-kernel/Cargo.toml",
+          "--test",
+          "control",
+          "--no-tests=fail"
+        ],
+        "parallel_group": "runtime",
+        "defer_reason": null
+      },
+      {
+        "lane": "observatory-openapi-parity",
+        "proof_role": "Run the exact OpenAPI contract target required by the design for runtime route and schema parity, policy-safe roster and detail descriptions, and absence of invented or duplicate authorities.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-4",
+          "AC-5",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": [
+          "cargo",
+          "nextest",
+          "run",
+          "--manifest-path",
+          "adl-runtime-kernel/Cargo.toml",
+          "--test",
+          "openapi_contract",
+          "--no-tests=fail"
+        ],
+        "parallel_group": "runtime-contract",
+        "defer_reason": null
+      },
+      {
+        "lane": "observatory-roster-browser",
+        "proof_role": "Run the exact issue-owned live Runtime-backed roster browser validator for truthful count and pagination, presence and freshness display, server-authoritative visibility and redaction, bounded capability and communication eligibility, revision-bound updates, search, filter, sort, selection, detail, status changes, keyboard operation, denial, disconnect, bounded reconnect without duplicates, bounded DOM rows, responsive layout, and a clean console.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7",
+          "AC-8",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1200,
+        "budget_tokens": 8000,
+        "argv": [
+          "node",
+          "adl/tools/validate_v092_html_observatory_roster.mjs"
+        ],
+        "parallel_group": "browser",
+        "defer_reason": "The checked-in validator is an explicit fail-closed sentinel until #113 implementation replaces it after #83 hands off the Observatory paths and #142 lands the required Runtime identity and topology contract; it must never report product proof before the live candidate is exercised."
+      },
+      {
+        "lane": "roster-focused-clippy",
+        "proof_role": "Reject Rust type, ownership, serialization, route, and dead-code regressions across the bounded Runtime kernel library and production binary.",
+        "acceptance_ids": [
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": [
+          "cargo",
+          "clippy",
+          "--manifest-path",
+          "adl-runtime-kernel/Cargo.toml",
+          "--lib",
+          "--bin",
+          "adl-runtime-kernel",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "parallel_group": "static",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts; independent exact-head review remains solely review-owned.",
+        "acceptance_ids": [
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "static",
+        "defer_reason": null
+      },
+      {
+        "lane": "independent-exact-head-review",
+        "proof_role": "Require the independent review owner to guard the exact candidate revision and leave no unresolved actionable findings before publication; this lane alone owns AC-10 acceptance mapping.",
+        "acceptance_ids": [
+          "AC-10"
+        ],
+        "deterministic": false,
+        "resource_profile": "small",
+        "budget_seconds": 1200,
+        "budget_tokens": 10000,
+        "argv": [
+          ".adl/bin/csdlc-v2/csdlc-review",
+          "guard",
+          "--request",
+          ".git/csdlc-v2/requests/113-review.json"
+        ],
+        "parallel_group": "pre-publication-review",
+        "defer_reason": "Runs only after the complete #113 candidate and all deterministic product lanes are current; it is independent review proof, not diff hygiene or product validation."
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

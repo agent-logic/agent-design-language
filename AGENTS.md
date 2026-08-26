@@ -54,8 +54,43 @@ These rules are mandatory for ADL issue work.
      `csdlc-github-issue`; PR state = `csdlc-github-pr`; publication =
      `csdlc-publish`; terminal delivery = `csdlc-finish`.
    - Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for
-     covered lifecycle writes; missing or unavailable owner binaries fail
-     closed and never authorize fallback.
+     covered lifecycle writes except for the audited break-glass transport
+     below. A missing binary, unfamiliar error, timeout, or operator preference
+     is not by itself break-glass authority.
+   - Audited raw-`gh` break-glass transport:
+     - Typed C-SDLC v2 remains the default and final lifecycle authority. This
+       exception is available only for a confirmed, reproducible tooling regression
+       in the applicable typed GitHub owner, recorded in a durable tooling-regression issue
+       with safe reproduction evidence.
+     - The operator must provide explicit operator authorization after seeing
+       the failure, naming the exact repository, issue or pull request, and operation.
+       Authorization for one target or invocation does not authorize another.
+     - Before the write, capture the bound worktree, branch, exact HEAD, typed
+       generation and digest, exact remote pre-state, regression issue, and
+       authorization reference. Reject any identity or topology ambiguity.
+     - Only the canonical argv shapes documented in
+       `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` are
+       permitted: issue body comment or edit; pull-request create, body edit,
+       ready, or comment. Exact `--repo` and numeric targets are mandatory where
+       the remote target already exists. No unlisted or reordered flags are
+       permitted.
+     - The denylist includes every merge, issue close, finish, cleanup, deletion, release, administration, secret or variable mutation, workflow mutation or dispatch, force operation, and bulk mutation.
+       Issue creation, `gh api`, aliases, extensions, target aliases, shell
+       expansion, and label, milestone, project, assignee, reviewer, or PR-base
+       mutation are also denied.
+     - Use a mode-0600 body file under the invocation directory, never body text
+       in argv or stdin. Never print, copy, or retain credentials, token values,
+       token-file contents, environment dumps, sensitive bodies, or raw response
+       bodies.
+     - Create an append-only local break-glass receipt under
+       `.git/csdlc-v2/break-glass/` as the three create-only events defined in
+       the coordination policy. Receipt evidence is transport evidence, not
+       lifecycle authority.
+     - After the raw mutation, readiness, review, publication, merge-ready,
+       terminal, and finish claims must not proceed until typed reconciliation
+       has observed the exact remote result, updated or recovered typed state,
+       and produced the immutable successful reconciliation event. If no typed
+       reconciliation route exists, remain blocked on the tooling repair.
    - Provider credentials, when available, may also be sourced from
      operator-approved files outside the repo under `$HOME/keys/`. Do not scan,
      print, copy, commit, or expose that directory or file contents. Map the
@@ -100,6 +135,10 @@ These rules are mandatory for ADL issue work.
      template prose by hand.
 3. Always work in a bound worktree on a specific branch.
    - Never do tracked issue work on `main`.
+   - Every new ADL issue worktree must be created beneath
+     `/Volumes/FastWork/adl-worktrees`. The typed v2 bind path enforces the
+     tracked `.adl/worktree-policy.json` contract and fails closed for any
+     other parent.
    - Use the v2 `csdlc-bind` flow to bind execution context.
    - Keep the primary checkout clean on `main` for inspection, bootstrap,
      doctor/readiness, and issue-mode binding only. After binding, tracked

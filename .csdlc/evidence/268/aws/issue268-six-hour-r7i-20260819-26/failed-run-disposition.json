@@ -1,0 +1,12 @@
+{
+  "additional_provider_attempt_authorized": true,
+  "authoritative_request_fallback": "disabled",
+  "authoritative_request_sha256": "642ff287a26833a5dc71d73b32e2333ce1bc2e6b07772013a96200ecc11a46fb",
+  "continuation_authority": "operator_directed_continue_until_complete_or_usd20_ceiling",
+  "disposition": "terminal_failed_attempt_retained",
+  "failure_class": "ollama_preload_http_500_with_request_level_negative_keep_alive",
+  "provider_attempts_observed": 1,
+  "run_id": "issue268-six-hour-r7i-20260819-26",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "summary_sha256": "dbf9b821776f4fd9c928716543e5656440c9845db7597dcbd7dfb6096abe3e87"
+}

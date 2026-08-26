@@ -1,0 +1,17 @@
+{
+  "issue": 225,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "29ca1ef7c8ea364b022c4514b9ddb5862743b8444dae9797a37914dc3585cc34",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "Record diff-hygiene proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["git", "diff", "--check"],
+      "purpose": "Reject whitespace and patch defects.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/225/validation-summary.json"
+    }
+  }
+}

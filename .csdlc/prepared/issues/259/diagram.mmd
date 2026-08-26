@@ -1,0 +1,6 @@
+flowchart LR
+  P258["#258 terminal authority-store boundary"] --> A259["#259 governed transport authority binding"]
+  A259 --> T["Transport certificate authority handles"]
+  A259 --> V["Focused transport authorization proof"]
+  A259 -. "precedes" .-> P260["#260 caller migration"]
+  P260 -. "precedes" .-> P203["#203 parent integration"]

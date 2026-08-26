@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 237,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/237-continuity-binding-reconciliation",
+  "title": "fix(runtime): bind capability authority to Birthday continuity",
+  "body": "## Summary\n\n- bind capability authority to the canonical provisioned policy and exact verified Birthday continuity record\n- make a successfully constructed LiveAssembly the sole safe-code provisioning owner\n- reject caller-recomputed token substitution while allowing explicit Runtime reauthorization\n- integrate the merged deterministic Runtime cleanup and process-precedence repairs\n\n## Validation\n\n- complete Runtime kernel suite: passed\n- strict all-target Runtime kernel Clippy: passed\n- required HTML Observatory proof: passed\n- fresh independent exact-head integration review: no findings\n\nCloses #237",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:569023c81f0b411e04f8c3b6aad3d41dafa6fc43:8281abf11e83c1634295f055f65a632bca61d05bf0b5c65ae0dcb8f13d6b852a",
+  "commit_sha": "569023c81f0b411e04f8c3b6aad3d41dafa6fc43"
+}

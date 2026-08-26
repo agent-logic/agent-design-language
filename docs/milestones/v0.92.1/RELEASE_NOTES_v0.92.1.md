@@ -1,11 +1,16 @@
-# v0.92.1 Release Notes
+# Release Notes — v0.92.1
 
-Status: planned; not release-approved.
+Planned outcomes:
 
-v0.92.1 is intended to establish three foundation outcomes:
+- repository-authoritative planning with no local-only dependencies
+- Corporate and IP transfer evidence
+- executable C-SDLC v3 program
+- Distributed multi-agent Runtime qualification
+- Podcast publication and Studio readiness
+- safe Axum configuration hot reload
+- accessible authentic-data Observatory redesign
+- separated Runtime v2/v3 ownership with compatibility and rollback proof
+- shared provider inference profiles with deterministic Ollama materialization and isolated local-model shadow comparison
+- optional GCP replay of the six-resident qualification with cost and cleanup evidence
 
-- corporate ownership and operational custody of Agent Logic's critical assets;
-- a simpler, independently reviewed C-SDLC v3 Rust lifecycle with controlled cutover; and
-- production-path qualification of the distributed multi-agent Runtime.
-
-Final notes must cite terminal issue, PR, revision, receipt, review, and residual-risk evidence. This planning draft makes no completion claim.
+These are planning commitments until their issue and proof chains are reviewed and merged. #251, #122, #84, and #345 are active existing issues; #457 is provenance only. AWS/GCP move-in, cross-cloud Terraform conversion, and the bounded Rust resilience refactor are planned single-result lanes, not completed controls. Runtime v4 is not included implicitly, and DRT-D does not execute #269. CodeFriend Beta 1 follows in v0.92.2.

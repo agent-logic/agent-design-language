@@ -1,0 +1,21 @@
+{
+  "issue": 271,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "c2f3a7461509d385f825ee70e533b87929b33315b4cc113129fc9442eb6e2f2e",
+  "actor": "codex:sprint5-271-validation",
+  "reason": "Record #271 validation: Git diff hygiene proof",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "purpose": "Git diff hygiene proof",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/271/diff-check.log; clean"
+    }
+  }
+}

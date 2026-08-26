@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-16] Birthday review packet",
     "slug": "v0-92-wp-16-birthday-review-packet",
     "version": "v0.92",
-    "generation": 51
+    "generation": 63
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact-head review of WP-16 dependency completeness, canonical revision/digest inventory, schema/link validation, redacted projections, blocked dispositions, public non-claims, and protected shared-doc boundaries only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/5834\n.csdlc/prepared/issues/5834/design.md\n.csdlc/prepared/issues/5834/live-issue-body.md\n.csdlc/prepared/issues/5834/validate-review-packet.rb\n.csdlc/evidence/5834\ndocs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md\ndocs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\ndocs/milestones/v0.92/review/first-birthday-review-packet.schema.json\ndocs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+      "review_revision": "git-blake3:d3fddd139feac88efdfe14b863a6cda374d9c307:ddcaf760d669614af0a0c5fa71223e6e35ccb0823d8f350912f9cab06b0faf0c",
+      "reviewer": "/root/sprint4_5857/review_5834_exact_head",
       "review_prompts": [
         "Does every WP-08 through WP-15 requirement map to one terminal exact-head canonical proof revision and digest?",
         "Do missing, stale, contradictory, nonterminal, unreviewed, or duplicate sources yield a named blocked disposition?",
@@ -23,8 +23,10 @@
         "Are shared milestone paths untouched and are all WP-16 acceptance claims reproducible at exact HEAD?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Publication and exact-head CI remain required before typed merge; this packet does not authorize the downstream birthday demo or public release."
+      ],
+      "review_result": "pass"
     }
   }
 }

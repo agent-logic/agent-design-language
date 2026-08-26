@@ -1,0 +1,17 @@
+{
+  "schema":"adl.v092.release_ceremony_gate.v1","version":"v0.92","candidate_policy":"current_clean_head","validator":".csdlc/prepared/issues/319/validate-release-evidence.rb","release_mutation_authorized":false,
+  "predecessors":[
+    {"issue":308,"disposition":"reviewed_green_merge","pr":447,"merge_commit":"9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c","evidence":".csdlc/issues/308/cards/srp.md","evidence_sha256":"d04c528761e0fd53b92c5acbbdb09e6d7dd57dfdfedc8790673f306bf499d121"},
+    {"issue":309,"disposition":"reviewed_green_merge","pr":460,"merge_commit":"5b3657582fea2109f000623bb121b7998185ac0a","evidence":".csdlc/issues/309/cards/srp.md","evidence_sha256":"a94948d534cf61a0ea3069cc40b42f9181b537e843e3020c00ea68a7d325a6af"},
+    {"issue":310,"disposition":"recordless_merge_with_retrospective_wp29_authority","pr":465,"merge_commit":"a06c34774ad88ea8c56a00533f0fcef810fa7441","evidence":".csdlc/evidence/317/issue-universe.json","evidence_sha256":"1a9790b0327d289a20b55f4b9b3f17232dde079744f969462f983ea20241feaf"},
+    {"issue":311,"disposition":"reviewed_green_merge","pr":466,"merge_commit":"035b249096c6a27a6e40af9435d6df8e35090000","evidence":".csdlc/issues/311/cards/srp.md","evidence_sha256":"84c5c2854ec89c02ad31bed1a2d6461f8ec624fd3d5ca44e401821bffe7255e0"},
+    {"issue":312,"disposition":"reviewed_green_merge","pr":469,"merge_commit":"c6792e54df1db5969fa28c59b6dfe4c714ed5559","evidence":".csdlc/issues/312/cards/srp.md","evidence_sha256":"603fff4e8a17c73b72d29d21289bfc2eb1b3100cd1de68d781c8fbcbb88d35e7"},
+    {"issue":313,"disposition":"reviewed_green_merge","pr":470,"merge_commit":"c666ff3d411e6062d5cc5750d2f88be9efbcd673","evidence":".csdlc/issues/313/cards/srp.md","evidence_sha256":"ede81e4a6d7b2cd2a0582470016cb6f924f0571a3bd71319e1353f4186f5833b"},
+    {"issue":314,"disposition":"external_review_input_no_closing_pr","pr":null,"merge_commit":null,"evidence":"docs/reviews/v0.92/external-review-5847/packet-manifest.json","evidence_sha256":"7a49881f6958f47d28bbe8debf6da265ee141544c8abf2f9e345e3822fcc1a7c"},
+    {"issue":315,"disposition":"reviewed_green_remediation_merge","pr":473,"merge_commit":"e43efbca80cece11b543d931655febd50dfdc755","evidence":".csdlc/issues/315/cards/srp.md","evidence_revision":"cd9f740e4","evidence_sha256":"2441a39c9086249a0d28449ecbd5dcdfef8cd5f622287596ca9a947437532c57"},
+    {"issue":316,"disposition":"reviewed_green_merge","pr":472,"merge_commit":"5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5","evidence":".csdlc/issues/316/cards/srp.md","evidence_sha256":"6ccd7d3c0ad04388158c278693fba41f2ae1791f0979dc3c99155f1a3e6f9c6d"},
+    {"issue":317,"disposition":"reviewed_green_merge","pr":474,"merge_commit":"5b035094725d1872b48dda8692ef88f46487f37c","evidence":".csdlc/issues/317/cards/srp.md","evidence_sha256":"bde668e9bdb5e5bdb6d369172ba24410aa24367bcf4cfcd731b4a671acb34998"},
+    {"issue":318,"disposition":"reviewed_green_merge","pr":478,"merge_commit":"737257211b08ac90bdb9a2537455de17ac5df1a3","evidence":".csdlc/issues/318/cards/srp.md","evidence_sha256":"1a9a24fab09426f8382c18843c6c8155f965f3b6e4549f31fceb2a6e2c1035c9"}
+  ],
+  "non_claims":["No tag or GitHub release mutation is authorized by this gate.","Issue #268 qualification is not claimed passed.","v0.93 is not activated."]
+}

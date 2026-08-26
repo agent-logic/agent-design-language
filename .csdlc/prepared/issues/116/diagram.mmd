@@ -1,0 +1,11 @@
+flowchart TD
+  A["Runtime or governed agent emits attention request"] --> B["Authority/source binding"]
+  B --> C["Attention queue: dedup, group, priority, expiry, rate limit"]
+  C --> D["Durable lifecycle state"]
+  D --> E["Observatory inbox projection"]
+  E --> F["Operator views, filters, unread state, deep links"]
+  F --> G["Explicit outcome: acknowledge, reply, defer, resolve, refuse"]
+  G --> H["Governed conversation response path"]
+  H --> D
+  C --> I["Overload and quiet-mode policy"]
+  D --> J["Restart/reconnect replay without duplicate notifications"]

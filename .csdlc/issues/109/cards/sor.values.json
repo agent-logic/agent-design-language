@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 109,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Use fresh sessions for standard SRP review",
+    "slug": "fresh-session-standard-srp-review",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "documented standard SRP handoff to a fresh external review session",
+      "actual_changes": [
+        "updated existing review skill",
+        "added bounded operator runbook",
+        "added focused contract validator"
+      ],
+      "artifacts": [
+        "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+        "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "/bin/bash",
+            ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh",
+            "081988dfe4632e27062f3acc72b7c5d226cd0802",
+            "363ecba5b47bfc4ed8b30e1f6c572fc0fd537807",
+            "614dc3319c7c043355796505e50074ff9b650993"
+          ],
+          "purpose": "truthfully verify the three-revision validator fails closed before fresh review evidence exists",
+          "outcome": "failed",
+          "evidence_ref": ".csdlc/evidence/109/focused-srp-contract.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

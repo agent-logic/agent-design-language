@@ -1,0 +1,61 @@
+{
+  "issue": 234,
+  "card": "vpp",
+  "expected_generation": 5,
+  "expected_digest": "7c5a413202bd38d932a6ec20bdc261851dab163ceb1e19fb68fca7fd3c0061f2",
+  "actor": "codex:234-systemic-ci-cost-control",
+  "reason": "Declare the completed whole-workflow scanner and representative path-policy suite as the final local proving lanes.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "ci-runtime-contracts",
+        "proof_role": "Verify central CI job gates, required heavy-runner selection, coverage aggregation, slow-proof isolation, and post-merge suppression.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 180,
+        "budget_tokens": 3000,
+        "argv": ["bash", "adl/tools/test_ci_runtime_contracts.sh"],
+        "parallel_group": "local-policy",
+        "defer_reason": null
+      },
+      {
+        "lane": "ci-path-policy-contracts",
+        "proof_role": "Verify representative docs, ordinary Rust, runtime, mixed policy, fail-closed, schedule, and explicit-dispatch routing without allocating hosted runners.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-5", "AC-6", "AC-7", "AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 240,
+        "budget_tokens": 4000,
+        "argv": ["bash", "adl/tools/test_ci_path_policy.sh"],
+        "parallel_group": "local-policy",
+        "defer_reason": null
+      },
+      {
+        "lane": "whole-workflow-policy",
+        "proof_role": "Scan every workflow and reject unauthorized automatic triggers, schedules, missing explicit dispatch, SHA-concurrency regressions, and optional runner allocation.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-7", "AC-8"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 2000,
+        "argv": ["ruby", "adl/tools/validate_ci_workflow_policy.rb"],
+        "parallel_group": "local-policy",
+        "defer_reason": null
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+        "acceptance_ids": ["AC-9"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "local-policy",
+        "defer_reason": null
+      }
+    ]
+  }
+}

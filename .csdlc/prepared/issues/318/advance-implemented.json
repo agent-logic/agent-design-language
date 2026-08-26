@@ -1,0 +1,9 @@
+{
+  "issue": 318,
+  "card": "spp",
+  "actor": "codex:root",
+  "reason": "WP-29 documentation review, bounded planning corrections, live authority validation, and seven focused negative cases are complete.",
+  "expected_generation": 12,
+  "expected_digest": "9156a2ea64e8f8a3d174e1f2c2b3672acad05fdafc7875d84a7d29340f2b75e5",
+  "operation": {"operation":"advance_phase","phase":"implemented"}
+}

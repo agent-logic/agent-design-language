@@ -18,6 +18,19 @@ mod membership;
 #[allow(dead_code)]
 #[path = "../src/distributed/migration.rs"]
 mod migration;
+mod integrated_serving_authority_snapshot {
+    pub use adl_runtime::distributed::integrated_serving_authority_snapshot::*;
+}
+mod shepherd_serving_eligibility {
+    pub use adl_runtime::distributed::shepherd_serving_eligibility::*;
+}
+#[cfg(feature = "internal-test-fixtures")]
+mod distributed {
+    pub use adl_runtime::distributed::{
+        authority_protocol, observatory_serving_eligibility, polis_runtime, serving_authority,
+        shepherd_serving_eligibility,
+    };
+}
 #[allow(dead_code)]
 #[path = "../src/distributed/placement.rs"]
 mod placement;
@@ -32,27 +45,27 @@ mod resource_weather;
 mod snapshot_catalog;
 
 use std::{
-    collections::BTreeSet,
+    collections::{BTreeMap, BTreeSet},
     fs,
-    path::PathBuf,
+    path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
 
 use capability_advertisement::{CapabilityEvidence, VerifiedCapabilityAdvertisement};
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-    CertificateValidity, DistributedCertificateStore,
+    CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 use fencing::{
     ActiveLeaseCheck, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
-    FencingStore,
+    FencingStore, TEST_FENCING_STORE_ACCESS,
 };
 use lease::{
     activation_signature, encode_certificate, endorse, AuthorityApplication,
     AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityLedger, AuthorityMembership,
     ControlCertificatePurpose, LeasePolicy, LeaseState, OperationClass, VoterAuthority,
-    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519,
+    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519, TEST_LEASE_STORE_ACCESS,
 };
 use membership::{
     CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
@@ -395,6 +408,7 @@ impl Fixture {
         let migration_authority = Arc::new(MigrationAuthority::default());
         let migration_clock = Arc::new(TestClock(Mutex::new(NOW * 1_000)));
         let fencing = FencingStore::create(
+            &TEST_FENCING_STORE_ACCESS,
             &fencing_root,
             fencing_policy(),
             Arc::new(FenceCheckpointAuthority::default()),
@@ -414,9 +428,10 @@ impl Fixture {
         );
         let source_signature = activation_signature(&grant_body, &authority.source_activation);
         let grant = authority.certificate(grant_body);
-        let mut ledger = AuthorityLedger::new(lease_policy()).unwrap();
+        let mut ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
         ledger
             .apply(
+                &TEST_LEASE_STORE_ACCESS,
                 &grant,
                 &membership,
                 AuthorityApplication {
@@ -434,6 +449,7 @@ impl Fixture {
         let snapshot_signer = key(41);
         let certificate_store = Arc::new(
             DistributedCertificateStore::open(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 root.join("certificates.redb"),
                 CertificatePolicy::new(DOMAIN, [issuer.verifying_key()])
                     .unwrap()
@@ -459,10 +475,14 @@ impl Fixture {
         )
         .unwrap();
         certificate_store
-            .activate(&snapshot_certificate, NOW - 10)
+            .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                &snapshot_certificate,
+                NOW - 10,
+            )
             .unwrap();
         let snapshot_policy = snapshot_policy();
-        let snapshot_verifier = SnapshotCatalogVerifier::open(
+        let snapshot_verifier = SnapshotCatalogVerifier::open_for_test(
             certificate_store,
             snapshot_policy.clone(),
             root.join("snapshot-replay.redb"),
@@ -953,6 +973,142 @@ impl RecoveryHarness {
     }
 }
 
+#[cfg(feature = "internal-test-fixtures")]
+#[derive(Debug, Default)]
+struct ServingCheckpointAuthority(
+    Mutex<BTreeMap<String, distributed::polis_runtime::ConsensusCheckpoint>>,
+);
+
+#[cfg(feature = "internal-test-fixtures")]
+impl distributed::polis_runtime::ConsensusCheckpointAuthority for ServingCheckpointAuthority {
+    fn load(
+        &self,
+        object: &str,
+    ) -> Result<
+        Option<distributed::polis_runtime::ConsensusCheckpoint>,
+        distributed::polis_runtime::PolisRuntimeError,
+    > {
+        Ok(self.0.lock().unwrap().get(object).cloned())
+    }
+
+    fn compare_and_swap(
+        &self,
+        expected: Option<&distributed::polis_runtime::ConsensusCheckpoint>,
+        candidate: &distributed::polis_runtime::ConsensusCheckpoint,
+    ) -> Result<(), distributed::polis_runtime::PolisRuntimeError> {
+        let mut current = self.0.lock().unwrap();
+        if current.get(&candidate.object) != expected {
+            return Err(distributed::polis_runtime::PolisRuntimeError::StateRegression);
+        }
+        current.insert(candidate.object.clone(), candidate.clone());
+        Ok(())
+    }
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+fn observatory_input_for(
+    operation: &str,
+    lineage: &str,
+) -> (
+    distributed::authority_protocol::PublishedAuthorityResult,
+    distributed::serving_authority::VerifiedServingAuthorityCut,
+) {
+    let mut fixture = distributed::serving_authority::ObservatoryBindingFixture::new(operation);
+    fixture.set_invalid_identifier(
+        distributed::serving_authority::ObservatoryIdentifierField::LineageId,
+        lineage,
+    );
+    fixture.set_invalid_identifier(
+        distributed::serving_authority::ObservatoryIdentifierField::OperationId,
+        operation,
+    );
+    fixture.set_operation(operation, 2);
+    fixture.set_integers(2, 1, 1);
+    fixture.set_transition(
+        distributed::serving_authority::ObservatoryTransitionAction::Acquire,
+        None,
+    );
+    (
+        distributed::authority_protocol::test_observatory_published_authority_for_operation(
+            fixture.artifact_bytes(),
+            operation,
+            2,
+        ),
+        distributed::serving_authority::VerifiedServingAuthorityCut::fixture_from_observatory(
+            &fixture,
+        ),
+    )
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+fn shepherd_cut_for(lineage: &str) -> distributed::serving_authority::VerifiedServingAuthorityCut {
+    distributed::serving_authority::VerifiedServingAuthorityCut::fixture(
+        lineage.into(),
+        7,
+        format!("owner-{lineage}"),
+        9,
+        format!("lease-{lineage}"),
+        "11".repeat(32),
+        "22".repeat(32),
+        "33".repeat(32),
+    )
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+fn committed_pair_for_lineage(
+    root: &Path,
+    authority: Arc<ServingCheckpointAuthority>,
+    lineage: &str,
+) -> (
+    distributed::shepherd_serving_eligibility::SealedShepherdCommittedProjection,
+    distributed::observatory_serving_eligibility::SealedObservatoryCommittedProjection,
+) {
+    let shepherd_root = root.join(format!("shepherd-{lineage}"));
+    let observatory_root = root.join(format!("observatory-{lineage}"));
+    fs::create_dir(&shepherd_root).unwrap();
+    fs::create_dir(&observatory_root).unwrap();
+    let mut shepherd = distributed::shepherd_serving_eligibility::ShepherdEligibilityStore::open(
+        &shepherd_root,
+        authority.clone(),
+        8,
+    )
+    .unwrap();
+    let shepherd_cut = shepherd_cut_for(lineage);
+    shepherd
+        .acquire(
+            "shepherd-acquire",
+            "shepherd-a",
+            b"raw-secret-permit",
+            &shepherd_cut,
+            100,
+            1,
+        )
+        .unwrap();
+    let mut observatory =
+        distributed::observatory_serving_eligibility::ObservatoryEligibilityStore::open(
+            &observatory_root,
+            authority,
+            8,
+        )
+        .unwrap();
+    let (published, cut) = observatory_input_for("observatory-acquire", lineage);
+    observatory
+        .apply(&published, &cut, 1_700_000_000, 123_456_789)
+        .unwrap();
+    (
+        shepherd.committed_projection().unwrap().unwrap(),
+        observatory.committed_projection().unwrap().unwrap(),
+    )
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+fn serving_lineage_ref(lineage_id: &[u8]) -> String {
+    let lineage = std::str::from_utf8(lineage_id).unwrap();
+    hex::encode(Sha256::digest(format!(
+        "ADL-SERVING-REF-V1\0lineage\0{lineage}"
+    )))
+}
+
 fn histories() -> Vec<LocalHistory> {
     vec![
         LocalHistory {
@@ -1040,6 +1196,88 @@ fn active_check<'a>(
         now_elapsed_millis: time.elapsed_millis,
         activation_proof: &fixture.source_proof,
     }
+}
+
+fn recover_target_to_committed(
+    fixture: &mut Fixture,
+    migration: &MigrationStore,
+    harness: &RecoveryHarness,
+    store: &mut RecoveryStore,
+    recovery_id: &[u8],
+) -> recovery::RecoveryRecord {
+    begin_and_plan(store, migration, fixture, recovery_id);
+
+    let membership12 = fixture.authority.membership(12);
+    let fence_body = fixture.authority.body(
+        12,
+        2,
+        OperationClass::Fence,
+        SOURCE_NODE,
+        SOURCE_GUARDIAN,
+        &fixture.authority.source_activation,
+        NOW,
+    );
+    let fence_certificate = fixture.authority.certificate(fence_body);
+    let time = harness.clock.time();
+    store
+        .fence_ambiguous(
+            recovery_id,
+            b"fence-recovery-serving",
+            &fence_certificate,
+            &membership12,
+            &mut fixture.ledger,
+            &mut fixture.fencing,
+            application(time, &fixture.authority.source_activation, &[]),
+        )
+        .unwrap();
+
+    harness.clock.set(NOW as i64 + 3, 3_020);
+    let time = harness.clock.time();
+    let membership13 = fixture.authority.membership(13);
+    let activate_body = fixture.authority.body(
+        13,
+        2,
+        OperationClass::Activate,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let activate_proof = activation_signature(&activate_body, &fixture.authority.target_activation);
+    let activate_certificate = fixture.authority.certificate(activate_body);
+    store
+        .restore_quorum_owner(
+            recovery_id,
+            &activate_certificate,
+            &membership13,
+            &mut fixture.ledger,
+            &fixture.fencing,
+            application(time, &fixture.authority.target_activation, &activate_proof),
+        )
+        .unwrap();
+
+    let membership14 = fixture.authority.membership(14);
+    let commit_body = fixture.authority.body(
+        14,
+        2,
+        OperationClass::OwnerCommit,
+        TARGET_NODE,
+        TARGET_GUARDIAN,
+        &fixture.authority.target_activation,
+        NOW + 3,
+    );
+    let commit_proof = activation_signature(&commit_body, &fixture.authority.target_activation);
+    let commit_certificate = fixture.authority.certificate(commit_body);
+    store
+        .commit_owner(
+            recovery_id,
+            &commit_certificate,
+            &membership14,
+            &mut fixture.ledger,
+            &fixture.fencing,
+            application(time, &fixture.authority.target_activation, &commit_proof),
+        )
+        .unwrap()
 }
 
 #[test]
@@ -1314,6 +1552,159 @@ fn recovery_quorum_fence_safety_window_activation_commit_and_restart() {
         reopened.record(b"recovery-owner").unwrap().phase,
         RecoveryPhase::Committed
     );
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+#[test]
+fn recovery_committed_owner_transfers_serving_authority_and_retries_exactly() {
+    let mut fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    fixture.prepare(&mut migration);
+    let harness = RecoveryHarness::new(&fixture);
+    let mut recovery = harness.create();
+    let committed = recover_target_to_committed(
+        &mut fixture,
+        &migration,
+        &harness,
+        &mut recovery,
+        b"recovery-serving",
+    );
+    assert_eq!(committed.phase, RecoveryPhase::Committed);
+
+    let root = fixture.directory.path().canonicalize().unwrap();
+    let serving_root = root.join("integrated-serving-recovery");
+    fs::create_dir(&serving_root).unwrap();
+    let serving_authority = Arc::new(ServingCheckpointAuthority::default());
+    let lineage_ref = serving_lineage_ref(LINEAGE);
+    let (shepherd, observatory) = committed_pair_for_lineage(
+        &root,
+        serving_authority.clone(),
+        std::str::from_utf8(LINEAGE).unwrap(),
+    );
+    let pair = distributed::shepherd_serving_eligibility::verify_committed_child_lineage_pair(
+        &shepherd,
+        &observatory,
+    )
+    .unwrap();
+    let mut integrated =
+        integrated_serving_authority_snapshot::IntegratedServingAuthoritySnapshotStore::open(
+            &serving_root,
+            serving_authority.clone(),
+            8,
+        )
+        .unwrap();
+    integrated
+        .observe(
+            "serving-before-recovery",
+            &pair,
+            integrated_serving_authority_snapshot::IntegratedOutcome::Success,
+        )
+        .unwrap();
+    drop(integrated);
+    let mut integrated =
+        integrated_serving_authority_snapshot::IntegratedServingAuthoritySnapshotStore::open(
+            &serving_root,
+            serving_authority.clone(),
+            8,
+        )
+        .unwrap();
+    let latest = integrated.recoverable_latest_receipt().unwrap().unwrap();
+    assert_eq!(latest.shepherd.lineage_ref, lineage_ref);
+    assert_eq!(latest.observatory.lineage_ref, lineage_ref);
+
+    let transferred = recovery
+        .transfer_serving_authority(b"recovery-serving", &mut integrated)
+        .unwrap();
+    assert_eq!(transferred.phase, RecoveryPhase::ServingTransferred);
+    assert!(transferred.serving_operation_ref.is_some());
+    assert!(transferred.serving_receipt_sha256.is_some());
+    let generation = recovery.checkpoint().generation;
+    assert_eq!(
+        recovery
+            .transfer_serving_authority(b"recovery-serving", &mut integrated)
+            .unwrap(),
+        transferred
+    );
+    assert_eq!(recovery.checkpoint().generation, generation);
+    drop(recovery);
+    drop(integrated);
+
+    let mut reopened_recovery = harness.open();
+    let mut reopened_integrated =
+        integrated_serving_authority_snapshot::IntegratedServingAuthoritySnapshotStore::open(
+            &serving_root,
+            serving_authority,
+            8,
+        )
+        .unwrap();
+    assert_eq!(
+        reopened_recovery
+            .transfer_serving_authority(b"recovery-serving", &mut reopened_integrated)
+            .unwrap(),
+        transferred
+    );
+    marker("recovery_serving_transfer", "recovered");
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+#[test]
+fn recovery_serving_transfer_rejects_wrong_integrated_lineage_before_advancing() {
+    let mut fixture = Fixture::new();
+    let mut migration = fixture.migration_store();
+    fixture.prepare(&mut migration);
+    let harness = RecoveryHarness::new(&fixture);
+    let mut recovery = harness.create();
+    recover_target_to_committed(
+        &mut fixture,
+        &migration,
+        &harness,
+        &mut recovery,
+        b"recovery-wrong-serving",
+    );
+
+    let root = fixture.directory.path().canonicalize().unwrap();
+    let serving_root = root.join("integrated-serving-wrong-lineage");
+    fs::create_dir(&serving_root).unwrap();
+    let serving_authority = Arc::new(ServingCheckpointAuthority::default());
+    let (shepherd, observatory) =
+        committed_pair_for_lineage(&root, serving_authority.clone(), &"44".repeat(32));
+    let pair = distributed::shepherd_serving_eligibility::verify_committed_child_lineage_pair(
+        &shepherd,
+        &observatory,
+    )
+    .unwrap();
+    let mut integrated =
+        integrated_serving_authority_snapshot::IntegratedServingAuthoritySnapshotStore::open(
+            &serving_root,
+            serving_authority.clone(),
+            8,
+        )
+        .unwrap();
+    integrated
+        .observe(
+            "serving-before-wrong-recovery",
+            &pair,
+            integrated_serving_authority_snapshot::IntegratedOutcome::Success,
+        )
+        .unwrap();
+    drop(integrated);
+    let mut integrated =
+        integrated_serving_authority_snapshot::IntegratedServingAuthoritySnapshotStore::open(
+            &serving_root,
+            serving_authority,
+            8,
+        )
+        .unwrap();
+
+    assert_eq!(
+        recovery.transfer_serving_authority(b"recovery-wrong-serving", &mut integrated),
+        Err(RecoveryError::ServingTransferRejected)
+    );
+    assert_eq!(
+        recovery.record(b"recovery-wrong-serving").unwrap().phase,
+        RecoveryPhase::ServingTransferPending
+    );
+    marker("wrong_serving_lineage_recovery", "rejected");
 }
 
 #[test]
@@ -1752,7 +2143,7 @@ fn recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_ro
         .unwrap();
     let source_snapshot = fixture.ledger.snapshot().unwrap();
     let membership11 = fixture.authority.membership(11);
-    let mut target_ledger = AuthorityLedger::new(lease_policy()).unwrap();
+    let mut target_ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
     let target_grant_body = fixture.authority.body(
         11,
         1,
@@ -1766,6 +2157,7 @@ fn recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_ro
         activation_signature(&target_grant_body, &fixture.authority.target_activation);
     target_ledger
         .apply(
+            &TEST_LEASE_STORE_ACCESS,
             &fixture.authority.certificate(target_grant_body),
             &membership11,
             AuthorityApplication {

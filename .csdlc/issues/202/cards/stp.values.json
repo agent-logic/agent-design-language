@@ -1,0 +1,73 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 202,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
+    "slug": "authenticated-governed-learner-transport",
+    "version": "v0.92",
+    "generation": 54
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement and publish only the authority-verified one-learner transport topology, role-bound replication session, shared pending-exclusion authority, and exact denial/recovery integration required between #201 and #199.",
+      "deliverables": [
+        "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/transport.rs",
+        "adl-runtime/src/distributed/transport/core.rs",
+        "adl-runtime/src/distributed/transport/root.rs",
+        "adl-runtime/src/distributed/transport/governed/learner_transport.rs",
+        "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+        "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+        "adl-runtime/tests/distributed_authorized_learner_transport.rs",
+        "adl-runtime/tests/distributed_transport.rs",
+        "adl-runtime/tests/distributed_discovery.rs",
+        "adl-runtime/tests/distributed_runtime_transport.rs",
+        ".csdlc/prepared/issues/202/design.md",
+        ".csdlc/prepared/issues/202/diagram.mmd",
+        ".csdlc/prepared/issues/202/produce-proof-receipt.rb",
+        ".csdlc/prepared/issues/202/validate-proof-receipt.rb",
+        ".csdlc/evidence/202/v6",
+        ".csdlc/issues/202"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The exact #191 voter route cut remains unchanged and a private VerifiedPolisLearnerTopology adds at most one learner only after a crate-private #202 adapter consumes a durably published #201 AuthorityOperationKind::Membership operation through the sealed artifact accessor and validates the exact canonical artifact domain, bytes, digest, and issue-local EnrollNonVoting discriminator.",
+        "AC-2: The learner handshake binds domain, polis, endpoints, stable Raft id, identity, certificate and boot generations, voter-cut digest, operation digest, role, address, sequence, message kind, payload digest, deadline, and protocol version.",
+        "AC-3: A learner session permits only bounded canonical AppendEntries and InstallSnapshot RPCs; vote, client write, #201 endorsement/finalization, renewal, mutation, Shepherd, and Observatory operations reject before dispatch.",
+        "AC-4: PendingMembershipExclusionAuthority activates only after the crate-private #202 adapter validates a durably published coarse #201 Membership operation's sealed exact artifact as the canonical issue-local RemoveVoter discriminator, and its published snapshot is consulted by #201 voter eligibility plus ordinary route/session admission and revalidation.",
+        "AC-5: Pending exclusion denies ordinary voter authority but permits only a separately governed current coarse #201 Membership operation whose sealed exact artifact validates the canonical issue-local EnrollNonVoting discriminator to create a fresh replication-only learner namespace; it never clears exclusion or restores a vote.",
+        "AC-6: Exact retries, connection replacement, certificate overlap and post-overlap denial, boot rotation, cancellation, expiry, capacity, replay, and crash windows reconcile without stale or duplicate admission.",
+        "AC-7: Exclusive bounded canonical state, result cache, and node-local external checkpoint reject rollback, corruption, noncanonical bytes, symlink ancestors, replacement races, conflicting operations, and partial publication.",
+        "AC-8: #202 remains unbound and makes no product edit while #200 is active or unmerged, synchronizes to exact merged #200 ancestry before binding, then passes focused real Quinn/OpenRaft tests, strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review before a ready unmerged PR opens."
+      ],
+      "dependencies": [
+        "Issue #191 / PR #197 is externally reviewed and merged as ancestor 8bd475cf18eb77cc7402220f69282f64a4a1a1e5",
+        "Issue #201 / PR #229 is externally reviewed and merged as ancestor 3ffc4c402c57e167fb9943221c9dac24f96f8895",
+        "Issue #200 must finish and merge before #202 binds or edits product source; #202 must then synchronize to the exact merged #200 ancestry and revalidate because both issues own authority_protocol.rs, polis_runtime.rs, and distributed/mod.rs",
+        "Current secure transport, certificate, MembershipState, AuthorityMembership, coarse #201 Membership operation, sealed exact-artifact accessor, and PolisRuntime APIs",
+        "Issue #202 live GitHub contract",
+        "Issue #199 remains blocked until this issue merges"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#202",
+        "adl-runtime/src/distributed/transport.rs from merged #191",
+        "adl-runtime/src/distributed/authority_protocol.rs from merged #201",
+        "adl-runtime/src/distributed/polis_runtime.rs",
+        "adl-runtime/src/distributed/membership.rs",
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/tests/distributed_runtime_transport.rs",
+        ".csdlc/issues/142 operational design as read-only umbrella truth"
+      ],
+      "non_goals": [
+        "Issuing #201 operation tokens",
+        "Learner catch-up decisions, joint/final membership, stable-id publication, or promotion (#199)",
+        "Concrete certificate, lease, FencingStore, owner, Shepherd, Observatory, migration, or recovery store reconciliation (#200)",
+        "Guardian/API/WSS, models, AWS, live demonstrations, final #142 delivery, merge without operator authorization, or lifecycle closeout"
+      ]
+    }
+  }
+}

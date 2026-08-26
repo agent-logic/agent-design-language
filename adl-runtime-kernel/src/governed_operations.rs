@@ -10,13 +10,13 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly,
-    build_production_operation_executors_with_recorder, ActuationShell, AdapterKind, AdapterPolicy,
-    Aee, AuthorityGrant, AuthorityMode, CanonicalIngress, Commitment, ExecutorError, FailureClass,
-    FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel, KernelDurableState, LiveBindings,
-    MediationDecision, OperationExecutor, OperationRequest, OperationalAdapter, RefusalReason,
-    RuntimeRecorder, TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource,
-    TrustedGovernanceTime, OPERATION_REQUEST_SCHEMA,
+    birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
+    build_live_assembly, build_production_operation_executors_with_recorder, ActuationShell,
+    AdapterKind, AdapterPolicy, Aee, AuthorityGrant, AuthorityMode, CanonicalIngress, Commitment,
+    ExecutorError, FailureClass, FreedomGate, GovernanceKeys, GovernedActionRequest, Kernel,
+    KernelDurableState, LiveBindings, MediationDecision, OperationExecutor, OperationRequest,
+    OperationalAdapter, RefusalReason, RuntimeRecorder, TimeQualificationBounds, TimeSample,
+    TimeSampleError, TimeSampleSource, TrustedGovernanceTime, OPERATION_REQUEST_SCHEMA,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use serde::{Deserialize, Serialize};
@@ -494,6 +494,8 @@ impl TimeSampleSource for FixedTime {
 async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> {
     let recorder = RuntimeRecorder::new(64);
     let permit_key = SigningKey::from_bytes(&config.permit_key).verifying_key();
+    let birthday_private_key = SigningKey::from_bytes(&[23; 32]).verifying_key();
+    let birthday_continuity_key = SigningKey::from_bytes(&[19; 32]).verifying_key();
     let failure = Arc::new(Mutex::new(BTreeMap::new()));
     let scheduler_admission = Arc::new(tokio::sync::Semaphore::new(2));
     let policy = |kind| AdapterPolicy {
@@ -552,8 +554,20 @@ async fn start_services(config: &RuntimeConfig) -> Result<LiveServices, String> 
     executors.insert(AdapterKind::Scheduler, scheduler_executor);
     let assembly = build_live_assembly(LiveBindings {
         recorder: recorder.clone(),
+        canonical_ingress_capacity: 64,
         operation_executors: executors,
         permit_keys: BTreeMap::from([("permit".to_owned(), permit_key)]),
+        birthday_authority: birthday_authority_bootstrap_from_runtime_keys(
+            "permit",
+            permit_key,
+            "governed-operations-memory-palace-private",
+            birthday_private_key,
+            "governed-operations-memory-palace-continuity",
+            birthday_continuity_key,
+            1,
+            1,
+            1,
+        ),
         reasoning: bootstrap_reasoning_services(recorder.clone())
             .map_err(|_| "reasoning_configuration".to_owned())?,
         time_source: Arc::new(FixedTime(config.trusted_time_millis)),

@@ -66,6 +66,13 @@ printf 'PR-fast coverage expression: %s\n' "$FILTER_EXPRESSION"
 printf 'PR-fast coverage target: %s\n' "$CARGO_TARGET_DIR"
 guardian_filter='test(/^guardian::tests::/)'
 runtime_auth_filter='test(/^runtime_api_auth::tests::/)'
+runtime_memory_palace_filter='binary_id(adl-runtime) and test(/^memory_palace::tests::/)'
+runtime_authority_filter='package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
+runtime_authority_store_boundary_filter='package(adl-runtime) and ((binary_id(adl-runtime) and test(/^distributed::authority_store_adapters::/)) or binary_id(adl-runtime::distributed_authority_protocol) or binary_id(adl-runtime::distributed_authority_reconciliation) or binary_id(adl-runtime::distributed_authority_snapshots) or binary_id(adl-runtime::distributed_capability_advertisement) or binary_id(adl-runtime::distributed_certificates) or binary_id(adl-runtime::distributed_fencing) or binary_id(adl-runtime::distributed_identity_lease_authority) or binary_id(adl-runtime::distributed_lease) or binary_id(adl-runtime::distributed_migration) or binary_id(adl-runtime::distributed_placement) or binary_id(adl-runtime::distributed_recovery) or binary_id(adl-runtime::distributed_resource_weather) or binary_id(adl-runtime::distributed_snapshot_catalog) or (binary_id(adl-runtime::distributed_transport) and not test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)))'
+runtime_shepherd_serving_eligibility_filter='binary_id(adl-runtime::distributed_shepherd_serving_eligibility)'
+runtime_observatory_serving_eligibility_filter='binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))'
+runtime_observatory_static_filter='test(adl_observatory_static)'
+runtime_integrated_serving_authority_filter='binary_id(adl-runtime::distributed_integrated_serving_authority) or (binary_id(adl-runtime) and test(/^distributed::integrated_serving_authority_snapshot::tests::/))'
 runtime_v3_csm_bridge_filter='test(/^runtime_api_auth::tests::/) or (binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/) or test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)) or binary_id(adl::cli_smoke) and test(/^agent::csm_/)) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout) or test(csmctl) or test(csm_service)'
 bounded_runtime_v3_csm_bridge=false
 adl_filter_expression="$FILTER_EXPRESSION"
@@ -75,7 +82,15 @@ if [ "$FILTER_EXPRESSION" = "$runtime_v3_csm_bridge_filter" ]; then
   printf 'PR-fast coverage ADL bridge expression: %s\n' "$adl_filter_expression"
 fi
 adl_coverage_ran=false
-if [ "$FILTER_EXPRESSION" != "$guardian_filter" ] && [ "$FILTER_EXPRESSION" != "$runtime_auth_filter" ]; then
+if [ "$FILTER_EXPRESSION" != "$guardian_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_auth_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_memory_palace_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_authority_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_authority_store_boundary_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_shepherd_serving_eligibility_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_observatory_serving_eligibility_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_observatory_static_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_integrated_serving_authority_filter" ]; then
   coverage_args=(
     llvm-cov nextest
   )
@@ -105,7 +120,28 @@ fi
 
 runtime_expression=""
 runtime_companion=""
-if [ "$bounded_runtime_v3_csm_bridge" = true ]; then
+if [ "$FILTER_EXPRESSION" = "$runtime_authority_filter" ]; then
+  runtime_expression="$FILTER_EXPRESSION"
+  runtime_companion="adl-runtime committed authority protocol tests"
+elif [ "$FILTER_EXPRESSION" = "$runtime_memory_palace_filter" ]; then
+  runtime_expression="$FILTER_EXPRESSION"
+  runtime_companion="adl-runtime Memory Palace tests"
+elif [ "$FILTER_EXPRESSION" = "$runtime_authority_store_boundary_filter" ]; then
+  runtime_expression="$FILTER_EXPRESSION"
+  runtime_companion="adl-runtime authority store boundary tests"
+elif [ "$FILTER_EXPRESSION" = "$runtime_shepherd_serving_eligibility_filter" ]; then
+  runtime_expression="$FILTER_EXPRESSION"
+  runtime_companion="adl-runtime Shepherd serving-eligibility tests"
+elif [ "$FILTER_EXPRESSION" = "$runtime_observatory_serving_eligibility_filter" ]; then
+  runtime_expression="$FILTER_EXPRESSION"
+  runtime_companion="adl-runtime Observatory serving-eligibility integration and unit tests"
+elif grep -Fq 'test(adl_observatory_static)' <<<"$FILTER_EXPRESSION"; then
+  runtime_expression='test(adl_observatory_static)'
+  runtime_companion="adl-runtime Observatory static-server tests"
+elif [ "$FILTER_EXPRESSION" = "$runtime_integrated_serving_authority_filter" ]; then
+  runtime_expression="$FILTER_EXPRESSION"
+  runtime_companion="adl-runtime integrated serving-authority integration and unit tests"
+elif [ "$bounded_runtime_v3_csm_bridge" = true ]; then
   runtime_expression='test(/^runtime_api_auth::/) or test(/^supervision::/) or test(/^topology::/)'
   runtime_companion="adl-runtime Runtime v3 CSM bridge tests"
 elif grep -Fq 'test(/^csm_cav::/)' <<<"$FILTER_EXPRESSION"; then
@@ -154,6 +190,14 @@ if [ -n "$runtime_expression" ]; then
     --no-clean
     -E "$runtime_expression"
   )
+  if [ "$FILTER_EXPRESSION" = "$runtime_observatory_serving_eligibility_filter" ]; then
+    runtime_coverage_args+=(--lib --test distributed_observatory_serving_eligibility)
+  fi
+  if [ "$FILTER_EXPRESSION" = "$runtime_shepherd_serving_eligibility_filter" ] \
+    || [ "$FILTER_EXPRESSION" = "$runtime_observatory_serving_eligibility_filter" ] \
+    || [ "$FILTER_EXPRESSION" = "$runtime_integrated_serving_authority_filter" ]; then
+    runtime_coverage_args+=(--features internal-test-fixtures)
+  fi
   if [ -n "$TEST_THREADS" ]; then
     runtime_coverage_args+=(--test-threads "$TEST_THREADS")
   fi

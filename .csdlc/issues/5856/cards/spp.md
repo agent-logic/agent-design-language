@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Verify the full child batch, route safe independent lanes to separate sessions, preserve serial gates, and synthesize one integrated sprint review after child completion.
+Verify the complete final-sprint child wave, begin with WP-20 only after its proof producers are terminal, preserve the strict WP-20 through WP-30 dependency chain, and synthesize one integrated release-tail review after child completion.
 
 ## Plan
 
-Revision 1
+Revision 4
 
 ## Steps
 
@@ -77,13 +77,13 @@ Revision 1
 
 .csdlc/prepared/issues/5856/design.md
 
-Digest: c874e9d3a3705a6ab9c92c4594ff685b9fccb1cdd5180cbd3e50da7459a0ef9b
+Digest: ffb2155a6bd9d980c3a587e716f9643e5b08ea84980b0c04ecb885d38ad95441
 
 ## Diagram
 
 .csdlc/prepared/issues/5856/diagram.mmd
 
-Digest: fa70af54fd83eac4680092e86495ef246cc57892be3e5fb1322c66982f5d4f11
+Digest: c1817d53601997245eb63ec05c5b94d57d7520beaa4ab96860d3e5cf8b70a172
 
 ## Stop Conditions
 

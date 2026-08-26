@@ -27,3 +27,20 @@ reason. Stop on stale CAS, dirty state, missing or ambiguous topology, wrong
 origin identity, unsupported phase, or any existing `code_repository`.
 Successful migration preserves lifecycle and review truth; it does not grant
 publication authority, so the normal `csdlc-publish` checks still apply.
+
+## Bound issue identity/repository recovery
+
+If an active bound lifecycle record was created against the wrong issue identity
+and a canonical current-repo issue has been created through `csdlc-github-issue`,
+do not hand-edit `.csdlc/issues/*`. Use the typed identity migration owner:
+
+```text
+csdlc-issue --root <bound-worktree> migrate-bound-issue-identity --request <json>
+```
+
+The request must bind the exact source generation/digest, source and target
+issue/repository identities, actor/reason, and repo-local target issue evidence.
+The operation refuses terminal records, conflicting target namespaces, stale
+source truth, and dirty topology. Published or merge-ready records have
+publication/readiness cleared so `csdlc-publish` must relink the PR to the
+canonical target issue before `csdlc-finish`.

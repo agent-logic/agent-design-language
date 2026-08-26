@@ -1,0 +1,81 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 360,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Add authentic distinct Observatory transition fixture builder",
+    "slug": "observatory-authentic-transition-fixture",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bootstrap review bind implement the narrow cfg-gated helper prove exact authentic transitions review publish and finish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Review and approve exact cfg-gated design.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement authentic builder and focused proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run proof review publish CI and finish.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs",
+        ".csdlc/issues/360",
+        ".csdlc/prepared/issues/360",
+        ".csdlc/evidence/360"
+      ],
+      "invariants": [
+        "Production authority behavior is byte-for-byte unchanged outside cfg-gated code",
+        "All fixture components bind identical transition values",
+        "A/B mismatch remains denied"
+      ],
+      "risks": [
+        "Fixture could accidentally become production API",
+        "Independent components could drift and create false proof"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Any non-test production behavior change",
+        "Any #274 or mod.rs edit",
+        "Any verifier weakening or raw authority exposure"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/360/design.md",
+      "design_digest": "5a34035d5daa13e70999eff868c613d927fc38d111a28ac10429bf3309affda3",
+      "diagram_ref": ".csdlc/prepared/issues/360/diagram.mmd",
+      "diagram_digest": "a669246c88ac3cdef6e2801668b48a6a4f0efd30da4b867a9cc0bf710e83a20a"
+    }
+  }
+}

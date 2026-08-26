@@ -15,6 +15,7 @@ use capability_advertisement::{
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
     CertificateValidity, DistributedCertificateStore, RevocationReason,
+    TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 
@@ -43,7 +44,14 @@ impl Fixture {
         let canonical_directory = directory.path().canonicalize().unwrap();
         let path = canonical_directory.join("certificates.redb");
         let replay_path = canonical_directory.join("capability-replay.redb");
-        let store = Arc::new(DistributedCertificateStore::open(path, certificate_policy).unwrap());
+        let store = Arc::new(
+            DistributedCertificateStore::open(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                path,
+                certificate_policy,
+            )
+            .unwrap(),
+        );
         let body = CertificateBody::new(
             DOMAIN,
             holder,
@@ -57,7 +65,9 @@ impl Fixture {
             &root.verifying_key(),
         );
         let certificate = AuthorityCertificate::issue(body, &root).unwrap();
-        store.activate(&certificate, NOW - 10).unwrap();
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW - 10)
+            .unwrap();
         Self {
             _directory: directory,
             replay_path,
@@ -70,7 +80,7 @@ impl Fixture {
     }
 
     fn verifier(&self) -> CapabilityAdvertisementVerifier {
-        CapabilityAdvertisementVerifier::open(
+        CapabilityAdvertisementVerifier::open_for_test(
             self.store.clone(),
             self.policy.clone(),
             &self.replay_path,
@@ -152,7 +162,9 @@ impl Fixture {
             &self.root,
         )
         .unwrap();
-        self.store.activate(&certificate, NOW - 10).unwrap();
+        self.store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW - 10)
+            .unwrap();
         let body = CapabilityAdvertisementBody::new(
             DOMAIN,
             holder,
@@ -518,7 +530,12 @@ fn revocation_withdraws_previously_valid_advertisement() {
     let certificate_id = fixture.certificate.certificate_id().unwrap();
     fixture
         .store
-        .revoke(&certificate_id, NOW, RevocationReason::OperatorRevoked)
+        .revoke(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            &certificate_id,
+            NOW,
+            RevocationReason::OperatorRevoked,
+        )
         .unwrap();
     assert_eq!(
         fixture.verifier().verify(&advertisement, NOW).unwrap_err(),

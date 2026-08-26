@@ -9,15 +9,14 @@ require "yaml"
 
 ROOT = Pathname.new(File.expand_path("../../../..", __dir__))
 SPRINT = 5854
-UNBOUND = [5835, 5836, 5838, 5839, 5840].freeze
+UNBOUND = [5835, 5836, 5838, 5839].freeze
 CARDS = %w[sip stp spp vpp srp sor].freeze
 EXPECTED_CODE_REPOSITORY = "agent-logic/agent-design-language"
 EXPECTED_WAVE_GATES = [
   "WP-17 after #5826, #5827, and #5834",
-  "WP-18 after #5825 through #5830 and #5832 through #5834",
-  "WP-18B after #5832, #5834, and WP-18",
+  "WP-18 after #5825 through #5830, canonical WP-14 #209 / PR #215, #5833, and #5834; legacy #5832 is superseded",
+  "WP-18B after canonical WP-14 #209 / PR #215, #5834, and WP-18",
   "WP-19 after #5834 and WP-17 plus accepted v0.93 allocation",
-  "WP-20 after WP-18, WP-18A, WP-18B, and WP-19",
   "WP-24 final claims after WP-23"
 ].freeze
 
@@ -122,10 +121,18 @@ raise "human packet retains an ungoverned candidate parallel lane" if human.incl
 human_parallel_lanes = parse_human_parallel_lanes(human)
 
 stp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/stp.values.json").read).dig("content", "values")
-operative_closeout = "the five operative children (#5835, #5836, #5838, #5839, and #5840)"
+operative_closeout = "the four operative children (#5835, #5836, #5838, and #5839)"
 raise "STP does not name the exact operative closeout boundary" unless stp_values.fetch("acceptance_criteria").any? { |criterion| criterion.include?(operative_closeout) && criterion.include?("WP-24A #5845 cannot gate") }
 srp_values = JSON.parse((ROOT / ".csdlc/issues/5854/cards/srp.values.json").read).dig("content", "values")
 raise "SRP does not review the exact operative closeout boundary" unless srp_values.fetch("review_prompts").any? { |prompt| prompt.include?(operative_closeout) && prompt.include?("WP-24A #5845 excluded") }
+expected_card_children = UNBOUND.sort
+{
+  "SIP required outcome" => JSON.parse((ROOT / ".csdlc/issues/5854/cards/sip.values.json").read).dig("content", "values", "required_outcome"),
+  "SPP summary" => JSON.parse((ROOT / ".csdlc/issues/5854/cards/spp.values.json").read).dig("content", "values", "summary")
+}.each do |surface, text|
+  observed_children = text.scan(/#(\d+)/).flatten.map(&:to_i).uniq.sort
+  raise "#{surface} child denominator mismatch: #{observed_children.inspect}" unless observed_children == expected_card_children
+end
 
 session_prompt = (ROOT / ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md").read
 session_text = session_prompt.split.join(" ")
@@ -135,6 +142,7 @@ raise "session prompt still requires ordinary pre-bind child doctor" if session_
 raise "session prompt omits expected split-authority diagnosis" unless session_text.include?("ordinary doctor is expected to report `repository_identity_drift` until typed bind")
 raise "session prompt omits post-bind doctor" unless session_text.include?("Run ordinary doctor in the child worktree only after bind succeeds")
 raise "session prompt omits WP-19 serial gate" unless session_prompt.include?("#5839 follows #5834 and #5835 plus accepted v0.93 allocation")
+raise "session prompt does not route WP-20 to final sprint" unless session_prompt.include?("WP-20 (`#5840`) is the first child of final release-tail sprint `#5856`")
 
 bind_manifest = JSON.parse((ROOT / ".csdlc/prepared/issues/5854/split-authority-bind-requests.json").read)
 raise "split-authority manifest schema mismatch" unless bind_manifest.fetch("schema") == "adl.v092.sprint_5854_split_authority_bind_requests.v1"
@@ -246,6 +254,19 @@ raise "typed PR collector identity missing" unless collector.fetch("pull_request
 %w[issue_binary_sha256 pull_request_binary_sha256].each do |field|
   raise "invalid collector binary digest #{field}" unless collector.fetch(field).match?(/\A[0-9a-f]{64}\z/)
 end
+collector_bin_dir_value = ENV.fetch("CSDLC_V2_BIN_DIR", "").strip
+unless collector_bin_dir_value.empty?
+  collector_bin_dir = Pathname.new(collector_bin_dir_value)
+  collector_bin_dir = ROOT / collector_bin_dir unless collector_bin_dir.absolute?
+  {
+    "issue_binary_sha256" => "csdlc-github-issue",
+    "pull_request_binary_sha256" => "csdlc-github-pr"
+  }.each do |field, binary_name|
+    binary_path = collector_bin_dir / binary_name
+    raise "installed collector binary missing: #{binary_name}" unless binary_path.file?
+    raise "collector binary digest mismatch: #{binary_name}" unless Digest::SHA256.file(binary_path).hexdigest == collector.fetch(field)
+  end
+end
 raise "collector contract mismatch" unless collector.fetch("contract") == provenance.fetch("collector_contract")
 raise "collector identity missing" if provenance.fetch("collector_identity").strip.empty?
 raise "collector source operations missing" unless source.fetch("source_operations").length == 2
@@ -267,7 +288,10 @@ source_umbrella = source.fetch("issue_results").find do |entry|
 end&.fetch("response")&.fetch("issue")
 raise "live source issue #5854 missing" unless source_umbrella
 umbrella_body = source_umbrella.fetch("body")
-raise "live source issue does not name five operative children" unless UNBOUND.all? { |issue| umbrella_body.include?("- ##{issue}") }
+operative_section = umbrella_body.split("## Operative Child Issues", 2).fetch(1).split("\n## ", 2).first
+live_operative_children = operative_section.scan(/^- #(\d+)/).flatten.map(&:to_i)
+raise "live source issue operative-child denominator mismatch" unless live_operative_children == UNBOUND
+raise "live source issue does not route WP-20 to final sprint" unless umbrella_body.include?("#5840") && umbrella_body.include?("#5856")
 raise "live source issue retains the obsolete all-child exit" if umbrella_body.include?("Every child is merged")
 raise "live source issue retains podcast-package exit scope" if umbrella_body.include?("podcast packages")
 raise "live source issue does not exclude WP-24A" unless umbrella_body.include?("#5845 (WP-24A) has no Sprint 5 dependency") && umbrella_body.include?("cannot block exit")
@@ -280,15 +304,15 @@ raise "typed tooling issue #74 observation missing" unless tooling_74
 raise "tooling issue #74 is not closed" unless tooling_74.fetch("state") == "closed" && tooling_74.fetch("closed_at") == "2026-08-10T00:11:18Z"
 expected_states = {
   5819 => "closed",
-  5825 => "open",
-  5826 => "open",
-  5827 => "open",
-  5828 => "open",
-  5829 => "open",
-  5830 => "open",
+  5825 => "closed",
+  5826 => "closed",
+  5827 => "closed",
+  5828 => "closed",
+  5829 => "closed",
+  5830 => "closed",
   5832 => "closed",
-  5833 => "open",
-  5834 => "open",
+  5833 => "closed",
+  5834 => "closed",
   5835 => "open",
   5836 => "open",
   5837 => "open",
@@ -305,7 +329,25 @@ expected_states.each do |issue, expected|
 end
 
 raise "WP-17 dependency set is incomplete" unless human.include?("`#5826`, `#5827`, and `#5834`")
-raise "WP-18 dependency set is incomplete" unless human.include?("`#5825`-`#5830` and `#5832`-`#5834`")
+raise "WP-18 canonical dependency set is incomplete" unless human.include?("canonical WP-14 `agent-logic/agent-design-language#209` / PR `#215`") && human.include?("legacy `#5832` is superseded")
+raise "WP-17 is not classified as ready to bind" unless human.include?("| `#5835` | WP-17 | prepared and unbound; `#5826`, `#5827`, and `#5834` are terminal | ready to bind")
+raise "WP-18 is not classified as ready to bind" unless human.include?("| `#5836` | WP-18 | prepared and unbound;") && human.include?("reviewed ancestral merge proof")
+
+wp16_validator = [
+  "ruby", ".csdlc/prepared/issues/5834/validate-review-packet.rb",
+  "--packet", "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+  "--manifest", "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+  "--schema", "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json"
+]
+wp16_stdout, wp16_stderr, wp16_status = Open3.capture3(*wp16_validator, chdir: ROOT.to_s)
+raise "WP-16 dependency authority failed: #{wp16_stderr}#{wp16_stdout}" unless wp16_status.success?
+
+canonical_wp14 = source.fetch("issue_results").find do |entry|
+  issue = entry.fetch("response").fetch("issue")
+  issue.fetch("repository") == EXPECTED_CODE_REPOSITORY && issue.fetch("number") == 209
+end&.fetch("response")&.fetch("issue")
+raise "canonical WP-14 issue #209 observation missing" unless canonical_wp14
+raise "canonical WP-14 issue #209 is not closed" unless canonical_wp14.fetch("state") == "closed"
 
 pr14 = gates.fetch("pull_requests").find { |row| row.fetch("pull_request") == 14 }
 source_pr14 = source.fetch("pull_request_results").first.fetch("response")
@@ -316,6 +358,16 @@ raise "canonical WP-24 merge SHA mismatch" unless pr14&.fetch("merge_sha") == ex
 raise "canonical WP-24 closing relation mismatch" unless pr14&.fetch("closes_issue") == 10
 raise "canonical WP-24 PR projection differs from retained source" unless source_pr14.fetch("repository") == pr14.fetch("repository") && source_pr14.fetch("pull_request") == pr14.fetch("pull_request") && source_pr14.fetch("merged") && source_pr14.fetch("merge_commit_sha") == pr14.fetch("merge_sha") && source_pr14.fetch("linked_issue") == pr14.fetch("closes_issue")
 raise "canonical WP-24 merge is not ancestral to readiness HEAD" unless system("git", "merge-base", "--is-ancestor", expected_wp24_sha, "HEAD", out: File::NULL, err: File::NULL)
+
+pr215 = gates.fetch("pull_requests").find { |row| row.fetch("pull_request") == 215 }
+source_pr215 = source.fetch("pull_request_results").find { |entry| entry.fetch("response").fetch("pull_request") == 215 }&.fetch("response")
+expected_wp14_sha = "a77519c3fca9f64752af41c9a2ebd396468891f7"
+raise "canonical WP-14 PR #215 observation missing" unless source_pr215
+raise "canonical WP-14 PR repository mismatch" unless pr215&.fetch("repository") == EXPECTED_CODE_REPOSITORY
+raise "canonical WP-14 PR is not merged" unless pr215&.fetch("state") == "merged" && source_pr215.fetch("merged")
+raise "canonical WP-14 merge SHA mismatch" unless pr215&.fetch("merge_sha") == expected_wp14_sha && source_pr215.fetch("merge_commit_sha") == expected_wp14_sha
+raise "canonical WP-14 closing relation mismatch" unless pr215&.fetch("closes_issue") == 209 && source_pr215.fetch("linked_issue") == 209
+raise "canonical WP-14 merge is not ancestral to readiness HEAD" unless system("git", "merge-base", "--is-ancestor", expected_wp14_sha, "HEAD", out: File::NULL, err: File::NULL)
 
 wp24a_observation = gates.fetch("out_of_band_observations").find { |row| row.fetch("issue") == 5845 }
 raise "WP-24A out-of-band observation missing" unless wp24a_observation

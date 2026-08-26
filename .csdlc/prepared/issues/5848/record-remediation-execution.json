@@ -1,0 +1,29 @@
+{
+  "issue": 5848,
+  "card": "sor",
+  "expected_generation": 19,
+  "expected_digest": "c1dd4e8508e79c5f1f891fb4c07844662b133c30e0a5cedf31960039ff77ee71",
+  "actor": "codex:issue-315-wp27-remediation",
+  "reason": "Record WP-27 remediation implementation before implemented-phase transition.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Remediated WP-27 review findings by accounting for all retained internal and external review rows, preserving #314/#471/#316 routing boundaries, and fixing the production birthday activation cleanup, digest, and filesystem-assumption findings.",
+    "changes": [
+      "Added a remediation disposition register and README under docs/reviews/v0.92/remediation-5848.",
+      "Retained all 30 source finding rows while grouping duplicate external birthday-code findings by shared fix.",
+      "Routed internal review rows to the merged #467 corrective hydration authority rather than reopening settled release-credit semantics.",
+      "Changed production birthday post-commit cleanup failures to return CommittedWithCleanupPending with the committed receipt.",
+      "Made receipt input digest construction fallible instead of defaulting to an empty string.",
+      "Documented same-host local-filesystem and advisory-lock assumptions on ProductionBirthdayStore.",
+      "Added focused regression tests for cleanup-pending and partial-cleanup recovery."
+    ],
+    "artifacts": [
+      "docs/reviews/v0.92/remediation-5848/disposition-register.json",
+      "docs/reviews/v0.92/remediation-5848/README.md",
+      ".csdlc/evidence/5848/production-birthday-focused-test.json",
+      ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb",
+      "adl-runtime-kernel/src/production_birthday.rs",
+      "adl-runtime-kernel/tests/production_birthday.rs"
+    ]
+  }
+}

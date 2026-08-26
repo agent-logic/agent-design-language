@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 59,
+  "expected_digest": "66d67a3a0b5a3acd35a1410ab18ce2f50335add7982c3046393a9521d52b255f",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Record the complete focused proof for both fresh-session review fixes.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["focused issue-111 Runtime, WSS, roster, control, OpenAPI, browser, static, lint, format, and diff gates"],
+      "purpose": "Prove exact-credential terminal-result binding, immediate pre-send revocation enforcement, bounded continuation-page recipient resolution, and preservation of the complete conversation and roster contract.",
+      "outcome": "passed",
+      "evidence_ref": "git:fb4003c15a1eefd9daf780bf5c397dd887185b75; conversation_sessions 1/1; agent_roster 10/10; control 24/24; observatory 7/7; openapi_contract 6/6; browser conversation PASS; HTML Observatory PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
+    }
+  },
+  "fail_after_backup": false
+}

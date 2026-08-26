@@ -149,6 +149,12 @@ and trace/audit requirements.
   events through the Runtime carrier. Loopback topology is acceptable for a
   focused local test, but a mock transport, fixture trace, or URL-only check
   receives no release credit.
+- Production replay state is scoped to the authenticated principal and the
+  declared runtime/source replay domain. Zero, terminal, replayed, and
+  excessive sequence advances fail closed without poisoning another domain.
+- The production proof exercises the bounded canonical-ingress pressure gate,
+  structured rejection responses, reservation rollback, and a successful
+  corrected retry.
 - The proof records trace/replay-compatible session event evidence without
   claiming v0.94 signed/queryable trace completion.
 
@@ -213,13 +219,16 @@ Proof expectation:
 Run a boring binary ACIP session:
 
 1. Open an authenticated WebSocket session against the real Runtime carrier.
-2. Send one binary ACIP message event.
-3. Send one binary invocation-event proposal.
-4. Deny one unauthorized message-content inspection request.
-5. Render an authorized event to deterministic JSON through the public schema
+2. Send one binary ACIP message event through canonical production ingress.
+3. Exercise a typed unsupported-work rejection and corrected retry.
+4. Reject terminal sequence poisoning and prove an independent replay domain
+   remains live.
+5. Saturate the bounded canonical ingress and observe its explicit pressure
+   result.
+6. Render an authorized event to deterministic JSON through the public schema
    catalog.
-6. Close the session.
-7. Produce the session trace/replay packet.
+7. Close the session.
+8. Produce the session trace/replay packet.
 
 What it proves:
 

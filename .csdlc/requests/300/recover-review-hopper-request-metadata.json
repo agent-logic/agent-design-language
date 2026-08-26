@@ -1,0 +1,7 @@
+{
+  "issue": 300,
+  "expected_generation": 12,
+  "expected_digest": "a2164f2d53352ff2a8845d3d92989408541136d272c778fd2cb18bb7431a9b4e",
+  "actor": "codex:worker-5",
+  "reason": "Recover reviewed state after doctor still reported review_publication_dead_end: the post-review commit included .csdlc/requests/300/record-review-hopper-r5-pass.json, and .csdlc/requests is not a metadata-safe post-review path."
+}

@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "guardian_entry_diagnostic_truncated",
+  "estimated_compute_cost_usd": 0.448203,
+  "fallback": "disabled",
+  "portable_request_sha256": "5d59161fa14d631cda417cb81d0952b3de8729d6b0054ee8e42810b24c6edf37",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-63",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_partial_qualification",
+  "summary_sha256": "db379e86b4b8d27f74ae3f840e74edc502045b35e3d4daaa019b3e33d0992599",
+  "truth": "Six distinct Runtime residents completed pre-cycle work, signed dehydration and restore, actual replay denial, pending-only post-cycle work, and continuation verification. The subsequent six-hour Guardian command failed, but SSM truncated the terminal diagnostic after oversized receipt output. The next run retains compact Runtime proof and a bounded Guardian stderr tail. Compute and stack cleanup completed and fallback did not run."
+}

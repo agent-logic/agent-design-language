@@ -1,0 +1,10 @@
+{
+  "schema": "adl.issue343.sprint-review.v1",
+  "result": "passed",
+  "reviewer": "fresh-session:8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
+  "session_uuid": "8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
+  "reviewed_revision": "f15160b51166f015b26ef7e1ae8257a4d6a5efda",
+  "packet_sha256": "f15dac766f3aa749d72e964265659ae264ef5c4f8d3ac5ba8eb76b1402af8301",
+  "findings": [],
+  "unresolved_findings": []
+}

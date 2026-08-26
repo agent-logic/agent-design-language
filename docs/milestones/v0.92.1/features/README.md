@@ -1,5 +1,17 @@
-# v0.92.1 Features
+# v0.92.1 Feature Plans
 
-- [Corporate and IP transfer](CORPORATE_AND_IP_TRANSFER_v0.92.1.md)
+- [Corporate and IP](CORPORATE_AND_IP_TRANSFER_v0.92.1.md)
+- [AWS account move-in and normalization](AWS_ACCOUNT_MOVE_IN_v0.92.1.md)
+- [GCP account move-in](GCP_ACCOUNT_MOVE_IN_v0.92.1.md)
+- [Cross-cloud Runtime Terraform conversion](CROSS_CLOUD_TERRAFORM_CONVERSION_v0.92.1.md)
+- [Rust resilience owner-boundary refactoring](RUST_RESILIENCE_REFACTORING_v0.92.1.md)
 - [C-SDLC v3](CSDLC_V3_v0.92.1.md)
-- [Distributed multi-agent Runtime qualification](DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md)
+- [Distributed multi-agent Runtime](DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md)
+- [Podcast publication and Studio](PODCAST_PUBLICATION_AND_STUDIO_v0.92.1.md)
+- [Axum configuration hot reload](AXUM_CONFIGURATION_HOT_RELOAD_v0.92.1.md)
+- [Observatory redesign](OBSERVATORY_REDESIGN_v0.92.1.md)
+- [Repository authority](REPOSITORY_AUTHORITY_NO_ADL_PATHS_v0.92.1.md)
+- [Runtime v2/v3 decoupling](RUNTIME_V2_V3_DECOUPLING_v0.92.1.md)
+- [Provider inference profiles](PROVIDER_INFERENCE_PROFILES_v0.92.1.md)
+- [GCP six-resident qualification](GCP_SIX_RESIDENT_QUALIFICATION_v0.92.1.md)
+- [CodeFriend Beta 1 successor handoff](CODEFRIEND_BETA1_HANDOFF_v0.92.1.md)

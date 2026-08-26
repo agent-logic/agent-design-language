@@ -1,0 +1,9 @@
+flowchart TD
+  A["#111 canonical sessions"] --> E["#115 governed rooms"]
+  B["#112 Layer 8 authority"] --> E
+  C["#113 live roster"] --> E
+  D["#270 trusted recipient acknowledgements"] --> E
+  E --> F["explicit participant set"]
+  E --> G["governed fan-out and delivery states"]
+  E --> H["attributed responses"]
+  E --> I["Observatory room UI"]

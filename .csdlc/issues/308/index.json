@@ -1,0 +1,343 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 308,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b71a21ec664bc745058f14d570b7b0024b62162323b6d5def698cbe827292525",
+  "phase": "published",
+  "generation": 17,
+  "digest": "52f3d81eb6f9d7cc082b1efca239daca3e2dc8ff8446908bbca566fb3b8ffa8f",
+  "branch": "codex/308-demo-proof-coverage",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage",
+  "review_assignment": {
+    "reviewer": "fresh-session:codex-cli-issue-308-review-67c735d9",
+    "assigned_by": "codex:issue-308-ci-clippy-unblock",
+    "revision": "git-blake3:67c735d96ea2b6aa1aeb5edcea8f0c410399db55:46e1eb8f82afabb60eb08560d0d134e9fc4b7adbe4d227242d26827b770a84bc",
+    "scope": [
+      ".csdlc/evidence/308",
+      ".csdlc/issues/308",
+      ".csdlc/prepared/issues/308",
+      ".csdlc/locks/308.lock",
+      "adl/src/governed_executor_parts/tests.rs",
+      "adl/tools/validate_v092_demo_proof_coverage.py",
+      "adl/tools/test_v092_demo_proof_coverage.sh",
+      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+      "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:codex-cli-issue-308-review-67c735d9",
+    "scope": [
+      ".csdlc/evidence/308",
+      ".csdlc/issues/308",
+      ".csdlc/prepared/issues/308",
+      ".csdlc/locks/308.lock",
+      "adl/src/governed_executor_parts/tests.rs",
+      "adl/tools/validate_v092_demo_proof_coverage.py",
+      "adl/tools/test_v092_demo_proof_coverage.sh",
+      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+      "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
+    ],
+    "reviewed_revision": "git-blake3:67c735d96ea2b6aa1aeb5edcea8f0c410399db55:46e1eb8f82afabb60eb08560d0d134e9fc4b7adbe4d227242d26827b770a84bc",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and bounded to exact commit 67c735d96ea2b6aa1aeb5edcea8f0c410399db55; reviewer ignored post-HEAD review-assignment metadata dirt.",
+      "Reviewer did not rerun broad mutating validation; local pre-review validation passed focused validator, negative suite, git diff --check, cargo fmt --check, and cargo clippy --all-targets -D warnings."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 308,
+    "pull_request": 447,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/447",
+    "base": "main",
+    "head": "codex/308-demo-proof-coverage",
+    "revision": "git-blake3:ab2cca49f36e3007a5aa1223ce662827c8c29f49:cde45e150a5f5b69d4c2713df1707b4d82390e5a7a25668db9c10eb544a67698",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/308/design.md",
+  "diagram_path": ".csdlc/prepared/issues/308/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:efd0fc2b-7e93-4365-b958-854d2c85ce5c",
+      "revision": "be86c5e4be6fb6a41ea1de95ee310062a9b437e1918db6c5dd097a7d717ecfa1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f323aa9ebb237276259f4c89b3ccf0bd8e4d6530da3db05ff62ea507a120d8b5",
+      "rendered_digest": "cb55925f2472f45ca6386cfee375de0c4902ec6c3ab85f3229b6b5e5b89e8d57",
+      "ast_digest": "3435b3bd1e49ebcb8894c63af3b1450b0776da7a75419409d74a670109bdc75c"
+    },
+    "stp": {
+      "values_digest": "4eb456e378e0d2426030bbe0a677a711edd948272bd6f22d9971f3b81533bc6e",
+      "rendered_digest": "a858d8b299db2f2ad806e9073e1ed32a6caaeb6cea054ec2ed06c57d75fdf406",
+      "ast_digest": "16b0f2d4769f79fe6de0ea45effc459efb38a8642c718c4f9137cfa2547f2729"
+    },
+    "spp": {
+      "values_digest": "5a6b1261dcab1c53fd32bb3013666595e30f24e1a35c0026a382915ff5a770c8",
+      "rendered_digest": "399212b0c2e5fb22de1357d7107303b26268078fce84e2a1a20eb287bca39905",
+      "ast_digest": "b031d43e65ae2803059c35bc18820e29ff139dadca7ab5d0f2ec450e15d6179f"
+    },
+    "vpp": {
+      "values_digest": "3c1b4ec0f3faeb916d091882e33c4ddeb13046d1167a7b7d6a8c9955cb47661c",
+      "rendered_digest": "d0d0590688e421ae4ae90cd95cad4ebfbe25abd842349eec2396e341ed53aa94",
+      "ast_digest": "b1628e42176d953479f71193b2ac8af7587ca4c40ca4bcdbfce4dab54a3d40f3"
+    },
+    "srp": {
+      "values_digest": "c64bf794e9342e8889a2a9f898caa73bea401ffe5385ffdcf7f31f3e79a42cb1",
+      "rendered_digest": "a54f657919f4891acdf709a1eee48e728c1250eb64713599fb7d19bf34c0e5bf",
+      "ast_digest": "2190aa650ac227b9dc7fc5ac51323a63e90b6c138fbe6045cce9b52e48301b53"
+    },
+    "sor": {
+      "values_digest": "710730facb47c4a1e05809dc6c723542b7ac90bc7dbe80a23cbd72985deadc36",
+      "rendered_digest": "17394479fb73462bb09464b888acfd0e4cd967cc4e473251ebba2f20108f1973",
+      "ast_digest": "f17b40bcf3e62b8e8f9e7f176d239c3531c8642864e3b78edc330daa42f0d904"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-308-delivery",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:codex-cli-issue-308-review-dae062e1",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-308-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-308-ci-clippy-unblock",
+      "reason": "Recover stale published review/publication truth after a post-publication hosted-Clippy unblock commit f06722e81a261afe177ae6105610fcfddc75a748 changed the PR head; exact-head review must be re-assigned and re-recorded before publication can authorize merge."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:codex-cli-issue-308-review-67c735d9",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-308-publication-refresh",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-prep-308",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-prep-308",
+      "reason": "Replace descriptive area labels with exact safe repository-owned paths for execution readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\",\"docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md\",\"adl/tools/validate_v092_demo_proof_coverage.py\",\"adl/tools/test_v092_demo_proof_coverage.sh\",\".csdlc/evidence/308\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex-prep-308",
+      "reason": "Name the issue-owned validator and focused harness as exact deliverable paths so deferred pre-execution validation remains fail-closed.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\",\"docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md\",\"adl/tools/validate_v092_demo_proof_coverage.py\",\"adl/tools/test_v092_demo_proof_coverage.sh\",\".csdlc/evidence/308\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex-prep-308",
+      "reason": "Declare both issue-owned validator targets explicitly so initialized readiness can defer their creation without losing the exact denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp20-demo-proof-validator\",\"proof_role\":\"Prove the reconciled demo and AEE coverage surfaces agree at one exact revision\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"python3\",\"adl/tools/validate_v092_demo_proof_coverage.py\"],\"parallel_group\":\"wp20-focused\",\"defer_reason\":\"The issue-owned validator is created during execution and must exist before the ready issue may advance beyond implementation.\"},{\"lane\":\"wp20-demo-proof-negative-suite\",\"proof_role\":\"Prove missing, duplicate, synthetic, planned, unsupported-platform, and revision-drift rows fail closed\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_demo_proof_coverage.sh\"],\"parallel_group\":\"wp20-focused\",\"defer_reason\":\"The issue-owned focused harness is created during execution and must prove all declared rejection classes.\"},{\"lane\":\"patch-structure\",\"proof_role\":\"Prove the bounded patch has no whitespace or conflict-marker defects\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"wp20-focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-308-delivery",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:efd0fc2b-7e93-4365-b958-854d2c85ce5c",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"be86c5e4be6fb6a41ea1de95ee310062a9b437e1918db6c5dd097a7d717ecfa1\",\"design_ref\":\".csdlc/prepared/issues/308/design.md\",\"diagram_digest\":\"7548efae5b547b96c3ba721da45cf698601d9146c67e997a3bfa0257fef1c27c\",\"diagram_ref\":\".csdlc/prepared/issues/308/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-308-delivery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-308-delivery",
+      "reason": "clear stale review assignment after design tuple repair before assigning exact-head review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:issue-308-delivery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "fresh-session:codex-cli-issue-308-review-b9e8d454",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "Recover failed exact-head review fresh-session:codex-cli-issue-308-review-b9e8d454 after committing repairs for R1-P1 exact revision placeholder, R1-P1 premature review state, and R1-P2 weak proof validation at 24bcb1b9965a165f1a5c384071aee46a4bb350c0; assign a fresh reviewer to the clean repaired head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "fresh-session:codex-cli-issue-308-review-5b4992ab",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "Recover failed exact-head review fresh-session:codex-cli-issue-308-review-5b4992ab after committing repairs for R2-P1 predecessor gate evidence and R2-P1 activation ledger structured validation at bcf420ec823682f86a2c713ddf1575c98c094398; assign a fresh reviewer to the clean repaired head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "fresh-session:codex-cli-issue-308-review-bcf420ec",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "Recover failed exact-head review fresh-session:codex-cli-issue-308-review-bcf420ec after committing repairs for R3-P1 predecessor reconciled retained evidence and R3-P1 demo matrix owner/revision/command join enforcement at dae062e1267de2a783aa20e739b8d1caca19e78e; assign a fresh reviewer to the clean repaired head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "fresh-session:codex-cli-issue-308-review-dae062e1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:issue-308-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:issue-308-ci-clippy-unblock",
+      "reason": "Recover stale published review/publication truth after a post-publication hosted-Clippy unblock commit f06722e81a261afe177ae6105610fcfddc75a748 changed the PR head; exact-head review must be re-assigned and re-recorded before publication can authorize merge.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:issue-308-ci-clippy-unblock",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "fresh-session:codex-cli-issue-308-review-67c735d9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:issue-308-publication-refresh",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+source_revision=aef6729640dc89918f34b4337a27167c6ed625fb
+command=ADL_ACIP_PLATFORM=macos ADL_ACIP_PROOF_OUTPUT=<temporary-absolute-path> cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test production_acip_wss
+test canonical_ingress_applies_bounded_pressure ... ok
+test production_binary_acip_wss_produces_observed_receipt ... ok
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+semantic_output_schema=adl.acip_native_platform_proof.v2
+semantic_output_platform=macos
+semantic_output_assertions=10
+repeat_stability=5/5 passed at prior repaired revision; exact current revision rerun passed
+result=passed

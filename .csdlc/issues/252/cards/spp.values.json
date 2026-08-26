@@ -1,0 +1,92 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 252,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: eliminate hosted Guardian executable spawn flake",
+    "slug": "guardian-hosted-spawn-flake",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Reproduce executable discovery under concurrency, correct the narrow shared resolution boundary, prove both regressions repeatedly plus the required Runtime lane and strict Clippy, then obtain fresh review and publish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Diagnose the shared executable discovery and invocation failure under hosted-like concurrency.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement the smallest production or test-fixture correction without weakening SpawnFailed semantics.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run repeated focused proof, required Runtime local lane, and strict Clippy.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain fresh exact-head review, resolve findings, and publish a ready PR.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/src/guardian.rs",
+        "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+        ".csdlc/issues/252",
+        ".csdlc/evidence/252"
+      ],
+      "invariants": [
+        "Executable selection is deterministic and repo-independent",
+        "SpawnFailed continues to mean an actual process spawn failure",
+        "Tests do not share mutable executable artifacts",
+        "No unrelated Runtime authority changes"
+      ],
+      "risks": [
+        "Cargo test binary discovery differs between macOS and hosted Linux",
+        "Parallel tests may race over a shared fixture path",
+        "A test-only workaround could conceal a production path defect"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Correction requires broad Guardian lifecycle redesign",
+        "Scope collides with another active issue",
+        "Required proof remains nondeterministic",
+        "Any edit is needed outside the declared Runtime boundary"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/252/design.md",
+      "design_digest": "618969e8355ffa07062849f5120390f7edf94bfea4a1d54cf91b4eb31edb3461",
+      "diagram_ref": ".csdlc/prepared/issues/252/diagram.mmd",
+      "diagram_digest": "6c861470477b12cd4b89e38e26798ea7861d1877a7f7026115bfc50f7a6fd007"
+    }
+  }
+}

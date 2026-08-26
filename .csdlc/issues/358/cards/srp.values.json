@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 358,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
+    "slug": "observatory-transition-intent-time",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/358\n.csdlc/prepared/issues/358\n.csdlc/evidence/358\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/serving_authority.rs\nadl-runtime/tests/distributed_observatory_authority_projection.rs",
+      "review_revision": "git-blake3:5fb8bf755806aee0d26379d142e8020f45707a4a:a13840ff89835c2d6adf392998f11e9af67c090bb1dd711369274e6a0cc8ab3b",
+      "reviewer": "fresh-session:af576042-7be9-4d1e-82de-3abf046dad91",
+      "review_prompts": [
+        "Is action/predecessor authenticated by canonical bytes?",
+        "Are full time components durable and exact?",
+        "Does private construction/redaction remain?",
+        "Is scope exactly three product paths?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

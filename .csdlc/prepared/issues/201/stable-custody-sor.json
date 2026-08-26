@@ -1,0 +1,34 @@
+{
+  "issue": 201,
+  "card": "sor",
+  "expected_generation": 69,
+  "expected_digest": "641b9ff86566a0603b1fa539846cd1be0e8395cbc7fe557f8e8badc588484635",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "reason": "Replace stale published v7 truth with current rework and preflight validation while independent design approval remains pending.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Material stable-custody rework is implemented locally and preflight-green, but the prior a629080 v7 packet and review are superseded. Snapshot-replicated current authority is stable-only, runtime current boot custody is external, prepared operations freeze historical boot custody, and fresh independent design approval is required before final evidence or implementation review.",
+    "changes": [
+      "Removed restart-scoped current boot generations from snapshot-replicated current authority; retained only stable polis, epoch, membership, configuration, and voter truth.",
+      "Required every Prepare to supply the exact canonical runtime-external full boot vector, froze that vector plus stable authority digest per prepared operation, and prevented Prepare from mutating current authority.",
+      "Reverified historical frozen custody during finalization, publication, restore, and snapshot install; boot-rotated reopen can build and install a snapshot before any new Prepare.",
+      "Extended the valid snapshot regression to prove stale-cut no-mutation rejection, current-cut success, frozen old prepared/finalized custody, and duplicate, reordered, zero, and non-JCS wire denial."
+    ],
+    "artifacts": [
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      ".csdlc/prepared/issues/201/design.md",
+      ".csdlc/prepared/issues/201/diagram.mmd",
+      ".csdlc/issues/201/cards/spp.md",
+      ".csdlc/issues/201/cards/vpp.md",
+      ".csdlc/issues/201/cards/srp.md",
+      ".csdlc/issues/201/cards/sor.md"
+    ],
+    "validation": [
+      {"command":["cargo","test","--locked","--manifest-path","adl-runtime/Cargo.toml","--lib","distributed::authority_protocol::contract_tests::","--","--nocapture","--test-threads=1"],"purpose":"Preflight the retained exact authority protocol semantics.","outcome":"passed","evidence_ref":"local:stable-custody-preapproval:47-passed"},
+      {"command":["cargo","test","--locked","--manifest-path","adl-runtime/Cargo.toml","--lib","distributed::polis_runtime::authority_consensus_tests::snapshot_","--","--nocapture","--test-threads=1"],"purpose":"Preflight the corrected stable-current and frozen-historical custody snapshot boundary.","outcome":"passed","evidence_ref":"local:stable-custody-preapproval:36-passed"},
+      {"command":["cargo","test","--locked","--manifest-path","adl-runtime/Cargo.toml","--lib","distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids","--","--exact","--nocapture"],"purpose":"Preflight the production real three-voter OpenRaft route.","outcome":"passed","evidence_ref":"local:stable-custody-preapproval:1-passed"},
+      {"command":["cargo","nextest","run","--locked","--manifest-path","adl-runtime/Cargo.toml","--lib","--no-tests=fail"],"purpose":"Record the truthful expanded full-runtime denominator before final proof.","outcome":"passed","evidence_ref":"local:stable-custody-preapproval:230-passed"},
+      {"command":["ruby",".csdlc/prepared/issues/201/produce-proof-receipt.rb"],"purpose":"Replace stale v7 evidence only after approved design and final clean source.","outcome":"deferred","evidence_ref":".csdlc/evidence/201/v7/execution-proof.json"}
+    ]
+  }
+}

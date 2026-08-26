@@ -1,0 +1,100 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 387,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+    "slug": "implemented-card-truth-repair-before-publication",
+    "version": "v0.92.1",
+    "generation": 25
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bootstrap, design-review, bind, implement the narrow typed repair route, validate with focused gate5 regression, obtain exact review, publish, and finish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and approve the narrow #387 design.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Bind #387 to a FastWork worktree.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Implement typed authorization and guard changes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Add focused regression for #114-shaped sequence.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S5",
+          "action": "Run focused validation and exact review before publication.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/tests/gate5.rs"
+      ],
+      "invariants": [
+        "Publication still requires current exact-head review",
+        "CAS and audit sequence remain mandatory",
+        "No reviewed/published mutation without typed recovery"
+      ],
+      "risks": [
+        "Over-broad implemented-phase edits could weaken lifecycle truth guards",
+        "Regression must prove negative reviewed/published cases still fail"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Any source change outside csdlc-v2 tooling scope",
+        "Any guard weakening that allows publication without review",
+        "Any mutation of #114 cards from #387 before #387 is terminal"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/387/design.md",
+      "design_digest": "1694a81f4a60ff232dc49e3730de01b09ad73f47a48b08dea36e4f4ef8baf554",
+      "diagram_ref": ".csdlc/prepared/issues/387/diagram.mmd",
+      "diagram_digest": "cac872df5ac7932e44545adf4c7debf83c3378a14dc11eee099afb2ac9b99ad5"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+
+running 1 test
+test runtime_service_builds_validates_and_emits_receipt ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.05s
+
+
+running 13 tests
+test birth_witness::authority_tests::canonical_witness_identity_rejects_case_variant_equivocation ... ok
+test birth_witness::authority_tests::missing_duplicate_and_substituted_witnesses_fail_closed ... ok
+test birth_witness::authority_tests::rejected_or_digest_stale_birthday_candidate_is_not_witnessable ... ok
+test birth_witness::authority_tests::accepts_exact_policy_complete_witnesses_and_emits_canonical_semantics ... ok
+test birth_witness::authority_tests::unsafe_identifiers_and_policy_collisions_fail_closed_without_echoing_values ... ok
+test birth_witness::authority_tests::forged_signature_and_wrong_signing_key_fail_closed ... ok
+test birth_witness::authority_tests::stale_candidate_and_evidence_substitutions_fail_closed ... ok
+test birth_witness::authority_tests::valid_signed_rejection_yields_caveated_not_claimed_receipt ... ok
+test birth_witness::authority_tests::policy_candidate_and_roster_bindings_fail_closed ... ok
+test birth_witness::authority_tests::equivalent_witness_orders_are_byte_stable ... ok
+test birth_witness::authority_tests::packet_validator_reconstructs_every_public_field ... ok
+test birth_witness::authority_tests::private_or_machine_local_public_evidence_never_enters_receipt ... ok
+test birth_witness::authority_tests::fixture_matrix_executes_every_declared_negative ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 54 filtered out; finished in 0.08s
+
+
+running 1 test
+test guardian_cli_reports_successful_portable_child_as_json ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.32s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/birth_witness.rs (adl-runtime-kernel/target/debug/deps/birth_witness-b750c19997fc0fec)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/guardian_cli.rs (adl-runtime/target/debug/deps/guardian_cli-dbf157e240f551b1)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s

@@ -1,0 +1,121 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 449
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Focused proof must include issue-specific resident_cycle tests inside the existing adaptive_learning integration-test target. The old adaptive_learning tests without resident_cycle coverage cannot alone satisfy AC1-AC7.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/449/design.md
+
+Diagram: .csdlc/prepared/issues/449/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "runtime_resident_cycle_integration_proof",
+    "proof_role": "Runs the #449 resident-cycle integration tests inside the existing adaptive_learning integration-test target; implementation must add resident_cycle accepted, rejected, restart, and deterministic-continuation cases before validation is claimed.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 2400,
+    "budget_tokens": 16000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "adaptive_learning",
+      "resident_cycle"
+    ],
+    "parallel_group": "local-focused",
+    "defer_reason": "The target exists before bind; #449 implementation must add resident_cycle tests before this lane can pass."
+  },
+  {
+    "lane": "adaptive_learning_regression_tests",
+    "proof_role": "Keeps existing governed adaptive-learning library behavior covered while #449 wires the production resident path.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 1800,
+    "budget_tokens": 12000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "adaptive_learning"
+    ],
+    "parallel_group": "local-focused",
+    "defer_reason": null
+  },
+  {
+    "lane": "feature_evidence_truth_check",
+    "proof_role": "Confirms v0.92 feature/evidence docs only claim production integration after exact proof.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "rg",
+      "Adaptive Learning|adaptive learning|production-integrated|library-only",
+      ".adl",
+      "docs"
+    ],
+    "parallel_group": "docs-focused",
+    "defer_reason": null
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 7200
+
+Tokens: 50000
+
+## Commands
+
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test adaptive_learning resident_cycle`
+- `cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test adaptive_learning`
+- `rg Adaptive Learning|adaptive learning|production-integrated|library-only .adl docs`
+
+## Failure Semantics
+
+Fail closed. Do not publish or claim production-integrated Adaptive Learning unless actual resident-cycle proof passes and dependency-gated production handles are available. Route missing sibling handles as a dependency blocker rather than fixture substitution.
+
+## Handoff
+
+Retain typed evidence before convergence.

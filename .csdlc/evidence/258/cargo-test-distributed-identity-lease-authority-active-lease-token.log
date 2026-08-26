@@ -1,0 +1,13 @@
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.99s
+     Running tests/distributed_identity_lease_authority.rs (adl-runtime/target/debug/deps/distributed_identity_lease_authority-e6d117aae9bf1ff0)
+
+running 3 tests
+test authority_store_adapter_denies_unpublished_lineage ... ADL_ISSUE_203_ADAPTER_GUARD_V1 unpublished_lineage_denied
+ok
+test authority_store_adapter_refuses_certificate_handle_without_publication ... ADL_ISSUE_203_ADAPTER_GUARD_V1 unpublished_certificate_handle_denied
+ok
+test issue_203_authority_store_boundary_guardrails_are_bound ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.16s
+

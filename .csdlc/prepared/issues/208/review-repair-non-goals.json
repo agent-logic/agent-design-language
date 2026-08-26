@@ -1,0 +1,17 @@
+{
+  "issue": 208,
+  "card": "stp",
+  "expected_generation": 13,
+  "expected_digest": "ef2137575f614fa43a554c5f7795fa1f483b873fe34b78952a28be3700354774",
+  "actor": "codex:/root/resolve_201_208_findings",
+  "reason": "Resolve the reviewed activation contradiction by separating #204 decision authority from #208 effect and receipt ownership.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "non_goals",
+    "values": [
+      "Consensus, authority protocol, membership, certificate issuance, lease, fencing, ownership, activation decisions, or serving eligibility; #204 alone owns the activation decision, while #208 owns only the target activation effect and TargetActivationReceipt invoked through #204's finalized decision",
+      "Remote bundle transport (#210), migration orchestration and decisions (#204), or recovery orchestration and decisions (#211)",
+      "Public continuity API, Shepherd/model execution, AWS, live Wuji/AWS qualification, final #142 delivery, merge without operator authorization, or lifecycle closeout"
+    ]
+  }
+}

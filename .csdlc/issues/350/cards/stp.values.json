@@ -1,0 +1,56 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 350,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
+    "slug": "authenticated-observatory-authority-projection",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Own only the minimum authority-protocol and serving-authority interface necessary for the sealed projection plus focused tests.",
+      "deliverables": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs",
+        "adl-runtime/Cargo.toml",
+        ".csdlc/prepared/issues/350/design.md",
+        ".csdlc/prepared/issues/350/diagram.mmd",
+        ".csdlc/evidence/350",
+        ".csdlc/issues/350"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Only replicated published authority plus the exact verified #272 cut can yield an unconstructible Observatory projection; callers cannot construct or substitute fields.",
+        "AC-2: Canonical JCS preimage under adl.observatory-serving-authority-binding.v1 binds trust-domain, polis, lineage, operation, committed log/foundation generation, OwnerCommit, fence, lease, and foundation state/result/receipt digests; reconstructed bytes must equal the verified artifact and its SHA-256.",
+        "AC-3: Published operation/log and every opaque #272 cut field must equal the canonical payload; independently valid but unrelated authority/cut pairing and every mismatch fail before projection output.",
+        "AC-4: A sealed quorum-basis snapshot binds configuration digest, voter generation/index, old and optional joint-new bounded sorted `(Guardian ID, certificate generation, boot generation)` entries plus thresholds/digests into durable result/retry truth; restore revalidates entry bounds/order/uniqueness, signer membership and generation eligibility, old/joint quorum, and inclusive deadline; legacy/corrupt state gains no authority and entries never enter the projection.",
+        "AC-5: Projection and errors are deterministic, bounded, and redacted with no raw signature, token, key, peer list, endpoint, secret, path, or provider material.",
+        "AC-6: Focused tests include noncanonical/equivalent JSON encodings, signer/quorum snapshot restore mutation, and the A/B authority by A/B cut 2x2 matrix; strict Clippy, exact scope/diff proof, fresh exact-head review, required CI, and typed finish pass before #274 resumes."
+      ],
+      "dependencies": [
+        "#201 terminal and ancestral",
+        "#272 terminal and ancestral",
+        "#273 terminal and ancestral",
+        "#274 remains initialized and blocked on terminal ancestral #350"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#350",
+        "agent-logic/agent-design-language#274 fresh design review findings",
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/serving_authority.rs"
+      ],
+      "non_goals": [
+        "#274 Observatory eligibility state machine",
+        "#273 Shepherd behavior",
+        "#203, #205, or #275 implementation",
+        "UI, listener, transport, cloud, provider, deployment, or paid runners"
+      ]
+    }
+  }
+}

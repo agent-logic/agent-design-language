@@ -1,17 +1,6 @@
 name: wp08-native-birthday
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/wp08-native-birthday.yml"
-      - ".csdlc/prepared/issues/5825/produce-native-receipt.rb"
-      - ".csdlc/prepared/issues/5825/validate-native-receipts.rb"
-      - "adl-runtime-kernel/Cargo.toml"
-      - "adl-runtime-kernel/src/birthday.rs"
-      - "adl-runtime-kernel/src/lib.rs"
-      - "adl-runtime-kernel/tests/birthday.rs"
-      - "adl-runtime-kernel/tests/fixtures/birthday/**"
-      - "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md"
   workflow_dispatch:
 
 permissions:

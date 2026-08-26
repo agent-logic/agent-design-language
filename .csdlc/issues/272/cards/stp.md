@@ -1,0 +1,66 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 272
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement only the #272 durable serving-authority foundation, exact authority bindings, reconcile-before-publish state machine, redacted base projection, and focused proof; preserve #205 as coordination-only and leave all eligibility lifecycle and integrated proof to #273-#275.
+
+## Deliverables
+
+- adl-runtime/src/distributed/serving_authority.rs
+- adl-runtime/src/distributed/mod.rs
+- adl-runtime/tests/distributed_serving_authority_foundation.rs
+- .csdlc/prepared/issues/272/validate_preparation_bundle.py
+- .csdlc/prepared/issues/272/validate_binding_contract.py
+- .csdlc/prepared/issues/272/validate_scope.py
+- .csdlc/prepared/issues/272/validate_terminal.py
+- .csdlc/evidence/272
+- .csdlc/issues/272
+
+## Acceptance
+
+1. AC-1: A bounded durable store publishes no foundation view until an exact operation is durably Pending, the current sealed authority cut and #203 PublishedStoreAuthorityReceiptView are revalidated, and the exact candidate state and result are reconciled.
+2. AC-2: Lineage, operation, adapter kind, action class, adapter version, published generation, and receipt digest match direct sealed #203 view accessors; OwnerCommit identity, fencing generation, lease identity, prior-state digest, and candidate-state digest are encoded in the exact <=4096-byte DOMAIN-NUL/u32be-length/RFC8785-JCS object with the fixed deny-unknown field set and limits defined by the design, whose SHA-256 equals sealed result_sha256; replay, framing/field/preimage substitution, stale generation, wrong cut, or conflicting retry fails closed without partial publication.
+3. AC-3: Open and cache-first retry reconcile journal, canonical state, result cache, checkpoint, and published projection; restart at every durable boundary is idempotent and cannot expose Pending or contradictory state.
+4. AC-4: Corrupt, oversized, noncanonical, rolled-back, identity-mismatched, capacity N+1, symlinked, replaced, or ambiguous state fails before publication and preserves the last exact committed view.
+5. AC-5: The base projection is deterministic and exposes only schema, keyed opaque references, coarse readiness, generation, state/result digests, and redacted #203 receipt bindings; it exposes no raw authority or operational secrets and makes no eligibility decision.
+6. AC-6: Product changes are exactly the three frozen source/test paths, #203 and monitored #265/#300/#330/#114 paths remain untouched, focused tests and strict Clippy pass, and a new fresh-session exact-head review has no actionable P0-P3 findings.
+7. AC-7: Publication closes only #272, required ordinary CI is green, typed finish derives canonical terminal authority, and the merge is ancestral before #273 or #274 begins.
+
+## Dependencies
+
+- #191 terminal cache canonical and merge ancestral
+- #199 terminal cache canonical and merge ancestral
+- #200 terminal cache canonical and merge ancestral
+- #201 terminal cache canonical and merge ancestral
+- #202 terminal cache canonical and merge ancestral
+- #203 terminal cache canonical and merge ancestral
+- #273 and #274 remain blocked until #272 is terminal and ancestral
+- #275 remains blocked until #272, #273, and #274 are terminal and ancestral
+
+## Inputs
+
+- agent-logic/agent-design-language#272
+- agent-logic/agent-design-language#205 coordination graph
+- adl-runtime/src/distributed/authority_protocol.rs from terminal #201
+- adl-runtime/src/distributed/authority_reconciliation.rs from terminal #200
+- adl-runtime/src/distributed/authority_store_adapters.rs from terminal #203
+- adl-runtime/src/distributed/membership.rs from terminal #199
+
+## Non Goals
+
+- Parent #205 implementation or closeout
+- #203 registry or existing-store adapter mutation
+- Shepherd acquire, replace, revoke, or expiry (#273)
+- Observatory acquire, renew, transfer, revoke, or expiry (#274)
+- Integrated failure matrix beyond foundation proof (#275)
+- Migration #204, process launch, listener enforcement, HTTP/WSS, Runtime kernel ingress, projection v1, UI, cloud, provider action, paid runners, or unrelated lifecycle repair

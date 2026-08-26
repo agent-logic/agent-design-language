@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+────────────
+ Nextest run ID 9bb44ba9-e1f4-4152-b618-3f2c91601fc2 with nextest profile: default
+    Starting 2 tests across 1 binary
+        PASS [   0.010s] (1/2) adl-runtime-kernel::production_acip_wss canonical_ingress_applies_bounded_pressure
+        PASS [   1.515s] (2/2) adl-runtime-kernel::production_acip_wss production_binary_acip_wss_produces_observed_receipt
+────────────
+     Summary [   1.516s] 2 tests run: 2 passed, 0 skipped

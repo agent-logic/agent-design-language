@@ -1,0 +1,14 @@
+{
+  "issue": 111,
+  "card": "spp",
+  "expected_generation": 19,
+  "expected_digest": "4527729f4b69043e609cc6f476e6f0db77ddc7aae2519479aca60a2f396fca5e",
+  "actor": "codex:111-execution",
+  "reason": "Replace the superseded oversized issue 83 serial gate with live umbrella 110 decomposition authority and the bounded issue 111 execution route.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Under live #110 decomposition authority, implement a bounded authenticated selected-agent conversation intent through canonical Runtime ingress, expose only a typed public reply, render it safely in the Observatory, run focused PVF lanes, and complete exact-head independent review before publication. #83 remains a separate asynchronous decomposition reconciliation and is not an execution gate."
+  },
+  "fail_after_backup": false
+}

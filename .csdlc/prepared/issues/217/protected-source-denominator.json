@@ -1,0 +1,24 @@
+{
+  "schema": "adl.protected_source_denominator.v1",
+  "issue": 217,
+  "expected_path_count": 17,
+  "paths": [
+    "adl-runtime-kernel/Cargo.toml",
+    "adl-runtime-kernel/src/assembly.rs",
+    "adl-runtime-kernel/src/acip.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/governed_operations.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "adl-runtime-kernel/tests/assembly.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "adl-runtime-kernel/tests/production_acip_wss.rs",
+    "adl-runtime-kernel/tests/support/runtime_init.rs",
+    "adl-runtime/Cargo.toml",
+    "adl-runtime/src/runtime_api_auth.rs",
+    "adl/tools/install_vector_component.sh",
+    "docs/api/runtime-v3/v1/openapi.json",
+    "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
+  ]
+}

@@ -22,7 +22,6 @@ A field-level movement-semantics design that rejects copied state, quarantines a
 
 - docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md
 - docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md
-- docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md
 - .csdlc/evidence/5835/
 
 ## Authority

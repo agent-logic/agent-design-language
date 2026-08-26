@@ -1,0 +1,10 @@
+command: ADL_RUST_WARM_CACHE=0 ADL_PR_FAST_COVERAGE_BUILD_ROOT=/Volumes/FastWork/adl-builds/274-coverage-union bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression 'binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))'
+result: PASS
+nextest: 6 tests across 2 binaries; 6 passed; 320 filtered/skipped
+module: adl-runtime/src/distributed/observatory_serving_eligibility.rs
+lines: 350/360 covered; 97.22 percent
+functions: 25/26 executed; 96.15 percent
+regions: 456/477 covered; 95.60 percent
+threshold: unchanged 80 percent
+source commit: 02ed85c37
+immutable base: 4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699

@@ -1,0 +1,20 @@
+{
+  "issue": 318,
+  "card": "stp",
+  "expected_generation": 15,
+  "expected_digest": "6800a8f0991736dffad13f42431f81ac8007b2de6c638f95277d8b0823371d0c",
+  "actor": "codex:root",
+  "reason": "align STP acceptance with the 45-slot single-unit milestone package and ten exact negative cases",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: #317 PR #474 reviewed-green merge 5b035094725d1872b48dda8692ef88f46487f37c is independently confirmed ancestral; typed finish and cleanup remain asynchronous and non-gating.",
+      "AC-2: The retained normalized review universe contains exactly canonical issues #307 through #319 inclusive, and live GitHub plus Git checks reject missing, duplicate, extra, stale, ambiguous, or unowned authority.",
+      "AC-3: The v0.92.1 and v0.92.2 handoffs record readiness, non-claim, owner, and next-action truth; the planning wave proves no future issue has been created and v0.93 remains inactive.",
+      "AC-4: The canonical v0.92.1 planning package uses the exact ordered and dependency-wired release-tail titles; all 45 creation-owned issues have a structured unit contract with one bounded objective, one primary deliverable, one independently verifiable result, and no supporting work that can close independently.",
+      "AC-5: Ten focused one-field negative fixtures return the exact expected blocker for title variance, missing primary deliverable, creation-denominator drift, missing canonical issue row, tail reordering, dependency miswiring, v0.93 activation, duplicate unit result, independently closeable supporting work, and missing source provenance.",
+      "AC-6: Every finding has evidence, severity, owner, route, disposition, and exact-head review binding; no actionable finding remains at publication."
+    ]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 281,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07c][117.c] Prove Observatory security, privacy, and adversarial behavior",
+    "slug": "observatory-security-privacy-adversarial-proof",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prove Observatory security, privacy, and adversarial behavior for the exact integrated production-Polis-interface candidate after terminal #111/#112/#113/#114/#115/#116/#265/#270/#271/#276/#277/#278.",
+      "required_outcome": "At one exact integrated candidate revision, the Observatory and Runtime-facing browser path preserve security and privacy boundaries under adversarial inputs and failure modes. Proof covers transport/origin trust, credential handling, rendering safety, replay/confused-deputy resistance, stale-data behavior, denial handling, and redaction without granting new product authority.",
+      "declared_scope": [
+        "Deterministic Observatory security/privacy/adversarial proof for roster, chat, rooms, history/transcripts, and operator-attention surfaces that exist in the integrated candidate",
+        "TLS/origin, key/token, XSS/content-rendering, replay, confused-deputy, stale-data, denial, and redaction proof using credential-free fixtures",
+        "Machine-readable #281 evidence that is public-safe and contains no secrets, private cognition, or raw provider payloads",
+        "Narrow Observatory-only source/test fixes if the proof finds in-scope security or privacy presentation defects",
+        "Issue-local proof artifacts, validator, exact fresh review, typed publication, required CI, and typed finish"
+      ],
+      "authority_boundary": [
+        "Runtime remains the sole communication, policy, authority, delivery, history, room-routing, signing, and acknowledgement authority",
+        "Browser code must not hold agent private signing material, grant authority, invent acknowledgements, synthesize delivery, approve operations, or hide refusal/stale state",
+        "#281 may record security/privacy findings or narrowly fix Observatory presentation/state behavior; it must not redefine Runtime contracts or child product semantics",
+        "#279 owns accessibility/responsive UX proof; #280 owns large-Polis performance/recovery proof; #282 owns final qualification assembly",
+        "#117 and #110 remain coordination parents and are not #281 implementation owners"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 owners for lifecycle, review, publication, and finish writes.",
+        "Keep the primary checkout inspection-only on main; implementation and generated issue state for this session belong in /Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof.",
+        "Do not touch #279, #280, #282, #117 parent, #110 parent, or sibling issue worktrees.",
+        "Do not read credentials, provider payloads, private cognition, or any secret-bearing local files.",
+        "Do not publish until exact-head fresh review passes and required PR checks are green."
+      ]
+    }
+  }
+}

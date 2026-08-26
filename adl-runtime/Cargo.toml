@@ -9,6 +9,19 @@ description = "CSM runtime contracts and component topology for ADL"
 name = "adl_runtime"
 path = "src/lib.rs"
 
+[features]
+internal-test-fixtures = []
+
+[[test]]
+name = "distributed_runtime_transport"
+path = "tests/distributed_runtime_transport.rs"
+required-features = ["internal-test-fixtures"]
+
+[[test]]
+name = "distributed_observatory_authority_projection"
+path = "tests/distributed_observatory_authority_projection.rs"
+required-features = ["internal-test-fixtures"]
+
 [dependencies]
 adl-resilience = { path = "../adl-resilience" }
 adl-runtime-kernel = { path = "../adl-runtime-kernel" }
@@ -20,7 +33,7 @@ fs2 = "0.4"
 futures = "0.3"
 hex = "0.4"
 hmac = "0.12"
-openraft = { version = "=0.9.21", features = ["serde"] }
+openraft = { version = "=0.9.21", features = ["serde", "storage-v2"] }
 quinn = { version = "=0.11.11", default-features = false, features = ["runtime-tokio", "rustls-aws-lc-rs"] }
 rand = "0.8"
 redb = "4.1"

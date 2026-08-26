@@ -1,0 +1,15 @@
+{
+  "assigned_by": "codex-worker-4",
+  "expected_digest": "c24b2b2263d190e08bbbce14423183231215b12e192f5ff0f65f1a51048ffabf",
+  "expected_generation": 8,
+  "issue": 425,
+  "reviewer": "fresh-session:e4d1dfc3-4ad0-4bb1-a21b-ae295968da79",
+  "scope": [
+    "csdlc-v2/src/bin/csdlc-finish.rs",
+    "csdlc-v2/src/finish.rs",
+    "csdlc-v2/src/lib.rs",
+    "csdlc-v2/tests/gate_recordless_closeout.rs",
+    ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+    ".csdlc/issues/425"
+  ]
+}

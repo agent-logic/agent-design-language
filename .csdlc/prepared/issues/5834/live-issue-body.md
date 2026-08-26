@@ -9,14 +9,15 @@ Execute **WP-16** in v0.92: the integrated Birthday review packet.
 - WP-12 issue #5829
 - WP-13 issue #5830
 - WP-13A issue #5831
-- WP-14 issue #5832
+- WP-14 replacement authority `agent-logic/agent-design-language#209`; historical #5832/PR 76 is superseded listener evidence only
 - WP-15 issue #5833
 
 ## Required Outcome
 Produce the reviewer-facing integrated packet, artifact index, dependency and exact-head bindings, negative evidence, and claim-boundary scan.
 
 ## Acceptance Criteria
-- Every required predecessor is terminal and represented by exact implementation, review, merge, validation, and typed receipt evidence.
+- Every required predecessor is terminal and represented by repository-qualified implementation, retained typed review, merge, validation, and evidence authority.
+- WP-14 is authorized only by reviewed and merged `agent-logic/agent-design-language#209` / PR 215; #5832/PR 76 cannot satisfy the production authority gate.
 - Missing, stale, non-ancestral, synthetic, substituted, fixture-only, or overclaiming evidence blocks the packet.
 - Packet identity and every artifact digest are recomputed by the issue-local validator.
 - The implementation PR includes `Closes #5834`.

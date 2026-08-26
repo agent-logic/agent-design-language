@@ -1,0 +1,13 @@
+sha=c06f3b00dd9a8320900c215079acd7dd93882b2d
+argv=cargo test --manifest-path csdlc-v2/Cargo.toml --test issue_330_bridge_cleanup_defect -- --nocapture
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/issue_330_bridge_cleanup_defect.rs (csdlc-v2/target/debug/deps/issue_330_bridge_cleanup_defect-83e4efbb60ac2937)
+
+running 3 tests
+test raced_final_receipt_before_prefinal_validation_is_zero_mutation ... ok
+test forged_cleanup_final_chain_does_not_authorize_recovery_skip ... ok
+test bridge_cleanup_does_not_poison_later_recovery_validation ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 28.82s
+
+status=0

@@ -1,0 +1,107 @@
+name: wp14-retained-native-proof
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  classify-native-proof:
+    name: wp14-retained-native-classifier
+    runs-on: ubuntu-latest
+    outputs:
+      run_native: ${{ steps.classify.outputs.run_native }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - id: classify
+        name: Classify latest pushed delta
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.event.after }}
+        run: |
+          result="$(ruby .csdlc/prepared/issues/217/validate-retained-native-proof.rb --classify-delta "$EVENT_NAME" "$EVENT_ACTION" "$BEFORE_SHA" "$AFTER_SHA")"
+          printf '%s\n' "$result"
+          printf 'run_native=%s\n' "$(printf '%s' "$result" | jq -r '.run_native')" >> "$GITHUB_OUTPUT"
+
+  produce-native-receipt:
+    name: wp14-retained-native-${{ matrix.platform }}
+    needs: classify-native-proof
+    if: needs.classify-native-proof.outputs.run_native == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {platform: linux, os: ubuntu-latest}
+          - {platform: macos, os: macos-latest}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
+      - uses: taiki-e/install-action@50414676f9f5d50a65992c6dd2ed02641263226c # v2.82.10
+        with:
+          tool: nextest@0.9.140
+          fallback: none
+      - name: Install verified Vector component
+        run: bash adl/tools/install_vector_component.sh
+      - name: Validate served OpenAPI contract
+        run: cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test openapi_contract
+      - name: Produce exact-head receipt
+        run: ruby .csdlc/prepared/issues/217/produce-native-receipt.rb --platform "${{ matrix.platform }}" --receipt ".csdlc/evidence/217/native-platform/${{ matrix.platform }}.json" --semantic-output ".csdlc/evidence/217/native-platform/${{ matrix.platform }}-semantic.json"
+      - name: Upload exact receipt fragment
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wp14-retained-native-${{ matrix.platform }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .csdlc/evidence/217/native-platform/${{ matrix.platform }}.json
+            .csdlc/evidence/217/native-platform/${{ matrix.platform }}-nextest.log
+            .csdlc/evidence/217/native-platform/${{ matrix.platform }}-semantic.json
+            .csdlc/evidence/217/native-platform/${{ matrix.platform }}-source-manifest.json
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
+
+  validate-native-receipts:
+    name: wp14-retained-native-receipts-validated
+    needs: [classify-native-proof, produce-native-receipt]
+    if: needs.classify-native-proof.outputs.run_native == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v8.0.1
+        with:
+          pattern: wp14-retained-native-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .csdlc/evidence/217/native-platform
+          merge-multiple: true
+      - name: Validate and aggregate exact packet
+        run: ruby .csdlc/prepared/issues/217/validate-retained-native-proof.rb --aggregate .csdlc/evidence/217/native-platform/macos.json .csdlc/evidence/217/native-platform/linux.json
+      - name: Upload validated retained packet
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: wp14-retained-native-validated-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .csdlc/evidence/217/native-platform/linux.json
+            .csdlc/evidence/217/native-platform/linux-nextest.log
+            .csdlc/evidence/217/native-platform/linux-semantic.json
+            .csdlc/evidence/217/native-platform/linux-source-manifest.json
+            .csdlc/evidence/217/native-platform/macos.json
+            .csdlc/evidence/217/native-platform/macos-nextest.log
+            .csdlc/evidence/217/native-platform/macos-semantic.json
+            .csdlc/evidence/217/native-platform/macos-source-manifest.json
+            .csdlc/evidence/217/native-receipts-validation.log
+            .csdlc/evidence/217/native-validation-manifest.json
+            .csdlc/evidence/217/retained-proof-denominator.json
+            .csdlc/evidence/217/h2-retained-surface-manifest.json
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14

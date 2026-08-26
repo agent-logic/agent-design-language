@@ -1,0 +1,39 @@
+# #5913 PR-fast CI routing fix evidence
+
+Context:
+- PR #320 current-head CI run `31676143380` failed job `adl-rust-tests`.
+- Failure: `cargo nextest` rejected the generated filter because `binary_id(adl::bin/adl-session)` did not match any declared binary ID.
+- `adl/Cargo.toml` declares `adl-process` but no longer declares `adl-session`.
+
+Change validated:
+- `adl/tools/run_pr_fast_test_lane.sh` now emits the CLI-family filter without the removed `adl-session` binary ID:
+  `test(/^cli::/) or binary_id(adl::bin/adl-process)`
+- `adl/tools/test_run_pr_fast_test_lane.sh` now asserts the current declared binary surface.
+
+Validation run locally from `/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing` on 2026-08-13:
+
+1. `bash adl/tools/test_run_pr_fast_test_lane.sh`
+   - result: PASS
+   - output: `PASS test_run_pr_fast_test_lane`
+
+2. `bash adl/tools/run_pr_fast_test_lane.sh --base 5a1d3bfda7108bede1572cbd9dc9e2af19d9eedb --head HEAD --print-plan`
+   - result: PASS
+   - emitted:
+     - `mode=focused`
+     - `reason=bounded_rust_surface_runs_focused_nextest`
+     - `filter_tokens=cli`
+     - `filter_expression=test(/^cli::/) or binary_id(adl::bin/adl-process)`
+
+3. `cargo nextest list --workspace -E 'test(/^cli::/) or binary_id(adl::bin/adl-process)'`
+   - result: PASS
+   - proof role: verifies the corrected nextest filter parses and matches the declared CLI/process test binaries.
+   - note: the command built test binaries in the cold worktree and emitted a pre-existing `real_tooling` dead-code warning; no test failure or filter parse failure occurred.
+
+4. `bash adl/tools/test_adl_review_compatibility.sh`
+   - result: PASS
+   - output: `PASS test_adl_review_compatibility`
+
+Non-claims:
+- This evidence does not claim a full workspace test run.
+- This evidence does not rerun provider-backed CodeFriend credentials.
+- Hosted PR CI must still re-run after the fix is committed and pushed.

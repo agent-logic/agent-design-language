@@ -1,0 +1,9 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.40s
+     Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
+
+running 1 test
+test conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 84 filtered out; finished in 1.38s
+

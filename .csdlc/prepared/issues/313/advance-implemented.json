@@ -1,0 +1,1 @@
+{"issue":313,"card":"sor","expected_generation":6,"expected_digest":"915dc8fbe54d6d2b02461e7a94e22406a0324b75af68d1ca3971032a852b9b0d","actor":"codex:/root","reason":"All planned review packet execution and three proving validation lanes are complete.","operation":{"operation":"advance_phase","phase":"implemented"}}

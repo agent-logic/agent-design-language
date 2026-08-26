@@ -1,0 +1,121 @@
+{
+  "issue": 210,
+  "card": "vpp",
+  "expected_generation": 10,
+  "expected_digest": "f90519b97d23f46e2d94435b99e753a5a1569fe99c97d63ade5d771bae5f7086",
+  "actor": "codex:210-final-review-resolution",
+  "reason": "Require a direct machine subassertion for every exact case while preserving the ordered 45-case denominator.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "continuity-transfer",
+        "proof_role": "Prove byte-for-byte parity with continuity-transfer-acceptance-map.json sha256=2929794678966f233f8caf4df3131d9188cac3e5107fc0190cee9dd4fd1d71cd, including the canonical ordered 45-case manifest with exact pass result and unique marker for every case, acceptance_count=8, subassertion_count=84, every case has at least one directly mapped subassertion, including exact_retry_cached, wrong_polis_denied, wrong_domain_denied, and generic_send_denied, AC-3 conflicting_duplicate_denied membership, and the explicit machine assertion that #210 has no activation or deletion authority. The map covers every AC and all 45 cases, including live route/membership/certificate/boot drift, canonical framing/final/range bounds, signed catalog entry/chunk/range expectations, bounded queues/readers/stages/transfers/journals/caches, crash-reconcilable bytes/verifier/prefix order, cleanup after expiry/cancel/restart, #208 live zero residue, and strict proof sequencing. Reject missing, extra, duplicate, reordered, renamed, wrongly mapped, wrongly marked, nonpassing, or authority-widening case/subassertion evidence.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6",
+          "AC-7",
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 1800,
+        "budget_tokens": 24000,
+        "argv": [
+          "cargo",
+          "nextest",
+          "run",
+          "--locked",
+          "--manifest-path",
+          "adl-runtime/Cargo.toml",
+          "--test",
+          "distributed_continuity_transfer",
+          "--no-tests=fail"
+        ],
+        "parallel_group": "210-serial-01-runtime",
+        "defer_reason": "Deferred until all four dependencies merge and this issue creates the exact target; fail closed on missing target, zero tests, map digest/count/order/result/marker drift, caller-substitutable authority/expectations, or any case/subassertion mismatch."
+      },
+      {
+        "lane": "continuity-transfer-clippy",
+        "proof_role": "Only after the focused proof passes, reject warnings and API misuse across the transfer session, sealed #201/#208 ports, signed incremental verifier, cleanup requests, and focused target.",
+        "acceptance_ids": [
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 900,
+        "budget_tokens": 10000,
+        "argv": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "--manifest-path",
+          "adl-runtime/Cargo.toml",
+          "--test",
+          "distributed_continuity_transfer",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "parallel_group": "210-serial-02-clippy",
+        "defer_reason": "Deferred until the owned focused target exists and serial test proof passes; fail closed on warnings, missing target, or missing source."
+      },
+      {
+        "lane": "continuity-transfer-diff-hygiene",
+        "proof_role": "Only after tests and Clippy, load recorded execution_base_revision and proving_source_revision, require exact Git objects and base ancestry, check whitespace and EOF over the complete base..source range, and reject dirty protected paths. Working-tree-only diff output is insufficient.",
+        "acceptance_ids": [
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 500,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/210/verify-diff-hygiene.rb"
+        ],
+        "parallel_group": "210-serial-03-diff",
+        "defer_reason": "Deferred until exact execution base/source truth and the verifier exist; fail closed on absent/non-object revisions, nonancestry, any base..source whitespace/EOF diagnostic, dirty protected source, or working-tree-only evidence."
+      },
+      {
+        "lane": "continuity-transfer-producer",
+        "proof_role": "Only after tests, Clippy, and exact-range diff pass, independently load and hash the protected acceptance map, require exact ordered 45-case result/marker manifest and 8-row/84-subassertion parity, prove the corrected AC-3 conflict mapping and absence of #210 activation/deletion authority, and produce exact Git execution-base/source, command, stream, timing, protected-digest, signed expectation, resource, cleanup, and result evidence for independent review.",
+        "acceptance_ids": [
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 1800,
+        "budget_tokens": 10000,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/210/produce-proof-receipt.rb"
+        ],
+        "parallel_group": "210-serial-04-producer",
+        "defer_reason": "Deferred until prior serial lanes pass and the exact producer exists; fail closed on dirty protected source, wrong map digest/count/order/result/marker, missing/extra/duplicate/nonpassing evidence, authority widening, wrong signed expectations, wrong cleanup authority, or nonzero status."
+      },
+      {
+        "lane": "continuity-transfer-receipt",
+        "proof_role": "Only after producer completion, immutable evidence introduction, and fresh independent review of the exact proving source, independently validate execution-base-to-reviewed-source diff hygiene, protected digests, commands, the canonical ordered 45-case result/marker manifest, all 8 acceptance rows and 84 unique subassertions, corrected AC-3 membership, #210 nonactivation/nondeletion authority, strict Clippy, signed expectation and cleanup bindings, review provenance, evidence immutability, and squash-merge-safe ancestry.",
+        "acceptance_ids": [
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 5000,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/210/validate-proof-receipt.rb"
+        ],
+        "parallel_group": "210-serial-06-validator",
+        "defer_reason": "Deferred until producer, typed finalize, immutable evidence, and fresh exact-head review exist; it must not overlap any prior lane or review and fails on any source/base/map/case/subassertion/order/result/marker/authority/command/review/ancestry drift."
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

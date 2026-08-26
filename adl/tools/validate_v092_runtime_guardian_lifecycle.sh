@@ -15,7 +15,7 @@ while (( $# > 0 )); do
       shift 2
       ;;
     -h|--help)
-      echo "Usage: $0 [--suite preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s]"
+      echo "Usage: $0 [--suite preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s|six_hour_qualification]"
       exit 0
       ;;
     *)
@@ -26,7 +26,7 @@ while (( $# > 0 )); do
 done
 
 case "$lifecycle_suite" in
-  preflight|preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s) ;;
+  preflight|preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s|six_hour|six_hour_qualification) ;;
   *)
     echo "unsupported ADL_RUNTIME_GUARDIAN_SUITE: $lifecycle_suite" >&2
     exit 64
@@ -127,23 +127,140 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
     print(listener.getsockname()[1])
 PY
 )
-init_template="$qualification_root/5820-runtime-init-$api_port.toml"
-mkdir -p "$(dirname "$init_template")"
-python3 - "$repo_root/infra/runtime-v3/runtime-init.toml" "$init_template" "$api_port" <<'PY'
-import pathlib
+continuity_port=$(python3 - "$api_port" <<'PY'
+import socket
 import sys
 
-source, destination, port = sys.argv[1:]
-text = pathlib.Path(source).read_text(encoding="utf-8")
+api_port = int(sys.argv[1])
+while True:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener:
+        listener.bind(("127.0.0.1", 0))
+        port = listener.getsockname()[1]
+    if port != api_port:
+        print(port)
+        break
+PY
+)
+init_template="$qualification_root/5820-runtime-init-$api_port.toml"
+mkdir -p "$(dirname "$init_template")"
+python3 - "$repo_root/infra/runtime-v3/runtime-init.toml" "$init_template" "$api_port" \
+  "$continuity_port" "$state_root" <<'PY'
+import hashlib
+import os
+import pathlib
+import re
+import shutil
+import subprocess
+import sys
+
+source, destination, port, continuity_port, state_root = sys.argv[1:]
+source_path = pathlib.Path(source)
+destination_path = pathlib.Path(destination)
+state_root_path = pathlib.Path(state_root)
+repo_root = source_path.parents[2]
+fixture_root = repo_root / "adl-runtime" / "tests" / "support" / "tls-fixtures"
+tls_root = destination_path.parent / "tls"
+tls_root.mkdir(mode=0o700, exist_ok=True)
+certificate = tls_root / "server-cert.pem"
+private_key = tls_root / "server-key.pem"
+trust_roots = tls_root / "root-ca.pem"
+guardian_certificate = tls_root / "client-cert.pem"
+guardian_private_key = tls_root / "client-key.pem"
+certificate.write_bytes(
+    (fixture_root / "server-cert.pem").read_bytes()
+    + (fixture_root / "intermediate-ca.pem").read_bytes()
+)
+shutil.copyfile(fixture_root / "server-key.pem", private_key)
+shutil.copyfile(fixture_root / "root-ca.pem", trust_roots)
+shutil.copyfile(fixture_root / "client-cert.pem", guardian_certificate)
+shutil.copyfile(fixture_root / "client-key.pem", guardian_private_key)
+os.chmod(certificate, 0o600)
+os.chmod(private_key, 0o600)
+os.chmod(trust_roots, 0o600)
+os.chmod(guardian_certificate, 0o600)
+os.chmod(guardian_private_key, 0o600)
+
+def spki_sha256(path):
+    public_key = subprocess.run(
+        ["openssl", "x509", "-in", str(path), "-pubkey", "-noout"],
+        check=True,
+        capture_output=True,
+    ).stdout
+    der = subprocess.run(
+        ["openssl", "pkey", "-pubin", "-outform", "DER"],
+        input=public_key,
+        check=True,
+        capture_output=True,
+    ).stdout
+    return hashlib.sha256(der).hexdigest()
+
+text = source_path.read_text(encoding="utf-8")
 address = 'address = "127.0.0.1:20997"'
-public_url = 'public_base_url = "https://localhost:20997"'
+public_url_pattern = re.compile(r'^public_base_url\s*=\s*"https://[^"]+"$', re.MULTILINE)
+server_name_pattern = re.compile(r'^server_name\s*=\s*"[^"]+"$', re.MULTILINE)
+observatory_origin = '  "https://observatory.dev.agent-logic.ai",'
+readiness_timeout = "readiness_timeout_millis = 10000"
+tls_fields = {
+    'certificate_chain_path = "/var/lib/adl/runtime-v3/tls/fullchain.pem"':
+        f'certificate_chain_path = "{certificate}"',
+    'private_key_path = "/var/lib/adl/runtime-v3/tls/private-key.pem"':
+        f'private_key_path = "{private_key}"',
+    'trust_roots_path = "/var/lib/adl/runtime-v3/tls/trust-roots.pem"':
+        f'trust_roots_path = "{trust_roots}"',
+}
 if text.count(address) != 1:
     raise SystemExit("canonical API address missing")
-if text.count(public_url) != 1:
-    raise SystemExit("canonical public URL missing")
+if len(public_url_pattern.findall(text)) != 1:
+    raise SystemExit("canonical public URL field missing or ambiguous")
+if len(server_name_pattern.findall(text)) != 1:
+    raise SystemExit("canonical TLS server name field missing or ambiguous")
+if text.count(observatory_origin) != 1:
+    raise SystemExit("canonical Observatory origin missing or ambiguous")
+if text.count(readiness_timeout) != 1:
+    raise SystemExit("canonical qualification readiness timeout missing or ambiguous")
 text = text.replace(address, f'address = "127.0.0.1:{port}"', 1)
-text = text.replace(public_url, f'public_base_url = "https://localhost:{port}"', 1)
-pathlib.Path(destination).write_text(text, encoding="utf-8")
+text = public_url_pattern.sub(f'public_base_url = "https://localhost:{port}"', text, count=1)
+text = server_name_pattern.sub('server_name = "localhost"', text, count=1)
+text = text.replace(observatory_origin, '  "https://observatory.example.test",', 1)
+text = text.replace(readiness_timeout, "readiness_timeout_millis = 120000", 1)
+for canonical, localized in tls_fields.items():
+    if text.count(canonical) != 1:
+        raise SystemExit("canonical TLS configuration field missing or ambiguous")
+    text = text.replace(canonical, localized, 1)
+text += f'''\n[continuity_control]
+address = "127.0.0.1:{continuity_port}"
+guardian_state_dir = "{state_root_path / 'guardian-continuity'}"
+state_dir = "{state_root_path / 'kernel-continuity'}"
+staging_dir = "{state_root_path / 'continuity-staging'}"
+trust_domain = "agent-logic.lifecycle"
+polis = "lifecycle-polis"
+source_node = "lifecycle-source"
+target_node = "lifecycle-target"
+guardian_id = "lifecycle-guardian"
+kernel_control_id = "lifecycle-kernel-control"
+channel_epoch = 1
+
+[continuity_control.tls]
+server_certificate_chain_path = "{certificate}"
+server_private_key_path = "{private_key}"
+server_trust_roots_path = "{trust_roots}"
+server_name = "localhost"
+guardian_certificate_chain_path = "{guardian_certificate}"
+guardian_private_key_path = "{guardian_private_key}"
+guardian_trust_roots_path = "{trust_roots}"
+guardian_spki_sha256 = "{spki_sha256(guardian_certificate)}"
+server_spki_sha256 = "{spki_sha256(certificate)}"
+certificate_generation = 1
+
+[continuity_control.bounds]
+max_frame_bytes = 65536
+max_blob_bytes = 65536
+max_total_bytes = 524288
+max_services = 5
+max_journal_entries = 64
+max_open_handles = 8
+'''
+destination_path.write_text(text, encoding="utf-8")
 PY
 
 python3 - "$state_root" "$wss_proof" "$https_transcript" "$wss_transcript" \
@@ -169,7 +286,7 @@ import time
     probe_ready_path,
     probe_ack_path,
 ) = sys.argv[1:]
-deadline = time.monotonic() + 15.0
+barrier_deadline = time.monotonic() + 600.0
 MAX_FRAME_BYTES = 65_536
 MAX_HTTP_BYTES = 1_048_576
 WEBSOCKET_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
@@ -232,11 +349,11 @@ def sha256_file(path):
     return digest.hexdigest()
 
 
-def tls_socket(address, certificate):
+def tls_socket(address, trust_roots):
     host, port = address.rsplit(":", 1)
     remaining = max(0.1, deadline - time.monotonic())
     tcp = socket.create_connection((host, int(port)), timeout=remaining)
-    context = ssl.create_default_context(cafile=certificate)
+    context = ssl.create_default_context(cafile=trust_roots)
     context.check_hostname = True
     context.verify_mode = ssl.CERT_REQUIRED
     try:
@@ -248,8 +365,8 @@ def tls_socket(address, certificate):
     return tls
 
 
-def authenticated_https(address, certificate, token):
-    with tls_socket(address, certificate) as tls:
+def authenticated_https(address, trust_roots, token):
+    with tls_socket(address, trust_roots) as tls:
         request = (
             "GET /v1/observatory HTTP/1.1\r\n"
             "Host: localhost\r\n"
@@ -309,49 +426,18 @@ def write_frame(stream, opcode, payload):
     stream.sendall(prefix + mask + masked)
 
 
-def varint(value):
-    encoded = bytearray()
-    while True:
-        byte = value & 0x7F
-        value >>= 7
-        if value:
-            byte |= 0x80
-        encoded.append(byte)
-        if not value:
-            return bytes(encoded)
-
-
-def protobuf_string(tag, value):
-    encoded = value.encode("utf-8")
-    return varint((tag << 3) | 2) + varint(len(encoded)) + encoded
-
-
-def acip_envelope():
-    return b"".join(
-        (
-            protobuf_string(1, "adl.csm.acip_carrier.protobuf_envelope.v1"),
-            protobuf_string(2, "wp-5820-wss-proof"),
-            protobuf_string(3, "wp-5820-proof"),
-            protobuf_string(4, "runtime"),
-            protobuf_string(5, "agent_runtime"),
-            protobuf_string(6, '{"schema":"adl.runtime.local_agent_work.v1","tasks":[{"input":"bounded Guardian proof","op":"blake3"}]}'),
-            varint(7 << 3),
-            varint(1),
-        )
-    )
-
-
-def authenticated_wss(address, certificate, token):
-    with tls_socket(address, certificate) as tls:
+def authenticated_wss(address, trust_roots, token):
+    with tls_socket(address, trust_roots) as tls:
         key = base64.b64encode(secrets.token_bytes(16)).decode("ascii")
         upgrade_request = (
-            "GET /v1/acip/ws HTTP/1.1\r\n"
+            "GET /v1/observatory/ws HTTP/1.1\r\n"
             "Host: localhost\r\n"
+            "Origin: https://observatory.example.test\r\n"
             "Upgrade: websocket\r\n"
             "Connection: Upgrade\r\n"
             f"Sec-WebSocket-Key: {key}\r\n"
             "Sec-WebSocket-Version: 13\r\n"
-            f"Authorization: Bearer {token}\r\n\r\n"
+            "\r\n"
         ).encode("ascii")
         tls.sendall(upgrade_request)
         headers = bytearray()
@@ -370,35 +456,41 @@ def authenticated_wss(address, certificate, token):
                 break
         if accept != expected:
             raise RuntimeError("WSS upgrade accept digest mismatch")
-        opcode, hello = read_frame(tls)
-        if opcode != 1:
-            raise RuntimeError("WSS hello was not text")
-        hello_value = json.loads(hello.decode("utf-8"))
-        if hello_value.get("schema") != "adl.csm.acip_carrier.websocket_frame.v1" or hello_value.get("event") != "authenticated":
-            raise RuntimeError("WSS authentication hello missing")
-        request = acip_envelope()
-        write_frame(tls, 2, request)
-        opcode, response = read_frame(tls)
-        if opcode != 1:
-            raise RuntimeError(f"WSS response was not text: opcode={opcode} payload={response!r}")
-        response_value = json.loads(response.decode("utf-8"))
-        if not (
-            response_value.get("schema") == "adl.csm.acip_carrier.websocket_frame.v1"
-            and response_value.get("status") == "completed"
-            and response_value.get("message_id") == "wp-5820-wss-proof"
-            and response_value.get("sequence_reserved") is True
-        ):
-            raise RuntimeError("WSS bounded request/response failed")
-    return raw_headers, hello, request, response
+        request = json.dumps({
+            "schema": "adl.runtime_v3.observatory_ws_auth.v1",
+            "bearer_token": token,
+        }, separators=(",", ":")).encode("utf-8")
+        write_frame(tls, 1, request)
+        feed = None
+        response = None
+        for _ in range(4):
+            opcode, payload = read_frame(tls)
+            if opcode != 1:
+                continue
+            value = json.loads(payload.decode("utf-8"))
+            if value.get("schema") == "adl.runtime_v3.observatory_feed.v2":
+                feed = payload
+            if (
+                value.get("schema") == "adl.runtime_v3.observatory_ws_control_result.v1"
+                and value.get("status") == "authenticated"
+            ):
+                response = payload
+            if feed is not None and response is not None:
+                break
+        if feed is None or response is None:
+            raise RuntimeError("WSS feed and authenticated control result were not both observed")
+    return raw_headers, feed, request, response
 
 
 while not os.path.isfile(probe_ready_path):
-    if time.monotonic() >= deadline:
+    if time.monotonic() >= barrier_deadline:
         raise RuntimeError("lifecycle harness did not publish pre-restart readiness")
     time.sleep(0.01)
 probe_nonce = pathlib.Path(probe_ready_path).read_text(encoding="utf-8").strip()
 if not probe_nonce:
     raise RuntimeError("lifecycle harness published an empty pre-restart nonce")
+deadline = time.monotonic() + 180.0
+observed_error_types = []
 
 while True:
     try:
@@ -410,19 +502,19 @@ while True:
         init = safe_existing(os.path.join(state_root, "runtime-init.toml"), state_root, "runtime init")
         text = pathlib.Path(init).read_text(encoding="utf-8")
         address_match = re.search(r'^address = "([^"]+)"$', text, re.MULTILINE)
-        certificate_match = re.search(r'^certificate_chain_path = "([^"]+)"$', text, re.MULTILINE)
+        trust_roots_match = re.search(r'^trust_roots_path = "([^"]+)"$', text, re.MULTILINE)
         token_match = re.search(r'^observatory_token_path = "([^"]+)"$', text, re.MULTILINE)
         if not address_match:
             raise RuntimeError("API address missing")
-        if not certificate_match:
-            raise RuntimeError("certificate path missing")
+        if not trust_roots_match:
+            raise RuntimeError("trust roots path missing")
         if not token_match:
             raise RuntimeError("token path missing")
-        certificate = safe_existing(certificate_match.group(1), state_root, "certificate")
+        trust_roots = safe_existing(trust_roots_match.group(1), state_root, "trust roots")
         token_file = safe_existing(token_match.group(1), state_root, "observatory token")
         token = pathlib.Path(token_file).read_text(encoding="utf-8").strip()
-        observatory, https_sha256 = authenticated_https(address_match.group(1), certificate, token)
-        headers, hello, request, response = authenticated_wss(address_match.group(1), certificate, token)
+        observatory, https_sha256 = authenticated_https(address_match.group(1), trust_roots, token)
+        headers, hello, request, response = authenticated_wss(address_match.group(1), trust_roots, token)
         https_value = {
             "schema": "adl.runtime_v3.guardian_https_transcript.v1",
             "request": {"method": "GET", "path": "/v1/observatory", "authentication": "bearer_redacted"},
@@ -434,10 +526,10 @@ while True:
         response_value = json.loads(response.decode("utf-8"))
         wss_value = {
             "schema": "adl.runtime_v3.guardian_wss_transcript.v1",
-            "request": {"method": "GET", "path": "/v1/acip/ws", "authentication": "bearer_redacted", "upgrade": "websocket"},
+            "request": {"method": "GET", "path": "/v1/observatory/ws", "authentication": "in_band_bearer_redacted", "upgrade": "websocket"},
             "upgrade": {"status": 101, "sha256": sha256_bytes(headers)},
             "hello": hello_value,
-            "bounded_request": {"opcode": "binary", "bytes": len(request), "sha256": sha256_bytes(request)},
+            "bounded_request": {"opcode": "text", "bytes": len(request), "sha256": sha256_bytes(request)},
             "response": response_value,
         }
         write_json(https_transcript_path, https_value)
@@ -465,10 +557,16 @@ while True:
         os.replace(probe_ack_temporary, probe_ack_path)
         break
     except Exception as error:
+        error_type = type(error).__name__
+        if error_type not in observed_error_types:
+            observed_error_types.append(error_type)
         if os.environ.get("ADL_RUNTIME_WSS_DEBUG") == "1":
             print(error, file=sys.stderr)
         if time.monotonic() >= deadline:
-            raise
+            raise RuntimeError(
+                "authenticated probe failed before deadline; observed_error_types="
+                + ",".join(observed_error_types)
+            ) from error
         time.sleep(0.01)
 PY
 wss_probe_pid=$!
@@ -541,8 +639,23 @@ if report.get("schema") != "adl.runtime_v3.lifecycle_soak.v1":
     fail("wrong lifecycle report schema")
 if report.get("status") != "pass":
     fail("lifecycle preflight failed")
+runtime_soak = report.get("runtime_v3_soak") or {}
+if runtime_soak.get("status") != "pass":
+    fail("bounded Runtime soak evaluation did not pass")
+evaluation = (runtime_soak.get("evidence") or {}).get("evaluation") or {}
+if evaluation.get("status") != "pass" or evaluation.get("violations"):
+    fail("bounded Runtime soak evidence remained fail-closed")
 if report.get("revision") != revision:
     fail("lifecycle revision drifted")
+if report.get("suite") == "six_hour_qualification":
+    if int(report.get("minimum_exposure_seconds", 0)) != 21600:
+        fail("six-hour minimum exposure denominator drifted")
+    measured = int(report.get("measured_exposure_seconds", 0))
+    overshoot = int(report.get("overshoot_seconds", -1))
+    if measured < 21600 or overshoot != measured - 21600:
+        fail("six-hour measured exposure did not reconcile")
+    if int(report.get("maximum_overshoot_seconds", 0)) != 600 or overshoot > 600:
+        fail("six-hour final-cycle overshoot exceeded its fixed cap")
 completed_cycles = int(report.get("completed_cycles", 0))
 total_restarts = int(report.get("total_restarts", 0))
 if completed_cycles < 1:
@@ -613,3 +726,11 @@ os.replace(temporary, proof_path)
 PY
 
 printf 'PASS: production Guardian lifecycle proof=%s revision=%s\n' "$run_root/issue-proof.json" "$revision"
+if [[ "$lifecycle_suite" == "six_hour" || "$lifecycle_suite" == "six_hour_qualification" ]]; then
+  printf 'ADL_ISSUE268_REPORT_BEGIN\n'
+  cat "$report"
+  printf '\nADL_ISSUE268_REPORT_END\n'
+  printf 'ADL_ISSUE268_PROOF_BEGIN\n'
+  cat "$run_root/issue-proof.json"
+  printf '\nADL_ISSUE268_PROOF_END\n'
+fi

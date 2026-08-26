@@ -1,0 +1,25 @@
+{
+  "base_ref": "main",
+  "body": "Closes #258\n\n## Summary\n- seal raw certificate, lease, and fencing store access behind explicit authority/test access tokens\n- add the governed authority store adapter facade and published receipt view metadata for the #258 store-boundary slice\n- map certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease into published-view action classes\n- add a positive proof that published_view exposes lineage, operation, action class, adapter metadata, generation, receipt digest, and result digest for all in-scope store operation kinds\n- update focused runtime tests and compile-required fixture callers without absorbing #203 sibling transport or migration scope\n\n## Title gate\n- Repository/issue identity: agent-logic/agent-design-language#258\n- Tags: [v0.92][runtime][authority]\n- Exact scope: #258 authority store boundary slice only\n- Non-overclaim: split from #203; does not complete parent #203, #205, governed transport integration, migration/recovery/peripheral caller migration, cloud deployment, hosted proof, coverage, or broad distributed-runtime completion\n- Closing linkage: Closes #258\n- Reviewed source head: 3e9f9d10a04ce3803e4edead2882979ef7f0cd72\n- Publication head: codex/258-authority-store-boundary\n\n## Validation\n- `cargo check --manifest-path adl-runtime/Cargo.toml` — PASS\n- `cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- --nocapture --test-threads=1` — PASS\n- `cargo test --manifest-path adl-runtime/Cargo.toml distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds -- --nocapture` — PASS\n- `cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- -D warnings` — PASS\n- compile-only fixture fallout checks recorded for distributed_projection, distributed_resource_weather, distributed_discovery, distributed_placement, distributed_runtime_transport, distributed_transport, and distributed_lease — PASS\n- `csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary issue --issue 258` — PASS\n- `csdlc-doctor --repo /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary --issue 258` — PASS\n- `git diff --check` — PASS\n- independent exact-head review at `3e9f9d10a04ce3803e4edead2882979ef7f0cd72` — PASS; review metadata recorded in typed SRP\n\n## Post-publication checks\nRequired remote checks to watch after publication: adl-path-policy, adl-ci, adl-coverage.\n\n## Non-claims\n- No merge authority; stop before merge.\n- No #112, #114, #203 parent/sibling, #205, cloud deployment, hosted proof, coverage, or broad CI scope is included.\n- GitHub CI remains the remote integration gate after publication.",
+  "checks": [],
+  "classification": "waiting",
+  "draft": false,
+  "head_ref": "codex/258-authority-store-boundary",
+  "head_sha": "3baca8e4cce2954733adfb9e4690cd15188f0b6b",
+  "linkage_source": "github_closing_issues_references",
+  "linked_issue": 258,
+  "merge_commit_sha": "ab97d6b2ed71d9616b3274f05eb744f337e6caaa",
+  "merge_state": "blocked",
+  "merged": false,
+  "pull_request": 290,
+  "repository": "agent-logic/agent-design-language",
+  "required_check_names": [
+    "adl-path-policy",
+    "adl-ci",
+    "adl-coverage"
+  ],
+  "review_decision": "pending",
+  "schema": "csdlc.github_pr_state.v1",
+  "state": "open",
+  "url": "https://github.com/agent-logic/agent-design-language/pull/290"
+}

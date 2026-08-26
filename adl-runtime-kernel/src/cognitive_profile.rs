@@ -9,9 +9,10 @@ use sha2::{Digest, Sha256};
 
 use crate::{
     birthday_identity::record_digest as identity_digest, candidate_digest,
-    continuity_record_digest, decide_birthday, validate_capability_envelope, BirthdayCandidate,
-    BirthdayContinuityRecord, BirthdayIdentityRecord, CapabilityEnvelope, CapabilityEnvelopePolicy,
-    BIRTHDAY_IDENTITY_RECORD_SCHEMA,
+    continuity_record_digest, decide_birthday, validate_capability_envelope,
+    validate_capability_envelope_with_continuity, BirthdayCandidate, BirthdayContinuityRecord,
+    BirthdayIdentityRecord, CapabilityAuthorityPolicy, CapabilityEnvelope,
+    CapabilityEnvelopePolicy, VerifiedBirthdayContinuity, BIRTHDAY_IDENTITY_RECORD_SCHEMA,
 };
 
 pub const COGNITIVE_PROFILE_INPUT_SCHEMA: &str = "adl.cognitive_profile.input.v1";
@@ -316,7 +317,7 @@ pub fn build_cognitive_profile(
 }
 
 #[allow(clippy::too_many_arguments)]
-pub fn build_governed_cognitive_profile(
+pub(crate) fn build_governed_cognitive_profile(
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
     continuity: &BirthdayContinuityRecord,
@@ -366,6 +367,47 @@ pub fn build_governed_cognitive_profile(
         input,
         policy,
         complete_history.last(),
+        proof,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+/// Builds governed cognition only after opaque Runtime continuity verification.
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::build_governed_cognitive_profile;
+/// ```
+pub fn build_governed_cognitive_profile_with_continuity(
+    birthday: &BirthdayCandidate,
+    identity: &BirthdayIdentityRecord,
+    continuity: &VerifiedBirthdayContinuity,
+    capability_authority: &CapabilityAuthorityPolicy,
+    capability: &CapabilityEnvelope,
+    input: &CognitiveProfileInput,
+    policy: &CognitiveProfilePolicy,
+    complete_history: &[CognitiveProfile],
+    authority_policy: &CognitiveAuthorityPolicy,
+    proof: &CognitiveAuthorityProof,
+) -> Result<CognitiveProfile, Vec<CognitiveProfileRejection>> {
+    validate_verified_continuity(identity, continuity)?;
+    validate_capability_envelope_with_continuity(
+        capability,
+        birthday,
+        identity,
+        continuity,
+        capability_authority,
+        &policy.capability_policy,
+    )
+    .map_err(|_| vec![CognitiveProfileRejection::CapabilityMismatch])?;
+    build_governed_cognitive_profile(
+        birthday,
+        identity,
+        continuity.record(),
+        capability,
+        input,
+        policy,
+        complete_history,
+        authority_policy,
         proof,
     )
 }
@@ -495,7 +537,7 @@ pub fn validate_cognitive_profile(
 }
 
 #[allow(clippy::too_many_arguments)]
-pub fn validate_governed_cognitive_profile(
+pub(crate) fn validate_governed_cognitive_profile(
     profile: &CognitiveProfile,
     birthday: &BirthdayCandidate,
     identity: &BirthdayIdentityRecord,
@@ -521,6 +563,59 @@ pub fn validate_governed_cognitive_profile(
         Ok(_) => Err(vec![CognitiveProfileRejection::NonCanonicalProfile]),
         Err(errors) => Err(errors),
     }
+}
+
+#[allow(clippy::too_many_arguments)]
+/// Revalidates governed cognition against the same opaque continuity token.
+///
+/// ```compile_fail
+/// use adl_runtime_kernel::validate_governed_cognitive_profile;
+/// ```
+pub fn validate_governed_cognitive_profile_with_continuity(
+    profile: &CognitiveProfile,
+    birthday: &BirthdayCandidate,
+    identity: &BirthdayIdentityRecord,
+    continuity: &VerifiedBirthdayContinuity,
+    capability_authority: &CapabilityAuthorityPolicy,
+    capability: &CapabilityEnvelope,
+    cognitive_policy: &CognitiveProfilePolicy,
+    complete_history: &[CognitiveProfile],
+    authority_policy: &CognitiveAuthorityPolicy,
+) -> Result<(), Vec<CognitiveProfileRejection>> {
+    validate_verified_continuity(identity, continuity)?;
+    validate_capability_envelope_with_continuity(
+        capability,
+        birthday,
+        identity,
+        continuity,
+        capability_authority,
+        &cognitive_policy.capability_policy,
+    )
+    .map_err(|_| vec![CognitiveProfileRejection::CapabilityMismatch])?;
+    validate_governed_cognitive_profile(
+        profile,
+        birthday,
+        identity,
+        continuity.record(),
+        capability,
+        cognitive_policy,
+        complete_history,
+        authority_policy,
+    )
+}
+
+fn validate_verified_continuity(
+    identity: &BirthdayIdentityRecord,
+    continuity: &VerifiedBirthdayContinuity,
+) -> Result<(), Vec<CognitiveProfileRejection>> {
+    let record = continuity.record();
+    if record.identity_root != identity.identity_root
+        || record.identity_record_sha256 != identity.record_sha256
+        || record.predecessor_head != continuity.identity_checkpoint_head()
+    {
+        return Err(vec![CognitiveProfileRejection::ContinuityMismatch]);
+    }
+    Ok(())
 }
 
 #[derive(Clone)]
@@ -710,9 +805,10 @@ fn verify_rotation_signature(
     verify_canonical_signature(&unsigned, &signature, key)
 }
 
-#[cfg(test)]
+#[cfg(any(test, feature = "test-support"))]
 #[path = "../tests/fixtures/cognitive_profile/authority_tests.rs"]
-mod authority_tests;
+#[cfg_attr(feature = "test-support", allow(dead_code, unused_imports))]
+pub(crate) mod authority_tests;
 
 fn verify_canonical_signature<T: Serialize>(
     value: &T,
@@ -810,7 +906,7 @@ fn validate_authorities(
         || input.continuity_record_sha256 != c.record_sha256
         || c.identity_root != i.identity_root
         || c.identity_record_sha256 != i.record_sha256
-        || c.continuity_head != b.continuity_head
+        || c.predecessor_head != b.continuity_head
     {
         errors.insert(CognitiveProfileRejection::ContinuityMismatch);
     }

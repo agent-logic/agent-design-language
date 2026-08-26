@@ -1,0 +1,95 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 115,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
+    "slug": "v0-92-wp-18c-05-governed-multi-agent-rooms-routing",
+    "version": "v0.92.0",
+    "generation": 43
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Prepare #115 as unbound design only with canonical #111/#112/#113/#270 terminal-cache dependency validation; obtain fresh readiness/design review before any bind or implementation.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap #115 from live issue and #110 graph truth on a clean current-main preparation root.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Validate canonical #111/#112/#113/#270 derived-terminal caches and origin/main ancestry.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Validate scope and non-goals against live issue text.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run prep validator, doctor, validate, and fresh readiness/design review before approval or bind.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/conversation_rooms.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/styles.css",
+        ".csdlc/prepared/issues/115/validate_governed_room_implementation.py",
+        ".csdlc/issues/115"
+      ],
+      "invariants": [
+        "#115 remains unbound during preparation",
+        "#270 remains an explicit terminal dependency and its trust protocol is not redefined",
+        "#115 does not mutate #110, #114, #276, #277, #278, or dependency issues",
+        "Terminal dependency authority comes from canonical derived-terminal caches plus origin/main ancestry, not stale root projections"
+      ],
+      "risks": [
+        "#115 design may need fresh reviewer confirmation after dependency-gate truth changed",
+        "Dirty primary root projections may disagree with canonical derived-terminal caches and must not be used as dependency authority"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Dependency terminal cache or ancestry validation fails",
+        "Live #115 issue contract changes or loses #270 marker",
+        "A branch/worktree bind is attempted before fresh review PASS",
+        "Doctor or validate reports a blocker",
+        "Fresh readiness/design review reports actionable findings"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/115/design.md",
+      "design_digest": "d31a0fb00e55da6078c092f3d05b1f865035e7a2b745a671a5d2067f9bed9df2",
+      "diagram_ref": ".csdlc/prepared/issues/115/diagram.mmd",
+      "diagram_digest": "bbe81d60aa95b35ecc0dd22ed3d25f494f881a79a39c6d63a24b6ed456243844"
+    }
+  }
+}

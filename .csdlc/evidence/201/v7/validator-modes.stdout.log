@@ -1,0 +1,3 @@
+ADL_ISSUE_201_CASE_V2 validator_available_divergent_rejected rejected
+ADL_ISSUE_201_CASE_V2 validator_available_ancestral_passed passed
+ADL_ISSUE_201_CASE_V2 validator_unavailable_protected_fallback_passed passed

@@ -1,0 +1,32 @@
+{
+  "issue": 331,
+  "expected_generation": 6,
+  "expected_digest": "e3adba961570aefcd4c3b79eb19cf79cb22aad572103003bc31d41d9ac7897d5",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "fresh-session:4589c316-ed35-4957-b82d-c9f6f5131fd5",
+    "scope": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      ".csdlc/issues/331",
+      ".csdlc/evidence/331",
+      ".csdlc/prepared/issues/331/design.md",
+      ".csdlc/prepared/issues/331/diagram.mmd",
+      ".csdlc/prepared/issues/331/finalize-implementation.json",
+      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+      ".csdlc/prepared/issues/331/review-recover-after-main-merge.json"
+    ],
+    "reviewed_revision": "git-blake3:a9c11f378b70949a887adc211781057d08c9af31:46f4f67ae0dddfb8df6c1fdc24ff7adae71d316399946a7644f8ebb77c906473",
+    "findings": [],
+    "residual_risks": [
+      "Read-only review; validation commands were not re-run by this review session.",
+      "Working tree had lifecycle/index/SRP noise and an untracked lock/assignment file, so review was pinned to immutable HEAD objects."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

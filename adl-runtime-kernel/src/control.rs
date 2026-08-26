@@ -1,8 +1,10 @@
 use std::{
-    collections::{BTreeMap, BTreeSet},
+    collections::{BTreeMap, BTreeSet, HashSet},
+    fs::OpenOptions,
     future::Future,
     io::Write,
     net::SocketAddr,
+    path::Path,
     sync::Arc,
     sync::Mutex,
     time::{Duration, SystemTime, UNIX_EPOCH},
@@ -13,7 +15,7 @@ use axum::{
     body::Bytes,
     extract::{
         ws::{close_code, CloseFrame, Message, WebSocket, WebSocketUpgrade},
-        DefaultBodyLimit, State,
+        DefaultBodyLimit, Query, State,
     },
     http::{header, HeaderMap, HeaderValue, StatusCode},
     response::{IntoResponse, Response},
@@ -24,12 +26,23 @@ use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
 use lru::LruCache;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
+use tokio_util::sync::CancellationToken;
 use tracing::Instrument;
 use utoipa_swagger_ui::{Config as SwaggerConfig, SwaggerUi, Url as SwaggerUrl};
 
+use crate::layer8_authority::{
+    AuthorityDecision, Layer8Action, Layer8ConversationAuthority, Layer8SignedExchange,
+    RefusalReason, SignedIdentityMessage,
+};
+
 use crate::{
-    decode_acip_envelope, BootstrapEvent, CanonicalIngress, CheckpointManifest, DomainResult,
-    DomainWork, IngressError, KernelControl, KernelExit, LifecycleState, LiveContinuity,
+    conversation_rooms::{
+        GovernedRoom, GovernedRoomDeliveryState, GovernedRoomParticipant,
+        GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
+        GOVERNED_ROOM_ROUTE_SCHEMA,
+    },
+    decode_acip_envelope, AgentRosterEntry, AgentRosterQuery, CanonicalIngress, CheckpointManifest,
+    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LiveContinuity,
     ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
     WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
@@ -47,14 +60,45 @@ pub const RUNTIME_HEALTH_PATH: &str = "/v1/health";
 pub const RUNTIME_READY_PATH: &str = "/v1/ready";
 pub const RUNTIME_METRICS_PATH: &str = "/v1/metrics";
 pub const ACIP_WS_PATH: &str = "/v1/acip/ws";
+pub const RECIPIENT_ACKNOWLEDGEMENT_PATH: &str = "/v1/layer8/recipient-acknowledgement";
 pub const OBSERVATORY_WS_PATH: &str = "/v1/observatory/ws";
 pub const OBSERVATORY_WS_AUTH_SCHEMA: &str = "adl.runtime_v3.observatory_ws_auth.v1";
 pub const OBSERVATORY_WS_CONTROL_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_ws_control_result.v1";
+pub const OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA: &str =
+    "adl.runtime_v3.observatory_conversation_intent.v1";
+pub const OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA: &str =
+    "adl.runtime_v3.observatory_conversation_result.v1";
+pub const OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA: &str =
+    "adl.runtime_v3.observatory_conversation_cancel.v1";
+pub const OBSERVATORY_WS_GOVERNED_ROOM_INTENT_SCHEMA: &str =
+    "adl.runtime_v3.observatory_governed_room_intent.v1";
+pub const RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_REQUEST_SCHEMA: &str =
+    "adl.runtime_v3.layer8.recipient_acknowledgement_request.v1";
+pub const RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_RESPONSE_SCHEMA: &str =
+    "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
+const OBSERVATORY_CONVERSATION_RESULT_QUEUE_CAPACITY: usize = 32;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
+
+#[path = "control/feeds.rs"]
+mod feeds;
+#[path = "control/replay.rs"]
+mod replay;
+use feeds::ObservedWeather;
+pub use feeds::{
+    AgentPopulationFeed, AgentSample, ObservatoryContinuityFeed, ObservatoryControlFeed,
+    ObservatoryFeed, ObservatoryHealthFeed, ObservatoryProofFeed, ObservatoryWeatherFreshness,
+    RuntimeReadinessReport, RUNTIME_READINESS_SCHEMA,
+};
+#[cfg(test)]
+use replay::ACIP_MAX_SEQUENCE_ADVANCE;
+use replay::{
+    commit_replay_sequence, reserve_replay_sequence, rollback_replay_sequence, AcipReplayDomain,
+    AcipReplayState, AcipSequenceReservation,
+};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ControlApiPolicy {
@@ -120,8 +164,16 @@ pub enum ControlCapability {
 #[serde(tag = "action", rename_all = "snake_case")]
 pub enum ControlAction {
     Snapshot,
-    Submit { work: DomainWork },
-    Shutdown { grace_millis: u64 },
+    Submit {
+        work: DomainWork,
+    },
+    Shutdown {
+        grace_millis: u64,
+    },
+    Restart {
+        expected_incarnation_id: String,
+        grace_millis: u64,
+    },
 }
 
 impl ControlAction {
@@ -130,6 +182,7 @@ impl ControlAction {
             Self::Snapshot => ControlCapability::Read,
             Self::Submit { .. } => ControlCapability::Execute,
             Self::Shutdown { .. } => ControlCapability::Stop,
+            Self::Restart { .. } => ControlCapability::Stop,
         }
     }
 }
@@ -199,9 +252,19 @@ impl SignedControlCommand {
         }
         if matches!(
             self.action,
-            ControlAction::Shutdown { grace_millis } if grace_millis == 0 || grace_millis > MAX_SHUTDOWN_GRACE_MILLIS
+            ControlAction::Shutdown { grace_millis }
+                | ControlAction::Restart { grace_millis, .. }
+                if grace_millis == 0 || grace_millis > MAX_SHUTDOWN_GRACE_MILLIS
         ) {
             return Err(ControlError::InvalidBounds);
+        }
+        if let ControlAction::Restart {
+            expected_incarnation_id,
+            ..
+        } = &self.action
+        {
+            uuid::Uuid::parse_str(expected_incarnation_id)
+                .map_err(|_| ControlError::InvalidIdentifier)?;
         }
         Ok(())
     }
@@ -253,6 +316,38 @@ pub fn generate_runtime_instance_id() -> String {
     uuid::Uuid::new_v4().simple().to_string()
 }
 
+pub fn load_or_create_runtime_instance_id(state_root: &Path) -> std::io::Result<String> {
+    let path = state_root.join("runtime-instance-id");
+    match OpenOptions::new().write(true).create_new(true).open(&path) {
+        Ok(mut file) => {
+            let instance_id = generate_runtime_instance_id();
+            file.write_all(instance_id.as_bytes())?;
+            file.write_all(b"\n")?;
+            file.sync_all()?;
+            Ok(instance_id)
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
+            let metadata = std::fs::symlink_metadata(&path)?;
+            if metadata.file_type().is_symlink() || !metadata.is_file() {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    "runtime instance identity must be a regular file",
+                ));
+            }
+            let instance_id = std::fs::read_to_string(path)?.trim().to_owned();
+            if instance_id.len() != 32 || !instance_id.bytes().all(|byte| byte.is_ascii_hexdigit())
+            {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    "runtime instance identity is invalid",
+                ));
+            }
+            Ok(instance_id)
+        }
+        Err(error) => Err(error),
+    }
+}
+
 pub fn verifying_key_from_hex(value: &str) -> Result<VerifyingKey, ControlError> {
     let bytes: [u8; 32] = hex::decode(value)
         .map_err(|_| ControlError::Authentication)?
@@ -274,6 +369,7 @@ pub enum ControlOutcome {
     Snapshot { snapshot: Box<RuntimeSnapshot> },
     Submitted { work_result: DomainResult },
     Shutdown { exit: ControlExit },
+    Restart { accepted: bool },
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -287,6 +383,10 @@ pub struct ControlResponse {
 #[async_trait]
 pub trait LifecycleControl: Send + Sync {
     async fn shutdown(&self, grace: Duration) -> Result<KernelExit, ()>;
+
+    async fn restart(&self, grace: Duration) -> Result<(), ()> {
+        self.shutdown(grace).await.map(|_| ())
+    }
 }
 
 #[async_trait]
@@ -307,24 +407,247 @@ struct IdempotencyState {
     admission_open: bool,
 }
 
-struct AcipReplayState {
-    sequences_by_source: LruCache<String, u64>,
+#[derive(Default)]
+struct ConversationSessions {
+    sessions: BTreeMap<String, ConversationSession>,
+    next_sequence: u64,
 }
 
-struct AcipSequenceReservation {
-    source: String,
+struct ConversationSession {
     sequence: u64,
-    previous: Option<u64>,
+    recipient_id: String,
+    next_sequence: u64,
+    dispatch_gate: Arc<ConversationDispatchGate>,
+    turns: BTreeMap<String, ConversationTurn>,
+}
+
+impl ConversationSessions {
+    fn retain_capacity_for_new_session(&mut self, max_records: usize) -> bool {
+        if self.sessions.len() < max_records {
+            return true;
+        }
+
+        let oldest_terminal_session = self
+            .sessions
+            .iter()
+            .filter(|(_, session)| session.turns.values().all(|turn| turn.terminal.is_some()))
+            .min_by_key(|(_, session)| session.sequence)
+            .map(|(conversation_id, _)| conversation_id.clone());
+        let Some(conversation_id) = oldest_terminal_session else {
+            return false;
+        };
+        self.sessions.remove(&conversation_id);
+        true
+    }
+}
+
+impl ConversationSession {
+    fn retain_capacity_for_new_turn(&mut self, max_records: usize) -> bool {
+        if self.turns.len() < max_records {
+            return true;
+        }
+
+        let oldest_terminal_turn = self
+            .turns
+            .iter()
+            .filter(|(_, turn)| turn.terminal.is_some())
+            .min_by_key(|(_, turn)| turn.sequence)
+            .map(|(turn_id, _)| turn_id.clone());
+        let Some(turn_id) = oldest_terminal_turn else {
+            return false;
+        };
+        self.turns.remove(&turn_id);
+        true
+    }
+}
+
+struct ConversationDispatchGate {
+    state: Mutex<ConversationDispatchGateState>,
+    changed: tokio::sync::Notify,
+}
+
+struct ConversationDispatchGateState {
+    next_sequence: u64,
+    completed: BTreeSet<u64>,
+}
+
+impl ConversationDispatchGate {
+    fn new() -> Self {
+        Self {
+            state: Mutex::new(ConversationDispatchGateState {
+                next_sequence: 1,
+                completed: BTreeSet::new(),
+            }),
+            changed: tokio::sync::Notify::new(),
+        }
+    }
+
+    fn ready(&self, sequence: u64) -> bool {
+        self.state
+            .lock()
+            .expect("conversation dispatch gate poisoned")
+            .next_sequence
+            == sequence
+    }
+
+    async fn wait_turn(
+        &self,
+        sequence: u64,
+        deadline: tokio::time::Instant,
+        cancellation: &CancellationToken,
+    ) -> bool {
+        loop {
+            let changed = self.changed.notified();
+            if self.ready(sequence) {
+                return true;
+            }
+            let notified = tokio::select! {
+                _ = cancellation.cancelled() => return false,
+                result = tokio::time::timeout_at(deadline, changed) => result,
+            };
+            if notified.is_err() {
+                return false;
+            }
+        }
+    }
+
+    fn complete(&self, sequence: u64) {
+        let mut state = self
+            .state
+            .lock()
+            .expect("conversation dispatch gate poisoned");
+        state.completed.insert(sequence);
+        while {
+            let next_sequence = state.next_sequence;
+            state.completed.remove(&next_sequence)
+        } {
+            state.next_sequence = state.next_sequence.saturating_add(1);
+        }
+        drop(state);
+        self.changed.notify_waiters();
+    }
+}
+
+struct ConversationTurn {
+    fingerprint: String,
+    correlation_id: String,
+    sequence: u64,
+    cancellation: CancellationToken,
+    completion: tokio::sync::watch::Sender<Option<ObservatoryConversationResult>>,
+    terminal: Option<ObservatoryConversationResult>,
+}
+
+struct ConversationDispatch {
+    intent: ObservatoryConversationIntent,
+    sequence: u64,
+    cancellation: CancellationToken,
+    dispatch_gate: Arc<ConversationDispatchGate>,
+    work_id: String,
+}
+
+#[cfg(test)]
+pub(crate) struct ConversationAttachmentTestHook {
+    conversation_id: String,
+    turn_id: String,
+    first_intent_seen: Mutex<bool>,
+    duplicate_observed: tokio::sync::Notify,
+    allow_duplicate: tokio::sync::Semaphore,
+    attachment_ready: tokio::sync::Notify,
+    allow_timeout: tokio::sync::Semaphore,
+}
+
+#[cfg(test)]
+impl ConversationAttachmentTestHook {
+    pub(crate) fn new(conversation_id: &str, turn_id: &str) -> Arc<Self> {
+        Arc::new(Self {
+            conversation_id: conversation_id.to_owned(),
+            turn_id: turn_id.to_owned(),
+            first_intent_seen: Mutex::new(false),
+            duplicate_observed: tokio::sync::Notify::new(),
+            allow_duplicate: tokio::sync::Semaphore::new(0),
+            attachment_ready: tokio::sync::Notify::new(),
+            allow_timeout: tokio::sync::Semaphore::new(0),
+        })
+    }
+
+    fn matches(&self, conversation_id: &str, turn_id: &str) -> bool {
+        self.conversation_id == conversation_id && self.turn_id == turn_id
+    }
+
+    async fn observe_intent(&self) {
+        let duplicate = {
+            let mut seen = self
+                .first_intent_seen
+                .lock()
+                .expect("conversation attachment test hook poisoned");
+            std::mem::replace(&mut *seen, true)
+        };
+        if duplicate {
+            self.duplicate_observed.notify_one();
+            self.allow_duplicate
+                .acquire()
+                .await
+                .expect("conversation attachment test hook closed")
+                .forget();
+        }
+    }
+
+    pub(crate) async fn wait_for_duplicate(&self) {
+        self.duplicate_observed.notified().await;
+    }
+
+    pub(crate) fn permit_duplicate(&self) {
+        self.allow_duplicate.add_permits(1);
+    }
+
+    pub(crate) async fn wait_for_attachment(&self) {
+        self.attachment_ready.notified().await;
+    }
+
+    fn attachment_ready(&self) {
+        self.attachment_ready.notify_one();
+    }
+
+    async fn wait_for_timeout_permission(&self) {
+        self.allow_timeout
+            .acquire()
+            .await
+            .expect("conversation attachment test hook closed")
+            .forget();
+    }
+
+    pub(crate) fn release_all(&self) {
+        self.allow_duplicate.add_permits(1);
+        self.allow_timeout.add_permits(1);
+    }
+
+    pub(crate) fn fail_safe_permits(&self) -> (usize, usize) {
+        (
+            self.allow_duplicate.available_permits(),
+            self.allow_timeout.available_permits(),
+        )
+    }
+}
+
+enum ConversationAcceptance {
+    Dispatch {
+        accepted: ObservatoryConversationResult,
+        dispatch: ConversationDispatch,
+    },
+    Response(ObservatoryConversationResult),
 }
 
 pub struct ControlService<C> {
     instance_id: String,
+    runtime_incarnation_id: String,
     recorder: RuntimeRecorder,
     lifecycle: C,
     authority: ControlAuthority,
     max_records: usize,
     idempotency: Mutex<IdempotencyState>,
     acip_replay: Mutex<AcipReplayState>,
+    conversation_sessions: Mutex<ConversationSessions>,
+    governed_rooms: Mutex<BTreeMap<String, GovernedRoom>>,
     weather: Mutex<Option<ObservedWeather>>,
     weather_stale_after_millis: Mutex<u64>,
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
@@ -334,7 +657,12 @@ pub struct ControlService<C> {
     control_addr: Mutex<SocketAddr>,
     public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
+    layer8_authority: Option<Arc<Layer8ConversationAuthority>>,
+    layer8_signed_exchange: Option<Arc<Layer8SignedExchange>>,
+    agent_roster_token_key: Mutex<[u8; 32]>,
     api_policy: Mutex<Option<ControlApiPolicy>>,
+    #[cfg(test)]
+    conversation_attachment_test_hook: Mutex<Option<Arc<ConversationAttachmentTestHook>>>,
 }
 
 impl<C: LifecycleControl + 'static> ControlService<C> {
@@ -352,7 +680,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             authority,
             max_records,
             std::iter::empty(),
-            AgentPopulationFeed::single(),
+            AgentPopulationFeed::empty(),
         )
     }
 
@@ -371,7 +699,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             authority,
             max_records,
             observatory_allowed_origins,
-            AgentPopulationFeed::single(),
+            AgentPopulationFeed::empty(),
         )
     }
 
@@ -382,7 +710,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         authority: ControlAuthority,
         max_records: usize,
         observatory_allowed_origins: impl IntoIterator<Item = String>,
-        agent_population: AgentPopulationFeed,
+        mut agent_population: AgentPopulationFeed,
     ) -> Self {
         assert!(max_records > 0, "idempotency capacity must be non-zero");
         let instance_id = instance_id.into();
@@ -391,8 +719,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "runtime instance id must be bounded"
         );
         let observatory_allowed_origins = observatory_allowed_origins.into_iter().collect();
+        agent_population
+            .sample
+            .sort_by(|left, right| left.id.cmp(&right.id));
         Self {
             instance_id,
+            runtime_incarnation_id: uuid::Uuid::new_v4().to_string(),
             recorder,
             lifecycle,
             authority,
@@ -403,8 +735,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 admission_open: true,
             }),
             acip_replay: Mutex::new(AcipReplayState {
-                sequences_by_source: LruCache::unbounded(),
+                sequences_by_principal: BTreeMap::new(),
             }),
+            conversation_sessions: Mutex::new(ConversationSessions::default()),
+            governed_rooms: Mutex::new(BTreeMap::new()),
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
             observatory_bearer_digest: Mutex::new(None),
@@ -414,8 +748,48 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
             public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
+            layer8_authority: None,
+            layer8_signed_exchange: None,
+            agent_roster_token_key: Mutex::new(blake3::derive_key(
+                "adl.runtime_v3.agent_roster.page_token.ephemeral.v1",
+                uuid::Uuid::new_v4().as_bytes(),
+            )),
             api_policy: Mutex::new(None),
+            #[cfg(test)]
+            conversation_attachment_test_hook: Mutex::new(None),
         }
+    }
+
+    #[cfg(test)]
+    pub(crate) fn install_conversation_attachment_test_hook(
+        &self,
+        hook: Arc<ConversationAttachmentTestHook>,
+    ) {
+        *self
+            .conversation_attachment_test_hook
+            .lock()
+            .expect("conversation attachment test hook mutex poisoned") = Some(hook);
+    }
+
+    #[cfg(test)]
+    fn conversation_attachment_test_hook(
+        &self,
+        conversation_id: &str,
+        turn_id: &str,
+    ) -> Option<Arc<ConversationAttachmentTestHook>> {
+        self.conversation_attachment_test_hook
+            .lock()
+            .expect("conversation attachment test hook mutex poisoned")
+            .as_ref()
+            .filter(|hook| hook.matches(conversation_id, turn_id))
+            .cloned()
+    }
+
+    pub fn set_agent_roster_token_key(&self, key: [u8; 32]) {
+        *self
+            .agent_roster_token_key
+            .lock()
+            .expect("agent roster token key mutex poisoned") = key;
     }
 
     fn set_api_policy(&self, policy: ControlApiPolicy) {
@@ -435,6 +809,654 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
         self.canonical_ingress = Some(ingress);
         self
+    }
+
+    pub fn with_layer8_authority(mut self, authority: Layer8ConversationAuthority) -> Self {
+        self.layer8_authority = Some(Arc::new(authority));
+        self
+    }
+
+    pub fn with_layer8_signed_exchange(mut self, exchange: Layer8SignedExchange) -> Self {
+        self.layer8_signed_exchange = Some(Arc::new(exchange));
+        self
+    }
+
+    fn conversation_recipient_eligibility(
+        &self,
+        recipient_id: &str,
+    ) -> Result<Option<bool>, ControlError> {
+        match self.agent_roster_detail(recipient_id) {
+            Ok(agent) => Ok(Some(agent.communication_eligible)),
+            Err(ControlError::InvalidBounds) => Ok(None),
+            Err(error) => Err(error),
+        }
+    }
+
+    fn governed_room_refusal(
+        intent: &GovernedRoomTurnIntent,
+        error: &'static str,
+    ) -> GovernedRoomRoute {
+        GovernedRoomRoute {
+            schema: GOVERNED_ROOM_ROUTE_SCHEMA,
+            status: "refused",
+            room_id: intent.room_id.clone(),
+            turn_id: intent.turn_id.clone(),
+            turn_sequence: intent.turn_sequence,
+            sender_id: intent.sender_id.clone(),
+            correlation_id: intent.correlation_id.clone(),
+            room_epoch: 0,
+            addressed_recipients: intent.addressed_recipients.clone(),
+            mentions: Vec::new(),
+            deliveries: Vec::new(),
+            error: Some(error),
+        }
+    }
+
+    fn governed_room_participants(
+        &self,
+        intent: &GovernedRoomTurnIntent,
+    ) -> Vec<GovernedRoomParticipant> {
+        intent
+            .addressed_recipients
+            .iter()
+            .filter_map(|recipient_id| {
+                self.agent_roster_detail(recipient_id)
+                    .ok()
+                    .map(|agent| GovernedRoomParticipant {
+                        participant_id: agent.id,
+                        polis_id: "local_runtime".to_owned(),
+                        display_name: agent.label,
+                        policy_eligible: agent.communication_eligible,
+                        state: if agent.communication_eligible {
+                            GovernedRoomParticipantState::Joined
+                        } else {
+                            GovernedRoomParticipantState::Left
+                        },
+                    })
+            })
+            .collect()
+    }
+
+    fn accept_governed_room_intent(
+        &self,
+        envelope: &ObservatoryGovernedRoomIntent,
+    ) -> GovernedRoomRoute {
+        if envelope.schema != OBSERVATORY_WS_GOVERNED_ROOM_INTENT_SCHEMA
+            || envelope.runtime_incarnation_id != self.runtime_incarnation_id
+        {
+            return Self::governed_room_refusal(&envelope.intent, "invalid_governed_room_intent");
+        }
+        let participants = self.governed_room_participants(&envelope.intent);
+        let mut rooms = self
+            .governed_rooms
+            .lock()
+            .expect("governed room state mutex poisoned");
+        if let Some(room) = rooms.get_mut(&envelope.intent.room_id) {
+            return match room.plan_turn(&envelope.intent) {
+                Ok(route) => {
+                    let delivery_states = route
+                        .addressed_recipients
+                        .iter()
+                        .map(|recipient_id| {
+                            (recipient_id.clone(), GovernedRoomDeliveryState::Accepted)
+                        })
+                        .collect();
+                    route.with_delivery_states(delivery_states)
+                }
+                Err(error) => Self::governed_room_refusal(&envelope.intent, error.code()),
+            };
+        }
+        if rooms.len() >= self.max_records {
+            return Self::governed_room_refusal(
+                &envelope.intent,
+                "governed_room_capacity_exhausted",
+            );
+        }
+        let mut room = GovernedRoom {
+            room_id: envelope.intent.room_id.clone(),
+            polis_id: "local_runtime".to_owned(),
+            epoch: 1,
+            next_turn_sequence: 1,
+            seen_turn_ids: BTreeSet::new(),
+            closed: false,
+            participants,
+        };
+        match room.plan_turn(&envelope.intent) {
+            Ok(route) => {
+                let delivery_states = route
+                    .addressed_recipients
+                    .iter()
+                    .map(|recipient_id| (recipient_id.clone(), GovernedRoomDeliveryState::Accepted))
+                    .collect();
+                let route = route.with_delivery_states(delivery_states);
+                rooms.insert(envelope.intent.room_id.clone(), room);
+                route
+            }
+            Err(error) => Self::governed_room_refusal(&envelope.intent, error.code()),
+        }
+    }
+
+    fn accept_recipient_acknowledgement(
+        &self,
+        request: RuntimeRecipientAcknowledgementRequest,
+    ) -> RuntimeRecipientAcknowledgementResponse {
+        let projection = RuntimeRecipientAcknowledgementProjection::from_messages(
+            &request.signed_request,
+            &request.acknowledgement,
+        );
+        let refused =
+            |error| RuntimeRecipientAcknowledgementResponse::refused(projection.clone(), error);
+        if request.schema != RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_REQUEST_SCHEMA {
+            return refused("invalid_request");
+        }
+        let Some(exchange) = self.layer8_signed_exchange.as_ref() else {
+            return RuntimeRecipientAcknowledgementResponse::failed(
+                projection,
+                "recipient_acknowledgement_unavailable",
+            );
+        };
+        let now_epoch_secs = now_unix_millis() / 1_000;
+        match exchange.verify_request_and_acknowledgement(
+            &request.signed_request,
+            &request.acknowledgement,
+            now_epoch_secs,
+        ) {
+            Ok(()) => match recipient_acknowledgement_delivery(
+                &request.signed_request,
+                &request.acknowledgement,
+            ) {
+                Ok(RecipientAcknowledgementDelivery::Accepted) => {
+                    RuntimeRecipientAcknowledgementResponse::delivered(
+                        projection,
+                        request.signed_request.credential_generation,
+                        request.acknowledgement.credential_generation,
+                    )
+                }
+                Ok(RecipientAcknowledgementDelivery::Refused) => {
+                    RuntimeRecipientAcknowledgementResponse::refused(
+                        projection,
+                        "recipient_refused_delivery",
+                    )
+                }
+                Err(reason) => refused(layer8_refusal_code(reason)),
+            },
+            Err(reason) => refused(layer8_refusal_code(reason)),
+        }
+    }
+
+    fn accept_conversation_intent(
+        &self,
+        intent: &ObservatoryConversationIntent,
+    ) -> ConversationAcceptance {
+        let outcome = |status, error, sequence| ObservatoryConversationResult {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status,
+            conversation_id: intent.conversation_id.clone(),
+            turn_id: intent.turn_id.clone(),
+            recipient_id: intent.recipient_id.clone(),
+            correlation_id: intent.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: sequence,
+            error: Some(error),
+        };
+        if intent.schema != OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA
+            || !is_safe_identifier(&intent.conversation_id)
+            || !is_safe_identifier(&intent.turn_id)
+            || !is_safe_identifier(&intent.recipient_id)
+            || !is_correlation_id(&intent.correlation_id)
+            || intent.message.trim().is_empty()
+            || intent.message.len() > 4_096
+        {
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "invalid_conversation_intent",
+                None,
+            ));
+        }
+        let recipient = match self.conversation_recipient_eligibility(&intent.recipient_id) {
+            Ok(recipient) => recipient,
+            Err(_) => {
+                return ConversationAcceptance::Response(outcome(
+                    "failed",
+                    "agent_roster_unavailable",
+                    None,
+                ))
+            }
+        };
+        match recipient {
+            None => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "unknown_recipient",
+                    None,
+                ))
+            }
+            Some(false) => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "recipient_unavailable",
+                    None,
+                ))
+            }
+            Some(true) => {}
+        }
+        let Some(ingress) = self.canonical_ingress.as_ref() else {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_ingress_unavailable",
+                None,
+            ));
+        };
+        let _ = ingress;
+        let fingerprint = match serde_json::to_vec(intent) {
+            Ok(bytes) => blake3::hash(&bytes).to_hex().to_string(),
+            Err(_) => {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "invalid_conversation_intent",
+                    None,
+                ))
+            }
+        };
+        let mut sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let existing_turn_present = sessions
+            .sessions
+            .get(&intent.conversation_id)
+            .and_then(|session| session.turns.get(&intent.turn_id))
+            .is_some();
+        if !existing_turn_present {
+            let action = if sessions.sessions.contains_key(&intent.conversation_id) {
+                Layer8Action::Continue
+            } else {
+                Layer8Action::Contact
+            };
+            if let Some(authority) = self.layer8_authority.as_ref() {
+                let Some(exchange) = self.layer8_signed_exchange.as_ref() else {
+                    return ConversationAcceptance::Response(outcome(
+                        "failed",
+                        "conversation_signing_unavailable",
+                        None,
+                    ));
+                };
+                let now_epoch_secs = now_unix_millis() / 1_000;
+                let replay_id = format!(
+                    "{}:{}:{}",
+                    self.instance_id, intent.conversation_id, intent.turn_id
+                );
+                let payload_json = match serde_jcs::to_string(&serde_json::json!({
+                    "action": action.clone(),
+                    "message": intent.message,
+                    "recipient_id": intent.recipient_id,
+                })) {
+                    Ok(payload) => payload,
+                    Err(_) => {
+                        return ConversationAcceptance::Response(outcome(
+                            "refused",
+                            "invalid_conversation_intent",
+                            None,
+                        ))
+                    }
+                };
+                let signed_request = match exchange.signed_request(
+                    &intent.recipient_id,
+                    &intent.conversation_id,
+                    &intent.correlation_id,
+                    &replay_id,
+                    payload_json,
+                    now_epoch_secs,
+                ) {
+                    Ok(request) => request,
+                    Err(_) => {
+                        return ConversationAcceptance::Response(outcome(
+                            "failed",
+                            "conversation_signing_unavailable",
+                            None,
+                        ))
+                    }
+                };
+                if exchange
+                    .verify_request(&signed_request, now_epoch_secs)
+                    .is_err()
+                {
+                    return ConversationAcceptance::Response(outcome(
+                        "refused",
+                        "conversation_request_signature_invalid",
+                        None,
+                    ));
+                }
+                let decision = authority.authorize(
+                    &exchange.sender_verifying_identity(),
+                    action,
+                    intent.conversation_id.clone(),
+                    intent.recipient_id.clone(),
+                    replay_id,
+                    intent.correlation_id.clone(),
+                    now_epoch_secs,
+                );
+                if !matches!(decision, AuthorityDecision::Authorized(_)) {
+                    return ConversationAcceptance::Response(outcome(
+                        "refused",
+                        "conversation_authority_refused",
+                        None,
+                    ));
+                }
+            }
+        }
+        if !sessions.sessions.contains_key(&intent.conversation_id) {
+            if !sessions.retain_capacity_for_new_session(self.max_records) {
+                return ConversationAcceptance::Response(outcome(
+                    "failed",
+                    "conversation_capacity_exhausted",
+                    None,
+                ));
+            }
+            let Some(sequence) = sessions.next_sequence.checked_add(1) else {
+                return ConversationAcceptance::Response(outcome(
+                    "failed",
+                    "conversation_sequence_exhausted",
+                    None,
+                ));
+            };
+            sessions.next_sequence = sequence;
+            sessions.sessions.insert(
+                intent.conversation_id.clone(),
+                ConversationSession {
+                    sequence,
+                    recipient_id: intent.recipient_id.clone(),
+                    next_sequence: 0,
+                    dispatch_gate: Arc::new(ConversationDispatchGate::new()),
+                    turns: BTreeMap::new(),
+                },
+            );
+        }
+        let session = sessions
+            .sessions
+            .get_mut(&intent.conversation_id)
+            .expect("conversation session inserted before lookup");
+        if session.recipient_id != intent.recipient_id {
+            return ConversationAcceptance::Response(outcome(
+                "refused",
+                "conversation_recipient_conflict",
+                None,
+            ));
+        }
+        if let Some(existing) = session.turns.get(&intent.turn_id) {
+            if existing.fingerprint != fingerprint {
+                return ConversationAcceptance::Response(outcome(
+                    "refused",
+                    "conversation_conflict",
+                    Some(existing.sequence),
+                ));
+            }
+            return ConversationAcceptance::Response(existing.terminal.clone().unwrap_or_else(
+                || {
+                    outcome(
+                        "accepted",
+                        "conversation_in_flight",
+                        Some(existing.sequence),
+                    )
+                },
+            ));
+        }
+        if !session.retain_capacity_for_new_turn(self.max_records) {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_capacity_exhausted",
+                None,
+            ));
+        }
+        let Some(sequence) = session.next_sequence.checked_add(1) else {
+            return ConversationAcceptance::Response(outcome(
+                "failed",
+                "conversation_sequence_exhausted",
+                None,
+            ));
+        };
+        session.next_sequence = sequence;
+        let cancellation = CancellationToken::new();
+        let (completion, _) = tokio::sync::watch::channel(None);
+        session.turns.insert(
+            intent.turn_id.clone(),
+            ConversationTurn {
+                fingerprint,
+                correlation_id: intent.correlation_id.clone(),
+                sequence,
+                cancellation: cancellation.clone(),
+                completion,
+                terminal: None,
+            },
+        );
+        let accepted = ObservatoryConversationResult {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status: "accepted",
+            conversation_id: intent.conversation_id.clone(),
+            turn_id: intent.turn_id.clone(),
+            recipient_id: intent.recipient_id.clone(),
+            correlation_id: intent.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: Some(sequence),
+            error: None,
+        };
+        let work_id = format!(
+            "conversation-{}",
+            &blake3::hash(format!("{}:{}", intent.conversation_id, intent.turn_id).as_bytes())
+                .to_hex()[..32]
+        );
+        ConversationAcceptance::Dispatch {
+            accepted,
+            dispatch: ConversationDispatch {
+                intent: intent.clone(),
+                sequence,
+                cancellation,
+                dispatch_gate: session.dispatch_gate.clone(),
+                work_id,
+            },
+        }
+    }
+
+    async fn complete_conversation_dispatch(
+        &self,
+        dispatch: ConversationDispatch,
+    ) -> ObservatoryConversationResult {
+        let outcome = |status, error| ObservatoryConversationResult {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status,
+            conversation_id: dispatch.intent.conversation_id.clone(),
+            turn_id: dispatch.intent.turn_id.clone(),
+            recipient_id: dispatch.intent.recipient_id.clone(),
+            correlation_id: dispatch.intent.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: Some(dispatch.sequence),
+            error: Some(error),
+        };
+        let payload = serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.local_agent_work.v1",
+            "tasks": [{
+                "op": "conversation_message",
+                "recipient_id": dispatch.intent.recipient_id,
+                "input": dispatch.intent.message,
+            }],
+        }));
+        let deadline = tokio::time::Instant::now() + self.api_policy().websocket_auth_timeout;
+        let turn_ready = dispatch
+            .dispatch_gate
+            .wait_turn(dispatch.sequence, deadline, &dispatch.cancellation)
+            .await;
+        let result = if !turn_ready {
+            if dispatch.cancellation.is_cancelled() {
+                outcome("cancelled", "conversation_cancelled")
+            } else {
+                outcome("timed_out", "conversation_timed_out")
+            }
+        } else if !matches!(
+            self.conversation_recipient_eligibility(&dispatch.intent.recipient_id),
+            Ok(Some(true))
+        ) {
+            outcome("refused", "recipient_unavailable")
+        } else {
+            match (payload, self.canonical_ingress.as_ref()) {
+                (Err(_), _) => outcome("refused", "invalid_conversation_intent"),
+                (_, None) => outcome("failed", "conversation_ingress_unavailable"),
+                (Ok(payload), Some(ingress)) => {
+                    let submit = ingress.submit_with_cancellation(
+                        DomainWork {
+                            schema: crate::DOMAIN_WORK_SCHEMA.to_owned(),
+                            work_id: dispatch.work_id.clone(),
+                            kind: "agent_runtime".to_owned(),
+                            payload,
+                        },
+                        dispatch.intent.correlation_id.clone(),
+                        dispatch.cancellation.clone(),
+                    );
+                    #[cfg(test)]
+                    let submitted = if let Some(hook) = self.conversation_attachment_test_hook(
+                        &dispatch.intent.conversation_id,
+                        &dispatch.intent.turn_id,
+                    ) {
+                        tokio::select! {
+                            result = submit => Some(result),
+                            _ = async {
+                                tokio::time::sleep_until(deadline).await;
+                                hook.wait_for_timeout_permission().await;
+                            } => None,
+                        }
+                    } else {
+                        tokio::time::timeout_at(deadline, submit).await.ok()
+                    };
+                    #[cfg(not(test))]
+                    let submitted = tokio::time::timeout_at(deadline, submit).await.ok();
+                    if submitted.is_none() {
+                        dispatch.cancellation.cancel();
+                    }
+                    match submitted {
+                        None => outcome("timed_out", "conversation_timed_out"),
+                        Some(Err(_)) if dispatch.cancellation.is_cancelled() => {
+                            outcome("cancelled", "conversation_cancelled")
+                        }
+                        Some(Ok(result)) => {
+                            let reply = result
+                                .public_output
+                                .as_ref()
+                                .and_then(|output| output.get("message"))
+                                .and_then(serde_json::Value::as_str)
+                                .map(str::to_owned);
+                            match reply {
+                                Some(reply) => ObservatoryConversationResult {
+                                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                    status: "delivered",
+                                    conversation_id: dispatch.intent.conversation_id.clone(),
+                                    turn_id: dispatch.intent.turn_id.clone(),
+                                    recipient_id: dispatch.intent.recipient_id.clone(),
+                                    correlation_id: dispatch.intent.correlation_id.clone(),
+                                    reply: Some(reply),
+                                    accepted_sequence: Some(result.accepted_sequence),
+                                    turn_sequence: Some(dispatch.sequence),
+                                    error: None,
+                                },
+                                None => outcome("failed", "conversation_reply_unavailable"),
+                            }
+                        }
+                        Some(Err(IngressError::Saturated | IngressError::Closed)) => {
+                            outcome("failed", "conversation_temporarily_unavailable")
+                        }
+                        Some(Err(IngressError::UnsupportedKind)) => {
+                            outcome("refused", "recipient_unavailable")
+                        }
+                        Some(Err(IngressError::Conflict)) => {
+                            outcome("refused", "conversation_conflict")
+                        }
+                        Some(Err(_)) => outcome("failed", "conversation_failed"),
+                    }
+                }
+            }
+        };
+        dispatch.dispatch_gate.complete(dispatch.sequence);
+        if let Some(turn) = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned")
+            .sessions
+            .get_mut(&dispatch.intent.conversation_id)
+            .and_then(|session| session.turns.get_mut(&dispatch.intent.turn_id))
+        {
+            turn.terminal = Some(result.clone());
+            turn.completion.send_replace(Some(result.clone()));
+        }
+        result
+    }
+
+    async fn wait_for_conversation_terminal(
+        &self,
+        conversation_id: &str,
+        turn_id: &str,
+    ) -> Option<ObservatoryConversationResult> {
+        loop {
+            let mut completion = {
+                let sessions = self
+                    .conversation_sessions
+                    .lock()
+                    .expect("conversation sessions mutex poisoned");
+                let turn = sessions.sessions.get(conversation_id)?.turns.get(turn_id)?;
+                if let Some(terminal) = &turn.terminal {
+                    return Some(terminal.clone());
+                }
+                turn.completion.subscribe()
+            };
+            if completion.changed().await.is_err() {
+                return None;
+            }
+        }
+    }
+
+    fn cancel_conversation_turn(
+        &self,
+        cancel: &ObservatoryConversationCancel,
+    ) -> ObservatoryConversationResult {
+        let mut sessions = self
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let Some(session) = sessions.sessions.get_mut(&cancel.conversation_id) else {
+            return ObservatoryConversationResult::refused_cancel(
+                cancel,
+                "unknown_conversation_turn",
+            );
+        };
+        let recipient_id = session.recipient_id.clone();
+        let Some(turn) = session.turns.get_mut(&cancel.turn_id) else {
+            return ObservatoryConversationResult::refused_cancel(
+                cancel,
+                "unknown_conversation_turn",
+            );
+        };
+        if turn.correlation_id != cancel.correlation_id {
+            return ObservatoryConversationResult::refused_cancel(
+                cancel,
+                "conversation_correlation_conflict",
+            );
+        }
+        if let Some(terminal) = &turn.terminal {
+            return terminal.clone();
+        }
+        turn.cancellation.cancel();
+        ObservatoryConversationResult {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status: "accepted",
+            conversation_id: cancel.conversation_id.clone(),
+            turn_id: cancel.turn_id.clone(),
+            recipient_id,
+            correlation_id: cancel.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: Some(turn.sequence),
+            error: None,
+        }
     }
 
     pub fn initialize_observability(
@@ -484,10 +1506,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         if !(32..=256).contains(&token.len()) || token.chars().any(char::is_whitespace) {
             return Err(ControlError::Authentication);
         }
-        *self
+        let next = blake3::hash(token.as_bytes());
+        let mut active = self
             .acip_write_bearer_digest
             .lock()
-            .expect("ACIP write credential mutex poisoned") = Some(blake3::hash(token.as_bytes()));
+            .expect("ACIP write credential mutex poisoned");
+        if active.is_some_and(|current| current != next) {
+            self.acip_replay
+                .lock()
+                .expect("ACIP replay mutex poisoned")
+                .sequences_by_principal
+                .clear();
+        }
+        *active = Some(next);
         Ok(())
     }
 
@@ -576,49 +1607,38 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     fn reserve_acip_sequence(
         &self,
+        principal_digest: &blake3::Hash,
+        runtime_id: &str,
         source: &str,
         sequence: u64,
     ) -> Option<AcipSequenceReservation> {
-        if sequence == 0 {
+        if sequence == 0 || sequence == u64::MAX {
             return None;
         }
-        let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
-        let previous = state.sequences_by_source.get(source).copied();
-        if let Some(previous) = previous {
-            if sequence <= previous {
-                return None;
-            }
-        } else {
-            while state.sequences_by_source.len() >= self.max_records {
-                state.sequences_by_source.pop_lru();
-            }
-        }
-        state.sequences_by_source.put(source.to_owned(), sequence);
-        Some(AcipSequenceReservation {
+        let principal = *principal_digest.as_bytes();
+        let domain = AcipReplayDomain {
+            runtime_id: runtime_id.to_owned(),
             source: source.to_owned(),
-            sequence,
-            previous,
-        })
+        };
+        let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
+        reserve_replay_sequence(&mut state, self.max_records, principal, domain, sequence)
+    }
+
+    fn commit_acip_sequence(&self, reservation: &AcipSequenceReservation) {
+        let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
+        commit_replay_sequence(&mut state, reservation);
     }
 
     fn rollback_acip_sequence(&self, reservation: AcipSequenceReservation) {
         let mut state = self.acip_replay.lock().expect("ACIP replay mutex poisoned");
-        if state.sequences_by_source.peek(&reservation.source).copied()
-            != Some(reservation.sequence)
-        {
-            return;
-        }
-        match reservation.previous {
-            Some(previous) => {
-                state.sequences_by_source.put(reservation.source, previous);
-            }
-            None => {
-                state.sequences_by_source.pop(&reservation.source);
-            }
-        }
+        rollback_replay_sequence(&mut state, reservation);
     }
 
-    async fn dispatch_acip_payload(&self, payload: &[u8]) -> serde_json::Value {
+    async fn dispatch_acip_payload(
+        &self,
+        authenticated_principal: &blake3::Hash,
+        payload: &[u8],
+    ) -> serde_json::Value {
         let envelope = match decode_acip_envelope(payload) {
             Ok(envelope) => envelope,
             Err(reason) => {
@@ -639,9 +1659,12 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 "sequence_reserved": false
             });
         };
-        let Some(reservation) =
-            self.reserve_acip_sequence(&envelope.source, envelope.monotonic_sequence)
-        else {
+        let Some(reservation) = self.reserve_acip_sequence(
+            authenticated_principal,
+            &envelope.runtime_id,
+            &envelope.source,
+            envelope.monotonic_sequence,
+        ) else {
             return serde_json::json!({
                 "schema": ACIP_WEBSOCKET_SCHEMA,
                 "status": "rejected",
@@ -657,14 +1680,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             payload: envelope.payload_json.as_bytes().to_vec(),
         };
         match ingress.submit(work, envelope.message_id.clone()).await {
-            Ok(result) => serde_json::json!({
-                "schema": ACIP_WEBSOCKET_SCHEMA,
-                "status": "completed",
-                "message_id": envelope.message_id,
-                "accepted_sequence": result.accepted_sequence,
-                "result_hash": result.result_hash,
-                "sequence_reserved": true
-            }),
+            Ok(result) => {
+                self.commit_acip_sequence(&reservation);
+                serde_json::json!({
+                    "schema": ACIP_WEBSOCKET_SCHEMA,
+                    "status": "completed",
+                    "message_id": envelope.message_id,
+                    "accepted_sequence": result.accepted_sequence,
+                    "result_hash": result.result_hash,
+                    "sequence_reserved": true
+                })
+            }
             Err(error) => {
                 self.rollback_acip_sequence(reservation);
                 serde_json::json!({
@@ -699,9 +1725,23 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 stale: age_millis > stale_after_millis,
             }
         });
+        let agents = self.agent_population.with_runtime_snapshot_query(
+            &snapshot,
+            now,
+            *self
+                .agent_roster_token_key
+                .lock()
+                .expect("agent roster token key mutex poisoned"),
+            AgentRosterQuery {
+                page_size: 100,
+                page_token: None,
+                filter: None,
+            },
+        );
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
             runtime_instance_id: self.instance_id.clone(),
+            runtime_incarnation_id: self.runtime_incarnation_id.clone(),
             runtime_process_id: std::process::id(),
             default_runtime_changed: false,
             runtime_selection: "runtime_v3_explicit_opt_in".to_owned(),
@@ -740,7 +1780,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 .as_ref()
                 .map(CanonicalIngress::snapshot)
                 .unwrap_or_default(),
-            agents: self.agent_population.clone(),
+            agents,
             proof: ObservatoryProofFeed {
                 default_runtime_switch_authorized: false,
                 runtime_v2_decommission_authorized: false,
@@ -770,10 +1810,54 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             lifecycle: feed.health.snapshot.lifecycle,
             observability_ready: feed.health.observability_ready,
             runtime_instance_id: feed.runtime_instance_id,
+            runtime_incarnation_id: feed.runtime_incarnation_id,
             runtime_process_id: feed.runtime_process_id,
             weather_freshness,
             degraded_reasons,
         }
+    }
+
+    pub fn agent_roster_page(
+        &self,
+        page_size: usize,
+        page_token: Option<String>,
+        filter: Option<String>,
+        event_cursor: Option<String>,
+    ) -> Result<AgentPopulationFeed, ControlError> {
+        let snapshot = self.recorder.snapshot();
+        let now = now_unix_millis();
+        self.agent_population
+            .try_with_runtime_snapshot_query(
+                &snapshot,
+                now,
+                *self
+                    .agent_roster_token_key
+                    .lock()
+                    .expect("agent roster token key mutex poisoned"),
+                AgentRosterQuery {
+                    page_size,
+                    page_token,
+                    filter,
+                },
+                event_cursor.as_deref(),
+            )
+            .map_err(|_| ControlError::InvalidBounds)
+    }
+
+    pub fn agent_roster_detail(&self, agent_id: &str) -> Result<AgentRosterEntry, ControlError> {
+        let snapshot = self.recorder.snapshot();
+        let now = now_unix_millis();
+        self.agent_population
+            .agent_detail(
+                &snapshot,
+                now,
+                *self
+                    .agent_roster_token_key
+                    .lock()
+                    .expect("agent roster token key mutex poisoned"),
+                agent_id,
+            )
+            .map_err(|_| ControlError::InvalidBounds)
     }
 
     pub async fn execute(
@@ -783,6 +1867,15 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         self.authority.authorize(&command)?;
         if command.runtime_instance_id != self.instance_id {
             return Err(ControlError::StaleRuntimeInstance);
+        }
+        if let ControlAction::Restart {
+            expected_incarnation_id,
+            ..
+        } = &command.action
+        {
+            if expected_incarnation_id != &self.runtime_incarnation_id {
+                return Err(ControlError::StaleRuntimeInstance);
+            }
         }
         let fingerprint = command.fingerprint()?;
         {
@@ -807,7 +1900,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 };
                 state.records.pop(&completed);
             }
-            if matches!(command.action, ControlAction::Shutdown { .. }) {
+            if matches!(
+                command.action,
+                ControlAction::Shutdown { .. } | ControlAction::Restart { .. }
+            ) {
                 if state.terminal_action.is_some() {
                     return Err(ControlError::LifecycleAlreadyRequested);
                 }
@@ -896,6 +1992,17 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         .unwrap_or(ControlExit::Failed);
                     Ok(ControlOutcome::Shutdown { exit })
                 }
+                ControlAction::Restart {
+                    expected_incarnation_id,
+                    grace_millis,
+                } => {
+                    debug_assert_eq!(expected_incarnation_id, self.runtime_incarnation_id);
+                    self.lifecycle
+                        .restart(Duration::from_millis(grace_millis))
+                        .await
+                        .map_err(|_| ControlError::Internal)?;
+                    Ok(ControlOutcome::Restart { accepted: true })
+                }
             }
         }
         .instrument(span)
@@ -919,118 +2026,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             .response = Some(response.clone());
         Ok(response)
     }
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryControlFeed {
-    pub port: u16,
-    pub public_base_url: String,
-    pub read_endpoint: String,
-    pub websocket_endpoint: String,
-    pub websocket_full_duplex: bool,
-    pub websocket_acip_binary_schema: String,
-    pub signed_command_endpoint: String,
-    pub signed_commands_required_for_mutation: bool,
-    pub bearer_token_required_for_read: bool,
-    pub login_required_for_mutation: bool,
-    pub browser_mutation_authority: bool,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryWeatherFreshness {
-    pub observed_at_unix_millis: u64,
-    pub age_millis: u64,
-    pub stale_after_millis: u64,
-    pub stale: bool,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq)]
-struct ObservedWeather {
-    report: WeatherHealthReport,
-    observed_at_unix_millis: u64,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryHealthFeed {
-    pub snapshot: RuntimeSnapshot,
-    pub observability_ready: bool,
-}
-
-pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct RuntimeReadinessReport {
-    pub schema: String,
-    pub ready: bool,
-    pub lifecycle: LifecycleState,
-    pub observability_ready: bool,
-    pub runtime_instance_id: String,
-    pub runtime_process_id: u32,
-    pub weather_freshness: Option<ObservatoryWeatherFreshness>,
-    pub degraded_reasons: Vec<String>,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryContinuityFeed {
-    pub checkpoint: Option<crate::ContinuityHead>,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct AgentPopulationFeed {
-    pub total_count: u64,
-    pub rendered_sample_count: u64,
-    pub sample: Vec<AgentSample>,
-}
-
-impl AgentPopulationFeed {
-    pub fn single() -> Self {
-        Self {
-            total_count: 1,
-            rendered_sample_count: 1,
-            sample: vec![AgentSample {
-                id: "agent-0001".to_owned(),
-                label: "Runtime agent 1".to_owned(),
-                role: "runtime agent".to_owned(),
-                state: "running".to_owned(),
-                detail: "sample 1 of 1".to_owned(),
-            }],
-        }
-    }
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct AgentSample {
-    pub id: String,
-    pub label: String,
-    pub role: String,
-    pub state: String,
-    pub detail: String,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryProofFeed {
-    pub default_runtime_switch_authorized: bool,
-    pub runtime_v2_decommission_authorized: bool,
-    pub sidecar_required: bool,
-    pub vector_cloudwatch_route: String,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryFeed {
-    pub schema: String,
-    pub runtime_instance_id: String,
-    pub runtime_process_id: u32,
-    pub default_runtime_changed: bool,
-    pub runtime_selection: String,
-    pub control: ObservatoryControlFeed,
-    pub health: ObservatoryHealthFeed,
-    pub weather: Option<WeatherHealthReport>,
-    pub weather_freshness: Option<ObservatoryWeatherFreshness>,
-    pub continuity: ObservatoryContinuityFeed,
-    pub ingress: crate::IngressSnapshot,
-    pub agents: AgentPopulationFeed,
-    pub proof: ObservatoryProofFeed,
-    pub events: Vec<BootstrapEvent>,
 }
 
 pub async fn load_control_tls(
@@ -1126,8 +2121,22 @@ where
         .route(RUNTIME_OPENAPI_PATH, get(runtime_openapi_handler))
         .route(OBSERVATORY_OPENAPI_PATH, get(observatory_openapi_handler))
         .route(
+            RECIPIENT_ACKNOWLEDGEMENT_PATH,
+            post(recipient_acknowledgement_handler::<C>)
+                .options(control_preflight_handler::<C>)
+                .layer(DefaultBodyLimit::max(api_policy.control_max_body_bytes)),
+        )
+        .route(
             "/v1/observatory",
             get(observatory_feed_handler::<C>).options(observatory_preflight_handler::<C>),
+        )
+        .route(
+            "/v1/agents",
+            get(agent_roster_handler::<C>).options(observatory_preflight_handler::<C>),
+        )
+        .route(
+            "/v1/agents/{agent_id}",
+            get(agent_detail_handler::<C>).options(observatory_preflight_handler::<C>),
         )
         .route(OBSERVATORY_WS_PATH, get(observatory_ws_handler::<C>))
         .route(
@@ -1261,7 +2270,8 @@ async fn acip_ws_session<C: LifecycleControl + 'static>(
         }
         match message {
             Ok(Message::Binary(payload)) => {
-                let response = service.dispatch_acip_payload(&payload).await;
+                let principal = blake3::hash(bearer_token.as_bytes());
+                let response = service.dispatch_acip_payload(&principal, &payload).await;
                 if socket
                     .send(Message::Text(response.to_string().into()))
                     .await
@@ -1301,6 +2311,69 @@ async fn observatory_feed_handler<C: LifecycleControl + 'static>(
     observatory_json(StatusCode::OK, service.observatory_feed(), allowed_origin)
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct AgentRosterHttpQuery {
+    #[serde(default = "default_roster_page_size")]
+    page_size: usize,
+    page_token: Option<String>,
+    filter: Option<String>,
+    event_cursor: Option<String>,
+}
+
+fn default_roster_page_size() -> usize {
+    50
+}
+
+async fn agent_roster_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    Query(query): Query<AgentRosterHttpQuery>,
+    headers: HeaderMap,
+) -> Response {
+    let allowed_origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    match service.agent_roster_page(
+        query.page_size,
+        query.page_token,
+        query.filter,
+        query.event_cursor,
+    ) {
+        Ok(page) => observatory_json(StatusCode::OK, page, allowed_origin),
+        Err(_) => observatory_json(
+            StatusCode::BAD_REQUEST,
+            serde_json::json!({
+                "schema": "adl.runtime_v3.agent_roster_error.v1",
+                "code": "invalid_roster_query"
+            }),
+            allowed_origin,
+        ),
+    }
+}
+
+async fn agent_detail_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    axum::extract::Path(agent_id): axum::extract::Path<String>,
+    headers: HeaderMap,
+) -> Response {
+    let allowed_origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    match service.agent_roster_detail(&agent_id) {
+        Ok(agent) => observatory_json(StatusCode::OK, agent, allowed_origin),
+        Err(_) => observatory_json(
+            StatusCode::NOT_FOUND,
+            serde_json::json!({
+                "schema": "adl.runtime_v3.agent_roster_error.v1",
+                "code": "agent_not_visible"
+            }),
+            allowed_origin,
+        ),
+    }
+}
+
 async fn observatory_ws_handler<C: LifecycleControl + 'static>(
     ws: WebSocketUpgrade,
     State(service): State<Arc<ControlService<C>>>,
@@ -1320,6 +2393,223 @@ async fn observatory_ws_handler<C: LifecycleControl + 'static>(
 struct ObservatoryWsAuth {
     schema: String,
     bearer_token: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryConversationIntent {
+    schema: String,
+    conversation_id: String,
+    turn_id: String,
+    recipient_id: String,
+    correlation_id: String,
+    message: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryGovernedRoomIntent {
+    schema: String,
+    runtime_incarnation_id: String,
+    intent: GovernedRoomTurnIntent,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryConversationCancel {
+    schema: String,
+    conversation_id: String,
+    turn_id: String,
+    correlation_id: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RuntimeRecipientAcknowledgementRequest {
+    schema: String,
+    signed_request: SignedIdentityMessage,
+    acknowledgement: SignedIdentityMessage,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Deserialize)]
+#[serde(rename_all = "snake_case")]
+enum RecipientAcknowledgementDelivery {
+    Accepted,
+    Refused,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RecipientAcknowledgementPayload {
+    delivery: RecipientAcknowledgementDelivery,
+    recipient_id: String,
+}
+
+fn recipient_acknowledgement_delivery(
+    request: &SignedIdentityMessage,
+    acknowledgement: &SignedIdentityMessage,
+) -> Result<RecipientAcknowledgementDelivery, RefusalReason> {
+    let payload: RecipientAcknowledgementPayload =
+        serde_json::from_str(&acknowledgement.payload_json)
+            .map_err(|_| RefusalReason::InvalidRequest)?;
+    if payload.recipient_id != request.recipient_id {
+        return Err(RefusalReason::InvalidRequest);
+    }
+    Ok(payload.delivery)
+}
+
+#[derive(Clone, Debug)]
+struct RuntimeRecipientAcknowledgementProjection {
+    conversation_id: Option<String>,
+    request_message_id: Option<String>,
+    acknowledgement_message_id: Option<String>,
+    sender_id: Option<String>,
+    recipient_id: Option<String>,
+    correlation_hash: Option<String>,
+}
+
+impl RuntimeRecipientAcknowledgementProjection {
+    fn from_messages(
+        request: &SignedIdentityMessage,
+        acknowledgement: &SignedIdentityMessage,
+    ) -> Self {
+        let correlation_hash = if is_correlation_id(&request.correlation_id)
+            && request.correlation_id == acknowledgement.correlation_id
+        {
+            Some(
+                blake3::hash(request.correlation_id.as_bytes())
+                    .to_hex()
+                    .to_string(),
+            )
+        } else {
+            None
+        };
+        Self {
+            conversation_id: is_safe_identifier(&request.conversation_id)
+                .then(|| request.conversation_id.clone()),
+            request_message_id: is_safe_identifier(&request.message_id)
+                .then(|| request.message_id.clone()),
+            acknowledgement_message_id: is_safe_identifier(&acknowledgement.message_id)
+                .then(|| acknowledgement.message_id.clone()),
+            sender_id: is_safe_identifier(&request.sender_id).then(|| request.sender_id.clone()),
+            recipient_id: is_safe_identifier(&request.recipient_id)
+                .then(|| request.recipient_id.clone()),
+            correlation_hash,
+        }
+    }
+}
+
+#[derive(Clone, Serialize)]
+struct RuntimeRecipientAcknowledgementResponse {
+    schema: &'static str,
+    status: &'static str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    conversation_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    request_message_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    acknowledgement_message_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sender_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    recipient_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    correlation_hash: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    sender_credential_generation: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    recipient_credential_generation: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    error: Option<&'static str>,
+}
+
+impl RuntimeRecipientAcknowledgementResponse {
+    fn delivered(
+        projection: RuntimeRecipientAcknowledgementProjection,
+        sender_credential_generation: u64,
+        recipient_credential_generation: u64,
+    ) -> Self {
+        Self {
+            schema: RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_RESPONSE_SCHEMA,
+            status: "delivered",
+            conversation_id: projection.conversation_id,
+            request_message_id: projection.request_message_id,
+            acknowledgement_message_id: projection.acknowledgement_message_id,
+            sender_id: projection.sender_id,
+            recipient_id: projection.recipient_id,
+            correlation_hash: projection.correlation_hash,
+            sender_credential_generation: Some(sender_credential_generation),
+            recipient_credential_generation: Some(recipient_credential_generation),
+            error: None,
+        }
+    }
+
+    fn refused(projection: RuntimeRecipientAcknowledgementProjection, error: &'static str) -> Self {
+        Self {
+            schema: RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_RESPONSE_SCHEMA,
+            status: "refused",
+            conversation_id: projection.conversation_id,
+            request_message_id: projection.request_message_id,
+            acknowledgement_message_id: projection.acknowledgement_message_id,
+            sender_id: projection.sender_id,
+            recipient_id: projection.recipient_id,
+            correlation_hash: projection.correlation_hash,
+            sender_credential_generation: None,
+            recipient_credential_generation: None,
+            error: Some(error),
+        }
+    }
+
+    fn failed(projection: RuntimeRecipientAcknowledgementProjection, error: &'static str) -> Self {
+        Self {
+            schema: RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_RESPONSE_SCHEMA,
+            status: "failed",
+            conversation_id: projection.conversation_id,
+            request_message_id: projection.request_message_id,
+            acknowledgement_message_id: projection.acknowledgement_message_id,
+            sender_id: projection.sender_id,
+            recipient_id: projection.recipient_id,
+            correlation_hash: projection.correlation_hash,
+            sender_credential_generation: None,
+            recipient_credential_generation: None,
+            error: Some(error),
+        }
+    }
+}
+
+#[derive(Clone, Serialize)]
+struct ObservatoryConversationResult {
+    schema: &'static str,
+    status: &'static str,
+    conversation_id: String,
+    turn_id: String,
+    recipient_id: String,
+    correlation_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    reply: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    accepted_sequence: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    turn_sequence: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    error: Option<&'static str>,
+}
+
+impl ObservatoryConversationResult {
+    fn refused_cancel(cancel: &ObservatoryConversationCancel, error: &'static str) -> Self {
+        Self {
+            schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+            status: "refused",
+            conversation_id: cancel.conversation_id.clone(),
+            turn_id: cancel.turn_id.clone(),
+            recipient_id: String::new(),
+            correlation_id: cancel.correlation_id.clone(),
+            reply: None,
+            accepted_sequence: None,
+            turn_sequence: None,
+            error: Some(error),
+        }
+    }
 }
 
 #[derive(Serialize)]
@@ -1342,6 +2632,12 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 ) {
     let api_policy = service.api_policy();
     let mut bearer_token: Option<String> = None;
+    let mut authentication_generation = 0_u64;
+    let mut conversation_attachments = HashSet::<(u64, String, String)>::new();
+    let (conversation_results_tx, mut conversation_results_rx) =
+        tokio::sync::mpsc::channel::<(u64, [u8; 32], ObservatoryConversationResult)>(
+            OBSERVATORY_CONVERSATION_RESULT_QUEUE_CAPACITY,
+        );
     let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     refresh.tick().await;
     let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed()) else {
@@ -1357,9 +2653,56 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
 
     loop {
         tokio::select! {
+            Some((authorized_generation, authorized_token_digest, result)) = conversation_results_rx.recv() => {
+                conversation_attachments.remove(&(
+                    authorized_generation,
+                    result.conversation_id.clone(),
+                    result.turn_id.clone(),
+                ));
+                if authorized_generation != authentication_generation {
+                    continue;
+                }
+                if bearer_token.as_deref().map(|token| *blake3::hash(token.as_bytes()).as_bytes())
+                    != Some(authorized_token_digest)
+                {
+                    continue;
+                }
+                if bearer_token
+                    .as_deref()
+                    .is_none_or(|token| !service.observatory_token_authorized(token))
+                {
+                    bearer_token = None;
+                    let revoked = ObservatoryWsControlResult {
+                        schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+                        status: "rejected",
+                        command_id: None,
+                        correlation_id: None,
+                        response: None,
+                        error: Some("credential_revoked"),
+                    };
+                    let Ok(payload) = serde_json::to_string(&revoked) else {
+                        break;
+                    };
+                    if socket.send(Message::Text(payload.into())).await.is_err() {
+                        break;
+                    }
+                    continue;
+                }
+                let Ok(payload) = serde_json::to_string(&result) else {
+                    break;
+                };
+                if socket.send(Message::Text(payload.into())).await.is_err() {
+                    break;
+                }
+            }
             _ = refresh.tick() => {
                 if bearer_token.as_deref().is_some_and(|token| !service.observatory_token_authorized(token)) {
                     bearer_token = None;
+                    let Some(next_generation) = authentication_generation.checked_add(1) else {
+                        break;
+                    };
+                    authentication_generation = next_generation;
+                    conversation_attachments.clear();
                     let revoked = ObservatoryWsControlResult {
                         schema: OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
                         status: "rejected",
@@ -1392,6 +2735,11 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                 Some(Ok(Message::Close(_))) | None => break,
                 Some(Ok(Message::Text(payload))) => {
                     if let Ok(auth) = serde_json::from_str::<ObservatoryWsAuth>(&payload) {
+                        let Some(next_generation) = authentication_generation.checked_add(1) else {
+                            break;
+                        };
+                        authentication_generation = next_generation;
+                        conversation_attachments.clear();
                         let authorized = auth.schema == OBSERVATORY_WS_AUTH_SCHEMA
                             && service.observatory_token_authorized(&auth.bearer_token);
                         bearer_token = authorized.then_some(auth.bearer_token);
@@ -1416,6 +2764,141 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         .is_some_and(|token| !service.observatory_token_authorized(token))
                     {
                         bearer_token = None;
+                        let Some(next_generation) = authentication_generation.checked_add(1) else {
+                            break;
+                        };
+                        authentication_generation = next_generation;
+                        conversation_attachments.clear();
+                    }
+                    if let Ok(intent) = serde_json::from_str::<ObservatoryConversationIntent>(&payload) {
+                        #[cfg(test)]
+                        if let Some(hook) = service.conversation_attachment_test_hook(
+                            &intent.conversation_id,
+                            &intent.turn_id,
+                        ) {
+                            hook.observe_intent().await;
+                        }
+                        let result = if bearer_token.is_none() {
+                            ConversationAcceptance::Response(ObservatoryConversationResult {
+                                schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                                status: "refused",
+                                conversation_id: intent.conversation_id.clone(),
+                                turn_id: intent.turn_id.clone(),
+                                recipient_id: intent.recipient_id.clone(),
+                                correlation_id: intent.correlation_id.clone(),
+                                reply: None,
+                                accepted_sequence: None,
+                                turn_sequence: None,
+                                error: Some("write_authentication_required"),
+                            })
+                        } else {
+                            service.accept_conversation_intent(&intent)
+                        };
+                        let (response, dispatch) = match result {
+                            ConversationAcceptance::Dispatch { accepted, dispatch } => {
+                                (accepted, Some(dispatch))
+                            }
+                            ConversationAcceptance::Response(response) => (response, None),
+                        };
+                        let attach_to_in_flight = response.status == "accepted"
+                            && response.error == Some("conversation_in_flight");
+                        let conversation_id = response.conversation_id.clone();
+                        let turn_id = response.turn_id.clone();
+                        let attachment_inserted = if dispatch.is_some() || attach_to_in_flight {
+                            conversation_attachments.insert((
+                                authentication_generation,
+                                conversation_id.clone(),
+                                turn_id.clone(),
+                            ))
+                        } else {
+                            false
+                        };
+                        #[cfg(test)]
+                        if attach_to_in_flight && attachment_inserted {
+                            if let Some(hook) = service.conversation_attachment_test_hook(
+                                &conversation_id,
+                                &turn_id,
+                            ) {
+                                hook.attachment_ready();
+                            }
+                        }
+                        let Ok(payload) = serde_json::to_string(&response) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        if let Some(dispatch) = dispatch {
+                            let service = service.clone();
+                            let results = conversation_results_tx.clone();
+                            let authorized_generation = authentication_generation;
+                            let authorized_token_digest = bearer_token
+                                .as_deref()
+                                .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
+                                .expect("authenticated conversation dispatch has a bearer token");
+                            tokio::spawn(async move {
+                                let result = service.complete_conversation_dispatch(dispatch).await;
+                                let _ = results
+                                    .send((authorized_generation, authorized_token_digest, result))
+                                    .await;
+                            });
+                        } else if attach_to_in_flight && attachment_inserted {
+                            let service = service.clone();
+                            let results = conversation_results_tx.clone();
+                            let authorized_generation = authentication_generation;
+                            let authorized_token_digest = bearer_token
+                                .as_deref()
+                                .map(|token| *blake3::hash(token.as_bytes()).as_bytes())
+                                .expect("authenticated conversation replay has a bearer token");
+                            tokio::spawn(async move {
+                                if let Some(result) = service
+                                    .wait_for_conversation_terminal(&conversation_id, &turn_id)
+                                    .await
+                                {
+                                    let _ = results
+                                        .send((authorized_generation, authorized_token_digest, result))
+                                        .await;
+                                }
+                            });
+                        }
+                        continue;
+                    }
+                    if let Ok(room_intent) = serde_json::from_str::<ObservatoryGovernedRoomIntent>(&payload) {
+                        let result = if bearer_token.is_none() {
+                            ControlService::<C>::governed_room_refusal(
+                                &room_intent.intent,
+                                "write_authentication_required",
+                            )
+                        } else {
+                            service.accept_governed_room_intent(&room_intent)
+                        };
+                        let Ok(payload) = serde_json::to_string(&result) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        continue;
+                    }
+                    if let Ok(cancel) = serde_json::from_str::<ObservatoryConversationCancel>(&payload) {
+                        let result = if bearer_token.is_none() {
+                            ObservatoryConversationResult::refused_cancel(&cancel, "write_authentication_required")
+                        } else if cancel.schema != OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA
+                            || !is_safe_identifier(&cancel.conversation_id)
+                            || !is_safe_identifier(&cancel.turn_id)
+                            || !is_correlation_id(&cancel.correlation_id)
+                        {
+                            ObservatoryConversationResult::refused_cancel(&cancel, "invalid_conversation_cancel")
+                        } else {
+                            service.cancel_conversation_turn(&cancel)
+                        };
+                        let Ok(payload) = serde_json::to_string(&result) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
+                        }
+                        continue;
                     }
                     let command = serde_json::from_str::<SignedControlCommand>(&payload);
                     let (command_id, correlation_id) = command
@@ -1577,6 +3060,48 @@ async fn control_handler<C: LifecycleControl + 'static>(
     }
 }
 
+async fn recipient_acknowledgement_handler<C: LifecycleControl + 'static>(
+    State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
+    body: Bytes,
+) -> Response {
+    let allowed_origin = if headers.contains_key(header::ORIGIN) {
+        match allowed_origin(&service, &headers) {
+            Some(origin) => Some(origin),
+            None => return StatusCode::FORBIDDEN.into_response(),
+        }
+    } else {
+        None
+    };
+    let request = match serde_json::from_slice::<RuntimeRecipientAcknowledgementRequest>(&body) {
+        Ok(request) => request,
+        Err(_) => {
+            return observatory_json(
+                StatusCode::BAD_REQUEST,
+                RuntimeRecipientAcknowledgementResponse::refused(
+                    RuntimeRecipientAcknowledgementProjection {
+                        conversation_id: None,
+                        request_message_id: None,
+                        acknowledgement_message_id: None,
+                        sender_id: None,
+                        recipient_id: None,
+                        correlation_hash: None,
+                    },
+                    "invalid_request",
+                ),
+                allowed_origin,
+            )
+        }
+    };
+    let response = service.accept_recipient_acknowledgement(request);
+    let status = match response.status {
+        "delivered" => StatusCode::OK,
+        "failed" => StatusCode::SERVICE_UNAVAILABLE,
+        _ => StatusCode::BAD_REQUEST,
+    };
+    observatory_json(status, response, allowed_origin)
+}
+
 fn control_error_response(error: ControlError, allowed_origin: Option<HeaderValue>) -> Response {
     let status = match &error {
         ControlError::Authentication => StatusCode::UNAUTHORIZED,
@@ -1609,6 +3134,24 @@ fn control_error_code(error: &ControlError) -> &'static str {
         | ControlError::Internal => "temporarily_unavailable",
         ControlError::StaleRuntimeInstance => "stale_runtime_instance",
         _ => "invalid_request",
+    }
+}
+
+fn layer8_refusal_code(reason: RefusalReason) -> &'static str {
+    match reason {
+        RefusalReason::InvalidRequest => "invalid_acknowledgement",
+        RefusalReason::IdentityUnavailable => "identity_unavailable",
+        RefusalReason::IdentityExpired => "identity_expired",
+        RefusalReason::IdentityRevoked => "identity_revoked",
+        RefusalReason::StaleCredential => "stale_credential",
+        RefusalReason::CapabilityDenied => "capability_denied",
+        RefusalReason::CapabilityExpired => "capability_expired",
+        RefusalReason::CapabilityRevoked => "capability_revoked",
+        RefusalReason::StaleCapability => "stale_capability",
+        RefusalReason::PolicyUnavailable => "policy_unavailable",
+        RefusalReason::ScopeDenied => "scope_denied",
+        RefusalReason::ReplayRefused => "replay_refused",
+        RefusalReason::AuditUnavailable => "audit_unavailable",
     }
 }
 
@@ -1677,6 +3220,694 @@ fn constant_time_eq(left: &[u8], right: &[u8]) -> bool {
                 difference | (left ^ right)
             })
             == 0
+}
+
+#[cfg(test)]
+mod layer8_conversation_ingress_tests {
+    use super::*;
+    use crate::layer8_authority::{
+        sign_recipient_acknowledgement, AuthorityScope, CommunicationKeyDescriptor,
+        CommunicationVerifyingDescriptor, ConversationAuthorityProfile, ConversationSigningProfile,
+        Layer8AuthorityStore, Layer8Capability, Layer8Policy, RuntimeIdentityEvidence,
+    };
+    use crate::{AgentRosterPolicy, ComponentId, RunningState};
+
+    struct FakeLifecycle;
+
+    #[async_trait]
+    impl LifecycleControl for FakeLifecycle {
+        async fn shutdown(&self, _grace: Duration) -> Result<KernelExit, ()> {
+            Ok(KernelExit::Clean)
+        }
+    }
+
+    struct Layer8Fixture {
+        root: tempfile::TempDir,
+        authority: Layer8ConversationAuthority,
+        exchange: Layer8SignedExchange,
+        recipient_descriptor: CommunicationKeyDescriptor,
+    }
+
+    fn layer8_fixture(contact_recipient: &str, continue_recipient: &str) -> Layer8Fixture {
+        let temp_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join(".adl")
+            .join("tmp");
+        std::fs::create_dir_all(&temp_root).expect("create test temp root");
+        let root = tempfile::tempdir_in(temp_root).expect("create layer8 fixture");
+        let sender_key = SigningKey::from_bytes(&[41; 32]);
+        let recipient_key = SigningKey::from_bytes(&[42; 32]);
+        let sender_key_file = root.path().join("operator.key");
+        let recipient_key_file = root.path().join("shepherd.key");
+        std::fs::write(&sender_key_file, hex::encode(sender_key.to_bytes()))
+            .expect("write sender key");
+        std::fs::write(&recipient_key_file, hex::encode(recipient_key.to_bytes()))
+            .expect("write recipient key");
+        let evidence = RuntimeIdentityEvidence {
+            principal_id: "operator".to_owned(),
+            polis_id: "conversation-runtime".to_owned(),
+            signing_key_id: "operator-key".to_owned(),
+            verifying_key_hex: hex::encode(sender_key.verifying_key().to_bytes()),
+            credential_generation: 1,
+            current_credential_generation: 1,
+            expires_at_epoch_secs: u64::MAX,
+            revoked: false,
+            authenticated: true,
+        };
+        let scope = |action, recipient: &str| AuthorityScope {
+            polis_id: "conversation-runtime".to_owned(),
+            action,
+            conversation_id: None,
+            recipients: BTreeSet::from([recipient.to_owned()]),
+            attachment_id: None,
+        };
+        let contact_scope = scope(Layer8Action::Contact, contact_recipient);
+        let continue_scope = scope(Layer8Action::Continue, continue_recipient);
+        let capabilities = [
+            ("contact-capability", contact_scope.clone()),
+            ("continue-capability", continue_scope.clone()),
+        ]
+        .into_iter()
+        .map(|(capability_id, scope)| Layer8Capability {
+            capability_id: capability_id.to_owned(),
+            principal_id: evidence.principal_id.clone(),
+            scope,
+            epoch: 1,
+            expires_at_epoch_secs: u64::MAX,
+            revoked: false,
+        })
+        .collect();
+        let agent_policies = [
+            ("agent-contact-policy", contact_scope.clone()),
+            ("agent-continue-policy", continue_scope.clone()),
+        ]
+        .into_iter()
+        .map(|(policy_id, scope)| Layer8Policy {
+            policy_id: policy_id.to_owned(),
+            available: true,
+            scope,
+            epoch: 1,
+        })
+        .collect();
+        let polis_policies = [
+            ("polis-contact-policy", contact_scope),
+            ("polis-continue-policy", continue_scope),
+        ]
+        .into_iter()
+        .map(|(policy_id, scope)| Layer8Policy {
+            policy_id: policy_id.to_owned(),
+            available: true,
+            scope,
+            epoch: 1,
+        })
+        .collect();
+        let authority = Layer8ConversationAuthority::new(
+            Layer8AuthorityStore::open(root.path().join("audit.jsonl")).expect("open audit"),
+            ConversationAuthorityProfile {
+                evidence: evidence.clone(),
+                capabilities,
+                agent_policies,
+                polis_policies,
+            },
+        )
+        .expect("authority profile is valid");
+        let recipient_descriptor = CommunicationKeyDescriptor {
+            principal_id: "shepherd".to_owned(),
+            polis_id: "conversation-runtime".to_owned(),
+            signing_key_id: "shepherd-key".to_owned(),
+            credential_generation: 1,
+            private_key_file: recipient_key_file,
+            not_before_epoch_secs: 0,
+            expires_at_epoch_secs: u64::MAX,
+        };
+        let exchange = Layer8SignedExchange::load(ConversationSigningProfile {
+            sender: CommunicationKeyDescriptor {
+                principal_id: "operator".to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: "operator-key".to_owned(),
+                credential_generation: 1,
+                private_key_file: sender_key_file,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            },
+            recipients: vec![CommunicationVerifyingDescriptor {
+                principal_id: "shepherd".to_owned(),
+                polis_id: "conversation-runtime".to_owned(),
+                signing_key_id: "shepherd-key".to_owned(),
+                credential_generation: 1,
+                verifying_key_hex: hex::encode(recipient_key.verifying_key().to_bytes()),
+                revoked: false,
+                not_before_epoch_secs: 0,
+                expires_at_epoch_secs: u64::MAX,
+            }],
+        })
+        .expect("exchange profile is valid");
+        Layer8Fixture {
+            root,
+            authority,
+            exchange,
+            recipient_descriptor,
+        }
+    }
+
+    fn service_from_layer8_parts(
+        authority: Layer8ConversationAuthority,
+        exchange: Layer8SignedExchange,
+    ) -> ControlService<FakeLifecycle> {
+        let recorder = RuntimeRecorder::new(16);
+        let now = now_unix_millis();
+        recorder.set_component_state(ComponentId::new("shepherd"), RunningState::Running);
+        assert!(recorder.record_agent_admission(
+            "shepherd",
+            now,
+            now + 30_000,
+            "1111111111111111111111111111111111111111",
+        ));
+        let ingress = CanonicalIngress::new(4, recorder.clone(), BTreeMap::new());
+        ControlService::new_with_observatory_config_and_agents(
+            "conversation-runtime",
+            recorder,
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            8,
+            ["https://observatory.example.test".to_owned()],
+            AgentPopulationFeed::resident_shepherd(),
+        )
+        .with_canonical_ingress(ingress)
+        .with_layer8_authority(authority)
+        .with_layer8_signed_exchange(exchange)
+    }
+
+    fn service_with_layer8(
+        contact_recipient: &str,
+        continue_recipient: &str,
+    ) -> (ControlService<FakeLifecycle>, tempfile::TempDir) {
+        let fixture = layer8_fixture(contact_recipient, continue_recipient);
+        let Layer8Fixture {
+            root,
+            authority,
+            exchange,
+            recipient_descriptor: _,
+        } = fixture;
+        let service = service_from_layer8_parts(authority, exchange);
+        (service, root)
+    }
+
+    fn service_with_room_agents() -> ControlService<FakeLifecycle> {
+        let recorder = RuntimeRecorder::new(16);
+        let now = now_unix_millis();
+        let mut population = AgentPopulationFeed::empty();
+        for (id, label) in [("shepherd", "Shepherd"), ("scribe", "Scribe")] {
+            recorder.set_component_state(ComponentId::new(id), RunningState::Running);
+            assert!(recorder.record_agent_admission(
+                id,
+                now,
+                now + 30_000,
+                "1111111111111111111111111111111111111111",
+            ));
+            population.sample.push(AgentSample {
+                id: id.to_owned(),
+                label: label.to_owned(),
+                role: "conversation agent".to_owned(),
+                state: "unknown".to_owned(),
+                detail: "Awaiting Runtime projection".to_owned(),
+                health: "unknown".to_owned(),
+                availability: "unknown".to_owned(),
+                activity: None,
+                capabilities: vec!["conversation".to_owned()],
+                location: Some("local_runtime".to_owned()),
+                communication_eligible: false,
+                observed_at_unix_millis: 0,
+                freshness_deadline_unix_millis: 0,
+                source_revision: "unobserved".to_owned(),
+                provenance: "runtime_component_state".to_owned(),
+            });
+        }
+        population = population.with_public_policy(AgentRosterPolicy {
+            policy_subject: "governed-room-test".to_owned(),
+            visible_agent_ids: BTreeSet::from(["shepherd".to_owned(), "scribe".to_owned()]),
+            reveal_capabilities: false,
+            reveal_location: false,
+        });
+        ControlService::new_with_observatory_config_and_agents(
+            "conversation-runtime",
+            recorder,
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            8,
+            ["https://observatory.example.test".to_owned()],
+            population,
+        )
+    }
+
+    fn room_envelope(
+        service: &ControlService<FakeLifecycle>,
+        turn_id: &str,
+        sequence: u64,
+        recipients: Vec<&str>,
+    ) -> ObservatoryGovernedRoomIntent {
+        ObservatoryGovernedRoomIntent {
+            schema: OBSERVATORY_WS_GOVERNED_ROOM_INTENT_SCHEMA.to_owned(),
+            runtime_incarnation_id: service.runtime_incarnation_id.clone(),
+            intent: GovernedRoomTurnIntent {
+                schema: crate::conversation_rooms::GOVERNED_ROOM_TURN_SCHEMA.to_owned(),
+                room_id: "room-shepherd-scribe".to_owned(),
+                turn_id: turn_id.to_owned(),
+                turn_sequence: sequence,
+                sender_id: "operator".to_owned(),
+                correlation_id: format!("corr:{turn_id}"),
+                addressed_recipients: recipients.into_iter().map(str::to_owned).collect(),
+                message: "hello room".to_owned(),
+            },
+        }
+    }
+
+    #[test]
+    fn governed_room_ws_intent_routes_explicit_runtime_recipients() {
+        let service = service_with_room_agents();
+        let route = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-1",
+            1,
+            vec!["scribe", "shepherd"],
+        ));
+        assert_eq!(route.schema, GOVERNED_ROOM_ROUTE_SCHEMA);
+        assert_eq!(route.status, "accepted");
+        assert_eq!(route.addressed_recipients, vec!["scribe", "shepherd"]);
+        assert_eq!(route.deliveries.len(), 2);
+        assert!(route
+            .deliveries
+            .iter()
+            .all(|delivery| delivery.state == GovernedRoomDeliveryState::Accepted));
+        assert_eq!(
+            route
+                .mentions
+                .iter()
+                .map(|mention| (mention.recipient_id.as_str(), mention.display_name.as_str()))
+                .collect::<Vec<_>>(),
+            vec![("scribe", "Scribe"), ("shepherd", "Shepherd")]
+        );
+    }
+
+    #[test]
+    fn governed_room_ws_intent_rejects_implicit_broadcast_without_consuming_sequence() {
+        let service = service_with_room_agents();
+        let refused =
+            service.accept_governed_room_intent(&room_envelope(&service, "room-turn-1", 1, vec![]));
+        assert_eq!(refused.status, "refused");
+        assert_eq!(refused.error, Some("implicit_broadcast_denied"));
+
+        let accepted = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-1",
+            1,
+            vec!["shepherd"],
+        ));
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.turn_sequence, 1);
+        assert_eq!(accepted.addressed_recipients, vec!["shepherd"]);
+    }
+
+    #[test]
+    fn governed_room_ws_intent_rejects_non_initial_first_sequence() {
+        let service = service_with_room_agents();
+        let refused = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-2",
+            2,
+            vec!["shepherd"],
+        ));
+        assert_eq!(refused.status, "refused");
+        assert_eq!(refused.error, Some("reordered_room_turn"));
+
+        let accepted = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-1",
+            1,
+            vec!["shepherd"],
+        ));
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.addressed_recipients, vec!["shepherd"]);
+    }
+
+    fn intent() -> ObservatoryConversationIntent {
+        ObservatoryConversationIntent {
+            schema: OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA.to_owned(),
+            conversation_id: "conversation-layer8".to_owned(),
+            turn_id: "turn-layer8".to_owned(),
+            recipient_id: "shepherd".to_owned(),
+            correlation_id: "12121212121212121212121212121212".to_owned(),
+            message: "Hello".to_owned(),
+        }
+    }
+
+    fn continue_intent(turn_id: &str) -> ObservatoryConversationIntent {
+        ObservatoryConversationIntent {
+            turn_id: turn_id.to_owned(),
+            message: format!("Continue with {turn_id}"),
+            ..intent()
+        }
+    }
+
+    fn recipient_ack_request_with_payload(
+        exchange: &Layer8SignedExchange,
+        recipient_descriptor: &CommunicationKeyDescriptor,
+        acknowledgement_payload: serde_json::Value,
+    ) -> RuntimeRecipientAcknowledgementRequest {
+        let now = now_unix_millis() / 1_000;
+        let payload_json = serde_jcs::to_string(&serde_json::json!({
+            "action": "Contact",
+            "message": "Hello",
+            "recipient_id": "shepherd",
+        }))
+        .expect("request payload is canonical");
+        let signed_request = exchange
+            .signed_request(
+                "shepherd",
+                "conversation-layer8",
+                "12121212121212121212121212121212",
+                "conversation-runtime:conversation-layer8:turn-layer8",
+                payload_json,
+                now,
+            )
+            .expect("signed request");
+        let acknowledgement_payload =
+            serde_jcs::to_string(&acknowledgement_payload).expect("ack payload is canonical");
+        let acknowledgement = sign_recipient_acknowledgement(
+            &signed_request,
+            recipient_descriptor,
+            acknowledgement_payload,
+            now,
+        )
+        .expect("signed acknowledgement");
+        RuntimeRecipientAcknowledgementRequest {
+            schema: RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_REQUEST_SCHEMA.to_owned(),
+            signed_request,
+            acknowledgement,
+        }
+    }
+
+    fn recipient_ack_request(
+        exchange: &Layer8SignedExchange,
+        recipient_descriptor: &CommunicationKeyDescriptor,
+    ) -> RuntimeRecipientAcknowledgementRequest {
+        recipient_ack_request_with_payload(
+            exchange,
+            recipient_descriptor,
+            serde_json::json!({
+                "delivery": "accepted",
+                "recipient_id": "shepherd",
+            }),
+        )
+    }
+
+    #[test]
+    fn layer8_ingress_refuses_before_conversation_side_effects() {
+        let (service, _root) = service_with_layer8("agent-other", "agent-other");
+        let response = match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => {
+                panic!("unauthorized conversation dispatched")
+            }
+        };
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("conversation_authority_refused"));
+        assert!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .is_empty(),
+            "authority refusal must happen before session or turn mutation"
+        );
+    }
+
+    #[test]
+    fn layer8_ingress_authorizes_before_dispatch() {
+        let (service, _root) = service_with_layer8("shepherd", "shepherd");
+        let accepted = match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+            ConversationAcceptance::Response(response) => {
+                panic!("authorized conversation was refused: {:?}", response.error)
+            }
+        };
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.error, None);
+        assert_eq!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .len(),
+            1,
+            "authorized ingress may create the session after authority grants"
+        );
+    }
+
+    #[test]
+    fn layer8_ingress_continue_refuses_before_turn_side_effects() {
+        let (service, _root) = service_with_layer8("shepherd", "agent-other");
+        match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Dispatch { .. } => {}
+            ConversationAcceptance::Response(response) => {
+                panic!("initial contact was refused: {:?}", response.error)
+            }
+        }
+
+        let response = match service.accept_conversation_intent(&continue_intent("turn-continue")) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => {
+                panic!("unauthorized continue dispatched")
+            }
+        };
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("conversation_authority_refused"));
+        let sessions = service
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let session = sessions
+            .sessions
+            .get("conversation-layer8")
+            .expect("initial authorized contact created a session");
+        assert_eq!(session.turns.len(), 1);
+        assert!(
+            !session.turns.contains_key("turn-continue"),
+            "authority refusal must happen before adding a continuation turn"
+        );
+    }
+
+    #[test]
+    fn layer8_ingress_continue_authorizes_before_dispatch() {
+        let (service, _root) = service_with_layer8("shepherd", "shepherd");
+        match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Dispatch { .. } => {}
+            ConversationAcceptance::Response(response) => {
+                panic!("initial contact was refused: {:?}", response.error)
+            }
+        }
+
+        let accepted = match service.accept_conversation_intent(&continue_intent("turn-continue")) {
+            ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+            ConversationAcceptance::Response(response) => {
+                panic!("authorized continue was refused: {:?}", response.error)
+            }
+        };
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.error, None);
+        let sessions = service
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let session = sessions
+            .sessions
+            .get("conversation-layer8")
+            .expect("initial authorized contact created a session");
+        assert_eq!(
+            session.turns.len(),
+            2,
+            "authorized continuation may add the turn after authority grants"
+        );
+        assert!(session.turns.contains_key("turn-continue"));
+    }
+
+    #[test]
+    fn recipient_acknowledgement_api_delivers_verified_ack_with_redacted_correlation() {
+        let fixture = layer8_fixture("shepherd", "shepherd");
+        let request = recipient_ack_request(&fixture.exchange, &fixture.recipient_descriptor);
+        let raw_correlation = request.signed_request.correlation_id.clone();
+        let Layer8Fixture {
+            root: _root,
+            authority,
+            exchange,
+            recipient_descriptor: _,
+        } = fixture;
+        let service = service_from_layer8_parts(authority, exchange);
+        let response = service.accept_recipient_acknowledgement(request);
+
+        assert_eq!(response.status, "delivered");
+        assert_eq!(response.error, None);
+        assert_eq!(
+            response.conversation_id.as_deref(),
+            Some("conversation-layer8")
+        );
+        assert_eq!(response.sender_id.as_deref(), Some("operator"));
+        assert_eq!(response.recipient_id.as_deref(), Some("shepherd"));
+        assert_eq!(response.sender_credential_generation, Some(1));
+        assert_eq!(response.recipient_credential_generation, Some(1));
+        assert_ne!(
+            response.correlation_hash.as_deref(),
+            Some(raw_correlation.as_str())
+        );
+        assert_eq!(
+            response.correlation_hash.as_deref(),
+            Some(blake3::hash(raw_correlation.as_bytes()).to_hex().as_str())
+        );
+        assert!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .is_empty(),
+            "acknowledgement verification must not create conversation history"
+        );
+    }
+
+    #[test]
+    fn recipient_acknowledgement_api_refuses_tampered_credential_generation_before_side_effects() {
+        let fixture = layer8_fixture("shepherd", "shepherd");
+        let mut request = recipient_ack_request(&fixture.exchange, &fixture.recipient_descriptor);
+        request.acknowledgement.credential_generation = 2;
+        let Layer8Fixture {
+            root: _root,
+            authority,
+            exchange,
+            recipient_descriptor: _,
+        } = fixture;
+        let service = service_from_layer8_parts(authority, exchange);
+        let response = service.accept_recipient_acknowledgement(request);
+
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("identity_unavailable"));
+        assert_eq!(response.sender_credential_generation, None);
+        assert_eq!(response.recipient_credential_generation, None);
+        assert!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .is_empty(),
+            "invalid acknowledgement must be refused before session mutation"
+        );
+    }
+
+    #[test]
+    fn recipient_acknowledgement_api_refuses_recipient_signed_delivery_refusal() {
+        let fixture = layer8_fixture("shepherd", "shepherd");
+        let request = recipient_ack_request_with_payload(
+            &fixture.exchange,
+            &fixture.recipient_descriptor,
+            serde_json::json!({
+                "delivery": "refused",
+                "recipient_id": "shepherd",
+            }),
+        );
+        let Layer8Fixture {
+            root: _root,
+            authority,
+            exchange,
+            recipient_descriptor: _,
+        } = fixture;
+        let service = service_from_layer8_parts(authority, exchange);
+        let response = service.accept_recipient_acknowledgement(request);
+
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("recipient_refused_delivery"));
+        assert_eq!(response.sender_credential_generation, None);
+        assert_eq!(response.recipient_credential_generation, None);
+        assert!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .is_empty(),
+            "recipient refusal must not create conversation history"
+        );
+    }
+
+    #[test]
+    fn recipient_acknowledgement_api_refuses_unrelated_signed_payload() {
+        let fixture = layer8_fixture("shepherd", "shepherd");
+        let request = recipient_ack_request_with_payload(
+            &fixture.exchange,
+            &fixture.recipient_descriptor,
+            serde_json::json!({
+                "delivery": "accepted",
+                "recipient_id": "agent-other",
+            }),
+        );
+        let Layer8Fixture {
+            root: _root,
+            authority,
+            exchange,
+            recipient_descriptor: _,
+        } = fixture;
+        let service = service_from_layer8_parts(authority, exchange);
+        let response = service.accept_recipient_acknowledgement(request);
+
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("invalid_acknowledgement"));
+        assert!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .is_empty(),
+            "malformed acknowledgement payload must not create conversation history"
+        );
+    }
+
+    #[tokio::test]
+    async fn recipient_acknowledgement_route_serves_delivery_without_raw_correlation() {
+        let fixture = layer8_fixture("shepherd", "shepherd");
+        let request = recipient_ack_request(&fixture.exchange, &fixture.recipient_descriptor);
+        let raw_correlation = request.signed_request.correlation_id.clone();
+        let body = serde_json::to_vec(&request).expect("serialize request");
+        let Layer8Fixture {
+            root: _root,
+            authority,
+            exchange,
+            recipient_descriptor: _,
+        } = fixture;
+        let service = Arc::new(service_from_layer8_parts(authority, exchange));
+
+        let response =
+            recipient_acknowledgement_handler(State(service), HeaderMap::new(), Bytes::from(body))
+                .await;
+        assert_eq!(response.status(), StatusCode::OK);
+        let body = axum::body::to_bytes(response.into_body(), usize::MAX)
+            .await
+            .expect("read response body");
+        let value: serde_json::Value = serde_json::from_slice(&body).expect("parse response");
+
+        assert_eq!(
+            value["schema"],
+            RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_RESPONSE_SCHEMA
+        );
+        assert_eq!(value["status"], "delivered");
+        assert!(value["correlation_hash"].as_str().is_some());
+        assert!(
+            !std::str::from_utf8(&body)
+                .expect("response body is UTF-8")
+                .contains(&raw_correlation),
+            "served acknowledgement route must not echo the raw correlation id"
+        );
+    }
 }
 
 pub fn write_payload(
@@ -1781,4 +4012,177 @@ pub enum ControlApiError {
     Tls(String),
     #[error("control API server failed: {0}")]
     Serve(String),
+}
+
+#[cfg(test)]
+mod conversation_dispatch_gate_tests {
+    use super::*;
+
+    fn session(sequence: u64, terminal: bool) -> ConversationSession {
+        let (completion, _) = tokio::sync::watch::channel(None);
+        let mut turns = BTreeMap::new();
+        turns.insert(
+            "turn".to_owned(),
+            ConversationTurn {
+                fingerprint: "fingerprint".to_owned(),
+                correlation_id: "00000000000000000000000000000000".to_owned(),
+                sequence: 1,
+                cancellation: CancellationToken::new(),
+                completion,
+                terminal: terminal.then(|| ObservatoryConversationResult {
+                    schema: OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
+                    status: "delivered",
+                    conversation_id: "conversation".to_owned(),
+                    turn_id: "turn".to_owned(),
+                    recipient_id: "shepherd".to_owned(),
+                    correlation_id: "00000000000000000000000000000000".to_owned(),
+                    reply: None,
+                    accepted_sequence: Some(1),
+                    turn_sequence: Some(1),
+                    error: None,
+                }),
+            },
+        );
+        ConversationSession {
+            sequence,
+            recipient_id: "shepherd".to_owned(),
+            next_sequence: 1,
+            dispatch_gate: Arc::new(ConversationDispatchGate::new()),
+            turns,
+        }
+    }
+
+    #[test]
+    fn session_capacity_evicts_only_the_oldest_terminal_session() {
+        let mut sessions = ConversationSessions::default();
+        sessions
+            .sessions
+            .insert("old-terminal".to_owned(), session(1, true));
+        sessions
+            .sessions
+            .insert("active".to_owned(), session(2, false));
+        sessions
+            .sessions
+            .insert("new-terminal".to_owned(), session(3, true));
+
+        assert!(sessions.retain_capacity_for_new_session(3));
+        assert!(!sessions.sessions.contains_key("old-terminal"));
+        assert!(sessions.sessions.contains_key("active"));
+        assert!(sessions.sessions.contains_key("new-terminal"));
+    }
+
+    #[test]
+    fn session_capacity_refuses_when_every_session_is_active() {
+        let mut sessions = ConversationSessions::default();
+        sessions
+            .sessions
+            .insert("active-1".to_owned(), session(1, false));
+        sessions
+            .sessions
+            .insert("active-2".to_owned(), session(2, false));
+
+        assert!(!sessions.retain_capacity_for_new_session(2));
+        assert_eq!(sessions.sessions.len(), 2);
+    }
+
+    #[tokio::test]
+    async fn later_turn_cannot_overtake_an_unfinished_earlier_sequence() {
+        let gate = Arc::new(ConversationDispatchGate::new());
+        let cancellation = CancellationToken::new();
+        let later_gate = gate.clone();
+        let later_cancellation = cancellation.clone();
+        let mut later = tokio::spawn(async move {
+            later_gate
+                .wait_turn(
+                    2,
+                    tokio::time::Instant::now() + Duration::from_secs(1),
+                    &later_cancellation,
+                )
+                .await
+        });
+
+        assert!(tokio::time::timeout(Duration::from_millis(20), &mut later)
+            .await
+            .is_err());
+        assert!(gate.ready(1));
+        gate.complete(1);
+        assert!(later.await.unwrap());
+    }
+}
+
+#[cfg(test)]
+mod acip_replay_tests {
+    use super::*;
+
+    fn replay_state() -> AcipReplayState {
+        AcipReplayState {
+            sequences_by_principal: BTreeMap::new(),
+        }
+    }
+
+    fn domain(runtime_id: &str, source: &str) -> AcipReplayDomain {
+        AcipReplayDomain {
+            runtime_id: runtime_id.to_owned(),
+            source: source.to_owned(),
+        }
+    }
+
+    #[test]
+    fn structured_domains_do_not_delimiter_collide() {
+        let mut state = replay_state();
+        assert!(reserve_replay_sequence(&mut state, 2, [1; 32], domain("a:b", "c"), 1).is_some());
+        assert!(reserve_replay_sequence(&mut state, 2, [1; 32], domain("a", "b:c"), 1).is_some());
+    }
+
+    #[test]
+    fn domain_capacity_is_partitioned_by_principal() {
+        let mut state = replay_state();
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "one"), 1).is_some()
+        );
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "two"), 1).is_none()
+        );
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [2; 32], domain("runtime", "two"), 1).is_some()
+        );
+    }
+
+    #[test]
+    fn rejected_excessive_advances_do_not_consume_domain_capacity() {
+        let mut state = replay_state();
+        for index in 0..4 {
+            assert!(reserve_replay_sequence(
+                &mut state,
+                1,
+                [1; 32],
+                domain("runtime", &format!("rejected-{index}")),
+                ACIP_MAX_SEQUENCE_ADVANCE + 1,
+            )
+            .is_none());
+        }
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "valid"), 1)
+                .is_some()
+        );
+    }
+
+    #[test]
+    fn failed_concurrent_reservations_never_resurrect() {
+        let mut state = replay_state();
+        let first = reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "source"), 1)
+            .unwrap();
+        commit_replay_sequence(&mut state, &first);
+        let second =
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "source"), 2)
+                .unwrap();
+        let third = reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "source"), 3)
+            .unwrap();
+        rollback_replay_sequence(&mut state, second);
+        rollback_replay_sequence(&mut state, third);
+        assert!(
+            reserve_replay_sequence(&mut state, 1, [1; 32], domain("runtime", "source"), 2)
+                .is_some()
+        );
+    }
 }

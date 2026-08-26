@@ -1,0 +1,1 @@
+{"issue":307,"card":"spp","expected_generation":2,"expected_digest":"3e7991dd0a16007b11f3058a51ed479185ae82ac48f40eaa6cf78e889bfb066f","actor":"codex:issue-307-closeout","reason":"Record completed preparation validation and preservation of the exact release-tail sequence.","operation":{"operation":"update_plan_step","step_id":"S1","status":"completed"}}

@@ -1,7 +1,8 @@
 # v0.92 to v0.93 Handoff Plan
 
-This is the planned handoff boundary. It does not claim v0.92 completion or
-approve v0.93 execution.
+This is the completed v0.92 engineering handoff boundary. It routes evidence
+into later planning but does not approve v0.93 execution or claim that v0.93
+work has landed.
 
 ## v0.92 Must Supply
 
@@ -23,7 +24,12 @@ reinterpret missing v0.92 evidence as implicit approval.
 
 ## Handoff Gate
 
-WP-19 drafts the evidence map. WP-23 and WP-30 may finalize the handoff only
-after the v0.92 quality gate, external review, remediation, and release ceremony
-are complete. Deferred capability taxonomy and provider/model packaging remain
-explicit backlog items unless separately scheduled.
+WP-19 supplied the evidence map at
+`docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md`.
+That map may cite accepted planning allocation in `v0.93`, but it does not
+grant citizenship, does not grant standing, does not assign rights or duties,
+does not complete v0.93 governance, and does not accept ADR 0068. #467 remains
+the canonical evidence/gate reconciliation owner; its outcome may refine cited
+proof without expanding the handoff. Deferred capability
+taxonomy and provider/model packaging remain explicit backlog items unless
+separately scheduled.

@@ -1,0 +1,21 @@
+{
+  "issue": 111,
+  "card": "spp",
+  "expected_generation": 26,
+  "expected_digest": "cfedddb064ab7f0873214fed6630de40e0f19ebb6da32f2e801933e108368216",
+  "actor": "codex:111-execution",
+  "reason": "Align the authority invariant with live umbrella 110 decomposition and the existing authenticated Runtime reachability boundary.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Runtime alone owns canonical session state, sequence allocation, idempotency, recipient eligibility, and outcome truth",
+      "One conversation binds exactly one authenticated operator session and one visible running agent",
+      "At most one adapter dispatch and one correlated typed public response occur per accepted turn identifier",
+      "Browser reconnect cannot create turns or replay dispatch, and a replayed result without a pending turn cannot render",
+      "No provider-specific payload, credential, private cognition, private agent state, acknowledgement, or result hash crosses the public reply projection",
+      "#111 uses the existing authenticated Runtime reachability boundary under live #110 authority; #83 is asynchronous reconciliation and downstream #112 supplies no authority or gate"
+    ]
+  },
+  "fail_after_backup": false
+}

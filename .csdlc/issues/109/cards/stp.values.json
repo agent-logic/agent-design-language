@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 109,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Use fresh sessions for standard SRP review",
+    "slug": "fresh-session-standard-srp-review",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Document and prove the existing SRP handoff to a fresh external review session.",
+      "deliverables": [
+        "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+        "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md",
+        ".csdlc/prepared/issues/109/validate-fresh-session-srp.sh"
+      ],
+      "acceptance_criteria": [
+        "AC-1: standard SRP remains sole review authority",
+        "AC-2: exact-head SRP goes to a fresh non-inheriting session",
+        "AC-3: reviewer is read-only and reports findings first with file/line evidence",
+        "AC-4: actionable findings are resolved and substantive changes trigger fresh review",
+        "AC-5: review depth matches docs, code, or authority-critical scope",
+        "AC-6: no new orchestration or lifecycle machinery",
+        "AC-7: no redundant broad validation"
+      ],
+      "dependencies": [
+        "existing standard SRP",
+        "existing csdlc-review record route"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+        "docs/tooling"
+      ],
+      "non_goals": [
+        "new review protocol types",
+        "persistent reviewers",
+        "model-specific routing",
+        "CI redesign"
+      ]
+    }
+  }
+}

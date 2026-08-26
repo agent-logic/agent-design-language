@@ -11,18 +11,37 @@ use std::{
     fmt,
 };
 
+#[cfg(not(test))]
+use super::authority_store_adapters::{
+    AuthorityBoundCertificateStore, AuthorityBoundFencingStore, AuthorityBoundLeaseLedger,
+};
+#[cfg(test)]
 use super::{
-    certificates::DistributedCertificateStore,
+    certificates::DistributedCertificateStore, fencing::FencingStore, lease::AuthorityLedger,
+};
+use super::{
     failure_detection::{
         FailureClass, FailureDetector, FailureFreshness, FailureMembershipSnapshot,
     },
-    fencing::FencingStore,
-    lease::{AuthorityLedger, AuthorityMembership},
+    lease::AuthorityMembership,
     membership::{MemberRole, MembershipState},
     migration::MigrationStore,
     placement::{PlacementClock, PlacementService},
     recovery::RecoveryStore,
 };
+
+#[cfg(not(test))]
+type ProjectionCertificateSource = AuthorityBoundCertificateStore;
+#[cfg(test)]
+type ProjectionCertificateSource = DistributedCertificateStore;
+#[cfg(not(test))]
+type ProjectionLeaseSource = AuthorityBoundLeaseLedger;
+#[cfg(test)]
+type ProjectionLeaseSource = AuthorityLedger;
+#[cfg(not(test))]
+type ProjectionFencingSource = AuthorityBoundFencingStore;
+#[cfg(test)]
+type ProjectionFencingSource = FencingStore;
 
 pub const PROJECTION_SCHEMA_V1: &str = "adl.distributed.projection.v1";
 const MAX_CREDENTIAL_BYTES: usize = 4096;
@@ -101,10 +120,10 @@ pub trait ProjectionClock: fmt::Debug + Send + Sync {
 pub struct ProjectionSources<'a, C> {
     pub membership: &'a MembershipState,
     pub authority_membership: &'a AuthorityMembership,
-    pub certificates: &'a DistributedCertificateStore,
+    pub certificates: &'a ProjectionCertificateSource,
     pub failure_detector: &'a FailureDetector,
-    pub lease_ledger: &'a AuthorityLedger,
-    pub fencing: &'a FencingStore,
+    pub lease_ledger: &'a ProjectionLeaseSource,
+    pub fencing: &'a ProjectionFencingSource,
     pub placement: &'a PlacementService<C>,
     pub migrations: &'a MigrationStore,
     pub recoveries: &'a RecoveryStore,
@@ -320,7 +339,7 @@ fn collect<C: PlacementClock>(
     let cert_r = sources
         .certificates
         .authority_revision()
-        .map_err(cert_error)?;
+        .map_err(|_| ProjectionError::MalformedAuthority)?;
     let fail_r = sources
         .failure_detector
         .authority_revision(&failure_membership, time.unix_secs)
@@ -328,11 +347,11 @@ fn collect<C: PlacementClock>(
     let lease_r = sources
         .lease_ledger
         .authority_revision()
-        .map_err(lease_error)?;
+        .map_err(|_| ProjectionError::MalformedAuthority)?;
     let fence_r = sources
         .fencing
         .authority_revision()
-        .map_err(fencing_error)?;
+        .map_err(|_| ProjectionError::MalformedAuthority)?;
     let place_r = sources
         .placement
         .authority_revision()
@@ -349,7 +368,7 @@ fn collect<C: PlacementClock>(
     let certificates = sources
         .certificates
         .redacted_snapshot_at(cert_r, time.unix_secs)
-        .map_err(cert_error)?;
+        .map_err(|_| ProjectionError::MalformedAuthority)?;
     let failures = sources
         .failure_detector
         .redacted_snapshot_at(fail_r, &failure_membership, time.unix_secs)
@@ -357,11 +376,11 @@ fn collect<C: PlacementClock>(
     let leases = sources
         .lease_ledger
         .redacted_snapshot_at(lease_r, sources.authority_membership, time.elapsed_millis)
-        .map_err(lease_error)?;
+        .map_err(|_| ProjectionError::MalformedAuthority)?;
     let fences = sources
         .fencing
         .redacted_snapshot_at(fence_r, sources.authority_membership)
-        .map_err(fencing_error)?;
+        .map_err(|_| ProjectionError::MalformedAuthority)?;
     let placements = sources
         .placement
         .redacted_snapshot_at(place_r)
@@ -378,7 +397,7 @@ fn collect<C: PlacementClock>(
     if sources
         .certificates
         .authority_revision()
-        .map_err(cert_error)?
+        .map_err(|_| ProjectionError::MalformedAuthority)?
         != cert_r
         || sources
             .failure_detector
@@ -388,12 +407,12 @@ fn collect<C: PlacementClock>(
         || sources
             .lease_ledger
             .authority_revision()
-            .map_err(lease_error)?
+            .map_err(|_| ProjectionError::MalformedAuthority)?
             != lease_r
         || sources
             .fencing
             .authority_revision()
-            .map_err(fencing_error)?
+            .map_err(|_| ProjectionError::MalformedAuthority)?
             != fence_r
         || sources
             .placement
@@ -907,16 +926,7 @@ fn map_error(code: &str) -> ProjectionError {
         _ => ProjectionError::MalformedAuthority,
     }
 }
-fn cert_error(error: super::certificates::CertificateError) -> ProjectionError {
-    map_error(error.code())
-}
 fn failure_error(error: super::failure_detection::FailureError) -> ProjectionError {
-    map_error(error.code())
-}
-fn lease_error(error: super::lease::AuthorityError) -> ProjectionError {
-    map_error(error.code())
-}
-fn fencing_error(error: super::fencing::FencingError) -> ProjectionError {
     map_error(error.code())
 }
 fn placement_error(error: super::placement::PlacementError) -> ProjectionError {

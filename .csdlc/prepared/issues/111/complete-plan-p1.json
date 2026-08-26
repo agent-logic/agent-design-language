@@ -1,0 +1,1 @@
+{"issue":111,"card":"spp","expected_generation":27,"expected_digest":"ecbf55a60f3f22158a45f988ce39060317be18b27b8dc13444a4065302ddb908","actor":"codex:111-execution","reason":"Live authority, binding, source inspection, and typed replanning are complete.","operation":{"operation":"update_plan_step","step_id":"P1","status":"completed"},"fail_after_backup":false}

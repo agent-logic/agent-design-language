@@ -1,0 +1,22 @@
+{
+  "schema": "adl.retained_native_denominator.v1",
+  "issue": 217,
+  "role": "historical_provenance",
+  "source_issue": 209,
+  "source_revision": "c640066f284a915b638add377cc4b0a2e221e6f9",
+  "source_run_id": "31453636709",
+  "retention_revision": "b27b61597b7e6bc6563d6a7fef6f13ec9c6d3e98",
+  "expected_file_count": 10,
+  "files": [
+    {"path": ".csdlc/evidence/209/native-platform/linux-nextest.log", "sha256": "eeb28e93219654c4570ecfc4a02a0b434d87abb9de642c893fd154629808672f"},
+    {"path": ".csdlc/evidence/209/native-platform/linux-semantic.json", "sha256": "8474537a1f482af747bd58464448eacd321761c2d2d35144cbb7518cfebaccd5"},
+    {"path": ".csdlc/evidence/209/native-platform/linux-source-manifest.json", "sha256": "999c594f5d878ab777be393b7dd5fbf90242ee140cce9f2b8ee65c6b914d86db"},
+    {"path": ".csdlc/evidence/209/native-platform/linux.json", "sha256": "cb9fc5260a3254c618653315163a7d27c141591c11b2fe0be8d0f69411238821"},
+    {"path": ".csdlc/evidence/209/native-platform/macos-nextest.log", "sha256": "ad3c0ebc699103a2ac4aaeaeefeb82f637a933f91f8d706ed615439186bc6711"},
+    {"path": ".csdlc/evidence/209/native-platform/macos-semantic.json", "sha256": "eb4890a2c91cd10378484eb495e42967caebe13f8a965666b7d71aac40c40135"},
+    {"path": ".csdlc/evidence/209/native-platform/macos-source-manifest.json", "sha256": "999c594f5d878ab777be393b7dd5fbf90242ee140cce9f2b8ee65c6b914d86db"},
+    {"path": ".csdlc/evidence/209/native-platform/macos.json", "sha256": "1a12abcc48b4bd7ce0a20e289d42aa80ccb0a8493c271ca052f10280d7eb54c8"},
+    {"path": ".csdlc/evidence/209/native-receipts-validation.log", "sha256": "f618042cb2f36cddb67d2d3448752567843a78d400f519a9e2428fcc03b9e223"},
+    {"path": ".csdlc/evidence/209/native-validation-manifest.json", "sha256": "c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987"}
+  ]
+}

@@ -3,6 +3,13 @@
 This file defines the evidence required for v0.92 release credit. It is a gate
 plan, not evidence that a gate has passed.
 
+WP-22 execution is retained under `docs/reviews/v0.92/quality-gate-311/`.
+Structural validation of that packet is distinct from its release result: a
+schema-valid findings packet may truthfully report `blocked`, and only an exact
+zero-blocker packet may report `passed` or unlock downstream review.
+WP-23 documentation review may package this result for external inspection,
+but it must preserve the blocked result and cannot award release credit.
+
 | Gate | Owning work | Required evidence |
 | --- | --- | --- |
 | Milestone truth and issue graph | WP-01, WP-01B | Live issue-number map, dependency validation, six valid typed cards per issue, current canonical docs and version declarations |
@@ -12,7 +19,7 @@ plan, not evidence that a gate has passed.
 | Runtime resilience | WP-03, WP-04 | Guardian-owned launch, recovery and relocation proof, clean logs, distributed security review, cross-platform validation |
 | Workflow efficiency | WP-05 through WP-07 | Measured cycle-time improvement, portable validation, prompt-card contract parity, regression proof |
 | Birthday contract | WP-08 through WP-17 | Identity, continuity, memory, capability, profile, protocol, witness, receipt, review packet, and cross-polis semantics with negative cases |
-| Integrated demonstrations | WP-18, WP-18A, WP-18B | Real first-birthday proof, working Observatory/Unity consumers, provider-neutral multi-agent evidence |
+| Integrated demonstrations | WP-18, WP-18B | Real first-birthday proof and provider-neutral multi-agent evidence. WP-18A is explicitly outside v0.92; #84/#251 remain backlog and #122 is scheduled for v0.92.1. |
 | Governance handoff | WP-19 | Evidence map for v0.93 without claiming v0.93 governance is implemented |
 | Cleanup and maintainability | WP-20, WP-21, WP-21A | Proven deletion eligibility, behavior-preserving reduction, focused Rust refactoring, no parity regression |
 | Review and release | WP-22 through WP-30 | Quality review, release evidence, ten articles, ten podcast packages, claim-bounded publication, external review, remediation, ceremony, handoff |
@@ -40,3 +47,20 @@ plan, not evidence that a gate has passed.
   constitutional governance remain non-claims.
 - Any issue that fails these rules blocks WP-22 and cannot enter internal
   review as completed work.
+- WP-21A is a hard execution prerequisite for WP-22. Its canonical terminal
+  authority may be either a normal derived terminal or the governed recordless
+  closeout receipt, but the exact reviewed head/merge tree, live closure,
+  ancestry, retained receipt digests, and registered-worktree cleanup must all
+  validate before the canonical WP-22 packet can pass structural validation.
+
+# Production birthday composition gate
+
+The first production birthday gate is satisfied only by the #451 exact-head
+kernel and resident-path tests plus the retained nine-feature wiring audit and
+redaction/schema validator. A library-only, fixture-only, metadata-only,
+documentation-only, or unreachable feature disposition blocks the gate. Paid
+AWS qualification is not part of this local composition gate.
+
+## WP-22A Corrective Hydration
+
+Issue #467 supersedes #311/PR #466 release-credit semantics. Its complete closed-issue/merged-PR ledger accepts 30 rows, explicitly scopes 3 rows to existing owners or downstream stages, and has zero blockers. #311/PR #466 remain historical provenance only.

@@ -1,39 +1,32 @@
-# v0.92.1 Sprint Plan
+# Sprint Plan — v0.92.1
 
-## Opening Sprint
+## Opening
 
-WP-01 is the only opening sprint. It creates the four coordination umbrellas
-and all planned child issues from the reviewed execution specifications. It
-does not implement child work. Execution starts only after WP-01 validation,
-independent review, and explicit operator authorization.
+- Close #432 with canonical, ancestral repository-authority proof.
+- Preserve closed #431 as planning provenance without assigning it future work.
+- The merge makes WP-01 eligible but does not create it. When the operator declares v0.92.1 ready, the operator creates number-free WP-01; WP-01 creates the remaining planned issues and verifies their exact numbering and dependency links.
 
-## Parallel Execution
+## Sprint sequence
 
-- Corporate custody and provenance may proceed in parallel after CORP-01.
-- C-SDLC v3 follows its reviewed DAG; only explicitly independent nodes overlap.
-- Runtime deterministic conformance follows DRT-01; DRT-03 and later remain
-  gated on terminal `#142`/WP-04.16 production evidence.
-- Umbrellas coordinate status and dependencies but own no child implementation.
+The original execution lanes remain, with cloud move-in, cross-cloud Terraform conversion, bounded Rust refactoring, Runtime v2/v3 decoupling, provider profiles, and GCP portability admitted as explicit tracks.
 
-## Integration And Closeout
+1. **Sprint 0 — opening and wave creation:** #432 and the reviewed planning-package merge establish eligibility; the operator later declares v0.92.1 ready and creates WP-01; WP-01 then creates the remaining wave. #431 and #457 are consulted only as planning/provider provenance.
+2. **Sprint 1 — independent foundations:** CORP-A and CORP-B run serially; HOT-01, DEC-01, PROV-A, and RUST-01 may run in parallel after the opening gate.
+3. **Sprint 2 — parallel cloud foundations:** AWS-A through AWS-E and GCP-A through GCP-D advance through their provider-local ordered results; #122/#251/#84/#345 remain existing independently owned issues.
+4. **Sprint 3 — cloud convergence:** XCL-01 follows AWS-E and GCP-D; AWS-F consumes AWS-E and #122; AWS-G follows AWS-F and XCL-01; GCP-E follows GCP-D under separate paid authority.
+5. **Sprint 4 — corporate acceptance:** CORP-C consumes CORP-A/B, AWS-G, and GCP-D; CORP-D follows CORP-C.
+6. **Sprint 5 — C-SDLC v3 foundation:** V3-A, V3-B, V3-C.
+7. **Sprint 6 — C-SDLC v3 delivery and cutover:** V3-D, V3-E, V3-F.
+8. **Sprint 7 — distributed Runtime qualification:** DRT-A, #345, DRT-B, DRT-C, then DRT-D after GCP-E and XCL-01; every paid proof remains operator-gated.
+9. **Sprint 8 — product lanes:** existing podcast #51/#261-#264/#342; Observatory OBS-A; and #251, #122, #345, plus #84 preparation may run in parallel. #84 final Unity proof consumes #251 and #122, and OBS-B consumes OBS-A plus that completed Unity/public-exposure convergence.
+10. **Sprint 9 — provider comparison and convergence:** PROV-B follows PROV-A; INT-01 waits for every root named by the issue wave, then TAIL-01, TAIL-02, TAIL-03. #188 informs convergence and quality admission.
+11. **Sprint 10 — review and remediation:** TAIL-04, TAIL-05, TAIL-06, strictly serial.
+12. **Sprint 11 — handoff and release:** TAIL-07 carries #190 successor intent, TAIL-08, TAIL-09, then TAIL-10 carries #189 ceremony intent.
 
-The tail is sequential except where dependencies say otherwise:
+Each lane owns its issues, validations, review, and closeout. The conductor tracks dependencies and collisions but does not absorb implementation. The catalog is a creation plan, not evidence that any unnumbered issue exists.
 
-1. INT-01 converges the milestone demos at exact terminal lane revisions.
-2. INT-02 runs the complete milestone quality gate.
-3. INT-03 aligns documentation and review truth with the gated candidate.
-4. INT-04 conducts the internal milestone review.
-5. INT-05 conducts the external milestone review.
-6. INT-06 remediates findings and runs final preflight and rollback rehearsal.
-7. INT-07 prepares the next milestone and deferred-work handoff.
-8. INT-08 independently reviews and accepts or rejects that handoff.
-9. INT-09 performs the operator-authorized release ceremony and terminal
-   lifecycle closeout.
+## Integration and release
 
-This order is inherited from the canonical tracked implementation in
-`docs/milestones/v0.91.6/CLOSEOUT_TAIL_SPRINT_v0.91.6.md`. Steps may not be
-collapsed, reordered, or treated as parallel without an explicit versioned
-planning decision.
-
-Accepted rescope requires an operator decision and updated release claims.
-Deferral never counts as completion.
+- Review cross-lane API, authority, privacy, and evidence dependencies.
+- Rebaseline explicitly if Runtime v4 becomes canonical.
+- Hand remaining CodeFriend work to v0.92.2 CodeFriend Beta 1, retaining the v0.95 integrated-beta deadline.

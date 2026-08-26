@@ -1,0 +1,14 @@
+{
+  "issue": 316,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "00d52dee2d621bcf6f07921d1397f2edb5558de706f7b7e17f79e30aa3bec65f",
+  "actor": "codex:/root",
+  "reason": "Remove the stale pre-bind instruction after implemented-state review recovery.",
+  "operation": {
+    "operation": "correct_sor_follow_ups_after_recovery",
+    "values": [
+      "Obtain one fresh exact-head review of the bounded review-finding remediation before publication."
+    ]
+  }
+}

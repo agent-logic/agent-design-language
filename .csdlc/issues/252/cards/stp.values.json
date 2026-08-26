@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 252,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: eliminate hosted Guardian executable spawn flake",
+    "slug": "guardian-hosted-spawn-flake",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Diagnose, implement, repeatedly prove, independently review, and publish the smallest Guardian spawn-flake correction; stop before merge.",
+      "deliverables": [
+        "Deterministic Guardian child executable resolution or fixture construction",
+        "Regression proof for both hosted failures",
+        "Required Runtime local lane and strict Clippy evidence",
+        "Fresh exact-head review and ready PR"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Both observed regressions pass repeatedly without dependence on caller cwd or test order.",
+        "AC-2: Genuine missing child programs still produce SpawnFailed.",
+        "AC-3: The required Runtime local lane passes.",
+        "AC-4: Strict all-target Clippy passes.",
+        "AC-5: Fresh exact-head review has no actionable findings."
+      ],
+      "dependencies": [
+        "PR #243 hosted Runtime attempt-1 and attempt-2 failure evidence",
+        "Current origin/main Guardian implementation"
+      ],
+      "repo_inputs": [
+        "adl-runtime/src/guardian.rs",
+        "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+        ".github/workflows/ci.yml",
+        "AGENTS.md"
+      ],
+      "non_goals": [
+        "Birth-witness behavior changes",
+        "Broad Guardian redesign",
+        "Optional or paid CI",
+        "Merge or cleanup"
+      ]
+    }
+  }
+}

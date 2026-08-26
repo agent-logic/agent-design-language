@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 213,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/213-initialized-card-repair-preparation",
+  "title": "[v0.92][C-SDLC v2] Support truthful pre-bind contract repair",
+  "body": "Closes #213\n\n## Summary\n- allow narrowly guarded STP acceptance-criteria and SPP plan-step replacement while issues are initialized or ready\n- refresh design and diagram bindings atomically, invalidate stale approval, and require independent reapproval before binding\n- fail closed on topology, lifecycle-evidence, identity, path, coverage, rollback, and authored-artifact drift\n- harden authored-artifact reads with anchored no-follow and opened-handle identity verification\n\n## Validation\n- Gate 2 integration proof: 6 passed\n- approval, identity, and adversarial unit proof: 10 passed\n- strict all-target Clippy passed\n- Rust formatting passed\n- exact issue validation and doctor passed with zero findings\n- independent exact-head review passed at c46f231b7f0ee1f52b08a52dac0000fb6cefd6b7\n\nNo AWS or provider execution was performed.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:b063f6930e5ba691016b9943f74c815714ec22cc:9c0dc6bdfbb53f71d490594cc40cc11e8fea456db9a644ddf22313cc101d7d63",
+  "commit_sha": "b063f6930e5ba691016b9943f74c815714ec22cc"
+}

@@ -8,11 +8,16 @@ Repository: danielbaustin/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Review only the WP-17 transfer contract, design note, v0.93 handoff edits, issue proof, and their exact candidate paths for evidence fidelity, copied-state rejection, privacy, and WP-04/v0.93 boundary discipline.
+.csdlc/issues/5835
+.csdlc/prepared/issues/5835
+.csdlc/evidence/5835
+docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md
+docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md
+docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md
 
 ## Prompts
 
@@ -31,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The legacy STP task-boundary phrase mentions v0.93 handoff inputs, but typed declared scope, deliverables, AC-3, SPP S3, prepared ownership, empty branch diff, and executable validation all make the handoff byte-identical and read-only.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1d765ecfd61fcd7bccd50b37d0dc660a8ccf9f43:9680eda0b55c2b0565ad3798dda9dfa225f4bf9866492f2e534d953e83476cd6")
 
-Reviewer: None
+Reviewer: Some("/root/sprint5_5835/review_5835_remediation_exact_head")
 
-Result: pre_review
+Result: pass

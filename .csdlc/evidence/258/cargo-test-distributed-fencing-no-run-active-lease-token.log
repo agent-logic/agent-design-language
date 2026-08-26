@@ -1,0 +1,117 @@
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime)
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/fencing.rs:67:5
+   |
+46 | pub enum FencingError {
+   |          ------------ variant in this enum
+...
+67 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FencingError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: field `now_elapsed_millis` is never read
+   --> tests/../src/distributed/fencing.rs:163:9
+    |
+157 | pub struct ActiveLeaseCheck<'a> {
+    |            ---------------- field in this struct
+...
+163 |     pub now_elapsed_millis: u64,
+    |         ^^^^^^^^^^^^^^^^^^
+    |
+    = note: `ActiveLeaseCheck` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: struct `FencingAuthorityRevision` is never constructed
+   --> tests/../src/distributed/fencing.rs:174:12
+    |
+174 | pub struct FencingAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/fencing.rs:180:12
+    |
+179 | impl FencingAuthorityRevision {
+    | ----------------------------- methods in this implementation
+180 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+184 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedFencingRow` is never constructed
+   --> tests/../src/distributed/fencing.rs:190:12
+    |
+190 | pub struct RedactedFencingRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `lineage_ref`, `epoch`, `committed_log_index`, `voter_set_generation`, and `operation_class` are never used
+   --> tests/../src/distributed/fencing.rs:199:12
+    |
+198 | impl RedactedFencingRow {
+    | ----------------------- methods in this implementation
+199 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+203 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+207 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+211 |     pub fn voter_set_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+215 |     pub fn operation_class(&self) -> u32 {
+    |            ^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFencingSnapshot` is never constructed
+   --> tests/../src/distributed/fencing.rs:221:12
+    |
+221 | pub struct RedactedFencingSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/fencing.rs:228:12
+    |
+227 | impl RedactedFencingSnapshot {
+    | ---------------------------- methods in this implementation
+228 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+232 |     pub fn revision(&self) -> FencingAuthorityRevision {
+    |            ^^^^^^^^
+...
+236 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFencingRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_floor_for_snapshot_test` are never used
+   --> tests/../src/distributed/fencing.rs:387:12
+    |
+285 | impl FencingStore {
+    | ----------------- methods in this implementation
+...
+387 |     pub fn authority_revision(&self) -> FencingResult<FencingAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+395 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+444 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/fencing.rs:767:4
+    |
+767 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: constant `AUTHORITY_BOUND` is never used
+  --> tests/../src/distributed/fencing.rs:31:22
+   |
+31 |     pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess { _private: () };
+   |                      ^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_fencing") generated 11 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.45s
+  Executable tests/distributed_fencing.rs (adl-runtime/target/debug/deps/distributed_fencing-83ab50dec4d9ce80)

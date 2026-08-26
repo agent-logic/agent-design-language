@@ -1,0 +1,22 @@
+{
+  "issue": 202,
+  "card": "sip",
+  "expected_generation": 4,
+  "expected_digest": "71c33d1d206b7ff9c0bf697ce89db1535f8d9dbaf8cb29369e276c896b8243f8",
+  "actor": "codex:/root/advance_202_after_201:review-resolution",
+  "reason": "State the exact merged #201 sealed-artifact authority boundary and the mandatory serial #200 integration order.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "authority_boundary",
+    "values": [
+      "The #191 voter cut remains exact and unchanged; learner admission never enters a voter configuration or quorum",
+      "Merged #201 exposes coarse AuthorityOperationKind::Membership authority plus byte-identical retained artifact bytes through a crate-private sealed accessor; EnrollNonVoting and RemoveVoter are canonical issue-local artifact discriminators, never #201 enum variants or values of an operation_kind field",
+      "Only a crate-private #202 adapter may consume the sealed #201 artifact, require the coarse Membership class, and validate exact canonical domain, bytes, digest, and issue-local discriminator before decoding any learner or exclusion field; no public accessor or generic artifact conversion is added",
+      "Only a durably published Membership operation whose exact artifact validates EnrollNonVoting can construct a learner admission, and only one whose exact artifact validates RemoveVoter can activate pending exclusion",
+      "The learner may receive AppendEntries and InstallSnapshot only and cannot vote, endorse, finalize, renew, mutate, act as Shepherd, or own/serve Observatory",
+      "A recovery learner requires a separate current operation, certificate, boot generation, operation namespace, and catch-up boundary",
+      "#202 remains unbound and edits no product source while #200 is active or unmerged; after #200 merges, #202 synchronizes to exact merged #200 ancestry and revalidates before binding because both issues own authority_protocol.rs, polis_runtime.rs, and distributed/mod.rs",
+      "Joint/final membership and promotion belong to #199; concrete stores belong to #200"
+    ]
+  }
+}

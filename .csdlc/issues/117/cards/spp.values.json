@@ -1,0 +1,93 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 117,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
+    "slug": "production-polis-interface-qualification-parent",
+    "version": "v0.92",
+    "generation": 37
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Validate terminal child caches, bind #117 to a FastWork worktree, author parent-only evidence and validator, run focused proof, obtain fresh exact review, then publish/finish if all gates remain green.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Validate canonical terminal caches for #271, #114, #115, #116, #279, #280, #281, and #282.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Author parent-only closeout evidence and deterministic validator in the bound #117 worktree.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused parent validator and diff hygiene proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain fresh exact review, publish with closing linkage, shepherd CI, and finish when green.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/issues/117",
+        ".csdlc/evidence/117",
+        ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+        ".csdlc/evidence/117/validate_parent_closeout.py",
+        ".csdlc/prepared/issues/117/validate_preparation_bundle.py"
+      ],
+      "invariants": [
+        "#117 evidence is parent-only and docs/lifecycle scoped.",
+        "Terminal child evidence is consumed read-only from canonical bound worktrees.",
+        "Residual risks and non-claims are explicit; no synthetic runtime/provider/cloud proof is invented.",
+        "The validator is deterministic and credential-free."
+      ],
+      "risks": [
+        "Overclaiming umbrella terminal closeout while #110 remains open.",
+        "Treating stale root projections as canonical dependency evidence.",
+        "Accidentally absorbing child-owned product proof or implementation scope."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Any terminal child cache is non-canonical or not merged/closed.",
+        "Root/worktree collision would overwrite another issue's unique staging.",
+        "Review finds a parent overclaim or child-scope absorption.",
+        "Publication/CI/finish gates are not exact-current green."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/117/design.md",
+      "design_digest": "0c3bdcb8801003259e8526f09cb5775bbe5f07e41dc2ac2f9f3aa5efe720bc6c",
+      "diagram_ref": ".csdlc/prepared/issues/117/diagram.mmd",
+      "diagram_digest": "1f3b962568687426bd66d190e0c022dfa9b563bf5d826040773239ac61cc23a8"
+    }
+  }
+}

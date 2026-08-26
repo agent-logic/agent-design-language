@@ -1,0 +1,12 @@
+{
+  "issue": 283,
+  "actor": "codex:adr-mini-sprint-207",
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "6ac24927026a1dd2d18920b3e492be3e882b0da23cf04e5c6a8ad7ed979abe3d",
+  "reason": "Advance #283 to implemented after issue-local reconciliation evidence and focused validation were produced in the bound worktree.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

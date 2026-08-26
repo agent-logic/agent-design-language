@@ -1,0 +1,311 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "json"
+require "yaml"
+require "digest"
+require "open3"
+
+ROOT = File.expand_path("../../../..", __dir__)
+MILESTONE = ENV.fetch("WP29_MILESTONE_ROOT", File.join(ROOT, "docs/milestones/v0.92.1"))
+EVIDENCE = ENV.fetch("WP29_EVIDENCE_ROOT", File.join(ROOT, ".csdlc/evidence/318"))
+
+TAIL_TITLES = {
+  "TAIL-01" => "Quality gate",
+  "TAIL-02" => "Documentation review and external-review handoff",
+  "TAIL-03" => "Publication finalization",
+  "TAIL-04" => "Internal review",
+  "TAIL-05" => "External / third-party review",
+  "TAIL-06" => "Review findings remediation",
+  "TAIL-07" => "Next-milestone planning",
+  "TAIL-08" => "Next-milestone closeout plan",
+  "TAIL-09" => "Next milestone review pass",
+  "TAIL-10" => "Release ceremony"
+}.freeze
+RELEASE_TITLES = {"INT-01" => "Release-tail admission"}.merge(TAIL_TITLES).freeze
+CREATION_IDS = %w[
+  CORP-A CORP-B CORP-C CORP-D
+  AWS-A AWS-B AWS-C AWS-D AWS-E AWS-F AWS-G
+  GCP-A GCP-B GCP-C GCP-D GCP-E XCL-01 RUST-01
+  V3-A V3-B V3-C V3-D V3-E V3-F
+  DRT-A DRT-B DRT-C DEC-01 PROV-A PROV-B DRT-D HOT-01 OBS-A OBS-B
+  INT-01 TAIL-01 TAIL-02 TAIL-03 TAIL-04 TAIL-05 TAIL-06 TAIL-07 TAIL-08 TAIL-09 TAIL-10
+].freeze
+SPEC_IDS = ["WP-01", *CREATION_IDS].freeze
+CATALOG_IDS = %w[
+  CORP-A CORP-B
+  AWS-A AWS-B AWS-C AWS-D AWS-E AWS-F
+  GCP-A GCP-B GCP-C GCP-D GCP-E XCL-01 AWS-G
+  CORP-C CORP-D RUST-01
+  V3-A V3-B V3-C V3-D V3-E V3-F
+  DRT-A DRT-B DRT-C DRT-D HOT-01 OBS-A OBS-B DEC-01 PROV-A PROV-B
+  INT-01 TAIL-01 TAIL-02 TAIL-03 TAIL-04 TAIL-05 TAIL-06 TAIL-07 TAIL-08 TAIL-09 TAIL-10
+].freeze
+
+def fail_with(errors)
+  errors.each { |error| warn("BLOCK: #{error}") }
+  exit 1
+end
+
+def open_pr_head_valid?(root, live_head, local_head, last_published_head)
+  return true if live_head == local_head
+  return false unless live_head == last_published_head
+
+  system("git", "-C", root, "merge-base", "--is-ancestor", live_head, local_head, out: File::NULL, err: File::NULL)
+end
+
+def check_planning_contract
+  errors = []
+  wave_path = File.join(MILESTONE, "WP_ISSUE_WAVE_v0.92.1.yaml")
+  specs_path = File.join(MILESTONE, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
+  wave = YAML.safe_load(File.read(wave_path), aliases: true)
+  specs = YAML.safe_load(File.read(specs_path), aliases: true)
+
+  nodes = []
+  walk = lambda do |value|
+    case value
+    when Hash
+      nodes << value if value["id"]
+      value.each_value { |child| walk.call(child) }
+    when Array
+      value.each { |child| walk.call(child) }
+    end
+  end
+  walk.call(wave)
+  by_id = nodes.to_h { |row| [row.fetch("id"), row] }
+  RELEASE_TITLES.each do |id, title|
+    row = by_id[id]
+    errors << "missing #{id} from issue wave" unless row
+    errors << "#{id} title variance: #{row && row['title'].inspect}" unless row && row["title"] == title
+  end
+  tail_rows = nodes.select { |row| row["lane"] == "release_tail" }
+  errors << "release-tail order mismatch" unless tail_rows.map { |row| row["id"] } == TAIL_TITLES.keys
+  TAIL_TITLES.keys.each_with_index do |id, index|
+    predecessor = index.zero? ? "INT-01" : TAIL_TITLES.keys[index - 1]
+    errors << "#{id} dependency mismatch" unless by_id.fetch(id, {})["depends_on"] == [predecessor]
+  end
+
+  catalog_text = File.read(File.join(MILESTONE, "PLANNED_ISSUE_CATALOG_v0.92.1.md"))
+  catalog_rows = catalog_text.lines.each_with_object([]) do |line, rows|
+    match = line.match(/^\| ([A-Z0-9-]+) \| ([^|]+?) \|/)
+    rows << [match[1], match[2].strip] if match && CREATION_IDS.include?(match[1])
+  end
+  expected_catalog_rows = CATALOG_IDS.map { |id| [id, by_id.fetch(id, {})["title"]] }
+  errors << "catalog creation-title denominator mismatch" unless catalog_rows == expected_catalog_rows
+
+  %w[PLANNED_ISSUE_CATALOG_v0.92.1.md WBS_v0.92.1.md].each do |name|
+    text = File.read(File.join(MILESTONE, name))
+    RELEASE_TITLES.each do |id, title|
+      errors << "#{name} title variance for #{id}" unless text.include?("| #{id} | #{title} |")
+    end
+  end
+  %w[CANONICAL_DOC_INVENTORY_v0.92.1.md README.md RELEASE_PLAN_v0.92.1.md].each do |name|
+    text = File.read(File.join(MILESTONE, name))
+    canonical_lines = text.lines.select { |line| line.include?("TAIL-02") && line.include?("TAIL-09") }
+    errors << "#{name} canonical tail summary denominator mismatch" unless canonical_lines.length == 1
+    next unless canonical_lines.length == 1
+
+    summary = canonical_lines.first
+    pairs = summary.scan(/(TAIL-\d{2}) ([^;.]+?)(?=;|\.|$)/).map do |id, title|
+      [id, title.sub(/\Aand /, "").strip]
+    end
+    errors << "#{name} canonical tail summary mismatch" unless pairs == TAIL_TITLES.to_a
+  end
+  forbidden_titles = [
+    "Docs and release-truth pass",
+    "Internal milestone review",
+    "External or third-party review",
+    "Accepted-findings remediation or explicit deferral",
+    "Next-milestone planning and CodeFriend Beta 1 handoff",
+    "Next-milestone closeout planning",
+    "Next-milestone planning review",
+    "Release ceremony, final validation, notes, tag, and cleanup",
+    "Final validation, notes, tag, cleanup, and release ceremony"
+  ]
+  Dir.glob(File.join(MILESTONE, "**/*")).select { |path| File.file?(path) }.each do |path|
+    text = File.binread(path)
+    forbidden_titles.each do |title|
+      errors << "#{path.delete_prefix(ROOT + '/')} retains bundled or variant title #{title.inspect}" if text.include?(title)
+    end
+  end
+
+  spec_rows = Array(specs.fetch("issue_specifications"))
+  spec_by_id = spec_rows.to_h { |row| [row.fetch("id"), row] }
+  unit_contracts = specs.fetch("unit_contracts")
+  creation_ids = nodes.select { |row| row["creation_owner"] == "WP-01" }.map { |row| row.fetch("id") }
+  errors << "creation-owned denominator mismatch" unless creation_ids == CREATION_IDS && creation_ids.uniq.length == CREATION_IDS.length
+  spec_row_ids = spec_rows.map { |row| row["id"] }
+  errors << "execution-specification denominator mismatch" unless spec_row_ids.sort == SPEC_IDS.sort && spec_row_ids.uniq.length == SPEC_IDS.length
+  errors << "unit-contract denominator mismatch" unless unit_contracts.keys == SPEC_IDS
+  errors << "future issue creation already recorded" unless nodes.select { |row| row["creation_owner"] == "WP-01" }.all? { |row| row["issue"].nil? }
+  errors << "milestone opening authority is already concrete" unless wave["conductor_issue"].nil? && wave["conductor_id"] == "WP-01"
+  conductor = spec_by_id["WP-01"] || {}
+  errors << "WP-01 creation denominator mismatch" unless conductor["creation_denominator"] == CATALOG_IDS
+  %w[duplicate_creation_protection partial_failure_recovery rollback_behavior validation_plan].each do |field|
+    errors << "WP-01 missing #{field}" if conductor[field].to_s.strip.empty?
+  end
+  SPEC_IDS.each do |id|
+    row = spec_by_id[id]
+    unless row
+      errors << "#{id} missing execution specification"
+      next
+    end
+    objective = row["objective"]
+    errors << "#{id} must define one outcome-shaped objective" unless objective.is_a?(String) && objective.start_with?("Produce one ")
+    deliverable = row["primary_deliverable"]
+    errors << "#{id} must define exactly one primary_deliverable" unless deliverable.is_a?(String) && deliverable.start_with?("One ")
+    result = row["verification_result"]
+    errors << "#{id} must define exactly one independently verifiable verification_result" unless result.is_a?(String) && !result.strip.empty?
+    boundary = row["unit_boundary"]
+    errors << "#{id} must define an explicit non-bundled unit_boundary" unless boundary.is_a?(String) && boundary.start_with?("Issue completion is exactly ") && boundary.match?(/evidence input|proof input|inputs to|internal step|implementation part|cannot close|non-closeable|do not close|not separately|separately reviewable|independently closed|external input|follow-up|rows? within|no .* executed/)
+    contract = unit_contracts[id]
+    errors << "#{id} missing unique structural primary result" unless contract.is_a?(Hash) && contract["primary_result"].to_s.match?(/\A[a-z0-9_]+\z/)
+    errors << "#{id} permits supporting work to close independently" unless contract.is_a?(Hash) && contract["supporting_work_closeable"] == false
+    dependency_text = Array(row["dependencies"]).compact.join(" ").downcase
+    errors << "#{id} incorrectly gates execution on administrative closeout" if dependency_text.match?(/(depend|require|before|gate).*(finish|cleanup|terminal)|(finish|cleanup|terminal).*(depend|require|before|gate)/)
+  end
+  primary_results = unit_contracts.values.map { |contract| contract["primary_result"] if contract.is_a?(Hash) }.compact
+  errors << "unit contracts reuse a primary result" unless primary_results.uniq.length == SPEC_IDS.length
+
+  nodes.select { |row| row["creation_owner"] == "WP-01" }.each do |row|
+    Array(row["depends_on"]).each do |dependency|
+      next if dependency.to_s.match?(/\Aissue-\d+\z/)
+      target = by_id[dependency]
+      errors << "#{row['id']} dependency target missing: #{dependency}" unless target
+      errors << "#{row['id']} depends on non-issue aggregate #{dependency}" if target && target["issue_slot"] == false
+    end
+  end
+  expected_admission = %w[CORP-D AWS-G GCP-E XCL-01 RUST-01 V3-F DRT-C DRT-D issue-51 HOT-01 OBS-B DEC-01 PROV-B]
+  errors << "INT-01 terminal dependency denominator mismatch" unless by_id.fetch("INT-01", {})["depends_on"] == expected_admission
+
+  quality_text = File.read(File.join(MILESTONE, "QUALITY_GATE_v0.92.1.md"))
+  %w[AWS\ account\ move-in GCP\ account\ move-in Cross-cloud\ Runtime\ Terraform Rust\ resilience\ owner-boundary].each do |lane|
+    errors << "quality gate missing development lane #{lane.tr('\\', '')}" unless quality_text.include?(lane.tr('\\', ''))
+  end
+
+  rust_source = JSON.parse(File.read(File.join(EVIDENCE, "planning-source-addendum.json")))["sources"].find { |row| row["source_id"] == "TBD-RUST-SIMPLIFICATION" }
+  expected_recommendations = %w[tracing_consolidation enum_derive_normalization http_middleware_consolidation secret_hygiene_hardening canonical_json_signing streaming_substrate_consolidation]
+  recommendations = Array(rust_source && rust_source["excluded_recommendations"])
+  errors << "Rust source recommendation denominator mismatch" unless recommendations.map { |row| row["recommendation"] } == expected_recommendations
+  recommendations.each do |row|
+    errors << "Rust recommendation lacks explicit deferral: #{row['recommendation']}" unless row["disposition"] == "deferred" && row["target"] == "v0.93_planning_intake" && !row["reason"].to_s.empty?
+  end
+
+  issue_84 = Array(by_id.dig("OBS-01", "existing_issue_order")).find { |row| row["issue"] == 84 }
+  errors << "#84 prerequisite denominator mismatch" unless issue_84 && issue_84["depends_on"] == [251, 122, 340, 256]
+  expected_observatory_inputs = [
+    {"issue" => 340, "closing_pr" => 430, "head" => "c58cf760228911fa35b11b28f47688a98eb76532", "merge" => "aa36a828793366f92d0d9e16247bd3fb1cce7878"},
+    {"issue" => 256, "closing_pr" => 427, "head" => "6791c38c6e2817387629dbb0e899ae6c61f8b887", "merge" => "fb4c853bdb9cb140059d2a28af02d70bd36a27a4"}
+  ]
+  errors << "#84 exact ancestral evidence mismatch" unless issue_84 && issue_84["evidence_inputs"] == expected_observatory_inputs
+
+  [errors, creation_ids]
+end
+
+def check_review_packet
+  errors = []
+  required = %w[issue-universe.json findings.json readiness-review.json planning-source-addendum.json]
+  required.each do |name|
+    path = File.join(EVIDENCE, name)
+    errors << "missing retained review artifact #{name}" unless File.file?(path)
+  end
+  return errors unless errors.empty?
+
+  universe = JSON.parse(File.read(File.join(EVIDENCE, "issue-universe.json")))
+  rows = Array(universe["issues"])
+  issues = rows.map { |row| Integer(row.fetch("issue")) }
+  errors << "canonical issue denominator mismatch" unless issues == (307..319).to_a
+  rows.each do |row|
+    issue = row.fetch("issue")
+    errors << "issue #{issue} invalid state" unless %w[OPEN CLOSED].include?(row["state"])
+    errors << "issue #{issue} missing role" if row["role"].to_s.strip.empty?
+    next unless row["closing_pr"]
+
+    pr_state = row.fetch("pr_state", "MERGED")
+    errors << "issue #{issue} invalid PR state" unless %w[OPEN MERGED].include?(pr_state)
+    errors << "issue #{issue} open PR missing base" if pr_state == "OPEN" && row["base"].to_s.empty?
+    errors << "issue #{issue} invalid open-head policy" if pr_state == "OPEN" && row["head_policy"] != "live_equals_local_head_or_last_published_ancestor"
+    errors << "issue #{issue} invalid last published head" if pr_state == "OPEN" && !row["last_published_head"].to_s.match?(/\A[0-9a-f]{40}\z/)
+    errors << "issue #{issue} open PR unexpectedly has merge" if pr_state == "OPEN" && row["merge"]
+    errors << "issue #{issue} invalid head" if pr_state == "MERGED" && !row["head"].to_s.match?(/\A[0-9a-f]{40}\z/)
+    errors << "issue #{issue} invalid merge" if pr_state == "MERGED" && !row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
+    if row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
+      system("git", "-C", ROOT, "cat-file", "-e", "#{row['merge']}^{commit}", out: File::NULL, err: File::NULL) || errors << "issue #{issue} merge commit unavailable"
+      system("git", "-C", ROOT, "merge-base", "--is-ancestor", row["merge"], "HEAD", out: File::NULL, err: File::NULL) || errors << "issue #{issue} merge is not ancestral"
+    end
+  end
+
+  unless ENV["WP29_SKIP_LIVE_GITHUB"] == "1"
+    rows.each do |row|
+      issue = row.fetch("issue")
+      out, err, status = Open3.capture3("gh", "issue", "view", issue.to_s, "--repo", universe.fetch("repository"), "--json", "state,closedByPullRequestsReferences")
+      unless status.success?
+        errors << "issue #{issue} live GitHub observation failed: #{err.strip}"
+        next
+      end
+      live = JSON.parse(out)
+      errors << "issue #{issue} live state mismatch" unless live["state"] == row["state"]
+      closing = Array(live["closedByPullRequestsReferences"]).map { |pr| pr["number"] }
+      expected_pr = row["closing_pr"]
+      errors << "issue #{issue} live closing PR mismatch" unless expected_pr ? closing.include?(expected_pr) : closing.empty?
+      next unless expected_pr
+
+      pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", expected_pr.to_s, "--repo", universe.fetch("repository"), "--json", "state,baseRefName,headRefOid,mergeCommit")
+      unless pr_status.success?
+        errors << "issue #{issue} live PR observation failed: #{pr_err.strip}"
+        next
+      end
+      pr = JSON.parse(pr_out)
+      expected_pr_state = row.fetch("pr_state", "MERGED")
+      errors << "issue #{issue} live PR state mismatch" unless pr["state"] == expected_pr_state
+      errors << "issue #{issue} live base mismatch" if expected_pr_state == "OPEN" && pr["baseRefName"] != row["base"]
+      if expected_pr_state == "OPEN"
+        local_head, = Open3.capture2("git", "-C", ROOT, "rev-parse", "HEAD")
+        local_head = local_head.strip
+        errors << "issue #{issue} live open head diverges from local candidate" unless open_pr_head_valid?(ROOT, pr["headRefOid"], local_head, row["last_published_head"])
+      else
+        errors << "issue #{issue} live head mismatch" unless pr["headRefOid"] == row["head"]
+      end
+      errors << "issue #{issue} live merge mismatch" unless pr.dig("mergeCommit", "oid") == row["merge"]
+    end
+  end
+
+  readiness = JSON.parse(File.read(File.join(EVIDENCE, "readiness-review.json")))
+  errors << "v0.92.1 issue creation claim changed" unless readiness.dig("v0_92_1", "issues_created") == false
+  errors << "v0.92.2 issue creation claim changed" unless readiness.dig("v0_92_2", "issues_created") == false
+  errors << "v0.93 activation claim changed" unless readiness.dig("v0_93", "status") == "inactive" && readiness.dig("v0_93", "selected") == false && readiness.dig("v0_93", "activated") == false
+  errors << "single-unit contract denominator changed" unless readiness.dig("v0_92_1", "single_unit_contract") == "explicit_for_all_45_creation_owned_issues"
+
+  source_addendum = JSON.parse(File.read(File.join(EVIDENCE, "planning-source-addendum.json")))
+  source_rows = Array(source_addendum["sources"])
+  expected_source_ids = %w[TBD-AWS-MOVE-IN TBD-GCP-MOVE-IN TBD-RUST-SIMPLIFICATION TBD-WP21-REDUCTION]
+  errors << "planning source addendum denominator mismatch" unless source_rows.map { |row| row["source_id"] } == expected_source_ids
+  source_rows.each do |row|
+    errors << "planning source digest invalid: #{row['source_id']}" unless row["source_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
+    promoted = row["promoted_contract"].to_s
+    errors << "planning source promoted contract missing: #{row['source_id']}" unless File.file?(File.join(ROOT, promoted))
+    errors << "planning source lacks planned IDs: #{row['source_id']}" if Array(row["planned_ids"]).empty?
+    errors << "planning source lacks disposition: #{row['source_id']}" if row["disposition"].to_s.strip.empty?
+  end
+
+  findings = JSON.parse(File.read(File.join(EVIDENCE, "findings.json")))
+  Array(findings["findings"]).each do |finding|
+    %w[id severity evidence owner route disposition revision].each do |field|
+      errors << "finding #{finding['id'] || '?'} missing #{field}" if finding[field].to_s.strip.empty?
+    end
+  end
+  errors
+end
+
+if $PROGRAM_NAME == __FILE__
+  mode = ARGV.fetch(0, "all")
+  planning_errors, creation_ids = check_planning_contract
+  errors = case mode
+           when "planning" then planning_errors
+           when "all" then planning_errors + check_review_packet
+           else ["unknown mode #{mode.inspect}"]
+           end
+
+  fail_with(errors) unless errors.empty?
+  puts JSON.generate(schema: "adl.v092.wp29.readiness-review.v1", status: "pass", creation_owned_issues: creation_ids.length, tail_titles: TAIL_TITLES.length)
+end

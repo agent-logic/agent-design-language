@@ -1,3 +1,6 @@
+use std::fs;
+use std::path::{Path, PathBuf};
+
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumString};
@@ -313,6 +316,217 @@ pub fn prepare_publication(
         revision,
         commit_sha,
     })
+}
+
+pub fn persist_publication_intent(root: &Path, intent: &PublicationIntent) -> Result<()> {
+    let dir = publication_intent_dir(root)?;
+    fs::create_dir_all(&dir)?;
+    let target = dir.join(format!("{}.intent.json", intent.issue));
+    let temporary = dir.join(format!(".{}.intent.tmp", intent.issue));
+    fs::write(&temporary, serde_json::to_vec_pretty(intent)?)?;
+    fs::rename(temporary, target)?;
+    Ok(())
+}
+
+pub fn publication_intent_dir(root: &Path) -> Result<PathBuf> {
+    Ok(PathBuf::from(
+        crate::git::run(
+            root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout,
+    )
+    .join("csdlc-v2")
+    .join("publication"))
+}
+
+pub fn resume_recorded_publication_intent(
+    store: &Store,
+    request: &PublicationRequest,
+) -> Result<Option<PublicationIntent>> {
+    let record = store.load_record(request.issue)?;
+    let Some(publication) = record.publication.as_ref() else {
+        return Ok(None);
+    };
+    let record_code_repository = record
+        .code_repository
+        .as_deref()
+        .unwrap_or(&record.repository);
+    let request_code_repository = request
+        .code_repository
+        .as_deref()
+        .unwrap_or(&request.repository);
+    if record.issue != request.issue
+        || record.repository != request.repository
+        || !record_code_repository.eq_ignore_ascii_case(request_code_repository)
+        || publication.repository != request_code_repository
+        || publication.base != request.base
+        || publication.head != request.head
+        || publication.draft != request.draft
+        || publication.linkage_mode.unwrap_or_default() != request.linkage_mode
+    {
+        return Ok(None);
+    }
+    let Some(commit_sha) = parse_publication_clean_commit(&publication.revision) else {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "recorded publication revision cannot prove exact clean commit authority",
+        ));
+    };
+    Ok(Some(PublicationIntent {
+        schema: "csdlc.publication_intent.v1".into(),
+        issue: request.issue,
+        repository: request_code_repository.to_owned(),
+        issue_repository: request.repository.clone(),
+        base: request.base.clone(),
+        head: request.head.clone(),
+        title: request.title.clone(),
+        body: request.body.clone(),
+        linkage_mode: request.linkage_mode,
+        draft: request.draft,
+        revision: publication.revision.clone(),
+        commit_sha,
+    }))
+}
+
+fn parse_publication_clean_commit(revision: &str) -> Option<String> {
+    let commit = revision
+        .strip_prefix("git-blake3:")
+        .and_then(|value| value.split_once(':'))
+        .map(|(commit, _)| commit)
+        .filter(|commit| {
+            commit.len() == 40 && commit.bytes().all(|byte| byte.is_ascii_hexdigit())
+        })?;
+    (revision == crate::git::clean_commit_revision(commit)).then(|| commit.to_owned())
+}
+
+pub fn commit_publication_metadata_tail(root: &Path, issue: u64) -> Result<Option<String>> {
+    let issue_dir = format!(".csdlc/issues/{issue}");
+    let already_staged = crate::git::run(root, &["diff", "--cached", "--name-only"])?.stdout;
+    if already_staged
+        .lines()
+        .any(|path| !publication_metadata_path(issue, path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "publication metadata tail cannot proceed with pre-staged non-governed paths",
+        ));
+    }
+    let status = crate::git::run(
+        root,
+        &[
+            "status",
+            "--porcelain",
+            "--untracked-files=all",
+            "--",
+            &issue_dir,
+        ],
+    )?
+    .stdout;
+    if status.is_empty() {
+        return Ok(None);
+    }
+    let dirty_issue_paths = crate::git::run(
+        root,
+        &[
+            "ls-files",
+            "--others",
+            "--modified",
+            "--deleted",
+            "--exclude-standard",
+            "--",
+            &issue_dir,
+        ],
+    )?
+    .stdout;
+    if dirty_issue_paths
+        .lines()
+        .any(|path| !publication_metadata_path(issue, path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "publication metadata tail contains non-governed paths",
+        ));
+    }
+
+    let before = current_head_sha(root)?;
+    crate::git::run(root, &["add", &issue_dir])?;
+    let staged =
+        crate::git::run(root, &["diff", "--cached", "--name-only", "--", &issue_dir])?.stdout;
+    if staged.is_empty() {
+        return Ok(None);
+    }
+    if staged
+        .lines()
+        .any(|path| !publication_metadata_path(issue, path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "publication metadata tail contains non-governed paths",
+        ));
+    }
+
+    let message = format!("Record C-SDLC publication metadata for #{issue}");
+    crate::git::run(root, &["commit", "-m", &message, "--", &issue_dir])?;
+    let after = current_head_sha(root)?;
+    if !matches!(
+        crate::git::metadata_only_changed_paths(root, &before, &after),
+        Ok(paths) if !paths.is_empty()
+    ) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "publication metadata tail was not metadata-only",
+        ));
+    }
+    Ok(Some(after))
+}
+
+pub fn current_head_sha(root: &Path) -> Result<String> {
+    Ok(crate::git::run(root, &["rev-parse", "HEAD"])?
+        .stdout
+        .trim()
+        .to_owned())
+}
+
+fn publication_metadata_path(issue: u64, path: &str) -> bool {
+    let prefix = format!(".csdlc/issues/{issue}/");
+    let Some(rest) = path.strip_prefix(&prefix) else {
+        return false;
+    };
+    if rest.contains('/') {
+        let Some(file) = rest.strip_prefix("cards/") else {
+            return false;
+        };
+        let names = ["sip", "stp", "spp", "vpp", "srp", "sor"];
+        return names
+            .iter()
+            .any(|name| file == format!("{name}.md") || file == format!("{name}.values.json"));
+    }
+    matches!(rest, "index.json" | "audit.jsonl")
+}
+
+pub fn governed_publication_metadata_path(issue: u64, path: &str) -> bool {
+    publication_metadata_path(issue, path)
+}
+
+pub fn governed_publication_metadata_followup_paths(
+    root: &Path,
+    issue: u64,
+    published_head: &str,
+    metadata_head: &str,
+) -> Result<Vec<String>> {
+    let paths = crate::git::metadata_only_changed_paths(root, published_head, metadata_head)?;
+    if paths.is_empty()
+        || paths
+            .iter()
+            .any(|path| !governed_publication_metadata_path(issue, path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "metadata publication head is not a governed metadata-only follow-up",
+        ));
+    }
+    Ok(paths)
 }
 
 fn verify_record(record: &IssueRecord, request: &PublicationRequest) -> Result<()> {

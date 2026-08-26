@@ -1,0 +1,18 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+────────────
+ Nextest run ID ed8a5cd3-74a5-4ff3-9762-f373ee9c5653 with nextest profile: default
+    Starting 12 tests across 1 binary
+        PASS [   0.015s] ( 1/12) adl-runtime::layer8_authority refusal_is_bounded_and_contains_no_private_inputs
+        PASS [   0.016s] ( 2/12) adl-runtime::layer8_authority recipient_signed_acknowledgement_is_bound_to_triggering_message
+        PASS [   0.016s] ( 3/12) adl-runtime::layer8_authority human_and_agent_senders_share_one_signed_identity_message_contract
+        PASS [   0.019s] ( 4/12) adl-runtime::layer8_authority signature_substitution_rotation_revocation_and_expiry_fail_closed
+        PASS [   0.024s] ( 5/12) adl-runtime::layer8_authority conversation_authority_refuses_same_identity_signed_by_an_untrusted_key
+        PASS [   0.034s] ( 6/12) adl-runtime::layer8_authority concurrent_store_handles_serialize_against_the_current_audit_head
+        PASS [   0.051s] ( 7/12) adl-runtime::layer8_authority retryable_policy_refusal_does_not_consume_replay_identity
+        PASS [   0.068s] ( 8/12) adl-runtime::layer8_authority corrupt_and_truncated_audit_refuse_restart
+        PASS [   0.072s] ( 9/12) adl-runtime::layer8_authority restart_verifies_chain_and_restores_replay_defense
+        PASS [   0.106s] (10/12) adl-runtime::layer8_authority rejects_recipient_substitution_widening_action_conversation_and_cross_polis
+        PASS [   0.124s] (11/12) adl-runtime::layer8_authority authorizes_each_action_only_with_its_exact_capability_and_policy_intersection
+        PASS [   0.181s] (12/12) adl-runtime::layer8_authority identity_capability_policy_epoch_and_replay_fail_closed
+────────────
+     Summary [   0.182s] 12 tests run: 12 passed, 0 skipped

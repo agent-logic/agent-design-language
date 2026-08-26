@@ -15,12 +15,18 @@ use crate::github::{
 };
 use crate::lifecycle::{BindRequest, BindResult};
 use crate::migration::{
+    BoundIssueIdentityMigrationReport, BoundIssueIdentityMigrationRequest,
     BoundTopologyMigrationReport, BoundTopologyMigrationRequest, CodeRepositoryMigrationReport,
-    CodeRepositoryMigrationRequest, ImportReport, LegacyImportRequest, NormalizedOutcome,
+    CodeRepositoryMigrationRequest, ImportReport, InitializedCodeRepositoryMigrationReport,
+    InitializedCodeRepositoryMigrationRequest, LegacyImportRequest, NormalizedOutcome,
     ShadowComparison,
 };
 use crate::model::IssueRecord;
 use crate::model::TerminalReceipt;
+use crate::projection_recovery::{
+    ProjectionClassification, ProjectionClassifyRequest, ProjectionRecoverRequest,
+    ProjectionRecoveryResult,
+};
 use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
 use crate::pvf::{
     ExecutionReport, ExecutionRequest, FinalizeRequest, PvfManifest, ScheduleReport, ShepherdReport,
@@ -30,20 +36,31 @@ use crate::review::{
     PublicationReviewReport, ReviewAssignmentRequest, ReviewRecordRequest, ReviewRecoveryRequest,
 };
 use crate::runner_preflight::{RunnerPreflightPacket, RunnerPreflightRequest};
-use crate::store::ApproveDesignRequest;
-use crate::store::{BootstrapRequest, EditRequest};
+use crate::store::{
+    ApproveDesignRequest, BootstrapRequest, EditRequest, InitializedDecompositionRecoveryRequest,
+    InitializedDecompositionRecoveryResult, RecoverDesignReviewRequest,
+    RecoverInitializedDesignEnvelopeRequest,
+};
 
 pub fn public_schema_bundle() -> Value {
     json!({
         "schema": "csdlc.public_schema_bundle.v1",
         "cleanup_request": schemars::schema_for!(CleanupRequest),
         "cleanup_result": schemars::schema_for!(CleanupResult),
+        "projection_classify_request": schemars::schema_for!(ProjectionClassifyRequest),
+        "projection_classification": schemars::schema_for!(ProjectionClassification),
+        "projection_recover_request": schemars::schema_for!(ProjectionRecoverRequest),
+        "projection_recovery_result": schemars::schema_for!(ProjectionRecoveryResult),
         "legacy_terminal_index_request": schemars::schema_for!(LegacyTerminalIndexRequest),
         "legacy_terminal_index": schemars::schema_for!(LegacyTerminalIndex),
         "terminal_census_report": schemars::schema_for!(TerminalCensusReport),
         "bootstrap_request": schemars::schema_for!(BootstrapRequest),
         "approve_design_request": schemars::schema_for!(ApproveDesignRequest),
+        "recover_initialized_design_envelope_request": schemars::schema_for!(RecoverInitializedDesignEnvelopeRequest),
+        "recover_design_review_request": schemars::schema_for!(RecoverDesignReviewRequest),
         "edit_request": schemars::schema_for!(EditRequest),
+        "initialized_decomposition_recovery_request": schemars::schema_for!(InitializedDecompositionRecoveryRequest),
+        "initialized_decomposition_recovery_result": schemars::schema_for!(InitializedDecompositionRecoveryResult),
         "bind_request": schemars::schema_for!(BindRequest),
         "bind_result": schemars::schema_for!(BindResult),
         "issue_record": schemars::schema_for!(IssueRecord),
@@ -80,8 +97,12 @@ pub fn public_schema_bundle() -> Value {
         "legacy_import_report": schemars::schema_for!(ImportReport),
         "bound_topology_migration_request": schemars::schema_for!(BoundTopologyMigrationRequest),
         "bound_topology_migration_report": schemars::schema_for!(BoundTopologyMigrationReport),
+        "bound_issue_identity_migration_request": schemars::schema_for!(BoundIssueIdentityMigrationRequest),
+        "bound_issue_identity_migration_report": schemars::schema_for!(BoundIssueIdentityMigrationReport),
         "code_repository_migration_request": schemars::schema_for!(CodeRepositoryMigrationRequest),
         "code_repository_migration_report": schemars::schema_for!(CodeRepositoryMigrationReport),
+        "initialized_code_repository_migration_request": schemars::schema_for!(InitializedCodeRepositoryMigrationRequest),
+        "initialized_code_repository_migration_report": schemars::schema_for!(InitializedCodeRepositoryMigrationReport),
         "normalized_outcome": schemars::schema_for!(NormalizedOutcome),
         "shadow_comparison": schemars::schema_for!(ShadowComparison),
         "deletion_eligibility": crate::eligibility::eligibility_schema_bundle(),

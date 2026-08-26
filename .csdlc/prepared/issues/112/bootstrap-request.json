@@ -1,0 +1,168 @@
+{
+  "issue": 112,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:112-layer8-authority-preparation-v2",
+  "design_path": ".csdlc/prepared/issues/112/design.md",
+  "diagram_path": ".csdlc/prepared/issues/112/diagram.mmd",
+  "design_reviewer": "operator:daniel-explicit-fresh-packet-authorization",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
+    "slug": "wp18c02-layer8-conversation-authority",
+    "version": "v0.92",
+    "goal": "Bind every governed human-agent conversation action to authenticated Layer 8 identity, least-privilege capability, current agent and Polis policy, revocation, replay defense, and redacted tamper-evident audit before Runtime delivery.",
+    "required_outcome": "The Runtime alone decides whether an authenticated human may discover, contact, continue, attach content to, or address an exact set of agents, and exposes only bounded authorization, refusal, correlation, and outcome fields.",
+    "declared_scope": [
+      "Typed Runtime-owned Layer 8 principal, capability, authority decision, refusal projection, replay guard, and redacted audit contracts",
+      "Least-privilege discovery, contact, continuation, attachment, and exact multi-recipient policy decisions",
+      "Narrow pre-delivery Runtime API integration using authenticated identity and canonical conversation identifiers",
+      "Deterministic positive, negative, restart, tamper, projection, and nonzero-target product proof after both serial gates pass"
+    ],
+    "affected_areas": [
+      "adl-runtime/src/layer8_authority.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/layer8_authority.rs",
+      "adl/src/csm_runtime_api.rs",
+      "adl/tests/layer8_authority_runtime_api.rs",
+      "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+      ".csdlc/issues/112",
+      ".csdlc/prepared/issues/112"
+    ],
+    "authority_boundary": [
+      "Only authenticated Runtime identity intersected with exact current capability, agent policy, and Polis policy may authorize an action",
+      "Authorization and durable redacted audit must complete before sequence reservation, provider execution, or delivery",
+      "Browser state, caller claims, content, provider output, agent self-report, and private cognition never grant authority",
+      "Issue #112 owns only its declared authority, audit, narrow Runtime API invocation, focused tests, feature contract, and lifecycle packet"
+    ],
+    "operator_constraints": [
+      "Preparation only: do not implement product code, bind, push, open a PR, publish, merge, mutate GitHub, or edit issue #83",
+      "Use only typed C-SDLC v2 lifecycle owners and active templates for canonical issue state and cards",
+      "Preserve /Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation unchanged as non-authoritative historical evidence",
+      "Stop before execution while either declared serial gate is open, unmerged, non-ancestral, or ownership-colliding"
+    ],
+    "task_boundary": "Prepare and later implement only issue #112 Runtime authority, refusal, replay, redacted audit, and narrow pre-delivery API integration over the exact merged gated contracts.",
+    "deliverables": [
+      "Runtime authority module at adl-runtime/src/layer8_authority.rs",
+      "Module export limited to adl-runtime/src/lib.rs",
+      "Issue-owned focused product target adl-runtime/tests/layer8_authority.rs",
+      "Narrow pre-delivery invocation in adl/src/csm_runtime_api.rs",
+      "Issue-owned focused product target adl/tests/layer8_authority_runtime_api.rs",
+      "Feature contract at docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+      "Fresh typed lifecycle packet under .csdlc/issues/112 and .csdlc/prepared/issues/112"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every governed action derives a stable Layer 8 principal only from authenticated, unexpired, non-revoked Runtime evidence bound to one Polis and credential generation.",
+      "AC-2: Discovery, contact, continuation, attachment, and exact multi-recipient actions require separate least-privilege capabilities intersected with current agent and Polis policy before sequence reservation or delivery.",
+      "AC-3: Identity expiry, rotation, revocation, stale capability epoch, malformed input, policy unavailability, replay ambiguity, and audit failure fail closed without fallback authority.",
+      "AC-4: Recipient substitution, recipient-set widening, implicit broadcast, action or conversation scope escalation, replay, and cross-Polis attempts are rejected atomically before provider execution.",
+      "AC-5: Operator, recipient-agent, reviewer, and public projections expose only audience-allowed decision, refusal, retry, correlation, recipient, conversation, and outcome fields.",
+      "AC-6: Restart restores replay and redacted audit integrity before admission; corrupt, truncated, reordered, discontinuous, or unwritable audit state remains unavailable.",
+      "AC-7: The exact issue-owned Layer 8 authority and Runtime API integration test targets each select and pass nonzero tests at one reviewed implementation revision; preparation text is never accepted as product proof."
+    ],
+    "dependencies": [
+      "Hard serial gate: #83 must be closed by a merged PR and ancestral to the execution base",
+      "Hard serial gate: #111 must be closed by a merged PR and ancestral to the execution base"
+    ],
+    "repo_inputs": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "docs/templates/prompts/current.json",
+      "adl-runtime/src/runtime_api_auth.rs",
+      "adl-runtime/src/acip.rs",
+      "adl-runtime/src/lib.rs",
+      "adl/src/csm_runtime_api.rs",
+      "Merged gated contracts when both serial gates become terminal and ancestral"
+    ],
+    "non_goals": [
+      "Implementing or mutating either gated issue, the umbrella issue, or any sibling work package",
+      "Canonical session schemas, durable history or search, rooms, roster or presence, attention inbox, or final product hardening",
+      "Constitutional governance, TLS, ACIP, identity, provider, transport, or general control redesign",
+      "Browser-owned authorization, unrestricted operator actuation, private-policy exposure, or retention of forbidden content",
+      "Product implementation, binding, push, PR, publication, merge, GitHub mutation, or closeout during this preparation run"
+    ],
+    "plan_summary": "Reach typed pre-bind readiness now; after both exact serial gates merge ancestrally, reconcile their concrete contracts, bind separately, implement one Runtime-owned authority and audit module plus narrow API invocation, run the exact nonzero product targets, and obtain exact-head review before publication.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Hold at pre-bind readiness until #83 and #111 are both terminal, merged, ancestral, and ownership-compatible; then reconcile their exact contracts and replan through typed edits on drift.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement the typed Layer 8 principal, action-specific capability, policy intersection, replay guard, bounded refusal, and hash-chained redacted audit contracts in the issue-owned Runtime module.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Integrate the authority decision before sequence reservation, provider execution, and delivery while preserving the merged ingress and session ownership boundaries.",
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run the exact issue-owned authority-contract and Runtime API integration targets with nonzero selection, resolve all actionable exact-head review findings, and only then hand off for publication.",
+        "acceptance_ids": ["AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "Authentication precedes authorization; authorization and durable redacted audit precede sequence reservation, provider execution, and delivery",
+      "Capability, agent policy, and Polis policy intersect and none may widen another",
+      "Recipient sets, actions, attachments, and conversation scope are exact and cannot be substituted or widened",
+      "Replay, revocation, expiry, rotation, policy uncertainty, and audit uncertainty fail closed",
+      "Preparation evidence is not product proof and cannot satisfy either deferred product validation target"
+    ],
+    "risks": [
+      "Treating Runtime API authentication as blanket conversation authority could bypass action and recipient policy",
+      "A continuation or single-recipient capability could widen into new contact, attachment, room, broadcast, or cross-Polis authority",
+      "Audit or refusal text could leak private recipient policy, content, credentials, provider payload, or private cognition",
+      "Restart or concurrent requests could admit replay before replay and audit state are restored",
+      "A merged gated contract could change identifiers or integration paths and require typed replanning before bind"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "Either serial gate is open, unmerged, non-ancestral, or lacks the concrete producer contract required by issue #112",
+      "The intended write set collides with ownership established by either merged gated contract or another issue",
+      "Authorization cannot be enforced before sequence reservation, provider execution, and delivery without widening scope",
+      "Public-safe refusal or redacted audit cannot be proven without retaining forbidden content or private policy inputs",
+      "Any requested action would bind, mutate another issue, publish, merge, or treat preparation evidence as product proof"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "layer8-authority-contract",
+        "proof_role": "The exact issue-owned adl-runtime integration-test target proves principal derivation, action-specific capability and policy intersection, fail-closed refusal, replay defense, restart integrity, redacted tamper-evident audit, and nonzero test selection.",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "112-product-serial-01",
+        "budget_seconds": 1800,
+        "budget_tokens": 20000,
+        "argv": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "layer8_authority"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"],
+        "defer_reason": "Deferred until #83 and #111 are merged and ancestral and the issue-owned Layer 8 authority product target exists at the implementation revision."
+      },
+      {
+        "lane": "layer8-runtime-api-integration",
+        "proof_role": "The exact issue-owned adl integration-test target proves authorization and durable audit occur before sequence reservation, provider execution, and delivery while preserving bounded role projections and nonzero test selection.",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "112-product-serial-02",
+        "budget_seconds": 1800,
+        "budget_tokens": 20000,
+        "argv": ["cargo", "test", "--locked", "--manifest-path", "adl/Cargo.toml", "--test", "layer8_authority_runtime_api"],
+        "acceptance_ids": ["AC-2", "AC-3", "AC-4", "AC-5", "AC-7"],
+        "defer_reason": "Deferred until #83 and #111 are merged and ancestral and the issue-owned Runtime API integration product target exists at the implementation revision."
+      }
+    ],
+    "failure_policy": "Fail closed on serial-gate or ownership drift, unauthenticated or stale identity, capability mismatch, recipient substitution or widening, cross-Polis action, replay, revocation, expiry, policy uncertainty, audit discontinuity or write failure, forbidden-field leakage, zero-test selection, preparation-as-product-proof substitution, or unresolved exact-head findings.",
+    "review_prompts": [
+      "Can authentication, browser state, caller claims, content, provider output, or agent self-report authorize any action without an exact current capability and policy intersection?",
+      "Can contact, continuation, attachment, or single-recipient authority widen into another action, conversation, recipient set, room, broadcast, or Polis?",
+      "Do replay, expiry, rotation, revocation, restart, audit corruption, and concurrent duplicate requests fail before sequence reservation or provider execution?",
+      "Do all projections omit content, attachment bytes, secrets, private policy, provider payloads, and private cognition?",
+      "Are #83 and #111 the only serial gates, and are both exact product targets deferred without any preparation surrogate claiming product proof?"
+    ],
+    "review_scope": "Issue #112 Runtime-owned Layer 8 authority, refusal, replay, redacted audit, narrow pre-delivery Runtime API integration, exact deferred product targets, two-gate ancestry, and absence of product or sibling-issue mutation during preparation."
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 209,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
+    "slug": "wp14-production-acip-authority-repair",
+    "version": "v0.92",
+    "generation": 33
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Repair the three retrospective WP-14 defects that block Birthday review packet #5834.",
+      "required_outcome": "Production Guardian/kernel ACIP dispatch, bounded pressure, typed errors, replay isolation, and OpenAPI/runtime signature parity are implemented and independently reviewed at an exact green revision.",
+      "declared_scope": [
+        "Production ACIP dispatch through the real Guardian/kernel boundary",
+        "Bounded queue pressure and typed success/error responses",
+        "Principal-and-session-scoped replay state with bounded progression",
+        "OpenAPI/runtime control-signature parity",
+        "Focused adversarial and native proof"
+      ],
+      "authority_boundary": [
+        "Authenticated principal and replay-domain identity are trusted only after runtime admission",
+        "Caller-selected sequence values cannot authorize or poison unrelated traffic",
+        "Merged #5832 evidence remains immutable historical input and does not prove the repair",
+        "Issue #5834 remains blocked until this issue is reviewed, merged, and ancestral"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle operations and repo-owned binaries",
+        "Work only in the issue-bound worktree; do not mutate main, PR197, PR191, or Sprint 3",
+        "Assign a correctly named fresh reviewer before publication",
+        "Merge only through typed finish after the exact reviewed remote head is green",
+        "Keep closeout cleanup asynchronous"
+      ]
+    }
+  }
+}

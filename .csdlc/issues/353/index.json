@@ -1,0 +1,187 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 353,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f9123a53c2cc6e11570a192a9d2aa81321ff990ff31ccd823536b6259c3732a5",
+  "phase": "published",
+  "generation": 5,
+  "digest": "a57b7555244aaa7a8fbd65f2a33b4870906bccd31e209f4e02b1cb9392d06a2a",
+  "branch": "codex/353-publication-review-anchor",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-353-publication-review-anchor",
+  "review_assignment": {
+    "reviewer": "fresh-session:fresh_353_impl_review",
+    "assigned_by": "codex:issue-353-publication-review-anchor",
+    "revision": "git-blake3:84256326d2a8967c599d0e8239ada8757f8f0d56:c6c98f23727699ae6b4b2e02db3bd228bab2bfc9e7b619864fe1249043b72e2b",
+    "scope": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/issues/353",
+      ".csdlc/evidence/353"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:fresh_353_impl_review",
+    "scope": [
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/tests/gate_finish.rs",
+      ".csdlc/issues/353",
+      ".csdlc/evidence/353"
+    ],
+    "reviewed_revision": "git-blake3:84256326d2a8967c599d0e8239ada8757f8f0d56:c6c98f23727699ae6b4b2e02db3bd228bab2bfc9e7b619864fe1249043b72e2b",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 353,
+    "pull_request": 354,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/354",
+    "base": "main",
+    "head": "codex/353-publication-review-anchor",
+    "revision": "git-blake3:84256326d2a8967c599d0e8239ada8757f8f0d56:c6c98f23727699ae6b4b2e02db3bd228bab2bfc9e7b619864fe1249043b72e2b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/353/design.md",
+  "diagram_path": ".csdlc/prepared/issues/353/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:fresh_353_design_r4",
+      "revision": "9187302492c17977bb82a9be665620e961ac703ee2c8a07d8b95fee9935bf1cc"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "03ab524f09be8391e5d2e74b85046f3895d00327583b1a8f61ab521d5d8124fa",
+      "rendered_digest": "c5369453884c8d19cfd8cdfcae29a8b36c6128a3a6f22ea109acb8fe47dfa200",
+      "ast_digest": "3f454bf54a89127afd537c5b9619f9b792b1783cfa2b87f18fd7aeca17dd27af"
+    },
+    "stp": {
+      "values_digest": "e1bc34995413a4a3f953e2dec44914dcfc828967e74267b680700db7d5c3bded",
+      "rendered_digest": "ca6a705dfe2429272b532e2596bb7f9c4ea51de79895e8f29447e47b955d398f",
+      "ast_digest": "f62d3b7de695af9fae411463d42474fa13aab4dab517f646cdd638381309e62f"
+    },
+    "spp": {
+      "values_digest": "4789c5070c478ee444155e47a6e0d68b526a22b5b20410df98906d140bfc7911",
+      "rendered_digest": "f015ba713bea2e30a8bb18bbe833ad9f88c34fdc282191453fe35d3302540d12",
+      "ast_digest": "f62cedeae15fb82e31e759cdf764f1d488db4955f33a85193c1edf64f92dd609"
+    },
+    "vpp": {
+      "values_digest": "6490e54a8debf60496fc8fca658e6dceb33615440dab280cae1af5ec775399c8",
+      "rendered_digest": "811d9c72e0bb14cba0ad53b1fc16d78680ba46b5881b477a4a4e91417bd7d301",
+      "ast_digest": "5c49aaabf52451b3db512a1b02923c7939260ce23b9716bdac07ffca68d5034a"
+    },
+    "srp": {
+      "values_digest": "2d68bd11b3bf3322302a73ece5a682fa26734e3286784d2fd2e9c5df81e8ad21",
+      "rendered_digest": "4537914a9ed57ce9bb010dd956fd088c8a713aeed81ee24629f49087d9173359",
+      "ast_digest": "97d9f5c06743b9cd03914a5389d900352a0ca123b5f577540c151204052756c0"
+    },
+    "sor": {
+      "values_digest": "0b825617cffc18cdcd35f3833efac98564463f041d2de559204d477aeee30a03",
+      "rendered_digest": "3295305abe56fe69e5152db027ee6c74dab3980631e30c7cb8f7267ca9b3d169",
+      "ast_digest": "7526fbb37f456f8eb82107a0db82063038427f1ea81b6354987541f851013e9e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-353-publication-review-anchor",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:fresh_353_impl_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-353-publication-review-anchor",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-353-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-353-r3-repair",
+      "reason": "Bind exact local preparation, gate_finish whole-suite, format, and strict Clippy lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-353-preparation\",\"proof_role\":\"Prove initialized local packet integrity; external #349/#342 freeze is separately observed read-only.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/353/validate_preparation.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-353-finish-suite\",\"proof_role\":\"Run the complete existing gate_finish integration target including new positive/null/unequal/non-governed anchor regressions; Cargo reports the nonzero denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_finish\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-format\",\"proof_role\":\"Prove formatting.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all\",\"--\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-clippy\",\"proof_role\":\"Reject warnings in every target.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:fresh_353_design_r4",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-353-publication-review-anchor",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-353-publication-review-anchor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "fresh-session:fresh_353_impl_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-353-publication-review-anchor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

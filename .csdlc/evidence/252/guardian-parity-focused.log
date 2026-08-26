@@ -1,0 +1,35 @@
+
+running 27 tests
+test runtime_guardian::tests::cleanup_time_does_not_extend_authenticated_health_window ... ok
+test feature_dispositions_require_live_kernel_or_accepted_boundary ... ok
+test checkpoint_rejects_semantic_tampering_after_valid_encoding ... ok
+test curiosity_and_theory_of_mind_remain_non_authoritative ... ok
+test affect_control_rejects_adversarial_signal_authority ... ok
+test adaptive_learning_consumes_exact_one_shot_mutation_authority ... ok
+test governed_cognition_cannot_bypass_shutdown_or_freedom_gate ... ok
+test runtime_guardian::tests::invalid_configuration_and_spawn_failure_fail_closed ... ok
+test runtime_guardian::tests::runtime_kernel_config_preserves_single_init_path ... ok
+test bounded_loop_resume_preserves_budgets_and_effect_identity ... ok
+test runtime_guardian::tests::captured_output_is_bounded ... ok
+test runtime_guardian::tests::injects_configured_environment ... ok
+test runtime_guardian::tests::missing_child_program_is_reported_without_restart ... ok
+test runtime_guardian::tests::surviving_descendants_make_even_zero_exit_terminal_and_forced ... ok
+test runtime_guardian::tests::restart_budget_does_not_reset_during_backoff_without_healthy_uptime ... ok
+test runtime_guardian::tests::restart_budget_exhaustion_is_terminal ... ok
+test runtime_guardian::tests::restarts_until_child_exits_successfully_and_captures_output ... ok
+test runtime_guardian::tests::child_exit_terminates_orphaned_descendants_before_returning ... ok
+test runtime_guardian::tests::configuration_exit_does_not_restart ... ok
+test runtime_guardian::tests::shutdown_timeout_forces_process_group_before_reap ... ok
+test runtime_guardian::tests::unauthenticated_uptime_never_resets_restart_budget ... ok
+test live_graph_executes_through_guardian_canonical_ingress ... ok
+test runtime_guardian::tests::restart_budget_resets_after_healthy_window ... ok
+test runtime_guardian::tests::shutdown_closes_authenticated_lease_and_reaps_child ... ok
+test runtime_guardian::tests::shutdown_sends_sigterm_after_lease_cancellation_before_force ... ok
+test runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child ... ok
+test runtime_guardian::tests::authenticated_lease_loss_restarts_and_then_exhausts_budget ... ok
+
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.33s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-252-guardian-hosted-spawn-flake/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.53s
+     Running tests/parity_b_live_kernel.rs (adl-runtime-kernel/target/debug/deps/parity_b_live_kernel-8146a5e1144cbef2)

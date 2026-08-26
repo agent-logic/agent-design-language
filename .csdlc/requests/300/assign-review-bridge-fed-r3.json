@@ -1,0 +1,13 @@
+{
+  "issue": 300,
+  "expected_generation": 7,
+  "expected_digest": "22de510da2551f46cd13195247c0ee2727aaabefe5621264e00f8fe259f2dd4b",
+  "reviewer": "fresh-session:curie-300-bridge-fed-r3",
+  "assigned_by": "codex:worker-5",
+  "scope": [
+    "csdlc-v2/tests/projection_recovery_integration.rs",
+    ".csdlc/issues/300",
+    ".csdlc/evidence/300/bridge-fed-r3",
+    ".csdlc/requests/300/replace-sor-bridge-fed-r3.json"
+  ]
+}

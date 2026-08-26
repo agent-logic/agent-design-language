@@ -1,7 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
 
 use markdown::mdast::Node;
 use markdown::{to_mdast, ParseOptions};
@@ -557,6 +557,13 @@ pub enum SemanticOperation {
     UpdateIdentityVersion {
         version: String,
     },
+    CorrectIdentityTitleSlugAfterDecomposition {
+        title: String,
+        slug: String,
+        live_issue_title: String,
+        live_issue_url: String,
+        live_issue_body_digest: String,
+    },
     Replan {
         field: TextField,
         value: String,
@@ -579,6 +586,40 @@ pub enum SemanticOperation {
     },
     CorrectStpDeliverablesAfterRecovery {
         values: Vec<String>,
+    },
+    CorrectStpDependenciesAfterRecovery {
+        values: Vec<String>,
+    },
+    CorrectStpRepoInputsAfterRecovery {
+        values: Vec<String>,
+    },
+    CorrectPlanSummaryAfterRecovery {
+        value: String,
+    },
+    CorrectValidationSummaryAfterRecovery {
+        value: String,
+    },
+    CorrectValidationFailurePolicyAfterRecovery {
+        value: String,
+    },
+    CorrectSorFollowUpsAfterRecovery {
+        values: Vec<String>,
+    },
+    CorrectGoalAfterRecovery {
+        value: String,
+    },
+    CorrectRequiredOutcomeAfterRecovery {
+        value: String,
+    },
+    ReplaceSorFollowUpsAfterRecovery {
+        values: Vec<String>,
+    },
+    CorrectOperatorConstraintsBeforeBind {
+        values: Vec<String>,
+    },
+    RefreshAuthoredDesignAfterRecovery,
+    CorrectPlanStepsAfterRecovery {
+        steps: Vec<PlanStep>,
     },
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
@@ -876,6 +917,10 @@ pub fn apply(
             values.identity.version = version.clone();
             Ok(None)
         }
+        SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition { .. } => Err(V2Error::new(
+            ErrorCode::FieldOwnership,
+            "correct_identity_title_slug_after_decomposition is a cross-card operation",
+        )),
         SemanticOperation::Replan { field, value } => {
             set_text(values, *field, value.clone())?;
             Ok(None)
@@ -940,6 +985,148 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Stp(value) => value.deliverables = replacement.clone(),
                 _ => return ownership(values.kind(), "correct_stp_deliverables_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectStpDependenciesAfterRecovery {
+            values: replacement,
+        } => {
+            validate_unique_replacement(replacement, "STP dependencies")?;
+            match &mut values.content {
+                CardContent::Stp(value) => value.dependencies = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_stp_dependencies_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+            values: replacement,
+        } => {
+            validate_unique_replacement(replacement, "STP repo inputs")?;
+            match &mut values.content {
+                CardContent::Stp(value) => value.repo_inputs = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_stp_repo_inputs_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectPlanSummaryAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "plan summary cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Spp(v) => v.summary = value.clone(),
+                _ => return ownership(values.kind(), "correct_plan_summary_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectValidationSummaryAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "validation summary cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Vpp(v) => v.summary = value.clone(),
+                _ => return ownership(values.kind(), "correct_validation_summary_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "validation failure policy cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Vpp(v) => v.failure_policy = value.clone(),
+                _ => {
+                    return ownership(
+                        values.kind(),
+                        "correct_validation_failure_policy_after_recovery",
+                    )
+                }
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectSorFollowUpsAfterRecovery {
+            values: replacement,
+        } => {
+            if replacement.iter().any(|value| value.trim().is_empty()) {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "SOR follow-up replacement cannot contain blank entries",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Sor(v) => v.follow_ups = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_sor_follow_ups_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectRequiredOutcomeAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "required outcome cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Sip(v) => v.required_outcome = value.clone(),
+                _ => return ownership(values.kind(), "correct_required_outcome_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectGoalAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(ErrorCode::CardInvalid, "goal cannot be empty"));
+            }
+            match &mut values.content {
+                CardContent::Sip(v) => v.goal = value.clone(),
+                _ => return ownership(values.kind(), "correct_goal_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::ReplaceSorFollowUpsAfterRecovery {
+            values: replacement,
+        } => {
+            validate_replacement(replacement, "SOR follow-ups")?;
+            match &mut values.content {
+                CardContent::Sor(v) => v.follow_ups = replacement.clone(),
+                _ => return ownership(values.kind(), "replace_sor_follow_ups_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectOperatorConstraintsBeforeBind {
+            values: replacement,
+        } => {
+            if replacement.is_empty() || replacement.iter().any(|value| value.trim().is_empty()) {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "operator constraints cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Sip(v) => v.operator_constraints = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_operator_constraints_before_bind"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::RefreshAuthoredDesignAfterRecovery => match values.content {
+            CardContent::Spp(_) => Ok(None),
+            _ => ownership(values.kind(), "refresh_authored_design_after_recovery"),
+        },
+        SemanticOperation::CorrectPlanStepsAfterRecovery { steps } => {
+            validate_recovery_plan_steps(steps)?;
+            match &mut values.content {
+                CardContent::Spp(v) => {
+                    v.steps = steps.clone();
+                    v.plan_revision += 1;
+                }
+                _ => return ownership(values.kind(), "correct_plan_steps_after_recovery"),
             }
             Ok(None)
         }
@@ -1486,6 +1673,7 @@ fn set_text(values: &mut CardValues, field: TextField, value: String) -> Result<
             v.summary = value;
             v.plan_revision += 1;
         }
+        (CardContent::Vpp(v), TextField::PlanSummary) => v.summary = value,
         (CardContent::Vpp(v), TextField::FailurePolicy) => v.failure_policy = value,
         (CardContent::Srp(v), TextField::ReviewScope) => v.review_scope = value,
         (CardContent::Sor(v), TextField::SorSummary) => v.summary = value,
@@ -1589,6 +1777,39 @@ fn validate_plan_steps(steps: &[PlanStep]) -> Result<()> {
         return Err(V2Error::new(
             ErrorCode::CardInvalid,
             "replacement plan steps must be unique, pending, and complete",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_recovery_plan_steps(steps: &[PlanStep]) -> Result<()> {
+    let ids: BTreeSet<_> = steps.iter().map(|step| step.id.as_str()).collect();
+    if steps.is_empty()
+        || ids.len() != steps.len()
+        || steps.iter().any(|step| {
+            let acceptance_ids: BTreeSet<_> =
+                step.acceptance_ids.iter().map(String::as_str).collect();
+            step.id.trim().is_empty()
+                || step.action.trim().is_empty()
+                || step.acceptance_ids.is_empty()
+                || acceptance_ids.len() != step.acceptance_ids.len()
+                || step.acceptance_ids.iter().any(|id| id.trim().is_empty())
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "post-recovery plan steps must be unique and complete",
+        ));
+    }
+    if steps
+        .iter()
+        .filter(|step| step.status == StepStatus::InProgress)
+        .count()
+        > 1
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "only one plan step may be in progress",
         ));
     }
     Ok(())
@@ -2148,6 +2369,102 @@ fn required_validator_deliverable(path: &str) -> bool {
         })
 }
 
+fn intentionally_deleted_validator(
+    root: &Path,
+    path: &str,
+    owned_paths: &[String],
+    deliverables: &[String],
+    failure_policy: &str,
+) -> bool {
+    !root.join(path).exists()
+        && fail_closed_policy(failure_policy)
+        && safe_relative_path(path)
+        && owned_paths.iter().any(|owned| owned == path)
+        && deliverables
+            .iter()
+            .any(|deliverable| intentional_deletion_marker(deliverable, path))
+        && git_path_existed_at_base(root, path)
+        && git_path_deleted_in_candidate(root, path)
+}
+
+fn intentional_deletion_marker(deliverable: &str, path: &str) -> bool {
+    let trimmed = deliverable.trim();
+    let lower = trimmed.to_ascii_lowercase();
+    ["intentional deletion:", "[intentional-deletion]"]
+        .iter()
+        .any(|prefix| lower.starts_with(prefix) && trimmed[prefix.len()..].trim() == path)
+        || lower
+            .strip_prefix("intentional deletion of ")
+            .is_some_and(|_| trimmed["intentional deletion of ".len()..].trim() == path)
+}
+
+fn safe_relative_path(path: &str) -> bool {
+    !path.chars().any(char::is_whitespace)
+        && Path::new(path)
+            .components()
+            .all(|component| matches!(component, Component::Normal(_)))
+}
+
+fn git_path_existed_at_base(root: &Path, path: &str) -> bool {
+    git_merge_base(root).is_some_and(|base| git_path_exists_at_revision(root, &base, path))
+}
+
+fn git_path_deleted_in_candidate(root: &Path, path: &str) -> bool {
+    git_status_deleted(root, path) || git_diff_deleted_from_base(root, path)
+}
+
+fn git_merge_base(root: &Path) -> Option<String> {
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["merge-base", "HEAD", "main"])
+        .output()
+        .ok()?;
+    output
+        .status
+        .success()
+        .then(|| String::from_utf8_lossy(&output.stdout).trim().to_owned())
+        .filter(|value| !value.is_empty())
+}
+
+fn git_path_exists_at_revision(root: &Path, revision: &str, path: &str) -> bool {
+    Command::new("git")
+        .current_dir(root)
+        .args(["cat-file", "-e", &format!("{revision}:{path}")])
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .status()
+        .is_ok_and(|status| status.success())
+}
+
+fn git_status_deleted(root: &Path, path: &str) -> bool {
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["status", "--porcelain=v1", "--", path])
+        .output();
+    output.is_ok_and(|output| {
+        output.status.success()
+            && String::from_utf8_lossy(&output.stdout)
+                .lines()
+                .any(|line| line.starts_with(" D ") || line.starts_with("D  "))
+    })
+}
+
+fn git_diff_deleted_from_base(root: &Path, path: &str) -> bool {
+    let Some(base) = git_merge_base(root) else {
+        return false;
+    };
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["diff", "--name-status", &base, "HEAD", "--", path])
+        .output();
+    output.is_ok_and(|output| {
+        output.status.success()
+            && String::from_utf8_lossy(&output.stdout)
+                .lines()
+                .any(|line| line == format!("D\t{path}"))
+    })
+}
+
 fn rust_source_crate_root(root: &Path, path: &str) -> Option<PathBuf> {
     let relative = Path::new(path);
     if relative.extension().and_then(|value| value.to_str()) != Some("rs") {
@@ -2439,7 +2756,7 @@ pub(crate) fn execution_readiness_findings_for_cards(
         &vpp.lanes,
         &vpp.failure_policy,
         owned_paths_are_valid,
-        phase == LifecyclePhase::Initialized,
+        matches!(phase, LifecyclePhase::Initialized | LifecyclePhase::Ready),
     ))
 }
 
@@ -2506,7 +2823,14 @@ fn execution_readiness_findings(
                 failure_policy,
                 allow_deferred,
             );
-            if !exists && !deferred {
+            let intentional_deletion = intentionally_deleted_validator(
+                root,
+                target,
+                affected_areas,
+                deliverables,
+                failure_policy,
+            );
+            if !exists && !deferred && !intentional_deletion {
                 findings.push(ExecutionReadinessFinding {
                     code: "validator_target_missing",
                     message: format!(
@@ -2515,7 +2839,9 @@ fn execution_readiness_findings(
                     ),
                 });
             }
-            if affected_areas.iter().any(|owned| owned == target) && (exists || deferred) {
+            if affected_areas.iter().any(|owned| owned == target)
+                && (exists || deferred || intentional_deletion)
+            {
                 issue_specific_denominator = true;
             }
         }
@@ -2557,7 +2883,14 @@ fn execution_readiness_findings(
                 allow_deferred,
             )
         });
-        if !exists && !deferred && !selected_targets.contains(validator) {
+        let intentional_deletion = intentionally_deleted_validator(
+            root,
+            validator,
+            affected_areas,
+            deliverables,
+            failure_policy,
+        );
+        if !exists && !deferred && !intentional_deletion && !selected_targets.contains(validator) {
             findings.push(ExecutionReadinessFinding {
                 code: "validator_target_missing",
                 message: format!("required validator deliverable is unavailable: {validator}"),

@@ -1,0 +1,13 @@
+flowchart LR
+  S["#273 committed Shepherd store"] --> SS["#365 sealed Shepherd projection"]
+  O["#274 committed Observatory store"] --> OS["#365 sealed Observatory projection"]
+  SS --> P["#367 opaque borrowed VerifiedCommittedChildLineagePair"]
+  OS --> P
+  P --> I["#275 bounded integration snapshot store"]
+  I --> J["JCS redacted snapshot"]
+  I --> R["Exact outcome receipt"]
+  I --> D["Durable checkpoint"]
+  D --> V["Reopen and digest revalidation"]
+  X["separate sealed children, public DTOs, raw lineage or authority"] -. denied .-> I
+  F["retry, crash, rollback, corruption, capacity"] --> C["fail closed; last commit remains authoritative"]
+  C --> I

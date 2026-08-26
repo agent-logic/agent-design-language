@@ -1,0 +1,20 @@
+{
+  "issue": 226,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "440651ab5d3cf2d676d74d13eb3aa49634c53f1b0428202d1c8a9b389291d35a",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Align planning invariants with the new direct syntax lane and preserved integrated product proof.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Unknown paths continue to fail closed",
+      "No selector maps Runtime source to docs-only proof",
+      "The two Observatory tooling paths select direct syntax proof without triggering integrated proof by themselves",
+      "Observatory product and demo changes continue to select the existing integrated Observatory proof",
+      "No slow or coverage job is selected solely by lifecycle metadata, issue diagrams, or the two tooling paths"
+    ]
+  },
+  "fail_after_backup": false
+}

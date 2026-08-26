@@ -1,0 +1,19 @@
+{
+  "issue": 318,
+  "card": "stp",
+  "expected_generation": 6,
+  "expected_digest": "b159713017dfb4653c0d78cd0750c9deb5ba2a415c4e6e334fa017733216f6d5",
+  "actor": "codex:/root",
+  "reason": "Record the bounded operator-authorized correction of release-tail titles and single-unit result contracts.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "Independent 13-row canonical denominator and raw-provenance packet.",
+      "Evidence-backed v0.92.1 and v0.92.2 readiness findings and dispositions.",
+      "Exact release-tail titles and one-objective/one-primary-deliverable/one-verifiable-result contracts across the four owned v0.92.1 planning surfaces.",
+      "Deterministic comparison/handoff validator with exact negative fixtures.",
+      "Exact-head independent review result suitable for the #319 merge gate."
+    ]
+  }
+}

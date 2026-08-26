@@ -1,0 +1,20 @@
+{
+  "artifact_root": "internal-review-5846",
+  "audience": "local_only",
+  "completed_at": "2026-08-25T01:57:54Z",
+  "counts": {
+    "blocker": 0,
+    "info": 0,
+    "warning": 0
+  },
+  "files_scanned": 38,
+  "findings": [],
+  "notes": [
+    "Audit is deterministic and read-only.",
+    "Findings are bounded to text-like artifacts under the audited root."
+  ],
+  "publication_recommendation": "allow_internal",
+  "schema": "codebuddy.redaction_audit.v1",
+  "started_at": "2026-08-25T01:57:54Z",
+  "status": "pass"
+}

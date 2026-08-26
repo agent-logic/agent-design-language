@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 67,
+  "expected_digest": "582ba336e0ae0200803eb292ef804896fd3509956f94bac3653ec5680c04c44e",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Record focused proof for the deterministic stale-completion cleanup race remediation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "conversation_sessions"],
+      "purpose": "Prove the newer authentication-generation attachment exists before the old completion is released and remains the only deliverable terminal result.",
+      "outcome": "passed",
+      "evidence_ref": "conversation_sessions 1/1 PASS with barrier-controlled stale cleanup race; cargo fmt check PASS; git diff --check PASS"
+    }
+  },
+  "fail_after_backup": false
+}

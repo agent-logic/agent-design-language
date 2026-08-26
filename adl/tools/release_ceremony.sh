@@ -204,6 +204,23 @@ check_typed_closeout_gate() {
     return 0
   fi
 
+  local milestone_gate="$ROOT/docs/milestones/$VERSION/RELEASE_CEREMONY_GATE_${VERSION}.json"
+  if [[ -f "$milestone_gate" ]]; then
+    require_cmd python3
+    require_cmd ruby
+    local validator
+    validator="$(python3 - "$milestone_gate" <<'PY'
+import json, pathlib, sys
+print(json.loads(pathlib.Path(sys.argv[1]).read_text()).get("validator", ""))
+PY
+)"
+    [[ "$validator" == .csdlc/prepared/issues/*/validate-release-evidence.rb ]] || fail "milestone ceremony gate has an invalid validator path"
+    [[ -f "$ROOT/$validator" ]] || fail "milestone ceremony validator is missing: $validator"
+    info "running merge-based milestone ceremony gate for $VERSION"
+    ruby "$ROOT/$validator" gate "$milestone_gate"
+    return 0
+  fi
+
   require_cmd python3
   local issues
   issues="$(python3 - "$ROOT" "$VERSION" <<'PY'

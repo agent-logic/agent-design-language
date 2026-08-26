@@ -1,0 +1,71 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 340
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement only #340 HTML Observatory Runtime restart/reconnect integration over the real Runtime v3 operator service; do not absorb child UI implementation, Unity/TLS backlog, provider-neutral multi-agent proof, or public/AWS launch.
+
+## Deliverables
+
+- CSMctl
+- start_CSM.sh
+- docs/tooling/START_CSM_RUNBOOK.md
+- docs/tooling/CSMctl.conf.example
+- adl-runtime/tests/runtime_api_wss.rs
+- adl/tools/validate_v092_observatory_restart_reconnect.sh
+- .csdlc/issues/340
+- .csdlc/prepared/issues/340
+- .csdlc/evidence/340
+
+## Acceptance
+
+1. AC-1: HTML/Polis Observatory agrees with Runtime on API/schema version, endpoint family, audience model, stable identifiers, ordering/correlation, reconnect cursor, authentication semantics, and backpressure limits.
+2. AC-2: ./CSMctl start starts the real local CSM / Runtime v3 service and succeeds only when /v1/ready, /v1/observatory, and /v1/health return HTTP 200.
+3. AC-3: ./CSMctl stop performs Guardian-owned checkpoint/dehydration shutdown, confirms stop, removes script-owned PID/lease files, and permits a clean subsequent start.
+4. AC-4: After Runtime restart, the HTML/Polis client reconnects with bounded replay, no duplicate application, fresh correlation, and unchanged authorization.
+5. AC-5: Public, operator, and reviewer projections remain consistently redacted.
+6. AC-6: Fixture/static rendering and contract-only proof remain classified separately from live integration.
+7. AC-7: One exact-head review has no unresolved actionable findings.
+
+## Dependencies
+
+- #110 terminal and ancestral
+- #256 terminal and ancestral
+- #209 / PR #215 terminal and ancestral
+- #424 merged CSMctl startup surface
+- Trusted browser/TLS inputs reverified at integration revision
+
+## Inputs
+
+- agent-logic/agent-design-language#340
+- agent-logic/agent-design-language#110
+- agent-logic/agent-design-language#256
+- agent-logic/agent-design-language#209
+- agent-logic/agent-design-language#424
+- CSMctl
+- start_CSM.sh
+- docs/tooling/START_CSM_RUNBOOK.md
+- docs/tooling/CSMctl.conf.example
+- demos/html-observatory
+- adl-runtime/tests/runtime_api_wss.rs
+
+## Non Goals
+
+- Unity implementation or cross-client Unity reconciliation
+- TLS 1.2 work owned by #251
+- HTML/Polis redesign or child implementation
+- Runtime protocol redesign
+- Provider integration
+- AWS or public launch
+- Moving UI authority into Runtime
+- Treating fixtures or stale child evidence as live integration proof
+- #341 or #343 execution

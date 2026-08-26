@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 300,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
+    "slug": "projection-recovery-integration-proof",
+    "version": "v0.92.0",
+    "generation": 24
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Remediated the #300 PR #351 hosted CI failure without production edits. The failed csdlc-v2-standalone job showed projection_recovery_integration.rs panicked at terminal prerequisite validation because clean GitHub CI checkouts do not have operator-local .git/csdlc-v2/derived-terminal cache files. The test now validates terminal caches when present locally and otherwise uses the same exact embedded terminal disposition, merge SHA, digest, and git ancestry constants so clean CI remains deterministic. Final proving evidence is r12 at immutable source head 75fd81b37b6adbbd6cb768e76066218617422410.",
+      "actual_changes": [
+        "Kept #300 scoped to csdlc-v2/tests/projection_recovery_integration.rs plus lifecycle/evidence artifacts; no production files were edited by #300.",
+        "Typed recovered #300 from published PR #351 after hosted csdlc-v2-standalone failed in terminal_prerequisites_are_current_and_ancestral_to_execution_base.",
+        "Repaired the test-only terminal prerequisite gate to avoid depending on operator-local .git/csdlc-v2/derived-terminal cache files in clean CI while preserving exact #298/#299/#330 digest, merge SHA, merged-disposition, and git ancestry assertions.",
+        "Retained recovery-to-cleanup bridge replay/rejection, later ordinary typed commit, raced-final fail-closed no-mutation proof, and mechanical invocation of approved recovery and cleanup matrix tests.",
+        "Classified the hosted PR #351 failure as source/test portability within #300 test-only scope, not a #330 production bridge regression."
+      ],
+      "artifacts": [
+        "csdlc-v2/tests/projection_recovery_integration.rs",
+        ".csdlc/evidence/300/bridge-fed-r12/projection-recovery-integration.log sha256=06ef6042c4daec398bf63fb55a58c08b6f0f665364f2db006e8b124efb2af6c8",
+        ".csdlc/evidence/300/bridge-fed-r12/csdlc-v2-strict-clippy.log sha256=4ce554ce0e876b319c2fee896de815629478cff374efb77915615736de0c1276",
+        ".csdlc/evidence/300/bridge-fed-r12/csdlc-v2-fmt-check.log sha256=ee1d6d50a41df5478ebe515c10b4ade0b74c7036f9a407342d79396887b4d283",
+        ".csdlc/evidence/300/bridge-fed-r12/git-diff-check-head.log sha256=8fede4e5446307c581d338b9947eb2cf89306fefb67b61bb6fd3024bec9c5e84",
+        "GitHub PR #351 run 31733498480 job 94559576809 failed: terminal cache missing in clean CI checkout at tests/projection_recovery_integration.rs:488"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "projection_recovery_integration",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Run the issue-owned bridge-fed projection recovery integration target, including portable terminal prerequisite ancestry/digest pins for #298/#299/#330, recovery-to-cleanup bridge replay/rejection, later typed commit, raced-final fail-closed no-mutation proof, and mechanical invocation of approved recovery and cleanup matrix tests.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/300/bridge-fed-r12/projection-recovery-integration.log sha256=06ef6042c4daec398bf63fb55a58c08b6f0f665364f2db006e8b124efb2af6c8 head=75fd81b37b6adbbd6cb768e76066218617422410 status=0"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy with warnings denied across the C-SDLC v2 crate and tests.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/300/bridge-fed-r12/csdlc-v2-strict-clippy.log sha256=4ce554ce0e876b319c2fee896de815629478cff374efb77915615736de0c1276 head=75fd81b37b6adbbd6cb768e76066218617422410 status=0"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--check"
+          ],
+          "purpose": "Verify Rust formatting at the exact immutable source checkpoint.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/300/bridge-fed-r12/csdlc-v2-fmt-check.log sha256=ee1d6d50a41df5478ebe515c10b4ade0b74c7036f9a407342d79396887b4d283 head=75fd81b37b6adbbd6cb768e76066218617422410 status=0"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "HEAD"
+          ],
+          "purpose": "Verify whitespace hygiene for the exact source checkpoint plus evidence/card dirt before evidence commit.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/300/bridge-fed-r12/git-diff-check-head.log sha256=8fede4e5446307c581d338b9947eb2cf89306fefb67b61bb6fd3024bec9c5e84 head=75fd81b37b6adbbd6cb768e76066218617422410 status=0"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

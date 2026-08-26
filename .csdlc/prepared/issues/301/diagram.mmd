@@ -1,0 +1,14 @@
+flowchart LR
+  A["Typed title-only request"] --> B["Fingerprint request and search receipts"]
+  B --> C{"Existing key?"}
+  C -->|same fingerprint| H["Exact issue and receipt readback"]
+  C -->|different fingerprint| X["Fail closed"]
+  C -->|absent| D["Read exact body and revision"]
+  D --> E["Single title-only PATCH"]
+  E --> F["Verify title and unchanged body"]
+  F -->|drift| X
+  F -->|match| G["Post fingerprinted provenance receipt"]
+  G --> H
+  H --> I{"Title, body, unique receipt, fingerprint agree?"}
+  I -->|yes| J["reconciled true"]
+  I -->|no| X

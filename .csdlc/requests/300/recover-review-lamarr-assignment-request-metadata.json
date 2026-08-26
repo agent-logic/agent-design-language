@@ -1,0 +1,7 @@
+{
+  "issue": 300,
+  "expected_generation": 14,
+  "expected_digest": "f5b50ab7bcc3f4ebfbb0777a5a3ff87b6aae1769b56303e0bb5042ced59eac02",
+  "actor": "codex:worker-5",
+  "reason": "Recover reviewed state after doctor still reported review_publication_dead_end: the post-review range included .csdlc/requests/300/assign-review-bridge-fed-r6.json because assign_review records the pre-assignment HEAD revision."
+}

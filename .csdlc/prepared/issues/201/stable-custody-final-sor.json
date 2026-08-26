@@ -1,0 +1,43 @@
+{
+  "issue": 201,
+  "card": "sor",
+  "expected_generation": 75,
+  "expected_digest": "22a2793e6c5fc51d53c4b0fc7b7fd3090363eadc76b0fcf404b199f057c8e3ce",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "reason": "Record the independently approved stable-custody implementation and immutable exact current-source proof while fresh implementation review remains pending.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented the independently approved stable replicated authority and runtime-external current boot-cut model. Replacement v7 evidence binds source 61cbbb157fd3c329ef0c399d0bd9bbf6e164519a with exact semantic 86/86, full runtime 230/230, strict Clippy, real three-voter OpenRaft, validator ancestry and shallow-safe modes, and immutable introduction d832b0169; fresh independent implementation review remains pending and nothing is published or merged.",
+    "changes": [
+      "Replicated current authority now contains only stable polis, epoch, membership, configuration, and voter truth; current boot custody remains runtime-external and is validated as an exact full voter cut.",
+      "Every Prepare requires exact canonical current boot-vector equality, never mutates current authority, and freezes its complete historical boot vector plus a digest bound to stable authority.",
+      "Finalization, publication, restore, and snapshot install reverify frozen historical custody, while boot-rotated reopen can immediately build and install a snapshot before a new Prepare.",
+      "The exact snapshot regression rejects stale cuts without mutation, accepts the current cut, preserves old prepared/finalized custody, and rejects duplicate, reordered, zero, missing, extra, non-JCS, and injected current boot vectors.",
+      "The v7 producer and validator now execute and bind the truthful full runtime 230/230 lane in addition to the unchanged exact 86-case semantic contract."
+    ],
+    "artifacts": [
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      ".csdlc/prepared/issues/201/design.md",
+      ".csdlc/prepared/issues/201/diagram.mmd",
+      ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
+      ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+      ".csdlc/evidence/201/v7/execution-proof.json",
+      ".csdlc/issues/201/cards/stp.md",
+      ".csdlc/issues/201/cards/spp.md",
+      ".csdlc/issues/201/cards/vpp.md",
+      ".csdlc/issues/201/cards/srp.md",
+      ".csdlc/issues/201/cards/sor.md"
+    ],
+    "validation": [
+      {"command":["cargo","nextest","run","--locked","--manifest-path","adl-runtime/Cargo.toml","--lib","-E","test(/^distributed::authority_protocol::contract_tests::/) or test(/^distributed::polis_runtime::authority_consensus_tests::snapshot_/)","--no-tests=fail"],"purpose":"Prove the 83 Rust cases contributing to the exact issue semantic denominator.","outcome":"passed","evidence_ref":".csdlc/evidence/201/v7/execution-proof.json"},
+      {"command":["ruby",".csdlc/prepared/issues/201/validate-proof-receipt.rb","--self-test"],"purpose":"Prove the three exact validator topology modes and semantic markers.","outcome":"passed","evidence_ref":".csdlc/evidence/201/v7/execution-proof.json"},
+      {"command":["cargo","nextest","run","--locked","--manifest-path","adl-runtime/Cargo.toml","--lib","--no-tests=fail"],"purpose":"Prove the truthful complete runtime denominator.","outcome":"passed","evidence_ref":".csdlc/evidence/201/v7/execution-proof.json#runtime_summary=230/230"},
+      {"command":["cargo","test","--locked","--manifest-path","adl-runtime/Cargo.toml","--lib","distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids","--","--exact","--nocapture"],"purpose":"Prove production real three-voter OpenRaft authority flow.","outcome":"passed","evidence_ref":".csdlc/evidence/201/v7/execution-proof.json"},
+      {"command":["cargo","clippy","--locked","--manifest-path","adl-runtime/Cargo.toml","--lib","--","-D","warnings"],"purpose":"Prove production authority code is warning-free.","outcome":"passed","evidence_ref":".csdlc/evidence/201/v7/execution-proof.json"},
+      {"command":["ruby",".csdlc/prepared/issues/201/validate-proof-receipt.rb"],"purpose":"Prove exact source ancestry, protected-tree fallback only when source is absent, available divergence rejection, immutable proof introduction, semantic 86/86, and runtime 230/230.","outcome":"passed","evidence_ref":".csdlc/evidence/201/v7/execution-proof.json"},
+      {"command":["csdlc-validate","--root",".","issue","--issue","201"],"purpose":"Prove typed card projections and independently approved design bindings.","outcome":"passed","evidence_ref":".csdlc/issues/201/index.json"},
+      {"command":["csdlc-doctor","--repo",".","--issue","201"],"purpose":"Prove implemented lifecycle health with fresh review pending.","outcome":"passed","evidence_ref":".csdlc/issues/201/index.json"},
+      {"command":["git","diff","--check"],"purpose":"Prove current diff hygiene.","outcome":"passed","evidence_ref":"git:worktree"}
+    ]
+  }
+}

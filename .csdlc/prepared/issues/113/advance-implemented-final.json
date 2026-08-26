@@ -1,0 +1,12 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 34,
+  "expected_digest": "8edbbf29ca7dce24fe2dbe49b294f62a6903d02a823708276a47593dac608129",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Bounded #113 implementation and exact-head validation are complete; enter implemented phase for separately assigned final review.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

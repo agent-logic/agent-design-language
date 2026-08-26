@@ -27,16 +27,16 @@ use capability_advertisement::{
 };
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-    CertificateValidity, DistributedCertificateStore,
+    CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 use fencing::{
     FenceReceipt, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
-    FencingStore,
+    FencingStore, TEST_FENCING_STORE_ACCESS,
 };
 use lease::{
     AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityLedger, LeasePolicy, LeaseState,
-    OperationClass,
+    OperationClass, TEST_LEASE_STORE_ACCESS,
 };
 use membership::{
     CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
@@ -82,7 +82,10 @@ impl AdvertisementCertificates {
             .unwrap()
             .with_bounds(3_600, 60, 60, 64, 64)
             .unwrap();
-        let store = Arc::new(DistributedCertificateStore::open(path, policy).unwrap());
+        let store = Arc::new(
+            DistributedCertificateStore::open(&TEST_CERTIFICATE_STORE_ACCESS, path, policy)
+                .unwrap(),
+        );
         for holder in [
             "guardian-1",
             "guardian-2",
@@ -91,7 +94,9 @@ impl AdvertisementCertificates {
             "intruder",
         ] {
             let certificate = advertisement_certificate(holder, 3);
-            store.activate(&certificate, NOW - 10).unwrap();
+            store
+                .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW - 10)
+                .unwrap();
         }
         Self {
             _directory: directory,
@@ -426,9 +431,12 @@ fn signed_capability_bytes_are_verified_before_placement() {
         .canonicalize()
         .unwrap()
         .join("placement-capability-replay.redb");
-    let verifier =
-        CapabilityAdvertisementVerifier::open(certificates.store.clone(), policy.clone(), replay)
-            .unwrap();
+    let verifier = CapabilityAdvertisementVerifier::open_for_test(
+        certificates.store.clone(),
+        policy.clone(),
+        replay,
+    )
+    .unwrap();
     let certificate = advertisement_certificate("guardian-1", 3);
     let seed = "guardian-1"
         .bytes()
@@ -468,6 +476,7 @@ fn authoritative_lineage_fencing_cannot_be_omitted() {
     let state = membership(&[1], &[]);
     let directory = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
     let store = FencingStore::create(
+        &TEST_FENCING_STORE_ACCESS,
         directory.path(),
         FencingPolicy {
             max_lineages: 32,
@@ -488,13 +497,16 @@ fn authoritative_lineage_fencing_cannot_be_omitted() {
     .unwrap();
     let _weather =
         PlacementWeatherSnapshot::capture(&weather_store, &certificates.store, NOW).unwrap();
-    let ledger = AuthorityLedger::new(LeasePolicy {
-        max_lease_duration_millis: 2_000,
-        max_clock_uncertainty_millis: 10,
-        message_delay_margin_millis: 5,
-        max_lineages: 32,
-        max_snapshot_bytes: 64 * 1024,
-    })
+    let ledger = AuthorityLedger::new(
+        &TEST_LEASE_STORE_ACCESS,
+        LeasePolicy {
+            max_lease_duration_millis: 2_000,
+            max_clock_uncertainty_millis: 10,
+            message_delay_margin_millis: 5,
+            max_lineages: 32,
+            max_snapshot_bytes: 64 * 1024,
+        },
+    )
     .unwrap();
     assert!(matches!(
         PlacementFencingSnapshot::capture(&policy, &state, &ledger, &store),

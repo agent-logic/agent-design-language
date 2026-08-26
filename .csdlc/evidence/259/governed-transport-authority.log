@@ -1,0 +1,22 @@
+
+running 15 tests
+test authenticated_certificate_cannot_claim_a_different_node_identity ... ok
+test cancellation_and_authorization_expiry_stop_transport_work ... ok
+test certificate_fingerprint_mismatch_fails_closed_after_tls_authentication ... ok
+test configured_unidirectional_stream_ceiling_is_enforced ... ok
+test dependency_contract_is_exactly_pinned_in_manifest_and_lockfile ... ok
+test duplicate_sequence_is_rejected_with_a_bounded_replay_window ... ok
+test framing_is_bounded_and_rejects_malformed_or_mismatched_identity ... ok
+test mutual_tls_loopback_carries_identity_bound_messages_both_ways ... ok
+test non_transport_purpose_cannot_authorize_a_transport_session ... ok
+test replay_window_accepts_unseen_in_window_and_rejects_stale_sequence ... ok
+test revocation_closes_an_established_authorized_session ... ok
+test transport_authority_rejects_unrelated_tls_subject_key ... ok
+test transport_authority_rejects_wrong_domain_peer_binding ... ok
+test transport_raw_store_constructor_remains_cfg_test_crate_private ... ok
+test untrusted_client_certificate_is_rejected_by_mutual_tls ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.06s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.32s
+     Running tests/distributed_transport.rs (adl-runtime/target/debug/deps/distributed_transport-72d1543402bd8c23)

@@ -1,0 +1,152 @@
+{
+  "schema": "adl.ci.workflow-policy.v1",
+  "status": "pass",
+  "automatic_pr_entrypoint": ".github/workflows/ci.yaml",
+  "required_heavy_runner": "vars.ADL_HEAVY_RUNNER",
+  "optional_policy": "explicit_dispatch_only",
+  "scheduled_heavy_validation": "disabled",
+  "workflow_count": 17,
+  "workflows": [
+    {
+      "path": ".github/workflows/aws-codefriend-build.yaml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/aws-spot-remote-validation.yaml",
+      "events": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/ci.yaml",
+      "events": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "automatic_pr": true,
+      "dispatch_policy": "automatic_classifier"
+    },
+    {
+      "path": ".github/workflows/nightly-coverage-ratchet.yaml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp04-native-distributed.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp08-native-birthday.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp09-native-birthday-identity.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp10-native-birthday-continuity.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp11-native-memory-palace.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp12-native-capability-envelope.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp13-authority-repair.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp13-native-cognitive-profile.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp13a-native-adaptive-learning.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp14-native-acip.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp14-production-acip-repair.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp14-retained-native-proof.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    },
+    {
+      "path": ".github/workflows/wp15-native-birth-witness.yml",
+      "events": [
+        "workflow_dispatch"
+      ],
+      "automatic_pr": false,
+      "dispatch_policy": "explicit_only"
+    }
+  ],
+  "errors": [
+
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "issue": 111,
+  "card": "stp",
+  "expected_generation": 22,
+  "expected_digest": "954a67746ad7e83bffca3a26c3d8509aaedb6fc291c635f4b44246d4bbf69ff6",
+  "actor": "codex:111-execution",
+  "reason": "Replace superseded terminal-83 wording while preserving the bounded selected-agent conversation slice.",
+  "operation": {
+    "operation": "replan",
+    "field": "task_boundary",
+    "value": "Implement only the canonical one-operator-to-one-visible-agent bounded conversation slice authorized by live #110: authenticated Observatory intent, Runtime recipient eligibility, canonical ingress dispatch, explicit delivery/refusal/failure outcomes, and typed public reply rendering. Exclude durable history, rooms, attention workflows, public deployment, and broader identity or policy hardening."
+  },
+  "fail_after_backup": false
+}

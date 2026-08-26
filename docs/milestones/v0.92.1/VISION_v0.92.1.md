@@ -1,12 +1,7 @@
-# v0.92.1 Vision
+# Vision — v0.92.1
 
-v0.92.1 moves Agent Logic from founder-dependent ownership and operational proof toward a company-controlled, independently operable foundation.
+v0.92.1 makes ADL easier to operate, qualify, and understand without broadening into an unbounded platform rewrite.
 
-At completion:
+The milestone succeeds when Corporate and IP obligations have bounded evidence, C-SDLC v3 has an executable typed program, Distributed multi-agent Runtime qualification demonstrates governed collaboration, Podcast publication has an operator-ready product path, Axum configuration hot reload safely applies validated changes, and the Observatory redesign exposes authentic authority with accessible product behavior. Runtime v2 and v3 must also have unambiguous ownership and reversible compatibility, provider inference profiles must be shared across tools with shadow execution isolated from authority, and the optional GCP replay must retain exact identity, cost, and cleanup proof.
 
-- Agent Logic has counsel-reviewed chain-of-title and corporate acceptance evidence for its critical intellectual property.
-- Production repositories, domains, cloud infrastructure, deployment authority, billing, recovery, and operational custody are company-controlled.
-- C-SDLC v3 provides one coherent Rust executable and operator journey, with deterministic state, typed effects, exact review, foreground remote operations, and a single-writer cutover.
-- The distributed Runtime has survived a real three-voter, multi-agent qualification cycle across local and hybrid failure domains with replayable receipts.
-
-This milestone does not claim legal personhood for agents, public production scale, v2 retirement before the rollback window, or elimination of every residual operational risk.
+Repository authority is established first by #432. Existing #251, #122, #84, and #345 remain active scope; #457 is historical provenance only. Runtime v4 remains a rebaseline risk. CodeFriend Beta 1 follows in v0.92.2 and must mature into an integrated beta by v0.95.

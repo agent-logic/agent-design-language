@@ -1,0 +1,43 @@
+{
+  "issue": 234,
+  "card": "sor",
+  "expected_generation": 15,
+  "expected_digest": "d05cb7b9454e18122877adfd4787ca0c7127bc875b9ea5467cd07fe763a72178",
+  "actor": "codex:234-systemic-ci-cost-control",
+  "reason": "Record the completed required-check classifier and finish-preflight repair alongside the CI fanout controls.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Made central ci.yaml the sole automatic PR workflow, isolated optional fanout, coalesced duplicate heads, and changed C-SDLC PR readiness and finish preflight to permit GitHub unstable only when every declared required check and required review is satisfied.",
+    "changes": [
+      "Removed automatic pull-request triggers from standalone native and retained proof workflows while preserving explicit dispatch.",
+      "Changed central CI concurrency to repository plus head SHA and gated heavy coverage aggregation before runner allocation.",
+      "Added machine-readable skipped, deferred, soak, and duplicate-head dispositions plus a whole-workflow policy validator.",
+      "Made csdlc-github-pr ignore canceled or unknown optional checks when merge_state is unstable and all declared required checks succeed.",
+      "Made csdlc-finish accept unstable only for an exact ready target while retaining conflicts, draft, base drift, head drift, missing checks, failed checks, and review gates."
+    ],
+    "artifacts": [
+      ".github/workflows/ci.yaml",
+      ".github/workflows/nightly-coverage-ratchet.yaml",
+      ".github/workflows/wp08-native-birthday.yml",
+      ".github/workflows/wp09-native-birthday-identity.yml",
+      ".github/workflows/wp10-native-birthday-continuity.yml",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      ".github/workflows/wp12-native-capability-envelope.yml",
+      ".github/workflows/wp13-authority-repair.yml",
+      ".github/workflows/wp13-native-cognitive-profile.yml",
+      ".github/workflows/wp13a-native-adaptive-learning.yml",
+      ".github/workflows/wp14-native-acip.yml",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      ".github/workflows/wp14-retained-native-proof.yml",
+      ".github/workflows/wp15-native-birth-witness.yml",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/validate_ci_workflow_policy.rb",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/finish.rs",
+      "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md",
+      ".csdlc/evidence/234/ci-workflow-inventory.json"
+    ]
+  }
+}

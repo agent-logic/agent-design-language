@@ -54,6 +54,9 @@ LOG
 
 run_finalizer() {
   local root="$1"
+  local role="${2:-build_cache}"
+  local purchase_option="${3:-spot}"
+  local environment="${4:-immutable_builder}"
   python3 "$FINALIZER" \
     --summary "$root/summary.json" \
     --artifact-dir "$root/artifacts" \
@@ -61,7 +64,10 @@ run_finalizer() {
     --expected-source-commit "$source_commit" \
     --expected-image "$image" \
     --expected-cache-volume-id-sha256 "$cache_volume_hash" \
+    --expected-retained-volume-role "$role" \
+    --validation-environment "$environment" \
     --estimated-hourly-cost-usd 0.15 \
+    --expected-purchase-option "$purchase_option" \
     --runner-exit-code 0
 }
 
@@ -81,11 +87,72 @@ assert "123456789012" in private
 assert wrapper["self_verification"]["passed"] is True
 assert wrapper["cache_target_preexisting_entries"] == 42
 assert wrapper["cost"]["estimated_compute_cost_usd"] == 0.005
+assert wrapper["self_verification"]["purchase_option_verified"] is True
 PY
 if rg -n '123456789012|arn:aws:|i-0123456789abcdef0|192\.0\.2\.10' "$pass/artifacts" -g '!control-summary.json' >/dev/null; then
   echo "public artifact retained an AWS identity" >&2
   exit 1
 fi
+
+on_demand="$TMP/on-demand"
+make_fixture "$on_demand"
+python3 - "$on_demand/summary.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["launch"]["purchase_option"] = "on_demand"
+open(path, "w", encoding="utf-8").write(json.dumps(data) + "\n")
+PY
+run_finalizer "$on_demand" build_cache on_demand >"$on_demand/out"
+python3 - "$on_demand/artifacts/wrapper-final-summary.json" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1], encoding="utf-8"))
+verification = data["self_verification"]
+assert verification["passed"] is True
+assert verification["expected_purchase_option"] == "on_demand"
+assert verification["purchase_option_verified"] is True
+assert verification["spot_purchase_verified"] is None
+PY
+
+runtime_volume="$TMP/runtime-volume"
+make_fixture "$runtime_volume"
+python3 - "$runtime_volume/summary.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["cache_volume"]["mount_path"] = "/mnt/adl-runtime-continuity"
+open(path, "w", encoding="utf-8").write(json.dumps(data) + "\n")
+PY
+run_finalizer "$runtime_volume" runtime_continuity >"$runtime_volume/out"
+python3 - "$runtime_volume/artifacts/wrapper-final-summary.json" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1], encoding="utf-8"))
+assert data["self_verification"]["passed"] is True
+assert data["self_verification"]["retained_volume_role"] == "runtime_continuity"
+PY
+
+cloudformation_runtime="$TMP/cloudformation-runtime"
+make_fixture "$cloudformation_runtime"
+python3 - "$cloudformation_runtime/summary.json" "$source_commit" <<'PY'
+import json, sys
+path, commit = sys.argv[1:]
+data = json.load(open(path, encoding="utf-8"))
+data["launch"]["purchase_option"] = "on_demand"
+data["launch_surface"] = {"provisioning_mode":"cloudformation_existing_instance","ssh_debug_enabled":False}
+data["cache_volume"]["mount_path"] = "/opt/adl-runtime"
+data["remote_summary"] = {"validation_environment":"direct_host_runtime","resolved_commit":commit,"runtime_toolchain_verified":True}
+open(path, "w", encoding="utf-8").write(json.dumps(data) + "\n")
+PY
+: >"$cloudformation_runtime/artifacts/command-status.log"
+run_finalizer "$cloudformation_runtime" runtime_continuity on_demand direct_host_runtime >"$cloudformation_runtime/out"
+python3 - "$cloudformation_runtime/artifacts/wrapper-final-summary.json" <<'PY'
+import json, sys
+verification=json.load(open(sys.argv[1], encoding="utf-8"))["self_verification"]
+assert verification["passed"] is True
+assert verification["ssh_recovery_verified"] is None
+assert verification["live_logs_verified"] is None
+assert verification["cache_mount_health_verified"] is True
+PY
 
 teardown="$TMP/teardown"
 make_fixture "$teardown"

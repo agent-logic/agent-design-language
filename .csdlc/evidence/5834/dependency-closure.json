@@ -1,0 +1,17 @@
+{
+  "schema": "adl.v092.birthday-dependency-closure.v1",
+  "observed_at": "2026-08-11T03:06:47Z",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "entries": [
+    {"issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5825,"issue_state":"closed","pull_request":104,"pr_state":"merged","head_revision":"e014c03c31d032399ca18a6f147b7bd275e97d8c","merge_commit":"c2ab28e6a74bd614982c2c18f9ebea5a4e5d64ae"},
+    {"issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5826,"issue_state":"closed","pull_request":118,"pr_state":"merged","head_revision":"b0b2a00cbb8434375dc84d63d8da9db4d51eb03d","merge_commit":"755d4032c7e48306d2d5f5f1b0c19edadf19c822"},
+    {"issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5827,"issue_state":"closed","pull_request":127,"pr_state":"merged","head_revision":"6694a57a0d8381dfca90b5082f616f4dea5488f0","merge_commit":"02b4ad6651fd87100184395d18d4d49f0183f360"},
+    {"issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5828,"issue_state":"closed","pull_request":131,"pr_state":"merged","head_revision":"d1ad632cf7d9f78071875b496b7d125066759b18","merge_commit":"aac0c689c657132e8b8324c8f1e23e979bc3e1a8"},
+    {"issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5829,"issue_state":"closed","pull_request":135,"pr_state":"merged","head_revision":"468e80826a0a7ee40f5d2741adc87284c7662df4","merge_commit":"2010bd36c41e59558066120627ea6a2121d13103"},
+    {"issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5830,"issue_state":"closed","pull_request":139,"pr_state":"merged","head_revision":"06ad9ef491812b490802dc52a0949939939cd295","merge_commit":"ead2527f1b386342fe684e109df4d6105716a007"},
+    {"issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5831,"issue_state":"closed","pull_request":195,"pr_state":"merged","head_revision":"946feae5003dc02947158a15c55c265f1fc5f97f","merge_commit":"1e72393363da347f86545985347203b7f2ea52d0"},
+    {"issue_repository":"agent-logic/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":209,"issue_state":"closed","pull_request":215,"pr_state":"merged","head_revision":"c640066f284a915b638add377cc4b0a2e221e6f9","merge_commit":"a77519c3fca9f64752af41c9a2ebd396468891f7"},
+    {"issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5833,"issue_state":"closed","pull_request":198,"pr_state":"merged","head_revision":"6c8b1112e99a5ead4f326f863f020f5dbf744fbf","merge_commit":"ed657e4494e08d4ce3de1b554d097632111a83a9"}
+  ]
+}

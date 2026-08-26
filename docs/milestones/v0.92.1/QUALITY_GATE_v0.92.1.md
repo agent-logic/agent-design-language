@@ -1,14 +1,27 @@
-# v0.92.1 Quality Gate
+# Quality Gate — v0.92.1
 
-| Gate | Pass condition | Fail-closed condition |
-| --- | --- | --- |
-| Corporate chain of title | Every critical scheduled asset has counsel-reviewed transfer and corporate acceptance evidence | Any critical in-scope asset deferred, ambiguous, or unsupported |
-| Operational custody | Company identities control production billing, recovery, domains, cloud, deployment, monitoring, and rollback | Required personal-account dependency remains |
-| v3 architecture fidelity | PR #77 contract and all eleven decisions preserved | Silent architecture change or missing hard gate |
-| v3 state and recovery | One commit point, deterministic projections, interruption recovery, supported-platform proof | Dual authority, data loss, unsupported mutation |
-| v3 remote lifecycle | Exact review, durable intent, idempotent readback, foreground cancellation, terminal truth | Stale review, duplicate mutation, hidden watcher |
-| v3 cutover | Parity, canary, writer fence, authority scan, rollback rehearsal | v2 and v3 writable together; V3-R01 folded into cutover |
-| Runtime topology | Exactly three voters, three governed agents, one shepherd, one leased Observatory | In-process substitute, shared state, synthetic projection |
-| Runtime resilience | Exact `#142` merge ancestry; `3 -> 2 -> 1` behavior; old lease expiry; snapshot restore; AWS-only continuity; replay; per-phase cleanup | Stale leader writes, one-voter mutation, replay divergence, cleanup only at final exit |
-| Runtime security | Key separation, non-voting shepherd identity, capability, TLS, stale lease/fence, cross-polis replay, provider, malformed-message, and pre-auth disclosure negatives pass | Plaintext, public endpoint, forged or stale authority accepted |
-| Evidence | Producer-derived exact-revision receipts independently recompute | Hard-coded totals, skipped tests, screenshots-only evidence |
+The milestone gate requires reviewed, merged, ancestral #432 authority and reviewed planning truth for every execution track:
+
+- Corporate and IP
+- AWS account move-in and normalization
+- GCP account move-in
+- Cross-cloud Runtime Terraform conversion
+- Rust resilience owner-boundary refactoring
+- C-SDLC v3
+- Distributed multi-agent Runtime
+- Podcast
+- Axum configuration hot reload
+- Observatory redesign
+- Runtime v2/v3 decoupling
+- Provider inference profiles
+- GCP six-resident qualification sidecar
+
+Each lane must provide exact-scope validation, nonzero proving denominators, review truth, redacted evidence, and explicit residual risks. Runtime v4 incompatibility forces rebaseline. No lane may depend on a local untracked path or claim invented Observatory data.
+
+All dependency checks are merge-based. Individual typed finish, receipt reconciliation, and worktree cleanup remain asynchronous bookkeeping and do not block otherwise ready downstream execution.
+
+The active existing-issue denominator includes #251, #122, #84, and #345. The gate rejects missing TLS 1.2, public-exposure, Unity, or GPU Shepherd evidence when the consuming Observatory or distributed Runtime claim requires it.
+
+DEC-01 must prove exclusive v2/v3 ownership and reversible compatibility without claiming Runtime v4. PROV-A/PROV-B must prove shared configuration and shadow isolation; #457 supplies provenance only. DRT-D must prove provider identity, cost, and zero-resource cleanup and must not execute #269. Integration evidence must preserve the exact #188 convergence/quality, #190 successor-planning, and #189 ceremony routing.
+
+AWS-A through AWS-G and GCP-A through GCP-E must each prove their single declared result. XCL-01 must prove the exact CloudFormation-template denominator, provider-neutral contract, explicit provider implementations, parity, rollback, and zero-residue cleanup before AWS-G may accept retirement. RUST-01 must prove behavior/API parity and truthful validation-impact measurement without a LoC quota.

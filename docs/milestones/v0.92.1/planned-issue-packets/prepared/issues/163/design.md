@@ -84,4 +84,4 @@ Measurement ancestry, platform-row completeness, unsupported-platform negatives,
 
 ## Source Authority
 
-- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#decisions-required-before-implementation`
+- `docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md#decisions-required-before-implementation`

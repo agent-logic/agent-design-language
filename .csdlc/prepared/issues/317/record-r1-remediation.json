@@ -1,0 +1,36 @@
+{
+  "issue": 317,
+  "card": "sor",
+  "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+  "reason": "Record complete remediation of the first independent-review findings before a fresh review.",
+  "expected_generation": 7,
+  "expected_digest": "184bc2b3457c97d10bc452f69e526526bbf854682b401f26acf2a004e5c7729c",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Remediated the #317 R1 findings by expanding the denominator to the complete 13-row Sprint 6 canonical universe, retaining and recomputing raw GitHub response digests, separating each reviewed revision from its later publication head, recording lifecycle/receipt/topology/cleanup truth per row, and expanding executable negative proof to 19 cases. No GitHub write, review, publication, merge, finish, cleanup, tag, release, close, or activation mutation occurred.",
+    "changes": [
+      "Expanded the explicit legacy-to-canonical reconciliation from six tail rows to umbrella #307 plus children #308-#319.",
+      "Bound every canonical row to tracked wave and Sprint 6 authority and to retained raw issue/PR response bytes with recomputed SHA-256.",
+      "Recorded typed-record, phase, receipt, branch, worktree, cleanliness, cleanup, release-dependency, owner, and next-action truth for every row.",
+      "Separated #316 reviewed revision d9aaaadbf5fc8e425e7099485fc006857feffd1e from publication head 8478f11e21a34530ba07bf64afc260e7a6eedd33 and proved review-head and merge ancestry.",
+      "Expanded negative replay to missing receipt, active/dirty worktree, partial release identity, duplicate mutation, arbitrary envelope digest, non-ancestral review, and the original identity/proof/DAG cases."
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md",
+      ".csdlc/evidence/317/issue-universe.json",
+      ".csdlc/evidence/317/closeout-dag.json",
+      ".csdlc/evidence/317/negative-cases.json",
+      ".csdlc/evidence/317/github-observation-envelope.json",
+      ".csdlc/evidence/317/github-raw",
+      ".csdlc/prepared/issues/317/validate-closeout-plan.rb"
+    ],
+    "validation": [
+      {
+        "command": ["ruby", ".csdlc/prepared/issues/317/validate-closeout-plan.rb", "all"],
+        "outcome": "passed",
+        "purpose": "Validate the tracked-authority 13-row universe, recomputed raw provenance, reviewed-revision ancestry, acyclic merge gates, lifecycle truth, and 19 negative mutations.",
+        "evidence_ref": ".csdlc/evidence/317"
+      }
+    ]
+  }
+}

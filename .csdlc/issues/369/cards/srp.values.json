@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 369,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover false design approval on bound issues",
+    "slug": "bound-false-design-review-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/store.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/bin/csdlc-edit.rs\ncsdlc-v2/tests/gate2.rs\n.csdlc/prepared/issues/369/run_exact_focused_matrix.py\n.csdlc/prepared/issues/369/validate_exact_scope.py\n.csdlc/issues/369\n.csdlc/evidence/369",
+      "review_revision": "git-blake3:633b94770e2dc667ec3719cd8d9c64bd312f388c:39a4de521456cf6a3b98db532281ed9aeea835094e952dcca1d39f3cf5bf4927",
+      "reviewer": "fresh-session:9d46fb13-62d3-4d44-a760-4b6d6af4e1b5",
+      "review_prompts": [
+        "Does recovery require exact false approval identity?",
+        "Does it preserve audit/topology and set pending only?",
+        "Are later authority and repeats rejected?",
+        "Does #275 recover without replacement authority?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Inspection-only review; reviewer did not rerun tests and relied on recorded focused matrix, scope, and Clippy evidence."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

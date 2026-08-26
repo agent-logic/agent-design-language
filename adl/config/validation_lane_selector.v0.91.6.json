@@ -279,21 +279,36 @@
       ],
       "path_selectors": [
         "adl/tools/check_coverage_impact.sh",
+        "adl/tools/mechanical_coverage_fallout.py",
+        "adl/config/mechanical_coverage_fallout.v1.json",
         "adl/tools/enforce_coverage_gates.sh",
         "adl/tools/test_check_coverage_impact.sh",
+        "adl/tools/test_mechanical_coverage_fallout.sh",
         "adl/tools/test_run_authoritative_coverage_lane.sh",
         "adl/tools/test_run_local_authoritative_coverage_gate.sh"
       ],
       "path_hints": [
         "adl/tools/check_coverage_impact.sh",
+        "adl/tools/mechanical_coverage_fallout.py",
+        "adl/config/mechanical_coverage_fallout.v1.json",
         "adl/tools/enforce_coverage_gates.sh",
         "adl/tools/test_check_coverage_impact.sh",
+        "adl/tools/test_mechanical_coverage_fallout.sh",
         "adl/tools/test_run_authoritative_coverage_lane.sh",
         "adl/tools/test_run_local_authoritative_coverage_gate.sh"
       ],
-      "command": "bash adl/tools/test_check_coverage_impact.sh",
-      "run_command": "bash adl/tools/test_check_coverage_impact.sh",
-      "reason": "coverage_impact_surface_requires_coverage_impact_contract_checks"
+      "command": "bash adl/tools/test_mechanical_coverage_fallout.sh && bash adl/tools/test_check_coverage_impact.sh",
+      "run_command": "bash adl/tools/test_mechanical_coverage_fallout.sh && bash adl/tools/test_check_coverage_impact.sh",
+      "reason": "coverage_impact_surface_requires_coverage_impact_contract_checks",
+      "vpp_record": {
+        "contract_version": "vpp.lane.v1",
+        "artifacts": ["mechanical_fallout_receipt", "changed_source_threshold_regression"],
+        "expected_runtime_class": "small",
+        "parallel_group": "coverage_policy",
+        "cache_equivalence_group": "coverage_impact_contracts",
+        "failure_semantics": "fail_closed",
+        "release_gate_status": "non_authoritative_pr_validation"
+      }
     },
     {
       "id": "podcast_launch_packet",
@@ -533,6 +548,74 @@
       "command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
       "run_command": "bash adl/tools/test_v0917_html_observatory_integrated_proof.sh",
       "reason": "v0917_html_observatory_surface_requires_integrated_runtime_demo_proof"
+    },
+    {
+      "id": "html_observatory_tooling_syntax",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "resource_class": "tiny",
+      "proof_role": "tooling_contract",
+      "requirement_ids": [
+        "html_observatory_tooling_syntax"
+      ],
+      "path_selectors": [
+        "adl/tools/test_html_observatory.sh"
+      ],
+      "path_hints": [
+        "adl/tools/test_html_observatory.sh"
+      ],
+      "command": "bash -n adl/tools/test_html_observatory.sh",
+      "run_command": "bash -n adl/tools/test_html_observatory.sh",
+      "reason": "html_observatory_shell_tooling_changes_require_direct_syntax_proof"
+    },
+    {
+      "id": "provider_neutral_multi_agent_proof",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "runtime",
+      "resource_class": "small",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "provider_neutral_multi_agent_proof"
+      ],
+      "path_selectors": [
+        "adl/tools/demo_v092_provider_neutral_birthday.sh",
+        "adl/tools/serve_v092_provider_neutral_observatory_api.py",
+        "adl/tools/test_v092_provider_neutral_proof.sh",
+        "adl/tools/validate_v092_provider_neutral_proof.py",
+        "demos/v0.92/provider-neutral-birthday/**"
+      ],
+      "path_hints": [
+        "adl/tools/demo_v092_provider_neutral_birthday.sh",
+        "adl/tools/serve_v092_provider_neutral_observatory_api.py",
+        "adl/tools/test_v092_provider_neutral_proof.sh",
+        "adl/tools/validate_v092_provider_neutral_proof.py",
+        "demos/v0.92/provider-neutral-birthday/"
+      ],
+      "command": "bash adl/tools/test_v092_provider_neutral_proof.sh",
+      "run_command": "bash adl/tools/test_v092_provider_neutral_proof.sh",
+      "reason": "provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
+    },
+    {
+      "id": "html_observatory_roster_javascript_syntax",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "review",
+      "resource_class": "tiny",
+      "proof_role": "tooling_contract",
+      "requirement_ids": [
+        "html_observatory_roster_javascript_syntax"
+      ],
+      "path_selectors": [
+        "adl/tools/validate_v092_html_observatory_roster.mjs"
+      ],
+      "path_hints": [
+        "adl/tools/validate_v092_html_observatory_roster.mjs"
+      ],
+      "command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
+      "run_command": "test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs",
+      "reason": "html_observatory_roster_javascript_changes_require_direct_syntax_proof"
     },
     {
       "id": "csdlc_owner_lane",
@@ -1396,6 +1479,7 @@
       ],
       "path_selectors": [
         "docs/**",
+        "design/*.mmd",
         "*.md",
         ".csdlc/**",
         "adl/tools/test_opus_review_runbook.sh",
@@ -1403,6 +1487,7 @@
       ],
       "path_hints": [
         "docs/**",
+        "design/*.mmd",
         "*.md",
         ".csdlc/**",
         "adl/tools/validate_v0917_*_status.sh"

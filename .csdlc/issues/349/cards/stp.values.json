@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 349,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][defect] Keep deferred-validator admission consistent across ready transition",
+    "slug": "deferred-validator-ready-consistency",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "One lifecycle-readiness consistency defect across initialized, ready, and bound phases; no broad lifecycle redesign.",
+      "deliverables": [
+        "Bounded readiness predicate correction",
+        "Actual advertised-sequence regression in csdlc-v2/tests/gate2.rs",
+        ".csdlc/prepared/issues/349/validate_preparation.rb",
+        "Focused #79 positive and negative regression proof",
+        "Strict formatting and Clippy proof",
+        "Fresh exact-head independent review"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Doctor never recommends an operation that strands an unchanged currently passing packet.",
+        "AC-2: An exact #79 deferred-target packet has a typed path through initialized and ready to bind without placeholders.",
+        "AC-3: The unchanged packet remains bindable after typed advance_ready, or an explicitly supported lossless recovery exists.",
+        "AC-4: Exact issue-owned paths, non-placeholder reasons, proving lanes, and fail-closed policy remain mandatory; invalid deferrals block.",
+        "AC-5: Bound and later phases reject missing validators, zero selected tests, and absent proof.",
+        "AC-6: A regression follows initialized doctor PASS, advance_ready, ready doctor/bind, bound failure, and materialized-target PASS.",
+        "AC-7: Existing #79 positive/negative tests, focused C-SDLC v2 tests, formatting, and strict Clippy pass.",
+        "AC-8: Fresh exact-head review confirms lifecycle consistency and no widening of pre-bind implementation authority."
+      ],
+      "dependencies": [
+        "Current origin/main at bootstrap",
+        "Closed #79 deferred-target contract as regression baseline",
+        "Open #342 reproduction is read-only evidence only"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#349",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/doctor.rs",
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/tests/gate2.rs"
+      ],
+      "non_goals": [
+        "Any #342 mutation",
+        "Placeholder product or validator files",
+        "Weakening post-bind proof requirements",
+        "A ready-to-initialized transition",
+        "Broad lifecycle redesign",
+        "Manual state or rendered-card edits"
+      ]
+    }
+  }
+}

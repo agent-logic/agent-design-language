@@ -226,6 +226,39 @@ pub struct LocalNodeGuardianIdentity {
     guardian_control_signing_key: SigningKey,
 }
 
+/// Opaque custody of a configured Guardian control signer.
+///
+/// Callers can move this capability into the authority protocol, but cannot
+/// extract, replace, or nominate its signing key.
+pub(crate) struct GuardianControlSignerCustody {
+    public: PublicNodeGuardianIdentity,
+    signing_key: SigningKey,
+}
+
+impl fmt::Debug for GuardianControlSignerCustody {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter
+            .debug_struct("GuardianControlSignerCustody")
+            .field("public", &self.public)
+            .field("private_key", &"[REDACTED]")
+            .finish()
+    }
+}
+
+impl GuardianControlSignerCustody {
+    pub(crate) fn public_identity(&self) -> &PublicNodeGuardianIdentity {
+        &self.public
+    }
+
+    pub(crate) fn verifying_key(&self) -> VerifyingKey {
+        self.signing_key.verifying_key()
+    }
+
+    pub(crate) fn sign(&self, payload: &[u8]) -> Signature {
+        self.signing_key.sign(payload)
+    }
+}
+
 impl fmt::Debug for LocalNodeGuardianIdentity {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         formatter
@@ -271,6 +304,15 @@ impl LocalNodeGuardianIdentity {
 
     pub fn public_identity(&self) -> &PublicNodeGuardianIdentity {
         &self.public
+    }
+
+    /// Transfers an opaque copy of the locally restored Guardian control-key
+    /// custody to a configured authority endorser.
+    pub(crate) fn authority_signer_custody(&self) -> GuardianControlSignerCustody {
+        GuardianControlSignerCustody {
+            public: self.public.clone(),
+            signing_key: self.guardian_control_signing_key.clone(),
+        }
     }
 
     pub fn sign_enrollment(

@@ -1,0 +1,14 @@
+flowchart TD
+  Shepherd["Shepherd / ops controller"] -->|"SSM maintenance and recovery only"| SSM["Private SSM endpoints"]
+  SSM --> A["AWS voter A private subnet"]
+  SSM --> B["AWS voter B private subnet"]
+  A <-->|"Direct private TCP / ACIP-ready adjacency"| B
+  A -->|"Private S3 gateway endpoint"| S3["Shepherd model artifact bucket"]
+  B -->|"Private S3 gateway endpoint"| S3
+  A -->|"Loopback only"| Model["Local Ollama gemma4:12b"]
+  Cleanup["Tagged cleanup / assert-zero"] --> A
+  Cleanup --> B
+  Cleanup --> SSM
+  Cleanup --> S3
+  Wuji["Wuji voter"] -. "remaining serial hybrid recovery proof" .-> A
+  Wuji -. "remaining serial hybrid recovery proof" .-> B

@@ -1,0 +1,21 @@
+{
+  "issue": 202,
+  "card": "stp",
+  "expected_generation": 3,
+  "expected_digest": "d170c40a87fbff104509b56fa59f66516e6d708e5c110c76b961951ef9cb9ba1",
+  "actor": "codex:/root/advance_202_after_201:review-resolution",
+  "reason": "Resolve fresh preparation review by aligning #202 with merged #201 coarse Membership operation authority and adding the mandatory serial #200 ancestry gate.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: The exact #191 voter route cut remains unchanged and a private VerifiedPolisLearnerTopology adds at most one learner only after a crate-private #202 adapter consumes a durably published #201 AuthorityOperationKind::Membership operation through the sealed artifact accessor and validates the exact canonical artifact domain, bytes, digest, and issue-local EnrollNonVoting discriminator.",
+      "AC-2: The learner handshake binds domain, polis, endpoints, stable Raft id, identity, certificate and boot generations, voter-cut digest, operation digest, role, address, sequence, message kind, payload digest, deadline, and protocol version.",
+      "AC-3: A learner session permits only bounded canonical AppendEntries and InstallSnapshot RPCs; vote, client write, #201 endorsement/finalization, renewal, mutation, Shepherd, and Observatory operations reject before dispatch.",
+      "AC-4: PendingMembershipExclusionAuthority activates only after the crate-private #202 adapter validates a durably published coarse #201 Membership operation's sealed exact artifact as the canonical issue-local RemoveVoter discriminator, and its published snapshot is consulted by #201 voter eligibility plus ordinary route/session admission and revalidation.",
+      "AC-5: Pending exclusion denies ordinary voter authority but permits only a separately governed current coarse #201 Membership operation whose sealed exact artifact validates the canonical issue-local EnrollNonVoting discriminator to create a fresh replication-only learner namespace; it never clears exclusion or restores a vote.",
+      "AC-6: Exact retries, connection replacement, certificate overlap and post-overlap denial, boot rotation, cancellation, expiry, capacity, replay, and crash windows reconcile without stale or duplicate admission.",
+      "AC-7: Exclusive bounded canonical state, result cache, and node-local external checkpoint reject rollback, corruption, noncanonical bytes, symlink ancestors, replacement races, conflicting operations, and partial publication.",
+      "AC-8: #202 remains unbound and makes no product edit while #200 is active or unmerged, synchronizes to exact merged #200 ancestry before binding, then passes focused real Quinn/OpenRaft tests, strict Clippy, merge-safe receipt validation, diff hygiene, and fresh independent exact-head review before a ready unmerged PR opens."
+    ]
+  }
+}

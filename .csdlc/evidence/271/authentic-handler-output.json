@@ -1,0 +1,74 @@
+{
+  "schema": "adl.issue271.authentic_handler_output_handoff.v1",
+  "source": {
+    "runtime_route": "/v1/layer8/recipient-acknowledgement",
+    "response_schema": "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1",
+    "source_tests": [
+      "adl-runtime-kernel/src/control.rs::recipient_acknowledgement_api_delivers_verified_ack_with_redacted_correlation",
+      "adl-runtime-kernel/src/control.rs::recipient_acknowledgement_api_refuses_recipient_signed_delivery_refusal",
+      "adl-runtime-kernel/src/control.rs::recipient_acknowledgement_api_refuses_unrelated_signed_payload",
+      "adl-runtime-kernel/src/control.rs::recipient_acknowledgement_route_serves_delivery_without_raw_correlation"
+    ],
+    "validation_command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "recipient_acknowledgement",
+      "--",
+      "--nocapture"
+    ]
+  },
+  "public_response_fixtures": [
+    {
+      "case": "delivered",
+      "response": {
+        "schema": "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1",
+        "status": "delivered",
+        "conversation_id": "conversation-layer8",
+        "request_message_id": "conversation-runtime:conversation-layer8:turn-layer8",
+        "acknowledgement_message_id": "ack-conversation-layer8",
+        "sender_id": "operator",
+        "recipient_id": "shepherd",
+        "correlation_hash": "sha256:abcdef0123456789",
+        "sender_credential_generation": 1,
+        "recipient_credential_generation": 1
+      }
+    },
+    {
+      "case": "signed_refusal",
+      "response": {
+        "schema": "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1",
+        "status": "refused",
+        "conversation_id": "conversation-layer8",
+        "request_message_id": "conversation-runtime:conversation-layer8:turn-layer8",
+        "acknowledgement_message_id": "ack-conversation-layer8",
+        "sender_id": "operator",
+        "recipient_id": "shepherd",
+        "correlation_hash": "sha256:abcdef0123456789",
+        "error": "recipient_refused_delivery"
+      }
+    },
+    {
+      "case": "invalid_acknowledgement",
+      "response": {
+        "schema": "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1",
+        "status": "refused",
+        "conversation_id": "conversation-layer8",
+        "request_message_id": "conversation-runtime:conversation-layer8:turn-layer8",
+        "acknowledgement_message_id": "ack-conversation-layer8",
+        "sender_id": "operator",
+        "recipient_id": "shepherd",
+        "correlation_hash": "sha256:abcdef0123456789",
+        "error": "invalid_acknowledgement"
+      }
+    }
+  ],
+  "non_disclosure": {
+    "raw_correlation_id_retained": false,
+    "signed_request_retained": false,
+    "acknowledgement_retained": false,
+    "private_key_retained": false,
+    "provider_payload_retained": false
+  }
+}

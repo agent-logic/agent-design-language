@@ -5,6 +5,7 @@
 
 pub use adl_resilience as shared_resilience;
 pub use adl_runtime_kernel::tls;
+pub use adl_runtime_kernel::{LiveContinuity, LiveKernelSnapshot, RuntimeRecorder};
 
 pub mod acip;
 pub mod backpressure;
@@ -16,12 +17,15 @@ pub mod determinism;
 pub mod distributed;
 pub mod freedom_gate;
 pub mod guardian;
+mod kernel_continuity_client;
+pub mod memory_palace;
 pub mod networking;
 pub mod observability;
 pub mod reasoning_runtime;
 pub mod resident_agent;
 pub mod runtime_api;
 pub mod runtime_api_auth;
+pub mod runtime_v3_soak;
 pub mod shutdown;
 pub mod supervision;
 pub mod topology;

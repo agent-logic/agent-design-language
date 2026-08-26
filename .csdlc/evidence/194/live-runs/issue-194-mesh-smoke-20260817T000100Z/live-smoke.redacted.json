@@ -1,0 +1,61 @@
+{
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "azs": [
+    "us-west-2a",
+    "us-west-2b"
+  ],
+  "cleanup": {
+    "active_instances": 0,
+    "delete_status": "absent",
+    "network_interfaces": 0,
+    "security_groups": 0,
+    "vpc_endpoints": 0
+  },
+  "issue": 194,
+  "non_claims": [
+    "infrastructure and SSM smoke only",
+    "does not claim private local model health/restart",
+    "does not claim snapshot recovery, partition, demotion, or one-of-three halt",
+    "does not claim #142 completion",
+    "omits raw AWS identifiers and machine-local paths"
+  ],
+  "preflight_status": "dry_run_preflight_passed",
+  "profile": "agent-logic-admin",
+  "region": "us-west-2",
+  "run_id": "issue-194-mesh-smoke-20260817T000100Z",
+  "schema": "adl.issue194.private_wuji_aws_recovery.live_smoke_receipt.v1",
+  "ssm_command_attempt": 12,
+  "ssm_command_complete_count": 2,
+  "ssm_command_failed_count": 0,
+  "ssm_command_id_sha256": "5eb1e2886e3a680bf6556e120549622d552c6750be487e2fcdd21ecb45480f82",
+  "ssm_online_attempt": 19,
+  "ssm_online_count": 2,
+  "ssm_smoke_node_outputs": [
+    "issue-194-mesh-smoke-20260817T000100Z aws-voter-a",
+    "issue-194-mesh-smoke-20260817T000100Z aws-voter-b"
+  ],
+  "ssm_smoke_statuses": [
+    "Success",
+    "Success"
+  ],
+  "stack_outputs_sha256": {
+    "AwsVoterAInstanceIdSha256": "5a954e2d96cbc9830d41408364c84b038287d50c6305c9d62e0e74cc221ed4b6",
+    "AwsVoterBInstanceIdSha256": "29dd8842ef88fd5a0b95846f0bf3eba3504120db089813a989de13d268d57585",
+    "InstanceSecurityGroupIdSha256": "7f3440ff703905bf28328199436b40f66c5a9decec1cd1b3c5a187d5bf397035",
+    "PrivateSubnetASha256": "e0cbd7ad6a2d1bf263981a5a899f214453fcf461022ec4e5d4a87930f2f9d6f4",
+    "PrivateSubnetBSha256": "2076955e97424f9036be96b8ba98434a6972d3735ae815144d78feda5ee1f3f8",
+    "S3GatewayEndpointIdSha256": "f35dd5e93bb26bc28d69c8660182d16de76b99c7775cb6181acb1989067f4d35",
+    "VpcIdSha256": "58d0110acb7a215ff5a36817f1bf3b2ef52e9e6682ca65dab06bc09063d890cd"
+  },
+  "status": "passed",
+  "ttl_expires_at": "2026-08-17T00:16:01.304746Z",
+  "ttl_minutes": 15,
+  "voter_mesh": {
+    "control_plane": "SSM invoked test commands; TCP payloads flowed directly between voter private IPs",
+    "directions": [
+      "aws-voter-a-to-b",
+      "aws-voter-b-to-a"
+    ],
+    "status": "passed"
+  }
+}

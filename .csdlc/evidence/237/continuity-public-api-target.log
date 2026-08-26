@@ -1,0 +1,8 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.91s
+     Running tests/capability_envelope.rs (adl-runtime-kernel/target/debug/deps/capability_envelope-51e212549104e015)
+
+running 1 test
+test verified_continuity_entrypoints_are_public ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

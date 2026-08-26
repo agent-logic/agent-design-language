@@ -1,0 +1,13 @@
+{
+  "issue": 200,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "13ab838ca4c61cee351e0e08ff9a5d5fc0c323d15ff8f95499d232f2f7b53994",
+  "actor": "codex:/root/advance_200_after_201",
+  "reason": "Merged #191/#201 ancestry, typed bind, and the frozen opaque token, journal, checkpoint, view, and permit contracts are confirmed.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  }
+}

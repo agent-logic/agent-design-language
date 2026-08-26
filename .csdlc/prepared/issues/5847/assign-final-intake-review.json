@@ -1,0 +1,13 @@
+{
+  "issue": 5847,
+  "expected_generation": 17,
+  "expected_digest": "2e2c202d3f71b2dd38304dc9b086e0e98872a6803d6758fc22c1081bd1e60a12",
+  "reviewer": "subagent:/root/review_314_prepr",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "docs/reviews/v0.92/external-review-5847",
+    ".csdlc/evidence/5847",
+    ".csdlc/prepared/issues/5847",
+    ".csdlc/issues/5847"
+  ]
+}

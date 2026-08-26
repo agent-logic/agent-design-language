@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 461,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
+    "slug": "runtime-lifecycle-tls-config-only",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/461\n.csdlc/issues/461\n.csdlc/prepared/issues/461\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime-kernel/src/observability.rs\nadl-runtime-kernel/tests/observability.rs\nadl/tools/run_runtime_v3_operational_proof.sh\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\nadl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "review_revision": "git-blake3:8ec49d91017599db89c85c545683095f7e7ad47c:9d739f59b73f9db821f049aa0902d0a37dc76a5d826560a2d9a553b7d898cab9",
+      "reviewer": "/root/review_461_flake_fix",
+      "review_prompts": [
+        "Verify no TLS path remains accepted through argv or environment.",
+        "Verify config path validation and redaction are fail closed.",
+        "Verify the Guardian fixture exercises the same config-only path as production."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

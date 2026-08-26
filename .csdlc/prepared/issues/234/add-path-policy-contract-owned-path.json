@@ -1,0 +1,37 @@
+{
+  "issue": 234,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "dd4a2a11151869f507145b91d764bad7e027675ee3a4e2588e0255c811f108cd",
+  "actor": "codex:234-systemic-ci-cost-control",
+  "reason": "Add the existing whole-path-policy regression suite required to prove that ordinary PR changes do not allocate optional demo or soak lanes.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".github/workflows/ci.yaml",
+      ".github/workflows/aws-codefriend-build.yaml",
+      ".github/workflows/aws-spot-remote-validation.yaml",
+      ".github/workflows/nightly-coverage-ratchet.yaml",
+      ".github/workflows/wp04-native-distributed.yml",
+      ".github/workflows/wp08-native-birthday.yml",
+      ".github/workflows/wp09-native-birthday-identity.yml",
+      ".github/workflows/wp10-native-birthday-continuity.yml",
+      ".github/workflows/wp11-native-memory-palace.yml",
+      ".github/workflows/wp12-native-capability-envelope.yml",
+      ".github/workflows/wp13-authority-repair.yml",
+      ".github/workflows/wp13-native-cognitive-profile.yml",
+      ".github/workflows/wp13a-native-adaptive-learning.yml",
+      ".github/workflows/wp14-native-acip.yml",
+      ".github/workflows/wp14-production-acip-repair.yml",
+      ".github/workflows/wp14-retained-native-proof.yml",
+      ".github/workflows/wp15-native-birth-witness.yml",
+      "adl/tools/ci_path_policy.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/validate_ci_workflow_policy.rb",
+      "docs/tooling/CI_REQUIRED_AND_OPTIONAL_LANES.md",
+      ".csdlc/evidence/234/ci-workflow-inventory.json"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "issue":319,"expected_generation":2,"expected_digest":"854cecb9de96f6dd19f23412bd6c33eed80c55703debc564073567ceb3fe1c6d","actor":"codex:/root","card":"sor","reason":"Record the bounded v0.92 ceremony gate repair and candidate preflight.",
+  "operation":{"operation":"record_execution","summary":"Replaced the obsolete all-records-closed ceremony gate with exact disposition evidence, passed the real check-only ceremony on the clean candidate, and retained a no-mutation receipt.","changes":["Merge-based milestone ceremony gate","Disposition-specific #310/#314 predecessor authority","Canonical ceremony-script candidate preflight"],"artifacts":["docs/milestones/v0.92/RELEASE_CEREMONY_GATE_v0.92.json","docs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md",".csdlc/evidence/319/candidate-ceremony-receipt.json"]}
+}

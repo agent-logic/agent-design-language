@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 299,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
+    "slug": "exact-authority-archived-projection-cleanup",
+    "version": "v0.92",
+    "generation": 37
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #299 archived-projection cleanup only; no #298 recovery/classification implementation and no unrelated issue mutation.",
+      "deliverables": [
+        "csdlc-v2/src/projection_cleanup.rs",
+        "csdlc-v2/tests/archived_projection_cleanup.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/src/bin/csdlc-edit.rs",
+        ".csdlc/evidence/299",
+        "Exact-head #119 review and publication-ready PR after gates"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Cleanup cannot start without terminal+ancestral #298 recovery authority and an exact completed recovery/canonical/archive binding.",
+        "AC-2: No recursive deletion, symlink following, digest-only ownership, path-authoritative unlink, or removal of an unrecorded inode is possible.",
+        "AC-3: Regular files, empty directories, root placeholder, per-node tombstones, and type-matched disposal counterparts follow explicit pre/post exchange and identity-specific removal states.",
+        "AC-4: Restart adopts only exact receipt-owned identities and parent manifests across terminal gate, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final receipt, and completed-repeat boundaries; collisions, replacements, unsupported types, non-empty directories, topology/ownership drift, or third states preserve everything and fail closed.",
+        "AC-5: Partial cleanup resumes at the first incomplete recorded node; repeating a complete cleanup is idempotent.",
+        "AC-6: Immutable cleanup ledger and recovery evidence survive successful cleanup.",
+        "AC-7: Unrelated sentinels and replacement inodes survive every failure and race case.",
+        "AC-8: Exact-head #119 review has no unresolved actionable finding."
+      ],
+      "dependencies": [
+        "#298 terminal and ancestral to #299 execution base",
+        "Completed #298 recovery receipt and verified canonical/archive binding",
+        "Explicit release before touching projection_recovery.rs, store.rs, or gate5.rs"
+      ],
+      "repo_inputs": [
+        "Live GitHub issue #299 contract",
+        "PR #305 metadata for completed #298 implementation",
+        ".csdlc/prepared/issues/299/design.md",
+        ".csdlc/prepared/issues/299/diagram.mmd"
+      ],
+      "non_goals": [
+        "Implementing #298 anchored classification or recovery",
+        "General filesystem cleanup",
+        "Mutating #291, #294, #296, or parent #297",
+        "Publication, merge, or closeout during preparation",
+        "Touching #298 worktree or frozen files before explicit release"
+      ]
+    }
+  }
+}

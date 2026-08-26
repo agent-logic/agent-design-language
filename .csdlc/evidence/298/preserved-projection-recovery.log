@@ -1,0 +1,46 @@
+
+running 37 tests
+test preserved_projection_recovery_keeps_initialized_and_ready_and_291_semantics_unchanged ... ok
+test preserved_projection_recovery_blocks_ordinary_commit_until_typed_recovery ... ok
+test preserved_projection_recovery_classifies_hardlink_as_unsafe ... ok
+test preserved_projection_recovery_blocks_ordinary_commit_on_symlinked_recovery_root ... ok
+test preserved_projection_recovery_classifies_without_mutation_and_rejects_symlink ... ok
+test preserved_projection_recovery_rejects_extra_post_terminal_directory ... ok
+test preserved_projection_recovery_rejects_extra_post_terminal_receipt ... ok
+test preserved_projection_recovery_rejects_extra_post_terminal_symlink ... ok
+test preserved_projection_recovery_rejects_extra_node_receipt ... ok
+test preserved_projection_recovery_rejects_extra_node_symlink ... ok
+test preserved_projection_recovery_rejects_coherent_candidate_chain_forgery ... ok
+test preserved_projection_recovery_rejects_extra_post_terminal_fifo ... ok
+test preserved_projection_recovery_rejects_extra_node_directory ... ok
+test preserved_projection_recovery_archives_builds_installs_and_is_idempotent ... ok
+test preserved_projection_recovery_rejects_forged_candidate_created_resume_before_install ... ok
+test preserved_projection_recovery_rejects_lineage_and_replacement_without_mutation ... ok
+test preserved_projection_recovery_rejects_malformed_request_classification_before_mutation ... ok
+test preserved_projection_recovery_rejects_hardlinked_terminal_receipt ... ok
+test preserved_projection_recovery_rejects_permissive_terminal_receipt ... ok
+test preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery ... ok
+test preserved_projection_recovery_rejects_rehashed_envelope_extension ... ok
+test preserved_projection_recovery_rejects_rehashed_node_created_identity_forgery ... ok
+test preserved_projection_recovery_rejects_rehashed_node_final_path_forgery ... ok
+test preserved_projection_recovery_rejects_rehashed_node_payload_forgery ... ok
+test preserved_projection_recovery_rejects_rehashed_node_terminal_identity_forgery ... ok
+test preserved_projection_recovery_rejects_rehashed_prepared_classification_forgery ... ok
+test preserved_projection_recovery_rejects_symlinked_partial_receipt_before_resume_mutation ... ok
+test preserved_projection_recovery_rejects_symlinked_recovery_root ... ok
+test preserved_projection_recovery_rejects_swapped_post_exchange_candidate ... ok
+test preserved_projection_recovery_rejects_symlinked_recovery_root_before_recover_mutation ... ok
+test preserved_projection_recovery_rejects_wrong_topology_and_unsafe_mode ... ok
+test preserved_projection_recovery_uses_backup_source_when_canonical_absent ... ok
+test preserved_projection_recovery_validates_terminal_receipt_chain_and_classifies_completed_attempt ... ok
+test preserved_projection_recovery_rejects_post_validation_root_and_attempt_swaps_before_mutation ... ok
+test preserved_projection_recovery_rejects_forged_terminal_and_broken_earlier_chain ... ok
+test preserved_projection_recovery_restarts_nonexchange_anchors_after_displacement ... ok
+test preserved_projection_recovery_resumes_every_recovery_boundary has been running for over 60 seconds
+test preserved_projection_recovery_resumes_every_recovery_boundary ... ok
+
+test result: ok. 37 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 100.98s
+
+   Compiling csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.54s
+     Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-dc08fd71782bab3d)

@@ -1,0 +1,23 @@
+flowchart LR
+  MA["MembershipState + AuthorityMembership\nexact voter and key parity"] --> RA["authority-derived peer routes"]
+  RA --> A["Voter A\nunique TLS identity"]
+  RA --> B["Voter B\nunique TLS identity"]
+  RA --> C["Voter C\nunique TLS identity"]
+  A <-->|"mTLS Quinn + signed polis handshake\nbounded Prost frames"| B
+  B <-->|"mTLS Quinn + signed polis handshake\nbounded Prost frames"| C
+  C <-->|"mTLS Quinn + signed polis handshake\nbounded Prost frames"| A
+  A --> TA["journal + atomic durable object"]
+  B --> TB["journal + atomic durable object"]
+  C --> TC["journal + atomic durable object"]
+  TA --> CA["external checkpoint CAS + reconcile"]
+  TB --> CB["external checkpoint CAS + reconcile"]
+  TC --> CC["external checkpoint CAS + reconcile"]
+  CA --> SA["publish callback state after fsync"]
+  CB --> SB["publish callback state after fsync"]
+  CC --> SC["publish callback state after fsync"]
+  A --> RCA["durable bounded request-response cache"]
+  B --> RCB["durable bounded request-response cache"]
+  C --> RCC["durable bounded request-response cache"]
+  RCA -->|"exact retry"| A
+  RCB -->|"exact retry"| B
+  RCC -->|"exact retry"| C

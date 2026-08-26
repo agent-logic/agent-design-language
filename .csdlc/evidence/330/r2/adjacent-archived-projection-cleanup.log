@@ -1,0 +1,31 @@
+sha=c06f3b00dd9a8320900c215079acd7dd93882b2d
+argv=cargo test --manifest-path csdlc-v2/Cargo.toml --test archived_projection_cleanup -- --nocapture
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/archived_projection_cleanup.rs (csdlc-v2/target/debug/deps/archived_projection_cleanup-81562ff6e895038a)
+
+running 21 tests
+test cleanup_rejects_coherent_caller_identity_forgery_without_manifest_binding ... ok
+test cleanup_rejects_regular_file_link_count_drift ... ok
+test cleanup_rejects_prefinal_extra_receipt_without_final_mutation ... ok
+test cleanup_rejects_ledger_inside_archive_before_namespace_mutation ... ok
+test cleanup_rejects_replacement_inode_before_capture ... ok
+test cleanup_rejects_leaf_directory_link_count_drift ... ok
+test cleanup_preserves_public_replacement_before_placeholder_disposal ... ok
+test cleanup_rejects_hardlink_and_mode_drift_before_mutation ... ok
+test cleanup_rejects_real_final_receipt_race_before_prefinal_validation ... ok
+test cleanup_accepts_parent_directory_link_count_drift_after_authorized_child_cleanup ... ok
+test cleanup_rejects_extra_receipt_race_after_prefinal_validation_without_final_mutation ... ok
+test cleanup_requires_terminal_gate_before_mutation ... ok
+test cleanup_rejects_symlink_and_non_empty_directory ... ok
+test cleanup_requires_completed_recovery_and_manifest_before_mutation ... ok
+test cleanup_rejects_forged_final_receipt_before_already_completed_shortcut ... ok
+test cleanup_resumes_after_capture_receipt_before_removal ... ok
+test cleanup_rejects_parent_replacement_and_corrupt_receipt ... ok
+test cleanup_removes_only_exact_file_and_empty_directory_then_repeats_idempotently ... ok
+test cleanup_rejects_temp_receipts_without_predecessor_and_placeholder_binding ... ok
+test cleanup_rejects_rehashed_final_chain_forgery_without_mutation ... ok
+test cleanup_restarts_across_intent_receipt_fsync_and_disposal_boundaries ... ok
+
+test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 56.35s
+
+status=0

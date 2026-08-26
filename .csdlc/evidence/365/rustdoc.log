@@ -1,0 +1,10 @@
+
+running 2 tests
+test src/distributed/shepherd_serving_eligibility.rs - distributed::shepherd_serving_eligibility::SealedShepherdCommittedProjection (line 123) - compile fail ... ok
+test src/distributed/observatory_serving_eligibility.rs - distributed::observatory_serving_eligibility::SealedObservatoryCommittedProjection (line 139) - compile fail ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-365-sealed-child-eligibility-provenance/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.61s
+   Doc-tests adl_runtime

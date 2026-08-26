@@ -1,0 +1,7 @@
+{
+  "issue": 271,
+  "expected_generation": 11,
+  "expected_digest": "0f78bdc6c261ee4acfe6bb642f5fc7a213e43f56ad0dcbb5be90bc5fdd485215",
+  "actor": "codex:sprint5-271-review-recovery",
+  "reason": "Recover #271 implementation review after fresh reviewer returned changes required; clear assignment before substantive repair."
+}

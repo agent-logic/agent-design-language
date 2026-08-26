@@ -1,4 +1,5 @@
 use std::fs;
+use std::path::Path;
 
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
@@ -8,7 +9,7 @@ use crate::cards::{digest, execution_readiness_findings_for_cards};
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{DesignReview, LifecyclePhase};
 use crate::review::evaluate_publication_review_in_repo;
-use crate::store::{verify_cards, verify_record, Store};
+use crate::store::{read_regular_authored_artifact, verify_cards, verify_record, Store};
 
 #[derive(
     Debug,
@@ -149,11 +150,17 @@ pub fn diagnose_with_code_repository(
         ("design_missing", &record.design_path),
         ("diagram_missing", &record.diagram_path),
     ] {
-        if !store.root().join(path).is_file() {
-            report.findings.push(Finding {
+        match read_regular_authored_artifact(store.root(), Path::new(path)) {
+            Ok(Some(_)) => {}
+            Ok(None) => report.findings.push(Finding {
                 code: code.into(),
                 message: format!("required path is missing: {path}"),
-            });
+            }),
+            Err(error) => {
+                report.status = DoctorStatus::Corrupt;
+                report.findings.push(finding(error));
+                return report;
+            }
         }
     }
     if report

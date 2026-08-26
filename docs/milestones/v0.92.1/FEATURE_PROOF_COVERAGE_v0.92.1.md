@@ -1,16 +1,19 @@
-# v0.92.1 Feature Proof Coverage
+# Feature Proof Coverage — v0.92.1
 
-| Feature | Primary WPs | Deterministic proof | Live proof | Review |
-| --- | --- | --- | --- | --- |
-| Corporate and IP transfer | CORP-01..08 | Inventory, provenance, control, and diligence validators | Company account and infrastructure readback | Legal-boundary and operations review |
-| C-SDLC v3 | V3-01..16 | Contracts, schemas, state, transitions, recovery, effects, PVF, parity | GitHub canary and writer-fenced cutover | Exact architecture, security, and lifecycle review |
-| Distributed multi-agent Runtime | DRT-01..07 | ACIP, authority, ordering, negative, and replay vectors | Wuji and hybrid three-voter qualification | Runtime, security, evidence, and release review |
-| Standard release closeout tail | INT-01..09 | Demo convergence, quality gate, docs alignment, review findings, remediation, candidate preflight, handoff planning/review, ceremony, and terminal census | Producer demo receipts, rollback rehearsal, authorization checks, closing-linkage negatives, and final readback | Separate internal, external, remediation re-review, and next-milestone review gates |
+| Lane | Required proof |
+|---|---|
+| Corporate and IP | Reviewed redacted transfer and rights authority |
+| C-SDLC v3 | Typed schema, migration, rollback, and behavioral proof |
+| Distributed multi-agent Runtime | #345 GPU Shepherd hardening plus authentic multi-agent UTS work, continuity, and resources |
+| Podcast | Identity, rights, feed, episode, Studio, playback, and release authority |
+| Axum configuration hot reload | Parse/validate/swap, last-known-good, debounce, failure, concurrency |
+| Observatory redesign | #251 TLS 1.2, #122 public exposure, #84 Unity proof, authentic projections, accessibility, and empty/degraded/recovery behavior |
+| Runtime v2/v3 decoupling | Complete source/reverse-reference census, exclusive ownership, compatibility, migration, and rollback |
+| Provider inference profiles | Profile schema, deterministic Ollama materialization, invalid-profile/last-known-good behavior, redaction, shadow isolation, and comparison fallback |
+| GCP qualification sidecar | Exact six-resident identity/workload replay, continuity, cost, and zero-resource cleanup; no #269 execution |
+| AWS account move-in | Seven exact phase-result receipts: inventory, access/billing with governed Agent Toolkit setup and attributable activity, Terraform bootstrap, audit/security, adoption, Runtime modules, and retirement decision |
+| GCP account move-in | Five exact phase-result receipts: hierarchy/cost, Terraform bootstrap, organization/billing, private platform, and GPU readiness |
+| Cross-cloud Terraform conversion | Exact #194/#268 template census, portable contract, provider-specific plans/deployments, parity, rollback, and cleanup-zero |
+| Rust resilience refactoring | API and behavior parity, fault/trace/retry/timeout/cancellation proof, module ownership, and exact validation-impact comparison; no LoC quota |
 
-The closeout proof sequence is INT-01 demo convergence, INT-02 quality gate,
-INT-03 docs and review alignment, INT-04 internal review, INT-05 external
-review, INT-06 remediation and final preflight, INT-07 next-milestone planning,
-INT-08 next-milestone review, and INT-09 release ceremony and lifecycle
-closeout. Each step consumes the terminal proof of its predecessor.
-
-V3-R01 is deliberately outside initial release proof coverage.
+Repository authority (#432), exact scope, review identity, and immutable revision binding apply to every row.

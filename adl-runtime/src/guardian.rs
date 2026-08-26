@@ -22,6 +22,8 @@ use tokio::task::JoinHandle;
 use tokio::time::{sleep, timeout};
 use tokio_util::sync::CancellationToken;
 
+use crate::distributed::polis_runtime::ProductionPolisRuntime;
+
 #[cfg(windows)]
 use windows_sys::Win32::{
     Foundation::{CloseHandle, HANDLE},
@@ -51,6 +53,13 @@ const WINDOWS_FORCED_TERMINATION_EXIT_CODE: u32 = 0xAD1D_F0CE;
 pub const GUARDIAN_LEASE_ADDRESS_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS";
 pub const GUARDIAN_LEASE_TOKEN_ENV: &str = "ADL_RUNTIME_GUARDIAN_LEASE_TOKEN";
 pub const GUARDIAN_REQUIRED_ENV: &str = "ADL_RUNTIME_GUARDIAN_REQUIRED";
+
+// Integration targets include this module directly and run its process-heavy
+// tests in parallel. Serialize Guardian invocations only in test builds so a
+// constrained hosted runner cannot turn lease, pipe, or child allocation
+// pressure into an unrelated `SpawnFailed` terminal result.
+#[cfg(test)]
+static GUARDIAN_TEST_PROCESS_LOCK: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GuardianConfig {
@@ -235,6 +244,24 @@ pub async fn run_guardian(
     config: GuardianConfig,
     shutdown: CancellationToken,
 ) -> Result<GuardianOutcome, GuardianConfigError> {
+    run_guardian_internal(config, shutdown, None).await
+}
+
+pub async fn run_guardian_with_continuity(
+    config: GuardianConfig,
+    shutdown: CancellationToken,
+    polis_runtime: ProductionPolisRuntime,
+) -> Result<GuardianOutcome, GuardianConfigError> {
+    run_guardian_internal(config, shutdown, Some(polis_runtime)).await
+}
+
+async fn run_guardian_internal(
+    config: GuardianConfig,
+    shutdown: CancellationToken,
+    polis_runtime: Option<ProductionPolisRuntime>,
+) -> Result<GuardianOutcome, GuardianConfigError> {
+    #[cfg(test)]
+    let _test_process_guard = GUARDIAN_TEST_PROCESS_LOCK.lock().await;
     config.validate()?;
     let mut attempts_detail = Vec::new();
     let mut attempts = 0_u32;
@@ -317,6 +344,50 @@ pub async fn run_guardian(
             Arc::clone(&lease_authenticated_at),
         ));
         let mut lease_finished = false;
+
+        if let Some(polis_runtime) = &polis_runtime {
+            let now = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map(|duration| duration.as_millis() as u64)
+                .unwrap_or(0);
+            let deadline = now.saturating_add(config.lease_auth_timeout_ms);
+            let readiness = timeout(
+                Duration::from_millis(config.lease_auth_timeout_ms),
+                polis_runtime.establish_continuity(attempts, deadline, &shutdown),
+            )
+            .await;
+            if !matches!(readiness, Ok(Ok(()))) {
+                lease_shutdown.cancel();
+                let _ = await_lease_task(&mut lease_task).await;
+                let signals = child.force_shutdown();
+                let status = child.wait().await.ok();
+                let attempt = attempt_record(
+                    &config,
+                    attempts,
+                    AttemptRecordMeta {
+                        pid,
+                        exit_code: status.as_ref().and_then(ExitStatus::code),
+                        exit_status: status.as_ref().map(|status| format!("{status:?}")),
+                        signals: signals
+                            .merge(status.as_ref().and_then(exit_signal).unwrap_or_default()),
+                        forced_shutdown: true,
+                        clean_checkpointed_shutdown: false,
+                        reason_code: "private_continuity_readiness_failed".to_owned(),
+                    },
+                    stdout,
+                    stderr,
+                )
+                .await;
+                attempts_detail.push(attempt);
+                return Ok(outcome(
+                    &config,
+                    GuardianTerminalState::SpawnFailed,
+                    attempts,
+                    restarts,
+                    attempts_detail,
+                ));
+            }
+        }
 
         let attempt_exit = tokio::select! {
             _ = shutdown.cancelled() => {
@@ -726,6 +797,31 @@ pub async fn run_guardian_with_os_signals(
     outcome
 }
 
+#[cfg(unix)]
+pub async fn run_guardian_with_continuity_and_os_signals(
+    config: GuardianConfig,
+    polis_runtime: ProductionPolisRuntime,
+) -> Result<GuardianOutcome, GuardianConfigError> {
+    use tokio::signal::unix::{signal, SignalKind};
+
+    let shutdown = CancellationToken::new();
+    let signal_shutdown = shutdown.clone();
+    let mut interrupt = signal(SignalKind::interrupt())
+        .map_err(|_| GuardianConfigError::SignalRegistrationFailed)?;
+    let mut terminate = signal(SignalKind::terminate())
+        .map_err(|_| GuardianConfigError::SignalRegistrationFailed)?;
+    let signal_task = tokio::spawn(async move {
+        tokio::select! {
+            _ = interrupt.recv() => {}
+            _ = terminate.recv() => {}
+        }
+        signal_shutdown.cancel();
+    });
+    let outcome = run_guardian_with_continuity(config, shutdown, polis_runtime).await;
+    signal_task.abort();
+    outcome
+}
+
 #[cfg(not(unix))]
 pub async fn run_guardian_with_os_signals(
     config: GuardianConfig,
@@ -760,6 +856,14 @@ pub async fn run_guardian_with_os_signals(
     {
         run_guardian(config, CancellationToken::new()).await
     }
+}
+
+#[cfg(not(unix))]
+pub async fn run_guardian_with_continuity_and_os_signals(
+    config: GuardianConfig,
+    polis_runtime: ProductionPolisRuntime,
+) -> Result<GuardianOutcome, GuardianConfigError> {
+    run_guardian_with_continuity(config, CancellationToken::new(), polis_runtime).await
 }
 
 struct GuardianLease {

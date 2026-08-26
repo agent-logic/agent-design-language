@@ -1,0 +1,17 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 30,
+  "expected_digest": "f49e9d1388fd352d3ae429f93db3d2298b4c37fe7f959c242ce5f7d7bcefb7b8",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Record exact Rust formatting proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "fmt", "--all", "--", "--check"],
+      "purpose": "Verify all touched Rust surfaces satisfy canonical formatting.",
+      "outcome": "passed",
+      "evidence_ref": "Exact candidate ef1238cd9bca0085d21dc74361308804e91d3ae1: cargo fmt --all -- --check passed."
+    }
+  }
+}

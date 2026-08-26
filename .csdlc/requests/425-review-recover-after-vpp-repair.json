@@ -1,0 +1,7 @@
+{
+  "actor": "codex-worker-4",
+  "expected_digest": "06b37382f3e703ad556f705c921cbcf418930b9708e99e8a550cd1e1248d3638",
+  "expected_generation": 5,
+  "issue": 425,
+  "reason": "clear stale review assignment after VPP executable-path repair before assigning exact-head review"
+}

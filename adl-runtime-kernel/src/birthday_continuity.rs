@@ -137,6 +137,26 @@ pub struct BirthdayContinuityRecord {
     pub record_sha256: String,
 }
 
+/// Opaque proof that a Birthday continuity record was rebuilt from trusted,
+/// signed Runtime cycles and the bound identity.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct VerifiedBirthdayContinuity {
+    record: BirthdayContinuityRecord,
+    identity_checkpoint_head: String,
+}
+
+impl VerifiedBirthdayContinuity {
+    pub fn record(&self) -> &BirthdayContinuityRecord {
+        &self.record
+    }
+    pub fn continuity_head(&self) -> &str {
+        &self.record.continuity_head
+    }
+    pub fn identity_checkpoint_head(&self) -> &str {
+        &self.identity_checkpoint_head
+    }
+}
+
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(tag = "code", rename_all = "snake_case")]
 pub enum ContinuityRejection {
@@ -412,6 +432,18 @@ pub fn validate_birthday_continuity_record(
     }
 }
 
+pub fn verify_birthday_continuity_record(
+    record: &BirthdayContinuityRecord,
+    identity: &BirthdayIdentityRecord,
+    cycles: &[VerifiedBirthdayCycle],
+) -> Result<VerifiedBirthdayContinuity, Vec<ContinuityRejection>> {
+    validate_birthday_continuity_record(record, identity, cycles)?;
+    Ok(VerifiedBirthdayContinuity {
+        record: record.clone(),
+        identity_checkpoint_head: identity.continuity.head_sha256.clone(),
+    })
+}
+
 pub fn continuity_record_digest(
     record: &BirthdayContinuityRecord,
 ) -> Result<String, serde_json::Error> {
@@ -550,9 +582,10 @@ fn is_canonical_digest(value: &str) -> bool {
     is_sha256(value)
 }
 
-#[cfg(test)]
+#[cfg(any(test, feature = "test-support"))]
 #[path = "../tests/fixtures/birthday_continuity/authority_tests.rs"]
-mod authority_tests;
+#[cfg_attr(feature = "test-support", allow(dead_code, unused_imports))]
+pub(crate) mod authority_tests;
 
 fn safe_path(value: &str) -> bool {
     !value.is_empty()

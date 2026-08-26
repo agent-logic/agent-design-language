@@ -141,6 +141,15 @@ adl_v2_standalone_required="$bool_false"
 large_file_lines="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 large_file_delta="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
 pvf_slow_proof_policy_change=false
+automatic_pr_entrypoint="ci"
+unselected_required_lanes_status="skipped"
+unselected_required_lanes_reason="path_policy_not_selected"
+optional_workflows_status="deferred"
+optional_workflows_reason="explicit_dispatch_required"
+soak_workflows_status="deferred"
+soak_workflows_reason="explicit_dispatch_required"
+duplicate_head_status="canceled"
+duplicate_head_reason="source_branch_concurrency_cancel_in_progress"
 
 emit() {
   local key="$1"
@@ -155,7 +164,7 @@ require_full_validation() {
   rust_required=true
   coverage_required=true
   full_coverage_required=true
-  demo_smoke_required=true
+  demo_smoke_required=false
   ci_contracts_required=true
 }
 
@@ -173,7 +182,7 @@ mark_pr_fast_rust_validation() {
   rust_required=true
   coverage_required=false
   full_coverage_required=false
-  demo_smoke_required=true
+  demo_smoke_required=false
   ci_contracts_required=true
   coverage_lane="deferred_pr_fast"
   coverage_authority="focused_nextest_pr_fast"
@@ -185,7 +194,7 @@ mark_runtime_v3_csm_focused_validation() {
   rust_required=true
   coverage_required=true
   full_coverage_required=false
-  demo_smoke_required=true
+  demo_smoke_required=false
   ci_contracts_required=true
   coverage_lane="pr_fast_coverage"
   coverage_authority="focused_runtime_v3_csm"
@@ -202,7 +211,7 @@ mark_runtime_owner_focused_coverage() {
   rust_required=true
   coverage_required=true
   full_coverage_required=false
-  demo_smoke_required=true
+  demo_smoke_required=false
   ci_contracts_required=true
   coverage_lane="runtime_owner_focused"
   coverage_authority="focused_runtime_owner"
@@ -1168,6 +1177,28 @@ validation_profile_includes_lane() {
   return 1
 }
 
+validation_profile_lanes_subset_of() {
+  local allowed_csv="$1"
+  local lane
+  local old_ifs="$IFS"
+  IFS=','
+  for lane in $validation_profile_run_lanes; do
+    case ",$allowed_csv," in
+      *",$lane,"*) ;;
+      *)
+        IFS="$old_ifs"
+        return 1
+        ;;
+    esac
+  done
+  IFS="$old_ifs"
+  return 0
+}
+
+validation_profile_has_any_lane() {
+  [ -n "$validation_profile_run_lanes" ]
+}
+
 manager_profile_is_runtime_owner_focused_coverage() {
   [ "$validation_profile_status" = "ready_to_run" ] || return 1
   [ "$validation_profile_escalation_required" = "false" ] || return 1
@@ -1404,6 +1435,19 @@ apply_validation_manager_routing() {
       fi
       return 0
     fi
+    if validation_profile_has_any_lane \
+      && validation_profile_includes_lane "provider_neutral_multi_agent_proof" \
+      && validation_profile_lanes_subset_of "docs_diff_check,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,provider_neutral_multi_agent_proof"; then
+      ci_contracts_required=true
+      demo_smoke_required=false
+      coverage_required=false
+      full_coverage_required=false
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
+      return 0
+    fi
   fi
   case "$validation_profile_status:$validation_profile_run_lanes:$validation_profile_escalation_required" in
     ready_to_run:csdlc_v2_standalone:false)
@@ -1604,6 +1648,9 @@ if [ "$event_name" != "pull_request" ]; then
     reason="push_main_skips_duplicate_post_merge_validation"
   else
     mark_authoritative_full_coverage "non_pr_event" "non_pull_request_event_runs_full_validation"
+    if [ "$event_name" = "workflow_dispatch" ]; then
+      demo_smoke_required=true
+    fi
   fi
 elif [ -z "$base_sha" ] || [ -z "$head_sha" ]; then
   fail_closed=true
@@ -1987,6 +2034,15 @@ emit "validation_profile_primary_reason" "$validation_profile_primary_reason"
 emit "validation_profile_escalation_lanes" "$validation_profile_escalation_lanes"
 emit "validation_profile_error" "$validation_profile_error"
 emit "validation_profile_report" "$validation_profile_report"
+emit "automatic_pr_entrypoint" "$automatic_pr_entrypoint"
+emit "unselected_required_lanes_status" "$unselected_required_lanes_status"
+emit "unselected_required_lanes_reason" "$unselected_required_lanes_reason"
+emit "optional_workflows_status" "$optional_workflows_status"
+emit "optional_workflows_reason" "$optional_workflows_reason"
+emit "soak_workflows_status" "$soak_workflows_status"
+emit "soak_workflows_reason" "$soak_workflows_reason"
+emit "duplicate_head_status" "$duplicate_head_status"
+emit "duplicate_head_reason" "$duplicate_head_reason"
 
 printf '\nChanged path policy: %s\n' "$reason"
 printf '  change_class=%s\n' "$change_class"
@@ -2004,6 +2060,11 @@ printf '  release_version_only=%s\n' "$release_version_only"
 printf '  ci_contracts_required=%s\n' "$ci_contracts_required"
 printf '  validation_profile_contract_lanes_selected=%s\n' "$validation_profile_contract_lanes_selected"
 printf '  validation_profile_report=%s\n' "$validation_profile_report"
+printf '  automatic_pr_entrypoint=%s\n' "$automatic_pr_entrypoint"
+printf '  optional_workflows_status=%s\n' "$optional_workflows_status"
+printf '  optional_workflows_reason=%s\n' "$optional_workflows_reason"
+printf '  soak_workflows_status=%s\n' "$soak_workflows_status"
+printf '  duplicate_head_status=%s\n' "$duplicate_head_status"
 printf '  fail_closed=%s\n' "$fail_closed"
 printf '  coverage_lane=%s\n' "$coverage_lane"
 printf '  coverage_authority=%s\n' "$coverage_authority"

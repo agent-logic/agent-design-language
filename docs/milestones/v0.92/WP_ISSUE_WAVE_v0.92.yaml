@@ -1,5 +1,5 @@
 milestone: v0.92
-status: cards_initialized
+status: engineering_complete_documentation_closeout
 owner_issue: 5817
 planning_review_issue: 5359
 first_birthday_readiness_issue: 3377
@@ -7,7 +7,11 @@ planning_source: docs/milestones/v0.92
 tracked_package: docs/milestones/v0.92
 notes:
   - v0.92 is the first true Godel-agent birthday milestone on a hardened execution substrate.
-  - This file records the opened GitHub work-package issue wave and its live issue-number mapping.
+  - The issue and sprint allocations below are retained as the historical execution map; merged issue/PR evidence and typed terminal records are delivery authority.
+  - The engineering milestone is complete. WP-23 issue 312 reconciles documentation truth, and issue 467 separately owns canonical feature-proof, quality-gate, and execution-readiness hydration.
+  - Unity and broader Observatory product work not covered by the landed HTML consumer slice are backlogged or scheduled later and do not gate engineering completion.
+  - External publication remains separately operator-authorized.
+  - This file preserves the historical issue wave and records current Agent Logic routing separately from legacy danielbaustin issue provenance.
   - WP-01 updates canonical docs and consumes the final v0.91.8 release package, the activation-test map, AEE completion evidence, issue 3377, and WP-22 planning dispositions before opening the wave.
   - WP-02 creates five verified Agent Logic destination copies while preserving all seven personal-account sources unchanged before substantive milestone work begins.
   - WP-02A repairs CI and coverage before broad milestone proof receives credit.
@@ -24,8 +28,8 @@ scheduled_planning:
   - issue: 5765
     pull_request: 5796
     title: Historical Agent Logic repository-transfer planning input superseded by WP-02 copy-only authority
-    source: .adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md
-    source_visibility: operator_local_unpublished
+    source: retained issue and PR planning record
+    source_visibility: historical_planning_input
     status: merged_planning_input
     prerequisites:
       - destination organization slug and owners confirmed
@@ -40,90 +44,80 @@ scheduled_tbd_inputs:
   - track: runtime_launch_resilience
     wp: WP-03
     sources:
-      - .adl/docs/TBD/RUNTIME_V3_LAUNCH_AND_OBSERVATORY_RECOVERY_PLAN.md
-      - .adl/docs/TBD/resilience/RUNTIME_V3_LONG_LIVED_AGENT_OS_PLAN.md
+      - docs/milestones/v0.92/features/RUNTIME_LAUNCH_AND_RESILIENCE_v0.92.md
+      - docs/adr/0011-long-lived-agent-runtime.md
   - track: agent_logic_account_repo_migration
     wp: WP-02
-    sources:
-      - .adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5765"]
   - track: post_migration_build_acceleration
     wp: WP-02B
-    sources:
-      - .adl/docs/TBD/POST_GITHUB_MIGRATION_BUILD_ACCELERATION_EXPERIMENT_PLAN.md
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5853"]
   - track: distributed_guardian_polis
     wp: WP-04
     sources:
-      - .adl/docs/TBD/CSM_RUNTIME_DISTRIBUTED_DESIGN.md
-      - .adl/docs/TBD/CSM_RUNTIME_DISTRIBUTED_EXECUTION_PLAN.md
+      - docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md
+      - "historical issue reference: danielbaustin/agent-design-language#5821"
     child_issue_count: 16
   - track: csdlc_estimation_cycle_time
     wp: WP-05
-    sources:
-      - .adl/docs/TBD/CSDLC_V2_SESSION_ESTIMATION_RECONNECTION_PLAN.md
-      - .adl/docs/TBD/workflow_tooling/planning/SPRINT_CYCLE_TIME_REDUCTION_PLAN.md
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5822"]
+    source_status: historical_input_no_current_agent_logic_issue
   - track: remote_validation_runner
     wp: WP-06
-    sources:
-      - .adl/docs/TBD/workflow_tooling/planning/REMOTE_BUILD_RUNNER_PILOT_PLAN.md
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5823"]
+    source_status: historical_input_no_current_agent_logic_issue
   - track: prompt_card_enum_typing
     wp: WP-07
-    sources:
-      - .adl/docs/TBD/workflow_tooling/planning/V0917_PROMPT_CARD_ENUM_TYPING_PLAN.md
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5824"]
+    source_status: historical_input_no_current_agent_logic_issue
   - track: acip_a2a_reconciliation
     wp: WP-14
     sources:
-      - .adl/docs/TBD/acip/AGENT_COMMUNICATION_AND_INVOCATION_PROTOCOL.md
-      - .adl/docs/TBD/a2a/ADL_A2A_ADAPTER.md
+      - docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md
+      - docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md
+      - docs/adr/0017-secure-local-agent-comms-and-a2a-boundary.md
   - track: observatory_unity_consumers
     wp: WP-18A
     sources:
-      - .adl/docs/TBD/OBSERVATORY_UNITY_DESIGN.md
+      - docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md
+      - "current routing issues: agent-logic/agent-design-language#84, #122, #251"
   - track: provider_neutral_multiagent_proof
     wp: WP-18B
     sources:
-      - .adl/docs/TBD/multiagent_demos/
+      - docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md
+      - docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md
   - track: repository_code_reduction_cleanup
     wp: WP-21
-    sources:
-      - .adl/docs/TBD/ADL_REPOSITORY_CODE_REDUCTION_PLAN_v0.91.8.md
+    sources: ["canonical issue reference: agent-logic/agent-design-language#309"]
   - track: medium_launch_article_series
     wp: WP-24
-    sources:
-      - .adl/docs/TBD/publication/ADL_MEDIUM_ARTICLE_LIST.md
-      - .adl/docs/TBD/publication/MEDIUM_ARTICLE_SERIES_PLAN.md
-      - .adl/docs/TBD/publication/medium_launch_articles/1-WHY-ADL.md
+    sources: [docs/milestones/v0.92/publication/articles/]
     source_status: zero_byte_placeholder_removed_authoring_required
   - track: podcast_studio_first_ten
     wp: WP-24A
-    sources:
-      - .adl/docs/TBD/PODCAST_STUDIO_NEXT_WEEK_LAUNCH_PLAN_5702.md
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5845"]
+    source_status: historical_input_no_current_agent_logic_issue
 
 deferred_planning:
   - track: capability_taxonomy_integration
     target: later_capability_milestone
     priority: noncritical_for_v0.92
-    sources:
-      - .adl/docs/TBD/capability_testing/ADL_CAPABILITY_TAXONOMY.md
+    sources: ["unavailable historical input: capability taxonomy integration concept"]
   - track: mlx_and_oci_model_distribution
     target: later_provider_model_milestone
     priority: noncritical_for_v0.92
-    sources:
-      - .adl/docs/TBD/MLX_APPLE_METAL_PROVIDER_PLAN.md
-      - .adl/docs/TBD/OCI_MODEL_PACKAGING_METHOD_PLAN.md
+    sources: ["unavailable historical input: MLX Apple/Metal provider and OCI model-packaging concepts"]
 
 later_backlog:
   - track: agent_logic_website_investor_publication
     target: agent_logic_launch_lane
-    sources:
-      - .adl/docs/TBD/AGENT_LOGIC_WEBSITE_DESIGN_v2.1.md
-      - .adl/docs/TBD/AGENT_LOGIC_INVESTOR_MATERIAL_TRACKING_AND_PUBLICATION_PLAN.md
+    sources: [Agent Logic website and investor-publication concepts]
   - track: general_intelligence_paper_program
     target: research_publication_milestone
-    sources:
-      - .adl/docs/TBD/general-intelligence-paper/
+    sources: [general-intelligence paper program concept]
 
 retained_operational_inputs:
-  - .adl/docs/TBD/OPUS_REVIEW_RUNBOOK.md
+  - REVIEW.md and the issue-bound external-review handoff
 
 supporting_issues:
   - issue: 5812
@@ -163,7 +157,7 @@ supporting_issues:
 execution_sprints:
   - sprint: foundation_and_throughput
     issue: 5858
-    session_prompt_path: .adl/docs/TBD/V092_SPRINT_5858_FOUNDATION_SESSION_PROMPT.md
+    session_authority: canonical umbrella issue body and child cards
     execution_mode: hybrid
     goal: Establish current documentation, repository ownership, reliable proof infrastructure, and fast operator workflows.
     members: [WP-01B, WP-02, issue-5812, WP-02A, WP-02B, WP-05, WP-06, WP-07]
@@ -179,24 +173,23 @@ execution_sprints:
     write_surface: canonical docs, repository operations, CI, validation tooling, and bounded Freedom Gate cleanup
   - sprint: runtime_observatory_polis_protocol
     issue: 5855
-    session_prompt_path: .adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md
+    session_authority: canonical umbrella issue body and child cards
     execution_mode: hybrid
-    goal: Deliver one resilient Runtime and Observatory path, approve the distributed architecture gate, then complete protocol, provider, and consumer integration.
-    members: [issue-5800, WP-03, issue-5795, WP-04, WP-14, WP-18A]
+    goal: Deliver one resilient Runtime and Observatory path, approve the distributed architecture gate, then complete protocol and provider integration. Consumer integration is later work under #84/#122/#251.
+    members: [issue-5800, WP-03, issue-5795, WP-04, WP-14]
     serial_gates:
       - issue-5800 and WP-03 establish the local launch and browser-trust baseline
       - issue-5795 integrates only after issue-5800 and WP-03 stabilize the Runtime/Observatory path
       - WP-04 publishes the architecture and security gate consumed by separate sprint #5862
       - WP-14 waits for the exact-head terminal #5862 reconciliation before final integration
-      - WP-18A integrates only after WP-03, WP-14, and WP-18 are ready
     parallel_lanes:
       - WP-04 architecture and security preparation after WP-03 contracts stabilize
       - WP-14 protocol reconciliation after Runtime ingress contracts stabilize
       - issue-5795 local-provider preparation before its final integration gate
-    write_surface: Runtime launch, Observatory HTTPS/WSS, local provider, distributed architecture gate, ACIP/A2A, and consumer integration
+    write_surface: Runtime launch, Observatory HTTPS/WSS, local provider, distributed architecture gate, and ACIP/A2A; WP-18A consumer integration is outside v0.92
   - sprint: distributed_guardian_implementation
     issue: 5862
-    session_prompt_path: .adl/docs/TBD/V092_SPRINT_5862_DISTRIBUTED_GUARDIAN_SESSION_PROMPT.md
+    session_authority: canonical umbrella issue body and child cards
     execution_mode: hybrid
     goal: Execute the approved distributed Guardian and polis design through sixteen bounded child issues and reconcile exact-head terminal proof.
     members: [WP-04-IMP, WP-04.01, WP-04.02, WP-04.03, WP-04.04, WP-04.05, WP-04.06, WP-04.07, WP-04.08, WP-04.09, WP-04.10, WP-04.11, WP-04.12, WP-04.13, WP-04.14, WP-04.15, WP-04.16]
@@ -211,7 +204,7 @@ execution_sprints:
     write_surface: distributed Guardian membership, transport, security, fencing, state, recovery, API, integration, and native proof
   - sprint: birthday_core
     issue: 5857
-    session_prompt_path: .adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md
+    session_authority: canonical umbrella issue body and child cards
     execution_mode: hybrid
     goal: Build the first-birthday identity, continuity, memory, capability, learning, witness, and review contracts.
     members: [WP-08, WP-09, WP-10, WP-11, WP-12, WP-13, WP-13A, WP-15, WP-16]
@@ -225,10 +218,10 @@ execution_sprints:
     write_surface: birthday contract, identity, continuity, memory, capability, cognitive profile, adaptive learning, witnesses, and review packet
   - sprint: demonstration_handoff_publication
     issue: 5854
-    session_prompt_path: .adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md
+    session_authority: canonical umbrella issue body and child cards
     execution_mode: hybrid
     goal: Produce real demonstrations, consumer proofs, governance handoff, and complete launch media.
-    members: [WP-17, WP-18, WP-18B, WP-19, WP-20]
+    members: [WP-17, WP-18, WP-18B, WP-19]
     completed_streams:
       - member: WP-24
         legacy_issue: 5844
@@ -237,10 +230,9 @@ execution_sprints:
         typed_closeout: asynchronous
     serial_gates:
       - "WP-17 after #5826, #5827, and #5834"
-      - "WP-18 after #5825 through #5830 and #5832 through #5834"
-      - "WP-18B after #5832, #5834, and WP-18"
+      - "WP-18 after #5825 through #5830, canonical WP-14 #209 / PR #215, #5833, and #5834; legacy #5832 is superseded"
+      - "WP-18B after canonical WP-14 #209 / PR #215, #5834, and WP-18"
       - "WP-19 after #5834 and WP-17 plus accepted v0.93 allocation"
-      - WP-20 after WP-18, WP-18A, WP-18B, and WP-19
       - WP-24 final claims after WP-23
     parallel_lanes:
       - members: [WP-17, WP-18]
@@ -252,19 +244,21 @@ execution_sprints:
         issue: 5845
         gates_sprint: false
         dependency_on_sprint: false
-    write_surface: migration semantics, birthday demo, provider-neutral proof, governance handoff, proof matrix, and launch articles
+    write_surface: migration semantics, birthday demo, provider-neutral proof, governance handoff, and launch articles
   - sprint: release_tail
     issue: 5856
-    session_prompt_path: .adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md
+    session_authority: canonical umbrella issue body and child cards
     execution_mode: sequential
     goal: Reduce and refactor safely, enforce the quality gate, complete reviews, remediate findings, and close the milestone.
-    members: [WP-21, WP-21A, WP-22, WP-23, WP-25, WP-26, WP-27, WP-28, WP-28A, WP-29, WP-30]
+    members: [WP-20, WP-21, WP-21A, WP-22, WP-23, WP-25, WP-26, WP-27, WP-28, WP-28A, WP-29, WP-30]
     serial_gates:
+      - WP-20 after WP-18, WP-18B, and WP-19; WP-18A is explicitly removed from v0.92 scope
+      - WP-20 before WP-21
       - WP-21 before WP-21A
       - WP-21A before WP-22
       - WP-22 through WP-30 in declared dependency order
     parallel_lanes: []
-    write_surface: reduction, Rust refactoring, quality, documentation, reviews, remediation, next-milestone planning, and ceremony
+    write_surface: demo matrix, AEE proof, proof coverage, reduction, Rust refactoring, quality, documentation, reviews, remediation, next-milestone planning, and ceremony
 
 card_update_rule:
   - Every opened WP must receive SIP, STP, SPP, VPP, SRP, and SOR cards.
@@ -581,11 +575,18 @@ work_packages:
     proof_surface: demo feature doc, artifacts, negative-case report, and reviewer packet
   - wp: WP-18A
     issue: 5837
-    title: Observatory/Unity consumer integration
-    queue: consumers
-    depends_on: [WP-03, WP-14, WP-18, issue-5800]
-    primary_deliverable: separate consumers integrated with the versioned Runtime API and WSS
-    proof_surface: real Observatory and Unity interactions, compatibility matrix, and consumer failure cases
+    title: Observatory/Unity consumer integration — superseded for v0.92 scope
+    queue: deferred
+    status: operator_scoped_out
+    successor_issue: 84
+    later_dependencies:
+      - issue: 122
+        routing: v0.92.1
+      - issue: 251
+        routing: backlog
+    depends_on: []
+    primary_deliverable: explicit v0.92 non-claim and later-work routing to #84/#122/#251
+    proof_surface: canonical milestone scope documents; no consumer implementation credit
   - wp: WP-18B
     issue: 5838
     title: Provider-neutral multi-agent proof
@@ -604,7 +605,7 @@ work_packages:
     issue: 5840
     title: Demo matrix, AEE proof, and proof coverage
     queue: demo
-    depends_on: [WP-18, WP-18A, WP-18B, WP-19]
+    depends_on: [WP-18, WP-18B, WP-19]
     primary_deliverable: demo matrix, AEE proof routing or packet, proof coverage, and validation commands
     proof_surface: demo matrix, AEE evidence, proof coverage document, and artifact index
   - wp: WP-21
@@ -622,21 +623,25 @@ work_packages:
     primary_deliverable: behavior-preserving simplification of active Rust ownership boundaries, duplication, and maintainability hotspots before review
     proof_surface: exact refactoring inventory, focused behavior parity, Clippy and test proof, before/after LoC, and bounded review
   - wp: WP-22
-    issue: 5842
+    canonical_issue: 311
+    corrective_issue: 467
+    legacy_issue: 5842
     title: Quality gate
     queue: quality
     depends_on: [WP-04, WP-05, WP-06, WP-07, WP-13A, WP-20, WP-21, WP-21A]
     primary_deliverable: quality gate that blocks internal review until every indexed v0.92 feature is landed with accepted exact-revision proof
     proof_surface: feature-completion matrix, quality-gate record, platform proof, and blocker report
   - wp: WP-23
-    issue: 5843
+    canonical_issue: 312
+    legacy_issue: 5843
     title: Docs and release-truth pass
     queue: docs
     depends_on: [WP-22]
     primary_deliverable: current canonical docs, release notes, feature list, ADR plan, skills, agent guidance, and milestone docs
     proof_surface: docs-review packet, ADR candidate packet if needed, and release-truth diff
   - wp: WP-25
-    issue: 5846
+    canonical_issue: 313
+    legacy_issue: 5846
     title: Internal review
     queue: review
     depends_on: [WP-23, WP-24, WP-24A]

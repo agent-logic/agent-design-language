@@ -1,0 +1,146 @@
+warning: variants `RevisionDrift` and `AuthorityUnavailable` are never constructed
+  --> tests/../src/distributed/placement.rs:55:5
+   |
+45 | pub enum PlacementError {
+   |          -------------- variants in this enum
+...
+55 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+56 |     AuthorityUnavailable,
+   |     ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `PlacementError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `PlacementAuthorityRevision` is never constructed
+   --> tests/../src/distributed/placement.rs:465:12
+    |
+465 | pub struct PlacementAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/placement.rs:471:12
+    |
+470 | impl PlacementAuthorityRevision {
+    | ------------------------------- methods in this implementation
+471 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+475 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `RedactedPlacementRow` is never constructed
+   --> tests/../src/distributed/placement.rs:481:12
+    |
+481 | pub struct RedactedPlacementRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementFreshness` is never used
+   --> tests/../src/distributed/placement.rs:492:10
+    |
+492 | pub enum PlacementFreshness {
+    |          ^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementCapacityBand` is never used
+   --> tests/../src/distributed/placement.rs:497:10
+    |
+497 | pub enum PlacementCapacityBand {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/placement.rs:504:12
+    |
+503 | impl RedactedPlacementRow {
+    | ------------------------- methods in this implementation
+504 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+508 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+512 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+516 |     pub fn capability_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+520 |     pub fn weather_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+524 |     pub fn freshness(&self) -> PlacementFreshness {
+    |            ^^^^^^^^^
+...
+528 |     pub fn capacity(&self) -> PlacementCapacityBand {
+    |            ^^^^^^^^
+
+warning: struct `RedactedPlacementSnapshot` is never constructed
+   --> tests/../src/distributed/placement.rs:534:12
+    |
+534 | pub struct RedactedPlacementSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/placement.rs:543:12
+    |
+542 | impl RedactedPlacementSnapshot {
+    | ------------------------------ methods in this implementation
+543 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+547 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+551 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+555 |     pub fn revision(&self) -> PlacementAuthorityRevision {
+    |            ^^^^^^^^
+...
+559 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedPlacementRow> {
+    |            ^^^^
+
+warning: fields `decision` and `captured_at_unix_secs` are never read
+   --> tests/../src/distributed/placement.rs:566:5
+    |
+565 | struct StoredPlacementDecision {
+    |        ----------------------- fields in this struct
+566 |     decision: PlacementDecision,
+    |     ^^^^^^^^
+567 |     captured_at_unix_secs: u64,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `StoredPlacementDecision` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `remove_decision`, `authority_revision`, `redacted_snapshot_at`, and `seed_decision_for_snapshot_test` are never used
+   --> tests/../src/distributed/placement.rs:604:12
+    |
+579 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- methods in this implementation
+...
+604 |     pub fn remove_decision(&self, lineage_id: &str) -> PlacementResult<bool> {
+    |            ^^^^^^^^^^^^^^^
+...
+624 |     pub fn authority_revision(&self) -> PlacementResult<PlacementAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+635 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+682 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `placement_revision` is never used
+   --> tests/../src/distributed/placement.rs:750:4
+    |
+750 | fn placement_revision(authority: &PlacementAuthorityState) -> PlacementAuthorityRevision {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/placement.rs:777:4
+    |
+777 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_placement") generated 13 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+  Executable tests/distributed_placement.rs (adl-runtime/target/debug/deps/distributed_placement-20fd7f21960494fd)

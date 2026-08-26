@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 327,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Restore strict Clippy after v1 tooling removal",
+    "slug": "real-tooling-dead-code",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "One strict-Clippy baseline defect caused by the unreachable real_tooling helper; no broad CLI or lifecycle redesign.",
+      "deliverables": [
+        "One bounded source correction",
+        "adl/tests/issue_327_removed_tooling.rs",
+        ".csdlc/prepared/issues/327/validate_preparation_bundle.py",
+        ".csdlc/prepared/issues/327/validate_changed_paths.py",
+        "Focused CLI and strict-Clippy proof",
+        "Fresh exact-head review",
+        "Ready PR with required hosted checks"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Strict Clippy for adl/Cargo.toml all targets passes under -D warnings.",
+        "AC-2: Focused CLI tests pass and removed v1 tooling commands remain fail closed.",
+        "AC-3: No #259 behavior, source, PR, issue, or lifecycle state changes.",
+        "AC-4: Fresh exact-head independent review reports no actionable findings.",
+        "AC-5: Required hosted checks pass before typed terminal finish."
+      ],
+      "dependencies": [
+        "Merged PR #320 on current origin/main",
+        "Required strict-Clippy failure observed on PR #326"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#327",
+        "adl/src/cli/mod.rs",
+        ".github/workflows/ci.yaml"
+      ],
+      "non_goals": [
+        "Restoring v1 tooling",
+        "Broad CLI refactor",
+        "Any #259 mutation",
+        "Optional or paid CI",
+        "Unrelated lifecycle cleanup"
+      ]
+    }
+  }
+}

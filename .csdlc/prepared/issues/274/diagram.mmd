@@ -1,0 +1,24 @@
+flowchart TD
+    D191["#191 secure authority"] --> O274["#274 Observatory eligibility"]
+    D199["#199 governed membership"] --> O274
+    D200["#200 reconciliation"] --> O274
+    D201["#201 committed operation"] --> O274
+    D202["#202 learner exclusion"] --> O274
+    D203["#203 sealed published receipt"] --> O274
+    F272["#272 terminal durable foundation"] --> O274
+
+    O274 --> A["Acquire exact quorum lease"]
+    A --> R["Renew exact successor"]
+    R --> T["Fenced atomic transfer"]
+    T --> V["Revoke"]
+    T --> E["Expire"]
+    V --> D["Fail-closed ineligible"]
+    E --> D
+
+    S273["#273 Shepherd module"] -. "disjoint product module" .- O274
+    S273 -. "terminal before shared registration" .-> M["distributed/mod.rs registration"]
+    M -.-> O274
+    O274 --> N1["No serving_authority.rs edit"]
+    O274 --> N2["No Shepherd or parent #205 code"]
+    O274 --> N3["No UI, listener, transport, or cloud"]
+    O274 -. "terminal with #273" .-> I275["#275 integrated proof"]

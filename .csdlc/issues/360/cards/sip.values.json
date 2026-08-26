@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 360,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Add authentic distinct Observatory transition fixture builder",
+    "slug": "observatory-authentic-transition-fixture",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Add a test-only authentic builder for distinct sealed Observatory transitions.",
+      "required_outcome": "Authentic tests can construct distinct Acquire Renew Transfer and Revoke projections through the real #350/#358 verifier without any production authority change.",
+      "declared_scope": [
+        "Test-only distinct Observatory transition descriptor",
+        "Real PublishedAuthorityResult artifact cut cross-binding",
+        "Authentic positive and negative transition fixture proof"
+      ],
+      "authority_boundary": [
+        "Every helper is cfg(test) or internal-test-fixtures only",
+        "Production verifier schema and sealed construction remain unchanged",
+        "No raw quorum membership OwnerCommit lease or artifact authority is exposed"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Base is exact origin/main cd0feef31240b95d344c5ae9b774325506586a5d",
+        "Own exactly authority_protocol.rs serving_authority.rs and existing projection integration test",
+        "No #274 production module or mod.rs edit"
+      ]
+    }
+  }
+}

@@ -33,6 +33,65 @@ pub struct BindResult {
     pub worktree: String,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct WorktreePolicy {
+    schema: String,
+    required_parent: String,
+}
+
+fn requires_worktree_policy(repository: &str) -> bool {
+    repository.eq_ignore_ascii_case("agent-logic/agent-design-language")
+}
+
+fn enforce_worktree_policy(root: &Path, requested: &Path, required: bool) -> Result<()> {
+    let policy_path = root.join(".adl/worktree-policy.json");
+    if !policy_path.is_file() {
+        return if required {
+            Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "canonical ADL repository is missing .adl/worktree-policy.json",
+            ))
+        } else {
+            Ok(())
+        };
+    }
+    let policy: WorktreePolicy = serde_json::from_slice(&fs::read(&policy_path)?)?;
+    if policy.schema != "adl.worktree_policy.v1" {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "unsupported ADL worktree policy schema",
+        ));
+    }
+    let parent = requested_worktree(root, &policy.required_parent)?;
+    if requested == parent || !requested.starts_with(&parent) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            format!(
+                "worktree must be a child of the required parent {}",
+                parent.display()
+            ),
+        ));
+    }
+    Ok(())
+}
+
+fn existing_bound_issue_local(
+    phase: crate::LifecyclePhase,
+    stored_branch: Option<&str>,
+    requested: &Path,
+    current_root: &Path,
+    current_branch: &str,
+    requested_branch: &str,
+    stored_worktree: Option<&Path>,
+) -> bool {
+    requested == current_root
+        && current_branch == requested_branch
+        && matches!(phase, crate::LifecyclePhase::Bound)
+        && stored_branch == Some(requested_branch)
+        && stored_worktree == Some(requested)
+}
+
 fn clean_relative(value: &str) -> bool {
     !value.is_empty()
         && Path::new(value)
@@ -444,6 +503,21 @@ fn materialize_issue(source: &Store, target_root: &Path, issue: u64) -> Result<M
     })
 }
 
+fn reject_bind_unsafe_authored_path(relative: &str) -> Result<()> {
+    let path = Path::new(relative);
+    if path
+        .components()
+        .next()
+        .is_some_and(|component| component == Component::Normal(".git".as_ref()))
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "binding cannot materialize authored design/diagram artifacts from .git; run initialized design-envelope recovery first",
+        ));
+    }
+    Ok(())
+}
+
 pub(crate) fn initialize_issue(
     store: &Store,
     mut request: BootstrapRequest,
@@ -564,9 +638,27 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
     let wanted = requested_worktree(store.root(), &request.worktree)?;
     let wanted_text = wanted.to_string_lossy().into_owned();
     let current_root = store.root().canonicalize()?;
+    let current_record = store.load_record(request.issue)?;
+    let stored_worktree = current_record
+        .worktree
+        .as_deref()
+        .map(|value| requested_worktree(store.root(), value))
+        .transpose()?;
     let issue_local = wanted.exists()
         && wanted.canonicalize().ok().as_ref() == Some(&current_root)
-        && git::current_branch(store.root())? == request.branch;
+        && existing_bound_issue_local(
+            current_record.phase,
+            current_record.branch.as_deref(),
+            &wanted,
+            &current_root,
+            &git::current_branch(store.root())?,
+            &request.branch,
+            stored_worktree.as_deref(),
+        );
+    let policy_required = requires_worktree_policy(&current_record.repository);
+    if !issue_local {
+        enforce_worktree_policy(store.root(), &wanted, policy_required)?;
+    }
 
     let _lock = store.binding_lock()?;
     let _issue_lock = store.authority_projection_lock(request.issue)?;
@@ -586,6 +678,8 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             )
         )
         && (source_phase != Some(crate::LifecyclePhase::Initialized) || source_diagnosis.ready);
+    reject_bind_unsafe_authored_path(&current_record.design_path)?;
+    reject_bind_unsafe_authored_path(&current_record.diagram_path)?;
     if !source_is_bindable {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,
@@ -787,4 +881,93 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
         branch: request.branch,
         worktree: wanted_text,
     })
+}
+
+#[cfg(test)]
+mod fastwork_policy_tests {
+    use super::{enforce_worktree_policy, existing_bound_issue_local, requires_worktree_policy};
+    use crate::LifecyclePhase;
+    use std::fs;
+    use std::path::Path;
+
+    fn policy_root() -> tempfile::TempDir {
+        let root = tempfile::tempdir().expect("policy root");
+        fs::create_dir_all(root.path().join(".adl")).expect("policy directory");
+        fs::write(
+            root.path().join(".adl/worktree-policy.json"),
+            r#"{"schema":"adl.worktree_policy.v1","required_parent":"/Volumes/FastWork/adl-worktrees"}"#,
+        )
+        .expect("policy file");
+        root
+    }
+
+    #[test]
+    fn fastwork_policy_accepts_child_of_required_parent() {
+        let root = policy_root();
+        enforce_worktree_policy(
+            root.path(),
+            Path::new("/Volumes/FastWork/adl-worktrees/adl-issue-5911"),
+            true,
+        )
+        .expect("FastWork child should pass");
+    }
+
+    #[test]
+    fn fastwork_policy_refuses_other_parent() {
+        let root = policy_root();
+        let error = enforce_worktree_policy(
+            root.path(),
+            Path::new("/Users/example/git/agent-design-language/.worktrees/adl-issue-5911"),
+            true,
+        )
+        .expect_err("local-disk worktree should fail");
+        assert!(error.message.contains("/Volumes/FastWork/adl-worktrees"));
+    }
+
+    #[test]
+    fn fastwork_policy_fails_closed_when_required_policy_is_missing() {
+        let root = tempfile::tempdir().expect("policy root");
+        let error = enforce_worktree_policy(
+            root.path(),
+            Path::new("/Volumes/FastWork/adl-worktrees/adl-issue-5911"),
+            true,
+        )
+        .expect_err("missing mandatory policy should fail");
+        assert!(error.message.contains("missing .adl/worktree-policy.json"));
+    }
+
+    #[test]
+    fn fastwork_policy_is_required_for_github_equivalent_repository_casing() {
+        assert!(requires_worktree_policy(
+            "Agent-Logic/Agent-Design-Language"
+        ));
+    }
+
+    #[test]
+    fn ready_issue_local_checkout_cannot_bypass_policy() {
+        let path = Path::new("/Users/example/adl-5911");
+        assert!(!existing_bound_issue_local(
+            LifecyclePhase::Ready,
+            Some("codex/5911"),
+            path,
+            path,
+            "codex/5911",
+            "codex/5911",
+            Some(path),
+        ));
+    }
+
+    #[test]
+    fn matching_legacy_bound_topology_is_idempotent() {
+        let path = Path::new("/Users/example/adl-5911");
+        assert!(existing_bound_issue_local(
+            LifecyclePhase::Bound,
+            Some("codex/5911"),
+            path,
+            path,
+            "codex/5911",
+            "codex/5911",
+            Some(path),
+        ));
+    }
 }

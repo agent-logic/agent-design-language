@@ -1,0 +1,63 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 327,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Restore strict Clippy after v1 tooling removal",
+    "slug": "real-tooling-dead-code",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Remove the unreachable sunset v1 tooling helper and prove extant ADL compatibility binaries remain fail closed.",
+      "actual_changes": [
+        "Remove private uncalled real_tooling helper that caused strict dead_code failure.",
+        "Add focused extant-binary regression for adl and adl-review tooling routes.",
+        "Preserve v1 sunset, typed v2 authority, and all #259 surfaces."
+      ],
+      "artifacts": [
+        "adl/src/cli/mod.rs",
+        "adl/tests/issue_327_removed_tooling.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict all-target Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "adl-strict-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--test",
+            "issue_327_removed_tooling"
+          ],
+          "purpose": "Run the exact issue-owned regression.",
+          "outcome": "passed",
+          "evidence_ref": "issue-327-routing-regression.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

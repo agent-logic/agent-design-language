@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5912,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Add production birth-witness policy provisioning and invocation boundary",
+    "slug": "runtime-birth-witness-boundary",
+    "version": "1.0.0",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the production provisioning, invocation, emission, and focused proof missing from #5833.",
+      "deliverables": [
+        "Runtime-owned opaque policy service",
+        "validated receipt emission boundary",
+        "production-path integration test"
+      ],
+      "acceptance_criteria": [
+        "AC1: A non-test Runtime owner can provision trusted policy without exposing policy internals.",
+        "AC2: The production path builds and validates a witness packet before emitting its receipt.",
+        "AC3: An external integration test proves real production-path use and exact receipt emission.",
+        "AC4: Existing #5833 security, privacy, canonicalization, rejection, and non-authority behavior remains unchanged.",
+        "AC5: Focused tests and strict Clippy pass at the reviewed exact revision."
+      ],
+      "dependencies": [
+        "Closed issue #5833 and merged PR agent-logic/agent-design-language#198"
+      ],
+      "repo_inputs": [
+        "adl-runtime-kernel/src/birth_witness.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/birth_witness.rs"
+      ],
+      "non_goals": [
+        "Changing the witness algorithm or receipt schema",
+        "Broad Runtime orchestration or Birthday demo work",
+        "Reopening or modifying #5833",
+        "Granting birth, citizenship, governance, legal, or launch authority"
+      ]
+    }
+  }
+}

@@ -1,0 +1,77 @@
+
+running 36 tests
+test add_learner_joint_final_publish ... ADL_ISSUE_199_CASE_V1 case=add_learner_joint_final_publish result=pass detail=public_contract_asserted
+ok
+test capacity_n_plus_one_no_partial ... ADL_ISSUE_199_CASE_V1 case=capacity_n_plus_one_no_partial result=pass detail=atomic_capacity_denial_and_stable_ids
+ok
+test checkpoint_object_collision ... ADL_ISSUE_199_CASE_V1 case=checkpoint_object_collision result=pass detail=public_contract_asserted
+ok
+test coherent_rollback_rejected ... ADL_ISSUE_199_CASE_V1 case=coherent_rollback_rejected result=pass detail=public_contract_asserted
+ok
+test concurrent_transition ... ADL_ISSUE_199_CASE_V1 case=concurrent_transition result=pass detail=public_contract_asserted
+ok
+test conflicting_retry ... ADL_ISSUE_199_CASE_V1 case=conflicting_retry result=pass detail=public_contract_asserted
+ok
+test corrupt_journal_rejected ... ADL_ISSUE_199_CASE_V1 case=corrupt_journal_rejected result=pass detail=public_contract_asserted
+ok
+test crash_every_phase ... ADL_ISSUE_199_CASE_V1 case=crash_every_phase result=pass detail=public_contract_asserted
+ok
+test exact_retry_cached_result ... ADL_ISSUE_199_CASE_V1 case=exact_retry_cached_result result=pass detail=public_contract_asserted
+ok
+test expired_certificate ... ADL_ISSUE_199_CASE_V1 case=expired_certificate result=pass detail=public_contract_asserted
+ok
+test final_cut_mismatch ... ADL_ISSUE_199_CASE_V1 case=final_cut_mismatch result=pass detail=public_contract_asserted
+ok
+test governed_rejoin_from_stale_state ... ADL_ISSUE_199_CASE_V1 case=governed_rejoin_from_stale_state result=pass detail=separate_membership_artifact_and_local_transition
+ok
+test joint_new_only ... ADL_ISSUE_199_CASE_V1 case=joint_new_only result=pass detail=public_contract_asserted
+ok
+test joint_old_only ... ADL_ISSUE_199_CASE_V1 case=joint_old_only result=pass detail=public_contract_asserted
+ok
+test joint_union_only ... ADL_ISSUE_199_CASE_V1 case=joint_union_only result=pass detail=public_contract_asserted
+ok
+test leader_change_resume ... ADL_ISSUE_199_CASE_V1 case=leader_change_resume result=pass detail=public_contract_asserted
+ok
+test learner_divergent_snapshot ... ADL_ISSUE_199_CASE_V1 case=learner_divergent_snapshot result=pass detail=public_contract_asserted
+ok
+test learner_lag ... ADL_ISSUE_199_CASE_V1 case=learner_lag result=pass detail=public_contract_asserted
+ok
+test learner_snapshot_catchup ... ADL_ISSUE_199_CASE_V1 case=learner_snapshot_catchup result=pass detail=public_contract_asserted
+ok
+test lock_symlink_rejected ... ADL_ISSUE_199_CASE_V1 case=lock_symlink_rejected result=pass detail=public_contract_asserted
+ok
+test missing_201_token ... ADL_ISSUE_199_CASE_V1 case=missing_201_token result=pass detail=public_contract_asserted
+ok
+test missing_snapshot ... ADL_ISSUE_199_CASE_V1 case=missing_snapshot result=pass detail=public_contract_asserted
+ok
+test old_cut_mismatch ... ADL_ISSUE_199_CASE_V1 case=old_cut_mismatch result=pass detail=public_contract_asserted
+ok
+test remove_voter_pending_exclusion ... ADL_ISSUE_199_CASE_V1 case=remove_voter_pending_exclusion result=pass detail=public_contract_asserted
+ok
+test removed_voter_endorsement ... ADL_ISSUE_199_CASE_V1 case=removed_voter_endorsement result=pass detail=public_contract_asserted
+ok
+test removed_voter_route ... ADL_ISSUE_199_CASE_V1 case=removed_voter_route result=pass detail=public_contract_asserted
+ok
+test revoked_certificate ... ADL_ISSUE_199_CASE_V1 case=revoked_certificate result=pass detail=public_contract_asserted
+ok
+test route_cut_mismatch ... ADL_ISSUE_199_CASE_V1 case=route_cut_mismatch result=pass detail=public_contract_asserted
+ok
+test stale_rejoin_self_promotion ... ADL_ISSUE_199_CASE_V1 case=stale_rejoin_self_promotion result=pass detail=public_contract_asserted
+ok
+test state_symlink_rejected ... ADL_ISSUE_199_CASE_V1 case=state_symlink_rejected result=pass detail=public_contract_asserted
+ok
+test unauthorized_overlap ... ADL_ISSUE_199_CASE_V1 case=unauthorized_overlap result=pass detail=public_contract_asserted
+ok
+test unstable_raft_id_mapping ... ADL_ISSUE_199_CASE_V1 case=unstable_raft_id_mapping result=pass detail=public_contract_asserted
+ok
+test wrong_certificate_generation ... ADL_ISSUE_199_CASE_V1 case=wrong_certificate_generation result=pass detail=public_contract_asserted
+ok
+test wrong_coarse_operation_kind ... ADL_ISSUE_199_SUBASSERTION_V1 name=wrong_artifact_discriminator result=pass boundary=sealed_publication_consumer
+ADL_ISSUE_199_CASE_V1 case=wrong_coarse_operation_kind result=pass detail=public_contract_asserted
+ok
+test wrong_control_key ... ADL_ISSUE_199_CASE_V1 case=wrong_control_key result=pass detail=public_contract_asserted
+ok
+test wrong_domain ... ADL_ISSUE_199_CASE_V1 case=wrong_domain result=pass detail=public_contract_asserted
+ok
+
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s

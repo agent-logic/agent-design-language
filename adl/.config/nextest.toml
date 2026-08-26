@@ -3,3 +3,23 @@ nextest-version = "0.9.133"
 [profile.default]
 retries = 0
 leak-timeout = "100ms"
+
+[profile.ci-coverage]
+retries = 0
+leak-timeout = "100ms"
+# Coverage instrumentation can make ordinary tests slower, but no individual
+# test may hold the hosted release gate indefinitely. Terminate a test that
+# exceeds this bounded coverage-only ceiling and report its exact identity.
+slow-timeout = { period = "120s", terminate-after = 1 }
+
+# Both issue #208 harnesses synchronously close their fixture roots, and every
+# client case additionally proves at its shared teardown boundary that it owns
+# no live or unreaped child process before returning.
+# On loaded macOS hosts, nextest's 100 ms post-exit pipe-closure observation can
+# still expire before the runner is rescheduled. Match the exact tracked case
+# names instead of binary-name selectors, whose absent-target validation breaks
+# unrelated workspace shards. Repeated loaded-host proof showed resource-free
+# cases can exceed 2 seconds, so fail any inherited-handle leak past 5 seconds.
+[[profile.default.overrides]]
+filter = 'test(/^(internal_listener_config_valid|nonloopback_bind_rejected|unsafe_root_config_rejected|guardian_identity_distinct|guardian_mtls_authorized|unknown_client_certificate_denied|invalid_client_eku_denied|stale_certificate_denied|bearer_only_denied|agent_control_identity_denied|wrong_trust_domain_denied|wrong_polis_denied|wrong_node_denied|wrong_guardian_denied|replay_rejected|conflicting_duplicate_rejected|reordered_request_rejected|wrong_kernel_instance_denied|durable_channel_restart_retry|certificate_succession_retry|stale_channel_epoch_denied|real_quiesce_checkpoint|partial_quiesce_rollback|signed_bundle_export|export_bounds|export_exact_retry|source_resume|source_resume_exact_retry|isolated_stage|isolated_import_validate|wrong_manifest_signature|wrong_generation|wrong_predecessor|wrong_accepted_prefix|wrong_topology|wrong_config|wrong_service_set|wrong_service_schema|corrupt_content|oversized_bundle|caller_path_rejected|symlink_path_rejected|deadline_before_effect|cancellation_no_partial|restart_after_accept|crash_after_bundle_commit|target_discard|discard_exact_retry|validated_target_discard|zero_residue|dual_open|opened_handle_replacement|evidence_redaction|public_surface_absent|guardian_initialization_live|participant_registry_complete)$/)'
+leak-timeout = { period = "5s", result = "fail" }

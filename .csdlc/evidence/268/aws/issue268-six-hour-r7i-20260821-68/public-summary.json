@@ -1,0 +1,23 @@
+{
+  "cleanup": {
+    "compute_state": "terminated",
+    "runtime_volume_attachment_state": "detached",
+    "stack_state": "deleted"
+  },
+  "estimated_compute_cost_usd": 0.145089,
+  "failure_reason": "The persistent warm-volume path completed all six resident Runtime, UTS-to-ACC, signed dehydration and restore, actual replay-denial, and pending-only continuation work. Guardian authenticated to the Runtime internally and published the pre-restart barrier, but the parallel Python HTTPS/WSS probe never acknowledged it, so the six-hour exposure did not start. Code inspection found that this probe used the server certificate-chain file as its CA source instead of the configured trust-roots file used by the successful Rust client; its retry loop then masked earlier error classes with the final connection refusal after Guardian shutdown.",
+  "fallback": "disabled",
+  "instance_type": "r7i.2xlarge",
+  "issue": 268,
+  "provider_attempts": 1,
+  "purchase_option": "on_demand",
+  "run_id": "issue268-six-hour-r7i-20260821-68",
+  "runtime_qualification_started": true,
+  "runtime_qualification_status": "passed_before_guardian_exposure",
+  "schema": "adl.issue268.failed_run_summary.v1",
+  "status": "terminal_external_probe_trust_failure",
+  "timing": {
+    "remote_command_seconds": 939,
+    "total_seconds": 987
+  }
+}

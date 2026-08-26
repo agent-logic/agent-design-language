@@ -1,0 +1,55 @@
+
+running 2 tests
+test memory_palace_fixture_builds_deterministic_obs_mem_handoff ... ok
+test long_lived_agent_cycle_consumes_memory_palace_context_ref ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s
+
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling ring v0.17.14
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority/adl-runtime-kernel)
+   Compiling rustls v0.23.43
+   Compiling rustls v0.21.12
+   Compiling rustls-webpki v0.103.9
+   Compiling rustls-webpki v0.101.7
+   Compiling sct v0.7.1
+   Compiling aws-sigv4 v1.4.1
+   Compiling tokio-rustls v0.24.1
+   Compiling ntp-proto v0.3.7
+   Compiling hyper-rustls v0.24.2
+   Compiling tokio-rustls v0.26.4
+   Compiling quinn-proto v0.11.17
+   Compiling ntp-os-clock v0.3.7
+   Compiling ntp-udp v0.3.7
+   Compiling hyper-rustls v0.27.7
+   Compiling axum-server v0.8.0
+   Compiling aws-smithy-http-client v1.1.11
+   Compiling reqwest v0.12.28
+   Compiling octocrab v0.53.0
+   Compiling yup-oauth2 v12.1.2
+   Compiling ntp-daemon v0.3.7
+   Compiling google-workspace v0.22.5
+   Compiling quinn v0.11.11
+   Compiling aws-smithy-runtime v1.10.2
+   Compiling aws-runtime v1.7.1
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority/adl-runtime)
+   Compiling aws-sdk-sts v1.99.0
+   Compiling aws-sdk-ssooidc v1.97.0
+   Compiling aws-sdk-sso v1.95.0
+   Compiling aws-sdk-eventbridge v1.102.0
+   Compiling aws-sdk-iam v1.105.0
+   Compiling aws-sdk-sns v1.96.0
+   Compiling aws-sdk-costexplorer v1.111.0
+   Compiling aws-sdk-ssm v1.106.0
+   Compiling aws-sdk-cloudwatchlogs v1.119.0
+   Compiling aws-sdk-budgets v1.104.0
+   Compiling aws-sdk-lambda v1.117.0
+   Compiling aws-sdk-ec2 v1.215.0
+   Compiling aws-config v1.8.14
+   Compiling aws-sdk-servicequotas v1.97.0
+   Compiling aws-sdk-bedrockruntime v1.126.0
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 40s
+     Running tests/memory_palace_tests.rs (adl/target/debug/deps/memory_palace_tests-90050508084fd2cc)

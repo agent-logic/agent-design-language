@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 226,
+  "expected_generation": 4,
+  "expected_digest": "3e9460b247d634664beb0efcbd34aa2a179183063a886c4f7bb8bddd9a8cbbbc",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Recover stale review truth after committing the typed assignment and first exact-head review record; no product or routing behavior changed."
+}

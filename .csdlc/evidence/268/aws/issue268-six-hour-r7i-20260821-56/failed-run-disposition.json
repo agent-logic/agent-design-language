@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "retained_runtime_root_mismatch",
+  "estimated_compute_cost_usd": 0.172872,
+  "fallback": "disabled",
+  "portable_request_sha256": "5b6f8c26df0f42dc4ce6f3470453c652da9ecfdb3df39186b149fadd49058b96",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-56",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_pre_runtime_failure",
+  "summary_sha256": "8a0845b5384696d357ef1c172e4b98ea70923800fc43323f3134ab2be24c7103",
+  "truth": "The EBS volume was healthy and mounted. A read-only SSM diagnosis proved that the snapshot's persistent Runtime root is /opt/adl-runtime/runtime, not /opt/adl-runtime. The operator cancelled the non-proving run; compute and stack cleanup completed, the retained Runtime volume detached, and fallback did not run."
+}

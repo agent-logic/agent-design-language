@@ -1,0 +1,361 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 311,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b86263883d2f9fb6ce7d5fa5190ca61881a7d49a954bbe46c134b8c3aa9da98c",
+  "phase": "published",
+  "generation": 23,
+  "digest": "0a303a87853a3ee89b7c79c56c62b506f1a9dcfb3d236d18380e8ce84699ab83",
+  "branch": "codex/311-v092-quality-gate",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-311-v092-quality-gate",
+  "review_assignment": {
+    "reviewer": "fresh-session:e1788896-09cd-4ec7-be1e-e5e8a39a465a",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:b0c9b0f57a06c7c1e0f5ff69ec1be19909ad82ce:d07e9d59929e23ce6956429b8bf9fc91705c324490b47d64ffda5c3182c94a15",
+    "scope": [
+      ".csdlc/issues/311",
+      ".csdlc/prepared/issues/311",
+      ".csdlc/evidence/311",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "docs/reviews/v0.92/quality-gate-311"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:e1788896-09cd-4ec7-be1e-e5e8a39a465a",
+    "scope": [
+      ".csdlc/issues/311",
+      ".csdlc/prepared/issues/311",
+      ".csdlc/evidence/311",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "docs/reviews/v0.92/quality-gate-311"
+    ],
+    "reviewed_revision": "git-blake3:b0c9b0f57a06c7c1e0f5ff69ec1be19909ad82ce:d07e9d59929e23ce6956429b8bf9fc91705c324490b47d64ffda5c3182c94a15",
+    "findings": [],
+    "residual_risks": [
+      "The canonical v0.92 feature matrix remains truthfully blocked at 33 of 33 rows; this reviewed structural gate does not grant release credit or downstream unlock."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 311,
+    "pull_request": 466,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/466",
+    "base": "main",
+    "head": "codex/311-v092-quality-gate",
+    "revision": "git-blake3:c02beda0b6c2b45696b13958b6672b6f79ad361e:cecce252e145619c9a6698f1cd621f3e44852bc9ef3dd0d1a1d63bc2731e30b9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/311/design.md",
+  "diagram_path": ".csdlc/prepared/issues/311/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:ae69e5fd-2662-4e87-8bd2-13ca378fd085",
+      "revision": "bf5ee895310486061704c221aa68d9ed941a84ddcd87edda1a1a9e56cd5c05fd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "1da2bcc4fc451790bfb3b892ca1216eb6a22d2522cd360df8df9bf56d090387d",
+      "rendered_digest": "b1c0911fc6a227d0ba229185e1c36e858733223971a364604a99b92eb0a352d5",
+      "ast_digest": "8a2e49295edbd23107ac83440b809a31e649dd5ebb23869f3af17fad3b4518f4"
+    },
+    "stp": {
+      "values_digest": "80a2b3f4616e4897bb3d6900470b0284133546ed01cf7f2f39dfbd119f43d0f2",
+      "rendered_digest": "f793cb9183e8527acec0fd8cf26e1997d079d599d791ddb1f03996e9b92209a2",
+      "ast_digest": "50869a8bb645edaa6aa3d4555ec1318a1dc733fd95ae0860a5d245e58e4172eb"
+    },
+    "spp": {
+      "values_digest": "c57716781a564d132fc13ff49507aeff4f361902b2bdee4db06cce9a544168a6",
+      "rendered_digest": "5cd73cd5c1f4b04e2840e6685840923c1941d3a0768ac7cf6ddd6928fcac77b0",
+      "ast_digest": "7b0e641d0f7253dcddb9228a1b3ceb904085bd7fb60de1cab95bf3121c685a76"
+    },
+    "vpp": {
+      "values_digest": "95c51f4b0378e544f1f91b23d4df39a1c8947c0fa46ac5a2a35f96a9bac4cdc5",
+      "rendered_digest": "4d5f3ec18d5fcc530c196e13f96fa69febc401a60d9c82528f820028e7dd7831",
+      "ast_digest": "0db9710fa2f00ec2cd4017d2b1ae36ce10af870e419b31a8376556f09b10a411"
+    },
+    "srp": {
+      "values_digest": "7d8c06109c3f2105dea37690003f78f088dd465612be061b408a78c4c6edd553",
+      "rendered_digest": "7cc2ed6a38025de383e6445de23b0b9498b6fd3eaea1168be2b64c196fcf0da9",
+      "ast_digest": "2855102ded7710bda770e9bf7c4f88910de9e8e0c030725f6d46b2147b22a72d"
+    },
+    "sor": {
+      "values_digest": "0cfbbfdfced279091e2b7c7c77d1ebe1e625ebe84c3ae4eb80c3e28040e6b9de",
+      "rendered_digest": "d163559c53ecd4bd317949100047cf091620ae6401235f18ea5f36f258be0cf1",
+      "ast_digest": "53c79fdf70034730f72619306c6f4ae255c60adb10f0379b77e3f855c4418793"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance canonical WP-22 to reviewed ready/unbound preparation while preserving #310 as the hard execution-bind gate."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Declare the exact quality-gate documents, packet, validators, and evidence paths before design approval.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\".csdlc/prepared/issues/311/design.md\",\".csdlc/prepared/issues/311/diagram.mmd\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Bind STP deliverables to the exact issue-owned quality-gate implementation and proof paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:ae69e5fd-2662-4e87-8bd2-13ca378fd085",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"bf5ee895310486061704c221aa68d9ed941a84ddcd87edda1a1a9e56cd5c05fd\",\"design_ref\":\".csdlc/prepared/issues/311/design.md\",\"diagram_digest\":\"0cf3785e5ec0220748a1e9c8bc1a1598367109a5b4788de44595001cfca4c2ef\",\"diagram_ref\":\".csdlc/prepared/issues/311/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Advance canonical WP-22 to reviewed ready/unbound preparation while preserving #310 as the hard execution-bind gate.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record the exact WP-22 structural quality-gate execution and its truthful blocked release result.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting AEE critical paths; structural validation passed, all 33 rows remain release blockers, and downstream unlock is false.\",\"changes\":[\"Added a deterministic denominator generator and fail-closed matrix validator for issue #311.\",\"Added eight negative cases covering missing, duplicate, extra, stale-head, invalid-disposition, blockerless, self-attested, and unresolvable Git evidence.\",\"Generated the 33-row matrix, gate record, and findings-first blocker report.\",\"Updated v0.92 quality/readiness/coverage docs to distinguish structural execution from a passing release gate and to record asynchronous #310 closeout as non-credit evidence.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Normalize implemented WP-22 execution truth to the exact approved path set after removing an out-of-scope source-document edit.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting AEE critical paths; structural validation passed, all 33 rows remain release blockers, and downstream unlock is false.\",\"changes\":[\"Added a deterministic denominator generator and fail-closed matrix validator for issue #311.\",\"Added eight negative cases for missing, duplicate, extra, stale, invalid, blockerless, self-attested, and unresolvable evidence.\",\"Generated the 33-row matrix, gate record, findings-first blocker report, and retained validation receipt.\",\"Updated only the approved v0.92 quality-gate and execution-readiness documents; coverage remains read-only input.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate exact denominator and dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Reject forged and incomplete evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record the bounded R1 remediation: authenticate every accepted-row authority and expand the independent forged-evidence denominator.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting AEE critical paths; structural validation passed, all 33 rows remain release blockers, downstream unlock is false, and the accepted-row path now fails closed on canonical GitHub, Git, typed-terminal, review, check, implementation-path, and proof-artifact authority.\",\"changes\":[\"Added a deterministic denominator generator and fail-closed matrix validator for issue #311.\",\"Authenticated accepted rows against stable typed terminal validation, retained digest-bound cache/review/proof artifacts, exact implementation paths, Git topology, and live GitHub closing/check truth.\",\"Expanded the negative suite to 21 cases, including a valid canonical control and independent stale-head, non-ancestral, fabricated-check, malformed-cache, cache-digest, cross-repository, missing-platform, prohibited-authority, review-digest, and implementation-path failures.\",\"Generated the 33-row matrix, gate record, findings-first blocker report, and retained validation receipt.\",\"Updated only the approved v0.92 quality-gate and execution-readiness documents; coverage remains read-only input.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the exact 33-row denominator and fail-closed dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Prove a valid canonical accepted control and reject 21 incomplete or forged authority cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record the candidate-blind API review remediation with real canonical typed/Git/GitHub/ruleset authority and atomic packet validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting critical paths. Structural and authority validation pass, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted-row validation now consumes stable typed authority, reviewed Git blobs, live GitHub closing/check truth, and the active main-protection ruleset.\",\"changes\":[\"Removed caller-controlled GitHub and C-SDLC executable hooks from the production acceptance path; stable C-SDLC owners derive from the Git common directory and GitHub observations use the authenticated API directly.\",\"Derived canonical required checks from the live active main-protection ruleset instead of an implementation-owned or row-selected list.\",\"Required review authority from the exact typed issue index and required proof blobs to be committed at the PR head, retained unchanged, included in review scope, and bound to passed typed SOR validation lanes.\",\"Added atomic cross-validation of the matrix, gate record, validation receipt, lane logs, artifact digests, blocker report, counts, result, and downstream unlock semantics.\",\"Expanded the fail-closed suite to 36 cases around a real canonical #451/PR #459 control, including authority substitution, live closing/check/ruleset failures, typed-terminal mutations, proof/review mutations, and exact Git topology.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the exact 33-row denominator plus the complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and reject 36 incomplete, stale, forged, or authority-substituted cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root-api-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record the bounded API R3 remediation, consume #310 recordless terminal and cleanup authority, and bind accepted evidence to the exact reviewed row contract.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, merge ancestry verification, and clean-worktree removal. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted evidence is contract-bound to canonical typed, Git, GitHub, review, check-app, and retained-proof authority.\",\"changes\":[\"Consumed #310 recordless closeout receipt, exact PR-head/merge tree equality, main ancestry, and registered clean-worktree removal as hard WP-21A prerequisites.\",\"Bound accepted evidence to the exact row source contract, explicit issue reference, reviewed source and implementation paths, canonical typed generation/digest, matching assignment/reviewer/revision/scope, and passed SOR evidence lanes.\",\"Required live issue closure plus active ruleset check contexts and matching GitHub App integration IDs, preventing same-name checks from an unauthorized app.\",\"Strengthened the complete packet with exact issue/denominator/evaluation-base identity, unique lanes, digest-bound logs, exact artifact sets, and exact blocker-reason lines.\",\"Expanded the fail-closed suite to 39 cases around the real #451/PR #459 canonical control, including unrelated-row evidence reuse, reopened issue, and wrong-check-app denial.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the exact 33-row denominator, #310 prerequisite, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and reject 39 incomplete, stale, cross-row, forged, or authority-substituted cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root-api-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record the bounded API R4 remediation for row semantics, complete GitHub check authority, repository pinning, and exact WP-21A state.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted evidence is bound to reviewed row semantics plus complete canonical GitHub ruleset/check authority.\",\"changes\":[\"Pinned validation to the physical bound repository and its exact agent-logic/agent-design-language origin, removing caller-controlled root substitution.\",\"Bound every accepted row to exact owner, reviewed source bytes, implementation paths, issue identity, proof artifacts, SOR lane commands and purposes, and independently parsed nonzero or structured proof semantics; duplicate accepted packets across rows fail closed.\",\"Enumerated every applicable active branch ruleset and every check-run page, required positive GitHub App integration identities, combined the complete required-check set, and selected the newest authorized run so stale success cannot mask later failure.\",\"Validated #310 against the live main SHA and exact origin/main equality, and detect its canonical branch independently of any renamed worktree path.\",\"Expanded the fail-closed suite to 50 cases around the real #451/PR #459 canonical control, including semantic-proof substitution, second-ruleset omission, missing app identity, newer failed duplicate, live-main ancestry, and renamed-worktree denial.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the exact 33-row denominator, #310 prerequisite, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and reject 50 incomplete, stale, cross-row, semantically non-proving, forged, or authority-substituted cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root-api-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record the bounded API R5 remediation with canonical-only execution, row-specific profiles, sanitized Git, complete ruleset semantics, and candidate-source binding.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.\",\"changes\":[\"Removed the public alternate-matrix release path; production validation accepts only the canonical packet, while row mutation tests use an isolated non-release function.\",\"Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.\",\"Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.\",\"Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.\",\"Bound the packet, gate, logs, and receipt to exact candidate source commit d1be63d3bded67ec238a12beed7f00b2dae0a2f8 and tree 0e5b3fd36217d2002179b082e20b95a4950e46cc, with exact post-source path and dirty-state denial.\",\"Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the canonical 33-row denominator, #310 prerequisite, candidate source identity, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and 58 adversarial authority, semantic, routing, and substitution cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Record the bounded API R5 remediation with canonical-only execution, row-specific profiles, sanitized Git, complete ruleset semantics, and candidate-source binding.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.\",\"changes\":[\"Removed the public alternate-matrix release path; production validation accepts only the canonical packet, while row mutation tests use an isolated non-release function.\",\"Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.\",\"Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.\",\"Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.\",\"Bound the packet, gate, logs, and receipt to exact candidate source commit 9b43fc535e864155b7c97b0e1b266c0787875bde and tree 181093683ad06a62f5b6fc2469791f685cc11ce3, with exact post-source path and dirty-state denial.\",\"Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the canonical 33-row denominator, #310 prerequisite, candidate source identity, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and 58 adversarial authority, semantic, routing, and substitution cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root-api-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Record the bounded API R5 remediation with canonical-only execution, row-specific profiles, sanitized Git, complete ruleset semantics, and candidate-source binding.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.\",\"changes\":[\"Removed the public alternate-matrix release path; production validation accepts only the canonical packet, while row mutation tests use an isolated non-release function.\",\"Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.\",\"Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.\",\"Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.\",\"Bound the packet, gate, logs, and receipt to exact candidate source commit 9b43fc535e864155b7c97b0e1b266c0787875bde and tree 181093683ad06a62f5b6fc2469791f685cc11ce3, with exact post-source path and dirty-state denial.\",\"Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts.\",\"Pinned the approved candidate source SHA/tree as validator constants, rejected all same-time check-run ties, and applied the sanitized authority environment to stable C-SDLC terminal subprocesses.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the canonical 33-row denominator, #310 prerequisite, candidate source identity, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and 65 adversarial authority, semantic, routing, tie, candidate-rebinding, and substitution cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:/root-api-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Record R7 remediation with live #310 closure authority, direct system-trust GitHub transport, complete closing-link pagination, and the expanded adversarial denominator.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live issue and merged-PR closure verification, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.\",\"changes\":[\"Re-observed canonical issue #310 and PR #465 during prerequisite validation, requiring closed/completed issue state, merged main PR, exact head and merge identities, and canonical closing linkage.\",\"Made live GitHub authority use a direct non-proxy connection and the OpenSSL installation's fixed system trust locations, ignoring caller-controlled proxy and TLS trust environment variables.\",\"Paginated GraphQL closing issue references through every cursor with cursor-stall denial.\",\"Expanded the adversarial suite to 76 cases, including reopened #310, every mismatched PR identity, missing closing linkage, hostile proxy/custom-CA substitution, and linkage beyond the first 100 results.\",\"Retained the pinned candidate source SHA/tree, canonical-only execution path, row-specific proof profiles, sanitized Git/C-SDLC authority, complete ruleset semantics, and ambiguous-check denial.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the canonical 33-row denominator, live #310 prerequisite, pinned candidate source identity, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and 76 adversarial authority, semantic, routing, tie, candidate-rebinding, proxy/TLS-substitution, live-closure, and pagination cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

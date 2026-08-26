@@ -1,0 +1,64 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 111,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.01] Implement canonical human-agent conversation sessions",
+    "slug": "wp18c01-canonical-human-agent-conversation-sessions",
+    "version": "v0.92",
+    "generation": 91
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the canonical one-operator-to-one-visible-agent bounded conversation slice authorized by live #110: authenticated Observatory intent, Runtime recipient eligibility, canonical ingress dispatch, explicit delivery/refusal/failure outcomes, and typed public reply rendering. Exclude durable history, rooms, attention workflows, public deployment, and broader identity or policy hardening.",
+      "deliverables": [
+        "Versioned canonical Runtime conversation intent, cancellation, turn, delivery, refusal, timeout, and response schemas",
+        "Runtime-owned bounded conversation state with per-conversation recipient binding, per-turn sequencing, exact duplicate idempotency, timeout, cancellation, disconnect survival, and bounded reconnect retrieval",
+        "Provider-neutral adapter boundary with deterministic fake proof and at-most-one dispatch per accepted turn",
+        "Observatory integration that renders operator turns and agent replies only after fully correlated Runtime-authoritative outcomes",
+        "adl-runtime-kernel/tests/conversation_sessions.rs",
+        "demos/html-observatory/tests/conversation_sessions.test.mjs",
+        "Focused Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, and diff-hygiene validation evidence",
+        "Exact-head review with all actionable findings resolved before publication"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Conversation identity, recipient binding, per-turn sequence, exact duplicate state, and terminal outcome are Runtime-owned; disconnect and bounded reconnect retrieve the same turn without duplicate dispatch or transcript entries",
+        "AC-2: Every accepted turn has stable conversation, turn, recipient, sequence, correlation, submission, and outcome identity under versioned provider-neutral schemas",
+        "AC-3: Unknown or unavailable recipients, malformed input, conflicting duplicates, cancellation, timeout, saturation, shutdown, and adapter failure fail closed with deterministic typed outcomes",
+        "AC-4: The Observatory submits through canonical authenticated ingress and renders operator text or an agent reply only after a fully correlated Runtime result; acknowledgements, hashes, browser-generated acceptance, and arbitrary adapter fields are never replies",
+        "AC-5: Focused deterministic conversation, Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, card, and diff-hygiene validation passes at the exact implementation revision",
+        "AC-6: Exact-head independent review resolves all actionable findings and records residual risks without claiming durable history, multi-agent routing, or broader Layer 8 authority"
+      ],
+      "dependencies": [
+        "#110 is the live WP-18C umbrella and authorizes #111 and #113 as separate initial execution slices",
+        "#92 is closed and supplies the trusted TLS baseline",
+        "#83 remains asynchronous decomposition reconciliation and is not an execution gate",
+        "#122 is deferred beyond v0.92 and is not a #111 execution gate",
+        "#112 consumes #111 later and supplies no authority or dependency to this issue"
+      ],
+      "repo_inputs": [
+        "Live issue #111 body read through csdlc-github-issue",
+        "Live umbrella #110 and dependency #83, #92, and #122 bodies read through csdlc-github-issue",
+        "AGENTS.md Gate 10D2 v1_sunset authority",
+        "docs/templates/prompts/current.json active native template registry",
+        "adl-runtime-kernel/src/ingress.rs canonical ingress",
+        "adl-runtime-kernel/src/control.rs Observatory transport and authenticated control",
+        "adl-runtime-kernel/tests/observatory.rs live WSS proof",
+        "docs/api/runtime-v3/v1/observatory.openapi.json public contract",
+        "demos/html-observatory/app.js current non-authoritative client surface"
+      ],
+      "non_goals": [
+        "Durable long-term conversation history or search (#114)",
+        "Multi-agent rooms, broadcast, or recipient widening (#115)",
+        "Operator attention inbox or intervention workflow (#116)",
+        "New Layer 8 identity, authority, refusal, or audit policy semantics (#112)",
+        "Agent roster or presence ownership (#113)",
+        "Public AWS deployment, DNS, ACM, or trusted-preview proof (#122)",
+        "Provider-specific payload exposure, private cognition, or browser-simulated responses"
+      ]
+    }
+  }
+}

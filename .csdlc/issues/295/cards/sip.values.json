@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 295,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][CI][coverage][defect] Classify mechanical compile-fallout without weakening changed-source coverage",
+    "slug": "mechanical-compile-fallout-coverage",
+    "version": "v0.92",
+    "generation": 24
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Classify exact mechanical compile-fallout without weakening changed-source coverage authority.",
+      "required_outcome": "A fail-closed exact-diff classifier accepts only governed import-only or argument-pass-through fallout with per-hunk compile proof and per-owner behavioral proof, emits a complete machine receipt, and preserves the 80 percent gate for real changes.",
+      "declared_scope": [
+        "adl/tools changed-source coverage classifier and integration",
+        "governed token and owning API proof mapping",
+        "focused parser, mapping, receipt, and negative fixtures",
+        "PVF classification and coverage authority contract proof"
+      ],
+      "authority_boundary": [
+        "The existing 80 percent whole-file gate remains authoritative for non-exempt source",
+        "PR-fast evidence remains non-authoritative",
+        "Classification is exact-diff and proof based, never a path allowlist",
+        "Issue #258 is a read-only fixture and is not mutated",
+        "No merge or closeout authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 binaries only",
+        "Bind to /Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage",
+        "Use branch codex/295-mechanical-compile-fallout-coverage",
+        "Preserve authorized root #292 staging and known locks",
+        "Quarantine any root #295 source staging recoverably with a hash manifest after bind",
+        "Use canonical fresh-session UUID design and exact-head review evidence",
+        "Publish ready with Closes #295 and stop before merge"
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "issue": 234,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "851576b5c79fdecc02c932731f5d4d983d01d28b594df3663c726200deda00ce",
+  "actor": "codex:234-systemic-ci-cost-control",
+  "reason": "The bounded CI fanout controls and all declared local proof lanes are complete; exact-head independent review is next.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

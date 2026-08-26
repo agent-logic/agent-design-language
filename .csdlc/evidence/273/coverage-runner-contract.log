@@ -1,0 +1,3 @@
+command: bash adl/tools/test_run_pr_fast_coverage_lane.sh
+result: PASS
+proof: the dedicated filter bypasses the ADL workspace and invokes the adl-runtime companion with internal-test-fixtures

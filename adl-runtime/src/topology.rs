@@ -8,6 +8,7 @@ use serde_json::{json, Value};
 use crate::acip::{runtime_capability as acip_runtime_capability, CSM_ACIP_COMPONENT};
 use crate::backpressure::RuntimeChannelId;
 use crate::cav::{CsmCavComponentStatus, CSM_CAV_COMPONENT};
+use crate::memory_palace::CSM_MEMORY_PALACE_COMPONENT;
 use crate::supervision::{
     default_component_supervision, ComponentId, ComponentSupervisionPolicy, SUPERVISION_SCHEMA,
 };
@@ -106,6 +107,12 @@ pub fn runtime_components() -> Vec<RuntimeComponent> {
             id: "reasoning_runtime",
             plane: "cognition",
             role: "reasoning graphs, loops, and adaptive DAG execution",
+        },
+        RuntimeComponent {
+            id: CSM_MEMORY_PALACE_COMPONENT,
+            plane: "continuity",
+            role:
+                "kernel-authoritative context topology, working set, and restart-safe handoff cache",
         },
         RuntimeComponent {
             id: "curiosity_engine",
@@ -282,6 +289,19 @@ pub fn runtime_stack_json() -> Value {
             "determinism": "captured_provider_shell_then_deterministic_core_replay",
             "continuity": "checkpoint_lineage_and_replay_cursor_distinct_from_lifelog_history",
             "governance": "freedom_gate_before_aee"
+        },
+        "memory_palace": {
+            "schema": crate::memory_palace::CSM_MEMORY_PALACE_STATUS_SCHEMA,
+            "component": crate::memory_palace::CSM_MEMORY_PALACE_COMPONENT,
+            "process_model": "csm_supervised_runtime_module",
+            "authority": "adl-runtime-kernel Memory Palace packet v2",
+            "durability": "exclusive_writer_journal_generation_artifacts_latest_pointer",
+            "restart_policy": "validate_journal_head_repair_stale_latest_fail_closed_on_fork_or_artifact_tamper",
+            "retained_status_ref": crate::memory_palace::CSM_MEMORY_PALACE_PACKET_REF,
+            "retained_status": {
+                "status": "unvalidated"
+            },
+            "agent_handoff": "legacy_adl_context_is_read_only_projection_from_kernel_packet"
         }
     })
 }
@@ -301,6 +321,7 @@ mod tests {
         assert!(ids.contains(&"scheduler"));
         assert!(!ids.contains(&"weather"));
         assert!(ids.contains(&"reasoning_runtime"));
+        assert!(ids.contains(&"memory_palace"));
         assert!(ids.contains(&"curiosity_engine"));
         assert!(ids.contains(&"resident_agents"));
         assert!(ids.contains(&"freedom_gate"));
@@ -319,7 +340,7 @@ mod tests {
         assert!(assembly
             .components()
             .iter()
-            .any(|component| component.id == "resident_agents"));
+            .any(|component| component.id == "memory_palace"));
     }
 
     #[test]

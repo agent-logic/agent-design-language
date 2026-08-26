@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/5854/diagram.mmd
 [
   {
     "lane": "v092-sprint5-readiness",
-    "proof_role": "Prove current Sprint 5 membership, five-child operative closeout scope, bind-safe child contracts, dependency gates, publication boundaries, umbrella ownership, and digest-bound live GitHub provenance.",
+    "proof_role": "Prove current Sprint 5 membership, four-child operative closeout scope, WP-20 release-tail handoff, bind-safe child contracts, dependency gates, publication boundaries, umbrella ownership, and digest-bound live GitHub provenance.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

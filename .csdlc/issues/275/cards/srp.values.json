@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 275,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.d] Prove integrated serving-authority behavior",
+    "slug": "integrated-serving-authority-proof",
+    "version": "v0.92",
+    "generation": 24
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #275 packet and immutable c46b7cd #367 base; canonical ancestral #191/#199/#200/#201/#202/#203/#272/#273/#274/#365/#367; new integrated snapshot module focused test one-line registration; opaque borrowed pair boundary deterministic redaction exact outcome receipts failure/recovery matrix compile-fail API denial; strict exclusion of foundation child authority sealed-provenance pairing parent UI listener transport migration cloud and provider work.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the module accept only a borrowed #367 VerifiedCommittedChildLineagePair, with no separate sealed child public DTO raw-lineage conversion or caller-minted authority?",
+        "Do receipts bind exact prior/result state and distinguish all four outcomes without recursive digest ambiguity?",
+        "Do real persistence and failure-injection tests prove last-commit preservation and restart determinism?",
+        "Are replacement transfer revoke expiry and overlap claims grounded in child projection truth rather than recreated semantics?",
+        "Is product ownership exactly the new module test and one additive registration line?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

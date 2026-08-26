@@ -1,0 +1,62 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 291,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover initialized decomposed issue cards without rewriting history",
+    "slug": "initialized-decomposition-card-recovery",
+    "version": "v0.92",
+    "generation": 33
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the csdlc-edit tooling route, tests, and docs needed for initialized post-decomposition card recovery using #114 gen35 as a read-only golden fixture.",
+      "deliverables": [
+        "csdlc-v2/src",
+        "csdlc-v2/tests/initialized_decomposition_recovery.rs",
+        "csdlc-v2/operator/skills/csdlc-v2-edit/SKILL.md",
+        ".csdlc/prepared/issues/291",
+        ".csdlc/evidence/291",
+        ".csdlc/issues/291"
+      ],
+      "acceptance_criteria": [
+        "AC-1: A typed initialized recovery request can transform a stale decomposed-parent packet to coordination-only truth without binding, branch mutation, GitHub writes, publication, merge, closeout, product-code changes, bootstrap overwrite, or #114 mutation.",
+        "AC-2: Recovery preserves append-only audit history, generation/digest CAS, branch/worktree null state, every existing design/diagram byte, and records exact old/new design-review authority truth when clearing or replacing a false approval such as operator:planning-1-assignment.",
+        "AC-3: Recovery validates all requested semantic replacements before writing, stages post-state bytes as content-addressed blobs under an issue-local write-ahead journal, fsyncs blobs/manifest/directories where supported, writes a prepared manifest as the durable point of no return, writes a commit marker only after postimage verification, abandons transactions without a durable prepared manifest, rolls forward any prepared transaction to the exact post-state, and fails closed on unexpected target hashes.",
+        "AC-4: Recovery enforces canonical request-root/cwd identity, repository containment, issue/path identity, symlink and escape rejection, and copies the #114 fixture to an isolated golden root before any mutation test.",
+        "AC-5: Recovery records SOR preparation truth without claiming execution, implementation, publication, merge, closeout, or terminal authority.",
+        "AC-6: Recovery updates or explicitly dispositions title/slug/version identity consistently across every card projection without changing issue number or repository.",
+        "AC-7: Recovery distinguishes historical gen0 design evidence from current implementation authority and rejects bootstrap regeneration as a way to overwrite preserved evidence.",
+        "AC-8: Recovery accepts a generic typed graph of node IDs, roles, directed dependency edges, parent integration owner, and in-scope status; it validates acyclicity/order and fails closed on missing/inverted edges, out-of-scope nodes, duplicate roles, or cross-child trust redefinition.",
+        "AC-9: Recovered packets can pass doctor/validate after valid #119 design/card review is recorded, without requiring bind or product proof, and normal initialized edits remain rejected except through the explicit recovery route.",
+        "AC-10: Failure output is typed JSON with exact rejected reasons for stale digest, missing preserved evidence, unsafe scope, unsupported phase, graph mismatch, request-root/cwd mismatch, path escape, symlink, unsupported fsync/durability fallback, non-atomic journal/manifest/commit-marker staging failure, unexpected target hash, or attempted #114/root-lock mutation."
+      ],
+      "dependencies": [
+        "Current #291 issue body",
+        "Current origin/main 7f88697ce82215188af941e15cf02a6220c9ad63",
+        "Read-only #114 generation 35 fixture",
+        "#109 and legacy #5908 fresh-session review standard"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#291",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-preparation/.csdlc/issues/114/index.json",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-preparation/.csdlc/prepared/issues/114/design.md",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-preparation/.csdlc/prepared/issues/114/diagram.mmd",
+        "csdlc-v2/src",
+        "csdlc-v2/tests",
+        "csdlc-v2/operator/skills"
+      ],
+      "non_goals": [
+        "Implementing #114, #276, #277, or #278 product behavior",
+        "Binding or mutating #114",
+        "Mutating root lock state or #112 worktrees",
+        "Creating, updating, closing, or retitling other issues",
+        "Recording #119 design approval for #114",
+        "Publishing, merging, closeout, AWS, #84, #122, #203, or #256 work"
+      ]
+    }
+  }
+}

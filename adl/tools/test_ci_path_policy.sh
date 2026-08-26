@@ -72,14 +72,15 @@ assert_current_coverage_workflow_contract() {
   assert_file_order "$workflow" 'Install cargo-llvm-cov for CI contract checks' 'path-policy PR-fast coverage contract'
   assert_file_order "$workflow" 'Install cargo-nextest for CI contract checks' 'path-policy PR-fast coverage contract'
   assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-profraw-shard-${{ matrix.shard }}" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
-  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-aggregate-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-workspace-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile workspace --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"'
+  assert_file_has "$workflow" 'Install workspace coverage summary'
+  assert_file_not_has "$workflow" 'coverage-workspace-aggregate-summary-json'
   assert_file_has "$workflow" 'Upload runtime coverage evidence'
   assert_file_has "$workflow" 'Upload workspace coverage evidence'
   assert_file_has "$workflow" 'name: adl-coverage-runtime-${{ github.run_id }}-${{ github.run_attempt }}'
   assert_file_has "$workflow" 'name: adl-coverage-workspace-${{ github.run_id }}-${{ github.run_attempt }}'
-  assert_file_has "$workflow" 'name: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}'
-  assert_file_has "$workflow" 'pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*'
+  assert_file_not_has "$workflow" 'name: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.shard }}'
+  assert_file_not_has "$workflow" 'pattern: adl-coverage-workspace-profraw-${{ github.run_id }}-${{ github.run_attempt }}-*'
   assert_file_has "$workflow" 'policy coverage execution state'
   assert_file_has "$workflow" 'run: bash adl/tools/setup_required_coverage_toolchain.sh stats'
   assert_file_has "$workflow" "steps.coverage-toolchain.outputs.ready == 'true'"
@@ -435,6 +436,76 @@ PY
   assert_has "$runtime_owner_observatory_output" "validation_profile_escalation_required=false"
   assert_has "$runtime_owner_observatory_output" "reason=runtime_owner_surface_runs_runtime_only_coverage"
 
+  git checkout -q -b issue-111-113-focused-routing "$base_sha"
+  mkdir -p .csdlc/issues/111 .csdlc/issues/113 \
+    adl-runtime-kernel/src adl-runtime-kernel/tests adl/tools \
+    demos/html-observatory/tests design docs/api/runtime-v3/v1
+  printf '{}\n' > .csdlc/issues/111/index.json
+  printf '{}\n' > .csdlc/issues/113/index.json
+  printf 'pub fn conversation() {}\n' > adl-runtime-kernel/src/control.rs
+  printf '#[test]\nfn conversation_session() {}\n' > adl-runtime-kernel/tests/conversation_sessions.rs
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_html_observatory.sh
+  printf 'process.exit(0);\n' > adl/tools/validate_v092_html_observatory_roster.mjs
+  printf 'console.log("conversation");\n' > demos/html-observatory/app.js
+  printf 'export const conversation = true;\n' > demos/html-observatory/tests/conversation_sessions.test.mjs
+  printf '# Issue 111\n' > design/issue-111.md
+  printf 'flowchart LR\n  A --> B\n' > design/issue-111.mmd
+  printf '{}\n' > docs/api/runtime-v3/v1/observatory.openapi.json
+  git add .csdlc adl-runtime-kernel adl/tools demos design docs/api/runtime-v3/v1
+  git commit -q -m issue-111-113-focused-routing
+  issue_111_113_head="$(git rev-parse HEAD)"
+  issue_111_113_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$issue_111_113_head" --ref "refs/pull/1/merge")"
+  assert_has "$issue_111_113_output" "fail_closed=false"
+  assert_has "$issue_111_113_output" "full_coverage_required=false"
+  assert_has "$issue_111_113_output" "slow_proof_contract_required=false"
+  assert_has "$issue_111_113_output" "coverage_lane=skip"
+  assert_has "$issue_111_113_output" "coverage_authority=not_required"
+  assert_has "$issue_111_113_output" "validation_profile_status=ready_to_run"
+  assert_has "$issue_111_113_output" "validation_profile_escalation_required=false"
+  assert_has "$issue_111_113_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_roster_javascript_syntax,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,runtime_kernel_contracts"
+
+  git checkout -q -b issue-341-provider-neutral-proof-routing "$base_sha"
+  mkdir -p .csdlc/evidence/341 .csdlc/issues/341/cards .csdlc/prepared/issues/341 \
+    adl/tools demos/html-observatory demos/v0.92/provider-neutral-birthday \
+    docs/milestones/v0.92/features
+  printf '{}\n' > .csdlc/evidence/341/proof-matrix.json
+  printf '{}\n' > .csdlc/issues/341/index.json
+  printf '# SOR\n' > .csdlc/issues/341/cards/sor.md
+  printf '# design\n' > .csdlc/prepared/issues/341/design.md
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/demo_v092_provider_neutral_birthday.sh
+  printf 'print("serve observatory")\n' > adl/tools/serve_v092_provider_neutral_observatory_api.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_v092_provider_neutral_proof.sh
+  printf 'print("validate proof")\n' > adl/tools/validate_v092_provider_neutral_proof.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_html_observatory.sh
+  printf 'console.log("runtime badge");\n' > demos/html-observatory/app.js
+  printf '# provider neutral proof\n' > demos/v0.92/provider-neutral-birthday/README.md
+  printf '{}\n' > demos/v0.92/provider-neutral-birthday/proof-matrix.json
+  printf '# feature\n' > docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md
+  git add .csdlc adl/tools demos docs/milestones/v0.92/features
+  git commit -q -m issue-341-provider-neutral-proof-routing
+  issue_341_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/442/merge")"
+  assert_has "$issue_341_output" "fail_closed=false"
+  assert_has "$issue_341_output" "rust_required=false"
+  assert_has "$issue_341_output" "coverage_required=false"
+  assert_has "$issue_341_output" "full_coverage_required=false"
+  assert_has "$issue_341_output" "workspace_full_coverage_required=false"
+  assert_has "$issue_341_output" "coverage_lane=skip"
+  assert_has "$issue_341_output" "coverage_authority=not_required"
+  assert_has "$issue_341_output" "validation_profile_status=ready_to_run"
+  assert_has "$issue_341_output" "validation_profile_escalation_required=false"
+  assert_has "$issue_341_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,provider_neutral_multi_agent_proof"
+  assert_has "$issue_341_output" "reason=provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
+
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/future_unclassified_route.sh
+  git add adl/tools/future_unclassified_route.sh
+  git commit -q -m issue-111-113-unknown-path
+  issue_111_113_unknown_head="$(git rev-parse HEAD)"
+  issue_111_113_unknown_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$issue_111_113_unknown_head" --ref "refs/pull/1/merge")"
+  assert_has "$issue_111_113_unknown_output" "fail_closed=true"
+  assert_has "$issue_111_113_unknown_output" "full_coverage_required=true"
+  assert_has "$issue_111_113_unknown_output" "coverage_authority=fail_closed"
+  assert_has "$issue_111_113_unknown_output" "validation_profile_escalation_lanes=unmapped_change_surface"
+
   git checkout -q -b runtime-v3-unmapped "$base_sha"
   mkdir -p infra/runtime-v3-extra
   printf 'unknown = true\n' > infra/runtime-v3-extra/config.toml
@@ -525,7 +596,7 @@ EOF
   assert_has "$cargo_structural_output" "rust_required=true"
   assert_has "$cargo_structural_output" "coverage_required=false"
   assert_has "$cargo_structural_output" "full_coverage_required=false"
-  assert_has "$cargo_structural_output" "demo_smoke_required=true"
+  assert_has "$cargo_structural_output" "demo_smoke_required=false"
   assert_has "$cargo_structural_output" "v0913_proof_required=false"
   assert_has "$cargo_structural_output" "release_version_only=false"
   assert_has "$cargo_structural_output" "ci_contracts_required=true"
@@ -554,7 +625,7 @@ EOF
   assert_has "$runtime_output" "rust_required=true"
   assert_has "$runtime_output" "coverage_required=false"
   assert_has "$runtime_output" "full_coverage_required=false"
-  assert_has "$runtime_output" "demo_smoke_required=true"
+  assert_has "$runtime_output" "demo_smoke_required=false"
   assert_has "$runtime_output" "v0913_proof_required=false"
   assert_has "$runtime_output" "release_version_only=false"
   assert_has "$runtime_output" "ci_contracts_required=true"
@@ -570,6 +641,13 @@ EOF
   assert_has "$runtime_output" "validation_profile_run_lanes=wp08_cloudfront_control_proof"
   assert_has "$runtime_output" "validation_profile_primary_reason=wp08_cloudfront_control_surface_requires_csm_runtime_hook_wrapper_contract_checks; retained live summary validation runs through adl/tools/validate_wp08_cloudfront_control_proof.py"
   assert_has "$runtime_output" "validation_profile_escalation_lanes=rust_pr_fast"
+  assert_has "$runtime_output" "automatic_pr_entrypoint=ci"
+  assert_has "$runtime_output" "optional_workflows_status=deferred"
+  assert_has "$runtime_output" "optional_workflows_reason=explicit_dispatch_required"
+  assert_has "$runtime_output" "soak_workflows_status=deferred"
+  assert_has "$runtime_output" "soak_workflows_reason=explicit_dispatch_required"
+  assert_has "$runtime_output" "duplicate_head_status=canceled"
+  assert_has "$runtime_output" "duplicate_head_reason=source_branch_concurrency_cancel_in_progress"
 
   git checkout -q -b runtime-v3-csm-bridge "$base_sha"
   mkdir -p adl-runtime/src adl/src/cli adl/src/long_lived_agent \
@@ -626,7 +704,7 @@ EOF
   assert_has "$rust_test_manifest_output" "rust_required=true"
   assert_has "$rust_test_manifest_output" "coverage_required=false"
   assert_has "$rust_test_manifest_output" "full_coverage_required=false"
-  assert_has "$rust_test_manifest_output" "demo_smoke_required=true"
+  assert_has "$rust_test_manifest_output" "demo_smoke_required=false"
   assert_has "$rust_test_manifest_output" "v0913_proof_required=false"
   assert_has "$rust_test_manifest_output" "release_version_only=false"
   assert_has "$rust_test_manifest_output" "ci_contracts_required=true"
@@ -866,7 +944,7 @@ EOF
   assert_has "$new_runtime_file_output" "rust_required=true"
   assert_has "$new_runtime_file_output" "coverage_required=false"
   assert_has "$new_runtime_file_output" "full_coverage_required=false"
-  assert_has "$new_runtime_file_output" "demo_smoke_required=true"
+  assert_has "$new_runtime_file_output" "demo_smoke_required=false"
   assert_has "$new_runtime_file_output" "v0913_proof_required=false"
   assert_has "$new_runtime_file_output" "release_version_only=false"
   assert_has "$new_runtime_file_output" "ci_contracts_required=true"
@@ -923,7 +1001,7 @@ EOF
   assert_has "$typed_closeout_plus_runtime_output" "rust_required=true"
   assert_has "$typed_closeout_plus_runtime_output" "coverage_required=true"
   assert_has "$typed_closeout_plus_runtime_output" "full_coverage_required=true"
-  assert_has "$typed_closeout_plus_runtime_output" "demo_smoke_required=true"
+  assert_has "$typed_closeout_plus_runtime_output" "demo_smoke_required=false"
   assert_has "$typed_closeout_plus_runtime_output" "ci_contracts_required=true"
   assert_has "$typed_closeout_plus_runtime_output" "csdlc_v2_standalone_required=true"
   assert_has "$typed_closeout_plus_runtime_output" "fail_closed=true"
@@ -1353,7 +1431,7 @@ PY
   assert_has "$runtime_policy_surface_output" "rust_required=true"
   assert_has "$runtime_policy_surface_output" "coverage_required=true"
   assert_has "$runtime_policy_surface_output" "full_coverage_required=true"
-  assert_has "$runtime_policy_surface_output" "demo_smoke_required=true"
+  assert_has "$runtime_policy_surface_output" "demo_smoke_required=false"
   assert_has "$runtime_policy_surface_output" "ci_contracts_required=true"
   assert_has "$runtime_policy_surface_output" "coverage_lane=authoritative_full"
   assert_has "$runtime_policy_surface_output" "coverage_authority=pr_policy_surface_runtime_mixed"
@@ -1932,7 +2010,7 @@ PY
   assert_has "$wp08_cloudfront_policy_mixed_output" "rust_required=true"
   assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_required=true"
   assert_has "$wp08_cloudfront_policy_mixed_output" "full_coverage_required=true"
-  assert_has "$wp08_cloudfront_policy_mixed_output" "demo_smoke_required=true"
+  assert_has "$wp08_cloudfront_policy_mixed_output" "demo_smoke_required=false"
   assert_has "$wp08_cloudfront_policy_mixed_output" "ci_contracts_required=true"
   assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_lane=authoritative_full"
   assert_has "$wp08_cloudfront_policy_mixed_output" "coverage_authority=pr_policy_surface_runtime_mixed"
@@ -1965,7 +2043,7 @@ PY
   assert_has "$stale_feature_output" "rust_required=true"
   assert_has "$stale_feature_output" "coverage_required=true"
   assert_has "$stale_feature_output" "full_coverage_required=true"
-  assert_has "$stale_feature_output" "demo_smoke_required=true"
+  assert_has "$stale_feature_output" "demo_smoke_required=false"
   assert_has "$stale_feature_output" "ci_contracts_required=true"
   assert_has "$stale_feature_output" "fail_closed=true"
   assert_has "$stale_feature_output" "coverage_lane=authoritative_full"
@@ -2002,7 +2080,7 @@ PY
   assert_has "$non_pr_output" "rust_required=true"
   assert_has "$non_pr_output" "coverage_required=true"
   assert_has "$non_pr_output" "full_coverage_required=true"
-  assert_has "$non_pr_output" "demo_smoke_required=true"
+  assert_has "$non_pr_output" "demo_smoke_required=false"
   assert_has "$non_pr_output" "release_version_only=false"
   assert_has "$non_pr_output" "ci_contracts_required=true"
   assert_has "$non_pr_output" "ci_path_policy_contracts_required=true"
@@ -2018,6 +2096,12 @@ PY
   assert_has "$non_pr_output" "change_class=unknown"
   assert_has "$non_pr_output" "pvf_lane=authoritative_full"
   assert_has "$non_pr_output" "release_gate_role=source_required"
+
+  manual_output="$($POLICY --event-name workflow_dispatch --ref "refs/heads/main")"
+  assert_has "$manual_output" "full_coverage_required=true"
+  assert_has "$manual_output" "demo_smoke_required=true"
+  assert_has "$manual_output" "optional_workflows_status=deferred"
+  assert_has "$manual_output" "optional_workflows_reason=explicit_dispatch_required"
 
   fail_closed_output="$("$POLICY" --event-name pull_request --base "" --head "$runtime_head" --ref "refs/pull/1/merge")"
   assert_has "$fail_closed_output" "rust_required=true"
@@ -2048,7 +2132,7 @@ EOF
   assert_has "$manager_failure_output" "rust_required=true"
   assert_has "$manager_failure_output" "coverage_required=true"
   assert_has "$manager_failure_output" "full_coverage_required=true"
-  assert_has "$manager_failure_output" "demo_smoke_required=true"
+  assert_has "$manager_failure_output" "demo_smoke_required=false"
   assert_has "$manager_failure_output" "release_version_only=false"
   assert_has "$manager_failure_output" "ci_contracts_required=true"
   assert_has "$manager_failure_output" "fail_closed=true"

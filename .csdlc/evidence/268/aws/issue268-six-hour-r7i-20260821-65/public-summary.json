@@ -1,0 +1,23 @@
+{
+  "cleanup": {
+    "compute_state": "terminated",
+    "runtime_volume_attachment_state": "detached",
+    "stack_state": "deleted"
+  },
+  "estimated_compute_cost_usd": 0.465402,
+  "failure_reason": "All six Runtime residents completed their pre-cycle work, but Runtime's low-disk continuity guard refused checkpoint advancement before signed dehydration. The retained Runtime volume contained both the active 12 GiB pinned S3 model store and its one-time 12 GiB conversion backup. The persistent volume has been expanded to 256 GiB; the repair removes that exact backup, grows the mounted filesystem, requires 10x model-store free capacity, and reuses the warm volume without a cold snapshot clone or full-store startup read.",
+  "fallback": "disabled",
+  "instance_type": "r7i.2xlarge",
+  "issue": 268,
+  "provider_attempts": 1,
+  "purchase_option": "on_demand",
+  "run_id": "issue268-six-hour-r7i-20260821-65",
+  "runtime_qualification_started": true,
+  "runtime_qualification_status": "failed_before_dehydration",
+  "schema": "adl.issue268.failed_run_summary.v1",
+  "status": "terminal_runtime_capacity_failure",
+  "timing": {
+    "remote_command_seconds": 3134,
+    "total_seconds": 3166
+  }
+}

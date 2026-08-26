@@ -1,0 +1,9 @@
+command=ruby .csdlc/prepared/issues/5857/validate-sprint-review.rb --self-test
+source_revision=0eadd38e63ef3aaf8ebf8e1a6ad716cf0dac486b
+source_tree=eb6d03a5ba3a60fa438efccac1067f659598b2a9
+result=passed
+children=9
+repairs=2
+wp16_entries=9
+negative_cases=4
+stdout={"schema":"adl.sprint_review_validation.v1","status":"passed","children":9,"repairs":2,"negative_cases":["wrong-child-pr","mismatched-child-head-merge","missing-repair-review","failed-repair-review"],"wp16":"{\"schema\":\"adl.v092.birthday-review-packet-validation.v1\",\"entries\":9,\"outcome\":\"passed\"}"}

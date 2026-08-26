@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 286,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
+    "slug": "adr-0069-observatory-runtime-consumer-evidence",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare, bind, implement, validate, review, publish, and finish only #286 ADR 0069 issue-local evidence reconciliation; do not serialize final shared ADR index/manifest truth owned by #288.",
+      "deliverables": [
+        ".csdlc/prepared/issues/286/design.md",
+        ".csdlc/prepared/issues/286/diagram.mmd",
+        ".csdlc/prepared/issues/286/validate_preparation_bundle.py",
+        ".csdlc/evidence/286",
+        ".csdlc/issues/286"
+      ],
+      "acceptance_criteria": [
+        "AC-1: #286 preparation packet states the ADR 0069 evidence-reconciliation boundary and #288/#207 ownership boundaries.",
+        "AC-2: Issue-local evidence classifies referenced WP-18A surfaces and exact #117/#271/#282 issue inputs as terminal-proving for their own issues, partial/non-terminal for ADR 0069, or out-of-scope.",
+        "AC-3: Every issue-input claim includes exact landed revision identity, artifact locator/digest, human-review reference, and machine-readable outcome reference.",
+        "AC-4: Residual gaps are explicit and do not block truthful #207 consumption when ADR 0069 is not acceptance-ready.",
+        "AC-5: #286 does not move ADR 0069 to Accepted, does not update shared ADR indexes/manifests, and does not claim #207/#288 or WP-18C closeout.",
+        "AC-6: Fresh exact-head review has no unresolved actionable findings, required CI is green on the published head, and typed finish derives terminal authority."
+      ],
+      "dependencies": [
+        "#117 terminal and canonical for WP-18C production Polis interface qualification evidence",
+        "#207 remains the ADR coordination parent",
+        "#288 remains final ADR index/manifest serialization owner",
+        "WP-18A/#84 live Unity/provider evidence may remain credential-gated and must be recorded truthfully if incomplete"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#286",
+        "agent-logic/agent-design-language#207",
+        "agent-logic/agent-design-language#288",
+        ".csdlc/prepared/issues/286/design.md",
+        ".csdlc/prepared/issues/286/diagram.mmd",
+        ".csdlc/prepared/issues/286/validate_preparation_bundle.py",
+        "terminal #117 evidence and caches",
+        "available WP-18A/WP-18C evidence records relevant to ADR 0069"
+      ],
+      "non_goals": [
+        "Implementing Runtime, Observatory UI, Unity, provider, cloud, storage, or authority behavior",
+        "Reading credentials or running live credential-bound provider/Unity proof",
+        "Mutating #284, #285, #287, #288, #207, or #110",
+        "Updating shared ADR index, plan, manifest, or final review packet surfaces",
+        "Moving ADR 0069 to Accepted or claiming WP-18C terminal closeout"
+      ]
+    }
+  }
+}

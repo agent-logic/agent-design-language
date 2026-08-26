@@ -1,0 +1,18 @@
+flowchart TD
+  A["Current main candidate<br/>557dd28d..."] --> B["Dependency ancestry gate"]
+  B --> C["Large roster fixture"]
+  B --> D["Long transcript fixture"]
+  B --> E["Stream pressure fixture"]
+  B --> F["Recovery fixture"]
+  C --> G["Bounded DOM/state metrics"]
+  D --> G
+  E --> H["Backpressure/degradation proof"]
+  F --> I["Reconnect/restart/offline/version mismatch proof"]
+  G --> J["Machine-readable #280 evidence"]
+  H --> J
+  I --> J
+  J --> K["Fresh exact-head review"]
+  K --> L["Typed publication and finish"]
+
+  X["Forbidden sibling/parent scope<br/>#279 #281 #282 #117 #110"] -. excluded .-> J
+  Y["Runtime authority/protocol changes"] -. excluded .-> J

@@ -1,0 +1,241 @@
+{
+  "claims": {
+    "acip_tcp_trace_observed": true,
+    "credential_material_recorded": false,
+    "local_reference_only": true,
+    "private_observatory_only": true,
+    "public_exposure_claimed": false,
+    "raw_payloads_recorded": false,
+    "real_provider_positive_claimed": false
+  },
+  "issue": 341,
+  "mode": "local-proof",
+  "negative_cases": [
+    {
+      "case": "malformed_acip",
+      "outcome": "non_pass",
+      "reason": "missing versioned ACIP envelope",
+      "receipt_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "visible": true
+    },
+    {
+      "case": "denied_authority",
+      "outcome": "non_pass",
+      "reason": "request lacks authorized execution context",
+      "receipt_sha256": "0df220375f2369f11e17f1648e7d4c87ef57d2e6f0266d8dc8ab247d0d5c439d",
+      "visible": true
+    },
+    {
+      "case": "interrupted_provider",
+      "outcome": "non_pass",
+      "reason": "partial response cannot be completed proof",
+      "receipt_sha256": "cc29fcb244e650ed249c5a7acc34d502ecee672a5d00ceaa611ae0f3327145f4",
+      "visible": true
+    },
+    {
+      "case": "provider_unavailable",
+      "outcome": "non_pass",
+      "reason": "unavailable provider marks only its column failed",
+      "receipt_sha256": "b4779870f8de1dd46e781052951b3cfa7ef2b3cd689298ffc84bea9a6f62b97a",
+      "visible": true
+    },
+    {
+      "case": "provider_loss",
+      "outcome": "non_pass",
+      "reason": "lost state cannot be reconstructed from cache",
+      "receipt_sha256": "7d5a803db22a3cf0ff6412bb6eff7ec453345d47be3d3837333a7970eebb90b1",
+      "visible": true
+    },
+    {
+      "case": "substitution_attempt",
+      "outcome": "non_pass",
+      "reason": "fixture/cached output cannot satisfy live positive proof",
+      "receipt_sha256": "f95820d2d0a026912fe035d5ffdfdd42fd8283936b281e79946a6f5abc10a802",
+      "visible": true
+    }
+  ],
+  "observatory": {
+    "agents": [
+      {
+        "acip_direct_tcp": true,
+        "agent_id": "issue341-openai-reference-agent",
+        "observed_listening_address": "127.0.0.1:52836",
+        "role": "provider-column",
+        "ssm_access": "none",
+        "status": "running"
+      },
+      {
+        "acip_direct_tcp": true,
+        "agent_id": "issue341-gemini-reference-agent",
+        "observed_listening_address": "127.0.0.1:52837",
+        "role": "provider-column",
+        "ssm_access": "none",
+        "status": "running"
+      },
+      {
+        "acip_direct_tcp": true,
+        "agent_id": "wuji-shepherd",
+        "observed_listening_address": "127.0.0.1:52838",
+        "role": "shepherd",
+        "ssm_access": "maintenance_only",
+        "status": "running"
+      }
+    ],
+    "observation_method": "live_localhost_tcp_listener_probe",
+    "public_exposure": "not_claimed",
+    "schema": "adl.issue341.private_observatory_roster.v1",
+    "summary": {
+      "all_voters_direct_tcp": true,
+      "ordinary_agent_ssm_access": false,
+      "running_agents": 3
+    },
+    "visibility": "private"
+  },
+  "provider_columns": [
+    {
+      "acip_operations": [
+        {
+          "op": "load_birthday_packet",
+          "version": "v0.92"
+        },
+        {
+          "op": "evaluate_identity_continuity",
+          "version": "v0.92"
+        },
+        {
+          "op": "emit_bounded_witness_summary",
+          "version": "v0.92"
+        }
+      ],
+      "agent_id": "issue341-openai-reference-agent",
+      "capabilities": [
+        "bounded_summary",
+        "acip_compatible_completion",
+        "direct_tcp_agent"
+      ],
+      "credential_material_recorded": false,
+      "execution_mode": "local_reference",
+      "model": "reference-gpt",
+      "outcome": "pass",
+      "output_sha256": "147ab2f19ef579c5aa1fc100d1ec86afd6764a966b1e28ab8d1aa67ac5a68e73",
+      "positive": true,
+      "provider": "openai-reference",
+      "raw_output_recorded": false,
+      "raw_prompt_recorded": false,
+      "receipt_sha256": "85be26712d5fc49168dd1256a14e87f02daf43a9917f2ba2c6b4ce093665408a",
+      "request_id_present": false,
+      "scenario_id": "v0.92.wp18b.provider-neutral-birthday.v1",
+      "schema": "adl.issue341.acip_receipt.v1",
+      "semantic_assertions": {
+        "names_continuity_boundary": true,
+        "names_identity_boundary": true,
+        "rejects_startup_as_birthday": true,
+        "retains_witness_boundary": true
+      },
+      "trace_ref": "acip-trace-local-proof.json"
+    },
+    {
+      "acip_operations": [
+        {
+          "op": "load_birthday_packet",
+          "version": "v0.92"
+        },
+        {
+          "op": "evaluate_identity_continuity",
+          "version": "v0.92"
+        },
+        {
+          "op": "emit_bounded_witness_summary",
+          "version": "v0.92"
+        }
+      ],
+      "agent_id": "issue341-gemini-reference-agent",
+      "capabilities": [
+        "bounded_summary",
+        "acip_compatible_completion",
+        "direct_tcp_agent"
+      ],
+      "credential_material_recorded": false,
+      "execution_mode": "local_reference",
+      "model": "reference-gemini",
+      "outcome": "pass",
+      "output_sha256": "147ab2f19ef579c5aa1fc100d1ec86afd6764a966b1e28ab8d1aa67ac5a68e73",
+      "positive": true,
+      "provider": "gemini-reference",
+      "raw_output_recorded": false,
+      "raw_prompt_recorded": false,
+      "receipt_sha256": "54165284555d6b702bf39ae5dff53266226162dabbf5df0f30a891ac194f356c",
+      "request_id_present": false,
+      "scenario_id": "v0.92.wp18b.provider-neutral-birthday.v1",
+      "schema": "adl.issue341.acip_receipt.v1",
+      "semantic_assertions": {
+        "names_continuity_boundary": true,
+        "names_identity_boundary": true,
+        "rejects_startup_as_birthday": true,
+        "retains_witness_boundary": true
+      },
+      "trace_ref": "acip-trace-local-proof.json"
+    },
+    {
+      "acip_operations": [
+        {
+          "op": "load_birthday_packet",
+          "version": "v0.92"
+        },
+        {
+          "op": "evaluate_identity_continuity",
+          "version": "v0.92"
+        },
+        {
+          "op": "emit_bounded_witness_summary",
+          "version": "v0.92"
+        }
+      ],
+      "agent_id": "wuji-shepherd",
+      "capabilities": [
+        "bounded_summary",
+        "acip_compatible_completion",
+        "direct_tcp_agent"
+      ],
+      "credential_material_recorded": false,
+      "execution_mode": "local_reference",
+      "model": "reference-shepherd",
+      "outcome": "pass",
+      "output_sha256": "147ab2f19ef579c5aa1fc100d1ec86afd6764a966b1e28ab8d1aa67ac5a68e73",
+      "positive": true,
+      "provider": "wuji-shepherd-reference",
+      "raw_output_recorded": false,
+      "raw_prompt_recorded": false,
+      "receipt_sha256": "535dff10e909481fcd66c9f79d9d2ee6020e07c6cc897e766de66549cd6106fe",
+      "request_id_present": false,
+      "scenario_id": "v0.92.wp18b.provider-neutral-birthday.v1",
+      "schema": "adl.issue341.acip_receipt.v1",
+      "semantic_assertions": {
+        "names_continuity_boundary": true,
+        "names_identity_boundary": true,
+        "rejects_startup_as_birthday": true,
+        "retains_witness_boundary": true
+      },
+      "trace_ref": "acip-trace-local-proof.json"
+    }
+  ],
+  "scenario": {
+    "acip_operations": [
+      {
+        "op": "load_birthday_packet",
+        "version": "v0.92"
+      },
+      {
+        "op": "evaluate_identity_continuity",
+        "version": "v0.92"
+      },
+      {
+        "op": "emit_bounded_witness_summary",
+        "version": "v0.92"
+      }
+    ],
+    "id": "v0.92.wp18b.provider-neutral-birthday.v1",
+    "prompt_sha256": "70426b51524e0e0ef8c80b89149e3376ff4d87cd6116d7b061c550c83bd348e0"
+  },
+  "schema": "adl.issue341.provider_neutral_birthday_matrix.v1"
+}

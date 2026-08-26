@@ -12,27 +12,65 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented the WP-17 documentation-only continuity-transfer contract over landed v0.92 Birthday evidence; first-review authority, scope, ACIP, and rollback findings are under bounded remediation.
 
 ## Artifacts
 
-- none
+- docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md
+- docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md
+- .csdlc/evidence/5835/dependency-authority.json
+- .csdlc/evidence/5835/rejected-transfer-matrix.json
+- .csdlc/evidence/5835/rollback-proof.json
+- .csdlc/evidence/5835/validate-continuity-transfer.rb
 
 ## Execution
 
-- none
+- Added an eleven-row field-level transfer matrix covering portability, locality, governance, transport, lineage, redaction, and fail-closed dispositions.
+- Added trusted repository, revision, authority-context, and redaction-policy anchor requirements that reject caller-established authority.
+- Bound ACIP transfer-readiness to replacement issue #209, PR #215, exact merge ancestry, and digest-pinned local/native manifests.
+- Retained a six-case rejected transfer matrix and explicit rollback proof while leaving the v0.93 handoff read-only.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "ruby",
+      ".csdlc/evidence/5835/validate-continuity-transfer.rb"
+    ],
+    "purpose": "Validate the anchored field-level continuity-transfer, ACIP authority, and rollback contract.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5835/wp17-doc-contract.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/evidence/5835/validate-continuity-transfer.rb",
+      "--negative"
+    ],
+    "purpose": "Prove copied/conflicting/private/self-authorized/superseded/overclaim mutations fail closed.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5835/wp17-negative-semantics.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and patch formatting defects.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5835/wp17-diff-review.log"
+  }
+]
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

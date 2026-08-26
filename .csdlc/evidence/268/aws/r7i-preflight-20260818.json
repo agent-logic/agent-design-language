@@ -1,0 +1,32 @@
+{
+  "schema": "adl.issue268.r7i_preflight.v1",
+  "status": "passed",
+  "mutation_performed": false,
+  "profile": "agent-logic-admin",
+  "region": "us-west-2",
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "approved_agent_logic_account": true,
+  "issue": 268,
+  "excluded_issue": 269,
+  "residue": {
+    "nonterminated_instances": 0,
+    "volumes": 0,
+    "active_or_open_spot_requests": 0,
+    "tagged_resources": 0
+  },
+  "bootstrap_bucket": {
+    "name": "adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2",
+    "versioning": "Enabled",
+    "continuity_authority": "none_bootstrap_cache_only"
+  },
+  "authorized_envelope": {
+    "instance_type": "r7i.2xlarge",
+    "vcpus": 8,
+    "memory_mib": 65536,
+    "spot_attempts": 1,
+    "max_provider_seconds": 25200,
+    "max_cost_usd": 20,
+    "on_demand_fallback": false,
+    "gpu": false
+  }
+}

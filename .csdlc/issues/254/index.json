@@ -1,0 +1,272 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 254,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c837e50a9c62f2187b45deeccc4ddde161f9928d8d49837f2c17ed224da58f8a",
+  "phase": "published",
+  "generation": 12,
+  "digest": "26124e3c3dcd36281154ac8d01f0961add8c7b6aaabbeb956f32ab19d2273080",
+  "branch": "codex/254-hosted-coverage-compile",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-254-hosted-coverage-compile",
+  "review_assignment": {
+    "reviewer": "codex:/root/fix_issue_254_ci_topology/review_issue_254_final_current",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:402d605a546a93135dd6a9584b6d1ff801240cce:c250b68ebb8abbda80bd63e09cb9d31b8efdde984eab08845903b303c725c92b",
+    "scope": [
+      ".csdlc/issues/254/audit.jsonl",
+      ".csdlc/issues/254/cards/sip.md",
+      ".csdlc/issues/254/cards/sip.values.json",
+      ".csdlc/issues/254/cards/sor.md",
+      ".csdlc/issues/254/cards/sor.values.json",
+      ".csdlc/issues/254/cards/spp.md",
+      ".csdlc/issues/254/cards/spp.values.json",
+      ".csdlc/issues/254/cards/srp.md",
+      ".csdlc/issues/254/cards/srp.values.json",
+      ".csdlc/issues/254/cards/stp.md",
+      ".csdlc/issues/254/cards/stp.values.json",
+      ".csdlc/issues/254/cards/vpp.md",
+      ".csdlc/issues/254/cards/vpp.values.json",
+      ".csdlc/issues/254/index.json",
+      ".csdlc/locks/254.lock",
+      ".csdlc/prepared/issues/254/design.md",
+      ".csdlc/prepared/issues/254/diagram.mmd",
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/validate_ci_workflow_policy.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "codex:/root/fix_issue_254_ci_topology/review_issue_254_final_current",
+    "scope": [
+      ".csdlc/issues/254/audit.jsonl",
+      ".csdlc/issues/254/cards/sip.md",
+      ".csdlc/issues/254/cards/sip.values.json",
+      ".csdlc/issues/254/cards/sor.md",
+      ".csdlc/issues/254/cards/sor.values.json",
+      ".csdlc/issues/254/cards/spp.md",
+      ".csdlc/issues/254/cards/spp.values.json",
+      ".csdlc/issues/254/cards/srp.md",
+      ".csdlc/issues/254/cards/srp.values.json",
+      ".csdlc/issues/254/cards/stp.md",
+      ".csdlc/issues/254/cards/stp.values.json",
+      ".csdlc/issues/254/cards/vpp.md",
+      ".csdlc/issues/254/cards/vpp.values.json",
+      ".csdlc/issues/254/index.json",
+      ".csdlc/locks/254.lock",
+      ".csdlc/prepared/issues/254/design.md",
+      ".csdlc/prepared/issues/254/diagram.mmd",
+      ".github/workflows/ci.yaml",
+      "adl/tools/test_ci_path_policy.sh",
+      "adl/tools/test_ci_runtime_contracts.sh",
+      "adl/tools/validate_ci_workflow_policy.rb"
+    ],
+    "reviewed_revision": "git-blake3:402d605a546a93135dd6a9584b6d1ff801240cce:c250b68ebb8abbda80bd63e09cb9d31b8efdde984eab08845903b303c725c92b",
+    "findings": [],
+    "residual_risks": [
+      "Local exact-head review and focused contract validation only; GitHub CI remains the remote integration proof after publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 254,
+    "pull_request": 255,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/255",
+    "base": "main",
+    "head": "codex/254-hosted-coverage-compile",
+    "revision": "git-blake3:6a0bc6d1f49bb64fa3d2784ef44f9df0c26a684a:d499410b71d703a04c77f3af3d61ba45b8cef3d2d1ed75b3d472c22cae22ad5a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/254/design.md",
+  "diagram_path": ".csdlc/prepared/issues/254/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root",
+      "revision": "fb61a0700ed333514f4b40295c7b7b013d659d06b88b9a272580cfc9eab46ce9"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "1038cf91b7a5142bbe27c9f9fe88a8bff638774d7d18e91c21b0573cc6801445",
+      "rendered_digest": "5158468ae62d751a44dd2719ffdcc5a4914bcfee04e09578cd577e82026438af",
+      "ast_digest": "0fbd01b803f38bfae9f494df2fae12a630ef1bb951ed8138877d1b63bea0ce90"
+    },
+    "stp": {
+      "values_digest": "257b614bd76f4d94c6fe68114a44a1582c80b114e83090a223417fac27b124e6",
+      "rendered_digest": "648c38992bc7924e818e6cada59ab7cbda98c7e4ffd8981f97c3be9ad3bcd23e",
+      "ast_digest": "87ba1959a700a2dfe1b54fd21ea21e8fc37cd525aa09a12cd12e510a2b60f557"
+    },
+    "spp": {
+      "values_digest": "2f51458d4315cc67c7e3ea67f026108a94fd20d94886925f5eb8034c181e73ba",
+      "rendered_digest": "3dfdc44a9616f360471a5757a19bdbcabae5f1519fed56bc960f827d5a24c692",
+      "ast_digest": "e74748174529362effb5a76d7201416b24113ad13e102583260fe08694092279"
+    },
+    "vpp": {
+      "values_digest": "7bb549498c0756c73f6c1b6f42b69f4dac79a10fac13cf9a22983c8274e939d6",
+      "rendered_digest": "6cb646f37db31a56230ffa4761df6b6ab288485dd25443f4c311f3bb1fd26b58",
+      "ast_digest": "912e4b408d6c1292bb7a79944681711fd6c594f17f3f5e6dc6b13a04fd4656fb"
+    },
+    "srp": {
+      "values_digest": "dd04fc25ab9409057224b75e7cc97e2a3f7126eb7b449e38e2f1eefab0baada6",
+      "rendered_digest": "e17b8aee852b92794a28cafebc70cad3d2d61140a36332052b6ef4f1c58ad2ef",
+      "ast_digest": "7d9afb06c488382582fdf99145ee38cca6f34c2885a3dbca0b376f3de3263fee"
+    },
+    "sor": {
+      "values_digest": "8869bd5398aac282a9fa270621f6936a4b08f87bdb57a7f1b90da8e067047152",
+      "rendered_digest": "3bd2ab64fd6e931e63982dd8720c86487632227c708a3dbffd7edc4184fdf868",
+      "ast_digest": "c774e1d78dff1bdcbb16fdd28995357737f47540b7cb107711e339926aeaa8c6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "doctor passed execution readiness for issue 254"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "implementation commit 12bac0094 exists in the bound issue worktree"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "repair design readiness with explicit repository-owned file paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/test_ci_path_policy.sh\",\"adl/tools/validate_ci_workflow_policy.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "doctor passed execution readiness for issue 254",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "record implemented CI topology fix for issue 254",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Eliminated repeated hosted workspace coverage compilation by making the full workspace producer emit the authoritative summary/provenance artifact and converting adl-coverage-hosted into a light verification/merge gate on ubuntu-latest.\",\"changes\":[\".github/workflows/ci.yaml: removed workspace shard matrix/profraw aggregate reporting and aggregate Rust toolchain/cache/install steps\",\".github/workflows/ci.yaml: full workspace producer now runs run-and-report once and uploads workspace summary/provenance/log evidence\",\".github/workflows/ci.yaml: adl-coverage-hosted now downloads producer summaries, verifies provenance, copies the workspace summary, merges summaries, and runs existing gates on ubuntu-latest\",\"adl/tools/test_ci_runtime_contracts.sh: updated contract checks to require the light aggregate topology and forbid aggregate Rust coverage reruns\",\"adl/tools/test_ci_path_policy.sh: updated path-policy workflow assertions for summary artifact topology\",\"adl/tools/validate_ci_workflow_policy.rb: classified adl_coverage_hosted as a light aggregate and forbids run_authoritative_coverage_lane.sh in that job\"],\"artifacts\":[\".github/workflows/ci.yaml\",\"adl/tools/test_ci_runtime_contracts.sh\",\"adl/tools/test_ci_path_policy.sh\",\"adl/tools/validate_ci_workflow_policy.rb\",\".csdlc/prepared/issues/254/design.md\",\".csdlc/prepared/issues/254/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "record focused runtime workflow contract validation for issue 254",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_runtime_contracts.sh\"],\"purpose\":\"Focused runtime/coverage workflow contract validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: PASS test_verify_coverage_producer_results; PASS test_ci_runtime_contracts; PASS test_run_pr_fast_coverage_lane\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "record focused path-policy workflow contract validation for issue 254",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"purpose\":\"Focused path-policy PR-fast/full-coverage contract validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: PASS: ci_path_policy PR-fast/full-coverage contract\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "record workflow policy validation for issue 254",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\"adl/tools/validate_ci_workflow_policy.rb\"],\"purpose\":\"Machine-readable workflow policy validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local JSON: status pass\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "record whitespace validation for issue 254",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace/conflict-marker validation\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout empty; exit 0\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "implementation commit 12bac0094 exists in the bound issue worktree",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

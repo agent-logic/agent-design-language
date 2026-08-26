@@ -1,0 +1,1 @@
+{"run_id":"issue-194-s3-fixed-smoke-20260817T003830Z","status":"passed","directions":["aws-voter-a-to-b","aws-voter-b-to-a"],"proof_role":"private_acip_ready_tcp_adjacency","control_plane":"SSM invoked shepherd maintenance commands only; peer payloads flowed over direct private TCP"}

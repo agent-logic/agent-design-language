@@ -117,7 +117,22 @@ def main() -> int:
     parser.add_argument("--expected-source-commit", required=True)
     parser.add_argument("--expected-image", required=True)
     parser.add_argument("--expected-cache-volume-id-sha256", required=True)
+    parser.add_argument(
+        "--expected-retained-volume-role",
+        choices=("build_cache", "runtime_continuity"),
+        default="build_cache",
+    )
     parser.add_argument("--estimated-hourly-cost-usd", required=True, type=float)
+    parser.add_argument(
+        "--expected-purchase-option",
+        choices=("spot", "on_demand"),
+        default="spot",
+    )
+    parser.add_argument(
+        "--validation-environment",
+        choices=("immutable_builder", "direct_host_runtime"),
+        default="immutable_builder",
+    )
     parser.add_argument("--runner-exit-code", required=True, type=int)
     args = parser.parse_args()
 
@@ -178,26 +193,48 @@ def main() -> int:
     failures: list[str] = []
     require(args.runner_exit_code == 0, failures, "runner_exit_nonzero")
     require(str(raw.get("status", "")).lower() in {"passed", "resumed_after_interruption"}, failures, "run_status_not_passed")
-    require(launch.get("purchase_option") == "spot", failures, "purchase_option_not_spot")
+    require(
+        launch.get("purchase_option") == args.expected_purchase_option,
+        failures,
+        "purchase_option_mismatch",
+    )
     require(cache.get("created") is False, failures, "retained_cache_was_created_or_unproven")
     cache_volume_id = cache.get("volume_id") if isinstance(cache.get("volume_id"), str) else ""
     require(sha256(cache_volume_id) == args.expected_cache_volume_id_sha256, failures, "retained_cache_identity_mismatch")
     require(cache.get("attachment_state") == "attached", failures, "retained_cache_not_attached")
-    require(cache.get("mount_path") == "/mnt/adl-cache", failures, "retained_cache_mount_mismatch")
+    cloudformation_adoption = launch_surface.get("provisioning_mode") == "cloudformation_existing_instance"
+    expected_mount = (
+        "/opt/adl-runtime"
+        if cloudformation_adoption
+        else (
+            "/mnt/adl-runtime-continuity"
+            if args.expected_retained_volume_role == "runtime_continuity"
+            else "/mnt/adl-cache"
+        )
+    )
+    require(cache.get("mount_path") == expected_mount, failures, "retained_volume_mount_mismatch")
     require(cleanup.get("termination_attempted") is True, failures, "compute_termination_not_attempted")
     require(cleanup.get("final_instance_state") == "terminated", failures, "compute_not_terminated")
     require(not cleanup.get("termination_error"), failures, "compute_termination_error")
-    require(launch_surface.get("ssh_debug_enabled") is True, failures, "ssh_debug_not_enabled")
-    require("status=ssh_debug_ready" in command_status, failures, "ssh_recovery_not_proven")
-    require("status=ssh_tail_started" in command_status, failures, "live_ssh_tail_not_proven")
-    require(builder.get("builder_image_immutable") is True, failures, "builder_image_not_immutable")
-    require(builder.get("builder_image_digest_sha256") == expected_digest_hash, failures, "builder_image_digest_mismatch")
-    require(builder.get("toolchain_verified") is True, failures, "builder_toolchain_not_verified")
-    require(builder.get("source_commit_verified") is True, failures, "source_commit_not_verified")
-    require(builder.get("source_commit") == args.expected_source_commit, failures, "source_commit_mismatch")
-    require(builder.get("cache_mount_verified") is True, failures, "cache_mount_not_verified")
-    require(builder.get("cache_writable") is True, failures, "cache_not_writable")
-    require(builder.get("host_validation_tools_installed") is False, failures, "host_validation_tool_install_detected")
+    if cloudformation_adoption:
+        require(launch_surface.get("ssh_debug_enabled") is False, failures, "cloudformation_no_ingress_drifted")
+    else:
+        require(launch_surface.get("ssh_debug_enabled") is True, failures, "ssh_debug_not_enabled")
+        require("status=ssh_debug_ready" in command_status, failures, "ssh_recovery_not_proven")
+        require("status=ssh_tail_started" in command_status, failures, "live_ssh_tail_not_proven")
+    if args.validation_environment == "immutable_builder":
+        require(builder.get("builder_image_immutable") is True, failures, "builder_image_not_immutable")
+        require(builder.get("builder_image_digest_sha256") == expected_digest_hash, failures, "builder_image_digest_mismatch")
+        require(builder.get("toolchain_verified") is True, failures, "builder_toolchain_not_verified")
+        require(builder.get("source_commit_verified") is True, failures, "source_commit_not_verified")
+        require(builder.get("source_commit") == args.expected_source_commit, failures, "source_commit_mismatch")
+        require(builder.get("cache_mount_verified") is True, failures, "cache_mount_not_verified")
+        require(builder.get("cache_writable") is True, failures, "cache_not_writable")
+        require(builder.get("host_validation_tools_installed") is False, failures, "host_validation_tool_install_detected")
+    else:
+        require(remote.get("validation_environment") == "direct_host_runtime", failures, "direct_host_runtime_not_verified")
+        require(remote.get("resolved_commit") == args.expected_source_commit, failures, "source_commit_mismatch")
+        require(remote.get("runtime_toolchain_verified") is True, failures, "runtime_toolchain_not_verified")
 
     total_seconds = int(timings.get("total_seconds") or 0)
     estimated_cost = round(args.estimated_hourly_cost_usd * total_seconds / 3600.0, 6)
@@ -205,17 +242,26 @@ def main() -> int:
         "passed": not failures,
         "failures": failures,
         "account_verified_by_wrapper": True,
-        "spot_purchase_verified": launch.get("purchase_option") == "spot",
-        "immutable_builder_image_verified": builder.get("builder_image_immutable") is True,
-        "builder_toolchain_verified": builder.get("toolchain_verified") is True,
-        "source_commit_verified": builder.get("source_commit") == args.expected_source_commit,
+        "validation_environment": args.validation_environment,
+        "expected_purchase_option": args.expected_purchase_option,
+        "purchase_option_verified": launch.get("purchase_option") == args.expected_purchase_option,
+        "spot_purchase_verified": (
+            launch.get("purchase_option") == "spot"
+            if args.expected_purchase_option == "spot"
+            else None
+        ),
+        "retained_volume_role": args.expected_retained_volume_role,
+        "immutable_builder_image_verified": builder.get("builder_image_immutable") is True if args.validation_environment == "immutable_builder" else None,
+        "builder_toolchain_verified": builder.get("toolchain_verified") is True if args.validation_environment == "immutable_builder" else None,
+        "runtime_toolchain_verified": remote.get("runtime_toolchain_verified") is True if args.validation_environment == "direct_host_runtime" else None,
+        "source_commit_verified": (builder.get("source_commit") if args.validation_environment == "immutable_builder" else remote.get("resolved_commit")) == args.expected_source_commit,
         "retained_cache_verified": cache.get("created") is False and cache.get("attachment_state") == "attached",
         "retained_cache_identity_verified": sha256(cache_volume_id) == args.expected_cache_volume_id_sha256,
-        "cache_mount_health_verified": builder.get("cache_mount_verified") is True and builder.get("cache_writable") is True,
-        "ssh_recovery_verified": "status=ssh_debug_ready" in command_status,
-        "live_logs_verified": "status=ssh_tail_started" in command_status,
+        "cache_mount_health_verified": (builder.get("cache_mount_verified") is True and builder.get("cache_writable") is True) if args.validation_environment == "immutable_builder" else (cache.get("attachment_state") == "attached" and cache.get("mount_path") == expected_mount),
+        "ssh_recovery_verified": None if cloudformation_adoption else "status=ssh_debug_ready" in command_status,
+        "live_logs_verified": None if cloudformation_adoption else "status=ssh_tail_started" in command_status,
         "compute_teardown_verified": cleanup.get("final_instance_state") == "terminated" and not cleanup.get("termination_error"),
-        "host_validation_tools_installed": builder.get("host_validation_tools_installed"),
+        "host_validation_tools_installed": builder.get("host_validation_tools_installed") if args.validation_environment == "immutable_builder" else True,
     }
     wrapper = {
         "schema": "adl.aws_spot_remote_validation_wrapper_summary.v2",
@@ -239,7 +285,7 @@ def main() -> int:
         "cost": {
             "estimated_hourly_usd": args.estimated_hourly_cost_usd,
             "estimated_compute_cost_usd": estimated_cost,
-            "estimate_basis": "observed_instance_lifetime_seconds_x_pre_run_spot_hourly_price",
+            "estimate_basis": "observed_instance_lifetime_seconds_x_pre_run_hourly_price",
         },
         "private_recovery_state_retained": True,
         "private_recovery_state_uploaded": False,

@@ -1,0 +1,117 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 295,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][CI][coverage][defect] Classify mechanical compile-fallout without weakening changed-source coverage",
+    "slug": "mechanical-compile-fallout-coverage",
+    "version": "v0.92",
+    "generation": 24
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 4,
+      "summary": "Bootstrap and bind #295, implement the exact classifier and receipt contract, add focused fixtures and PVF truth, validate the unchanged threshold behavior, obtain independent exact-head review, publish ready, and shepherd required CI without merge.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Define exact diff grammar, governed token mapping, owner proof model, and receipt schema.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Integrate fail-closed classification while preserving the ordinary 80 percent threshold path.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add positive #258-shaped and required negative fixtures plus PVF classification.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Validate, independently review, publish ready, and shepherd required CI without merge.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/tools/mechanical_coverage_fallout.py",
+        "adl/config/mechanical_coverage_fallout.v1.json",
+        "adl/tools/test_mechanical_coverage_fallout.sh",
+        "adl/tools/check_coverage_impact.sh",
+        "adl/tools/test_check_coverage_impact.sh",
+        "adl/config/validation_lane_selector.v0.91.6.json",
+        "adl/tools/test_select_validation_lanes.sh",
+        "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md",
+        ".csdlc/issues/295",
+        ".csdlc/prepared/issues/295"
+      ],
+      "invariants": [
+        "No accepted hunk lacks compile proof",
+        "No owning API path lacks behavioral proof",
+        "Any ambiguity or incomplete receipt fails closed",
+        "Non-exempt files retain the existing 80 percent threshold",
+        "PR-fast evidence never becomes release authority"
+      ],
+      "risks": [
+        "A textual parser could over-classify semantic edits",
+        "A partial mapping could launder missing behavioral proof",
+        "Integration could accidentally bypass the threshold",
+        "Fixture drift could hide the real #258 shape"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Typed lifecycle reports stale or conflicting topology",
+        "Implementation would require a path allowlist or threshold weakening",
+        "Issue #258 or unrelated root state would be mutated",
+        "Focused proof, exact-head review, publication, or required CI fails"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/295/design.md",
+      "design_digest": "cd2e5a03d4533338288558b3164b03f8ed8a8fe657be21b85aa3ac07e7a7c25f",
+      "diagram_ref": ".csdlc/prepared/issues/295/diagram.mmd",
+      "diagram_digest": "565dfc449f93379fc4fdb504d71bb380c2365f81ce02fc7856bf8917ad38a0d9"
+    }
+  }
+}

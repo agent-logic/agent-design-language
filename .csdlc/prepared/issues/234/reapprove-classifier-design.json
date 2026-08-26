@@ -1,0 +1,6 @@
+{
+  "issue": 234,
+  "expected_generation": 17,
+  "expected_digest": "b57777f6e04090fab54e4c74abe34f33e2cff63a7f4415120f657ad553dc4a76",
+  "reviewer": "operator:issue-234-authority"
+}

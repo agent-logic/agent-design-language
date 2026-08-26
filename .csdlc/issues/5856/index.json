@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "d4beafc6da08ae46a5a30d44df7d51865c9e2829a8b6bede0a15aa07b234ae44",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "2d4003143e106114405f73cec6fe5d14a1cbef5a6e3b0e5c7d0011d30bd82f4f",
+  "generation": 9,
+  "digest": "4837e86da5d7b6214bcf23ea3b67b7101be420a1f858e70b796627ab957be0dd",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5856/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "operator:daniel-v092-parallel-sprints",
-      "revision": "c874e9d3a3705a6ab9c92c4594ff685b9fccb1cdd5180cbd3e50da7459a0ef9b"
+      "reviewer": "operator:daniel-wp20-final-sprint-reclassification",
+      "revision": "ffb2155a6bd9d980c3a587e716f9643e5b08ea84980b0c04ecb885d38ad95441"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e9d23a55b35268ea8a2109c4e5af67c47c89f956fb540226875d2cebc459b205",
-      "rendered_digest": "be9641819bff32c1f3130ca640b3cc3f5bbf52eead08ee6a7171f72c4babb1ce",
-      "ast_digest": "bbe17d725d3194c2a60d2ae5bc2ef167b888a892c0487e85975c5ec7ab837ff5"
+      "values_digest": "7460ff544cd4a6e5aef3149394b3ac5ba8bfbe3d7d2a623fc3c6cc6f3143253e",
+      "rendered_digest": "4aee9802736015b4d74cb5ca80afe8fa80202fd3a49620d87bb2626328db46a0",
+      "ast_digest": "17d8a4092a29bb3dd21c1d1ad5f2beaa633eee0898fa8d8126b5db83becf1273"
     },
     "stp": {
-      "values_digest": "18a5c12a44d28660d699b01ff0ba803228f583c9bbf02f186742c1f78948b1bf",
-      "rendered_digest": "143fe8cd32a74567b6561c95a5422dfd1024e8d576dcafba0b59d37bcfad5149",
-      "ast_digest": "98a18574152668b842c2caf701878c9ef3a46b4634e32740caf3f78d7256677b"
+      "values_digest": "768684342ccc0daa8e61ec97cf1877a8935b174f66ae4d40a268b1d55f2d8bcc",
+      "rendered_digest": "0fb0f7b2bb2251f6efa1a8bbba49cb73d2c4a5ecd741d562a1154c093d155bdd",
+      "ast_digest": "5c0e3cb4beb1b2102b14c208235077cc8a78bd511c858ff230896fb2274e36be"
     },
     "spp": {
-      "values_digest": "ecc4923403c2e70e3ed1f53bb6ef4b291eae3c79e7fd5af58f0c90255ef742e5",
-      "rendered_digest": "6f883e5308e6a9c46606d9a2c92b0dd3fd1add31b8236f041a694429b6dfcaba",
-      "ast_digest": "a4af73bb0919f992c174bb93495a07c2e6aa2718f96da1d47365c3ed07707642"
+      "values_digest": "0f589fba8e3247401be904aaad5b3e5d71055ef2789f152e39ba209e8634e669",
+      "rendered_digest": "ee12617f2f67fade5881f88512fc41cc009c95f5112ac882794da1365c3e5d57",
+      "ast_digest": "813506355ca6e38da8f3ce1d6170ca9b36b1c2038faecda84cd7f7919aa2fdec"
     },
     "vpp": {
-      "values_digest": "85b70268e5bce6b3b0ced3a299855f0e8c1974e51b3ff669d2db97ecc0008e6d",
-      "rendered_digest": "bf63f634f723db5fd5a002795eb5154c62e020a70f5d5c0f038b0e0b06ce7af0",
-      "ast_digest": "1b984be9335ac2db6872c1f2ade5034d6e2ff852acefed7d74505613e41ae898"
+      "values_digest": "efecf0f08750858d6711a1a37bf24cfcba1246cd1bc97f3f39a156051c576e0a",
+      "rendered_digest": "44339d9bb105703312c4c2e9f1315dea81fcbbb33d2701992fad802a991e1923",
+      "ast_digest": "172a2b66e1022ba70ca026400be92495a68cec95bc9856a8215f293c30642f3f"
     },
     "srp": {
-      "values_digest": "d7999727f853186bc44ed544482f5a06dc8a83ad2464c7044f20eac5c340bf9c",
-      "rendered_digest": "7a17796ea2fa7db2fda1f543273ef115d9a04de777c610bced9b4a8a69459453",
-      "ast_digest": "c8e3105097d72cc608516565276835d2e7e359b99bf385c337ef17f3845390fa"
+      "values_digest": "f00e92244f9195ae5287787c886e2d1fa65d8c8da0170adf8bfb8f020a3baa11",
+      "rendered_digest": "7f6717fe6af53a7e8ee62ac051df1a3a0f814cdb59c0ba5cfe1d0c5629752f2b",
+      "ast_digest": "c5aa66bfa9f69705c5b2b61da334363cc046bc9cf904d17ebd4c5152ff80a4cb"
     },
     "sor": {
-      "values_digest": "a1f00fcfd12be55c210a17f30358ea565dfc2b70a852775b5ddcff8107e4bdcd",
+      "values_digest": "0941682bc70f6f662ef7e15f6150ca6563531bdf81504c9939c6ef039c8cc0f4",
       "rendered_digest": "71d78a944a2c6152f8e2760da33bb2223fa288dde02a84732286235e89f4191a",
       "ast_digest": "4cbcee4a32a79886a902bbac4441224352981b99edd814187c751d7a6a2abb37"
     }
@@ -69,6 +69,69 @@
       "actor": "codex:5817",
       "reason": "Revoke WP-01 bootstrap-only preparation reservation so issue 5817 can own and review every path it publishes; the child session must reacquire its issue-local claim after WP-01 releases.",
       "operation": "{\"claim_id\":\"claim-5856-v092-sprint-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-wp01-publication-ownership\",\"previous_owner\":\"wp01:sprint-preparation\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "operator:daniel-wp20-final-sprint-reclassification",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Move WP-20 into the final release-tail sprint as directed by the operator.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"A reviewable final-sprint coordination lane routes #5840, #5786, #5841, #5842, #5843, #5846, #5847, #5848, #5849, #5850, #5851, and #5852 through their own typed lifecycles in strict dependency order without scope collision or false completion.\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Make WP-20 the first owned child of final sprint 5856.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5840\",\"#5786\",\"#5841\",\"#5842\",\"#5843\",\"#5846\",\"#5847\",\"#5848\",\"#5849\",\"#5850\",\"#5851\",\"#5852\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Add WP-20 to the final sprint input denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".csdlc/prepared/issues/5856/sprint-execution-packet.yaml\",\"#5840\",\"#5786\",\"#5841\",\"#5842\",\"#5843\",\"#5846\",\"#5847\",\"#5848\",\"#5849\",\"#5850\",\"#5851\",\"#5852\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Sequence WP-20 as the first final-sprint child before cleanup and quality work.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Verify the complete final-sprint child wave, begin with WP-20 only after its proof producers are terminal, preserve the strict WP-20 through WP-30 dependency chain, and synthesize one integrated release-tail review after child completion.\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Review the final sprint with WP-20 as its first dependency-gated child.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the packet preserve exact child ownership and dependency truth, including WP-20 as the first final-sprint child?\",\"Does WP-20 wait for #5836, #5837, #5838, and #5839 before WP-21 begins?\",\"Are the final-sprint serial gates explicit and free of parallel execution claims?\",\"Can the umbrella close only after every child has truthful terminal state?\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Declare the final sprint's exact preparation-owned packet and proof surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".csdlc/issues/5856\",\".csdlc/prepared/issues/5856/design.md\",\".csdlc/prepared/issues/5856/diagram.mmd\",\".csdlc/prepared/issues/5856/sprint-execution-packet.md\",\".csdlc/prepared/issues/5856/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Replace the broad WP-01 package lane with a final-sprint-specific readiness proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v092-final-sprint-readiness\",\"proof_role\":\"Prove exact final-sprint membership, strict WP-20-through-WP-30 ordering, typed child denominator, and retained live #5856 readback without executing a child.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\"],\"parallel_group\":\"v092-docs\",\"defer_reason\":\"Repository and packet checks are deterministic, but the retained GitHub readback is time-bound external state.\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Retain the exact split-authority bind request that resolves the initialized legacy repository identity at execution time.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".csdlc/issues/5856\",\".csdlc/prepared/issues/5856/design.md\",\".csdlc/prepared/issues/5856/diagram.mmd\",\".csdlc/prepared/issues/5856/sprint-execution-packet.md\",\".csdlc/prepared/issues/5856/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5856/split-authority-bind-request.json\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\"]}"
     }
   ]
 }

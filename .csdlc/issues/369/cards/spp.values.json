@@ -1,0 +1,91 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 369,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover false design approval on bound issues",
+    "slug": "bound-false-design-review-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Review, bind, implement the narrow recovery request/store/CLI/tests, prove and publish, finish terminally, then recover #275.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Review exact recovery design and bind.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement request store CLI schema and focused regression.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Validate review publish CI finish and release #275.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/evidence/369",
+        ".csdlc/issues/369",
+        ".csdlc/prepared/issues/369",
+        ".csdlc/prepared/issues/369/run_exact_focused_matrix.py",
+        ".csdlc/prepared/issues/369/validate_exact_scope.py",
+        "csdlc-v2/src/bin/csdlc-edit.rs",
+        "csdlc-v2/src/lib.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate2.rs"
+      ],
+      "invariants": [
+        "Prior audit is immutable",
+        "Recovery grants no approval/review/publication authority",
+        "Topology and product state are unchanged"
+      ],
+      "risks": [
+        "Recovery could become a generic approval bypass",
+        "Repeated correction could mask provenance",
+        "Later lifecycle authority could be weakened"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Any Runtime path edit",
+        "Any generic audit/state editor",
+        "Any approval or publication grant",
+        "Any loss of prior false-review event"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/369/design.md",
+      "design_digest": "2ad9cf776f3eba1b88207f5bbf08aa2798284932a4ef443498aaec4de3017b77",
+      "diagram_ref": ".csdlc/prepared/issues/369/diagram.mmd",
+      "diagram_digest": "1924ab6c91d8cd135a5ac7f4fc5cd0c00d3acf8d4ff3245fbd152ff4db3c0712"
+    }
+  }
+}

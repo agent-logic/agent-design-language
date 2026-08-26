@@ -1,0 +1,392 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 191,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c6bff3ddb5fc2ec7db27d16aafe6cbee8212cb3b96e2588e39aae4e37a653208",
+  "phase": "published",
+  "generation": 25,
+  "digest": "1647028a8c15528d841b930c05d7268c1402ee2acd7437137ff9cb5f8365df0b",
+  "branch": "codex/191-secure-durable-openraft",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-191-secure-raft",
+  "review_assignment": {
+    "reviewer": "/root/prepare_5875_release/review_191_v5_final",
+    "assigned_by": "codex:pr197-review-remediation",
+    "revision": "git-blake3:ba341ffeb2fee4c461b6b5741fb59e0a41cdcdfe:4beaadced31f252cf7f95617d0d99468d04bd76b46a9c3141834a932c8bf3aba",
+    "scope": [
+      ".csdlc/issues/191",
+      ".csdlc/prepared/issues/191",
+      ".csdlc/evidence/191",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/tests/distributed_discovery.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/prepare_5875_release/review_191_v5_final",
+    "scope": [
+      ".csdlc/issues/191",
+      ".csdlc/prepared/issues/191",
+      ".csdlc/evidence/191",
+      "adl-runtime/Cargo.toml",
+      "adl-runtime/Cargo.lock",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      "adl-runtime/tests/distributed_discovery.rs"
+    ],
+    "reviewed_revision": "git-blake3:ba341ffeb2fee4c461b6b5741fb59e0a41cdcdfe:4beaadced31f252cf7f95617d0d99468d04bd76b46a9c3141834a932c8bf3aba",
+    "findings": [],
+    "residual_risks": [
+      "PR #197 remains intentionally unmerged pending operator and external review after same-PR update."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 191,
+    "pull_request": 197,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/197",
+    "base": "main",
+    "head": "codex/191-secure-durable-openraft",
+    "revision": "git-blake3:711873c43aa7aa342c21e72ecd5be99953293356:c5fe14f69acba473860f3f3d6ab793d58ee18b2906ac55a614dd6c8454b3080e",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/191/design.md",
+  "diagram_path": ".csdlc/prepared/issues/191/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:prepare_5875_release",
+      "revision": "67e89d04a23163ac830a6995571e3b04e850aef200801d553b6eaa62e16504ce"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "96ed2d0ee675d1af4d2f165e0a1669ff914a551e86a86d92450953976939614b",
+      "rendered_digest": "f7e3f002e85eb0c155766d4587bb7b76a27bb0dc56cb15b4622bb6aea51ddda9",
+      "ast_digest": "11427429647037945ad5e43fbf88664d0f1be67699ae4b14bcdd586f6faf7646"
+    },
+    "stp": {
+      "values_digest": "2c02fc8b450fdc7557de50e0e3a8b3d199bab90d1c2d483d5acca3fac4da9c55",
+      "rendered_digest": "611e24b0551aadb72bfa4d8ecd48dc9d090d07996ed3f4b83ffbcda0c8e1d479",
+      "ast_digest": "11cdbf2cdec78e56d1a3d515e135122249e61460a752121ab6b806817608b5ab"
+    },
+    "spp": {
+      "values_digest": "c711936e8c1bd4f496bfd8a5c674227716a4f048e2a3e4d548a74287f879ba6d",
+      "rendered_digest": "18e5cc88b610b97eb8cd45cdf35de247ba8b84ca46b0603129979e47f7339372",
+      "ast_digest": "83763c14c9e53a3ca65b3055efc5c7a8838eca1a93a19b280d5a505424a35bf1"
+    },
+    "vpp": {
+      "values_digest": "be457ede90b2c2cb472bdf5ec453f830f6d16d2ac976843fdaedd079888553af",
+      "rendered_digest": "081a80ba5150fcc467d2af96e0008b0f58af778cf4c36a0da37254feafe0af84",
+      "ast_digest": "7133febe164c9c424aebafd8e8b114e4f236144dfd9908212eb3e8e638935f39"
+    },
+    "srp": {
+      "values_digest": "3f2c56a201c66873b2f9d5f831c1fc7173cf23d4a96a1029a385870da8419471",
+      "rendered_digest": "747fb88d809fbdea285947a807b8b07f00eafe1d115ab9c5da6110bf0204e644",
+      "ast_digest": "9894ae7c0d994133cba324607fb825fcb554d0d7d859c7800c7b8fa787b068a2"
+    },
+    "sor": {
+      "values_digest": "7285728ce80f488bf4f903f7ee81b350c85d6910e232667a926bf12a1901c6a1",
+      "rendered_digest": "91214233c05e859223f820e9586108b2853fc25b6aba9baec98abb2c68a69ff3",
+      "ast_digest": "675b29f00924fed945e127c742010b86e904242624745ed6dbaaf5907b854635"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:191-secure-durable-openraft",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:191-secure-durable-openraft",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:191-secure-durable-openraft",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:191-ci-repair",
+      "reason": "Hosted CI exposed that the existing distributed_transport integration harness does not declare the lease and membership sibling modules now required by the reviewed transport implementation. Recover stale review and publication truth before the bounded harness repair, fresh validation, and exact-head re-review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:191-ci-repair-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:191-ci-repair-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:pr197-review-remediation",
+      "reason": "External exact-head review requested six substantive corrections; recover published review truth before bounded remediation and fresh proof."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:pr197-review-remediation-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:pr197-review-remediation-publication",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:191-secure-raft-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:191-design-review-repair",
+      "reason": "Make absent implementation targets machine-recognizably deferred and bind the repaired authority/replay/rollback proof denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-secure-raft-runtime\",\"proof_role\":\"Run the exact three-voter encrypted transport, authority-derived topology, durable retry cache, external rollback checkpoint, fault and restart denominator through a bounded temporary path harness.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":20000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-tests=fail\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":\"Deferred only until this issue creates owned target adl-runtime/tests/distributed_runtime_transport.rs, which must compile the unregistered source through #[path = \\\"../src/distributed/polis_runtime.rs\\\"] for adl-runtime/src/distributed/polis_runtime.rs; fail closed until both exact owned deliverables exist and the target selects nonzero tests.\"},{\"lane\":\"strict-secure-raft-clippy\",\"proof_role\":\"Reject warnings and API misuse in the same exact temporary-path implementation and test surface.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":15000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":\"Deferred only until the same owned target and #[path = \\\"../src/distributed/polis_runtime.rs\\\"] source harness exist; fail closed on a missing target, missing source, warnings, or zero proving tests.\"},{\"lane\":\"exact-proof-and-review\",\"proof_role\":\"Bind exact source, transport extension, nonzero tests, authority topology, retry, rollback, artifact, negative-case, strict Clippy, secret/path hygiene and independent review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"parallel_group\":\"serial-proof\",\"defer_reason\":\"Deferred only until this issue creates owned validator .csdlc/prepared/issues/191/validate-proof-receipt.rb; fail closed until it exists and validates exact current source and nonzero proof.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "subagent:prepare_5875_release",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:191-secure-durable-openraft",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:191-secure-durable-openraft",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:191-secure-durable-openraft",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:191-ci-repair",
+      "reason": "Hosted CI exposed that the existing distributed_transport integration harness does not declare the lease and membership sibling modules now required by the reviewed transport implementation. Recover stale review and publication truth before the bounded harness repair, fresh validation, and exact-head re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:191-ci-repair",
+      "reason": "Declare the existing standalone transport integration harness in the exact deliverable set before applying its bounded CI compatibility repair.",
+      "operation": "{\"new_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:191-ci-repair",
+      "reason": "Record the existing standalone transport harness as a bounded affected area for the CI repair exposed after publication.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:191-ci-repair",
+      "reason": "The full hosted-equivalent compile proved that the existing discovery harness embeds the same transport module and requires the same authority-sibling declarations; include that exact compatibility surface.",
+      "operation": "{\"new_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:191-ci-repair",
+      "reason": "Extend the bounded affected-area truth to the second existing transport-embedding harness identified by the full hosted-equivalent compile.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:191-ci-repair",
+      "reason": "Record the bounded post-publication compatibility repair in execution truth before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a secure three-voter OpenRaft substrate with authority-derived topology, mutually authenticated QUIC transport, durable replay and state stores, external rollback checkpoints, bounded recovery, exact restart behavior, and hosted-compatible standalone transport/discovery harnesses.\",\"changes\":[\"Added signed polis session establishment and authority-derived peer routing over the existing authenticated QUIC transport.\",\"Added crash-reconciled durable OpenRaft vote, log, state-machine, snapshot, and response-cache storage bound to an external monotonic checkpoint authority.\",\"Added focused three-voter quorum, isolation, restart, rotation, replay, rollback, canonical encoding, path-safety, bounded-I/O, and idle-timeout regressions.\",\"Added an issue-owned merge-safe receipt producer and validator that bind protected Git source, exact commands, machine cases, and immutable evidence history.\",\"Updated the existing standalone transport and discovery harnesses to declare the lease and membership siblings required by the reviewed transport authority surface; production transport bytes are unchanged by this CI repair.\"],\"artifacts\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/produce-proof-receipt.rb\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"validation\":[{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-tests=fail\"],\"purpose\":\"Run the exact focused runtime integration target with a nonzero fourteen-test denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused-secure-raft-runtime.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict static analysis over the same focused integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"strict-secure-raft-clippy.log\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:191-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:191-ci-repair-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:191-ci-repair-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "External exact-head review requested six substantive corrections; recover published review truth before bounded remediation and fresh proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "Include production module registration, both compatibility harnesses, and both proof owners in the exact repaired deliverable denominator.",
+      "operation": "{\"new_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/produce-proof-receipt.rb\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "Align the operative plan with the exact reviewed-remediation source and proof ownership surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/Cargo.toml\",\"adl-runtime/Cargo.lock\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\".csdlc/prepared/issues/191/produce-proof-receipt.rb\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "Design and invariant freeze are complete with retained source and review evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "The bounded encrypted OpenRaft transport and crash-safe durable stores are implemented in the existing issue scope.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "The focused fourteen-test authority, transport, replay, crash, rotation, path, and restart denominator passes after remediation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "Fresh immutable proof, independent exact-head review, and same-PR republication remain active work.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "Remove obsolete pre-implementation deferrals and bind the current production registration, focused behavior, compatibility compile, strict Clippy, and exact proof lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-secure-raft-runtime\",\"proof_role\":\"Run the registered production three-voter encrypted transport, configured-root authority lineage, exact outstanding-request retry, durable dispatch cache, rollback, fault, and restart denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":15000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-tests=fail\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"full-workspace-compatibility-compile\",\"proof_role\":\"Compile every adl-runtime workspace target so production module registration and the transport/discovery compatibility harnesses cannot drift independently.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--workspace\",\"--no-run\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"strict-secure-raft-clippy\",\"proof_role\":\"Reject warnings and API misuse through the normal registered crate surface and focused integration target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"exact-proof-and-review\",\"proof_role\":\"Bind the registered source, compatibility harnesses, nonzero tests, configured-root topology, retry/dispatch ordering, rollback, strict Clippy, workspace compile, secret/path hygiene, and independent exact-head review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"parallel_group\":\"serial-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "Encode the actual trust bootstrap boundary exposed by review: the deployment host owns configured roots and the retained membership commitment, while untrusted transport and RPC inputs cannot mint route authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No plaintext Raft RPC is accepted in production mode and no parallel transport authority is created outside distributed/transport.rs.\",\"Every route comes from exact MembershipState and AuthorityMembership parity; caller routing hints cannot create a voter.\",\"No OpenRaft callback makes live state visible before its own durable transaction and external checkpoint reconciliation complete.\",\"Exact retries return a durable cached response; conflicting replay is never redispatched.\",\"The trusted deployment bootstrap owns configured certificate roots and the externally retained membership commitment; untrusted transport, RPC, and routing inputs cannot mint application authority, and no secret enters retained evidence.\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "Serialize the focused network test denominator so concurrent election-heavy cases cannot interfere with the real three-voter restart proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-secure-raft-runtime\",\"proof_role\":\"Run the registered production three-voter encrypted transport, configured-root authority lineage, exact outstanding-request retry, durable dispatch cache, rollback, fault, and restart denominator serially.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":15000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-tests=fail\",\"--test-threads=1\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"full-workspace-compatibility-compile\",\"proof_role\":\"Compile every adl-runtime workspace target so production module registration and the transport/discovery compatibility harnesses cannot drift independently.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--workspace\",\"--no-run\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"strict-secure-raft-clippy\",\"proof_role\":\"Reject warnings and API misuse through the normal registered crate surface and focused integration target.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"serial-runtime\",\"defer_reason\":null},{\"lane\":\"exact-proof-and-review\",\"proof_role\":\"Bind the registered source, compatibility harnesses, nonzero tests, configured-root topology, retry/dispatch ordering, rollback, strict Clippy, workspace compile, secret/path hygiene, and independent exact-head review.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/191/validate-proof-receipt.rb\"],\"parallel_group\":\"serial-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:pr197-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:pr197-review-remediation-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:pr197-review-remediation-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

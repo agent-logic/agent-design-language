@@ -1,0 +1,15 @@
+{
+  "issue": 316,
+  "expected_generation": 10,
+  "expected_digest": "dd7ee7f2e80f239b3be26c0cf0496e01951bb8924fe79d1f896ad1ea2b6f0df2",
+  "reviewer": "fresh-session:0B86DEBE-15FB-4E7E-BA2E-DA5CC5DE75CA",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "docs/milestones/v0.92.1",
+    "docs/milestones/v0.92.2",
+    "docs/planning/ADL_FEATURE_LIST.md",
+    ".csdlc/prepared/issues/316",
+    ".csdlc/evidence/316",
+    ".csdlc/issues/316"
+  ]
+}

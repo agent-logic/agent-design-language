@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 113,
+  "expected_generation": 58,
+  "expected_digest": "ce20237554443771df9ec75948f0d8f6281a56cc515561449e0315b2e2fe9b1e",
+  "actor": "codex:wp18c03-execution",
+  "reason": "Atomically refresh review against the committed lifecycle head, then publish without creating another stale review commit."
+}

@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 111,
+  "expected_generation": 69,
+  "expected_digest": "dfcc54b3564032cd67cd8c21eef7dddcb6058099a26a631b35a926900d85ee46",
+  "actor": "codex:wp18c01-fresh-review-remediation",
+  "reason": "Move generation-scoped attachment reservation before the accepted response so the protocol exposes a deterministic attachment-before-release boundary."
+}

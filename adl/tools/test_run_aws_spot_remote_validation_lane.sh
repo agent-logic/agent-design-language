@@ -8,7 +8,7 @@ WORKFLOW="$ROOT/.github/workflows/aws-spot-remote-validation.yaml"
 TMP_PARENT="${TMPDIR:?TMPDIR must be set to an approved external volume}/adl-aws-spot-remote-validation-tests"
 
 grep -F 'LANE_BIN="$ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation"' "$SCRIPT" >/dev/null
-grep -F 'selected binary does not implement the required Spot contract' "$SCRIPT" >/dev/null
+grep -F 'selected binary does not implement the required purchase contract' "$SCRIPT" >/dev/null
 mkdir -p "$TMP_PARENT"
 TMP="$(mktemp -d "$TMP_PARENT/test.XXXXXX")"
 trap 'rm -rf "$TMP"' EXIT
@@ -60,13 +60,20 @@ if [[ "$1 $2" == "sts get-caller-identity" ]]; then
 }
 JSON
 elif [[ "$1 $2" == "ec2 describe-volumes" ]]; then
-  if [[ "$*" != *"length(Volumes)"* && "$*" != *"--volume-ids vol-0123456789abcdef0"* ]]; then
+  if [[ "$*" != *"length(Volumes)"* && "$*" != *"--volume-ids vol-0123456789abcdef0"* \
+      && "$*" != *"--volume-ids vol-11111111111111111"* ]]; then
     echo "unexpected retained volume identity: $*" >&2
     exit 1
   fi
   case "$*" in
     *'Volumes[0].State'*) echo available ;;
-    *'Volumes[0].Tags'*) echo adl-aws-remote-validation-cache-volume ;;
+    *'Volumes[0].Tags'*)
+      if [[ "$*" == *"vol-11111111111111111"* ]]; then
+        echo adl-runtime-continuity-414
+      else
+        echo adl-aws-remote-validation-cache-volume
+      fi
+      ;;
     *'Volumes[0].AvailabilityZone'*) echo us-west-2a ;;
     *'Volumes[0].Size'*) echo 1000 ;;
     *'Volumes[0].VolumeType'*) echo gp3 ;;
@@ -97,6 +104,8 @@ fi
 printf '%s\n' "$@" >"${ADL_FAKE_AWS_REMOTE_ARGS:?}"
 out=""
 artifact_dir=""
+volume_id=""
+volume_mount=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --out)
@@ -105,6 +114,14 @@ while [[ $# -gt 0 ]]; do
       ;;
     --artifact-dir)
       artifact_dir="${2:-}"
+      shift 2
+      ;;
+    --cache-volume-id)
+      volume_id="${2:-}"
+      shift 2
+      ;;
+    --cache-volume-mount-path)
+      volume_mount="${2:-}"
       shift 2
       ;;
     *)
@@ -118,16 +135,18 @@ if [[ "${ADL_SSH_KNOWN_HOSTS_FILE:-}" != "$artifact_dir/.private/ssh-known-hosts
 fi
 mkdir -p "$(dirname "$out")" "$artifact_dir"
 status="${ADL_FAKE_AWS_REMOTE_STATUS:-passed}"
+volume_id="${volume_id:-vol-0123456789abcdef0}"
+volume_mount="${volume_mount:-/mnt/adl-cache}"
 cat >"$out" <<JSON
 {
   "schema_version":"adl.aws_remote_validation_run.v1",
   "status":"$status",
   "launch":{"purchase_option":"spot","instance_id":"i-0123456789abcdef0"},
-  "cache_volume":{"volume_id":"vol-0123456789abcdef0","created":false,"attachment_state":"attached","mount_path":"/mnt/adl-cache"},
+  "cache_volume":{"volume_id":"$volume_id","created":false,"attachment_state":"attached","mount_path":"$volume_mount"},
   "cleanup":{"termination_attempted":true,"final_instance_state":"terminated","termination_error":null},
   "launch_surface":{"ssh_debug_enabled":true,"vpc_id":"vpc-0123456789abcdef0","subnet_id":"subnet-0123456789abcdef0","security_group_id":"sg-0123456789abcdef0"},
   "timings":{"total_seconds":120,"launch_seconds":20,"ssm_ready_seconds":10,"remote_command_seconds":80,"teardown_seconds":10},
-  "remote_summary":{"builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH:?}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
+  "remote_summary":{"validation_environment":"direct_host_runtime","runtime_toolchain_verified":true,"resolved_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH:?}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
 }
 JSON
 cat >"$artifact_dir/command-status.log" <<'LOG'
@@ -136,7 +155,7 @@ cat >"$artifact_dir/command-status.log" <<'LOG'
 LOG
 cat >"$artifact_dir/command-stdout.log" <<JSON
 ADL_AWS_REMOTE_SUMMARY_BEGIN
-{"builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
+{"validation_environment":"direct_host_runtime","runtime_toolchain_verified":true,"resolved_commit":"${ADL_FAKE_EXPECTED_SOURCE}","builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
 ADL_AWS_REMOTE_SUMMARY_END
 JSON
 if [[ "$status" == "resumed_after_interruption" ]]; then
@@ -443,6 +462,32 @@ assert len(parts[parts.index("--expected-ref") + 1]) == 40
 assert parts[parts.index("--expected-architecture") + 1] == "x86_64"
 assert parts[parts.index("--min-cache-free-gib") + 1] == "10"
 assert parts[parts.index("--command") + 1].startswith("cargo test")
+PY
+
+ADL_FAKE_AWS_REMOTE_ARGS="$TMP/issue268-args.txt" \
+ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
+ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib; print(hashlib.sha256(b"").hexdigest())')" \
+ADL_AWS_CLI="$fake_bin/aws" \
+bash "$SCRIPT" \
+  --run \
+  --expected-proof "$proof" \
+  --bin "$fake_bin/adl-aws-remote-validation" \
+  --run-id fixture-issue268-direct \
+  --estimated-hourly-cost-usd 0.15 \
+  --ssh-private-key-path "$test_ssh_key" \
+  --command "bash adl/tools/run_issue268_remote_resident_qualification.sh" \
+  --git-ref origin/main \
+  --out "$TMP/issue268-summary.json" \
+  --artifact-dir "$TMP/issue268-artifacts" \
+  --instance-type r7i.2xlarge \
+  --max-run-seconds 900 \
+  --json >"$TMP/issue268-run.out"
+python3 - "$TMP/issue268-args.txt" <<'PY'
+import sys
+args = open(sys.argv[1], encoding="utf-8").read().splitlines()
+command = args[args.index("--command") + 1]
+assert command == "bash adl/tools/run_issue268_remote_resident_qualification.sh"
+assert "run_aws_spot_builder_image_validation.sh" not in command
 PY
 
 if ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_SIZE_GIB=999 \
@@ -777,6 +822,25 @@ if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$por
   exit 1
 fi
 grep -F "conflicts with command/ref overrides" "$TMP/portable-conflict.err" >/dev/null
+
+runtime_volume_id="vol-11111111111111111"
+runtime_volume_hash="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$runtime_volume_id")"
+ADL_FAKE_AWS_REMOTE_ARGS="$TMP/runtime-volume-args.txt" \
+ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
+ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
+ADL_AWS_CLI="$fake_bin/aws" \
+bash "$SCRIPT" --run --expected-proof "$proof" --bin "$fake_bin/adl-aws-remote-validation" \
+  --run-id runtime-volume --builder-image "$builder_image" --estimated-hourly-cost-usd 0.15 \
+  --ssh-private-key-path "$test_ssh_key" --command "true" --git-ref origin/main \
+  --runtime-continuity-volume-id "$runtime_volume_id" \
+  --runtime-continuity-volume-name adl-runtime-continuity-414 \
+  --runtime-continuity-volume-id-sha256 "$runtime_volume_hash" \
+  --out "$TMP/runtime-volume-summary.json" --artifact-dir "$TMP/runtime-volume-artifacts" \
+  >/dev/null
+grep -Fx -- "$runtime_volume_id" "$TMP/runtime-volume-args.txt" >/dev/null
+grep -Fx -- "adl-runtime-continuity-414" "$TMP/runtime-volume-args.txt" >/dev/null
+grep -Fx -- "/dev/sdg" "$TMP/runtime-volume-args.txt" >/dev/null
+grep -Fx -- "/mnt/adl-runtime-continuity" "$TMP/runtime-volume-args.txt" >/dev/null
 
 grep -F -- "if-no-files-found: warn" "$WORKFLOW" >/dev/null
 grep -F -- "ec2:RunInstances" "$SETUP_SCRIPT" >/dev/null

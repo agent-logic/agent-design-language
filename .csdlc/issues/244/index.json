@@ -1,0 +1,623 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 244,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "57425018509b9d2c4265ac48149d2959e1de173fe894bf083c2ed24b68169a3b",
+  "phase": "published",
+  "generation": 45,
+  "digest": "b7e7fe8f2b9558c501ff579bc97e1b059e785b826e3a13f8f2a29cb66542ffa2",
+  "branch": "codex/244-conversation-cleanup-race",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-244-conversation-cleanup-race",
+  "review_assignment": {
+    "reviewer": "codex-subagent:review_244_248_combined",
+    "assigned_by": "codex:244-248-integration",
+    "revision": "git-blake3:f186a0dc3915a9528d81d5b96c858d1882c5fc7e:961651c7b436c3ae4637c2bfa148d12ba4381bb1fad5a71842f385cf55a328d3",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/parity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/244",
+      ".csdlc/prepared/issues/244",
+      ".csdlc/evidence/244"
+    ]
+  },
+  "review": {
+    "reviewer": "codex-subagent:review_244_248_combined",
+    "scope": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/parity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/244",
+      ".csdlc/prepared/issues/244",
+      ".csdlc/evidence/244"
+    ],
+    "reviewed_revision": "git-blake3:f186a0dc3915a9528d81d5b96c858d1882c5fc7e:961651c7b436c3ae4637c2bfa148d12ba4381bb1fad5a71842f385cf55a328d3",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 244,
+    "pull_request": 247,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/247",
+    "base": "main",
+    "head": "codex/244-conversation-cleanup-race",
+    "revision": "git-blake3:451c9e35c003721dab6ec5a40327845baef72bf9:cac952714acfccbbcf12e84b9408bd9de23c4082759363b90604f6967c6f8000",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/244/design.md",
+  "diagram_path": ".csdlc/prepared/issues/244/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "planning-1-review-p2-disposition",
+      "revision": "032b8441dc168cd6953d93b0bffc43e4089a2b70ea2bf92b6263bbd8e96a326d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "797b1e04aef9683896912f2f50b0748cc03771f496f8e26f72ba0c2efcdd6e75",
+      "rendered_digest": "a7a3fdffde72a8ccd84f303fd9461422089748d7cca2286b450c0616ae3f63b7",
+      "ast_digest": "1f3222725b44556758d3036806a3817fdeb58c6bbf437698b7d71d7510b446dc"
+    },
+    "stp": {
+      "values_digest": "28afd0473851d659b54652fa9ae84d62fc95e4b4332588ae122f383ad639d8dc",
+      "rendered_digest": "eb188e0abb8bcfed05a216770117422eb93ead3e8e416be888002ad29221716a",
+      "ast_digest": "326ed86deaf78bc55b60c81607d0068ad3b1095c56de7aa454808bb21ec07f42"
+    },
+    "spp": {
+      "values_digest": "b1e3767004d26be993e4a571aba5ef4022ca68d1fba11bd9784c15c729869fe5",
+      "rendered_digest": "bda7b8a781de64772e815f705e1cc5df733078088b4b151eee30cf87a8b4125b",
+      "ast_digest": "39a64663e4cd08a747ac125db95bf0a24014cc92967f026964514147acfcea85"
+    },
+    "vpp": {
+      "values_digest": "f5e7992f5b9ad212e04fe6d5db450904e0b8b4c5cc63db8432f27688603d8037",
+      "rendered_digest": "755ba3d37f4acaced6bdebe8e344c69a3f58795363c3c920ea368f1c61f38617",
+      "ast_digest": "0189f64d89be4ccec8ab470ba92464ca02e881e26e51642eb41da69221c241b6"
+    },
+    "srp": {
+      "values_digest": "76e57fe7978d845d299cba82e8d0504579fceb48390b8802e3b53dbd4bd0393a",
+      "rendered_digest": "cb29844ba2fb52c5424806b466b295101045018c99ed4c010999734e5ac6e799",
+      "ast_digest": "a3d4f4eb003714db53ddac591f26bfd55f612ecc2fd50ba0a4f1e4b27c1f2b78"
+    },
+    "sor": {
+      "values_digest": "cc0505bac73d0f16aedd99edcffa66d51f2302bc4abe0ea93a243f9dfad14a3e",
+      "rendered_digest": "bf3c8471360b59ce66dcfe8b54abd3549ff9bcd3b4042d42484b76234f3af77d",
+      "ast_digest": "6b49bde6e7627e6e0333698f32c32ed54478eecdd8b04345d6a9f7196259935c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:244-cleanup-race",
+      "reason": "Doctor passed with complete issue-specific planning and governed validation lanes."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:244-cleanup-race",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-cleanup-race",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:244-cleanup-race",
+      "reason": "Immediately recover the temporary routing-only acceptance to correct R244-P2-1 before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-cleanup-race",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:244-cleanup-race",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:244-ci-repair",
+      "reason": "Required Runtime CI reproduced cleanup-race timeout under the fixture's 100 ms execution policy; recover publication and review for bounded test-policy repair."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-ci-repair",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:244-ci-repair",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:244-deterministic-repair",
+      "reason": "Required Runtime CI proved wall-clock widening cannot establish cleanup attachment ordering; recover for deterministic logical-time synchronization."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-deterministic-repair",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:244-deterministic-repair",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:244-server-hook-repair",
+      "reason": "Required Runtime CI proved socket readiness can outlive paused logical time; recover for explicit cfg(test)-only server observation and deadline arbitration barriers."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-server-hook-repair",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:244-server-hook-repair",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:244-pr-janitor",
+      "reason": "Required Runtime CI twice exposed a deterministic test deadline defect; recover the published review truth for the authorized one-file correction."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-pr-janitor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:244-pr-janitor",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:244-248-integration",
+      "reason": "Planning #1 authorized explicit integration of reviewed #248 precedence fix; recover published state before substantive combined revision and fresh review."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:244-248-review-record",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:244-248-publication",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:244-cleanup-race",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Use existing governed Cargo targets for readiness; repeated execution remains explicit session proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-cleanup-race-focused\",\"proof_role\":\"focused cleanup-race integration proof, repeated by the session before finalize\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-required\",\"proof_role\":\"required Runtime focused test surface matching CI\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Doctor passed with complete issue-specific planning and governed validation lanes.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Record the exact required Runtime CI lane commands in addition to the focused regression target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-cleanup-race-focused\",\"proof_role\":\"focused cleanup-race integration proof; session preflight repeated this target twenty times\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-tests\",\"proof_role\":\"required Runtime focused test surface matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":400,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-clippy\",\"proof_role\":\"required Runtime strict Clippy surface matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":200,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-observatory\",\"proof_role\":\"required Runtime Observatory proof matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":100,\"budget_tokens\":1500,\"argv\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Keep declared issue-governed lanes to Cargo targets classified by typed doctor; retain the separately passed required Observatory CI command in actual validation evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-cleanup-race-focused\",\"proof_role\":\"focused cleanup-race integration proof; session preflight repeated this target twenty times\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-tests\",\"proof_role\":\"required Runtime focused test surface matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":450,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-clippy\",\"proof_role\":\"required Runtime strict Clippy surface matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":250,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "planning-1-review-p2-disposition",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Recover the independently confirmed P2 lifecycle-truth finding for typed card correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 after typed review recovery.",
+      "operation": "{\"new_values\":[\"cleanup-race client-frame ordering in the regression test\",\"existing in-flight attachment and exactly-once terminal proof\",\"required Runtime lane evidence\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"Runtime conversation admission acknowledgement\",\"per-generation execution deadline semantics\",\"cleanup-race regression proof\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 after typed review recovery.",
+      "operation": "{\"new_values\":[\"deterministic cleanup-race regression sequencing\",\"repeated focused cleanup-race proof\",\"required Runtime lane evidence\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Bounded Runtime admission/deadline correction\",\"deterministic cleanup-race regression proof\",\"required Runtime lane evidence\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 by aligning acceptance to the test-only proof.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Initial accepted acknowledgement remains before dispatch-gate or ingress completion.\",\"AC-2: Re-authentication and duplicate attachment are queued in server processing order without consuming the active turn's existing deadline on a client round trip.\",\"AC-3: Cleanup-race proof deterministically observes accepted, in-flight attachment, and exactly one delivered terminal result.\",\"AC-4: Cancellation, timeout, ordering, capacity, and token-rotation semantics remain green and production behavior is unchanged.\",\"AC-5: Required Runtime fast lane passes at the reviewed exact revision.\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 by limiting affected areas to the actual test and evidence surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/tests/conversation_sessions.rs\",\".csdlc/evidence/244\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 by explicitly preserving production semantics.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Authentication remains required and server frame order is preserved.\",\"Production admission and execution deadline behavior is unchanged.\",\"Each active turn produces at most one terminal result.\",\"Active turns are not evicted to admit new work.\",\"Explicit cancellation and timeout remain fail-closed.\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 by aligning review prompts to the actual proof surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does queuing the duplicate behind re-authentication preserve server frame order and the authentication-generation transition?\",\"Does the test attach to the existing in-flight turn before its existing deadline without changing production behavior?\",\"Are duplicate attachment and exactly-once terminal semantics preserved, with no #112 authority changes?\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Recover the remaining SIP required-outcome contradiction for immediate typed correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Immediately recover the temporary routing-only acceptance to correct R244-P2-1 before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:244-cleanup-race",
+      "reason": "Resolve R244-P2-1 immediately after typed reviewed-to-implemented recovery.",
+      "operation": "{\"new_value\":\"The proof queues re-authentication and duplicate attachment in server order, observes the existing in-flight turn before its deadline, and receives exactly one terminal result without changing production behavior.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"A newly admitted conversation generation is acknowledged before bounded execution, does not inherit a stale deadline, and emits exactly one terminal result.\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:244-cleanup-race",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:244-ci-repair",
+      "reason": "Required Runtime CI reproduced cleanup-race timeout under the fixture's 100 ms execution policy; recover publication and review for bounded test-policy repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:244-ci-repair",
+      "reason": "Record the bounded required-CI fixture timing repair and fresh exact-worktree Runtime proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Stabilized the cleanup-race proof by queueing duplicate attachment behind re-authentication and proportionally widening only the synthetic test execution window and delays, preserving production behavior and timeout assertions.\",\"changes\":[\"Queued cleanup-race re-authentication and duplicate attachment frames back-to-back before awaiting the authentication response.\",\"Widened the test-only conversation execution window from 100 ms to 500 ms and proportionally scaled synthetic budget, disconnect, and cancellation delays so accepted, timed-out, and cancelled semantics remain exercised on shared CI runners.\",\"Documented the server frame-order proof and left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged.\"],\"artifacts\":[\"adl-runtime-kernel/tests/conversation_sessions.rs\",\".csdlc/evidence/244\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Prove the exact cleanup-race sequence in 20 consecutive repetitions under the widened test-only window.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test target after the fixture timing repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-tests.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime kernel targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-clippy.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-observatory.log\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:244-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex:244-ci-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 25,
+      "actor": "codex:244-ci-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 26,
+      "actor": "codex:244-deterministic-repair",
+      "reason": "Required Runtime CI proved wall-clock widening cannot establish cleanup attachment ordering; recover for deterministic logical-time synchronization.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:244-deterministic-repair",
+      "reason": "Record deterministic logical-time synchronization, restored timeout constants, induced scheduling-pressure proof, and fresh required Runtime validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Stabilized the cleanup-race proof with deterministic logical-time synchronization: the test freezes time only while re-authentication and duplicate attachment establish server order, waits for the explicit in-flight attachment acknowledgment, releases execution, and resumes time.\",\"changes\":[\"Restored the original 100 ms execution policy and original synthetic delay/reconnect constants; no wall-clock widening remains.\",\"Enabled Tokio test-util only as a dev dependency and froze logical time solely around the cleanup-race window so wall clock guards deadlock but cannot establish attachment ordering.\",\"Queued re-authentication and duplicate attachment in server order, required the explicit conversation_in_flight acknowledgment, then released barrier-held execution and proved exactly one delivered terminal result under 64x64 induced scheduler yields.\",\"Left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged; existing timeout, cancellation, and token-rotation assertions remain on original timings.\"],\"artifacts\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\".csdlc/evidence/244\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Run the exact cleanup-race proof twenty consecutive times with built-in induced scheduling pressure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-tests.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime kernel targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-clippy.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-observatory.log\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:244-deterministic-repair",
+      "reason": "Record deterministic logical-time synchronization, restored timeout constants, induced scheduling-pressure proof, and fresh required Runtime validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Stabilized the cleanup-race proof with deterministic logical-time synchronization: the test freezes time only while re-authentication and duplicate attachment establish server order, waits for the explicit in-flight attachment acknowledgment, releases execution, and resumes time.\",\"changes\":[\"Restored the original 100 ms execution policy and original synthetic delay/reconnect constants; no wall-clock widening remains.\",\"Enabled Tokio test-util only as a dev dependency and froze logical time solely around the cleanup-race window so logical-time timeout remains a deadlock guard but cannot establish attachment ordering.\",\"Queued re-authentication and duplicate attachment in server order, required the explicit conversation_in_flight acknowledgment, then released barrier-held execution and proved exactly one delivered terminal result under 64x64 induced scheduler yields.\",\"Left Runtime production behavior, issue #237, PR #242, and issue #112 authority work unchanged; existing timeout, cancellation, and token-rotation assertions remain on original timings.\"],\"artifacts\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\".csdlc/evidence/244\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Run the exact cleanup-race proof twenty consecutive times with built-in induced scheduling pressure.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-tests.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime kernel targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-clippy.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-observatory.log\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:244-deterministic-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 29,
+      "actor": "codex:244-deterministic-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 30,
+      "actor": "codex:244-deterministic-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 35,
+      "generation": 31,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "Required Runtime CI proved socket readiness can outlive paused logical time; recover for explicit cfg(test)-only server observation and deadline arbitration barriers.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 32,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "Align affected areas with the cfg(test)-only unit-test boundary and inert server instrumentation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/control.rs cfg(test)-only instrumentation\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/src/lib.rs cfg(test) module registration\",\".csdlc/evidence/244\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 33,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "Align the focused lane with the cfg(test)-only unit test and retain required Runtime proof lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"conversation-cleanup-race-focused\",\"proof_role\":\"cfg(test)-only server-hook cleanup-race proof repeated thirty times with bounded scheduler pressure\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"parallel_group\":\"runtime-focused\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-tests\",\"proof_role\":\"required Runtime test surface matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":450,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null},{\"lane\":\"runtime-v3-fast-clippy\",\"proof_role\":\"required Runtime strict Clippy surface matching CI\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":250,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 34,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "Record explicit cfg(test)-only server observation/arbitration barriers, fail-safe release, fixture relocation, and fresh proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Made cleanup-race ordering deterministic with cfg(test)-only server instrumentation: observe the duplicate, hold its arbitration and the matching timeout branch, install and observe the new-generation attachment, then release barrier-held execution and prove one terminal result.\",\"changes\":[\"Moved the conversation-session fixture into the crate unit-test boundary so every hook type, field, branch, installer, and test module registration is compiled only under cfg(test).\",\"Added a turn-scoped test hook that observes the duplicate before acceptance arbitration, holds the matching timeout branch, permits duplicate arbitration explicitly, and signals attachment insertion before response serialization.\",\"Added a drop guard that releases duplicate arbitration, timeout arbitration, and barrier-held execution on panic while avoiding extra permits on normal completion.\",\"Removed paused-time control and all widened constants; original 100/70/250/150 ms behavior and timeout, cancellation, capacity, and token-rotation assertions remain unchanged.\",\"Kept issue #237, PR #242, and issue #112 authority work unchanged.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/src/lib.rs\",\".csdlc/evidence/244\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Run the exact cleanup-race proof thirty consecutive times with built-in bounded scheduler pressure and no clock control.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test target, including real timeout, cancellation, capacity, and token-rotation behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-tests.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime kernel targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-clippy.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-observatory.log\"},{\"command\":[\"cargo\",\"check\",\"--release\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Compile the non-test optimized Runtime path with all hook surfaces eliminated by cfg(test).\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-release-production-parity.log\"}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 35,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "Record explicit cfg(test)-only server observation/arbitration barriers, fail-safe release, fixture relocation, and fresh proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Made cleanup-race ordering deterministic with cfg(test)-only server instrumentation: observe the duplicate, hold its arbitration and the matching timeout branch, install and observe the new-generation attachment, then release barrier-held execution and prove one terminal result.\",\"changes\":[\"Moved the conversation-session fixture into the crate unit-test boundary so every hook type, field, branch, installer, and test module registration is compiled only under cfg(test).\",\"Added a turn-scoped test hook that observes the duplicate before acceptance arbitration, holds the matching timeout branch, permits duplicate arbitration explicitly, and signals attachment insertion before response serialization.\",\"Added a drop guard that releases duplicate arbitration, timeout arbitration, and barrier-held execution on panic while avoiding extra permits on normal completion.\",\"Removed paused-time control and all widened constants; original 100/70/250/150 ms behavior and timeout, cancellation, capacity, and token-rotation assertions remain unchanged.\",\"Kept issue #237, PR #242, and issue #112 authority work unchanged.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/src/lib.rs\",\".csdlc/evidence/244\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Run the exact cleanup-race proof thirty consecutive times with built-in bounded scheduler pressure and no clock control.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-focused.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::cleanup_race_guard_releases_every_barrier_during_unwind\",\"--\",\"--exact\"],\"purpose\":\"Prove unwind cleanup releases duplicate, timeout, and execution barriers without leaking permits into normal completion.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/conversation-cleanup-race-failsafe.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete Runtime kernel test target, including real timeout, cancellation, capacity, and token-rotation behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-tests.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across Runtime kernel targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-clippy.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-v3-fast-observatory.log\"},{\"command\":[\"cargo\",\"check\",\"--release\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Compile the non-test optimized Runtime path with all hook surfaces eliminated by cfg(test).\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/runtime-release-production-parity.log\"}]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 36,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 37,
+      "actor": "codex:244-server-hook-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 43,
+      "generation": 38,
+      "actor": "codex:244-pr-janitor",
+      "reason": "Required Runtime CI twice exposed a deterministic test deadline defect; recover the published review truth for the authorized one-file correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 38,
+      "actor": "codex:244-pr-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 39,
+      "actor": "codex:244-pr-janitor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 40,
+      "actor": "codex:244-pr-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 47,
+      "generation": 41,
+      "actor": "codex:244-pr-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 48,
+      "generation": 42,
+      "actor": "codex:244-248-integration",
+      "reason": "Planning #1 authorized explicit integration of reviewed #248 precedence fix; recover published state before substantive combined revision and fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 43,
+      "actor": "codex:244-248-integration",
+      "reason": "Record Planning-authorized combined #244 cleanup proof and reviewed #248 process precedence integration through the supported execution truth surface.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Combined deterministic cleanup-attachment synchronization with issue #248's reviewed production process-backend output-limit/timeout precedence fix so one explicit PR can close both issues without bypassing required CI.\",\"changes\":[\"Moved the conversation-session fixture into the crate unit-test boundary so every hook type, field, branch, installer, and test module registration is compiled only under cfg(test).\",\"Added a turn-scoped test hook that observes the duplicate before acceptance arbitration, holds the matching timeout branch, permits duplicate arbitration explicitly, and signals attachment insertion before response serialization.\",\"Added a drop guard that releases duplicate arbitration, timeout arbitration, and barrier-held execution on panic while avoiding extra permits on normal completion.\",\"Removed paused-time control and all widened constants; original 100/70/250/150 ms behavior and timeout, cancellation, capacity, and token-rotation assertions remain unchanged.\",\"Integrated issue #248's exact reviewed three-file substantive patch in adl-runtime-kernel/src/parity.rs, adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs, and adl-runtime-kernel/tests/parity.rs to break the cross-PR required-CI cycle.\",\"Replaced the prior one-second oversized-file test workaround with production-owned post-termination arbitration: observable file output at the enforced RLIMIT boundary reports output_limit; otherwise the generic deadline reports timeout.\",\"Added the deterministic output-limit-then-hang fixture while retaining ordinary timeout, legacy oversized output, process-tree termination, cancellation, and zero-artifact cleanup semantics.\",\"Preserved #244 SPP as immutable historical design-time truth after typed csdlc-edit rejected mutation in implemented phase; the combined final diff is authoritatively recorded in this SOR, the fresh SRP review, and dual-closing PR linkage.\",\"Kept issue #112 authority work and issue #237/PR #242 unchanged.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/src/lib.rs\",\".csdlc/evidence/244\",\"adl-runtime-kernel/src/parity.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\",\"adl-runtime-kernel/tests/parity.rs\",\".csdlc/evidence/244/spp-integration-immutability.log\",\".csdlc/evidence/244/combined-focused-proof.log\",\".csdlc/evidence/244/combined-required-proof.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Prove cleanup duplicate ingress, attachment installation, execution release ordering, and exactly one terminal result; repeated 30 times in the combined session.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-focused-proof.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"parity\",\"process_backend_timeout_and_oversized_file_leave_no_artifacts\",\"--\",\"--exact\"],\"purpose\":\"Prove deterministic output-limit precedence over generic timeout at the post-termination boundary, ordinary timeout, and zero artifacts; repeated 20 times.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-focused-proof.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Run the complete combined Runtime kernel suite.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-required-proof.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across combined Runtime targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-required-proof.log\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Run the required integrated Observatory proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/244/combined-required-proof.log\"}]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 43,
+      "actor": "codex:244-248-integration",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 44,
+      "actor": "codex:244-248-review-record",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 45,
+      "actor": "codex:244-248-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

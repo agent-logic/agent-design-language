@@ -1,0 +1,7 @@
+flowchart TD
+  A["#297 terminal recovery-to-cleanup bridge"] --> B["#300 bridge-fed RED proof"]
+  B --> C["#330 production defect"]
+  C --> D["Tighten recovery validation after exact cleanup"]
+  C --> E["Tighten cleanup final receipt race validation"]
+  D --> F["#300 bridge-fed integration rerun"]
+  E --> F

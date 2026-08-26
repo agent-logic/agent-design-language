@@ -1,0 +1,12 @@
+{
+  "actor": "codex-worker-5",
+  "card": "spp",
+  "expected_digest": "9b7decce2c642bda060de9b35e88e569dc10fe2997f6ab6ca55b27eff9f97953",
+  "expected_generation": 0,
+  "issue": 284,
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  },
+  "reason": "Issue #284 design is approved and ready for FastWork binding before implementation."
+}

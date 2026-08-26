@@ -31,7 +31,7 @@ Implement only V3-R01 within its exact owned paths and authority boundary.
 
 ## Inputs
 
-- .adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-r01
+- docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md#v3-r01
 - docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml
 - docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
 

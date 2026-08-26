@@ -1,0 +1,13 @@
+{
+  "issue": 200,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "6a42a80cb8911522eae3fba6aed90f85a93c4eb03ce45a0dd6fe3be6034bc33c",
+  "actor": "codex:/root/advance_200_after_201",
+  "reason": "The exact 36-case lane and strict Clippy pass locally; immutable receipt production and typed finalize remain in progress.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "in_progress"
+  }
+}

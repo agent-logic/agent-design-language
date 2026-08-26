@@ -1,0 +1,34 @@
+   Compiling ring v0.17.14
+   Compiling rustls v0.23.41
+   Compiling rustls-webpki v0.103.13
+   Compiling tokio-rustls v0.26.4
+   Compiling hyper-rustls v0.27.9
+   Compiling octocrab v0.53.1
+   Compiling csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 13.70s
+     Running tests/projection_recovery_integration.rs (csdlc-v2/target/debug/deps/projection_recovery_integration-97289e1690359c10)
+
+running 5 tests
+test terminal_prerequisites_are_current_and_ancestral_to_execution_base ... ok
+test production_bridge_replays_and_rejects_conflicting_cleanup_authority ... ok
+
+thread 'raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation' (83700608) panicked at tests/projection_recovery_integration.rs:584:5:
+race rejection preserves archive
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'recovery_receipt_authority_feeds_cleanup_and_later_typed_commit' (83700609) panicked at tests/projection_recovery_integration.rs:540:6:
+ordinary typed commit after integrated recovery: V2Error { code: ReconciliationRequired, message: "incomplete typed projection recovery must reach verified RECOVERED before ordinary commit: archived receipt does not match retained rejected evidence" }
+test raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation ... FAILED
+test recovery_receipt_authority_feeds_cleanup_and_later_typed_commit ... FAILED
+test integration_target_mechanically_invokes_approved_recovery_cleanup_matrix has been running for over 60 seconds
+test integration_target_mechanically_invokes_approved_recovery_cleanup_matrix ... ok
+
+failures:
+
+failures:
+    raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation
+    recovery_receipt_authority_feeds_cleanup_and_later_typed_commit
+
+test result: FAILED. 3 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 120.61s
+
+error: test failed, to rerun pass `--test projection_recovery_integration`

@@ -1,17 +1,6 @@
 name: wp12-native-capability-envelope
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/wp12-native-capability-envelope.yml"
-      - ".csdlc/prepared/issues/5829/produce-native-receipt.rb"
-      - ".csdlc/prepared/issues/5829/validate-native-receipts.rb"
-      - "adl-runtime-kernel/Cargo.toml"
-      - "adl-runtime-kernel/src/capability_envelope.rs"
-      - "adl-runtime-kernel/src/lib.rs"
-      - "adl-runtime-kernel/tests/capability_envelope.rs"
-      - "adl-runtime-kernel/tests/fixtures/capability_envelope/**"
-      - "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md"
   workflow_dispatch:
 
 permissions:

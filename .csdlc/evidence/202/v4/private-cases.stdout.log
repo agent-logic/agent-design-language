@@ -1,0 +1,40 @@
+
+running 36 tests
+test distributed::learner_transport::tests::capacity_n_plus_one_no_partial ... ok
+test distributed::learner_transport::tests::certificate_overlap_authorized ... ok
+test distributed::learner_transport::tests::crash_after_exclusion_checkpoint ... ok
+test distributed::learner_transport::tests::crash_before_exclusion_checkpoint ... ok
+test distributed::learner_transport::tests::current_voter_cut_unchanged ... ok
+test distributed::learner_transport::tests::exact_retry_session ... ok
+test distributed::learner_transport::tests::excluded_node_recovery_learner ... ok
+test distributed::learner_transport::tests::exclusion_ordinary_session_denied ... ok
+test distributed::learner_transport::tests::exclusion_wrong_recovery_token ... ok
+test distributed::learner_transport::tests::expired_certificate ... ok
+test distributed::learner_transport::tests::learner_endorsement_denied ... ok
+test distributed::learner_transport::tests::learner_finalize_denied ... ok
+test distributed::learner_transport::tests::learner_mutation_denied ... ok
+test distributed::learner_transport::tests::learner_observatory_denied ... ok
+test distributed::learner_transport::tests::learner_promotion_route_handoff ... ok
+test distributed::learner_transport::tests::learner_renewal_denied ... ok
+test distributed::learner_transport::tests::learner_shepherd_denied ... ok
+test distributed::learner_transport::tests::learner_vote_rpc_denied ... ok
+test distributed::learner_transport::tests::missing_201_token ... ok
+test distributed::learner_transport::tests::oversized_frame ... ok
+test distributed::learner_transport::tests::public_caller_denied ... ok
+test distributed::learner_transport::tests::real_four_node_learner_replication ... ok
+test distributed::learner_transport::tests::reconnect_boot_rotation ... ok
+test distributed::learner_transport::tests::replay_conflict ... ok
+test distributed::learner_transport::tests::revoked_certificate ... ok
+test distributed::learner_transport::tests::stale_admission ... ok
+test distributed::learner_transport::tests::state_or_lock_symlink_rejected ... ok
+test distributed::learner_transport::tests::truncated_frame ... ok
+test distributed::learner_transport::tests::wrong_address ... ok
+test distributed::learner_transport::tests::wrong_boot_generation ... ok
+test distributed::learner_transport::tests::wrong_certificate_generation ... ok
+test distributed::learner_transport::tests::wrong_domain ... ok
+test distributed::learner_transport::tests::wrong_guardian ... ok
+test distributed::learner_transport::tests::wrong_learner ... ok
+test distributed::learner_transport::tests::wrong_operation_kind ... ok
+test distributed::learner_transport::tests::wrong_polis ... ok
+
+test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 264 filtered out; finished in 2.90s

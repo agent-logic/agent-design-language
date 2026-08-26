@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "ollama_default_load_timeout",
+  "estimated_compute_cost_usd": 0.160083,
+  "fallback": "disabled",
+  "portable_request_sha256": "9940854000fc43f650806e266ca16e1f28a06bccf3387ab1f0f50c261d7a979c",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-61",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_pre_runtime_failure",
+  "summary_sha256": "363dad2cb946f9136ca0f4cc7f540adb86a7c81f327883db1069dd73e0a071e5",
+  "truth": "The paired Runtime/CSM build and transactional receipt migration completed on retained EBS. Ollama then stopped an actively loading 4.58 GiB Q4 model at its default five-minute stall timeout. The server now receives OLLAMA_LOAD_TIMEOUT=15m while KEEP_ALIVE remains infinite. Compute and stack cleanup completed, fallback did not run, and a new snapshot was created from the refreshed detached Runtime volume for reuse."
+}

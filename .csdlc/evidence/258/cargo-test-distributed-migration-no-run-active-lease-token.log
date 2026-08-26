@@ -1,0 +1,111 @@
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/migration.rs:68:5
+   |
+45 | pub enum MigrationError {
+   |          -------------- variant in this enum
+...
+68 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `MigrationError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `MigrationAuthorityRevision` is never constructed
+   --> tests/../src/distributed/migration.rs:270:12
+    |
+270 | pub struct MigrationAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/migration.rs:276:12
+    |
+275 | impl MigrationAuthorityRevision {
+    | ------------------------------- methods in this implementation
+276 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+280 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationRow` is never constructed
+   --> tests/../src/distributed/migration.rs:286:12
+    |
+286 | pub struct RedactedMigrationRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/migration.rs:299:12
+    |
+298 | impl RedactedMigrationRow {
+    | ------------------------- methods in this implementation
+299 |     pub fn migration_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^
+...
+303 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+307 |     pub fn source_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+311 |     pub fn source_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+315 |     pub fn target_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+319 |     pub fn target_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+323 |     pub fn phase(&self) -> MigrationPhase {
+    |            ^^^^^
+...
+327 |     pub fn source_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+331 |     pub fn target_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationSnapshot` is never constructed
+   --> tests/../src/distributed/migration.rs:337:12
+    |
+337 | pub struct RedactedMigrationSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/migration.rs:344:12
+    |
+343 | impl RedactedMigrationSnapshot {
+    | ------------------------------ methods in this implementation
+344 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+348 |     pub fn revision(&self) -> MigrationAuthorityRevision {
+    |            ^^^^^^^^
+...
+352 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedMigrationRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_record_for_snapshot_test` are never used
+   --> tests/../src/distributed/migration.rs:526:12
+    |
+434 | impl MigrationStore {
+    | ------------------- methods in this implementation
+...
+526 |     pub fn authority_revision(&self) -> MigrationResult<MigrationAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+534 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+572 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/migration.rs:1470:4
+     |
+1470 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_migration") generated 9 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+  Executable tests/distributed_migration.rs (adl-runtime/target/debug/deps/distributed_migration-f87476c770c331c6)

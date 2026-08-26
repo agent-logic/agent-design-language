@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "1df5691bbbeab4d20e6be89d00ec42c2dd2f6a44809f68e64dce6d6fea447e90",
   "phase": "initialized",
-  "generation": 34,
-  "digest": "13eaccb3237cd7e892a02040a6d1833c6c99de6d81c83bee836b1c3232765cc6",
+  "generation": 36,
+  "digest": "f09b67812c49a77c9f9d78acdfc982d57cef217f092898d37a958f7902dc5161",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/5840/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
+      "reviewer": "codex:5854-pr224-review-remediation",
       "revision": "75aa9aeda5ed62ef664d2bf3c0bd82e12f7592e10bb260a42f428be0e9c9167f"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "63210026f009f5f88623380f8442022e45a1059c38ff9859fb74d0967c22a90c",
-      "rendered_digest": "c7b635c93868108eab28dd2ffd3eda90cb31c5f03dba9614f7f893cf7228ff1c",
-      "ast_digest": "9234837d09340a03bfaaf9a007cdef4192dd8699cc8877fcc2fafda9a1135923"
+      "values_digest": "79c1c67b9f24a9f914cee91b7ede60e6594a9c9f412fff6fc8c4027365b8009f",
+      "rendered_digest": "091624e33bedff73c8baf951617f5e962cb680dd8247e31569aebc7c0fd739bd",
+      "ast_digest": "0c8bad36a1e6864a12c40fe4c08e084307457db6c338484a2db9ca961f375e93"
     },
     "stp": {
-      "values_digest": "79ac9680f12d4b4c382730162d02e5119d7b8721610abeb1dd81a26f7a7726c8",
+      "values_digest": "ddbf7d8955a0d34e9e92e0fbc6d24c511bf912d7fe64a38de52a653e380d7b55",
       "rendered_digest": "46fefe8a61efad2db92aad2ac47269c0e4bf73135048aa3b0f6c350202128b66",
       "ast_digest": "bec0cd87347b117e93afa66497bbfd8208d66c35665fbb95b8e96d5ee51f94f6"
     },
     "spp": {
-      "values_digest": "656a4b6ab01bce0ec999f0a9f9e8174867331ee9913f28144d2deb945e5ea1a5",
+      "values_digest": "ff6589500a713acf31dd9e5c53ccca058ac79ae1b3aca1c252616fb91f8607ff",
       "rendered_digest": "6dd406ab93f8c323f81e60a2fec98fe80e65333334393b60efe9878b1c997eb0",
       "ast_digest": "60783e457f5e6d7929e413761fec17481cab363ab6fa0400de75ca97a12543b7"
     },
     "vpp": {
-      "values_digest": "f779945f5783ccb674b2f2214b4cb0dee9b7491b9b7499621e28a0ecb7622cd7",
+      "values_digest": "022eb652936a561a3b729a51a4cd35d7c628898374a87a54b80abaab7caa8205",
       "rendered_digest": "e324c58ecc82765c6d492f57410bd800e4740fa52c7380f939f82199b647530c",
       "ast_digest": "12ac56427708e8837b2a0bb0438fa712857c9add843b7395d4bb9980ae25e636"
     },
     "srp": {
-      "values_digest": "9544eb8a658dd4c2fa3a70234e7e2663a86dd9699fc28fa18db41129f0effedb",
+      "values_digest": "b3da7b54eff7dd32b5d0321bb70878dc0cda3a531d6bd0165a8ab3e63bb8b611",
       "rendered_digest": "282625afcf4ab5da59a183a825e93a67d1ba4bc6f2b4a096e5e01aa438cdd9cf",
       "ast_digest": "14459b3bc69cdd00631d7aa3eb18fd3d8299e55c490a34fb10f8d0b3202d640a"
     },
     "sor": {
-      "values_digest": "854b82d0d34c8e9b70b5f1364435185e35f572550ba106d59d451c0ba2ac8268",
+      "values_digest": "26399d6423cecb10d39730a2bc94fa8f1db6381ebf4cc76e8ee0524d60386e59",
       "rendered_digest": "aa681a63d290b05cb1fc8d1e229f1cdbdd6be71ad82c28717c625a69e559d924",
       "ast_digest": "7f81899c6a5095949519bd8e356c956f00810d47612f084f66e20d4f8320c033"
     }
@@ -413,6 +413,20 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "Replace sunset claim language with current typed C-SDLC v2 Git topology authority.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-20 owns integrated demo, AEE, and proof-index truth\",\"Child issues own their feature behavior and primary evidence\",\"WP-21/WP-21A own reduction and refactoring\",\"Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.\",\"Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.\"]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 35,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Replace removed preparation-claim guidance with current typed branch and worktree binding authority.",
+      "operation": "{\"new_values\":[\"Accepted proof requires an exact revision and independently usable artifact\",\"Planned, blocked, failed, synthetic, or receipt-only evidence cannot satisfy coverage\",\"WP-21 and WP-21A retain repository-reduction ownership\",\"Use typed C-SDLC v2 binding to establish the issue branch and worktree before implementation\"],\"operation\":\"correct_operator_constraints_before_bind\",\"previous_values\":[\"Accepted proof requires an exact revision and independently usable artifact\",\"Planned, blocked, failed, synthetic, or receipt-only evidence cannot satisfy coverage\",\"WP-21 and WP-21A retain repository-reduction ownership\",\"Release the preparation claim before implementation handoff\"]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 36,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
     }
   ]
 }

@@ -1,0 +1,135 @@
+schema: adl.milestone.issue-wave.v1
+milestone: v0.92.2
+status: planned
+conductor_issue: null
+issue_creation_authority: WP-01
+work_packages:
+  - id: WP-01
+    lane: milestone_opening
+    title: Publish and open the v0.92.2 CodeFriend Beta 1 execution wave
+    issue: null
+    depends_on: []
+    deliverables: [validated_planning_package, authorized_issue_wave]
+    proof: [canonical_inventory_check, yaml_parse, link_check]
+  - id: CF-SHELL
+    lane: product_shell
+    title: CodeFriend product shell, setup, onboarding, and operator controls
+    issue: null
+    depends_on: [WP-01]
+    deliverables: [setup_flow, onboarding, run_controls, status_and_artifact_browser]
+    proof: [operator_journey_tests, failure_state_tests, accessibility_review]
+  - id: CF-ADAPTER
+    lane: repository_adapter
+    title: Portable Adapter v2 for local, GitHub, and CI repository inputs
+    issue: null
+    depends_on: [WP-01]
+    deliverables: [portable_repository_packet, local_adapter, github_adapter, ci_adapter]
+    proof: [fixture_conformance, path_portability, partial_input_failures]
+  - id: CF-EVIDENCE
+    lane: evidence_core
+    title: Stable evidence identity, provenance, redaction, and retention
+    issue: null
+    depends_on: [CF-ADAPTER]
+    deliverables: [artifact_identity, provenance_manifest, redaction_policy, retention_policy]
+    proof: [identity_determinism, provenance_integrity, redaction_negative_tests, retention_tests]
+  - id: CF-COG
+    lane: architecture_cognition
+    title: Architecture cognition and explainable change-risk analysis
+    issue: null
+    depends_on: [CF-EVIDENCE]
+    deliverables: [dependency_map, boundary_analysis, coupling_and_connascence, drift_and_blast_radius, architectural_quanta, adr_rationale_analysis]
+    proof: [grounded_fixture_findings, explanation_traceability, false_positive_review]
+  - id: CF-GOV
+    lane: executable_governance
+    title: Architecture fitness functions and bounded CI governance
+    issue: null
+    depends_on: [CF-EVIDENCE]
+    deliverables: [fitness_function_contract, policy_runner, ci_integration]
+    proof: [passing_and_failing_fixtures, deterministic_policy_results, ci_failure_semantics]
+  - id: CF-REVIEW
+    lane: review_engine
+    title: Four-perspective review, synthesis, remediation, and test planning
+    issue: null
+    depends_on: [CF-EVIDENCE]
+    deliverables: [correctness_review, security_review, adversarial_review, constitutional_review, synthesis, remediation_plan, test_plan]
+    proof: [perspective_attribution, deduplication_tests, severity_review, no_mutation_check]
+  - id: CF-MEMORY
+    lane: longitudinal_memory
+    title: Stable second-run comparison and longitudinal review memory
+    issue: null
+    depends_on: [CF-EVIDENCE]
+    deliverables: [baseline_store, comparison_engine, compatibility_policy, delta_report]
+    proof: [two_run_fixture, schema_compatibility_tests, missing_baseline_behavior]
+  - id: CF-UX
+    lane: publication
+    title: Human-controlled publication and Markdown, HTML, and PDF outputs
+    issue: null
+    depends_on: [CF-SHELL, CF-EVIDENCE]
+    deliverables: [publication_approval, claims_and_nonclaims, privacy_legal_checks, artifact_manifest, markdown_output, html_output, pdf_output, release_notes]
+    proof: [approval_boundary_tests, renderer_parity, manifest_integrity, withheld_publication_test]
+  - id: CF-PROOF
+    lane: proof_and_documentation
+    title: Documentation, examples, fixtures, ADL self-review, and external OSS proof
+    issue: null
+    depends_on: [CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX]
+    deliverables: [operator_docs, examples, deterministic_fixtures, adl_self_review, bounded_external_oss_review]
+    proof: [fresh_operator_run, self_review_packet, external_review_packet, nonclaim_audit]
+  - id: CF-INTEGRATE
+    lane: integration
+    title: Integrate and qualify the complete CodeFriend Beta 1 path
+    issue: null
+    depends_on: [CF-SHELL, CF-ADAPTER, CF-EVIDENCE, CF-COG, CF-GOV, CF-REVIEW, CF-MEMORY, CF-UX, CF-PROOF]
+    deliverables: [integrated_beta, acceptance_packet, residual_risk_register]
+    proof: [end_to_end_beta_run, failure_path_matrix, package_validator]
+  - id: TAIL-01
+    lane: release_tail
+    title: Quality gate
+    issue: null
+    depends_on: [CF-INTEGRATE]
+  - id: TAIL-02
+    lane: release_tail
+    title: Docs and release-truth pass
+    issue: null
+    depends_on: [TAIL-01]
+  - id: TAIL-03
+    lane: release_tail
+    title: Publication finalization
+    issue: null
+    depends_on: [TAIL-02]
+  - id: TAIL-04
+    lane: release_tail
+    title: Internal milestone review
+    issue: null
+    depends_on: [TAIL-03]
+  - id: TAIL-05
+    lane: release_tail
+    title: External or third-party review
+    issue: null
+    depends_on: [TAIL-04]
+  - id: TAIL-06
+    lane: release_tail
+    title: Accepted-findings remediation or explicit deferral capture
+    issue: null
+    depends_on: [TAIL-05]
+  - id: TAIL-07
+    lane: release_tail
+    title: Next-milestone planning
+    issue: null
+    depends_on: [TAIL-06]
+  - id: TAIL-08
+    lane: release_tail
+    title: Next-milestone closeout planning
+    issue: null
+    depends_on: [TAIL-07]
+  - id: TAIL-09
+    lane: release_tail
+    title: Next-milestone planning review
+    issue: null
+    depends_on: [TAIL-08]
+  - id: TAIL-10
+    lane: release_tail
+    title: Release ceremony and milestone close
+    issue: null
+    depends_on: [TAIL-09]
+canonical_release_tail: [TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
+deferred_tracks: [jira, linear, slack, broad_workspace, autonomous_mutation, public_customer_scale, security_tournaments, ate, mlx_metal, oci_model_packaging, optional_openrewrite, runtime_v4]

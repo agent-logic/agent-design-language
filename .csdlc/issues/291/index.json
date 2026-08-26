@@ -1,0 +1,410 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 291,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f4bdffa4c5866878b425b124bbcf92e725fa7d41b4088de0b7384a1028b4f0c1",
+  "phase": "published",
+  "generation": 33,
+  "digest": "4b76248c14e9bd45c5c54997fcc9f9a6098c8472b3395bcf34017dfc19c186a9",
+  "branch": "codex/291-initialized-decomposition-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery",
+  "review_assignment": {
+    "reviewer": "fresh-session:a730ec10-229b-43a7-99ba-e87c10abdbc5",
+    "assigned_by": "codex:worker-5-issue-291",
+    "revision": "git-blake3:e0f7210a9f86af43e56b80100cc9071c0649eb20:9ece3673fd7b967c91eac9eb38349475d6a69d707247f1a6b46afdd112bcb7a6",
+    "scope": [
+      ".csdlc/issues/291",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/initialized_decomposition_recovery.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:a730ec10-229b-43a7-99ba-e87c10abdbc5",
+    "scope": [
+      ".csdlc/issues/291",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/initialized_decomposition_recovery.rs"
+    ],
+    "reviewed_revision": "git-blake3:e0f7210a9f86af43e56b80100cc9071c0649eb20:9ece3673fd7b967c91eac9eb38349475d6a69d707247f1a6b46afdd112bcb7a6",
+    "findings": [],
+    "residual_risks": [
+      "Broad csdlc-v2 workspace test proof is limited by unrelated gate_github_actions local fixture instability; focused initialized decomposition recovery proof and strict Clippy passed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 291,
+    "pull_request": 303,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/303",
+    "base": "main",
+    "head": "codex/291-initialized-decomposition-recovery",
+    "revision": "git-blake3:446a61c680bcd228eb061c32b02fa9a0d897bdfb:cbfda80759fa9d51cf737e1911e5f2b45e86c1d7f1e6d3bf1657aa5fe01f9e48",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/291/design.md",
+  "diagram_path": ".csdlc/prepared/issues/291/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff5e1-38f2-7a42-b414-8581bb6f648a",
+      "revision": "e54e499d61f9accfbb1c24160d0b5464737fa7e841db6a9c3c259351160899d4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "1627c02d12bd96eeac4b8da34060b4c8f880c1e4d7f726b9807236df86c384d7",
+      "rendered_digest": "5e6b75f2edd95305ae5c60d2129cdd46efb423e366d51856953be59a19f6d51e",
+      "ast_digest": "878510ea9c721f863a414266a09a4635184761f0c093330a6792d27ec93d4f22"
+    },
+    "stp": {
+      "values_digest": "9e202ac95a99b062954edacd865b948ad89be968a8c0d3e1e800b9ce4434ca70",
+      "rendered_digest": "adbb5fea036d4fb0cd6c361bdcfc838d2ed32b01d1d56baaaa6049b37a68dead",
+      "ast_digest": "64c95bddac521ac40a42494cc41a909d0fdfa17c225b09d5c16a1c697de7591c"
+    },
+    "spp": {
+      "values_digest": "10415d3e566771bedbee61d118b26237a7a0a57b8eccd588d3fe7716fe2624a7",
+      "rendered_digest": "6af66c1d7e11b214d246e55195ec80230590c08d722ddf7a58279ee596ec2d8f",
+      "ast_digest": "7c2910854d5813026f09028e35ee334a36ec5294d578d7b884f1c1e24921e140"
+    },
+    "vpp": {
+      "values_digest": "88437d9fce7306f3bc2b67741e95f7fcb6d7489d03638ef5f4b7326b3cadae6e",
+      "rendered_digest": "9c90a6b3fbb9fd9a203db91d4b30f74eda7275fc8cf1e0d00188f1b12eb043f4",
+      "ast_digest": "36b64c7cd2ff65b1d5704736e0cc8973c661c0e4a186546dc722f9aa5d0640e1"
+    },
+    "srp": {
+      "values_digest": "84edab2c7278957f8f3810f1d699bcadad570b7b43424d7fb5eed6619d031b86",
+      "rendered_digest": "1e0ce8797cbfd0a807b4df4969adbe044fe979762bd99d5189f01076342b80a8",
+      "ast_digest": "35dd878a635b8a704ef2b88d46c0f13794a9fa364bb3d96771772a358962db29"
+    },
+    "sor": {
+      "values_digest": "70c74263831ffd4509c2c54cf2a4f7d003bf701afbd1b405304ab78b35de89e3",
+      "rendered_digest": "70cd23a32b1b16420219921866e4eb0b340456375726f66c04a9c8a8786e4b27",
+      "ast_digest": "31d91d08c6eeff3da5df6710d4248f03a5b3ac3d27b7fb61b10d2cf7cbcbf1db"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-5-issue-291",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-5-issue-291",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Clear invalid bootstrap design approval without semantic weakening by replaying the exact current pre-bind operator constraints through the supported typed recovery route.",
+      "operation": "{\"new_values\":[\"Use typed v2 bootstrap, doctor, bind, review, and publication owners\",\"Bind under /Volumes/FastWork/adl-worktrees before implementation\",\"Do not mutate #114 product/card state, root lock state, #112, #203, #122, #256, #84, AWS, or decomposition graphs\",\"Obtain #119-compliant fresh-session exact-head review before publication\",\"Publish a ready PR only through typed owner and stop before merge\"],\"operation\":\"correct_operator_constraints_before_bind\",\"previous_values\":[\"Use typed v2 bootstrap, doctor, bind, review, and publication owners\",\"Bind under /Volumes/FastWork/adl-worktrees before implementation\",\"Do not mutate #114 product/card state, root lock state, #112, #203, #122, #256, #84, AWS, or decomposition graphs\",\"Obtain #119-compliant fresh-session exact-head review before publication\",\"Publish a ready PR only through typed owner and stop before merge\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Repair only invalid readiness target truth by naming the future issue-owned focused test file instead of the tests directory.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src\",\"csdlc-v2/tests/initialized_decomposition_recovery.rs\",\"csdlc-v2/operator/skills/csdlc-v2-edit/SKILL.md\",\".csdlc/prepared/issues/291\",\".csdlc/evidence/291\",\".csdlc/issues/291\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Repair only invalid readiness target truth by making the future focused test file an explicit issue-owned affected area.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src\",\"csdlc-v2/tests/initialized_decomposition_recovery.rs\",\"csdlc-v2/operator/skills/csdlc-v2-edit/SKILL.md\",\".csdlc/prepared/issues/291\",\".csdlc/evidence/291\",\".csdlc/issues/291\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Repair only invalid readiness target truth by selecting the future issue-owned integration test target and marking it explicitly deferred until implementation creates it.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-decomposition-recovery-focused\",\"proof_role\":\"Prove typed recovery happy path, stale CAS, preserved evidence drift, unsafe scope, unsupported phase, graph mismatch, SRP/SOR/identity replacement, and no mutation of #114 golden fixture.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"initialized_decomposition_recovery\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":\"Implementation must create csdlc-v2/tests/initialized_decomposition_recovery.rs before proof execution; this readiness deferral is not validation evidence and must fail closed until the target exists.\"},{\"lane\":\"csdlc-v2-full\",\"proof_role\":\"Prove existing C-SDLC v2 lifecycle/edit behavior remains intact.\",\"acceptance_ids\":[\"AC-1\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-clippy\",\"proof_role\":\"Reject warnings across all C-SDLC v2 targets.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"lint\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-head review.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Repair R2 design findings by making the acceptance criteria explicit about reversal audit truth, transaction semantics, request-root safety, generic graph input, field surface, and validation coverage.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/291/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/291/diagram.mmd\",\"new_design_digest\":\"3057a38a93aa2013ca6da095f2736d1d17f42c2711f316fe08b8d56a008196b5\",\"new_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\",\"old_design_digest\":\"504e9d959611ed131a4ebc8edeaf988dc82192d1ef4bb8ef4f6b7b952d3338b4\",\"old_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A typed initialized recovery request can transform a stale decomposed-parent packet to coordination-only truth without binding, branch mutation, GitHub writes, publication, merge, closeout, product-code changes, bootstrap overwrite, or #114 mutation.\",\"AC-2: Recovery preserves append-only audit history, generation/digest CAS, branch/worktree null state, every existing design/diagram byte, and records exact old/new design-review authority truth when clearing or replacing a false approval such as operator:planning-1-assignment.\",\"AC-3: Recovery validates all requested semantic replacements before writing, renders and hydrates every changed value/rendered/index/audit projection in isolated staging, and commits with one CAS generation and one audit event with no partial visibility.\",\"AC-4: Recovery enforces canonical request-root/cwd identity, repository containment, issue/path identity, symlink and escape rejection, and copies the #114 fixture to an isolated golden root before any mutation test.\",\"AC-5: Recovery records SOR preparation truth without claiming execution, implementation, publication, merge, closeout, or terminal authority.\",\"AC-6: Recovery updates or explicitly dispositions title/slug/version identity consistently across every card projection without changing issue number or repository.\",\"AC-7: Recovery distinguishes historical gen0 design evidence from current implementation authority and rejects bootstrap regeneration as a way to overwrite preserved evidence.\",\"AC-8: Recovery accepts a generic typed graph of node IDs, roles, directed dependency edges, parent integration owner, and in-scope status; it validates acyclicity/order and fails closed on missing/inverted edges, out-of-scope nodes, duplicate roles, or cross-child trust redefinition.\",\"AC-9: Recovered packets can pass doctor/validate after valid #119 design/card review is recorded, without requiring bind or product proof, and normal initialized edits remain rejected except through the explicit recovery route.\",\"AC-10: Failure output is typed JSON with exact rejected reasons for stale digest, missing preserved evidence, unsafe scope, unsupported phase, graph mismatch, request-root/cwd mismatch, path escape, symlink, non-atomic staging failure, or attempted #114/root-lock mutation.\"]}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Repair R2 design findings by sequencing review before bind and mapping every AC to explicit transaction, root, graph, field, audit, and proof work.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/291/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/291/diagram.mmd\",\"new_design_digest\":\"3057a38a93aa2013ca6da095f2736d1d17f42c2711f316fe08b8d56a008196b5\",\"new_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\",\"old_design_digest\":\"3057a38a93aa2013ca6da095f2736d1d17f42c2711f316fe08b8d56a008196b5\",\"old_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Preserve the root pre-bind recovery bundle, retain R2 failure evidence, and obtain fresh design approval before any bind or implementation.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Implement exact old/new design-review authority capture for false approval reversal while preserving append-only audit and historical design/diagram bytes.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Implement isolated staging, validation-before-write, fsync/atomic rename, single-generation CAS, rollback/crash recovery, and idempotency semantics.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\"],\"action\":\"Implement canonical root/cwd identity, containment, issue/path checks, symlink and escape rejection, and isolated #114 golden-root mutation tests.\",\"id\":\"S4\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Implement preparation-only SOR replacement that keeps execution, publication, merge, closeout, and terminal states nonterminal.\",\"id\":\"S5\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Implement closed identity replacement/disposition with consistent propagation across every card projection.\",\"id\":\"S6\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Implement historical-design/reference evidence handling and bootstrap-overwrite rejection.\",\"id\":\"S7\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Implement generic typed graph validation for nodes, roles, directed edges, parent integration owner, acyclicity, in-scope checks, and forbidden trust redefinition.\",\"id\":\"S8\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Prove recovered packets remain initialized/pre-review until valid #119 design/card approval and that ordinary initialized edits remain rejected outside the recovery route.\",\"id\":\"S9\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-10\"],\"action\":\"Prove typed JSON failure diagnostics for every CAS, evidence, scope, phase, graph, root, path, symlink, atomicity, and #114/root-lock mutation negative.\",\"id\":\"S10\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Repair R2 design findings by making invariants explicit for reversal audit, atomic transaction, path safety, generic graph input, closed field surface, and validation coverage.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No #114 mutation occurs while validating the golden fixture; mutation tests use an isolated issue-owned copy.\",\"Initialized recovery is CAS-guarded, validates all replacements before write, and commits through one staged atomic transaction with one generation and one audit event.\",\"Recovery records exact old/new design-review authority truth when correcting false approval and never infers approval from assignment or planning.\",\"Historical design/diagram bytes are preserved and any historical/reference-only status is explicit.\",\"Recovered SOR remains preparation-only and nonterminal.\",\"Shared title/slug/version identity updates are consistent across every card projection.\",\"Graph validation uses generic typed nodes, roles, directed edges, parent integration owner, acyclicity, in-scope checks, and forbidden trust-redefinition checks.\",\"Request root, cwd, repository identity, issue paths, and fixture paths are canonicalized, contained, and symlink/escape-safe before mutation.\",\"Normal initialized edit rejections remain intact outside the explicit recovery contract.\",\"Bootstrap regeneration cannot overwrite preserved initialized history.\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Repair R2 design findings by naming the concrete residual risks from reversal audit, atomicity, path safety, graph generality, field surface, and validation gaps.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"A broad recovery route could become bootstrap overwrite by another name.\",\"False design approval could be hidden unless exact old/new review authority is recorded.\",\"Partial values/rendered/index/audit writes could make a corrupted packet look recovered.\",\"A cwd or root mismatch could mutate the live #114 fixture or wrong issue bundle.\",\"Hard-coded #114 graph handling could fail for the next decomposed parent.\",\"A loose replacement surface could allow implementation, publication, merge, closeout, or terminal claims into initialized recovery.\",\"Fixture tests could miss symlink, path escape, root-lock, or already-repaired-field preservation regressions.\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Repair R2 design findings by making stop conditions fail closed on unsupported audit reversal, transaction, path, graph, field, fixture, or review evidence.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A fresh design review has any unresolved actionable finding.\",\"Typed v2 cannot represent exact old/new false-approval reversal audit truth without hand-editing audit.\",\"The route cannot validate every replacement before write or cannot stage/render/hydrate/commit atomically with one generation and one audit event.\",\"Crash, rollback, stale-CAS, or repeated-request behavior cannot be made deterministic.\",\"Canonical request root and cwd cannot be proven identical to the target repository identity.\",\"Path containment, symlink rejection, issue/path identity, or absolute/parent escape checks cannot be enforced before mutation.\",\"The #114 fixture cannot be copied to an isolated golden root for mutation tests while proving live #114 and root .csdlc/locks/114.lock remain unchanged.\",\"Graph input cannot be expressed generically as typed nodes, roles, directed edges, parent integration owner, acyclic order, and in-scope status.\",\"The replacement field set cannot remain closed and nonterminal for initialized recovery.\",\"Focused proof, full csdlc-v2 tests, strict Clippy, diff hygiene, or #119-compliant review fails.\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Repair R2 design findings by expanding focused validation to cover exact reversal audit, transaction atomicity, root/cwd/path safety, generic graph validation, closed field surface, and negative preservation cases.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-decomposition-recovery-focused\",\"proof_role\":\"Prove happy initialized recovery plus negatives for stale CAS, unsupported phase, missing/drifted design or diagram evidence, false-approval old/new audit capture, bootstrap-overwrite rejection, validation-before-write, staged render/hydrate/index/audit atomicity, crash/rollback/stale-repeat behavior, request-root/cwd mismatch, repository containment, issue/path identity, symlink and path escape rejection, isolated #114 golden-root copy, live #114 and root .csdlc/locks/114.lock non-mutation, generic typed graph nodes/roles/directed edges/parent owner/acyclic order/in-scope validation, missing/inverted/out-of-scope/duplicate/trust-redefinition graph failures, closed semantic field set, identity propagation across all cards, preparation-only SOR, normal initialized edit rejection, exact one-entry audit consistency, and preservation of already-repaired fields unless intentionally superseded.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"initialized_decomposition_recovery\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":\"Implementation must create csdlc-v2/tests/initialized_decomposition_recovery.rs before proof execution; this readiness deferral is not validation evidence and must fail closed until the target exists.\"},{\"lane\":\"csdlc-v2-full\",\"proof_role\":\"Prove existing C-SDLC v2 lifecycle/edit behavior remains intact.\",\"acceptance_ids\":[\"AC-1\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-clippy\",\"proof_role\":\"Reject warnings across all C-SDLC v2 targets.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"lint\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-head review.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Repair R2 validation-truth finding by making the fail-closed policy name transaction, root/cwd, path, graph, audit, and fixture-preservation negatives explicitly.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"failure_policy\",\"value\":\"Fail closed on stale generation/digest, unsupported phase, missing or drifted preserved design/diagram evidence, false-approval old/new audit ambiguity, bootstrap overwrite, unsafe scope, request-root/cwd mismatch, repository containment failure, issue/path identity mismatch, symlink or path escape, non-atomic staging/rollback/idempotency failure, partial values/rendered/index/audit visibility, graph mismatch or forbidden trust redefinition, closed-field-surface violation, #114 live fixture or root-lock mutation, normal initialized edit regression, warning, failed proof, or unresolved review finding.\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Repair R2 review-surface finding by requiring fresh review to assess reversal audit truth, transaction semantics, root/cwd safety, generic graph input, closed replacement surface, and negative-test completeness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the design preserve the invalid bootstrap approval as historical evidence while requiring exact old/new design-review authority capture for any recovery-cleared false approval such as operator:planning-1-assignment?\",\"Does the design define implementable all-or-nothing transaction semantics: validate every replacement first, render/hydrate in isolated staging, commit one CAS generation/audit event atomically, and recover/idempotently retry without partial values/rendered/index/audit visibility?\",\"Does the design enforce canonical request-root/cwd/repository identity, path containment, issue/path identity, symlink and escape rejection, and isolated #114 golden-root mutation tests while proving live #114 and root .csdlc/locks/114.lock remain unchanged?\",\"Is graph input generic and typed, with node IDs, roles, directed edges, parent integration owner, acyclicity/order/in-scope validation, and explicit rejection of missing, inverted, duplicate, out-of-scope, or cross-child trust-redefinition cases rather than hard-coded #114 child topology?\",\"Is the semantic replacement surface complete but closed across SIP/STP/SPP/VPP/SRP/SOR, preserving nonterminal initialized truth and consistent issue identity without enabling bind, publication, merge, closeout, GitHub writes, #112 mutation, or product behavior?\",\"Does the validation plan cover positive recovery and the required negatives for stale CAS, unsupported phase, missing/drifted evidence, bootstrap overwrite, root/cwd mismatch, path/symlink escape, non-atomic staging/rollback/idempotency, graph mismatches, closed-field violations, #114/root-lock mutation, and already-repaired-field preservation?\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Clarify that design approval and root pre-bind preservation precede bind; implementation remains future work after PASS and typed bind.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Preserve the #291 root pre-bind recovery bundle, obtain fresh design approval first, then bind #291 to implement the narrow csdlc-edit initialized decomposition recovery contract, prove it against an isolated read-only #114 gen35 golden fixture and focused negatives, obtain #119-compliant implementation review, and publish a ready unmerged PR.\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Repair R3 transaction finding by binding the updated design digest and making acceptance criteria require the concrete write-ahead journal commit protocol and crash tests.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/291/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/291/diagram.mmd\",\"new_design_digest\":\"a716c7d07133afcc3a302a6fa2a4b8d2a28cb968b9d58624c6b8aad296369db0\",\"new_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\",\"old_design_digest\":\"3057a38a93aa2013ca6da095f2736d1d17f42c2711f316fe08b8d56a008196b5\",\"old_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A typed initialized recovery request can transform a stale decomposed-parent packet to coordination-only truth without binding, branch mutation, GitHub writes, publication, merge, closeout, product-code changes, bootstrap overwrite, or #114 mutation.\",\"AC-2: Recovery preserves append-only audit history, generation/digest CAS, branch/worktree null state, every existing design/diagram byte, and records exact old/new design-review authority truth when clearing or replacing a false approval such as operator:planning-1-assignment.\",\"AC-3: Recovery validates all requested semantic replacements before writing, stages post-state bytes as content-addressed blobs under an issue-local write-ahead journal, fsyncs blobs/manifest/directories where supported, writes a prepared manifest before target replacement, writes a commit marker only after postimage verification, and recovers deterministically to exact pre-state or exact post-state at declared crash points.\",\"AC-4: Recovery enforces canonical request-root/cwd identity, repository containment, issue/path identity, symlink and escape rejection, and copies the #114 fixture to an isolated golden root before any mutation test.\",\"AC-5: Recovery records SOR preparation truth without claiming execution, implementation, publication, merge, closeout, or terminal authority.\",\"AC-6: Recovery updates or explicitly dispositions title/slug/version identity consistently across every card projection without changing issue number or repository.\",\"AC-7: Recovery distinguishes historical gen0 design evidence from current implementation authority and rejects bootstrap regeneration as a way to overwrite preserved evidence.\",\"AC-8: Recovery accepts a generic typed graph of node IDs, roles, directed dependency edges, parent integration owner, and in-scope status; it validates acyclicity/order and fails closed on missing/inverted edges, out-of-scope nodes, duplicate roles, or cross-child trust redefinition.\",\"AC-9: Recovered packets can pass doctor/validate after valid #119 design/card review is recorded, without requiring bind or product proof, and normal initialized edits remain rejected except through the explicit recovery route.\",\"AC-10: Failure output is typed JSON with exact rejected reasons for stale digest, missing preserved evidence, unsafe scope, unsupported phase, graph mismatch, request-root/cwd mismatch, path escape, symlink, unsupported fsync/durability fallback, non-atomic journal/manifest/commit-marker staging failure, or attempted #114/root-lock mutation.\"]}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Repair R3 transaction finding by replacing generic atomicity plan language with the concrete write-ahead journal protocol and crash-point proof work.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/291/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/291/diagram.mmd\",\"new_design_digest\":\"a716c7d07133afcc3a302a6fa2a4b8d2a28cb968b9d58624c6b8aad296369db0\",\"new_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\",\"old_design_digest\":\"a716c7d07133afcc3a302a6fa2a4b8d2a28cb968b9d58624c6b8aad296369db0\",\"old_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Preserve the root pre-bind recovery bundle, retain digest-bound R2 failure evidence, and obtain fresh design approval before any bind or implementation.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Implement exact old/new design-review authority capture for false approval reversal while preserving append-only audit and historical design/diagram bytes.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Implement validation-before-write, content-addressed staged blobs, prepared manifest, fsync ordering, commit marker, deterministic startup recovery, cleanup/idempotency semantics, and crash-point injection tests.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\"],\"action\":\"Implement canonical root/cwd identity, containment, issue/path checks, symlink and escape rejection, and isolated #114 golden-root mutation tests.\",\"id\":\"S4\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Implement preparation-only SOR replacement that keeps execution, publication, merge, closeout, and terminal states nonterminal.\",\"id\":\"S5\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Implement closed identity replacement/disposition with consistent propagation across every card projection.\",\"id\":\"S6\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Implement historical-design/reference evidence handling and bootstrap-overwrite rejection.\",\"id\":\"S7\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Implement generic typed graph validation for nodes, roles, directed edges, parent integration owner, acyclicity, in-scope checks, and forbidden trust redefinition.\",\"id\":\"S8\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-9\"],\"action\":\"Prove recovered packets remain initialized/pre-review until valid #119 design/card approval and that ordinary initialized edits remain rejected outside the recovery route.\",\"id\":\"S9\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-10\"],\"action\":\"Prove typed JSON failure diagnostics for every CAS, evidence, scope, phase, graph, root, path, symlink, unsupported durability fallback, journal/manifest/commit-marker atomicity, and #114/root-lock mutation negative.\",\"id\":\"S10\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Repair R3 transaction finding by making invariants name the concrete write-ahead journal protocol and immutable R2 evidence binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No #114 mutation occurs while validating the golden fixture; mutation tests use an isolated issue-owned copy.\",\"Initialized recovery is CAS-guarded, validates all replacements before write, stages post-state bytes as content-addressed blobs, uses a prepared manifest plus commit marker, and records one generation and one audit event.\",\"Journal recovery after declared crash points deterministically yields either exact pre-state or exact post-state; mixed values/rendered/index/audit visibility is invalid.\",\"Recovery records exact old/new design-review authority truth when correcting false approval and never infers approval from assignment or planning.\",\"Retained R2 failure evidence is digest-bound to an immutable historical snapshot rather than mutable live file lines.\",\"Historical design/diagram bytes are preserved and any historical/reference-only status is explicit.\",\"Recovered SOR remains preparation-only and nonterminal.\",\"Shared title/slug/version identity updates are consistent across every card projection.\",\"Graph validation uses generic typed nodes, roles, directed edges, parent integration owner, acyclicity, in-scope checks, and forbidden trust-redefinition checks.\",\"Request root, cwd, repository identity, issue paths, and fixture paths are canonicalized, contained, and symlink/escape-safe before mutation.\",\"Normal initialized edit rejections remain intact outside the explicit recovery contract.\",\"Bootstrap regeneration cannot overwrite preserved initialized history.\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Repair R3 transaction finding by failing closed if the journal protocol, crash recovery, platform durability fallback, or immutable R2 evidence binding cannot be proven.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A fresh design review has any unresolved actionable finding.\",\"Typed v2 cannot represent exact old/new false-approval reversal audit truth without hand-editing audit.\",\"R2 historical findings cannot be retained in a digest-bound immutable artifact derived from task/git/session evidence.\",\"The route cannot validate every replacement before writing staged blobs or cannot use a prepared manifest, preimage/postimage hashes, commit marker, and deterministic recovery protocol.\",\"Crash injection after blob write, prepared-manifest fsync, target replacement, parent-directory fsync boundary, or commit-marker fsync cannot prove exact pre-state or exact post-state.\",\"Unsupported platform fsync/durability behavior cannot be typed and fail-closed for publication-grade recovery.\",\"Crash, stale-CAS, repeated-request, journal cleanup, or idempotency behavior cannot be made deterministic.\",\"Canonical request root and cwd cannot be proven identical to the target repository identity.\",\"Path containment, symlink rejection, issue/path identity, or absolute/parent escape checks cannot be enforced before mutation.\",\"The #114 fixture cannot be copied to an isolated golden root for mutation tests while proving live #114 and root .csdlc/locks/114.lock remain unchanged.\",\"Graph input cannot be expressed generically as typed nodes, roles, directed edges, parent integration owner, acyclic order, and in-scope status.\",\"The replacement field set cannot remain closed and nonterminal for initialized recovery.\",\"Focused proof, full csdlc-v2 tests, strict Clippy, diff hygiene, or #119-compliant review fails.\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Repair R3 transaction/evidence findings by expanding focused proof and failure policy to require immutable R2 evidence binding and concrete journal crash-point validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-decomposition-recovery-focused\",\"proof_role\":\"Prove happy initialized recovery plus negatives for stale CAS, unsupported phase, missing/drifted design or diagram evidence, false-approval old/new audit capture, digest-bound R2 historical evidence retention, bootstrap-overwrite rejection, validation-before-write, content-addressed staged blobs, prepared manifest, preimage/postimage hash verification, fsync ordering, unsupported durability fallback, commit-marker semantics, crash injection after blob write/prepared-manifest fsync/target replacement/parent-directory fsync boundary/commit-marker fsync, deterministic pre-state-or-post-state recovery, journal cleanup and idempotency, request-root/cwd mismatch, repository containment, issue/path identity, symlink and path escape rejection, isolated #114 golden-root copy, live #114 and root .csdlc/locks/114.lock non-mutation, generic typed graph nodes/roles/directed edges/parent owner/acyclic order/in-scope validation, missing/inverted/out-of-scope/duplicate/trust-redefinition graph failures, closed semantic field set, identity propagation across all cards, preparation-only SOR, normal initialized edit rejection, exact one-entry audit consistency, and preservation of already-repaired fields unless intentionally superseded.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"initialized_decomposition_recovery\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":\"Implementation must create csdlc-v2/tests/initialized_decomposition_recovery.rs before proof execution; this readiness deferral is not validation evidence and must fail closed until the target exists.\"},{\"lane\":\"csdlc-v2-full\",\"proof_role\":\"Prove existing C-SDLC v2 lifecycle/edit behavior remains intact.\",\"acceptance_ids\":[\"AC-1\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-clippy\",\"proof_role\":\"Reject warnings across all C-SDLC v2 targets.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"lint\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-head review.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Repair R3 transaction/evidence findings by making failure policy name immutable R2 evidence, write-ahead journal, prepared manifest, commit marker, crash recovery, and platform durability failures.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"failure_policy\",\"value\":\"Fail closed on stale generation/digest, unsupported phase, missing or drifted preserved design/diagram evidence, missing digest-bound R2 historical evidence, false-approval old/new audit ambiguity, bootstrap overwrite, unsafe scope, request-root/cwd mismatch, repository containment failure, issue/path identity mismatch, symlink or path escape, unsupported fsync/durability fallback, missing or inconsistent write-ahead journal, staged blob, prepared manifest, preimage/postimage hash, commit marker, crash recovery, journal cleanup, or idempotency behavior, partial values/rendered/index/audit visibility, graph mismatch or forbidden trust redefinition, closed-field-surface violation, #114 live fixture or root-lock mutation, normal initialized edit regression, warning, failed proof, or unresolved review finding.\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Repair R3 review-surface findings by requiring fresh review to assess digest-bound R2 evidence and the concrete write-ahead journal transaction protocol.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the packet preserve R2 FAIL evidence in a digest-bound immutable artifact derived from task/git/session evidence, with exact historical findings and original line references clearly marked as historical rather than mutable live-file proof?\",\"Does the design preserve the invalid bootstrap approval as historical evidence while requiring exact old/new design-review authority capture for any recovery-cleared false approval such as operator:planning-1-assignment?\",\"Does the design define an implementable write-ahead journal transaction: validate every replacement first, write content-addressed staged blobs, fsync blobs/manifest/directories where supported, record preimage/postimage hashes, write a prepared manifest before target replacement, write a commit marker only after postimage verification, and avoid partial values/rendered/index/audit visibility?\",\"Does the design specify deterministic recovery and idempotency for crash points after blob write, prepared-manifest fsync, target replacement, parent-directory fsync boundary, and commit-marker fsync, including fail-closed behavior when platform directory-fsync/durability support is insufficient?\",\"Does the design enforce canonical request-root/cwd/repository identity, path containment, issue/path identity, symlink and escape rejection, and isolated #114 golden-root mutation tests while proving live #114 and root .csdlc/locks/114.lock remain unchanged?\",\"Is graph input generic and typed, with node IDs, roles, directed edges, parent integration owner, acyclicity/order/in-scope validation, and explicit rejection of missing, inverted, duplicate, out-of-scope, or cross-child trust-redefinition cases rather than hard-coded #114 child topology?\",\"Is the semantic replacement surface complete but closed across SIP/STP/SPP/VPP/SRP/SOR, preserving nonterminal initialized truth and consistent issue identity without enabling bind, publication, merge, closeout, GitHub writes, #112 mutation, or product behavior?\",\"Does the validation plan cover positive recovery and the required negatives for stale CAS, unsupported phase, missing/drifted evidence, bootstrap overwrite, root/cwd mismatch, path/symlink escape, journal/manifest/commit-marker/crash recovery failures, graph mismatches, closed-field violations, #114/root-lock mutation, and already-repaired-field preservation?\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Repair R4 finding by binding the roll-forward journal design and making AC-3 precise about the prepared-manifest durability boundary.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/291/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/291/diagram.mmd\",\"new_design_digest\":\"e54e499d61f9accfbb1c24160d0b5464737fa7e841db6a9c3c259351160899d4\",\"new_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\",\"old_design_digest\":\"a716c7d07133afcc3a302a6fa2a4b8d2a28cb968b9d58624c6b8aad296369db0\",\"old_diagram_digest\":\"1b1f1163776de17040b90623510fe9ab3336f7c0e3152e2a17fe4f350a364b54\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A typed initialized recovery request can transform a stale decomposed-parent packet to coordination-only truth without binding, branch mutation, GitHub writes, publication, merge, closeout, product-code changes, bootstrap overwrite, or #114 mutation.\",\"AC-2: Recovery preserves append-only audit history, generation/digest CAS, branch/worktree null state, every existing design/diagram byte, and records exact old/new design-review authority truth when clearing or replacing a false approval such as operator:planning-1-assignment.\",\"AC-3: Recovery validates all requested semantic replacements before writing, stages post-state bytes as content-addressed blobs under an issue-local write-ahead journal, fsyncs blobs/manifest/directories where supported, writes a prepared manifest as the durable point of no return, writes a commit marker only after postimage verification, abandons transactions without a durable prepared manifest, rolls forward any prepared transaction to the exact post-state, and fails closed on unexpected target hashes.\",\"AC-4: Recovery enforces canonical request-root/cwd identity, repository containment, issue/path identity, symlink and escape rejection, and copies the #114 fixture to an isolated golden root before any mutation test.\",\"AC-5: Recovery records SOR preparation truth without claiming execution, implementation, publication, merge, closeout, or terminal authority.\",\"AC-6: Recovery updates or explicitly dispositions title/slug/version identity consistently across every card projection without changing issue number or repository.\",\"AC-7: Recovery distinguishes historical gen0 design evidence from current implementation authority and rejects bootstrap regeneration as a way to overwrite preserved evidence.\",\"AC-8: Recovery accepts a generic typed graph of node IDs, roles, directed dependency edges, parent integration owner, and in-scope status; it validates acyclicity/order and fails closed on missing/inverted edges, out-of-scope nodes, duplicate roles, or cross-child trust redefinition.\",\"AC-9: Recovered packets can pass doctor/validate after valid #119 design/card review is recorded, without requiring bind or product proof, and normal initialized edits remain rejected except through the explicit recovery route.\",\"AC-10: Failure output is typed JSON with exact rejected reasons for stale digest, missing preserved evidence, unsafe scope, unsupported phase, graph mismatch, request-root/cwd mismatch, path escape, symlink, unsupported fsync/durability fallback, non-atomic journal/manifest/commit-marker staging failure, unexpected target hash, or attempted #114/root-lock mutation.\"]}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Repair R4 finding by making invariants define the prepared-manifest roll-forward boundary and fail-closed unexpected-hash rule.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No #114 mutation occurs while validating the golden fixture; mutation tests use an isolated issue-owned copy.\",\"Initialized recovery is CAS-guarded, validates all replacements before write, stages post-state bytes as content-addressed blobs, uses a prepared manifest plus commit marker, and records one generation and one audit event.\",\"A durable prepared manifest is the recovery point of no return: transactions without one are abandoned/pre-state, while any prepared transaction rolls forward to the exact post-state.\",\"Unexpected target hashes outside the manifest preimage/postimage set fail closed and are not overwritten by recovery.\",\"Recovery records exact old/new design-review authority truth when correcting false approval and never infers approval from assignment or planning.\",\"Retained R2 failure evidence is digest-bound to an immutable historical snapshot rather than mutable live file lines.\",\"Historical design/diagram bytes are preserved and any historical/reference-only status is explicit.\",\"Recovered SOR remains preparation-only and nonterminal.\",\"Shared title/slug/version identity updates are consistent across every card projection.\",\"Graph validation uses generic typed nodes, roles, directed edges, parent integration owner, acyclicity, in-scope checks, and forbidden trust-redefinition checks.\",\"Request root, cwd, repository identity, issue paths, and fixture paths are canonicalized, contained, and symlink/escape-safe before mutation.\",\"Normal initialized edit rejections remain intact outside the explicit recovery contract.\",\"Bootstrap regeneration cannot overwrite preserved initialized history.\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Repair R4 finding by making stop conditions reflect the prepared-manifest roll-forward rule and unexpected-hash fail-closed behavior.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"A fresh design review has any unresolved actionable finding.\",\"Typed v2 cannot represent exact old/new false-approval reversal audit truth without hand-editing audit.\",\"R2 historical findings cannot be retained in a digest-bound immutable artifact derived from task/git/session evidence.\",\"The route cannot validate every replacement before writing staged blobs or cannot use a prepared manifest, preimage/postimage hashes, commit marker, and deterministic recovery protocol.\",\"The implementation cannot make durable prepared manifest the point of no return, abandon only transactions without a durable prepared manifest, roll forward every prepared transaction to exact post-state, and fail closed on unexpected target hashes.\",\"Crash injection before prepared-manifest fsync, after prepared-manifest fsync, after target replacement, before parent-directory fsync boundary, or after commit-marker fsync cannot prove the declared abandon-or-roll-forward rule.\",\"Unsupported platform fsync/durability behavior cannot be typed and fail-closed for publication-grade recovery.\",\"Crash, stale-CAS, repeated-request, journal cleanup, or idempotency behavior cannot be made deterministic.\",\"Canonical request root and cwd cannot be proven identical to the target repository identity.\",\"Path containment, symlink rejection, issue/path identity, or absolute/parent escape checks cannot be enforced before mutation.\",\"The #114 fixture cannot be copied to an isolated golden root for mutation tests while proving live #114 and root .csdlc/locks/114.lock remain unchanged.\",\"Graph input cannot be expressed generically as typed nodes, roles, directed edges, parent integration owner, acyclic order, and in-scope status.\",\"The replacement field set cannot remain closed and nonterminal for initialized recovery.\",\"Focused proof, full csdlc-v2 tests, strict Clippy, diff hygiene, or #119-compliant review fails.\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Repair R4 finding by making the focused validation lane prove the prepared-manifest abandon-or-roll-forward boundary and unexpected-hash fail-closed rule.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"initialized-decomposition-recovery-focused\",\"proof_role\":\"Prove happy initialized recovery plus negatives for stale CAS, unsupported phase, missing/drifted design or diagram evidence, false-approval old/new audit capture, digest-bound R2 historical evidence retention, bootstrap-overwrite rejection, validation-before-write, content-addressed staged blobs, prepared manifest as durable point of no return, preimage/postimage hash verification, fsync ordering, unsupported durability fallback, commit-marker semantics, crash injection before prepared-manifest fsync/after prepared-manifest fsync/after target replacement/before parent-directory fsync boundary/after commit-marker fsync, abandon only transactions without durable prepared manifest, roll forward every prepared transaction to exact post-state, fail closed on unexpected target hashes, journal cleanup and idempotency, request-root/cwd mismatch, repository containment, issue/path identity, symlink and path escape rejection, isolated #114 golden-root copy, live #114 and root .csdlc/locks/114.lock non-mutation, generic typed graph nodes/roles/directed edges/parent owner/acyclic order/in-scope validation, missing/inverted/out-of-scope/duplicate/trust-redefinition graph failures, closed semantic field set, identity propagation across all cards, preparation-only SOR, normal initialized edit rejection, exact one-entry audit consistency, and preservation of already-repaired fields unless intentionally superseded.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"initialized_decomposition_recovery\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":\"Implementation must create csdlc-v2/tests/initialized_decomposition_recovery.rs before proof execution; this readiness deferral is not validation evidence and must fail closed until the target exists.\"},{\"lane\":\"csdlc-v2-full\",\"proof_role\":\"Prove existing C-SDLC v2 lifecycle/edit behavior remains intact.\",\"acceptance_ids\":[\"AC-1\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"parallel_group\":\"csdlc-v2\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-clippy\",\"proof_role\":\"Reject warnings across all C-SDLC v2 targets.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"lint\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors and support exact-head review.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Repair R4 review-surface finding by asking reviewers to verify the exact prepared-manifest abandon-or-roll-forward boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the packet preserve R2 FAIL evidence in a digest-bound immutable artifact derived from task/git/session evidence, with exact historical findings and original line references clearly marked as historical rather than mutable live-file proof?\",\"Does the design preserve the invalid bootstrap approval as historical evidence while requiring exact old/new design-review authority capture for any recovery-cleared false approval such as operator:planning-1-assignment?\",\"Does the design define an implementable write-ahead journal transaction: validate every replacement first, write content-addressed staged blobs, fsync blobs/manifest/directories where supported, record preimage/postimage hashes, write a prepared manifest as the durable point of no return, write a commit marker only after postimage verification, and avoid partial values/rendered/index/audit visibility?\",\"Does the design specify deterministic recovery and idempotency for crash points before prepared-manifest fsync, after prepared-manifest fsync, after target replacement, before parent-directory fsync boundary, and after commit-marker fsync: abandon/pre-state only before durable prepared manifest, roll-forward/post-state after durable prepared manifest, and fail-closed on unexpected target hashes?\",\"Does the design enforce canonical request-root/cwd/repository identity, path containment, issue/path identity, symlink and escape rejection, and isolated #114 golden-root mutation tests while proving live #114 and root .csdlc/locks/114.lock remain unchanged?\",\"Is graph input generic and typed, with node IDs, roles, directed edges, parent integration owner, acyclicity/order/in-scope validation, and explicit rejection of missing, inverted, duplicate, out-of-scope, or cross-child trust-redefinition cases rather than hard-coded #114 child topology?\",\"Is the semantic replacement surface complete but closed across SIP/STP/SPP/VPP/SRP/SOR, preserving nonterminal initialized truth and consistent issue identity without enabling bind, publication, merge, closeout, GitHub writes, #112 mutation, or product behavior?\",\"Does the validation plan cover positive recovery and the required negatives for stale CAS, unsupported phase, missing/drifted evidence, bootstrap overwrite, root/cwd mismatch, path/symlink escape, journal/manifest/commit-marker/crash recovery failures, graph mismatches, closed-field violations, #114/root-lock mutation, and already-repaired-field preservation?\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 26,
+      "actor": "fresh-session:019ff5e1-38f2-7a42-b414-8581bb6f648a",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "codex:root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:root",
+      "reason": "Clear completed fresh review assignment after actionable P2 finding before applying substantive graph validation repair. Original finding: validate_decomposition_graph accepted disconnected/incomplete parent topology; missing-edge graph mismatches did not fail closed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:issue-291-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 29,
+      "actor": "codex:issue-291-owner",
+      "reason": "Recover the noncanonical reviewer assignment fresh-session:issue-291-review-r2 before any review activity: the identifier is not fresh-session:<lowercase UUID> and therefore has no #119 review authority; the attempted dispatch did not start because the reviewer agent limit was reached.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 29,
+      "actor": "codex:issue-291-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 30,
+      "actor": "codex:issue-291-final-fix",
+      "reason": "Recover the completed exact-head review assignment before applying its sole actionable P2 finding: validate_decomposition_graph accepts duplicate directed edges. Add fail-closed directed-edge identity rejection and one focused duplicate-edge negative while preserving parent, reachability, and history invariants.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 30,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 31,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "Recover noncanonical reviewer assignment fresh-session:worker-291-post-p2-e0f7210a before any review activity; reviewer identifiers must use canonical fresh-session:<lowercase UUID> form for independent #119 review authority.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 31,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 32,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 33,
+      "actor": "codex:worker-5-issue-291",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

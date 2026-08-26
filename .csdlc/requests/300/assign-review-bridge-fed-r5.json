@@ -1,0 +1,14 @@
+{
+  "issue": 300,
+  "expected_generation": 11,
+  "expected_digest": "849b418217ae5a3853963d6ea7ee9a37b200ff73d6b092b24faa8086e79f38ee",
+  "reviewer": "fresh-session:hopper-300-bridge-fed-r5",
+  "assigned_by": "codex:worker-5",
+  "scope": [
+    "csdlc-v2/tests/projection_recovery_integration.rs",
+    ".csdlc/evidence/300/bridge-fed-r4",
+    ".csdlc/requests/300/recover-review-curie-r3.json",
+    ".csdlc/requests/300/recover-review-lovelace-scope-dead-end.json",
+    ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
+  ]
+}

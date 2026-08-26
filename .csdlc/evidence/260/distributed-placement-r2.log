@@ -1,0 +1,168 @@
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-260-distributed-runtime-authority-adapters/adl-runtime)
+warning: variants `RevisionDrift` and `AuthorityUnavailable` are never constructed
+  --> tests/../src/distributed/placement.rs:74:5
+   |
+64 | pub enum PlacementError {
+   |          -------------- variants in this enum
+...
+74 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+75 |     AuthorityUnavailable,
+   |     ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `PlacementError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `PlacementAuthorityRevision` is never constructed
+   --> tests/../src/distributed/placement.rs:457:12
+    |
+457 | pub struct PlacementAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/placement.rs:463:12
+    |
+462 | impl PlacementAuthorityRevision {
+    | ------------------------------- methods in this implementation
+463 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+467 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `RedactedPlacementRow` is never constructed
+   --> tests/../src/distributed/placement.rs:473:12
+    |
+473 | pub struct RedactedPlacementRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementFreshness` is never used
+   --> tests/../src/distributed/placement.rs:484:10
+    |
+484 | pub enum PlacementFreshness {
+    |          ^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementCapacityBand` is never used
+   --> tests/../src/distributed/placement.rs:489:10
+    |
+489 | pub enum PlacementCapacityBand {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/placement.rs:496:12
+    |
+495 | impl RedactedPlacementRow {
+    | ------------------------- methods in this implementation
+496 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+500 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+504 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+508 |     pub fn capability_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+512 |     pub fn weather_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+516 |     pub fn freshness(&self) -> PlacementFreshness {
+    |            ^^^^^^^^^
+...
+520 |     pub fn capacity(&self) -> PlacementCapacityBand {
+    |            ^^^^^^^^
+
+warning: struct `RedactedPlacementSnapshot` is never constructed
+   --> tests/../src/distributed/placement.rs:526:12
+    |
+526 | pub struct RedactedPlacementSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/placement.rs:535:12
+    |
+534 | impl RedactedPlacementSnapshot {
+    | ------------------------------ methods in this implementation
+535 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+539 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+543 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+547 |     pub fn revision(&self) -> PlacementAuthorityRevision {
+    |            ^^^^^^^^
+...
+551 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedPlacementRow> {
+    |            ^^^^
+
+warning: fields `decision` and `captured_at_unix_secs` are never read
+   --> tests/../src/distributed/placement.rs:558:5
+    |
+557 | struct StoredPlacementDecision {
+    |        ----------------------- fields in this struct
+558 |     decision: PlacementDecision,
+    |     ^^^^^^^^
+559 |     captured_at_unix_secs: u64,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `StoredPlacementDecision` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `remove_decision`, `authority_revision`, `redacted_snapshot_at`, and `seed_decision_for_snapshot_test` are never used
+   --> tests/../src/distributed/placement.rs:596:12
+    |
+571 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- methods in this implementation
+...
+596 |     pub fn remove_decision(&self, lineage_id: &str) -> PlacementResult<bool> {
+    |            ^^^^^^^^^^^^^^^
+...
+616 |     pub fn authority_revision(&self) -> PlacementResult<PlacementAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+627 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+674 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `placement_revision` is never used
+   --> tests/../src/distributed/placement.rs:742:4
+    |
+742 | fn placement_revision(authority: &PlacementAuthorityState) -> PlacementAuthorityRevision {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/placement.rs:769:4
+    |
+769 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_placement") generated 13 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.62s
+     Running tests/distributed_placement.rs (adl-runtime/target/debug/deps/distributed_placement-e7eef73e5f04fdeb)
+
+running 16 tests
+test authoritative_lineage_fencing_cannot_be_omitted ... ok
+test capacity_capability_pressure_and_generation_constraints_are_fail_closed ... ok
+test deterministic_ranking_is_independent_of_input_order ... ok
+test duplicate_evidence_and_alias_collisions_fail_closed ... ok
+test fenced_candidate_is_excluded_from_selection ... ok
+test fencing_ahead_of_membership_is_not_treated_as_authority ... ok
+test fencing_snapshot_cannot_be_reused_after_membership_advances ... ok
+test membership_domain_is_bound_by_the_authoritative_snapshot ... ok
+test missing_unavailable_or_non_advisory_weather_never_places ... ok
+test nonvoter_and_uncommitted_evidence_cannot_be_selected ... ok
+test request_and_policy_bounds_are_enforced_before_ranking ... ok
+test signed_capability_bytes_are_verified_before_placement ... ok
+test stable_node_identifier_breaks_an_exact_score_tie ... ok
+test stale_capability_and_weather_never_place ... ok
+test stale_membership_floor_fails_closed ... ok
+test wrong_trust_domain_fails_the_entire_decision ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.27s
+

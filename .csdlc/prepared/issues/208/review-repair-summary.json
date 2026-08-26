@@ -1,0 +1,13 @@
+{
+  "issue": 208,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "e95e8265e9549894908c1ddd9ff19bc9580f5b5ff00e49d8d2a22eaa6b55dd1f",
+  "actor": "codex:/root/resolve_201_208_findings",
+  "reason": "Resolve independent review by machine-closing the exact ordered proof denominator and the decision/effect activation split.",
+  "operation": {
+    "operation": "set_field",
+    "field": "plan_summary",
+    "value": "After PR #197 merges, bind #208 and implement the complete production Guardian-to-live-kernel path, durable channel succession, sealed participant registry, rollback/discard semantics, and the #208-owned target activation effect and retained receipt callable only from #204's finalized decision; prove the exact ordered fifty-six-case denominator, sixty-four boundary subassertions, and twelve cleanup/expiry/cancel/restart/activation lifecycle subassertions, run Runtime/kernel tests and Clippy plus exact-range diff and producer serially, resolve independent review through subagents, then validate and publish a ready unmerged PR."
+  }
+}

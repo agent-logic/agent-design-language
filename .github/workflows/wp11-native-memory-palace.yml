@@ -1,17 +1,6 @@
 name: wp11-native-memory-palace
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/wp11-native-memory-palace.yml"
-      - ".csdlc/prepared/issues/5828/produce-native-receipt.rb"
-      - ".csdlc/prepared/issues/5828/validate-native-receipts.rb"
-      - "adl-runtime-kernel/Cargo.toml"
-      - "adl-runtime-kernel/src/memory_palace.rs"
-      - "adl-runtime-kernel/src/lib.rs"
-      - "adl-runtime-kernel/tests/memory_palace.rs"
-      - "adl-runtime-kernel/tests/fixtures/memory_palace/**"
-      - "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
   workflow_dispatch:
 
 permissions:

@@ -1,0 +1,6 @@
+{
+  "issue": 5840,
+  "expected_generation": 35,
+  "expected_digest": "3102785e39cef74557ecfd88d71dd676019bd9ad8943639232413f1b1d1933b6",
+  "reviewer": "codex:5854-pr224-review-remediation"
+}

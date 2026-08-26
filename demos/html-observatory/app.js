@@ -73,12 +73,15 @@ function formatCurrentTimestampLabel() {
 
 let livePollTimer = null;
 let retainedPollTimer = null;
+let liveReconnectTimer = null;
+let liveReconnectAttempt = 0;
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
 const RUNTIME_V3_TRUSTED_HOST = "runtime.dev.agent-logic.ai";
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
   api_base: `https://${RUNTIME_V3_TRUSTED_HOST}:20997`,
+  health_endpoint: "/v1/health",
   observatory_endpoint: "/v1/observatory",
   readiness_endpoint: "/v1/ready",
   observatory_websocket_endpoint: "/v1/observatory/ws",
@@ -87,7 +90,78 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 });
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
+const LARGE_POLIS_LIMITS = Object.freeze({
+  maxVisibleAgents: 120,
+  maxTranscriptTurns: 300,
+  maxEventTail: 240,
+  maxPendingRecoveryActions: 5,
+  maxProjectedDomNodes: 1300,
+  maxDeterministicProjectionMillis: 120
+});
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
+const rosterUiState = {
+  filter: "",
+  presence: "all",
+  sort: "name",
+  selectedId: null,
+  runtimeInstanceId: null,
+  runtimeIncarnationId: null,
+  revision: 0,
+  eventCursor: null,
+  resyncCount: 0,
+  lastResyncReason: null
+};
+
+function publishRosterCursorState() {
+  if (typeof document === "undefined") return;
+  const root = document.documentElement;
+  root.dataset.agentRosterRevision = String(rosterUiState.revision);
+  root.dataset.agentRosterCursorPresent = rosterUiState.eventCursor ? "true" : "false";
+  root.dataset.agentRosterResyncCount = String(rosterUiState.resyncCount);
+  root.dataset.agentRosterResyncReason = rosterUiState.lastResyncReason || "none";
+}
+let lastPanopticonSnapshot = null;
+let lastPanopticonPacket = FALLBACK_PACKET;
+
+function acceptRuntimeRosterSnapshot(snapshot) {
+  const runtimeInstanceId = snapshot?.status?.runtime_id || null;
+  const runtimeIncarnationId = snapshot?.status?.runtime_incarnation_id || null;
+  const revision = Number(snapshot?.status?.agent_population?.revision || 0);
+  const eventCursor = snapshot?.status?.agent_population?.event_cursor;
+  if (!runtimeInstanceId || !runtimeIncarnationId || !Number.isSafeInteger(revision) || revision < 0) return false;
+  if (revision > 0 && (typeof eventCursor !== "string" || eventCursor.length === 0)) return false;
+  if (
+    rosterUiState.runtimeInstanceId !== runtimeInstanceId
+    || rosterUiState.runtimeIncarnationId !== runtimeIncarnationId
+  ) {
+    rosterUiState.runtimeInstanceId = runtimeInstanceId;
+    rosterUiState.runtimeIncarnationId = runtimeIncarnationId;
+    rosterUiState.revision = revision;
+    rosterUiState.eventCursor = eventCursor || null;
+    rosterUiState.selectedId = null;
+    rosterUiState.lastResyncReason = "runtime_incarnation_changed";
+    rosterUiState.resyncCount += 1;
+    publishRosterCursorState();
+    return true;
+  }
+  if (revision <= rosterUiState.revision) return false;
+  if (eventCursor === rosterUiState.eventCursor) return false;
+  if (revision !== rosterUiState.revision + 1) {
+    rosterUiState.lastResyncReason = "revision_gap";
+    rosterUiState.resyncCount += 1;
+  } else {
+    rosterUiState.lastResyncReason = null;
+  }
+  rosterUiState.revision = revision;
+  rosterUiState.eventCursor = eventCursor;
+  rosterUiState.selectedId = null;
+  publishRosterCursorState();
+  return true;
+}
+
+function runtimeRosterCursorState() {
+  return { ...rosterUiState };
+}
 
 function normalizeRuntimeV3Endpoint(value, fallback) {
   const endpoint = String(value || "").trim();
@@ -98,6 +172,10 @@ function applyRuntimeV3Config(config = {}) {
   const apiBase = normalizeRuntimeV3ConfigApiBase(config.api_base || config.default_api_base);
   runtimeV3Config = {
     api_base: apiBase || RUNTIME_V3_DEFAULT_CONFIG.api_base,
+    health_endpoint: normalizeRuntimeV3Endpoint(
+      config.health_endpoint,
+      RUNTIME_V3_DEFAULT_CONFIG.health_endpoint
+    ),
     observatory_endpoint: normalizeRuntimeV3Endpoint(
       config.observatory_endpoint,
       RUNTIME_V3_DEFAULT_CONFIG.observatory_endpoint
@@ -365,6 +443,525 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+const GOVERNED_ROOM_TURN_SCHEMA = "adl.runtime.governed_room_turn.v1";
+const GOVERNED_ROOM_ROUTE_SCHEMA = "adl.runtime.governed_room_route.v1";
+const GOVERNED_ROOM_MENTION_SCHEMA = "adl.runtime.governed_room_mention.v1";
+const MAX_GOVERNED_ROOM_RECIPIENTS = 8;
+
+function isSafeGovernedRoomIdentifier(value) {
+  return typeof value === "string" &&
+    value.length > 0 &&
+    value.length <= 128 &&
+    /^[A-Za-z0-9_.-]+$/.test(value);
+}
+
+function normalizeGovernedRoomParticipants(population) {
+  return asArray(population?.sample)
+    .filter((agent) => agent && typeof agent.id === "string" && agent.communication_eligible === true)
+    .map((agent) => ({
+      participant_id: agent.id,
+      display_name: agent.label || agent.id,
+      polis_id: agent.polis_id || agent.polis || "runtime-local",
+      state: agent.state === "ready" || agent.state === "available" ? "joined" : "unavailable",
+      policy_eligible: true
+    }))
+    .sort((left, right) => left.participant_id.localeCompare(right.participant_id));
+}
+
+function normalizeExplicitGovernedRoomRecipients(recipients) {
+  const unique = new Set();
+  for (const recipient of asArray(recipients).map((value) => String(value || "").trim())) {
+    if (!isSafeGovernedRoomIdentifier(recipient) || recipient === "*" || recipient.toLowerCase() === "all") {
+      throw new Error("implicit_broadcast_denied");
+    }
+    if (unique.has(recipient)) {
+      throw new Error("duplicate_room_recipient");
+    }
+    unique.add(recipient);
+  }
+  if (unique.size === 0) {
+    throw new Error("implicit_broadcast_denied");
+  }
+  if (unique.size > MAX_GOVERNED_ROOM_RECIPIENTS) {
+    throw new Error("room_recipient_limit_exceeded");
+  }
+  return [...unique].sort();
+}
+
+function governedRoomIdentityForRecipients(recipients) {
+  const addressedRecipients = normalizeExplicitGovernedRoomRecipients(recipients);
+  return {
+    roomId: `room-${addressedRecipients.join("-")}`,
+    addressedRecipients
+  };
+}
+
+function nextGovernedRoomTurnSequence(sequenceByRoom, roomId) {
+  if (!(sequenceByRoom instanceof Map) || !isSafeGovernedRoomIdentifier(roomId)) {
+    throw new Error("invalid_room_turn");
+  }
+  const current = sequenceByRoom.get(roomId) || 1;
+  if (!Number.isSafeInteger(current) || current < 1) {
+    throw new Error("invalid_room_turn");
+  }
+  sequenceByRoom.set(roomId, current + 1);
+  return current;
+}
+
+function buildGovernedRoomTurnIntent({
+  roomId,
+  turnId,
+  turnSequence = 1,
+  senderId = "operator",
+  correlationId,
+  recipients = [],
+  message = ""
+} = {}) {
+  const addressedRecipients = normalizeExplicitGovernedRoomRecipients(recipients);
+  const trimmedMessage = String(message || "").trim();
+  if (!isSafeGovernedRoomIdentifier(roomId) ||
+      !isSafeGovernedRoomIdentifier(turnId) ||
+      !isSafeGovernedRoomIdentifier(senderId) ||
+      typeof correlationId !== "string" ||
+      correlationId.length === 0 ||
+      correlationId.length > 128 ||
+      !Number.isSafeInteger(turnSequence) ||
+      turnSequence < 1 ||
+      trimmedMessage.length === 0 ||
+      trimmedMessage.length > 4096) {
+    throw new Error("invalid_room_turn");
+  }
+  return {
+    schema: GOVERNED_ROOM_TURN_SCHEMA,
+    room_id: roomId,
+    turn_id: turnId,
+    turn_sequence: turnSequence,
+    sender_id: senderId,
+    correlation_id: correlationId,
+    addressed_recipients: addressedRecipients,
+    message: trimmedMessage
+  };
+}
+
+function normalizeGovernedRoomRoute(route = {}) {
+  const addressedRecipients = normalizeExplicitGovernedRoomRecipients(route.addressed_recipients || []);
+  const mentions = asArray(route.mentions).map((mention) => ({
+    schema: mention.schema || GOVERNED_ROOM_MENTION_SCHEMA,
+    room_id: String(mention.room_id || route.room_id || ""),
+    turn_id: String(mention.turn_id || route.turn_id || ""),
+    recipient_id: String(mention.recipient_id || ""),
+    display_name: String(mention.display_name || mention.recipient_id || "unknown")
+  })).filter((mention) => addressedRecipients.includes(mention.recipient_id));
+  const deliveries = asArray(route.deliveries).map((delivery) => ({
+    recipient_id: String(delivery.recipient_id || ""),
+    state: String(delivery.state || "timed_out"),
+    error: delivery.error ? String(delivery.error) : null
+  })).filter((delivery) => addressedRecipients.includes(delivery.recipient_id));
+  return {
+    schema: route.schema || GOVERNED_ROOM_ROUTE_SCHEMA,
+    status: String(route.status || "accepted"),
+    room_id: String(route.room_id || ""),
+    turn_id: String(route.turn_id || ""),
+    turn_sequence: Number.isSafeInteger(route.turn_sequence) ? route.turn_sequence : 0,
+    addressed_recipients: addressedRecipients,
+    mentions,
+    deliveries,
+    error: route.error ? String(route.error) : null
+  };
+}
+
+function buildGovernedRoomRows(route = {}) {
+  const normalized = normalizeGovernedRoomRoute(route);
+  const deliveryByRecipient = new Map(normalized.deliveries.map((delivery) => [delivery.recipient_id, delivery]));
+  return normalized.addressed_recipients.map((recipientId) => {
+    const mention = normalized.mentions.find((candidate) => candidate.recipient_id === recipientId);
+    const delivery = deliveryByRecipient.get(recipientId);
+    return {
+      recipientId,
+      displayName: mention?.display_name || recipientId,
+      state: delivery?.state || normalized.status,
+      detail: delivery?.error || normalized.error || `room turn ${normalized.turn_sequence || "pending"}`
+    };
+  });
+}
+const LAYER8_RECIPIENT_ACK_ENDPOINT = "/v1/layer8/recipient-acknowledgement";
+const LAYER8_RECIPIENT_ACK_RESPONSE_SCHEMA =
+  "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1";
+const LAYER8_FORBIDDEN_DISCLOSURE_FIELDS = new Set([
+  "acknowledgement",
+  "correlation_id",
+  "ed25519",
+  "policy",
+  "private_key",
+  "proof_hash",
+  "provider_payload",
+  "raw_correlation_id",
+  "signed_request",
+  "signature"
+]);
+
+function hasForbiddenLayer8Disclosure(value) {
+  if (value == null || typeof value !== "object") {
+    return false;
+  }
+  return Object.entries(value).some(([key, nested]) =>
+    LAYER8_FORBIDDEN_DISCLOSURE_FIELDS.has(String(key).toLowerCase()) ||
+    hasForbiddenLayer8Disclosure(nested)
+  );
+}
+
+function safeLayer8Value(value, fallback = "not disclosed") {
+  const text = String(value ?? "").trim();
+  return /^[a-zA-Z0-9._:-]{1,160}$/.test(text) ? text : fallback;
+}
+
+function normalizeLayer8DeliveryState(input = {}) {
+  const response = input && typeof input === "object" ? input : {};
+  const schemaOk = response.schema === LAYER8_RECIPIENT_ACK_RESPONSE_SCHEMA;
+  const status = String(response.status || response.delivery || "").toLowerCase();
+  const error = String(response.error || response.reason || "");
+  const correlationHash = safeLayer8Value(response.correlation_hash, "hash unavailable");
+  const recipientId = safeLayer8Value(response.recipient_id, "recipient hidden");
+  const generation = Number.isSafeInteger(response.recipient_credential_generation)
+    ? response.recipient_credential_generation
+    : null;
+  const disclosureBlocked = hasForbiddenLayer8Disclosure(response);
+
+  if (response.runtime_unavailable === true || status === "unavailable" || error === "runtime_unavailable") {
+    return {
+      state: "recovery",
+      terminal: false,
+      actionEnabled: false,
+      label: "Runtime unavailable",
+      detail: "No terminal delivery claim is rendered until Runtime serves a valid acknowledgement response.",
+      recipientId,
+      correlationHash,
+      generation: null
+    };
+  }
+  if (!schemaOk || disclosureBlocked) {
+    return {
+      state: "failed",
+      terminal: true,
+      actionEnabled: false,
+      label: "Malformed response",
+      detail: disclosureBlocked
+        ? "Runtime response contained private or raw authority material and was blocked."
+        : "Runtime response did not match the recipient-acknowledgement schema.",
+      recipientId,
+      correlationHash: "not disclosed",
+      generation: null
+    };
+  }
+  if (error === "credential_revoked" || status === "revoked") {
+    return {
+      state: "revoked",
+      terminal: true,
+      actionEnabled: false,
+      label: "Credential revoked",
+      detail: "Runtime demoted the action after credential revocation.",
+      recipientId,
+      correlationHash,
+      generation: null
+    };
+  }
+  if (status === "delivered") {
+    return {
+      state: "delivered",
+      terminal: true,
+      actionEnabled: Boolean(response.action_released),
+      label: response.action_released ? "Delivered / action released" : "Delivered",
+      detail: response.action_released
+        ? "Runtime verified delivery and released the operator action."
+        : "Runtime verified delivery; no release flag was present.",
+      recipientId,
+      correlationHash,
+      generation
+    };
+  }
+  if (status === "refused") {
+    return {
+      state: "refused",
+      terminal: true,
+      actionEnabled: false,
+      label: "Signed refusal",
+      detail: `Runtime verified a signed refusal${error ? `: ${safeLayer8Value(error, "redacted")}` : "."}`,
+      recipientId,
+      correlationHash,
+      generation: null
+    };
+  }
+  if (status === "failed") {
+    return {
+      state: "failed",
+      terminal: true,
+      actionEnabled: false,
+      label: "Verification failed",
+      detail: `Runtime failed the acknowledgement${error ? `: ${safeLayer8Value(error, "redacted")}` : "."}`,
+      recipientId,
+      correlationHash,
+      generation: null
+    };
+  }
+  return {
+    state: "recovery",
+    terminal: false,
+    actionEnabled: false,
+    label: "Runtime unavailable",
+    detail: "No terminal delivery claim is rendered until Runtime serves a valid acknowledgement response.",
+    recipientId,
+    correlationHash,
+    generation: null
+  };
+}
+
+function layer8DeliveryRows(responses = []) {
+  return asArray(responses).map((response) => normalizeLayer8DeliveryState(response));
+}
+
+function renderLayer8DeliveryPanel(responses = []) {
+  if (typeof document === "undefined") {
+    return layer8DeliveryRows(responses);
+  }
+  const root = document.querySelector(".ops-command");
+  if (!root) {
+    return [];
+  }
+  let panel = document.getElementById("layer8-delivery-panel");
+  if (!panel) {
+    panel = document.createElement("section");
+    panel.className = "layer8-delivery-panel";
+    panel.id = "layer8-delivery-panel";
+    panel.setAttribute("aria-labelledby", "layer8-delivery-title");
+    panel.innerHTML = `
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Layer 8 / recipient acknowledgement</p>
+          <h2 id="layer8-delivery-title">Delivery state</h2>
+        </div>
+        <span class="mini-badge" id="layer8-delivery-count">0 states</span>
+      </div>
+      <ol class="layer8-delivery-list" id="layer8-delivery-list" aria-live="polite"></ol>
+    `;
+    root.append(panel);
+  }
+  const rows = layer8DeliveryRows(responses);
+  setText("layer8-delivery-count", `${rows.length} states`);
+  renderRows("layer8-delivery-list", rows.map((row) => `
+    <li class="layer8-delivery-row" data-state="${escapeHtml(row.state)}">
+      <span class="mini-badge" data-tone="${escapeHtml(row.state === "delivered" ? "ok" : row.state === "recovery" ? "warn" : "blocked")}">${escapeHtml(row.label)}</span>
+      <span><strong>${escapeHtml(row.recipientId)}</strong><br><span class="row-detail">${escapeHtml(row.detail)}</span></span>
+      <span class="row-detail">correlation hash: ${escapeHtml(row.correlationHash)}</span>
+    </li>
+  `));
+  return rows;
+}
+
+async function submitLayer8RecipientAcknowledgement(apiBase, signedPair) {
+  const base = normalizeApiBase(apiBase);
+  if (!base) {
+    throw new Error("Runtime API base is required.");
+  }
+  const response = await fetch(`${base}${LAYER8_RECIPIENT_ACK_ENDPOINT}`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(signedPair)
+  });
+  return normalizeLayer8DeliveryState(await response.json());
+}
+
+const OPERATOR_ATTENTION_REQUEST_SCHEMA = "adl.runtime_v3.operator_attention.request.v1";
+const OPERATOR_ATTENTION_OUTCOME_SCHEMA = "adl.runtime_v3.operator_attention.outcome.v1";
+const OPERATOR_ATTENTION_STATUS = new Set(["open", "acknowledged", "replied", "deferred", "resolved", "refused", "expired"]);
+const OPERATOR_ATTENTION_PRIORITY_WEIGHT = {
+  urgent: 4,
+  high: 3,
+  normal: 2,
+  low: 1
+};
+const OPERATOR_ATTENTION_FORBIDDEN_FIELDS = new Set([
+  "authority",
+  "capability",
+  "ed25519",
+  "private_key",
+  "raw_provider_payload",
+  "signed_request",
+  "signature"
+]);
+
+function hasForbiddenOperatorAttentionDisclosure(value) {
+  if (value == null || typeof value !== "object") {
+    return false;
+  }
+  return Object.entries(value).some(([key, nested]) =>
+    OPERATOR_ATTENTION_FORBIDDEN_FIELDS.has(String(key).toLowerCase()) ||
+    hasForbiddenOperatorAttentionDisclosure(nested)
+  );
+}
+
+function normalizeOperatorAttentionRequest(input = {}) {
+  const request = input && typeof input === "object" ? input : {};
+  if (request.schema !== OPERATOR_ATTENTION_REQUEST_SCHEMA) {
+    return null;
+  }
+  const requestId = safeLayer8Value(request.request_id || request.id, "");
+  const sourceAgentId = safeLayer8Value(request.source_agent_id || request.agent_id, "unknown-agent");
+  const status = String(request.status || "open").toLowerCase();
+  const priority = String(request.priority || "normal").toLowerCase();
+  const message = safeConversationHistoryText(request.message || request.summary || "Operator attention requested.");
+  if (!requestId || hasForbiddenOperatorAttentionDisclosure(request)) {
+    return null;
+  }
+  return {
+    schema: OPERATOR_ATTENTION_REQUEST_SCHEMA,
+    request_id: requestId,
+    source_agent_id: sourceAgentId,
+    display_name: safeConversationHistoryText(request.display_name || request.source_display_name || sourceAgentId),
+    status: OPERATOR_ATTENTION_STATUS.has(status) ? status : "open",
+    priority: OPERATOR_ATTENTION_PRIORITY_WEIGHT[priority] ? priority : "normal",
+    reason: safeLayer8Value(request.reason || "clarification", "clarification"),
+    message,
+    correlation_id: safeLayer8Value(request.correlation_id || request.correlation_hash || "redacted", "redacted"),
+    related_conversation_id: request.related_conversation_id ? safeLayer8Value(request.related_conversation_id) : null,
+    related_work_id: request.related_work_id ? safeLayer8Value(request.related_work_id) : null,
+    created_at_millis: Number.isSafeInteger(request.created_at_millis) ? request.created_at_millis : 0,
+    updated_at_millis: Number.isSafeInteger(request.updated_at_millis) ? request.updated_at_millis : 0
+  };
+}
+
+function operatorAttentionRows(packet = {}) {
+  const candidates = asArray(packet.operator_attention_requests || packet.operator_attention?.requests);
+  const byId = new Map();
+  for (const candidate of candidates) {
+    const row = normalizeOperatorAttentionRequest(candidate);
+    if (!row) continue;
+    const existing = byId.get(row.request_id);
+    if (!existing || row.updated_at_millis >= existing.updated_at_millis) {
+      byId.set(row.request_id, row);
+    }
+  }
+  return [...byId.values()].sort((left, right) =>
+    (OPERATOR_ATTENTION_PRIORITY_WEIGHT[right.priority] - OPERATOR_ATTENTION_PRIORITY_WEIGHT[left.priority]) ||
+    (left.created_at_millis - right.created_at_millis) ||
+    left.request_id.localeCompare(right.request_id)
+  );
+}
+
+function operatorAttentionViewModel(packet = {}, options = {}) {
+  const statusFilter = String(options.statusFilter || "active").toLowerCase();
+  const priorityFilter = String(options.priorityFilter || "all").toLowerCase();
+  const readRequestIds = new Set(asArray(options.readRequestIds).map(String));
+  const selectedHash = String(options.locationHash || "").replace(/^#/, "");
+  const notificationPreference = String(options.notificationPreference || "enabled").toLowerCase();
+  const rows = operatorAttentionRows(packet)
+    .map((row) => {
+      const read = readRequestIds.has(row.request_id) || row.status !== "open";
+      const anchor = `operator-attention-${row.request_id}`;
+      return {
+        ...row,
+        read,
+        unread: !read,
+        deep_link: `#${anchor}`,
+        anchor,
+        selected: selectedHash === anchor
+      };
+    })
+    .filter((row) => {
+      const statusOk = statusFilter === "all" ||
+        (statusFilter === "active" && !["resolved", "refused", "expired"].includes(row.status)) ||
+        row.status === statusFilter;
+      const priorityOk = priorityFilter === "all" || row.priority === priorityFilter;
+      return statusOk && priorityOk;
+    });
+  const unreadCount = rows.filter((row) => row.unread).length;
+  return {
+    rows,
+    active_count: rows.filter((row) => !["resolved", "refused", "expired"].includes(row.status)).length,
+    unread_count: unreadCount,
+    notification_preference: notificationPreference,
+    notification_enabled: notificationPreference !== "muted" && unreadCount > 0
+  };
+}
+
+function operatorAttentionActionPayload(request, outcome = {}) {
+  const row = normalizeOperatorAttentionRequest(request);
+  if (!row) {
+    throw new Error("valid operator attention request is required");
+  }
+  const action = String(outcome.action || outcome.status || "acknowledge").toLowerCase();
+  if (!["acknowledge", "reply", "defer", "resolve", "refuse"].includes(action)) {
+    throw new Error("unsupported operator attention outcome");
+  }
+  const payload = {
+    schema: OPERATOR_ATTENTION_OUTCOME_SCHEMA,
+    request_id: row.request_id,
+    source_agent_id: row.source_agent_id,
+    correlation_id: row.correlation_id,
+    outcome: action,
+    grants_authority: false,
+    authority_approved: false,
+    operator_intervention_only: true,
+    requires_runtime_authorization: true
+  };
+  if (action === "reply" || action === "refuse") {
+    payload.message = safeConversationHistoryText(outcome.message || outcome.reason || "");
+    if (!payload.message) {
+      throw new Error("operator attention outcome message required");
+    }
+  }
+  if (action === "defer") {
+    payload.until_millis = Number.isSafeInteger(outcome.until_millis) ? outcome.until_millis : null;
+    if (!payload.until_millis) {
+      throw new Error("operator attention defer time required");
+    }
+  }
+  return payload;
+}
+
+function renderOperatorAttentionInbox(packet = {}) {
+  if (typeof document === "undefined") {
+    return operatorAttentionViewModel(packet).rows;
+  }
+  const statusFilter = document.getElementById("operator-attention-filter")?.value || "active";
+  const priorityFilter = document.getElementById("operator-attention-priority-filter")?.value || "all";
+  const notifications = document.getElementById("operator-attention-notifications");
+  const readRequestIds = JSON.parse(globalThis.localStorage?.getItem("adl.operatorAttention.readRequestIds") || "[]");
+  const view = operatorAttentionViewModel(packet, {
+    statusFilter,
+    priorityFilter,
+    readRequestIds,
+    locationHash: globalThis.location?.hash || "",
+    notificationPreference: notifications?.checked === false ? "muted" : "enabled"
+  });
+  const rows = view.rows;
+  const list = document.getElementById("operator-attention-list");
+  const count = document.getElementById("operator-attention-count");
+  const unread = document.getElementById("operator-attention-unread");
+  if (!list) {
+    return rows;
+  }
+  for (const control of [
+    document.getElementById("operator-attention-filter"),
+    document.getElementById("operator-attention-priority-filter"),
+    notifications
+  ]) {
+    if (control && !control.dataset.operatorAttentionBound) {
+      control.dataset.operatorAttentionBound = "true";
+      control.addEventListener("change", () => renderOperatorAttentionInbox(packet));
+    }
+  }
+  if (count) count.textContent = `${view.active_count} active`;
+  if (unread) unread.textContent = `${view.unread_count} unread`;
+  renderRows("operator-attention-list", rows.length ? rows.map((row) => `
+    <li class="operator-attention-row" id="${escapeHtml(row.anchor)}" data-priority="${escapeHtml(row.priority)}" data-status="${escapeHtml(row.status)}" data-read="${escapeHtml(row.read ? "true" : "false")}" data-selected="${escapeHtml(row.selected ? "true" : "false")}">
+      <span class="mini-badge" data-tone="${escapeHtml(row.priority === "urgent" ? "blocked" : row.priority === "high" ? "warn" : "ok")}">${escapeHtml(row.priority)}</span>
+      <span><strong>${escapeHtml(row.display_name)}</strong><br><span class="row-detail">${escapeHtml(row.reason)} · ${escapeHtml(row.message)}</span></span>
+      <span class="row-detail">${escapeHtml(row.status)} · <a href="${escapeHtml(row.deep_link)}">${escapeHtml(row.request_id)}</a></span>
+    </li>
+  `) : [`<li class="conversation-empty">No agent is currently requesting operator attention.</li>`]);
+  return rows;
+}
+
 function buildOperatorEnvelope({ channel = "events", message = "", packetId = "", acipSnsSummary = {}, snsResourceSummary = {} } = {}) {
   const acipProjection = acipSnsSummary.acip_projection || {};
   const acipSns = acipSnsSummary.sns || {};
@@ -479,6 +1076,8 @@ const DASHBOARD_FOCUS = {
 
 function updateDashboardFocus(key = "runtime", extraDetail = "") {
   const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
+  const root = document.querySelector(".observatory");
+  if (root) root.dataset.dashboardSurface = key === "agents" ? "agents" : "runtime";
   setText("dashboard-focus-kicker", selected.kicker);
   setText("dashboard-focus-title", selected.title);
   setText("dashboard-focus-status", selected.status);
@@ -507,9 +1106,11 @@ function bindDashboardNavigation(packet = FALLBACK_PACKET) {
       updateDashboardFocus(key);
       const selected = DASHBOARD_FOCUS[key] || DASHBOARD_FOCUS.runtime;
       globalThis.history?.replaceState(null, "", selected.target);
-      const panel = document.getElementById("dashboard-focus-panel");
-      panel?.setAttribute("tabindex", "-1");
-      panel?.focus({ preventScroll: true });
+      const focusTarget = key === "agents"
+        ? document.getElementById("panopticon")
+        : document.getElementById("dashboard-focus-panel");
+      focusTarget?.setAttribute("tabindex", "-1");
+      focusTarget?.focus({ preventScroll: true });
       if (key === "communication") {
         document.getElementById("prepare-envelope")?.click();
       }
@@ -628,16 +1229,19 @@ function isRuntimeV3ApiBase(value) {
 function normalizeTrustedRuntimeV3ApiBase(value) {
   const base = normalizeApiBase(value);
   const parsed = new URL(base);
+  const observatoryHost = String(globalThis.location?.hostname || "").toLowerCase();
+  const allowedHost = parsed.hostname === RUNTIME_V3_TRUSTED_HOST
+    || (observatoryHost && parsed.hostname === observatoryHost);
   if (
     parsed.protocol !== "https:" ||
-    parsed.hostname !== RUNTIME_V3_TRUSTED_HOST ||
+    !allowedHost ||
     parsed.username ||
     parsed.password ||
     parsed.pathname !== "/" ||
     parsed.search ||
     parsed.hash
   ) {
-    throw new Error(`Runtime v3 selection requires HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
+    throw new Error("Runtime v3 selection requires HTTPS for the configured Runtime host or this Observatory host.");
   }
   return parsed.origin;
 }
@@ -718,21 +1322,77 @@ async function fetchRuntimeSnapshot(apiBase) {
 async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
   const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
   const config = getRuntimeV3Config();
-  const [observatoryResponse, readiness] = await Promise.all([
+  const [observatoryResponse, readiness, health] = await Promise.all([
     fetch(`${base}${config.observatory_endpoint}`, { method: "GET" }),
-    fetchRuntimeV3Readiness(base)
+    fetchRuntimeV3Readiness(base),
+    fetchRuntimeV3Health(base)
   ]);
-  if (!observatoryResponse.ok) {
+  if (observatoryResponse.status !== 200) {
     throw new Error(`${config.observatory_endpoint} returned ${observatoryResponse.status}`);
   }
   const feed = await observatoryResponse.json();
-  return runtimeV3SnapshotFromFeed(feed, readiness);
+  return runtimeV3SnapshotFromFeed(feed, readiness, health);
+}
+
+async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken, eventCursor = null, pageSize = 50) {
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  const url = new URL(`${base}/v1/agents`);
+  url.searchParams.set("page_size", String(pageSize));
+  if (pageToken) url.searchParams.set("page_token", pageToken);
+  if (eventCursor) url.searchParams.set("event_cursor", eventCursor);
+  const response = await fetch(url, { method: "GET" });
+  if (!response.ok) throw new Error(`/v1/agents returned ${response.status}`);
+  const page = await response.json();
+  if (page.schema !== "adl.runtime_v3.agent_roster_page.v1") {
+    throw new Error("Runtime returned an unsupported roster page");
+  }
+  return page;
+}
+
+async function authenticateRuntimeRosterSuccessor(apiBase, snapshot) {
+  const population = snapshot?.status?.agent_population;
+  const revision = Number(population?.revision || 0);
+  if (
+    rosterUiState.runtimeInstanceId !== snapshot?.status?.runtime_id
+    || rosterUiState.runtimeIncarnationId !== snapshot?.status?.runtime_incarnation_id
+    || revision !== rosterUiState.revision + 1
+    || !rosterUiState.eventCursor
+  ) return;
+  const authenticated = await fetchRuntimeV3AgentRosterPage(
+    apiBase,
+    null,
+    rosterUiState.eventCursor,
+    100
+  );
+  if (authenticated.revision !== revision || authenticated.event_cursor !== population.event_cursor) {
+    throw new Error("Runtime roster cursor authentication mismatch");
+  }
+}
+
+async function fetchRuntimeV3AgentDetail(apiBase, agentId) {
+  const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
+  const response = await fetch(`${base}/v1/agents/${encodeURIComponent(agentId)}`, { method: "GET" });
+  if (!response.ok) throw new Error(`/v1/agents/{agent_id} returned ${response.status}`);
+  const detail = await response.json();
+  if (detail.schema !== "adl.runtime_v3.agent_roster_entry.v1" || detail.id !== agentId) {
+    throw new Error("Runtime returned an incompatible agent detail");
+  }
+  return detail;
 }
 
 async function fetchRuntimeV3Readiness(base) {
   const endpoint = getRuntimeV3Config().readiness_endpoint;
   const response = await fetch(`${base}${endpoint}`, { method: "GET" });
-  if (![200, 503].includes(response.status)) {
+  if (response.status !== 200) {
+    throw new Error(`${endpoint} returned ${response.status}`);
+  }
+  return response.json();
+}
+
+async function fetchRuntimeV3Health(base) {
+  const endpoint = getRuntimeV3Config().health_endpoint;
+  const response = await fetch(`${base}${endpoint}`, { method: "GET" });
+  if (response.status !== 200) {
     throw new Error(`${endpoint} returned ${response.status}`);
   }
   return response.json();
@@ -760,7 +1420,7 @@ async function submitRuntimeV3SignedControlCommand(apiBase, command) {
   return payload;
 }
 
-function runtimeV3SnapshotFromFeed(feed, readiness = null) {
+function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) {
   if (feed.schema !== RUNTIME_V3_OBSERVATORY_SCHEMA) {
     throw new Error(`Unsupported Runtime v3 Observatory schema: ${feed.schema || "missing"}`);
   }
@@ -778,6 +1438,7 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
       schema: feed.schema,
       runtime_owner: "runtime-v3",
       runtime_id: feed.runtime_instance_id,
+      runtime_incarnation_id: feed.runtime_incarnation_id,
       agent_instance_id: feed.runtime_instance_id,
       agent_population: feed.agents,
       status: snapshot.lifecycle || "unknown",
@@ -790,7 +1451,8 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
       status: feed.health?.observability_ready ? "healthy" : "pending",
       summary: "Runtime v3 observatory feed",
       components: snapshot.components || {},
-      queues: snapshot.queues || {}
+      queues: snapshot.queues || {},
+      runtime_api: healthReport || null
     },
     ready: {
       schema: readiness?.schema,
@@ -851,6 +1513,9 @@ function connectRuntimeV3ObservatoryWebSocket(
       if (frame.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
       } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
+                 frame.schema === "adl.runtime_v3.observatory_conversation_result.v1" ||
+                 frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
+                 frame.schema === "adl.runtime_v3.observatory_governed_room_result.v1" ||
                  frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
         onControlFrame(frame);
       }
@@ -880,6 +1545,154 @@ function authenticateRuntimeV3ObservatorySocket(socket, token) {
     schema: RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA,
     bearer_token: writeToken
   }));
+}
+
+const CONVERSATION_RESULT_STATUSES = new Set([
+  "accepted",
+  "delivered",
+  "refused",
+  "failed",
+  "timed_out",
+  "cancelled"
+]);
+
+function conversationFrameTransition(frame, pending) {
+  if (!frame || !pending ||
+      frame.schema !== "adl.runtime_v3.observatory_conversation_result.v1" ||
+      frame.conversation_id !== pending.conversationId ||
+      frame.turn_id !== pending.turnId ||
+      !CONVERSATION_RESULT_STATUSES.has(frame.status)) {
+    return null;
+  }
+  if (pending.cancelRequested &&
+      frame.status === "accepted" &&
+      frame.recipient_id === pending.recipientId &&
+      frame.correlation_id === pending.correlationId) {
+    return { status: "cancelling", terminal: false, reply: null };
+  }
+  if (frame.recipient_id !== pending.recipientId ||
+      frame.correlation_id !== pending.correlationId) {
+    return null;
+  }
+  const reply = frame.status === "delivered" &&
+    typeof frame.reply === "string" &&
+    frame.reply.trim() &&
+    frame.reply.length <= 4096
+    ? frame.reply
+    : null;
+  if (frame.status === "delivered" && !reply) {
+    return null;
+  }
+  return {
+    status: frame.status,
+    terminal: frame.status !== "accepted",
+    reply
+  };
+}
+
+function conversationReplyFromFrame(frame, pending) {
+  return conversationFrameTransition(frame, pending)?.reply || null;
+}
+
+function conversationFrameProvesAcceptance(frame) {
+  return frame?.status === "accepted" ||
+    (CONVERSATION_RESULT_STATUSES.has(frame?.status) &&
+      frame.status !== "refused" &&
+      Number.isSafeInteger(frame.turn_sequence) &&
+      frame.turn_sequence > 0);
+}
+
+function conversationReconnectIntent(pending, runtimeIncarnationId) {
+  if (!pending || !pending.disconnected || pending.terminal) {
+    return null;
+  }
+  if (typeof runtimeIncarnationId !== "string" || runtimeIncarnationId.length === 0) {
+    return null;
+  }
+  if (pending.runtimeIncarnationId !== runtimeIncarnationId) {
+    pending.restartUnavailable = true;
+    pending.terminal = true;
+    pending.disconnected = false;
+    return null;
+  }
+  pending.reconnectReplayCount += 1;
+  pending.disconnected = false;
+  return pending.intent;
+}
+
+const OBSERVATORY_CONVERSATION_HISTORY_SCHEMA = "adl.runtime.conversation_history.v1";
+const FORBIDDEN_CONVERSATION_HISTORY_FIELDS = [
+  "bearer_token",
+  "operator_token",
+  "private_key",
+  "signature",
+  "correlation_id",
+  "result_hash"
+];
+
+function safeConversationHistoryText(value, fallback = "[redacted]") {
+  const text = typeof value === "string" ? value : "";
+  if (!text.trim()) return fallback;
+  const lower = text.toLowerCase();
+  if (FORBIDDEN_CONVERSATION_HISTORY_FIELDS.some((field) => lower.includes(field))) {
+    return fallback;
+  }
+  return text.slice(0, 4096);
+}
+
+function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
+  if (!history ||
+      history.schema !== OBSERVATORY_CONVERSATION_HISTORY_SCHEMA ||
+      typeof history.conversation_id !== "string" ||
+      history.conversation_id.length === 0 ||
+      !Array.isArray(history.records)) {
+    return { accepted: false, reason: "invalid_runtime_history" };
+  }
+  const expectedIncarnation = feed.runtime_incarnation_id || feed.runtimeIncarnationId || "";
+  if (expectedIncarnation &&
+      history.runtime_incarnation_id &&
+      history.runtime_incarnation_id !== expectedIncarnation) {
+    return { accepted: false, reason: "stale_runtime_history" };
+  }
+  let lastSequence = 0;
+  const records = [];
+  for (const record of history.records) {
+    const sequence = Number(record.turn_sequence ?? record.journal_sequence ?? 0);
+    if (!Number.isSafeInteger(sequence) || sequence <= lastSequence) {
+      return { accepted: false, reason: "non_monotonic_runtime_history" };
+    }
+    lastSequence = sequence;
+    records.push({
+      conversation_id: history.conversation_id,
+      message_id: String(record.message_id || record.turn_id || `history-${sequence}`),
+      speaker_id: safeConversationHistoryText(record.speaker_id || "runtime"),
+      body: record.redacted ? "[redacted]" : safeConversationHistoryText(record.body),
+      status: record.redacted ? "redacted" : safeConversationHistoryText(record.status || "restored"),
+      turn_sequence: sequence,
+      redacted: record.redacted === true,
+      redaction_reason: record.redaction_reason ? safeConversationHistoryText(record.redaction_reason) : null
+    });
+  }
+  return {
+    accepted: true,
+    schema: history.schema,
+    conversation_id: history.conversation_id,
+    runtime_incarnation_id: history.runtime_incarnation_id || expectedIncarnation || null,
+    records
+  };
+}
+
+function restoreConversationTranscriptFromRuntimeHistory(history, feed = {}, appendTurn = null) {
+  const normalized = normalizeRuntimeConversationHistorySnapshot(history, feed);
+  if (!normalized.accepted) {
+    return normalized;
+  }
+  if (typeof appendTurn === "function") {
+    for (const record of normalized.records) {
+      appendTurn(record.speaker_id, record.body, record.message_id, record.status);
+    }
+  }
+  return normalized;
 }
 
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
@@ -1019,6 +1832,273 @@ function normalizeEventEntries(eventEnvelope = {}) {
   return [];
 }
 
+function retainedLargePolisWindow(rows = [], limit = LARGE_POLIS_LIMITS.maxTranscriptTurns) {
+  const safeLimit = Math.max(0, Number(limit) || 0);
+  return asArray(rows).slice(Math.max(0, asArray(rows).length - safeLimit));
+}
+
+function pruneLargePolisDomWindow(container, selector, limit = LARGE_POLIS_LIMITS.maxTranscriptTurns) {
+  if (!container || typeof container.querySelectorAll !== "function") return 0;
+  const rows = Array.from(container.querySelectorAll(selector));
+  const removeCount = Math.max(0, rows.length - Math.max(0, Number(limit) || 0));
+  rows.slice(0, removeCount).forEach((row) => row.remove());
+  container.dataset.retainedTurnCount = String(rows.length - removeCount);
+  container.dataset.prunedTurnCount = String(removeCount);
+  return removeCount;
+}
+
+function largePolisRecoveryViewModel(state = {}) {
+  const transitions = [];
+  const actions = [];
+  const status = {
+    reconnect: state.connected === false ? "degraded" : "ready",
+    restart: state.runtimeIncarnationChanged === true ? "requires_resync" : "ready",
+    backpressure: Number(state.bufferedMessages || 0) > Number(state.backpressureThreshold || 1000) ? "throttled" : "ready",
+    offline: state.offline === true ? "offline" : "ready",
+    versionMismatch: state.versionMismatch === true ? "blocked_until_refresh" : "ready"
+  };
+
+  if (status.reconnect === "degraded") {
+    transitions.push("socket_disconnected");
+    actions.push("schedule_single_reconnect");
+  }
+  if (status.restart === "requires_resync") {
+    transitions.push("runtime_incarnation_changed");
+    actions.push("discard_stale_pending_turns");
+  }
+  if (status.backpressure === "throttled") {
+    transitions.push("stream_backpressure");
+    actions.push("pause_nonessential_rendering");
+  }
+  if (status.offline === "offline") {
+    transitions.push("browser_offline");
+    actions.push("show_offline_state");
+  }
+  if (status.versionMismatch === "blocked_until_refresh") {
+    transitions.push("client_runtime_version_mismatch");
+    actions.push("block_mutating_controls");
+  }
+
+  return {
+    schema: "adl.html_observatory.large_polis_recovery_view.v1",
+    status,
+    transitions,
+    actions: [...new Set(actions)].slice(0, LARGE_POLIS_LIMITS.maxPendingRecoveryActions),
+    duplicate_action_prevented: actions.length > new Set(actions).size,
+    grants_authority: false,
+    runtime_authority_required: true
+  };
+}
+
+function largePolisRecoverySequence(states = []) {
+  const pendingActions = new Set();
+  let observedPendingActionCount = 0;
+  let resolvedPendingActionCount = 0;
+  let hiddenStaleState = false;
+  const steps = asArray(states).map((state, index) => {
+    const pendingBefore = [...pendingActions];
+    const rawView = largePolisRecoveryViewModel(state);
+    const repeatedPendingActions = rawView.actions.filter((action) => pendingActions.has(action));
+    const view = {
+      ...rawView,
+      actions: rawView.actions.filter((action) => !pendingActions.has(action)),
+      duplicate_action_prevented: rawView.duplicate_action_prevented || repeatedPendingActions.length > 0
+    };
+    for (const action of view.actions) {
+      pendingActions.add(action);
+    }
+    observedPendingActionCount = Math.max(observedPendingActionCount, pendingActions.size);
+    const isHealthy = Object.values(view.status).every((status) => status === "ready") && view.actions.length === 0;
+    const resolvedActions = isHealthy ? [...pendingActions] : [];
+    if (!isHealthy && pendingBefore.length > 0 && view.transitions.length === 0 && view.actions.length === 0) {
+      hiddenStaleState = true;
+    }
+    if (isHealthy) {
+      resolvedPendingActionCount += resolvedActions.length;
+      pendingActions.clear();
+    }
+    return {
+      sequence: index + 1,
+      view,
+      pending_actions_before: pendingBefore,
+      pending_actions_after: [...pendingActions],
+      resolved_pending_actions: resolvedActions,
+      stale_state_visible: view.transitions.length > 0
+        || pendingBefore.length > 0
+        || view.actions.length > 0
+        || resolvedActions.length > 0
+    };
+  });
+  const terminal = steps.at(-1)?.view;
+  const terminalPendingActions = steps.at(-1)?.pending_actions_after || [];
+  return {
+    schema: "adl.html_observatory.large_polis_recovery_sequence.v1",
+    steps,
+    recovered: terminal
+      ? Object.values(terminal.status).every((state) => state === "ready") && terminal.actions.length === 0
+        && terminalPendingActions.length === 0
+        && resolvedPendingActionCount >= observedPendingActionCount
+      : false,
+    stale_state_hidden: hiddenStaleState || terminalPendingActions.length > 0,
+    observed_pending_action_count: observedPendingActionCount,
+    resolved_pending_action_count: resolvedPendingActionCount,
+    pending_action_count: terminalPendingActions.length,
+    dropped_pending_actions: Math.max(0, observedPendingActionCount - resolvedPendingActionCount),
+    duplicate_actions: steps.reduce((count, step) => count + (step.view.duplicate_action_prevented ? 1 : 0), 0)
+  };
+}
+
+function estimateLargePolisResourceMetrics({
+  visibleAgents = 0,
+  retainedTranscriptTurns = 0,
+  retainedStreamEvents = 0,
+  recoveryActions = 0
+} = {}) {
+  const projectedDomNodes =
+    Number(visibleAgents) * 3
+    + Number(retainedTranscriptTurns) * 2
+    + Number(retainedStreamEvents)
+    + Number(recoveryActions);
+  const deterministicProjectionMillis = Math.ceil(projectedDomNodes / 25);
+  return {
+    schema: "adl.html_observatory.large_polis_resource_metrics.v1",
+    projected_dom_nodes: projectedDomNodes,
+    max_projected_dom_nodes: LARGE_POLIS_LIMITS.maxProjectedDomNodes,
+    deterministic_projection_millis: deterministicProjectionMillis,
+    max_deterministic_projection_millis: LARGE_POLIS_LIMITS.maxDeterministicProjectionMillis,
+    bounded_dom_nodes: projectedDomNodes <= LARGE_POLIS_LIMITS.maxProjectedDomNodes,
+    bounded_latency: deterministicProjectionMillis <= LARGE_POLIS_LIMITS.maxDeterministicProjectionMillis
+  };
+}
+
+function buildLargePolisPerformanceRecoveryFixture({
+  agentCount = 2500,
+  transcriptTurns = 5000,
+  streamEvents = 1200,
+  runtimeIncarnationChanged = true,
+  candidateRevision = "557dd28d85746a8dc5109dcc674f5a606b8c9890",
+  implementationRevision = "unassigned"
+} = {}) {
+  const agents = Array.from({ length: agentCount }, (_, index) => ({
+    id: `agent-${String(index + 1).padStart(5, "0")}`,
+    label: `Polis Agent ${index + 1}`,
+    role: index % 7 === 0 ? "moderator" : "citizen",
+    state: index % 11 === 0 ? "busy" : "ready",
+    detail: "deterministic large-Polis fixture",
+    communication_eligible: index % 3 === 0,
+    source_revision: "fixture"
+  }));
+  const transcript = Array.from({ length: transcriptTurns }, (_, index) => ({
+    turn_id: `turn-${String(index + 1).padStart(6, "0")}`,
+    sequence: index + 1,
+    speaker: index % 2 === 0 ? "operator" : `agent-${String((index % Math.max(agentCount, 1)) + 1).padStart(5, "0")}`,
+    text: `Deterministic long transcript turn ${index + 1}`
+  }));
+  const events = Array.from({ length: streamEvents }, (_, index) => ({
+    event_type: index % 10 === 0 ? "stream_pressure" : "agent_tick",
+    sequence: index + 1,
+    status: "observed",
+    runtime_id: "runtime-large-polis",
+    timestamp: `2026-08-17T00:${String(Math.floor(index / 60)).padStart(2, "0")}:${String(index % 60).padStart(2, "0")}Z`
+  }));
+
+  return {
+    snapshot: {
+      mode: "retained",
+      fetchedAt: "2026-08-17T00:00:00Z",
+      status: {
+        schema: RUNTIME_V3_OBSERVATORY_SCHEMA,
+        runtime_id: "runtime-large-polis",
+        runtime_incarnation_id: runtimeIncarnationChanged ? "incarnation-b" : "incarnation-a",
+        source_revision: candidateRevision,
+        implementation_revision: implementationRevision,
+        agent_population: {
+          total_count: agentCount,
+          revision: 42,
+          event_cursor: "cursor-large-polis-42",
+          sample: agents,
+          has_more: agentCount > LARGE_POLIS_LIMITS.maxVisibleAgents,
+          next_page_token: "page-2"
+        }
+      },
+      health: { status: "ready" },
+      ready: { status: "ready" },
+      metrics: {
+        gauges: {
+          agent_count: agentCount,
+          transcript_turn_count: transcriptTurns,
+          stream_event_count: streamEvents
+        }
+      },
+      events: { events }
+    },
+    transcript,
+    recovery: {
+      connected: false,
+      runtimeIncarnationChanged,
+      bufferedMessages: streamEvents,
+      backpressureThreshold: 1000,
+      offline: true,
+      versionMismatch: true
+    }
+  };
+}
+
+function evaluateLargePolisPerformanceRecovery(fixture = buildLargePolisPerformanceRecoveryFixture()) {
+  const vm = buildPanopticonViewModel(fixture.snapshot, FALLBACK_PACKET);
+  const transcriptWindow = retainedLargePolisWindow(fixture.transcript);
+  const recovery = largePolisRecoveryViewModel(fixture.recovery);
+  const recoverySequence = largePolisRecoverySequence([
+    fixture.recovery,
+    {
+      connected: true,
+      runtimeIncarnationChanged: false,
+      bufferedMessages: 0,
+      backpressureThreshold: fixture.recovery?.backpressureThreshold || 1000,
+      offline: false,
+      versionMismatch: false
+    }
+  ]);
+  const resourceMetrics = estimateLargePolisResourceMetrics({
+    visibleAgents: vm.visibleAgentCount,
+    retainedTranscriptTurns: transcriptWindow.length,
+    retainedStreamEvents: vm.events.length,
+    recoveryActions: recovery.actions.length
+  });
+  return {
+    schema: "adl.html_observatory.large_polis_performance_recovery_metrics.v1",
+    candidate_revision: runTimeCandidateRevision(fixture.snapshot),
+    implementation_revision: fixture.snapshot?.status?.implementation_revision || "unassigned",
+    agent_total: vm.agentTotal,
+    visible_agent_count: vm.visibleAgentCount,
+    max_visible_agents: LARGE_POLIS_LIMITS.maxVisibleAgents,
+    transcript_total_turns: asArray(fixture.transcript).length,
+    retained_transcript_turns: transcriptWindow.length,
+    max_transcript_turns: LARGE_POLIS_LIMITS.maxTranscriptTurns,
+    stream_event_total: normalizeEventEntries(fixture.snapshot?.events).length,
+    retained_stream_events: vm.events.length,
+    max_event_tail: LARGE_POLIS_LIMITS.maxEventTail,
+    resource_metrics: resourceMetrics,
+    recovery,
+    recovery_sequence: recoverySequence,
+    bounded: vm.visibleAgentCount <= LARGE_POLIS_LIMITS.maxVisibleAgents
+      && transcriptWindow.length <= LARGE_POLIS_LIMITS.maxTranscriptTurns
+      && vm.events.length <= LARGE_POLIS_LIMITS.maxEventTail
+      && recovery.actions.length <= LARGE_POLIS_LIMITS.maxPendingRecoveryActions
+      && recoverySequence.recovered
+      && resourceMetrics.bounded_dom_nodes
+      && resourceMetrics.bounded_latency,
+    grants_authority: false
+  };
+}
+
+function runTimeCandidateRevision(snapshot = {}) {
+  return snapshot.status?.source_revision
+    || snapshot.status?.agent_population?.source_revision
+    || snapshot.status?.runtime_incarnation_id
+    || "unknown";
+}
+
 function normalizeMetricRows(metrics = {}) {
   const rows = flattenStatusRows(metrics)
     .filter((row) => ["number", "string", "boolean"].includes(typeof row.value))
@@ -1059,13 +2139,23 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
     })).slice(0, 6);
   }
 
-  if (agentSample.length) {
-    return agentSample.slice(0, 12).map((agent) => ({
+  if (agentSample.length || status.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
+    return agentSample.slice(0, LARGE_POLIS_LIMITS.maxVisibleAgents).map((agent) => ({
       id: agent.id,
       label: agent.label || agent.id,
       role: agent.role || "runtime agent",
       state: agent.state || primaryState,
-      detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`
+      detail: agent.detail || `${agentPopulation.total_count || agentSample.length} configured agents`,
+      health: agent.health || "unknown",
+      availability: agent.availability || "unknown",
+      activity: agent.activity || null,
+      capabilities: asArray(agent.capabilities),
+      location: agent.location || null,
+      communicationEligible: agent.communication_eligible === true,
+      observedAtUnixMillis: Number(agent.observed_at_unix_millis || 0),
+      freshnessDeadlineUnixMillis: Number(agent.freshness_deadline_unix_millis || 0),
+      sourceRevision: agent.source_revision || "unknown",
+      provenance: agent.provenance || "unknown"
     }));
   }
 
@@ -1121,10 +2211,22 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   const ready = snapshot.ready || {};
   const metrics = snapshot.metrics || {};
   const eventEnvelope = snapshot.events || {};
-  const events = normalizeEventEntries(eventEnvelope).map(eventMessageToObject);
+  const events = normalizeEventEntries(eventEnvelope)
+    .slice(-LARGE_POLIS_LIMITS.maxEventTail)
+    .map(eventMessageToObject);
   const statusRows = flattenStatusRows(status);
   const liveAgents = buildRuntimeAgentRows({ status, health, ready, metrics, events, packet });
   const agentTotal = Number(status.agent_population?.total_count ?? metrics.gauges?.agent_count ?? liveAgents.length);
+  const rosterNeedle = rosterUiState.filter.trim().toLocaleLowerCase();
+  const visibleAgents = liveAgents
+    .filter((agent) => rosterUiState.presence === "all" || agent.state === rosterUiState.presence)
+    .filter((agent) => !rosterNeedle || [agent.id, agent.label, agent.role].some((value) => String(value || "").toLocaleLowerCase().includes(rosterNeedle)))
+    .sort((left, right) => {
+      const primary = rosterUiState.sort === "presence"
+        ? String(left.state).localeCompare(String(right.state))
+        : String(left.label || left.id).localeCompare(String(right.label || right.id));
+      return primary || String(left.id).localeCompare(String(right.id));
+    });
 
   const signalRows = [
     {
@@ -1152,8 +2254,10 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   return {
     mode: snapshot.mode || "retained",
     fetchedAt: snapshot.fetchedAt || "",
-    agents: liveAgents,
+    agents: visibleAgents,
+    allAgents: liveAgents,
     agentTotal,
+    visibleAgentCount: visibleAgents.length,
     signals: signalRows,
     metrics: normalizeMetricRows(metrics),
     events,
@@ -1163,19 +2267,41 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
 }
 
 function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
+  lastPanopticonSnapshot = snapshot;
+  lastPanopticonPacket = packet;
   const vm = buildPanopticonViewModel(snapshot, packet);
+  const sourceLabel = vm.mode === "live" ? "Live Runtime API" : vm.mode === "published" ? "Published Runtime Evidence" : "Retained Runtime Evidence";
+  const hasAuthoritativeLiveRuntimeFeed =
+    vm.mode === "live" &&
+    snapshot.status?.schema === RUNTIME_V3_OBSERVATORY_SCHEMA &&
+    snapshot.status?.agent_population &&
+    Number(snapshot.status.agent_population.total_count || 0) >= 0;
   setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
   setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
   setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
   setText("hero-event-title", vm.mode === "live" ? "Event Stream (Live Loopback)" : "Event Stream");
   setText("statusbar-mode", vm.mode === "live" ? "Live Loopback" : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
+  setText("runtime-source-label", sourceLabel);
+  setText("statusbar-runtime-label", sourceLabel);
+  if (hasAuthoritativeLiveRuntimeFeed) {
+    setText("packet-status", "CSM Runtime");
+    document.getElementById("packet-status")?.setAttribute("data-state", "ok");
+    setText("claim-boundary", "Live Runtime v3 Observatory feed loaded from the configured loopback API.");
+    setText("evidence-level", "Runtime v3 Observatory feed");
+    document.getElementById("evidence-level")?.setAttribute("data-tone", "ok");
+  }
   const modeSelect = document.getElementById("top-mode-select");
   if (modeSelect) {
     modeSelect.value = vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";
   }
   setText("statusbar-updated", vm.mode === "live" ? formatTimestampLabel(vm.fetchedAt) : formatCurrentTimestampLabel());
   setDataset("statusbar-indicator", "state", vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "fallback");
-  setText("agent-count", `${vm.agentTotal.toLocaleString()} agents`);
+  setText("agent-count", `${vm.visibleAgentCount.toLocaleString()} of ${vm.agentTotal.toLocaleString()} visible`);
+  const loadMore = document.getElementById("roster-load-more");
+  if (loadMore) {
+    loadMore.hidden = snapshot.status?.agent_population?.has_more !== true;
+    loadMore.disabled = !snapshot.status?.agent_population?.next_page_token;
+  }
   setText("hero-agent-count", `${vm.agentTotal.toLocaleString()} Agents`);
   setText("live-readiness", formatLabel(vm.readyState));
   setText("hero-ready-state", formatLabel(vm.readyState));
@@ -1220,12 +2346,33 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   `]);
 
   renderRows("live-agent-list", vm.agents.map((agent) => `
-    <article class="agent-row" data-state="${escapeHtml(stateTone(agent.state))}">
+    <button type="button" class="agent-row roster-row" data-state="${escapeHtml(stateTone(agent.state))}" data-agent-id="${escapeHtml(agent.id)}" aria-pressed="${rosterUiState.selectedId === agent.id ? "true" : "false"}">
       <span class="row-kicker">${escapeHtml(agent.id)}</span>
       <strong>${escapeHtml(agent.label || agent.id)}</strong>
-      <p class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</p>
-    </article>
+      <span class="row-detail">${escapeHtml(formatLabel(agent.state))} / ${escapeHtml(formatLabel(agent.role))}</span>
+    </button>
   `));
+
+  const selected = vm.allAgents.find((agent) => agent.id === rosterUiState.selectedId);
+  const detail = document.getElementById("roster-detail");
+  if (detail) {
+    detail.innerHTML = selected ? `
+      <span class="row-kicker">${escapeHtml(selected.id)} / ${escapeHtml(formatLabel(selected.provenance))}</span>
+      <strong>${escapeHtml(selected.label || selected.id)}</strong>
+      <dl class="roster-facts">
+        <div><dt>Presence</dt><dd>${escapeHtml(formatLabel(selected.state))}</dd></div>
+        <div><dt>Health</dt><dd>${escapeHtml(formatLabel(selected.health))}</dd></div>
+        <div><dt>Availability</dt><dd>${escapeHtml(formatLabel(selected.availability))}</dd></div>
+        <div><dt>Communication</dt><dd>${selected.communicationEligible ? "Eligible" : "Unavailable"}</dd></div>
+        <div><dt>Location</dt><dd>${escapeHtml(selected.location || "Redacted")}</dd></div>
+        <div><dt>Source revision</dt><dd>${escapeHtml(selected.sourceRevision)}</dd></div>
+      </dl>
+    ` : `
+      <span class="row-kicker">Selection</span>
+      <strong>No visible agent selected</strong>
+      <p class="row-detail">Select a Runtime-authorized roster row to inspect current presence evidence.</p>
+    `;
+  }
 
   renderRows("live-signal-list", vm.signals.map((signal) => `
     <article class="signal-row" data-state="${escapeHtml(stateTone(signal.value))}">
@@ -1543,17 +2690,49 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const signedControlCommand = document.getElementById("signed-control-command");
   const sendSignedCommand = document.getElementById("send-signed-command");
   const operatorControlResult = document.getElementById("operator-control-result");
+  const conversationRecipient = document.getElementById("agent-conversation-recipient");
+  const conversationMessage = document.getElementById("agent-conversation-message");
+  const conversationSend = document.getElementById("send-agent-conversation");
+  const conversationStatus = document.getElementById("agent-conversation-status");
+  const conversationTranscript = document.getElementById("agent-conversation-transcript");
+  const pendingConversationTurns = new Map();
+  const roomRecipients = document.getElementById("governed-room-recipients");
+  const roomParticipants = document.getElementById("governed-room-participants");
+  const roomTranscript = document.getElementById("governed-room-transcript");
+  const roomMessage = document.getElementById("governed-room-message");
+  const roomSend = document.getElementById("send-governed-room-turn");
+  const roomStatus = document.getElementById("governed-room-status");
+  const governedRoomSequences = new Map();
+  let conversationAuthorized = false;
+  const rosterSearch = document.getElementById("roster-search");
+  const rosterPresence = document.getElementById("roster-presence-filter");
+  const rosterSort = document.getElementById("roster-sort");
+  const rosterList = document.getElementById("live-agent-list");
+  const rosterLoadMore = document.getElementById("roster-load-more");
   let lastLiveError = null;
   let runtimeBaseActive = false;
   let liveSocket = null;
   let liveStoppedByOperator = false;
   let liveRequestGeneration = 0;
   let runtimeV3Readiness = null;
+  let runtimeV3ReadinessRefresh = null;
+  let liveRuntimeIncarnationId = null;
   const nextLiveGeneration = () => {
     liveRequestGeneration += 1;
     return liveRequestGeneration;
   };
   const isCurrentLiveGeneration = (generation) => generation === liveRequestGeneration;
+  const fetchCurrentRuntimeV3Readiness = async (base) => {
+    const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
+    return {
+      schema: readiness?.schema,
+      status: readiness?.ready ? "ready" : "degraded",
+      ready: readiness?.ready === true,
+      state: readiness?.ready ? "ready" : "degraded",
+      blocking_reasons: asArray(readiness?.degraded_reasons),
+      weather_freshness: readiness?.weather_freshness
+    };
+  };
   const refs = {
     statusRef: document.querySelector(".observatory")?.dataset.csmStatusRef || "",
     healthRef: document.querySelector(".observatory")?.dataset.csmHealthRef || "",
@@ -1579,6 +2758,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   };
 
   const setWriteAccess = (enabled, status, detail) => {
+    conversationAuthorized = enabled;
     if (operatorAuthStatus) {
       operatorAuthStatus.textContent = status;
       operatorAuthStatus.dataset.state = enabled ? "passed" : "open";
@@ -1587,14 +2767,275 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       const canPostSignedCommand = requestedRuntimeSelection() === "v3" && isRuntimeV3ApiBase(readApiBase() || getRuntimeV3Config().api_base);
       sendSignedCommand.disabled = !enabled && !canPostSignedCommand;
     }
+    if (conversationSend) {
+      conversationSend.disabled = !enabled || !conversationRecipient?.value;
+    }
+    updateRoomSendState();
     if (operatorControlResult && detail) {
       operatorControlResult.textContent = detail;
+    }
+  };
+
+  const updateConversationRoster = (population) => {
+    if (!conversationRecipient) return;
+    const previous = conversationRecipient.value;
+    const agents = asArray(population?.sample).filter((agent) =>
+      agent && typeof agent.id === "string" && agent.communication_eligible === true
+    );
+    conversationRecipient.replaceChildren();
+    if (agents.length === 0) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "No live agents";
+      conversationRecipient.append(option);
+      conversationRecipient.disabled = true;
+      if (conversationStatus) conversationStatus.textContent = "waiting for runtime";
+    } else {
+      agents.forEach((agent) => {
+        const option = document.createElement("option");
+        option.value = agent.id;
+        option.textContent = agent.label || agent.id;
+        conversationRecipient.append(option);
+      });
+      conversationRecipient.value = agents.some((agent) => agent.id === previous)
+        ? previous
+        : agents[0].id;
+      conversationRecipient.disabled = false;
+      if (conversationStatus) conversationStatus.textContent = conversationAuthorized ? "ready" : "login required";
+    }
+    if (conversationSend) {
+      conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
+    }
+  };
+
+  const selectedRoomRecipients = () =>
+    Array.from(roomRecipients?.selectedOptions || [])
+      .map((option) => option.value)
+      .filter(Boolean);
+
+  const updateRoomSendState = () => {
+    if (roomSend) {
+      roomSend.disabled = !conversationAuthorized ||
+        selectedRoomRecipients().length === 0 ||
+        !(roomMessage?.value || "").trim();
+    }
+  };
+
+  const renderGovernedRoomParticipants = (participants) => {
+    if (!roomParticipants) return;
+    if (participants.length === 0) {
+      roomParticipants.innerHTML = '<span class="room-participant-empty">No Runtime-eligible participants.</span>';
+      return;
+    }
+    roomParticipants.innerHTML = participants.map((participant) => `
+      <span class="room-participant" data-state="${escapeHtml(participant.state)}">
+        <strong>${escapeHtml(participant.display_name)}</strong>
+        <span>${escapeHtml(participant.participant_id)}</span>
+      </span>
+    `).join("");
+  };
+
+  const updateGovernedRoomRoster = (population) => {
+    if (!roomRecipients) return;
+    const previous = new Set(selectedRoomRecipients());
+    const participants = normalizeGovernedRoomParticipants(population);
+    roomRecipients.replaceChildren();
+    if (participants.length === 0) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "No live agents";
+      roomRecipients.append(option);
+      roomRecipients.disabled = true;
+      if (roomStatus) roomStatus.textContent = "waiting for runtime";
+    } else {
+      participants.forEach((participant) => {
+        const option = document.createElement("option");
+        option.value = participant.participant_id;
+        option.textContent = participant.display_name;
+        option.selected = previous.has(participant.participant_id);
+        roomRecipients.append(option);
+      });
+      roomRecipients.disabled = false;
+      if (roomStatus) roomStatus.textContent = conversationAuthorized ? "ready" : "login required";
+    }
+    renderGovernedRoomParticipants(participants);
+    updateRoomSendState();
+  };
+
+  const appendRoomTurn = (speaker, message, turnId, status = "", rows = []) => {
+    if (!roomTranscript) return null;
+    roomTranscript.querySelector(".conversation-empty")?.remove();
+    const item = document.createElement("li");
+    item.className = "conversation-turn governed-room-turn";
+    item.dataset.speaker = speaker;
+    if (turnId) item.dataset.turnId = turnId;
+    const content = document.createElement("span");
+    content.className = "conversation-turn-content";
+    content.textContent = message;
+    item.append(content);
+    if (rows.length > 0) {
+      const list = document.createElement("ul");
+      list.className = "governed-room-delivery-list";
+      list.innerHTML = rows.map((row) => `
+        <li data-state="${escapeHtml(row.state)}">
+          <strong>${escapeHtml(row.displayName)}</strong>
+          <span>${escapeHtml(row.state)} / ${escapeHtml(row.detail)}</span>
+        </li>
+      `).join("");
+      item.append(list);
+    }
+    const state = document.createElement("span");
+    state.className = "conversation-turn-status";
+    state.textContent = status;
+    item.append(state);
+    roomTranscript.append(item);
+    pruneLargePolisDomWindow(roomTranscript, ".conversation-turn", LARGE_POLIS_LIMITS.maxTranscriptTurns);
+    roomTranscript.scrollTop = roomTranscript.scrollHeight;
+    return item;
+  };
+
+  const appendConversationTurn = (speaker, message, turnId, status = "") => {
+    if (!conversationTranscript) return;
+    conversationTranscript.querySelector(".conversation-empty")?.remove();
+    const item = document.createElement("li");
+    item.className = "conversation-turn";
+    item.dataset.speaker = speaker;
+    if (turnId) item.dataset.turnId = turnId;
+    const content = document.createElement("span");
+    content.className = "conversation-turn-content";
+    content.textContent = message;
+    item.append(content);
+    const state = document.createElement("span");
+    state.className = "conversation-turn-status";
+    state.textContent = status;
+    item.append(state);
+    conversationTranscript.append(item);
+    pruneLargePolisDomWindow(conversationTranscript, ".conversation-turn", LARGE_POLIS_LIMITS.maxTranscriptTurns);
+    conversationTranscript.scrollTop = conversationTranscript.scrollHeight;
+    return item;
+  };
+
+  const conversationTurnElement = (turnId) =>
+    Array.from(conversationTranscript?.querySelectorAll(".conversation-turn") || [])
+      .find((item) => item.dataset.turnId === turnId && item.dataset.speaker === "operator") || null;
+
+  const setConversationTurnStatus = (pending, status) => {
+    const item = conversationTurnElement(pending.turnId);
+    const state = item?.querySelector(".conversation-turn-status");
+    if (state) state.textContent = status;
+    if (conversationStatus) conversationStatus.textContent = status;
+  };
+
+  const sendConversationCancel = (pending) => {
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN || pending.terminal) {
+      setConversationTurnStatus(pending, "connection required");
+      return;
+    }
+    pending.cancelRequested = true;
+    liveSocket.send(JSON.stringify({
+      schema: "adl.runtime_v3.observatory_conversation_cancel.v1",
+      conversation_id: pending.conversationId,
+      turn_id: pending.turnId,
+      correlation_id: pending.correlationId
+    }));
+    pending.cancelButton?.setAttribute("disabled", "");
+    setConversationTurnStatus(pending, "cancelling");
+  };
+
+  const renderAcceptedConversationTurn = (pending) => {
+    if (pending.operatorRendered) return;
+    const item = appendConversationTurn("operator", pending.message, pending.turnId, "accepted");
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "conversation-turn-cancel";
+    cancel.title = "Cancel this turn";
+    cancel.setAttribute("aria-label", "Cancel this turn");
+    cancel.textContent = "Cancel";
+    cancel.addEventListener("click", () => sendConversationCancel(pending));
+    item?.append(cancel);
+    pending.cancelButton = cancel;
+    pending.operatorRendered = true;
+  };
+
+  const markPendingConversationsDisconnected = () => {
+    for (const pending of pendingConversationTurns.values()) {
+      if (pending.terminal) continue;
+      pending.disconnected = true;
+      setConversationTurnStatus(pending, "disconnected");
+    }
+  };
+
+  const replayPendingConversationsAfterAuthentication = () => {
+    if (!conversationAuthorized || !liveRuntimeIncarnationId ||
+        !liveSocket || liveSocket.readyState !== WebSocket.OPEN) return;
+    for (const [turnId, pending] of pendingConversationTurns.entries()) {
+      const intent = conversationReconnectIntent(pending, liveRuntimeIncarnationId);
+      if (!intent && pending.restartUnavailable) {
+        pending.cancelButton?.remove();
+        setConversationTurnStatus(pending, "restart_unavailable");
+        pendingConversationTurns.delete(turnId);
+        continue;
+      }
+      if (!intent) continue;
+      liveSocket.send(JSON.stringify(intent));
+      setConversationTurnStatus(pending, "reconnecting");
     }
   };
 
   const renderControlFrame = (frame) => {
     if (frame.status === "authenticated") {
       setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
+      replayPendingConversationsAfterAuthentication();
+      return;
+    }
+    if (frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
+        frame.schema === "adl.runtime_v3.observatory_governed_room_result.v1") {
+      try {
+        const normalized = normalizeGovernedRoomRoute(frame.route || frame);
+        appendRoomTurn(
+          "runtime",
+          normalized.error ? `Room turn rejected: ${normalized.error}` : `Room turn ${normalized.status}`,
+          normalized.turn_id,
+          normalized.status,
+          buildGovernedRoomRows(normalized)
+        );
+        if (roomStatus) roomStatus.textContent = normalized.status;
+        updateRoomSendState();
+      } catch (error) {
+        if (roomStatus) roomStatus.textContent = error instanceof Error ? error.message : "room frame rejected";
+      }
+      return;
+    }
+    if (frame.schema === "adl.runtime_v3.observatory_conversation_result.v1") {
+      const pending = pendingConversationTurns.get(frame.turn_id);
+      const transition = conversationFrameTransition(frame, pending);
+      if (!transition) return;
+      if (frame.status === "accepted" && transition.status === "accepted") {
+        renderAcceptedConversationTurn(pending);
+      }
+      if (transition.terminal && !pending.operatorRendered && conversationFrameProvesAcceptance(frame)) {
+        renderAcceptedConversationTurn(pending);
+      }
+      if (transition.terminal && !pending.operatorRendered) {
+        appendConversationTurn(
+          "runtime",
+          `Turn ${transition.status}${frame.error ? `: ${frame.error}` : ""}`,
+          pending.turnId,
+          transition.status
+        );
+      }
+      setConversationTurnStatus(pending, transition.status);
+      if (transition.reply) {
+        appendConversationTurn("agent", transition.reply, pending.turnId, "delivered");
+      }
+      if (transition.terminal) {
+        pending.terminal = true;
+        pending.cancelButton?.remove();
+        pendingConversationTurns.delete(frame.turn_id);
+      }
+      if (conversationSend) {
+        conversationSend.disabled = !conversationAuthorized || !conversationRecipient?.value;
+      }
       return;
     }
     if (frame.error === "credential_revoked" ||
@@ -1613,6 +3054,59 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     document.querySelector(".observatory")?.setAttribute("data-live-connection", state);
   };
   mirrorApiBase(getQueryApiBase());
+
+  if (rosterSearch && !rosterSearch.dataset.rosterBound) {
+    rosterSearch.dataset.rosterBound = "true";
+    rosterSearch.addEventListener("input", () => {
+      rosterUiState.filter = rosterSearch.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterPresence?.addEventListener("change", () => {
+      rosterUiState.presence = rosterPresence.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterSort?.addEventListener("change", () => {
+      rosterUiState.sort = rosterSort.value;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+    });
+    rosterList?.addEventListener("click", async (event) => {
+      const row = event.target instanceof Element
+        ? event.target.closest("[data-agent-id]")
+        : null;
+      if (!row) return;
+      rosterUiState.selectedId = row.dataset.agentId;
+      if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      try {
+        const detail = await fetchRuntimeV3AgentDetail(getQueryApiBase(), rosterUiState.selectedId);
+        const population = lastPanopticonSnapshot?.status?.agent_population;
+        const selected = asArray(population?.sample).find((agent) => agent.id === detail.id);
+        if (selected) Object.assign(selected, detail, { state: detail.presence });
+        if (lastPanopticonSnapshot) renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      } catch (error) {
+        await renderLiveError(error);
+      }
+    });
+    rosterLoadMore?.addEventListener("click", async () => {
+      const population = lastPanopticonSnapshot?.status?.agent_population;
+      if (!population?.next_page_token || rosterLoadMore.disabled) return;
+      rosterLoadMore.disabled = true;
+      try {
+        const page = await fetchRuntimeV3AgentRosterPage(getQueryApiBase(), population.next_page_token);
+        const known = new Map(asArray(population.sample).map((agent) => [agent.id, agent]));
+        asArray(page.sample).forEach((agent) => known.set(agent.id, agent));
+        population.sample = [...known.values()];
+        population.rendered_sample_count = population.sample.length;
+        population.has_more = page.has_more === true;
+        population.next_page_token = page.next_page_token || null;
+        population.revision = page.revision;
+        renderPanopticon(lastPanopticonSnapshot, lastPanopticonPacket);
+      } catch (error) {
+        await renderLiveError(error);
+      } finally {
+        rosterLoadMore.disabled = false;
+      }
+    });
+  }
 
   const renderMinimalFallback = (error) => {
     renderPanopticon({
@@ -1714,6 +3208,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
       if (snapshot.runtimeSelection === "runtime_v3_explicit_opt_in") {
         runtimeV3Readiness = snapshot.ready || null;
+        await authenticateRuntimeRosterSuccessor(base, snapshot);
       }
       const endpointKeys = ["status", "health", "ready", "metrics", "events"];
       const successfulEndpoints = endpointKeys.filter((key) => snapshot[key]);
@@ -1721,7 +3216,9 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         throw new Error("No CSM runtime API endpoints responded from the browser context.");
       }
       lastLiveError = null;
-      renderPanopticon(snapshot, packet);
+      if (snapshot.runtimeSelection !== "runtime_v3_explicit_opt_in" || acceptRuntimeRosterSnapshot(snapshot)) {
+        renderPanopticon(snapshot, packet);
+      }
       const status = Object.keys(snapshot.errors || {}).length ? "live partial" : "live loopback";
       setText("live-status", status);
       const runtimeKind = snapshot.runtimeSelection === "runtime_v3_explicit_opt_in" ? "Runtime v3 observatory feed" : "loopback CSM server";
@@ -1735,7 +3232,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     }
   };
 
-  const stopPolling = () => {
+  const stopPolling = ({ resetReconnect = true } = {}) => {
     liveStoppedByOperator = true;
     nextLiveGeneration();
     setLiveConnectionState("stopped");
@@ -1751,16 +3248,22 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       clearInterval(retainedPollTimer);
       retainedPollTimer = null;
     }
+    if (liveReconnectTimer) {
+      clearTimeout(liveReconnectTimer);
+      liveReconnectTimer = null;
+    }
+    if (resetReconnect) liveReconnectAttempt = 0;
     lastLiveError = null;
     runtimeV3Readiness = null;
+    liveRuntimeIncarnationId = null;
     runtimeBaseActive = false;
     setText("live-status", "polling stopped");
     setText("statusbar-websocket", "stopped");
     setRuntimeTestStatus("polling stopped", "Live polling is stopped; retained mirror remains available.");
   };
 
-  const connectLive = async () => {
-    stopPolling();
+  const connectLive = async ({ reconnecting = false } = {}) => {
+    stopPolling({ resetReconnect: !reconnecting });
     liveStoppedByOperator = false;
     const requestGeneration = nextLiveGeneration();
     setLiveConnectionState("connecting");
@@ -1774,15 +3277,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         socketEndpoint.protocol = "wss:";
         setRuntimeTestStatus("connecting secure stream", `Opening ${socketEndpoint}.`);
         try {
-          const readiness = await fetchRuntimeV3Readiness(normalizeTrustedRuntimeV3ApiBase(base));
-          runtimeV3Readiness = {
-            schema: readiness?.schema,
-            status: readiness?.ready ? "ready" : "degraded",
-            ready: readiness?.ready === true,
-            state: readiness?.ready ? "ready" : "degraded",
-            blocking_reasons: asArray(readiness?.degraded_reasons),
-            weather_freshness: readiness?.weather_freshness
-          };
+          runtimeV3Readiness = await fetchCurrentRuntimeV3Readiness(base);
         } catch (error) {
           runtimeV3Readiness = {
             status: "pending",
@@ -1794,7 +3289,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         let socket;
         socket = connectRuntimeV3ObservatoryWebSocket(
           base,
-          (snapshot) => {
+          async (snapshot) => {
             if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) {
               return;
             }
@@ -1802,7 +3297,31 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             const streamSnapshot = runtimeV3Readiness
               ? { ...snapshot, ready: runtimeV3Readiness }
               : snapshot;
+            liveRuntimeIncarnationId = streamSnapshot.status?.runtime_incarnation_id || null;
+            try {
+              await authenticateRuntimeRosterSuccessor(base, streamSnapshot);
+            } catch (error) {
+              await renderLiveError(error, requestGeneration);
+              return;
+            }
+            replayPendingConversationsAfterAuthentication();
+            if (!acceptRuntimeRosterSnapshot(streamSnapshot)) return;
             renderPanopticon(streamSnapshot, packet);
+            updateConversationRoster(streamSnapshot.status?.agent_population);
+            updateGovernedRoomRoster(streamSnapshot.status?.agent_population);
+            if (runtimeV3Readiness?.ready !== true && !runtimeV3ReadinessRefresh) {
+              runtimeV3ReadinessRefresh = fetchCurrentRuntimeV3Readiness(base)
+                .then((readiness) => {
+                  if (liveStoppedByOperator || liveSocket !== socket || !isCurrentLiveGeneration(requestGeneration)) return;
+                  runtimeV3Readiness = readiness;
+                  renderPanopticon({ ...snapshot, ready: readiness }, packet);
+                })
+                .catch(() => {})
+                .finally(() => {
+                 runtimeV3ReadinessRefresh = null;
+               });
+            }
+            liveReconnectAttempt = 0;
             setText("live-status", "live secure stream");
             setText("statusbar-websocket", "connected");
             setLiveConnectionState("connected");
@@ -1820,10 +3339,17 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
               return;
             }
             if (liveSocket === socket) {
+              markPendingConversationsDisconnected();
               liveSocket = null;
               setText("statusbar-websocket", "disconnected");
               setWriteAccess(false, "public read", "The live connection closed. Public monitoring can reconnect without login.");
               renderLiveError(error, requestGeneration);
+              const delay = Math.min(250 * (2 ** liveReconnectAttempt), 4_000);
+              liveReconnectAttempt = Math.min(liveReconnectAttempt + 1, 5);
+              liveReconnectTimer = setTimeout(() => {
+                liveReconnectTimer = null;
+                if (!liveStoppedByOperator) connectLive({ reconnecting: true });
+              }, delay);
             }
           },
           (frame) => {
@@ -1847,10 +3373,10 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     livePollTimer = setInterval(refreshLive, 3000);
   };
 
-  if (connect) connect.onclick = connectLive;
+  if (connect) connect.onclick = () => connectLive();
   if (refresh) refresh.onclick = refreshLive;
   if (stop) stop.onclick = stopPolling;
-  if (dashboardConnect) dashboardConnect.onclick = connectLive;
+  if (dashboardConnect) dashboardConnect.onclick = () => connectLive();
   if (dashboardRefresh) dashboardRefresh.onclick = refreshLive;
   if (dashboardStop) dashboardStop.onclick = stopPolling;
   modeSelect?.addEventListener("change", () => {
@@ -1941,6 +3467,105 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       }
     }
   });
+  conversationRecipient?.addEventListener("change", () => {
+    if (conversationSend) {
+      conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
+    }
+  });
+  roomRecipients?.addEventListener("change", updateRoomSendState);
+  roomMessage?.addEventListener("input", updateRoomSendState);
+  conversationSend?.addEventListener("click", () => {
+    const message = conversationMessage?.value.trim() || "";
+    const recipientId = conversationRecipient?.value || "";
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+      if (conversationStatus) conversationStatus.textContent = "login required";
+      return;
+    }
+    if (!recipientId || !message || message.length > 4096) {
+      if (conversationStatus) conversationStatus.textContent = "message required";
+      return;
+    }
+    const randomId = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now().toString(16).padStart(32, "0")}`;
+    const turnId = `turn-${randomId}`;
+    const conversationId = `conversation-${recipientId}`;
+    if (!liveRuntimeIncarnationId) {
+      if (conversationStatus) conversationStatus.textContent = "runtime incarnation unavailable";
+      return;
+    }
+    const intent = {
+      schema: "adl.runtime_v3.observatory_conversation_intent.v1",
+      conversation_id: conversationId,
+      turn_id: turnId,
+      recipient_id: recipientId,
+      correlation_id: randomId,
+      message
+    };
+    pendingConversationTurns.set(turnId, {
+      conversationId,
+      turnId,
+      recipientId,
+      correlationId: randomId,
+      message,
+      intent,
+      runtimeIncarnationId: liveRuntimeIncarnationId,
+      operatorRendered: false,
+      disconnected: false,
+      reconnectReplayCount: 0,
+      terminal: false,
+      cancelRequested: false,
+      cancelButton: null
+    });
+    liveSocket.send(JSON.stringify(intent));
+    if (conversationMessage) conversationMessage.value = "";
+    if (conversationStatus) conversationStatus.textContent = "awaiting runtime";
+    conversationSend.disabled = true;
+  });
+  roomSend?.addEventListener("click", () => {
+    const message = roomMessage?.value.trim() || "";
+    const recipients = selectedRoomRecipients();
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+      if (roomStatus) roomStatus.textContent = "login required";
+      return;
+    }
+    if (!liveRuntimeIncarnationId) {
+      if (roomStatus) roomStatus.textContent = "runtime incarnation unavailable";
+      return;
+    }
+    try {
+      const randomId = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now().toString(16).padStart(32, "0")}`;
+      const turnId = `room-turn-${randomId}`;
+      const roomIdentity = governedRoomIdentityForRecipients(recipients);
+      const turnSequence = nextGovernedRoomTurnSequence(governedRoomSequences, roomIdentity.roomId);
+      const intent = buildGovernedRoomTurnIntent({
+        roomId: roomIdentity.roomId,
+        turnId,
+        turnSequence,
+        senderId: "operator",
+        correlationId: randomId,
+        recipients: roomIdentity.addressedRecipients,
+        message
+      });
+      const envelope = {
+        schema: "adl.runtime_v3.observatory_governed_room_intent.v1",
+        runtime_incarnation_id: liveRuntimeIncarnationId,
+        intent
+      };
+      liveSocket.send(JSON.stringify(envelope));
+      const selectedLabels = new Map(Array.from(roomRecipients?.selectedOptions || [])
+        .map((option) => [option.value, option.textContent || option.value]));
+      appendRoomTurn("operator", message, turnId, "awaiting runtime", intent.addressed_recipients.map((recipientId) => ({
+        recipientId,
+        displayName: selectedLabels.get(recipientId) || recipientId,
+        state: "prepared",
+        detail: "explicit recipient"
+      })));
+      if (roomMessage) roomMessage.value = "";
+      if (roomStatus) roomStatus.textContent = "awaiting runtime";
+      roomSend.disabled = true;
+    } catch (error) {
+      if (roomStatus) roomStatus.textContent = error instanceof Error ? error.message : "invalid room turn";
+    }
+  });
 
   const queryApiBase = getQueryApiBase();
   if (queryApiBase) {
@@ -2013,12 +3638,16 @@ async function bootObservatory() {
     ]);
     renderObservatory(packet, reportText, "ok");
     renderIntegrations({ serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary });
+    renderLayer8DeliveryPanel(packet.layer8_delivery_states || packet.layer8_acknowledgements || []);
+    renderOperatorAttentionInbox(packet);
     bindDashboardNavigation(packet);
     bindCommunication(packet, acipSnsSummary, snsResourceSummary);
     bindLivePanopticon(packet);
   } catch (_error) {
     renderObservatory(FALLBACK_PACKET, "", "fallback");
     renderIntegrations();
+    renderLayer8DeliveryPanel([]);
+    renderOperatorAttentionInbox(FALLBACK_PACKET);
     bindDashboardNavigation(FALLBACK_PACKET);
     bindCommunication(FALLBACK_PACKET);
     bindLivePanopticon(FALLBACK_PACKET);
@@ -2041,10 +3670,48 @@ globalThis.AdlHtmlObservatory = {
   checkEventsEndpoint,
   fetchRuntimeSnapshot,
   fetchRuntimeV3ObservatorySnapshot,
+  fetchRuntimeV3Health,
+  fetchRuntimeV3AgentRosterPage,
+  fetchRuntimeV3AgentDetail,
+  authenticateRuntimeRosterSuccessor,
   submitRuntimeV3SignedControlCommand,
   runtimeV3SnapshotFromFeed,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
+  conversationFrameTransition,
+  conversationFrameProvesAcceptance,
+  conversationReconnectIntent,
+  conversationReplyFromFrame,
+  normalizeRuntimeConversationHistorySnapshot,
+  restoreConversationTranscriptFromRuntimeHistory,
+  safeConversationHistoryText,
+  isSafeGovernedRoomIdentifier,
+  normalizeGovernedRoomParticipants,
+  normalizeExplicitGovernedRoomRecipients,
+  governedRoomIdentityForRecipients,
+  nextGovernedRoomTurnSequence,
+  buildGovernedRoomTurnIntent,
+  normalizeGovernedRoomRoute,
+  buildGovernedRoomRows,
+  LARGE_POLIS_LIMITS,
+  retainedLargePolisWindow,
+  pruneLargePolisDomWindow,
+  largePolisRecoveryViewModel,
+  largePolisRecoverySequence,
+  estimateLargePolisResourceMetrics,
+  buildLargePolisPerformanceRecoveryFixture,
+  evaluateLargePolisPerformanceRecovery,
+  LAYER8_RECIPIENT_ACK_ENDPOINT,
+  normalizeLayer8DeliveryState,
+  layer8DeliveryRows,
+  renderLayer8DeliveryPanel,
+  submitLayer8RecipientAcknowledgement,
+  normalizeOperatorAttentionRequest,
+  operatorAttentionRows,
+  operatorAttentionViewModel,
+  operatorAttentionActionPayload,
+  renderOperatorAttentionInbox,
+  hasForbiddenLayer8Disclosure,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,
   getRuntimeV3Config,
@@ -2052,6 +3719,8 @@ globalThis.AdlHtmlObservatory = {
   isRuntimeV3ApiBase,
   normalizeTrustedRuntimeV3ApiBase,
   buildRuntimeAgentRows,
+  acceptRuntimeRosterSnapshot,
+  runtimeRosterCursorState,
   buildViewModel,
   buildIntegrationViewModel,
   buildPanopticonViewModel,

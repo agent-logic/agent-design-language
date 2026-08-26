@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 451,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime] Compose the production birthday and witness activation path",
+    "slug": "451-production-birthday-witness-activation",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/451\n.csdlc/issues/451\n.csdlc/prepared/issues/451\nadl-runtime-kernel/Cargo.toml\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/birthday_continuity.rs\nadl-runtime-kernel/src/cognitive_profile.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/memory_palace_authority.rs\nadl-runtime-kernel/src/production_birthday.rs\nadl-runtime-kernel/src/resident_cycle.rs\nadl-runtime-kernel/src/test_support.rs\nadl-runtime-kernel/tests/production_birthday.rs\nadl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\nadl/Cargo.toml\nadl/Cargo.lock\nadl/src/lib.rs\nadl/src/long_lived_agent.rs\nadl/src/production_birthday.rs\nadl/src/resident_tool_execution.rs\nadl/tests/production_birthday_runtime.rs\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\ndocs/planning/ADL_FEATURE_LIST.md",
+      "review_revision": "git-blake3:3c612a0c302d1a34562b9e0c160b12aca91222e3:b7d47241fd7a007546de44ef5ab1d515da64a7e91aedbc16622c99e40e4cb2eb",
+      "reviewer": "fresh-session:ee38a5f5-8c0f-4622-9790-0d460f513298",
+      "review_prompts": [
+        "Does one production path consume every existing domain authority without duplicating writable truth?",
+        "Can any missing stale copied rolled-back or conflicting input create or validate a receipt?",
+        "Can concurrency interruption or restart create a second birthday or lose the first?",
+        "Does useful post-restore work retain Memory Palace capability profile Adaptive Learning and ACC authority?",
+        "Does the renewed audit prove real construction consumption and behavior for all nine features rather than citing modules or fixtures?",
+        "Are private data and subjective/public claims excluded?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The prior hosted Runtime coverage run failed once in an unrelated distributed learner test that passed immediately at this exact product tree; the retry commit changes no bytes and exists only to obtain a fresh hosted observation."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

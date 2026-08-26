@@ -1,0 +1,102 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 276
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented the durable conversation journal foundation for #276 without absorbing replay, API, Observatory, or parent #114 integration scope.
+
+## Artifacts
+
+- adl-runtime-kernel/src/conversation_journal.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/conversation_journal.rs
+- .csdlc/evidence/276
+
+## Execution
+
+- Added adl-runtime-kernel::conversation_journal with a versioned append-only JSONL record model, BLAKE3 hash chain, restart snapshot loading, current-schema migration marker, and authority/receipt/payload reference fields.
+- Added durable retention and deletion marker primitives that preserve auditable history while deliberately avoiding replay, watermark, public API, and Observatory behavior.
+- Added fail-closed corruption and partial trailing-record detection before committed history is exposed after restart.
+- Added focused deterministic tests for append/restart, hash-chain corruption, partial-write ambiguity, retention/deletion markers, schema migration gates, entry validation, and foundation-only record kinds.
+
+## Validation
+
+[
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/276/validate_preparation_bundle.py"
+    ],
+    "purpose": "Run the issue-owned lifecycle/scope/dependency validator after implementation and bind.",
+    "outcome": "passed",
+    "evidence_ref": "issue-276-preparation-validator.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_journal",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict Clippy for the focused #276 test target.",
+    "outcome": "passed",
+    "evidence_ref": "runtime-kernel-conversation-journal-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Run rustfmt check for adl-runtime-kernel.",
+    "outcome": "passed",
+    "evidence_ref": "runtime-kernel-conversation-journal-fmt.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "conversation_journal"
+    ],
+    "purpose": "Run the focused #276 integration test target.",
+    "outcome": "passed",
+    "evidence_ref": "runtime-kernel-conversation-journal-tests.log"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

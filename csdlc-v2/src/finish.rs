@@ -1,6 +1,7 @@
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::path::{Path, PathBuf};
+use std::process::Command;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use fs2::FileExt;
@@ -58,6 +59,72 @@ pub enum FinishDisposition {
     Merged,
     ClosedUnmerged,
     ClosedNoPr,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum RecordlessCloseoutMode {
+    ClassifyOnly,
+    RetainReceipt,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct RecordlessCloseoutTarget {
+    pub issue: u64,
+    pub issue_repository: String,
+    pub pr_repository: String,
+    pub pull_request: u64,
+    pub expected_head_sha: String,
+    pub expected_merge_sha: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct RecordlessCloseoutRequest {
+    pub schema: String,
+    pub actor: String,
+    pub approved_reason: String,
+    pub mode: RecordlessCloseoutMode,
+    pub targets: Vec<RecordlessCloseoutTarget>,
+    pub token_file: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct RecordlessTerminalReceipt {
+    pub schema: String,
+    pub issue: u64,
+    pub repository: String,
+    pub receipt_ref: String,
+    pub terminal: DerivedTerminalEnvelope,
+    pub actor: String,
+    pub approved_reason: String,
+    pub source_projection_at_pr_head: bool,
+    pub local_projection_present: bool,
+    pub existing_closeout_receipt_present: bool,
+    pub digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct RecordlessCloseoutTargetResult {
+    pub schema: String,
+    pub issue: u64,
+    pub repository: String,
+    pub pull_request: u64,
+    pub classification: String,
+    pub receipt_ref: Option<String>,
+    pub terminal: Option<DerivedTerminalEnvelope>,
+    pub blocker: Option<String>,
+    pub source_projection_at_pr_head: bool,
+    pub local_projection_present: bool,
+    pub existing_closeout_receipt_present: bool,
+    pub retained: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+pub struct RecordlessCloseoutResult {
+    pub schema: String,
+    pub actor: String,
+    pub mode: RecordlessCloseoutMode,
+    pub results: Vec<RecordlessCloseoutTargetResult>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
@@ -142,6 +209,447 @@ pub struct FinishResult {
     pub terminal: DerivedTerminalEnvelope,
     pub already_terminal: bool,
     pub estimation: TerminalEstimationResult,
+}
+
+pub async fn execute_recordless_closeout(
+    root: &Path,
+    request: &RecordlessCloseoutRequest,
+) -> Result<RecordlessCloseoutResult> {
+    validate_recordless_request(request)?;
+    let mut results = Vec::new();
+    for target in &request.targets {
+        let issue = read_issue_in_repository(
+            &target.issue_repository,
+            target.issue,
+            request.token_file.clone(),
+        )
+        .await?;
+        let observation = issue_observation(issue, now_unix_seconds()?);
+        let candidates = collect_issue_closing_pull_requests(
+            &target.issue_repository,
+            target.issue,
+            request.token_file.clone(),
+        )
+        .await?;
+        let packet = collect_pr_state(&PrStateRequest {
+            repository: target.pr_repository.clone(),
+            pull_request: target.pull_request,
+            required_checks: Vec::new(),
+            require_review: false,
+            token_file: request.token_file.clone(),
+            linked_issue: Some(target.issue),
+            linked_issue_repository: Some(target.issue_repository.clone()),
+        })
+        .await?;
+        let mut result = classify_recordless_closeout_target(
+            root,
+            request,
+            target,
+            &observation,
+            &packet,
+            &candidates,
+        )?;
+        if request.mode == RecordlessCloseoutMode::RetainReceipt
+            && result.classification == "recordless_terminal_eligible"
+        {
+            let terminal = result.terminal.clone().ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "recordless eligible result is missing terminal envelope",
+                )
+            })?;
+            let receipt = build_recordless_terminal_receipt(
+                root,
+                request,
+                target,
+                terminal,
+                result.source_projection_at_pr_head,
+                result.local_projection_present,
+                result.existing_closeout_receipt_present,
+            )?;
+            retain_recordless_terminal_receipt(root, &receipt)?;
+            result.receipt_ref = Some(receipt.receipt_ref);
+            result.retained = true;
+        }
+        results.push(result);
+    }
+    Ok(RecordlessCloseoutResult {
+        schema: "csdlc.recordless_closeout_result.v1".into(),
+        actor: request.actor.clone(),
+        mode: request.mode,
+        results,
+    })
+}
+
+pub fn classify_recordless_closeout_target(
+    root: &Path,
+    request: &RecordlessCloseoutRequest,
+    target: &RecordlessCloseoutTarget,
+    issue: &IssueTerminalObservation,
+    packet: &PrStatePacket,
+    candidates: &[ClosingPullRequestIdentity],
+) -> Result<RecordlessCloseoutTargetResult> {
+    validate_recordless_request(request)?;
+    validate_recordless_target(target)?;
+    let source_projection_at_pr_head =
+        source_projection_at_revision(root, &target.expected_head_sha, target.issue)?;
+    let local_projection_present = root
+        .join(".csdlc/issues")
+        .join(target.issue.to_string())
+        .join("index.json")
+        .exists();
+    let existing_closeout_receipt_present = Store::new(root)
+        .terminal_receipt_path(target.issue)?
+        .exists();
+    let blocker = recordless_blocker(RecordlessBlockerContext {
+        root,
+        request,
+        target,
+        issue,
+        packet,
+        candidates,
+        source_projection_at_pr_head,
+        local_projection_present,
+        existing_closeout_receipt_present,
+    })?;
+    if let Some(blocker) = blocker {
+        return Ok(RecordlessCloseoutTargetResult {
+            schema: "csdlc.recordless_closeout_target_result.v1".into(),
+            issue: target.issue,
+            repository: target.issue_repository.clone(),
+            pull_request: target.pull_request,
+            classification: blocker.clone(),
+            receipt_ref: None,
+            terminal: None,
+            blocker: Some(blocker),
+            source_projection_at_pr_head,
+            local_projection_present,
+            existing_closeout_receipt_present,
+            retained: false,
+        });
+    }
+    let terminal = derive_recordless_terminal(request, target, issue, packet)?;
+    Ok(RecordlessCloseoutTargetResult {
+        schema: "csdlc.recordless_closeout_target_result.v1".into(),
+        issue: target.issue,
+        repository: target.issue_repository.clone(),
+        pull_request: target.pull_request,
+        classification: "recordless_terminal_eligible".into(),
+        receipt_ref: (request.mode == RecordlessCloseoutMode::RetainReceipt)
+            .then(|| format!("csdlc-v2/closeout/{}.json", target.issue)),
+        terminal: Some(terminal),
+        blocker: None,
+        source_projection_at_pr_head,
+        local_projection_present,
+        existing_closeout_receipt_present,
+        retained: false,
+    })
+}
+
+struct RecordlessBlockerContext<'a> {
+    root: &'a Path,
+    request: &'a RecordlessCloseoutRequest,
+    target: &'a RecordlessCloseoutTarget,
+    issue: &'a IssueTerminalObservation,
+    packet: &'a PrStatePacket,
+    candidates: &'a [ClosingPullRequestIdentity],
+    source_projection_at_pr_head: bool,
+    local_projection_present: bool,
+    existing_closeout_receipt_present: bool,
+}
+
+fn recordless_blocker(context: RecordlessBlockerContext<'_>) -> Result<Option<String>> {
+    let RecordlessBlockerContext {
+        root,
+        request,
+        target,
+        issue,
+        packet,
+        candidates,
+        source_projection_at_pr_head,
+        local_projection_present,
+        existing_closeout_receipt_present,
+    } = context;
+    if issue.state != "closed" {
+        return Ok(Some("live_issue_not_closed".into()));
+    }
+    let historical = HistoricalFinishRequest {
+        schema: "csdlc.historical_finish_request.v1".into(),
+        issue: target.issue,
+        expected_generation: 0,
+        expected_digest: "recordless".into(),
+        actor: request.actor.clone(),
+        issue_repository: target.issue_repository.clone(),
+        disposition: FinishDisposition::Merged,
+        pr_repository: Some(target.pr_repository.clone()),
+        pull_request: Some(target.pull_request),
+        expected_head_sha: Some(target.expected_head_sha.clone()),
+        expected_merge_sha: Some(target.expected_merge_sha.clone()),
+        approved_reason: Some(request.approved_reason.clone()),
+        token_file: request.token_file.clone(),
+    };
+    validate_historical_candidates(&historical, candidates)?;
+    if packet.repository != target.pr_repository
+        || packet.pull_request != target.pull_request
+        || packet.linked_issue != Some(target.issue)
+        || packet.linkage_source.as_deref() != Some("github_closing_issues_references")
+        || packet.state != "closed"
+        || !packet.merged
+        || packet.head_sha != target.expected_head_sha
+        || packet.merge_commit_sha.as_deref() != Some(target.expected_merge_sha.as_str())
+    {
+        return Ok(Some("live_pr_identity_mismatch".into()));
+    }
+    if existing_closeout_receipt_present {
+        return Ok(Some("existing_closeout_receipt_present".into()));
+    }
+    if local_projection_present {
+        return Ok(Some("local_projection_present_use_normal_finish".into()));
+    }
+    if source_projection_at_pr_head {
+        return Ok(Some(
+            "source_projection_at_pr_head_use_normal_finish".into(),
+        ));
+    }
+    if historical_publication_conflicts(root, target.issue, target.pull_request)? {
+        return Ok(Some("conflicting_historical_publication".into()));
+    }
+    Ok(None)
+}
+
+fn derive_recordless_terminal(
+    request: &RecordlessCloseoutRequest,
+    target: &RecordlessCloseoutTarget,
+    issue: &IssueTerminalObservation,
+    packet: &PrStatePacket,
+) -> Result<DerivedTerminalEnvelope> {
+    let mut envelope = DerivedTerminalEnvelope {
+        schema: "csdlc.derived_terminal.v1".into(),
+        issue: target.issue,
+        repository: target.issue_repository.clone(),
+        initialization_digest: "recordless".into(),
+        canonical_generation: 0,
+        canonical_digest: "recordless".into(),
+        pull_request: Some(target.pull_request),
+        disposition: FinishDisposition::Merged,
+        head_sha: Some(packet.head_sha.clone()),
+        merge_sha: packet.merge_commit_sha.clone(),
+        issue_state: "closed_by_merged_pr".into(),
+        pr_state: Some(packet.state.clone()),
+        approved_reason: Some(request.approved_reason.clone()),
+        observed_unix_seconds: issue.observed_unix_seconds,
+        mutable_fresh_until_unix_seconds: None,
+        source: "live_github_recordless_closeout".into(),
+        digest: String::new(),
+    };
+    envelope.digest = envelope_digest(&envelope)?;
+    validate_envelope(&envelope)?;
+    Ok(envelope)
+}
+
+fn build_recordless_terminal_receipt(
+    root: &Path,
+    request: &RecordlessCloseoutRequest,
+    target: &RecordlessCloseoutTarget,
+    terminal: DerivedTerminalEnvelope,
+    source_projection_at_pr_head: bool,
+    local_projection_present: bool,
+    existing_closeout_receipt_present: bool,
+) -> Result<RecordlessTerminalReceipt> {
+    let receipt_ref = format!("csdlc-v2/closeout/{}.json", target.issue);
+    let mut receipt = RecordlessTerminalReceipt {
+        schema: "csdlc.recordless_terminal_receipt.v1".into(),
+        issue: target.issue,
+        repository: target.issue_repository.clone(),
+        receipt_ref,
+        terminal,
+        actor: request.actor.clone(),
+        approved_reason: request.approved_reason.clone(),
+        source_projection_at_pr_head,
+        local_projection_present,
+        existing_closeout_receipt_present,
+        digest: String::new(),
+    };
+    receipt.digest = recordless_terminal_receipt_digest(&receipt)?;
+    validate_recordless_terminal_receipt(&receipt)?;
+    let path = Store::new(root).terminal_receipt_path(target.issue)?;
+    let common = PathBuf::from(
+        git::run(
+            root,
+            &["rev-parse", "--path-format=absolute", "--git-common-dir"],
+        )?
+        .stdout,
+    );
+    if !path.starts_with(common) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "recordless terminal receipt escapes Git-common root",
+        ));
+    }
+    Ok(receipt)
+}
+
+fn retain_recordless_terminal_receipt(
+    root: &Path,
+    receipt: &RecordlessTerminalReceipt,
+) -> Result<PathBuf> {
+    validate_recordless_terminal_receipt(receipt)?;
+    let path = Store::new(root).terminal_receipt_path(receipt.issue)?;
+    if path.exists() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "recordless closeout refuses to overwrite an existing terminal receipt",
+        ));
+    }
+    let parent = path.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "recordless terminal receipt has no parent directory",
+        )
+    })?;
+    fs::create_dir_all(parent)?;
+    let tmp = path.with_extension("json.tmp");
+    fs::write(&tmp, serde_json::to_vec_pretty(receipt)?)?;
+    fs::rename(&tmp, &path)?;
+    Ok(path)
+}
+
+fn source_projection_at_revision(root: &Path, revision: &str, issue: u64) -> Result<bool> {
+    validate_sha(revision, "expected head SHA")?;
+    let commit_spec = format!("{revision}^{{commit}}");
+    let commit = Command::new("git")
+        .current_dir(root)
+        .args(["cat-file", "-e", &commit_spec])
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !commit.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "recordless closeout expected head SHA is not available as a local commit object",
+        ));
+    }
+    let spec = format!("{revision}:.csdlc/issues/{issue}/index.json");
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["cat-file", "-e", &spec])
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    Ok(output.status.success())
+}
+
+fn historical_publication_conflicts(root: &Path, issue: u64, pull_request: u64) -> Result<bool> {
+    let path = format!(".csdlc/issues/{issue}/index.json");
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["log", "--all", "--format=%H", "--", &path])
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !output.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::GitFailure,
+            String::from_utf8_lossy(&output.stderr).trim(),
+        ));
+    }
+    for revision in String::from_utf8_lossy(&output.stdout).lines() {
+        let spec = format!("{revision}:{path}");
+        let show = Command::new("git")
+            .current_dir(root)
+            .args(["show", &spec])
+            .output()
+            .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+        if !show.status.success() {
+            continue;
+        }
+        let Ok(value) = serde_json::from_slice::<serde_json::Value>(&show.stdout) else {
+            continue;
+        };
+        let observed = value
+            .get("publication")
+            .and_then(|publication| publication.get("pull_request"))
+            .and_then(serde_json::Value::as_u64);
+        if observed.is_some_and(|observed| observed != pull_request) {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn validate_recordless_request(request: &RecordlessCloseoutRequest) -> Result<()> {
+    if request.schema != "csdlc.recordless_closeout_request.v1"
+        || request.actor.trim().is_empty()
+        || request.approved_reason.trim().len() < 12
+        || request.targets.is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "recordless closeout request is incomplete",
+        ));
+    }
+    for target in &request.targets {
+        validate_recordless_target(target)?;
+    }
+    Ok(())
+}
+
+fn validate_recordless_target(target: &RecordlessCloseoutTarget) -> Result<()> {
+    if target.issue == 0
+        || target.issue_repository.split_once('/').is_none()
+        || target.pr_repository.split_once('/').is_none()
+        || target.pull_request == 0
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "recordless closeout target identity is incomplete",
+        ));
+    }
+    validate_sha(&target.expected_head_sha, "expected head SHA")?;
+    validate_sha(&target.expected_merge_sha, "expected merge SHA")?;
+    Ok(())
+}
+
+fn validate_sha(value: &str, label: &str) -> Result<()> {
+    if value.len() == 40 && value.bytes().all(|byte| byte.is_ascii_hexdigit()) {
+        Ok(())
+    } else {
+        Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            format!("recordless closeout {label} is not a full 40-character SHA"),
+        ))
+    }
+}
+
+fn recordless_terminal_receipt_digest(receipt: &RecordlessTerminalReceipt) -> Result<String> {
+    let mut canonical = receipt.clone();
+    canonical.digest.clear();
+    Ok(blake3::hash(&serde_json::to_vec(&canonical)?)
+        .to_hex()
+        .to_string())
+}
+
+fn validate_recordless_terminal_receipt(receipt: &RecordlessTerminalReceipt) -> Result<()> {
+    if receipt.schema != "csdlc.recordless_terminal_receipt.v1"
+        || receipt.issue == 0
+        || receipt.repository.split_once('/').is_none()
+        || receipt.receipt_ref != format!("csdlc-v2/closeout/{}.json", receipt.issue)
+        || receipt.source_projection_at_pr_head
+        || receipt.local_projection_present
+        || receipt.existing_closeout_receipt_present
+        || receipt.digest != recordless_terminal_receipt_digest(receipt)?
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recordless terminal receipt identity is invalid",
+        ));
+    }
+    validate_envelope(&receipt.terminal)?;
+    if receipt.terminal.issue != receipt.issue || receipt.terminal.repository != receipt.repository
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "recordless terminal receipt envelope identity is invalid",
+        ));
+    }
+    Ok(())
 }
 
 pub async fn execute_historical_finish(
@@ -823,7 +1331,7 @@ fn validate_remote_merge(
     if packet.repository != pr_repository
         || Some(packet.pull_request) != request.pull_request
         || packet.draft
-        || packet.merge_state != "clean"
+        || !matches!(packet.merge_state.as_str(), "clean" | "unstable")
         || packet.base_ref.as_deref() != request.base.as_deref()
         || Some(packet.head_sha.as_str()) != request.expected_head_sha.as_deref()
         || packet.classification != "ready"
@@ -1127,35 +1635,13 @@ fn validate_publication_head_lineage_in_repo(
     if published_head == expected_head {
         return Ok(());
     }
-    if git::run(
-        root,
-        &["merge-base", "--is-ancestor", published_head, expected_head],
-    )
-    .is_err()
-    {
+    if !matches!(
+        git::metadata_only_changed_paths(root, published_head, expected_head),
+        Ok(paths) if !paths.is_empty()
+    ) {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "finish head is not a forward descendant of publication",
-        ));
-    }
-    let changed = git::run(
-        root,
-        &[
-            "diff",
-            "--name-only",
-            "--no-renames",
-            published_head,
-            expected_head,
-        ],
-    )?;
-    if changed
-        .stdout
-        .lines()
-        .any(|path| !path.starts_with(".csdlc/"))
-    {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "forward publication drift contains non-C-SDLC changes",
+            "forward publication drift is not governed metadata-only change",
         ));
     }
     let review = record
@@ -1168,7 +1654,10 @@ fn validate_publication_head_lineage_in_repo(
                 "metadata-only publication drift requires completed review evidence",
             )
         })?;
-    let historical_path = format!("{published_head}:.csdlc/issues/{}/index.json", record.issue);
+    // The publication revision remains the lower bound for governed metadata-only
+    // drift. Canonical review authority, however, must be retained by the exact
+    // live PR head supplied to finish after a supported recover/review/republish.
+    let historical_path = format!("{expected_head}:.csdlc/issues/{}/index.json", record.issue);
     let historical: IssueRecord = serde_json::from_str(
         &git::run(root, &["show", &historical_path])?.stdout,
     )
@@ -1415,7 +1904,9 @@ pub fn validate_envelope(envelope: &DerivedTerminalEnvelope) -> Result<()> {
         || envelope.observed_unix_seconds == 0
         || !matches!(
             envelope.source.as_str(),
-            "live_github" | "live_github_historical_reconciliation"
+            "live_github"
+                | "live_github_historical_reconciliation"
+                | "live_github_recordless_closeout"
         )
         || envelope.digest != envelope_digest(envelope)?
     {
@@ -1476,6 +1967,25 @@ pub fn envelope_matches_record(
                 }),
                 None => true,
             }))
+}
+
+pub fn envelope_matches_record_in_repo(
+    root: &Path,
+    envelope: &DerivedTerminalEnvelope,
+    record: &IssueRecord,
+) -> Result<bool> {
+    validate_envelope(envelope)?;
+    if !envelope_matches_record_identity(envelope, record) {
+        return Ok(false);
+    }
+    if envelope.source == "live_github_historical_reconciliation" || envelope.pull_request.is_none()
+    {
+        return Ok(true);
+    }
+    let Some(head) = envelope.head_sha.as_deref() else {
+        return Ok(false);
+    };
+    Ok(validate_publication_head_lineage_in_repo(root, record, head).is_ok())
 }
 
 fn envelope_matches_record_identity(
@@ -1845,5 +2355,36 @@ mod tests {
                 .unwrap()
                 .is_none()
         );
+    }
+
+    #[test]
+    fn finish_accepts_unstable_when_declared_required_checks_are_green() {
+        let mut packet = packet();
+        packet.state = "open".into();
+        packet.merged = false;
+        packet.merge_commit_sha = None;
+        packet.merge_state = "unstable".into();
+        packet.classification = "ready".into();
+        validate_remote_merge(&packet, &request(), "owner/repo").expect("ready target");
+    }
+
+    #[test]
+    fn finish_rejects_conflicts_and_exact_target_drift() {
+        let mut conflicted = packet();
+        conflicted.merge_state = "dirty".into();
+        conflicted.classification = "conflicted".into();
+        assert!(validate_remote_merge(&conflicted, &request(), "owner/repo").is_err());
+
+        let mut draft = packet();
+        draft.draft = true;
+        draft.merge_state = "unstable".into();
+        draft.classification = "waiting".into();
+        assert!(validate_remote_merge(&draft, &request(), "owner/repo").is_err());
+
+        let mut drifted = packet();
+        drifted.head_sha = "different".into();
+        drifted.merge_state = "unstable".into();
+        drifted.classification = "ready".into();
+        assert!(validate_remote_merge(&drifted, &request(), "owner/repo").is_err());
     }
 }

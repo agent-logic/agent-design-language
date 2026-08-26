@@ -1,0 +1,13 @@
+sha=3f38a135e939264e5b4f66ed4477d32c56abce61
+argv=csdlc-doctor --issue 297
+{
+  "schema": "csdlc.doctor.report.v1",
+  "issue": 297,
+  "status": "pass",
+  "phase": "implemented",
+  "generation": 20,
+  "ready": false,
+  "findings": [],
+  "next_operation": "inspect_phase"
+}
+status=0

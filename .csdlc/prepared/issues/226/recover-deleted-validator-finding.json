@@ -1,0 +1,7 @@
+{
+  "issue": 226,
+  "expected_generation": 19,
+  "expected_digest": "a299a8aa0183adee583a61a59e6a9fbeaedc17c1ca2b432e6ea2f08880713562",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Recover stale review truth after fixing the independent review finding: selected JavaScript validation now requires the file to exist, executes syntax proof, and fails closed on deletion."
+}

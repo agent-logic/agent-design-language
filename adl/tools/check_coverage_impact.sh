@@ -17,6 +17,7 @@ CSM_RUNTIME_CLI_COMPANION_DELTA_LIMIT="${COVERAGE_IMPACT_CSM_RUNTIME_CLI_COMPANI
 REQUIRE_SUMMARY_FOR_RISK=false
 PRINT_RISK_FILTERS=false
 PRINT_RISK_NEXTEST_EXPRESSION=false
+MECHANICAL_RECEIPT_DIR=""
 
 usage() {
   cat <<'USAGE'
@@ -36,6 +37,7 @@ Options:
                                   may need summary evidence and exit.
   --print-risk-nextest-expression Print one combined nextest filter expression for risky
                                   changed Rust files and exit.
+  --mechanical-receipt-dir <dir>  Run governed compile/behavior commands and write receipts.
   -h, --help                      Show this help.
 
 This is a fast authoring-time guard. It does not replace the full GitHub
@@ -82,6 +84,10 @@ while [ "$#" -gt 0 ]; do
       PRINT_RISK_NEXTEST_EXPRESSION=true
       shift
       ;;
+    --mechanical-receipt-dir)
+      MECHANICAL_RECEIPT_DIR="${2:-}"
+      shift 2
+      ;;
     -h|--help)
       usage
       exit 0
@@ -125,7 +131,7 @@ changed_source_rows="$(
     | normalize_changed_path \
     | awk -F '\t' '
         (($2 ~ /^adl\/src\/.*\.rs$/ && $2 !~ /^adl\/src\/(.+\/)?tests\.rs$/ && $2 !~ /^adl\/src\/.*\/tests\/.*\.rs$/) ||
-         ($2 ~ /^adl-runtime\/src\/.*\.rs$/ && $2 !~ /^adl-runtime\/src\/(.+\/)?tests\.rs$/ && $2 !~ /^adl-runtime\/src\/.*\/tests\/.*\.rs$/)) {
+         ($2 ~ /^adl-runtime\/src\/.*\.rs$/ && $2 !~ /^adl-runtime\/src\/(.+\/)?tests\.rs$/ && $2 !~ /^adl-runtime\/src\/.*\/tests\/.*\.rs$/ && $2 != "adl-runtime/src/distributed/authority_protocol_contract_tests.rs")) {
           print $1 "\t" $2
         }
       '
@@ -241,11 +247,17 @@ candidate_filter_for_path() {
     adl/src/long_lived_agent/types.rs)
       printf 'csm_runtime_agent'
       ;;
+    adl/src/memory_palace.rs)
+      printf 'memory_palace'
+      ;;
     adl/src/long_lived_agent/storage.rs)
       printf 'long_lived_agent_storage'
       ;;
     adl/src/bin/adl_pr_shepherd.rs)
       printf 'pr_shepherd'
+      ;;
+    adl/src/resident_shepherd_spot_continuity.rs)
+      printf 'resident_shepherd_spot_continuity'
       ;;
     adl/src/cli/pr_cmd/github.rs)
       printf 'pr_cmd'
@@ -281,11 +293,72 @@ candidate_filter_for_path() {
     adl-runtime/src/bin/adl-runtime-guardian.rs)
       printf 'runtime_v3_guardian'
       ;;
-    adl-runtime/src/distributed/transport.rs)
-      printf 'runtime_v3_distributed_transport'
+    adl-runtime/src/distributed/transport.rs|adl-runtime/src/distributed/transport/*.rs)
+      if grep -Fx "adl-runtime/src/distributed/authority_store_adapters.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_store_boundary'
+      elif grep -Fx "adl-runtime/src/distributed/authority_protocol.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_protocol'
+      else
+        printf 'runtime_v3_distributed_transport'
+      fi
+      ;;
+    adl-runtime/src/distributed/authority_protocol.rs)
+      if grep -Fx "adl-runtime/src/distributed/authority_store_adapters.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_store_boundary'
+      else
+        printf 'runtime_v3_authority_protocol'
+      fi
+      ;;
+    adl-runtime/src/distributed/identity.rs|adl-runtime/src/distributed/polis_runtime.rs)
+      printf 'runtime_v3_authority_protocol'
+      ;;
+    adl-runtime/src/distributed/authority_store_adapters.rs)
+      printf 'runtime_v3_authority_store_boundary'
+      ;;
+    adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs)
+      printf 'runtime_v3_integrated_serving_authority'
+      ;;
+    adl-runtime/src/distributed/shepherd_serving_eligibility.rs)
+      printf 'runtime_v3_shepherd_serving_eligibility'
+      ;;
+    adl-runtime/src/distributed/observatory_serving_eligibility.rs)
+      printf 'runtime_v3_observatory_serving_eligibility'
+      ;;
+    adl-runtime/src/bin/adl-observatory-static.rs)
+      printf 'runtime_v3_observatory_static'
+      ;;
+    adl-runtime/src/distributed/authority_reconciliation.rs|\
+    adl-runtime/src/distributed/capability_advertisement.rs|\
+    adl-runtime/src/distributed/certificates.rs|\
+    adl-runtime/src/distributed/fencing.rs|\
+    adl-runtime/src/distributed/migration.rs|\
+    adl-runtime/src/distributed/placement.rs|\
+    adl-runtime/src/distributed/recovery.rs|\
+    adl-runtime/src/distributed/resource_weather.rs|\
+    adl-runtime/src/distributed/snapshot_catalog.rs)
+      if grep -Fx "adl-runtime/src/distributed/authority_store_adapters.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_store_boundary'
+      else
+        return 1
+      fi
+      ;;
+    adl-runtime/src/distributed/lease.rs)
+      if grep -Fx "adl-runtime/src/distributed/authority_store_adapters.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_store_boundary'
+      else
+        printf 'runtime_v3_distributed_projection'
+      fi
       ;;
     adl-runtime/src/runtime_api_auth.rs)
       printf 'runtime_v3_auth'
+      ;;
+    adl-runtime/src/memory_palace.rs)
+      printf 'runtime_memory_palace'
       ;;
     adl/src/csdlc_prompt_editor.rs)
       printf 'csdlc_prompt_editor'
@@ -326,7 +399,7 @@ candidate_filter_for_path() {
     adl/src/runtime_v2/shutdown_dag.rs)
       printf 'runtime_v2_csm_shutdown_dag'
       ;;
-    adl/src/gws_live_capability_execution_surface.rs|adl/src/gws_live_content_card_roundtrip.rs|adl/src/gws_live_content_card_roundtrip/*.rs|adl/src/gws_live_safety_package.rs|adl/src/gws_live_test_support.rs)
+    adl/src/gws_live_test_support.rs)
       printf 'gws_live'
       ;;
     adl/src/adl_gws_context_mirror.rs)
@@ -337,9 +410,6 @@ candidate_filter_for_path() {
       ;;
     adl/src/adl_gws_native.rs)
       printf 'adl_gws_native'
-      ;;
-    adl/src/uts_acc_multi_model_benchmark.rs|adl/src/uts_acc_multi_model_benchmark/*.rs|adl/src/uts_acc_multi_model_benchmark/*/*.rs)
-      printf 'uts_acc_multi_model_benchmark::'
       ;;
     adl/src/bin/adl_lint_prompt_spec.rs|adl/src/bin/adl_prompt_template.rs|adl/src/bin/adl_validate_structured_prompt.rs)
       printf 'tooling_cmd'
@@ -398,6 +468,9 @@ nextest_expression_for_filter() {
     pr_shepherd)
       printf '(binary_id(adl::bin/adl-pr-shepherd) and test(/^cli::pr_cmd::/)) or (binary_id(adl::bin/adl-pr-shepherd) and test(/^tests::adl_pr_shepherd_/))'
       ;;
+    resident_shepherd_spot_continuity)
+      printf 'binary_id(adl) and test(/^resident_shepherd_spot_continuity::/)'
+      ;;
     adl_aws_remote_validation_bin)
       printf 'binary_id(adl::bin/adl-aws-remote-validation) and test(/^tests::/)'
       ;;
@@ -428,6 +501,9 @@ nextest_expression_for_filter() {
     csm_runtime_agent)
       printf '(binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_networking::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/) or test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)) or binary_id(adl::cli_smoke) and test(/^agent::csm_/)) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout)'
       ;;
+    memory_palace)
+      printf 'test(memory_palace)'
+      ;;
     long_lived_agent_storage)
       printf 'binary_id(adl) and test(long_lived_agent::storage)'
       ;;
@@ -446,8 +522,32 @@ nextest_expression_for_filter() {
     runtime_v3_distributed_transport)
       printf 'binary_id(adl-runtime::distributed_transport)'
       ;;
+    runtime_v3_distributed_projection)
+      printf 'binary_id(adl-runtime::distributed_projection)'
+      ;;
+    runtime_v3_authority_protocol)
+      printf 'package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
+      ;;
+    runtime_v3_authority_store_boundary)
+      printf 'package(adl-runtime) and ((binary_id(adl-runtime) and test(/^distributed::authority_store_adapters::/)) or binary_id(adl-runtime::distributed_authority_protocol) or binary_id(adl-runtime::distributed_authority_reconciliation) or binary_id(adl-runtime::distributed_authority_snapshots) or binary_id(adl-runtime::distributed_capability_advertisement) or binary_id(adl-runtime::distributed_certificates) or binary_id(adl-runtime::distributed_fencing) or binary_id(adl-runtime::distributed_identity_lease_authority) or binary_id(adl-runtime::distributed_lease) or binary_id(adl-runtime::distributed_migration) or binary_id(adl-runtime::distributed_placement) or binary_id(adl-runtime::distributed_recovery) or binary_id(adl-runtime::distributed_resource_weather) or binary_id(adl-runtime::distributed_snapshot_catalog) or (binary_id(adl-runtime::distributed_transport) and not test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)))'
+      ;;
+    runtime_v3_integrated_serving_authority)
+      printf 'binary_id(adl-runtime::distributed_integrated_serving_authority) or (binary_id(adl-runtime) and test(/^distributed::integrated_serving_authority_snapshot::tests::/))'
+      ;;
+    runtime_v3_shepherd_serving_eligibility)
+      printf 'binary_id(adl-runtime::distributed_shepherd_serving_eligibility)'
+      ;;
+    runtime_v3_observatory_serving_eligibility)
+      printf 'binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))'
+      ;;
+    runtime_v3_observatory_static)
+      printf 'test(adl_observatory_static)'
+      ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'
+      ;;
+    runtime_memory_palace)
+      printf 'binary_id(adl-runtime) and test(/^memory_palace::tests::/)'
       ;;
     v086_review_surface)
       printf 'binary_id(adl) and test(/^demo::tests::v086_review_surface_demo_marks_retired_external_entries$/)'
@@ -585,6 +685,10 @@ focused_summary_command_for_filter() {
   local filter="$1"
   local expression
   expression="$(nextest_expression_for_filter "$filter")"
+  if [ "$filter" = "runtime_v3_integrated_serving_authority" ]; then
+    printf "bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression '%s'" "$expression"
+    return 0
+  fi
   printf "cd adl && CARGO_INCREMENTAL=0 cargo llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E '%s' && cargo llvm-cov report --json --summary-only --output-path target/coverage-impact-summary.json" "$expression"
 }
 
@@ -598,6 +702,96 @@ rerun_preflight_command() {
     printf ' --head %s' "$HEAD"
   fi
   printf ' --summary adl/target/coverage-impact-summary.json'
+}
+
+cleanup_mechanical_fallout_attempt() {
+  local proof_root="$1"
+  local result_dir="$2"
+  local diff_file="$3"
+  local post_diff_file="$4"
+  local receipt_file="$5"
+  rm -rf "$proof_root" "$result_dir"
+  rm -f "$diff_file" "$post_diff_file" "$receipt_file"
+}
+
+mechanical_fallout_receipt_for_path() {
+  local path="$1"
+  [ -n "$MECHANICAL_RECEIPT_DIR" ] || return 1
+  local classifier_rel="adl/tools/mechanical_coverage_fallout.py"
+  local mapping_rel="adl/config/mechanical_coverage_fallout.v1.json"
+  local diff_file post_diff_file receipt_file result_dir path_digest base_revision head_revision diff_digest proof_root proof_revision
+  diff_file="$(mktemp)"
+  post_diff_file="$(mktemp)"
+  proof_root="$(mktemp -d)"
+  path_digest="$(printf '%s' "$path" | shasum -a 256 | awk '{print $1}')"
+  receipt_file="$MECHANICAL_RECEIPT_DIR/mechanical-${path_digest}.json"
+  result_dir="$MECHANICAL_RECEIPT_DIR/results/${path_digest}"
+  # A rerun for the same path replaces its complete evidence set. Remove stale
+  # success artifacts before attempting classification, and leave no receipt or
+  # results behind if any later step rejects or fails.
+  rm -f "$receipt_file"
+  rm -rf "$result_dir"
+  if [ "$INCLUDE_WORKTREE" = true ]; then
+    git -C "$ROOT" diff "$BASE" -- "$path" >"$diff_file"
+    base_revision="$(git -C "$ROOT" rev-parse "$BASE")" || {
+      cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"
+      return 1
+    }
+    diff_digest="$(shasum -a 256 "$diff_file" | awk '{print $1}')"
+    head_revision="worktree:${diff_digest}"
+    proof_revision="$base_revision"
+  else
+    git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$diff_file" 2>/dev/null ||
+      git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$diff_file"
+    base_revision="$(git -C "$ROOT" merge-base "$BASE" "$HEAD")" || {
+      cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"
+      return 1
+    }
+    head_revision="$(git -C "$ROOT" rev-parse "$HEAD")" || {
+      cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"
+      return 1
+    }
+    proof_revision="$head_revision"
+  fi
+  # Proof commands never consume the mutable caller worktree. Build a clean,
+  # untracked-file-free snapshot from the exact Git object and overlay only the
+  # classified worktree diff when authoring against an uncommitted candidate.
+  if ! git -C "$ROOT" archive "$proof_revision" | tar -x -C "$proof_root"; then
+    cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1
+  fi
+  if [ "$INCLUDE_WORKTREE" = true ] && ! patch -s -d "$proof_root" -p1 <"$diff_file"; then
+    cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1
+  fi
+  local classifier="$proof_root/$classifier_rel"
+  local mapping="$proof_root/$mapping_rel"
+  [ -f "$classifier" ] && [ -f "$mapping" ] || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+  local classifier_digest mapping_digest
+  classifier_digest="$(shasum -a 256 "$classifier" | awk '{print $1}')"
+  mapping_digest="$(shasum -a 256 "$mapping" | awk '{print $1}')"
+  if python3 "$classifier" --diff "$diff_file" --mapping "$mapping" \
+      --receipt "$receipt_file" --repo-root "$proof_root" \
+      --evidence-dir "$result_dir" \
+      --base-revision "$base_revision" --head-revision "$head_revision" >/dev/null; then
+    [ "$(shasum -a 256 "$classifier" | awk '{print $1}')" = "$classifier_digest" ] &&
+      [ "$(shasum -a 256 "$mapping" | awk '{print $1}')" = "$mapping_digest" ] || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    if [ "$INCLUDE_WORKTREE" = true ]; then
+      git -C "$ROOT" diff "$BASE" -- "$path" >"$post_diff_file"
+      [ "$(git -C "$ROOT" rev-parse "$BASE")" = "$base_revision" ] || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    else
+      git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$post_diff_file" 2>/dev/null ||
+        git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$post_diff_file"
+      [ "$(git -C "$ROOT" merge-base "$BASE" "$HEAD")" = "$base_revision" ] &&
+        [ "$(git -C "$ROOT" rev-parse "$HEAD")" = "$head_revision" ] || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    fi
+    cmp -s "$diff_file" "$post_diff_file" || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    rm -rf "$proof_root"
+    rm -f "$diff_file"
+    rm -f "$post_diff_file"
+    echo "coverage-impact: accepted exact mechanical compile fallout for ${path}; receipt ${receipt_file}"
+    return 0
+  fi
+  cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"
+  return 1
 }
 
 print_next_actions_for_path() {
@@ -819,6 +1013,9 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
       continue
     fi
     if ! awk -v pct="$pct" -v threshold="$THRESHOLD" 'BEGIN { exit ((pct + 0) < (threshold + 0)) ? 0 : 1 }'; then
+      continue
+    fi
+    if mechanical_fallout_receipt_for_path "$path"; then
       continue
     fi
     failures="${failures}  - ${path} (${covered_count}, ${pct}% < ${THRESHOLD}%)"$'\n'

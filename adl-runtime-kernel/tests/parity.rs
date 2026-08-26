@@ -736,6 +736,11 @@ async fn process_backend_timeout_and_oversized_file_leave_no_artifacts() {
     let helper = env!("CARGO_BIN_EXE_adl-runtime-shadow-fixture");
     for (mode, output, expected) in [
         ("hang", ProcessOutput::StdoutJson, "timeout"),
+        (
+            "output-limit-then-hang",
+            ProcessOutput::FileJson,
+            "output_limit",
+        ),
         ("oversized-file", ProcessOutput::FileJson, "output_limit"),
     ] {
         let output_root = tempfile::tempdir().unwrap();
@@ -743,7 +748,7 @@ async fn process_backend_timeout_and_oversized_file_leave_no_artifacts() {
             ProcessBackendConfig {
                 generation: RuntimeGeneration::V3,
                 program: helper.into(),
-                args: if mode == "oversized-file" {
+                args: if matches!(mode, "oversized-file" | "output-limit-then-hang") {
                     vec![mode.to_owned(), "{output}".to_owned()]
                 } else {
                     vec![mode.to_owned()]

@@ -7,7 +7,7 @@ use thiserror::Error;
 use crate::{
     Capability, CapabilityRequirement, Component, ComponentContext, ComponentError,
     ComponentFactory, ComponentId, ComponentSpec, DeterminismClass, FailurePolicy,
-    LifecycleGuarantees, PortSpec, ServiceContract, SERVICE_CONTRACT_SCHEMA,
+    LifecycleGuarantees, ServiceContract, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const COGNITION_CONTEXT_SCHEMA: &str = "adl.runtime.cognition.context.v1";
@@ -222,36 +222,24 @@ impl ComponentFactory for CognitionComponentFactory {
 
 pub fn cognition_component_specs() -> Vec<ComponentSpec> {
     [
-        (
-            "moral_affect_wellbeing_adapter",
-            vec![],
-            vec![],
-            vec![
-                PortSpec::typed::<CognitionContext>("context"),
-                PortSpec::typed::<CognitionDecision>("decision"),
-            ],
-        ),
+        ("moral_affect_wellbeing_adapter", vec![]),
         (
             "curiosity_intelligence_theory_of_mind_adapter",
             vec![ComponentId::new("moral_affect_wellbeing_adapter")],
-            vec![PortSpec::typed::<CognitionContext>("context")],
-            vec![PortSpec::typed::<CognitionDecision>("decision")],
         ),
         (
             "cognition_review_record",
             vec![ComponentId::new(
                 "curiosity_intelligence_theory_of_mind_adapter",
             )],
-            vec![PortSpec::typed::<CognitionDecision>("decision")],
-            vec![PortSpec::typed::<CognitionReviewRecord>("review")],
         ),
     ]
     .into_iter()
-    .map(|(id, dependencies, inputs, outputs)| ComponentSpec {
+    .map(|(id, dependencies)| ComponentSpec {
         id: ComponentId::new(id),
         dependencies,
-        inputs,
-        outputs,
+        inputs: Vec::new(),
+        outputs: Vec::new(),
         failure_policy: FailurePolicy::Fatal,
     })
     .collect()
@@ -281,6 +269,8 @@ pub fn cognition_service_contracts() -> Vec<ServiceContract> {
                     bounded_shutdown_millis: 1_000,
                     restart_safe: true,
                     idempotent_start: true,
+                    role: crate::LifecycleRole::Workload,
+                    required_core: false,
                 },
                 provides: vec![Capability {
                     name: format!("cognition.{name}"),
@@ -305,6 +295,18 @@ pub fn cognition_service_contracts() -> Vec<ServiceContract> {
             }
         })
         .collect()
+}
+
+impl crate::PortProtocol for CognitionContext {
+    const PROTOCOL: &'static str = "adl.runtime.cognition.context.v1";
+}
+
+impl crate::PortProtocol for CognitionDecision {
+    const PROTOCOL: &'static str = "adl.runtime.cognition.decision.v1";
+}
+
+impl crate::PortProtocol for CognitionReviewRecord {
+    const PROTOCOL: &'static str = "adl.runtime.cognition.review-record.v1";
 }
 
 fn requirement(name: &str) -> CapabilityRequirement {

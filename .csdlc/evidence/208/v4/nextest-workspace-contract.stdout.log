@@ -1,0 +1,1 @@
+PASS: nextest workspace and slow-proof selections remain loadable without absent-binary operators; exact 56-case leak policy remains fail-closed

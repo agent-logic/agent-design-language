@@ -1,0 +1,8 @@
+flowchart LR
+  R["Typed recordless closeout request"] --> V["Validate live GitHub issue and PR authority"]
+  V --> P["Check local projection and retained evidence"]
+  P -->|No projection and no contradiction| C["Classify no-projection merged authority"]
+  C -->|classify_only| O["Machine-readable blocker/classification result"]
+  C -->|recordless_terminal| T["Minimal terminal receipt without synthesized cards"]
+  P -->|Contradictory retained publication| F["Fail closed with precedence blocker"]
+  V -->|Wrong repo, SHA, state, or linkage| F

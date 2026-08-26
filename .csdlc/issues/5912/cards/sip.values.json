@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5912,
+    "repository": "danielbaustin/agent-design-language",
+    "title": "Add production birth-witness policy provisioning and invocation boundary",
+    "slug": "runtime-birth-witness-boundary",
+    "version": "1.0.0",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make the governed birth-witness contract usable through a Runtime-owned production path.",
+      "required_outcome": "A non-test Runtime owner provisions opaque policy, builds and validates a packet, and emits its canonical caveated receipt.",
+      "declared_scope": [
+        "Runtime-owned birth-witness policy provisioning",
+        "production build, validation, and receipt emission path",
+        "focused production-path integration proof"
+      ],
+      "authority_boundary": [
+        "Trusted roster configuration enters only through the Runtime-owned constructor.",
+        "The opaque BirthWitnessPolicy remains inaccessible to external consumers.",
+        "No receipt grants birth, citizenship, governance, legal, or launch authority."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Keep closed issue #5833 and its historical evidence unchanged.",
+        "Use only typed C-SDLC v2 lifecycle owners.",
+        "Keep implementation bounded to the smallest Runtime integration surface."
+      ]
+    }
+  }
+}

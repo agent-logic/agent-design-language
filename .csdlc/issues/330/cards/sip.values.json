@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 330,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC][defect] Bridge-fed projection cleanup invalidates recovery validation and fails closed-race invariant",
+    "slug": "bridge-fed-projection-cleanup-defect",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Repair the production recovery-to-cleanup boundary exposed by #300's bridge-fed integration proof.",
+      "required_outcome": "A real #297 recovery-derived cleanup can complete without poisoning retained recovery validation, and cleanup final-receipt races fail closed with byte-exact zero mutation.",
+      "declared_scope": [
+        "csdlc-v2/src/projection_recovery.rs",
+        "csdlc-v2/src/projection_cleanup.rs",
+        "csdlc-v2/tests/projection_recovery_integration.rs",
+        "focused csdlc-v2/tests regressions for #330",
+        ".csdlc/issues/330",
+        ".csdlc/evidence/330"
+      ],
+      "authority_boundary": [
+        "#330 owns only the production invariant repair named by #300 RED evidence",
+        "#300 remains frozen/unpublished until #330 is terminal and ancestral",
+        "#297 is terminal dependency authority, not a surface for mutation",
+        "Typed C-SDLC v2 remains sole lifecycle authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never edit tracked primary main for implementation",
+        "Bind beneath /Volumes/FastWork/adl-worktrees before source edits",
+        "Preserve root unrelated staging and #300 blocked-proof checkpoint",
+        "Do not weaken #299 cleanup authority or zero-mutation acceptance criteria"
+      ]
+    }
+  }
+}

@@ -1,0 +1,566 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 315,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
+  "phase": "implemented",
+  "generation": 36,
+  "digest": "54272e2cb5e0ad2d108b9d6cf8f20c77ef578cc2d8e4045683c95ced5e17e4b4",
+  "branch": "codex/315-wp27-review-findings-remediation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
+  "review_assignment": {
+    "reviewer": "subagent:issue-315-rebased-exact-head-review",
+    "assigned_by": "codex:issue-315-main-rebase-shepherd",
+    "revision": "git-blake3:d171dbe3fca0d74b6d2efb18fd2edf2d6cd0b107:534b8990ae85e8e6ca2fb7b706f8be65688352e62770ed06edb586039cc9d3b1",
+    "scope": [
+      "."
+    ]
+  },
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5848/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5848/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:5860-quality-release-replay-combined-design-review",
+      "revision": "a8c4e836fab9cfe165b47685a5ac10d40f44741c1e6f055a4085d62be188bdf1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "46b43f71ca14ca15b7dc773c9356a3fe4dc9aacc64cfe53485a3961a194edb9f",
+      "rendered_digest": "341c937fdfdc7d28a4e966b62a53bc61394af898f7d104b27cf4e82cb4a3b800",
+      "ast_digest": "2ef61ea6b35c490db81836796f74a1247d260661fcdae958af258730150e9659"
+    },
+    "stp": {
+      "values_digest": "a1b64262a5331675ee994d90d83dda5af0f2dd8ef7920b74bb938f8421cd25a6",
+      "rendered_digest": "41c5d09e96d48953aae37c390321be4df65dad1a73e471eae95bc941aa0ac704",
+      "ast_digest": "d60860595e2c59a73829c43968af0e5682c0867545ad6482d07bedaeb7410de3"
+    },
+    "spp": {
+      "values_digest": "dd2bbdbcbe74170ceb84f3c6b4e35bb416b651e25433d263090efb1dcf23e4bf",
+      "rendered_digest": "7d44071f2b2575d1bbc72ef5c363af15693041d8c9e288427b4b586794de3228",
+      "ast_digest": "62fe05bf64aa2e5bffd3770163dc4cc297e7601748ebdf127bde703a464a63a6"
+    },
+    "vpp": {
+      "values_digest": "6da0f1e153aaba8ce50eb53ad3a0dfb2f5de9f2e38c1566f3fcb67799fdc97e5",
+      "rendered_digest": "692839efbf65774e00435f737056f0c437593f76407d1e0972c03cdce4f9832c",
+      "ast_digest": "101d27a7f23bffe92592b085a113f695514e8369f47580cef9ac915f13b4d8d0"
+    },
+    "srp": {
+      "values_digest": "379c74880eb415257db76a24691b828cce36c84c808a4de09e9ff17f7865c691",
+      "rendered_digest": "4c50023a8a697e8af91dc87d684509fea72c7e6f056fea759cf06ab1841e29f9",
+      "ast_digest": "a60123dc8fcc7285d1d00e8cc46ed514b0a20afd234b76120f89e688a1d93945"
+    },
+    "sor": {
+      "values_digest": "a5a94b31983578421a1be5c247fe645a52b14ff8820b54a9426107a2d17fa4c5",
+      "rendered_digest": "362b9ba372a92c29977fc6f238192a749764e802c7153b4428a98f39c751176c",
+      "ast_digest": "e46c23a1fdd8930aebff0d127e2326a4b0325eead8628817bec81ca6dacd0ab2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "automatic readiness verification"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "verified Git worktree binding"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "initialized",
+      "actor": "csdlc-topology-migrate",
+      "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-315-wp27-remediation",
+      "reason": "Issue #315 / legacy #5848 remediation implementation and focused validation are complete; exact-head review is next."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-315-gpt5.5-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-315-review-recovery-after-identity-migration",
+      "reason": "Recover review after the typed legacy-to-canonical issue identity migration changed lifecycle projections after the prior exact-head review."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-315-current-head-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-315-wp27-publication",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-315-runtime-fast-ci-repair",
+      "reason": "Hosted Runtime v3 fast-lane Clippy exposed a large error variant introduced by the reviewed birthday cleanup remediation; recover published review truth for a bounded behavior-preserving boxing fix, focused validation, exact-head review, and republish."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-315-runtime-fast-ci-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-315-runtime-fast-ci-repair",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-315-main-rebase-review-recovery",
+      "reason": "Recover stale published review and publication truth after rebasing PR #473 onto current main at b1e4ab4777e3e818a3cd2e14524ebe4c519f340e; obtain a fresh assigned exact-head review at d171dbe3fca0d74b6d2efb18fd2edf2d6cd0b107 before typed finish."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "wp01:issue-wave-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 0,
+      "actor": "codex:5817",
+      "reason": "Revoke WP-01 bootstrap-only preparation reservation so issue 5817 can own and review every path it publishes; the child session must reacquire its issue-local claim after WP-01 releases.",
+      "operation": "{\"claim_id\":\"claim-5848-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-wp01-publication-ownership\",\"previous_owner\":\"wp01:issue-wave-preparation\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 0,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Reacquire the exact released WP-01 preparation claim to make issue 5848 design-time execution-ready without product implementation, publication, push, merge, or closeout.",
+      "operation": "{\"branch\":\"codex/5860-quality-release-readiness\",\"claim_id\":\"claim-5848-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-readiness\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5848\",\".csdlc/issues/5848\",\".csdlc/locks/5848.lock\",\".csdlc/prepared/issues/5848\"],\"purpose\":\"Prepare and approve issue 5848 design and typed cards only; no product behavior, shared milestone docs, PR, push, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:5860-quality-release-readiness-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 1,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "bind branch/worktree and activate claim",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 2,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Replace generic scope with exact issue-owned preparation and future execution boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"Freeze and reconcile the complete WP-25 and WP-26 finding universe\",\"Group findings into exact owner-aligned remediation slices with positive, negative, platform/security/privacy, rollback, review, and merge proof\",\"Retain one canonical disposition row per finding and block WP-28 while any actionable item is open or unproven\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Bind the task to current issue, repository, milestone, and predecessor evidence.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"Terminal WP-25 internal register and WP-26 received report/findings index\",\"Exact reviewed source revisions, current affected owners, and live issue/PR/typed state\",\"Current WP-22 matrix rows and release-facing claims affected by each remediation\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Replace generic non-goals with issue-specific exclusions and authority boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Suppressing, renumbering, or blanket-accepting reviewer findings\",\"Unrelated cleanup, milestone replanning, or release ceremony\",\"Claiming that an opened PR, intent, or unreviewed patch is a fixed disposition\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Replace generic acceptance, three-step scaffolding, and diff-only VPP with the complete issue-specific plan.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Every WP-25/WP-26 finding appears exactly once in the canonical universe with source ID/reviewer, severity, evidence, invariant, owner, scope decision, and current disposition.\",\"AC-2: Deduplication preserves all provenance and disagreement; each actionable item has the smallest coherent owner-aligned slice, exact paths, acceptance, negative cases, rollback, and dependency gate.\",\"AC-3: Every fixed disposition names exact fix head, proving validation, exact-head review, PR, merge, affected platform/security/privacy lanes, and updated WP-22/release-claim evidence.\",\"AC-4: Out-of-scope routes name a real follow-on owner; accepted risk has explicit operator authority and residual evidence; no finding disappears through rewording.\",\"AC-5: The disposition register and live issue/PR/typed readback reject stale, open, unmerged, unreviewed, failed, missing-proof, or unauthorized-risk rows.\",\"AC-6: One exact-head review finds no actionable disposition gap and WP-28 remains blocked until all actionable rows are proven fixed or authoritatively routed.\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Verify WP-26 terminal ancestry and freeze the complete internal/external finding universe.\",\"acceptance_ids\":[\"AC-1\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Deduplicate only identical failure modes, preserve provenance/disagreement, and assign exact owner-aligned remediation slices.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Implement each slice through its owner lifecycle with focused positive/negative, rollback, and required platform/security/privacy proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Record exact fix/review/PR/merge identity, re-run affected WP-22 rows, and reconcile release-facing claims.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Resolve exact-head disposition review and block or release WP-28 truthfully.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"finding-universe-disposition\",\"proof_role\":\"Require complete provenance-preserving rows and exact owner, scope, disposition, evidence, fix/review/PR/merge fields where applicable.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\"-e\",\"require 'json'; r=JSON.parse(File.read('docs/reviews/v0.92/remediation-5848/dispositions.json')); abort 'empty finding universe' unless r['rows'].is_a?(Array) && !r['rows'].empty?; abort 'incomplete row' unless r['rows'].all? { |x| %w[id source severity evidence owner disposition].all? { |k| x[k] } }\"],\"parallel_group\":\"disposition\",\"defer_reason\":null},{\"lane\":\"open-stale-unauthorized-negative\",\"proof_role\":\"Reject open actionable, stale fix/review SHA, unmerged, failed, missing-proof, unowned follow-on, or unauthorized accepted-risk rows.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\"-e\",\"require 'json'; r=JSON.parse(File.read('docs/reviews/v0.92/remediation-5848/validation.json')); abort 'remediation blockers remain' unless r['blockers'].is_a?(Array) && r['blockers'].empty?\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"affected-quality-regression\",\"proof_role\":\"Re-run every affected WP-22 row and release-facing claim check at each exact merged remediation revision.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"regression\",\"defer_reason\":null},{\"lane\":\"typed-card-doctor\",\"proof_role\":\"Validate the exact rendered six-card bundle, cross-card references, digests, statuses, and canonical issue record.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5848\"],\"parallel_group\":\"typed-readback\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Make the operative SPP summary issue-specific and executable.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Freeze the complete review-finding universe, preserve provenance while deduplicating true duplicates, assign exact owner-aligned fix slices, validate and review each fix, reconcile exact PR/merge/quality-gate truth, and block downstream planning until every actionable item is proven.\",\"operation\":\"replan\",\"previous_value\":\"Prepare the exact issue scope, implement the required outcome, run focused proof, resolve one bounded review, and publish with closing linkage.\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Record exact protected-path candidates and require just-in-time narrowing.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/reviews/v0.92/remediation-5848 and .csdlc/evidence/5848\",\"Exact implementation, test, docs, or workflow files assigned by the frozen finding-to-owner map\",\"Exact release-facing docs whose claims change after a proven fix\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Replace generic review prompts while preserving truthful pre-review state.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does every internal and external finding retain provenance, evidence, severity, owner, scope decision, and one truthful disposition?\",\"Are remediation slices narrowly owner-aligned with exact positive, negative, rollback, and platform/security/privacy proof?\",\"Does every fixed row name exact validated, reviewed, merged identity and updated quality/release evidence?\",\"Could any open, stale, unproven, unowned, or unauthorized-risk row incorrectly release WP-28?\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:5860-quality-release-readiness",
+      "reason": "Release the temporary preparation-only binding after exact-digest design approval and typed card rendering so the implementation session can reacquire authority just in time.",
+      "operation": "{\"claim_id\":\"claim-5848-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-preparation-completion\",\"previous_owner\":\"codex:5860-quality-release-readiness\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:5860-quality-release-readiness-repair",
+      "reason": "Reacquire the released preparation claim to repair exact-head quality/release readiness findings without implementation or publication.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5848-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-readiness-repair\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5848\",\".csdlc/issues/5848\",\".csdlc/locks/5848.lock\",\".csdlc/prepared/issues/5848\"],\"purpose\":\"Repair issue 5848 design and typed cards only; no product behavior, shared milestone docs, PR, push, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:5860-quality-release-readiness-repair-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:5860-quality-release-readiness-repair",
+      "reason": "Replace self-attested quality/release validation with issue-local proving validators that resolve the exact-head review findings.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"finding-universe-disposition\",\"proof_role\":\"Require complete provenance-preserving rows and exact owner, scope, disposition, evidence, fix/review/PR/merge fields where applicable.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":240,\"budget_tokens\":2500,\"argv\":[\"ruby\",\"-e\",\"require 'json'; r=JSON.parse(File.read('docs/reviews/v0.92/remediation-5848/dispositions.json')); abort 'empty finding universe' unless r['rows'].is_a?(Array) && !r['rows'].empty?; keys=%w[id source severity evidence owner disposition]; abort 'incomplete row' unless r['rows'].all? { |x| keys.all? { |k| x[k].is_a?(String) && !x[k].strip.empty? } }\"],\"parallel_group\":\"disposition\",\"defer_reason\":null},{\"lane\":\"open-stale-unauthorized-negative\",\"proof_role\":\"Reject open actionable, stale fix/review SHA, unmerged, failed, missing-proof, unowned follow-on, or unauthorized accepted-risk rows.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"ruby\",\"-e\",\"require 'json'; r=JSON.parse(File.read('docs/reviews/v0.92/remediation-5848/validation.json')); abort 'remediation blockers remain' unless r['blockers'].is_a?(Array) && r['blockers'].empty?\"],\"parallel_group\":\"negative\",\"defer_reason\":null},{\"lane\":\"affected-quality-regression\",\"proof_role\":\"Execute every affected WP-22 row validator and every impacted release-claim validator at the exact remediation target SHA; require an explicit no-impact disposition when no release claim changed.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"parallel_group\":\"regression\",\"defer_reason\":null},{\"lane\":\"typed-card-doctor\",\"proof_role\":\"Validate the exact rendered six-card bundle, cross-card references, digests, statuses, and canonical issue record.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5848\"],\"parallel_group\":\"typed-readback\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:5860-quality-release-readiness-repair",
+      "reason": "Release the temporary repair claim after typed rendering, design reapproval, and bounded readiness validation.",
+      "operation": "{\"claim_id\":\"claim-5848-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-readiness-repair-completion\",\"previous_owner\":\"codex:5860-quality-release-readiness-repair\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 10,
+      "actor": "codex:5860-quality-release-second-pass",
+      "reason": "Reacquire the released preparation claim to repair exact-head quality/release readiness findings without implementation or publication.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5848-v092-preparation\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-second-pass\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5848\",\".csdlc/issues/5848\",\".csdlc/locks/5848.lock\",\".csdlc/prepared/issues/5848\"],\"purpose\":\"Repair issue 5848 design and typed cards only; no product behavior, shared milestone docs, PR, push, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 11,
+      "actor": "codex:5860-quality-release-second-pass-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 20,
+      "generation": 11,
+      "actor": "codex:5860-quality-release-second-pass",
+      "reason": "Release the second-pass preparation claim after typed rendering, design reapproval, and bounded validation.",
+      "operation": "{\"claim_id\":\"claim-5848-v092-preparation\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-quality-release-second-pass-completion\",\"previous_owner\":\"codex:5860-quality-release-second-pass\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 11,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Reacquire issue-local preparation authority to normalize exact owned paths and serialization gates without product implementation.",
+      "operation": "{\"branch\":\"codex/5860-v092-ownership-normalization\",\"claim_id\":\"claim-5848-v092-ownership-normalization\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-v092-ownership-normalization\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5848\",\".csdlc/prepared/issues/5848\",\".csdlc/evidence/5848\"],\"purpose\":\"Normalize issue 5848 design/card ownership only; no product implementation, GitHub mutation, wave/WBS mutation, or publication.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 12,
+      "actor": "codex:5860-v092-ownership-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 23,
+      "generation": 13,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Align the operative plan with exact owned paths and machine-readable serialization gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/reviews/v0.92/remediation-5848\",\".csdlc/evidence/5848\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 13,
+      "actor": "codex:5860-v092-ownership-normalization",
+      "reason": "Release the temporary ownership-normalization claim after typed card regeneration and exact-digest design reapproval.",
+      "operation": "{\"claim_id\":\"claim-5848-v092-ownership-normalization\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-ownership-normalization\",\"previous_owner\":\"codex:5860-v092-ownership-normalization\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 13,
+      "actor": "codex:5860-quality-release-exact-repair",
+      "reason": "Acquire bounded preparation claim for exact-head quality/release readiness repair of issue 5848; no product implementation or aggregate mutation.",
+      "operation": "{\"branch\":\"codex/5860-quality-release-exact-repair\",\"claim_id\":\"claim-5848-v092-quality-release-exact-repair\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-exact-repair\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/evidence/5848\",\".csdlc/issues/5848\",\".csdlc/locks/5848.lock\",\".csdlc/prepared/issues/5848\"],\"purpose\":\"Repair issue 5848 design, exact ownership, and issue-local proving validator only; no product implementation, #5860 aggregate surfaces, #5861, GitHub bodies, publication, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 14,
+      "actor": "codex:5860-quality-release-exact-repair",
+      "reason": "Replace incomplete or self-attested readiness proof with issue-local reconstructed and exact-head validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-remediation-truth\",\"proof_role\":\"Reconstruct the complete internal plus external finding universe, validate every disposition and accepted-risk authority, read live remediation PR head/review/check/merge state and typed terminal truth, then rerun all affected quality and release validators.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":960,\"budget_tokens\":8500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"parallel_group\":\"remediation\",\"defer_reason\":null},{\"lane\":\"typed-card-doctor\",\"proof_role\":\"Validate the exact six-card bundle and design approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5848\"],\"parallel_group\":\"typed-readback\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 14,
+      "actor": "codex:5860-quality-release-exact-repair",
+      "reason": "Release bounded readiness-repair preparation claim after typed rendering, design approval, and focused validation.",
+      "operation": "{\"claim_id\":\"claim-5848-v092-quality-release-exact-repair\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-quality-release-exact-repair-completion\",\"previous_owner\":\"codex:5860-quality-release-exact-repair\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 14,
+      "actor": "codex:5860-quality-release-replay",
+      "reason": "Reacquire the released issue-local preparation claim to replay quality rollback and reciprocal serialization onto the exact integrated head.",
+      "operation": "{\"branch\":\"codex/5860-quality-release-replay\",\"claim_id\":\"claim-5848-v092-quality-replay\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-quality-release-replay\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5848\",\".csdlc/prepared/issues/5848\",\".csdlc/evidence/5848\"],\"purpose\":\"Replay issue-local rollback and serialization readiness onto exact integrated head only; preserve Birthday changes; no product implementation, #5860 aggregate, #5861, publication, merge, or closeout authority.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 15,
+      "actor": "codex:5860-quality-release-replay-combined-design-review",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 30,
+      "generation": 16,
+      "actor": "codex:5860-quality-release-replay",
+      "reason": "Regenerate the exact combined-head SPP projection from approved Owned Paths plus Serialization Gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/reviews/v0.92/remediation-5848\",\".csdlc/evidence/5848\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 16,
+      "actor": "codex:5860-quality-release-replay",
+      "reason": "Release exact-head replay claim after combined design approval, SPP regeneration, 58-issue ownership proof, and zero rollback-gap proof.",
+      "operation": "{\"claim_id\":\"claim-5848-v092-quality-replay\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-5860-quality-replay-completion\",\"previous_owner\":\"codex:5860-quality-release-replay\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 16,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Acquire issue-local authority to declare the exact VPP pre-execution rejection contract.",
+      "operation": "{\"branch\":\"codex/5860-v092-execution-readiness\",\"claim_id\":\"claim-5848-v092-preexec-contract\",\"operation\":\"reacquire_claim\",\"owner\":\"codex:5860-vpp-preexecution-contracts\",\"previous_claim_id\":null,\"previous_owner\":null,\"protected_paths\":[\".csdlc/issues/5848\",\".csdlc/prepared/issues/5848\",\".csdlc/evidence/5848\"],\"purpose\":\"Declare the issue-local VPP pre-execution rejection contract without product implementation.\",\"worktree\":\".\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 17,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Declare the exact issue-local pre-execution rejection exit class and normalized diagnostic digest.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-remediation-truth\",\"proof_role\":\"Reconstruct the complete internal plus external finding universe, validate every disposition and accepted-risk authority, read live remediation PR head/review/check/merge state and typed terminal truth, then rerun all affected quality and release validators. [preexec_rejection exit=1 diagnostic_sha256=3494d461d63c7bf14aa92b73910e7f93ca56895e9d0eba8d4d60ef191485843b]\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":960,\"budget_tokens\":8500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"parallel_group\":\"remediation\",\"defer_reason\":null},{\"lane\":\"typed-card-doctor\",\"proof_role\":\"Validate the exact six-card bundle and design approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"5848\"],\"parallel_group\":\"typed-readback\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 17,
+      "actor": "codex:5860-vpp-preexecution-contracts",
+      "reason": "Release issue-local authority after typed VPP contract replacement.",
+      "operation": "{\"claim_id\":\"claim-5848-v092-preexec-contract\",\"operation\":\"revoke_active_claim\",\"operator_authority\":\"operator:daniel-issue-5860-preparation-only\",\"previous_owner\":\"codex:5860-vpp-preexecution-contracts\"}"
+    },
+    {
+      "sequence": 35,
+      "generation": 17,
+      "actor": "codex:5896-bound-topology-migration",
+      "reason": "migrate pre-#5886 bound record to Git topology authority",
+      "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 36,
+      "generation": 18,
+      "actor": "codex:315-wp27-remediation",
+      "reason": "Record the canonical agent-logic code repository for the migrated WP-27 remediation record before execution binding.",
+      "operation": "{\"schema\":\"csdlc.initialized_code_repository_migration_evidence.v1\",\"issue\":5848,\"actor\":\"codex:315-wp27-remediation\",\"reason\":\"Record the canonical agent-logic code repository for the migrated WP-27 remediation record before execution binding.\",\"pre_generation\":17,\"pre_digest\":\"372ab4623122ce1b077ea1b7b54fd98e59932f0e10a51a4c30bc16827dbbdbd1\",\"previous_code_repository\":null,\"source_issue_repository\":\"danielbaustin/agent-design-language\",\"requested_repository\":\"agent-logic/agent-design-language\",\"canonical_issue_collision_evidence_ref\":\".csdlc/prepared/issues/5848/initialized-code-repository-collision-evidence.json\",\"canonical_issue_collision_evidence_digest\":\"9cf197c10b968a8aab2b4314b414feda4e32365edca268e6e9a62dc975d19ed3\",\"canonical_issue_collision_disposition\":\"same_number_absent\",\"cross_repository_authority_disposition\":\"legacy_issue_authority_with_canonical_code_repository\",\"topology_state\":\"initialized_unbound\",\"phase\":\"initialized\",\"branch\":null,\"worktree\":null}"
+    },
+    {
+      "sequence": 37,
+      "generation": 19,
+      "actor": "codex:315-wp27-remediation",
+      "reason": "Replace non-executable typed-card-doctor lane with the issue-owned remediation validator before execution binding.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-remediation-truth\",\"proof_role\":\"Reconstruct the complete internal plus external finding universe, validate every disposition and accepted-risk authority, read live remediation PR head/review/check/merge state and typed terminal truth, then rerun all affected quality and release validators.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":960,\"budget_tokens\":8500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"parallel_group\":\"remediation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 19,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 39,
+      "generation": 20,
+      "actor": "codex:issue-315-wp27-remediation",
+      "reason": "Record WP-27 remediation implementation before implemented-phase transition.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Remediated WP-27 review findings by accounting for all retained internal and external review rows, preserving #314/#471/#316 routing boundaries, and fixing the production birthday activation cleanup, digest, and filesystem-assumption findings.\",\"changes\":[\"Added a remediation disposition register and README under docs/reviews/v0.92/remediation-5848.\",\"Retained all 30 source finding rows while grouping duplicate external birthday-code findings by shared fix.\",\"Routed internal review rows to the merged #467 corrective hydration authority rather than reopening settled release-credit semantics.\",\"Changed production birthday post-commit cleanup failures to return CommittedWithCleanupPending with the committed receipt.\",\"Made receipt input digest construction fallible instead of defaulting to an empty string.\",\"Documented same-host local-filesystem and advisory-lock assumptions on ProductionBirthdayStore.\",\"Added focused regression tests for cleanup-pending and partial-cleanup recovery.\"],\"artifacts\":[\"docs/reviews/v0.92/remediation-5848/disposition-register.json\",\"docs/reviews/v0.92/remediation-5848/README.md\",\".csdlc/evidence/5848/production-birthday-focused-test.json\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\",\"adl-runtime-kernel/src/production_birthday.rs\",\"adl-runtime-kernel/tests/production_birthday.rs\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 21,
+      "actor": "codex:issue-315-wp27-remediation",
+      "reason": "Record complete remediation-disposition validator proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"purpose\":\"Validate complete internal/external finding universe, authoritative dispositions, evidence digests, external-review intake regression, and current-head production birthday focused regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-315-remediation-validator:passed\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 22,
+      "actor": "codex:issue-315-wp27-remediation",
+      "reason": "Issue #315 / legacy #5848 remediation implementation and focused validation are complete; exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 42,
+      "generation": 23,
+      "actor": "subagent:issue-315-gpt5.5-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 24,
+      "actor": "codex:issue-315-wp27-canonical-migration",
+      "reason": "Migrate the reviewed WP-27 remediation record from the legacy issue namespace to the current Agent Logic issue before publication.",
+      "operation": "{\"cleared_publication\":false,\"cleared_readiness\":false,\"operation\":\"migrate_bound_issue_identity\",\"source_issue\":5848,\"source_repository\":\"danielbaustin/agent-design-language\",\"target_issue\":315,\"target_issue_evidence\":\".csdlc/evidence/5848/canonical-target-315.json\",\"target_issue_evidence_digest\":\"62c37a97e455f37954375490cdc3da37b6867c4dab1d7c7e53df7a06c584b679\",\"target_repository\":\"agent-logic/agent-design-language\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 25,
+      "actor": "codex:issue-315-review-recovery-after-identity-migration",
+      "reason": "Recover review after the typed legacy-to-canonical issue identity migration changed lifecycle projections after the prior exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 26,
+      "actor": "codex:issue-315-current-head-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 27,
+      "actor": "codex:issue-315-wp27-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 47,
+      "generation": 28,
+      "actor": "codex:issue-315-runtime-fast-ci-repair",
+      "reason": "Hosted Runtime v3 fast-lane Clippy exposed a large error variant introduced by the reviewed birthday cleanup remediation; recover published review truth for a bounded behavior-preserving boxing fix, focused validation, exact-head review, and republish.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 28,
+      "actor": "codex:issue-315-runtime-fast-ci-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 29,
+      "actor": "subagent:issue-315-runtime-fast-ci-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 30,
+      "actor": "codex:issue-315-runtime-fast-ci-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 51,
+      "generation": 31,
+      "actor": "codex:issue-315-main-rebase-review-recovery",
+      "reason": "Recover stale published review and publication truth after rebasing PR #473 onto current main at b1e4ab4777e3e818a3cd2e14524ebe4c519f340e; obtain a fresh assigned exact-head review at d171dbe3fca0d74b6d2efb18fd2edf2d6cd0b107 before typed finish.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 31,
+      "actor": "codex:issue-315-main-rebase-shepherd",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 32,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Mark finding-universe reconciliation complete from retained review packet evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 54,
+      "generation": 33,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Mark provenance-preserving deduplication and owner routing complete from the canonical disposition register.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 55,
+      "generation": 34,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Mark the bounded birthday remediation and focused validation complete from retained execution evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 56,
+      "generation": 35,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Keep exact review, PR, merge, and terminal reconciliation in progress until typed finish observes the green exact head.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 57,
+      "generation": 36,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Narrow the local validator claim to the evidence it actually proves; exact-head review, required checks, merge, and terminal authority remain owned by typed review and finish.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-remediation-truth\",\"proof_role\":\"Reconstruct the complete internal plus external finding universe, validate disposition ownership and retained evidence digests, and rerun the affected quality, release, and production-birthday regressions. Exact-head review, required-check, merge, and terminal truth are separate typed review and finish gates.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":960,\"budget_tokens\":8500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"parallel_group\":\"remediation\",\"defer_reason\":null}]}"
+    }
+  ]
+}

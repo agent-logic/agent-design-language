@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 244,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
+    "slug": "conversation-cleanup-race-deadline",
+    "version": "1.0.0",
+    "generation": 45
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/conversation_sessions_tests.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/parity.rs\nadl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs\nadl-runtime-kernel/tests/parity.rs\n.csdlc/issues/244\n.csdlc/prepared/issues/244\n.csdlc/evidence/244",
+      "review_revision": "git-blake3:f186a0dc3915a9528d81d5b96c858d1882c5fc7e:961651c7b436c3ae4637c2bfa148d12ba4381bb1fad5a71842f385cf55a328d3",
+      "reviewer": "codex-subagent:review_244_248_combined",
+      "review_prompts": [
+        "Does queuing the duplicate behind re-authentication preserve server frame order and the authentication-generation transition?",
+        "Does the test attach to the existing in-flight turn before its existing deadline without changing production behavior?",
+        "Are duplicate attachment and exactly-once terminal semantics preserved, with no #112 authority changes?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

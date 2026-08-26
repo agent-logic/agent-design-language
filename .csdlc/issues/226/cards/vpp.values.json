@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 226,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tooling][coverage] Isolate long-running Runtime tests from focused coverage",
+    "slug": "focused-runtime-validation-routing",
+    "version": "v0.92",
+    "generation": 31
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "selector-contract",
+          "proof_role": "Prove narrow path mapping and retained unknown-path failure.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "adl/tools/test_select_validation_lanes.sh"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "ci-path-policy-contract",
+          "proof_role": "Prove focused PR routing avoids slow and authoritative coverage escalation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1500,
+          "argv": [
+            "bash",
+            "adl/tools/test_ci_path_policy.sh"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on any unmapped path or unexpected slow/full-coverage selection.",
+      "design_ref": ".csdlc/prepared/issues/226/design.md",
+      "design_digest": "8e7a82a12f08c297ecfea3ace63dc6a58dac473fe98462e632c81328dd9e205e",
+      "diagram_ref": ".csdlc/prepared/issues/226/diagram.mmd",
+      "diagram_digest": "8c56bd5b5995ff707eb45e3fc1afc455d18137f95ac93d1b4aef9c0d5a5457ab"
+    }
+  }
+}

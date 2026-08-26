@@ -1,0 +1,17 @@
+{
+  "issue": 225,
+  "card": "sor",
+  "expected_generation": 9,
+  "expected_digest": "dc438c1e23f2aa9cff1c24d7c5caf937c74d2aedccc0417af8b0bf6d1b6696a1",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "Record complete Gate 2 regression proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2"],
+      "purpose": "Prove the complete initialized, ready, bind, and pre-bind correction surface.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/225/validation-summary.json"
+    }
+  }
+}

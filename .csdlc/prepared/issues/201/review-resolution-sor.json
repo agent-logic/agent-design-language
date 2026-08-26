@@ -1,0 +1,75 @@
+{
+  "issue": 201,
+  "card": "sor",
+  "expected_generation": 34,
+  "expected_digest": "0e8a5c4eba6985de62f1f9bc7c9a9612cd8fabf1b60245b1db1e1c8d974843a0",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Record the exact implementation and validation truth after resolving all independent review findings without publishing or merging.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Resolved the authority-protocol review by making actual OpenRaft apply indices and an already-approved route-cut authority the only commit authority, keeping signer custody opaque and runtime-local, binding every voter custody generation cryptographically, withholding publication until each node-local fresh CAS reconciles, and retaining one exact v6 proof that validates with or without the feature source object.",
+    "changes": [
+      "Added production PrepareAuthority and FinalizeAuthority commands whose deterministic state-machine application derives prepare and finalize authority from the actual committed OpenRaft log IDs and state-held trusted authority cut.",
+      "Added opaque crate-private Guardian signer custody and a high-level committed-prepare endorsement operation; raw signing keys, direct legacy verification, test feature bypasses, and non-replicated sealed artifact access are unavailable in production.",
+      "Bound guardian identity, certificate generation, boot generation, membership index, intent digest, committed prepare index, and finalization time to each endorsement, with exclusive voter-certificate not_after and inclusive intent deadline boundaries.",
+      "Stored committed finalize as pending replicated truth and required per-node journal, retry, result, and external checkpoint reconciliation before returning PublishedAuthorityResult.",
+      "Moved the exact 47-case direct fault contract under cfg(test), retained a public command-shape fail-closed integration regression, and added a separate real three-voter OpenRaft production-path proof including wrong self-consistent authority-cut denial.",
+      "Changed receipt validation to choose source ancestry or exact protected-tree equivalence before requiring a source object, proving full-history and depth-one squash-like validation."
+    ],
+    "artifacts": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/polis_runtime.rs",
+      "adl-runtime/src/distributed/transport.rs",
+      "adl-runtime/tests/distributed_authority_protocol.rs",
+      ".csdlc/prepared/issues/201/produce-proof-receipt.rb",
+      ".csdlc/prepared/issues/201/validate-proof-receipt.rb",
+      ".csdlc/evidence/201/v6/execution-proof.json"
+    ],
+    "validation": [
+      {
+        "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "-E", "test(/^distributed::authority_protocol::contract_tests::/)", "--no-tests=fail"],
+        "purpose": "Prove the exact selected 47-case contract denominator.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "distributed::polis_runtime::authority_consensus_tests::real_three_voter_authority_prepare_finalize_uses_applied_log_ids", "--", "--exact", "--nocapture"],
+        "purpose": "Prove one real three-voter production OpenRaft prepare, finalize, pending response, per-node reconcile/restart, and wrong-cut denial path.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "clippy", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--lib", "--", "-D", "warnings"],
+        "purpose": "Prove the production library is warning-free without cfg(test)-only helpers.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+      },
+      {
+        "command": ["cargo", "test", "--locked", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_authority_protocol"],
+        "purpose": "Prove legacy caller-indexed authority command shapes fail closed through the public production type.",
+        "outcome": "passed",
+        "evidence_ref": "adl-runtime/tests/distributed_authority_protocol.rs"
+      },
+      {
+        "command": ["ruby", ".csdlc/prepared/issues/201/validate-proof-receipt.rb"],
+        "purpose": "Prove the immutable packet in full history and separately in a depth-one clone where the feature source object is absent.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+      },
+      {
+        "command": ["csdlc-validate", "--root", ".", "issue", "--issue", "201"],
+        "purpose": "Prove typed card projections and lifecycle record consistency after the review repair.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/issues/201/index.json"
+      },
+      {
+        "command": ["git", "diff", "--check", "origin/main...HEAD"],
+        "purpose": "Prove final branch diff hygiene.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/201/v6/execution-proof.json"
+      }
+    ]
+  }
+}

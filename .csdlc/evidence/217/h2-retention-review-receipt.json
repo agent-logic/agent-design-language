@@ -1,0 +1,65 @@
+{
+  "schema": "adl.h2_retention_review_receipt.v1",
+  "payload": {
+    "issue": 217,
+    "status": "passed",
+    "h": "7e7c23b7c9e338e802dadee53be9c213d64b0456",
+    "h_tree": "e3aa424f19d84b70ead6d4c3975fe90133d198f9",
+    "h2": "0a02c1868a62cb413b9ecfad1791efa12febfef7",
+    "h2_tree": "7bd3b7156a71748e8559bc9c247311910542b818",
+    "h_to_h2_name_status_sha256": "98492699db1698de57c4148f62005d1b71609f4aeafaf2ffc46faf66b6fddfe2",
+    "h2_to_h3_name_status_sha256": "74fad6ad7362633ec713859329c3bcf8e8000dcb368b20f440f146a2c2f720e9",
+    "retained_surface_manifest_sha256": "8be6d077dac493f9f60f653dcf45d5a8b0fb93fff6d5c892a451fe98fa6c1ba4",
+    "evidence_denominator_path": ".csdlc/evidence/217/retained-proof-denominator.json",
+    "evidence_denominator_sha256": "6f6bcb1578335097073fa6cba9038546b5f885e8f6626e611231009f45b372a5",
+    "source_denominator_path": ".csdlc/prepared/issues/217/protected-source-denominator.json",
+    "source_denominator_sha256": "a04248911cb0355f25251d3caf59ac167bfab3964d008a942dccedbf3456b01e",
+    "proof_denominator_path": ".csdlc/prepared/issues/217/proof-contract-paths.json",
+    "proof_denominator_sha256": "fe4e705b8fe35ccbf5f136597b3381b34083a8e4b99d55cff15c815dad4700d6",
+    "proof_manifest": [
+      {
+        "path": ".csdlc/prepared/issues/217/historical-c640-denominator.json",
+        "sha256": "176e8cc984eb764f4e5bb9f3d72a425ca14021624e91207398ae47c3b21fa411"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/protected-source-denominator.json",
+        "sha256": "a04248911cb0355f25251d3caf59ac167bfab3964d008a942dccedbf3456b01e"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/proof-contract-paths.json",
+        "sha256": "fe4e705b8fe35ccbf5f136597b3381b34083a8e4b99d55cff15c815dad4700d6"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/h2-retention-allowlist.json",
+        "sha256": "e4b5b7c96a24401b762b2cd8f62aec20a3e649acbc35d3d41d379b055412a6d0"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb",
+        "sha256": "35dfa21d668cfc275ee5109aee8071cbcf74b422cf91658a6cf148e6330ec9cf"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/produce-native-receipt.rb",
+        "sha256": "230a526fd6041e4c92570b8e2ddf7a3ef3ca8c00ee0fcd75bd948a9bb6044b91"
+      },
+      {
+        "path": ".csdlc/prepared/issues/217/validate-retained-native-proof.rb",
+        "sha256": "52b4bf716dfe96eebe20a6aeba68eaedf3a1af9bbc2d51bd5b3a196ef698df62"
+      },
+      {
+        "path": ".github/workflows/wp14-retained-native-proof.yml",
+        "sha256": "bfe33b2d9f01c0755009fd36b328c1586238f89332d88374dcf1c7e311b48726"
+      }
+    ],
+    "reviewer": "/root/shepherd_pr215_green/review_217_h2_fc6ab06",
+    "review_scope": "Exact H-to-H2 name-status delta, retained packet and manifests, 17 protected paths, 8 proof paths, workflow_dispatch run 31463195402 attempt 1, evidence-only run 31463648514 classifier behavior, and receipt absence before H3.",
+    "review_result": "passed",
+    "findings": [],
+    "no_drift": {
+      "h_to_h2_allowlist": "passed",
+      "h2_to_h3_allowlist": "passed",
+      "protected_source": "passed",
+      "proof_contract": "passed"
+    }
+  },
+  "payload_sha256": "e6f446d7e117d69652092836812cb548035e82d1fcc44d7e29abc050adca0d7c"
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 252,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/252-guardian-hosted-spawn-flake",
+  "title": "[v0.92][Runtime v3] Eliminate hosted Guardian executable spawn flake",
+  "body": "Closes #252\n\n## Summary\n- serialize process-heavy Guardian invocations only in test builds\n- prevent the directly included parity target from converting hosted lease, pipe, or child resource pressure into unrelated `SpawnFailed` outcomes\n- preserve production Guardian concurrency and genuine missing-program fail-closed semantics\n\n## Validation\n- Guardian namespace: 10 repeated passes with 8 requested test threads across repository-root and crate caller working directories\n- parity_b_live_kernel: 27/27 passed\n- complete adl-runtime-kernel test boundary: passed\n- strict all-target Clippy with `-D warnings`: passed\n- fresh exact-head rereview: PASS with no actionable findings\n\n## Integration\nThis is the bounded prerequisite repair for the required Runtime CI failure blocking PR #243. Hosted Linux remains CI proof after publication.\n\n## Non-goals\nNo birth-witness behavior change, optional or paid CI, Guardian redesign, or merge authority.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:cbb14415603658bbe31fa7f4133c0f027d54d50f:a5eb7cf3bd633cd7c1c63500251ddd4948875e98a3b2fcc53359995e5b77c4f5",
+  "commit_sha": "cbb14415603658bbe31fa7f4133c0f027d54d50f"
+}

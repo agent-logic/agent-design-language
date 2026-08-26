@@ -1,0 +1,11 @@
+flowchart LR
+  PR["Pull request revision"] --> CI["ci.yaml"]
+  CI --> CLASSIFY["Path policy on standard runner"]
+  CLASSIFY -->|"required heavy"| BIG["16-core runner"]
+  CLASSIFY -->|"required light"| SMALL["standard runner"]
+  CLASSIFY -->|"optional or unrelated"| SKIP["Skip before runner allocation"]
+  MANUAL["Explicit operator dispatch"] --> PROOF["Native proof, soak, demo, or release coverage"]
+  PR --> KEY["Target base plus source-branch concurrency"]
+  NEWER["Newer branch revision"] --> KEY
+  KEY -->|"cancel-in-progress"| OLDER["Cancel older in-progress run"]
+  KEY --> CI

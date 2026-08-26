@@ -1,43 +1,50 @@
-# v0.92 Draft Release Notes
+# v0.92 Engineering Release Notes
 
 ## Metadata
 
 - Product: `agent-design-language`
 - Version: `v0.92`
-- Release date: pending v0.92 completion
-- Tag: pending
+- Engineering closeout date: `2026-08-24`
+- Tag: not asserted by this document
 - Related issues: `#3377`, `#3434`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Status
 
-Draft placeholder for later release closeout. These notes describe intended
-release themes only and must be rewritten during the v0.92 release tail to
-describe landed behavior.
+Retrospective notes for the completed v0.92 engineering milestone. They do not
+authorize a GitHub release, Medium publication, deployment, or other external
+launch. The external documentation review entrypoint is
+[`review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`](review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md).
 
-Release-note ownership should follow the v0.92 WBS:
+#467 supplied the final canonical evidence hydration for feature-proof coverage,
+the quality gate, and execution readiness. Those three files remain the
+fail-closed authority and these notes do not override them.
 
-- WP-16 prepares the release-note draft for internal review.
-- WP-19 updates release notes only for review-finding remediation.
-- WP-22 performs the final release-note truth check during the release
-  ceremony.
+Release-note ownership follows the current review tail:
 
-WP-20 and WP-21 are next-milestone planning/review gates, not release-note
-rewrite owners.
+- WP-22 supplies the canonical quality-gate result.
+- WP-23 may correct documentation truth and prepare the external-review
+  handoff, but cannot turn a passing evidence gate into release approval.
+- Later remediation and ceremony work may update these notes only from landed,
+  reviewed evidence.
 
 ## How To Use
 
-Use this file as a draft release-notes scaffold only. During v0.92 closeout,
-replace planned language with evidence-backed landed behavior.
+Use this file as retrospective engineering notes. Recheck every externally
+visible statement against the final #312/#467 exact revisions before any
+operator-authorized publication.
 
 ## Summary
 
-v0.92 is planned as the first true Gödel-agent birthday milestone for ADL.
+v0.92 delivered the engineering substrate for a reviewable Gödel-agent
+birthday: stable identity and continuity, governed memory and capability
+surfaces, cognitive-profile and adaptive-learning integration, witnesses and
+receipts, negative cases, review packets, protocol/runtime carrier work, and
+provider-neutral proof.
 
-If implemented as planned, it should add reviewable identity and birthday
-surfaces for stable names, identity roots, continuity, memory grounding,
-capability envelopes, ACP/cognitive profiles, witnesses, receipts, negative
-cases, birthday review packets, and ACIP binary transport-readiness evidence.
+The HTML Observatory consumer received a bounded landed integration slice.
+Unity and broader Observatory product work remain backlogged or scheduled for
+later delivery and are not claimed as v0.92 completion evidence.
 
 The final notes must also cite the `#3377` readiness packet disposition so the
 first-birthday launch story is traceable.
@@ -59,13 +66,13 @@ first-birthday launch story is traceable.
 
 ## What's New In Detail
 
-Pending v0.92 implementation. Final notes must summarize only landed work and
-link the relevant evidence surfaces.
+See the feature documents, review packet, demo/AEE artifact index, and the
+canonical #467-owned evidence surfaces for exact landed claim boundaries.
 
 ## Upgrade Notes
 
-Pending v0.92 implementation. Final notes should include migration or operator
-guidance only if implementation creates it.
+No general production migration is asserted. Operators must follow the current
+runtime and C-SDLC runbooks for the specific surface they use.
 
 ## Known Limitations
 
@@ -74,18 +81,18 @@ from actual review and release evidence.
 
 ## Validation Notes
 
-Pending v0.92 implementation. Final notes must cite actual validation, demos,
-review findings, and evidence-backed blockers.
+Validation and review evidence is indexed by the milestone review corpus. The
+three canonical acceptance surfaces remain fail-closed until #467 integration.
 
 ## What's Next
 
 v0.93 is expected to consume v0.92 identity evidence for constitutional
 citizenship and polis governance.
 
-## Required Closeout Rewrite
+## External-Publication Recheck
 
-Before release, replace this file with notes that describe only landed,
-validated behavior.
+Before external publication, verify that these notes still describe only
+landed, validated behavior and match the final canonical evidence result.
 
 The final notes must not claim:
 

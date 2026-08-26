@@ -1,0 +1,133 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 307,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][sprint] Quality and release tail",
+    "slug": "quality-release-tail",
+    "version": "v0.92",
+    "generation": 25
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Bound every passed child review to its publication content: metadata-only descendants are enforced, #312 has an exact final-content retrospective review receipt, #315 has exact scoped blob equivalence across rebased history, and #476 has the same metadata-only publication guard.",
+      "actual_changes": [
+        ".csdlc/evidence/307/precloseout-status.json records the live child, terminal, cleanup, carryover, and nested-remediation boundary",
+        "docs/milestones/v0.92/review/sprint_307/README.md records final review gates without taking #319 authority",
+        ".csdlc/prepared/issues/307 validators and typed request artifacts preserve the exact #308-through-#319 denominator",
+        "Added the exact ordered child ledger with reviewed heads, ancestral merges, checks, handoffs, terminal dispositions, residual risks, #471 routing, and successful #268 carryover truth.",
+        "Recorded #319 PR #479 green merge, canonical typed terminal receipt, and exact execution-worktree cleanup without executing its ceremony from #307.",
+        "Dispositioned #314 and other historical bookkeeping gaps as explicit async_pending records rather than inventing canonical authority.",
+        "Retained the exact clean-main check-only ceremony output and immutable #319 final receipt under #307-owned evidence without tag or release mutation.",
+        "Added typed live readback for every merged child PR and disposition-specific no-PR evidence for #314.",
+        "Strengthened the terminal validator to bind review evidence, publication heads, green checks, merge ancestry, successor handoffs, terminal receipts, and the final ceremony output digest.",
+        "Restored #315/PR #473 as the primary child integration record and added a separate exact #476 follow-on record with review, PR, merge, checks, and terminal receipt bindings.",
+        "Changed #310 to not_tracked_disclosed and #314 to intake_completed_with_blockers/not_applicable_no_pr rather than claiming unsupported review and check passes.",
+        "Replaced handoff_accepted booleans with executable predecessor-merge ancestry checks, the validated #314-to-#315 handoff, the documented #315/#316 concurrent-lane exception, and the final #319 ceremony receipt.",
+        "Added an exact #312 final-content receipt for the two post-review documentation changes and their final blobs and SHA-256 digests.",
+        "Extended the #315 historical review receipt with exact reviewed/publication blob identity for both scoped product files.",
+        "Made the terminal validator reject unreviewed substantive review-to-publication drift for every passed row and the #476 follow-on."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/307/precloseout-status.json",
+        "docs/milestones/v0.92/review/sprint_307/README.md",
+        "typed recordless terminal receipt for #310",
+        "typed cleanup results for #311, #314, #315, #316, and #317",
+        ".csdlc/evidence/307/child-sequence.json",
+        ".csdlc/evidence/307/precloseout-status.json",
+        "docs/milestones/v0.92/review/sprint_307/README.md",
+        ".git/csdlc-v2/derived-terminal/319.json",
+        ".csdlc/evidence/307/github-pr-readback.json",
+        ".csdlc/evidence/307/issue-319-final-ceremony.log",
+        ".csdlc/evidence/307/issue-319-final-ceremony-receipt.json",
+        ".csdlc/prepared/issues/307/validate_child_sequence.py",
+        ".csdlc/evidence/307/child-sequence.json",
+        ".csdlc/evidence/307/github-pr-readback.json",
+        ".csdlc/evidence/307/issue-315-review-receipt.json",
+        ".csdlc/prepared/issues/307/validate_child_sequence.py",
+        ".csdlc/evidence/307/issue-312-final-content-review-receipt.json",
+        ".csdlc/evidence/307/issue-315-review-receipt.json",
+        ".csdlc/evidence/307/child-sequence.json",
+        ".csdlc/prepared/issues/307/validate_child_sequence.py"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal",
+            "python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py",
+            "git diff --check"
+          ],
+          "purpose": "Prove the exact #308-through-#319 denominator, terminal and asynchronous disposition truth, #268/#471 routing, authored preparation bundle, and diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/307/child-sequence.json"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/307/validate_child_sequence.py",
+            "--terminal"
+          ],
+          "purpose": "Resolve every reviewed and merge SHA as a commit and prove every child integration merge is ancestral to origin/main, including the WP-26 intake integration through WP-27.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/307/child-sequence.json"
+        },
+        {
+          "command": [
+            "python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal",
+            "python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py",
+            "python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json",
+            "python3 -m json.tool .csdlc/evidence/307/issue-319-final-ceremony-receipt.json",
+            "git diff --check"
+          ],
+          "purpose": "Prove the final receipt/output digest, retained review evidence, live merged PR/check readback, no-PR disposition, terminal caches, ancestry, handoffs, and artifact syntax.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-319-final-ceremony-receipt.json"
+        },
+        {
+          "command": [
+            "shasum -a 256 .csdlc/evidence/307/issue-319-final-ceremony.log",
+            "! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307",
+            "python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal"
+          ],
+          "purpose": "Bind the redacted immutable ceremony output digest, prove no host-absolute path remains in the publishable packet, and revalidate the terminal evidence graph.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/307/issue-319-final-ceremony-receipt.json"
+        },
+        {
+          "command": [
+            "python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal",
+            "python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py",
+            "python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json",
+            "python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json",
+            "! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307",
+            "git diff --check"
+          ],
+          "purpose": "Prove exact #315/#476 identity separation, truthful #310/#314 dispositions, evidence-derived handoffs, packet privacy, and diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-315-review-receipt.json"
+        },
+        {
+          "command": [
+            "python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal",
+            "python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py",
+            "python3 -m json.tool .csdlc/evidence/307/issue-312-final-content-review-receipt.json",
+            "python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json",
+            "! rg -n '/(Users|Volumes|private)/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307",
+            "git diff --check"
+          ],
+          "purpose": "Reject substantive review-to-publication drift while proving #312 final-content review, #315 scoped equivalence, metadata-only descendants, privacy, and diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/307/issue-312-final-content-review-receipt.json; .csdlc/evidence/307/issue-315-review-receipt.json; .csdlc/evidence/307/child-sequence.json"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

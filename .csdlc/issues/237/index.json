@@ -1,0 +1,475 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 237,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1fc3f86781202fe3b7c300e5e21b63ddd6263b6cd529ce80d7121772ae60b22a",
+  "phase": "published",
+  "generation": 34,
+  "digest": "156c263c0515c464ba885dcdca40bb7cccef7b87817fa6f85255aed2a18c1422",
+  "branch": "codex/237-continuity-binding-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-237-continuity-binding-reconciliation",
+  "review_assignment": {
+    "reviewer": "/root/fix_5833_birth_witness_runtime/review_237_fresh_integrated",
+    "assigned_by": "/root/fix_5833_birth_witness_runtime",
+    "revision": "git-blake3:7ce5852bcae2cb1f7c418a0d833c788841c0f0f1:bd1b292b3a57c60f7c940f9eac61f8cbb91d3b886fcf3fd0655d601318b017a4",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/birthday_continuity.rs",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/parity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/237"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/fix_5833_birth_witness_runtime/review_237_fresh_integrated",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/birthday_continuity.rs",
+      "adl-runtime-kernel/src/capability_envelope.rs",
+      "adl-runtime-kernel/src/cognitive_profile.rs",
+      "adl-runtime-kernel/tests/capability_envelope.rs",
+      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs",
+      "adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/src/parity.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-shadow-fixture.rs",
+      "adl-runtime-kernel/tests/parity.rs",
+      ".csdlc/issues/237"
+    ],
+    "reviewed_revision": "git-blake3:7ce5852bcae2cb1f7c418a0d833c788841c0f0f1:bd1b292b3a57c60f7c940f9eac61f8cbb91d3b886fcf3fd0655d601318b017a4",
+    "findings": [],
+    "residual_risks": [
+      "Required hosted Runtime CI and live PR mergeability remain publication gates."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 237,
+    "pull_request": 242,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/242",
+    "base": "main",
+    "head": "codex/237-continuity-binding-reconciliation",
+    "revision": "git-blake3:569023c81f0b411e04f8c3b6aad3d41dafa6fc43:8281abf11e83c1634295f055f65a632bca61d05bf0b5c65ae0dcb8f13d6b852a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/237/design.md",
+  "diagram_path": ".csdlc/prepared/issues/237/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "/root/review_237_opaque_authority",
+      "revision": "6e6e122d1b8ed8399e47793e9aab12131f107bb66ebba8a573482bc750992c9d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2db7f4808e8ca810b4bbb52a4f2669a8b01e867219f400f0fd41773ace6af5e4",
+      "rendered_digest": "0f6629e693297f8a2eb8e4e029f507657271276795d4b5bbd81755940bb86c8a",
+      "ast_digest": "f46556d73fa2c09d0c6e681dc9740a8184e284e33ba7babeeebffb1d729a8123"
+    },
+    "stp": {
+      "values_digest": "1c13a46c1e06e2a234d8f5658936b92bfc1ce40dd9202a1a3a1a8838aeb697fa",
+      "rendered_digest": "f7a8004785b409a2efe1ac3ab53bdec813b55e2935ec1ba16dbc28347e9f67a1",
+      "ast_digest": "166322a3cc6ed81aec67904d218571f122e03eb6b0ace1c165e6fb98c5f8aed3"
+    },
+    "spp": {
+      "values_digest": "52136455a9822c92e5cd691e4df5d4b563495c9565c753f4a895484f75c88d77",
+      "rendered_digest": "b450d05bce819de9fbe2cec7217bbeb0e51ef033f0a02c7d9ce3f10b8f80eb74",
+      "ast_digest": "d9f602f057aa0fcfed06aa78d84757689a4055c017bf6666cd221a63b494f402"
+    },
+    "vpp": {
+      "values_digest": "bb61fc96bb9d320bc3baa5b9e25117d555cc1356350e2a5df0dff5c31f592d60",
+      "rendered_digest": "6a13c547f3d29f0c261f0312823c2aa86e7a47ec2772f99a7e666c035d9fbbee",
+      "ast_digest": "5e92538817ea1029ad69966a60af6f0bde2d8d2e49d9d44b3417095573fbfb3f"
+    },
+    "srp": {
+      "values_digest": "0d966989f415da3abfa163b82fb76439c460fe1be74d66aa6e4c8aa1530734f2",
+      "rendered_digest": "703519607367c7f85d72fd7ee87709ccccb7a754110724f04217cbb1e5ac3729",
+      "ast_digest": "b32bd126541ea1eb38365b7bd0d5569ee5ea2d68e7c436b33735422fdaf9c78e"
+    },
+    "sor": {
+      "values_digest": "656c21091e03a3ea77591403909b70b88ecdfb40be29ac6b259b49690a459e19",
+      "rendered_digest": "35888ca3208d5921c0366e5c528602d3a0573fe911f1357cf7b73c3f2b785d8b",
+      "ast_digest": "274c09d7ac9cf38f19aa99286660f1455fb449bb8b140eda4a0473bff30ddcda"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/review_237_opaque_authority",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-sprint5-runtime",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "Recover stale review and publication truth after integrating current main cleanup authority at exact head 6270d368102443973f6c9909dcd41b44228a3c8d."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/fix_5833_birth_witness_runtime/review_237_fresh_integrated",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Refresh pre-bind design bindings after independent review required an opaque verified-continuity token and adversarial self-consistent substitution proof.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/237/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/237/diagram.mmd\",\"new_design_digest\":\"a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27\",\"new_diagram_digest\":\"de70aa704d6ea25e29f332a8c43efa25420c260d48c22c393e3d08c48349c5cc\",\"old_design_digest\":\"5c1a976c6d9ed782f0545e4421d425e0b1cc115ca5e1c8ef60eeda7f1769db08\",\"old_diagram_digest\":\"de70aa704d6ea25e29f332a8c43efa25420c260d48c22c393e3d08c48349c5cc\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Capability and cognitive validation bind the same verified BirthdayContinuityRecord.\",\"AC-2: Real signed identity, continuity, capability, and governed cognition compose successfully.\",\"AC-3: Substituted record, head, identity root, and identity-record digest each fail with typed rejection.\",\"AC-4: Existing invalid-authority and privacy negatives remain green.\",\"AC-5: No public trust constructor or caller-nominated authority input is added.\",\"AC-6: Fresh exact-head independent review and the one required CI lane pass before merge.\"]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Use the existing crate-internal cognitive authority test target so design readiness can bind before source implementation while retaining access to crate-private trust constructors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-composition-focused\",\"proof_role\":\"Prove real signed composition, all substitutions, retained authority/privacy negatives, and the exact reviewed source accepted by required CI.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"cognitive_profile::authority_tests::real_continuity_composes_through_capability_and_cognition\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Use the existing crate-internal cognitive authority test target so design readiness can bind before source implementation while retaining access to crate-private trust constructors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-composition-focused\",\"proof_role\":\"Prove real signed composition, all substitutions, retained authority/privacy negatives, and the exact reviewed source accepted by required CI.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Refresh pre-bind design bindings after independent review required an opaque verified-continuity token and adversarial self-consistent substitution proof.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/237/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/237/diagram.mmd\",\"new_design_digest\":\"a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27\",\"new_diagram_digest\":\"5cfcdecfc7cf13d3a56ebf2d905ea63c4a59781cbff3c3b9b839e8c78780c9b4\",\"old_design_digest\":\"a4fad40162d5d0a30a9d5ac2e35539f42f7dfe2ec173ea7b2b0fcc8e2f856a27\",\"old_diagram_digest\":\"de70aa704d6ea25e29f332a8c43efa25420c260d48c22c393e3d08c48349c5cc\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Capability and cognitive validation bind the same verified BirthdayContinuityRecord.\",\"AC-2: Real signed identity, continuity, capability, and governed cognition compose successfully.\",\"AC-3: Substituted record, head, identity root, and identity-record digest each fail with typed rejection.\",\"AC-4: Existing invalid-authority and privacy negatives remain green.\",\"AC-5: No public trust constructor or caller-nominated authority input is added.\",\"AC-6: Fresh exact-head independent review and the one required CI lane pass before merge.\"]}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Align the operative plan with the independently reviewed opaque continuity-token implementation paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/issues/237\",\".csdlc/evidence/237\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Use the existing crate-internal cognitive authority test target so design readiness can bind before source implementation while retaining access to crate-private trust constructors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-composition-focused\",\"proof_role\":\"Prove real signed composition, all substitutions, retained authority/privacy negatives, and the exact reviewed source accepted by required CI.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--all-targets\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex-subagent:issue237-design-review",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Use the existing crate-internal cognitive authority test target so design readiness can bind before source implementation while retaining access to crate-private trust constructors.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-composition-focused\",\"proof_role\":\"Prove the updated public capability API, continuity substitutions, and exact reviewed source in the one required CI job.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"parallel_group\":\"required\",\"defer_reason\":null},{\"lane\":\"continuity-cognitive-authority\",\"proof_role\":\"In the same required CI job, prove real signed composition plus retained cognitive authority and privacy negatives.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "/root/sprint5_5836",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Exact review requested removal of every public raw continuity bypass, elimination of either-or acceptance, and real downstream composition and boundary negatives before fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex-subagent:issue237-design-alignment",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Align the operative plan with the independently reapproved remediation paths, including the moved crate-internal capability authority tests.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/issues/237\",\".csdlc/evidence/237\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Replace the obsolete zero-test integration lane with the independently reviewed one-job proof: library behavior, public compile-fail boundaries, and strict library Clippy; all lanes are required and none optional.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-authority-lib\",\"proof_role\":\"In the one required CI job, prove real signed continuity composition, self-consistent substitutions, token mismatch and replay rejection, and retained authority/privacy negatives.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"parallel_group\":\"required\",\"defer_reason\":null},{\"lane\":\"continuity-public-boundary-doc\",\"proof_role\":\"In the same required CI job, prove direct callers cannot import the retired raw public capability or governed-cognition APIs.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"parallel_group\":\"required\",\"defer_reason\":null},{\"lane\":\"continuity-strict-lib-clippy\",\"proof_role\":\"In the same required CI job, reject warnings in the changed library surface without claiming the unrelated pre-existing TLS all-target lint.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Replace the obsolete zero-test integration lane with the independently reviewed one-job proof: library behavior, public compile-fail boundaries, and strict library Clippy; all lanes are required and none optional.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"continuity-public-api-target\",\"proof_role\":\"In the one required CI job, execute the issue-owned public-boundary target and prove the verified-continuity capability and governed-cognition entrypoints remain exported.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"parallel_group\":\"required\",\"defer_reason\":null},{\"lane\":\"continuity-authority-lib\",\"proof_role\":\"In the one required CI job, prove real signed continuity composition, self-consistent substitutions, token mismatch and replay rejection, and retained authority/privacy negatives.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"parallel_group\":\"required\",\"defer_reason\":null},{\"lane\":\"continuity-public-boundary-doc\",\"proof_role\":\"In the same required CI job, prove direct callers cannot import the retired raw public capability or governed-cognition APIs.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"parallel_group\":\"required\",\"defer_reason\":null},{\"lane\":\"continuity-strict-lib-clippy\",\"proof_role\":\"In the same required CI job, reject warnings in the changed library surface without claiming the unrelated pre-existing TLS all-target lint.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"required\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Replace pre-remediation execution truth with exact-head evidence for the verified-only public authority boundary and all required local proof lanes.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Removed every public raw-continuity authority bypass; verified continuity now gates authoritative capability and governed-cognition APIs, with exact local proof green and publication still pending.\",\"changes\":[\"Require opaque VerifiedBirthdayContinuity on every public authoritative capability and governed-cognition build and validation route.\",\"Keep raw BirthdayContinuityRecord compatibility primitives crate-private and remove permissive either-or continuity acceptance.\",\"Prove real signed Runtime composition, self-consistent whole-record substitutions, token mismatch and replay rejection, and direct old-API compile-fail boundaries.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Run the focused public API target (1/1 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Run the Runtime library authority suite (79/79 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Run compile-fail public-boundary documentation tests (8/8 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict library Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "/root/sprint5_5836",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Exact review found that capability and governed cognition were not bound to the exact verified continuity record when two valid tokens shared identity and predecessor fields.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex-subagent:issue237-exact-token-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Record exact-token capability binding, two-valid-token substitution rejection, and refreshed exact-head evidence for every required local proof lane.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Capability envelopes now canonically bind the exact verified continuity head and record digest, and governed cognition rejects substitution by a separately valid token; exact local proof is green and publication remains pending.\",\"changes\":[\"Require opaque VerifiedBirthdayContinuity on every public authoritative capability and governed-cognition build and validation route.\",\"Keep raw BirthdayContinuityRecord compatibility primitives crate-private and remove permissive either-or continuity acceptance.\",\"Bind the capability envelope canonical hash to the exact token continuity head and record digest, and require token-aware capability validation inside governed cognition.\",\"Prove two independently valid signed continuity tokens sharing identity and predecessor cannot be substituted after downstream cognition is rebuilt and re-signed.\"],\"artifacts\":[\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/capability_envelope/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Run the focused public API target (1/1 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Run the Runtime library authority suite (79/79 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Run compile-fail public-boundary documentation tests (8/8 passed).\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict library Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "/root/sprint5_5836",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex-subagent:issue237-opaque-capability-authority-design",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:sprint5-5836-blocker",
+      "reason": "Exact review proved caller-recomputable envelope fields still allowed token-B rewrite and required an opaque Runtime-established capability authority anchor.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Record approved opaque-authority design as complete before source convergence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Record completed opaque capability-authority implementation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Record fresh real signed composition and caller-recomputed token substitution regression proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Replace rejected exact-token execution truth with fresh opaque Runtime authority implementation and proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Runtime now establishes an opaque capability authority binding the provisioned policy digest and exact verified continuity record; caller-recomputed token substitution fails closed and publication remains pending.\",\"changes\":[\"Add opaque CapabilityAuthorityPolicy with crate-private Runtime establishment bound to canonical policy digest, continuity head, and continuity-record digest.\",\"Require the opaque capability authority at every public verified-continuity capability and governed-cognition build and validation entrypoint.\",\"Prove a fully rewritten and re-hashed token-B capability plus rebuilt and re-signed cognition rejects under retained authority A, while explicit Runtime reauthorization for B succeeds.\"],\"artifacts\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/evidence/237/continuity-public-api-target.log\",\".csdlc/evidence/237/continuity-authority-lib.log\",\".csdlc/evidence/237/continuity-public-boundary-doc.log\",\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Prove public verified-continuity entrypoints compile with the opaque authority contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Prove 79 Runtime library tests including real composition, token-B rewrite rejection, explicit B reauthorization, authority, and privacy negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Prove eight compile-fail public authority boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the changed Runtime library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Resolve exact-head review finding by adding the production Runtime provisioning operation and refreshing proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Runtime exposes an explicit provisioning operation that establishes an opaque capability authority bound to the provisioned policy digest and exact verified continuity record; caller-recomputed token substitution fails closed and publication remains pending.\",\"changes\":[\"Add opaque CapabilityAuthorityPolicy with private fields bound to canonical policy digest, continuity head, and continuity-record digest.\",\"Add provision_runtime_capability_authority as the explicit production Runtime reauthorization operation while keeping the raw authority constructor crate-private.\",\"Require the opaque capability authority at every public verified-continuity capability and governed-cognition build and validation entrypoint.\",\"Prove a fully rewritten and re-hashed token-B capability plus rebuilt and re-signed cognition rejects under retained authority A, while explicit Runtime reauthorization for B succeeds.\"],\"artifacts\":[\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/evidence/237/continuity-public-api-target.log\",\".csdlc/evidence/237/continuity-authority-lib.log\",\".csdlc/evidence/237/continuity-public-boundary-doc.log\",\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Prove the Runtime provisioning operation and public verified-continuity entrypoints are exported.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Prove 79 Runtime library tests including real composition, token-B rewrite rejection, explicit B reauthorization, authority, and privacy negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Prove eight compile-fail public authority boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the changed Runtime library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "/root/review_237_opaque_authority",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex-sprint5-runtime",
+      "reason": "Resolve exact-head authority and proof findings with the reviewer-approved LiveAssembly boundary and refreshed full proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"A successfully constructed LiveAssembly exclusively owns the unforgeable provisioning capability that establishes opaque capability authority for an exact verified continuity record; callers cannot self-authorize token substitution and publication remains pending.\",\"changes\":[\"Add private RuntimeCapabilityProvisioner state to LiveAssembly and expose reauthorization only as LiveAssembly::provision_capability_authority.\",\"Keep RuntimeCapabilityProvisioner construction/provisioning and CapabilityAuthorityPolicy construction crate-private with compile-fail external boundaries.\",\"Require the opaque capability authority at every public verified-continuity capability and governed-cognition build and validation entrypoint.\",\"Prove an actual production LiveAssembly provisions authority, retained authority A rejects a fully rewritten token-B capability and rebuilt cognition, and explicit assembly-owned reauthorization can authorize B.\"],\"artifacts\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/capability_envelope.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/tests/capability_envelope.rs\",\"adl-runtime-kernel/tests/fixtures/cognitive_profile/authority_tests.rs\",\".csdlc/evidence/237/continuity-public-api-target.log\",\".csdlc/evidence/237/continuity-authority-lib.log\",\".csdlc/evidence/237/continuity-public-boundary-doc.log\",\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--test\",\"capability_envelope\"],\"purpose\":\"Prove public verified-continuity entrypoints remain exported.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-api-target.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\"],\"purpose\":\"Prove 80 Runtime library tests including LiveAssembly provisioning, real composition, token-B rewrite rejection, explicit reauthorization, authority, and privacy negatives.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-authority-lib.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--doc\"],\"purpose\":\"Prove ten compile-fail public authority boundaries including provisioner construction and direct new access.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-public-boundary-doc.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--locked\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across the changed Runtime library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/237/continuity-strict-lib-clippy.log\"}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 27,
+      "actor": "/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 28,
+      "actor": "/root/review_237_opaque_authority",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 29,
+      "actor": "codex-sprint5-runtime",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 36,
+      "generation": 30,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "Recover stale review and publication truth after integrating current main cleanup authority at exact head 6270d368102443973f6c9909dcd41b44228a3c8d.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 31,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "Recover incomplete exact-review scope to include every acceptance-critical continuity and capability authority path before fresh assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 31,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "Recover invalid backfilled review assignment before assigning the complete scope to a genuinely fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 32,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "/root/fix_5833_birth_witness_runtime/review_237_fresh_integrated",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 34,
+      "actor": "/root/fix_5833_birth_witness_runtime",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

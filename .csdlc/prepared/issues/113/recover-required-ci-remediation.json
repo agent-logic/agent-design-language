@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 113,
+  "expected_generation": 61,
+  "expected_digest": "97dc18e9fac2563b37fcd30aa885cd673a2633fb2b7c74114f3334f0faf17a95",
+  "actor": "codex:wp18c-sprint-execution",
+  "reason": "Refresh exact-head review and publication truth after required CI exposed and remediation fixed obsolete Guardian ACIP coverage and Linux Shepherd process-test isolation."
+}

@@ -1,0 +1,8 @@
+flowchart LR
+  P[Provider response] --> U[Parse one UTS proposal]
+  S[Typed resident authority] --> C[UTS to ACC]
+  U --> C --> G[Freedom Gate]
+  G -->|allow| A[Sealed governed adapter]
+  G -->|deny| R[Terminal receipt]
+  A --> R
+  L[Cycle lineage] --> R

@@ -1,0 +1,7 @@
+flowchart LR
+  A["Bound or implemented approved record"] --> B["Exact typed recovery request"]
+  B --> C{"CAS, phase, reviewer, revision, topology and later authority valid?"}
+  C -->|no| D["Fail closed"]
+  C -->|yes| E["Append recover_design_review audit"]
+  E --> F["Current design_review pending"]
+  F --> G["Fresh review required"]

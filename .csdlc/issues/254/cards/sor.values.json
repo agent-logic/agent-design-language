@@ -1,0 +1,79 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 254,
+    "repository": "agent-logic/agent-design-language",
+    "title": "CI: eliminate repeated hosted workspace coverage compiles",
+    "slug": "hosted-coverage-compile",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Eliminated repeated hosted workspace coverage compilation by making the full workspace producer emit the authoritative summary/provenance artifact and converting adl-coverage-hosted into a light verification/merge gate on ubuntu-latest.",
+      "actual_changes": [
+        ".github/workflows/ci.yaml: removed workspace shard matrix/profraw aggregate reporting and aggregate Rust toolchain/cache/install steps",
+        ".github/workflows/ci.yaml: full workspace producer now runs run-and-report once and uploads workspace summary/provenance/log evidence",
+        ".github/workflows/ci.yaml: adl-coverage-hosted now downloads producer summaries, verifies provenance, copies the workspace summary, merges summaries, and runs existing gates on ubuntu-latest",
+        "adl/tools/test_ci_runtime_contracts.sh: updated contract checks to require the light aggregate topology and forbid aggregate Rust coverage reruns",
+        "adl/tools/test_ci_path_policy.sh: updated path-policy workflow assertions for summary artifact topology",
+        "adl/tools/validate_ci_workflow_policy.rb: classified adl_coverage_hosted as a light aggregate and forbids run_authoritative_coverage_lane.sh in that job"
+      ],
+      "artifacts": [
+        ".github/workflows/ci.yaml",
+        "adl/tools/test_ci_runtime_contracts.sh",
+        "adl/tools/test_ci_path_policy.sh",
+        "adl/tools/validate_ci_workflow_policy.rb",
+        ".csdlc/prepared/issues/254/design.md",
+        ".csdlc/prepared/issues/254/diagram.mmd"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_runtime_contracts.sh"
+          ],
+          "purpose": "Focused runtime/coverage workflow contract validation",
+          "outcome": "passed",
+          "evidence_ref": "local stdout: PASS test_verify_coverage_producer_results; PASS test_ci_runtime_contracts; PASS test_run_pr_fast_coverage_lane"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_ci_path_policy.sh"
+          ],
+          "purpose": "Focused path-policy PR-fast/full-coverage contract validation",
+          "outcome": "passed",
+          "evidence_ref": "local stdout: PASS: ci_path_policy PR-fast/full-coverage contract"
+        },
+        {
+          "command": [
+            "ruby",
+            "adl/tools/validate_ci_workflow_policy.rb"
+          ],
+          "purpose": "Machine-readable workflow policy validation",
+          "outcome": "passed",
+          "evidence_ref": "local JSON: status pass"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Whitespace/conflict-marker validation",
+          "outcome": "passed",
+          "evidence_ref": "local stdout empty; exit 0"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

@@ -23,6 +23,68 @@ const REVOCATIONS: TableDefinition<&str, &[u8]> =
 const FENCES: TableDefinition<&str, &[u8]> =
     TableDefinition::new("distributed_certificate_fences_v1");
 
+mod raw_access {
+    const CERTIFICATE_STORE_ACCESS_MAGIC: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x43, 0x45, 0x52, 0x54, 0x2d, 0x53, 0x54, 0x4f, 0x52, 0x45, 0x2d,
+        0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x53, 0x45, 0x41, 0x4c, 0x2d, 0x56, 0x31, 0x21,
+        0x02, 0x58,
+    ];
+
+    #[derive(Debug)]
+    struct CertificateStoreAccessSeal {
+        magic: [u8; 32],
+    }
+
+    static AUTHORITY_BOUND_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal {
+        magic: CERTIFICATE_STORE_ACCESS_MAGIC,
+    };
+
+    #[cfg(any(test, feature = "internal-test-fixtures"))]
+    static TEST_FIXTURE_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal {
+        magic: CERTIFICATE_STORE_ACCESS_MAGIC,
+    };
+
+    #[derive(Clone, Copy, Debug)]
+    pub struct CertificateStoreAccess {
+        seal: &'static CertificateStoreAccessSeal,
+    }
+
+    pub(crate) const AUTHORITY_BOUND: CertificateStoreAccess = CertificateStoreAccess {
+        seal: &AUTHORITY_BOUND_SEAL,
+    };
+
+    #[cfg(test)]
+    pub(crate) const TEST_FIXTURE: CertificateStoreAccess = CertificateStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
+    #[cfg(all(not(test), feature = "internal-test-fixtures"))]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: CertificateStoreAccess = CertificateStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
+    pub(super) fn validate(access: &CertificateStoreAccess) -> bool {
+        #[cfg(any(test, feature = "internal-test-fixtures"))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)
+            || std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL);
+        #[cfg(not(any(test, feature = "internal-test-fixtures")))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL);
+        known_seal && access.seal.magic == CERTIFICATE_STORE_ACCESS_MAGIC
+    }
+}
+
+pub use raw_access::CertificateStoreAccess;
+#[allow(unused_imports)]
+pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_CERTIFICATE_ACCESS;
+#[cfg(test)]
+#[allow(unused_imports)]
+pub(crate) use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;
+#[cfg(all(not(test), feature = "internal-test-fixtures"))]
+#[doc(hidden)]
+#[allow(unused_imports)]
+pub use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;
+
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum CertificatePurpose {
@@ -329,6 +391,12 @@ impl std::error::Error for CertificateError {}
 
 pub type CertificateResult<T> = Result<T, CertificateError>;
 
+fn validate_raw_access(access: &CertificateStoreAccess) -> CertificateResult<()> {
+    raw_access::validate(access)
+        .then_some(())
+        .ok_or(CertificateError::IssuerNotApproved)
+}
+
 #[derive(Clone)]
 pub struct CertificatePolicy {
     trust_domain: String,
@@ -398,9 +466,11 @@ pub struct DistributedCertificateStore {
 
 impl DistributedCertificateStore {
     pub fn open(
+        access: &CertificateStoreAccess,
         database_path: impl AsRef<Path>,
         policy: CertificatePolicy,
     ) -> CertificateResult<Self> {
+        validate_raw_access(access)?;
         let database_path = database_path.as_ref();
         if !database_path.is_absolute() {
             return Err(CertificateError::RelativeDatabasePath);
@@ -430,9 +500,11 @@ impl DistributedCertificateStore {
 
     pub fn activate(
         &self,
+        access: &CertificateStoreAccess,
         certificate: &AuthorityCertificate,
         now_unix_secs: u64,
     ) -> CertificateResult<ActivationOutcome> {
+        validate_raw_access(access)?;
         self.validate_certificate(certificate, Some(now_unix_secs))?;
         if self.is_fenced(&certificate.body.holder_id)? {
             return Err(CertificateError::IdentityFenced);
@@ -517,11 +589,13 @@ impl DistributedCertificateStore {
 
     pub fn authorize(
         &self,
+        access: &CertificateStoreAccess,
         holder_id: &str,
         purpose: CertificatePurpose,
         generation: u64,
         now_unix_secs: u64,
     ) -> CertificateResult<VerifiedCertificate> {
+        validate_raw_access(access)?;
         validate_text(holder_id, CertificateError::InvalidHolder)?;
         if self.is_fenced(holder_id)? {
             return Err(CertificateError::IdentityFenced);
@@ -566,10 +640,12 @@ impl DistributedCertificateStore {
 
     pub fn revoke(
         &self,
+        access: &CertificateStoreAccess,
         certificate_id: &str,
         now_unix_secs: u64,
         reason: RevocationReason,
     ) -> CertificateResult<()> {
+        validate_raw_access(access)?;
         if reason == RevocationReason::KeyCompromise {
             return self.mark_compromised(certificate_id, now_unix_secs);
         }

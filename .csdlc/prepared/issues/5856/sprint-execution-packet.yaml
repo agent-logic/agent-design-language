@@ -2,9 +2,11 @@ sprint_issue: 5856
 version: v0.92
 slug: quality-and-release-tail
 execution_mode: sequential
-ordered_issue_numbers: [5786, 5841, 5842, 5843, 5846, 5847, 5848, 5849, 5850, 5851, 5852]
+ordered_issue_numbers: [5840, 5786, 5841, 5842, 5843, 5846, 5847, 5848, 5849, 5850, 5851, 5852]
 safe_parallel_lanes: []
 serial_gates:
+  - 5840 after 5836, 5837, 5838, and 5839
+  - 5840 before 5786
   - 5786 before 5841
   - 5841 before 5842
   - 5842 before 5843
@@ -12,5 +14,6 @@ serial_gates:
   - issues 5846 through 5852 execute in dependency order
 review_path: .csdlc/evidence/5856/sprint-review.md
 activity_log_path: .csdlc/evidence/5856/activity.jsonl
-child_goal_rule: After WP-01 releases its publication claim, each child session registers its worktree, reacquires the exact issue-local claim, binds, and creates an issue-bound goal before implementation.
+split_authority_bind_request_path: .csdlc/prepared/issues/5856/split-authority-bind-request.json
+child_goal_rule: Each child session uses typed C-SDLC v2 binding for its exact issue branch and FastWork worktree, then creates an issue-bound goal before implementation.
 closeout_rule: No release-tail advancement occurs without the preceding child's truthful terminal state.

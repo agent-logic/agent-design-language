@@ -1,0 +1,6 @@
+PASS authorized visible state: accepted operator turn and delivered agent reply rendered
+PASS refused visible state: bounded refusal rendered, operator content withheld, action released
+PASS revoked visible state: Observatory demoted to public read and send disabled
+PASS disclosure-safe visible state: token, proof hashes, policy, and provider payload stayed hidden
+PASS browser evidence: https://127.0.0.1:64115/demos/html-observatory/ (ephemeral loopback HTTPS)
+PASS: Layer 8 Observatory real-browser authority presentation contract

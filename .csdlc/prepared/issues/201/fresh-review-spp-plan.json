@@ -1,0 +1,37 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 35,
+  "expected_digest": "b90d11c1e624fea78a7c7fc02dfb2e24c60164ffa8b2d86c21e277389354b8cb",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "Normalize the operative plan to the reviewed production apply and runtime-local publication boundary.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bind production PrepareAuthority and FinalizeAuthority commands to actual OpenRaft applied log IDs and the verified route cut's exact polis, membership epoch, authority cut, and boot generations; reject caller-selected authority, caller indices, route relabeling, legacy replay, and stale custody.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Keep signer custody runtime-local and non-serialized; cryptographically bind guardian, certificate generation, boot generation, membership index, intent, committed prepare index, and finalization time, while separately validating and recording the actual finalize apply index; deny every non-replicated route to a sealed artifact or projection.",
+        "acceptance_ids": ["AC-6", "AC-7"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Return only a fail-closed pending response from committed finalize apply, then use state-held local voter identity, root, and checkpoint authority to reconcile that voter's exact result, retry record, journal, and fresh CAS before exposing an opaque PublishedAuthorityResult; prove the exact independent 47-case contract and real three-voter OpenRaft path.",
+        "acceptance_ids": ["AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Retain one immutable v6 proof, validate it in full-history and depth-one squash-like history, obtain fresh independent exact-head review, and stop before publication or merge.",
+        "acceptance_ids": ["AC-8"],
+        "status": "pending"
+      }
+    ]
+  }
+}

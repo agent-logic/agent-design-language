@@ -22,3 +22,12 @@ review_path: .csdlc/evidence/5857/sprint-review.md
 activity_log_path: .csdlc/evidence/5857/activity.jsonl
 child_goal_rule: Each child session binds its exact issue branch and worktree with typed csdlc-bind, then creates an issue-bound goal before implementation; Git topology is ownership authority and retired claims are not reconstructed.
 closeout_rule: Complete the birthday-core integrated review before umbrella closeout.
+observed_status: implemented_pending_review
+observed_parallelism: serialized_by_dependency_and_review_findings
+repair_issues:
+  - repository: agent-logic/agent-design-language
+    issue: 144
+    pull_request: 147
+  - repository: agent-logic/agent-design-language
+    issue: 209
+    pull_request: 215

@@ -1,0 +1,6 @@
+{
+  "issue": 226,
+  "expected_generation": 7,
+  "expected_digest": "4ebdee0a57cd881913eace32d17bea49f7690569002322547c11ecf1bbe0200a",
+  "reviewer": "codex:226-direct-syntax-design-review"
+}

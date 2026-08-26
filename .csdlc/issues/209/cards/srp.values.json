@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 209,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-14 follow-up] Repair production ACIP dispatch, replay isolation, and public contract",
+    "slug": "wp14-production-acip-authority-repair",
+    "version": "v0.92",
+    "generation": 33
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/209\n.csdlc/prepared/issues/209/design.md\n.csdlc/prepared/issues/209/produce-native-receipt.rb\n.csdlc/prepared/issues/209/validate-native-receipts.rb\n.csdlc/evidence/209\n.github/workflows/wp14-production-acip-repair.yml\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/acip.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/governed_operations.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/production_acip_wss.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\nadl-runtime/src/runtime_api_auth.rs\nadl/tools/install_vector_component.sh\ndocs/api/runtime-v3/v1/openapi.json\ndocs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
+      "review_revision": "git-blake3:f8ccbd4b5f245a2d82cb9dfa421e5d1441954c15:7d943700a84dfa2b9d603382d4d82b4a0ab69b8d3ce4b3803bd55f947c4a8d14",
+      "reviewer": "/root/shepherd_pr215_green/rereview_pr215_semantic_path",
+      "review_prompts": [
+        "Does the test exercise the real Guardian/kernel operation path rather than a service-local ACK?",
+        "Can any principal/session sequence choice deny or authorize unrelated traffic?",
+        "Does bounded pressure preserve replay and operation state while returning the declared typed error?",
+        "Are OpenAPI required/nullability rules identical to runtime admission?",
+        "Are exact native receipts bound to every authority-bearing source and test path?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Fresh exact Linux and macOS native receipts and the aggregate validator remain required on the next published head; merge remains prohibited until those checks are green and operator review is complete."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

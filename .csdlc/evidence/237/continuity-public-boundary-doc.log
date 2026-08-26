@@ -1,0 +1,16 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+   Doc-tests adl_runtime_kernel
+
+running 10 tests
+test src/cognitive_profile.rs - cognitive_profile::build_governed_cognitive_profile_with_continuity (line 377) - compile fail ... ok
+test src/capability_envelope.rs - capability_envelope::validate_capability_envelope_with_continuity (line 343) - compile fail ... ok
+test src/capability_envelope.rs - capability_envelope::build_capability_envelope_with_continuity (line 275) - compile fail ... ok
+test src/cognitive_profile.rs - cognitive_profile::validate_governed_cognitive_profile_with_continuity (line 571) - compile fail ... ok
+test src/capability_envelope.rs - capability_envelope::RuntimeCapabilityProvisioner (line 137) - compile fail ... ok
+test src/birthday_identity.rs - birthday_identity::VerifiedBirthdayEvidence (line 98) - compile fail ... ok
+test src/birth_witness.rs - birth_witness::BirthWitnessPolicy (line 73) - compile fail ... ok
+test src/cognitive_profile.rs - cognitive_profile::CognitiveAuthorityPolicy (line 36) - compile fail ... ok
+test src/capability_envelope.rs - capability_envelope::RuntimeCapabilityProvisioner (line 142) - compile fail ... ok
+test src/birthday_continuity.rs - birthday_continuity::BirthdayContinuityAuthorityPolicy (line 27) - compile fail ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s

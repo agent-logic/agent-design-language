@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 109,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Use fresh sessions for standard SRP review",
+    "slug": "fresh-session-standard-srp-review",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Reduce missed findings and repeated review cycles without changing the standard SRP lifecycle.",
+      "required_outcome": "Generate the standard exact-head SRP, send it to a fresh external review session, resolve findings, and repeat after substantive changes.",
+      "declared_scope": [
+        "existing C-SDLC v2 review skill",
+        "bounded operator runbook",
+        "focused contract validator"
+      ],
+      "authority_boundary": [
+        "standard SRP is sole review authority",
+        "review session is read-only",
+        "implementation session resolves findings"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "no new packet type",
+        "no synthesis engine",
+        "no daemon",
+        "no scheduler",
+        "no registry",
+        "no claims",
+        "no new lifecycle phase",
+        "no redundant broad validation"
+      ]
+    }
+  }
+}

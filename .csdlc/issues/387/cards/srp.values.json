@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 387,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+    "slug": "implemented-card-truth-repair-before-publication",
+    "version": "v0.92.1",
+    "generation": 25
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/387\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs",
+      "review_revision": "git-blake3:6e05f1c11124dc1d60122562861c38dea6f249af:c944f98d5992f93212abd0bac4448034f9ce166754d40965a8e7f01450d55d56",
+      "reviewer": "fresh-session:02ce1362-e859-4102-8014-c8773758f08e",
+      "review_prompts": [
+        "Verify the implemented-phase repair route is narrow and does not weaken reviewed/published/publication guards.",
+        "Verify the regression covers the #114-shaped sequence and negative guard behavior."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Fresh reviewer performed focused exact-head source/evidence review; broader CI remains required after republishing PR #389.",
+        "Reviewer started focused gate5 validation and observed the #387 regression pass before stopping to return the bounded immediate verdict."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

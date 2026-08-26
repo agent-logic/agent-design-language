@@ -196,6 +196,48 @@ fn signed(key: &SigningKey, id: &str, action: ControlAction) -> SignedControlCom
 }
 
 #[tokio::test]
+async fn signed_restart_is_bound_to_the_current_runtime_incarnation() {
+    let key = SigningKey::from_bytes(&[91; 32]);
+    let calls = Arc::new(AtomicUsize::new(0));
+    let service = Arc::new(ControlService::new(
+        "instance-1",
+        RuntimeRecorder::new(16),
+        FakeLifecycle {
+            calls: calls.clone(),
+        },
+        authority(&key, [ControlCapability::Stop]),
+        8,
+    ));
+    let incarnation = service.observatory_feed().runtime_incarnation_id;
+    let stale = service
+        .execute(signed(
+            &key,
+            "restart-stale",
+            ControlAction::Restart {
+                expected_incarnation_id: uuid::Uuid::new_v4().to_string(),
+                grace_millis: 50,
+            },
+        ))
+        .await;
+    assert_eq!(stale, Err(ControlError::StaleRuntimeInstance));
+    assert_eq!(calls.load(Ordering::SeqCst), 0);
+
+    let response = service
+        .execute(signed(
+            &key,
+            "restart-current",
+            ControlAction::Restart {
+                expected_incarnation_id: incarnation,
+                grace_millis: 50,
+            },
+        ))
+        .await
+        .unwrap();
+    assert_eq!(response.outcome, ControlOutcome::Restart { accepted: true });
+    assert_eq!(calls.load(Ordering::SeqCst), 1);
+}
+
+#[tokio::test]
 async fn signed_ingress_checkpoints_replays_and_is_observatory_visible() {
     let root = tempfile::tempdir().unwrap();
     let key = SigningKey::from_bytes(&[37; 32]);
@@ -1111,8 +1153,9 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     assert!(response.contains("\"accepted_through\":99"));
     assert!(response.contains("\"cloudwatch_route\":\"vector.runtime_v3_cloudwatch_emf\""));
     assert!(response.contains("\"runtime_v2_decommission_authorized\":false"));
-    assert!(response.contains("\"total_count\":1"));
-    assert!(response.contains("\"id\":\"agent-0001\""));
+    assert!(response.contains("\"total_count\":0"));
+    assert!(response.contains("\"population_complete\":false"));
+    assert!(!response.contains("\"id\":\"agent-0001\""));
     assert!(response.contains("\"stale\":false"));
 
     service.set_weather_report_at(weather, 0);
@@ -1160,6 +1203,16 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     role: "runtime agent".to_owned(),
                     state: "running".to_owned(),
                     detail: "sample 1 of 10000".to_owned(),
+                    health: "healthy".to_owned(),
+                    availability: "available".to_owned(),
+                    activity: None,
+                    capabilities: Vec::new(),
+                    location: None,
+                    communication_eligible: true,
+                    observed_at_unix_millis: 1,
+                    freshness_deadline_unix_millis: u64::MAX,
+                    source_revision: "test".to_owned(),
+                    provenance: "test_fixture".to_owned(),
                 },
                 adl_runtime_kernel::AgentSample {
                     id: "agent-00002".to_owned(),
@@ -1167,8 +1220,19 @@ async fn observatory_feed_reports_large_agent_population_as_bounded_sample() {
                     role: "runtime agent".to_owned(),
                     state: "running".to_owned(),
                     detail: "sample 2 of 10000".to_owned(),
+                    health: "healthy".to_owned(),
+                    availability: "available".to_owned(),
+                    activity: None,
+                    capabilities: Vec::new(),
+                    location: None,
+                    communication_eligible: true,
+                    observed_at_unix_millis: 1,
+                    freshness_deadline_unix_millis: u64::MAX,
+                    source_revision: "test".to_owned(),
+                    provenance: "test_fixture".to_owned(),
                 },
             ],
+            ..adl_runtime_kernel::AgentPopulationFeed::empty()
         },
     ));
     let feed = service.observatory_feed();
@@ -1517,6 +1581,22 @@ fn runtime_identity_and_shutdown_bounds_are_owned_by_standard_crates() {
         &key,
     );
     assert_eq!(result.unwrap_err(), ControlError::InvalidBounds);
+}
+
+#[test]
+fn runtime_instance_identity_is_stable_in_one_state_root_and_distinct_across_roots() {
+    let first_root = tempfile::tempdir().unwrap();
+    let second_root = tempfile::tempdir().unwrap();
+    let first = adl_runtime_kernel::load_or_create_runtime_instance_id(first_root.path()).unwrap();
+    let restored =
+        adl_runtime_kernel::load_or_create_runtime_instance_id(first_root.path()).unwrap();
+    let separate =
+        adl_runtime_kernel::load_or_create_runtime_instance_id(second_root.path()).unwrap();
+    assert_eq!(first, restored);
+    assert_ne!(first, separate);
+
+    std::fs::write(first_root.path().join("runtime-instance-id"), "invalid\n").unwrap();
+    assert!(adl_runtime_kernel::load_or_create_runtime_instance_id(first_root.path()).is_err());
 }
 
 #[test]

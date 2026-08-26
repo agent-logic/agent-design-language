@@ -3749,6 +3749,7 @@ memory:
                 blocker.as_str().is_some_and(|value| {
                     value.starts_with("chronosense_time_sync_")
                         || value == "curiosity_engine_not_ready"
+                        || value == "memory_palace_not_ready"
                         || value == "reasoning_runtime_starting"
                         || value == "constructability_gate_blocked"
                         || value == "constructability_gate_not_ready"

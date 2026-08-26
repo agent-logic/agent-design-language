@@ -4,8 +4,8 @@
   "repository": "danielbaustin/agent-design-language",
   "initialization_digest": "846869967e550e7f6dc78805815062a71d7c828653ce0a668e7c479663588d00",
   "phase": "initialized",
-  "generation": 43,
-  "digest": "42dd645fa4fb8fe14a504ee940e19013cb943a87b16fd0b6734c39d6669c4ef2",
+  "generation": 44,
+  "digest": "e45f9365f8eaf2252922d7d7bd052791c616558816935b4d33ef2f865f47ca62",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "450977dc3785ace511b080eeb046b986c7122092633e8da50844a98b5de577ca",
+      "values_digest": "f6b48b1670bb22584a6bddbfb687501564a778dcd4ee3e8031b8b16f264c85cb",
       "rendered_digest": "cf25b08aaf103ec4b9a16a6f9611137d9db493195b09c0e61fa9ae260140eb6d",
       "ast_digest": "a4b5bdf34afaacafffabefd4738a841b96ab5b0188e9dba15004eb3357f816fb"
     },
     "stp": {
-      "values_digest": "f1a4746c3e5b3d49358a69872eaaa757cf5b624c3bc9765ffe561adfb3ec43fc",
-      "rendered_digest": "bac768f1314888c3a9dce9b91c49880202f07dfc40f6e9cd1d24d6193ecdf7d6",
-      "ast_digest": "c8abf100604c7971c18e3938fe840751c8d9ba0229b5277f43e50428d155fc84"
+      "values_digest": "b6d06e552e3a83306d9f3c296fb259be9fbccb462d41276b5db0a6afada3da7d",
+      "rendered_digest": "34edb1d0fcf711a6f6b42bfc9a577d8a609be5362b7f78c0f24249b45ee12e57",
+      "ast_digest": "d834130c4b2d8b54a1187c40a557cb38dacf1c385e1f09f4edb57a27d16099b9"
     },
     "spp": {
-      "values_digest": "400ade8598344b1257f30de5b3e13548979f1d1b30eff097b31473a7d3727fde",
+      "values_digest": "dffd8c79c203d445c9a09345239222f293e43052587293ac3f0eff4480873edf",
       "rendered_digest": "d64e4bed430891c63478ad56792dc3add3929b20b371544916ac8e6474a29f5e",
       "ast_digest": "b0578ac2a5475c2a1cf7ec87e7400b5fcb621d1e615bc717e214085b231219f6"
     },
     "vpp": {
-      "values_digest": "ad689a7fe5b242f33ba81bf1cdc0a69d5f651bc1a09bfd8fb324631352453636",
+      "values_digest": "33866483366c493ebc8275b8347c80b688fd7d603a32d151f5ae5fce5dd58f30",
       "rendered_digest": "78cb138cbb603ada758208bf16a9c4fc559098a6464b3e3ed5d9da267ab5ab31",
       "ast_digest": "c1f5b3d7fdd706dd37c027a59e54469e09f7decf628c43aa7afe8ecbbd20eef6"
     },
     "srp": {
-      "values_digest": "fc1f8acecdd8a0c3f7156cee321c1ad785cf5372fb67eaf70dc2db9abfded3c5",
+      "values_digest": "d2d704c3adcf30a7c08352ebfaa26e20d2480cfb51e1dfca117cfdb0144f524d",
       "rendered_digest": "effeb2dc571ff39b68bafbe764b5b12d19286a0a856df06d3b68a4d1948ec4ee",
       "ast_digest": "c1221ba532e8cde1ffa3ae6f0e93463333da42ae174fea0d11d2a7c23c1e2198"
     },
     "sor": {
-      "values_digest": "0a533aab035c62cb88e0d14a4312e783003aee38cd14d640abcc91e4ee946d22",
+      "values_digest": "a5af215818128d8f7303086699bb02e7c5b77a58bed325bb217f8740309634ff",
       "rendered_digest": "4fbc680667c00745e3761cbb9cc6d40c3b11080eee395b41fa5972125cafb61b",
       "ast_digest": "63699a396361f0a5b765229460953191b0069437f235102e2abcd22d70aca6e7"
     }
@@ -490,6 +490,13 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "Replace sunset claim language with current typed C-SDLC v2 Git topology authority.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-18 owns the integrated birthday demo and negative suite\",\"#5837 owns Observatory/Unity consumers\",\"#5838 owns provider-neutral comparison\",\"Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.\",\"Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.\"]}"
+    },
+    {
+      "sequence": 60,
+      "generation": 44,
+      "actor": "codex:5854-sprint5-readiness-refresh",
+      "reason": "Replace the superseded legacy WP-14 dependency with canonical issue #209 and PR #215 authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#5825, #5826, #5827, #5828, #5829, and #5830 complete\",\"agent-logic/agent-design-language#209 and PR #215 provide accepted WP-14 authority; legacy #5832 is superseded\",\"#5833 and #5834 complete\"]}"
     }
   ]
 }

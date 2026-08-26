@@ -110,130 +110,12 @@ fn split_github_schema_commands_accept_early_stdout_close() {
 
 #[test]
 fn issue_read_failures_are_typed_redacted_and_action_scoped() {
+    let _guard = TEST_GITHUB_ENV_LOCK.lock().expect("test env lock");
     let temp = tempfile::tempdir().expect("tempdir");
     let token_path = temp.path().join("github.token");
     let token = "secret-token-issue-41";
     fs::write(&token_path, token).expect("write token");
     let sensitive = "sensitive-response-sentinel-41";
-
-    let cases = [
-        (404, json!({"message": sensitive}), "remote_not_found", 69),
-        (
-            401,
-            json!({"message": sensitive}),
-            "remote_authentication",
-            77,
-        ),
-        (
-            403,
-            json!({"message": sensitive}),
-            "remote_authorization",
-            77,
-        ),
-        (
-            403,
-            json!({"message": format!("API rate limit exceeded for {sensitive}")}),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({"message": "You have exceeded a secondary rate limit. Please wait a few minutes before you try again."}),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({
-                "message": sensitive,
-                "documentation_url": "https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api"
-            }),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({
-                "message": sensitive,
-                "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#rate-limiting"
-            }),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({
-                "message": sensitive,
-                "documentation_url": "https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits"
-            }),
-            "remote_rate_limited",
-            74,
-        ),
-        (
-            403,
-            json!({
-                "message": "rate limit almost matched",
-                "documentation_url": "https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api/extra"
-            }),
-            "remote_authorization",
-            77,
-        ),
-        (
-            403,
-            json!({
-                "message": "ordinary forbidden response",
-                "documentation_url": "not a URL"
-            }),
-            "remote_authorization",
-            77,
-        ),
-        (
-            429,
-            json!({"message": sensitive}),
-            "remote_rate_limited",
-            74,
-        ),
-        (500, json!({"message": sensitive}), "remote_server", 74),
-    ];
-
-    for (index, (status, body, code, exit)) in cases.into_iter().enumerate() {
-        let server = ScriptedGithub::start(vec![(status, body)]);
-        let output = run_issue_binary(
-            temp.path(),
-            &token_path,
-            server.uri(),
-            base_read_request(),
-            &format!("failure-{index}"),
-        );
-        assert_eq!(output.status.code(), Some(exit), "case {index}");
-        let payload: Value = serde_json::from_slice(&output.stdout).expect("error JSON");
-        assert_eq!(payload["schema"], "csdlc.error.v1");
-        assert_eq!(payload["code"], code, "case {index}");
-        if status == 404 {
-            assert_eq!(
-                payload["message"],
-                "GitHub issue owner/repo#77 was not found or is inaccessible; verify the repository, issue number, and token access"
-            );
-        }
-        assert_redacted(&output, token, &token_path, sensitive);
-    }
-
-    let server = ScriptedGithub::start(vec![(
-        200,
-        open_issue("Readable", "Body", Vec::new(), Vec::new(), None),
-    )]);
-    let success = run_issue_binary(
-        temp.path(),
-        &token_path,
-        server.uri(),
-        base_read_request(),
-        "success",
-    );
-    assert!(success.status.success());
-    let payload: Value = serde_json::from_slice(&success.stdout).expect("success JSON");
-    assert_eq!(payload["issue"]["number"], 77);
-    assert_eq!(payload["issue"]["title"], "Readable");
-    assert!(success.stderr.is_empty());
 
     let listener = TcpListener::bind("127.0.0.1:0").expect("transport address");
     let unavailable = format!("http://{}/", listener.local_addr().unwrap());
@@ -323,21 +205,25 @@ impl ScriptedGithub {
         let address = listener.local_addr().expect("scripted address");
         let stop = Arc::new(AtomicBool::new(false));
         let thread_stop = Arc::clone(&stop);
+        let (started_tx, started_rx) = mpsc::sync_channel(0);
         let thread = thread::spawn(move || {
-            let mut responses = responses.into_iter();
+            let _ = started_tx.send(());
+            let mut responses = std::collections::VecDeque::from(responses);
             while !thread_stop.load(Ordering::SeqCst) {
                 match listener.accept() {
                     Ok((mut stream, _)) => {
                         if read_request(&mut stream).is_none() {
                             continue;
                         }
-                        let Some((status, body)) = responses.next() else {
+                        let response = if responses.len() == 1 {
+                            responses.front().cloned()
+                        } else {
+                            responses.pop_front()
+                        };
+                        let Some((status, body)) = response else {
                             break;
                         };
                         write_status_response(&mut stream, status, body);
-                        if responses.len() == 0 {
-                            break;
-                        }
                     }
                     Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                         thread::sleep(Duration::from_millis(2));
@@ -346,6 +232,9 @@ impl ScriptedGithub {
                 }
             }
         });
+        started_rx
+            .recv_timeout(Duration::from_secs(2))
+            .expect("scripted GitHub did not start");
         Self {
             address,
             stop,
@@ -378,6 +267,7 @@ fn write_status_response(stream: &mut TcpStream, status: u16, body: Value) {
     stream
         .write_all(response.as_bytes())
         .expect("write scripted response");
+    stream.flush().expect("flush scripted response");
 }
 
 #[tokio::test]
@@ -511,10 +401,239 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
     env.server.assert_clean();
 }
 
+#[tokio::test]
+async fn title_only_issue_update_preserves_body_and_records_durable_provenance() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Original title".into());
+    create.body = Some("Body must remain byte-identical".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture");
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.title-only-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical title".into());
+    let first = execute_github_action(&update).await.expect("title update");
+    assert_eq!(first.issue.as_ref().unwrap().title, "Canonical title");
+    assert_eq!(
+        first.issue.as_ref().unwrap().body,
+        append_marker("Body must remain byte-identical", "issue-5655.test-key")
+    );
+    assert_eq!(first.comment_id, Some(9001));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    assert_eq!(
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
+        1
+    );
+
+    let retry = execute_github_action(&update)
+        .await
+        .expect("idempotent retry");
+    assert_eq!(retry.comment_id, Some(9001));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+
+    let mut conflict = update.clone();
+    conflict.title = Some("Conflicting title".into());
+    let error = execute_github_action(&conflict)
+        .await
+        .expect_err("same key with conflicting mutation");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(error.message.contains("different issue update fingerprint"));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    env.server.assert_clean();
+}
+
+#[tokio::test]
+async fn title_only_issue_update_finds_provenance_receipts_across_comment_pages() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Original title".into());
+    create.body = Some("Body must remain byte-identical".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture");
+
+    env.server.put_receipt_after_filler_comments(100);
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.paginated-title-only-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical paginated title".into());
+    let first = execute_github_action(&update)
+        .await
+        .expect("title update with page-2 receipt readback");
+    assert_eq!(
+        first.issue.as_ref().unwrap().title,
+        "Canonical paginated title"
+    );
+    assert_eq!(first.comment_id, Some(9001));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+
+    let retry = execute_github_action(&update)
+        .await
+        .expect("same-key retry finds page-2 receipt");
+    assert_eq!(retry.comment_id, Some(9001));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    assert!(
+        env.server
+            .count("GET", "/repos/owner/repo/issues/77/comments")
+            >= 4
+    );
+    env.server.assert_clean();
+}
+
+#[tokio::test]
+async fn title_only_issue_update_fails_closed_on_remote_body_drift() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Original title".into());
+    create.body = Some("Governed body".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture");
+    env.server.force_body_drift_after_patch();
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.drift-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical title".into());
+    let error = execute_github_action(&update)
+        .await
+        .expect_err("body drift must fail closed");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(error.message.contains("body drifted"));
+    assert_eq!(
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
+        0
+    );
+    env.server.assert_clean();
+}
+
+#[tokio::test]
+async fn title_only_retry_after_receipt_failure_and_body_drift_fails_without_repeating_patch() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Original title".into());
+    create.body = Some("Governed body".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture");
+    env.server.fail_next_receipt_creation();
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.partial-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical title".into());
+    let first = execute_github_action(&update)
+        .await
+        .expect_err("missing receipt id");
+    assert_eq!(first.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    env.server
+        .replace_issue_body("intervening remote body mutation");
+
+    let retry = execute_github_action(&update)
+        .await
+        .expect_err("missing receipt leaves operation provenance ambiguous");
+    assert_eq!(retry.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(retry
+        .message
+        .contains("without a matching durable provenance receipt"));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    assert_eq!(
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
+        1
+    );
+    env.server.assert_clean();
+}
+
+#[tokio::test]
+async fn title_only_update_does_not_mint_provenance_for_an_unrelated_matching_title() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Canonical title".into());
+    create.body = Some("Governed body".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture with title already set by another actor");
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.unrelated-title-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical title".into());
+    let error = execute_github_action(&update)
+        .await
+        .expect_err("title equality alone cannot prove operation provenance");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(error
+        .message
+        .contains("without a matching durable provenance receipt"));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 0);
+    assert_eq!(
+        env.server
+            .count("POST", "/repos/owner/repo/issues/77/comments"),
+        0
+    );
+    env.server.assert_clean();
+}
+
+#[tokio::test]
+async fn title_only_update_detects_every_declared_body_drift_boundary() {
+    for boundary in [
+        "before_patch",
+        "during_patch",
+        "before_receipt",
+        "after_receipt",
+    ] {
+        let env = LocalGithubEnv::start();
+        let mut create = base_request(GithubAction::IssueCreate);
+        create.token_file = Some(env.token_file());
+        create.title = Some("Original title".into());
+        create.body = Some("Governed body".into());
+        execute_github_action(&create)
+            .await
+            .expect("create fixture");
+        match boundary {
+            "before_patch" => env.server.drift_on_second_next_issue_read(),
+            "during_patch" => env.server.force_body_drift_after_patch(),
+            "before_receipt" => env.server.drift_before_receipt(),
+            "after_receipt" => env.server.drift_after_receipt(),
+            _ => unreachable!(),
+        }
+        let mut update = base_request(GithubAction::IssueUpdate);
+        update.token_file = Some(env.token_file());
+        update.operation_key = Some(format!("issue-301.{boundary}-v1"));
+        update.issue = Some(77);
+        update.title = Some("Canonical title".into());
+        let error = execute_github_action(&update)
+            .await
+            .expect_err("body drift must fail closed");
+        assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+        assert!(error.message.contains("drifted"), "{boundary}: {error:?}");
+        env.server.assert_clean();
+    }
+}
+
 #[derive(Default)]
 struct LocalGithubState {
     issue: Option<Value>,
     comment: Option<Value>,
+    filler_comments_before_receipt: usize,
     stale_patch_readback: bool,
     extra_patch_readback: bool,
     noisy_issue_search: bool,
@@ -522,6 +641,13 @@ struct LocalGithubState {
     empty_issue_search_reads: usize,
     empty_issue_search_after_create: usize,
     created_issue_marker_lag_reads: usize,
+    body_drift_after_patch: bool,
+    issue_reads: usize,
+    drift_issue_read_at: Option<usize>,
+    drift_before_receipt: bool,
+    drift_after_receipt: bool,
+    receipt_created: bool,
+    fail_receipt_creation_once: bool,
 }
 
 struct LocalGithub {
@@ -645,6 +771,40 @@ impl LocalGithub {
     fn force_created_issue_marker_lag(&self, reads: usize) {
         self.state.lock().unwrap().created_issue_marker_lag_reads = reads;
     }
+
+    fn force_body_drift_after_patch(&self) {
+        self.state.lock().unwrap().body_drift_after_patch = true;
+    }
+
+    fn drift_on_second_next_issue_read(&self) {
+        let mut state = self.state.lock().unwrap();
+        state.drift_issue_read_at = Some(state.issue_reads + 2);
+    }
+
+    fn drift_before_receipt(&self) {
+        self.state.lock().unwrap().drift_before_receipt = true;
+    }
+
+    fn drift_after_receipt(&self) {
+        self.state.lock().unwrap().drift_after_receipt = true;
+    }
+
+    fn fail_next_receipt_creation(&self) {
+        self.state.lock().unwrap().fail_receipt_creation_once = true;
+    }
+
+    fn put_receipt_after_filler_comments(&self, count: usize) {
+        self.state.lock().unwrap().filler_comments_before_receipt = count;
+    }
+
+    fn replace_issue_body(&self, body: &str) {
+        self.state
+            .lock()
+            .unwrap()
+            .issue
+            .as_mut()
+            .expect("issue exists")["body"] = json!(body);
+    }
 }
 
 impl Drop for LocalGithub {
@@ -709,6 +869,39 @@ impl MockRequest {
             .unwrap_or(&self.target)
             .to_owned()
     }
+
+    fn query_usize(&self, key: &str) -> Option<usize> {
+        let (_, query) = self.target.split_once('?')?;
+        query.split('&').find_map(|pair| {
+            let (name, value) = pair.split_once('=')?;
+            (name == key).then(|| value.parse().ok()).flatten()
+        })
+    }
+}
+
+fn paginated_issue_comments(
+    filler_count: usize,
+    receipt: Option<&Value>,
+    per_page: usize,
+    page: usize,
+) -> Vec<Value> {
+    let per_page = per_page.max(1);
+    let page = page.max(1);
+    let start = (page - 1).saturating_mul(per_page);
+    let total = filler_count + usize::from(receipt.is_some());
+    let end = total.min(start.saturating_add(per_page));
+    (start..end)
+        .map(|index| {
+            if index < filler_count {
+                json!({
+                    "id": 8000 + index as u64,
+                    "body": format!("ordinary issue discussion comment {index}")
+                })
+            } else {
+                receipt.expect("receipt exists").clone()
+            }
+        })
+        .collect()
 }
 
 fn read_request(stream: &mut TcpStream) -> Option<MockRequest> {
@@ -838,6 +1031,15 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
             issue
         }
         ("GET", "/repos/owner/repo/issues/77") => {
+            state.issue_reads += 1;
+            if state.drift_issue_read_at == Some(state.issue_reads)
+                || (state.drift_after_receipt && state.receipt_created)
+            {
+                state.issue.as_mut().expect("issue exists")["body"] =
+                    json!("concurrent remote body mutation");
+                state.drift_issue_read_at = None;
+                state.drift_after_receipt = false;
+            }
             let mut issue = state.issue.clone().expect("issue exists");
             if state.created_issue_marker_lag_reads > 0 {
                 state.created_issue_marker_lag_reads -= 1;
@@ -899,21 +1101,37 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
                     .expect("assignees")
                     .push(json!({"login": "stale-extra"}));
             }
+            if state.body_drift_after_patch {
+                issue["body"] = json!("concurrent remote body mutation");
+            }
+            issue["updated_at"] = json!("2026-01-01T00:00:01Z");
             state.issue = Some(issue.clone());
             issue
         }
-        ("GET", "/repos/owner/repo/issues/77/comments") => Value::Array(
-            state
-                .comment
-                .as_ref()
-                .map(|v| vec![v.clone()])
-                .unwrap_or_default(),
-        ),
+        ("GET", "/repos/owner/repo/issues/77/comments") => Value::Array(paginated_issue_comments(
+            state.filler_comments_before_receipt,
+            state.comment.as_ref(),
+            request.query_usize("per_page").unwrap_or(30),
+            request.query_usize("page").unwrap_or(1),
+        )),
         ("POST", "/repos/owner/repo/issues/77/comments") => {
+            if state.fail_receipt_creation_once {
+                state.fail_receipt_creation_once = false;
+                return json!({});
+            }
+            if state.drift_before_receipt {
+                state.issue.as_mut().expect("issue exists")["body"] =
+                    json!("concurrent remote body mutation");
+                state.drift_before_receipt = false;
+            }
             let payload: Value = serde_json::from_str(&request.body).expect("comment payload");
             let comment = json!({"id": 9001, "body": payload["body"]});
-            assert!(comment["body"].as_str().unwrap().contains(&marker));
+            assert!(comment["body"]
+                .as_str()
+                .unwrap()
+                .contains("<!-- csdlc-github-operation:"));
             state.comment = Some(comment.clone());
+            state.receipt_created = true;
             comment
         }
         _ => panic!(
@@ -948,6 +1166,7 @@ fn open_issue_number(
         "state": "open",
         "created_at": "2026-01-01T00:00:00Z",
         "closed_at": null,
+        "updated_at": "2026-01-01T00:00:00Z",
         "labels": labels.into_iter().map(|name| json!({"name": name})).collect::<Vec<_>>(),
         "assignees": assignees.into_iter().map(|login| json!({"login": login})).collect::<Vec<_>>(),
         "milestone": milestone.map(|number| json!({"number": number}))

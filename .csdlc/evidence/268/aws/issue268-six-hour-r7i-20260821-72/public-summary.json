@@ -1,0 +1,34 @@
+{
+  "cleanup": {
+    "compute_state": "terminated",
+    "runtime_volume_attachment_state": "detached",
+    "stack_state": "deleted"
+  },
+  "estimated_compute_cost_usd": 3.312498,
+  "fallback": "disabled",
+  "instance_type": "r7i.2xlarge",
+  "issue": 268,
+  "provider_attempts": 1,
+  "purchase_option": "on_demand",
+  "qualification": {
+    "authenticated_https_connections": 50,
+    "authenticated_wss_connections": 50,
+    "completed_cycles": 21594,
+    "continuation_verified": true,
+    "logging_complete": true,
+    "measured_exposure_seconds": 21601,
+    "replay_denied": true,
+    "resident_count": 6,
+    "websocket_full_duplex_observed": true
+  },
+  "revision": "8947231b6549f6b43f76c5d4656b333868a032ae",
+  "run_id": "issue268-six-hour-r7i-20260821-72",
+  "runtime_qualification_started": true,
+  "runtime_qualification_status": "passed",
+  "schema": "adl.issue268.successful_run_summary.v1",
+  "status": "passed",
+  "timing": {
+    "remote_command_seconds": 22498,
+    "total_seconds": 22534
+  }
+}

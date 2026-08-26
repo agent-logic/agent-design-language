@@ -1,0 +1,22 @@
+{
+  "issue": 201,
+  "card": "sor",
+  "expected_generation": 86,
+  "expected_digest": "b0c82ece2187e2370f5f13ba4b8073e1f5283dd9419f7f8fd1582e2ab152807e",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "reason": "Record the machine check that exact summary reproducibility is denied while every retained observed run and minimum row passes the unchanged threshold.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "jq",
+        "-e",
+        "threshold-oriented coverage variability contract",
+        ".csdlc/prepared/issues/201/coverage-impact-result.json"
+      ],
+      "purpose": "Require no top-level exact summary hash, explicit denial of exact-summary reproducibility, multiple distinct retained run hashes and polis line counts, and every retained production row at or above 80 percent.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/prepared/issues/201/coverage-impact-result.json"
+    }
+  }
+}

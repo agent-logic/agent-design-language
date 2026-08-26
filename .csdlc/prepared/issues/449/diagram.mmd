@@ -1,0 +1,11 @@
+flowchart LR
+  Resident["Runtime resident cycle"] --> Inputs["Bind identity, continuity, profile, capability, outcome, evaluation, proposal, policy, cancellation, history"]
+  Inputs --> Validate["Fail-closed precondition validation"]
+  Validate --> Adaptive["execute_governed_adaptive_learning"]
+  Adaptive --> Decision{"Decision"}
+  Decision -->|accepted| Gate["MutationGate"]
+  Gate --> PersistAccepted["Persist before/after graph+state digests and history"]
+  Decision -->|rejected/cancelled/invalid| PersistRejected["Persist terminal non-mutation evidence"]
+  PersistAccepted --> Restart["Restart / rehydrate"]
+  PersistRejected --> Restart
+  Restart --> Deterministic["Deterministic continuation without replay or duplicate mutation"]

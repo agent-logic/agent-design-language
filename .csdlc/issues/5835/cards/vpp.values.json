@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-17] Migration and cross-polis continuity planning",
     "slug": "v0-92-wp-17-migration-and-cross-polis-continuity-planning",
     "version": "v0.92",
-    "generation": 34
+    "generation": 58
   },
   "status": "ready",
   "content": {
@@ -32,7 +32,7 @@
             ".csdlc/evidence/5835/validate-continuity-transfer.rb"
           ],
           "parallel_group": "docs",
-          "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
+          "defer_reason": null
         },
         {
           "lane": "wp17-negative-semantics",
@@ -51,7 +51,7 @@
             "--negative"
           ],
           "parallel_group": "docs",
-          "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
+          "defer_reason": null
         },
         {
           "lane": "wp17-diff-review",

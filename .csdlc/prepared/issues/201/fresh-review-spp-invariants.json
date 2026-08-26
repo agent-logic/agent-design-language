@@ -1,0 +1,24 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 36,
+  "expected_digest": "7440e6402af31c90d47ce1105e43e6187bf1e8ba348c4f218b5427e44645eb18",
+  "actor": "codex:/root/resolve_201_review_129ea",
+  "reason": "State the deterministic apply response and node-local publication visibility boundary truthfully.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "No uncommitted proposal, single voter, leader, caller, harness, Shepherd, model, local history, or local clock can mint a verified authority-operation token",
+      "Every finalized token binds exact polis, domain, membership cut, committed index, operation, bounded store-native signed artifact bytes and digest, time token, and distinct quorum endorsements",
+      "The existing private artifact view returns byte-identical retained committed bytes only to sealed #199/#200/#203 consumers; it cannot accept replacement bytes or reconstruct authority from a digest",
+      "The separate #210 projection is constructible only by #201 from an exact finalized continuity-transfer variant and exposes a borrowed read-only bounded transfer grant; every other operation variant and consumer identity is rejected",
+      "The #210 projection binds the exact lineage, SourceCheckpointHandle identity, byte-identical bundle-handle identity, signed bundle/catalog bytes and digests, source, target, route, membership, certificate, boot, entry, chunk, range, bounds, deadline, and cleanup identity without granting transport, filesystem, migration, fence, activation, serving, or store-effect authority",
+      "Wrong lineage, wrong SourceCheckpointHandle, or wrong bundle-handle identity is rejected before #208 source access or #210 transfer-session establishment",
+      "Each voter publishes only through state-held local identity, root, and checkpoint authority, records exact expected old and new checkpoints, and after a proved partial commit may complete only the exact same operation; no caller, voter, root, or checkpoint substitution can publish for another",
+      "Committed finalize apply returns pending with no token; artifact, projection, canonical published result, and authority-restoring reads remain unavailable until the local result, retry record, journal, and external checkpoint CAS are durable and agree",
+      "Legacy direct authority commands cannot mint or restore authority",
+      "One-of-three always halts new authority token finalization"
+    ]
+  }
+}

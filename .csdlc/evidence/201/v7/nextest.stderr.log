@@ -1,0 +1,131 @@
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:422:19
+    |
+265 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+422 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:794:19
+    |
+713 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+794 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+807 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:643:19
+    |
+540 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+643 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s
+────────────
+ Nextest run ID b9093f12-b7ee-48b5-ac46-856b7e586b41 with nextest profile: default
+    Starting 83 tests across 1 binary (147 tests skipped)
+        PASS [   0.054s] ( 1/83) adl-runtime distributed::authority_protocol::contract_tests::artifact_bytes_digest_substitution_rejected
+        PASS [   0.053s] ( 2/83) adl-runtime distributed::authority_protocol::contract_tests::capacity_n_plus_one_no_partial
+        PASS [   0.030s] ( 3/83) adl-runtime distributed::authority_protocol::contract_tests::checkpoint_object_collision
+        PASS [   0.060s] ( 4/83) adl-runtime distributed::authority_protocol::contract_tests::checkpoint_result_retry_digest_mismatch
+        PASS [   0.055s] ( 5/83) adl-runtime distributed::authority_protocol::contract_tests::coherent_rollback_rejected
+        PASS [   0.028s] ( 6/83) adl-runtime distributed::authority_protocol::contract_tests::config_digest_mismatch
+        PASS [   0.010s] ( 7/83) adl-runtime distributed::authority_protocol::contract_tests::continuity_projection_consumer_confusion_rejected
+        PASS [   0.010s] ( 8/83) adl-runtime distributed::authority_protocol::contract_tests::continuity_projection_wrong_bundle_handle_rejected
+        PASS [   0.010s] ( 9/83) adl-runtime distributed::authority_protocol::contract_tests::continuity_projection_wrong_lineage_rejected
+        PASS [   0.009s] (10/83) adl-runtime distributed::authority_protocol::contract_tests::continuity_projection_wrong_source_checkpoint_handle_rejected
+        PASS [   0.029s] (11/83) adl-runtime distributed::authority_protocol::contract_tests::corrupt_journal_rejected
+        PASS [   0.050s] (12/83) adl-runtime distributed::authority_protocol::contract_tests::corrupt_retry_cache_rejected
+        PASS [   0.048s] (13/83) adl-runtime distributed::authority_protocol::contract_tests::current_three_voter_finalize
+        PASS [   0.029s] (14/83) adl-runtime distributed::authority_protocol::contract_tests::declared_finalize_time_after_deadline
+        PASS [   0.029s] (15/83) adl-runtime distributed::authority_protocol::contract_tests::duplicate_signer
+        PASS [   0.051s] (16/83) adl-runtime distributed::authority_protocol::contract_tests::exact_retry_returns_cached_result
+        PASS [   0.049s] (17/83) adl-runtime distributed::authority_protocol::contract_tests::exact_store_artifact_bytes_retained
+        PASS [   0.029s] (18/83) adl-runtime distributed::authority_protocol::contract_tests::expired_signer_cert
+        PASS [   0.031s] (19/83) adl-runtime distributed::authority_protocol::contract_tests::finalize_at_deadline
+        PASS [   0.027s] (20/83) adl-runtime distributed::authority_protocol::contract_tests::finalize_before_prepare_time
+        PASS [   0.030s] (21/83) adl-runtime distributed::authority_protocol::contract_tests::joint_duplicate_guardian_reuse
+        PASS [   0.031s] (22/83) adl-runtime distributed::authority_protocol::contract_tests::joint_majority_each_config
+        PASS [   0.033s] (23/83) adl-runtime distributed::authority_protocol::contract_tests::joint_new_only
+        PASS [   0.033s] (24/83) adl-runtime distributed::authority_protocol::contract_tests::joint_old_only
+        PASS [   0.033s] (25/83) adl-runtime distributed::authority_protocol::contract_tests::joint_union_majority_only
+        PASS [   0.009s] (26/83) adl-runtime distributed::authority_protocol::contract_tests::legacy_acquire_observatory_rejected
+        PASS [   0.008s] (27/83) adl-runtime distributed::authority_protocol::contract_tests::legacy_activate_owner_rejected
+        PASS [   0.007s] (28/83) adl-runtime distributed::authority_protocol::contract_tests::legacy_activate_shepherd_rejected
+        PASS [   0.008s] (29/83) adl-runtime distributed::authority_protocol::contract_tests::legacy_demote_voter_rejected
+        PASS [   0.008s] (30/83) adl-runtime distributed::authority_protocol::contract_tests::legacy_fence_voter_rejected
+        PASS [   0.029s] (31/83) adl-runtime distributed::authority_protocol::contract_tests::local_clock_skew_apply_parity
+        PASS [   0.010s] (32/83) adl-runtime distributed::authority_protocol::contract_tests::lock_symlink_rejected
+        PASS [   0.028s] (33/83) adl-runtime distributed::authority_protocol::contract_tests::missing_quorum
+        PASS [   0.048s] (34/83) adl-runtime distributed::authority_protocol::contract_tests::node_a_cas_before_final_marker
+        PASS [   0.079s] (35/83) adl-runtime distributed::authority_protocol::contract_tests::node_a_local_before_cas
+        PASS [   0.052s] (36/83) adl-runtime distributed::authority_protocol::contract_tests::node_b_cas_before_final_marker
+        PASS [   0.072s] (37/83) adl-runtime distributed::authority_protocol::contract_tests::node_b_local_before_cas
+        PASS [   0.050s] (38/83) adl-runtime distributed::authority_protocol::contract_tests::node_c_cas_before_final_marker
+        PASS [   0.078s] (39/83) adl-runtime distributed::authority_protocol::contract_tests::node_c_local_before_cas
+        PASS [   0.052s] (40/83) adl-runtime distributed::authority_protocol::contract_tests::replay_with_regressed_finalize_time
+        PASS [   0.009s] (41/83) adl-runtime distributed::authority_protocol::contract_tests::sealed_continuity_transfer_projection
+        PASS [   0.027s] (42/83) adl-runtime distributed::authority_protocol::contract_tests::signer_rotation_current_generation
+        PASS [   0.033s] (43/83) adl-runtime distributed::authority_protocol::contract_tests::signer_unavailable
+        PASS [   0.029s] (44/83) adl-runtime distributed::authority_protocol::contract_tests::stale_membership
+        PASS [   0.018s] (45/83) adl-runtime distributed::authority_protocol::contract_tests::state_symlink_rejected
+        PASS [   0.151s] (46/83) adl-runtime distributed::authority_protocol::contract_tests::three_node_checkpoint_restart_reconcile
+        PASS [   0.030s] (47/83) adl-runtime distributed::authority_protocol::contract_tests::wrong_voter
+        PASS [   0.041s] (48/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_current_boot_mismatch
+        PASS [   0.042s] (49/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_current_epoch_mismatch
+        PASS [   0.043s] (50/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_current_membership_mismatch
+        PASS [   0.043s] (51/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_current_polis_mismatch
+        PASS [   0.043s] (52/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_byte_digest_mismatch
+        PASS [   0.040s] (53/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_injected
+        PASS [   0.041s] (54/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_omitted
+        PASS [   0.044s] (55/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_reencoded
+        PASS [   0.043s] (56/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_custody_substituted
+        PASS [   0.042s] (57/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_byte_digest_mismatch
+        PASS [   0.040s] (58/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_injected
+        PASS [   0.039s] (59/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_omitted
+        PASS [   0.043s] (60/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_reencoded
+        PASS [   0.044s] (61/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_evidence_substituted
+        PASS [   0.046s] (62/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_bad_signature
+        PASS [   0.046s] (63/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_duplicate_quorum
+        PASS [   0.045s] (64/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_insufficient_quorum
+        PASS [   0.044s] (65/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_invalid_time
+        PASS [   0.044s] (66/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_missing_endorsements
+        PASS [   0.040s] (67/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_missing_proposal
+        PASS [   0.046s] (68/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_stale_certificate
+        PASS [   0.046s] (69/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_boot
+        PASS [   0.045s] (70/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_finalize_index
+        PASS [   0.044s] (71/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_operation
+        PASS [   0.044s] (72/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_finalized_wrong_prepare_index
+        PASS [   0.042s] (73/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_later_prepared_custody_mismatch
+        PASS [   0.042s] (74/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_demotion_injection
+        PASS [   0.043s] (75/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_fence_injection
+        PASS [   0.044s] (76/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_observatory_injection
+        PASS [   0.044s] (77/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_owner_injection
+        PASS [   0.044s] (78/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_legacy_shepherd_injection
+        PASS [   0.044s] (79/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_boot_mismatch
+        PASS [   0.043s] (80/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_epoch_mismatch
+        PASS [   0.043s] (81/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_membership_mismatch
+        PASS [   0.045s] (82/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_prepared_polis_mismatch
+        PASS [   0.676s] (83/83) adl-runtime distributed::polis_runtime::authority_consensus_tests::snapshot_valid_multi_prepared_finalized_restart
+────────────
+     Summary [   3.876s] 83 tests run: 83 passed, 147 skipped

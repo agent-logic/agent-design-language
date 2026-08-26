@@ -6,17 +6,17 @@
 - Version: `v0.92`
 - Date: `2026-08-04`
 - Owner: ADL maintainers
-- Status: active WP sequence opened by `v0.92` WP-01
+- Status: completed engineering allocation; retrospective closeout
 - Related issues: `#3377`, `#3434`, `#5359`, `#5765`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Status
 
-Active allocation. WP-01 reconciled the completed v0.91.8 release package, the
-reviewed TBD input dispositions from `#5359`, the AEE completion tranche, and
-`#3377`, then opened the GitHub issue wave and initialized all six C-SDLC cards
-for every child issue. Closed issue `#3434` is retained only as the historical
-v0.92 planning-document preparation input; it is not active milestone work.
+Retrospective allocation. The table records the engineering work decomposition,
+not current execution state. The v0.92 engineering milestone is complete;
+merged issue/PR evidence and typed terminal records supersede the original
+forward-looking wording. WP-23/#312 reconciles documentation truth, while #467
+owns the final canonical feature-proof, gate, and readiness hydration.
 
 ## How To Use
 
@@ -25,7 +25,7 @@ remain execution authority; this document defines milestone allocation.
 
 ## WBS Summary
 
-v0.92 should harden the execution substrate and develop the identity,
+v0.92 hardened the execution substrate and developed the identity,
 continuity, and first-birthday layer without stealing work from citizen-state,
 moral-trace, or constitutional-governance milestones.
 
@@ -74,10 +74,10 @@ moral-trace, or constitutional-governance milestones.
 | WP-16 | Birthday review packet | Assemble identity, continuity, memory, capability, profile, protocol, witness, and moral context into one review surface. | Reviewer packet and fixture. | WP-08 through WP-15. |
 | WP-17 | Migration and cross-polis continuity planning | Define birthday-identity movement semantics without duplicating WP-04 infrastructure implementation. | Cross-polis continuity feature note, design note, and non-goals. | WP-09, WP-10, WP-16. |
 | WP-18 | First birthday demo | Build a flagship demo showing a real birthday record and negative cases. | Runnable proof demo and artifacts. | WP-08 through WP-16. |
-| WP-18A | Observatory/Unity consumer integration | Integrate the separate Observatory and Unity consumers with the versioned Runtime API and WSS surfaces. | Working consumer integration and compatibility proof without moving UI code into Runtime. | WP-03, WP-14, WP-18. |
+| WP-18A | Observatory/Unity consumer integration — deferred from v0.92 | No v0.92 implementation claim. Backlog #84 owns Unity integration; #122 is scheduled for v0.92.1 and #251 remains backlog. | Explicit milestone scope disposition with no synthetic consumer proof. | Later execution under #84 after #122 and #251. |
 | WP-18B | Provider-neutral multi-agent proof | Prove the birthday/runtime contract across multiple providers without provider-specific success substitutions. | Provider-neutral multi-agent proof matrix, artifacts, and negative cases. | WP-14, WP-16, WP-18. |
 | WP-19 | Birthday-to-governance handoff | Produce the evidence map v0.93 governance will consume. | Handoff packet mapping identity evidence to governance and ADR-plan updates. | WP-16, WP-17, v0.93 allocation. |
-| WP-20 | Demo matrix, AEE proof, and proof coverage | Align demos and AEE proof expectations with milestone claims. | Demo matrix, AEE proof routing or packet, commands, artifacts, and validation notes. | WP-18, WP-18A, WP-18B, WP-19. |
+| WP-20 | Demo matrix, AEE proof, and proof coverage | Align demos and AEE proof expectations with milestone claims. | Demo matrix, AEE proof routing or packet, commands, artifacts, and validation notes. | WP-18, WP-18B, WP-19; WP-18A is explicitly scoped out. |
 | WP-21 | Repository-wide code reduction cleanup | Complete the remaining behavior-preserving repository reduction tranche with an exact deletion denominator. | Reviewed deletion manifest, parity proof, and retained-surface inventory. | WP-20. |
 | WP-21A | Rust refactoring and maintainability pass | Simplify active Rust ownership boundaries and maintainability hotspots without changing supported behavior or hiding feature work in refactoring. | Refactoring inventory, focused parity proof, before/after LoC, and reviewed maintainability improvements. | WP-20, WP-21. |
 | WP-22 | Quality gate | Validate implementation, docs, platform behavior, and claim boundaries; block internal review until every indexed v0.92 feature has accepted exact-revision proof. | Feature-completion matrix, quality-gate record, and blocker disposition. | WP-04 through WP-21A. |
@@ -131,7 +131,7 @@ authorize an umbrella agent to implement child code directly.
 | Sprint issue | Sprint | Members | Execution shape |
 | --- | --- | --- | --- |
 | `#5858` | Foundation and throughput | WP-01B, WP-02, support `#5812`, WP-02A, WP-02B, WP-05, WP-06, WP-07 | Hybrid: migration and CI are serial gates; workflow and remote-runner work may proceed in parallel after CI stabilizes. |
-| `#5855` | Runtime, Observatory, distributed architecture, and protocol | support `#5800`, WP-03, support `#5795`, WP-04, WP-14, WP-18A | Hybrid: browser trust and Runtime resilience establish the baseline; WP-04 publishes the architecture and security gate to `#5862`; protocol and consumer lanes remain dependency-gated. |
+| `#5855` | Runtime, Observatory, distributed architecture, and protocol | support `#5800`, WP-03, support `#5795`, WP-04, WP-14 | Hybrid: browser trust and Runtime resilience establish the baseline; WP-04 publishes the architecture and security gate to `#5862`; protocol work remains dependency-gated. WP-18A is later work under #84/#122/#251. |
 | `#5862` | Distributed Guardian implementation | WP-04-IMP and WP-04.01 through WP-04.16 | Hybrid: starts only after WP-04 issue `#5821` is terminal; child-owned implementation lanes follow the declared DAG and converge through WP-04.16 integrated proof. |
 | `#5857` | Birthday core | WP-08 through WP-13A, WP-15, WP-16 | Hybrid dependency graph with contract and identity gates before integrated witness/review proof. |
 | `#5854` | Demonstration, handoff, and publication | WP-17, WP-18, WP-18B, WP-19, WP-20, WP-24, WP-24A | Publication production starts early after migration; proof and handoff converge only after birthday and protocol dependencies. |
@@ -169,20 +169,21 @@ Before publishing WP-01, it must:
   registry
 - keep `SIP`, `STP`, and `SPP` design-time ready before execution
 - keep `SRP` and `SOR` truthful to review and output lifecycle state
-- preserve the explicit deferred and later-backlog source pointers below
+- preserve the explicit deferred and later-backlog concepts below without
+  depending on local-only files
 
 ## Deferred And Later Backlog
 
-The following inputs were reviewed by v0.91.8 WP-22 and intentionally excluded
-from v0.92 execution. Deferral is not a delivery claim and the source pointers
-must be retained in the issue-wave package.
+The following concepts were reviewed by v0.91.8 WP-22 and intentionally
+excluded from v0.92 execution. Deferral is not a delivery claim; canonical
+follow-on planning must be created in tracked repository or issue authority.
 
 | Disposition | Track | Source inputs | Reason |
 | --- | --- | --- | --- |
-| Deferred technical track | Capability taxonomy integration | `.adl/docs/TBD/capability_testing/ADL_CAPABILITY_TAXONOMY.md` | Useful but not critical to first-birthday execution; schedule under a later capability milestone. |
-| Deferred technical track | MLX local provider and OCI model packaging | `.adl/docs/TBD/MLX_APPLE_METAL_PROVIDER_PLAN.md`; `.adl/docs/TBD/OCI_MODEL_PACKAGING_METHOD_PLAN.md` | Keep as one later provider/model-distribution track. |
-| Later product-publication backlog | Agent Logic website and investor publication | `.adl/docs/TBD/AGENT_LOGIC_WEBSITE_DESIGN_v2.1.md`; `.adl/docs/TBD/AGENT_LOGIC_INVESTOR_MATERIAL_TRACKING_AND_PUBLICATION_PLAN.md` | Separate Agent Logic launch lane outside the ADL v0.92 WBS. |
-| Later research/publication backlog | General-intelligence paper program | `.adl/docs/TBD/general-intelligence-paper/` | Requires its own research/publication milestone disposition. |
+| Deferred technical track | Capability taxonomy integration | Deferred concept; no local file is authoritative | Useful but not critical to first-birthday execution; schedule under a later capability milestone. |
+| Deferred technical track | MLX local provider and OCI model packaging | Deferred concepts; no local file is authoritative | Keep as one later provider/model-distribution track. |
+| Later product-publication backlog | Agent Logic website and investor publication | Deferred concepts; no local file is authoritative | Separate Agent Logic launch lane outside the ADL v0.92 WBS. |
+| Later research/publication backlog | General-intelligence paper program | Deferred concept; no local file is authoritative | Requires its own research/publication milestone disposition. |
 
 ## Acceptance Mapping
 

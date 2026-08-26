@@ -4,15 +4,18 @@
 
 - Milestone: `v0.92`
 - Version: `v0.92`
-- Target release date: pending v0.92 opening
+- Engineering closeout date: `2026-08-24`
 - Owner: ADL maintainers
 - Related issues: `#3377`, `#3434`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Status
 
-WP-01 planning activation is active. Checked items are limited to evidence
-completed by WP-01; child implementation and release items remain open.
+The v0.92 engineering milestone is complete. This checklist separates that
+completed engineering boundary from repository documentation reconciliation,
+canonical #467 gate hydration, and independently authorized external
+publication. Unity/Observatory work outside the landed HTML consumer slice is
+backlogged or scheduled later and is not claimed here.
 
 ## Purpose
 
@@ -21,7 +24,7 @@ checks needed for a truthful v0.92 closeout.
 
 ## Planning
 
-- [ ] Milestone goal reviewed against the identity, continuity, and birthday
+- [x] Milestone goal reviewed against the identity, continuity, and birthday
   allocation.
 - [ ] `v0.91.5` release-tail closeout, the activation-test map, and the
   `v0.91.6` readiness tranche and `v0.91.7` implementation/proof tranche are consumed.
@@ -96,18 +99,21 @@ checks needed for a truthful v0.92 closeout.
 ## Review And Release
 
 - [ ] Internal review completed.
-- [ ] Third-party review handoff prepared if the milestone follows the current
-  review cadence.
+- [ ] Third-party documentation review handoff passes its exact-revision send
+  gate. Preparation is owned by WP-23/#312 and does not itself mean external
+  review or release approval occurred.
 - [ ] Findings resolved or explicitly deferred.
-- [ ] Release notes describe landed work only.
+- [x] Release notes describe landed work only.
 - [ ] Release ceremony completed.
 
 ## Release Packaging
 
-- [ ] WP-23 updated release-truth docs, canonical feature status, and release
+- [ ] WP-23/#312 completes exact-revision review and publishes the reconciled
+  release-truth docs; #467 separately updates canonical feature status and gate
   notes from landed evidence before review.
-- [ ] WP-24 delivered all ten review-ready launch articles and WP-24A delivered
-  all ten review-ready podcast packages.
+- [x] WP-24 delivered all ten review-ready launch articles.
+- [ ] WP-24A podcast publication-media work remains out of band and does not
+  gate the v0.92 engineering milestone.
 - [ ] WP-27 reflected review-finding remediation in release-facing docs where
   needed.
 - [ ] WP-29 assembled the release evidence packet.
@@ -118,8 +124,8 @@ checks needed for a truthful v0.92 closeout.
 
 ## Post-Release
 
-- [ ] v0.93 handoff accepted or routed.
-- [ ] Deferred findings are linked to follow-on issues or backlog entries.
+- [x] v0.93 handoff routed without claiming v0.93 implementation.
+- [x] Deferred findings are linked to follow-on issues or backlog entries.
 - [ ] Release ceremony notes record evidence-backed blockers and scoped-out surfaces.
 
 ## Exit Criteria

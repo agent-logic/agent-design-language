@@ -21,6 +21,19 @@ mod membership;
 #[allow(dead_code)]
 #[path = "../src/distributed/migration.rs"]
 mod migration;
+mod integrated_serving_authority_snapshot {
+    pub use adl_runtime::distributed::integrated_serving_authority_snapshot::*;
+}
+mod shepherd_serving_eligibility {
+    pub use adl_runtime::distributed::shepherd_serving_eligibility::*;
+}
+#[cfg(feature = "internal-test-fixtures")]
+mod distributed {
+    pub use adl_runtime::distributed::{
+        authority_protocol, observatory_serving_eligibility, polis_runtime, serving_authority,
+        shepherd_serving_eligibility,
+    };
+}
 #[allow(dead_code)]
 #[path = "../src/distributed/placement.rs"]
 mod placement;
@@ -39,7 +52,7 @@ mod snapshot_catalog;
 
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-    CertificateValidity, DistributedCertificateStore,
+    CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 use failure_detection::{
@@ -48,9 +61,11 @@ use failure_detection::{
 };
 use fencing::{
     FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy, FencingStore,
+    TEST_FENCING_STORE_ACCESS,
 };
 use lease::{
     AuthorityLedger, AuthorityMembership, ControlCertificatePurpose, LeasePolicy, VoterAuthority,
+    TEST_LEASE_STORE_ACCESS,
 };
 use membership::{
     CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
@@ -458,6 +473,7 @@ fn coherent_projection_is_deterministic_redacted_and_openapi_aligned() {
     let authority_membership = authority_membership();
     let cert_root = key(30);
     let certificates = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         root.join("certificates.redb"),
         CertificatePolicy::new(DOMAIN, [cert_root.verifying_key()]).unwrap(),
     )
@@ -477,18 +493,22 @@ fn coherent_projection_is_deterministic_redacted_and_openapi_aligned() {
         )
         .unwrap(),
     );
-    let ledger = AuthorityLedger::new(LeasePolicy {
-        max_lease_duration_millis: 1_000,
-        max_clock_uncertainty_millis: 10,
-        message_delay_margin_millis: 5,
-        max_lineages: 8,
-        max_snapshot_bytes: 1024 * 1024,
-    })
+    let ledger = AuthorityLedger::new(
+        &TEST_LEASE_STORE_ACCESS,
+        LeasePolicy {
+            max_lease_duration_millis: 1_000,
+            max_clock_uncertainty_millis: 10,
+            message_delay_margin_millis: 5,
+            max_lineages: 8,
+            max_snapshot_bytes: 1024 * 1024,
+        },
+    )
     .unwrap();
     for name in ["fencing", "migration", "recovery"] {
         std::fs::create_dir(root.join(name)).unwrap();
     }
     let fencing = FencingStore::create(
+        &TEST_FENCING_STORE_ACCESS,
         root.join("fencing").canonicalize().unwrap(),
         FencingPolicy {
             max_lineages: 8,
@@ -724,6 +744,7 @@ fn request_and_authority_failures_are_closed_and_bounded() {
     let authority_membership = authority_membership();
     let cert_root = key(31);
     let certificates = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         root.join("cert.redb"),
         CertificatePolicy::new(DOMAIN, [cert_root.verifying_key()]).unwrap(),
     )
@@ -743,18 +764,22 @@ fn request_and_authority_failures_are_closed_and_bounded() {
         )
         .unwrap(),
     );
-    let ledger = AuthorityLedger::new(LeasePolicy {
-        max_lease_duration_millis: 1_000,
-        max_clock_uncertainty_millis: 10,
-        message_delay_margin_millis: 5,
-        max_lineages: 8,
-        max_snapshot_bytes: 1024 * 1024,
-    })
+    let ledger = AuthorityLedger::new(
+        &TEST_LEASE_STORE_ACCESS,
+        LeasePolicy {
+            max_lease_duration_millis: 1_000,
+            max_clock_uncertainty_millis: 10,
+            message_delay_margin_millis: 5,
+            max_lineages: 8,
+            max_snapshot_bytes: 1024 * 1024,
+        },
+    )
     .unwrap();
     for name in ["fencing", "migration", "recovery"] {
         std::fs::create_dir(root.join(name)).unwrap();
     }
     let fencing = FencingStore::create(
+        &TEST_FENCING_STORE_ACCESS,
         root.join("fencing").canonicalize().unwrap(),
         FencingPolicy {
             max_lineages: 8,
@@ -966,23 +991,28 @@ fn readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed() {
     let authority_membership = authority_membership();
     let cert_root = key(80);
     let certificates = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         root.join("certificates.redb"),
         CertificatePolicy::new(DOMAIN, [cert_root.verifying_key()]).unwrap(),
     )
     .unwrap();
     let failure = healthy_failure_detector();
-    let ledger = AuthorityLedger::new(LeasePolicy {
-        max_lease_duration_millis: 1_000,
-        max_clock_uncertainty_millis: 10,
-        message_delay_margin_millis: 5,
-        max_lineages: 8,
-        max_snapshot_bytes: 1024 * 1024,
-    })
+    let ledger = AuthorityLedger::new(
+        &TEST_LEASE_STORE_ACCESS,
+        LeasePolicy {
+            max_lease_duration_millis: 1_000,
+            max_clock_uncertainty_millis: 10,
+            message_delay_margin_millis: 5,
+            max_lineages: 8,
+            max_snapshot_bytes: 1024 * 1024,
+        },
+    )
     .unwrap();
     for name in ["fencing", "migration", "recovery"] {
         std::fs::create_dir(root.join(name)).unwrap();
     }
     let fencing = FencingStore::create(
+        &TEST_FENCING_STORE_ACCESS,
         root.join("fencing").canonicalize().unwrap(),
         FencingPolicy {
             max_lineages: 8,
@@ -1050,6 +1080,7 @@ fn readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed() {
     assert!(!project(&policy()).ready);
     certificates
         .activate(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &certificate(
                 &cert_root,
                 "node-a",
@@ -1066,6 +1097,7 @@ fn readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed() {
     assert_eq!(project(&certificate_bound).certificates.len(), 1);
     certificates
         .activate(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &certificate(&cert_root, "node-a", CertificatePurpose::Transport, 1, 82),
             60,
         )
@@ -1093,6 +1125,7 @@ fn readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed() {
     for (offset, suffix) in ["b", "c"].into_iter().enumerate() {
         certificates
             .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 &certificate(
                     &cert_root,
                     &format!("node-{suffix}"),
@@ -1105,6 +1138,7 @@ fn readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed() {
             .unwrap();
         certificates
             .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 &certificate(
                     &cert_root,
                     &format!("node-{suffix}"),
@@ -1132,6 +1166,7 @@ fn readiness_requires_exact_active_identity_and_transport_and_refs_are_keyed() {
 
     certificates
         .activate(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &certificate(
                 &cert_root,
                 "node-a",

@@ -1,0 +1,73 @@
+{
+  "schema": "adl.csdlc.evidence.adr0071_provider_neutral_multi_agent_manifest.v1",
+  "issue": 287,
+  "parent_issue": 207,
+  "adr": "ADR 0071",
+  "dependency_umbrella": {
+    "issue": 341,
+    "title": "[v0.92][WP-18B] Provider-neutral multi-agent proof",
+    "state": "OPEN",
+    "terminal_cache_path": ".git/csdlc-v2/derived-terminal/341.json",
+    "terminal_cache_present": false
+  },
+  "provider_neutral_multi_agent_proof": {
+    "terminal": false,
+    "classification": "residual_gap",
+    "reason": "WP-18B umbrella #341 remains open and no derived terminal cache exists for #341."
+  },
+  "supporting_terminal_caches": [
+    {
+      "issue": 283,
+      "path": ".git/csdlc-v2/derived-terminal/283.json",
+      "disposition": "merged",
+      "head_sha": "bfe5d9541b4e0a5a777069fd50c918f4ca71ec3d",
+      "merge_sha": "2bca3a60243ffc03b8264659ca1d6dd2770dfb0a",
+      "digest": "95754e1369b730a069cac0917490f6e9d6acf90c315d488e30fc06adca41cde0",
+      "canonical_digest": "45d457db9ef5232896a358aa3ab3bf941e0cbaff3f04bc634a183c61853939cd",
+      "classification": "supporting_only"
+    },
+    {
+      "issue": 284,
+      "path": ".git/csdlc-v2/derived-terminal/284.json",
+      "disposition": "merged",
+      "head_sha": "81bf86fae6ee01ad278d05245fd99f8dd3b28733",
+      "merge_sha": "52de626194d37e25b00e2536285d5e0de332d893",
+      "digest": "3612830fd2022b3790e7b83e4b74d13eb666249c689367a223b2f1c8c8a681f5",
+      "canonical_digest": "642bb3f4524ced9efddd8c52a7ac9f96ae3c852695bbf04281e29b2db7b6027f",
+      "classification": "supporting_only"
+    },
+    {
+      "issue": 285,
+      "path": ".git/csdlc-v2/derived-terminal/285.json",
+      "disposition": "merged",
+      "head_sha": "9d7dd474794f9f25c0d71b5432c40fa8d4f610e2",
+      "merge_sha": "298a23476b3cdc55e952e60793689fc6b738491f",
+      "digest": "cbd6f9cd0ee7b6ddb5e65e67cc19691b67f387d3fdfeef903995bde69d0834a4",
+      "canonical_digest": "8b695c8622e7443a6216788f4ece3f09dd4b2842978ac4d9871b5aae661da3e6",
+      "classification": "supporting_only"
+    },
+    {
+      "issue": 286,
+      "path": ".git/csdlc-v2/derived-terminal/286.json",
+      "disposition": "merged",
+      "head_sha": "925991c7d2ce0c1ec4d8bf6183ac71e2864cee0a",
+      "merge_sha": "af49f8f674722bee671d65db5b6a49ea08eeb4b0",
+      "digest": "0de1fd994b12b12892057958523485a494569e09f97b9ce3d4b66a40bc135350",
+      "canonical_digest": "1114e8843d92731a241e46de38c65623da5aa87c801247445684a54a12d6bc75",
+      "classification": "supporting_only"
+    }
+  ],
+  "residual_gaps": [
+    "#341 remains open and lacks derived terminal cache authority.",
+    "No terminal provider-neutral multi-agent proof is available for ADR 0071 serialization.",
+    "Supporting ADR evidence caches #283-#286 do not complete WP-18B umbrella proof."
+  ],
+  "non_claims": [
+    "ADR 0071 acceptance",
+    "#207 closeout",
+    "#288 final ADR serialization",
+    "provider execution",
+    "credential access",
+    "WP-18B terminal provider-neutral proof"
+  ]
+}

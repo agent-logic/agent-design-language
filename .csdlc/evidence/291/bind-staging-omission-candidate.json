@@ -1,0 +1,34 @@
+{
+  "schema": "csdlc.defect_candidate.v1",
+  "issue": 291,
+  "created_utc": "2026-08-12T12:18:05Z",
+  "title": "csdlc-bind does not consume source staging or materialize issue evidence",
+  "observed_state": {
+    "source_root": "/Users/daniel/git/agent-design-language",
+    "bound_worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery",
+    "bind_result": {
+      "created": true,
+      "branch": "codex/291-initialized-decomposition-recovery",
+      "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-291-initialized-decomposition-recovery"
+    }
+  },
+  "evidence": [
+    "csdlc-bind copied .csdlc/issues/291 and .csdlc/prepared/issues/291 into the bound worktree and recorded bound topology there.",
+    "Primary-root .csdlc/issues/291, .csdlc/prepared/issues/291, .csdlc/evidence/291, and .csdlc/locks/291.lock remained as untracked pre-bind staging residue after bind.",
+    "Bound design referenced .csdlc/evidence/291/review-r2-findings.json, but .csdlc/evidence/291 was not materialized by bind.",
+    "Installed csdlc-clean supports terminal exact-worktree classify/remove only and has no source-staging reconciliation operation."
+  ],
+  "safe_recovery_used": {
+    "quarantine_manifest": ".git/csdlc-v2/recovery/291-post-bind-source-staging-20260812T121805Z/manifest.json",
+    "deletion": false
+  },
+  "recommended_follow_on": {
+    "owner": "csdlc-bind or csdlc-clean",
+    "acceptance": [
+      "After successful bind, source pre-bind staging is either consumed through typed authority or classified as retained residue with exact recovery metadata.",
+      "Issue evidence referenced by prepared design/review truth is materialized into the bound worktree or bind fails closed with an explicit diagnostic.",
+      "No manual copy/delete is needed for ordinary post-bind source-staging reconciliation."
+    ],
+    "create_issue_now": false
+  }
+}

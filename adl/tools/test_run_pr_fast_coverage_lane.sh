@@ -212,6 +212,34 @@ if [ ! -s "$ROOT_DIR/adl/target/coverage-impact-summary.json" ]; then
   exit 1
 fi
 
+shepherd_eligibility_cargo_log="$temp_root/cargo-shepherd-eligibility.log"
+shepherd_eligibility_expression='binary_id(adl-runtime::distributed_shepherd_serving_eligibility)'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$shepherd_eligibility_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-shepherd-eligibility" \
+  bash "$SCRIPT" --filter-expression "$shepherd_eligibility_expression" >"$temp_root/pr-fast-coverage-shepherd-eligibility-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$shepherd_eligibility_cargo_log"; then
+  echo "Shepherd eligibility coverage must not send an adl-runtime selector to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime Shepherd serving-eligibility tests" "$temp_root/pr-fast-coverage-shepherd-eligibility-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --status-level all --final-status-level slow --no-clean -E $shepherd_eligibility_expression --features internal-test-fixtures" "$shepherd_eligibility_cargo_log" >/dev/null
+
+observatory_eligibility_cargo_log="$temp_root/cargo-observatory-eligibility.log"
+observatory_eligibility_expression='binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$observatory_eligibility_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-observatory-eligibility" \
+  bash "$SCRIPT" --filter-expression "$observatory_eligibility_expression" >"$temp_root/pr-fast-coverage-observatory-eligibility-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$observatory_eligibility_cargo_log"; then
+  echo "Observatory eligibility coverage must not send an adl-runtime selector to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime Observatory serving-eligibility integration and unit tests" "$temp_root/pr-fast-coverage-observatory-eligibility-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --status-level all --final-status-level slow --no-clean -E $observatory_eligibility_expression --lib --test distributed_observatory_serving_eligibility --features internal-test-fixtures" "$observatory_eligibility_cargo_log" >/dev/null
+
 runtime_auth_only_cargo_log="$temp_root/cargo-runtime-auth-only.log"
 runtime_auth_only_expression='test(/^runtime_api_auth::tests::/)'
 PATH="$bin_dir:$PATH" \
@@ -226,6 +254,57 @@ fi
 grep -F "PR-fast coverage companion: adl-runtime Runtime v3 API auth tests" "$temp_root/pr-fast-coverage-runtime-auth-only-run.out" >/dev/null
 grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_auth_only_cargo_log" >/dev/null
 grep -F "test(/^runtime_api_auth::tests::/)" "$runtime_auth_only_cargo_log" >/dev/null
+
+runtime_memory_palace_cargo_log="$temp_root/cargo-runtime-memory-palace.log"
+runtime_memory_palace_expression='binary_id(adl-runtime) and test(/^memory_palace::tests::/)'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$runtime_memory_palace_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-memory-palace" \
+  bash "$SCRIPT" --filter-expression "$runtime_memory_palace_expression" >"$temp_root/pr-fast-coverage-runtime-memory-palace-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$runtime_memory_palace_cargo_log"; then
+  echo "runtime-memory-palace coverage must not send an adl-runtime selector to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime Memory Palace tests" "$temp_root/pr-fast-coverage-runtime-memory-palace-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_memory_palace_cargo_log" >/dev/null
+grep -F "binary_id(adl-runtime) and test(/^memory_palace::tests::/)" "$runtime_memory_palace_cargo_log" >/dev/null
+
+runtime_authority_cargo_log="$temp_root/cargo-runtime-authority.log"
+runtime_authority_expression='package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$runtime_authority_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-authority" \
+  bash "$SCRIPT" --filter-expression "$runtime_authority_expression" >"$temp_root/pr-fast-coverage-runtime-authority-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$runtime_authority_cargo_log"; then
+  echo "runtime-authority-only coverage must not send adl-runtime selectors to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime committed authority protocol tests" "$temp_root/pr-fast-coverage-runtime-authority-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_authority_cargo_log" >/dev/null
+grep -F "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))" "$runtime_authority_cargo_log" >/dev/null
+grep -F "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/target/coverage-impact-summary.json" "$runtime_authority_cargo_log" >/dev/null
+
+runtime_authority_store_boundary_cargo_log="$temp_root/cargo-runtime-authority-store-boundary.log"
+runtime_authority_store_boundary_expression='package(adl-runtime) and ((binary_id(adl-runtime) and test(/^distributed::authority_store_adapters::/)) or binary_id(adl-runtime::distributed_authority_protocol) or binary_id(adl-runtime::distributed_authority_reconciliation) or binary_id(adl-runtime::distributed_authority_snapshots) or binary_id(adl-runtime::distributed_capability_advertisement) or binary_id(adl-runtime::distributed_certificates) or binary_id(adl-runtime::distributed_fencing) or binary_id(adl-runtime::distributed_identity_lease_authority) or binary_id(adl-runtime::distributed_lease) or binary_id(adl-runtime::distributed_migration) or binary_id(adl-runtime::distributed_placement) or binary_id(adl-runtime::distributed_recovery) or binary_id(adl-runtime::distributed_resource_weather) or binary_id(adl-runtime::distributed_snapshot_catalog) or (binary_id(adl-runtime::distributed_transport) and not test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)))'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$runtime_authority_store_boundary_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-authority-store-boundary" \
+  bash "$SCRIPT" --filter-expression "$runtime_authority_store_boundary_expression" >"$temp_root/pr-fast-coverage-runtime-authority-store-boundary-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$runtime_authority_store_boundary_cargo_log"; then
+  echo "runtime-authority-store-boundary coverage must not send adl-runtime selectors to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime authority store boundary tests" "$temp_root/pr-fast-coverage-runtime-authority-store-boundary-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_authority_store_boundary_cargo_log" >/dev/null
+grep -F "$runtime_authority_store_boundary_expression" "$runtime_authority_store_boundary_cargo_log" >/dev/null
+grep -F "cmd=llvm-cov report --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --json --summary-only --output-path $ROOT_DIR/adl/target/coverage-impact-summary.json" "$runtime_authority_store_boundary_cargo_log" >/dev/null
+if grep -Fq "binary_id(adl-runtime::distributed_transport))" "$runtime_authority_store_boundary_cargo_log"; then
+  echo "authority-store boundary coverage must stay PR-fast and avoid the known long transport test" >&2
+  exit 1
+fi
 
 runtime_auth_mixed_cargo_log="$temp_root/cargo-runtime-auth-mixed.log"
 runtime_auth_mixed_expression='binary_id(adl) and test(/^csm_runtime_api::tests::/) or test(/^runtime_api_auth::tests::/)'

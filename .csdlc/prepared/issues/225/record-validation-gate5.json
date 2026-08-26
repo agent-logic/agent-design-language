@@ -1,0 +1,17 @@
+{
+  "issue": 225,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "de357c3eda363a339237982a2f2e392a51d38af6dbe24d0b306e53fc9ed4c7e8",
+  "actor": "codex:225-bounded-card-review-repair",
+  "reason": "Record complete Gate 5 regression proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "test", "--locked", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate5"],
+      "purpose": "Prove review recovery, provenance, summary correction, audit, and rejection boundaries.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/225/validation-summary.json"
+    }
+  }
+}

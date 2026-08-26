@@ -1,0 +1,347 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 256,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "eb5812135d9740223d4c4313299e7c14a05c109b70155d30fbe4d8a1e51ad983",
+  "phase": "published",
+  "generation": 22,
+  "digest": "f96cf1052c911a104f2a8a228cf83ffb345990ca2160b0b70032f002ba5bc671",
+  "branch": "codex/256-birthday-demo-after-observatory",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory",
+  "review_assignment": {
+    "reviewer": "fresh-session:dae21e65-2687-4c2a-bdac-27ed3ff28ec2",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:683e38f1680535af8ad6aa012ad3fc6699339b88:1ac332d06430ee9f12afef6754f6fcee4e30867f6727f806e36cf87db99be7aa",
+    "scope": [
+      "adl/tools/validate_issue256_birthday_after_observatory.py",
+      ".csdlc/issues/256",
+      ".csdlc/evidence/256",
+      ".csdlc/evidence/414/EVIDENCE_CLASSIFICATION.json",
+      "CSMctl",
+      "start_CSM.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "docs/tooling/CSMctl.conf.example",
+      "docs/tooling/CSMctl.observatory.conf.example",
+      "demos/html-observatory",
+      "adl-runtime-kernel/src/birthday.rs",
+      "adl-runtime-kernel/tests/birthday.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:dae21e65-2687-4c2a-bdac-27ed3ff28ec2",
+    "scope": [
+      "adl/tools/validate_issue256_birthday_after_observatory.py",
+      ".csdlc/issues/256",
+      ".csdlc/evidence/256",
+      ".csdlc/evidence/414/EVIDENCE_CLASSIFICATION.json",
+      "CSMctl",
+      "start_CSM.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "docs/tooling/CSMctl.conf.example",
+      "docs/tooling/CSMctl.observatory.conf.example",
+      "demos/html-observatory",
+      "adl-runtime-kernel/src/birthday.rs",
+      "adl-runtime-kernel/tests/birthday.rs"
+    ],
+    "reviewed_revision": "git-blake3:683e38f1680535af8ad6aa012ad3fc6699339b88:1ac332d06430ee9f12afef6754f6fcee4e30867f6727f806e36cf87db99be7aa",
+    "findings": [],
+    "residual_risks": [
+      "No AWS, Unity, public launch, browser/live Observatory, publication, cleanup, GitHub mutation, or lifecycle finish was performed during review.",
+      "The reviewed packet intentionally preserves public/AWS launch, Unity/#84/#122/#251, #341/#343, #271, credential/spend, and sibling implementation surfaces as non-claims.",
+      "Minor non-blocking note: readiness prose names the composite schema without the _validation suffix while retained JSON/live validator output use the exact schema."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 256,
+    "pull_request": 427,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/427",
+    "base": "main",
+    "head": "codex/256-birthday-demo-after-observatory",
+    "revision": "git-blake3:e4dab860ad2e15ea9fba4d891598c6705016ac8e:b0806d5d15b9e6cacf6ddd8831d9c5644e2d9c125e0d3054a4351c2f9ff0ee65",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/256/design.md",
+  "diagram_path": ".csdlc/prepared/issues/256/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:/root/review_256_design_r1",
+      "revision": "4a74fa3abdec6027601f8dd8e056ec2bbe7cc61e9042363e7a77d71ff3c19948"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "35371477851ad4b09a70673a311b42fca450c1c4ae6a84f98ebcc57de2e76089",
+      "rendered_digest": "d98919be23c28d764524b0619b2dd084498606c3eee4206daa09ee1c2827410f",
+      "ast_digest": "dace2b72efc1be2bb8c64700bf5ce199907883d1d821647ad4baadfde4584c8a"
+    },
+    "stp": {
+      "values_digest": "ebce83b9816d9a025029fc02fed8ac688b132f88778708251889f548b94f2154",
+      "rendered_digest": "f0d77a915caf1ac8732734aeea0530806547d86ba6de98330d4aeca00a46f8f5",
+      "ast_digest": "65705b4ce92df18866b027b025b5b305321a4c67249f4be0828a207603ddeda4"
+    },
+    "spp": {
+      "values_digest": "669b75b26d0438912fd1c3273d35eeafa71e0cd1ae43f8481ee05d04f821713b",
+      "rendered_digest": "6f9627e84402cdf3c4e4b1b34c463f0471e2ed1a84091eac0270ae156e231a71",
+      "ast_digest": "cdc9a6bd56989ebdb635b421934f790670593f6fde0abbee27d056c2eaa645df"
+    },
+    "vpp": {
+      "values_digest": "7965a2ac78b2bbfaa42c183c3a64dcb443e6ec05ab64e4881c5ff68fef29e25d",
+      "rendered_digest": "f77fbdccd946cafe3470833d9cf2a3e21049f20e703efaf9f18c5ddda8f7cdce",
+      "ast_digest": "4d1480ec771df8858ff0ed239d451a961c8d3a70c8edeb788819a82e67089749"
+    },
+    "srp": {
+      "values_digest": "4b307739048cdc0eb5bee49b18d21b4382c366344eed5ea91ee9384bb71f1ea1",
+      "rendered_digest": "915e77197e2e8804dc057be95491fdd4ce84c09305bf2ac49d0e13e35d1e1d94",
+      "ast_digest": "f64131e036b1a81d767d412f67f8785f64eee66d36b53acbe3e71bca74a7c273"
+    },
+    "sor": {
+      "values_digest": "0bf551ee87d2bccc3c7851e3caa22e4a731b9fc64e5e5c85597da0bc83b4ea5b",
+      "rendered_digest": "f0408f268ef7531fc18cc3f89014b0214fd27ff2e8a553ff07acdbfe34e8c69a",
+      "ast_digest": "2de3174b639ad2aeb9f827a5843e06a42d73fb194581c2f2ea308ae385ff28a1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #256 to ready/unbound after live #110 terminal reconciliation, exact preserved preparation restoration, valid fresh design approval, and doctor advance_ready."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint5-256-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint5-256-preparation",
+      "reason": "Restrict initialized #256 declared scope to exact issue-owned preparation/lifecycle/evidence paths; future demo/source paths require later bind after gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\".csdlc/issues/256\",\".csdlc/prepared/issues/256\",\".csdlc/evidence/256\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint5-256-preparation",
+      "reason": "Use an explicit #256-owned preparation gate validator so initialized readiness has an issue-specific nonzero denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue256-preparation-gate\",\"proof_role\":\"Validate current #256 successor authority, legacy #5836 input-only status, Observatory/#345 gates, #271 exclusion, and #341/#343 serialization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/evidence/256/validate_preparation_gate.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint5-256-preparation",
+      "reason": "Replace prose affected-area labels with exact issue-owned executable preparation validator path so initialized readiness has a safe repository-owned path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/evidence/256/validate_preparation_gate.py\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:/root/review_256_design_r1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Advance #256 to ready/unbound after live #110 terminal reconciliation, exact preserved preparation restoration, valid fresh design approval, and doctor advance_ready.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-414-habitable-runtime-routing",
+      "reason": "Record #414 as the terminal canonical ancestral prerequisite for the resident Shepherd habitable-Runtime denominator without mutating #256 product scope.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"legacy danielbaustin/agent-design-language#5836 preserved packet/native evidence\",\"agent-logic/agent-design-language#110 Observatory umbrella/live surface truth\",\"agent-logic/agent-design-language#345 AWS GPU Shepherd proof-runner prerequisite for public/AWS variants\",\"agent-logic/agent-design-language#414 terminal canonical ancestral existing-continuity resident CPU Shepherd Spot proof\",\"agent-logic/agent-design-language#341 downstream provider-neutral proof\",\"agent-logic/agent-design-language#343 Sprint 5 umbrella\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-414-habitable-runtime-routing",
+      "reason": "Atomically bind #256 acceptance and plan coverage to terminal #414 and the habitable resident-Shepherd denominator without product mutation.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: #256 is the current successor for the preserved birthday packet without treating legacy issue state as current terminal authority.\",\"AC-2: Packet/native evidence is input evidence only, not terminal birthday-demo or habitable-Runtime proof.\",\"AC-3: Observatory visibility and terminal canonical ancestral #414 are hard gates for terminal birthday-demo acceptance.\",\"AC-4: #414 reuses existing Runtime v2 lifecycle/snapshot/rehydration authority and proves multiple distinct pinned CPU-local resident Shepherd agents, including llama3.1:8b Q4, each admit and complete useful bounded work with one active Ollama worker at a time, conservative contexts, and no concurrent compilation.\",\"AC-5: Every resident's exact identity, model artifact digest, configuration digest, state digest, sequence, and predecessor persist through existing QUIESCENT, SUSPENDED, and DORMANT custody, complete-population interruption dehydration, restore-before-admission, duplicate and missing-agent denial, and deterministic next useful work.\",\"AC-6: Operator status/control is observable without private-state authority; cold/warm latency, peak RSS, and memory headroom fit exact r7i.2xlarge capacity (8 vCPU/64 GiB); tamper, partial, rollback, substitution, and deadline cases fail closed; an optional external-model call is non-authoritative and never required for pass/fail.\",\"AC-7: Public/AWS execution remains gated on #345 and explicit operator authorization; no AWS spend or launch occurs in this coordination edit.\",\"AC-8: #341 and #343 remain serialized behind terminal #256 truth, and #256 does not touch #414 implementation or predecessor product paths.\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Record current #256 successor authority, packet input-only truth, and downstream serialization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Require Observatory, #345/operator launch gates, and terminal canonical ancestral #414 before birthday-demo acceptance.\",\"acceptance_ids\":[\"AC-3\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Consume #414 evidence proving the exact existing-lifecycle resident CPU Shepherd useful-task, dehydration, restore, resource, control, and fail-closed denominator.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"After all gates, run fresh exact-head birthday-demo integration review without absorbing predecessor implementation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"issue256-preparation-gate\",\"proof_role\":\"Validate #256 successor authority, packet input-only truth, Observatory/#345 gates, terminal canonical ancestral #414, exact habitable Runtime denominator, excluded predecessor implementation, and #341/#343 serialization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/evidence/256/validate_preparation_gate.py\"],\"parallel_group\":\"local\",\"defer_reason\":\"#414 terminal evidence and final birthday-demo integration remain deferred; this lane currently proves coordination truth only.\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record #256 bound readiness refresh evidence without claiming product birthday-demo implementation while #424 remains nonterminal.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Recorded current #256 dependency/readiness truth: #110 and #414 are closed/live inputs, #84 and #345 are backlog/deferred for Unity/public-AWS variants, #424 is the active HTML Observatory startup gate, and #256 product demo implementation remains held until #424 is terminal/canonical.\",\"changes\":[\"Added issue-owned readiness evidence for current #110/#414/#84/#345/#424 gate truth.\",\"Updated the issue-owned preparation validator to require #84 backlog routing, #424 local Observatory startup gating, and the preserved typed bound-phase card-edit rejection evidence.\",\"Preserved non-claims for product birthday-demo implementation, AWS spend, Unity/TLS proof, and sibling Observatory implementation paths.\"],\"artifacts\":[\".csdlc/evidence/256/readiness-refresh-2026-08-19.md\",\".csdlc/evidence/256/validate_preparation_gate.py\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Replace #256 validation truth after #424 merged with the local birthday-demo-after-Observatory proof lanes that do not claim AWS/public or Unity execution.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue256-birthday-after-observatory-packet\",\"proof_role\":\"Validate #256 successor authority, legacy #5836 input-only classification, merged #424 HTML Observatory startup surface, accepted #414 local resident Shepherd reference evidence, and explicit public/AWS/Unity non-claims.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/validate_issue256_birthday_after_observatory.py\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"birthday-contract-rust-tests\",\"proof_role\":\"Run the focused Runtime kernel birthday contract tests covering accepted candidate semantics, lifecycle lookalike rejection, missing evidence rejection, integrity/privacy boundaries, JCS stability, and unknown-field rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory/adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue256-preparation-gate\",\"proof_role\":\"Retain the prior issue-owned preparation gate as a regression check for scope exclusions, #84 backlog routing, #341/#343 serialization, and current successor authority.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/evidence/256/validate_preparation_gate.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #256 after fresh exact review found P2 SPP lifecycle truth drift; implementation and proof remain preserved, but card truth must be repaired before fresh review and publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover #256 after recorded fresh review EADD-P2-LIFECYCLE-CARD-TRUTH-DRIFT so supported implemented-phase card truth repairs can resolve stale SIP/STP/SPP publication blockers.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Repair #256 SIP required outcome after recorded review recovery so the implemented local HTML Observatory packet no longer claims initialized/pre-bind blocking truth.",
+      "operation": "{\"new_value\":\"A truthful implemented #256 local birthday-demo-after-Observatory packet consumes legacy #5836 as input evidence only, consumes #414 accepted local resident Shepherd reference evidence, validates the current merged HTML Observatory startup surface, preserves public/AWS and Unity as non-claims, and remains serialized before #341/#343.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"A truthful initialized #256 package records the birthday-demo dependency gates, preserves legacy #5836 as input evidence only, and blocks bind/implementation until Observatory and public/AWS prerequisites are satisfied or explicitly re-scoped.\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Repair #256 SPP summary after review recovery so it matches the implemented local HTML Observatory birthday-demo packet and preserves AWS/public and Unity non-claims.",
+      "operation": "{\"new_value\":\"Implement and prove the #256 local birthday-demo-after-Observatory packet after #424 merged: consume legacy #5836 only as input evidence, consume #414 accepted local resident Shepherd reference evidence, validate the current HTML Observatory startup surface, preserve public/AWS and Unity as non-claims, then obtain fresh exact-head review and publish if all typed gates pass.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Initialize #256, review gate truth, then stop before bind until Observatory/#345 gates are satisfied or explicitly re-scoped.\",\"recovery_generation\":13,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Repair #256 SPP plan-step lifecycle truth after review recovery: implementation and focused proof are complete; review/publication/CI/finish remain pending.",
+      "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"action\":\"Record current #256 successor authority, packet input-only truth, and downstream serialization.\",\"id\":\"S1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-3\",\"AC-7\"],\"action\":\"Require Observatory, #345/operator launch gates, and terminal canonical ancestral #414 before birthday-demo acceptance.\",\"id\":\"S2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Consume #414 evidence proving the exact existing-lifecycle resident CPU Shepherd useful-task, dehydration, restore, resource, control, and fail-closed denominator.\",\"id\":\"S3\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"action\":\"After all gates, run fresh exact-head birthday-demo integration review without absorbing predecessor implementation.\",\"id\":\"S4\",\"status\":\"in_progress\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"action\":\"Record current #256 successor authority, packet input-only truth, and downstream serialization.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\",\"AC-7\"],\"action\":\"Require Observatory, #345/operator launch gates, and terminal canonical ancestral #414 before birthday-demo acceptance.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Consume #414 evidence proving the exact existing-lifecycle resident CPU Shepherd useful-task, dehydration, restore, resource, control, and fail-closed denominator.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"action\":\"After all gates, run fresh exact-head birthday-demo integration review without absorbing predecessor implementation.\",\"id\":\"S4\",\"status\":\"pending\"}],\"recovery_generation\":13,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Repair #256 STP task boundary after recorded review recovery so it describes the implemented local packet instead of initialized preparation-only work.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implement and publish-review the narrowed #256 local birthday-demo-after-Observatory packet only: consume legacy #5836 as input evidence, consume #414 accepted local reference evidence, validate the merged #424 HTML Observatory startup surface, and preserve AWS/public launch, Unity, #341, and #343 as out of scope.\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Repair #256 STP deliverables after recorded review recovery so they match the implemented local birthday-demo-after-Observatory packet.",
+      "operation": "{\"new_values\":[\"Implemented local #256 birthday-demo-after-Observatory acceptance packet\",\"Issue-owned validator proving current birthday contract, #424 HTML Observatory startup surface, #414 accepted local resident Shepherd reference evidence, and #5836 input-only classification\",\"Focused birthday contract Rust test evidence\",\"Typed lifecycle truth and fresh review/publication handoff preserving AWS/public, Unity, #341, and #343 non-claims\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Initialized #256 lifecycle package\",\"Design and diagram preserving current Sprint 5 gate truth\",\"Explicit stop conditions for Observatory/#345 blockers\",\"Serialized handoff for #341 and #343\"],\"recovery_generation\":13,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Recover #256 after recorded review 41F2-P2-STALE-PREPARATION-EVIDENCE so retained readiness evidence and preparation validator can be updated to current post-#424 truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

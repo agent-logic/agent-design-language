@@ -509,18 +509,22 @@ fn freshly_installed_stable_edit_binary_is_executable() {
     let store = Store::new(fixture.path());
     csdlc_v2::initialize_native_json(&store, &serde_json::to_vec(&bootstrap_request()).unwrap())
         .unwrap();
-    git(fixture.path(), &["switch", "-c", "issue-42"]);
+    git(fixture.path(), &["add", "."]);
+    git(fixture.path(), &["commit", "-m", "initialize fixture"]);
+    let worktree = fixture.path().join("worktrees/issue-42");
+    fs::create_dir_all(worktree.parent().unwrap()).unwrap();
     bind_issue(
         &store,
         BindRequest {
             issue: 42,
             base_branch: "main".into(),
             branch: "issue-42".into(),
-            worktree: ".".into(),
+            worktree: worktree.to_string_lossy().into_owned(),
             code_repository: None,
         },
     )
     .unwrap();
+    let store = Store::new(&worktree);
     let bound = store.load_record(42).unwrap();
     let mut execution = edit(
         &bound,
@@ -543,7 +547,7 @@ fn freshly_installed_stable_edit_binary_is_executable() {
     )
     .unwrap();
     fs::write(
-        fixture.path().join("docs/design.md"),
+        worktree.join("docs/design.md"),
         "# Implemented correction\n",
     )
     .unwrap();
@@ -551,14 +555,14 @@ fn freshly_installed_stable_edit_binary_is_executable() {
         issue: 42,
         expected_generation: implemented.generation,
         expected_digest: implemented.digest,
-        reviewer: "architect".into(),
+        reviewer: "fresh-session:11111111-1111-4111-8111-111111111111".into(),
     };
-    let request_path = fixture.path().join("approve.json");
+    let request_path = worktree.join("approve.json");
     fs::write(&request_path, serde_json::to_vec_pretty(&request).unwrap()).unwrap();
     let result = Command::new(destination.join("csdlc-edit"))
         .args([
             "--repo",
-            fixture.path().to_str().unwrap(),
+            worktree.to_str().unwrap(),
             "approve-design",
             "--request",
             request_path.to_str().unwrap(),

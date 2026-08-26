@@ -76,11 +76,34 @@ fi
 CURRENT_STAGE="verify_cache"
 stage "$CURRENT_STAGE"
 CACHE_MOUNT="$ADL_CACHE_VOLUME_MOUNT_PATH"
-mountpoint -q "$CACHE_MOUNT" || {
-  echo "spot_builder_image_validation: retained cache path is not a mountpoint" >&2
-  exit 1
-}
-CACHE_SOURCE="$(findmnt -n -o SOURCE --target "$CACHE_MOUNT")"
+RETAINED_VOLUME_ROLE="${ADL_RETAINED_VOLUME_ROLE:-build_cache}"
+RUNTIME_CONTAINER_ARGS=()
+if [[ "$RETAINED_VOLUME_ROLE" == runtime_continuity ]]; then
+  : "${ADL_RUNTIME_CONTINUITY_ROOT:?ADL_RUNTIME_CONTINUITY_ROOT is required for the Runtime volume role}"
+  : "${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256 is required for the Runtime volume role}"
+  [[ "$ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256" =~ ^[0-9a-f]{64}$ ]] || {
+    echo "spot_builder_image_validation: Runtime volume identity digest is invalid" >&2
+    exit 1
+  }
+  RUNTIME_VOLUME_ROOT="$(dirname "$ADL_RUNTIME_CONTINUITY_ROOT")"
+  mountpoint -q "$RUNTIME_VOLUME_ROOT" || {
+    echo "spot_builder_image_validation: Runtime continuity root is not on the retained mount" >&2
+    exit 1
+  }
+  CACHE_SOURCE="$(findmnt -n -o SOURCE --target "$RUNTIME_VOLUME_ROOT")"
+  mkdir -p "$CACHE_MOUNT" "$ADL_RUNTIME_CONTINUITY_ROOT"
+  RUNTIME_CONTAINER_ARGS=(
+    --volume "$ADL_RUNTIME_CONTINUITY_ROOT:/runtime-continuity"
+    --env ADL_RUNTIME_CONTINUITY_ROOT=/runtime-continuity
+    --env "ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256=$ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256"
+  )
+else
+  mountpoint -q "$CACHE_MOUNT" || {
+    echo "spot_builder_image_validation: retained cache path is not a mountpoint" >&2
+    exit 1
+  }
+  CACHE_SOURCE="$(findmnt -n -o SOURCE --target "$CACHE_MOUNT")"
+fi
 ROOT_SOURCE="$(findmnt -n -o SOURCE --target /)"
 if [[ -z "$CACHE_SOURCE" || "$CACHE_SOURCE" == "$ROOT_SOURCE" ]]; then
   echo "spot_builder_image_validation: retained cache mount resolves to the root filesystem" >&2
@@ -103,7 +126,11 @@ if [[ ! "$CACHE_FREE_BYTES" =~ ^[0-9]+$ ]] || [[ "$CACHE_FREE_BYTES" -lt "$MIN_C
   fi
 fi
 
-CACHE_ROOT="$CACHE_MOUNT/adl-aws-remote-validation/shared"
+if [[ "$RETAINED_VOLUME_ROLE" == runtime_continuity ]]; then
+  CACHE_ROOT="$CACHE_MOUNT"
+else
+  CACHE_ROOT="$CACHE_MOUNT/adl-aws-remote-validation/shared"
+fi
 # Keep the original warm-EBS identity established by #4837. A container is an
 # execution environment, not a reason to fork Cargo's retained cache layout.
 TARGET_DIR="$CACHE_ROOT/target"
@@ -160,23 +187,73 @@ fi
 CURRENT_STAGE="verify_builder_toolchain"
 stage "$CURRENT_STAGE"
 TOOLCHAIN_OUTPUT="$ADL_RUN_ROOT/builder-toolchain.log"
-"${DOCKER[@]}" run --rm \
-  --workdir /workspace \
-  --volume "$ADL_REMOTE_REPO_DIR:/workspace:ro" \
-  --entrypoint /bin/bash \
-  "$IMAGE" -lc "
-  set -euo pipefail
-  test \"\$(uname -m)\" = '$EXPECTED_UNAME_ARCH'
-  rustc --version
-  cargo --version
-  cargo nextest --version
-  sccache --version
-  ld.lld --version | head -n 1
-  aws --version
-  ruby --version
-  ruby -e 'abort unless 6 * 7 == 42; puts \"ruby-smoke-ok\"'
-  ruby adl/tools/validate_v092_runtime_native_receipts.rb --self-test-finalization-policy
-" >"$TOOLCHAIN_OUTPUT" 2>&1
+TOOLCHAIN_RAW_STDOUT="${TMPDIR:-/tmp}/adl-builder-toolchain-raw.$$.stdout"
+TOOLCHAIN_RAW_STDERR="${TMPDIR:-/tmp}/adl-builder-toolchain-raw.$$.stderr"
+TOOLCHAIN_NEXT="$ADL_RUN_ROOT/.builder-toolchain.log.tmp.$$"
+cleanup_toolchain_capture() {
+  rm -f "$TOOLCHAIN_RAW_STDOUT" "$TOOLCHAIN_RAW_STDERR" "$TOOLCHAIN_NEXT"
+}
+trap cleanup_toolchain_capture EXIT
+
+redact_builder_output() {
+  sed -E \
+    -e 's/[0-9]{12}/<aws-account-id-redacted>/g' \
+    -e 's#arn:aws[^[:space:],\"]*#<aws-arn-redacted>#g' \
+    -e 's/AKIA[0-9A-Z]{16}/<aws-access-key-redacted>/g' \
+    -e 's/i-[0-9a-f]{8,17}/<ec2-instance-id-redacted>/g' \
+    -e 's/vol-[0-9a-f]{8,17}/<ebs-volume-id-redacted>/g' \
+    -e 's/(vpc|subnet|sg|sir)-[0-9a-f]{8,17}/<aws-resource-id-redacted>/g' \
+    -e 's/([0-9]{1,3}\.){3}[0-9]{1,3}/<ip-address-redacted>/g' \
+    -e 's#/(Users|Volumes|private|tmp)/[^[:space:],\"]*#<machine-path-redacted>#g'
+}
+
+run_builder_check() {
+  local label="$1"
+  local executable="$2"
+  local command="$3"
+  local status=0
+  rm -f "$TOOLCHAIN_RAW_STDOUT" "$TOOLCHAIN_RAW_STDERR" "$TOOLCHAIN_NEXT"
+  "${DOCKER[@]}" run --rm \
+    --workdir /workspace \
+    --volume "$ADL_REMOTE_REPO_DIR:/workspace:ro" \
+    --env "ADL_BUILDER_CHECK=$label" \
+    --entrypoint /bin/bash \
+    "$IMAGE" -lc "set -o pipefail; $command" \
+    >"$TOOLCHAIN_RAW_STDOUT" 2>"$TOOLCHAIN_RAW_STDERR" || status=$?
+  if [[ -f "$TOOLCHAIN_OUTPUT" ]]; then
+    cp "$TOOLCHAIN_OUTPUT" "$TOOLCHAIN_NEXT"
+  else
+    : >"$TOOLCHAIN_NEXT"
+  fi
+  {
+    printf 'ADL_BUILDER_CHECK_BEGIN label=%s executable=%s\n' "$label" "$executable"
+    printf 'ADL_BUILDER_CHECK_STDOUT_BEGIN label=%s\n' "$label"
+    redact_builder_output <"$TOOLCHAIN_RAW_STDOUT"
+    printf 'ADL_BUILDER_CHECK_STDOUT_END label=%s\n' "$label"
+    printf 'ADL_BUILDER_CHECK_STDERR_BEGIN label=%s\n' "$label"
+    redact_builder_output <"$TOOLCHAIN_RAW_STDERR"
+    printf 'ADL_BUILDER_CHECK_STDERR_END label=%s\n' "$label"
+    printf 'ADL_BUILDER_CHECK_END label=%s executable=%s exit_status=%s\n' "$label" "$executable" "$status"
+  } >>"$TOOLCHAIN_NEXT"
+  mv -f "$TOOLCHAIN_NEXT" "$TOOLCHAIN_OUTPUT"
+  rm -f "$TOOLCHAIN_RAW_STDOUT" "$TOOLCHAIN_RAW_STDERR"
+  if [[ "$status" -ne 0 ]]; then
+    echo "spot_builder_image_validation: builder preflight failed check=$label executable=$executable exit_status=$status retained=builder-toolchain.log" >&2
+    return "$status"
+  fi
+}
+
+rm -f "$TOOLCHAIN_OUTPUT"
+run_builder_check architecture uname "test \"\$(uname -m)\" = '$EXPECTED_UNAME_ARCH'"
+run_builder_check rustc rustc "rustc --version"
+run_builder_check cargo cargo "cargo --version"
+run_builder_check nextest cargo-nextest "cargo nextest --version"
+run_builder_check sccache sccache "sccache --version"
+run_builder_check linker ld.lld "ld.lld --version | head -n 1"
+run_builder_check aws_cli aws "aws --version"
+run_builder_check ruby ruby "ruby --version"
+run_builder_check ruby_smoke ruby "ruby -e 'abort unless 6 * 7 == 42; puts \"ruby-smoke-ok\"'"
+run_builder_check receipt_validator ruby "ruby adl/tools/validate_v092_runtime_native_receipts.rb --self-test-finalization-policy"
 for required in rustc cargo cargo-nextest sccache LLD aws-cli ruby-smoke-ok \
   'PASS: finalization allowlist rejects Runtime product drift'; do
   grep -F "$required" "$TOOLCHAIN_OUTPUT" >/dev/null || {
@@ -191,23 +268,31 @@ VALIDATION_START="$(date +%s)"
 VALIDATION_UID="$(id -u)"
 VALIDATION_GID="$(id -g)"
 VALIDATION_STATUS=0
-"${DOCKER[@]}" run --rm \
-  --user "$VALIDATION_UID:$VALIDATION_GID" \
-  --workdir /workspace \
-  --volume "$ADL_REMOTE_REPO_DIR:/workspace" \
-  --volume "$CACHE_ROOT:/cache-root" \
-  --volume "$TMP_DIR:/tmp" \
-  --volume "$ADL_RUN_ROOT:/run-output" \
-  --env CARGO_HOME=/cache-root/cargo-home \
-  --env CARGO_TARGET_DIR=/cache-root/target \
-  --env SCCACHE_DIR=/cache-root/sccache \
-  --env AWS_EC2_METADATA_DISABLED=true \
-  --env TMPDIR=/tmp \
-  --env RUSTC_WRAPPER=sccache \
-  --env RUSTFLAGS= \
-  --env CARGO_INCREMENTAL=0 \
-  --entrypoint /bin/bash \
-  "$IMAGE" -lc "set +e; $COMMAND; status=\$?; sccache --show-stats > /run-output/sccache-stats.log 2>&1 || true; exit \$status" \
+VALIDATION_DOCKER_ARGS=(
+  run --rm
+  --user "$VALIDATION_UID:$VALIDATION_GID"
+  --workdir /workspace
+  --volume "$ADL_REMOTE_REPO_DIR:/workspace"
+  --volume "$CACHE_ROOT:/cache-root"
+  --volume "$TMP_DIR:/tmp"
+  --volume "$ADL_RUN_ROOT:/run-output"
+)
+if [[ "$RETAINED_VOLUME_ROLE" == runtime_continuity ]]; then
+  VALIDATION_DOCKER_ARGS+=("${RUNTIME_CONTAINER_ARGS[@]}")
+fi
+VALIDATION_DOCKER_ARGS+=(
+  --env CARGO_HOME=/cache-root/cargo-home
+  --env CARGO_TARGET_DIR=/cache-root/target
+  --env SCCACHE_DIR=/cache-root/sccache
+  --env "AWS_EC2_METADATA_DISABLED=$([[ "$RETAINED_VOLUME_ROLE" == runtime_continuity ]] && printf false || printf true)"
+  --env TMPDIR=/tmp
+  --env RUSTC_WRAPPER=sccache
+  --env RUSTFLAGS=
+  --env CARGO_INCREMENTAL=0
+  --entrypoint /bin/bash
+  "$IMAGE" -lc "set +e; $COMMAND; status=\$?; sccache --show-stats > /run-output/sccache-stats.log 2>&1 || true; exit \$status"
+)
+"${DOCKER[@]}" "${VALIDATION_DOCKER_ARGS[@]}" \
   || VALIDATION_STATUS=$?
 VALIDATION_END="$(date +%s)"
 

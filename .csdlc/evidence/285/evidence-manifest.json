@@ -1,0 +1,44 @@
+{
+  "schema": "adl.csdlc.evidence.adr0068_handoff_manifest.v1",
+  "issue": 285,
+  "title": "[v0.92][ADR 0068][207.c] Reconcile birthday-to-governance handoff evidence",
+  "parent": 207,
+  "wp19_handoff": {
+    "terminal": true,
+    "issue": 5839,
+    "pull_request": 289,
+    "merge_sha": "7f88697ce82215188af941e15cf02a6220c9ad63",
+    "head_sha": "042710838de804f4ccd85a46b48e8e6b7daab1a4",
+    "canonical_generation": 39,
+    "canonical_digest": "28c8aa03cd5a88bf612aac78d74e0e2fdd387037f5c5727c0c89445d1ccddc24",
+    "terminal_digest": "597feec6b46cb6789d342061162e3a77b7f498b4dc6aa9674389a67204a10c82",
+    "classification": "terminal_current_repo_handoff_evidence_present"
+  },
+  "wp18_birthday": {
+    "terminal": false,
+    "issue": 5836,
+    "retained_phase": "initialized",
+    "retained_generation": 44,
+    "retained_digest": "e45f9365f8eaf2252922d7d7bd052791c616558816935b4d33ef2f865f47ca62",
+    "publication": null,
+    "terminal_record": null,
+    "classification": "retained_non_terminal_lifecycle_state_only"
+  },
+  "residual_gaps": [
+    "WP-18/#5836 has retained current-main initialized state but no current derived-terminal cache or current-repo GitHub issue identity.",
+    "ADR 0068 cannot be accepted from #285 because #285 only reconciles evidence for #207 and leaves final serialization to #288."
+  ],
+  "non_claims": [
+    "ADR 0068 acceptance",
+    "#207 closeout",
+    "#288 final ADR serialization",
+    "WP-18 terminal birthday proof",
+    "WP-19 implementation acceptance changes"
+  ],
+  "source_refs": [
+    ".git/csdlc-v2/derived-terminal/5839.json",
+    ".csdlc/issues/5836/index.json",
+    ".csdlc/evidence/285/live-observations.json",
+    ".csdlc/evidence/285/adr0068-birthday-governance-handoff-reconciliation.md"
+  ]
+}

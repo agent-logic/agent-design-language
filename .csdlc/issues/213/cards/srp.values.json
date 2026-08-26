@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 213,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][blocker] Support truthful initialized-phase acceptance and plan-step repair",
+    "slug": "initialized-card-repair",
+    "version": "v0.92",
+    "generation": 11
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/doctor.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate2.rs\n.csdlc/issues/213\n.csdlc/prepared/issues/213\n.csdlc/locks/213.lock",
+      "review_revision": "git-blake3:c46f231b7f0ee1f52b08a52dac0000fb6cefd6b7:7694749d5e2c7a79df548bddbb979ffeb74d8a46c86430c0ebf60067ea46d8ec",
+      "reviewer": "/root/review_213_c46f23",
+      "review_prompts": [
+        "Are only guarded initialized/ready STP replace_acceptance_criteria and SPP replace_plan_steps newly authorized, with ordinal AC IDs and pending-only pre-bind steps?",
+        "Does the literal #205 sequence atomically refresh both current canonical design/diagram bindings while rejecting exact path/reference/card-identity drift?",
+        "Does either successful repair set review pending without changing phase/topology, including the narrower ready-phase no-later-evidence and fresh-CAS guard?",
+        "Do before/after byte snapshots prove cross-card coverage, CAS, atomic rendering, generation, audit prefix, rollback, and untouched state preservation?",
+        "Do explicit fixtures preserve existing bound STP/SPP and implemented SPP behavior, and does the committed base-to-source diff lane cover EOF hygiene?",
+        "Did the change leave #205 and every publication/merge/terminal boundary untouched?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

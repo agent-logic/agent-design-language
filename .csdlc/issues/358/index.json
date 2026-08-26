@@ -1,0 +1,302 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 358,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "21fd626edd1cc7640193b8c78517845a185147f6a0de9e0a2c6873224bb85fe4",
+  "phase": "published",
+  "generation": 16,
+  "digest": "fc93e4650dd65629ea966ba27aa6bf44244b3a595a8dcb8b11289cd003dcd3cf",
+  "branch": "codex/358-observatory-transition-intent-time",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-358-observatory-transition-intent-time",
+  "review_assignment": {
+    "reviewer": "fresh-session:af576042-7be9-4d1e-82de-3abf046dad91",
+    "assigned_by": "codex:issue-358-final-review",
+    "revision": "git-blake3:5fb8bf755806aee0d26379d142e8020f45707a4a:a13840ff89835c2d6adf392998f11e9af67c090bb1dd711369274e6a0cc8ab3b",
+    "scope": [
+      ".csdlc/issues/358",
+      ".csdlc/prepared/issues/358",
+      ".csdlc/evidence/358",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/tests/distributed_observatory_authority_projection.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:af576042-7be9-4d1e-82de-3abf046dad91",
+    "scope": [
+      ".csdlc/issues/358",
+      ".csdlc/prepared/issues/358",
+      ".csdlc/evidence/358",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/tests/distributed_observatory_authority_projection.rs"
+    ],
+    "reviewed_revision": "git-blake3:5fb8bf755806aee0d26379d142e8020f45707a4a:a13840ff89835c2d6adf392998f11e9af67c090bb1dd711369274e6a0cc8ab3b",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 358,
+    "pull_request": 359,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/359",
+    "base": "main",
+    "head": "codex/358-observatory-transition-intent-time",
+    "revision": "git-blake3:5fb8bf755806aee0d26379d142e8020f45707a4a:a13840ff89835c2d6adf392998f11e9af67c090bb1dd711369274e6a0cc8ab3b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/358/design.md",
+  "diagram_path": ".csdlc/prepared/issues/358/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:559d6f3c-f06e-4751-b5c4-89621ae14703",
+      "revision": "bf1a795e6581e7c079ed386859855d528e190192a013a7f19b614392d0132930"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d797e27cf87c173c4a819cea1ede5ef1b8272a40b441336e09fe36f0eb2bb62e",
+      "rendered_digest": "fd9969c07b2387ca1dcbc96456bb44ab59cda1a8ac7c96685c824e2d17a0c032",
+      "ast_digest": "3f82d329bbab8aebd4ee6fd123c462b1b10a717dc4231379059169388939470b"
+    },
+    "stp": {
+      "values_digest": "06bb58c8bf0b62d950f29d6d200c71ad6bfd574afa6d4906c7c43c50829f8edb",
+      "rendered_digest": "fada3c1182c7846c8aa9b50c11daefe51e7771b02f78ee1c5c4c9a1315422d80",
+      "ast_digest": "b5465461beb09da10fa6a755637c90c219c629a057a444f30d5215fa3da2a21c"
+    },
+    "spp": {
+      "values_digest": "67c87876455a9edecc2e3150091ba6a68e05ac5a24b3fd99a18022bd5727852f",
+      "rendered_digest": "f8dc21a645d187a1a5b646ffcaf38613e1f4b37b5f41b203c8e59be66cd7f27b",
+      "ast_digest": "93911bd28bd7eccb64b4e46df8ef527c216c2552664b3257e3d43d7291f12335"
+    },
+    "vpp": {
+      "values_digest": "95c3856a2d60fc30e730c64909b8ba324c535c8d1eeb35400fbeb28aca4f8a1b",
+      "rendered_digest": "5f1b70022cacf1cde7e71d61cc4afacf92ae4aa376e9d1ede16ba7cce66cd4b6",
+      "ast_digest": "8c9173349475babf67ad150915eca3c30e4f5c1f03d02e98b07e006a31d3c1bb"
+    },
+    "srp": {
+      "values_digest": "7fb0db28800ca1c5413bfe0de4a65eab9777abd53415ec6ef21d2e12996a144e",
+      "rendered_digest": "aaa8500ffc8237aa0f19f73fc850b3813140020574010610d73ca531896ba9c2",
+      "ast_digest": "3b54b4e4f846a7e04b94a1f83b2d7355c9d996d6761c4f07427be568a97020d9"
+    },
+    "sor": {
+      "values_digest": "7efee6450deadb73a034dfbe06ee13c272c41c788395066e58670685f7797cf3",
+      "rendered_digest": "93a53ee196cc091124308c442f42fe7031dc5ee4d867eb676de0a47d7085a964",
+      "ast_digest": "6c87b0580d213fc8d6d540a834d4954914ee9d720d2785c566598717242c13c8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-358-implementation",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:af576042-7be9-4d1e-82de-3abf046dad91",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-358-final",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-358-foundation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:559d6f3c-f06e-4751-b5c4-89621ae14703",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-358-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-358-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "fresh-session:f128d53a-04e9-4567-8e8f-6218e36ce772",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-358-r1-remediation",
+      "reason": "Remediate recorded R1 nanos-ordering/durable-reopen proof and SOR truth findings.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-358-r1-remediation",
+      "reason": "Record exact R1 nanos-order and durable reopen remediation proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove every action shape, exact same-second nanos before/equal/after expiry behavior, durable serialize/reopen retention of action/predecessor/full time, mismatch denial, and redaction.\",\"outcome\":\"passed\",\"evidence_ref\":\"9 passed, 0 failed/ignored at remediation source f7b10c1c9; explicit assertions aggregate every action and boundary\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:issue-358-r1-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "fresh-session:95acf8d7-94a7-40fa-918a-5a4b95829cc3",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-358-r2-remediation",
+      "reason": "Repair exact nonzero nanos vectors and actual durable authority-state reopen proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-358-r2-remediation",
+      "reason": "Record exact real durable-state reopen and nonzero nanos boundary proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove nonzero same-second nanos before/equal/after semantics and actual DurablePublishedAuthorityResult inside AuthorityProtocolState JCS reopen preserving action/predecessor and every deadline/finalization time component.\",\"outcome\":\"passed\",\"evidence_ref\":\"9 passed at source e758b46c3; durable state validation recomputes result/retry digests before reopen\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:issue-358-r2-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "fresh-session:321b05ec-11cc-47cf-8c51-f68fcfb7306e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:issue-358-r3-record-repair",
+      "reason": "Repair exact SOR artifact inventory only.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-358-r3-record-repair",
+      "reason": "Complete exact SOR artifact inventory without changing source or proof claims.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Seal Observatory transition action/predecessor and full canonical time.\",\"changes\":[\"Canonical action/predecessor artifact binding\",\"Private sealed projection accessors for action and full time\",\"Focused action/time/mismatch/redaction and durable reopen proof\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/serving_authority.rs\",\"adl-runtime/tests/distributed_observatory_authority_projection.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove action shapes, exact nanos ordering, actual durable state reopen with full time retention, mismatch denial and redaction.\",\"outcome\":\"passed\",\"evidence_ref\":\"9 passed at source e758b46c3\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"clippy.log\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:issue-358-r3-record-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "fresh-session:b5cc85f6-e863-4236-90ba-026d00d1861e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:issue-358-r4-srp-repair",
+      "reason": "Render exact six-surface SRP scope before final review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:issue-358-srp-scope-anchor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:issue-358-srp-scope-anchor",
+      "reason": "Clear staging-only assignment after committing exact rendered SRP scope; no review performed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:issue-358-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "fresh-session:af576042-7be9-4d1e-82de-3abf046dad91",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:issue-358-final",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

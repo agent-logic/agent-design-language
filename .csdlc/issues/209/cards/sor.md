@@ -1,0 +1,157 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 209
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Repaired production ACIP replay authority, transactional pressure rollback, platform-neutral native semantics, and canonical public OpenAPI parity without publishing.
+
+## Artifacts
+
+- adl-runtime-kernel/src/assembly.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/config.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/governed_operations.rs
+- adl-runtime-kernel/tests/assembly.rs
+- adl-runtime-kernel/tests/openapi_contract.rs
+- adl-runtime-kernel/tests/production_acip_wss.rs
+- adl-runtime-kernel/tests/support/runtime_init.rs
+- docs/api/runtime-v3/v1/openapi.json
+- .csdlc/prepared/issues/209/produce-native-receipt.rb
+- .csdlc/prepared/issues/209/validate-native-receipts.rb
+- .github/workflows/wp14-production-acip-repair.yml
+- .csdlc/evidence/209/local-validation-manifest.json
+
+## Execution
+
+- Replaced delimiter-ambiguous global replay state with structured runtime/source domains partitioned by authenticated principal and exact pending rollback.
+- Added production WebSocket saturation rejection, non-reserving typed response, exact retry recovery, and concurrency regressions.
+- Normalized native semantic comparison independently of platform and expanded exact authority source provenance.
+- Aligned the canonical bearer-authenticated binary OpenAPI contract while retaining the separate signed legacy admission regression.
+- Run 31452115116 failed both native producers because the production kernel test requires the verified Vector component; the issue workflow now installs it before proof, hashes the installer in source provenance, and requires a replacement run.
+- Replacement run 31452684900 passed both platform test targets but exposed a package-working-directory semantic path error; the producer now exports its already-confined semantic destination as an absolute path, and its focused self-test proves the destination remains exact from a crate working directory before another replacement run.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "production_acip_wss"
+    ],
+    "purpose": "Prove both production ACIP/WSS tests at the semantic-path repair revision and generate the ten-assertion semantic document at an absolute temporary destination; the unchanged production behavior also retains its prior five-run stability proof.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/production-acip-wss.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "control::acip_replay_tests"
+    ],
+    "purpose": "Prove structured replay-domain collision resistance, per-principal capacity, rejected-advance non-mutation, and concurrent rollback non-resurrection.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/acip-replay-authority.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract"
+    ],
+    "purpose": "Prove canonical public bearer-authenticated binary OpenAPI parity.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/openapi-contract.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "runtime_api_auth::tests::wss_admission_fails_before_dispatch_for_auth_origin_authority_and_replay",
+      "--lib",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Prove the retained non-public legacy admission path still rejects unsigned control and terminal replay poisoning.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/legacy-signed-replay.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--lib",
+      "--test",
+      "production_acip_wss",
+      "--test",
+      "openapi_contract",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove warning-free production source and focused integration surfaces.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/production-acip-clippy.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/209/produce-native-receipt.rb",
+      "--self-test"
+    ],
+    "purpose": "Prove native producer authority-source binding, platform-neutral projection behavior, and exact absolute semantic-output resolution from a simulated crate working directory.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/native-contract-selftests.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/209/validate-native-receipts.rb",
+      "--self-test"
+    ],
+    "purpose": "Prove native validator semantic-equivalence, exact provenance, and path-hygiene gates.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/209/native-contract-selftests.log"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

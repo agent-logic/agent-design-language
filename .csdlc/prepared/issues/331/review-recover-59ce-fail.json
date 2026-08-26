@@ -1,0 +1,7 @@
+{
+  "issue": 331,
+  "expected_generation": 12,
+  "expected_digest": "1775c4cb5afadf3d33f2a9d78728ac5174eb5fcdca0cb71c99ff149db09615cc",
+  "actor": "codex:/root",
+  "reason": "Recover current-head review assignment after fresh-session:59cee9b5-b473-4c4e-999f-be886f8751ad returned a P1 finding requiring initialized migration evidence to record collision disposition and cross-repository authority disposition."
+}

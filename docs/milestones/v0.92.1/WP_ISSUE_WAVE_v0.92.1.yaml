@@ -1,469 +1,340 @@
----
-schema: adl.milestone.issue_wave.v1
+schema: adl.milestone.issue-wave.v1
 milestone: v0.92.1
-setup_issue: 146
-status: planning_only
-source_revisions:
-  csdlc_v3_pr_77_merge: 413fa9b8588dd25be3785cfe111c4f1df3af36eb
-  runtime_production_issue: 142
-umbrellas:
-- id: CORP-U
-  title: Corporate and IP transfer
-  kind: coordination_only
-  status: planned_for_wp01_creation
-  creation_owner: WP-01
-- id: V3-U
-  title: C-SDLC v3 implementation
-  kind: coordination_only
-  status: planned_for_wp01_creation
-  creation_owner: WP-01
-- id: DRT-U
-  title: Distributed multi-agent Runtime qualification
-  kind: coordination_only
-  status: planned_for_wp01_creation
-  creation_owner: WP-01
-- id: INT-U
-  title: Standard milestone closeout tail
-  kind: coordination_only
-  status: planned_for_wp01_creation
-  creation_owner: WP-01
+conductor_issue: null
+conductor_id: WP-01
+opening_authority: milestone_operator_after_planning_merge
+opening_trigger: operator_declares_milestone_ready_after_planning_merge
+legacy_planning_issue: 431
 work_packages:
-- id: WP-01
-  lane: milestone_opening
-  title: Open v0.92.1 and create the execution-ready issue wave
-  depends_on: []
-  proof: reviewed issue denominator, exact live mapping, complete six-card packages, dependency validation, readiness checks, and explicit start authorization
-  creation_owner: post-merge operator bootstrap
-  status: planned_for_post_merge_creation
-- id: CORP-01
-  lane: corporate
-  title: Freeze critical asset and account inventory
-  depends_on: []
-  proof: redacted ownership and exclusion matrix
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: CORP-02
-  lane: corporate
-  title: Execute counsel-reviewed IP assignment and corporate acceptance
-  depends_on:
-  - CORP-01
-  proof: private instrument plus redacted execution receipt
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: CORP-03
-  lane: corporate
-  title: Resolve provenance licensing and trademark dispositions
-  depends_on:
-  - CORP-01
-  proof: contributor third-party OSS model media and brand disposition report
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: CORP-04
-  lane: corporate
-  title: Establish company billing recovery MFA and vault custody
-  depends_on:
-  - CORP-01
-  proof: redacted custody and recovery verification
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: CORP-05
-  lane: corporate
-  title: Transfer repository domain brand and vendor control
-  depends_on:
-  - CORP-03
-  - CORP-04
-  proof: administrative control manifests and live readback
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: CORP-06
-  lane: corporate
-  title: Migrate AWS production infrastructure
-  depends_on:
-  - CORP-04
-  proof: DNS TLS email storage monitoring workload and rollback receipts
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: CORP-07
-  lane: corporate
-  title: Move Terraform CI deployment and runbook authority
-  depends_on:
-  - CORP-05
-  - CORP-06
-  proof: company-identity plan deployment rollback and operations proof
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: CORP-08
-  lane: corporate
-  title: Close corporate chain-of-title and diligence package
-  depends_on:
-  - CORP-02
-  - CORP-03
-  - CORP-05
-  - CORP-07
-  proof: critical schedule completion and redacted due-diligence index
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-01
-  lane: csdlc_v3
-  title: Freeze product contract and retained invariants
-  depends_on: []
-  proof: command schema capability recovery and parity contract review
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-02
-  lane: csdlc_v3
-  title: Run the Rust construction spike
-  depends_on:
-  - V3-01
-  proof: ten measured thresholds and promote-or-reimplement decision
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-D11
-  lane: csdlc_v3
-  title: Approve platform commit matrix and Windows posture
-  depends_on:
-  - V3-02
-  proof: operator decision record
-  kind: decision_gate
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-03
-  lane: csdlc_v3
-  title: Build the single-binary foundation
-  depends_on:
-  - V3-02
-  proof: parser purity help schema completion and artifact provenance
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-04
-  lane: csdlc_v3
-  title: Build the application context and shared services
-  depends_on:
-  - V3-03
-  proof: dependency boundaries cancellation streams and typed error contracts
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-05
-  lane: csdlc_v3
-  title: Build repository context and read-only v2 importer
-  depends_on:
-  - V3-01
-  - V3-03
-  - V3-04
-  proof: deterministic discovery unsupported-field reporting and no-write proof
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-06
-  lane: csdlc_v3
-  title: Implement canonical state and card projections
-  depends_on:
-  - V3-04
-  - V3-05
-  proof: canonical bytes round trips schemas and deterministic six-card projection
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-07
-  lane: csdlc_v3
-  title: Implement the lifecycle kernel
-  depends_on:
-  - V3-06
-  proof: exhaustive transition capability and recovery graph tests
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-08
-  lane: csdlc_v3
-  title: Implement transaction store and interruption recovery
-  depends_on:
-  - V3-06
-  - V3-07
-  - V3-D11
-  proof: fault injection at write sync rename and recovery boundaries
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-09
-  lane: csdlc_v3
-  title: Implement typed effect adapters
-  depends_on:
-  - V3-01
-  - V3-04
-  - V3-05
-  proof: hostile argument cancellation redaction and adapter tests
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-10A
-  lane: csdlc_v3
-  title: Implement issue and bind commands
-  depends_on:
-  - V3-05
-  - V3-06
-  - V3-07
-  - V3-08
-  - V3-09
-  proof: branch-worktree ownership and bind recovery journeys
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-10B
-  lane: csdlc_v3
-  title: Implement card editing and doctor
-  depends_on:
-  - V3-05
-  - V3-06
-  - V3-07
-  - V3-08
-  - V3-09
-  proof: semantic edits deterministic rendering and readiness diagnostics
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-11A
-  lane: csdlc_v3
-  title: Implement PVF planning
-  depends_on:
-  - V3-01
-  - V3-06
-  proof: lane classification budgets and manifest determinism
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-11B
-  lane: csdlc_v3
-  title: Implement PVF execution and evidence
-  depends_on:
-  - V3-08
-  - V3-09
-  - V3-11A
-  proof: execution receipts tamper detection cancellation and recovery
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-12
-  lane: csdlc_v3
-  title: Implement exact review and publication gates
-  depends_on:
-  - V3-04
-  - V3-08
-  - V3-10A
-  - V3-10B
-  proof: staleness independence finding lifecycle linkage and bypass negatives
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-13
-  lane: csdlc_v3
-  title: Implement GitHub read-only observation
-  depends_on:
-  - V3-04
-  - V3-08
-  - V3-09
-  - V3-12
-  proof: pagination ambiguity rate limit retry and redaction fixtures
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-14
-  lane: csdlc_v3
-  title: Implement PR mutation and foreground watch
-  depends_on:
-  - V3-04
-  - V3-08
-  - V3-09
-  - V3-12
-  - V3-13
-  proof: durable intent idempotent readback cancellation and bounded canary
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-15
-  lane: csdlc_v3
-  title: Implement finish and cleanup
-  depends_on:
-  - V3-08
-  - V3-09
-  - V3-12
-  - V3-13
-  - V3-14
-  proof: terminal GitHub truth dirty-worktree rejection and second-run no-op
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-16
-  lane: csdlc_v3
-  title: Prove parity canary migration and writer-fenced cutover
-  depends_on:
-  - V3-10A
-  - V3-10B
-  - V3-11A
-  - V3-11B
-  - V3-12
-  - V3-13
-  - V3-14
-  - V3-15
-  proof: shadow corpus live canaries migration rehearsal authority scan rollback and independent review
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: V3-R01
-  lane: csdlc_v3
-  title: Retire C-SDLC v2 after rollback expiry
-  depends_on:
-  - V3-16
-  proof: deletion inventory fresh install forbidden-path scan and historical readability
-  status: deferred
-  creation_owner: WP-01
-- id: DRT-01
-  lane: runtime
-  title: Freeze distributed qualification contract
-  depends_on: []
-  proof: topology scenario fault timing resource receipt and claim contract
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: DRT-02
-  lane: runtime
-  title: Prove deterministic ACIP authority and replay conformance
-  depends_on:
-  - DRT-01
-  proof: canonical vectors ordering causation denial duplicate and replay digest
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: DRT-03
-  lane: runtime
-  title: Run Wuji three-voter multi-agent production proof
-  depends_on:
-  - DRT-01
-  - DRT-02
-  - RUNTIME-142
-  proof: exact merged input ancestry three-to-two-to-one behavior old lease expiry snapshot restore three agents one shepherd one Observatory and per-phase cleanup
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: DRT-04
-  lane: runtime
-  title: Run hybrid Wuji and AWS continuity proof
-  depends_on:
-  - DRT-03
-  proof: two private AZs authenticated transport independently materialized snapshots Wuji isolation AWS-only quorum continuity fencing healing halt and per-phase cleanup
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: DRT-05
-  lane: runtime
-  title: Qualify identity authority TLS capabilities and provider failure
-  depends_on:
-  - DRT-03
-  - DRT-04
-  proof: key separation non-voting shepherd identity stale lease and fence cross-polis replay pre-auth disclosure and producer-derived outcomes
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: DRT-06
-  lane: runtime
-  title: Validate Observatory coherent evidence
-  depends_on:
-  - DRT-03
-  - DRT-04
-  proof: coherent authority cut causal trace redaction stale-read denial and singleton ownership
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: DRT-07
-  lane: runtime
-  title: Complete soak replay resource cleanup and synthesis
-  depends_on:
-  - DRT-05
-  - DRT-06
-  proof: two-hour local and four-hour hybrid soak independent replay exact commands terms indexes receipts source and model digests plus cleanup after every failed phase
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-01
-  lane: integration
-  title: Converge milestone demos
-  depends_on:
-  - CORP-08
-  - V3-16
-  - DRT-07
-  proof: exact-revision demo inventory, producer receipts, negative-path outcomes,
-    rerun proof, and non-claim ledger
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-02
-  lane: integration
-  title: Run the milestone quality gate
-  depends_on:
-  - INT-01
-  proof: exact-candidate quality matrix, producer evidence readback, blocker ledger,
-    denominator reconciliation, and fail-closed negatives
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-03
-  lane: integration
-  title: Align documentation and review truth
-  depends_on:
-  - INT-02
-  proof: claim-to-proof crosswalk, stale-text and portability scans, link validation,
-    review packet inventory, and exact-revision readback
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-04
-  lane: integration
-  title: Conduct internal milestone review
-  depends_on:
-  - INT-03
-  proof: exact-head specialist review receipts, coverage ledger, findings denominator,
-    ownership routing, and independence statement
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-05
-  lane: integration
-  title: Conduct external milestone review
-  depends_on:
-  - INT-04
-  proof: external packet inventory, exact-revision receipt, redaction audit, findings
-    denominator, and routing ledger
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-06
-  lane: integration
-  title: Remediate findings and run final preflight
-  depends_on:
-  - INT-05
-  proof: finding-disposition census, exact-head re-reviews, final PVF receipts, candidate
-    digest, rollback rehearsal, abort-path proof, and go-no-go record
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-07
-  lane: integration
-  title: Plan the next milestone
-  depends_on:
-  - INT-06
-  proof: source ancestry, WBS and dependency validation, deferred denominator, owner
-    and proof mapping, standard-tail conformance, and portability checks
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-08
-  lane: integration
-  title: Independently review the next-milestone plan
-  depends_on:
-  - INT-07
-  proof: exact-head review receipt, WBS conformance check, finding denominator, disposition
-    validation, source-link checks, and accepted handoff decision
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-- id: INT-09
-  lane: integration
-  title: Execute the release ceremony and close the milestone
-  depends_on:
-  - INT-08
-  proof: authorization readback, candidate digest, release mutation readback, post-release
-    verification, terminal issue and umbrella census, typed finish receipts, handoff
-    linkage, and cleanup classification
-  creation_owner: WP-01
-  status: planned_for_wp01_creation
-external_dependencies:
-- id: RUNTIME-142
-  issue: 142
-  required_state: terminal
-  required_proof: exact merged SHA ancestry and passing retained production Guardian API WSS and WP-04.16 receipts
-opening_work_package: WP-01
-issue_creation_authority: WP-01
-retired_premature_issue_ledger: WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml
-lifecycle_sequence:
-- milestone_planning
-- wp01_issue_wave_opening
-- parallel_lane_execution
-- demo_convergence
-- quality_gate
-- docs_and_review_alignment
-- internal_review
-- external_review
-- remediation_and_final_preflight
-- next_milestone_planning
-- next_milestone_review
-- release_ceremony_and_lifecycle_closeout
+  - id: REP-01
+    lane: repository_authority
+    title: Remove tracked dependencies on local untracked paths
+    issue: 432
+    depends_on: []
+  - id: WP-01
+    lane: milestone_opening
+    title: Open the v0.92.1 milestone and create the execution wave
+    issue: null
+    creation_owner: milestone_operator_after_planning_merge
+    legacy_issue: 431
+    legacy_issue_disposition: closed_planning_provenance_only
+    depends_on: [REP-01]
+    execution_contract: WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#WP-01
+  - id: CORP-01
+    lane: corporate
+    title: Corporate and IP transfer program
+    issue_slot: false
+    depends_on: [WP-01]
+    packages:
+      - id: CORP-A
+        issue: null
+        creation_owner: WP-01
+        title: Critical-asset schedule
+        predecessor_issues: [153, 154, 155]
+        depends_on: []
+      - id: CORP-B
+        issue: null
+        creation_owner: WP-01
+        title: Corporate account custody register
+        predecessor_issues: [156]
+        depends_on: [CORP-A]
+      - id: CORP-C
+        issue: null
+        creation_owner: WP-01
+        title: Corporate operational-control transfer
+        predecessor_issues: [157, 158, 159]
+        depends_on: [CORP-A, CORP-B, AWS-G, GCP-D]
+      - id: CORP-D
+        issue: null
+        creation_owner: WP-01
+        title: Corporate diligence acceptance
+        predecessor_issues: [160]
+        depends_on: [CORP-A, CORP-B, CORP-C]
+  - id: AWS-01
+    lane: aws_move_in
+    title: AWS account move-in and normalization
+    issue_slot: false
+    depends_on: [WP-01, CORP-A, CORP-B]
+    packages:
+      - id: AWS-A
+        issue: null
+        creation_owner: WP-01
+        title: AWS resource ownership inventory
+        depends_on: []
+      - id: AWS-B
+        issue: null
+        creation_owner: WP-01
+        title: AWS access and billing baseline
+        depends_on: [AWS-A]
+      - id: AWS-C
+        issue: null
+        creation_owner: WP-01
+        title: AWS Terraform bootstrap
+        depends_on: [AWS-B]
+      - id: AWS-D
+        issue: null
+        creation_owner: WP-01
+        title: AWS audit and security baseline
+        depends_on: [AWS-C]
+      - id: AWS-E
+        issue: null
+        creation_owner: WP-01
+        title: AWS resource adoption register
+        depends_on: [AWS-D]
+      - id: AWS-F
+        issue: null
+        creation_owner: WP-01
+        title: AWS Runtime platform modules
+        depends_on: [AWS-E, issue-122]
+      - id: AWS-G
+        issue: null
+        creation_owner: WP-01
+        title: AWS CloudFormation retirement decision
+        depends_on: [AWS-F, XCL-01]
+  - id: GCP-01
+    lane: gcp_move_in
+    title: GCP account move-in
+    issue_slot: false
+    depends_on: [WP-01, CORP-A, CORP-B]
+    packages:
+      - id: GCP-A
+        issue: null
+        creation_owner: WP-01
+        title: GCP hierarchy and cost decision
+        depends_on: []
+      - id: GCP-B
+        issue: null
+        creation_owner: WP-01
+        title: GCP Terraform bootstrap
+        depends_on: [GCP-A]
+      - id: GCP-C
+        issue: null
+        creation_owner: WP-01
+        title: GCP organization and billing baseline
+        depends_on: [GCP-B]
+      - id: GCP-D
+        issue: null
+        creation_owner: WP-01
+        title: GCP private platform foundation
+        depends_on: [GCP-C]
+      - id: GCP-E
+        issue: null
+        creation_owner: WP-01
+        title: GCP GPU readiness smoke test
+        depends_on: [GCP-D]
+  - id: XCL-01
+    lane: cross_cloud_terraform
+    title: Cross-cloud Runtime Terraform conversion
+    issue: null
+    creation_owner: WP-01
+    depends_on: [AWS-E, GCP-D]
+  - id: RUST-01
+    lane: rust_refactoring
+    title: Resilience owner-boundary refactoring
+    issue: null
+    creation_owner: WP-01
+    depends_on: [WP-01]
+  - id: V3-01
+    lane: csdlc_v3
+    title: C-SDLC v3 implementation program
+    issue_slot: false
+    depends_on: [WP-01]
+    packages:
+      - id: V3-A
+        issue: null
+        creation_owner: WP-01
+        title: C-SDLC v3 contract and construction decision
+        predecessor_issues: [161, 162, 163]
+        depends_on: []
+      - id: V3-B
+        issue: null
+        creation_owner: WP-01
+        title: C-SDLC v3 foundation
+        predecessor_issues: [164, 165, 166, 167]
+        depends_on: [V3-A]
+      - id: V3-C
+        issue: null
+        creation_owner: WP-01
+        title: C-SDLC v3 lifecycle kernel
+        predecessor_issues: [168, 169, 170]
+        depends_on: [V3-B]
+      - id: V3-D
+        issue: null
+        creation_owner: WP-01
+        title: C-SDLC v3 local preparation workflow
+        predecessor_issues: [171, 172, 173]
+        depends_on: [V3-C]
+      - id: V3-E
+        issue: null
+        creation_owner: WP-01
+        title: C-SDLC v3 remote delivery workflow
+        predecessor_issues: [174, 175, 176, 177, 178]
+        depends_on: [V3-D]
+      - id: V3-F
+        issue: null
+        creation_owner: WP-01
+        title: C-SDLC v3 authority-transition decision
+        predecessor_issues: [179, 180]
+        depends_on: [V3-E]
+  - id: DRT-01
+    lane: distributed_runtime
+    title: Distributed multi-agent Runtime qualification
+    issue_slot: false
+    depends_on: [WP-01]
+    existing_issues: [345]
+    packages:
+      - id: DRT-A
+        issue: null
+        creation_owner: WP-01
+        title: Distributed qualification contract
+        predecessor_issues: [181, 182]
+        depends_on: []
+      - id: DRT-B
+        issue: null
+        creation_owner: WP-01
+        title: Six-resident UTS qualification
+        predecessor_issues: [183, 184]
+        depends_on: [DRT-A, issue-345]
+      - id: DRT-C
+        issue: null
+        creation_owner: WP-01
+        title: Final distributed Runtime qualification
+        predecessor_issues: [185, 186, 187]
+        depends_on: [DRT-B]
+  - id: POD-01
+    lane: podcast
+    title: Podcast publication and Studio
+    issues: [51, 261, 262, 263, 264, 342]
+    depends_on: [WP-01]
+  - id: DEC-01
+    lane: runtime_decoupling
+    title: Runtime v2/v3 authority separation
+    issue: null
+    creation_owner: WP-01
+    depends_on: [WP-01]
+  - id: PROV-01
+    lane: provider_profiles
+    title: Provider profiles and bounded local-model shadow execution
+    issue_slot: false
+    depends_on: [WP-01]
+    packages:
+      - id: PROV-A
+        issue: null
+        creation_owner: WP-01
+        title: Shared provider inference profiles
+        depends_on: []
+      - id: PROV-B
+        issue: null
+        creation_owner: WP-01
+        title: Local-model shadow execution
+        depends_on: [PROV-A]
+  - id: DRT-D
+    lane: distributed_runtime_gcp_sidecar
+    title: GCP portability qualification
+    issue: null
+    creation_owner: WP-01
+    depends_on: [DRT-C, GCP-E, XCL-01]
+  - id: HOT-01
+    lane: runtime_hot_reload
+    title: Axum configuration hot reload
+    issue: null
+    creation_owner: WP-01
+    depends_on: [WP-01]
+  - id: OBS-01
+    lane: observatory_redesign
+    title: Observatory redesign
+    issue_slot: false
+    depends_on: [WP-01]
+    existing_issues: [251, 122, 84]
+    existing_issue_order:
+      - issue: 251
+        depends_on: []
+      - issue: 122
+        depends_on: []
+      - issue: 84
+        depends_on: [251, 122, 340, 256]
+        evidence_inputs:
+          - {issue: 340, closing_pr: 430, head: c58cf760228911fa35b11b28f47688a98eb76532, merge: aa36a828793366f92d0d9e16247bd3fb1cce7878}
+          - {issue: 256, closing_pr: 427, head: 6791c38c6e2817387629dbb0e899ae6c61f8b887, merge: fb4c853bdb9cb140059d2a28af02d70bd36a27a4}
+    packages:
+      - id: OBS-A
+        issue: null
+        creation_owner: WP-01
+        title: Observatory experience design
+        depends_on: []
+      - id: OBS-B
+        issue: null
+        creation_owner: WP-01
+        title: Observatory redesign implementation
+        depends_on: [OBS-A, issue-84]
+        evidence_inputs: [issue-340, issue-256]
+  - id: INT-01
+    lane: integration
+    title: Release-tail admission
+    issue: null
+    creation_owner: WP-01
+    depends_on: [CORP-D, AWS-G, GCP-E, XCL-01, RUST-01, V3-F, DRT-C, DRT-D, issue-51, HOT-01, OBS-B, DEC-01, PROV-B]
+  - id: TAIL-01
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Quality gate
+    predecessor_issues: [188]
+    depends_on: [INT-01]
+  - id: TAIL-02
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Documentation review and external-review handoff
+    depends_on: [TAIL-01]
+  - id: TAIL-03
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Publication finalization
+    depends_on: [TAIL-02]
+  - id: TAIL-04
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Internal review
+    depends_on: [TAIL-03]
+  - id: TAIL-05
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: External / third-party review
+    depends_on: [TAIL-04]
+  - id: TAIL-06
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Review findings remediation
+    predecessor_issues: [188]
+    depends_on: [TAIL-05]
+  - id: TAIL-07
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Next-milestone planning
+    predecessor_issues: [190]
+    depends_on: [TAIL-06]
+  - id: TAIL-08
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Next-milestone closeout plan
+    depends_on: [TAIL-07]
+  - id: TAIL-09
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Next milestone review pass
+    depends_on: [TAIL-08]
+  - id: TAIL-10
+    lane: release_tail
+    issue: null
+    creation_owner: WP-01
+    title: Release ceremony
+    predecessor_issues: [189]
+    depends_on: [TAIL-09]

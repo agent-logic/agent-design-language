@@ -7,7 +7,7 @@
     "title": "Demonstration, handoff, and publication sprint",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 35
+    "generation": 63
   },
   "status": "ready",
   "content": {
@@ -31,7 +31,7 @@
         "AC-2: Safe parallel lanes and serial gates are explicit and do not overlap child ownership.",
         "AC-3: The umbrella coordinates only; each child retains implementation, proof, review, publication, and closeout authority.",
         "AC-4: Every operative child handoff requires issue-bound bind, readiness, and session-goal truth before implementation.",
-        "AC-5: Integrated sprint review and umbrella closeout occur only after the five operative children (#5835, #5836, #5838, #5839, and #5840) reach truthful terminal state; out-of-band WP-24A #5845 cannot gate readiness, execution, review, or closeout."
+        "AC-5: Integrated sprint review and umbrella closeout occur only after the four operative children (#5835, #5836, #5838, and #5839) reach truthful terminal state; WP-20 #5840 belongs to final sprint #5856, and out-of-band WP-24A #5845 cannot gate readiness, execution, review, or closeout."
       ],
       "dependencies": [
         "#5835",

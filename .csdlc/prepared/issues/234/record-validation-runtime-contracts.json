@@ -1,0 +1,17 @@
+{
+  "issue": 234,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "6140233ec583f7840ac7c076430f085f8d16a7bd8c3f897022ab7d7dcc58d9d7",
+  "actor": "codex:234-validation",
+  "reason": "Record focused central CI runtime and coverage-routing contract proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "adl/tools/test_ci_runtime_contracts.sh"],
+      "purpose": "Prove required heavy runner routing, job-level gates, manual-only slow proof, conditional coverage aggregation, manual Codecov upload, and post-merge suppression.",
+      "outcome": "passed",
+      "evidence_ref": "local:issue-234-ci-runtime-contracts:passed"
+    }
+  }
+}

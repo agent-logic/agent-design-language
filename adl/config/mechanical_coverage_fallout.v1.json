@@ -1,0 +1,16 @@
+{
+  "schema": "adl.mechanical_coverage_fallout_mapping.v1",
+  "mappings": [{
+    "file": "adl-runtime/src/distributed/transport/core.rs",
+    "token": "AUTHORITY_BOUND_CERTIFICATE_ACCESS",
+    "import_path": "super::certificates",
+    "callee": "authorize",
+    "owners": ["EstablishedRuntimeAuthority", "TransportAuthorization"],
+    "compile_command": ["cargo", "check", "--manifest-path", "adl-runtime/Cargo.toml"],
+    "behavior_commands": {
+      "EstablishedRuntimeAuthority": ["cargo", "test", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity"],
+      "TransportAuthorization": ["cargo", "test", "--manifest-path", "adl-runtime/Cargo.toml", "--test", "distributed_runtime_transport", "authenticated_quinn_binds_signed_authority_session_and_returns_bounded_response"]
+    },
+    "rationale": "The capability token is already governed by the certificate-store authorization API; importing and passing it through adds no predicate, branch, state mutation, or error behavior."
+  }]
+}

@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+import os
+import pathlib
+import subprocess
+import sys
+import tempfile
+
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+ORCHESTRATOR = ROOT / "adl/tools/run_issue268_continuity_uts_qualification.py"
+
+
+def main() -> None:
+    assert "strict=True" not in ORCHESTRATOR.read_text(encoding="utf-8")
+    cycle_source = (ROOT / "adl/tools/run_issue268_six_resident_uts_cycle.py").read_text(encoding="utf-8")
+    assert '"agent", "tick"' in cycle_source
+    assert "resident_tool_receipts.json" in cycle_source
+    with tempfile.TemporaryDirectory(prefix="issue268-continuity-uts-") as temporary:
+        root = pathlib.Path(temporary)
+        fake_uts = root / "fake_uts.py"
+        fake_uts.write_text(
+            """#!/usr/bin/env python3
+import json,pathlib,sys
+a=sys.argv
+if a[1:3]==['agent','status']:
+ spec=pathlib.Path(a[a.index('--spec')+1]); locked=spec.parent/'state'/'agent_spec.locked.json'
+ assert json.load(open(spec))==json.load(open(locked)); print(json.dumps({'state':'idle'})); raise SystemExit(0)
+state=pathlib.Path(a[a.index('--state')+1]); evidence=pathlib.Path(a[a.index('--evidence-dir')+1]); plan=json.load(open(a[a.index('--plan')+1])); phase=a[a.index('--phase')+1]; evidence.mkdir(parents=True,exist_ok=True)
+if phase=='pre':
+ import hashlib
+ digest=lambda x:hashlib.sha256(json.dumps(x,separators=(',',':'),sort_keys=True).encode()).hexdigest()
+ runtime=pathlib.Path(a[a.index('--runtime-root')+1]); r={}
+ for x in plan['residents']:
+  spec=runtime/'agent-specs'/x['agent_id']/'agent.json'; spec.parent.mkdir(parents=True,exist_ok=True)
+  body={'schema':'adl.long_lived_agent_spec.v1','agent_instance_id':x['agent_id'],'state_root':'state'}; spec.write_text(json.dumps(body)+'\\n')
+  (spec.parent/'state').mkdir(); (spec.parent/'state'/'agent_spec.locked.json').write_text(json.dumps(body)+'\\n')
+  r[x['agent_id']]={'role':x['role'],'model':x['model'],'role_digest':digest({'agent_id':x['agent_id'],'role':x['role']}),'tool_authority_digest':digest({'agent_id':x['agent_id'],'tool_authority':x['tool_authority']}),'runtime_agent_spec':str(spec),'sequence':1,'completed_case_ids':[x['pre_recovery_case']],'pending_case_ids':[x['post_recovery_case']],'uts_report_sha256':'a'*64,'continuation_request_sha256':'b'*64,'checkpoint_lineage':['f'*64],'pre_agent_test_outcome':'denied' if x['agent_id'].endswith('executor') else 'executed'}
+ value={'schema':'adl.issue268.six_resident_uts_state.v2','phase':'pre_complete','residents':r}
+elif phase=='replay':
+ value=json.load(open(state))
+ import hashlib
+ for agent_id,x in value['residents'].items():
+  p=evidence/f'replay-{agent_id}.json'; p.write_text(json.dumps({'decision':'denied','reason_code':'completed_case_replay_denied'})+'\\n'); x['replay_denial_receipt_sha256']=hashlib.sha256(p.read_bytes()).hexdigest()
+else:
+ value=json.load(open(state)); value['phase']='post_complete'; value['all_pending_empty']=True
+ for x in value['residents'].values(): x['sequence']=2; x['completed_case_ids']+=x['pending_case_ids']; x['pending_case_ids']=[]; x['post_restore_uts_report_sha256']='c'*64; x['post_agent_test_outcome']='executed'; x['restored_runtime_agent_spec_sha256']='2'*64; x['checkpoint_lineage'].append('1'*64)
+state.write_text(json.dumps(value)+'\\n')
+""",
+            encoding="utf-8",
+        )
+        fake_uts.chmod(0o755)
+        fake_continuity = root / "fake_continuity.py"
+        fake_continuity.write_text(
+            """#!/usr/bin/env python3
+import json,pathlib,sys
+a=sys.argv; command=a[1]; inp=json.load(open(a[a.index('--input')+1])); out=pathlib.Path(a[a.index('--output')+1]); residents=inp['residents']; assert len(residents)==6; assert len({x['agent_id'] for x in residents})==6
+if command=='preflight': value={'status':'passed','resident_count':6}
+elif command=='dehydrate': value={'generation':1,'population_sha256':'9'*64,'resident_count':6,'admission_open':False}
+elif command=='restore':
+ root=pathlib.Path(a[a.index('--runtime-root')+1]); restored=root/'restored-populations'/'generation-1'
+ for x in residents:
+  source=root/'agent-specs'/x['agent_id']/'agent.continuity.json'; target=restored/x['agent_id']/'agent.yaml'; target.parent.mkdir(parents=True,exist_ok=True); target.write_text(source.read_text())
+ (root/'active-population.json').write_text(json.dumps({'generation':1,'path':str(restored),'admission_open':True})+'\\n')
+ value={'schema':'adl.runtime.resident_shepherd_restore_receipt.v1','generation':1,'population_sha256':'9'*64,'resident_count':6,'admission_open':True}
+elif command=='complete':
+ assert all(len(x['completed_task_sha256'])==64 and len(x['continuation_request_sha256'])==64 and x['next_task_sha256']=='c'*64 for x in residents); value={'generation':1,'population_sha256':'9'*64,'resident_count':6,'admission_open':True,'continuation_verified':True}
+else: raise SystemExit(2)
+out.write_text(json.dumps(value)+'\\n')
+""",
+            encoding="utf-8",
+        )
+        fake_continuity.chmod(0o755)
+        plan = json.loads((ROOT / "adl/tools/issue268_six_resident_uts_plan.json").read_text())
+        for resident in plan["residents"]:
+            resident["model_ref_sha256"] = "d" * 64
+            resident["quantization"] = "Q4_K_M"
+            resident["configuration_sha256"] = "e" * 64
+            spec = root / "agents" / resident["agent_id"] / "agent.yaml"
+            spec.parent.mkdir(parents=True)
+            canonical = lambda value: __import__("hashlib").sha256(json.dumps(value, separators=(",", ":"), sort_keys=True).encode()).hexdigest()
+            spec.write_text(json.dumps({
+                "schema": "adl.issue268.resident_agent_spec.v1",
+                "agent_id": resident["agent_id"],
+                "role": resident["role"],
+                "role_digest": canonical({"agent_id": resident["agent_id"], "role": resident["role"]}),
+                "tool_authority": resident["tool_authority"],
+                "tool_authority_digest": canonical({"agent_id": resident["agent_id"], "tool_authority": resident["tool_authority"]}),
+                "model": resident["model"],
+                "model_ref_sha256": resident["model_ref_sha256"],
+                "configuration_sha256": resident["configuration_sha256"],
+            }) + "\n", encoding="utf-8")
+        plan["materialization"] = {
+            "schema": "adl.issue268.ollama_plan_materialization.v1",
+            "template_sha256": __import__("hashlib").sha256(
+                (ROOT / "adl/tools/issue268_six_resident_uts_plan.json").read_bytes()
+            ).hexdigest(),
+            "source": "ollama_api_tags",
+        }
+        plan_path = root / "plan.json"
+        plan_path.write_text(json.dumps(plan) + "\n", encoding="utf-8")
+        evidence = root / "evidence"
+        command = [
+            sys.executable, str(ORCHESTRATOR),
+            "--continuity-bin", str(fake_continuity),
+            "--runtime-bin", str(fake_uts),
+            "--runtime-root", str(root / "runtime"),
+            "--build-cache-root", str(root / "build-cache"),
+            "--agent-spec-dir", str(root / "agents"),
+            "--runtime-volume-identity-sha256", "f" * 64,
+            "--state", str(root / "state.json"),
+            "--evidence-dir", str(evidence),
+            "--plan", str(plan_path),
+            "--uts-runner", str(fake_uts),
+        ]
+        subprocess.run(command, cwd=ROOT, check=True)
+        receipt = json.loads((evidence / "qualification-receipt.json").read_text())
+        assert receipt["status"] == "passed" and receipt["resident_count"] == 6
+        assert json.loads((root / "state.json").read_text())["phase"] == "post_complete"
+        assert (evidence / "dehydration-input.json").is_file()
+        dehydration = json.loads((evidence / "dehydration-input.json").read_text())
+        assert all(pathlib.Path(path).name == "agent.continuity.json" for path in dehydration["existing_agent_specs"])
+        assert dehydration["target_host"] == "ec2"
+        assert (evidence / "continuation-input.json").is_file()
+        assert len(list((evidence / "uts").glob("replay-*.json"))) == 6
+
+        missing = root / "agents" / plan[0]["agent_id"] if False else root / "agents" / plan["residents"][0]["agent_id"] / "agent.yaml"
+        missing.unlink()
+        failed = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        assert failed.returncode != 0 and "six existing-agent specs are required" in failed.stderr
+    print("PASS: issue268 continuity-coupled six-resident UTS qualification")
+
+
+if __name__ == "__main__":
+    main()

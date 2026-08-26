@@ -1,0 +1,17 @@
+flowchart LR
+  I343["#343 terminal sprint handoff"] --> I308["#308 WP-20"]
+  I308 --> I309["#309 WP-21"]
+  I309 --> I310["#310 WP-21A"]
+  I310 --> I311
+  I311 --> I312["#312 WP-23"]
+  I312 --> I313["#313 WP-25"]
+  I313 --> I314["#314 WP-26"]
+  I314 --> I315["#315 WP-27"]
+  I471["#471 WP-27 remediation subissue"] -. "child of WP-27" .-> I315
+  I315 --> I316["#316 WP-28"]
+  I316 --> I317["#317 WP-28A"]
+  I317 --> I318["#318 WP-29"]
+  I318 --> I319["#319 WP-30"]
+  I319 --> Close["#307 closeout"]
+  I268["#268 closed successfully"] -. "release evidence only" .-> Close
+  Closeout["async issue closeout records"] -. "final #307 gate only" .-> Close

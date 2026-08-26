@@ -1,0 +1,25 @@
+flowchart LR
+  A["Concrete MembershipState plus AuthorityMembership"] --> P["Commit PrepareAuthorityIntent"]
+  C["Prepare time plus inclusive authorization deadline"] --> P
+  P --> E["Opaque local VoterEndorsementAuthority signs declared authorization time"]
+  E --> F["Signed authorization time within deadline plus majority of every current config"]
+  F --> J["Node-local exclusive bounded canonical protocol journal"]
+  N["Domain polis node guardian boot protocol-instance namespace"] --> X
+  J --> X["Node-local external checkpoint CAS binds log intent result retry digests"]
+  X --> R["Durable exact-result and retry cache"]
+  R --> T["Opaque VerifiedAuthorityOperation token"]
+  T --> B["Private exact signed artifact bytes plus digest and operation binding"]
+  B --> M["#199 sealed membership consumer"]
+  B --> Q["#200 sealed reconciliation consumer"]
+  B --> S["#203 sealed existing-store consumer"]
+  T --> U["Exact continuity-transfer variant only"]
+  U --> V["Sealed #210 projection binds lineage plus exact SourceCheckpointHandle and bundle handle"]
+  V --> W["No send, path, discard, migration, fence, activation, or serving authority"]
+  L["Legacy direct authority command"] --> D["Versioned migration or fail-closed rejection"]
+  H["Snapshot candidate"] --> K["Stable current authority only plus frozen per-prepare boot custody and complete reverified finalize evidence"]
+  Y["Runtime-external exact current boot vector"] --> P
+  P --> G["Freeze canonical historical boot vector plus stable-authority digest"]
+  G --> K
+  K --> J
+  H -. "any named custody, evidence, quorum, index, encoding, or legacy-field fault" .-> Z
+  J -. "crash, rollback, conflict, or ambiguity" .-> Z["Fail closed; reconcile only the exact operation"]

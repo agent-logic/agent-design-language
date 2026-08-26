@@ -21,6 +21,19 @@ mod membership;
 #[allow(dead_code)]
 #[path = "../src/distributed/migration.rs"]
 mod migration;
+mod integrated_serving_authority_snapshot {
+    pub use adl_runtime::distributed::integrated_serving_authority_snapshot::*;
+}
+mod shepherd_serving_eligibility {
+    pub use adl_runtime::distributed::shepherd_serving_eligibility::*;
+}
+#[cfg(feature = "internal-test-fixtures")]
+mod distributed {
+    pub use adl_runtime::distributed::{
+        authority_protocol, observatory_serving_eligibility, polis_runtime, serving_authority,
+        shepherd_serving_eligibility,
+    };
+}
 #[allow(dead_code)]
 #[path = "../src/distributed/placement.rs"]
 mod placement;
@@ -42,7 +55,7 @@ use std::{
 use certificates::{
     ActivationOutcome, AuthorityCertificate, CertificateBody, CertificateError, CertificatePolicy,
     CertificatePurpose, CertificateValidity, DistributedCertificateStore,
-    RedactedCertificateHealth,
+    RedactedCertificateHealth, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use failure_detection::{
@@ -52,11 +65,11 @@ use failure_detection::{
 };
 use fencing::{
     FenceReceipt, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
-    FencingStore,
+    FencingStore, TEST_FENCING_STORE_ACCESS,
 };
 use lease::{
     AuthorityLedger, AuthorityMembership, ControlCertificatePurpose, LeasePolicy, LeaseState,
-    OperationClass, VoterAuthority,
+    OperationClass, VoterAuthority, TEST_LEASE_STORE_ACCESS,
 };
 use migration::{
     MigrationCheckpoint, MigrationCheckpointAuthority, MigrationClock, MigrationPhase,
@@ -123,6 +136,7 @@ fn certificate_snapshot_is_complete_redacted_revisioned_and_overlap_aware() {
         .with_bounds(3_600, 30, 10, 64, 64)
         .unwrap();
     let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         directory
             .path()
             .canonicalize()
@@ -146,7 +160,9 @@ fn certificate_snapshot_is_complete_redacted_revisioned_and_overlap_aware() {
         &key(3),
     );
     assert!(matches!(
-        store.activate(&first, NOW).unwrap(),
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &first, NOW)
+            .unwrap(),
         ActivationOutcome::Activated(_)
     ));
     let revision_one = store.authority_revision().unwrap();
@@ -162,7 +178,9 @@ fn certificate_snapshot_is_complete_redacted_revisioned_and_overlap_aware() {
     );
     assert!(!format!("{first_row:?}").contains("node-a"));
 
-    store.activate(&second, NOW + 5).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &second, NOW + 5)
+        .unwrap();
     assert_eq!(
         store
             .redacted_snapshot_at(revision_one, NOW + 6)
@@ -444,6 +462,10 @@ fn migration_record() -> MigrationRecord {
         activation_certificate_sha256: None,
         commit_log_index: None,
         commit_certificate_sha256: None,
+        serving_operation_ref: None,
+        serving_input_sha256: None,
+        serving_result_state_sha256: None,
+        serving_receipt_sha256: None,
         history: vec![TransitionEvidence {
             phase: MigrationPhase::Prepared,
             evidence_sha256: [3; 32],
@@ -563,6 +585,10 @@ fn recovery_record() -> RecoveryRecord {
         owner_epoch: None,
         committed_log_index: None,
         authority_certificate_sha256: None,
+        serving_operation_ref: None,
+        serving_input_sha256: None,
+        serving_result_state_sha256: None,
+        serving_receipt_sha256: None,
         history: vec![RecoveryEvidence {
             phase: RecoveryPhase::Assessing,
             evidence_sha256: [6; 32],
@@ -663,8 +689,8 @@ fn lease_state() -> LeaseState {
         committed_log_index: 11,
         epoch: 2,
         certificate_generation: 1,
-        activated_elapsed_millis: 10,
-        deadline_elapsed_millis: 1_010,
+        activated_elapsed_millis: 100,
+        deadline_elapsed_millis: 2_100,
         deadline_unix_millis: 2_000,
         certificate_bytes: vec![1],
         revoked: false,
@@ -675,7 +701,7 @@ fn lease_state() -> LeaseState {
 #[test]
 fn lease_snapshot_is_complete_content_bound_and_drift_safe() {
     let membership = authority_membership(11);
-    let mut ledger = AuthorityLedger::new(lease_policy()).unwrap();
+    let mut ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
     let empty = ledger.authority_revision().unwrap();
     ledger.seed_lease_for_snapshot_test(lease_state()).unwrap();
     assert_eq!(
@@ -734,8 +760,13 @@ fn fencing_snapshot_is_complete_content_bound_restart_stable_and_ref_aligned() {
     let root = directory.path().canonicalize().unwrap();
     let authority = FenceAuthority::default();
     let membership = authority_membership(11);
-    let mut store =
-        FencingStore::create(&root, fencing_policy(), Arc::new(authority.clone())).unwrap();
+    let mut store = FencingStore::create(
+        &TEST_FENCING_STORE_ACCESS,
+        &root,
+        fencing_policy(),
+        Arc::new(authority.clone()),
+    )
+    .unwrap();
     let empty = store.authority_revision().unwrap();
     store
         .seed_floor_for_snapshot_test(FenceReceipt {
@@ -763,7 +794,13 @@ fn fencing_snapshot_is_complete_content_bound_restart_stable_and_ref_aligned() {
         expected_ref(b"lineage", b"lineage-a")
     );
     drop(store);
-    let reopened = FencingStore::open(&root, fencing_policy(), Arc::new(authority)).unwrap();
+    let reopened = FencingStore::open(
+        &TEST_FENCING_STORE_ACCESS,
+        &root,
+        fencing_policy(),
+        Arc::new(authority),
+    )
+    .unwrap();
     assert_eq!(reopened.authority_revision().unwrap(), revision);
     assert_eq!(
         reopened
@@ -773,7 +810,7 @@ fn fencing_snapshot_is_complete_content_bound_restart_stable_and_ref_aligned() {
     );
 
     let ledger = {
-        let mut value = AuthorityLedger::new(lease_policy()).unwrap();
+        let mut value = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
         value.seed_lease_for_snapshot_test(lease_state()).unwrap();
         value
     };
@@ -796,6 +833,7 @@ fn snapshot_bounds_reject_n_plus_one_without_partial_mutation() {
             .with_bounds(3_600, 30, 10, 1, 1)
             .unwrap();
     let certificate_store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         certificate_directory
             .path()
             .canonicalize()
@@ -806,6 +844,7 @@ fn snapshot_bounds_reject_n_plus_one_without_partial_mutation() {
     .unwrap();
     certificate_store
         .activate(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &certificate(
                 &certificate_root,
                 "node-a",
@@ -820,6 +859,7 @@ fn snapshot_bounds_reject_n_plus_one_without_partial_mutation() {
     assert_eq!(
         certificate_store
             .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 &certificate(
                     &certificate_root,
                     "node-b",
@@ -879,7 +919,7 @@ fn snapshot_bounds_reject_n_plus_one_without_partial_mutation() {
 
     let mut bounded_lease_policy = lease_policy();
     bounded_lease_policy.max_lineages = 1;
-    let mut ledger = AuthorityLedger::new(bounded_lease_policy).unwrap();
+    let mut ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, bounded_lease_policy).unwrap();
     ledger.seed_lease_for_snapshot_test(lease_state()).unwrap();
     let lease_revision = ledger.authority_revision().unwrap();
     let mut second_lease = lease_state();
@@ -897,6 +937,7 @@ fn snapshot_bounds_reject_n_plus_one_without_partial_mutation() {
     let mut bounded_fencing_policy = fencing_policy();
     bounded_fencing_policy.max_lineages = 1;
     let mut fencing = FencingStore::create(
+        &TEST_FENCING_STORE_ACCESS,
         directory.path().canonicalize().unwrap(),
         bounded_fencing_policy,
         Arc::new(authority),

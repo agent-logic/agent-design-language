@@ -1,0 +1,16 @@
+{
+  "schema": "adl.v0.92.quality_gate_record.v4",
+  "issue": 467,
+  "supersedes_issue": 311,
+  "supersedes_pr": 466,
+  "matrix_sha256": "1fcadc92be648143249f9e1c05f58fe87508c4cda182c51452ee606c58aed40c",
+  "validator_sha256": "0b81879980f99b990efac232c02f19231b5e42c256d3069fa4db46ff5ac1cf5f",
+  "feature_rows": 13,
+  "critical_path_rows": 20,
+  "accepted_rows": 30,
+  "scoped_out_rows": 3,
+  "blocked_rows": 0,
+  "result": "passed",
+  "downstream_unlock": true,
+  "completion_guard": "authenticated_complete_resolution_ledger"
+}

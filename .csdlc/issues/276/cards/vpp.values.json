@@ -1,0 +1,120 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 276,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04a][114.a] Implement durable conversation journal foundation",
+    "slug": "v0-92-wp-18c-04a-114-a-durable-conversation-journal-foundation",
+    "version": "v0.92.0",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-276-preparation-validator",
+          "proof_role": "Prove #276 remains scoped to durable journal foundation and validates canonical #112/#265/#270 derived-terminal caches ancestral to current origin/main.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/276/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-conversation-journal-fmt",
+          "proof_role": "Reject Rust formatting drift for the #276 kernel journal change.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-conversation-journal-tests",
+          "proof_role": "Prove durable journal schema/storage/restart/corruption/retention/deletion foundation behavior.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "conversation_journal"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-conversation-journal-clippy",
+          "proof_role": "Reject warning regressions in the #276 focused kernel target.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "conversation_journal",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on graph mismatch, stale/open dependency truth, missing terminal cache, non-ancestral merge SHA, scope absorption, invalid bind target, or design/readiness review findings.",
+      "design_ref": ".csdlc/prepared/issues/276/design.md",
+      "design_digest": "a55f0219502ec12cfb4e9ba882b74569fd0a3ed7db2fe62a7cfd6818ad716262",
+      "diagram_ref": ".csdlc/prepared/issues/276/diagram.mmd",
+      "diagram_digest": "e488739c3a623e0723dce9620d729b77b4a9c15ccc35271783c7bd98ab94bb46"
+    }
+  }
+}

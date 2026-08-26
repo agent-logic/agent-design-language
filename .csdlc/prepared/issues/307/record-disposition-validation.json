@@ -1,0 +1,24 @@
+{
+  "issue": 307,
+  "card": "sor",
+  "expected_generation": 15,
+  "expected_digest": "1edb057741726f8668e9d0e0d5a232d5028fb101a11a9c53f4d3215109774bc9",
+  "actor": "codex:/root/issue-307-closeout",
+  "reason": "Record passing disposition-aware child ledger, preparation, privacy, syntax, and diff proof before fresh exact-head review.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal",
+        "python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py",
+        "python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json",
+        "python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json",
+        "! rg -n '/(Users|Volumes|private)/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307",
+        "git diff --check"
+      ],
+      "purpose": "Prove exact #315/#476 identity separation, truthful #310/#314 dispositions, evidence-derived handoffs, packet privacy, and diff hygiene.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-315-review-receipt.json"
+    }
+  }
+}

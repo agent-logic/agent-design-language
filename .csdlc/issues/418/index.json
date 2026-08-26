@@ -1,0 +1,215 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 418,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "dbfd1abbebd4f9dc40467d98535511955f705aa769d4c5d8836050003b7623f5",
+  "phase": "published",
+  "generation": 8,
+  "digest": "20f3c7ca6b4040501e1c644cf61bc15a00e639f49bdfdee30b3b5669097dc5e1",
+  "branch": "codex/418-audited-gh-breakglass-policy",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-418-audited-gh-breakglass-policy",
+  "review_assignment": {
+    "reviewer": "fresh-session:2c478c55-383e-4789-b104-dab503cce109",
+    "assigned_by": "codex:issue-418",
+    "revision": "git-blake3:63ca54f3bfddd119f95bf59fb10aca6eca882169:1f540cd9545590cc5504dc2bbc98243b622b04e319665b273d65c7b6b6d286e0",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      ".csdlc/issues/418",
+      ".csdlc/prepared/issues/418",
+      ".csdlc/evidence/418"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:2c478c55-383e-4789-b104-dab503cce109",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      ".csdlc/issues/418",
+      ".csdlc/prepared/issues/418",
+      ".csdlc/evidence/418"
+    ],
+    "reviewed_revision": "git-blake3:63ca54f3bfddd119f95bf59fb10aca6eca882169:1f540cd9545590cc5504dc2bbc98243b622b04e319665b273d65c7b6b6d286e0",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI, publication, merge, typed finish, and post-merge cleanup remain required before the policy is terminal or usable."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 418,
+    "pull_request": 420,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/420",
+    "base": "main",
+    "head": "codex/418-audited-gh-breakglass-policy",
+    "revision": "git-blake3:c8d62fd74d3fbada2d323d7c603c3a8a5d2acc68:6fec08eef21aea1b26dabff694d4f436b0bcbc27bf5661d2857a37f61195afbf",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/418/design.md",
+  "diagram_path": ".csdlc/prepared/issues/418/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:7ce5720b-9ac0-44ba-a934-3950f599b5c5",
+      "revision": "1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "62c2413230e4e722400507359c4eb63f6481fb2f24e17ab453b99c41164c0bd1",
+      "rendered_digest": "6d3735ae33b30c22165d2bbde42b368012920281adaa756bb7f88fdc9724d48f",
+      "ast_digest": "e32572518542a417e6fa122f7c9171f42d0f88d3f500398ed1c2a48721d71b12"
+    },
+    "stp": {
+      "values_digest": "d8e8c135f2f87434a15e5010872b616d699668dd3a4e7c3992b8ddec73f28beb",
+      "rendered_digest": "62cbad6591fd6ec41bf26a76ac79dc159fbd382e4a682c9ba135923b62f649a7",
+      "ast_digest": "ca8f5972d24c5a253a1f9035e983739b02b13d45ce9d6ed85045cec06b62bae1"
+    },
+    "spp": {
+      "values_digest": "4352f96d65d98da8c892314b1e9a8dd5dd511473d40dfe179661c707b609749d",
+      "rendered_digest": "c46ecf37270047df68f4046b2bf69ae82a6951f2cb35c082553695b9158827cb",
+      "ast_digest": "e852a40a6548bfe92f921a57866e45f4f707e10ad5f17f5751358c0a0e3ba63f"
+    },
+    "vpp": {
+      "values_digest": "e3a17d2851467f4d92e554c4070b183b715d5a984a0ea5284d617c508ea609fa",
+      "rendered_digest": "f97f734532b5705f5e600ea974ae8c7d21a480d4f7e9d9990c6eddcf30f34148",
+      "ast_digest": "4fcbe31c2d7d0a13d8e69f5f9bf1704d38750588cd4f119a1d741f9cb4462d72"
+    },
+    "srp": {
+      "values_digest": "f21be2ffdf72c0afef0e3a15fb3efa684eb664b9c6d92be2b83d558bac1a0caf",
+      "rendered_digest": "cd9f84ab9c129d04c68e13b9416694861f07edeecd965b8f37bed6cb0355decf",
+      "ast_digest": "bfd2f1f4de819f0893860938dca8451ab27690dcfff7c1a255a7cb9db6c691ea"
+    },
+    "sor": {
+      "values_digest": "949246137dfd5c1551a7dd2396d6c7e34db1590ad0392fb8db9b86fd9f8ba934",
+      "rendered_digest": "8c3a5b9e9467326092fae48627d595bfd64abf92a58b6929a5fb8039c6ea6d7e",
+      "ast_digest": "36bc65bdd4b33d1a935ff4a888c61586a24814ca4c5ce199cfe95fd966160164"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-418",
+      "reason": "Advance after complete bootstrap, fresh candidate-blind design PASS, executable governed validation, and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-418",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-418",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-418",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-418",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:6f11b72a-f556-4469-8987-32c44254e082",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1\",\"design_ref\":\".csdlc/prepared/issues/418/design.md\",\"diagram_digest\":\"d2b1e5fd6030226dca7fbdb8823f9de8a8f07901c7bd9cc01dba9119fc9671c6\",\"diagram_ref\":\".csdlc/prepared/issues/418/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-418",
+      "reason": "Advance after complete bootstrap, fresh candidate-blind design PASS, executable governed validation, and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-418",
+      "reason": "Include the existing GitHub client boundary and its focused exact-contract regression because both currently encode the absolute prohibition that this reviewed exception intentionally narrows.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"AGENTS.md\",\"docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\".csdlc/prepared/issues/418/validate_gh_breakglass_policy.sh\",\".csdlc/issues/418/\",\".csdlc/prepared/issues/418/\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-418",
+      "reason": "Align deliverable truth with the existing boundary contract and focused test that must change alongside the root exception.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Fail-closed root break-glass policy in AGENTS.md.\",\"Three-event create-only receipt and typed reconciliation protocol in docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md.\",\"Aligned owner boundary in docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md.\",\"Updated exact route contract regression in csdlc-v2/tests/gate_github_route_policy.rs.\",\".csdlc/prepared/issues/418/validate_gh_breakglass_policy.sh\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:7ce5720b-9ac0-44ba-a934-3950f599b5c5",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1\",\"design_ref\":\".csdlc/prepared/issues/418/design.md\",\"diagram_digest\":\"daeef03b693bef86186037ea1816a9044db352bd499417b2b0e17d5ed130e243\",\"diagram_ref\":\".csdlc/prepared/issues/418/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-418",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-418",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-418",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-418",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "Split from #203 after Gemini architecture review returned split_required.\\n\\nScope:\\n- Seal raw certificate, lease, and fencing store access behind typed authority access tokens.\\n- Add governed authority store adapter facade and published receipt view fields.\\n- Update test fixtures that directly exercise raw stores to use explicit test fixture access tokens.\\n\\nNon-goals:\\n- Do not complete governed transport integration.\\n- Do not complete migration/recovery/peripheral runtime caller migration.\\n- Do not perform closeout/background lifecycle bookkeeping.\\n\\nValidation target:\\n- cargo check --manifest-path adl-runtime/Cargo.toml\\n- cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- --nocapture --test-threads=1\\n- cargo clippy --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- -D warnings\\n- compile-only checks for raw fixture fallout as needed.\\n\\nIssue graph: split_from #203; part_of #142.\n\n<!-- csdlc-github-operation:csdlc-203-split-slice1-authority-store-boundary -->\n",
+    "closed_at": null,
+    "created_at": "2026-08-12T10:12:58Z",
+    "labels": [],
+    "marker_present": false,
+    "milestone": null,
+    "number": 258,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[v0.92][runtime][authority] Seal #203 authority store boundary"
+  },
+  "operation_key": "issue-258-title-gate-read",
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

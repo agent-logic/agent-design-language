@@ -7,6 +7,7 @@
 - Execution mode: `sequential`
 - Status: `prepared`
 - Machine packet: `.csdlc/prepared/issues/5856/sprint-execution-packet.yaml`
+- Umbrella bind request: `.csdlc/prepared/issues/5856/split-authority-bind-request.json`
 
 ## Sprint Goal
 
@@ -28,6 +29,7 @@ Out of scope:
 
 | Issue | Role | Status | Primary surface | Watcher |
 |---|---|---|---|---|
+| `#5840` | WP-20 | initialized | exact-revision demo matrix, AEE index, and fail-closed proof coverage | child session owner |
 | `#5786` | WP-21 | initialized | behavior-preserving cleanup with exact deletion denominator | child session owner |
 | `#5841` | WP-21A | initialized | behavior-preserving simplification of active Rust ownership boundaries, duplication, and maintainability hotspots before review | child session owner |
 | `#5842` | WP-22 | initialized | quality gate that blocks internal review until every indexed v0.92 feature is landed with accepted exact-revision proof | child session owner |
@@ -42,17 +44,18 @@ Out of scope:
 
 ## Recommended Execution Order
 
-1. Route `#5786` only when its issue-wave dependencies and this packet serial gates are satisfied.
-2. Route `#5841` only when its issue-wave dependencies and this packet serial gates are satisfied.
-3. Route `#5842` only when its issue-wave dependencies and this packet serial gates are satisfied.
-4. Route `#5843` only when its issue-wave dependencies and this packet serial gates are satisfied.
-5. Route `#5846` only when its issue-wave dependencies and this packet serial gates are satisfied.
-6. Route `#5847` only when its issue-wave dependencies and this packet serial gates are satisfied.
-7. Route `#5848` only when its issue-wave dependencies and this packet serial gates are satisfied.
-8. Route `#5849` only when its issue-wave dependencies and this packet serial gates are satisfied.
-9. Route `#5850` only when its issue-wave dependencies and this packet serial gates are satisfied.
-10. Route `#5851` only when its issue-wave dependencies and this packet serial gates are satisfied.
-11. Route `#5852` only when its issue-wave dependencies and this packet serial gates are satisfied.
+1. Route `#5840` only after `#5836`, `#5837`, `#5838`, and `#5839` are terminal.
+2. Route `#5786` only after `#5840` is terminal and its issue-wave dependencies are satisfied.
+3. Route `#5841` only when its issue-wave dependencies and this packet serial gates are satisfied.
+4. Route `#5842` only when its issue-wave dependencies and this packet serial gates are satisfied.
+5. Route `#5843` only when its issue-wave dependencies and this packet serial gates are satisfied.
+6. Route `#5846` only when its issue-wave dependencies and this packet serial gates are satisfied.
+7. Route `#5847` only when its issue-wave dependencies and this packet serial gates are satisfied.
+8. Route `#5848` only when its issue-wave dependencies and this packet serial gates are satisfied.
+9. Route `#5849` only when its issue-wave dependencies and this packet serial gates are satisfied.
+10. Route `#5850` only when its issue-wave dependencies and this packet serial gates are satisfied.
+11. Route `#5851` only when its issue-wave dependencies and this packet serial gates are satisfied.
+12. Route `#5852` only when its issue-wave dependencies and this packet serial gates are satisfied.
 
 ## Watcher Policy
 
@@ -63,15 +66,16 @@ Out of scope:
 ## Budget And Goal Accounting
 
 - No sprint-global token budget is preallocated.
-- After WP-01 releases its publication claim, every implementation session
-  registers its child worktree, reacquires the exact issue-local claim, binds,
-  and creates its own issue-bound goal before implementation.
+- Every implementation session creates the child's typed bind request, binds
+  the exact issue branch and FastWork worktree, and creates its own issue-bound
+  goal before implementation.
 - Actual time and token use are recorded per child when available and are never inferred as zero.
 
 ## Watcher Plan
 
 | Issue | Watcher | Current focus | Next terminal state |
 |---|---|---|---|
+| `#5840` | child session owner | proof-producer dependency gate | truthful child closeout |
 | `#5786` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
 | `#5841` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
 | `#5842` | child session owner | bind, implementation, checks, review, merge | truthful child closeout |
@@ -94,17 +98,19 @@ Out of scope:
 
 | Lane | Classification | Issues | Expected write sets | Dependency gate | Collision posture |
 |---|---|---|---|---|---|
-| release tail | serial_gate | `#5786`, `#5841`, `#5842`, `#5843`, `#5846`, `#5847`, `#5848`, `#5849`, `#5850`, `#5851`, `#5852` | child-owned | prior child terminal | parallel execution prohibited |
+| release tail | serial_gate | `#5840`, `#5786`, `#5841`, `#5842`, `#5843`, `#5846`, `#5847`, `#5848`, `#5849`, `#5850`, `#5851`, `#5852` | child-owned | prior child terminal | parallel execution prohibited |
 
 ## Serial Gates
 
 | Gate | Blocks | Exit condition | Owner |
 |---|---|---|---|
-| gate 1 | downstream children | 5786 before 5841 | sprint session |
-| gate 2 | downstream children | 5841 before 5842 | sprint session |
-| gate 3 | downstream children | 5842 before 5843 | sprint session |
-| gate 4 | downstream children | 5843 before 5846 | sprint session |
-| gate 5 | downstream children | issues 5846 through 5852 execute in dependency order | sprint session |
+| gate 1 | WP-20 and downstream children | 5836, 5837, 5838, and 5839 terminal before 5840 | sprint session |
+| gate 2 | downstream children | 5840 before 5786 | sprint session |
+| gate 3 | downstream children | 5786 before 5841 | sprint session |
+| gate 4 | downstream children | 5841 before 5842 | sprint session |
+| gate 5 | downstream children | 5842 before 5843 | sprint session |
+| gate 6 | downstream children | 5843 before 5846 | sprint session |
+| gate 7 | downstream children | issues 5846 through 5852 execute in dependency order | sprint session |
 
 ## PVF / Validation-Tail Notes
 

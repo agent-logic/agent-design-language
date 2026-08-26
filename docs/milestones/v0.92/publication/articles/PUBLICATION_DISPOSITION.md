@@ -1,12 +1,12 @@
 # WP-24 Publication Disposition
 
-## Status: Review-Ready
+## Status: Review-Ready, External Publication Not Authorized
 
 The ten-article packet contains complete source packets, full drafts, and editorial review records. The issue's completeness, negative-publication, link, and Medium-writer contract checks pass. No article in this directory has been submitted, scheduled, uploaded, or published to Medium or another external service.
 
 The packet is **review-ready** for issue and series review. External publication remains an operator decision outside this issue's autonomous authority.
 
-Final release-dependent statements are also gated by WP-23 issue `danielbaustin/agent-design-language#5843`. While that issue remains open, the series must describe v0.92 as active development and must not announce release completion or the first true Gödel-agent birthday as accomplished.
+The engineering milestone is complete, but that fact does not authorize an external announcement or convert engineering evidence into a public birthday claim. Before publication, align release-dependent statements to the final #312 documentation revision and the #467 canonical evidence/gate result. Unity and broader Observatory product work remain later/backlog and must not be described as shipped.
 
 ## Required Human Decision
 
@@ -14,4 +14,4 @@ After review, the operator may approve, revise, sequence, schedule, or decline a
 
 ## Pre-Publication Recheck
 
-Immediately before any external release, recheck the current repository and milestone truth for every drift-prone statement. In particular, verify the UTS and ACC current-version posture in Article 5, the cryptographic specifics in Article 4, the CodeFriend product status in Article 6, the bounded-target and non-certification posture in Article 7, the payment, market, and inter-polis deferral posture in Article 8, the v0.92 and birthday status in Articles 3 and 10, and the final release wording gated by legacy issue `danielbaustin/agent-design-language#5843`.
+Immediately before any external release, recheck the current repository and milestone truth for every drift-prone statement. In particular, verify the UTS and ACC current-version posture in Article 5, the cryptographic specifics in Article 4, the CodeFriend product status in Article 6, the bounded-target and non-certification posture in Article 7, the payment, market, and inter-polis deferral posture in Article 8, the v0.92 and birthday status in Articles 3 and 10, and the final #312/#467 release-truth wording.

@@ -1,0 +1,23 @@
+{
+  "issue": 202,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "691371b56eb6fe54b9ee88079c7cae2d0af598291994681f24eb5328e28df9c6",
+  "actor": "codex:/root/advance_202_after_201:review-resolution",
+  "reason": "Make active/unmerged #200 and incompatible #201 authority semantics explicit fail-closed stop conditions.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "PR #197 or PR #229 is not externally reviewed, merged, and ancestral",
+      "Issue #200 is active or unmerged, or #202 is not synchronized to the exact merged #200 ancestry before bind",
+      "Learner/exclusion admission would require EnrollNonVoting or RemoveVoter to be a #201 AuthorityOperationKind enum variant, an operation_kind field value, a public artifact accessor, or a generic caller-selected conversion instead of a crate-private exact-artifact adapter over coarse Membership authority",
+      "Learner admission would require caller-selected route authority or a parallel transport stack",
+      "Existing voter cut or quorum semantics would be weakened",
+      "The role-bound session cannot reject vote and all authority/client operations before dispatch",
+      "Pending exclusion cannot be shared with #201 and ordinary transport admission without public self-attestation",
+      "Implementation expands into #199, #200, Guardian/API/WSS, models, AWS, or live qualification",
+      "Any focused proof or independent review has an unresolved actionable finding"
+    ]
+  }
+}

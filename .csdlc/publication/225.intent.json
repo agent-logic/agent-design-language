@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 225,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/225-bounded-card-review-repair",
+  "title": "[v0.92][C-SDLC v2] Permit bounded card correction after review recovery",
+  "body": "## Summary\n\n- add typed correction for recovered SPP plan summaries\n- add typed pre-bind correction for SIP operator constraints\n- enforce lifecycle, provenance, topology, drift, and retained-truth guards\n- prove accepted and rejected paths in Gate 2 and Gate 5\n\n## Validation\n\n- Gate 2: 7 passed\n- Gate 5: 18 passed\n- strict Clippy: passed\n- formatting and diff hygiene: passed\n- independent exact-head review: passed\n\nCloses #225",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:e814a687e4f895bd6883909ce1b758842efa84b7:6b008227c91f7cf88de2839ffd3c48d81570d78780c4aad3dc16c02b64de74be",
+  "commit_sha": "e814a687e4f895bd6883909ce1b758842efa84b7"
+}

@@ -1,0 +1,143 @@
+{
+  "issue": 431,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:issue-431-initial-planning-preparation",
+  "design_path": ".csdlc/prepared/issues/431/design.md",
+  "diagram_path": ".csdlc/prepared/issues/431/diagram.mmd",
+  "design_reviewer": "pending:fresh-session",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][planning][sidecar] Refresh initial milestone plan before WP-28",
+    "slug": "v0921-initial-planning-sidecar",
+    "version": "v0.92.1",
+    "goal": "Audit and refresh the existing v0.92.1 planning package now, producing a reviewed initial baseline and explicit handoff that WP-28 #316 can update later.",
+    "required_outcome": "A truthful, internally consistent initial v0.92.1 package maps six execution lanes, the #432 repository prerequisite, carryovers, dependencies, proof surfaces, readiness gaps, Runtime v4 risk, and explicit handoffs to unchanged WP-28 and v0.92.2 CodeFriend Beta 1.",
+    "declared_scope": [
+      "Existing docs/milestones/v0.92.1 planning package audit and refresh",
+      "Live v0.92/v0.92.1 issue and dependency inventory",
+      "Operator-authorized promotion of validated Axum configuration hot reload",
+      "Podcast publication and Podcast Studio lane allocation",
+      "Observatory redesign sprint allocation without Runtime backend expansion",
+      "No-.adl repository authority prerequisite allocation",
+      "v0.92.2 CodeFriend Beta 1 successor handoff",
+      "Initial work-package, proof, readiness, and handoff reconciliation"
+    ],
+    "authority_boundary": [
+      "This sidecar creates an initial planning baseline only",
+      "WP-28 #316 remains unchanged and owns the later plan update",
+      "No issue migration, product implementation, release approval, or milestone activation",
+      "Runtime v4 remains a named risk and is not committed scope"
+    ],
+    "initial_assumptions": [
+      "The existing v0.92.1 package is the only package to refresh",
+      "Late v0.92 evidence will remain explicitly pending where not yet terminal",
+      "WP-28 will consume and update the reviewed sidecar handoff"
+    ],
+    "operator_constraints": [
+      "Leave WP-28 #316 as-is",
+      "Use typed C-SDLC v2 and a dedicated FastWork worktree",
+      "Promote only the explicitly authorized Axum hot-reload item; do not promote other backlog items or move issues",
+      "Do not create tracked dependencies on .adl paths",
+      "Use focused docs/YAML/link/routing validation rather than broad Rust tests"
+    ],
+    "task_boundary": "Plan and review the initial v0.92.1 milestone package; stop before product execution, issue migration, release approval, or replacement of WP-28 authority.",
+    "deliverables": [
+      "docs/milestones/v0.92.1",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      ".csdlc/prepared/issues/431/design.md",
+      ".csdlc/prepared/issues/431/diagram.mmd",
+      ".csdlc/prepared/issues/431/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/431/validate_planning_package.py",
+      ".csdlc/issues/431",
+      ".csdlc/evidence/431"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every required v0.92.1 planning surface has truthful planned status, sources, ownership, and unresolved-input classification.",
+      "AC-2: WBS, sprint, issue wave, readiness, proof, demo, release, ADR, and handoff surfaces agree on initial work packages and dependencies.",
+      "AC-3: Active tracked work, unfinished carryovers, backlog candidates, and provenance-only inputs remain distinguishable.",
+      "AC-4: No unfinished v0.92 dependency is represented as terminal or ancestral without exact evidence.",
+      "AC-5: WP-28 #316 remains unchanged and receives an explicit handoff of ready, pending, and operator-owned decisions.",
+      "AC-6: Focused structure, YAML, link, placeholder, routing, and diff validation passes and one bounded review resolves or routes findings.",
+      "AC-7: The package names exactly six execution lanes—corporate/IP, C-SDLC v3, distributed Runtime qualification, podcast/Podcast Studio, Axum hot reload, and Observatory redesign—with explicit independence and dependency boundaries.",
+      "AC-8: Issue #432 is an opening prerequisite and every changed tracked planning artifact has zero dependency on .adl paths.",
+      "AC-9: The handoff assigns CodeFriend Beta 1 to v0.92.2 and requires integrated beta availability by v0.95 without importing broad SaaS scope.",
+      "AC-10: Runtime v4 is recorded only as a rebaseline risk and non-scope, never as an implicit v0.92.1 dependency or delivered capability.",
+      "AC-11: Observatory redesign is grounded in the operator decision retained by issue #431, rejects invented data, and gates implementation on stable consumed Runtime authority APIs."
+    ],
+    "dependencies": [
+      "Existing docs/milestones/v0.92.1 package",
+      "Read-only live v0.92 and v0.92.1 issue inventory",
+      "Read-only WP-28 #316 and WP-28A #317 boundaries"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.92.1",
+      "agent-logic/agent-design-language#431",
+      "agent-logic/agent-design-language#316",
+      "agent-logic/agent-design-language#317",
+      "agent-logic/agent-design-language#432",
+      "agent-logic/agent-design-language#51",
+      "agent-logic/agent-design-language#261",
+      "agent-logic/agent-design-language#262",
+      "agent-logic/agent-design-language#263",
+      "agent-logic/agent-design-language#264",
+      "agent-logic/agent-design-language#342"
+    ],
+    "non_goals": [
+      "Editing, replacing, closing, or absorbing WP-28 #316 or WP-28A #317",
+      "Implementing v0.92.1 runtime, product, tooling, or release work",
+      "Moving issues or promoting backlog candidates beyond the operator-authorized hot-reload allocation",
+      "Claiming release approval or late-v0.92 terminal evidence prematurely"
+    ],
+    "plan_summary": "Inventory and validate the existing package, allocate the six authorized lanes plus #432 prerequisite, remove .adl dependencies, record Runtime v4 as risk, refresh the exact planning surfaces, review them, and hand the result to unchanged WP-28 plus v0.92.2 CodeFriend Beta 1.",
+    "planning_profile": "medium",
+    "steps": [
+      {"id":"S1","action":"Inventory existing v0.92.1 documents and live tracked inputs; classify truth and readiness gaps.","acceptance_ids":["AC-1","AC-3","AC-4","AC-11"],"status":"pending"},
+      {"id":"S2","action":"Refresh the complete milestone package and global feature list for exact six-lane, #432, dependency, proof, and routing parity.","acceptance_ids":["AC-1","AC-2","AC-3","AC-7","AC-8","AC-10","AC-11"],"status":"pending"},
+      {"id":"S3","action":"Run focused planning, no-.adl, scope, YAML, link, and review validation; resolve or route findings.","acceptance_ids":["AC-6","AC-7","AC-8","AC-11"],"status":"pending"},
+      {"id":"S4","action":"Produce explicit handoffs for unchanged WP-28 #316 and v0.92.2 CodeFriend Beta 1 through the v0.95 beta gate.","acceptance_ids":["AC-4","AC-5","AC-9","AC-10"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "docs/milestones/v0.92.1",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      ".csdlc/prepared/issues/431",
+      ".csdlc/prepared/issues/431/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/431/validate_planning_package.py",
+      ".csdlc/issues/431",
+      ".csdlc/evidence/431"
+    ],
+    "invariants": [
+      "WP-28 #316 remains unchanged",
+      "Planning status never implies implementation or release approval",
+      "Backlog candidates remain non-executable without operator promotion",
+      "Unfinished v0.92 evidence remains explicitly pending"
+    ],
+    "risks": [
+      "Existing package surfaces may disagree on old issue identifiers or dependency order",
+      "Backlog candidates could be mistaken for approved execution",
+      "Late v0.92 work may invalidate early assumptions",
+      "The sidecar could accidentally duplicate WP-28 authority"
+    ],
+    "stop_conditions": [
+      "Any edit requires changing WP-28 #316",
+      "Any issue move or backlog promotion lacks explicit authority",
+      "The package cannot be reconciled without unresolved architecture or release decisions",
+      "Execution would require non-planning source changes"
+    ],
+    "validation_lanes": [
+      {"lane":"preparation-contract","proof_role":"Verify exact preparation artifacts and authority boundaries before binding.","acceptance_ids":["AC-1","AC-3","AC-5","AC-7","AC-9","AC-10","AC-11"],"deterministic":true,"resource_profile":"small","budget_seconds":30,"budget_tokens":600,"argv":["python3",".csdlc/prepared/issues/431/validate_preparation_bundle.py"],"parallel_group":"431-serial-01","defer_reason":null},
+      {"lane":"planning-package","proof_role":"Validate six-lane parity, #432 ordering, zero tracked .adl dependencies, WP-28 immutability, CodeFriend handoff, Runtime v4 non-scope, Observatory grounding, YAML, links, and global feature-list parity.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6","AC-7","AC-8","AC-9","AC-10","AC-11"],"deterministic":true,"resource_profile":"small","budget_seconds":300,"budget_tokens":3000,"argv":["python3",".csdlc/prepared/issues/431/validate_planning_package.py"],"parallel_group":"431-serial-02","defer_reason":"Runs after the refreshed tracked planning package exists."},
+      {"lane":"diff-hygiene","proof_role":"Reject malformed or unintended planning-package changes.","acceptance_ids":["AC-6","AC-8"],"deterministic":true,"resource_profile":"small","budget_seconds":30,"budget_tokens":200,"argv":["git","diff","--check"],"parallel_group":"431-serial-03","defer_reason":"Runs after the implementation diff exists."}
+    ],
+    "failure_policy": "Fail closed on package denominator drift, tracked/backlog ambiguity, unsupported terminal claims, WP-28 authority overlap, invalid YAML/links/templates, or unreviewed issue migration.",
+    "review_scope": "Issue #431 planning package, exact docs/milestones/v0.92.1 changes, and docs/planning/ADL_FEATURE_LIST.md; WP-28 and product/lifecycle/release surfaces remain read-only.",
+    "review_prompts": [
+      "Does the package refresh rather than duplicate the existing v0.92.1 plan?",
+      "Are tracked work, carryovers, backlog candidates, and provenance clearly separated?",
+      "Do WBS, issue wave, dependencies, proof, readiness, and handoff agree?",
+      "Is WP-28 #316 unchanged and clearly retained as later plan-update authority?",
+      "Do all six lanes remain explicit, with Observatory grounded in stable Runtime APIs and non-invented data?",
+      "Does #432 precede tracked planning authority and does the changed tracked package contain zero .adl dependencies?",
+      "Does v0.92.2 own CodeFriend Beta 1 with integrated beta availability required by v0.95 while Runtime v4 remains only a rebaseline risk?"
+    ]
+  }
+}

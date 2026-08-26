@@ -25,7 +25,7 @@ Eligibility proof, retained importer decision, forbidden-path inventory, binary/
 ## Owned Paths
 
 - `csdlc-v2/**`
-- `.adl/bin/csdlc-v2/**`
+- `csdlc-v2 operational binaries`
 - `docs/tooling/**`
 - `.csdlc/issues/180/**`
 - `.csdlc/prepared/issues/180/**`
@@ -80,4 +80,4 @@ Exact deletion list, pre/post authority inventories, fresh-install journey, forb
 
 ## Source Authority
 
-- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-r01`
+- `docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md#v3-r01`

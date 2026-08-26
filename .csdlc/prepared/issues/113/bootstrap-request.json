@@ -1,0 +1,234 @@
+{
+  "issue": 113,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:113-roster-presence-preparation",
+  "design_path": ".csdlc/prepared/issues/113/design.md",
+  "diagram_path": ".csdlc/prepared/issues/113/diagram.mmd",
+  "design_reviewer": "codex:113-bounded-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92][WP-18C.03] Complete the live Polis roster and agent presence model",
+    "slug": "wp18c03-live-polis-roster-presence",
+    "version": "v0.92",
+    "goal": "Let an authorized Observatory operator navigate a complete policy-filtered live Polis roster and understand each visible agent's current presence, health, activity, location, capabilities, and communication eligibility.",
+    "required_outcome": "Runtime exposes versioned paginated roster and agent-detail projections with stable identity, server-side policy filtering, deterministic presence and freshness, bounded revisioned updates, and an accessible searchable Observatory consumer that never presents a sample as complete.",
+    "declared_scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      ".csdlc/issues/113",
+      ".csdlc/prepared/issues/113",
+      ".csdlc/evidence/113"
+    ],
+    "authority_boundary": [
+      "Issue and code authority are agent-logic/agent-design-language#113",
+      "Runtime identity, topology, health, policy, and communication authority remain canonical; the browser is a read-only consumer of the filtered projection",
+      "New agent_roster module, exact tests, and roster browser validator are exclusive to #113",
+      "Control, OpenAPI, and HTML Observatory paths are serially shared and may change only after #83 and #142 are terminal and ancestral",
+      "Issue #83, umbrella #110, deferred deployment #122, operational Runtime #142, every sibling WP-18C child, and their lifecycle records remain read-only"
+    ],
+    "operator_constraints": [
+      "Do not bind or implement until every declared serial gate is satisfied and revalidated live",
+      "Use only C-SDLC v2 owner binaries and typed card editors in the dedicated FastWork issue context",
+      "Do not publish, push, open a PR, merge, close, or mutate issue #83, #110, #122, #142, or another WP-18C child during preparation",
+      "Do not expose private cognition, credentials, secret-bearing state, unauthorized agent existence, or raw provider output",
+      "Use exact nonzero validation targets and retain large-Polis resource evidence"
+    ],
+    "task_boundary": "Implement only the Runtime-owned roster/detail projection, bounded update contract, and HTML Observatory roster experience after dependencies hand off shared paths; do not implement conversation history, rooms, inbox, public deployment, or distributed Runtime authority.",
+    "deliverables": [
+      "Versioned paginated Runtime roster and policy-safe agent-detail projections",
+      "Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model",
+      "Opaque revision-bound pagination and bounded reconnect/event update contract",
+      "Search, filter, sort, selection, and status-change Observatory UI",
+      "Exact positive, negative, scale, browser, OpenAPI, reconnect, and rollback proof"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Pagination reports truthful visible-count and continuation state, preserves deterministic ordering, and never presents a bounded sample as the complete Polis",
+      "AC-2: Stable agent identity survives reconnect, Runtime restart, and bounded relocation while stale or split ownership fails closed",
+      "AC-3: Presence distinguishes ready, busy, sleeping, degraded, unreachable, migrating, and unknown with observed time, freshness deadline, source revision, and provenance",
+      "AC-4: Unauthorized agents and private fields are omitted or redacted by Runtime policy before serialization, without browser or CSS authority",
+      "AC-5: Capability, location, activity, availability, and communication eligibility remain bounded, provenance-bearing, and policy-safe",
+      "AC-6: Opaque page tokens and event cursors reject tamper, replay, cross-policy use, stale revisions, gaps, and incompatible query changes without partial or duplicate state",
+      "AC-7: Large-Polis tests prove bounded response size, memory, latency, pagination, event queues, reconnect, and DOM row counts",
+      "AC-8: The Observatory supports accessible keyboard search, filter, sort, pagination, selection, detail, status changes, reconnect, denial, and explicit failure states against live Runtime truth",
+      "AC-9: Runtime routes, WSS updates, OpenAPI, browser behavior, strict focused Clippy, diff hygiene, and rollback proof pass at the exact candidate revision",
+      "AC-10: Exact-head independent review has no unresolved actionable findings"
+    ],
+    "dependencies": [
+      "agent-logic/agent-design-language#83 merged, terminal, ancestral, and shared Observatory paths handed off",
+      "agent-logic/agent-design-language#142 merged, terminal, and ancestral with operational distributed Polis identity/topology truth",
+      "agent-logic/agent-design-language#110 execution-order truth reconciled with deferred agent-logic/agent-design-language#122 before binding",
+      "Closed legacy identity #5863, membership/topology #5867, distributed projection #5877, final integration #5878, and closed workflow #137 remain compatible contract inputs",
+      "No active issue owns any intended shared integration path"
+    ],
+    "repo_inputs": [
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime/src/distributed/identity.rs",
+      "adl-runtime/src/distributed/membership.rs",
+      "adl-runtime/src/distributed/projection.rs",
+      "adl-runtime/tests/distributed_identity.rs",
+      "adl-runtime/tests/distributed_membership.rs",
+      "adl-runtime/tests/distributed_projection.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "agent-logic/agent-design-language#83",
+      "agent-logic/agent-design-language#110",
+      "agent-logic/agent-design-language#122",
+      "agent-logic/agent-design-language#142"
+    ],
+    "non_goals": [
+      "Conversation persistence or canonical multi-turn session implementation",
+      "Private cognition, secrets, credentials, raw provider output, or unauthorized agent existence disclosure",
+      "Browser-defined identity, health, visibility, capability, location, or communication authority",
+      "Multi-agent rooms, attention inbox, intervention workflow, or integrated production hardening",
+      "Public AWS deployment, Route53, ACM, distributed Runtime implementation, or Unity work",
+      "Mutation of #83 or any other WP-18C child during preparation or execution"
+    ],
+    "plan_summary": "Revalidate serial gates and shared-path ownership; freeze the Runtime policy, identity, pagination, presence, freshness, event, and failure contracts; implement the exclusive roster model and serial integration; prove exact Runtime, OpenAPI, large-Polis, browser, reconnect, denial, and rollback behavior; resolve exact-head review; then hand off for separately authorized publication.",
+    "affected_areas": [
+      "Runtime agent identity and policy-filtered public projection",
+      "Presence, health, freshness, provenance, and relocation semantics",
+      "Versioned pagination, deterministic ordering, and bounded event cursors",
+      "Runtime control API, WSS, and Observatory OpenAPI integration",
+      "HTML Observatory roster navigation, detail, status, reconnect, and accessibility",
+      "Large-Polis resource and failure proof"
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Re-read #83, #110, #122, and #142; require terminal ancestry, reconcile the #110/#122 sequence contradiction, verify no shared-path owner, and bind only after every gate passes.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-4", "AC-10"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Implement the Runtime-owned roster/detail model, server-side policy filter, stable identity, presence/freshness derivation, deterministic pagination, and bounded revisioned event contract in the declared paths.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Integrate authenticated API, WSS, OpenAPI, and HTML Observatory search, filter, sort, selection, detail, status, pagination, reconnect, denial, and accessibility behavior without adding browser authority.",
+        "acceptance_ids": ["AC-1", "AC-4", "AC-5", "AC-6", "AC-8", "AC-9"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run exact Runtime, control/OpenAPI, large-Polis, browser, failure, reconnect, strict-Clippy, diff, and rollback proof at one candidate revision.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8", "AC-9"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Resolve independent exact-head review and produce a truthful execution handoff without publishing unless separately authorized.",
+        "acceptance_ids": ["AC-10"],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "Stable agent identity is independent of connection, process, node, location, display name, and roster ordering",
+      "Policy filtering and redaction complete before serialization; client code cannot widen visibility or communication eligibility",
+      "Presence and health never become fresher or more authoritative than their Runtime evidence",
+      "Pagination and events are deterministic, revision-bound, bounded, gap-aware, replay-safe, and never imply unseen completeness",
+      "Relocation has one authoritative current owner and preserves identity while stale owners remain fenced",
+      "No page, event queue, response, browser DOM, wait, retry, or retained proof grows without a declared bound"
+    ],
+    "risks": [
+      "The open #142 implementation may change the final production identity/topology adapter and require an explicit replan before binding",
+      "The #110 sequence and #122 deferral currently conflict and could make execution authority ambiguous",
+      "Shared #83 Observatory paths could overlap an active implementation or carry a newer contract at handoff",
+      "Cursor or token design could omit, duplicate, reorder, or leak agents across policy changes",
+      "Naive presence derivation could confuse transport reachability, workload availability, health, and migration",
+      "Large rosters could cause unbounded Runtime snapshots, browser DOM growth, event queues, or reconnect replay"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "#83 or #142 is not merged, terminal, and ancestral to the execution base",
+      "#110 and #122 do not provide one unambiguous serial rule for #113 binding",
+      "An active issue owns or modifies an intended shared path",
+      "Runtime cannot provide stable policy-subject, identity, topology, freshness, capability, or communication-authority inputs without inventing browser authority",
+      "Pagination, event replay, memory, latency, response size, or browser DOM bounds cannot be stated and proven",
+      "Implementation would expose private state, unauthorized existence, credentials, raw provider output, or stale ownership as current",
+      "Scope must widen into another WP-18C child, #83 mutation, public AWS, Unity, or distributed Runtime implementation"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "agent-roster-contract",
+        "proof_role": "Run the exact nonzero agent_roster integration target for policy filtering, redaction, stable identity, all presence states, freshness, provenance, pagination/token integrity, deterministic ordering, relocation, cursor gaps, restart, and large-Polis resource bounds.",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "runtime",
+        "budget_seconds": 1200,
+        "budget_tokens": 10000,
+        "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "agent_roster"],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7"]
+      },
+      {
+        "lane": "observatory-control-openapi",
+        "proof_role": "Run the exact control integration target to prove authenticated roster/detail routes, WSS revision updates, denial, reconnect, schema parity, and removal of sample-as-complete behavior.",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "runtime",
+        "budget_seconds": 1200,
+        "budget_tokens": 8000,
+        "argv": ["cargo", "test", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "control"],
+        "acceptance_ids": ["AC-1", "AC-4", "AC-5", "AC-6", "AC-9"]
+      },
+      {
+        "lane": "observatory-roster-browser",
+        "proof_role": "Drive the exact live Runtime-backed browser flow for search, filter, sort, pagination, selection, detail, status changes, keyboard operation, responsive layout, denial, disconnect, bounded reconnect, no duplicates, bounded DOM rows, and a clean console.",
+        "deterministic": true,
+        "resource_profile": "medium",
+        "parallel_group": "browser",
+        "budget_seconds": 1200,
+        "budget_tokens": 8000,
+        "argv": ["node", "adl/tools/validate_v092_html_observatory_roster.mjs"],
+        "acceptance_ids": ["AC-1", "AC-4", "AC-6", "AC-7", "AC-8", "AC-9"]
+      },
+      {
+        "lane": "roster-focused-clippy",
+        "proof_role": "Reject Rust type, ownership, serialization, route, and dead-code regressions across the bounded Runtime kernel library and production binary.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "static",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["cargo", "clippy", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "--bin", "adl-runtime-kernel", "--", "-D", "warnings"],
+        "acceptance_ids": ["AC-9"]
+      },
+      {
+        "lane": "issue-diff-hygiene",
+        "proof_role": "Reject malformed whitespace and patch artifacts before exact-head review.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "static",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "acceptance_ids": ["AC-9", "AC-10"]
+      }
+    ],
+    "failure_policy": "Fail closed on unresolved serial gates, path ownership overlap, stale or contradictory Runtime evidence, unauthorized visibility, token/cursor tamper or gaps, unstable identity, stale ownership, unbounded scale, browser authority, zero-test selection, failed exact proof, or unresolved exact-head findings.",
+    "review_prompts": [
+      "Can any unauthorized agent or private field reach serialized JSON, WSS, logs, browser state, or retained evidence?",
+      "Can pagination, policy changes, reconnect, restart, event gaps, duplicate updates, or equal sort keys silently omit, duplicate, reorder, or falsely complete the roster?",
+      "Does stable identity survive relocation while stale owners, duplicate identities, and split authority fail closed?",
+      "Are ready, busy, sleeping, degraded, unreachable, migrating, and unknown derived from explicit fresh Runtime evidence rather than UI heuristics?",
+      "Are page size, response bytes, memory, latency, event queues, retries, replay, and browser DOM growth all bounded and proven at large-Polis scale?",
+      "Does the implementation remain within #113 ownership after #83/#142 handoff and avoid every sibling WP-18C capability?"
+    ],
+    "review_scope": "Issue #113 Runtime roster/detail projection, stable identity, policy filtering, presence/health/freshness/provenance, pagination and event semantics, production API/WSS/OpenAPI integration, HTML Observatory navigation and accessibility, large-Polis bounds, failure behavior, rollback, dependency ancestry, and no-widening constraints."
+  }
+}

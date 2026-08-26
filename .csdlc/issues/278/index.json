@@ -1,0 +1,297 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 278,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c1b6e52e4c9445198a5adf816edf8ff48438f3adc995cb05d8c8f9430ea536a7",
+  "phase": "published",
+  "generation": 17,
+  "digest": "34e02c58a6aea230fdc9c44910dbb3c27d5665628b481bf758266a1745b8a607",
+  "branch": "codex/278-reauthorized-conversation-history-observatory-transcripts",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-278-reauthorized-conversation-history-observatory-transcripts",
+  "review_assignment": {
+    "reviewer": "fresh-session:91fe0bc4-4fcc-4d5c-a53b-02560a57c9d1",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:dc0d3bfb2bb188cfba6b54d5a7999d94d83e0ba1:9c8f1e435090463da017a000b395c075555826feaa229ca65afb367a396e283c",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_history.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/conversation_history.rs",
+      "adl/tools/validate_v092_observatory_transcript_history.mjs",
+      "demos/html-observatory/app.js",
+      ".csdlc/issues/278",
+      ".csdlc/prepared/issues/278",
+      ".csdlc/evidence/278"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:91fe0bc4-4fcc-4d5c-a53b-02560a57c9d1",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_history.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/conversation_history.rs",
+      "adl/tools/validate_v092_observatory_transcript_history.mjs",
+      "demos/html-observatory/app.js",
+      ".csdlc/issues/278",
+      ".csdlc/prepared/issues/278",
+      ".csdlc/evidence/278"
+    ],
+    "reviewed_revision": "git-blake3:dc0d3bfb2bb188cfba6b54d5a7999d94d83e0ba1:9c8f1e435090463da017a000b395c075555826feaa229ca65afb367a396e283c",
+    "findings": [],
+    "residual_risks": [
+      "PASS is limited to immutable implementation commit dc0d3bfb2bb188cfba6b54d5a7999d94d83e0ba1 and #278 re-authorized conversation history APIs plus Observatory transcript restoration scope.",
+      "Reviewer reran focused proof only: preparation validator, cargo fmt --check, cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_history with 5 tests, node Observatory transcript validator, cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings, and git diff --check.",
+      "No publication, merge, CI, or terminal closeout is claimed by review.",
+      "Review does not approve #271 authority UI beyond #278 integration, #114 parent, #115 governed room routing, #270 acknowledgement protocol, #276 journal foundation, or #277 continuity semantics."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 278,
+    "pull_request": 386,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/386",
+    "base": "main",
+    "head": "codex/278-reauthorized-conversation-history-observatory-transcripts",
+    "revision": "git-blake3:d4b2f7b63d13cc09de70e428869be121684c7f3e:c4ae46dd6d04bcef397cc0eeb699ceb2b7629f8fae2f27838eda050e3a617523",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/278/design.md",
+  "diagram_path": ".csdlc/prepared/issues/278/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:278-design-r2",
+      "revision": "a1cd90456f932404f358e8d02d680eaa67202eef39f7f2189d5f0bc2fb635411"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "64696960f482bf68f4cb2da83f3f3c7510770b293ef965ff865d2582658a23ea",
+      "rendered_digest": "59f9981b08847505dedc8bca2894f98d95268657006195b3ee0a107590e4794f",
+      "ast_digest": "7cdc6be4df2df9638835f02ce9df9c3b2fa01ec07612f6219cbd43ee57c6dcef"
+    },
+    "stp": {
+      "values_digest": "5ed11bda4c2d16b60b90f4c62b1cc82c95147d495c539365a96a136ae5fae3fe",
+      "rendered_digest": "2fbbd4f6db53c0eedc819e764e6224e62603a420bcee74f2e33c98e18b06df00",
+      "ast_digest": "fbe04dc4a5cabc69c1ba5d8cd46b5a8f61f871484f6cb65ae46d4042b93fe97e"
+    },
+    "spp": {
+      "values_digest": "cda8573788a7382892a2687c4e887ede402e1094d3c00a8f104d72db8ab64003",
+      "rendered_digest": "f4c77b7233b9b4b38be67c4ed729a25b68c89b885716b50f39ee8daf96a190d7",
+      "ast_digest": "b41a7bbe7629262e7f30c5a399cfaf1c388b44b8b741b60c7f609117010f7223"
+    },
+    "vpp": {
+      "values_digest": "14125a59f2e01e8eeb96bbc352a64c60a3a7b81108a66da28dbc4b8753989595",
+      "rendered_digest": "ebe3f9201985c9e6fa3b243fcfdf979b2310de8190d5ffc817c83545a1531994",
+      "ast_digest": "bedbd31bcea4467a1854155c6b913de34278e9eb205fabb7f3e584ed99d104fe"
+    },
+    "srp": {
+      "values_digest": "fa6f703e9a3c886fe2bcb5f98ec4a560a0c9075a4a05d5fabd80202d410d82e5",
+      "rendered_digest": "d10067d6550bb2a1b02fde14b901b8971811da2031f12929f5b75c3c26b0b45a",
+      "ast_digest": "ae3ac3b226d8f46a1f090c34c8cc6d08539ea0152708a4b6e8ae36b5798f6b5a"
+    },
+    "sor": {
+      "values_digest": "b484279986c68789bf44b62ebbebc75503fbd173cf94d65fa8168ac311e3fbd2",
+      "rendered_digest": "45ed0e39acf3d5c7f87230dddfb874dd2ab682b9b35304e182b3e63c5f089712",
+      "ast_digest": "2a99e853cc9817106f93efd630fa5c3b632ea847bc3d3320e6bec1201bfba7f0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Declare exact #278 preparation validator and future focused validator/test paths so doctor has an issue-owned denominator without widening scope.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/278/design.md\",\".csdlc/prepared/issues/278/diagram.mmd\",\".csdlc/prepared/issues/278/readiness-packet.md\",\".csdlc/prepared/issues/278/validate_preparation_bundle.py\",\".csdlc/issues/278\",\"adl-runtime-kernel/src/conversation_history.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/conversation_history.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\",\".csdlc/evidence/278\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Keep #278 preparation proof executable now while explicitly deferring future implementation validators until the bound branch creates their owned targets.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-278-preparation-validator\",\"proof_role\":\"Prove #278 consumes canonical #276/#277/#271 terminal caches and remains bounded to re-authorized history APIs plus Observatory transcript restoration.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/278/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-history-focused\",\"proof_role\":\"After bind, prove authorized pagination, stale cursor denial, revoked access denial, restart restoration, search, export, and redaction behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_history\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred until fresh design approval, typed bind, and creation of the exact issue-owned conversation_history test target; missing or zero tests fail closed after implementation begins.\"},{\"lane\":\"observatory-transcript-restore-validator\",\"proof_role\":\"After bind, prove Observatory transcript restoration consumes Runtime-owned durable history and rejects stale browser state.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred until the bound #278 implementation creates the exact Observatory transcript restoration validator; missing or non-proving validator fails closed before review or publication.\"},{\"lane\":\"issue-278-lifecycle-hygiene\",\"proof_role\":\"After implementation, prove lifecycle validation, Rust formatting/clippy hygiene, diff hygiene, exact review, publication, CI, and finish before any terminal claim.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"278\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred to the future bound implementation candidate and rerun after substantive repairs, exact review, publication, CI, and typed finish.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Keep initialized #278 readiness proof executable while representing implementation acceptance as future bound validation, avoiding missing validator targets before bind.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-278-preparation-validator\",\"proof_role\":\"Pre-bind readiness proof for all #278 acceptance surfaces: validates live identity, #276/#277/#271 terminal dependency gates, scope/non-goal boundaries, and the planned future implementation proof denominator; Runtime and Observatory product behavior remains unclaimed until the bound issue-owned tests/validators are created and run.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/278/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Resolve fresh design review P1 findings by adding #115 as a consumed terminal upstream gate and explicitly preserving #116/#117 ownership without changing the acceptance denominator.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/278/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/278/diagram.mmd\",\"new_design_digest\":\"a1cd90456f932404f358e8d02d680eaa67202eef39f7f2189d5f0bc2fb635411\",\"new_diagram_digest\":\"03e5bf94a4e3d1506211fabd10452b37eb1c58153ab0f195c1fdc90e652eefc7\",\"old_design_digest\":\"367b053b3e0c2450d91f746e35255be88bccae534c1ed0e5f4773541907fd1de\",\"old_diagram_digest\":\"03e5bf94a4e3d1506211fabd10452b37eb1c58153ab0f195c1fdc90e652eefc7\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #278 records live issue identity and #114/#110 child role without binding parent issues.\",\"AC-2: Preparation proves #276/#277/#271/#115 canonical terminal caches and ancestry before bind.\",\"AC-3: Runtime re-authorizes every history page, search, export, redaction, and restore request.\",\"AC-4: Stale cursors, revoked access, stale browser state, and private-memory access fail closed.\",\"AC-5: Runtime provides deterministic pagination and bounded search over authorized transcript records.\",\"AC-6: Runtime exports only public-safe redacted transcript records with redaction metadata.\",\"AC-7: Redaction markers affect subsequent reads, searches, exports, and restored Observatory transcripts.\",\"AC-8: Observatory restores transcript state after restart from Runtime-owned durable history.\",\"AC-9: Implementation does not redefine #270 acknowledgement trust, #276 journal foundation, #277 continuity semantics, #271 authority presentation, #115 governed room routing, #114 parent, #116 lifecycle/durability qualification, #117 integrated qualification, cloud exposure, provider transcript scraping, or private-memory search.\",\"AC-10: Focused proof, strict relevant Rust validation, lifecycle validation, exact fresh review, publication, required CI, and finish all pass before terminal claim.\"]}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Resolve #278 design review P1 by listing #115 as a terminal upstream dependency and preserving #116/#117 ownership in task truth.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#276 terminal and ancestral to execution base\",\"#277 terminal and ancestral to execution base\",\"#271 terminal and ancestral to execution base\",\"#115 terminal and ancestral to execution base as read-only governed room/history input\",\"#114 parent remains coordination-only\",\"#116 and #117 remain downstream/separate ownership and must not be absorbed\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Resolve #278 design review P1 by explicitly excluding #116/#117 and #115 routing from non-goal truth.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Global private-memory search\",\"Provider transcript scraping\",\"Browser-owned policy, signing, transcript authority, or cached authorization\",\"Durable journal schema/storage foundation ownership\",\"Redefining #270 acknowledgement trust or #277 replay/idempotency semantics\",\"Reimplementing #115 governed multi-agent room routing or changing accepted-vs-delivered room semantics\",\"#116 lifecycle/durability qualification ownership\",\"#117 integrated WP-18C qualification ownership\",\"New cloud/public exposure work\",\"Binding or implementing #114 parent directly\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Resolve #278 design review P1 by including #115 live issue and terminal cache in declared review inputs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"agent-logic/agent-design-language#278\",\"agent-logic/agent-design-language#276\",\"agent-logic/agent-design-language#277\",\"agent-logic/agent-design-language#271\",\"agent-logic/agent-design-language#115\",\"agent-logic/agent-design-language#114\",\"agent-logic/agent-design-language#110\",\".git/csdlc-v2/derived-terminal/276.json\",\".git/csdlc-v2/derived-terminal/277.json\",\".git/csdlc-v2/derived-terminal/271.json\",\".git/csdlc-v2/derived-terminal/115.json\",\"adl-runtime-kernel/src/conversation_journal.rs\",\"adl-runtime-kernel/src/conversation_continuity.rs\",\"demos/html-observatory/app.js\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Resolve #278 design review P1 by making VPP preparation proof name #115 alongside #276/#277/#271 and #116/#117 scope preservation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-278-preparation-validator\",\"proof_role\":\"Pre-bind readiness proof for all #278 acceptance surfaces: validates live identity, #276/#277/#271/#115 canonical terminal dependency gates, #114 coordination-only boundary, #116/#117 non-absorption, scope/non-goal boundaries, and the planned future implementation proof denominator; Runtime and Observatory product behavior remains unclaimed until the bound issue-owned tests/validators are created and run.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/278/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #278 card truth after design review found VPP overclaimed product AC coverage; keep future proof obligations deferred with exact issue-owned deliverable paths.",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"issue-276\",\"relation\":\"dependency\",\"to\":\"issue-278\"},{\"from\":\"issue-277\",\"relation\":\"dependency\",\"to\":\"issue-278\"},{\"from\":\"issue-271\",\"relation\":\"dependency\",\"to\":\"issue-278\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":276,\"node_id\":\"issue-276\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"durable-journal-foundation-dependency\"},{\"in_scope\":true,\"issue\":277,\"node_id\":\"issue-277\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"watermark-idempotency-receipts-dependency\"},{\"in_scope\":true,\"issue\":271,\"node_id\":\"issue-271\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"observatory-authority-state-dependency\"},{\"in_scope\":true,\"issue\":278,\"node_id\":\"issue-278\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"history-api-observatory-restore-integration-owner\"}],\"parent_integration_owner\":\"issue-278\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"a1cd90456f932404f358e8d02d680eaa67202eef39f7f2189d5f0bc2fb635411\",\"byte_sha256\":\"8927b9aef83ee31cdc2a10052286a6998b5fbb11ac694968262f918e94e0cac2\",\"path\":\".csdlc/prepared/issues/278/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"03e5bf94a4e3d1506211fabd10452b37eb1c58153ab0f195c1fdc90e652eefc7\",\"byte_sha256\":\"f04e53da8a225b738e93ebfdb429cf6cd9e23ca281a0cb6fc17da53088b2b895\",\"path\":\".csdlc/prepared/issues/278/diagram.mmd\"},\"recovery_scope\":[\"initialized #278 STP deliverable exact-path repair\",\"initialized #278 VPP deferred proof truth repair\",\"preserve design and diagram evidence\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "fresh-session:278-design-r2",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "After #278 bind and implementation, replace deferred validation planning with the exact issue-owned proof commands now available in the bound worktree.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-278-preparation-validator\",\"proof_role\":\"Prove #278 live issue identity, dependency terminal caches, ancestry, scope boundaries, non-goals, and dedicated branch/worktree strings.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/278/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-history-focused\",\"proof_role\":\"Prove authorized pagination, stale cursor denial, revoked access denial, private-memory denial, restart restoration, search, export, and redaction behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_history\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"observatory-transcript-restore-validator\",\"proof_role\":\"Prove Observatory transcript restoration consumes Runtime-owned durable history and rejects stale browser state/redacts unsafe fields.\",\"acceptance_ids\":[\"AC-4\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-strict-clippy\",\"proof_role\":\"Prove strict Rust hygiene for the touched Runtime kernel library before review/publication.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:issue-278-review-compliance",
+      "reason": "Recover non-UUID implementation review assignment before any review material is sent; #119 requires a canonical fresh-session:<UUID> reviewer identity bound before review activity.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:issue-278-implementation-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover exact-head implementation review after fresh-session:869ae2be-e7c5-4571-89bb-c72b843c98dc returned FAIL at 9fa5dbbd. P1: ConversationHistoryStore visible read surfaces ignore journal deleted_conversations and can return deleted transcript records. No product changes before this recovery.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record exact #278 implementation-review P1 remediation: deleted journal conversations no longer appear in history page/search/export/restore surfaces.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated #278 review P1 by making re-authorized conversation history reads honor Runtime journal deletion markers. The shared history visibility helper now returns no records for deleted conversations, and the focused Runtime regression proves page, search, export, and Observatory restore all hide deleted transcript history. Publication and merge are not yet attempted.\",\"changes\":[\"adl-runtime-kernel/src/conversation_history.rs: visible_records now returns an empty history projection when the journal snapshot marks the conversation deleted\",\"adl-runtime-kernel/tests/conversation_history.rs: added deletion_marker_hides_page_search_export_and_restore_history covering page/search/export/restore\",\".csdlc/evidence/278: refreshed preparation, fmt, focused Runtime, Observatory validator, strict clippy, and diff-hygiene logs after the remediation\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_history.rs\",\"adl-runtime-kernel/tests/conversation_history.rs\",\".csdlc/evidence/278/issue-278-preparation-validator.log sha256=a74a551afb309432adce3831f480d3ae4c88b657f7e470c9e4678dacb37e1ee5\",\".csdlc/evidence/278/runtime-kernel-conversation-history-fmt.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\".csdlc/evidence/278/runtime-kernel-conversation-history-focused.log sha256=cfdf9229396a1991e68e6f105772ad5eddb3fe69a741562bb467c27e5f94ffb9\",\".csdlc/evidence/278/observatory-transcript-restore-validator.log sha256=a9906d8870f32db6ff606f4c244bc072a5688b4112d4b73214b53ebf38d61f55\",\".csdlc/evidence/278/runtime-kernel-strict-clippy.log sha256=22e0df986057b9ba5be07526ac5fb348862a3dedef42108383cc3e088acbb889\",\".csdlc/evidence/278/diff-check.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/278/validate_preparation_bundle.py\"],\"purpose\":\"Validate #278 dependency/scope packet and terminal caches after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/issue-278-preparation-validator.log sha256=a74a551afb309432adce3831f480d3ae4c88b657f7e470c9e4678dacb37e1ee5\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check after deletion-visibility remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/runtime-kernel-conversation-history-fmt.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_history\"],\"purpose\":\"Focused #278 Runtime proof including deletion marker hiding across page/search/export/restore; 5 tests passed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/runtime-kernel-conversation-history-focused.log sha256=cfdf9229396a1991e68e6f105772ad5eddb3fe69a741562bb467c27e5f94ffb9\"},{\"command\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"purpose\":\"Validate Observatory transcript restoration helper behavior after Runtime history remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/observatory-transcript-restore-validator.log sha256=a9906d8870f32db6ff606f4c244bc072a5688b4112d4b73214b53ebf38d61f55\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Runtime kernel clippy after deletion-visibility remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/runtime-kernel-strict-clippy.log sha256=22e0df986057b9ba5be07526ac5fb348862a3dedef42108383cc3e088acbb889\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene after refreshed evidence logs.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/diff-check.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

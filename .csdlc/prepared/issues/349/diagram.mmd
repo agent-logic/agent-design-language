@@ -1,0 +1,11 @@
+flowchart TD
+    I["Initialized exact deferred packet"] --> ID["Doctor PASS: advance_ready"]
+    ID --> R["Typed advance_phase to ready"]
+    R --> RD["Ready doctor PASS: bindable"]
+    I --> B["Direct typed bind"]
+    RD --> B
+    B --> BF["Bound missing validator: FAIL closed"]
+    BF --> M["Materialize exact owned source and validator"]
+    M --> BP["Bound doctor PASS"]
+    X["Arbitrary or weak deferral"] --> XF["Pre-bind doctor FAIL"]
+    P["Published or later phase"] --> PF["Deferred admission forbidden"]

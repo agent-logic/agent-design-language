@@ -85,7 +85,7 @@
       ],
       "affected_areas": [
         "csdlc-v2/**",
-        ".adl/bin/csdlc-v2/**",
+        "csdlc-v2 operational binaries",
         "docs/tooling/**",
         ".csdlc/issues/180/**",
         ".csdlc/prepared/issues/180/**",

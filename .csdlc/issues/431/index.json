@@ -1,0 +1,339 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 431,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "95b5986b4d799d43725ec94cd60cdca6cec37eecc20e979f0cd029e4c4b64cc0",
+  "phase": "published",
+  "generation": 17,
+  "digest": "023f37a16c4769a3e4ddc1620675661fecf9b18c397024864e82194da5bf068a",
+  "branch": "codex/431-v0921-initial-planning-refresh",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-431-v0921-initial-planning",
+  "review_assignment": {
+    "reviewer": "fresh-session:b56ac5ef-e1cc-4ef0-912d-5ff23092cf14",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:fb7c45a0c1fae00abb764331196bbf26677b5703:efbe3c96031b0c4830ab121e422868a4253d061cdec65847775a7f987f1968a2",
+    "scope": [
+      ".csdlc/evidence/431",
+      ".csdlc/issues/431",
+      ".csdlc/prepared/issues/431",
+      "docs/milestones/v0.92.1",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:b56ac5ef-e1cc-4ef0-912d-5ff23092cf14",
+    "scope": [
+      ".csdlc/evidence/431",
+      ".csdlc/issues/431",
+      ".csdlc/prepared/issues/431",
+      "docs/milestones/v0.92.1",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ],
+    "reviewed_revision": "git-blake3:fb7c45a0c1fae00abb764331196bbf26677b5703:efbe3c96031b0c4830ab121e422868a4253d061cdec65847775a7f987f1968a2",
+    "findings": [],
+    "residual_risks": [
+      "WP-01 must still observe terminal canonical ancestral issue 432 before creating or starting the planned execution wave.",
+      "The 27 specifications are planning inputs and require issue-specific design review when WP-01 creates their issues.",
+      "Runtime v4 changes require explicit rebaseline rather than silent absorption."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 431,
+    "pull_request": 440,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/440",
+    "base": "main",
+    "head": "codex/431-v0921-initial-planning-refresh",
+    "revision": "git-blake3:6700915b8bfef8cb196359022c00bab1c90e53ab:547a37e119d9d99f63a2a1cc0c61e24bc04b474c82753acac24bdf8d32be9e09",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/431/design.md",
+  "diagram_path": ".csdlc/prepared/issues/431/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:c305f189-44b0-4ab2-99cc-cf1463c4efc1",
+      "revision": "043d86ae2db56fd31bf3715eb7403c85ef25b9bec049884cee795ed9ed174b27"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7fcac2f8ce1c0867dd309655fb13a239a55b34adf9573123a99d8afa80886bdf",
+      "rendered_digest": "8fb6604eb170d0e4b611b5612a161b6a979503f9e1515c41ad32ee487398f957",
+      "ast_digest": "f5e035c1828111cd3f99aeacfdf007876bcb409ec4a4dbd4e4e7a129b23294a5"
+    },
+    "stp": {
+      "values_digest": "91d9a3b89492a38822039fabce10100be6b775937a0577a278f17a6ae0d81dfd",
+      "rendered_digest": "925295e87f834a27943ca77b8b4180e85fe5dd93f620e83f8f463705d1f4d7f4",
+      "ast_digest": "2a699ab117303345e16ea6ae04e4b9e7530547b2207eaa3a27a34c19210ff354"
+    },
+    "spp": {
+      "values_digest": "f822edd4dff1a5fa71239aabc2fdab60302c907c6c2da8f429abc01883901811",
+      "rendered_digest": "75405c0d66601a5c9c8a4d30db97f64bfc817f1a7f78ce0cac9dd59efe1b10d4",
+      "ast_digest": "c4b25c3d4e4e4979f795a4bc24cbca5b057649ea7ddc05f05acebdff8c9ed9e9"
+    },
+    "vpp": {
+      "values_digest": "e9df0213e36884cfd3dca0391269db6dc632845be7a5bb35f34756aacb3468a3",
+      "rendered_digest": "737e870dd27b547ba8a2a3df43d2bd53bafd3f7b34ac1a29982434c7c696a27c",
+      "ast_digest": "48c256915223a0c4db0b630c0614223a4b969d0a41c5153e698a8d0b7b981ec3"
+    },
+    "srp": {
+      "values_digest": "8dc2e7408e8c2b6b97275762a9f226b77415509763196e8afca667a8e47b6f9b",
+      "rendered_digest": "9023f6dd3f4884422147b960a77733c8f742325db5df112b891c5b943ffdc6ef",
+      "ast_digest": "ba0f0f75d44384e475839b3d67f8b7a93b1b2cbaf9d67bb77e4bd486d9743fd4"
+    },
+    "sor": {
+      "values_digest": "104ecc9ad6e09255d442924917e60ea5961e3d21d3a93a9e75ca9700d6a20ece",
+      "rendered_digest": "5c4a2f93eaf19590302ecc4cf238a3626c36f9e5517d7b3922659331ee2a4138",
+      "ast_digest": "1397b91a27630c51a0c769b2219e2927740db5aa7a44cc13a0f6456845411a83"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-431-v0921-planning",
+      "reason": "Advance the independently approved six-lane v0.92.1 planning package to execution readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-431-v0921-planning",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-431-planning-amendment",
+      "reason": "Recover the published planning candidate so premature placeholder issue routing can be replaced by the operator-required number-free WP-01 issue catalog and complete canonical document inventory."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-431-review-findings",
+      "reason": "Recover the published planning candidate to resolve the #432 terminal sequencing contradiction and restore complete issue-level execution specifications for all 27 WP-01 creation slots."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-431-initial-planning-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-431-planning-validator-r2",
+      "reason": "Make the planning-package lane truthful about live routing and bind it to the strengthened standard-library validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Verify exact preparation artifacts and authority boundaries before binding.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-5\",\"AC-7\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":600,\"argv\":[\"python3\",\".csdlc/prepared/issues/431/validate_preparation_bundle.py\"],\"parallel_group\":\"431-serial-01\",\"defer_reason\":null},{\"lane\":\"planning-package\",\"proof_role\":\"Validate per-surface six-lane parity, #432 ordering, path-bearing .adl dependency absence, WP-28 immutability, CodeFriend handoff, Runtime v4 non-scope, Observatory grounding, YAML structure, links, placeholders, exact scope, and live v0.92.1 routing.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"python3\",\".csdlc/prepared/issues/431/validate_planning_package.py\"],\"parallel_group\":\"431-serial-02\",\"defer_reason\":\"Runs after the refreshed tracked planning package exists.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed or unintended planning-package changes.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"431-serial-03\",\"defer_reason\":\"Runs after the implementation diff exists.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:c305f189-44b0-4ab2-99cc-cf1463c4efc1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"043d86ae2db56fd31bf3715eb7403c85ef25b9bec049884cee795ed9ed174b27\",\"design_ref\":\".csdlc/prepared/issues/431/design.md\",\"diagram_digest\":\"eb2ffdd41815afe996828e271f23be1fc0970dcc549e995585d0c5caf930573e\",\"diagram_ref\":\".csdlc/prepared/issues/431/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-431-v0921-planning",
+      "reason": "Advance the independently approved six-lane v0.92.1 planning package to execution readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-431-v0921-planning",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-431-v0921-planning",
+      "reason": "Refresh execution and validation truth after seeding exact active v0.92.1 lane issues and closing redundant #439.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Published the repository-authoritative six-lane v0.92.1 planning package, seeded active issues #433-#438, retained the #51 podcast graph, and kept the v0.92.2 CodeFriend Beta 1 handoff in #431.\",\"changes\":[\"docs/milestones/v0.92.1/**\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/431/**\"],\"artifacts\":[\"issue wave with exact #433-#438 routing\",\"six feature lanes\",\"historical #149-#190 classification\",\"#439 duplicate closure\",\"v0.92.2 CodeFriend Beta 1 handoff\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_preparation_bundle.py\"],\"purpose\":\"Verify the prepared planning contract and WP-28 boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_planning_package.py\"],\"purpose\":\"Verify exact active issue routing, six-lane package parity, repository authority, links, YAML, and live state.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/planning-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-431-v0921-planning",
+      "reason": "Record truthful pre-publication candidate state after completing predecessor consolidation, corporate/IP decomposition, backlog disposition, canonical release-tail ordering, and committed-scope validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Authored and validated the repository-authoritative v0.92.1 planning candidate, seeded active roots #433-#438, consolidated every retired predecessor without reopening it, classified open backlog, and defined the canonical serial release tail. Publication remains pending exact-head review.\",\"changes\":[\"docs/milestones/v0.92.1/**\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/431/**\"],\"artifacts\":[\"issue wave with exact #433-#438 routing\",\"four-package corporate and IP decomposition for #153-#160\",\"six-package C-SDLC v3 consolidation for #161-#180\",\"canonical eight-gate release tail under #438\",\"deferred backlog routing for #84, #122, #251, and #345\",\"six feature lanes\",\"#439 duplicate closure\",\"v0.92.2 CodeFriend Beta 1 handoff\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_preparation_bundle.py\"],\"purpose\":\"Verify the prepared planning contract and WP-28 boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_planning_package.py\"],\"purpose\":\"Verify committed and working-tree scope, active and backlog routing, complete predecessor denominators, six-lane parity, canonical release-tail order, links, YAML, and live state.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/planning-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"72ca2634a56e538e18ab241e9fe1568dc8ad8d7a\"],\"purpose\":\"Verify full candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-431-v0921-planning",
+      "reason": "Close the final pre-PR finding by retaining and mechanically validating the complete #181-#187 distributed Runtime predecessor denominator.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Authored and validated the repository-authoritative v0.92.1 planning candidate with complete predecessor coverage: four corporate/IP packages, six C-SDLC v3 packages, three distributed Runtime packages, explicit backlog disposition, and the canonical serial release tail. Publication remains pending final exact-head confirmation.\",\"changes\":[\"docs/milestones/v0.92.1/**\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/431/**\"],\"artifacts\":[\"issue wave with exact #433-#438 routing\",\"four-package corporate and IP decomposition for #153-#160\",\"six-package C-SDLC v3 consolidation for #161-#180\",\"three-package distributed Runtime consolidation for #181-#187\",\"canonical eight-gate release tail under #438\",\"deferred backlog routing for #84, #122, #251, and #345\",\"v0.92.2 CodeFriend Beta 1 handoff\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_preparation_bundle.py\"],\"purpose\":\"Verify the prepared planning contract and WP-28 boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_planning_package.py\"],\"purpose\":\"Verify committed scope, live routing, complete #153-#190 predecessor coverage, backlog disposition, six-lane parity, and canonical release-tail order.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/planning-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"72ca2634a56e538e18ab241e9fe1568dc8ad8d7a...HEAD\"],\"purpose\":\"Verify full candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:issue-431-planning-amendment",
+      "reason": "Recover the published planning candidate so premature placeholder issue routing can be replaced by the operator-required number-free WP-01 issue catalog and complete canonical document inventory.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:issue-431-planning-amendment",
+      "reason": "Record the operator-corrected complete v0.92.1 plan before the single final review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Authored and validated the complete repository-authoritative v0.92.1 planning candidate without creating replacement issues: twelve existing issues, twenty-seven number-free WP-01 issue slots, six parallel execution lanes, promoted #251/#122/#84/#345 scope, complete #153-#190 predecessor retention, and the canonical ten-step release tail.\",\"changes\":[\"docs/milestones/v0.92.1/**\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/431/**\"],\"artifacts\":[\"canonical document inventory and complete planned issue catalog\",\"number-free WP-01 issue wave with no #433-#438 authority\",\"four-package corporate and IP decomposition for #153-#160\",\"six-package C-SDLC v3 consolidation for #161-#180\",\"three-package distributed Runtime consolidation for #181-#187 plus active #345\",\"active #251/#122/#84 Observatory prerequisite graph\",\"canonical ten-step release tail matching the preceding milestone standard\",\"v0.92.2 CodeFriend Beta 1 handoff\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_preparation_bundle.py\"],\"purpose\":\"Verify the prepared planning contract and WP-28 boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_planning_package.py\"],\"purpose\":\"Verify canonical document completeness, number-free issue routing, active existing issues, complete predecessor denominators, six-lane parity, and the ten-step release tail.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/planning-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"72ca2634a56e538e18ab241e9fe1568dc8ad8d7a\"],\"purpose\":\"Verify full candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:issue-431-final-finding-fixes",
+      "reason": "Recover the stale exact-head assignment after applying the bounded final review fixes for the exact 27-slot creation denominator and existing-issue README truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:issue-431-review-findings",
+      "reason": "Recover the published planning candidate to resolve the #432 terminal sequencing contradiction and restore complete issue-level execution specifications for all 27 WP-01 creation slots.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

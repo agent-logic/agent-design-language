@@ -5,45 +5,42 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d6b554b8bf1e14bfe51db35c853eb74588989147fd1dd3b17660b246cbaa621c",
   "phase": "published",
-  "generation": 35,
-  "digest": "d0f447305ce7c8df99da432e461cfa0f63c254f45a890ea8d8dc76213f74bec7",
+  "generation": 63,
+  "digest": "3594c2869407f7ffa6b94bca70c658740100bd209346a7b57df5c44fd99d296f",
   "branch": "codex/5854-sprint5-readiness-current",
   "worktree": "/Volumes/FastWork/adl-standalone-5854",
-  "review_assignment": {
-    "reviewer": "codex-subagent:019fe955-79e8-7af3-8281-4d69cc807568",
-    "assigned_by": "codex-sprint-readiness-remediation",
-    "revision": "git-blake3:f9a06470bbf088af51f4e168f4feedee556feb4f:864851e36719d19e22e6e51bf0e3be88e5b8b6ac9e73c165f9b70f63e2e78455",
-    "scope": [
-      ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md",
-      ".csdlc/prepared/issues/5854",
-      ".csdlc/evidence/5854",
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
-      "docs/milestones/v0.92/SPRINT_v0.92.md"
-    ]
-  },
+  "review_assignment": null,
   "review": {
-    "reviewer": "codex-subagent:019fe955-79e8-7af3-8281-4d69cc807568",
+    "reviewer": "subagent:pascal-019ff1eb",
     "scope": [
-      ".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md",
+      ".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md",
+      ".csdlc/issues/5840",
+      ".csdlc/issues/5854",
       ".csdlc/prepared/issues/5854",
-      ".csdlc/evidence/5854",
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
-      "docs/milestones/v0.92/SPRINT_v0.92.md"
+      ".csdlc/prepared/issues/5856/sprint-execution-packet.md",
+      ".csdlc/prepared/issues/5856/sprint-execution-packet.yaml",
+      ".csdlc/prepared/issues/5856/validate-sprint-readiness.rb",
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
     ],
-    "reviewed_revision": "git-blake3:f9a06470bbf088af51f4e168f4feedee556feb4f:864851e36719d19e22e6e51bf0e3be88e5b8b6ac9e73c165f9b70f63e2e78455",
+    "reviewed_revision": "git-blake3:a8a344b3a7af59f999391bda597056be24e69fa2:fe0e97e03042bf198f1b135d07cdb65e1316d74718ef29ffe01a6156ea016ff4",
     "findings": [],
-    "residual_risks": [],
+    "residual_risks": [
+      "WP-20 #5840 remains intentionally unbound and may report repository_identity_drift until final sprint #5856 executes its typed bind request.",
+      "The retained live-gate snapshot remains time-bounded; Sprint execution must refresh live dependency truth when its 24-hour window expires."
+    ],
     "completed": true,
     "non_substantive_proof": null
   },
   "publication": {
     "repository": "agent-logic/agent-design-language",
     "issue": 5854,
-    "pull_request": 103,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/103",
+    "pull_request": 232,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/232",
     "base": "main",
     "head": "codex/5854-sprint5-readiness-current",
-    "revision": "git-blake3:05d2944abbbeea354fb73fe8b56074843f18591c:f0fffbd433a53cb8cadb6372f4197c387f3a7d5ad5c87e96930e10eb7ac1223d",
+    "revision": "git-blake3:6f44a2784f2d2438374b3fd59a5fc262af14e8e3:4d0ce0707aa18c6f851906f547a55a93fecf9cd699a4404a0ecb1caaef9d477c",
     "linkage_mode": "part_of",
     "draft": false,
     "observed_state": "open"
@@ -55,40 +52,40 @@
   "diagram_path": ".csdlc/prepared/issues/5854/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:5854-pr103-review-remediation-design-review",
-      "revision": "a0a6e1b058b5e13de3776447dc39c940a3bf51a0d1b80b51e31fa1fbeb16a477"
+      "reviewer": "operator:daniel-wp20-final-sprint-reclassification",
+      "revision": "46ea958c342320230cc985996de44ddb78e448ee7db590febb9a007c45446cd6"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "6fd90555adbecb1ac00f1bb5ece436a227ad4dd158832f3caef9e750c5e38582",
-      "rendered_digest": "736d117ea18341186e50fda1cebe344d0fc95ef90d37f5b7bbaa40a84dcd04e6",
-      "ast_digest": "7f4260c9e4cd7426d86876332af57f58a103630bca2b4872f3c48dd28e288d34"
+      "values_digest": "beddf7ef92e4806d23cd613a6aff41bbc96c3e6364b7cb34a1e612ca207d870e",
+      "rendered_digest": "79884f97cc458c5973364ec6a5bcf96a210623d4caad43c2381692dab8fb0c78",
+      "ast_digest": "5bbce7b2d237dac68a871f5e0581f011e1fda4196a59e77e936a49257ef1f6d4"
     },
     "stp": {
-      "values_digest": "60190632bd4db5e14ca70f84073640e18d4be96f602208f751ba83a77b721e87",
-      "rendered_digest": "44cb2cea999def662671ef6605cc45b621764178c0034deb52b9fa275edab745",
-      "ast_digest": "e679cdeae0f2418955ab66ecfc7f29e0dc64a51866217538271519dc2245bc01"
+      "values_digest": "8bc90c61fb718a8b42501efada8134e973afbd3652b62ad206ca124aa4e483f6",
+      "rendered_digest": "85fc3f5565210111cfe2a976195402979e8ba8b69ea6c5eff3f50407003ef2fb",
+      "ast_digest": "5adaadbffc36efbce9525095c9bd4c2eea53f5a7b07bb8aba49dc2ebd662a270"
     },
     "spp": {
-      "values_digest": "8bbe53637daf2b17feb8f7b88c2c51017cdfb3384580427b75133fbb9f79b59a",
-      "rendered_digest": "25c9743d694a1c4730ae6237ae5932e7acf687b0cb0eb95c660b4187112c279b",
-      "ast_digest": "9ed0abe0672515f3dc72e97bfb0728fcb9e07bc35c0f52837678e3ab8e93e6a8"
+      "values_digest": "9735c68e808f954b20d272936adbf156dfdff67bf0e2ea830619221f198bcfe8",
+      "rendered_digest": "d73a2a0e624650bc4b777a21cb8d8b9b16e208d758bad6f77180c10cbb90e3ae",
+      "ast_digest": "c14acdd313f780b71bced22e8e1a6e4fd495b8dfa78f7f24ba9a292f27128fa1"
     },
     "vpp": {
-      "values_digest": "4cd322ec8d3e0fed6a67385dd151dbb8594063d89df15b784767e8c9fbf6a337",
-      "rendered_digest": "ef9a6f9f2d7cb5126e6761a85a1d4a001ee493b80ecbb2e7292bb3e0a3e99235",
-      "ast_digest": "fef0cdf5e711632e18ce1a1493c5543ca09ddc65aa7c8adf82335c56b566ecc4"
+      "values_digest": "18f963e2c89fd52b4b853c325f9c13565587b69ea06dd3bca832674cfdd954dd",
+      "rendered_digest": "75dc0c1b32a923706c5859da32eac177de6285944cc33183e88e22bc53fcfb50",
+      "ast_digest": "24ca3b01d2791450e03e20133ea51743c7a5bdf9e90d4bf16299e1dd0e09193d"
     },
     "srp": {
-      "values_digest": "21b0608bbaadd164ef92f16198512335d37c9c069695849caacb3dc103112f15",
-      "rendered_digest": "074950c25726da8a4aebf935c453e6e7cbbe7e00e41a8d288bac8327e1e5dcc3",
-      "ast_digest": "f88301ff021e35827174f71203e8f5bf270a2e499ded10b81dc56d48f7c91753"
+      "values_digest": "99f1dcf67a46e239c00725530b4da4d1afc3c4b20b641f62d4a6be51f7c4dce6",
+      "rendered_digest": "720bd6945b59f09f5fb9f3301f46518534fc26d1a972eb72cdce711ba9969244",
+      "ast_digest": "2b59dc2b2dbcaa0f88e80c2c04de26ca3d5de38230d3afc2d7d3116ae0c34f7d"
     },
     "sor": {
-      "values_digest": "26aee5be230e4f0196572174100bc3884b1c331e50e13e90e10d0f31cd19c30f",
-      "rendered_digest": "f189058524367ed221d9dce3737bc0d677b51134de46a29341de59de4f126f81",
-      "ast_digest": "af0b0f299a369144d47ab31b48d4c04ef1d44f6dcbfe422241c964728dbaed54"
+      "values_digest": "9db079321d8c77743e009288f93103b14791c766176daa6dfe3e2be5929d6ad9",
+      "rendered_digest": "3e1ab31bedfe249eba703a71ab4e0715a2ef7d97945f4632c636067a958a1a6c",
+      "ast_digest": "c9e41508f099bb875ede294cb24e497dabf7b33b490ebebfb73730be89b16cea"
     }
   },
   "transitions": [
@@ -167,6 +164,76 @@
       "from": "reviewed",
       "to": "published",
       "actor": "codex:5854-pr103-review-remediation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5854-sprint5-readiness-refresh",
+      "reason": "Refresh the expired live dependency snapshot, record the newly open first execution wave, and reconcile readiness after PR #103 merged."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5854-wp20-final-sprint-handoff",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "PR #224 exact-head review found stale Sprint 5 membership and obsolete lifecycle guidance; recover publication and review truth for bounded typed remediation and fresh exact-head review."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5854-recovery-transition-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Return from the bounded recovery-metadata review to implementation so the supported post-recovery SPP correction can remove the residual WP-20 reference."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:5854-sip-correction-transition-review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Return from the bounded typed-operation review to implementation so Sprint 5 required-outcome truth can be corrected to its exclusive four-child denominator."
+    },
+    {
+      "sequence": 20,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-subagent:019ff1eb-3eef-7d31-b11f-e804976a0a7e",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 21,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:5854-pr224-review-remediation",
       "reason": "observed exact PR after current review"
     }
   ],
@@ -441,6 +508,209 @@
       "sequence": 39,
       "generation": 35,
       "actor": "codex:5854-pr103-review-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 40,
+      "generation": 36,
+      "actor": "codex:5854-sprint5-readiness-refresh",
+      "reason": "Refresh the expired live dependency snapshot, record the newly open first execution wave, and reconcile readiness after PR #103 merged.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 37,
+      "actor": "codex:5854-sprint5-readiness-refresh",
+      "reason": "Record the refreshed Sprint 5 dependency truth and first-wave readiness before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Refreshed Sprint 5 live dependency evidence and established that #5835 and #5836 are ready to bind while preserving all downstream serial gates.\",\"changes\":[\"Refreshed all retained issue and PR observations through the typed GitHub owner binaries.\",\"Updated the human packet and sprint review to classify #5835 and #5836 as ready to bind.\",\"Kept #5838, #5839, and #5840 blocked behind their declared dependencies and kept WP-24A out of band.\",\"Updated the validator's exact live-state expectations and first-wave classification checks.\"],\"artifacts\":[\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\"]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 38,
+      "actor": "codex:5854-sprint5-readiness-refresh",
+      "reason": "Reconcile the completed Sprint 5 readiness refresh while leaving coordination and closeout pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"readiness\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 43,
+      "generation": 39,
+      "actor": "codex:5854-sprint5-readiness-refresh",
+      "reason": "Record the complete Sprint 5 readiness repair after resolving all exact-head review findings.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Refreshed and hardened Sprint 5 readiness so #5835 and #5836 can bind only from reviewed, merged, ancestral dependency authority while all downstream gates remain closed.\",\"changes\":[\"Refreshed all retained issue and PR observations through the typed GitHub owner binaries.\",\"Replaced superseded legacy WP-14 authority with canonical issue #209, PR #215, and its ancestral merge.\",\"Required the accepted WP-16 manifest to prove every birthday prerequisite has a merged PR, retained exact-head review, typed authority, and current-main ancestry.\",\"Verified retained collector provenance against the installed owner-binary digests.\",\"Updated the human packet and sprint review to classify #5835 and #5836 as ready to bind.\",\"Kept #5838, #5839, and #5840 blocked behind their declared dependencies and kept WP-24A out of band.\",\"Updated the validator's exact live-state expectations and first-wave classification checks.\"],\"artifacts\":[\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\",\".csdlc/issues/5836\",\".csdlc/issues/5838\",\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\"]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 40,
+      "actor": "operator:daniel-wp20-final-sprint-reclassification",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 45,
+      "generation": 41,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Record WP-20 as release-tail authority rather than an operative Sprint 5 child.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Sprint coordination records only; child issues own implementation, evidence, review, publication, and closeout.\",\"WP-20 #5840 belongs to final release-tail sprint #5856 and is not an operative Sprint 5 child or closeout gate.\",\"Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.\",\"Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.\",\"The operator retains external deployment and publication authority.\"]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 42,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Correct Sprint 5 closeout to four operative children after WP-20 moved to final sprint 5856.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The Sprint Execution Packet records exact child membership and dependency order.\",\"AC-2: Safe parallel lanes and serial gates are explicit and do not overlap child ownership.\",\"AC-3: The umbrella coordinates only; each child retains implementation, proof, review, publication, and closeout authority.\",\"AC-4: Every operative child handoff requires issue-bound bind, readiness, and session-goal truth before implementation.\",\"AC-5: Integrated sprint review and umbrella closeout occur only after the four operative children (#5835, #5836, #5838, and #5839) reach truthful terminal state; WP-20 #5840 belongs to final sprint #5856, and out-of-band WP-24A #5845 cannot gate readiness, execution, review, or closeout.\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 43,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Preserve the operator-directed WP-20 handoff to final sprint 5856.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Child issues retain all code and proof authority\",\"No child begins before its declared dependencies\",\"No umbrella closeout substitutes for child closeout\",\"Parallel lanes use separate child worktrees and issue-bound goals\",\"Sprint 5 hands proof-producer truth to WP-20 under final sprint #5856 and does not bind, execute, or await #5840 for its own closeout\"]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 44,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Review Sprint 5 against its corrected four-child boundary and WP-20 release-tail handoff.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the packet preserve exact operative-child ownership and dependency truth?\",\"Are parallel lanes actually independent and are serial gates explicit?\",\"Can the umbrella close only after the four operative children (#5835, #5836, #5838, and #5839) have truthful terminal state, with WP-20 #5840 routed to final sprint #5856 and out-of-band WP-24A #5845 excluded from every Sprint 5 gate?\",\"Does the live-gate evidence retain sufficient source, request, response, freshness, and ancestry provenance for every claimed external fact?\"]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 45,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Record the operator-directed WP-20 move and corrected Sprint 5 readiness truth.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Reclassified WP-20 as the first child of final sprint #5856 and reduced Sprint 5 to four operative children without starting any child.\",\"changes\":[\"Removed #5840 from Sprint 5 membership, bind requests, watcher set, serial gates, and closeout denominator.\",\"Added #5840 as the first child of final sprint #5856 after #5836, #5837, #5838, and #5839 and before WP-21.\",\"Updated both live sprint issue bodies through the typed GitHub issue owner and refreshed retained live evidence.\",\"Preserved all WP-20 implementation scope, cards, dependencies, and artifacts; no child was bound or started.\"],\"artifacts\":[\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/prepared/issues/5856/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5856/sprint-execution-packet.md\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\"]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 46,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Align the validation proof role with the four-child Sprint 5 denominator and WP-20 release-tail handoff.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v092-sprint5-readiness\",\"proof_role\":\"Prove current Sprint 5 membership, four-child operative closeout scope, WP-20 release-tail handoff, bind-safe child contracts, dependency gates, publication boundaries, umbrella ownership, and digest-bound live GitHub provenance.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"parallel_group\":\"v092-docs\",\"defer_reason\":\"The contract checks are deterministic over retained inputs, but snapshot freshness depends on wall-clock time and observed GitHub state.\"}]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 47,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Replace accumulated historical execution prose with the current four-child readiness and final-sprint handoff truth after exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared Sprint 5 as a four-child execution wave and moved WP-20 to the first dependency-gated position in final sprint #5856 without starting any child.\",\"changes\":[\"Classified #5835 and #5836 as ready to bind from reviewed, merged, ancestral dependency authority; kept #5838 and #5839 behind their declared gates.\",\"Removed #5840 from Sprint 5 membership, bind requests, watcher set, serial gates, and closeout denominator.\",\"Added #5840 as the first child of final sprint #5856 after #5836, #5837, #5838, and #5839 and before WP-21.\",\"Added a focused final-sprint packet validator and retained typed live readback for both #5854 and #5856.\",\"Updated both live sprint issue bodies through csdlc-github-issue and refreshed digest-bound evidence.\",\"Preserved all WP-20 implementation scope, cards, dependencies, and artifacts; no child was bound or started.\"],\"artifacts\":[\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/prepared/issues/5856/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5856/sprint-execution-packet.md\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact four-child Sprint 5 membership, four split-authority bind contracts, complete serial gates, WP-20 release-tail handoff, typed live evidence, and publication boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\"--negative-overlap\"],\"purpose\":\"Prove the path-collision guard rejects ancestor/descendant ownership while preserving disjoint sibling paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact final-sprint membership, WP-20-first serial order, typed child denominator, and retained live #5856 readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/live-gates-source.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\"],\"purpose\":\"Prove the nine reviewed, merged, ancestral birthday dependency entries consumed by the first Sprint 5 wave.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"5854\"],\"purpose\":\"Validate canonical typed #5854 issue and card projections after reclassification.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5854/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors across the exact readiness diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 48,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "Replace accumulated historical execution prose with the current four-child readiness and final-sprint handoff truth after exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Prepared Sprint 5 as a four-child execution wave and moved WP-20 to the first dependency-gated position in final sprint #5856 without starting any child.\",\"changes\":[\"Classified #5835 and #5836 as ready to bind from reviewed, merged, ancestral dependency authority; kept #5838 and #5839 behind their declared gates.\",\"Removed #5840 from Sprint 5 membership, bind requests, watcher set, serial gates, and closeout denominator.\",\"Added #5840 as the first child of final sprint #5856 after #5836, #5837, #5838, and #5839 and before WP-21.\",\"Added a focused final-sprint packet validator, retained split-authority bind request, and typed live readback for both #5854 and #5856.\",\"Updated both live sprint issue bodies through csdlc-github-issue and refreshed digest-bound evidence.\",\"Preserved all WP-20 implementation scope, cards, dependencies, and artifacts; no child was bound or started.\"],\"artifacts\":[\"docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\",\"docs/milestones/v0.92/SPRINT_v0.92.md\",\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\",\".csdlc/prepared/issues/5854/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5854/sprint-execution-packet.md\",\".csdlc/prepared/issues/5854/split-authority-bind-requests.json\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\".csdlc/prepared/issues/5856/sprint-execution-packet.yaml\",\".csdlc/prepared/issues/5856/sprint-execution-packet.md\",\".csdlc/prepared/issues/5856/split-authority-bind-request.json\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\",\".csdlc/evidence/5854/live-gates.json\",\".csdlc/evidence/5854/live-gates-source.json\",\".csdlc/evidence/5854/sprint-review.md\",\".csdlc/evidence/5854/activity.jsonl\",\".csdlc/evidence/5854/v092-sprint5-readiness.log\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact four-child Sprint 5 membership, four split-authority bind contracts, complete serial gates, WP-20 release-tail handoff, typed live evidence, and publication boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5854/validate-sprint-readiness.rb\",\"--negative-overlap\"],\"purpose\":\"Prove the path-collision guard rejects ancestor/descendant ownership while preserving disjoint sibling paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/v092-sprint5-readiness.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5856/validate-sprint-readiness.rb\"],\"purpose\":\"Validate exact final-sprint membership, WP-20-first serial order, typed child denominator, and retained live #5856 readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/live-gates-source.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/5834/validate-review-packet.rb\"],\"purpose\":\"Prove the nine reviewed, merged, ancestral birthday dependency entries consumed by the first Sprint 5 wave.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"5854\"],\"purpose\":\"Validate canonical typed #5854 issue and card projections after reclassification.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/issues/5854/index.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors across the exact readiness diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5854/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 53,
+      "generation": 48,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 49,
+      "actor": "codex:5854-sprint5-readiness",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 50,
+      "actor": "codex:5854-wp20-final-sprint-handoff",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 51,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "PR #224 exact-head review found stale Sprint 5 membership and obsolete lifecycle guidance; recover publication and review truth for bounded typed remediation and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 52,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Reconcile the operative Sprint 5 SPP with the approved four-child wave after moving WP-20 to final sprint #5856.",
+      "operation": "{\"new_value\":\"Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, and #5839 to separate FastWork sessions, treat WP-20 #5840 as the first child of final release-tail sprint #5856, treat WP-24A as an independent out-of-band stream, and synthesize one integrated Sprint 5 review after the four operative children complete.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, #5839, and #5840 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated sprint review after the five operative children complete.\"}"
+    },
+    {
+      "sequence": 58,
+      "generation": 53,
+      "actor": "codex:5854-pr224-review-remediation-validation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 54,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "The focused remediation review correctly found that Sprint 5 SPP still mentioned WP-20 #5840; clear that review truth so the operative summary can be corrected to the exclusive four-child denominator.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 55,
+      "actor": "codex:5854-recovery-transition-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 56,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Return from the bounded recovery-metadata review to implementation so the supported post-recovery SPP correction can remove the residual WP-20 reference.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 57,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Reconcile the operative Sprint 5 SPP with the approved four-child wave after moving WP-20 to final sprint #5856.",
+      "operation": "{\"new_value\":\"Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, and #5839 to separate FastWork sessions, treat WP-24A as an independent out-of-band stream, and synthesize one integrated Sprint 5 review after the four operative children complete.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Validate the current child wave, preserve completed WP-24 product truth, route only dependency-satisfied #5835, #5836, #5838, and #5839 to separate FastWork sessions, treat WP-20 #5840 as the first child of final release-tail sprint #5856, treat WP-24A as an independent out-of-band stream, and synthesize one integrated Sprint 5 review after the four operative children complete.\"}"
+    },
+    {
+      "sequence": 63,
+      "generation": 58,
+      "actor": "codex:5854-sip-correction-transition-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 59,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Return from the bounded typed-operation review to implementation so Sprint 5 required-outcome truth can be corrected to its exclusive four-child denominator.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 60,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "Reconcile Sprint 5 required-outcome truth with the exclusive four-child denominator and the approved final-sprint handoff.",
+      "operation": "{\"new_value\":\"A reviewed Sprint 5 coordination packet routes only the four prepared children #5835, #5836, #5838, and #5839 without starting them, preserves WP-24 product and GitHub completion while typed closeout remains asynchronous, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, review, or closeout.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"A reviewed Sprint 5 coordination packet routes prepared #5835, #5836, #5838, #5839, and #5840 without starting them, preserves WP-24 product and GitHub completion while typed closeout remains asynchronous, and records WP-24A as an independent out-of-band stream that cannot gate sprint readiness, execution, review, or closeout.\"}"
+    },
+    {
+      "sequence": 66,
+      "generation": 61,
+      "actor": "codex-subagent:019ff1eb-3eef-7d31-b11f-e804976a0a7e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 62,
+      "actor": "codex:5854-pr224-review-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 68,
+      "generation": 63,
+      "actor": "codex:5854-pr224-review-remediation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
     }

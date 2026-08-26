@@ -1,0 +1,2 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+     Running tests/distributed_authorized_learner_transport.rs (adl-runtime/target/debug/deps/distributed_authorized_learner_transport-186318961d8205e4)

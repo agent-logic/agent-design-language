@@ -1,0 +1,14 @@
+{
+  "issue": 244,
+  "card": "spp",
+  "expected_generation": 42,
+  "expected_digest": "0b8249f24b28dcda7aae33b5a3bb1808ae93d260887f1962e6fc1bfd1af77014",
+  "actor": "codex:244-248-integration",
+  "reason": "Planning #1 authorized explicit bounded integration of reviewed #248 into #244 to break the required-CI circular gate.",
+  "operation": {
+    "operation": "set_field",
+    "field": "plan_summary",
+    "value": "Integrate the deterministic cfg(test)-only cleanup attachment proof with issue #248's reviewed production process-backend output-limit/timeout arbitration, prove both surfaces plus full Runtime/Clippy/Observatory, obtain fresh combined exact-head review, and publish PR #247 with explicit closure of #244 and #248."
+  },
+  "fail_after_backup": false
+}

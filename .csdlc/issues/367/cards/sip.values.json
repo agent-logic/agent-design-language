@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 367,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Bind sealed child projections to one authority lineage",
+    "slug": "sealed-child-pairing-lineage",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Bind terminal #365 Shepherd and Observatory sealed committed projections to the same verifier-derived redacted serving-authority lineage so #275 cannot combine two authentic but unrelated stores.",
+      "required_outcome": "A read-only opaque pair verifier accepts only store-derived sealed Shepherd and Observatory projections carrying one identical redacted lineage reference; different authentic lineages, legacy missing lineage, corruption, and caller DTOs fail closed before #275 integration.",
+      "declared_scope": [
+        "Redacted lineage reference derived inside serving_authority from a verified cut",
+        "Shepherd grant projection receipt state and sealed provenance binding",
+        "Opaque two-sealed-child lineage verifier",
+        "Existing focused Shepherd and Observatory tests extended for authentic same-lineage and A/B restart proof"
+      ],
+      "authority_boundary": [
+        "No new raw-lineage getter or raw lineage exposure on child or integration surfaces",
+        "The pair verifier accepts only the two opaque #365 sealed types",
+        "No caller-provided lineage string pairing boolean constructor or DTO conversion",
+        "Existing Shepherd and Observatory transition policies remain unchanged",
+        "#275 and #205 remain frozen until terminal ancestry"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Exact base a4801fbb3a58bed27ba53367cbda8b31a1f56083",
+        "Own exactly serving_authority.rs Shepherd module and the two existing focused tests",
+        "No Observatory source mod.rs #275 or #205 edit",
+        "Fresh UUID design PASS approval doctor and bind required before source mutation",
+        "No optional paid runner"
+      ]
+    }
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 319,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "34509f31c80be5cf38a5b8085f6eae0006c612f628dfac516322bc7213517061",
+  "phase": "published",
+  "generation": 10,
+  "digest": "859542badc647dcc510f15ba80986d687d8758a140f20cc5b288521f0a9d871f",
+  "branch": "codex/319-v092-wp30-release-ceremony",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-319-release-ceremony",
+  "review_assignment": {
+    "reviewer": "fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:96f1dd343d0954a133529924b3c9978282d84425:b4fcca1eb7de1dbd37671244e864fd095f70537f10d925ec911dbd4b3bd1111d",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/.config/nextest.toml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51",
+    "scope": [
+      ".github/workflows/ci.yaml",
+      "adl/.config/nextest.toml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:96f1dd343d0954a133529924b3c9978282d84425:b4fcca1eb7de1dbd37671244e864fd095f70537f10d925ec911dbd4b3bd1111d",
+    "findings": [],
+    "residual_risks": [
+      "The replacement hosted coverage run must still demonstrate the bounded profile on GitHub before merge readiness.",
+      "The post-merge clean-main ceremony receipt remains deferred until the reviewed PR merges; tag and release mutation remain unauthorized."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 319,
+    "pull_request": 479,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/479",
+    "base": "main",
+    "head": "codex/319-v092-wp30-release-ceremony",
+    "revision": "git-blake3:4ecd73e32962b26409e0df763a9e3900ff28153d:a98d019922cd8395836bda4b68c94b00fe685ee81730184629a7d562fcfbcd79",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/319/design.md",
+  "diagram_path": ".csdlc/prepared/issues/319/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:a0680334-9f22-497d-99c6-d5c4e0e2bbdf",
+      "revision": "d99e315746b165b7246654a8e37dd1ab4fc1de7f44293e75cf42fc45fdea62e4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "0d1f5f83c823dae1373b3387d7667338512ec3de9341e10b4ba8956933cd5ba9",
+      "rendered_digest": "f388437ad1bf2c81953f4eefc674999867a8394550150706d870ed5b2341887a",
+      "ast_digest": "86bb20778de54dc3d9460bed3b0351d7265f968cffb0387c5ce072bad7b3d1db"
+    },
+    "stp": {
+      "values_digest": "6c5a834adc422e7cbb3f4780e37c744ea93ac1e457e94e62ebd03b20d03d1576",
+      "rendered_digest": "2024b1f4df276abf337f890ab4a48d016e9c4977a8c82ce1ec83c1e3355d3983",
+      "ast_digest": "16f5a4016c7645cd277fcc1f48b2b2504dc8ba6c24b8f4edfdb71471279c8c63"
+    },
+    "spp": {
+      "values_digest": "3a8ac7524b812ba5c45d20c903ff80388f699b0b8c449695f8985a7a2d33148b",
+      "rendered_digest": "2b78403b4a571c95674a16bd9e9abcfcba054fb67e0dd45acd66bbf7d79c8ee2",
+      "ast_digest": "92196c40904e5bab8fa2b6279a744f81bf6587f7e6697210943626f118229868"
+    },
+    "vpp": {
+      "values_digest": "7fe80889f0ac82096727bcdca313a0360787d5ce94001cc4efb4817d08b6c99a",
+      "rendered_digest": "24e9493e3f74ae3d2d1ef466d1c00ee0ae0ccb87919f1f2172f05d05a8ae2057",
+      "ast_digest": "1a12fdffecad014518d9d8e8e33a7746eb370adb1358df747d230d16bafda903"
+    },
+    "srp": {
+      "values_digest": "68dedb04cb7e4863cf962dbd044c82d0320b6077e3642b200baa6f5d2d3f6c46",
+      "rendered_digest": "a320b9c15fd4aef1dc03e090b8dd4d9fdfac17c221f00cd9e06a54f1c9c63170",
+      "ast_digest": "31fba596e239ebb270418549aaa7a54f1a4f02d108da3789c3519bb1862924d7"
+    },
+    "sor": {
+      "values_digest": "599c6fb1711e74b279d817c56b44fbdcc2c3371ff2a0b9df31ad155522df6ac9",
+      "rendered_digest": "aa3cb5ee76b5b601bb5ef6712c7aa51c63b1e3356313bba636bf6799c7753cab",
+      "ast_digest": "dd4bdaf374d51607a25207c34ee6a145a374e39321c23b2757c10a1a69e63db3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance the approved and executable #319 package to ready for binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #319 after bounded implementation and focused ceremony proof."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover published review state for the bounded CI hang remediation committed at 96f1dd343d0954a133529924b3c9978282d84425. The release evidence remains unchanged; only the workspace coverage timeout/profile contract and its focused test changed."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:a0680334-9f22-497d-99c6-d5c4e0e2bbdf",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d99e315746b165b7246654a8e37dd1ab4fc1de7f44293e75cf42fc45fdea62e4\",\"design_ref\":\".csdlc/prepared/issues/319/design.md\",\"diagram_digest\":\"1a43fa130f7761efc696f74071007e26f7dcf3e9948ba76a0440a3949d9c3f68\",\"diagram_ref\":\".csdlc/prepared/issues/319/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance the approved and executable #319 package to ready for binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Record the bounded v0.92 ceremony gate repair and candidate preflight.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Replaced the obsolete all-records-closed ceremony gate with exact disposition evidence, passed the real check-only ceremony on the clean candidate, and retained a no-mutation receipt.\",\"changes\":[\"Merge-based milestone ceremony gate\",\"Disposition-specific #310/#314 predecessor authority\",\"Canonical ceremony-script candidate preflight\"],\"artifacts\":[\"docs/milestones/v0.92/RELEASE_CEREMONY_GATE_v0.92.json\",\"docs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md\",\".csdlc/evidence/319/candidate-ceremony-receipt.json\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Record focused release ceremony validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby .csdlc/prepared/issues/319/validate-release-evidence.rb all\",\"bash adl/tools/test_release_ceremony.sh\",\"bash adl/tools/release_ceremony.sh --version v0.92 --target-branch codex/319-v092-wp30-release-ceremony\",\"git diff --check\"],\"purpose\":\"Prove merge-based predecessor truth, negative ceremony behavior, and the real non-mutating candidate preflight.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/319/candidate-ceremony-receipt.json\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Advance #319 after bounded implementation and focused ceremony proof.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover published review state for the bounded CI hang remediation committed at 96f1dd343d0954a133529924b3c9978282d84425. The release evidence remains unchanged; only the workspace coverage timeout/profile contract and its focused test changed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

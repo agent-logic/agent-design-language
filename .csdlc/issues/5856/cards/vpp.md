@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/5856/diagram.mmd
 
 [
   {
-    "lane": "v092-sprint-package",
-    "proof_role": "Sprint membership, packet completeness, child authority boundaries, and review-ready coordination truth",
+    "lane": "v092-final-sprint-readiness",
+    "proof_role": "Prove exact final-sprint membership, strict WP-20-through-WP-30 ordering, typed child denominator, and retained live #5856 readback without executing a child.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,16 +33,16 @@ Diagram: .csdlc/prepared/issues/5856/diagram.mmd
       "AC-4",
       "AC-5"
     ],
-    "deterministic": true,
+    "deterministic": false,
     "resource_profile": "small",
-    "budget_seconds": 300,
-    "budget_tokens": 3000,
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
     "argv": [
       "ruby",
-      ".csdlc/prepared/issues/5817/validate-v092-package.rb"
+      ".csdlc/prepared/issues/5856/validate-sprint-readiness.rb"
     ],
     "parallel_group": "v092-docs",
-    "defer_reason": null
+    "defer_reason": "Repository and packet checks are deterministic, but the retained GitHub readback is time-bound external state."
   }
 ]
 
@@ -58,7 +58,7 @@ Tokens: 25000
 
 ## Commands
 
-- `ruby .csdlc/prepared/issues/5817/validate-v092-package.rb`
+- `ruby .csdlc/prepared/issues/5856/validate-sprint-readiness.rb`
 
 ## Failure Semantics
 

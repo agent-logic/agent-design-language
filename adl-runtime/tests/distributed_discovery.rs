@@ -6,6 +6,37 @@ mod certificates;
 #[path = "../src/distributed/discovery.rs"]
 mod discovery;
 #[allow(dead_code)]
+#[path = "../src/distributed/lease.rs"]
+mod lease;
+#[allow(dead_code)]
+#[path = "../src/distributed/membership.rs"]
+mod membership;
+mod authority_store_adapters {
+    use super::certificates::{CertificateError, CertificatePurpose, VerifiedCertificate};
+
+    #[derive(Clone)]
+    pub struct AuthorityBoundCertificateStore;
+
+    #[allow(dead_code)]
+    #[derive(Clone, Debug, Eq, PartialEq)]
+    pub enum AuthorityStoreAdapterError {
+        Certificate(CertificateError),
+        Reconciliation,
+    }
+
+    impl AuthorityBoundCertificateStore {
+        pub fn authorize(
+            &self,
+            _holder_id: &str,
+            _purpose: CertificatePurpose,
+            _generation: u64,
+            _now_unix_secs: u64,
+        ) -> Result<VerifiedCertificate, AuthorityStoreAdapterError> {
+            Err(AuthorityStoreAdapterError::Reconciliation)
+        }
+    }
+}
+#[allow(dead_code)]
 #[path = "../src/distributed/transport.rs"]
 mod transport;
 
@@ -21,7 +52,7 @@ use std::{
 
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-    CertificateValidity, DistributedCertificateStore,
+    CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use discovery::{
     accept_proposal, discover, encode_proposal, encode_request, propose_join,
@@ -174,7 +205,12 @@ fn certificate_store() -> (Arc<DistributedCertificateStore>, SigningKey) {
         .canonicalize()
         .unwrap()
         .join("certificates.redb");
-    let store = DistributedCertificateStore::open(database, certificate_policy).unwrap();
+    let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
+        database,
+        certificate_policy,
+    )
+    .unwrap();
     let _ = directory.keep();
     (Arc::new(store), root)
 }
@@ -193,14 +229,16 @@ fn transport_authorization(
         1,
         CertificateValidity {
             issued_at_unix_secs: issued_at,
-            expires_at_unix_secs: issued_at + 300,
+            expires_at_unix_secs: issued_at + 600,
         },
         subject_public_key,
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, now()).unwrap();
-    TransportAuthorization::new(store.clone(), &certificate).unwrap()
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
+        .unwrap();
+    TransportAuthorization::new_for_test(store.clone(), &certificate).unwrap()
 }
 
 fn transport_limits() -> TransportLimits {

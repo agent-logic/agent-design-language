@@ -1,0 +1,7 @@
+==> html_observatory_tooling_syntax: bash -n adl/tools/test_html_observatory.sh
+==> html_observatory_roster_javascript_syntax: test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs
+PASS csdlc_owner_lane active selector/scanner consistency
+==> docs_diff_check: git diff --check
+PASS test_select_validation_lanes
+
+validated_source_revision=19b679d35be0db65d8d1d89097888d4e8abede54

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./styles.css?v=runtime-v3-live-controls-2">
   </head>
   <body>
+    <a class="skip-link" href="#runtime-proof">Skip to Observatory runtime proof</a>
     <svg class="icon-sprite" aria-hidden="true">
       <symbol id="icon-pulse" viewBox="0 0 24 24">
         <path d="M3 12h4l2-7 4 14 2-7h6" />
@@ -72,6 +73,7 @@
     </svg>
     <main
       class="observatory"
+      data-dashboard-surface="runtime"
       data-packet-ref="../../../docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/visibility_packet.json"
       data-report-ref="../../../docs/milestones/v0.91.7/review/runtime/soak2_4682/agent_lifecycle/runtime_v2/observatory/operator_report.md"
       data-csm-service-ref="../../../docs/milestones/v0.91.7/review/runtime/csm_service_4903/service/service_manifest.json"
@@ -92,7 +94,7 @@
           <span>ADL Observatory</span>
           <span class="version-chip">Runtime v3</span>
         </a>
-        <div class="topbar-controls" aria-label="Runtime controls">
+          <div class="topbar-controls" role="group" aria-label="Runtime controls">
           <div class="top-readout">
             <span>Environment</span>
             <strong>prod-polis</strong>
@@ -106,7 +108,7 @@
             </select>
           </label>
           <div class="top-readout">
-            <span>Runtime Mirror</span>
+            <span id="runtime-source-label">Runtime Source</span>
             <strong id="packet-status">Loading packet</strong>
           </div>
           <div class="top-readout">
@@ -150,28 +152,28 @@
           <p class="lede" id="claim-boundary">
             Loading the bounded runtime capture and operator report.
           </p>
-          <div class="ops-status-grid" aria-label="Runtime status summary">
-            <article class="ops-stat" data-state="unknown">
+          <div class="ops-status-grid" aria-label="Runtime status summary" aria-describedby="claim-boundary">
+            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-ready-label hero-ready-state">
               <svg class="stat-icon"><use href="#icon-check"></use></svg>
-              <span class="row-kicker">Runtime Readiness</span>
+              <span class="row-kicker" id="hero-ready-label">Runtime Readiness</span>
               <strong id="hero-ready-state">pending</strong>
               <p class="row-detail" id="hero-ready-detail">Waiting for CSM /ready mirror.</p>
             </article>
-            <article class="ops-stat" data-state="unknown">
+            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-agent-count-label hero-agent-count">
               <svg class="stat-icon"><use href="#icon-bot"></use></svg>
-              <span class="row-kicker">Active in Polis</span>
+              <span class="row-kicker" id="hero-agent-count-label">Active in Polis</span>
               <strong id="hero-agent-count">0</strong>
               <p class="row-detail">Runtime owner, scheduler, telemetry, event, and checkpoint lanes.</p>
             </article>
-            <article class="ops-stat" data-state="unknown">
+            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-event-count-label hero-event-count">
               <svg class="stat-icon"><use href="#icon-pulse"></use></svg>
-              <span class="row-kicker">Last 5 Minutes</span>
+              <span class="row-kicker" id="hero-event-count-label">Last 5 Minutes</span>
               <strong id="hero-event-count">0</strong>
               <p class="row-detail" id="hero-event-detail">Waiting for CSM /events mirror.</p>
             </article>
-            <article class="ops-stat" data-state="unknown">
+            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-cloudwatch-label hero-cloudwatch-state">
               <svg class="stat-icon"><use href="#icon-cloud"></use></svg>
-              <span class="row-kicker">Heartbeat Verified</span>
+              <span class="row-kicker" id="hero-cloudwatch-label">Heartbeat Verified</span>
               <strong id="hero-cloudwatch-state">pending</strong>
               <p class="row-detail" id="hero-cloudwatch-detail">CloudWatch heartbeat proof pending load.</p>
             </article>
@@ -314,6 +316,14 @@
       </section>
 
       <section class="panopticon-shell" id="panopticon" aria-labelledby="panopticon-title">
+        <nav class="surface-nav" aria-label="Observatory navigation">
+          <a href="#runtime-proof" data-dashboard-link="runtime"><svg><use href="#icon-pulse"></use></svg>Runtime</a>
+          <a href="#panopticon" data-dashboard-link="agents" aria-current="page"><svg><use href="#icon-agent"></use></svg>Agents</a>
+          <a href="#csm-api" data-dashboard-link="csm-api"><svg><use href="#icon-events"></use></svg>Events</a>
+          <a href="#cloudwatch" data-dashboard-link="cloudwatch"><svg><use href="#icon-cloud"></use></svg>AWS</a>
+          <a href="#governance" data-dashboard-link="governance"><svg><use href="#icon-shield"></use></svg>Governance</a>
+          <a href="#evidence" data-dashboard-link="evidence"><svg><use href="#icon-evidence"></use></svg>Evidence</a>
+        </nav>
         <div class="panel-head">
           <div>
             <p class="eyebrow">Runtime system</p>
@@ -351,7 +361,39 @@
               </div>
               <span class="mini-badge" id="live-readiness">unknown</span>
             </div>
+            <div class="roster-controls" aria-label="Roster controls">
+              <label class="field" for="roster-search">
+                <span>Search</span>
+                <input id="roster-search" type="search" autocomplete="off" placeholder="Name, role, or ID">
+              </label>
+              <label class="field" for="roster-presence-filter">
+                <span>Presence</span>
+                <select id="roster-presence-filter">
+                  <option value="all">All visible</option>
+                  <option value="ready">Ready</option>
+                  <option value="busy">Busy</option>
+                  <option value="sleeping">Sleeping</option>
+                  <option value="degraded">Degraded</option>
+                  <option value="unreachable">Unreachable</option>
+                  <option value="migrating">Migrating</option>
+                  <option value="unknown">Unknown</option>
+                </select>
+              </label>
+              <label class="field" for="roster-sort">
+                <span>Sort</span>
+                <select id="roster-sort">
+                  <option value="name">Name</option>
+                  <option value="presence">Presence</option>
+                </select>
+              </label>
+            </div>
             <div class="agent-list" id="live-agent-list"></div>
+            <button class="secondary-action roster-load-more" id="roster-load-more" type="button" hidden>Load more agents</button>
+            <div class="roster-detail" id="roster-detail" aria-live="polite">
+              <span class="row-kicker">Selection</span>
+              <strong>No visible agent selected</strong>
+              <p class="row-detail">Select a Runtime-authorized roster row to inspect current presence evidence.</p>
+            </div>
           </section>
           <section class="panopticon-column" aria-labelledby="live-signals-title">
             <div class="panel-head">
@@ -460,6 +502,102 @@
               <button class="button button-secondary" type="button" id="operator-logout">Log out</button>
               <span class="mini-badge" id="operator-auth-status">public read</span>
             </div>
+            <div class="conversation-surface field-wide" aria-labelledby="agent-conversation-title">
+              <div class="conversation-heading">
+                <div>
+                  <span class="row-kicker">Layer 8 channel</span>
+                  <h3 id="agent-conversation-title">Talk with an agent</h3>
+                </div>
+                <span class="mini-badge" id="agent-conversation-status">waiting for runtime</span>
+              </div>
+              <label class="field">
+                <span class="row-kicker">Agent</span>
+                <select id="agent-conversation-recipient" disabled>
+                  <option value="">No live agents</option>
+                </select>
+              </label>
+              <ol class="conversation-transcript" id="agent-conversation-transcript" aria-live="polite">
+                <li class="conversation-empty">Connect to Runtime v3 and select an agent to begin.</li>
+              </ol>
+              <label class="field">
+                <span class="row-kicker">Message</span>
+                <textarea id="agent-conversation-message" rows="3" maxlength="4096" placeholder="Message the selected agent"></textarea>
+              </label>
+            <div class="communication-actions">
+              <button class="button button-primary" type="button" id="send-agent-conversation" disabled>Send message</button>
+            </div>
+            </div>
+            <div class="conversation-surface room-surface field-wide" aria-labelledby="governed-room-title">
+              <div class="conversation-heading">
+                <div>
+                  <span class="row-kicker">Governed room</span>
+                  <h3 id="governed-room-title">Multi-agent room</h3>
+                </div>
+                <span class="mini-badge" id="governed-room-status">waiting for runtime</span>
+              </div>
+              <label class="field">
+                <span class="row-kicker">Room participants</span>
+                <select id="governed-room-recipients" multiple size="4" disabled aria-describedby="governed-room-help">
+                  <option value="">No live agents</option>
+                </select>
+              </label>
+              <p class="row-detail" id="governed-room-help">Select 1-8 explicit recipients. Broadcast and browser-selected implicit participants are denied.</p>
+              <div class="governed-room-participants" id="governed-room-participants" aria-live="polite"></div>
+              <ol class="conversation-transcript governed-room-transcript" id="governed-room-transcript" aria-live="polite">
+                <li class="conversation-empty">Connect to Runtime v3 and select room participants.</li>
+              </ol>
+              <label class="field">
+                <span class="row-kicker">Room message</span>
+                <textarea id="governed-room-message" rows="3" maxlength="4096" placeholder="Message the selected room participants"></textarea>
+              </label>
+              <div class="communication-actions">
+                <button class="button button-primary" type="button" id="send-governed-room-turn" disabled>Send room turn</button>
+              </div>
+            </div>
+            <div class="conversation-surface operator-attention-surface field-wide" id="operator-attention-inbox" aria-labelledby="operator-attention-title">
+              <div class="conversation-heading">
+                <div>
+                  <span class="row-kicker">Operator intervention</span>
+                  <h3 id="operator-attention-title">Attention inbox</h3>
+                </div>
+                <span class="mini-badge" id="operator-attention-count">0 active</span>
+              </div>
+              <p class="row-detail">Runtime-originated attention requests are visible here; replies never grant authority without Runtime policy authorization.</p>
+              <div class="communication-proof-list" aria-label="Operator attention summary">
+                <span class="mini-badge" id="operator-attention-unread">0 unread</span>
+                <span class="mini-badge" data-tone="warn">intervention only</span>
+              </div>
+              <div class="roster-controls" aria-label="Operator attention filters">
+                <label class="field" for="operator-attention-filter">
+                  <span>Status</span>
+                  <select id="operator-attention-filter">
+                    <option value="active">Active</option>
+                    <option value="open">Unread/open</option>
+                    <option value="acknowledged">Acknowledged</option>
+                    <option value="replied">Replied</option>
+                    <option value="deferred">Deferred</option>
+                    <option value="all">All states</option>
+                  </select>
+                </label>
+                <label class="field" for="operator-attention-priority-filter">
+                  <span>Priority</span>
+                  <select id="operator-attention-priority-filter">
+                    <option value="all">All priorities</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="high">High</option>
+                    <option value="normal">Normal</option>
+                    <option value="low">Low</option>
+                  </select>
+                </label>
+                <label class="field checkbox-field" for="operator-attention-notifications">
+                  <span>Notifications</span>
+                  <input id="operator-attention-notifications" type="checkbox" checked>
+                </label>
+              </div>
+              <ol class="operator-attention-list" id="operator-attention-list" aria-live="polite">
+                <li class="conversation-empty">No agent is currently requesting operator attention.</li>
+              </ol>
+            </div>
             <label class="field field-wide">
               <span class="row-kicker">Signed Runtime v3 command</span>
               <textarea id="signed-control-command" rows="8" spellcheck="false" placeholder='Paste an adl.runtime.control_command.v1 JSON envelope signed by a trusted operator key. Signed commands are submitted to /v1/control.'></textarea>
@@ -558,8 +696,8 @@
         </p>
       </section>
 
-      <footer class="dashboard-statusbar" aria-label="Observatory mirror status">
-        <span><b id="statusbar-indicator"></b>Runtime Mirror</span>
+      <footer class="dashboard-statusbar" aria-label="Observatory runtime status">
+        <span><b id="statusbar-indicator"></b><strong id="statusbar-runtime-label">Runtime Source</strong></span>
         <span id="statusbar-source">retained packet</span>
         <span>WSS <strong id="statusbar-websocket">idle</strong></span>
         <span>Last Update <strong id="statusbar-updated">pending</strong></span>

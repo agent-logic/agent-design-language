@@ -1,0 +1,11 @@
+flowchart TB
+  A[ComponentContract v2] --> R[Kernel Port Registry]
+  R --> C[Declared Typed Endpoints]
+  C --> L[Layered Startup]
+  L --> S[Supervisor]
+  S --> H[Runtime Health]
+  S --> D[Reverse Dependency Drain]
+  A --> E[Determinism Enforcement]
+  A --> B[Capacity and Overflow Policy]
+  B --> M[Atomic Channel Metrics]
+  H --> O[Observatory and Operations]

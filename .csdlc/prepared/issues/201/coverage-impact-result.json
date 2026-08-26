@@ -1,0 +1,97 @@
+{
+  "schema": "adl.csdlc.issue_201.coverage_impact_result.v2",
+  "issue": 201,
+  "pull_request": 229,
+  "failed_hosted_head": "c5ce49147df76cc30f99e61a04c129f317671bed",
+  "repair_revision": "9b863c5bde3947e6518dac8e84d5e9a615452234",
+  "base_revision": "4041053",
+  "threshold_percent": 80,
+  "filter": "package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))",
+  "stable_claim": "Every retained clean 443-test run passes PR-mode preflight with each changed production authority file above the unchanged 80-percent line threshold. Exact llvm-cov covered-line counts and whole-summary digests are observed-run provenance, not a reproducibility contract.",
+  "exact_summary_reproducibility_claimed": false,
+  "selected_tests_per_run": 443,
+  "observed_runs": [
+    {
+      "run": "author-pre-review",
+      "revision": "948ba82c2",
+      "summary_sha256": "777a125437475a23c582e17248328741fd7d715b882e947ef4101fc40337efb5",
+      "preflight": "passed",
+      "production_rows": [
+        {"path": "adl-runtime/src/distributed/authority_protocol.rs", "covered": 1160, "count": 1233},
+        {"path": "adl-runtime/src/distributed/identity.rs", "covered": 921, "count": 1028},
+        {"path": "adl-runtime/src/distributed/polis_runtime.rs", "covered": 2617, "count": 3094},
+        {"path": "adl-runtime/src/distributed/transport.rs", "covered": 1347, "count": 1458}
+      ]
+    },
+    {
+      "run": "author-post-review-a",
+      "revision": "9b863c5bde3947e6518dac8e84d5e9a615452234",
+      "summary_sha256": "723e1987bbad94fceca2c8b0455dc0260b07e9f135fc7eb6a5a40009f6cd2ae4",
+      "preflight": "passed",
+      "production_rows": [
+        {"path": "adl-runtime/src/distributed/authority_protocol.rs", "covered": 1160, "count": 1233},
+        {"path": "adl-runtime/src/distributed/identity.rs", "covered": 921, "count": 1028},
+        {"path": "adl-runtime/src/distributed/polis_runtime.rs", "covered": 2610, "count": 3094},
+        {"path": "adl-runtime/src/distributed/transport.rs", "covered": 1347, "count": 1458}
+      ]
+    },
+    {
+      "run": "author-post-review-b",
+      "revision": "9b863c5bde3947e6518dac8e84d5e9a615452234",
+      "summary_sha256": "36fe4efb37ed3212dbe8e3fb6db99b1781c235db8e9114ec24f4f46aacf345ba",
+      "preflight": "passed",
+      "production_rows": [
+        {"path": "adl-runtime/src/distributed/authority_protocol.rs", "covered": 1160, "count": 1233},
+        {"path": "adl-runtime/src/distributed/identity.rs", "covered": 921, "count": 1028},
+        {"path": "adl-runtime/src/distributed/polis_runtime.rs", "covered": 2617, "count": 3094},
+        {"path": "adl-runtime/src/distributed/transport.rs", "covered": 1347, "count": 1458}
+      ]
+    }
+  ],
+  "independent_review_observations": [
+    {
+      "run": "fresh-review-a",
+      "summary_sha256_prefix": "5ee3",
+      "full_summary_retained_here": false,
+      "selected_tests": 443,
+      "preflight": "passed",
+      "all_production_rows_above_threshold": true,
+      "polis_runtime": {"covered": 2610, "count": 3094}
+    },
+    {
+      "run": "fresh-review-b",
+      "summary_sha256_prefix": "b03b",
+      "full_summary_retained_here": false,
+      "selected_tests": 443,
+      "preflight": "passed",
+      "all_production_rows_above_threshold": true,
+      "polis_runtime": {"covered": 2611, "count": 3094}
+    }
+  ],
+  "threshold_result": {
+    "outcome": "passed",
+    "observed_minimum_rows": [
+      {"path": "adl-runtime/src/distributed/authority_protocol.rs", "covered": 1160, "count": 1233, "percent": 94.07948094079481},
+      {"path": "adl-runtime/src/distributed/identity.rs", "covered": 921, "count": 1028, "percent": 89.59143968871595},
+      {"path": "adl-runtime/src/distributed/polis_runtime.rs", "covered": 2610, "count": 3094, "percent": 84.3568196509373},
+      {"path": "adl-runtime/src/distributed/transport.rs", "covered": 1347, "count": 1458, "percent": 92.38683127572016}
+    ],
+    "polis_runtime_observed_covered_line_range": {"minimum": 2610, "maximum": 2617, "count": 3094}
+  },
+  "test_only_sources": [
+    {
+      "path": "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+      "reason": "Included only by authority_protocol.rs under cfg(test); never compiled as production source."
+    }
+  ],
+  "excluded_tests": [
+    {
+      "selector": "test(/^observability::/)",
+      "reason": "Unrelated observability supervision tests do not own any changed authority source."
+    },
+    {
+      "selector": "test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)",
+      "reason": "Long-lived transport qualification is separately governed and is not needed to cover the changed authority transport bridge."
+    }
+  ]
+}

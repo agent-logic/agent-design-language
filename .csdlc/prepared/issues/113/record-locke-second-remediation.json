@@ -1,0 +1,19 @@
+{
+  "issue": 113,
+  "card": "sor",
+  "expected_generation": 55,
+  "expected_digest": "09cb7a081e265509a8fbe5985fb273ba9b78f379a58bebef2bf3ea5082202f73",
+  "actor": "codex:wp18c03-locke-remediation",
+  "reason": "Record remediation and focused proof for every second-review finding.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Closed the exact-ID detail, browser cursor authentication, and population-policy allocation defects.",
+    "changes": [
+      "Detail lookup now resolves the exact policy-visible ID directly, including 65-128 byte IDs and labels or roles that contain another agent ID.",
+      "Every exact-successor browser update returns the prior cursor to Runtime and accepts the snapshot only when Runtime validates the cursor and returns the matching new cursor.",
+      "Serialized page results no longer clone the Runtime-owned population visibility policy."
+    ],
+    "artifacts": ["adl-runtime-kernel/src/control.rs","adl-runtime-kernel/tests/agent_roster.rs","demos/html-observatory/app.js","adl/tools/test_html_observatory.sh"]
+  },
+  "fail_after_backup": false
+}

@@ -1,0 +1,11 @@
+
+running 5 tests
+test distributed::membership_coordinator::tests::authority_membership_preserves_explicit_stable_ids ... ok
+test distributed::membership_coordinator::tests::conflicting_transition_and_receipt_fail_closed ... ADL_ISSUE_199_ASSERTION_V1 case=conflicting_retry assertion=conflicting_operation_and_receipt_denied_before_effect
+ok
+test distributed::membership_coordinator::tests::durable_saga_requires_exact_current_receipt_and_order ... ADL_ISSUE_199_ASSERTION_V1 case=crash_every_phase assertion=durable_saga_restart_exact_retry_no_duplicate_publication
+ok
+test distributed::membership_coordinator::tests::promote_artifact_requires_exact_discriminator_and_maps ... ok
+test distributed::membership_coordinator::tests::stable_map_digest_rejects_collisions_and_zero ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 308 filtered out; finished in 0.41s

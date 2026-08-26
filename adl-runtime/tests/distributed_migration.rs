@@ -17,6 +17,19 @@ mod lease;
 mod membership;
 #[path = "../src/distributed/migration.rs"]
 mod migration;
+mod integrated_serving_authority_snapshot {
+    pub use adl_runtime::distributed::integrated_serving_authority_snapshot::*;
+}
+mod shepherd_serving_eligibility {
+    pub use adl_runtime::distributed::shepherd_serving_eligibility::*;
+}
+#[cfg(feature = "internal-test-fixtures")]
+mod distributed {
+    pub use adl_runtime::distributed::{
+        authority_protocol, observatory_serving_eligibility, polis_runtime, serving_authority,
+        shepherd_serving_eligibility,
+    };
+}
 #[allow(dead_code)]
 #[path = "../src/distributed/placement.rs"]
 mod placement;
@@ -37,18 +50,18 @@ use std::{
 use capability_advertisement::{CapabilityEvidence, VerifiedCapabilityAdvertisement};
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-    CertificateValidity, DistributedCertificateStore,
+    CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 use fencing::{
     ActiveLeaseCheck, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
-    FencingStore,
+    FencingStore, TEST_FENCING_STORE_ACCESS,
 };
 use lease::{
     activation_signature, encode_certificate, endorse, AuthorityApplication,
     AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityLedger, AuthorityMembership,
     ControlCertificatePurpose, LeasePolicy, LeaseState, OperationClass, VoterAuthority,
-    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519,
+    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519, TEST_LEASE_STORE_ACCESS,
 };
 use membership::{
     CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
@@ -386,6 +399,7 @@ impl Fixture {
         let migration_authority = Arc::new(MigrationAuthority::default());
         let migration_clock = Arc::new(TestClock(Mutex::new(NOW * 1_000)));
         let fencing = FencingStore::create(
+            &TEST_FENCING_STORE_ACCESS,
             &fencing_root,
             fencing_policy(),
             Arc::new(FenceCheckpointAuthority::default()),
@@ -405,9 +419,10 @@ impl Fixture {
         );
         let source_signature = activation_signature(&grant_body, &authority.source_activation);
         let grant = authority.certificate(grant_body);
-        let mut ledger = AuthorityLedger::new(lease_policy()).unwrap();
+        let mut ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
         ledger
             .apply(
+                &TEST_LEASE_STORE_ACCESS,
                 &grant,
                 &membership,
                 AuthorityApplication {
@@ -425,6 +440,7 @@ impl Fixture {
         let snapshot_signer = key(41);
         let certificate_store = Arc::new(
             DistributedCertificateStore::open(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 root.join("certificates.redb"),
                 CertificatePolicy::new(DOMAIN, [issuer.verifying_key()])
                     .unwrap()
@@ -450,10 +466,14 @@ impl Fixture {
         )
         .unwrap();
         certificate_store
-            .activate(&snapshot_certificate, NOW - 10)
+            .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                &snapshot_certificate,
+                NOW - 10,
+            )
             .unwrap();
         let snapshot_policy = snapshot_policy();
-        let snapshot_verifier = SnapshotCatalogVerifier::open(
+        let snapshot_verifier = SnapshotCatalogVerifier::open_for_test(
             certificate_store,
             snapshot_policy.clone(),
             root.join("snapshot-replay.redb"),
@@ -1046,6 +1066,7 @@ fn migration_orders_authority_and_survives_restart() {
     fixture
         .ledger
         .apply(
+            &TEST_LEASE_STORE_ACCESS,
             &newer_commit_certificate,
             &newer_membership,
             AuthorityApplication {

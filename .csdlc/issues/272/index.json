@@ -1,0 +1,215 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 272,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f93934d7effdf8514fffeaedd928b6f7b927df58bf1010f2ca0e8ee302fd5497",
+  "phase": "published",
+  "generation": 6,
+  "digest": "89c18187a974acc1739caa9b2be6914b7a1f64cba5ca88b30b67d7010ad0a247",
+  "branch": "codex/272-serving-authority-foundation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-272-serving-authority-foundation",
+  "review_assignment": {
+    "reviewer": "fresh-session:97b655fd-7cc7-4b6b-8785-4994b6df35b7",
+    "assigned_by": "codex:planning2-issue272-owner",
+    "revision": "git-blake3:08015fbb363ef8d31b31b17844f856fd48f3b6d0:a58ceb4c66c321372482bf1dc84b4d6a3c6bff97f323ced8ed3601aefc6846c9",
+    "scope": [
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_serving_authority_foundation.rs",
+      ".csdlc/issues/272",
+      ".csdlc/prepared/issues/272",
+      ".csdlc/evidence/272"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:97b655fd-7cc7-4b6b-8785-4994b6df35b7",
+    "scope": [
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_serving_authority_foundation.rs",
+      ".csdlc/issues/272",
+      ".csdlc/prepared/issues/272",
+      ".csdlc/evidence/272"
+    ],
+    "reviewed_revision": "git-blake3:08015fbb363ef8d31b31b17844f856fd48f3b6d0:a58ceb4c66c321372482bf1dc84b4d6a3c6bff97f323ced8ed3601aefc6846c9",
+    "findings": [],
+    "residual_risks": [
+      "Broad all-target strict Clippy remains baseline-red in unrelated pre-existing Runtime test surfaces; the production library and exact #272 integration target are strict-Clippy clean.",
+      "Review is limited to #272 foundation behavior and does not approve #273-#275 eligibility or integrated behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 272,
+    "pull_request": 337,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/337",
+    "base": "main",
+    "head": "codex/272-serving-authority-foundation",
+    "revision": "git-blake3:f2b8501ea332ef489e7514664a10b0220b1ac540:e97fdea84f476d78af0ce52f1c87953402a5dd72555ac32c014e3b03a5a82abd",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/272/design.md",
+  "diagram_path": ".csdlc/prepared/issues/272/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4f090c4c-63e0-4d6d-b49e-839ba7a2b489",
+      "revision": "e7310ec3111d2ce4ad6f6fceb408e34460a03b40cc1846a1f3b7e1caf063e627"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f1f06c3e4f6cf46ebd911832b283b729dd5b42b956f7f8db9e4a953b0e02de91",
+      "rendered_digest": "1f19f3794fe2aae1774a4448d8d562eb89d7508813709c16c32d9a2f24d86a67",
+      "ast_digest": "ca44581ccef27929e5fd033c948e375c2027c6e24ab3cd18f32163fb387accc7"
+    },
+    "stp": {
+      "values_digest": "e5fc9a0f44ad3c47e867db3087ba27e2a7a60336980b15ed4aa885efd2ed3afd",
+      "rendered_digest": "1a546f237b31932f6f52154a82bc69800cb744a3e9a6982a0f3b736d1b25616e",
+      "ast_digest": "f0f01363a49c960987bc2671ea4a9e3c7da82f6acfe31ea2910d1b2c4c45319e"
+    },
+    "spp": {
+      "values_digest": "867c0acd2d971876cf0e36a2680b14d5e02c640179b9d5228972588de5b311e2",
+      "rendered_digest": "bda7bc1d368023c02931566b5017be3f3aa2a1409d6e260921ef30876ccfee0b",
+      "ast_digest": "6cbdca12af675a6d398d07e0a08dc14bc0a0abad874310f363e7bdad50d61342"
+    },
+    "vpp": {
+      "values_digest": "9693bf36a67d51fdcad779c7312806fb2c6388ff14db479cca6d3754976db920",
+      "rendered_digest": "90f504e37880ad273675fc5f2c598bd345ffd28415a7f636357de34f8870c01a",
+      "ast_digest": "dde84048aa85a2f3e705b98ddd5349d6a8dd74d7be875597cdfae831061fda47"
+    },
+    "srp": {
+      "values_digest": "29710ada9a9b7e372ed16812c5340d2c48631a51a993c8d59595cf5c24d7c1cc",
+      "rendered_digest": "4f6baba2891a9faabd9d04246164eb1c231c7f1e26f6d48af8693e2288d7c18d",
+      "ast_digest": "c9f024b037ad59b108fd6059885e869f24cfc0e2e8afd78dfd39000837fd129e"
+    },
+    "sor": {
+      "values_digest": "81a856c09299bf3d7b92d918e4bc867ef0ff2f4cf99d95e6eda5246a95e8722e",
+      "rendered_digest": "57d6b9c73773bdd18b925040e425cc0c4599987a37590c3a4ce9e15e40ba007d",
+      "ast_digest": "482d0d157e957d7a6f1dc564f40338dafb731572c9f18966081993b97155678e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:4f090c4c-63e0-4d6d-b49e-839ba7a2b489",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "Recover failed fresh-session:80077170-5a85-4c91-815f-16372cff214b exact-head review at 48cd0e7b: add the missing explicit canonical/schema/bounds/embedded-binding substitution, retry conflict, malformed-state, capacity atomicity, and pre-publication visibility proof before a new immutable head and fresh assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "Recover nonresponsive fresh-session:5e555370-1cb7-446f-afac-a106494b9925 assignment after bounded final prompt; candidate head 08015fbb remains unchanged and requires a new fresh exact-head reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 4,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

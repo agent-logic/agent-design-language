@@ -1,0 +1,17 @@
+{
+  "issue": 201,
+  "card": "spp",
+  "expected_generation": 66,
+  "expected_digest": "d8b6f51b80e38a07086562feb1e92e00a5f921d96a66c916cfc99540e4214ef4",
+  "actor": "codex:/root/shepherd_pr215_green/review_217_impl_602dad6/resolve_201_review_129ea",
+  "reason": "Replan the material authority custody correction before fresh design approval and proof.",
+  "operation": {
+    "operation": "replace_plan_steps",
+    "steps": [
+      {"id":"S1","action":"Preserve production OpenRaft apply-index authority, opaque signer custody, pending finalize response, and runtime-owned publication without reopening prior bypasses.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-7"],"status":"pending"},
+      {"id":"S2","action":"Split snapshot-replicated current authority into stable polis, epoch, membership, configuration, and voter truth only; keep the current trusted boot cut runtime-external, require exact canonical equality for every Prepare, freeze each prepared operation's historical boot vector and digest, and never mutate stable current authority during Prepare.","acceptance_ids":["AC-5","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Prove boot-rotated reopen can immediately build and install a snapshot, stale cuts reject without mutation, current cuts succeed, historical prepared/finalized custody remains valid, and duplicate, reordered, zero, or non-JCS wire cuts fail closed; obtain independent approval of the corrected design digest.","acceptance_ids":["AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S4","action":"After design approval, replace stale v7 evidence with one exact current-source packet binding the 86 semantic cases, truthful 230-test runtime lane, strict Clippy, real three-voter OpenRaft, validator modes, and fresh independent implementation review; stop before publication.","acceptance_ids":["AC-8"],"status":"pending"}
+    ]
+  }
+}

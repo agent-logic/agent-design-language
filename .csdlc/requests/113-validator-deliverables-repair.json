@@ -1,0 +1,22 @@
+{
+  "issue": 113,
+  "card": "stp",
+  "expected_generation": 10,
+  "expected_digest": "4b46a2db6c6eb327ed6559ffb68563eaebb4fbd518236ad5e442312217575341",
+  "actor": "codex:113-pvf-readiness-repair",
+  "reason": "Declare the two absent issue-owned validators as deferred implementation deliverables so typed readiness can distinguish planned exact proof from false-green existing controls.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl/tools/validate_v092_html_observatory_roster.mjs",
+      "Versioned paginated Runtime roster and policy-safe agent-detail projections",
+      "Deterministic presence, health, availability, freshness, provenance, relocation, capability, and communication-eligibility model",
+      "Opaque revision-bound pagination and bounded reconnect/event update contract",
+      "Search, filter, sort, selection, and status-change Observatory UI",
+      "Exact positive, negative, scale, browser, OpenAPI, reconnect, and rollback proof"
+    ]
+  },
+  "fail_after_backup": false
+}

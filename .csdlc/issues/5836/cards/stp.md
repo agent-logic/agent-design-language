@@ -38,7 +38,8 @@ Add the WP-18 demo runner, validator, fixtures, artifacts, D1-D6 matrix updates,
 ## Dependencies
 
 - #5825, #5826, #5827, #5828, #5829, and #5830 complete
-- #5832, #5833, and #5834 complete
+- agent-logic/agent-design-language#209 and PR #215 provide accepted WP-14 authority; legacy #5832 is superseded
+- #5833 and #5834 complete
 
 ## Inputs
 

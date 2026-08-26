@@ -1,0 +1,77 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5911,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Archive local Codex transcripts to FastWork and recover disk space",
+    "slug": "fastwork-transcript-archive-worktree-policy",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Initialize, bind on FastWork, enforce path policy, archive and verify transcripts, validate, review, and publish without deletion.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "enforce and prove the canonical FastWork worktree parent",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "step-2",
+          "action": "archive and checksum-verify the material local transcript store without deletion",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-7"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        ".adl/worktree-policy.json",
+        "AGENTS.md",
+        "csdlc-v2/src/lifecycle.rs",
+        "adl/tools/archive_codex_sessions_to_fastwork.sh",
+        "adl/tools/test_archive_codex_sessions_to_fastwork.sh"
+      ],
+      "invariants": [
+        "typed binding fails before Git topology mutation on an invalid worktree parent",
+        "archive verification precedes any deletion proposal",
+        "source transcripts and existing worktrees remain intact"
+      ],
+      "risks": [
+        "canonicalization of a not-yet-created worktree path",
+        "platform-specific mount availability",
+        "archive size and partial-copy interruption",
+        "sensitive transcript content exposure"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "FastWork is unavailable or not writable",
+        "typed lifecycle state conflicts with issue identity",
+        "archive verification fails",
+        "requested action would delete source data without separate approval"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/5911/design.md",
+      "design_digest": "d1c9aa19f2fe9852933e714905eb7ee5d03620078721157ccdafdb9b286d1991",
+      "diagram_ref": ".csdlc/prepared/issues/5911/design.mmd",
+      "diagram_digest": "093bb447659406894084abe6e3b3e94b08c8e75b565714d53082db9b5a0a30ad"
+    }
+  }
+}

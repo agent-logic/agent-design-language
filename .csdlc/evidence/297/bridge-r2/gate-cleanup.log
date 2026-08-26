@@ -1,0 +1,19 @@
+sha=3f38a135e939264e5b4f66ed4477d32c56abce61
+argv=cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_cleanup -- --nocapture
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.30s
+     Running tests/gate_cleanup.rs (csdlc-v2/target/debug/deps/gate_cleanup-22e12eed4ced971f)
+
+running 9 tests
+test terminal_census_rejects_truncation_wrong_identity_and_set_drift ... ok
+test removing_a_legacy_receipt_cannot_change_derived_terminal_truth ... ok
+test symlinked_expected_path_is_rejected_without_removal ... ok
+test missing_relocated_and_primary_paths_fail_closed ... ok
+test concurrent_removal_serializes_to_removed_then_already_absent ... ok
+test clean_worktree_classifies_removes_and_repeats_idempotently ... ok
+test symlinked_projection_and_lock_ancestors_are_rejected_without_escape ... ok
+test dirty_tracked_and_untracked_paths_are_reported_without_removal ... ok
+test tracked_v0918_terminal_census_is_compatible_and_read_only ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.83s
+
+status=0
