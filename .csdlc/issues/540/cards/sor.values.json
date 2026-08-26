@@ -1,0 +1,163 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 540,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][observatory] Prove additional_allowed_origins for localhost:8000",
+    "slug": "runtime-additional-allowed-origins-localhost-8000",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented focused Runtime v3 additional_allowed_origins support for the external draft Observatory origin http://localhost:8000.",
+      "actual_changes": [
+        "Added observatory.additional_allowed_origins as an additive Runtime init field with default empty behavior.",
+        "Kept observatory.allowed_origins HTTPS-only and allowed only the explicit draft http://localhost:8000 origin through the additional-origin path.",
+        "Merged allowed_origins and additional_allowed_origins for Runtime service CORS admission while preserving duplicate, wildcard, path, and unconfigured-origin rejection.",
+        "Added positive Runtime CORS proof for Origin: http://localhost:8000 and default-deny proof when the origin is not configured.",
+        "Kept Runtime test listeners on ephemeral ports; localhost:8000 is used only as a browser Origin value for the external draft Observatory.",
+        "Added observatory.additional_allowed_origins as an additive Runtime init field with default empty behavior.",
+        "Kept observatory.allowed_origins HTTPS-only and allowed only the explicit draft http://localhost:8000 origin through the additional-origin path.",
+        "Merged allowed_origins and additional_allowed_origins for Runtime service CORS admission while preserving duplicate, wildcard, path, and unconfigured-origin rejection.",
+        "Added positive Runtime CORS proof for Origin: http://localhost:8000 and default-deny proof when the origin is not configured."
+      ],
+      "artifacts": [
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/control.rs",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/control.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "configuration",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Prove Runtime init accepts additional_allowed_origins = [\"http://localhost:8000\"], preserves canonical https://localhost:8765, and rejects wildcard, duplicate, path, and non-approved HTTP origins.",
+          "outcome": "passed",
+          "evidence_ref": "local terminal: adl-runtime-kernel configuration target passed 22/22"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "control",
+            "observatory_cors",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Prove Runtime v3 allows Origin: http://localhost:8000 only when explicitly configured, denies it by default, preserves configured HTTPS origins, and uses only ephemeral test listeners.",
+          "outcome": "passed",
+          "evidence_ref": "local terminal: adl-runtime-kernel control observatory_cors filter passed 2/2"
+        },
+        {
+          "command": [
+            "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check",
+            "cargo check --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets",
+            "cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings"
+          ],
+          "purpose": "Prove formatting, full Runtime kernel target compilation, and strict lint cleanliness for the #540 additive configuration and CORS test changes.",
+          "outcome": "passed",
+          "evidence_ref": "local terminal: rustfmt check passed; cargo check --all-targets passed; strict clippy passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "check",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets"
+          ],
+          "purpose": "Confirm all Runtime kernel targets compile after the additive CORS configuration change.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-check.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Reject warning regressions across all Runtime kernel targets.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "configuration",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Run the Runtime init configuration tests proving additional_allowed_origins accepts http://localhost:8000 and rejects invalid/default-open origins.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-config-origin.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "control",
+            "observatory_cors",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Run focused Runtime control CORS tests proving configured allow and default deny for Origin: http://localhost:8000.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-control-cors.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "purpose": "Reject formatting drift in the touched Runtime kernel files.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-fmt.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
