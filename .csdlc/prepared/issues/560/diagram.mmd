@@ -1,0 +1,7 @@
+flowchart TD
+  A["Run 33017588921 workspace coverage"] --> B["1221/1224 pass"]
+  B --> C["3 runtime_v2 unified-kernel tests hit 120s ci-coverage timeout"]
+  C --> D["Exact profile.ci-coverage override for those 3 tests"]
+  D --> E["Focused llvm-cov nextest proof"]
+  E --> F["Hosted adl-coverage green"]
+  D -. "no product semantic edits" .-> G["Runtime v2 behavior unchanged"]

@@ -1,0 +1,12 @@
+## focused ci-coverage runtime_v2 unified-kernel proof
+expression=test(runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift) or test(runtime_v2_unified_runtime_kernel_events_are_correlated) or test(runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift)
+info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.35s
+────────────
+ Nextest run ID 7458ce77-3ba0-432e-9488-12c44c0ced5a with nextest profile: ci-coverage
+    Starting 3 tests across 33 binaries (2466 tests skipped)
+        PASS [   5.184s] (1/3) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated
+        PASS [   5.189s] (2/3) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift
+        PASS [   5.194s] (3/3) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift
+────────────
+     Summary [   5.195s] 3 tests run: 3 passed, 2466 skipped

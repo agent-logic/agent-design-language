@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 560,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+    "slug": "runtime-v2-workspace-coverage-timeouts",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/.config/nextest.toml and #560 C-SDLC evidence only",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify the change is an exact ci-coverage timeout/profile adjustment for only the three observed runtime_v2 tests.",
+        "Verify Runtime v2 semantics and assertions are unchanged.",
+        "Verify hosted coverage remains the final shared-gate proof."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

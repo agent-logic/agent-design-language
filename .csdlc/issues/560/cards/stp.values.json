@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 560,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+    "slug": "runtime-v2-workspace-coverage-timeouts",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Coverage-profile or test-harness timeout bound for the three named runtime_v2 unified-runtime-kernel tests only.",
+      "deliverables": [
+        "adl/.config/nextest.toml",
+        ".csdlc/prepared/issues/560/validate-focused-proof.sh",
+        ".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The fix is limited to workspace ci-coverage timeout/profile or harness bounds for the three exact runtime_v2 unified-runtime-kernel tests.",
+        "AC-2: Runtime v2 product semantics and the three tests' semantic assertions remain unchanged.",
+        "AC-3: Focused local coverage proof exercises the three affected tests under ci-coverage or the closest repo-supported focused equivalent.",
+        "AC-4: The PR closes #560 and documents run 33017588921 plus the #514 shared-gate role.",
+        "AC-5: Independent OpenAI Responses API exact-head review passes before publication/finish.",
+        "AC-6: Required hosted checks are green before typed C-SDLC finish merge."
+      ],
+      "dependencies": [
+        "#558 is merged/closed and repaired the previous adl-runtime coverage blocker.",
+        "#514 remains separate downstream work and is not modified here.",
+        "#499 remains separate downstream work and is not modified here."
+      ],
+      "repo_inputs": [
+        "GitHub issue #560",
+        "GitHub Actions run 33017588921",
+        "PR #514 head 401a6b533bce34c2d1d3b580b36939a3392f3b78",
+        "adl/.config/nextest.toml",
+        "adl/tools/run_authoritative_coverage_lane.sh"
+      ],
+      "non_goals": [
+        "No Runtime v2 product semantic changes.",
+        "No Runtime v4 work.",
+        "No #483, Sprint 2, or Sprint 3 edits.",
+        "No broad workspace timeout increase unless exact-test override proves impossible."
+      ]
+    }
+  }
+}

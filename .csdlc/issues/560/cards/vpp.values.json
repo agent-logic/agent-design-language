@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 560,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+    "slug": "runtime-v2-workspace-coverage-timeouts",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused-runtime-v2-unified-kernel-coverage",
+          "proof_role": "Run the issue-owned focused coverage script for the three exact runtime_v2 unified-kernel tests under ci-coverage.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 7080,
+          "budget_tokens": 1200,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/560/validate-focused-proof.sh"
+          ],
+          "parallel_group": "560-serial-01",
+          "defer_reason": null
+        },
+        {
+          "lane": "lifecycle-evidence-hygiene",
+          "proof_role": "Run the issue-owned lifecycle evidence hygiene script before exact-head review and publication.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 400,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh"
+          ],
+          "parallel_group": "560-serial-02",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on product semantic changes, broad timeout masking, missing focused proof, missing exact-head API review, stale head, red required checks, or lifecycle topology drift.",
+      "design_ref": ".csdlc/prepared/issues/560/design.md",
+      "design_digest": "f7d8f2374406bb3db50d20589b07bfbe66a108728eb34307bc80826b7ea2af8d",
+      "diagram_ref": ".csdlc/prepared/issues/560/diagram.mmd",
+      "diagram_digest": "1ef366e0f765b353b3dcc5b600674f2b6495d0965818b45ba9bd14b66fd01bc2"
+    }
+  }
+}

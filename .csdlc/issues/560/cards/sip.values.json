@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 560,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+    "slug": "runtime-v2-workspace-coverage-timeouts",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Stabilize the three runtime_v2 unified-runtime-kernel tests that time out only under workspace ci-coverage instrumentation.",
+      "required_outcome": "Workspace coverage no longer fails on the three exact runtime_v2 unified-runtime-kernel 120s timeout cases without changing Runtime v2 semantics.",
+      "declared_scope": [
+        "adl/.config/nextest.toml",
+        ".csdlc/issues/560",
+        ".csdlc/prepared/issues/560",
+        ".csdlc/evidence/560"
+      ],
+      "authority_boundary": [
+        "Typed C-SDLC v2 controls issue lifecycle, publication, and finish.",
+        "Runtime v2 event correlation, event order drift, summary drift, participant drift, and product semantics are not changed by this issue.",
+        "The issue exists as a shared workspace coverage gate repair for #514 and related Sprint 1 coverage work."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not touch #483, Sprint 2, or Sprint 3.",
+        "Do not edit tracked main.",
+        "Use a new FastWork issue worktree.",
+        "Obtain independent OpenAI Responses API exact-head review before publication/finish."
+      ]
+    }
+  }
+}
