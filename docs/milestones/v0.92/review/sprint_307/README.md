@@ -7,9 +7,11 @@ absorbing child implementation or release authority.
 
 - The canonical sequence remains `#308 -> #309 -> #310 -> #311 -> #312 ->
   #313 -> #314 -> #315 -> #316 -> #317 -> #318 -> #319`.
-- Live GitHub readback shows #308 through #318 closed.
-- #319 remains open and is owned by a separate release-ceremony session. This
-  packet does not mutate or execute #319.
+- Live GitHub readback shows #308 through #319 closed with every merge
+  ancestral to current `main`.
+- #319 completed in its separate release-ceremony session. Its PR #479 is
+  merged and green, its typed terminal cache is canonical, and its execution
+  worktree is cleaned. This packet did not execute its ceremony.
 - #314 is an intentional review-only, no-PR closure. The retained WP-28A
   closeout plan classifies its typed finish and projectionless worktree cleanup
   as asynchronous, non-gating bookkeeping. This packet records
@@ -21,12 +23,9 @@ absorbing child implementation or release authority.
 
 ## Terminal boundary
 
-Final #307 review and publication remain blocked until:
-
-1. #319 has terminal live ceremony readback, exact reviewed head, green
-   required checks, merge ancestry, typed terminal truth, and cleanup;
-2. the final generated child-sequence evidence passes the issue-owned terminal
-   validator at the exact #307 head.
+The final generated child-sequence evidence now passes the issue-owned terminal
+validator. #307 is ready for one fresh exact-head sprint review, publication,
+merge, typed finish, and cleanup.
 
 Historical projectionless preparation worktrees for #314 and #315 are retained
 because typed cleanup refused to infer ownership. They are not treated as live
