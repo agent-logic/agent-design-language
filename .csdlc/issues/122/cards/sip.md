@@ -16,7 +16,7 @@ After the distributed Runtime is terminal and a separate operator authorizes AWS
 
 ## Required Outcome
 
-Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress provide ordinary browser trust, exact revision parity, governed access, rollback, and ownership proof without private-state exposure.
+Route53, ACM, S3, CloudFront, WAF, API Gateway, DNS delegation, and origin configuration provide ordinary browser trust, exact revision parity, governed access, rollback, and ownership proof for the permanent non-compute public edge; operator-authorized disposable Spot EC2 and ALB Runtime-origin smoke proof remains bounded by receipt and teardown evidence.
 
 ## Scope
 
@@ -33,7 +33,7 @@ Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress provide or
 - Issue and code authority are agent-logic/agent-design-language#122
 - Issue #122 is deferred beyond v0.92 and is not a gate for #83 or #111-#117
 - Execution requires terminal distributed Runtime proof plus separate operator AWS authorization
-- AWS activity must use the approved Agent Logic business profile; no EC2, Spot, or CodeBuild
+- AWS activity must use the approved Agent Logic business profile; permanent public-edge scope remains non-compute while disposable Spot EC2 and ALB origin proof requires operator authorization and teardown evidence
 - Public reachability never grants Runtime write authority or permits private agent-state exposure
 
 ## Assumptions
@@ -42,8 +42,8 @@ Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress provide or
 
 ## Operator Constraints
 
-- Do not bind, implement, or use AWS during preparation
-- Do not push, open a PR, publish, merge, close, or mutate #83, #110, or #111-#117
-- Verify the approved business profile resolves to the Agent Logic business account before any later AWS action
-- Limit later authorized AWS scope to Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress
-- Never use EC2, Spot, or CodeBuild for this issue
+- Do not push, open a PR, publish, merge, close, or mutate #83, #110, or #111-#117 without separate lifecycle authority
+- Verify the approved business profile resolves to the Agent Logic business account before any AWS action
+- Limit permanent AWS public-edge scope to Route53, ACM, S3, CloudFront, WAF, API Gateway, DNS delegation, and origin configuration
+- Allow disposable Spot EC2 and ALB Runtime-origin resources only for explicit operator-authorized smoke proof with external receipt evidence and teardown/empty-state proof
+- Never use CodeBuild, NAT, GPU, Kubernetes, containers, or unapproved permanent Runtime compute for this issue

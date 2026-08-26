@@ -7,7 +7,7 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 18
+    "generation": 48
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "csm-public-edge-static",
-          "proof_role": "Validate the #122 Terraform public-edge module is formatted, provider-initializable, syntactically valid, Terraform-only, native-WSS-capable, exact-origin guarded, and free of authored compute/NAT/CodeBuild resources.",
+          "proof_role": "Validate the permanent public-edge stack and disposable runtime-origin stacks are formatted, provider-initializable, syntactically valid, native-WSS-capable, exact-origin guarded, and free of committed state or plan artifacts; permanent edge resources remain non-compute.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -36,6 +36,65 @@
           "argv": [
             "bash",
             "adl/tools/validate_csm_public_edge_static.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "terraform-public-edge-validate",
+          "proof_role": "Focused Terraform validate for infra/aws/csm-public-edge.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-public-edge",
+            "validate"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "terraform-runtime-spot-validate",
+          "proof_role": "Focused Terraform validate for the disposable Spot Runtime-origin stack.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-runtime-spot",
+            "validate"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "terraform-runtime-alb-validate",
+          "proof_role": "Focused Terraform validate for the disposable ALB Runtime-origin stack, including lookup-first reusable ACM certificate contract.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-runtime-alb",
+            "validate"
           ],
           "parallel_group": "local",
           "defer_reason": null
@@ -62,7 +121,7 @@
         },
         {
           "lane": "csm-public-edge-live-apply-gated",
-          "proof_role": "Operator-authorized live proof of DNS, ACM, HTTPS, WSS reachability, exact origin behavior, business-account ownership, and absence of forbidden compute after reviewed terraform plan/apply authority.",
+          "proof_role": "Operator-authorized live proof of DNS, ACM, HTTPS, WSS reachability, exact origin behavior, business-account ownership, and permanent-edge absence of compute resources.",
           "acceptance_ids": [
             "AC-2",
             "AC-3",
@@ -80,7 +139,52 @@
             "adl/tools/validate_csm_public_edge_live.sh"
           ],
           "parallel_group": "live",
-          "defer_reason": "Live AWS apply and Runtime endpoint proof require separate operator approval and configured deployed endpoints; no live apply is claimed in this PR."
+          "defer_reason": "Live AWS apply was separately operator-authorized for #122 and is recorded in SOR/evidence; future reruns remain gated on operator-approved AWS profile and target endpoints."
+        },
+        {
+          "lane": "csm-runtime-origin-smoke-live",
+          "proof_role": "Operator-authorized disposable AWS origin proof creates a small Spot EC2 host and HTTPS ALB, verifies an external request reaches the instance, then destroys all disposable origin resources.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 10000,
+          "argv": [
+            "curl",
+            "-sS",
+            "--max-time",
+            "20",
+            "-D",
+            "-",
+            "https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health"
+          ],
+          "parallel_group": "live",
+          "defer_reason": "Executed once as bounded live evidence and torn down; future reruns remain gated because they create billable disposable AWS resources."
+        },
+        {
+          "lane": "csm-runtime-origin-teardown-empty-state",
+          "proof_role": "Verify disposable Spot/ALB stacks are destroyed and their Terraform states contain zero resources while reusable ACM certificate remains outside disposable state.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-runtime-alb",
+            "show",
+            "-json"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
         },
         {
           "lane": "issue-diff-hygiene",

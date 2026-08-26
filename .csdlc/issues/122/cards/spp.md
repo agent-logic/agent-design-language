@@ -12,39 +12,39 @@ Status: ready
 
 ## Summary
 
-Hold beyond v0.92; after terminal distributed Runtime proof and separate operator authorization, verify the business profile, freeze the bounded public contract, implement issue-owned non-EC2 infrastructure, prove exact public behavior and rollback, and complete exact-head review.
+Implemented after operator authorization: #122 now owns the permanent non-compute CSM public edge plus reusable Terraform roots/modules for disposable Spot EC2 and ALB Runtime-origin smoke proof. Live evidence proved the permanent edge, the external ALB-to-EC2 path, certificate lookup/reuse, teardown, and cleanup of review-identified certificate/DNS residue; publication remains gated on exact-head PASS.
 
 ## Plan
 
-Revision 3
+Revision 6
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Wait for terminal distributed Runtime proof and separate operator AWS authorization; confirm #122 remains non-gating for #83 and #111-#117.",
+    "action": "Confirm terminal prerequisite truth, separate operator AWS authorization, and #122 non-gating posture for #83 and #111-#117.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Verify the approved business profile and freeze exact hostnames, resource ownership, budget, ingress, security, rollback, and cleanup contracts without EC2, Spot, or CodeBuild.",
+    "action": "Verify the approved business profile and freeze exact hostnames, resource ownership, budget, ingress, security, rollback, and cleanup contracts: permanent edge stays non-compute; disposable Spot/ALB origin smoke is allowed only as bounded proof.",
     "acceptance_ids": [
       "AC-2",
       "AC-5",
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Implement only issue-owned Route53, ACM, S3, CloudFront, and approved non-EC2 Runtime ingress targets.",
+    "action": "Implement issue-owned Route53, ACM, S3, CloudFront, API Gateway/WSS edge, plus disposable runtime-origin Spot EC2 and ALB Terraform roots/modules for quick create/destroy smoke proof.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -52,11 +52,11 @@ Revision 3
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
-    "action": "Run exact local policy and authorized live browser, HTTPS, WSS, revision, ownership, rollback, cleanup, and negative forbidden-compute proof.",
+    "action": "Run exact local policy proof, Terraform validation, authorized live edge apply, external ALB-to-EC2 receipt proof, teardown proof, ACM/Route53 cleanup proof, and diff hygiene.",
     "acceptance_ids": [
       "AC-3",
       "AC-4",
@@ -64,23 +64,24 @@ Revision 3
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",
-    "action": "Resolve exact-head security and operations review and hand off without production marketing launch unless separately authorized.",
+    "action": "Resolve exact-head security and operations review, publish only after PASS, and avoid production marketing launch unless separately authorized.",
     "acceptance_ids": [
       "AC-8"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 
 ## Invariants
 
-- #122 remains deferred beyond v0.92 and non-gating for #83 and #111-#117
+- #122 remains non-gating for #83 and #111-#117
 - No AWS action occurs without separate operator authorization and verified business-account authority
-- No EC2, Spot, or CodeBuild resource is created or operated
+- Permanent public-edge resources do not create Runtime compute, NAT, GPU, CodeBuild, Kubernetes, or containers
+- Disposable Spot EC2 and ALB resources are allowed only for operator-authorized smoke proof and must have teardown/empty-state evidence
 - Public reachability never grants write authority or exposes private Runtime or agent state
 - Deployed Observatory and Runtime gateway revisions match exactly and rollback remains bounded
 
@@ -117,7 +118,8 @@ Digest: 370d81d6f8cf0522a0521130f9dd9fd41a41ff14c7a22ef9ac47c4195d532e53
 - Distributed Runtime proof is nonterminal, unmerged, non-ancestral, or has unresolved review findings
 - Separate operator AWS authorization is absent, ambiguous, or expired
 - The approved profile does not resolve to the Agent Logic business account
-- The design requires EC2, Spot, CodeBuild, or an unapproved service
+- Permanent public-edge design requires Runtime compute, NAT, GPU, CodeBuild, Kubernetes, containers, or another unapproved permanent service
+- Disposable Spot/ALB proof cannot be created, externally proven, and destroyed with empty-state evidence
 - Exact origin, authentication, redaction, rate-limit, ownership, rollback, or cleanup behavior cannot fail closed
 - Any action would gate or mutate #83 or #111-#117
 

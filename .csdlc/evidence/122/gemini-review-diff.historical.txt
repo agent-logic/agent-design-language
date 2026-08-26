@@ -1,3 +1,11 @@
+Historical note for #122:
+
+This file preserves the exact diff context that was sent to Gemini during an
+earlier #122 review/remediation pass. It is not an applicable patch against the
+current tree and is not used as executable validation evidence. Current review
+and validation truth is recorded in the typed SRP/SOR cards, the live AWS
+evidence, and the exact-head review assignment for the final revision.
+
 diff --git a/.csdlc/issues/122/cards/sor.md b/.csdlc/issues/122/cards/sor.md
 index 98e01fdb2..7784eeb44 100644
 --- a/.csdlc/issues/122/cards/sor.md

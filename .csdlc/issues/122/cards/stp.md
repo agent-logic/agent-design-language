@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Prepare now; only after all serial gates may a separately authorized session implement bounded public Observatory and Runtime-gateway exposure.
+Implement and validate the reviewed #122 CSM public edge plus the operator-authorized disposable AWS Runtime-origin smoke surfaces: permanent CloudFront/WAF/S3/API/WSS edge stays non-ephemeral; Spot EC2 and ALB origin resources are disposable proof infrastructure that must be created, externally proven, and destroyed without becoming permanent scope.
 
 ## Deliverables
 
@@ -24,13 +24,38 @@ Prepare now; only after all serial gates may a separately authorized session imp
 - infra/aws/csm-public-edge/terraform.tfvars.example
 - infra/aws/csm-public-edge/.terraform.lock.hcl
 - infra/aws/csm-public-edge/README.md
+- infra/aws/csm-runtime-spot/versions.tf
+- infra/aws/csm-runtime-spot/variables.tf
+- infra/aws/csm-runtime-spot/locals.tf
+- infra/aws/csm-runtime-spot/main.tf
+- infra/aws/csm-runtime-spot/outputs.tf
+- infra/aws/csm-runtime-spot/terraform.tfvars.example
+- infra/aws/csm-runtime-spot/.terraform.lock.hcl
+- infra/aws/csm-runtime-spot/README.md
+- infra/aws/csm-runtime-alb/versions.tf
+- infra/aws/csm-runtime-alb/variables.tf
+- infra/aws/csm-runtime-alb/locals.tf
+- infra/aws/csm-runtime-alb/main.tf
+- infra/aws/csm-runtime-alb/outputs.tf
+- infra/aws/csm-runtime-alb/terraform.tfvars.example
+- infra/aws/csm-runtime-alb/.terraform.lock.hcl
+- infra/aws/csm-runtime-alb/README.md
+- infra/aws/modules/csm-runtime-spot/main.tf
+- infra/aws/modules/csm-runtime-spot/variables.tf
+- infra/aws/modules/csm-runtime-spot/outputs.tf
+- infra/aws/modules/csm-runtime-alb/main.tf
+- infra/aws/modules/csm-runtime-alb/variables.tf
+- infra/aws/modules/csm-runtime-alb/outputs.tf
 - adl/tools/validate_csm_public_edge_static.sh
 - adl/tools/validate_csm_public_edge_live.sh
 - docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md
+- docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md
 - .csdlc/prepared/issues/122/terraform-execution-plan.md
 - .csdlc/evidence/122/additional-origins-validation.md
 - .csdlc/evidence/122/gemini-remediation-review.result.json
 - .csdlc/evidence/122/gemini-remediation-review.log
+- .csdlc/evidence/122/gemini-review-diff.historical.txt
+- .csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md
 
 ## Acceptance
 
@@ -40,7 +65,7 @@ Prepare now; only after all serial gates may a separately authorized session imp
 4. AC-4: The Observatory and Runtime gateway expose one matching exact revision with no private state or secret material
 5. AC-5: CORS, CSP, WSS origins, authentication, signed Layer 8 writes, rate limits, redaction, and health reporting fail closed
 6. AC-6: Deployment and rollback are bounded, idempotent, ownership-verifiable, and leave no orphaned issue-owned resources
-7. AC-7: No EC2, Spot, or CodeBuild resource is created or operated
+7. AC-7: Permanent #122 edge resources remain non-compute; operator-authorized Spot EC2 and ALB origin resources are disposable smoke-proof infrastructure only and must be destroyed without becoming permanent scope
 8. AC-8: Exact-head security and operations review has no unresolved actionable findings
 9. AC-9: #122 remains non-gating for #83 and #111-#117
 
@@ -66,7 +91,9 @@ Prepare now; only after all serial gates may a separately authorized session imp
 
 ## Non Goals
 
-- Any execution during v0.92 or any gate on #83 or #111-#117
-- Product implementation, AWS use, deployment, publication, push, PR, merge, or closeout during preparation
-- EC2, Spot, CodeBuild, birthday-specific behavior, or production marketing launch
+- Any gate on #83 or #111-#117
+- Production marketing launch, merge, or closeout without separate lifecycle authority
+- Making Spot EC2, ALB, NAT, GPU, CodeBuild, Kubernetes, containers, or Runtime compute part of the permanent public edge
+- Creating disposable Spot EC2 or ALB resources without operator authorization, live proof purpose, and teardown evidence
+- Router, DNS parent-zone ownership transfer, Caddy, local Let's Encrypt automation, or certificate issuance outside the Terraform-owned ACM lookup/reuse contract
 - Weakening Runtime authorization or exposing private state, secrets, raw provider payloads, or internal topology

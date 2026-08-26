@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "6b726b404adb17d84c2d03b0b5b93d0cb40a668a700d93c8ab241611bcb8d3d5",
+  "generation": 48,
+  "digest": "f9271b4e7299f583db81f34f15b8f8aef1eb191bcaaffb04f69c158b702a4134",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8c78d567ca32f187842f883f644ac4abc7d63b50f284e4eb6cb111bdb0dbd6fe",
-      "rendered_digest": "f79956e706f3bc59e9419883fd5c0d67ef91f9420af276159c89b6e85fb82f7a",
-      "ast_digest": "a3b61442d79225ddcdf144d5d1bcaa0b7e05672bed049ccf1a66e9e256662c52"
+      "values_digest": "a282207c460d4155a66d7ad5a00f83fffe346c2382cfa08bc6a986b39b5e58bf",
+      "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
+      "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "2f2f81c6748dc651eec3b741d5639296b885cda67e845c74bb9a10d72aacc931",
-      "rendered_digest": "cb01b5f57d393d55d9c8b7ec487a64c3f993476859f30818eeccdc11c0b0c493",
-      "ast_digest": "662b0fc639848571dce874e845e76bf05ca08f6fa58f0419a27b0772ea84b969"
+      "values_digest": "4c7ce4c79b0b3f8d222232718348c3ecc4c07aa1c38f4317b555b6c6c8172fcd",
+      "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
+      "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "e3ffbe7da375431f98dedcd7d6dcc4455b8bca0c82a7c708f15c0e16f9b65da1",
-      "rendered_digest": "6ff1d54056afd10200b7cd1667ab84f13cfc2de34c77fcf0f382d32e28fbd45f",
-      "ast_digest": "c1634a33641f81c03bf7bb6632aba6030f5c343805fcce0b20a1e5252e331f9a"
+      "values_digest": "6d1f9ad509381b769617777258dcffbee81c616bb24465f7c42e202906374847",
+      "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
+      "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "43f13df8ebc6030579310a14ff20e8c314397697a6a4842cb7a7cca1f23aae11",
-      "rendered_digest": "7063fd11aa091255eea71053b22a442efce3d6c22791107788147e39b66d8b04",
-      "ast_digest": "a0f3349650c6eefe8db188f8466f392561b6944abe635db2836ba3d1b32518bf"
+      "values_digest": "85809d90466958d74a42eb37b6f7493aa303f6fd92eaa2e8ff6b80ccffb2cd52",
+      "rendered_digest": "8f61f58de8e982822638648bfc941c11fa6e96fd83c423cb85b14d5dce3b30a6",
+      "ast_digest": "491c78890e5c6a24563c40f2de94946462a4f048481d051edaa58602d55ef222"
     },
     "srp": {
-      "values_digest": "03bce926e7ff7e6b550253f334d9b30765c046eab7ee7eaf3d3e028d60a447e4",
+      "values_digest": "3c1f7b377e4a2a532b3428dd1cae421c2662e1e2e43fb60f5017aa37f88dc4ac",
       "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
       "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
     },
     "sor": {
-      "values_digest": "d85afd03320d2f458654ca354087678dea24d1fb240a609c564b86c6d615f5bd",
+      "values_digest": "9a62f6765f6442e4f135242e320a7ce0c9959a3801c9067a3465542a593fafc9",
       "rendered_digest": "756782516544940f21b1d3ac33e788b83aeb94871ac10e02c6f63e77faa07006",
       "ast_digest": "64095a09c87e77664d141025289f9c9a79d032e4578da3527b1ad34d99cf781f"
     }
@@ -90,6 +90,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #122 review after clean origin/main merge advanced the publication head from reviewed revision 0a0a1d14 to merge head 84ef9adb; no path overlap or conflict occurred, static proof still passes, and a fresh exact review is required before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover scoped VPP-only PASS before resolving the separate stale gemini-review-diff.patch evidence artifact and related deliverable truth. A fresh exact-head review will be required after the evidence/card repair."
     }
   ],
   "audit": [
@@ -267,6 +281,265 @@
       "actor": "codex:/root",
       "reason": "Resolve #122 review P2s by recording ACM cleanup and parent DNS profile-boundary truth.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev, then added separate quick-create/quick-destroy AWS Runtime origin stacks for a disposable Spot EC2 host and HTTPS ALB. The permanent Agent Logic business AWS edge owns the delegated csm.agent-logic.ai hosted zone plus CloudFront/WAF/S3/API/WSS surfaces. Observatory assets are served at https://observatory.wuji.dev.csm.agent-logic.ai with deployed config pointing at https://api.wuji.dev.csm.agent-logic.ai. API Gateway CORS allows the Observatory origin and rejects unrelated origins. The AWS ALB origin path is live-proven: an external HTTPS call to origin-smoke.wuji.dev.csm.agent-logic.ai reached the disposable EC2 instance and returned the instance id, then both disposable stacks were destroyed. The disposable ALB stack now reuses an existing regional ACM certificate by default; extra unused namespace certificates and their stale parent-zone ACM validation CNAMEs created during live exploration were deleted after review. The selected local wuji Runtime origin remains coordinated separately through Caddy/Let's Encrypt. Parent DNS used the distinct default AWS profile only as a bounded parent-zone exception for delegation and ACM DNS-validation records because the parent agent-logic.ai hosted zone lives there; CSM edge/runtime resources stayed in the business profile.\",\"changes\":[\"Added Terraform support for first-time CSM hosted zone creation or explicit hosted_zone_id reuse.\",\"Added optional edge_acm_certificate_arn so CloudFront can use a pre-issued per-CSM ACM wildcard certificate.\",\"Added optional origin_cname_target so wuji.dev.csm.agent-logic.ai can CNAME to the existing wuji DDNS hostname without hardcoding an IP address.\",\"Updated naming/docs from generic placeholders to <function>.<csm>.<environment>.csm.agent-logic.ai and production <function>.<csm>.csm.agent-logic.com.\",\"Applied the wuji/dev edge in the Agent Logic business AWS account and uploaded the HTML Observatory assets to the private Observatory S3 bucket.\",\"Added infra/aws/csm-runtime-spot for one disposable small Spot EC2 Runtime host with ALB-scoped ingress and optional user_data_file smoke bootstrap.\",\"Added infra/aws/csm-runtime-alb for one replaceable public HTTPS ALB origin with target attachment, health checks, DNS aliasing, and lookup-first reusable ACM certificate handling.\",\"Changed the ALB origin cert contract so normal ALB recycling looks up an existing ISSUED regional ACM certificate before any explicit first-time certificate creation path; wildcard reuse is supported through certificate_lookup_domain.\",\"Live-proved the disposable AWS origin path by creating ALB and Spot resources, attaching the target, observing target health healthy, receiving HTTP 200 from the public origin with the EC2 instance id in the response, and destroying all disposable Spot/ALB resources afterward.\",\"Deleted unused additional namespace ACM certificates that were created during live exploration and recorded post-delete inventory so #122 no longer leaves certificate churn beyond the retained CloudFront viewer cert and reusable regional origin cert.\",\"Deleted the two stale parent-zone ACM validation CNAMEs for the deleted extra namespace certificates while preserving the csm.agent-logic.ai NS delegation and active *.wuji.dev.csm.agent-logic.ai validation CNAME.\",\"Recorded the parent-zone AWS profile boundary truth: default and agent-logic-admin are distinct accounts; default was used only for bounded parent-zone delegation/ACM validation records because the parent hosted zone lives there, while CSM edge/runtime resources remained in the business account.\"],\"artifacts\":[\"infra/aws/csm-public-edge/\",\"infra/aws/csm-runtime-spot/\",\"infra/aws/csm-runtime-alb/\",\"infra/aws/modules/csm-runtime-spot/\",\"infra/aws/modules/csm-runtime-alb/\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"],\"validation\":[{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"validate\"],\"purpose\":\"Terraform validation for the permanent CSM public edge stack\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 focused validation rerun in #122 worktree\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-spot\",\"validate\"],\"purpose\":\"Terraform validation for the disposable Spot Runtime origin stack\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 focused validation rerun in #122 worktree\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"validate\"],\"purpose\":\"Terraform validation for the disposable ALB Runtime origin stack\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 focused validation rerun in #122 worktree\"},{\"command\":[\"bash\",\"adl/tools/validate_csm_public_edge_static.sh\"],\"purpose\":\"Static Terraform init/validate and CSM WSS/CORS guard proof\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 focused validation rerun in #122 worktree\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"apply\",\"-auto-approve\",\"issue122-full.tfplan\"],\"purpose\":\"Live AWS apply of CloudFront/WAF/S3/API/WSS edge resources\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"},{\"command\":[\"curl\",\"-sS\",\"--max-time\",\"20\",\"-D\",\"-\",\"https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health\"],\"purpose\":\"Live AWS ALB-to-EC2 origin proof: external HTTPS call reached the disposable Runtime instance and returned the instance id\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"terraform\",\"-chdir=infra/aws/csm-runtime-spot\",\"destroy\"],\"purpose\":\"Teardown proof for disposable Spot Runtime origin resources\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"destroy\"],\"purpose\":\"Teardown proof for disposable ALB Runtime origin resources while preserving reusable ACM cert outside disposable state\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"plan\",\"-out=issue122-alb-recreate-lookup-smoke.tfplan\"],\"purpose\":\"Empty-state ALB recreate proof: lookup existing regional ACM cert before planning disposable ALB resources\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"aws\",\"acm\",\"delete-certificate\",\"--region\",\"us-east-1\"],\"purpose\":\"Review remediation for unused extra namespace ACM certificates created during live exploration\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md and Git-common ACM read/delete receipts\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"aws\",\"acm\",\"list-certificates\",\"--region\",\"us-east-1\"],\"purpose\":\"Post-delete inventory proved extra namespace certs were removed from ACM\",\"outcome\":\"passed\",\"evidence_ref\":\"Git-common request receipts issue122-acm-useast1-post-delete-2.json\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"aws\",\"acm\",\"list-certificates\",\"--region\",\"us-west-2\"],\"purpose\":\"Post-delete inventory proved the reusable regional origin certificate remains\",\"outcome\":\"passed\",\"evidence_ref\":\"Git-common request receipt issue122-acm-uswest2-post-delete.json\"},{\"command\":[\"AWS_PROFILE=default\",\"aws\",\"route53\",\"change-resource-record-sets\",\"--hosted-zone-id\",\"Z0105194MPK8MKMH2XAQ\",\"--change-batch\",\"file://.git/csdlc-v2/requests/issue122-route53-delete-stale-acm-validation-cnames.json\"],\"purpose\":\"Review remediation for stale parent-zone ACM validation CNAMEs associated with deleted extra namespace certificates\",\"outcome\":\"passed\",\"evidence_ref\":\".git/csdlc-v2/requests/issue122-route53-delete-stale-acm-validation-cnames.json and Route53 change /change/C0169968O3N8DSCH7LIG\"},{\"command\":[\"AWS_PROFILE=default\",\"aws\",\"route53\",\"list-resource-record-sets\",\"--hosted-zone-id\",\"Z0105194MPK8MKMH2XAQ\"],\"purpose\":\"Post-cleanup parent-zone inventory proved only csm.agent-logic.ai delegation and active *.wuji.dev.csm.agent-logic.ai validation remain for the CSM namespace\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 commentary inventory after Route53 change /change/C0169968O3N8DSCH7LIG\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin/default\",\"aws\",\"sts\",\"get-caller-identity\"],\"purpose\":\"Profile boundary check proved default and agent-logic-admin are distinct accounts, requiring explicit parent-zone exception truth\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary output profiles_differ; account ids not recorded in committed evidence\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover #122 exact review fresh-session:bc15764b-f9b2-4da5-b23e-a562d00684da after FAIL: P1 STP/SPP/VPP lifecycle truth still claimed no EC2/Spot/live apply while authorized implementation includes disposable Spot EC2 plus ALB origin smoke, and P3 diff hygiene found trailing whitespace in retained gemini-review-diff.patch evidence. Repair typed card truth and whitespace before assigning a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Recover #122 recorded review fresh-session:bc15764b-f9b2-4da5-b23e-a562d00684da after FAIL with P1 lifecycle scope conflict and P3 diff hygiene artifact. This recovery precedes supported implemented-phase typed card truth repairs and whitespace cleanup.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Resolve review P1 by replacing stale preparation-only/no-compute task boundary with the current operator-authorized #122 implementation boundary.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implement and validate the reviewed #122 CSM public edge plus the operator-authorized disposable AWS Runtime-origin smoke surfaces: permanent CloudFront/WAF/S3/API/WSS edge stays non-ephemeral; Spot EC2 and ALB origin resources are disposable proof infrastructure that must be created, externally proven, and destroyed without becoming permanent scope.\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Resolve exact-review P1 by replacing stale AC-7 no-EC2/no-Spot wording with current permanent-edge plus disposable-origin smoke truth.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Distributed Runtime integration is terminal, merged, ancestral, and independently reviewed before execution\",\"AC-2: A separate operator authorization exists and the approved business profile resolves to the Agent Logic business account\",\"AC-3: Both canonical hostnames resolve to issue-owned resources with valid ACM chains and ordinary platform trust\",\"AC-4: The Observatory and Runtime gateway expose one matching exact revision with no private state or secret material\",\"AC-5: CORS, CSP, WSS origins, authentication, signed Layer 8 writes, rate limits, redaction, and health reporting fail closed\",\"AC-6: Deployment and rollback are bounded, idempotent, ownership-verifiable, and leave no orphaned issue-owned resources\",\"AC-7: Permanent #122 edge resources remain non-compute; operator-authorized Spot EC2 and ALB origin resources are disposable smoke-proof infrastructure only and must be destroyed without becoming permanent scope\",\"AC-8: Exact-head security and operations review has no unresolved actionable findings\",\"AC-9: #122 remains non-gating for #83 and #111-#117\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Recover assignment-only #122 review marker fresh-session:3730e615-68e4-4368-a603-8789ce45e2b7. No review material was sent and no reviewer activity occurred; recovery establishes a clean typed epoch for remaining supported implemented-phase SPP/VPP truth repairs after AC-7 correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Recover recorded #122 review fresh-session:5626b79a-b221-46bb-80a2-6ce86ed321ca after FAIL: exact-head lifecycle truth is uncommitted, SPP still forbids/pendings disposable Spot/ALB proof, VPP lacks live/disposable validation truth, STP deliverables/non-goals are partially stale, and gemini patch evidence is stale. This recovery precedes supported typed card/documentation repairs and fresh exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Resolve formal review P2 by listing all #122 public-edge, disposable Spot/ALB origin, module, validator, evidence, and operator runbook deliverables.",
+      "operation": "{\"new_values\":[\"infra/aws/csm-public-edge/versions.tf\",\"infra/aws/csm-public-edge/variables.tf\",\"infra/aws/csm-public-edge/locals.tf\",\"infra/aws/csm-public-edge/main.tf\",\"infra/aws/csm-public-edge/outputs.tf\",\"infra/aws/csm-public-edge/terraform.tfvars.example\",\"infra/aws/csm-public-edge/.terraform.lock.hcl\",\"infra/aws/csm-public-edge/README.md\",\"infra/aws/csm-runtime-spot/versions.tf\",\"infra/aws/csm-runtime-spot/variables.tf\",\"infra/aws/csm-runtime-spot/locals.tf\",\"infra/aws/csm-runtime-spot/main.tf\",\"infra/aws/csm-runtime-spot/outputs.tf\",\"infra/aws/csm-runtime-spot/terraform.tfvars.example\",\"infra/aws/csm-runtime-spot/.terraform.lock.hcl\",\"infra/aws/csm-runtime-spot/README.md\",\"infra/aws/csm-runtime-alb/versions.tf\",\"infra/aws/csm-runtime-alb/variables.tf\",\"infra/aws/csm-runtime-alb/locals.tf\",\"infra/aws/csm-runtime-alb/main.tf\",\"infra/aws/csm-runtime-alb/outputs.tf\",\"infra/aws/csm-runtime-alb/terraform.tfvars.example\",\"infra/aws/csm-runtime-alb/.terraform.lock.hcl\",\"infra/aws/csm-runtime-alb/README.md\",\"infra/aws/modules/csm-runtime-spot/main.tf\",\"infra/aws/modules/csm-runtime-spot/variables.tf\",\"infra/aws/modules/csm-runtime-spot/outputs.tf\",\"infra/aws/modules/csm-runtime-alb/main.tf\",\"infra/aws/modules/csm-runtime-alb/variables.tf\",\"infra/aws/modules/csm-runtime-alb/outputs.tf\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\"docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/additional-origins-validation.md\",\".csdlc/evidence/122/gemini-remediation-review.result.json\",\".csdlc/evidence/122/gemini-remediation-review.log\",\".csdlc/evidence/122/gemini-review-diff.patch\",\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"infra/aws/csm-public-edge/versions.tf\",\"infra/aws/csm-public-edge/variables.tf\",\"infra/aws/csm-public-edge/locals.tf\",\"infra/aws/csm-public-edge/main.tf\",\"infra/aws/csm-public-edge/outputs.tf\",\"infra/aws/csm-public-edge/terraform.tfvars.example\",\"infra/aws/csm-public-edge/.terraform.lock.hcl\",\"infra/aws/csm-public-edge/README.md\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/additional-origins-validation.md\",\".csdlc/evidence/122/gemini-remediation-review.result.json\",\".csdlc/evidence/122/gemini-remediation-review.log\"],\"recovery_generation\":26,\"recovery_sequence\":37}"
+    },
+    {
+      "sequence": 39,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover recorded #122 review fresh-session:af8e57ab-95a9-42ce-af38-e4f92df5e402 after FAIL on remaining STP non-goals, SPP summary/steps/invariants/stop conditions, and VPP live/disposable proof lanes. This recovery precedes ordered typed repairs.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "Resolve formal review P1 by preserving the permanent-edge non-compute boundary while allowing operator-authorized disposable Spot/ALB smoke proof with teardown.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Any gate on #83 or #111-#117\",\"Production marketing launch, merge, or closeout without separate lifecycle authority\",\"Making Spot EC2, ALB, NAT, GPU, CodeBuild, Kubernetes, containers, or Runtime compute part of the permanent public edge\",\"Creating disposable Spot EC2 or ALB resources without operator authorization, live proof purpose, and teardown evidence\",\"Router, DNS parent-zone ownership transfer, Caddy, local Let's Encrypt automation, or certificate issuance outside the Terraform-owned ACM lookup/reuse contract\",\"Weakening Runtime authorization or exposing private state, secrets, raw provider payloads, or internal topology\"]}"
+    },
+    {
+      "sequence": 43,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "Resolve formal review P1 by replacing stale non-EC2 SPP summary with implemented permanent-edge plus disposable Spot/ALB proof truth.",
+      "operation": "{\"new_value\":\"Implemented after operator authorization: #122 now owns the permanent non-compute CSM public edge plus reusable Terraform roots/modules for disposable Spot EC2 and ALB Runtime-origin smoke proof. Live evidence proved the permanent edge, the external ALB-to-EC2 path, certificate lookup/reuse, teardown, and cleanup of review-identified certificate/DNS residue; publication remains gated on exact-head PASS.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Hold beyond v0.92; after terminal distributed Runtime proof and separate operator authorization, verify the business profile, freeze the bounded public contract, implement issue-owned non-EC2 infrastructure, prove exact public behavior and rollback, and complete exact-head review.\",\"recovery_generation\":29,\"recovery_sequence\":41}"
+    },
+    {
+      "sequence": 44,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "Resolve formal review P1 by replacing stale non-EC2 SPP step text with current permanent-edge plus disposable Spot/ALB proof plan text before status normalization.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm terminal prerequisite truth, separate operator AWS authorization, and #122 non-gating posture for #83 and #111-#117.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Verify the approved business profile and freeze exact hostnames, resource ownership, budget, ingress, security, rollback, and cleanup contracts: permanent edge stays non-compute; disposable Spot/ALB origin smoke is allowed only as bounded proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Implement issue-owned Route53, ACM, S3, CloudFront, API Gateway/WSS edge, plus disposable runtime-origin Spot EC2 and ALB Terraform roots/modules for quick create/destroy smoke proof.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run exact local policy proof, Terraform validation, authorized live edge apply, external ALB-to-EC2 receipt proof, teardown proof, ACM/Route53 cleanup proof, and diff hygiene.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Resolve exact-head security and operations review, publish only after PASS, and avoid production marketing launch unless separately authorized.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 45,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Normalize #122 SPP step S1 status after implemented proof and before exact review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 46,
+      "generation": 34,
+      "actor": "codex:/root",
+      "reason": "Normalize #122 SPP step S2 status after implemented proof and before exact review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 47,
+      "generation": 35,
+      "actor": "codex:/root",
+      "reason": "Normalize #122 SPP step S3 status after implemented proof and before exact review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 48,
+      "generation": 36,
+      "actor": "codex:/root",
+      "reason": "Normalize #122 SPP step S4 status after implemented proof and before exact review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 49,
+      "generation": 37,
+      "actor": "codex:/root",
+      "reason": "Normalize #122 SPP step S5 status after implemented proof and before exact review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 50,
+      "generation": 38,
+      "actor": "codex:/root",
+      "reason": "Resolve formal review P1 by replacing stale no-live-apply VPP lanes with permanent edge, disposable Spot/ALB validation, smoke, teardown, ACM reuse, and diff-hygiene lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csm-public-edge-static\",\"proof_role\":\"Validate the permanent public-edge stack and disposable runtime-origin stacks are formatted, provider-initializable, syntactically valid, native-WSS-capable, exact-origin guarded, and free of committed state or plan artifacts; permanent edge resources remain non-compute.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/validate_csm_public_edge_static.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"terraform-public-edge-validate\",\"proof_role\":\"Focused Terraform validate for infra/aws/csm-public-edge.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"validate\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"terraform-runtime-spot-validate\",\"proof_role\":\"Focused Terraform validate for the disposable Spot Runtime-origin stack.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-spot\",\"validate\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"terraform-runtime-alb-validate\",\"proof_role\":\"Focused Terraform validate for the disposable ALB Runtime-origin stack, including lookup-first reusable ACM certificate contract.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"validate\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csm-public-edge-additional-origins-smoke\",\"proof_role\":\"Retain evidence that exact additional allowed origins are accepted and wildcard origins fail closed before API Gateway CORS configuration.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"console\"],\"parallel_group\":\"local\",\"defer_reason\":\"Executed manually as a console smoke with exact -var inputs; retained in .csdlc/evidence/122/additional-origins-validation.md because terraform console is interactive.\"},{\"lane\":\"csm-public-edge-live-apply-gated\",\"proof_role\":\"Operator-authorized live proof of DNS, ACM, HTTPS, WSS reachability, exact origin behavior, business-account ownership, and permanent-edge absence of compute resources.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"bash\",\"adl/tools/validate_csm_public_edge_live.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Live AWS apply was separately operator-authorized for #122 and is recorded in SOR/evidence; future reruns remain gated on operator-approved AWS profile and target endpoints.\"},{\"lane\":\"csm-runtime-origin-smoke-live\",\"proof_role\":\"Operator-authorized disposable AWS origin proof creates a small Spot EC2 host and HTTPS ALB, verifies an external request reaches the instance, then destroys all disposable origin resources.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"curl\",\"-sS\",\"--max-time\",\"20\",\"-D\",\"-\",\"https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health\"],\"parallel_group\":\"live\",\"defer_reason\":\"Executed once as bounded live evidence and torn down; future reruns remain gated because they create billable disposable AWS resources.\"},{\"lane\":\"csm-runtime-origin-teardown-empty-state\",\"proof_role\":\"Verify disposable Spot/ALB stacks are destroyed and their Terraform states contain zero resources while reusable ACM certificate remains outside disposable state.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"show\",\"-json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts across #122 Terraform, documentation, validation, evidence, and lifecycle surfaces.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 39,
+      "actor": "codex:/root",
+      "reason": "Resolve formal review P1 by replacing stale no-EC2/no-Spot invariant with permanent-edge non-compute plus disposable-proof boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"#122 remains non-gating for #83 and #111-#117\",\"No AWS action occurs without separate operator authorization and verified business-account authority\",\"Permanent public-edge resources do not create Runtime compute, NAT, GPU, CodeBuild, Kubernetes, or containers\",\"Disposable Spot EC2 and ALB resources are allowed only for operator-authorized smoke proof and must have teardown/empty-state evidence\",\"Public reachability never grants write authority or exposes private Runtime or agent state\",\"Deployed Observatory and Runtime gateway revisions match exactly and rollback remains bounded\"]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 40,
+      "actor": "codex:/root",
+      "reason": "Resolve formal review P1 by replacing stale EC2/Spot stop condition with permanent-edge and disposable-proof stop boundaries.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Distributed Runtime proof is nonterminal, unmerged, non-ancestral, or has unresolved review findings\",\"Separate operator AWS authorization is absent, ambiguous, or expired\",\"The approved profile does not resolve to the Agent Logic business account\",\"Permanent public-edge design requires Runtime compute, NAT, GPU, CodeBuild, Kubernetes, containers, or another unapproved permanent service\",\"Disposable Spot/ALB proof cannot be created, externally proven, and destroyed with empty-state evidence\",\"Exact origin, authentication, redaction, rate-limit, ownership, rollback, or cleanup behavior cannot fail closed\",\"Any action would gate or mutate #83 or #111-#117\"]}"
+    },
+    {
+      "sequence": 53,
+      "generation": 40,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 41,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 42,
+      "actor": "codex:/root",
+      "reason": "Recover scoped VPP-only PASS before resolving the separate stale gemini-review-diff.patch evidence artifact and related deliverable truth. A fresh exact-head review will be required after the evidence/card repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 56,
+      "generation": 43,
+      "actor": "codex:/root",
+      "reason": "Resolve stale patch-artifact truth by replacing the obsolete applicable-patch deliverable with a historical text evidence artifact that preserves prior Gemini diff context without claiming it applies to the current tree.",
+      "operation": "{\"new_values\":[\"infra/aws/csm-public-edge/versions.tf\",\"infra/aws/csm-public-edge/variables.tf\",\"infra/aws/csm-public-edge/locals.tf\",\"infra/aws/csm-public-edge/main.tf\",\"infra/aws/csm-public-edge/outputs.tf\",\"infra/aws/csm-public-edge/terraform.tfvars.example\",\"infra/aws/csm-public-edge/.terraform.lock.hcl\",\"infra/aws/csm-public-edge/README.md\",\"infra/aws/csm-runtime-spot/versions.tf\",\"infra/aws/csm-runtime-spot/variables.tf\",\"infra/aws/csm-runtime-spot/locals.tf\",\"infra/aws/csm-runtime-spot/main.tf\",\"infra/aws/csm-runtime-spot/outputs.tf\",\"infra/aws/csm-runtime-spot/terraform.tfvars.example\",\"infra/aws/csm-runtime-spot/.terraform.lock.hcl\",\"infra/aws/csm-runtime-spot/README.md\",\"infra/aws/csm-runtime-alb/versions.tf\",\"infra/aws/csm-runtime-alb/variables.tf\",\"infra/aws/csm-runtime-alb/locals.tf\",\"infra/aws/csm-runtime-alb/main.tf\",\"infra/aws/csm-runtime-alb/outputs.tf\",\"infra/aws/csm-runtime-alb/terraform.tfvars.example\",\"infra/aws/csm-runtime-alb/.terraform.lock.hcl\",\"infra/aws/csm-runtime-alb/README.md\",\"infra/aws/modules/csm-runtime-spot/main.tf\",\"infra/aws/modules/csm-runtime-spot/variables.tf\",\"infra/aws/modules/csm-runtime-spot/outputs.tf\",\"infra/aws/modules/csm-runtime-alb/main.tf\",\"infra/aws/modules/csm-runtime-alb/variables.tf\",\"infra/aws/modules/csm-runtime-alb/outputs.tf\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\"docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/additional-origins-validation.md\",\".csdlc/evidence/122/gemini-remediation-review.result.json\",\".csdlc/evidence/122/gemini-remediation-review.log\",\".csdlc/evidence/122/gemini-review-diff.historical.txt\",\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"infra/aws/csm-public-edge/versions.tf\",\"infra/aws/csm-public-edge/variables.tf\",\"infra/aws/csm-public-edge/locals.tf\",\"infra/aws/csm-public-edge/main.tf\",\"infra/aws/csm-public-edge/outputs.tf\",\"infra/aws/csm-public-edge/terraform.tfvars.example\",\"infra/aws/csm-public-edge/.terraform.lock.hcl\",\"infra/aws/csm-public-edge/README.md\",\"infra/aws/csm-runtime-spot/versions.tf\",\"infra/aws/csm-runtime-spot/variables.tf\",\"infra/aws/csm-runtime-spot/locals.tf\",\"infra/aws/csm-runtime-spot/main.tf\",\"infra/aws/csm-runtime-spot/outputs.tf\",\"infra/aws/csm-runtime-spot/terraform.tfvars.example\",\"infra/aws/csm-runtime-spot/.terraform.lock.hcl\",\"infra/aws/csm-runtime-spot/README.md\",\"infra/aws/csm-runtime-alb/versions.tf\",\"infra/aws/csm-runtime-alb/variables.tf\",\"infra/aws/csm-runtime-alb/locals.tf\",\"infra/aws/csm-runtime-alb/main.tf\",\"infra/aws/csm-runtime-alb/outputs.tf\",\"infra/aws/csm-runtime-alb/terraform.tfvars.example\",\"infra/aws/csm-runtime-alb/.terraform.lock.hcl\",\"infra/aws/csm-runtime-alb/README.md\",\"infra/aws/modules/csm-runtime-spot/main.tf\",\"infra/aws/modules/csm-runtime-spot/variables.tf\",\"infra/aws/modules/csm-runtime-spot/outputs.tf\",\"infra/aws/modules/csm-runtime-alb/main.tf\",\"infra/aws/modules/csm-runtime-alb/variables.tf\",\"infra/aws/modules/csm-runtime-alb/outputs.tf\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\"docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/additional-origins-validation.md\",\".csdlc/evidence/122/gemini-remediation-review.result.json\",\".csdlc/evidence/122/gemini-remediation-review.log\",\".csdlc/evidence/122/gemini-review-diff.patch\",\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"],\"recovery_generation\":42,\"recovery_sequence\":55}"
+    },
+    {
+      "sequence": 57,
+      "generation": 44,
+      "actor": "codex:/root",
+      "reason": "Replace stale absolute no-EC2/no-Spot SIP authority wording with the current permanent-edge non-compute plus operator-authorized disposable Spot/ALB proof boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Issue and code authority are agent-logic/agent-design-language#122\",\"Issue #122 is deferred beyond v0.92 and is not a gate for #83 or #111-#117\",\"Execution requires terminal distributed Runtime proof plus separate operator AWS authorization\",\"AWS activity must use the approved Agent Logic business profile; permanent public-edge scope remains non-compute while disposable Spot EC2 and ALB origin proof requires operator authorization and teardown evidence\",\"Public reachability never grants Runtime write authority or permits private agent-state exposure\"]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 45,
+      "actor": "codex:/root",
+      "reason": "Replace stale preparation-only/no-EC2 operator constraints with the current approved permanent-edge and disposable Spot/ALB proof boundary.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Do not push, open a PR, publish, merge, close, or mutate #83, #110, or #111-#117 without separate lifecycle authority\",\"Verify the approved business profile resolves to the Agent Logic business account before any AWS action\",\"Limit permanent AWS public-edge scope to Route53, ACM, S3, CloudFront, WAF, API Gateway, DNS delegation, and origin configuration\",\"Allow disposable Spot EC2 and ALB Runtime-origin resources only for explicit operator-authorized smoke proof with external receipt evidence and teardown/empty-state proof\",\"Never use CodeBuild, NAT, GPU, Kubernetes, containers, or unapproved permanent Runtime compute for this issue\"]}"
+    },
+    {
+      "sequence": 59,
+      "generation": 45,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 46,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 47,
+      "actor": "codex:/root",
+      "reason": "Recover recorded #122 SIP required_outcome review fresh-session:5224c6bd-e041-4648-9889-f4dfd5f79612 after FAIL on stale non-EC2 Runtime ingress wording. This recovery immediately precedes the supported required_outcome repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 48,
+      "actor": "codex:/root",
+      "reason": "Resolve review finding 122-R6-P1-SIP-REQUIRED-OUTCOME-NON-EC2-DRIFT by replacing stale non-EC2 Runtime ingress wording with current permanent non-compute public edge plus operator-authorized disposable Runtime-origin proof truth.",
+      "operation": "{\"new_value\":\"Route53, ACM, S3, CloudFront, WAF, API Gateway, DNS delegation, and origin configuration provide ordinary browser trust, exact revision parity, governed access, rollback, and ownership proof for the permanent non-compute public edge; operator-authorized disposable Spot EC2 and ALB Runtime-origin smoke proof remains bounded by receipt and teardown evidence.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress provide ordinary browser trust, exact revision parity, governed access, rollback, and ownership proof without private-state exposure.\"}"
     }
   ]
 }
