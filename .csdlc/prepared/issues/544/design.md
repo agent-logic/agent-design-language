@@ -8,19 +8,20 @@ Status: proposed for independent design review
 
 ## Design
 
-Add a pre-write guard to the native initialization route in `csdlc-v2/src/lifecycle.rs`. The guard runs at the beginning of `initialize_issue`, before the binding lock, request-created design or diagram files, `.csdlc` issue records, prepared surfaces, or issue locks can be created.
+Add a pre-write guard to the native initialization route in `csdlc-v2/src/lifecycle.rs`. The guard runs at the beginning of `initialize_native_json`, before native registry validation can read or create issue-local state, and again at the beginning of `initialize_issue`, before the binding lock, request-created design or diagram files, `.csdlc` issue records, prepared surfaces, or issue locks can be created.
 
 The guard uses Git topology authority rather than branch-name heuristics:
 
 - read `git worktree list --porcelain` for the invocation repository;
 - take the first `worktree` entry as Git's primary checkout;
-- canonicalize the invocation root and primary checkout;
+- resolve the invocation Git top-level with `git rev-parse --path-format=absolute --show-toplevel`;
+- canonicalize the invocation top-level and primary checkout;
 - verify both paths share the same `--git-common-dir`;
-- reject only when the invocation root is the primary checkout.
+- reject only when the invocation top-level is the primary checkout.
 
 Every topology ambiguity is fail-closed. If Git worktree listing fails, no
-primary entry is present, the primary path cannot be canonicalized, the
-invocation or primary common Git directory cannot be resolved, or the common
+primary entry is present, the invocation top-level or primary path cannot be
+canonicalized, the invocation or primary common Git directory cannot be resolved, or the common
 directories do not match, initialization returns a typed `UnsafeCheckout` error
 before any initialization write. This makes "not sure" equivalent to "do not
 bootstrap here."

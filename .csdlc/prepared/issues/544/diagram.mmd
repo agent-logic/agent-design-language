@@ -1,11 +1,13 @@
 flowchart TD
-  A["csdlc-issue create"] --> B["initialize_issue pre-write guard"]
+  A["csdlc-issue create"] --> B["initialize_native_json pre-read/write guard"]
   B --> C["git worktree list --porcelain"]
-  C --> D["canonical primary checkout"]
-  D --> E["verify shared git common dir"]
-  E --> F{"invocation root is primary?"}
-  F -- "yes" --> G["fail UnsafeCheckout before writes"]
-  F -- "no" --> H["validate request and authored inputs"]
-  H --> I["create design/diagram if needed"]
-  I --> J["bootstrap issue record and cards"]
-  J --> K["later csdlc-bind enforces FastWork policy"]
+  C --> D["resolve invocation Git top-level"]
+  D --> E["canonical invocation top-level and primary checkout"]
+  E --> F["verify shared git common dir"]
+  F --> G{"invocation top-level is primary?"}
+  G -- "yes" --> H["fail UnsafeCheckout before writes"]
+  G -- "no" --> I["validate request and authored inputs"]
+  I --> J["initialize_issue repeats guard before binding lock"]
+  J --> K["create design/diagram if needed"]
+  K --> L["bootstrap issue record and cards"]
+  L --> M["later csdlc-bind enforces FastWork policy"]

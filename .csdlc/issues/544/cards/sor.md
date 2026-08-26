@@ -77,12 +77,40 @@ Resolved review finding REV-544-P1-PRIMARY-SUBDIR-BYPASS by comparing the invoca
     "purpose": "Focused integration proof after review remediation, including primary subdirectory rejection and zero residue.",
     "outcome": "passed",
     "evidence_ref": "local output after remediation: 4 passed, 0 failed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib",
+      "lifecycle"
+    ],
+    "purpose": "Focused lifecycle unit proof after design recovery and reapproval.",
+    "outcome": "passed",
+    "evidence_ref": "local output after design recovery: 9 passed, 0 failed, 80 filtered out"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "primary_checkout_bootstrap_guard"
+    ],
+    "purpose": "Focused integration proof after design recovery and reapproval, including primary subdirectory rejection and zero residue.",
+    "outcome": "passed",
+    "evidence_ref": "local output after design recovery: 4 passed, 0 failed"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
