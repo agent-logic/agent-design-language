@@ -59,6 +59,64 @@ def expected_area(id)
   nil
 end
 
+def expected_body(id, title, spec, dependencies, predecessors)
+  deps = dependencies.map { |name, issue| "- #{name}: ##{issue}" }
+  retained = predecessors.map { |issue| "##{issue}" }
+  body = <<~BODY
+    ## Outcome
+
+    #{spec.fetch("objective")}
+
+    ## Primary deliverable
+
+    #{spec.fetch("primary_deliverable")}
+
+    ## Verification result
+
+    #{spec.fetch("verification_result")}
+
+    ## Unit boundary
+
+    #{spec.fetch("unit_boundary")}
+
+    ## Dependencies
+
+    #{deps.empty? ? "- None." : deps.join("\n")}
+
+    ## Retained predecessor scope
+
+    #{retained.empty? ? "- None; this is new v0.92.1 work." : retained.map { |entry| "- #{entry}" }.join("\n")}
+
+    ## Acceptance criteria
+
+    #{spec.fetch("acceptance_criteria").map { |entry| "- [ ] #{entry}" }.join("\n")}
+
+    ## Owned paths
+
+    #{spec.fetch("owned_paths").map { |entry| "- `#{entry}`" }.join("\n")}
+
+    ## PVF lanes
+
+    #{spec.fetch("pvf_lanes").map { |entry| "- `#{entry}`" }.join("\n")}
+
+    ## Stop conditions
+
+    #{spec.fetch("stop_conditions").map { |entry| "- #{entry}" }.join("\n")}
+
+    ## Non-goals
+
+    #{spec.fetch("non_goals").map { |entry| "- #{entry}" }.join("\n")}
+
+    ## Canonical planning identity
+
+    - Planned ID: `#{id}`
+    - Canonical title: `#{title}`
+    - Planning digest: `#{planning_digest}`
+    - Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml##{id}`
+  BODY
+  "#{body}<!-- csdlc-github-operation:v0921-wp01:#{planning_digest}:#{id}:create -->\n"
+end
+
 def validate_plan
   errors = []
   wave = YAML.safe_load(File.read(WAVE_PATH), permitted_classes: [], aliases: false)
@@ -118,6 +176,7 @@ def validate_live(plan)
   errors << "final receipt planning digest mismatch" unless receipt["planning_digest"] == planning_digest
   wave = YAML.safe_load(File.read(WAVE_PATH), permitted_classes: [], aliases: false)
   expected_rows = child_rows(wave).to_h { |row| [row.fetch("id"), row] }
+  specs = YAML.safe_load(File.read(SPEC_PATH), permitted_classes: [], aliases: false).fetch("issue_specifications").to_h { |row| [row.fetch("id"), row] }
   ids = rows.map { |row| row["planned_id"] }
   errors << "final receipt denominator mismatch" unless ids == plan.fetch(:ordered_ids)
   errors << "final receipt issue numbers are not unique" unless rows.map { |row| row["issue"] }.uniq.length == 45
@@ -143,7 +202,7 @@ def validate_live(plan)
       "number" => live.fetch("number"), "title" => live.fetch("title"), "body" => live.fetch("body", ""),
       "state" => live.fetch("state").downcase,
       "labels" => live.fetch("labels", []).map { |label| label.fetch("name") }.sort,
-      "milestone" => live["milestone"]&.fetch("number", nil)
+      "milestone" => live["milestone"]&.fetch("number", nil), "milestone_title" => live["milestone"]&.fetch("title", nil)
     }
     errors << "existing live drift for ##{row['issue']}" unless Digest::SHA256.hexdigest(JSON.generate(normalized)) == row["live_sha256"]
     if (target = EXISTING_TARGETS[row.fetch("issue")])
@@ -163,11 +222,14 @@ def validate_live(plan)
     errors << "live title mismatch for #{row['planned_id']}" unless live.fetch("title") == expected_title && row.fetch("title") == expected_title
     errors << "live labels mismatch for #{row['planned_id']}" unless labels == row.fetch("labels").sort
     errors << "live milestone mismatch for #{row['planned_id']}" unless live.dig("milestone", "number") == 1
+    errors << "live milestone title mismatch for #{row['planned_id']}" unless live.dig("milestone", "title") == "v0.92.1"
     errors << "live state mismatch for #{row['planned_id']}" unless live.fetch("state").downcase == "open"
-    errors << "live body mismatch for #{row['planned_id']}" unless Digest::SHA256.hexdigest(live.fetch("body")) == row.fetch("body_sha256")
+    exact_body = expected_body(row.fetch("planned_id"), expected_title, specs.fetch(row.fetch("planned_id")),
+                               row.fetch("dependencies"), expected_rows.fetch(row.fetch("planned_id")).fetch("predecessor_issues", []))
+    errors << "live body mismatch for #{row['planned_id']}" unless live.fetch("body") == exact_body
   end
   census_stdout, census_stderr, census_status = Open3.capture3("gh", "issue", "list", "--repo", REPOSITORY, "--state", "all",
-                                                                "--milestone", "v0.92.1", "--limit", "1000",
+                                                                "--limit", "1000",
                                                                 "--json", "number,title,body", chdir: ROOT)
   if census_status.success?
     census = JSON.parse(census_stdout)

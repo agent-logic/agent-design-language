@@ -125,11 +125,12 @@ end
 def normalize_live_issue(packet)
   milestone = packet["milestone"]
   milestone_number = milestone.is_a?(Hash) ? milestone["number"] : milestone
+  milestone_title = milestone.is_a?(Hash) ? milestone["title"] : (milestone_number == 1 ? "v0.92.1" : nil)
   {
     "number" => packet.fetch("number"), "title" => packet.fetch("title"),
     "body" => packet.fetch("body", ""), "state" => packet.fetch("state").downcase,
     "labels" => packet.fetch("labels", []).map { |label| label.is_a?(Hash) ? label.fetch("name") : label }.sort,
-    "milestone" => milestone_number
+    "milestone" => milestone_number, "milestone_title" => milestone_title
   }
 end
 
@@ -142,18 +143,20 @@ def assert_execution_authority!
   abort "planning authority digest changed" unless planning_digest == EXPECTED_PLANNING_DIGEST
   head = `git rev-parse HEAD`.strip
   abort "execution revision is not the independently reviewed exact HEAD" unless ENV.fetch("WP01_APPROVED_REVISION") == head
+  approval = JSON.parse(File.read(ENV.fetch("WP01_APPROVAL_RECEIPT")))
+  abort "independent approval receipt mismatch" unless approval["revision"] == head && approval["result"] == "pass" && approval["response_id"].to_s.start_with?("resp_")
   tracked_clean = system("git", "diff", "--quiet", "HEAD", "--", WAVE_PATH, SPEC_PATH, CATALOG_PATH, READINESS_PATH,
                          File.join(__dir__, "execute-wave-creation.rb"), File.join(__dir__, "validate-wave-creation.rb"),
                          PLAN_PATH, out: File::NULL, err: File::NULL)
   abort "reviewed execution surfaces have uncommitted drift" unless tracked_clean
   wp01 = live_issue(WP01_ISSUE)
   prerequisite = live_issue(432)
-  abort "WP-01 live authority mismatch" unless wp01["title"] == "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave" && wp01["state"] == "open" && wp01["milestone"] == MILESTONE_NUMBER
+  abort "WP-01 live authority mismatch" unless wp01["title"] == "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave" && wp01["state"] == "open" && wp01["milestone"] == MILESTONE_NUMBER && wp01["milestone_title"] == "v0.92.1"
   abort "#432 prerequisite is not terminal" unless prerequisite["state"] == "closed"
 end
 
 def live_milestone_census
-  run_read_json(["gh", "issue", "list", "--repo", REPOSITORY, "--state", "all", "--milestone", "v0.92.1",
+  run_read_json(["gh", "issue", "list", "--repo", REPOSITORY, "--state", "all",
                  "--limit", "1000", "--json", "number,title,body,state,labels,milestone"]).map { |row| normalize_live_issue(row) }
 end
 
@@ -278,6 +281,12 @@ def append_marker(body, operation_key)
   body.end_with?("\n") ? "#{body}#{marker}\n" : "#{body}\n\n#{marker}\n"
 end
 
+def issue_matches_request?(issue, request)
+  issue["title"] == request.fetch("title") && issue["labels"] == request.fetch("labels").sort &&
+    issue["milestone"] == request.fetch("milestone") && issue["milestone_title"] == "v0.92.1" && issue["state"] == "open" &&
+    issue["body"] == append_marker(request.fetch("body"), request.fetch("operation_key"))
+end
+
 def assert_no_conflicts!(plan)
   census = live_milestone_census
   observed = observed_children
@@ -291,7 +300,10 @@ def assert_no_conflicts!(plan)
     intent = Dir.glob(File.join(OPERATIONS, "*-#{id.downcase}-intent.json")).first
     marked = candidates.select { |issue| issue["body"].include?(marker) }
     abort "ambiguous live operation marker for #{id}" if marked.length > 1
-    candidates.reject! { |issue| intent && marked.length == 1 && issue["number"] == marked.first["number"] }
+    request_path = intent && File.join(REQUESTS, File.basename(intent).sub(/-intent\.json\z/, "-request.json"))
+    request = JSON.parse(File.read(request_path)) if request_path && File.file?(request_path)
+    adoptable = intent && request && marked.length == 1 && issue_matches_request?(marked.first, request)
+    candidates.reject! { |issue| adoptable && issue["number"] == marked.first["number"] }
     abort "live conflict for #{id}: #{candidates.map { |row| "##{row['number']} #{row['title']}" }.join(', ')}" unless candidates.empty?
   end
   plan.fetch(:existing_routing).each do |entry|
@@ -390,25 +402,46 @@ def reconcile_existing(issue)
     puts JSON.pretty_generate(live_before)
     return
   end
+  marker = "<!-- csdlc-github-operation:#{row[:operation_key]} -->"
+  original_body = live_before["body"].end_with?("#{marker}\n") ? live_before["body"].delete_suffix("#{marker}\n") : live_before["body"]
   request = {
     repository: REPOSITORY, action: "issue_update", operation_key: row[:operation_key], token_file: nil,
-    issue: issue, pull_request: nil, title: row[:title], body: live_before.fetch("body"), labels: row[:labels], assignees: [],
+    issue: issue, pull_request: nil, title: row[:title], body: original_body, labels: row[:labels], assignees: [],
     milestone: row[:milestone], state: nil, comment_body: nil, required_checks: [], require_review: false, linked_issue: nil
   }
-  request = JSON.parse(File.read(request_path), symbolize_names: true) if File.file?(intent_path)
+  if File.file?(intent_path)
+    retained_intent = JSON.parse(File.read(intent_path))
+    request = retained_intent.fetch("request").transform_keys(&:to_sym)
+  end
   fingerprint = canonical_request_fingerprint(request)
   create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_route", issue: issue,
-                             operation_key: row[:operation_key], request_fingerprint: fingerprint, planning_digest: planning_digest })
+                             operation_key: row[:operation_key], request_fingerprint: fingerprint, planning_digest: planning_digest,
+                             request: request })
   replace_json(request_path, request)
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
-  expected_body = append_marker(live_before.fetch("body"), row[:operation_key])
+  expected_body = append_marker(request.fetch(:body), row[:operation_key])
   abort "existing issue readback mismatch ##{issue}" unless packet["number"] == issue && packet["title"] == row[:title] && packet["labels"].sort == row[:labels] && packet["milestone"] == MILESTONE_NUMBER && packet["body"] == expected_body
+  fresh = live_issue(issue)
+  abort "existing issue independent readback mismatch ##{issue}" unless fresh["title"] == row[:title] && fresh["labels"] == row[:labels] && fresh["milestone"] == 1 && fresh["milestone_title"] == "v0.92.1" && fresh["body"] == expected_body
   create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "existing_route", issue: issue,
                                operation_key: row[:operation_key], request_fingerprint: fingerprint,
-                               planning_digest: planning_digest, live_issue: normalize_live_issue(packet),
-                               live_response_sha256: Digest::SHA256.hexdigest(JSON.generate(result)), state: packet["state"] })
+                               planning_digest: planning_digest, live_issue: fresh, live_response: result, state: packet["state"] })
   puts JSON.pretty_generate(result)
+end
+
+def verify_existing_receipts!
+  EXPECTED_EXISTING.each do |issue|
+    path = Dir.glob(File.join(OPERATIONS, "*-existing-#{issue}-observed.json")).first
+    abort "existing issue verification is incomplete" unless path
+    receipt = JSON.parse(File.read(path))
+    abort "existing issue receipt mismatch ##{issue}" unless receipt["issue"] == issue && receipt["planning_digest"] == planning_digest
+    live = live_issue(issue)
+    abort "existing issue drift ##{issue}" unless receipt.fetch("live_issue") == live
+    if (target = EXISTING_TARGETS[issue])
+      abort "existing exact routing drift ##{issue}" unless live["title"] == target[0] && live["labels"] == target[1].sort && live["milestone"] == 1 && live["milestone_title"] == "v0.92.1"
+    end
+  end
 end
 
 def create_child(id)
@@ -417,12 +450,7 @@ def create_child(id)
   assert_no_conflicts!(plan)
   entry = plan.fetch(:children).find { |row| row[:planned_id] == id } or abort "unknown planned ID #{id}"
   observed = observed_children
-  verified_existing = EXPECTED_EXISTING.all? do |issue|
-    Dir.glob(File.join(OPERATIONS, "*-existing-#{issue}-observed.json")).any? do |path|
-      JSON.parse(File.read(path))["planning_digest"] == planning_digest
-    end
-  end
-  abort "existing issue verification is incomplete" unless verified_existing
+  verify_existing_receipts!
   if observed.key?(id)
     puts JSON.pretty_generate(observed.fetch(id))
     return
@@ -444,6 +472,21 @@ def create_child(id)
                              operation_key: entry.fetch(:operation_key), request_fingerprint: fingerprint,
                              planning_digest: planning_digest, dependencies: deps })
   replace_json(request_path, request)
+  adopted = live_milestone_census.select { |issue| issue["body"].include?("<!-- csdlc-github-operation:#{entry.fetch(:operation_key)} -->") }
+  abort "ambiguous intent-only recovery for #{id}" if adopted.length > 1
+  if adopted.length == 1
+    packet = adopted.first
+    abort "intent-only live issue does not match request for #{id}" unless issue_matches_request?(packet, request.transform_keys(&:to_s))
+    create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "child_create", planned_id: id,
+                                 issue: packet.fetch("number"), title: packet.fetch("title"), labels: packet.fetch("labels"),
+                                 milestone: packet.fetch("milestone"), state: packet.fetch("state"), dependencies: deps,
+                                 body_sha256: Digest::SHA256.hexdigest(packet.fetch("body")), operation_key: entry.fetch(:operation_key),
+                                 request_fingerprint: fingerprint, planning_digest: planning_digest,
+                                 specification_sha256: entry.fetch(:specification_sha256), live_response: packet })
+    update_partial(plan.fetch(:children).map { |child| child.fetch(:planned_id) })
+    puts JSON.pretty_generate(packet)
+    return
+  end
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
   expected_body = append_marker(body, entry.fetch(:operation_key))
@@ -453,7 +496,7 @@ def create_child(id)
                                milestone: packet.fetch("milestone"), state: packet.fetch("state"), dependencies: deps,
                                body_sha256: Digest::SHA256.hexdigest(packet.fetch("body")), operation_key: entry.fetch(:operation_key),
                                request_fingerprint: fingerprint, planning_digest: planning_digest,
-                               live_response_sha256: Digest::SHA256.hexdigest(JSON.generate(result)) })
+                               specification_sha256: entry.fetch(:specification_sha256), live_response: result })
   update_partial(plan.fetch(:children).map { |child| child.fetch(:planned_id) })
   puts JSON.pretty_generate(result)
 end
@@ -469,9 +512,12 @@ def finalize
   live_children = children.map do |row|
     live = live_issue(row.fetch("issue"))
     expected = plan.fetch(:children).find { |entry| entry.fetch(:planned_id) == row.fetch("planned_id") }
-    expected_body_sha = row.fetch("body_sha256")
+    spec = specifications.fetch(row.fetch("planned_id"))
+    exact_body = append_marker(body_for(row.fetch("planned_id"), expected.fetch(:title), spec,
+                                        row.fetch("dependencies"), expected.fetch(:predecessor_issues)), expected.fetch(:operation_key))
     valid = live["title"] == expected.fetch(:title) && live["labels"] == expected.fetch(:labels) &&
-            live["milestone"] == MILESTONE_NUMBER && live["state"] == "open" && Digest::SHA256.hexdigest(live.fetch("body")) == expected_body_sha
+            live["milestone"] == MILESTONE_NUMBER && live["milestone_title"] == "v0.92.1" && live["state"] == "open" && live.fetch("body") == exact_body &&
+            row["specification_sha256"] == expected.fetch(:specification_sha256)
     abort "final live readback mismatch #{row.fetch('planned_id')} ##{row.fetch('issue')}" unless valid
     row.merge("live_readback_sha256" => Digest::SHA256.hexdigest(JSON.generate(live)))
   end
@@ -488,6 +534,7 @@ def finalize
     schema: "adl.v0921.wp01.final-creation-receipt.v1", repository: REPOSITORY, conductor_issue: WP01_ISSUE,
     planning_digest: planning_digest, children: live_children, child_count: live_children.length,
     live_verified: true, existing_issues_verified: EXPECTED_EXISTING, existing_issues: existing_live,
+    journal_root_sha256: JSON.parse(File.read(PARTIAL_PATH)).fetch("journal_root_sha256"),
     issue_numbers_sha256: Digest::SHA256.hexdigest(JSON.generate(live_children.map { |row| row.fetch("issue") }))
   })
   puts File.read(FINAL_PATH)
