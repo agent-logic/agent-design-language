@@ -164,11 +164,11 @@ Adjusted initialized_decomposition_recovery fixtures to build their synthetic re
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
