@@ -71,11 +71,11 @@ Opened v0.92.1 with 45 bounded work issues, 10 reconciled existing authorities, 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
