@@ -88,13 +88,13 @@
     {
       "issue": 314,
       "reviewed_head": "3eb2aa93761c6ce94cd28241380e008525af0e5d",
-      "merge_sha": "3eb2aa93761c6ce94cd28241380e008525af0e5d",
+      "merge_sha": "e43efbca80cece11b543d931655febd50dfdc755",
       "review_result": "passed",
       "required_checks": "passed",
       "merge_ancestral": true,
       "handoff_accepted": true,
       "closeout": "async_pending",
-      "residual_risk": ["WP-26 intentionally closed as review-only intake without an implementation PR or canonical terminal cache; the retained packet was integrated on main and handed to WP-27."]
+      "residual_risk": ["WP-26 intentionally closed as review-only intake without an implementation PR or canonical terminal cache; reviewed head 3eb2aa937 was integrated on main by the WP-27 merge and handed to remediation there."]
     },
     {
       "issue": 315,

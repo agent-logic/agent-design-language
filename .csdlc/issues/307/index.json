@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "811687b97ae5cf03856d8bb23005c3f7faa7e273393589f89641d6f4dd9469c4",
+  "generation": 11,
+  "digest": "71afe3596ddc35a8c141ce3201ea48077353fabb12757d8f4ba69e6b8fafa207",
   "branch": "codex/307-v092-quality-release-tail-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "482d9805105914e33d678e776b352f441451fd01ec841001b79961d42cad3eda",
+      "values_digest": "1766c0676e32ae42b50d13c56ef9cae07be5d19339de59ba5818686f2cf4a6ba",
       "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
       "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
     },
     "stp": {
-      "values_digest": "119b6391a2f55a91aeb8d66d2c77255d0b72f26a4739602e9b92a7fae8c2561f",
+      "values_digest": "9110f720b721f6ff6ad2d7e97e079b7f1c8e2e01281809ecc8819bf8650af142",
       "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
       "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
     },
     "spp": {
-      "values_digest": "80c88eea667651a6d0fbf1276288bb01f06795eb0a72d885dfc018fbfa020a7b",
+      "values_digest": "74a2c7d47d190e6afeb36878c567559ea56edad6d8a66086cad7d934f823c37d",
       "rendered_digest": "81883f08e984fb441950825f45d68e364fa94fd8d9ca9352e50852f9df7a3a6e",
       "ast_digest": "1dbfb17b19fd053ff598cf438c6dce55b6522876103fd50206c3d2b93f7c2e3e"
     },
     "vpp": {
-      "values_digest": "423981c5b6aac31ab9f3aa2eef583ee85af0edf79920c5669caa1e1c34e12967",
+      "values_digest": "3b87d169db59a46ce4e6e291a3ba9a67acc8bc0d9134b15baed64e68b9cb3174",
       "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
       "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
     },
     "srp": {
-      "values_digest": "74a7bbfe1f2e918b6fe9954dc7f4ab7c394330b184ea670552724e42b44dcf05",
+      "values_digest": "dff31ad02f1f4c71f4242e71d7fa1b36f915aa41524baad4c1640601f1d3522d",
       "rendered_digest": "d35f2c74801aca74fb163e005ecf6183281a55eeb749db1bcc39785f0a0903e7",
       "ast_digest": "4761227ae8ccaa3d4105d64163740935c75e3395572da17b5c303d9b33c7d54e"
     },
     "sor": {
-      "values_digest": "20b1d7a3da5417c40ffd1b6c443cdcce0806d88d5c8944dd745b4f5780d9414b",
-      "rendered_digest": "5ddb213c8fdfff332ad83532eea2183c60f6780e75de2751c033f81d3beee2e7",
-      "ast_digest": "4c576c3e155d81d6fd66823fd20fa9a7114b1242b2d66112726253641b4bd653"
+      "values_digest": "1340395794cd0ef196c7f1caac61e97fe709c0c7f8bb206c173f68619fa393a9",
+      "rendered_digest": "89c6489a3f4ea21214729ffb09e18483667d8dc70601d20fe8e87a99a8e323b6",
+      "ast_digest": "5b2af6dba9477982e0733adaacb0dee01f89d8ccc148d9c4a3a23b64a2e98f6d"
     }
   },
   "transitions": [
@@ -162,6 +162,13 @@
       "actor": "codex:/root/issue-307-closeout",
       "reason": "Record passing final child-universe, preparation, and diff-hygiene proof before exact-head sprint review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"git diff --check\"],\"purpose\":\"Prove the exact #308-through-#319 denominator, terminal and asynchronous disposition truth, #268/#471 routing, authored preparation bundle, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record the corrected and now executable child-merge ancestry proof after detecting the non-ancestral WP-26 intake source commit.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/prepared/issues/307/validate_child_sequence.py\",\"--terminal\"],\"purpose\":\"Resolve every reviewed and merge SHA as a commit and prove every child integration merge is ancestral to origin/main, including the WP-26 intake integration through WP-27.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json\"}}"
     }
   ]
 }

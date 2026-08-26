@@ -2,6 +2,7 @@
 import argparse
 import json
 from pathlib import Path
+import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -13,6 +14,15 @@ if not args.terminal:
     print(json.dumps({"schema":"adl.issue307.sequence.v1","status":"pass","preparation_only":True}))
     raise SystemExit(0)
 errors = []
+
+def git_ok(*argv: str) -> bool:
+    return subprocess.run(
+        ["git", "-C", str(ROOT), *argv],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=False,
+    ).returncode == 0
+
 if not EVIDENCE.is_file():
     errors.append("child sequence evidence missing")
     packet = {}
@@ -41,6 +51,13 @@ else:
             value = item.get(field)
             if not isinstance(value, str) or len(value) != length or any(ch not in "0123456789abcdef" for ch in value):
                 errors.append(f"child #{issue} has invalid {field}")
+            elif not git_ok("cat-file", "-e", f"{value}^{{commit}}"):
+                errors.append(f"child #{issue} {field} does not resolve to a commit")
+        merge_sha = item.get("merge_sha")
+        if isinstance(merge_sha, str) and len(merge_sha) == 40 and not git_ok(
+            "merge-base", "--is-ancestor", merge_sha, "origin/main"
+        ):
+            errors.append(f"child #{issue} merge_sha is not ancestral to origin/main")
         closeout = item.get("closeout")
         if closeout not in ("async_pending", "reconciled"):
             errors.append(f"child #{issue} closeout must be async_pending or reconciled")

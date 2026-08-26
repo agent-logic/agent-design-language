@@ -46,6 +46,16 @@ Reconciled the exact #308-through-#319 release-tail universe after #319 complete
     "purpose": "Prove the exact #308-through-#319 denominator, terminal and asynchronous disposition truth, #268/#471 routing, authored preparation bundle, and diff hygiene.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/307/child-sequence.json"
+  },
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/307/validate_child_sequence.py",
+      "--terminal"
+    ],
+    "purpose": "Resolve every reviewed and merge SHA as a commit and prove every child integration merge is ancestral to origin/main, including the WP-26 intake integration through WP-27.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/307/child-sequence.json"
   }
 ]
 
