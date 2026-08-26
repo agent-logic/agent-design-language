@@ -59,10 +59,37 @@ region_count="$(jq -r '[.Regions[] | select(.OptInStatus == null or .OptInStatus
     "| cloudfront-distribution | global | `" + (.Id // .ARN // .DomainName) + "` | frozen-unknown | `readbacks/cloudfront-distributions.json` |"
   ' "${READBACKS}/cloudfront-distributions.json"
 
+  jq -r '
+    (.ResourceTagMappingList // [])[] |
+    "| tagged-resource | global | `" + .ResourceARN + "` | frozen-unknown | `readbacks/global-tagged-resources.json` |"
+  ' "${READBACKS}/global-tagged-resources.json"
+
   for file in "${READBACKS}"/regions/*.json; do
     base="$(basename "${file}" .json)"
-    region="${base%%-*}"
-    rest="${base#${region}-}"
+    region=""
+    rest=""
+    for suffix in \
+      ec2-instances \
+      ec2-volumes \
+      vpcs \
+      subnets \
+      security-groups \
+      load-balancers \
+      acm-certificates \
+      cloudformation-stacks
+    do
+      if [[ "${base}" == *"-${suffix}" ]]; then
+        region="${base%-${suffix}}"
+        rest="${suffix}"
+        break
+      fi
+    done
+
+    if [[ -z "${region}" || -z "${rest}" ]]; then
+      echo "unrecognized readback filename: ${base}" >&2
+      exit 1
+    fi
+
     case "${rest}" in
       ec2-instances)
         jq -r --arg region "${region}" --arg evidence "readbacks/regions/${base}.json" '

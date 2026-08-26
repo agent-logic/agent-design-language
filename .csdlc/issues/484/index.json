@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "68aa9c4cb45783b91719a3cb5b1bf605aa34ea5a73a11008569381166fb0f552",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "8827ef993152a257a288fd5031f8c2c453215e3d3034ba1766e843b5ab00584c",
+  "generation": 9,
+  "digest": "6d3d3731d17492193c58464900c2bc0bd136fb10cac0acb5023c9081c7a9eab5",
   "branch": "codex/484-aws-resource-ownership-inventory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-484-aws-resource-ownership-inventory",
-  "review_assignment": {
-    "reviewer": "fresh-session:a97961a2-920a-4084-89bd-2c7e1adeab47",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:14340ee7599de0187d07ee293a36e8808ee3966d:4ffddfea2614670ad9a4e4a1b1fd935871a6aabbe353abc1176d3fdbda898d03",
-    "scope": [
-      ".csdlc/issues/484",
-      ".csdlc/prepared/issues/484",
-      ".csdlc/evidence/484",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-a",
-      "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a23d0b2cbf628a76fb7e1d5fd869afa597e99e38be538cc2f02de860706ddff9",
+      "values_digest": "5996af00ed1b8b15f06fdb89b7d47d2964de51f3d56013ad4a398f13e16aa055",
       "rendered_digest": "6f851c754b01a72876709d2f3480cf48fa806701b116984c6175bbd3c04c2086",
       "ast_digest": "534a9c15d3fea8da0ec97e7be68d7f610e05c9174bf6fbc3cce514a2a744a885"
     },
     "stp": {
-      "values_digest": "b499c25373248332ef182b222be00330b7ae2a0376a71512017b404c270d00c2",
+      "values_digest": "55f0aa97fed137d6f5241ff65ba92c9451d2072a742b5c9b66a036438871f040",
       "rendered_digest": "93839d02e9fcbb94ae327fc82b7c90d31b1fedabf8491b440742bb2d05731025",
       "ast_digest": "a46caa6eab98bfcace9d125809d2ce423c6b76c4c161588162b7fbe7106f5a84"
     },
     "spp": {
-      "values_digest": "f580971868249e34fab19042a907714ad11e9e282d5ecf9e770ab3ed2156c00d",
+      "values_digest": "808ca7c4543ebe5fd4a12c0a10868d1d47075ca6cb220b1e87af2bc976c76660",
       "rendered_digest": "c05ddce36fbc5a8aad9bc7a51a8cc374fe3a2ede76084fb4707907e27dbbdc5e",
       "ast_digest": "8624b6a469a3723c65aa4ceb1251a8f3a0ebc1b10cf5778019fd3c17330dd807"
     },
     "vpp": {
-      "values_digest": "b8a4f4a828a4e9ac2f60b600d57b9e976f663273492ae973e71cb13e57e72388",
+      "values_digest": "af3cb2d4d3d9dd4af43f58f7a69cd1f96ee23e17a84f7da4339ed2747bb3ec3f",
       "rendered_digest": "48c68f2dd8e1eea48da1e45b2d30337eb05a7e949b87cfc3c11ac484fae24a4a",
       "ast_digest": "0352c7ee54432e4afcd54fde6ff62bb605c0767c019a0129185ed6c9a5eb1728"
     },
     "srp": {
-      "values_digest": "61654e7ee70d2917dda9d055c50fa54d5cea0142d180003e45183436edb063a5",
-      "rendered_digest": "7a298cca0c3b6cad8761ce42ef19003b94b7069fa95cf1a00e4cdbcf513b05ba",
-      "ast_digest": "f147827cfdc6628dd0d6a6329f31a03ed567c289def021a6279edc7ba1fb276e"
+      "values_digest": "fc5f8ff24b3c580015217516c206f0df18d7a79daa9a1bbe54f14fac68a6926c",
+      "rendered_digest": "af1929011ca497ae18bc41de0cc04322147a9caab80554d4ec05fd7fcfc24ebc",
+      "ast_digest": "52cdfb5f9583a4a6abfaca6ef677e1e5c6c927e3d1736c47b54834e12af80baf"
     },
     "sor": {
-      "values_digest": "b32039b94d521f68683d69aa7dabd3bb181740e1c4e39d9d7ead9ed387bdb76f",
-      "rendered_digest": "9c7d325a66da68f6a83b8d601e8bfd5b390694759f43f2445bee5a5024755b44",
-      "ast_digest": "a68d2f27b1acdf06187829e27f370565fbfb71979aa7186f6a1e881b78905567"
+      "values_digest": "06531d41a5543b1f75bc09ed1d5170a4d874baa1ed141bcc18ea4de629363b41",
+      "rendered_digest": "6dcee69b5b9cc3bfb1f229d7eacfcbc60401688e6723daf35b1b83e76362c99e",
+      "ast_digest": "23a5149eba54c3d50c3ce0c0f4e4f39bd035a3966ccba860ac00f802ba0cf50c"
     }
   },
   "transitions": [
@@ -159,6 +148,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:a97961a2-920a-4084-89bd-2c7e1adeab47 before remediating P1 missing regional/tagged resource inventory dispositions and P2 stale proof/SOR validation truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record corrected #484 proof after exact review found missing regional/tagged resource inventory dispositions and stale validation truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the AWS-A read-only resource ownership inventory for the Agent Logic business AWS account, including global, tagged-resource, and per-region readback dispositions.\",\"changes\":[\"Captured read-only AWS account, region, global service, tag-mapping, and per-region service inventory readbacks.\",\"Generated the AWS resource ownership inventory with explicit owned, frozen-unknown, and not-observed dispositions for the discovered readback denominator.\",\"Fixed regional readback filename parsing so resources in regions such as us-east-1 and ap-southeast-2 are included instead of being skipped.\",\"Strengthened the issue-owned validator to compare inventory rows against discovered resource identifiers from retained readbacks and reject missing dispositions.\",\"Validated that retained evidence has required surfaces, avoids obvious credential-like material, and records no mutation commands.\"],\"artifacts\":[\"docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/\",\"docs/milestones/v0.92.1/evidence/cloud/aws-a/run-readonly-inventory.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-a/build-inventory-summary.sh\",\".csdlc/prepared/issues/484/validate-aws-a-inventory.sh\",\".csdlc/evidence/484/\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-a/build-inventory-summary.sh\",\".\"],\"purpose\":\"Regenerate the inventory table from retained read-only AWS readbacks after regional/tagged-resource denominator repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/484/build-inventory-summary.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/484/validate-aws-a-inventory.sh\",\".\"],\"purpose\":\"Reject credential-like material, mutation commands, missing required readbacks, and missing discovered-resource inventory dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/484/validate-aws-a-inventory.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-484-aws-resource-ownership-inventory\",\"issue\",\"--issue\",\"484\"],\"purpose\":\"Validate typed #484 lifecycle/card truth after review recovery and SOR repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/484/csdlc-validate.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\"/Volumes/FastWork/adl-worktrees/adl-issue-484-aws-resource-ownership-inventory\",\"--issue\",\"484\"],\"purpose\":\"Verify typed C-SDLC doctor health after review recovery and SOR repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/484/csdlc-doctor.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch whitespace and diff hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/484/git-diff-check.log\"}]}"
     }
   ]
 }
