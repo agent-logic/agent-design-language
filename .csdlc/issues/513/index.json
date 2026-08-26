@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "1df49693235995801523f9f82aedad90874fb1364f74eb2e80e3021fe5a189ff",
+  "generation": 3,
+  "digest": "00cabfe6913812405fbd3aa330521349c551c3adbd15f92d87065dbf174658cf",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b6c9c4d478ca580cf673859f6be769d71613560dad9f82194f553a78a7c6925c",
+      "values_digest": "064f05b58ffdaa44b17deaf0ec8f48b7a3c2a1d8efaa40a86b7b8b31feca2f44",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "14164a5827dc6c020f6627eab9119d14a932aa63bd03150f8d87f4a066a07e3c",
+      "values_digest": "91a1e6d5ad0afc0ae1b1f8e3527a1fc2d61346d5e859df0487bbf3b0b72074c2",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "11e75af00b284137c229b81eba5ee5d080f0668fffa1305c7754de8ac1ed135f",
+      "values_digest": "4d2289e183e6ecc3ad5deb773c3eb100722741afd5432bc58bb871450540bece",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "1e3ebc47f4aa64d6265ea324eec85877d88f90a79e259e9775929e94f0addec6",
+      "values_digest": "599166f01d7f71cdaf74e17218c24afcd138155cadb4449830a4252a29442092",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "30a8ce48f1bb6f85ff5feed23944af724b6b57c67fdce254e1421bd13e305f75",
+      "values_digest": "93b94da8bcdfeca59b8a0921f0c9afbbbabcf57d89d0a2e99de2bbcbb2736f2e",
       "rendered_digest": "3f9522a8286d32018fd2ba8889a9aec96cbfe05659a325bc1233ae1b6bc705af",
       "ast_digest": "74512fbcecdf579eeb15789f2d70f71c2af5ea9514cc5779bcd56b0a40bac394"
     },
     "sor": {
-      "values_digest": "5691606ae0fe9a52da2dd615e6150247ecfc02e95feca6c55f7cc7bcc25f8725",
-      "rendered_digest": "44497008e327fa36b4c8745b1808a8241ae2e2470de98eb081da56e4ceb53f54",
-      "ast_digest": "180c51e9d23255201d8fbacc0dcb4680c9fcb99688cdb25ce0a56bcdc9874bd0"
+      "values_digest": "d10c499a8efe7ebb873d25ac450e0215871a4ae0a9c3a227a4482db000e922f5",
+      "rendered_digest": "e15758c673c64abfc1f861bc0d5922528fd4a1bdcb8080a9c4fd7ce9a0445440",
+      "ast_digest": "bec94f38de4d69b19ac47cf9e026cd35805d49889082278c59a78d624fa8eed5"
     }
   },
   "transitions": [
@@ -106,6 +106,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Record fresh validation after independent review P1 ambiguity hardening.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove the DEC-01 topology after replacing first-match reverse-reference classification with longest-prefix ambiguity detection and non-overlapping support-surface rows.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-p1-rerun.log\"}}"
     }
   ]
 }

@@ -68,7 +68,19 @@
       "authority_transfer": false
     },
     {
-      "path_prefix": "adl-runtime/",
+      "path_prefix": "adl-runtime/Cargo.lock",
+      "owner": "runtime-v3-guardian",
+      "disposition": "runtime-v3-support-surface",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime/Cargo.toml",
+      "owner": "runtime-v3-guardian",
+      "disposition": "runtime-v3-support-surface",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime/examples/",
       "owner": "runtime-v3-guardian",
       "disposition": "runtime-v3-support-surface",
       "authority_transfer": false
@@ -86,7 +98,25 @@
       "authority_transfer": false
     },
     {
-      "path_prefix": "adl-runtime-kernel/",
+      "path_prefix": "adl-runtime-kernel/Cargo.lock",
+      "owner": "runtime-v3-kernel",
+      "disposition": "runtime-v3-support-surface",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime-kernel/Cargo.toml",
+      "owner": "runtime-v3-kernel",
+      "disposition": "runtime-v3-support-surface",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime-kernel/tools/",
+      "owner": "runtime-v3-kernel",
+      "disposition": "runtime-v3-support-surface",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime-kernel/vector/",
       "owner": "runtime-v3-kernel",
       "disposition": "runtime-v3-support-surface",
       "authority_transfer": false

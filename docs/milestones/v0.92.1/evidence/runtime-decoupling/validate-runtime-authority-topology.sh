@@ -63,11 +63,21 @@ fi
 classify_path() {
   local path="$1"
   jq -r --arg path "$path" '
-    .reverse_reference_dispositions[]
-    | . as $entry
-    | select($path | startswith($entry.path_prefix))
-    | [$entry.owner, $entry.disposition, ($entry.authority_transfer | tostring)]
-    | @tsv
+    ([
+      .reverse_reference_dispositions[]
+      | . as $entry
+      | select($path | startswith($entry.path_prefix))
+      | {
+          prefix_len: ($entry.path_prefix | length),
+          row: ([$entry.owner, $entry.disposition, ($entry.authority_transfer | tostring)] | @tsv)
+        }
+    ]) as $matches
+    | ($matches | map(.prefix_len) | max // 0) as $max_prefix
+    | [$matches[] | select(.prefix_len == $max_prefix) | .row]
+    | if length == 0 then ""
+      elif length == 1 then .[0]
+      else "AMBIGUOUS\t" + (length | tostring)
+      end
   ' "$manifest" | head -n 1
 }
 
@@ -103,6 +113,7 @@ if [[ ! -s "$tmp_refs" ]]; then
 fi
 
 unclassified=0
+ambiguous=0
 authority_transfers=0
 while IFS= read -r ref; do
   path="${ref%%:*}"
@@ -112,6 +123,11 @@ while IFS= read -r ref; do
     unclassified=$((unclassified + 1))
     continue
   fi
+  if [[ "$classification" == AMBIGUOUS$'\t'* ]]; then
+    echo "ambiguous reverse reference: $ref" >&2
+    ambiguous=$((ambiguous + 1))
+    continue
+  fi
   transfer="$(printf '%s\n' "$classification" | cut -f3)"
   if [[ "$transfer" == "true" ]]; then
     echo "forbidden authority transfer reference: $ref" >&2
@@ -119,8 +135,8 @@ while IFS= read -r ref; do
   fi
 done < "$tmp_refs"
 
-if [[ "$unclassified" -ne 0 || "$authority_transfers" -ne 0 ]]; then
-  echo "reverse-reference census failed: unclassified=$unclassified authority_transfers=$authority_transfers" >&2
+if [[ "$unclassified" -ne 0 || "$ambiguous" -ne 0 || "$authority_transfers" -ne 0 ]]; then
+  echo "reverse-reference census failed: unclassified=$unclassified ambiguous=$ambiguous authority_transfers=$authority_transfers" >&2
   exit 1
 fi
 
