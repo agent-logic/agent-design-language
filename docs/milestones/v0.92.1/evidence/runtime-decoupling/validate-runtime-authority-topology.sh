@@ -32,7 +32,8 @@ runtime_v4_manifest=""
 runtime_v4_key_manifest=""
 deceptive_runtime_v4_manifest=""
 conflicting_source_disposition_manifest=""
-trap 'rm -f "$tmp_refs" "$bad_owner_manifest" "$duplicate_root_manifest" "$missing_root_manifest" "$authoritative_shared_surface_manifest" "$unknown_authority_field_manifest" "$runtime_v4_manifest" "$runtime_v4_key_manifest" "$deceptive_runtime_v4_manifest" "$conflicting_source_disposition_manifest"' EXIT
+runtime_v4_markdown_bypass_file=""
+trap 'rm -f "$tmp_refs" "$bad_owner_manifest" "$duplicate_root_manifest" "$missing_root_manifest" "$authoritative_shared_surface_manifest" "$unknown_authority_field_manifest" "$runtime_v4_manifest" "$runtime_v4_key_manifest" "$deceptive_runtime_v4_manifest" "$conflicting_source_disposition_manifest" "$runtime_v4_markdown_bypass_file"' EXIT
 
 expected_source_roots_tsv=$'adl-runtime\truntime-v3-guardian\tauthoritative-runtime-v3-guardian-source\nadl-runtime-kernel\truntime-v3-kernel\tauthoritative-runtime-v3-kernel-source\nadl/src/runtime_v2\truntime-v2\tauthoritative-runtime-v2-source'
 expected_shared_surfaces_tsv=$'docs/milestones/v0.92.1/evidence/runtime-decoupling\tdec-01\tevidence-only\ndocs/runtime\truntime-docs\tdocumentation-only'
@@ -203,22 +204,34 @@ validate_runtime_v4_manifest_contract() {
   fi
 }
 
-validate_runtime_v4_markdown_contract() {
-  local line
-  while IFS= read -r line; do
-    case "$line" in
-      *":This document is the DEC-01 authority contract for v0.92.1. It separates Runtime v2 and Runtime v3 ownership without deleting Runtime v2, making Runtime v3 the default, or admitting Runtime v4; Runtime v4 is excluded."|\
-      *":| \`docs/milestones/v0.92.1/evidence/runtime-decoupling/**\` | DEC-01 evidence | Machine-readable topology and executable validation; Runtime v4 authority is excluded. |"|\
-      *":5. Stop for replanning if Runtime v4 is required because Runtime v4 is excluded."|\
-      *":4. Runtime v4 remains excluded."|\
-      *":- Runtime v4 becomes necessary despite the explicit Runtime v4 excluded boundary.")
+validate_runtime_v4_markdown_file() {
+  local markdown_file="$1"
+  local expected_count="$2"
+  local match content count=0
+  while IFS= read -r match; do
+    content="${match#*:}"
+    case "$content" in
+      "This document is the DEC-01 authority contract for v0.92.1. It separates Runtime v2 and Runtime v3 ownership without deleting Runtime v2, making Runtime v3 the default, or admitting Runtime v4; Runtime v4 is excluded."|\
+      "| \`docs/milestones/v0.92.1/evidence/runtime-decoupling/**\` | DEC-01 evidence | Machine-readable topology and executable validation; Runtime v4 authority is excluded. |"|\
+      "5. Stop for replanning if Runtime v4 is required because Runtime v4 is excluded."|\
+      "4. Runtime v4 remains excluded."|\
+      "- Runtime v4 becomes necessary despite the explicit Runtime v4 excluded boundary.")
+        count=$((count + 1))
         ;;
       *)
-        echo "Runtime v4 appears outside the approved exclusion sentences: $line" >&2
+        echo "Runtime v4 appears outside the approved exclusion sentences: $content" >&2
         return 1
         ;;
     esac
-  done < <(rg -n "runtime-v4|Runtime v4|runtime_v4" docs/runtime/runtime-v2-v3-authority-topology.md || true)
+  done < <(rg -n "runtime-v4|Runtime v4|runtime_v4" "$markdown_file" || true)
+  if [[ "$count" -ne "$expected_count" ]]; then
+    echo "Runtime v4 approved sentence count drifted: expected=$expected_count observed=$count" >&2
+    return 1
+  fi
+}
+
+validate_runtime_v4_markdown_contract() {
+  validate_runtime_v4_markdown_file docs/runtime/runtime-v2-v3-authority-topology.md 5
 }
 
 validate_documented_disposition_vocabulary() {
@@ -360,6 +373,7 @@ run_negative_manifest_probes() {
   runtime_v4_key_manifest="$(mktemp "$tmp_dir/dec01-runtime-v4-key.XXXXXX")"
   deceptive_runtime_v4_manifest="$(mktemp "$tmp_dir/dec01-deceptive-runtime-v4.XXXXXX")"
   conflicting_source_disposition_manifest="$(mktemp "$tmp_dir/dec01-conflicting-source-disposition.XXXXXX")"
+  runtime_v4_markdown_bypass_file="$(mktemp "$tmp_dir/dec01-runtime-v4-markdown-bypass.XXXXXX")"
 
   jq '(.source_roots[] | select(.path == "adl/src/runtime_v2") | .owner) = "runtime-v3-kernel"' "$manifest" >"$bad_owner_manifest"
   jq '.source_roots += [.source_roots[0]]' "$manifest" >"$duplicate_root_manifest"
@@ -370,6 +384,7 @@ run_negative_manifest_probes() {
   jq '.runtime_v4_authority = true' "$manifest" >"$runtime_v4_key_manifest"
   jq '.shared_surfaces += [{"path":"future-excluded","owner":"runtime-docs","disposition":"authoritative-runtime-v4-excluded-source"}]' "$manifest" >"$deceptive_runtime_v4_manifest"
   jq '(.source_roots[] | select(.path == "adl/src/runtime_v2") | .disposition) = "runtime-v2-source"' "$manifest" >"$conflicting_source_disposition_manifest"
+  printf '%s\n' 'Runtime v4 owns the next authority surface. :4. Runtime v4 remains excluded.' >"$runtime_v4_markdown_bypass_file"
 
   if validate_static_manifest_contract "$bad_owner_manifest" >/dev/null 2>&1; then
     echo "negative probe failed: owner swap was accepted" >&2
@@ -405,6 +420,10 @@ run_negative_manifest_probes() {
   fi
   if validate_static_manifest_contract "$conflicting_source_disposition_manifest" >/dev/null 2>&1; then
     echo "negative probe failed: conflicting source disposition was accepted" >&2
+    return 1
+  fi
+  if validate_runtime_v4_markdown_file "$runtime_v4_markdown_bypass_file" 1 >/dev/null 2>&1; then
+    echo "negative probe failed: Runtime v4 Markdown same-line bypass was accepted" >&2
     return 1
   fi
 }
@@ -449,7 +468,7 @@ case "${1:-}" in
       --arg schema "adl.runtime_v2_v3_authority_topology_validation.v1" \
       --arg manifest "$manifest" \
       --arg refs_count "$refs_count" \
-      '{schema: $schema, issue: 513, manifest: $manifest, result: "passed", classified_reverse_references: ($refs_count | tonumber), compatibility_proofs: ["runtime-v3-captured-baseline", "runtime-v2-to-v3-reasoning-bridge"], negative_probes: ["owner-swap", "duplicate-root", "missing-root", "authoritative-shared-surface", "unknown-authority-field", "runtime-v4-authority-data", "runtime-v4-key", "deceptive-runtime-v4-authority-data", "conflicting-source-disposition"]}'
+      '{schema: $schema, issue: 513, manifest: $manifest, result: "passed", classified_reverse_references: ($refs_count | tonumber), compatibility_proofs: ["runtime-v3-captured-baseline", "runtime-v2-to-v3-reasoning-bridge"], negative_probes: ["owner-swap", "duplicate-root", "missing-root", "authoritative-shared-surface", "unknown-authority-field", "runtime-v4-authority-data", "runtime-v4-key", "deceptive-runtime-v4-authority-data", "conflicting-source-disposition", "runtime-v4-markdown-same-line-bypass"]}'
     ;;
   "--migration-dry-run")
     migration_dry_run

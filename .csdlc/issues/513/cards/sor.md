@@ -112,6 +112,15 @@ Implemented the DEC-01 Runtime v2/v3 authority-separation topology without Runti
     "purpose": "Prove retained DEC-01 evidence artifacts are included in the reverse-reference census and documented path-prefix semantics match the executable manifest after API re-review.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/513/dec-01-runtime-authority-topology-evidence-census-remediation.log"
+  },
+  {
+    "command": [
+      "bash",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh"
+    ],
+    "purpose": "Prove Markdown Runtime-v4 exclusion checks compare complete approved lines exactly, enforce expected counts, and reject same-line bypass content after API re-review.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/513/dec-01-runtime-authority-topology-markdown-bypass-remediation.log"
   }
 ]
 
