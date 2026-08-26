@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "4d48ec3719f6e5c5b1d28ef37a30b6bf806c01b4c010880dacfef14f60ba6316",
+  "generation": 10,
+  "digest": "5cbdabf2df6f039125f1982eb202c10fb7189ad22fbdf0ad5d8217ce8c458c18",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "26cdae71c47245061c03dfa2c959602f6e918972e7d60fe58f7e916e38d3dba4",
+      "values_digest": "95ca6c4a8584d501ab251b6fd1078c530289a3130b3b635683d3a4f79df9a315",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "33ee739de73c0aa8d058495568c9988ac48c3d76a05b24dd87c0925dd9fe947f",
+      "values_digest": "acfb90ac29fe292fd324096a34f5fca32f3640f8068d3191acbc499ef60df66c",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "b079315d38b7166ddbb4b14a6484c269dfec22c1e33ebf7e9038d20b599f1a89",
+      "values_digest": "d09e3c6c449f8be787d7fc0e0df38faa0c61f94472be4424b3e0b75bae333c75",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "cc3b8c6a27f8a46fa55bf5f1cf166d2894b6f241e7600d4e9dc337de001796fe",
+      "values_digest": "40f85bb6e088c731a9e0ec91dbb8408cd0b634ae5ee9c4b381b16b6748e6437a",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "6f1230cfee49d643172353bbbae076e9739ae2ac8b0c1312c702ec2717d5e06d",
+      "values_digest": "511acafae1760354a0026acbe858b20e44daec487f3982be4e93244f995efd34",
       "rendered_digest": "03e88f3677bef8af4c9f730cf3457f0bc5c4a195cc6c37bd0bf4d69b88ff9441",
       "ast_digest": "1c24973c23f184bdc5fd4591a212c46605060fe551fbb8fbfd7f1f131d14bc81"
     },
     "sor": {
-      "values_digest": "374556e179e85d860e41676b41de76dcf72c34b18eabd96a9e5cf922b07bfcfb",
-      "rendered_digest": "3f8182c90346cbc16dd87908834fdd650acd856256d1cd712f65d572d811a1a3",
-      "ast_digest": "75707462ee4b2a037cfdede7214cc442c9699ed4f516a14aaca7326432838c02"
+      "values_digest": "e20edfc35674c284c2f6c55c9949d863b86cff4cfc59171295ed7853e82eb65b",
+      "rendered_digest": "ddae5bc7b0aff287451ca4a339050ea89dc6092a029c48c1638e8722ca417128",
+      "ast_digest": "d2ee68014ede4f0640ac59b9ea18970d8e71fec430743d7f49ae7f09c34efc48"
     }
   },
   "transitions": [
@@ -197,6 +197,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "Record strengthened local validation after OpenAI Responses API review findings.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove exact source-root ownership, structural Runtime v4 exclusion, negative probes, captured-baseline compatibility, and Runtime v2-to-v3 reasoning bridge compatibility after API review findings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-api-fixes.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Record post-#556 rebase validation for the strengthened DEC-01 topology proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove the strengthened Runtime v2/v3 authority-separation topology, compatibility proofs, structural future-generation exclusion, and negative probes after rebasing onto origin/main with #556.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-post-556-rebase.log\"}}"
     }
   ]
 }
