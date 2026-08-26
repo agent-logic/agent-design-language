@@ -1,0 +1,174 @@
+{
+  "issue": 513,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root/issue_513_dec_01",
+  "design_path": ".csdlc/prepared/issues/513/design.md",
+  "diagram_path": ".csdlc/prepared/issues/513/diagram.mmd",
+  "design_reviewer": "operator:planning-digest-f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+    "slug": "v0-92-1-dec-01-runtime-v2-v3-authority-separation",
+    "version": "v0.92.1",
+    "goal": "Produce one independently owned Runtime v2 and Runtime v3 authority topology with executable migration and rollback proof while excluding Runtime v4.",
+    "required_outcome": "One accepted Runtime v2/v3 source and authority topology, backed by executable source-denominator, reverse-reference, compatibility, rollback, and migration checks.",
+    "declared_scope": [
+      "adl/src/runtime_v2/**",
+      "adl-runtime/**",
+      "adl-runtime-kernel/**",
+      "docs/runtime/**",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling/**",
+      ".csdlc/prepared/issues/513/**",
+      ".csdlc/issues/513/**"
+    ],
+    "authority_boundary": [
+      "Runtime v2 authority remains under adl/src/runtime_v2/**.",
+      "Runtime v3 authority remains under adl-runtime/** and adl-runtime-kernel/**.",
+      "Shared docs and DEC-01 evidence record topology and proof only; they do not move runtime authority silently.",
+      "Runtime v4 is excluded and any v4 requirement stops the issue for replanning.",
+      "Issue #513 does not absorb #483 or sibling Sprint 1 work."
+    ],
+    "operator_constraints": [
+      "Use the canonical FastWork issue worktree.",
+      "Do not touch tracked main.",
+      "Do not touch #483.",
+      "Use typed C-SDLC v2 routes only for lifecycle writes.",
+      "Publish with Closes #513 and keep CI green before merge."
+    ],
+    "task_boundary": "Exactly one accepted Runtime v2/v3 authority topology with executable migration and rollback checks; no Runtime v4 work and no sibling Sprint 1 scope.",
+    "deliverables": [
+      "Runtime v2/v3 authority topology document.",
+      "Machine-readable ownership and disposition manifest.",
+      "Executable validator covering source denominator, reverse-reference census, compatibility, rollback, migration, and Runtime v4 exclusion.",
+      "Fresh independent exact-head review and green PR closing #513."
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every declared Runtime v2 and Runtime v3 source root exists and has one owner and disposition.",
+      "AC-2: Current reverse references to Runtime v2 and Runtime v3 are inventoried with one owner/disposition.",
+      "AC-3: Supported behavior has an executable compatibility proof.",
+      "AC-4: Rollback and migration are executable dry-run contracts.",
+      "AC-5: Runtime v4 remains excluded from source ownership, migration, and rollback authority."
+    ],
+    "dependencies": [
+      "WP-01 #480",
+      "v0.92.1 planning digest f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251"
+    ],
+    "repo_inputs": [
+      "https://github.com/agent-logic/agent-design-language/issues/513",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DEC-01",
+      "docs/milestones/v0.92.1/features/RUNTIME_V2_V3_DECOUPLING_v0.92.1.md",
+      "adl/src/runtime_v2",
+      "adl-runtime",
+      "adl-runtime-kernel"
+    ],
+    "non_goals": [
+      "Runtime v4 implementation",
+      "Runtime v2 deletion",
+      "Runtime v3 default cutover",
+      "Sibling Sprint 1 work",
+      "Behavior deletion without proof"
+    ],
+    "plan_summary": "Bind #513 in FastWork, add a runtime authority topology document, machine-readable manifest, and executable validator, run focused proof, obtain fresh exact-head review, publish, shepherd green checks, and merge through typed C-SDLC v2.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Bind #513 and establish issue-local lifecycle state.",
+        "acceptance_ids": ["AC-1"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Author the Runtime v2/v3 authority topology and manifest.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Implement executable validation for denominator, reverse references, compatibility, rollback, migration, and Runtime v4 exclusion.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused validation and finalize implemented truth.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Obtain fresh exact-head review, publish, shepherd, merge, and finish.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "docs/runtime/runtime-v2-v3-authority-topology.md",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh",
+      ".csdlc/prepared/issues/513/**",
+      ".csdlc/issues/513/**"
+    ],
+    "invariants": [
+      "Every source root has exactly one declared owner.",
+      "Reverse references are either owned, compatibility-only, documentation-only, or evidence-only.",
+      "Migration and rollback are explicit dry-run contracts.",
+      "Runtime v4 does not appear as a source owner or migration target.",
+      "#483 remains untouched."
+    ],
+    "risks": [
+      "Reverse-reference census can drift as sibling PRs land.",
+      "A documentation-only topology could overclaim behavior if not backed by executable checks.",
+      "Runtime v4 mentions in historical planning docs could be mistaken for current authority.",
+      "Source ownership could become ambiguous if Runtime v2 imports Runtime v3 or vice versa."
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "A supported consumer is unclassified.",
+      "Either runtime silently acquires the other runtime's authority.",
+      "Runtime v4 scope is required.",
+      "The issue branch or worktree identity drifts.",
+      "Fresh review finds unresolved actionable issues.",
+      "Required checks are red."
+    ],
+    "validation_lanes": [
+      {
+        "lane": "runtime-authority-topology",
+        "proof_role": "Validate DEC-01 source ownership, reverse-reference dispositions, compatibility command, migration dry-run, rollback dry-run, and Runtime v4 exclusion.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local",
+        "budget_seconds": 120,
+        "budget_tokens": 2000,
+        "argv": [
+          "bash",
+          "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh"
+        ],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"]
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Validate whitespace hygiene for tracked DEC-01 changes.",
+        "deterministic": true,
+        "resource_profile": "small",
+        "parallel_group": "local",
+        "budget_seconds": 60,
+        "budget_tokens": 500,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "acceptance_ids": ["AC-1", "AC-2", "AC-5"]
+      }
+    ],
+    "failure_policy": "Fail closed on unowned source roots, unclassified reverse references, missing compatibility proof, non-executable migration or rollback dry-run, Runtime v4 authority expansion, stale review, red CI, or lifecycle topology drift.",
+    "review_prompts": [
+      "Does the manifest assign every declared Runtime v2/v3 source root one owner and disposition?",
+      "Does the reverse-reference census cover the current repo references without leaving supported consumers unclassified?",
+      "Are migration and rollback executable dry-run contracts rather than prose-only claims?",
+      "Does the implementation avoid Runtime v4 scope and sibling Sprint 1 work?",
+      "Are the validation lanes sufficient for DEC-01's bounded authority-separation result?"
+    ],
+    "review_scope": "Issue #513 DEC-01 changed docs, evidence, validation script, lifecycle state, and exact branch revision."
+  }
+}

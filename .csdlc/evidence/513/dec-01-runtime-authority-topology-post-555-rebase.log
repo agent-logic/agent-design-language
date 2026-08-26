@@ -1,0 +1,37 @@
+schema: adl.issue_513_dec_01_runtime_authority_topology_validation_log.v1
+issue: 513
+branch: codex/513-v0-92-1-dec-01-runtime-authority-separation
+base: origin/main
+base_integrated_after: f93341ace [v0.92.1][shared-gate] Restore coverage baseline (#555)
+head: f5fa94687d69ca8e3894e184ff0cbfad63079a34
+date_utc: 2026-08-26
+
+command:
+  bash docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh
+
+result: passed
+
+focused_proofs:
+  - cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test contracts parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency
+    result: passed
+  - cargo test --manifest-path adl/Cargo.toml runtime_v2_reasoning_objects_execute_through_native_component_core
+    result: passed
+
+validator_output:
+  schema: adl.runtime_v2_v3_authority_topology_validation.v1
+  issue: 513
+  manifest: docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json
+  result: passed
+  classified_reverse_references: 4092
+  compatibility_proofs:
+    - runtime-v3-captured-baseline
+    - runtime-v2-to-v3-reasoning-bridge
+  negative_probes:
+    - owner-swap
+    - duplicate-root
+    - missing-root
+    - runtime-v4-authority-data
+
+notes:
+  - This proof was rerun after rebasing #513 onto origin/main containing the #555 shared coverage gate merge.
+  - The reverse-reference count increased from 4088 to 4092 after the base update; all references remained classified with no authority-transfer failures.

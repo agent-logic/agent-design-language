@@ -1,0 +1,71 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 513,
+  "expected_generation": 1,
+  "expected_digest": "078f16391440e26b8bf87670dac558dbe4bbb3cd7b6e58d7326e28211d3f733a",
+  "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+  "summary": "Implemented the DEC-01 Runtime v2/v3 authority-separation topology without Runtime v4 scope or sibling Sprint 1 changes.",
+  "changes": [
+    "Added a repository-local Runtime v2/v3 authority topology document for v0.92.1 DEC-01.",
+    "Added a machine-readable topology manifest that assigns Runtime v2, Runtime v3 guardian, Runtime v3 kernel, support-surface, documentation, and issue-lifecycle ownership without authority transfer.",
+    "Added an executable validator for source-root existence, Runtime v4 exclusion, reverse-reference classification, compatibility behavior, migration dry-run, and rollback dry-run.",
+    "Kept Runtime v2 source authoritative under adl/src/runtime_v2/** and Runtime v3 authority under adl-runtime/** plus adl-runtime-kernel/**; Runtime v4 remains excluded."
+  ],
+  "artifacts": [
+    "docs/runtime/runtime-v2-v3-authority-topology.md",
+    "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json",
+    "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh",
+    ".csdlc/prepared/issues/513",
+    ".csdlc/issues/513"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "dec-01-runtime-authority-topology",
+          "proof_role": "Prove Runtime v2/v3 authority separation, reverse-reference denominator classification, compatibility, migration dry-run, rollback dry-run, and Runtime v4 exclusion.",
+          "purpose": "Run the focused DEC-01 executable validator against the repository-local topology contract.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 2048,
+            "tokens": 4000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "runtime-decoupling",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 900,
+          "executable": "bash",
+          "argv": [
+            "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh"
+          ],
+          "evidence": {
+            "max_log_bytes": 120000,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "dec-01-runtime-authority-topology"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 1,
+      "memory_mib": 2048,
+      "tokens": 4000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation/.csdlc/evidence/513",
+    "cancellation_file": null
+  }
+}
