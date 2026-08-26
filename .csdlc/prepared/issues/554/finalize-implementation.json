@@ -1,0 +1,136 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 554,
+  "expected_generation": 6,
+  "expected_digest": "831cad677b458812ca6c28a7c73fe00593280688687fca028c9085120b6d1ed7",
+  "claim_id": "claim-554-shared-gate-coverage-baseline",
+  "actor": "codex:/root",
+  "summary": "Restored the shared coverage baseline for the retained v0.92 Memory Palace docs invariant and made the Runtime-v2 unified-kernel coverage lane reliable without weakening coverage.",
+  "changes": [
+    "docs/milestones/v0.92/README.md",
+    "adl/src/runtime_v2/contracts.rs",
+    ".csdlc/issues/554"
+  ],
+  "artifacts": [
+    ".csdlc/evidence/554"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "focused-memory-palace-docs",
+          "proof_role": "AC-1 retained v0.92 docs invariant",
+          "purpose": "Prove the v0.92 README once again names the bounded Runtime-kernel Memory Palace production-authority slice without broad completion claims.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 512,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "cargo",
+          "argv": [
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--test",
+            "memory_palace_tests",
+            "v092_docs_name_memory_palace_production_authority_without_broad_completion_claim"
+          ],
+          "evidence": {
+            "max_log_bytes": 1048576,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "focused-runtime-v2-kernel",
+          "proof_role": "AC-2 Runtime-v2 unified-kernel coverage reliability",
+          "purpose": "Prove the bounded Runtime-v2 unified-kernel tests pass after caching the heavy prototype through the existing OnceCell contract-cache pattern.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 1024,
+            "tokens": 2000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": "cargo",
+          "argv": [
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--lib",
+            "runtime_v2::tests::unified_runtime_kernel"
+          ],
+          "evidence": {
+            "max_log_bytes": 1048576,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "typed-issue-validation",
+          "proof_role": "AC-3 typed lifecycle validity",
+          "purpose": "Prove #554 typed lifecycle state validates in the bound FastWork worktree before exact-head review and publication.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 512,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+          "argv": [
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
+            "issue",
+            "--issue",
+            "554"
+          ],
+          "evidence": {
+            "max_log_bytes": 1048576,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "focused-memory-palace-docs",
+        "focused-runtime-v2-kernel",
+        "typed-issue-validation"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 1,
+      "memory_mib": 2048,
+      "tokens": 4000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline/.csdlc/evidence/554",
+    "cancellation_file": null
+  }
+}

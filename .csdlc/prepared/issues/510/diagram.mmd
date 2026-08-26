@@ -1,0 +1,7 @@
+flowchart LR
+  F["Config file"] --> W["Debounced watcher"]
+  W --> V["Parse and validate"]
+  V -->|valid| A["Atomic config handle"]
+  V -->|invalid| LKG["Retain last-known-good"]
+  R["Axum request readers"] --> A
+  S["Shutdown token"] --> W
