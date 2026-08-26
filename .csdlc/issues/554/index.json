@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8b889a565674a00c0f4e0df383b31867d279f5897c00dc4465976c381b355d0",
-  "phase": "bound",
-  "generation": 6,
-  "digest": "831cad677b458812ca6c28a7c73fe00593280688687fca028c9085120b6d1ed7",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "22d2d9c689069b04451e73728c2a12a0980c15e384a8c007a64e3a30fdee3db1",
   "branch": "codex/554-v0-92-1-shared-gate-coverage-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "93fc4f78496ad13fe3574074e439324f7f32c45dcbc8edd98901868b947be757",
+      "values_digest": "047cdc5fb0d0a67d8558522b9bfe4929315f05073b0e007243e6dd788066e987",
       "rendered_digest": "cec90d2250d4b1f535ea540a29f524a58d7a245d762e98ac1737f03e171667bd",
       "ast_digest": "811233c00a315b058310586885b8bcf2a4a13264d362657964b692fe09e5a12b"
     },
     "stp": {
-      "values_digest": "8535ebef541e98bf5c47a1d997d8619d1eb2b4f02468bbca1dee21a9c020e954",
+      "values_digest": "aaf3fdf24b529b626fbf2ee67f0687f5f381b9f7fdf48f34bfe2256e4a22dfe9",
       "rendered_digest": "a067f10d1913a6fa4166316c63f62ea4336ee0ad7ca26efefba204d1d99e7326",
       "ast_digest": "da7ff3a417b8de770b9018e0cde1718eb890fc18ba5543099022826823125a54"
     },
     "spp": {
-      "values_digest": "a86289174dc005a4ffac8e941f780b9eea7523bff8750f24f8016975d61a457d",
-      "rendered_digest": "3c30348c69967746c0bac8ff273f1d80740767d7d3b3a3a57950ac80aaa6d802",
-      "ast_digest": "26613239fe9cf87f0bc720e0f2e4db2529ff905a40f8f541ab44757b12d6a3cf"
+      "values_digest": "25e82763b7e4b7fb98f8ed9e4f8cf4fc9e175b73d8ba97a5909a9d6d221ecb52",
+      "rendered_digest": "770ca57ea1b320f069fc263f8ddef298f00a3032b187c66fe3435fffd86b6abf",
+      "ast_digest": "a8d9991feaafa60b9249daae10729a1d48a698199b2811824edc05055ec04aba"
     },
     "vpp": {
-      "values_digest": "d29cc6fba8186ebe27faead781fb6c5701baef8ddd365843bffe4139e736d0e2",
+      "values_digest": "f003fd5428b5ba2139d4071d97e9125e0de2da5ecd0d70dc3f4bf46b80ff1210",
       "rendered_digest": "d32074ffb1822efb418f0e71fd843696766ff2e53fa76a01375ec7f327426220",
       "ast_digest": "c7a7b34ce0eed05ca1ec5d57119a164fd1917b0dab01d63d2ca86e08ca11556d"
     },
     "srp": {
-      "values_digest": "a526beddf10a95269af638ed67486ef97682c1b13c03daa2247319e492f5f3e8",
+      "values_digest": "3bddbe972acd03ca61a83f814bba53539df78c50541c8e2155de2aa23a0d7c50",
       "rendered_digest": "784b9061b47737e0d946b84b6b62dd35faed2a4022a2e58221b6db19dc4d1905",
       "ast_digest": "bc16926d894815dafb92e0f77fa7c5a231538495a62ff6c4837b4857b541d38a"
     },
     "sor": {
-      "values_digest": "070c921cbaca12ecc92aec5077d40768378ac434909eac873c3261ce16886401",
-      "rendered_digest": "fe884ccbd96eac9f4adced1d4ec6920bc91e9c160b070005b16ef8117dbefa7c",
-      "ast_digest": "1b8def2b33e07d1b0351660df2dac73fd3f2c17c0f874720487d5df30c815b4c"
+      "values_digest": "46096fde361c18102f3ae6bf73d7f4d7069410fb6eb09c537a953170613bf6ec",
+      "rendered_digest": "0972e2020dee0f279420763a75fa04a634b95998c3f8bf6d31fdf7202267175f",
+      "ast_digest": "3e038d042430bdd9d7d7f843d9bb6d170df999bd26f562acdf4bdeab978e6cf0"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -127,6 +134,34 @@
       "actor": "codex:/root",
       "reason": "Record focused proof that the shared coverage baseline repair restores the stale docs invariant and keeps the Runtime-v2 unified-kernel lane reliable before exact-head review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo test --manifest-path adl/Cargo.toml --test memory_palace_tests v092_docs_name_memory_palace_production_authority_without_broad_completion_claim\",\"cargo test --manifest-path adl/Cargo.toml --lib runtime_v2::tests::unified_runtime_kernel\",\"git diff --check\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline issue --issue 554\"],\"purpose\":\"Prove AC-1 stale v0.92 docs invariant restoration, AC-2 bounded Runtime-v2 unified-kernel timeout reliability, patch hygiene, and typed #554 lifecycle validity before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:#554 focused validation in bound FastWork worktree on 2026-08-26; hosted coverage remains fail-closed PR validation after publication.\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Mark the #554 docs invariant implementation step complete after finalized focused proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Mark the #554 Runtime-v2 timeout reliability step complete after finalized focused proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Mark the remaining #554 review/publication/CI/merge step in progress while exact-head review is next.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"in_progress\"}"
     }
   ]
 }
