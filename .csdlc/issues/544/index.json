@@ -4,13 +4,35 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0b8aa5c966363ac9cf55e79de078ee6483310794407cf840b79dd74fbede4428",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "fb95510590bc0b10c8588c80293b4aa2b9ee405e1c2bceab5dde035af99963bf",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "ba71f7056df2402fc03190aa23b2ba15fca4a82d4f2471d1b57935751318940d",
   "branch": "codex/544-primary-checkout-bootstrap-guard",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-544-primary-checkout-bootstrap-guard",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:01a03f5e-088d-7283-8b59-dfe33c5ca145",
+    "assigned_by": "codex:issue-544-pr-janitor",
+    "revision": "git-blake3:8efcbaa27756350a78fb9eb9bd3848b57a971201:25989d3d466b10f9b46b9316cfd1758360ebf0b4eccb1f90b37ce8f883fc16ce",
+    "scope": [
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/544"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a03f5e-088d-7283-8b59-dfe33c5ca145",
+    "scope": [
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/544"
+    ],
+    "reviewed_revision": "git-blake3:8efcbaa27756350a78fb9eb9bd3848b57a971201:25989d3d466b10f9b46b9316cfd1758360ebf0b4eccb1f90b37ce8f883fc16ce",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to the PR janitor fixture/lifecycle delta and did not assess merge, finish, or unrelated repository readiness.",
+      "Final external Sol API review remains deferred until the republished PR head has stable green checks."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3db2d1dcf831d7d147adb704194800ec5e74ef3568a4703ee7d16207e6186d8e",
+      "values_digest": "3737adcf0a275b9db8864329dfe60fd24cc05bf70d9606a7563b7f3c3ddd72e9",
       "rendered_digest": "f9200e94d5b34c2683ed23c3adc5ae63d885fa5978819ebd35ba399294faf352",
       "ast_digest": "4b3853cbf5df7b759c44da8fcd07307b864f0c2fe29efef887d7456d53450752"
     },
     "stp": {
-      "values_digest": "bc964f0a95dddf0aa000ff2a6fcb9a95a2179d20fc1ad9740a3130a1e7bf9e82",
+      "values_digest": "c04d6aad9f5840a7eb2bf2ef5615e895c121228a494ece1b6d214623d18fdc8e",
       "rendered_digest": "3625c11b15677727953342f978ba6b0572b026124b599c7b7e388a605d7678c9",
       "ast_digest": "62d39e800a0030b76803f92508674a830d47bbfc9ca1540e2c7938cdaf0f3db5"
     },
     "spp": {
-      "values_digest": "9c3eeb223933a383f92da58fbde1a51d28bdbe72112e0acaacd306bf022d0be2",
+      "values_digest": "e13697429126a4a2d7705f48d92621cbe157c816bc89498cac065e0fad9625cd",
       "rendered_digest": "97f60ee4446c21b0a6387cf5c99185b8f193a148b57e1c2acc6950e73f1d670a",
       "ast_digest": "9f034b55388e4996f810eb685dc38f0bc40d005ee79c6cfa38b8b00c350d90e2"
     },
     "vpp": {
-      "values_digest": "6bd744882af877b1fd0812e15e88d3cb3b96e0efd4f0a06a04ae6af85af76a47",
+      "values_digest": "1e4d79aa2cd8eda2ffbca9bbfa7dc251a2cfb7ca3d48c261ed88269e1a6d451b",
       "rendered_digest": "8c5bfd1bba767ce996acbdc88f5eb793e2fb346105e71f1b5aa5c237c763e37c",
       "ast_digest": "d5ed78f8e12dd41b147bf0f532d72e228928b3064193bd569a7659d2002363eb"
     },
     "srp": {
-      "values_digest": "b64b15014a67b7d8793dc8453c0494eee62bc1aaff7c90af3b108d897a4cf249",
-      "rendered_digest": "f894b14f499903c9d772c9c9e93771700faf470aaed973d8d19b92f640947a44",
-      "ast_digest": "49fcfadf2bd1c755c0dd5133934f69c510df00eaea2e6826f6810a78e06a9381"
+      "values_digest": "c87694d960b676dbc0927a089b6c33835124c3a4164d795d98772a5fd9682941",
+      "rendered_digest": "c19077c3e24ca1a8c8b90600723b7de0b0eae91a6aae0a5a62a3f3a49aba5268",
+      "ast_digest": "02aea9a8d9de75b38958a824d3dee4bcc4b1f494d42def23cae7b7654d03a9b7"
     },
     "sor": {
-      "values_digest": "707fbe95f485c3419060e0564e84f0d59e40a892ae7b49bf013529465f519315",
+      "values_digest": "ff7b6e61879b1d82f5a1fcab142eff56d144338b4114f92bd7f86831ed7a0b4c",
       "rendered_digest": "5979efa9b088d83c33835e70cfc3232b43412c19a99fcfe32474416f9911c069",
       "ast_digest": "cd585e865200ef91124f5528b9e19a987d6a6ef3b15385f71ef1d087a8389a57"
     }
@@ -97,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:issue-544-pr-janitor",
       "reason": "Recover from published state after PR #548 csdlc-v2-standalone failure; bounded janitor fix updates test fixtures and requires fresh validation, review, and publication."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:01a03f5e-088d-7283-8b59-dfe33c5ca145",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -295,6 +324,20 @@
       "actor": "codex:issue-544-validation",
       "reason": "record formatting and strict clippy validation after PR janitor fixture fix",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check\",\"cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Workflow-equivalent format and strict Clippy proof for the fixture-only janitor change.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output after janitor fix: fmt --check passed; clippy finished without warnings\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:issue-544-pr-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "fresh-session:01a03f5e-088d-7283-8b59-dfe33c5ca145",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
