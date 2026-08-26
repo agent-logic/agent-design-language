@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 554,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Restore coverage baseline for v0.92 docs invariant and Runtime-v2 timeouts",
+    "slug": "v0-92-1-shared-gate-coverage-baseline",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Shared coverage baseline repair for #554",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify the docs fix is truthful and bounded.",
+        "Verify Runtime-v2 reliability improves without weakening coverage or hiding failures.",
+        "Verify no #483 or #514 behavior changed."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

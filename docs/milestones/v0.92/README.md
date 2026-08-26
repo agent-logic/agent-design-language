@@ -12,6 +12,9 @@ the durable record of that work.
 
 - stable resident identity and continuity across bounded runtime cycles
 - grounded memory, Memory Palace context, capability, and witness authority
+- implemented Runtime-kernel production-authority slice for Memory Palace
+  context packets, with `adl-runtime-kernel::memory_palace` as the production
+  authority for the bounded kernel slice
 - governed resident tools, cognitive profiles, and adaptive learning
 - provider-neutral multi-agent and distributed-runtime proof
 - first-birthday execution, evidence, demo, and governance handoff
