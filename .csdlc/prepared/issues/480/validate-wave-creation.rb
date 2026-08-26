@@ -16,6 +16,9 @@ FINAL_RECEIPT = File.join(MILESTONE, "evidence/wp-01/final-creation-receipt.json
 EXPECTED_EXISTING = [51, 84, 122, 251, 261, 262, 263, 264, 342, 345].freeze
 EXCLUDED = [269].freeze
 REPOSITORY = "agent-logic/agent-design-language"
+EXISTING = { "issue-51" => 51, "issue-84" => 84, "issue-122" => 122, "issue-251" => 251,
+             "issue-261" => 261, "issue-262" => 262, "issue-263" => 263, "issue-264" => 264,
+             "issue-342" => 342, "issue-345" => 345, "WP-01" => 480 }.freeze
 HISTORICAL_TITLE_PROVENANCE = { "INT-01" => 188 }.freeze
 EXPECTED_PLANNING_DIGEST = "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251"
 EXISTING_TARGETS = {
@@ -200,7 +203,7 @@ def validate_live(plan)
     end
     live = JSON.parse(stdout)
     normalized = {
-      "number" => live.fetch("number"), "title" => live.fetch("title"), "body" => live.fetch("body", ""),
+      "number" => live.fetch("number"), "title" => live.fetch("title"), "body" => live["body"] || "",
       "state" => live.fetch("state").downcase,
       "labels" => live.fetch("labels", []).map { |label| label.fetch("name") }.sort,
       "milestone" => live["milestone"]&.fetch("number", nil), "milestone_title" => live["milestone"]&.fetch("title", nil)
@@ -225,8 +228,15 @@ def validate_live(plan)
     errors << "live milestone mismatch for #{row['planned_id']}" unless live.dig("milestone", "number") == 1
     errors << "live milestone title mismatch for #{row['planned_id']}" unless live.dig("milestone", "title") == "v0.92.1"
     errors << "live state mismatch for #{row['planned_id']}" unless live.fetch("state").downcase == "open"
+    issue_by_id = rows.to_h { |child| [child.fetch("planned_id"), child.fetch("issue")] }
+    expected_dependencies = Array(expected_rows.fetch(row.fetch("planned_id"))["depends_on"]).to_h do |dependency|
+      number = EXISTING[dependency] || issue_by_id[dependency]
+      errors << "unresolved canonical dependency #{dependency} for #{row['planned_id']}" unless number
+      [dependency, number]
+    end
+    errors << "receipt dependency mismatch for #{row['planned_id']}" unless row.fetch("dependencies") == expected_dependencies
     exact_body = expected_body(row.fetch("planned_id"), expected_title, specs.fetch(row.fetch("planned_id")),
-                               row.fetch("dependencies"), expected_rows.fetch(row.fetch("planned_id")).fetch("predecessor_issues", []))
+                               expected_dependencies, expected_rows.fetch(row.fetch("planned_id")).fetch("predecessor_issues", []))
     errors << "live body mismatch for #{row['planned_id']}" unless live.fetch("body") == exact_body
   end
   census_stdout, census_stderr, census_status = Open3.capture3("gh", "api", "--paginate", "--slurp",
@@ -238,7 +248,10 @@ def validate_live(plan)
       operation_key = "v0921-wp01:#{planning_digest}:#{id}:create"
       marker = "<!-- csdlc-github-operation:#{operation_key} -->"
       planned_identity = "- Planned ID: `#{id}`"
-      matches = census.select { |issue| issue["title"] == row["title"] || issue["title"].include?("[#{id}]") || issue.fetch("body", "").include?(marker) || issue.fetch("body", "").include?(planned_identity) || issue.fetch("body", "").include?(operation_key) }
+      matches = census.select do |issue|
+        body = issue["body"] || ""
+        issue["title"] == row["title"] || issue["title"].include?("[#{id}]") || body.include?(marker) || body.include?(planned_identity) || body.include?(operation_key)
+      end
       matches.reject! do |issue|
         issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"].to_s.downcase == "closed" &&
           issue["title"] == "[v0.92.1][INT-01] Run integrated independent review and remediation" && !issue.fetch("body", "").include?(operation_key)

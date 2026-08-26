@@ -40,6 +40,14 @@ EXISTING_TARGETS = {
   345 => ["[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner", %w[area:runtime track:roadmap type:task version:v0.92.1]]
 }.freeze
 EXPECTED_EXISTING = [51, 84, 122, 251, 261, 262, 263, 264, 342, 345].freeze
+RETAINED_TARGETS = {
+  51 => ["[v0.92.1][podcast][coordination] Coordinate gated podcast publication and directory-submission children", %w[area:demo track:roadmap type:task version:v0.92.1]],
+  261 => ["[v0.92.1][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness", %w[area:demo track:roadmap type:task version:v0.92.1]],
+  262 => ["[v0.92.1][podcast][51.b] Publish and validate production hosting, RSS, enclosures, and playback", %w[area:demo track:roadmap type:task version:v0.92.1]],
+  263 => ["[v0.92.1][podcast][51.c] Prepare directory submission runbooks and operator preflight", %w[area:demo track:roadmap type:docs version:v0.92.1]],
+  264 => ["[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization", %w[area:demo track:roadmap type:task version:v0.92.1]],
+  342 => ["[v0.92.1][WP-24A] Podcast Studio first ten episodes", %w[area:authoring track:roadmap type:docs version:v0.92.1]]
+}.freeze
 HISTORICAL_TITLE_PROVENANCE = { "INT-01" => 188 }.freeze
 
 def load_yaml(path)
@@ -131,7 +139,7 @@ def normalize_live_issue(packet)
   milestone_title = milestone.is_a?(Hash) ? milestone["title"] : (milestone_number == 1 ? "v0.92.1" : nil)
   {
     "number" => packet.fetch("number"), "title" => packet.fetch("title"),
-    "body" => packet.fetch("body", ""), "state" => packet.fetch("state").downcase,
+    "body" => packet["body"] || "", "state" => packet.fetch("state").downcase,
     "labels" => packet.fetch("labels", []).map { |label| label.is_a?(Hash) ? label.fetch("name") : label }.sort,
     "milestone" => milestone_number, "milestone_title" => milestone_title
   }
@@ -155,7 +163,7 @@ def assert_execution_authority!
   approval = JSON.parse(response.body)
   review_text = approval.fetch("output", []).flat_map { |item| item.fetch("content", []) }.select { |item| item["type"] == "output_text" }.map { |item| item["text"] }.join("\n")
   abort "independent API approval does not bind exact HEAD" unless approval.dig("metadata", "reviewed_revision") == head && approval.dig("metadata", "purpose") == "wp01-exact-head-review"
-  abort "independent API review did not pass" unless review_text.strip.start_with?("PASS") && !review_text.include?("**P1") && !review_text.include?("**P2")
+  abort "independent API review did not pass" unless review_text.strip == "PASS"
   tracked_clean = system("git", "diff", "--quiet", "HEAD", "--", WAVE_PATH, SPEC_PATH, CATALOG_PATH, READINESS_PATH,
                          File.join(__dir__, "execute-wave-creation.rb"), File.join(__dir__, "validate-wave-creation.rb"),
                          PLAN_PATH, out: File::NULL, err: File::NULL)
@@ -279,7 +287,7 @@ def observed_children
     abort "retained dependency map differs from current plan" unless row["dependencies"] == deps
     live = live_issue(row.fetch("issue"))
     valid = live["title"] == row["title"] && live["labels"] == row["labels"] && live["milestone"] == row["milestone"] &&
-            live["state"] == "open" && Digest::SHA256.hexdigest(live["body"]) == row["body_sha256"]
+            live["state"] == "open" && row["state"] == "open" && Digest::SHA256.hexdigest(live["body"]) == row["body_sha256"]
     abort "retained child live drift for #{id}" unless valid
     rows[id] = row
   end
@@ -406,6 +414,8 @@ def reconcile_existing(issue)
   live_before = live_issue(issue)
   row = plan.fetch(:existing_routing).find { |entry| entry[:issue] == issue }
   if row.nil?
+    target = RETAINED_TARGETS.fetch(issue)
+    abort "retained existing identity mismatch ##{issue}" unless live_before["title"] == target[0] && live_before["labels"] == target[1].sort && live_before["milestone"] == 1 && live_before["milestone_title"] == "v0.92.1" && live_before["state"] == "open"
     sequence = 800 + EXPECTED_EXISTING.index(issue) + 1
     intent_path, observed_path, = operation_paths(sequence, "existing-#{issue}")
     create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_verify", issue: issue,
@@ -485,14 +495,19 @@ def verify_existing_receipts!
     abort "existing issue receipt kind mismatch ##{issue}" unless intent["kind"] == receipt["kind"]
     live = live_issue(issue)
     abort "existing issue drift ##{issue}" unless receipt.fetch("live_issue") == live
-    if target
+    if target && intent["kind"] == "existing_route"
       expected = EXISTING_TARGETS.fetch(issue)
       abort "existing route request is absent ##{issue}" unless File.file?(request_path)
       request = JSON.parse(File.read(request_path))
       abort "existing route fingerprint mismatch ##{issue}" unless canonical_request_fingerprint(request) == intent["request_fingerprint"] && intent["request_fingerprint"] == receipt["request_fingerprint"]
       abort "existing route operation mismatch ##{issue}" unless request["operation_key"] == intent["operation_key"] && intent["operation_key"] == receipt["operation_key"]
       abort "existing exact routing drift ##{issue}" unless live["title"] == expected[0] && live["labels"] == expected[1].sort && live["milestone"] == 1 && live["milestone_title"] == "v0.92.1"
+    elsif target
+      expected = EXISTING_TARGETS.fetch(issue)
+      abort "existing no-op verification drift ##{issue}" unless live["title"] == expected[0] && live["labels"] == expected[1].sort && live["milestone"] == 1 && live["milestone_title"] == "v0.92.1"
     else
+      expected = RETAINED_TARGETS.fetch(issue)
+      abort "retained existing identity drift ##{issue}" unless live["title"] == expected[0] && live["labels"] == expected[1].sort && live["milestone"] == 1 && live["milestone_title"] == "v0.92.1" && live["state"] == "open"
       abort "existing verify preimage mismatch ##{issue}" unless intent["live_before_sha256"] == Digest::SHA256.hexdigest(JSON.generate(live))
     end
     { "issue" => issue, "live_sha256" => Digest::SHA256.hexdigest(JSON.generate(live)), "live_issue" => live }
@@ -545,10 +560,10 @@ def create_child(id)
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
   expected_body = append_marker(body, entry.fetch(:operation_key))
-  abort "child readback mismatch #{id}" unless packet["title"] == title && packet["labels"].sort == entry.fetch(:labels) && packet["milestone"] == MILESTONE_NUMBER && packet["body"] == expected_body
+  abort "child readback mismatch #{id}" unless packet["title"] == title && packet["labels"].sort == entry.fetch(:labels) && packet["milestone"] == MILESTONE_NUMBER && packet["body"] == expected_body && packet["state"].to_s.downcase == "open"
   create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "child_create", planned_id: id,
                                issue: packet.fetch("number"), title: packet.fetch("title"), labels: packet.fetch("labels").sort,
-                               milestone: packet.fetch("milestone"), state: packet.fetch("state"), dependencies: deps,
+                               milestone: packet.fetch("milestone"), state: "open", dependencies: deps,
                                body_sha256: Digest::SHA256.hexdigest(packet.fetch("body")), operation_key: entry.fetch(:operation_key),
                                request_fingerprint: fingerprint, planning_digest: planning_digest,
                                specification_sha256: entry.fetch(:specification_sha256), live_response: result })
