@@ -1,0 +1,7 @@
+{
+  "issue": 513,
+  "base_branch": "main",
+  "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
+  "code_repository": "agent-logic/agent-design-language"
+}
