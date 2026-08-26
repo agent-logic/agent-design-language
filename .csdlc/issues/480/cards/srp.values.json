@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/480\n.csdlc/prepared/issues/480/create-sprint-umbrellas.rb\n.csdlc/prepared/issues/480/validate-sprint-umbrellas.rb\ndocs/milestones/v0.92.1/SPRINT_v0.92.1.md\ndocs/milestones/v0.92.1/evidence/wp-01",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

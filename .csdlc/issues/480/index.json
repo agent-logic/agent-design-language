@@ -6,10 +6,21 @@
   "initialization_digest": "f6c582c5700e044ffef21116ae636bbd9ebdb8120a91c5805a887231557c4680",
   "phase": "implemented",
   "generation": 14,
-  "digest": "3c5748da1aaabfbfd429a61a50874f66c4224c977bb12c00a081f3009a4a788e",
+  "digest": "bfc5e84107cbd8214b3550e07c272e8b658f1302ee197396e1902ccac7f77ce6",
   "branch": "codex/480-v0921-wp01-execution-wave",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-480-v0921-wp01-execution-wave",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_480_final",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:02db5e9a282f79875b652244ba9a47c1376d9c2e:b6aac25e16cf6c1ffbb0817412a84eb6b89110e528b263bde1a8dbbe323c469a",
+    "scope": [
+      ".csdlc/issues/480",
+      ".csdlc/prepared/issues/480/create-sprint-umbrellas.rb",
+      ".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/evidence/wp-01"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "4a163e4a211be4450582effd07600b0765b86613d2001d101e510d2ea826fded"
     },
     "srp": {
-      "values_digest": "2162afe6f75f61040a27f55d098a89408c1b940793a61dd74ee0ce15884a420f",
-      "rendered_digest": "116c65bec130b67fd918d57b381061eff452b234d02482803a07487dba013245",
-      "ast_digest": "ae11422532f2b7e8eae0b9b8ae021c81db9a42e9525cfc0bc4b93525cd2edc16"
+      "values_digest": "34ce7200998ffc6eb0de8631491ff7e865ce24b15e1d5d48758ea4e820900ed1",
+      "rendered_digest": "1d20ac6aaba502fe63e84ca9642d161a2ea2f55d0f1b28de43242fd3eac66d0d",
+      "ast_digest": "4b5bf3db5289c063d2a20f427585b33860b0e8d1f355417113158cb711e5fbc8"
     },
     "sor": {
       "values_digest": "70f5b76975065c1bb99907d7c9c6e1ffd0b59e648e7e681c60ae18b95d953fb8",
@@ -225,6 +236,13 @@
       "actor": "codex:/root",
       "reason": "Replace the inaccurate umbrella validation command with the actual read-only wave and umbrella validators.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Opened v0.92.1 with exactly 45 bounded work issues, reconciled 10 existing authorities, and added 11 updateable Sprint coordination umbrellas.\",\"changes\":[\"Created the exact ordered 45-child v0.92.1 issue wave from CORP-A through TAIL-10.\",\"Reconciled existing issues #51, #84, #122, #251, #261-#264, #342, and #345 without duplicate creation.\",\"Created Sprint 1 through Sprint 11 umbrellas as #529 through #539 with versioned, reasoned, updateable membership.\",\"Kept child implementation independent and typed finish/worktree cleanup asynchronous and non-gating.\",\"Retained deterministic create/update requests, observed results, recovery receipts, live census, and final receipts without machine-local credentials or binary paths.\"],\"artifacts\":[\"docs/milestones/v0.92.1/SPRINT_v0.92.1.md\",\"docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json\",\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-receipt.json\",\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json\",\".csdlc/prepared/issues/480/create-sprint-umbrellas.rb\",\".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb\",\".csdlc/prepared/issues/480/validate-wave-creation.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/480/validate-wave-creation.rb\",\"all\"],\"purpose\":\"Validate the unchanged exact 45-child planning digest, live issue denominator, existing reconciliations, and final receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb\"],\"purpose\":\"Validate 11/11 unique live umbrellas, current membership version and reason, exact members, result hashes, and portable typed owner resolution.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors.\",\"outcome\":\"passed\",\"evidence_ref\":\"working tree at corrected implementation head\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
