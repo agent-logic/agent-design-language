@@ -6,10 +6,20 @@
   "initialization_digest": "f6c582c5700e044ffef21116ae636bbd9ebdb8120a91c5805a887231557c4680",
   "phase": "implemented",
   "generation": 12,
-  "digest": "0733eda65b02ba94775cb8e571b1013215b128c1e2170a2f78e5443d59c1fe12",
+  "digest": "c32599009ba08c615b3d1470a23873cee59c3e335020e7b70773c77198bbe20b",
   "branch": "codex/480-v0921-wp01-execution-wave",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-480-v0921-wp01-execution-wave",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_480_final",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:0d005ad0e6e6aa12dbf06e005f64810b84ee667c:1ed0b80c1604c91dd95fe7fe8387cce8d483a0cc23b1f5f4193469ab264ec80e",
+    "scope": [
+      ".csdlc/issues/480",
+      ".csdlc/prepared/issues/480/create-sprint-umbrellas.rb",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/evidence/wp-01"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +55,9 @@
       "ast_digest": "4a163e4a211be4450582effd07600b0765b86613d2001d101e510d2ea826fded"
     },
     "srp": {
-      "values_digest": "3d8d68db9d04c697da0297ebfcbf1f64c07b57197a89c2e5fb1c01a32d6c0e1f",
-      "rendered_digest": "116c65bec130b67fd918d57b381061eff452b234d02482803a07487dba013245",
-      "ast_digest": "ae11422532f2b7e8eae0b9b8ae021c81db9a42e9525cfc0bc4b93525cd2edc16"
+      "values_digest": "3b8d6fed60298ab14b48819ac18758be1bc77badf9234dd9d846fea50f96fe81",
+      "rendered_digest": "046484b345717ae82f657c4ade71eee446d23dd3d45a6da8ba2e8dffec988eb6",
+      "ast_digest": "86c07eb6ef9c3916b7b31bfa7451ae79dd65cef197a6389c3e3e19e39a6c11cc"
     },
     "sor": {
       "values_digest": "7b5548dd179f5606f825e4a9f5171e8d349b13e3530d125384b77d4d4d36362b",
@@ -204,6 +214,13 @@
       "actor": "codex:/root",
       "reason": "Record the focused Sprint umbrella and unchanged original-wave validation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/480/create-sprint-umbrellas.rb\",\"update\"],\"purpose\":\"Verified 11/11 unique live Sprint umbrellas, explicit membership version and reason, version-specific receipts, portable typed owner resolution, and unchanged 45-child planning validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
