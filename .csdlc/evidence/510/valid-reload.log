@@ -1,0 +1,10 @@
+
+running 1 test
+test valid_reload_atomically_replaces_snapshot ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.05s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.66s
+     Running tests/config_reload.rs (target/debug/deps/config_reload-5f94b4a7e177a3be)

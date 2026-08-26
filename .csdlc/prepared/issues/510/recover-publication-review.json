@@ -1,0 +1,7 @@
+{
+  "issue": 510,
+  "expected_generation": 9,
+  "expected_digest": "c9a6f7b09db8842d5a329ac7d2048bcc8e981cf8b42ae0e3d5ecbca9909d1a84",
+  "actor": "codex:sprint-1-conductor",
+  "reason": "The final publication request and prior typed review metadata were committed after the exact scoped product review; recover so a metadata-only reconciliation can bind the current publication head without changing reviewed product bytes."
+}
