@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 510,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+    "slug": "hot-01-axum-configuration-hot-reload",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one production-ready Axum hot-reload implementation.",
+      "required_outcome": "One production-ready Axum hot-reload implementation with last-known-good retention, including config-only atomic Runtime Observatory origin-policy updates consumed by both HTTP CORS and authenticated WSS without rebuild, continuity rotation, or Runtime restart.",
+      "declared_scope": [
+        "adl-runtime/src/config_reload.rs",
+        "adl-runtime/tests/config_reload.rs",
+        "docs/runtime/config-hot-reload.md",
+        "adl-runtime/src/lib.rs",
+        ".csdlc/prepared/issues/510"
+      ],
+      "authority_boundary": [
+        "Issue #510 owns only the HOT-01 runtime hot-reload surface.",
+        "Sprint umbrella #529 coordinates child status and must not absorb child implementation.",
+        "DEC-01 issue #513 is gated behind #510 and must not concurrently edit adl-runtime/src/config_reload.rs, adl-runtime/tests/config_reload.rs, docs/runtime/config-hot-reload.md, or adl-runtime/src/lib.rs.",
+        "Invalid reload input must not replace the last-known-good configuration.",
+        "No cloud, provider, database-pool, HTML template, admin API, merge, closeout, or adjacent sprint lifecycle work is authorized."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use the typed C-SDLC v2 lifecycle route.",
+        "Bind execution to a FastWork worktree under /Volumes/FastWork/adl-worktrees before implementation.",
+        "Do not edit tracked main.",
+        "Preserve unrelated and untracked preparation residue.",
+        "Run the prepared HOT-01 validators where applicable.",
+        "Obtain independent exact-head review before publication.",
+        "Publish a PR with the correct closing keyword and stop before merge."
+      ]
+    }
+  }
+}

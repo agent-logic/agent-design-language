@@ -1,0 +1,203 @@
+{
+  "issue": 482,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root/v0921-sprint1-readiness",
+  "design_path": ".csdlc/prepared/issues/482/design.md",
+  "diagram_path": ".csdlc/prepared/issues/482/diagram.mmd",
+  "design_reviewer": "pending",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+    "slug": "v0-92-1-corp-a-critical-asset-schedule",
+    "version": "v0.92.1",
+    "goal": "Produce one accepted critical-asset schedule for the complete asset denominator.",
+    "required_outcome": "One accepted critical-asset schedule with provenance, ownership, licensing, trademark, and assignment dispositions. The asset validator proves every critical asset appears exactly once with an accepted disposition and redacted receipt.",
+    "declared_scope": [
+      "docs/operations/corporate/asset-register/**",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-a/**",
+      ".csdlc/prepared/issues/482"
+    ],
+    "authority_boundary": [
+      "Issue completion is exactly acceptance of the one critical-asset schedule; source-specific checks are evidence inputs, not separately closeable results.",
+      "Issue authority is agent-logic/agent-design-language#482",
+      "No adjacent sprint or provider authority"
+    ],
+    "operator_constraints": [
+      "No paid cloud or provider mutation",
+      "No secrets, legal instruments, auth codes, or recovery factors in Git"
+    ],
+    "task_boundary": "Issue completion is exactly acceptance of the one critical-asset schedule; source-specific checks are evidence inputs, not separately closeable results.",
+    "deliverables": [
+      "One accepted critical-asset schedule with provenance, ownership, licensing, trademark, and assignment dispositions.",
+      "Bounded validation evidence",
+      "Exact-head review receipt"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every critical asset has an owner and disposition",
+      "AC-2: Private instruments remain outside Git",
+      "AC-3: Redacted receipts bind accepted instruments to the asset schedule"
+    ],
+    "dependencies": [
+      "#480 WP-01 merged opening gate"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#482",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-A",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md"
+    ],
+    "non_goals": [
+      "Operational account transfer",
+      "Repository-stored legal advice"
+    ],
+    "plan_summary": "Reconcile the issue boundary, produce the single CORP-A deliverable, validate it, and obtain exact-head review.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Reconcile dependencies and freeze the exact issue-local denominator.",
+        "acceptance_ids": [
+          "AC-1"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Produce the bounded primary deliverable without widening authority.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Run every planned PVF lane and retain bounded redacted evidence.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Obtain exact-head review and prepare a truthful publication handoff.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "docs/operations/corporate/asset-register",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-a",
+      ".csdlc/prepared/issues/482",
+      ".csdlc/prepared/issues/482/validate-asset-denominator.rb",
+      ".csdlc/prepared/issues/482/validate-provenance-and-license.rb",
+      ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb"
+    ],
+    "invariants": [
+      "Issue completion is exactly acceptance of the one critical-asset schedule; source-specific checks are evidence inputs, not separately closeable results.",
+      "The asset validator proves every critical asset appears exactly once with an accepted disposition and redacted receipt.",
+      "No secret or private material in Git"
+    ],
+    "risks": [
+      "Unknown critical-asset ownership",
+      "Counsel or corporate authority is missing",
+      "Private material would enter Git"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Unknown critical-asset ownership",
+      "Counsel or corporate authority is missing",
+      "Private material would enter Git"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "asset-denominator",
+        "proof_role": "Prove asset denominator for CORP-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/482/validate-asset-denominator.rb"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "provenance-and-license",
+        "proof_role": "Prove provenance and license for CORP-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/482/validate-provenance-and-license.rb"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "redaction-and-custody",
+        "proof_role": "Prove redaction and custody for CORP-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove diff hygiene for CORP-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on any stop condition, authority ambiguity, secret exposure, incomplete denominator, or non-proving validation.",
+    "review_prompts": [
+      "Does the implementation stay inside the declared unit boundary?",
+      "Does every acceptance criterion have proving evidence?",
+      "Are operator-only actions and private material kept outside Git?"
+    ],
+    "review_scope": "CORP-A declared paths, acceptance criteria, PVF evidence, and operator boundary only."
+  }
+}
