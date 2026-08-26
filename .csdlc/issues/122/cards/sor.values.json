@@ -7,7 +7,7 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 56
+    "generation": 57
   },
   "status": "ready",
   "content": {
@@ -220,8 +220,8 @@
           "evidence_ref": "commentary output profiles_differ; account ids not recorded in committed evidence"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

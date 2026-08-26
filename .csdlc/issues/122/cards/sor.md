@@ -227,11 +227,11 @@ Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev, t
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
