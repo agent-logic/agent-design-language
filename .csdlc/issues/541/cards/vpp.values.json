@@ -1,0 +1,91 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 541,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Reconcile onboarding workflow and repository authority with Gate 10D2",
+    "slug": "reconcile-onboarding-workflow-authority",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "retired-route-search",
+          "proof_role": "Check edited current guidance no longer presents retired lifecycle routes as current authority.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "rg",
+            "-n",
+            "adl_pr_cycle|pr ready|pr run|pr finish|pr\\.sh",
+            "docs/onboarding.md",
+            "docs/tooling",
+            "adl/tools/README.md"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "current-authority-search",
+          "proof_role": "Check edited current guidance names typed v2 authority, installed binaries, typed skills, and canonical repository identity.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "rg",
+            "-n",
+            "Gate 10D2|csdlc-v2/operator/skills|\\.adl/bin/csdlc-v2|agent-logic/agent-design-language|legacy-origin",
+            "docs/onboarding.md",
+            "docs/tooling",
+            "adl/tools/README.md"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Check edited docs have no whitespace or conflict-marker issues.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 250,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on stale current-route guidance, repository identity confusion, runtime/tooling mutations outside docs scope, direct card edits, or terminal-state overclaiming.",
+      "design_ref": ".csdlc/prepared/issues/541/design.md",
+      "design_digest": "26eabe1bccbd42d412d0c3a0d224078096405e8c78d1fda9c8e4833a5123ebbf",
+      "diagram_ref": ".csdlc/prepared/issues/541/diagram.mmd",
+      "diagram_digest": "8b5caa43a7f9fba6938424fa49b6af7619e4086c5018b4e0c04fdef889726231"
+    }
+  }
+}

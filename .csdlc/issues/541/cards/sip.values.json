@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 541,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Reconcile onboarding workflow and repository authority with Gate 10D2",
+    "slug": "reconcile-onboarding-workflow-authority",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Correct stale contributor-facing workflow documentation so it matches the current Gate 10D2 typed C-SDLC v2 authority and canonical repository identity.",
+      "required_outcome": "Docs no longer route current lifecycle work through retired `adl_pr_cycle` or `pr ready` guidance, and instead state the typed v2 route, canonical repository, legacy remote boundary, installed binary location, and root/worktree expectations.",
+      "declared_scope": [
+        "docs/onboarding.md",
+        "adl/tools/README.md",
+        "docs/tooling"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#541",
+        "Current lifecycle authority is Gate 10D2 typed C-SDLC v2",
+        "Do not revive v1 wrappers or compatibility lifecycle routes",
+        "Do not bind or implement during issue initialization",
+        "Do not mutate runtime behavior or Git remotes"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle handling",
+        "Keep root checkout on main",
+        "Do not hand-edit cards",
+        "Use focused docs validation",
+        "Preserve canonical versus legacy repository truth"
+      ]
+    }
+  }
+}
