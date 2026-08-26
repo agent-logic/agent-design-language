@@ -12,3 +12,4 @@
 {"sequence":12,"generation":8,"actor":"codex:sprint-1-issue-499-worker","reason":"Recover review evidence after the non-substantive C-SDLC review-record commit so publication can verify a clean current head.","operation":"recover_review"}
 {"sequence":13,"generation":8,"actor":"codex:sprint-1-issue-499-worker","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":14,"generation":9,"actor":"codex:sprint-1-issue-499-worker","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":15,"generation":10,"actor":"codex:sprint-1-issue-499-worker","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
