@@ -1,0 +1,8 @@
+flowchart LR
+  C[CSMctl.conf] --> V[Exact origin validation]
+  V --> G[Generated Runtime init]
+  G --> O[additional_allowed_origins]
+  L[http://localhost:8000 opt-in] --> O
+  T[Trusted HTTPS Observatory origin] --> O
+  O --> R[Runtime CORS and WSS policy]
+  H[HOT-01 #510] -. future config-only reload .-> R

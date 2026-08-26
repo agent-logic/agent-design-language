@@ -1,3 +1,4 @@
+use fs2::FileExt;
 use std::env;
 use std::fs::OpenOptions;
 use std::hash::{Hash, Hasher};
@@ -364,6 +365,7 @@ fn update_otel_status(
             )
         })?;
     }
+    let _status_lock = lock_otel_status(status_path)?;
     let previous_count = std::fs::read_to_string(status_path)
         .ok()
         .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok())
@@ -409,6 +411,7 @@ fn update_otel_export_status(
     result: &str,
     fields: &[(&str, &str)],
 ) -> Result<(), String> {
+    let _status_lock = lock_otel_status(status_path)?;
     let mut status = std::fs::read_to_string(status_path)
         .ok()
         .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok())
@@ -488,6 +491,40 @@ fn update_otel_export_status(
         )
     })?;
     Ok(())
+}
+
+fn lock_otel_status(status_path: &str) -> Result<std::fs::File, String> {
+    if let Some(parent) = Path::new(status_path).parent() {
+        std::fs::create_dir_all(parent).map_err(|err| {
+            format!(
+                "op=create_dir_all sink={} error={}",
+                sanitize_value(status_path),
+                sanitize_value(&err.to_string())
+            )
+        })?;
+    }
+    let lock_path = format!("{status_path}.lock");
+    let lock = OpenOptions::new()
+        .create(true)
+        .read(true)
+        .write(true)
+        .truncate(false)
+        .open(&lock_path)
+        .map_err(|err| {
+            format!(
+                "op=open_lock sink={} error={}",
+                sanitize_value(status_path),
+                sanitize_value(&err.to_string())
+            )
+        })?;
+    lock.lock_exclusive().map_err(|err| {
+        format!(
+            "op=lock sink={} error={}",
+            sanitize_value(status_path),
+            sanitize_value(&err.to_string())
+        )
+    })?;
+    Ok(lock)
 }
 
 fn export_otlp_event(endpoint: &str, event: &serde_json::Value) -> Result<u16, String> {
@@ -975,7 +1012,7 @@ pub(crate) fn test_env_lock() -> MutexGuard<'static, ()> {
 mod tests {
     use super::{
         append_to_compatibility_log, emit_event, format_event_line, heartbeat_interval,
-        sanitize_value, test_env_lock, ProgressHeartbeat,
+        sanitize_value, test_env_lock, update_otel_status, ProgressHeartbeat,
     };
     use std::env;
     use std::fs;
@@ -1282,6 +1319,43 @@ mod tests {
         assert_eq!(status["event_count"], 1);
         assert_eq!(status["last_event"], "agent.daemon_started");
         assert_eq!(status["last_trace_id"], "trace-1");
+    }
+
+    #[test]
+    fn otel_monitor_status_serializes_concurrent_process_style_updates() {
+        let temp = unique_temp_dir("adl-otel-status-concurrent");
+        let status_path = temp.join("otel-status.json");
+        let status_path = status_path.to_string_lossy().into_owned();
+        let barrier = Arc::new(std::sync::Barrier::new(16));
+        let handles: Vec<_> = (0..16)
+            .map(|index| {
+                let barrier = Arc::clone(&barrier);
+                let status_path = status_path.clone();
+                std::thread::spawn(move || {
+                    let span_id = format!("span-{index}");
+                    barrier.wait();
+                    update_otel_status(
+                        &status_path,
+                        "csm",
+                        "csm_daemon",
+                        "heartbeat",
+                        &[("trace_id", "trace-concurrent"), ("span_id", &span_id)],
+                    )
+                    .expect("update concurrent OTel status");
+                })
+            })
+            .collect();
+        for handle in handles {
+            handle.join().expect("join concurrent OTel status writer");
+        }
+
+        let status: serde_json::Value = serde_json::from_str(
+            &fs::read_to_string(&status_path).expect("read concurrent OTel status"),
+        )
+        .expect("parse concurrent OTel status");
+        assert_eq!(status["schema"], "adl.otel.monitor_status.v1");
+        assert_eq!(status["event_count"], 16);
+        assert_eq!(status["last_trace_id"], "trace-concurrent");
     }
 
     #[test]

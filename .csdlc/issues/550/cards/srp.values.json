@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 550,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
+    "slug": "runtime-observatory-trusted-origin-csm-config",
+    "version": "v0.92.1",
+    "generation": 38
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\nadl/src/cli/observability.rs\n.csdlc/issues/550\n.csdlc/evidence/550\nRuntime/CORS/WSS and Observatory paths previously reviewed for #550\nPR #552 exact source head 82966d183 and green CI run 33019833958",
+      "review_revision": "git-blake3:82966d18360a215eb9183ae74e3f7dde394c246b:86fa74b349556a519c20117875dd95b03c75429ca75756fc068b9656c4ced945",
+      "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "review_prompts": [
+        "Does parsing accept only an exact HTTPS DNS origin with a valid optional port?",
+        "Do executable tests cover all valid combinations and unsafe input classes?",
+        "Can invalid input alter the generated Runtime config?",
+        "Does the HTML Observatory trust the configured Runtime host instead of a stale hard-coded hostname?",
+        "Is the delta isolated from newer main work and from HOT-01 dynamic reload?",
+        "Does live proof establish trusted TLS and exact CORS for both Observatory origins?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving hostname and public certificate validation; it is not portable deployment authority for other hosts.",
+        "The unified Runtime kernel family and real four-node learner replication test remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds their bounded test deadlines."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

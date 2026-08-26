@@ -686,6 +686,7 @@ fn detect_current_milestone(readme: &str) -> String {
             format!("Active milestone: {milestone}"),
             format!("Current milestone state: {milestone}"),
             format!("### {milestone} - Active"),
+            format!("### {milestone} - Completed Milestone"),
         ];
         if active_patterns
             .iter()
@@ -914,7 +915,7 @@ mod tests {
         assert!(truth
             .planning_sequence
             .contains(&truth.chatgpt_facing_current_milestone));
-        assert!(truth.v092_activation_blocked);
+        assert!(!truth.v092_activation_blocked);
     }
 
     #[tokio::test]
@@ -1046,6 +1047,10 @@ mod tests {
         );
         assert_eq!(
             detect_current_milestone("Current milestone state: v0.92 planning"),
+            "v0.92"
+        );
+        assert_eq!(
+            detect_current_milestone("### v0.92 - Completed Milestone"),
             "v0.92"
         );
     }
