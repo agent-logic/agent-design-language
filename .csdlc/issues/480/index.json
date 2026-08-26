@@ -6,10 +6,23 @@
   "initialization_digest": "f6c582c5700e044ffef21116ae636bbd9ebdb8120a91c5805a887231557c4680",
   "phase": "implemented",
   "generation": 16,
-  "digest": "06043bfca87b6387bb9c9463578a40d5631adce64f45381c0b17bb9b187d00d3",
+  "digest": "74bb225e54e76ea6ee8e2a493c9f4dacfe4666b84ab348167e12a6f12695cd2a",
   "branch": "codex/480-v0921-wp01-execution-wave",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-480-v0921-wp01-execution-wave",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_480_final",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:de5a7b32d6db8a14a800f30935dbaef909b32c02:819a73dfc278c080793ab17efa2f8aaaf4cab1f9a4a23f5892d40b3a8ea42594",
+    "scope": [
+      ".csdlc/issues/480",
+      ".csdlc/prepared/issues/480/create-sprint-umbrellas.rb",
+      ".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v4-receipt.json",
+      "docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-requests",
+      "docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-operations"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +58,9 @@
       "ast_digest": "4a163e4a211be4450582effd07600b0765b86613d2001d101e510d2ea826fded"
     },
     "srp": {
-      "values_digest": "f5b2b7a9dfa1e04b74d9b067e076168616f43c29223b8dd9ae19b176add343c6",
-      "rendered_digest": "116c65bec130b67fd918d57b381061eff452b234d02482803a07487dba013245",
-      "ast_digest": "ae11422532f2b7e8eae0b9b8ae021c81db9a42e9525cfc0bc4b93525cd2edc16"
+      "values_digest": "1bb96a552cfd7b14b80f34ed5f2d9b1770b69c16f2fde9ab4630846e76a9d091",
+      "rendered_digest": "ab32257eb00ff02826aba5cce6b124b9353e19f77e557b6e47fe689008eaf391",
+      "ast_digest": "98a51388701014f40236dbe3861eee658868c2f25389384d7a6dacfccd27b913"
     },
     "sor": {
       "values_digest": "89f167c913f9da4642241a37776061131fc2c69c44eb6310ba17530f65be7490",
@@ -246,6 +259,13 @@
       "actor": "codex:/root",
       "reason": "Record membership v4 with one owning Sprint per issue and fail-closed duplicate detection.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Opened v0.92.1 with 45 bounded work issues, 10 reconciled existing authorities, and 11 flexible Sprint umbrellas with unique issue ownership.\",\"changes\":[\"Created the exact ordered 45-child v0.92.1 issue wave from CORP-A through TAIL-10.\",\"Reconciled existing issues #51, #84, #122, #251, #261-#264, #342, and #345 without duplicate creation.\",\"Created Sprint 1 through Sprint 11 umbrellas as #529 through #539 with monotonically versioned, reasoned, updateable membership.\",\"Normalized duplicate roster ownership so #122 and #251 belong only to Sprint 2, #345 only to Sprint 7, and #84 only to Sprint 8.\",\"Added fail-closed validation for duplicate ownership, exact live membership blocks, current receipt version, operation hashes, and portable typed owner resolution.\",\"Kept child implementation independent and typed finish/worktree cleanup asynchronous and non-gating.\"],\"artifacts\":[\"docs/milestones/v0.92.1/SPRINT_v0.92.1.md\",\"docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json\",\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-receipt.json\",\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v4-receipt.json\",\"docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-requests/\",\"docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-operations/\",\".csdlc/prepared/issues/480/create-sprint-umbrellas.rb\",\".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb\",\".csdlc/prepared/issues/480/validate-wave-creation.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/480/validate-wave-creation.rb\",\"all\"],\"purpose\":\"Validate the unchanged exact 45-child planning digest, live issue denominator, existing reconciliations, and final receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb\"],\"purpose\":\"Validate 11 live umbrellas, 55 unique owned issues, exact version-4 membership, result hashes, and portable typed owner resolution.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v4-receipt.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors.\",\"outcome\":\"passed\",\"evidence_ref\":\"working tree at unique-ownership implementation head\"}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

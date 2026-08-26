@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/480
+.csdlc/prepared/issues/480/create-sprint-umbrellas.rb
+.csdlc/prepared/issues/480/validate-sprint-umbrellas.rb
+docs/milestones/v0.92.1/SPRINT_v0.92.1.md
+docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v4-receipt.json
+docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-requests
+docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-operations
 
 ## Prompts
 
