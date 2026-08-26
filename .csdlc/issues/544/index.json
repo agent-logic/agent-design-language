@@ -1,0 +1,153 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 544,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0b8aa5c966363ac9cf55e79de078ee6483310794407cf840b79dd74fbede4428",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "64f91d9c2509210de3b317214a2d6fcdb2925716f62b7fb4e6b10e951c4bb944",
+  "branch": "codex/544-primary-checkout-bootstrap-guard",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-544-primary-checkout-bootstrap-guard",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/544/design.md",
+  "diagram_path": ".csdlc/prepared/issues/544/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a03f24-68ec-7940-b864-b91aad6e135e",
+      "revision": "f1074cf92f8c511d39cea40810d45a82d5e29d98f1ccaf8d9a211815dc939ddb"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c47a71bf63a99ef82bf405547ed0afa555b1d8a9f65fbf2398d5cf29b069acc5",
+      "rendered_digest": "f9200e94d5b34c2683ed23c3adc5ae63d885fa5978819ebd35ba399294faf352",
+      "ast_digest": "4b3853cbf5df7b759c44da8fcd07307b864f0c2fe29efef887d7456d53450752"
+    },
+    "stp": {
+      "values_digest": "6e3b7e80888eb67a44247341a90573fa1db18c65415498111ef9085521b31775",
+      "rendered_digest": "3625c11b15677727953342f978ba6b0572b026124b599c7b7e388a605d7678c9",
+      "ast_digest": "62d39e800a0030b76803f92508674a830d47bbfc9ca1540e2c7938cdaf0f3db5"
+    },
+    "spp": {
+      "values_digest": "639add48883cabbd9691cb71fac0b4c7b762bbba82fc75662e24bebed89f28e5",
+      "rendered_digest": "5dde310b510d8b331dc7ba365335d838fdc1fa76002c25f33ae6ba70ca39b527",
+      "ast_digest": "e64170bf5270c8928bcf75e5a8171cd06a46dd7fbf4aa3ad600a6b1f26edc07a"
+    },
+    "vpp": {
+      "values_digest": "b03c3f8794965267a48ee2b0350aeca94a5d20c0f7be9cf3bbaa8951313c6db1",
+      "rendered_digest": "8c5bfd1bba767ce996acbdc88f5eb793e2fb346105e71f1b5aa5c237c763e37c",
+      "ast_digest": "d5ed78f8e12dd41b147bf0f532d72e228928b3064193bd569a7659d2002363eb"
+    },
+    "srp": {
+      "values_digest": "64c4d2f226ea1147629ebdbdb7dc854047b563bd5449aab71009b40abf524c72",
+      "rendered_digest": "157a98dcbf77cdfc5ae5ec8c5024e81c9a43ceb3e09c3f4e947164b3d996ad55",
+      "ast_digest": "27fd4c5a807308aaba0f71438f407a65bf1b670a98ac8dad1d6452d42df5e4d1"
+    },
+    "sor": {
+      "values_digest": "6405d3bc81df08445a677e1f7d05200e9da422c18220282df1720bfcaa9a7c52",
+      "rendered_digest": "e9b3b017735f952132117a56b3cee8d02195d528b193aef42744ec3f70083c90",
+      "ast_digest": "90c27b682ebd17ac24a9dd18f22c7c4824a0de8b4a110646ae5c22859b9117d2"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-544-implementation",
+      "reason": "implementation and focused validation are complete"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-544-staging-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:01a03f24-68ec-7940-b864-b91aad6e135e",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"f1074cf92f8c511d39cea40810d45a82d5e29d98f1ccaf8d9a211815dc939ddb\",\"design_ref\":\".csdlc/prepared/issues/544/design.md\",\"diagram_digest\":\"1023787c89cbe48b86c0831d36cfff3d0e7bd8548f97a8e0f4e1db91bf548448\",\"diagram_ref\":\".csdlc/prepared/issues/544/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-544-prebind-readiness-repair",
+      "reason": "replace area labels with concrete owned repository paths before bind",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/primary_checkout_bootstrap_guard.rs\",\"docs/onboarding.md\",\"csdlc-v2/README.md\",\".csdlc/prepared/issues/544/design.md\",\".csdlc/prepared/issues/544/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-544-prebind-readiness-repair",
+      "reason": "replace deliverable labels with concrete issue-owned file deliverables before bind",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/primary_checkout_bootstrap_guard.rs\",\"docs/onboarding.md\",\"csdlc-v2/README.md\",\".csdlc/prepared/issues/544/design.md\",\".csdlc/prepared/issues/544/diagram.mmd\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-544-prebind-readiness-repair",
+      "reason": "mark the future focused Rust test harness as an explicit pre-bind deferred validator target",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-lifecycle-primary-checkout-guard\",\"proof_role\":\"Focused Rust tests prove primary rejection, zero residue, isolated success, fail-closed ambiguous topology, idempotent isolated reconciliation, and unchanged bind policy.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"primary_checkout_bootstrap_guard\"],\"parallel_group\":\"csdlc-v2-focused\",\"defer_reason\":\"Deferred only until the bound issue worktree creates csdlc-v2/tests/primary_checkout_bootstrap_guard.rs; fail-closed policy keeps publication blocked until this owned validator exists and passes.\"},{\"lane\":\"csdlc-v2-lifecycle-unit\",\"proof_role\":\"Focused lifecycle unit coverage for the touched module.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"lifecycle\"],\"parallel_group\":\"csdlc-v2-focused\",\"defer_reason\":null},{\"lane\":\"primary-checkout-bootstrap-docs-contract\",\"proof_role\":\"Focused documentation contract confirms primary checkout is inspection-only and bootstrap uses an isolated staging checkout.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"primary_checkout_bootstrap_guard\",\"operator_docs\"],\"parallel_group\":\"docs-contract\",\"defer_reason\":\"Deferred only until the bound issue worktree creates csdlc-v2/tests/primary_checkout_bootstrap_guard.rs with the operator documentation contract; fail-closed policy keeps publication blocked until this owned validator exists and passes.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-544-implementation",
+      "reason": "record completed implementation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the ADL primary-checkout bootstrap guard before initialization writes, added focused regression coverage, and documented isolated staging bootstrap.\",\"changes\":[\"csdlc-v2/src/lifecycle.rs rejects ADL bootstrap from the Git topology primary checkout before binding locks, authored artifacts, issue records, prepared state, or lock files are created.\",\"csdlc-v2/tests/primary_checkout_bootstrap_guard.rs proves primary rejection with zero issue residue, non-primary staging success, idempotent staging initialization, and operator doc wording.\",\"csdlc-v2/src/lifecycle.rs unit tests cover missing primary topology, topology probe failure, and Git common-dir mismatch as fail-closed UnsafeCheckout cases.\",\"docs/onboarding.md and csdlc-v2/README.md state that the primary checkout is inspection-only and ADL bootstrap uses an isolated staging checkout.\"],\"artifacts\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/primary_checkout_bootstrap_guard.rs\",\"docs/onboarding.md\",\"csdlc-v2/README.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-544-validation",
+      "reason": "record focused lifecycle unit validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"lifecycle\"],\"purpose\":\"Focused lifecycle unit proof for fail-closed topology ambiguity and unchanged FastWork bind policy.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output: 9 passed, 0 failed, 80 filtered out\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-544-validation",
+      "reason": "record focused primary-checkout guard integration validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"primary_checkout_bootstrap_guard\"],\"purpose\":\"Focused integration proof for primary rejection, zero residue, non-primary staging success, idempotence, and docs contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output: 3 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-544-implementation",
+      "reason": "implementation and focused validation are complete",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

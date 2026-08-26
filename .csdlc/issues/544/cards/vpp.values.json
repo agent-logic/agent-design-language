@@ -1,0 +1,103 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 544,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
+    "slug": "v0-92-1-csdlc-primary-checkout-bootstrap-guard",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-lifecycle-primary-checkout-guard",
+          "proof_role": "Focused Rust tests prove primary rejection, zero residue, isolated success, fail-closed ambiguous topology, idempotent isolated reconciliation, and unchanged bind policy.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 180,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "primary_checkout_bootstrap_guard"
+          ],
+          "parallel_group": "csdlc-v2-focused",
+          "defer_reason": "Deferred only until the bound issue worktree creates csdlc-v2/tests/primary_checkout_bootstrap_guard.rs; fail-closed policy keeps publication blocked until this owned validator exists and passes."
+        },
+        {
+          "lane": "csdlc-v2-lifecycle-unit",
+          "proof_role": "Focused lifecycle unit coverage for the touched module.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 180,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "lifecycle"
+          ],
+          "parallel_group": "csdlc-v2-focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "primary-checkout-bootstrap-docs-contract",
+          "proof_role": "Focused documentation contract confirms primary checkout is inspection-only and bootstrap uses an isolated staging checkout.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "primary_checkout_bootstrap_guard",
+            "operator_docs"
+          ],
+          "parallel_group": "docs-contract",
+          "defer_reason": "Deferred only until the bound issue worktree creates csdlc-v2/tests/primary_checkout_bootstrap_guard.rs with the operator documentation contract; fail-closed policy keeps publication blocked until this owned validator exists and passes."
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing or ambiguous Git topology, primary-checkout invocation, initialization residue, bind-policy drift, failed focused validation, stale review truth, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/544/design.md",
+      "design_digest": "f1074cf92f8c511d39cea40810d45a82d5e29d98f1ccaf8d9a211815dc939ddb",
+      "diagram_ref": ".csdlc/prepared/issues/544/diagram.mmd",
+      "diagram_digest": "1023787c89cbe48b86c0831d36cfff3d0e7bd8548f97a8e0f4e1db91bf548448"
+    }
+  }
+}

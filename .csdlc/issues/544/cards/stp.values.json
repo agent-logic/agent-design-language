@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 544,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
+    "slug": "v0-92-1-csdlc-primary-checkout-bootstrap-guard",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Initialize, design-review, bind, implement, validate, independently review, and publish issue #544 without merging or finishing.",
+      "deliverables": [
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+        "docs/onboarding.md",
+        "csdlc-v2/README.md",
+        ".csdlc/prepared/issues/544/design.md",
+        ".csdlc/prepared/issues/544/diagram.mmd"
+      ],
+      "acceptance_criteria": [
+        "AC-1: csdlc-issue create detects the Git topology primary checkout rather than relying on branch-name heuristics.",
+        "AC-2: initialization from the primary checkout fails before creating design, diagram, issue, prepared, or lock surfaces.",
+        "AC-3: initialization from a non-primary checkout sharing the same Git common directory remains supported.",
+        "AC-4: existing initialized-record reconciliation in an isolated checkout remains idempotent.",
+        "AC-5: focused tests prove primary rejection, zero residue after rejection, isolated-checkout success, fail-closed ambiguous topology, and unchanged bind policy.",
+        "AC-6: operator documentation says the primary checkout is inspection-only and bootstrap uses an isolated staging checkout."
+      ],
+      "dependencies": [
+        "GitHub issue #544 created through typed csdlc-github-issue",
+        "existing C-SDLC v2 lifecycle and bind topology code",
+        "FastWork worktree policy"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/code_repository_migration.rs",
+        "csdlc-v2/README.md",
+        "docs/onboarding.md",
+        ".adl/worktree-policy.json"
+      ],
+      "non_goals": [
+        "migration of existing issue records",
+        "cleanup of other sessions' worktrees",
+        "GitHub issue semantic changes",
+        "raw GitHub writes",
+        "merge, finish, or cleanup"
+      ]
+    }
+  }
+}

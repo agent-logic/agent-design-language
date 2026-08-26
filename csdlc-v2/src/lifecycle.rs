@@ -246,6 +246,38 @@ fn canonical_topology_root(invocation_root: &Path, listed: &[(String, String)]) 
     Ok(primary)
 }
 
+fn unsafe_checkout(context: impl Into<String>) -> V2Error {
+    V2Error::new(ErrorCode::UnsafeCheckout, context.into())
+}
+
+fn reject_primary_checkout_bootstrap(root: &Path, repository: &str) -> Result<()> {
+    if !requires_worktree_policy(repository) {
+        return Ok(());
+    }
+    let invocation = root
+        .canonicalize()
+        .map_err(|error| unsafe_checkout(format!("canonicalize bootstrap checkout: {error}")))?;
+    let listed = git::worktrees(root).map_err(|error| {
+        unsafe_checkout(format!(
+            "cannot determine Git worktree topology before bootstrap: {}",
+            error.message
+        ))
+    })?;
+    let primary = canonical_topology_root(root, &listed).map_err(|error| {
+        unsafe_checkout(format!(
+            "cannot prove non-primary bootstrap checkout: {}",
+            error.message
+        ))
+    })?;
+    if invocation == primary {
+        return Err(unsafe_checkout(format!(
+            "csdlc-issue create must run from an isolated non-primary checkout; primary checkout {} is inspection-only",
+            primary.display()
+        )));
+    }
+    Ok(())
+}
+
 fn issue_records(
     store: &Store,
     topology_root: &Path,
@@ -522,7 +554,6 @@ pub(crate) fn initialize_issue(
     store: &Store,
     mut request: BootstrapRequest,
 ) -> Result<crate::IssueRecord> {
-    let _creation_lock = store.binding_lock()?;
     if !clean_relative(&request.design_path)
         || !clean_relative(&request.diagram_path)
         || request.design_path == request.diagram_path
@@ -534,6 +565,8 @@ pub(crate) fn initialize_issue(
     }
     validate_bootstrap_request(&request)?;
     validate_initial_input(&request.initial)?;
+    reject_primary_checkout_bootstrap(store.root(), &request.repository)?;
+    let _creation_lock = store.binding_lock()?;
     let issue_dir = store.issue_dir(request.issue);
     for authored_path in [&request.design_path, &request.diagram_path] {
         let path = store.root().join(authored_path);
@@ -885,10 +918,27 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
 
 #[cfg(test)]
 mod fastwork_policy_tests {
-    use super::{enforce_worktree_policy, existing_bound_issue_local, requires_worktree_policy};
-    use crate::LifecyclePhase;
+    use super::{
+        canonical_topology_root, enforce_worktree_policy, existing_bound_issue_local,
+        reject_primary_checkout_bootstrap, requires_worktree_policy,
+    };
+    use crate::{ErrorCode, LifecyclePhase};
     use std::fs;
     use std::path::Path;
+    use std::process::Command;
+
+    fn git(root: &Path, args: &[&str]) {
+        let output = Command::new("git")
+            .current_dir(root)
+            .args(args)
+            .output()
+            .expect("run git");
+        assert!(
+            output.status.success(),
+            "git {args:?}: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
 
     fn policy_root() -> tempfile::TempDir {
         let root = tempfile::tempdir().expect("policy root");
@@ -969,5 +1019,42 @@ mod fastwork_policy_tests {
             "codex/5911",
             Some(path),
         ));
+    }
+
+    #[test]
+    fn bootstrap_guard_wraps_topology_probe_failure_as_unsafe_checkout() {
+        let root = tempfile::tempdir().expect("repo root");
+        let error =
+            reject_primary_checkout_bootstrap(root.path(), "agent-logic/agent-design-language")
+                .expect_err("non-git ADL bootstrap must fail closed");
+        assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+        assert!(error
+            .message
+            .contains("cannot determine Git worktree topology"));
+    }
+
+    #[test]
+    fn topology_root_requires_a_primary_worktree_entry() {
+        let root = tempfile::tempdir().expect("repo root");
+        let error =
+            canonical_topology_root(root.path(), &[]).expect_err("missing primary should fail");
+        assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+        assert!(error.message.contains("no primary checkout"));
+    }
+
+    #[test]
+    fn topology_root_fails_closed_on_common_dir_mismatch() {
+        let invocation = tempfile::tempdir().expect("invocation repo");
+        let primary = tempfile::tempdir().expect("different repo");
+        git(invocation.path(), &["init", "-b", "main"]);
+        git(primary.path(), &["init", "-b", "main"]);
+        let listed = vec![("main".into(), primary.path().display().to_string())];
+
+        let error = canonical_topology_root(invocation.path(), &listed)
+            .expect_err("unrelated common dirs should fail");
+        assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+        assert!(error
+            .message
+            .contains("do not share one Git common directory"));
     }
 }

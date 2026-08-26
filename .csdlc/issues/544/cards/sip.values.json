@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 544,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
+    "slug": "v0-92-1-csdlc-primary-checkout-bootstrap-guard",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prevent native C-SDLC issue initialization from writing bootstrap state into the repository primary checkout.",
+      "required_outcome": "csdlc-issue create fails closed when invoked from the Git topology primary checkout and continues to work from isolated non-primary staging checkouts.",
+      "declared_scope": [
+        "csdlc-v2/src/lifecycle.rs",
+        "focused C-SDLC lifecycle tests",
+        "operator documentation for primary-checkout bootstrap topology",
+        "issue-local lifecycle and evidence surfaces"
+      ],
+      "authority_boundary": [
+        "typed C-SDLC v2 binaries remain lifecycle authority",
+        "root main is inspection-only and must not receive tracked issue state",
+        "csdlc-bind remains the only canonical execution worktree binding route"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not write tracked files on the primary main checkout",
+        "Use the isolated staging checkout for initialization",
+        "Use the canonical FastWork issue worktree for implementation after typed bind",
+        "Do not use raw GitHub writes",
+        "Do not migrate or delete existing issue records or other sessions' worktrees",
+        "Do not merge, finish, or clean up without separate operator authority"
+      ]
+    }
+  }
+}
