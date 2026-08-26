@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "DEC-01",
+  "issue": 513,
+  "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+  "labels": [
+    "area:architecture",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "WP-01": 480
+  },
+  "body_sha256": "92458007b306be853b0973959e3ef351f4e143df555d3e54148cb68f01996acb",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DEC-01:create",
+  "request_fingerprint": "04d7b349cb0d2b92dc5e2109a4e88564dd010f6f9bbf8b9e7db1384e6f3fc260",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "f5814388c27c4cfca2adca4f1fcaf2a1b77070ff1e3a275d7d79152b82027d8c",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one independently owned Runtime v2 and Runtime v3 authority topology with executable migration and rollback.\n\n## Primary deliverable\n\nOne independently owned Runtime v2 and Runtime v3 source and authority topology with an executable migration and rollback contract.\n\n## Verification result\n\nSource and reverse-reference censuses, compatibility proof, rollback, and migration checks pass with Runtime v4 excluded.\n\n## Unit boundary\n\nIssue completion is exactly one accepted v2-v3 authority topology; migration and rollback checks are evidence inputs.\n\n## Dependencies\n\n- WP-01: #480\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Every source and reverse reference has one owner and disposition\n- [ ] Supported behavior has compatibility proof\n- [ ] Rollback and migration are executable\n- [ ] Runtime v4 remains excluded\n\n## Owned paths\n\n- `adl/src/runtime_v2/**`\n- `adl-runtime/**`\n- `adl-runtime-kernel/**`\n- `docs/runtime/**`\n- `docs/milestones/v0.92.1/evidence/runtime-decoupling/**`\n\n## PVF lanes\n\n- `source-denominator`\n- `reverse-reference-census`\n- `compatibility`\n- `rollback`\n- `migration`\n\n## Stop conditions\n\n- A supported consumer is unclassified\n- Either runtime silently acquires the other runtime's authority\n- Runtime v4 scope is required\n\n## Non-goals\n\n- Runtime v4 implementation\n- Behavior deletion without proof\n\n## Canonical planning identity\n\n- Planned ID: `DEC-01`\n- Canonical title: `[v0.92.1][DEC-01] Runtime v2/v3 authority separation`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DEC-01`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DEC-01:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:17:11Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:architecture"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 513,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DEC-01:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

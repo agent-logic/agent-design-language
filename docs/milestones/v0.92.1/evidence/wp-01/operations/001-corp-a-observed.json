@@ -1,0 +1,52 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "CORP-A",
+  "issue": 482,
+  "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+  },
+  "body_sha256": "fce7f0d242bba48032f7bc2f01d3c00c217b23ef6cabefe12e6caf734cf5f444",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-A:create",
+  "request_fingerprint": "d267985af840cc3cfc3d2f04ac9493ccd3e3fdd0f08610c34cf0b9d6c1a95ced",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "2cbd9556a87e273d469ae0ddb9d611959e6697da204afbcd786df0061779aa89",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one accepted critical-asset schedule for the complete asset denominator.\n\n## Primary deliverable\n\nOne accepted critical-asset schedule with provenance, ownership, licensing, trademark, and assignment dispositions.\n\n## Verification result\n\nThe asset validator proves every critical asset appears exactly once with an accepted disposition and redacted receipt.\n\n## Unit boundary\n\nIssue completion is exactly acceptance of the one critical-asset schedule; source-specific checks are evidence inputs, not separately closeable results.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- #153\n- #154\n- #155\n\n## Acceptance criteria\n\n- [ ] Every critical asset has an owner and disposition\n- [ ] Private instruments remain outside Git\n- [ ] Redacted receipts bind accepted instruments to the asset schedule\n\n## Owned paths\n\n- `docs/operations/corporate/asset-register/**`\n- `docs/milestones/v0.92.1/evidence/corporate/corp-a/**`\n\n## PVF lanes\n\n- `asset-denominator`\n- `provenance-and-license`\n- `redaction-and-custody`\n- `diff-hygiene`\n\n## Stop conditions\n\n- Unknown critical-asset ownership\n- Counsel or corporate authority is missing\n- Private material would enter Git\n\n## Non-goals\n\n- Operational account transfer\n- Repository-stored legal advice\n\n## Canonical planning identity\n\n- Planned ID: `CORP-A`\n- Canonical title: `[v0.92.1][CORP-A] Critical-asset schedule`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-A`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-A:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:34:40Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 482,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][CORP-A] Critical-asset schedule"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-A:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

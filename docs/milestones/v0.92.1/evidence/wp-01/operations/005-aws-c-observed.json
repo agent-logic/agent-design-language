@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "AWS-C",
+  "issue": 486,
+  "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "AWS-B": 485
+  },
+  "body_sha256": "d9d97ddbf8385188b400b0a91865ff924151285ad3cfabfd1b1d2d233da2c71a",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-C:create",
+  "request_fingerprint": "3085267b0476021540d84fb95495fc9fcb248e97af0d81d994b017a6a074a035",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "0c2abd777568e84bb8ea3e0f76a793a7b084bc2880de791ffa8b17b328de5785",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one recoverable AWS Terraform account-foundation bootstrap.\n\n## Primary deliverable\n\nOne recoverable AWS account-foundation backend and deployment-role bootstrap isolated from existing website and workload states.\n\n## Verification result\n\nBackend identity, locking, versioning, recovery, provider pins, saved-plan review, and rollback checks pass from an independent readback.\n\n## Unit boundary\n\nIssue completion is exactly one recoverable Terraform bootstrap; backend creation and state migration are internal steps.\n\n## Dependencies\n\n- AWS-B: #485\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Existing website and DDNS states are inventoried first\n- [ ] The new backend is encrypted versioned locked and recoverable\n- [ ] Deployment identity is least privilege\n- [ ] No existing state is copied or dual-owned\n\n## Owned paths\n\n- `infra/aws/bootstrap/**`\n- `docs/operations/cloud/aws/terraform-bootstrap/**`\n- `docs/milestones/v0.92.1/evidence/cloud/aws-c/**`\n\n## PVF lanes\n\n- `backend-identity`\n- `lock-and-versioning`\n- `recovery-rehearsal`\n- `provider-pin`\n- `state-isolation`\n\n## Stop conditions\n\n- An existing backend owner is unknown\n- State recovery fails\n- A reviewed plan differs at apply\n\n## Non-goals\n\n- Website state migration\n- Runtime deployment\n- CloudFormation retirement\n\n## Canonical planning identity\n\n- Planned ID: `AWS-C`\n- Canonical title: `[v0.92.1][AWS-C] AWS Terraform bootstrap`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-C`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-C:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:45:13Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 486,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-C:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

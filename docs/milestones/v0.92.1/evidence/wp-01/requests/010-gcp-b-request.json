@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-B:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+  "body": "## Outcome\n\nProduce one recoverable GCP Terraform bootstrap.\n\n## Primary deliverable\n\nOne recoverable GCP state project backend and deployment-identity bootstrap.\n\n## Verification result\n\nRemote state, locking, recovery, provider pins, impersonation, saved-plan review, break-glass, and local-state removal checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one recoverable Terraform bootstrap; state creation and migration are internal steps.\n\n## Dependencies\n\n- GCP-A: #490\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] State is versioned private recoverable and auditable\n- [ ] Deployment uses short-lived impersonation\n- [ ] Provider and module versions are pinned\n- [ ] Local bootstrap state is removed recoverably\n\n## Owned paths\n\n- `infra/gcp/bootstrap/**`\n- `docs/operations/cloud/gcp/terraform-bootstrap/**`\n- `docs/milestones/v0.92.1/evidence/cloud/gcp-b/**`\n\n## PVF lanes\n\n- `backend-identity`\n- `state-recovery`\n- `impersonation`\n- `provider-pin`\n- `local-state-cleanup`\n\n## Stop conditions\n\n- State recovery fails\n- Static service-account keys are required\n- Reviewed plan identity drifts\n\n## Non-goals\n\n- Runtime deployment\n- Production hierarchy\n- AWS changes\n\n## Canonical planning identity\n\n- Planned ID: `GCP-B`\n- Canonical title: `[v0.92.1][GCP-B] GCP Terraform bootstrap`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-B`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

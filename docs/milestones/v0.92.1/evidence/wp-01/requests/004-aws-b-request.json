@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-B:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+  "body": "## Outcome\n\nProduce one accepted AWS access and billing control baseline.\n\n## Primary deliverable\n\nOne accepted AWS access and billing baseline with independently recoverable corporate administration, governed Agent Toolkit access, and visible cost controls.\n\n## Verification result\n\nRoot recovery, human and workload access, Agent Toolkit configuration, agent-specific IAM guardrails, CloudWatch and CloudTrail activity visibility, billing, budget, anomaly, export, and cost-attribution readbacks pass without removing the proven administrator path.\n\n## Unit boundary\n\nIssue completion is exactly one accepted access-and-billing baseline; individual readbacks are evidence inputs and do not close independently.\n\n## Dependencies\n\n- AWS-A: #484\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Corporate recovery does not depend on one personal factor\n- [ ] Human workload and agent-initiated identities are distinguishable\n- [ ] Agent Toolkit for AWS is configured for the approved Codex path with AWS CLI 2.35 or newer\n- [ ] IAM context policies bind agent actions with read-only default posture\n- [ ] CloudWatch metrics and CloudTrail requests are attributable\n- [ ] Billing and budget ownership is visible\n- [ ] Existing administrator access remains until replacement is proven\n\n## Owned paths\n\n- `infra/aws/account-foundation/**`\n- `docs/operations/cloud/aws/access-billing/**`\n- `docs/milestones/v0.92.1/evidence/cloud/aws-b/**`\n\n## PVF lanes\n\n- `root-recovery`\n- `identity-census`\n- `agent-toolkit-configuration`\n- `agent-iam-guardrails`\n- `agent-activity-audit`\n- `billing-readback`\n- `budget-and-anomaly`\n- `credential-redaction`\n\n## Stop conditions\n\n- Replacement access is unproven\n- Billing target is ambiguous\n- Credentials would enter evidence\n\n## Non-goals\n\n- Organizations rollout\n- Workload deployment\n- Unrestricted agent mutation\n- Removing break-glass access\n\n## Canonical planning identity\n\n- Planned ID: `AWS-B`\n- Canonical title: `[v0.92.1][AWS-B] AWS access and billing baseline`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-B`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

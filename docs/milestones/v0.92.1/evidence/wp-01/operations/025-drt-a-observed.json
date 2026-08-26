@@ -1,0 +1,52 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "DRT-A",
+  "issue": 506,
+  "title": "[v0.92.1][DRT-A] Distributed qualification contract",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+  },
+  "body_sha256": "d2a4c2092dfb84c360aa1b0a15ac227055828de30fa5bc6322281689df594f0d",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-A:create",
+  "request_fingerprint": "885bb45a4dcc28c3bd9c2f484cc6a9a16e44fa198a4a013b6d657c8b1e2e1625",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "e40bff65b081f92d1cb9313509c8bd40afb70307ce5df738492fd7695a454e60",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one deterministic distributed-qualification and ACIP replay contract.\n\n## Primary deliverable\n\nOne deterministic distributed-qualification and ACIP replay contract.\n\n## Verification result\n\nIdentity, authority, duplicate-denial, and replay-conformance tests pass for requirements 181 and 182.\n\n## Unit boundary\n\nIssue completion is exactly acceptance of one distributed-qualification contract; conformance checks are evidence inputs.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- #181\n- #182\n\n## Acceptance criteria\n\n- [ ] Requirements 181 and 182 are mapped\n- [ ] Identity and authority are deterministic\n- [ ] Duplicate denial and replay receipts are exact\n\n## Owned paths\n\n- `adl-runtime/src/qualification/**`\n- `adl-runtime/tests/distributed_contract/**`\n- `docs/milestones/v0.92.1/evidence/runtime/drt-a/**`\n\n## PVF lanes\n\n- `qualification-contract`\n- `acip-authority`\n- `replay-conformance`\n- `negative-matrix`\n\n## Stop conditions\n\n- Identity provenance is synthetic\n- Replay can change authority\n\n## Non-goals\n\n- Paid AWS execution\n- Observatory redesign\n\n## Canonical planning identity\n\n- Planned ID: `DRT-A`\n- Canonical title: `[v0.92.1][DRT-A] Distributed qualification contract`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DRT-A`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-A:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:05:58Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 506,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][DRT-A] Distributed qualification contract"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-A:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

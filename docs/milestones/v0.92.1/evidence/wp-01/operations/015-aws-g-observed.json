@@ -1,0 +1,54 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "AWS-G",
+  "issue": 496,
+  "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "AWS-F": 489,
+    "XCL-01": 495
+  },
+  "body_sha256": "753e13741490acd8209fa9167f0d492190d0460faffe0a15a6951dfafa6cafb0",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-G:create",
+  "request_fingerprint": "03b4d3df30d400541896a5f74b3ef9e2d6ea043778457f1087b014ff4300a753",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "2d0100f4beb5e60942528eec2ea9a501807dfa7dc52f6c83c95589588bf15928",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one accepted AWS CloudFormation retirement decision for the bounded template denominator.\n\n## Primary deliverable\n\nOne accepted retirement ledger for the issue-specific CloudFormation templates and every active or planned consumer.\n\n## Verification result\n\nTemplate, consumer, parity, Terraform replacement, rollback, retained-evidence, and live-stack checks produce one disposition per bounded template with no dual ownership.\n\n## Unit boundary\n\nIssue completion is exactly one accepted retirement decision; template translations and qualification runs are evidence inputs or separately reviewable follow-up work.\n\n## Dependencies\n\n- AWS-F: #489\n- XCL-01: #495\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Issue 194 and 268 templates are inventoried\n- [ ] Every consumer and retained evidence path has a disposition\n- [ ] Retirement requires proven Terraform parity and rollback\n- [ ] No active stack is silently abandoned\n\n## Owned paths\n\n- `infra/aws/runtime/**`\n- `adl/tools/issue194_private_network.cloudformation.json`\n- `adl/tools/issue268_runtime_qualification.cloudformation.yaml`\n- `docs/milestones/v0.92.1/evidence/cloud/aws-g/**`\n\n## PVF lanes\n\n- `template-denominator`\n- `consumer-census`\n- `parity-and-rollback`\n- `live-stack-readback`\n- `retirement-decision`\n\n## Stop conditions\n\n- A consumer is unclassified\n- A live stack owner is ambiguous\n- Terraform parity is absent\n\n## Non-goals\n\n- Deleting historical evidence\n- Forced retirement\n- Website Terraform changes\n\n## Canonical planning identity\n\n- Planned ID: `AWS-G`\n- Canonical title: `[v0.92.1][AWS-G] AWS CloudFormation retirement decision`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-G`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-G:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:52:46Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 496,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-G:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "TAIL-05",
+  "issue": 521,
+  "title": "[v0.92.1][TAIL-05] External / third-party review",
+  "labels": [
+    "area:review",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "TAIL-04": 520
+  },
+  "body_sha256": "034fc1f00f203864deab59bf1e85202974ec271e49c64eee8c423446c56a4bf9",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-05:create",
+  "request_fingerprint": "f3a52ab7f50c3db1593ae537ff76775e0e4e28566c91257fe4937db8bdb8451a",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "3a62caf47fe43197df5d608b9b623e80a428006b4db746477c2c4f067d36b141",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one retained independent external-review report for the unchanged candidate.\n\n## Primary deliverable\n\nOne retained independent external-review report for the unchanged candidate.\n\n## Verification result\n\nReviewer independence, exact revision, findings, and limitations validate without candidate drift.\n\n## Unit boundary\n\nIssue completion is exactly one independent external-review report; findings are rows within that report.\n\n## Dependencies\n\n- TAIL-04: #520\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Reviewer independence is recorded\n- [ ] Findings and limitations bind the exact candidate\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-05/**`\n\n## PVF lanes\n\n- `independence`\n- `exact-revision`\n- `finding-retention`\n\n## Stop conditions\n\n- Candidate drift\n- Reviewer conflict\n\n## Non-goals\n\n- Finding remediation\n- Release approval\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-05`\n- Canonical title: `[v0.92.1][TAIL-05] External / third-party review`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-05`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-05:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:33:11Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:review",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 521,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][TAIL-05] External / third-party review"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-05:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

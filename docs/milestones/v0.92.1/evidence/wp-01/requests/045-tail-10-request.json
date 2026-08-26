@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-10:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][TAIL-10] Release ceremony",
+  "body": "## Outcome\n\nProduce one release-ceremony receipt for the exact operator-approved milestone candidate.\n\n## Primary deliverable\n\nOne release-ceremony receipt binding the approved candidate, notes, tag, and release identity.\n\n## Verification result\n\nLive readback proves the notes, tag, and release resolve to the exact approved candidate and operator authorization.\n\n## Unit boundary\n\nIssue completion is exactly one release-ceremony receipt; preparation and asynchronous bookkeeping are external inputs or follow-up work.\n\n## Dependencies\n\n- TAIL-09: #525\n\n## Retained predecessor scope\n\n- #189\n\n## Acceptance criteria\n\n- [ ] All prior tail issues have reviewed-green ancestral merges\n- [ ] Notes tag and release bind the exact candidate\n- [ ] Operator authorization is retained\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-10/**`\n- `docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md`\n\n## PVF lanes\n\n- `tail-merge-census`\n- `tag-and-release-readback`\n- `notes-parity`\n\n## Stop conditions\n\n- Operator authorization is absent\n- Any prior tail issue lacks a reviewed-green ancestral merge\n\n## Non-goals\n\n- Unreviewed merge\n- Administrative finish or cleanup\n- Post-release feature work\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-10`\n- Canonical title: `[v0.92.1][TAIL-10] Release ceremony`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-10`\n",
+  "labels": [
+    "area:release",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

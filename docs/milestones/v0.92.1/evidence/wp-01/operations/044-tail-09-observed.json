@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "TAIL-09",
+  "issue": 525,
+  "title": "[v0.92.1][TAIL-09] Next milestone review pass",
+  "labels": [
+    "area:review",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "TAIL-08": 524
+  },
+  "body_sha256": "d821033f70949d124561707a2c0695e5658b3840c624193a6fbe4d2d60bb25b6",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-09:create",
+  "request_fingerprint": "2126cc665b4eaa612a377ff1df9c53712867535fed2640cd4c01f49de8fdd733",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "7d6afafd61ace6be670a282b3565bd57a05a3d3c4e715f033d2225f92f28ffe1",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one independent exact-revision v0.92.2 planning review report.\n\n## Primary deliverable\n\nOne independent exact-revision v0.92.2 planning review report.\n\n## Verification result\n\nThe complete planning denominator is reviewed and every finding has an evidence-backed disposition.\n\n## Unit boundary\n\nIssue completion is exactly one independent planning review report; findings are rows within that report.\n\n## Dependencies\n\n- TAIL-08: #524\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Review binds exact planning revision\n- [ ] All findings have disposition before handoff\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-09/**`\n\n## PVF lanes\n\n- `planning-review-denominator`\n- `exact-revision`\n- `finding-disposition`\n\n## Stop conditions\n\n- Successor plan changes during review\n\n## Non-goals\n\n- Creating v0.92.2 issues\n- Approving current release\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-09`\n- Canonical title: `[v0.92.1][TAIL-09] Next milestone review pass`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-09`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-09:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:42:13Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:review",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 525,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][TAIL-09] Next milestone review pass"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-09:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

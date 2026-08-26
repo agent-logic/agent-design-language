@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:OBS-B:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+  "body": "## Outcome\n\nProduce one implemented Observatory redesign backed by authentic Runtime projections.\n\n## Primary deliverable\n\nOne implemented Observatory redesign consuming authentic Runtime projections.\n\n## Verification result\n\nExact browser, accessibility, redaction, recovery, and authentic Runtime-route checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one implemented Observatory redesign; browser and authority cases are proof inputs.\n\n## Dependencies\n\n- OBS-A: #511\n- issue-84: #84\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] OBS-A contracts are implemented\n- [ ] Final proof consumes reviewed merged issue 84 authority\n- [ ] Runtime projections are source-grounded\n- [ ] Accessibility and recovery cases pass\n\n## Owned paths\n\n- `demos/html-observatory/app.js`\n- `demos/html-observatory/styles.css`\n- `adl/tools/validate_layer8_authority_observatory_ui.sh`\n- `docs/milestones/v0.92.1/evidence/observatory/obs-b/**`\n\n## PVF lanes\n\n- `authentic-runtime-route`\n- `exact-browser-cases`\n- `accessibility`\n- `redaction`\n- `recovery`\n\n## Stop conditions\n\n- Issue 84 is not reviewed and merged for final proof\n- A mock substitutes for the required Runtime route\n\n## Non-goals\n\n- TLS 1.2 implementation owned by issue 251\n- Public exposure owned by issue 122\n\n## Canonical planning identity\n\n- Planned ID: `OBS-B`\n- Canonical title: `[v0.92.1][OBS-B] Observatory redesign implementation`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#OBS-B`\n",
+  "labels": [
+    "area:observatory",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

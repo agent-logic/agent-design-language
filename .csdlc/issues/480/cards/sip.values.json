@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 480,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+    "slug": "v0921-wp01-execution-wave",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one verified v0.92.1 execution-wave creation receipt for the exact 45-child denominator.",
+      "required_outcome": "Exactly 45 unique canonical child issues with exact titles, dependencies, labels, milestone routing, operation identities, and a final immutable live readback receipt.",
+      "declared_scope": [
+        "exact 45-child creation denominator",
+        "duplicate-denial and partial-recovery protocol",
+        "typed GitHub issue creation",
+        "existing issue reconciliation",
+        "final live receipt"
+      ],
+      "authority_boundary": [
+        "The merged v0.92.1 planning package is canonical",
+        "Issue #480 is the only opening conductor",
+        "Existing issues are reconciled and never recreated",
+        "Child implementation and v0.93 activation are outside scope"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Work only in the bound FastWork issue worktree",
+        "Use typed C-SDLC v2 GitHub owners",
+        "Never delete or recycle issue numbers",
+        "Stop on ambiguity",
+        "Do not make finish or cleanup an execution dependency"
+      ]
+    }
+  }
+}

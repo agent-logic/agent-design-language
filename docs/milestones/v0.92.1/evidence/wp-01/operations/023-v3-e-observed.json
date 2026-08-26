@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "V3-E",
+  "issue": 504,
+  "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+  "labels": [
+    "area:csdlc",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "V3-D": 503
+  },
+  "body_sha256": "b6df78a98899b7d4d6e62076b025cb2fd0ebb7eb0b5ccf9741abfd7591f7c0fe",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-E:create",
+  "request_fingerprint": "d9eff967edf534f85584807d8b43ae02f268dbb6a9fd201528e9dbebb904b21b",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "7d2d625dd578d8cb67fc2e3bad14ba895ca5111d4e18331514f5a9dc2b38fd2c",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one end-to-end C-SDLC v3 remote delivery workflow.\n\n## Primary deliverable\n\nOne end-to-end remote delivery workflow from an accepted PVF result to safe terminal cleanup.\n\n## Verification result\n\nOne workflow proof reaches safe cleanup from an accepted PVF result, while refusal cases prove no intermediate step independently grants authority, for requirements 174 through 178.\n\n## Unit boundary\n\nIssue completion is exactly one remote delivery workflow; review, publication, PR, finish, and cleanup are non-closeable stages of that workflow.\n\n## Dependencies\n\n- V3-D: #503\n\n## Retained predecessor scope\n\n- #174\n- #175\n- #176\n- #177\n- #178\n\n## Acceptance criteria\n\n- [ ] Review binds exact immutable scope\n- [ ] Publication modes are explicit\n- [ ] Finish derives terminal truth\n- [ ] Requirements 174 through 178 have positive and refusal proof\n\n## Owned paths\n\n- `csdlc-v3/src/commands/remote/**`\n- `csdlc-v3/src/review/**`\n- `csdlc-v3/src/publication/**`\n- `csdlc-v3/tests/remote_commands/**`\n\n## PVF lanes\n\n- `pvf-denominator`\n- `exact-review`\n- `publication-linkage`\n- `terminal-finish`\n- `cleanup-safety`\n\n## Stop conditions\n\n- Review can be self-authorized\n- Publication or finish can bypass typed gates\n\n## Non-goals\n\n- Authority cutover\n- broad repository cleanup\n\n## Canonical planning identity\n\n- Planned ID: `V3-E`\n- Canonical title: `[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-E`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-E:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:02:56Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:csdlc"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 504,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-E:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

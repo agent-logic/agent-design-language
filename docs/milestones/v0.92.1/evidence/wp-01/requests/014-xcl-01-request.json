@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:XCL-01:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+  "body": "## Outcome\n\nProduce one portable Runtime Terraform module family replacing the exact existing CloudFormation-template denominator on AWS and GCP.\n\n## Primary deliverable\n\nOne portable workload contract with provider-specific AWS and GCP Terraform implementations for the exact issue 194 and 268 template behaviors.\n\n## Verification result\n\nInput, topology, IAM, tag, deadline, output, failure, rollback, plan, disposable-deployment, and zero-resource parity pass on both provider implementations.\n\n## Unit boundary\n\nIssue completion is exactly one accepted cross-cloud Terraform module family; provider modules and parity deployments are implementation parts and evidence inputs.\n\n## Dependencies\n\n- AWS-E: #488\n- GCP-D: #493\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] The portable workload contract is provider-neutral\n- [ ] AWS and GCP modules preserve the exact admitted template behavior\n- [ ] Provider identity and differences remain explicit\n- [ ] Neither provider silently substitutes for the other\n- [ ] Existing CloudFormation remains rollback authority until AWS-G\n\n## Owned paths\n\n- `infra/runtime-portable/**`\n- `infra/aws/runtime/**`\n- `infra/gcp/workloads/**`\n- `docs/milestones/v0.92.1/evidence/cloud/xcl-01/**`\n\n## PVF lanes\n\n- `template-denominator`\n- `portable-contract`\n- `aws-plan-and-deploy`\n- `gcp-plan-and-deploy`\n- `cross-provider-parity`\n- `rollback`\n- `cleanup-zero`\n\n## Stop conditions\n\n- A template behavior is unmapped\n- Provider-specific security is hidden behind a false abstraction\n- Either cleanup proof fails\n- Paid authorization is absent\n\n## Non-goals\n\n- One Terraform resource graph spanning both providers\n- CloudFormation deletion\n- Production cutover\n\n## Canonical planning identity\n\n- Planned ID: `XCL-01`\n- Canonical title: `[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#XCL-01`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

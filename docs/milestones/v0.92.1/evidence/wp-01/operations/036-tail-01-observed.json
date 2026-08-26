@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "TAIL-01",
+  "issue": 517,
+  "title": "[v0.92.1][TAIL-01] Quality gate",
+  "labels": [
+    "area:quality",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "INT-01": 516
+  },
+  "body_sha256": "be7b38e2ee5fd0886edcefb308c6d44fb822da753189cefdcc157f008a8cf5bc",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-01:create",
+  "request_fingerprint": "8ba9f07b9bbab06d464ca8e49e0839ea1c02c74d7237185299e6263033158b67",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "63ec5b5e2400317063542e1f1564e295b399f82cc426dc685bded48b09a4ca66",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one quality-gate decision for the exact converged candidate.\n\n## Primary deliverable\n\nOne quality-gate decision record for the exact converged candidate.\n\n## Verification result\n\nEvery required proving lane passes and the gate reports zero unowned exceptions.\n\n## Unit boundary\n\nIssue completion is exactly one quality-gate decision; individual lanes cannot close this issue independently.\n\n## Dependencies\n\n- INT-01: #516\n\n## Retained predecessor scope\n\n- #188\n\n## Acceptance criteria\n\n- [ ] All required proving lanes pass\n- [ ] Skips and non-proving results fail closed\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-01/**`\n- `docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md`\n\n## PVF lanes\n\n- `quality-denominator`\n- `zero-test-shield`\n- `exact-scope`\n\n## Stop conditions\n\n- Any required lane fails or is absent\n\n## Non-goals\n\n- Documentation repair\n- Release ceremony\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-01`\n- Canonical title: `[v0.92.1][TAIL-01] Quality gate`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-01`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-01:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:24:58Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:quality"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 517,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][TAIL-01] Quality gate"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-01:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

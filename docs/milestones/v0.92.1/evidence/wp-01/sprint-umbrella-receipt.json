@@ -1,0 +1,177 @@
+{
+  "schema": "adl.v0921.wp01.sprint-umbrella-receipt.v1",
+  "repository": "agent-logic/agent-design-language",
+  "conductor_issue": 480,
+  "umbrellas": [
+    {
+      "sprint": 1,
+      "name": "Independent foundations",
+      "issue": 529,
+      "title": "[v0.92.1][Sprint 1] Independent foundations",
+      "members": [
+        482,
+        483,
+        510,
+        513,
+        514,
+        499
+      ],
+      "operation_key": "v0921-wp01:sprint-1:create",
+      "result_sha256": "7710ea6db051b6afc50a7ec4681a904c86a3a641941bc7f3454394b0b00faff8"
+    },
+    {
+      "sprint": 2,
+      "name": "Parallel cloud foundations",
+      "issue": 530,
+      "title": "[v0.92.1][Sprint 2] Parallel cloud foundations",
+      "members": [
+        484,
+        485,
+        486,
+        487,
+        488,
+        490,
+        491,
+        492,
+        493,
+        122,
+        251,
+        84,
+        345
+      ],
+      "operation_key": "v0921-wp01:sprint-2:create",
+      "result_sha256": "5309332bc2052c830b764ff2a9dc6a3f800888513ea7456e8b5cad6a82e91b5e"
+    },
+    {
+      "sprint": 3,
+      "name": "Cloud convergence",
+      "issue": 531,
+      "title": "[v0.92.1][Sprint 3] Cloud convergence",
+      "members": [
+        495,
+        489,
+        496,
+        494
+      ],
+      "operation_key": "v0921-wp01:sprint-3:create",
+      "result_sha256": "6bb2de69af7919d1c3ca5c706175cbff2347e6d5dbc148b41059c64b304f6bbd"
+    },
+    {
+      "sprint": 4,
+      "name": "Corporate acceptance",
+      "issue": 532,
+      "title": "[v0.92.1][Sprint 4] Corporate acceptance",
+      "members": [
+        497,
+        498
+      ],
+      "operation_key": "v0921-wp01:sprint-4:create",
+      "result_sha256": "1a00bf50eb09dad5a2bef943c7c0061bd52899a225d39ea851801b579c566fc4"
+    },
+    {
+      "sprint": 5,
+      "name": "C-SDLC v3 foundation",
+      "issue": 533,
+      "title": "[v0.92.1][Sprint 5] C-SDLC v3 foundation",
+      "members": [
+        500,
+        501,
+        502
+      ],
+      "operation_key": "v0921-wp01:sprint-5:create",
+      "result_sha256": "f5e6d6cebe83135a93c6d3f39fee7fa910af3f806e70caf1eb5532132bd6fc01"
+    },
+    {
+      "sprint": 6,
+      "name": "C-SDLC v3 delivery and cutover",
+      "issue": 534,
+      "title": "[v0.92.1][Sprint 6] C-SDLC v3 delivery and cutover",
+      "members": [
+        503,
+        504,
+        505
+      ],
+      "operation_key": "v0921-wp01:sprint-6:create",
+      "result_sha256": "ab4ae06745ccb0e5d639915ca6af76838cc9a4cb615e9915484a2f9bbbc4d996"
+    },
+    {
+      "sprint": 7,
+      "name": "Distributed Runtime qualification",
+      "issue": 535,
+      "title": "[v0.92.1][Sprint 7] Distributed Runtime qualification",
+      "members": [
+        506,
+        345,
+        507,
+        508,
+        509
+      ],
+      "operation_key": "v0921-wp01:sprint-7:create",
+      "result_sha256": "7e6449f0e42260424535be0c0975a68625d759d7ffd4914ed88be9b9d8143c34"
+    },
+    {
+      "sprint": 8,
+      "name": "Product lanes",
+      "issue": 536,
+      "title": "[v0.92.1][Sprint 8] Product lanes",
+      "members": [
+        51,
+        261,
+        262,
+        263,
+        264,
+        342,
+        511,
+        251,
+        122,
+        345,
+        84,
+        512
+      ],
+      "operation_key": "v0921-wp01:sprint-8:create",
+      "result_sha256": "99b8e4d61f1bee98a70f2ac92745c2ef3bfc35008bd755c9c2641fbbd38c9637"
+    },
+    {
+      "sprint": 9,
+      "name": "Provider comparison and convergence",
+      "issue": 537,
+      "title": "[v0.92.1][Sprint 9] Provider comparison and convergence",
+      "members": [
+        515,
+        516,
+        517,
+        518,
+        519
+      ],
+      "operation_key": "v0921-wp01:sprint-9:create",
+      "result_sha256": "1bd9072106ff6e8940199d9c8c3c58ae91916e532e7985c23f5a01e974c56e78"
+    },
+    {
+      "sprint": 10,
+      "name": "Review and remediation",
+      "issue": 538,
+      "title": "[v0.92.1][Sprint 10] Review and remediation",
+      "members": [
+        520,
+        521,
+        522
+      ],
+      "operation_key": "v0921-wp01:sprint-10:create",
+      "result_sha256": "bb90a4e1e8eed4f8f0f8735184aa43e56df1b34606f2b12de59ea6e689962d59"
+    },
+    {
+      "sprint": 11,
+      "name": "Handoff and release",
+      "issue": 539,
+      "title": "[v0.92.1][Sprint 11] Handoff and release",
+      "members": [
+        523,
+        524,
+        525,
+        526
+      ],
+      "operation_key": "v0921-wp01:sprint-11:create",
+      "result_sha256": "408d8491ec3222611c3dd2d3d865c40c01843274de34eeb05624054f852f731f"
+    }
+  ]
+}

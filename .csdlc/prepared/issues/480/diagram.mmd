@@ -1,0 +1,14 @@
+flowchart LR
+  A[Reviewed merged v0.92.1 package] --> B[Parse exact 45-slot denominator]
+  B --> C[Scan live milestone and partial receipt]
+  C --> D{Duplicate or ambiguity?}
+  D -- yes --> X[Stop and retain recovery evidence]
+  D -- no --> E[Resolve verified dependencies]
+  E --> F[Write and fsync create-only intent receipt]
+  F --> G[Typed create or existing-route update with fingerprint-bound key]
+  G --> H[Immediate full-fingerprint live readback]
+  H --> R[Write and fsync create-only observed receipt]
+  R --> I{45 of 45?}
+  I -- no --> C
+  I -- yes --> J[Independent full live reconciliation]
+  J --> K[Final execution-wave creation receipt]
