@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 484,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+    "slug": "aws-resource-ownership-inventory",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #484 docs, evidence, lifecycle truth, inventory denominator, classification table, redaction proof, and exact branch range.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the approved account and region basis explicit and evidence-backed?",
+        "Does every discovered resource have an owner or frozen-unknown disposition?",
+        "Are website Terraform and issue evidence classified separately?",
+        "Does the inventory avoid inferring retained assets disposable?",
+        "Does retained evidence avoid credentials and mutation commands?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

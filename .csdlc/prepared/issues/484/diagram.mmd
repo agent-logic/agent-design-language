@@ -1,0 +1,9 @@
+flowchart TD
+  A["Approved business AWS profile"] --> B["Read-only account identity"]
+  B --> C["Enabled-region census"]
+  C --> D["Service/resource discovery"]
+  D --> E["Owner + lifecycle disposition table"]
+  E --> F["Redacted evidence packet"]
+  F --> G["Accepted AWS-A inventory"]
+
+  D -. no mutation .-> H["No apply/import/cleanup"]
