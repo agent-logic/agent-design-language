@@ -1,0 +1,69 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 513,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+    "slug": "v0-92-1-dec-01-runtime-v2-v3-authority-separation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-authority-topology",
+          "proof_role": "Validate DEC-01 source ownership, reverse-reference dispositions, compatibility command, migration dry-run, rollback dry-run, and Runtime v4 exclusion.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Validate whitespace hygiene for tracked DEC-01 changes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on unowned source roots, unclassified reverse references, missing compatibility proof, non-executable migration or rollback dry-run, Runtime v4 authority expansion, stale review, red CI, or lifecycle topology drift.",
+      "design_ref": ".csdlc/prepared/issues/513/design.md",
+      "design_digest": "db6c89dfbece755904892e6322d9666cf958ff46280a8829fa6450ceecdcc692",
+      "diagram_ref": ".csdlc/prepared/issues/513/diagram.mmd",
+      "diagram_digest": "e627b2cd99b14ac2e4dc9d16adf09d51b0830434cce80c48cad7365109750b04"
+    }
+  }
+}

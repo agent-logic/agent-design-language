@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 513,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "1df49693235995801523f9f82aedad90874fb1364f74eb2e80e3021fe5a189ff",
+  "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/513/design.md",
+  "diagram_path": ".csdlc/prepared/issues/513/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:planning-digest-f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+      "revision": "db6c89dfbece755904892e6322d9666cf958ff46280a8829fa6450ceecdcc692"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b6c9c4d478ca580cf673859f6be769d71613560dad9f82194f553a78a7c6925c",
+      "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
+      "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
+    },
+    "stp": {
+      "values_digest": "14164a5827dc6c020f6627eab9119d14a932aa63bd03150f8d87f4a066a07e3c",
+      "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
+      "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
+    },
+    "spp": {
+      "values_digest": "11e75af00b284137c229b81eba5ee5d080f0668fffa1305c7754de8ac1ed135f",
+      "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
+      "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
+    },
+    "vpp": {
+      "values_digest": "1e3ebc47f4aa64d6265ea324eec85877d88f90a79e259e9775929e94f0addec6",
+      "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
+      "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
+    },
+    "srp": {
+      "values_digest": "30a8ce48f1bb6f85ff5feed23944af724b6b57c67fdce254e1421bd13e305f75",
+      "rendered_digest": "3f9522a8286d32018fd2ba8889a9aec96cbfe05659a325bc1233ae1b6bc705af",
+      "ast_digest": "74512fbcecdf579eeb15789f2d70f71c2af5ea9514cc5779bcd56b0a40bac394"
+    },
+    "sor": {
+      "values_digest": "5691606ae0fe9a52da2dd615e6150247ecfc02e95feca6c55f7cc7bcc25f8725",
+      "rendered_digest": "44497008e327fa36b4c8745b1808a8241ae2e2470de98eb081da56e4ceb53f54",
+      "ast_digest": "180c51e9d23255201d8fbacc0dcb4680c9fcb99688cdb25ce0a56bcdc9874bd0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/issue_513_dec_01",
+      "reason": "Advance DEC-01 after approved planning-digest design and complete typed bootstrap packet."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/issue_513_dec_01",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/issue_513_dec_01",
+      "reason": "Advance DEC-01 after approved planning-digest design and complete typed bootstrap packet.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

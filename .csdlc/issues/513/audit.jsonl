@@ -1,0 +1,4 @@
+{"sequence":1,"generation":0,"actor":"codex:/root/issue_513_dec_01","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:/root/issue_513_dec_01","reason":"Advance DEC-01 after approved planning-digest design and complete typed bootstrap packet.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
+{"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":4,"generation":2,"actor":"codex:issue-513-dec-01-runtime-authority-separation","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}

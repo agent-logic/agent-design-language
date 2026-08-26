@@ -1,0 +1,147 @@
+{
+  "schema": "adl.runtime_v2_v3_authority_topology.v1",
+  "issue": 513,
+  "planned_id": "DEC-01",
+  "runtime_v4_excluded": true,
+  "source_roots": [
+    {
+      "path": "adl/src/runtime_v2",
+      "owner": "runtime-v2",
+      "disposition": "authoritative-runtime-v2-source"
+    },
+    {
+      "path": "adl-runtime",
+      "owner": "runtime-v3-guardian",
+      "disposition": "authoritative-runtime-v3-guardian-source"
+    },
+    {
+      "path": "adl-runtime-kernel",
+      "owner": "runtime-v3-kernel",
+      "disposition": "authoritative-runtime-v3-kernel-source"
+    }
+  ],
+  "shared_surfaces": [
+    {
+      "path": "docs/runtime",
+      "owner": "runtime-docs",
+      "disposition": "documentation-only"
+    },
+    {
+      "path": "docs/milestones/v0.92.1/evidence/runtime-decoupling",
+      "owner": "dec-01",
+      "disposition": "evidence-only"
+    }
+  ],
+  "reverse_reference_terms": [
+    "runtime_v2",
+    "Runtime v2",
+    "adl/src/runtime_v2",
+    "adl_runtime",
+    "adl-runtime",
+    "adl-runtime-kernel",
+    "Runtime v3",
+    "runtime-v3"
+  ],
+  "reverse_reference_dispositions": [
+    {
+      "path_prefix": "adl/src/runtime_v2/reasoning_runtime_bridge.rs",
+      "owner": "runtime-v2",
+      "disposition": "runtime-v2-to-v3-compatibility-bridge",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl/src/runtime_v2/",
+      "owner": "runtime-v2",
+      "disposition": "runtime-v2-source",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime/src/",
+      "owner": "runtime-v3-guardian",
+      "disposition": "runtime-v3-source-or-compatibility-metadata",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime/tests/",
+      "owner": "runtime-v3-guardian",
+      "disposition": "runtime-v3-proof",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime/",
+      "owner": "runtime-v3-guardian",
+      "disposition": "runtime-v3-support-surface",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime-kernel/src/",
+      "owner": "runtime-v3-kernel",
+      "disposition": "runtime-v3-source-or-release-gate-metadata",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime-kernel/tests/",
+      "owner": "runtime-v3-kernel",
+      "disposition": "runtime-v3-proof",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "adl-runtime-kernel/",
+      "owner": "runtime-v3-kernel",
+      "disposition": "runtime-v3-support-surface",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "docs/runtime/",
+      "owner": "runtime-docs",
+      "disposition": "runtime-docs",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": "docs/milestones/v0.92.1/",
+      "owner": "milestone-v0.92.1",
+      "disposition": "runtime-planning-docs",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": ".csdlc/prepared/issues/513/",
+      "owner": "dec-01",
+      "disposition": "dec-01-lifecycle-evidence",
+      "authority_transfer": false
+    },
+    {
+      "path_prefix": ".csdlc/issues/513/",
+      "owner": "dec-01",
+      "disposition": "dec-01-lifecycle-state",
+      "authority_transfer": false
+    }
+  ],
+  "compatibility_proof": {
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "contracts",
+      "parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency"
+    ],
+    "purpose": "Prove the existing Runtime v3 baseline inventory preserves Runtime v2 as captured compatibility input rather than a live dependency."
+  },
+  "migration_dry_run": {
+    "argv": [
+      "bash",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh",
+      "--migration-dry-run"
+    ],
+    "purpose": "Confirm each source and reference has one owner/disposition before any consumer migration."
+  },
+  "rollback_dry_run": {
+    "argv": [
+      "bash",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh",
+      "--rollback-dry-run"
+    ],
+    "purpose": "Confirm Runtime v2 and Runtime v3 source owners remain independently restorable."
+  }
+}
