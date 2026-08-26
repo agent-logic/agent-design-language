@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 558,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+    "slug": "coverage-learner-replication-stability",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Test/harness-only stabilization for `real_four_node_learner_replication`, limited to timeout, polling, leader readiness, and diagnostics needed under coverage instrumentation.",
+      "deliverables": [
+        "Stabilized governed learner replication test harness in `adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs`",
+        "Focused local validation evidence under `.csdlc/evidence/558`",
+        "Typed review/publication/finish records for #558"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The fix is limited to behavior-preserving test/harness stabilization for the existing governed learner replication proof.",
+        "AC-2: Learner authorization, membership, append routing, transport policy, and Runtime product semantics remain unchanged.",
+        "AC-3: Focused local validation proves `real_four_node_learner_replication` passes after the stabilization.",
+        "AC-4: The PR closes #558 and explicitly records that #499/#514 were shared-gate consumers.",
+        "AC-5: Independent OpenAI Responses API exact-head review passes before publication/finish.",
+        "AC-6: Required hosted checks are green before typed C-SDLC finish merge."
+      ],
+      "dependencies": [
+        "#513 is merged/closed by root at merge 5bc84a0f.",
+        "#499 and #514 remain separate downstream work and are not modified here."
+      ],
+      "repo_inputs": [
+        "GitHub issue #558",
+        "GitHub issues #499 and #514 as blocked downstream shared-gate consumers",
+        "Observed failure: node 4 missing `authorized-learner-replicated`, last_applied 11, current_leader None, timeout after 66.25s under coverage instrumentation",
+        "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
+      ],
+      "non_goals": [
+        "No product semantic changes to learner transport or authorization.",
+        "No Runtime v4 work.",
+        "No #483, Sprint 2, or Sprint 3 edits.",
+        "No broad refactor of distributed runtime tests."
+      ]
+    }
+  }
+}

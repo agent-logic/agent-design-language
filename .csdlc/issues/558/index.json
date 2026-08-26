@@ -1,0 +1,212 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 558,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "928d2531fc0a5ac14aa0d11046d570b5d6bc9a01fe430c95bf4212c21d120ec5",
+  "phase": "published",
+  "generation": 8,
+  "digest": "c60a7dc811f2ff56e451dbf20ec38cab9bca1bd4f54f09e9582916720417ed66",
+  "branch": "codex/558-v0-92-1-shared-gate-coverage-learner-replication-stability",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability",
+  "review_assignment": {
+    "reviewer": "openai-responses:resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d:gpt-5.6-sol",
+    "assigned_by": "codex:issue-558-shared-gate",
+    "revision": "git-blake3:9cc23527934f805a02ba40f2a094daf52cf25f21:221bd325ddeaab1ddb9baed78561c50c222fecfa044334875f12f4a301f908d2",
+    "scope": [
+      ".csdlc/issues/558",
+      ".csdlc/prepared/issues/558",
+      ".csdlc/evidence/558",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d:gpt-5.6-sol",
+    "scope": [
+      ".csdlc/issues/558",
+      ".csdlc/prepared/issues/558",
+      ".csdlc/evidence/558",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:9cc23527934f805a02ba40f2a094daf52cf25f21:221bd325ddeaab1ddb9baed78561c50c222fecfa044334875f12f4a301f908d2",
+    "findings": [],
+    "residual_risks": [
+      "OpenAI Responses API exact-head review PASS response resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d at commit 9cc23527934f805a02ba40f2a094daf52cf25f21.",
+      "The supplied proof is focused on the affected test rather than a fresh run of the complete 679-test coverage profile.",
+      "Increasing bounded waits from 60 to 180 seconds may make genuine liveness failures take longer to report, but it does not suppress them and retains diagnostic timeout failures."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 558,
+    "pull_request": 559,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/559",
+    "base": "main",
+    "head": "codex/558-v0-92-1-shared-gate-coverage-learner-replication-stability",
+    "revision": "git-blake3:3b3031dce0f7513c0b2482473be1026e80696278:d4566958d37a5c397e2aaca8e4187ac4e751fb64f48651e16906f987161a2aa2",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/558/design.md",
+  "diagram_path": ".csdlc/prepared/issues/558/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:d69bddc8-6bd9-4b7e-9606-1e52d8eae403",
+      "revision": "5b4c7f2d6bdf6199844832ac14e83ed514183ea6e8bd799d6eaf81b330bdb2c7"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ff3858fd61f62adfb2115a279deae7e794f1ade9b2f183a92772b02e1e86b6ec",
+      "rendered_digest": "10ca635095e6392f66788c1c04651cc0c0c72583a3aaf931237e95179039983e",
+      "ast_digest": "e976b6ab6dbfe37360d03f0dbd12f6093380005ebf45aa7eeb200202f09d314a"
+    },
+    "stp": {
+      "values_digest": "6fe2d1f263e5ca0d8262449019e71ccd2b923b49628a886cbbec81619c532381",
+      "rendered_digest": "8137ebd38f0b4f584c0f21ba8aff17335c984a8f01cc2893a6cc3cbf7f8fda0f",
+      "ast_digest": "cd492a4cd24ea9778a851d27a07125ad1ad824a9d447b2de0e0b0971479400b1"
+    },
+    "spp": {
+      "values_digest": "a4ee717a07b4a646a4e0a84c2c6449d31e1b7021453ca3969828c788bc35ed29",
+      "rendered_digest": "9025726504a6e3eb5767075aecd0ceabeab98be3c5f0d65f39109501e1df11bf",
+      "ast_digest": "1971fceaf33b56041dd65235c9d015ecc99486601d1e6d64f19ac46b8b8e0e93"
+    },
+    "vpp": {
+      "values_digest": "8b40904605b2631c612235158804e6828d7738b31ac2bd96247097ab1fca25cf",
+      "rendered_digest": "5cbb094b3f765ed0c5e08be88aa89a1b29a0c3f607441fdfee8c7c3496198bd9",
+      "ast_digest": "f2d42bb45f7c63c7c4994405660a34fb2c93f4babe476d5495251be94d061252"
+    },
+    "srp": {
+      "values_digest": "e36ac7b51e0d311326408ef94f42a8a4f1d194ea9a039c37f08883c98b2c3b32",
+      "rendered_digest": "99350cb2de563c1f3805344e494befaafb04851694372538cfb149b53a802c01",
+      "ast_digest": "cb5072c052094a8e77be324985c73ff74ef243b17dcdadc371c606d82a708bbd"
+    },
+    "sor": {
+      "values_digest": "df40e00f968f5d716758661b079f5844dbcb8dcae9991254fb1d3dbe71d8dcc7",
+      "rendered_digest": "1d776f4e64558a11165c1c1407753d1e81e4fc5f8326f5e69fdf3f89afa6437c",
+      "ast_digest": "26a6a498211a902cef4190d34be2ffbd2b494675620bf9af6db139815ce738d6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "Repair execution readiness by narrowing affected areas to existing repo-owned issue paths and the exact governed learner transport test surface.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\".csdlc/prepared/issues/558/validate-focused-proof.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "Include the lifecycle evidence validator as an issue-owned governed validation target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\".csdlc/prepared/issues/558/validate-focused-proof.sh\",\".csdlc/prepared/issues/558/validate-lifecycle-evidence.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "Repair initialized readiness by keeping every acceptance criterion covered by concrete plan steps.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/558/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/558/diagram.mmd\",\"new_design_digest\":\"5b4c7f2d6bdf6199844832ac14e83ed514183ea6e8bd799d6eaf81b330bdb2c7\",\"new_diagram_digest\":\"b51f18318d8bdc6cf6b92f791baf4fc69aeed4dcf5fcc006b07b8576d6cca1a3\",\"old_design_digest\":\"5b4c7f2d6bdf6199844832ac14e83ed514183ea6e8bd799d6eaf81b330bdb2c7\",\"old_diagram_digest\":\"b51f18318d8bdc6cf6b92f791baf4fc69aeed4dcf5fcc006b07b8576d6cca1a3\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-4\"],\"action\":\"Bootstrap and bind #558 to a dedicated FastWork worktree from current origin/main.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Inspect the four-node learner replication harness and apply the smallest instrumentation-aware stabilization.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Run focused local proof and retain evidence.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"action\":\"Obtain exact-head OpenAI Responses API review, publish ready, shepherd required checks, and typed finish merge.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "Repair initialized readiness by replacing abstract lifecycle lanes with governed repo-local validation targets.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-learner-replication\",\"proof_role\":\"Prove the exact governed learner replication test passes after behavior-preserving stabilization.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":1200,\"argv\":[\"bash\",\".csdlc/prepared/issues/558/validate-focused-proof.sh\"],\"parallel_group\":\"558-serial-01\",\"defer_reason\":null},{\"lane\":\"lifecycle-evidence\",\"proof_role\":\"Verify issue-local lifecycle evidence exists when review, publication, and finish evidence become available.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":800,\"argv\":[\"bash\",\".csdlc/prepared/issues/558/validate-lifecycle-evidence.sh\"],\"parallel_group\":\"558-lifecycle\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "fresh-session:d69bddc8-6bd9-4b7e-9606-1e52d8eae403",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"5b4c7f2d6bdf6199844832ac14e83ed514183ea6e8bd799d6eaf81b330bdb2c7\",\"design_ref\":\".csdlc/prepared/issues/558/design.md\",\"diagram_digest\":\"b51f18318d8bdc6cf6b92f791baf4fc69aeed4dcf5fcc006b07b8576d6cca1a3\",\"diagram_ref\":\".csdlc/prepared/issues/558/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
