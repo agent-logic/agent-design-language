@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 484,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+    "slug": "aws-resource-ownership-inventory",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Exactly one read-only AWS resource ownership inventory and retained redacted evidence packet.",
+      "deliverables": [
+        "Approved account and region basis",
+        "All-region read-only discovery denominator",
+        "Owner and lifecycle disposition table for discovered resources",
+        "Separate classification for website Terraform and issue evidence",
+        "Redaction and no-mutation validation proof",
+        "Fresh exact-head review and closing PR"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The approved business account and regions are exact.",
+        "AC-2: Every discovered resource has an owner or frozen-unknown disposition.",
+        "AC-3: Website Terraform and issue evidence remain separately classified.",
+        "AC-4: EBS and other retained assets are not inferred disposable.",
+        "AC-5: Evidence contains no credentials, secrets, raw token contents, or mutation commands.",
+        "AC-6: Fresh exact-head review has zero actionable findings and publication truth closes only issue #484."
+      ],
+      "dependencies": [],
+      "repo_inputs": [
+        "https://github.com/agent-logic/agent-design-language/issues/484",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-A",
+        "docs/milestones/v0.92.1/features/AWS_ACCOUNT_MOVE_IN_v0.92.1.md",
+        ".csdlc/prepared/issues/484/design.md"
+      ],
+      "non_goals": [
+        "Resource import",
+        "Cleanup or deletion",
+        "Terraform apply",
+        "Billing baseline",
+        "IAM changes",
+        "CloudFormation retirement"
+      ]
+    }
+  }
+}
