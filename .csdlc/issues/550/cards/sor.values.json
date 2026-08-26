@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
     "slug": "runtime-observatory-trusted-origin-csm-config",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -89,7 +89,7 @@
             "bash",
             ".csdlc/prepared/issues/550/validate-live-wuji.sh"
           ],
-          "purpose": "Prove live Runtime endpoint and exact localhost CORS responses.",
+          "purpose": "Prove both Observatory pages, exact CORS for both configured origins on all three Runtime reads, and trusted Runtime WSS open.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/550/live-wuji/browser-proof.json"
         },

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
     "slug": "runtime-observatory-trusted-origin-csm-config",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 16
   },
   "status": "ready",
   "content": {
@@ -118,7 +118,7 @@
         },
         {
           "lane": "live-wuji",
-          "proof_role": "Prove both Observatory pages, trusted Let's Encrypt TLS, all three Runtime browser reads, WSS, and exact CORS responses.",
+          "proof_role": "Prove both Observatory pages, trusted Let's Encrypt TLS, all three Runtime browser reads for both exact origins, and a trusted WSS connection.",
           "acceptance_ids": [
             "AC-7"
           ],
@@ -141,12 +141,23 @@
           ],
           "deterministic": true,
           "resource_profile": "small",
-          "budget_seconds": 120,
+          "budget_seconds": 300,
           "budget_tokens": 1000,
           "argv": [
-            "bash",
-            "adl/tools/run_owner_validation_lane.sh",
-            "csdlc"
+            "cargo",
+            "run",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--quiet",
+            "--bin",
+            "csdlc-validate",
+            "--",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "550"
           ],
           "parallel_group": "lifecycle",
           "defer_reason": null

@@ -93,7 +93,7 @@ Implemented exact config-owned Observatory origins, applied the same CORS policy
       "bash",
       ".csdlc/prepared/issues/550/validate-live-wuji.sh"
     ],
-    "purpose": "Prove live Runtime endpoint and exact localhost CORS responses.",
+    "purpose": "Prove both Observatory pages, exact CORS for both configured origins on all three Runtime reads, and trusted Runtime WSS open.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/550/live-wuji/browser-proof.json"
   },

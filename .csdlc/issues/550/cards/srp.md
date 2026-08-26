@@ -12,7 +12,16 @@ Status: pre_phase
 
 ## Scope
 
-Issue #550 source, docs, executable tests, live proof, lifecycle truth, and exact branch range.
+CSMctl
+docs/tooling/CSMctl.conf.example
+adl-runtime/tests/runtime_api_wss.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/tests/control.rs
+adl/tools/test_csmctl_observatory_origins.sh
+demos/html-observatory
+.csdlc/issues/550
+.csdlc/prepared/issues/550
+.csdlc/evidence/550
 
 ## Prompts
 

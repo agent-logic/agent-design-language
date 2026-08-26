@@ -126,7 +126,7 @@ Diagram: .csdlc/prepared/issues/550/diagram.mmd
   },
   {
     "lane": "live-wuji",
-    "proof_role": "Prove both Observatory pages, trusted Let's Encrypt TLS, all three Runtime browser reads, WSS, and exact CORS responses.",
+    "proof_role": "Prove both Observatory pages, trusted Let's Encrypt TLS, all three Runtime browser reads for both exact origins, and a trusted WSS connection.",
     "acceptance_ids": [
       "AC-7"
     ],
@@ -149,12 +149,23 @@ Diagram: .csdlc/prepared/issues/550/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 120,
+    "budget_seconds": 300,
     "budget_tokens": 1000,
     "argv": [
-      "bash",
-      "adl/tools/run_owner_validation_lane.sh",
-      "csdlc"
+      "cargo",
+      "run",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--quiet",
+      "--bin",
+      "csdlc-validate",
+      "--",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "550"
     ],
     "parallel_group": "lifecycle",
     "defer_reason": null
@@ -179,7 +190,7 @@ Tokens: 25000
 - `node demos/html-observatory/tests/security_privacy_adversarial.test.mjs`
 - `bash .csdlc/prepared/issues/550/validate-shell-and-diff.sh`
 - `bash .csdlc/prepared/issues/550/validate-live-wuji.sh`
-- `bash adl/tools/run_owner_validation_lane.sh csdlc`
+- `cargo run --locked --manifest-path csdlc-v2/Cargo.toml --quiet --bin csdlc-validate -- --root . issue --issue 550`
 
 ## Failure Semantics
 

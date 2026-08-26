@@ -7,13 +7,13 @@
     "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
     "slug": "runtime-observatory-trusted-origin-csm-config",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #550 source, docs, executable tests, live proof, lifecycle truth, and exact branch range.",
+      "review_scope": "CSMctl\ndocs/tooling/CSMctl.conf.example\nadl-runtime/tests/runtime_api_wss.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl/tools/test_csmctl_observatory_origins.sh\ndemos/html-observatory\n.csdlc/issues/550\n.csdlc/prepared/issues/550\n.csdlc/evidence/550",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
