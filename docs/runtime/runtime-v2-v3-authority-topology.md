@@ -44,8 +44,9 @@ The validator fails closed unless:
 1. The three authoritative source roots are exactly `adl/src/runtime_v2`, `adl-runtime`, and `adl-runtime-kernel`.
 2. Each source root has exactly one declared owner and one authoritative disposition from the DEC-01 vocabulary.
 3. Reverse-reference rows use the declared owner/disposition vocabulary and agree with their source root owner.
-4. The excluded future generation appears only in the approved exclusion sentences in this document and never in manifest authority-bearing data.
-5. Negative probes for owner swaps, duplicate roots, missing roots, and future-generation authority data all fail as expected.
+4. The manifest uses the closed DEC-01 key shape, shared surfaces are exactly documentation/evidence surfaces, and authoritative dispositions appear only on the three source roots.
+5. The excluded future generation appears only in the approved exclusion sentences in this document and never in manifest keys or authority-bearing data.
+6. Negative probes for owner swaps, duplicate roots, missing roots, authoritative shared surfaces, unknown authority fields, future-generation keys/data, deceptive future-generation authority data, and conflicting source dispositions all fail as expected.
 
 ## Migration Contract
 

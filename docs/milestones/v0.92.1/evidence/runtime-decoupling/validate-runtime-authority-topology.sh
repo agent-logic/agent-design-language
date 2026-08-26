@@ -26,15 +26,57 @@ tmp_refs="$(mktemp "$tmp_dir/dec01-runtime-refs.XXXXXX")"
 bad_owner_manifest=""
 duplicate_root_manifest=""
 missing_root_manifest=""
+authoritative_shared_surface_manifest=""
+unknown_authority_field_manifest=""
 runtime_v4_manifest=""
-trap 'rm -f "$tmp_refs" "$bad_owner_manifest" "$duplicate_root_manifest" "$missing_root_manifest" "$runtime_v4_manifest"' EXIT
+runtime_v4_key_manifest=""
+deceptive_runtime_v4_manifest=""
+conflicting_source_disposition_manifest=""
+trap 'rm -f "$tmp_refs" "$bad_owner_manifest" "$duplicate_root_manifest" "$missing_root_manifest" "$authoritative_shared_surface_manifest" "$unknown_authority_field_manifest" "$runtime_v4_manifest" "$runtime_v4_key_manifest" "$deceptive_runtime_v4_manifest" "$conflicting_source_disposition_manifest"' EXIT
 
 expected_source_roots_tsv=$'adl-runtime\truntime-v3-guardian\tauthoritative-runtime-v3-guardian-source\nadl-runtime-kernel\truntime-v3-kernel\tauthoritative-runtime-v3-kernel-source\nadl/src/runtime_v2\truntime-v2\tauthoritative-runtime-v2-source'
+expected_shared_surfaces_tsv=$'docs/milestones/v0.92.1/evidence/runtime-decoupling\tdec-01\tevidence-only\ndocs/runtime\truntime-docs\tdocumentation-only'
+expected_manifest_keys=$'compatibility_proofs\nissue\nmigration_dry_run\nplanned_id\nreverse_reference_dispositions\nreverse_reference_terms\nrollback_dry_run\nruntime_v4_excluded\nschema\nshared_surfaces\nsource_roots'
 
 allowed_source_owners_regex='^(runtime-v2|runtime-v3-guardian|runtime-v3-kernel)$'
 allowed_source_dispositions_regex='^(authoritative-runtime-v2-source|authoritative-runtime-v3-guardian-source|authoritative-runtime-v3-kernel-source)$'
 allowed_reference_owners_regex='^(runtime-v2|runtime-v3-guardian|runtime-v3-kernel|runtime-docs|milestone-v0\.92\.1|dec-01)$'
 allowed_reference_dispositions_regex='^(runtime-v2-to-v3-compatibility-bridge|runtime-v2-source|runtime-v3-source-or-compatibility-metadata|runtime-v3-source-or-release-gate-metadata|runtime-v3-proof|runtime-v3-support-surface|runtime-docs|runtime-planning-docs|dec-01-lifecycle-evidence|dec-01-lifecycle-state)$'
+
+validate_manifest_shape() {
+  local candidate="$1"
+  local observed_keys
+  observed_keys="$(jq -r 'keys[]' "$candidate")"
+  if [[ "$observed_keys" != "$expected_manifest_keys" ]]; then
+    echo "manifest top-level keys drifted" >&2
+    return 1
+  fi
+
+  if jq -e '.source_roots[] | select((keys | sort) != ["disposition","owner","path"])' "$candidate" >/dev/null; then
+    echo "source root row has unexpected keys" >&2
+    return 1
+  fi
+  if jq -e '.shared_surfaces[] | select((keys | sort) != ["disposition","owner","path"])' "$candidate" >/dev/null; then
+    echo "shared surface row has unexpected keys" >&2
+    return 1
+  fi
+  if jq -e '.reverse_reference_dispositions[] | select((keys | sort) != ["authority_transfer","disposition","owner","path_prefix"])' "$candidate" >/dev/null; then
+    echo "reverse-reference row has unexpected keys" >&2
+    return 1
+  fi
+  if jq -e '.compatibility_proofs[] | select((keys | sort) != ["argv","id","purpose"])' "$candidate" >/dev/null; then
+    echo "compatibility proof row has unexpected keys" >&2
+    return 1
+  fi
+  if jq -e '.migration_dry_run | select((keys | sort) != ["argv","purpose"])' "$candidate" >/dev/null; then
+    echo "migration dry-run row has unexpected keys" >&2
+    return 1
+  fi
+  if jq -e '.rollback_dry_run | select((keys | sort) != ["argv","purpose"])' "$candidate" >/dev/null; then
+    echo "rollback dry-run row has unexpected keys" >&2
+    return 1
+  fi
+}
 
 validate_static_manifest_contract() {
   local candidate="$1"
@@ -49,6 +91,8 @@ validate_static_manifest_contract() {
     echo "unexpected manifest schema: $schema" >&2
     return 1
   fi
+
+  validate_manifest_shape "$candidate" || return 1
 
   if [[ "$(jq -r '.runtime_v4_excluded' "$candidate")" != "true" ]]; then
     echo "Runtime v4 must remain excluded" >&2
@@ -67,6 +111,23 @@ validate_static_manifest_contract() {
   observed_source_roots="$(jq -r '.source_roots[] | [.path, .owner, .disposition] | @tsv' "$candidate" | sort)"
   if [[ "$observed_source_roots" != "$expected_source_roots_tsv" ]]; then
     echo "source-root owner/disposition contract drifted" >&2
+    return 1
+  fi
+
+  local observed_shared_surfaces
+  observed_shared_surfaces="$(jq -r '.shared_surfaces[] | [.path, .owner, .disposition] | @tsv' "$candidate" | sort)"
+  if [[ "$observed_shared_surfaces" != "$expected_shared_surfaces_tsv" ]]; then
+    echo "shared-surface owner/disposition contract drifted" >&2
+    return 1
+  fi
+
+  if jq -e '
+    paths(scalars) as $p
+    | select($p[0] != "source_roots")
+    | select(($p[-1] | tostring) == "disposition")
+    | select(getpath($p) | tostring | test("^authoritative-"))
+  ' "$candidate" >/dev/null; then
+    echo "authoritative dispositions are allowed only in exact source_roots" >&2
     return 1
   fi
 
@@ -124,9 +185,13 @@ validate_static_manifest_contract() {
 validate_runtime_v4_manifest_contract() {
   local candidate="$1"
   if jq -e '
-    paths(scalars) as $p
-    | select(($p | join(".")) != "runtime_v4_excluded")
-    | select((getpath($p) | tostring) | test("runtime[-_ ]?v4|Runtime v4"; "i"))
+    paths as $p
+    | ($p | map(tostring) | join(".")) as $joined
+    | select($joined != "runtime_v4_excluded")
+    | select(
+        (any($p[]; tostring | test("runtime[-_ ]?v4|Runtime v4"; "i")))
+        or ((getpath($p) | if type == "object" or type == "array" then "" else tostring end) | test("runtime[-_ ]?v4|Runtime v4"; "i"))
+      )
   ' "$candidate" >/dev/null; then
     echo "Runtime v4 token appears in manifest authority-bearing data" >&2
     return 1
@@ -238,12 +303,22 @@ run_negative_manifest_probes() {
   bad_owner_manifest="$(mktemp "$tmp_dir/dec01-bad-owner.XXXXXX")"
   duplicate_root_manifest="$(mktemp "$tmp_dir/dec01-duplicate-root.XXXXXX")"
   missing_root_manifest="$(mktemp "$tmp_dir/dec01-missing-root.XXXXXX")"
+  authoritative_shared_surface_manifest="$(mktemp "$tmp_dir/dec01-authoritative-shared-surface.XXXXXX")"
+  unknown_authority_field_manifest="$(mktemp "$tmp_dir/dec01-unknown-authority-field.XXXXXX")"
   runtime_v4_manifest="$(mktemp "$tmp_dir/dec01-runtime-v4.XXXXXX")"
+  runtime_v4_key_manifest="$(mktemp "$tmp_dir/dec01-runtime-v4-key.XXXXXX")"
+  deceptive_runtime_v4_manifest="$(mktemp "$tmp_dir/dec01-deceptive-runtime-v4.XXXXXX")"
+  conflicting_source_disposition_manifest="$(mktemp "$tmp_dir/dec01-conflicting-source-disposition.XXXXXX")"
 
   jq '(.source_roots[] | select(.path == "adl/src/runtime_v2") | .owner) = "runtime-v3-kernel"' "$manifest" >"$bad_owner_manifest"
   jq '.source_roots += [.source_roots[0]]' "$manifest" >"$duplicate_root_manifest"
   jq '.source_roots = [.source_roots[] | select(.path != "adl-runtime")]' "$manifest" >"$missing_root_manifest"
+  jq '.shared_surfaces += [{"path":"extra-runtime-source","owner":"runtime-v3-kernel","disposition":"authoritative-runtime-v3-kernel-source"}]' "$manifest" >"$authoritative_shared_surface_manifest"
+  jq '.shared_surfaces[0].authority = "runtime-v3-kernel"' "$manifest" >"$unknown_authority_field_manifest"
   jq '.shared_surfaces += [{"path":"runtime-v4-authoritative-source","owner":"runtime-v4","disposition":"authoritative-runtime-v4-source"}]' "$manifest" >"$runtime_v4_manifest"
+  jq '.runtime_v4_authority = true' "$manifest" >"$runtime_v4_key_manifest"
+  jq '.shared_surfaces += [{"path":"future-excluded","owner":"runtime-docs","disposition":"authoritative-runtime-v4-excluded-source"}]' "$manifest" >"$deceptive_runtime_v4_manifest"
+  jq '(.source_roots[] | select(.path == "adl/src/runtime_v2") | .disposition) = "runtime-v2-source"' "$manifest" >"$conflicting_source_disposition_manifest"
 
   if validate_static_manifest_contract "$bad_owner_manifest" >/dev/null 2>&1; then
     echo "negative probe failed: owner swap was accepted" >&2
@@ -257,8 +332,28 @@ run_negative_manifest_probes() {
     echo "negative probe failed: missing root was accepted" >&2
     return 1
   fi
+  if validate_static_manifest_contract "$authoritative_shared_surface_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: authoritative shared surface was accepted" >&2
+    return 1
+  fi
+  if validate_static_manifest_contract "$unknown_authority_field_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: unknown authority field was accepted" >&2
+    return 1
+  fi
   if validate_runtime_v4_manifest_contract "$runtime_v4_manifest" >/dev/null 2>&1; then
     echo "negative probe failed: Runtime v4 authority data was accepted" >&2
+    return 1
+  fi
+  if validate_runtime_v4_manifest_contract "$runtime_v4_key_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: Runtime v4 key was accepted" >&2
+    return 1
+  fi
+  if validate_runtime_v4_manifest_contract "$deceptive_runtime_v4_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: deceptive Runtime v4 authority data was accepted" >&2
+    return 1
+  fi
+  if validate_static_manifest_contract "$conflicting_source_disposition_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: conflicting source disposition was accepted" >&2
     return 1
   fi
 }
@@ -301,7 +396,7 @@ case "${1:-}" in
       --arg schema "adl.runtime_v2_v3_authority_topology_validation.v1" \
       --arg manifest "$manifest" \
       --arg refs_count "$refs_count" \
-      '{schema: $schema, issue: 513, manifest: $manifest, result: "passed", classified_reverse_references: ($refs_count | tonumber), compatibility_proofs: ["runtime-v3-captured-baseline", "runtime-v2-to-v3-reasoning-bridge"], negative_probes: ["owner-swap", "duplicate-root", "missing-root", "runtime-v4-authority-data"]}'
+      '{schema: $schema, issue: 513, manifest: $manifest, result: "passed", classified_reverse_references: ($refs_count | tonumber), compatibility_proofs: ["runtime-v3-captured-baseline", "runtime-v2-to-v3-reasoning-bridge"], negative_probes: ["owner-swap", "duplicate-root", "missing-root", "authoritative-shared-surface", "unknown-authority-field", "runtime-v4-authority-data", "runtime-v4-key", "deceptive-runtime-v4-authority-data", "conflicting-source-disposition"]}'
     ;;
   "--migration-dry-run")
     migration_dry_run
