@@ -4,13 +4,51 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "493ab3c719033f56d58ab097ba74b0fe32762e79ac2bdee806bdaf7d92763c0c",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "469bce8a37f370c9bef3acaa09f089c410897e0ffe01371c5b24aa5100a88883",
   "branch": "codex/550-runtime-trusted-observatory-origin",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:janitor-550-pr552-after-final-coverage-timeout",
+    "assigned_by": "codex:/root/janitor-550-pr552-after-554",
+    "revision": "git-blake3:d5736e38d3611a5665b92c871281a62d7fa5b0ed:b31c2ee2afc4e674a8bb8e5f1d8a448ce4d2231e4535b6eb457172e6e8e426b2",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/550",
+      ".csdlc/evidence/550",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "demos/html-observatory",
+      "CSMctl",
+      "docs/tooling/CSMctl.conf.example"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:janitor-550-pr552-after-final-coverage-timeout",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/issues/550",
+      ".csdlc/evidence/550",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "demos/html-observatory",
+      "CSMctl",
+      "docs/tooling/CSMctl.conf.example"
+    ],
+    "reviewed_revision": "git-blake3:d5736e38d3611a5665b92c871281a62d7fa5b0ed:b31c2ee2afc4e674a8bb8e5f1d8a448ce4d2231e4535b6eb457172e6e8e426b2",
+    "findings": [],
+    "residual_risks": [
+      "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.",
+      "Five unified Runtime kernel tests remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds the per-test timeout."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e62c2c865e73eacf9b473b59796cd96a28483321a2d6a03f06a43ff9ae52dc05",
+      "values_digest": "db67495030ffe4309d4fd2cbb0b6ea35c2c897219e17c266aa2ae21e4dd06b1d",
       "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
       "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
     },
     "stp": {
-      "values_digest": "c5414f52707747f3eb215ba4dd34fcd63ebaac3067945136a5a91d0975ce8dfd",
+      "values_digest": "a23a5fe853715e3c717913402e93ecefe079ad41f2b7198a313208d230fba90d",
       "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
       "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
     },
     "spp": {
-      "values_digest": "3928fa40a50ca1ce880dc04d259b14f51969c901bdd3e1ecba3638f36bb7044f",
+      "values_digest": "865905aab571ea667009daccca87788c6bc3b5b6a572d91efdb2a8569ae05a07",
       "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
       "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
     },
     "vpp": {
-      "values_digest": "7e422f0727c42b058996c25f5ca779d8aa59f810cb99be39fb75f568e24576de",
+      "values_digest": "aa71b7565504643ebcea271473c131170a68f111cd161a8019f6a9d6b9d38ec5",
       "rendered_digest": "dc7c929b9c4c9249b5d55b0028327a2a3363a53acc95d5b9e5eccbe37b78fa2a",
       "ast_digest": "4303c53f72528956d22e0762d95a8de5985af1062e6077e4c38b402c1e8e38f3"
     },
     "srp": {
-      "values_digest": "607c891e1266427de9a55d8e594d4c01a281b42774c3dc4a1e8fc9fd87d3234b",
-      "rendered_digest": "38912253fde86a5295f105b3a58f9a45fc6c41e717568f6e6e30046219036ca6",
-      "ast_digest": "d15d17ff20b05012c059b224a832b2a50bb339c8eaad909fcd1461ca4378bb70"
+      "values_digest": "95c5386b790cdca11fd3b3b8f35763ac82ec7f376bc5dcbc561a70380be35f48",
+      "rendered_digest": "d6a327bb6543f99c968a133ce8d50174d52540c48498b8903743b397f39ddb05",
+      "ast_digest": "3701f9dcbe15224ee026cff2283fc48f7eacb8dec19614a18ecf7c196add50ec"
     },
     "sor": {
-      "values_digest": "42c402293d585e20fe27bd590987eca905ff7f7ebd94007ea2444cd560ae9ba7",
+      "values_digest": "71e50fe5a44275d2c045d9754776e965eab4a1a2bfe5bd6909a3567272bc2011",
       "rendered_digest": "59a15cdb7b66a7056fa2816ace2ef888d95e79f4d083fec62e8b85cb0b7bf37f",
       "ast_digest": "54d72af242969909cdd6f0be0f85da3d6a8a1c07e2f3041f7a1f01cff484c25f"
     }
@@ -118,6 +156,13 @@
       "to": "implemented",
       "actor": "codex:/root/issue-550-runtime-origin",
       "reason": "Recover publication after CI identified one final unified-kernel test that passes normally in 5.28 seconds but times out only under LLVM coverage; exact coverage-only exclusion and contract were added at 3032b2c22."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/janitor-550-pr552-after-554",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -309,6 +354,20 @@
       "actor": "codex:/root/issue-550-runtime-origin",
       "reason": "Recover publication after CI identified one final unified-kernel test that passes normally in 5.28 seconds but times out only under LLVM coverage; exact coverage-only exclusion and contract were added at 3032b2c22.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root/janitor-550-pr552-after-554",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root/janitor-550-pr552-after-554",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

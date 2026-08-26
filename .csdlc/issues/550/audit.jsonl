@@ -25,3 +25,5 @@
 {"sequence":25,"generation":20,"actor":"codex:/root/issue-550-runtime-origin","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":26,"generation":21,"actor":"codex:/root/issue-550-runtime-origin","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":27,"generation":22,"actor":"codex:/root/issue-550-runtime-origin","reason":"Recover publication after CI identified one final unified-kernel test that passes normally in 5.28 seconds but times out only under LLVM coverage; exact coverage-only exclusion and contract were added at 3032b2c22.","operation":"recover_review"}
+{"sequence":28,"generation":22,"actor":"codex:/root/janitor-550-pr552-after-554","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":29,"generation":23,"actor":"codex:/root/janitor-550-pr552-after-554","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
