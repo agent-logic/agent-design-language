@@ -1430,8 +1430,8 @@ async fn real_four_node_learner_replication() {
     );
     let observed_learner_leader = wait_for_node_leader_observation(&nodes, 4).await;
     assert!(
-        (1..=4).contains(&observed_learner_leader),
-        "learner observed impossible leader id {observed_learner_leader}"
+        (1..=3).contains(&observed_learner_leader),
+        "learner observed non-voter leader id {observed_learner_leader}"
     );
     let (_, replicated) = write_on_writable_leader(
         &nodes,

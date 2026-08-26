@@ -1,11 +1,123 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability/adl-runtime)
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:495:19
+    |
+334 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+495 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:922:19
+    |
+840 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+922 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+935 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:673:19
+    |
+535 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+673 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:674:19
+    |
+571 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+674 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 11.05s
+     Running unittests src/lib.rs (adl-runtime/target/debug/deps/adl_runtime-7aa3ca57c98e56ac)
 
 running 1 test
 ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=factory_admission_receipt_exact_current_and_mismatch_denied
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication expiry_writer_waits_through_real_raft_effect_and_response
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication raft_add_learner_replicated
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication voter_quorum_unchanged
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication quinn_append_snapshot_only
 ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication
 ADL_ISSUE_199_ASSERTION_V1 case=crash_phase_matrix assertion=enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility
+ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed
 test distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 338 filtered out; finished in 5.79s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 338 filtered out; finished in 5.69s
+
+info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability/adl-runtime)
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:495:19
+    |
+334 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+495 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:922:19
+    |
+840 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+922 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+935 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:673:19
+    |
+535 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+673 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:674:19
+    |
+571 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+674 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 21.87s
+     Running unittests src/lib.rs (adl-runtime/target/llvm-cov-target/debug/deps/adl_runtime-7aa3ca57c98e56ac)
+
+running 1 test
+ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=factory_admission_receipt_exact_current_and_mismatch_denied
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication expiry_writer_waits_through_real_raft_effect_and_response
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication raft_add_learner_replicated
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication voter_quorum_unchanged
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication quinn_append_snapshot_only
+ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication
+ADL_ISSUE_199_ASSERTION_V1 case=crash_phase_matrix assertion=enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility
+ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed
+test distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 338 filtered out; finished in 5.85s
 
 Filename                                                 Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover    Branches   Missed Branches     Cover
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -60,112 +172,3 @@ topology.rs                                                  431               4
 weather.rs                                                   319               319     0.00%          26                26     0.00%         278               278     0.00%           0                 0         -
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 TOTAL                                                      56016             48361    13.67%        3370              2800    16.91%       42026             35662    15.14%           0                 0         -
-warning: method `seed_floor_for_snapshot_test` is never used
-   --> src/distributed/fencing.rs:495:19
-    |
-334 | impl FencingStore {
-    | ----------------- method in this implementation
-...
-495 |     pub(crate) fn seed_floor_for_snapshot_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    |
-    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
-
-warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
-   --> src/distributed/lease.rs:922:19
-    |
-840 | impl AuthorityLedger {
-    | -------------------- methods in this implementation
-...
-922 |     pub(crate) fn seed_lease_for_snapshot_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-935 |     pub(crate) fn set_counters_for_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^
-
-warning: method `seed_record_for_snapshot_test` is never used
-   --> src/distributed/migration.rs:673:19
-    |
-535 | impl MigrationStore {
-    | ------------------- method in this implementation
-...
-673 |     pub(crate) fn seed_record_for_snapshot_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: method `seed_decision_for_snapshot_test` is never used
-   --> src/distributed/placement.rs:674:19
-    |
-571 | impl<C: PlacementClock> PlacementService<C> {
-    | ------------------------------------------- method in this implementation
-...
-674 |     pub(crate) fn seed_decision_for_snapshot_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: `adl-runtime` (lib test) generated 4 warnings
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.29s
-     Running unittests src/lib.rs (adl-runtime/target/debug/deps/adl_runtime-7aa3ca57c98e56ac)
-ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication expiry_writer_waits_through_real_raft_effect_and_response
-ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication raft_add_learner_replicated
-ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication voter_quorum_unchanged
-ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication quinn_append_snapshot_only
-ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed
-info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
-   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability/adl-runtime)
-warning: method `seed_floor_for_snapshot_test` is never used
-   --> src/distributed/fencing.rs:495:19
-    |
-334 | impl FencingStore {
-    | ----------------- method in this implementation
-...
-495 |     pub(crate) fn seed_floor_for_snapshot_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    |
-    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
-
-warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
-   --> src/distributed/lease.rs:922:19
-    |
-840 | impl AuthorityLedger {
-    | -------------------- methods in this implementation
-...
-922 |     pub(crate) fn seed_lease_for_snapshot_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-...
-935 |     pub(crate) fn set_counters_for_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^
-
-warning: method `seed_record_for_snapshot_test` is never used
-   --> src/distributed/migration.rs:673:19
-    |
-535 | impl MigrationStore {
-    | ------------------- method in this implementation
-...
-673 |     pub(crate) fn seed_record_for_snapshot_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: method `seed_decision_for_snapshot_test` is never used
-   --> src/distributed/placement.rs:674:19
-    |
-571 | impl<C: PlacementClock> PlacementService<C> {
-    | ------------------------------------------- method in this implementation
-...
-674 |     pub(crate) fn seed_decision_for_snapshot_test(
-    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-warning: `adl-runtime` (lib test) generated 4 warnings
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 19.00s
-     Running unittests src/lib.rs (adl-runtime/target/llvm-cov-target/debug/deps/adl_runtime-7aa3ca57c98e56ac)
-
-running 1 test
-ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=factory_admission_receipt_exact_current_and_mismatch_denied
-ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication expiry_writer_waits_through_real_raft_effect_and_response
-ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication raft_add_learner_replicated
-ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication voter_quorum_unchanged
-ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication quinn_append_snapshot_only
-ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication
-ADL_ISSUE_199_ASSERTION_V1 case=crash_phase_matrix assertion=enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility
-ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed
-test distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication ... ok
-
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 338 filtered out; finished in 5.41s
-
