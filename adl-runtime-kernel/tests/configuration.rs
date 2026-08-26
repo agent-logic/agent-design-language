@@ -227,6 +227,7 @@ server_name = "runtime-gateway.example.test"
 
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
+additional_allowed_origins = ["http://localhost:8000"]
 {}
 "#,
         toml_path(state_root),
@@ -469,7 +470,8 @@ fn runtime_init_file_defines_local_and_remote_access_intent() {
         init.observatory_allowed_origins(),
         vec![
             "https://localhost:8765".to_owned(),
-            "https://observatory.example.test".to_owned()
+            "https://observatory.example.test".to_owned(),
+            "http://localhost:8000".to_owned()
         ]
     );
     assert_eq!(init.api.address, "127.0.0.1:20997");
@@ -581,6 +583,34 @@ allowed_origins = ["https://localhost:8765/path"]
             r#"
 [observatory]
 allowed_origins = ["http://localhost:8765"]
+"#,
+        ),
+        runtime_init_toml(
+            r#"
+[observatory]
+allowed_origins = ["https://localhost:8765"]
+additional_allowed_origins = ["http://localhost:8765"]
+"#,
+        ),
+        runtime_init_toml(
+            r#"
+[observatory]
+allowed_origins = ["https://localhost:8765"]
+additional_allowed_origins = ["http://localhost:8000/path"]
+"#,
+        ),
+        runtime_init_toml(
+            r#"
+[observatory]
+allowed_origins = ["https://localhost:8765"]
+additional_allowed_origins = ["http://localhost:8000", "http://localhost:8000"]
+"#,
+        ),
+        runtime_init_toml(
+            r#"
+[observatory]
+allowed_origins = ["https://localhost:8765"]
+additional_allowed_origins = ["https://localhost:8765"]
 "#,
         ),
     ];

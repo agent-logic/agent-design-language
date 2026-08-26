@@ -52,9 +52,6 @@ bash adl/tools/test_multi_agent_repo_review_specialist_skill_contracts.sh
 # verify a deployed skill copy matches the tracked bundle; no output means identical
 diff -qr adl/tools/skills/test-generator "$CODEX_HOME/skills/test-generator"
 
-# install or resync the legacy adl_pr_cycle compatibility skill from the tracked contract
-bash adl/tools/install_adl_pr_cycle_skill.sh
-
 # normalize compatibility card links for existing task bundles
 bash adl/tools/normalize_adl_cards.sh --root "$(pwd)" --version v0.87.1
 
@@ -144,6 +141,8 @@ The repo still carries a few compatibility and maintenance entrypoints, but they
 are not the preferred public workflow:
 
 - v1 lifecycle aliases are removed and must not be used for issue work
+- `adl_pr_cycle` install/resync helpers are retained only for historical or
+  compatibility inspection, not for current Gate 10D2 lifecycle operation
 - `codex_pr.sh` and `codexw.sh` are retired fail-closed wrappers kept only to
   print migration guidance; do not use them for new work
 
