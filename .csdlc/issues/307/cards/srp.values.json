@@ -7,15 +7,15 @@
     "title": "[v0.92][sprint] Quality and release tail",
     "slug": "quality-release-tail",
     "version": "v0.92",
-    "generation": 16
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #307 lifecycle, preparation, evidence, and sprint_307 coordination packet only; all child implementation and release surfaces are read-only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/307\n.csdlc/issues/307\n.csdlc/prepared/issues/307\ndocs/milestones/v0.92/review/sprint_307/README.md",
+      "review_revision": "git-blake3:3e0a939333f113221f4d3fc2ea216991cbf89566:85d0194ef0c9b7c0f9521ef9c2393f631a5fec0bb1fe4e136a57383aff239347",
+      "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
       "review_prompts": [
         "Does the packet retain #309 as active WP-21 work between #308 and #310?",
         "Is the selected child graph explicit, acyclic, and independently owned while preserving allowed parallel lanes?",
@@ -24,8 +24,12 @@
         "Does closeout preserve #268 successful closure truth and #471 as a WP-27/#315 remediation child?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "#310 remains explicitly disclosed as recordless rather than retroactively claiming a tracked pre-merge review.",
+        "#314 remains an intake completed with blockers and no PR; its validated handoff and WP-27 integration are retained without claiming release readiness.",
+        "Historical projectionless preparation worktrees for #314 and #315 remain asynchronous bookkeeping and are not execution authority."
+      ],
+      "review_result": "pass"
     }
   }
 }

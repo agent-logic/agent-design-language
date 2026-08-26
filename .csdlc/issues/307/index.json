@@ -4,13 +4,40 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "ed64ecdba59445ccbef895fd611624ffa1ad7f4ccf0373eae450e69b31dcec29",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "e46eff68c843355e81962ce0f0da0f0ce23a2de0a1b87236de5b316371b20cbb",
   "branch": "codex/307-v092-quality-release-tail-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+    "assigned_by": "codex:/root/issue-307-closeout",
+    "revision": "git-blake3:3e0a939333f113221f4d3fc2ea216991cbf89566:85d0194ef0c9b7c0f9521ef9c2393f631a5fec0bb1fe4e136a57383aff239347",
+    "scope": [
+      ".csdlc/evidence/307",
+      ".csdlc/issues/307",
+      ".csdlc/prepared/issues/307",
+      "docs/milestones/v0.92/review/sprint_307/README.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+    "scope": [
+      ".csdlc/evidence/307",
+      ".csdlc/issues/307",
+      ".csdlc/prepared/issues/307",
+      "docs/milestones/v0.92/review/sprint_307/README.md"
+    ],
+    "reviewed_revision": "git-blake3:3e0a939333f113221f4d3fc2ea216991cbf89566:85d0194ef0c9b7c0f9521ef9c2393f631a5fec0bb1fe4e136a57383aff239347",
+    "findings": [],
+    "residual_risks": [
+      "#310 remains explicitly disclosed as recordless rather than retroactively claiming a tracked pre-merge review.",
+      "#314 remains an intake completed with blockers and no PR; its validated handoff and WP-27 integration are retained without claiming release readiness.",
+      "Historical projectionless preparation worktrees for #314 and #315 remain asynchronous bookkeeping and are not execution authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73fd8e02af80bb5136da63baf8640f00153b298e166e142768d1f4480b523610",
+      "values_digest": "858df26725ebc7eec49f295cfd3dc8d54b7380a6eff74e41bb4abb9540038a56",
       "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
       "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
     },
     "stp": {
-      "values_digest": "0b27df8f6a7475f2c65369db9697d8ab35192a17e59acb84a05b9e1ce0390a25",
+      "values_digest": "264ff58047526b285f42721cbb3b0ddcd9e39ffec568a49278b0d8fb6c34af28",
       "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
       "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
     },
     "spp": {
-      "values_digest": "62be0691ee5ddcf3a19973395e1de9845847cc5d949fae914c98c2d3e174ae76",
+      "values_digest": "5d5d60d594b04be1b445f6f268da5ff7fd5db1137b7824329ed41c714ea91fd4",
       "rendered_digest": "81883f08e984fb441950825f45d68e364fa94fd8d9ca9352e50852f9df7a3a6e",
       "ast_digest": "1dbfb17b19fd053ff598cf438c6dce55b6522876103fd50206c3d2b93f7c2e3e"
     },
     "vpp": {
-      "values_digest": "3b8a91d714f88e8c0c072f0b78c66bfbfa9622db435fe98b2caef0c953434293",
+      "values_digest": "0345210375e6240c9ba10aeca4e48db4a0b12d52b88029eda658c7f33fe85e60",
       "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
       "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
     },
     "srp": {
-      "values_digest": "59073bf0bc0889125ac4db04e862e27018e57e0208913d625858a3bef3e0ef98",
-      "rendered_digest": "d35f2c74801aca74fb163e005ecf6183281a55eeb749db1bcc39785f0a0903e7",
-      "ast_digest": "4761227ae8ccaa3d4105d64163740935c75e3395572da17b5c303d9b33c7d54e"
+      "values_digest": "11fb60fd140bee7ce7c064d503b3d596a7efb9b54195d9e4db9daf1ff109cd61",
+      "rendered_digest": "f9a66593a2cd8a9c70d83f479e25024899f0f3745b2eada39f937c9c280bb3da",
+      "ast_digest": "b07b0e770b25b79ef6e1823c9a9c5dd7fbf026f11bff3cbbaebd8ac8b626b141"
     },
     "sor": {
-      "values_digest": "39866db04080adbfcf78be750727ba59a144b430a417a923fe4b9b9cdeab3b06",
+      "values_digest": "5b2059ee234689b1821503a92b7857f5665947b1bb7d979ba290db39c54376ce",
       "rendered_digest": "cb9ccf66cfb1ded14eb7e30db689c20e1e4da16286b2f00d80ec304e4a432a84",
       "ast_digest": "737c4f6859337869effc9ce38796e299beb4936e37c823db5cac14a0f6f1a15a"
     }
@@ -76,6 +103,13 @@
       "to": "implemented",
       "actor": "codex:issue-307-closeout",
       "reason": "Advance the bounded precloseout packet to implemented while final #319 ceremony and #314 terminal reconciliation remain explicit review/publication blockers."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -204,6 +238,20 @@
       "actor": "codex:/root/issue-307-closeout",
       "reason": "Record passing disposition-aware child ledger, preparation, privacy, syntax, and diff proof before fresh exact-head review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json\",\"python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json\",\"! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307\",\"git diff --check\"],\"purpose\":\"Prove exact #315/#476 identity separation, truthful #310/#314 dispositions, evidence-derived handoffs, packet privacy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-315-review-receipt.json\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

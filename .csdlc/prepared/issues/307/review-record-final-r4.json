@@ -1,0 +1,24 @@
+{
+  "issue": 307,
+  "expected_generation": 16,
+  "expected_digest": "bdd079ce39b48de8ec205c0a27354387e95ebef200058c5405cce7895775668b",
+  "actor": "codex:/root/issue-307-closeout",
+  "evidence": {
+    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+    "scope": [
+      ".csdlc/evidence/307",
+      ".csdlc/issues/307",
+      ".csdlc/prepared/issues/307",
+      "docs/milestones/v0.92/review/sprint_307/README.md"
+    ],
+    "reviewed_revision": "git-blake3:3e0a939333f113221f4d3fc2ea216991cbf89566:85d0194ef0c9b7c0f9521ef9c2393f631a5fec0bb1fe4e136a57383aff239347",
+    "findings": [],
+    "residual_risks": [
+      "#310 remains explicitly disclosed as recordless rather than retroactively claiming a tracked pre-merge review.",
+      "#314 remains an intake completed with blockers and no PR; its validated handoff and WP-27 integration are retained without claiming release readiness.",
+      "Historical projectionless preparation worktrees for #314 and #315 remain asynchronous bookkeeping and are not execution authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
