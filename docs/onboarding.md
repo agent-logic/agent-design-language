@@ -17,15 +17,24 @@ Use this page when you need to orient quickly in the ADL repo.
 
 ## Workflow Context
 
-Default workflow uses `adl_pr_cycle` with the real authoring control plane:
-- `pr init`
-- `pr ready`
-- `pr run`
-- `pr finish`
+Gate 10D2 is the current C-SDLC authority. Current issue lifecycle work uses
+the independent typed Rust owner binaries under `.adl/bin/csdlc-v2/`, selected
+through the typed contracts in `csdlc-v2/operator/skills/`. The old
+`adl_pr_cycle`, `pr.sh`, prompt-template wrapper, and five-command compatibility
+routes are historical surfaces, not current lifecycle authority.
 
-Canonical local STPs live under `.adl/<version>/tasks/<task-id>__<slug>/`, compatibility cards live under `.adl/cards/<issue>/`, and repo-local execution clones live under `.worktrees/adl-wp-<issue>/`.
-GitHub issue state is the source of truth for whether a card is active or complete. Active/current cards stay flat under `.adl/cards/<issue>/` while milestone work is in flight; completed cards may be archived later under `.adl/cards/completed/<milestone>/<issue>/`.
-The browser/editor adapter remains narrower than the full control plane; execution work should follow the `pr ready` -> `pr run` path rather than the older `pr start` model.
+Canonical issue state lives under `.csdlc/issues/<issue>/`, with typed request
+material normally prepared under `.csdlc/prepared/issues/<issue>/` or
+Git-common invocation paths when the request is transient. Generated cards are
+typed projections; do not edit their Markdown directly. Use the matching
+`csdlc-edit`, `csdlc-validate`, `csdlc-review`, `csdlc-publish`,
+`csdlc-finish`, and `csdlc-clean` routes for lifecycle state changes.
+
+The canonical repository is `agent-logic/agent-design-language`. The
+`danielbaustin/agent-design-language` remote is legacy provenance unless a
+bounded legacy task explicitly names it. In the primary checkout, `origin`
+should identify the canonical repository; `legacy-origin`, when present, should
+not be treated as the default target for current issue or PR work.
 
 The primary checkout should stay clean on `main`. Before starting issue work,
 check `git status --short --branch` and `git worktree list --porcelain`; if a
@@ -36,6 +45,16 @@ preserve work in an issue worktree and restore root to clean `main`. See
 `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` for the
 cross-session handoff and broadcast-note rules.
 
+After an issue is ready and bound, tracked implementation happens in the bound
+issue worktree, not on root `main`. New ADL issue worktrees belong under
+`/Volumes/FastWork/adl-worktrees` unless a typed migration/recovery route
+explicitly records a different existing topology.
+
+An initialized issue, green CI result, or published PR is not terminal proof by
+itself. Keep review, publication, finish, and cleanup truth separate:
+`csdlc-review` records exact-head review, `csdlc-publish` records publication,
+`csdlc-finish` derives terminal authority from live GitHub state, and
+`csdlc-clean` removes the exact registered worktree after truthful closeout.
 Compression-safe finish validation is allowed only when the issue is low-risk
 docs/static-tooling work and the SOR truthfully records focused local validation
 instead of full local validation. CI remains required before merge.
