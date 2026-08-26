@@ -36,29 +36,40 @@ certificate source and record that as an explicit origin-cert exception.
 
 ## DNS Naming
 
-Use one Route53 zone boundary:
+Use a CSM namespace Route53 zone boundary:
 
 ```text
 csm.agent-logic.ai
+csm.agent-logic.com
 ```
 
-Use this hostname pattern for every CSM instance:
+Use this hostname pattern for non-production CSM instances:
 
 ```text
-<service>.<csm_name>.<environment>.csm.agent-logic.ai
+<function>.<csm_name>.<environment>.csm.agent-logic.ai
+```
+
+Use this hostname pattern for production CSM instances:
+
+```text
+<function>.<csm_name>.csm.agent-logic.com
 ```
 
 Examples:
 
 ```text
-observatory.axioma.dev.csm.agent-logic.ai
-api.axioma.dev.csm.agent-logic.ai
-wss.axioma.dev.csm.agent-logic.ai
-runtime.axioma.dev.csm.agent-logic.ai
-wuji.axioma.dev.csm.agent-logic.ai
-nessus.axioma.dev.csm.agent-logic.ai
-gcp.axioma.dev.csm.agent-logic.ai
-aws-alb.axioma.dev.csm.agent-logic.ai
+observatory.wuji.dev.csm.agent-logic.ai
+api.wuji.dev.csm.agent-logic.ai
+wss.wuji.dev.csm.agent-logic.ai
+wuji.dev.csm.agent-logic.ai
+nessus.dev.csm.agent-logic.ai
+gcp.dev.csm.agent-logic.ai
+aws-alb.wuji.dev.csm.agent-logic.ai
+
+observatory.wuji.csm.agent-logic.com
+api.wuji.csm.agent-logic.com
+wss.wuji.csm.agent-logic.com
+wuji.csm.agent-logic.com
 ```
 
 `api.<csm>.<env>.csm.agent-logic.ai` is the stable public Runtime API hostname
@@ -69,6 +80,12 @@ hostname and aliases to the WSS CloudFront distribution. CloudFront forwards
 WebSocket upgrade traffic directly to the configured WSS-capable Runtime origin.
 `observatory.<csm>.<env>` is the stable browser-facing Observatory hostname and
 aliases to the Observatory CloudFront distribution.
+
+`origin_cname_target` can publish the selected Runtime origin alias, such as
+`wuji.dev.csm.agent-logic.ai -> wuji.agent-logic.ai`, while preserving DDNS.
+`edge_acm_certificate_arn` can reuse a pre-issued `us-east-1` ACM wildcard such
+as `*.wuji.dev.csm.agent-logic.ai`; otherwise Terraform requests exact
+Observatory/API/WSS SANs.
 
 ## Standard AWS Shape
 
@@ -177,7 +194,7 @@ variable "environment" {
 }
 
 variable "csm_name" {
-  description = "CSM instance name, for example axioma."
+  description = "CSM instance name, for example wuji."
   type        = string
 }
 
@@ -274,9 +291,9 @@ API Gateway HTTP proxy integration points at
 `runtime_origin_url`, such as:
 
 ```text
-https://wuji.axioma.dev.csm.agent-logic.ai
-https://nessus.axioma.dev.csm.agent-logic.ai
-https://gcp.axioma.dev.csm.agent-logic.ai
+https://wuji.dev.csm.agent-logic.ai
+https://nessus.dev.csm.agent-logic.ai
+https://gcp.dev.csm.agent-logic.ai
 ```
 
 The runtime origin must present ordinary public TLS trust and must enforce its
@@ -596,11 +613,11 @@ Live validation, only after operator-authorized AWS execution:
 
 ```text
 bash adl/tools/validate_csm_public_edge_live.sh \
-  --csm axioma \
+  --csm wuji \
   --environment dev \
-  --observatory-url https://observatory.axioma.dev.csm.agent-logic.ai \
-  --api-url https://api.axioma.dev.csm.agent-logic.ai \
-  --wss-url wss://wss.axioma.dev.csm.agent-logic.ai/v1/observatory/ws \
+  --observatory-url https://observatory.wuji.dev.csm.agent-logic.ai \
+  --api-url https://api.wuji.dev.csm.agent-logic.ai \
+  --wss-url wss://wss.wuji.dev.csm.agent-logic.ai/v1/observatory/ws \
   --wss-origin-hostname <origin-hostname>
 ```
 
@@ -638,7 +655,7 @@ Live validation must prove:
 Before implementation:
 
 1. #122 body/card truth is updated from old hostnames to the
-   `<service>.<csm>.<env>.csm.agent-logic.ai` naming standard.
+   `<function>.<csm>.<env>.csm.agent-logic.ai` naming standard.
 2. Dependencies are rechecked live. #84 is backlog and must not gate this
    Terraform/public HTML Observatory work unless the live issue body says so.
 3. Operator confirms whether #122 may execute in v0.92.1 despite its existing

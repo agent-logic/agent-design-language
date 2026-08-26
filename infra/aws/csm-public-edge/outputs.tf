@@ -10,6 +10,23 @@ output "wss_fqdn" {
   value = local.wss_fqdn
 }
 
+output "origin_fqdn" {
+  value = local.origin_fqdn
+}
+
+output "origin_cname_target" {
+  value = var.origin_cname_target
+}
+
+output "hosted_zone_id" {
+  value = local.hosted_zone_id
+}
+
+output "hosted_zone_name_servers" {
+  description = "Name servers to delegate from the parent domain when create_hosted_zone is true."
+  value       = local.hosted_zone_name_servers
+}
+
 output "observatory_cloudfront_domain" {
   value = aws_cloudfront_distribution.observatory.domain_name
 }

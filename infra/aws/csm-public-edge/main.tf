@@ -1,8 +1,15 @@
 data "aws_caller_identity" "current" {}
 
 data "aws_route53_zone" "csm" {
+  count        = var.create_hosted_zone || var.hosted_zone_id != null ? 0 : 1
   name         = "${local.zone_name}."
   private_zone = false
+}
+
+resource "aws_route53_zone" "csm" {
+  count = var.create_hosted_zone ? 1 : 0
+  name  = local.zone_name
+  tags  = local.common_tags
 }
 
 resource "terraform_data" "approved_account_guard" {
@@ -89,7 +96,17 @@ resource "terraform_data" "wss_origin_mode_guard" {
   }
 }
 
+resource "aws_route53_record" "origin_cname" {
+  count   = var.origin_cname_target == null ? 0 : 1
+  zone_id = local.hosted_zone_id
+  name    = local.origin_fqdn
+  type    = "CNAME"
+  ttl     = 60
+  records = [trimsuffix(var.origin_cname_target, ".")]
+}
+
 resource "aws_acm_certificate" "edge" {
+  count                     = var.edge_acm_certificate_arn == null ? 1 : 0
   provider                  = aws.us_east_1
   domain_name               = local.observatory_fqdn
   subject_alternative_names = [local.api_fqdn, local.wss_fqdn]
@@ -102,16 +119,16 @@ resource "aws_acm_certificate" "edge" {
 }
 
 resource "aws_route53_record" "edge_cert_validation" {
-  for_each = {
-    for option in aws_acm_certificate.edge.domain_validation_options :
+  for_each = var.edge_acm_certificate_arn == null ? {
+    for option in aws_acm_certificate.edge[0].domain_validation_options :
     option.domain_name => {
       name   = option.resource_record_name
       record = option.resource_record_value
       type   = option.resource_record_type
     }
-  }
+  } : {}
 
-  zone_id = data.aws_route53_zone.csm.zone_id
+  zone_id = local.hosted_zone_id
   name    = each.value.name
   type    = each.value.type
   ttl     = 60
@@ -119,8 +136,9 @@ resource "aws_route53_record" "edge_cert_validation" {
 }
 
 resource "aws_acm_certificate_validation" "edge" {
+  count                   = var.edge_acm_certificate_arn == null ? 1 : 0
   provider                = aws.us_east_1
-  certificate_arn         = aws_acm_certificate.edge.arn
+  certificate_arn         = aws_acm_certificate.edge[0].arn
   validation_record_fqdns = [for record in aws_route53_record.edge_cert_validation : record.fqdn]
 }
 
@@ -358,7 +376,7 @@ resource "aws_cloudfront_distribution" "observatory" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.edge.certificate_arn
+    acm_certificate_arn      = local.edge_acm_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
@@ -400,7 +418,7 @@ resource "aws_cloudfront_distribution" "api" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.edge.certificate_arn
+    acm_certificate_arn      = local.edge_acm_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
@@ -458,7 +476,7 @@ resource "aws_cloudfront_distribution" "wss" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate_validation.edge.certificate_arn
+    acm_certificate_arn      = local.edge_acm_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
@@ -491,7 +509,7 @@ resource "aws_s3_bucket_policy" "observatory" {
 }
 
 resource "aws_route53_record" "observatory" {
-  zone_id = data.aws_route53_zone.csm.zone_id
+  zone_id = local.hosted_zone_id
   name    = local.observatory_fqdn
   type    = "A"
 
@@ -503,7 +521,7 @@ resource "aws_route53_record" "observatory" {
 }
 
 resource "aws_route53_record" "api" {
-  zone_id = data.aws_route53_zone.csm.zone_id
+  zone_id = local.hosted_zone_id
   name    = local.api_fqdn
   type    = "A"
 
@@ -515,7 +533,7 @@ resource "aws_route53_record" "api" {
 }
 
 resource "aws_route53_record" "wss" {
-  zone_id = data.aws_route53_zone.csm.zone_id
+  zone_id = local.hosted_zone_id
   name    = local.wss_fqdn
   type    = "A"
 

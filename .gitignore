@@ -42,6 +42,7 @@ infra/aws/csm-public-edge/terraform.tfstate
 infra/aws/csm-public-edge/terraform.tfstate.backup
 infra/aws/csm-public-edge/*.auto.tfvars
 infra/aws/csm-public-edge/*.tfvars
+infra/aws/csm-public-edge/*.tfplan
 !infra/aws/csm-public-edge/terraform.tfvars.example
 
 # Unity observatory local proof inputs. These are operator-provisioned or

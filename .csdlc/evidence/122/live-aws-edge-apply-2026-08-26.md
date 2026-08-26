@@ -1,0 +1,180 @@
+# Issue #122 live AWS edge apply evidence
+
+Date: 2026-08-26
+
+## AWS account and DNS
+
+- Business AWS profile used for edge resources: `agent-logic-admin`
+- Approved business account verified by Terraform account guard; account id is not recorded in committed evidence.
+- Parent DNS profile used only for `agent-logic.ai` delegation/ACM validation records: `default`
+- Parent public hosted zone: `agent-logic.ai` / `Z0105194MPK8MKMH2XAQ`
+- Created business hosted zone: `csm.agent-logic.ai` / `Z02742802Q0LW6PL6HQ2D`
+- Delegated name servers:
+  - `ns-1218.awsdns-24.org`
+  - `ns-1544.awsdns-01.co.uk`
+  - `ns-62.awsdns-07.com`
+  - `ns-819.awsdns-38.net`
+
+## ACM certificates
+
+Requested/validated CloudFront viewer certificate:
+
+- `*.wuji.dev.csm.agent-logic.ai`
+- ARN: retained in local ignored Terraform inputs; not recorded in committed evidence.
+- Status observed: `ISSUED`
+
+Additional namespace certificates requested for future naming variants:
+
+- `*.csm.agent-logic.ai`: `ISSUED`
+- `*.dev.csm.agent-logic.ai`: `ISSUED`
+- `*.wuji.csm.agent-logic.com`: `PENDING_VALIDATION` because no accessible Route53 hosted zone for `agent-logic.com` was found in the available AWS profiles.
+
+## Terraform apply
+
+Terraform worktree:
+
+```text
+/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform
+```
+
+Applied in two steps:
+
+```text
+AWS_PROFILE=agent-logic-admin terraform -chdir=infra/aws/csm-public-edge apply -auto-approve issue122-zone.tfplan
+AWS_PROFILE=agent-logic-admin terraform -chdir=infra/aws/csm-public-edge apply -auto-approve issue122-full.tfplan
+```
+
+Final apply result:
+
+```text
+Apply complete! Resources: 22 added, 0 changed, 0 destroyed.
+```
+
+Terraform outputs:
+
+```text
+observatory_fqdn = "observatory.wuji.dev.csm.agent-logic.ai"
+api_fqdn = "api.wuji.dev.csm.agent-logic.ai"
+wss_fqdn = "wss.wuji.dev.csm.agent-logic.ai"
+origin_fqdn = "wuji.dev.csm.agent-logic.ai"
+origin_cname_target = "wuji.agent-logic.ai"
+observatory_bucket = "csm-wuji-dev-observatory-assets"
+observatory_cloudfront_domain = "d31sm5j4e5rraf.cloudfront.net"
+api_cloudfront_domain = "d2rj6kchzz22y5.cloudfront.net"
+wss_cloudfront_domain = "dnpwjw41tm26s.cloudfront.net"
+runtime_http_api_endpoint = "https://tb485bn6j4.execute-api.us-west-2.amazonaws.com"
+```
+
+## Observatory asset deployment
+
+Uploaded repo HTML Observatory assets to:
+
+```text
+s3://csm-wuji-dev-observatory-assets/
+```
+
+Excluded:
+
+```text
+demos/html-observatory/tests/*
+```
+
+Overrode deployed `runtime-v3.config.json` with:
+
+```json
+{
+  "schema": "adl.html_observatory.runtime_v3_config.v1",
+  "api_base": "https://api.wuji.dev.csm.agent-logic.ai",
+  "health_endpoint": "/v1/health",
+  "observatory_endpoint": "/v1/observatory",
+  "readiness_endpoint": "/v1/ready",
+  "observatory_websocket_endpoint": "/v1/observatory/ws",
+  "signed_command_endpoint": "/v1/control",
+  "observatory_docs_endpoint": "/v1/observatory/docs/"
+}
+```
+
+CloudFront invalidation:
+
+```text
+IDW9XOJ9EU817UOR969NCTYMZF
+Status: Completed
+```
+
+## Live endpoint checks
+
+Public DNS resolved:
+
+```text
+observatory.wuji.dev.csm.agent-logic.ai -> CloudFront A records
+api.wuji.dev.csm.agent-logic.ai -> CloudFront A records
+wss.wuji.dev.csm.agent-logic.ai -> CloudFront A records
+wuji.dev.csm.agent-logic.ai -> CNAME wuji.agent-logic.ai
+```
+
+Observatory root:
+
+```text
+curl -I https://observatory.wuji.dev.csm.agent-logic.ai/
+HTTP/2 200
+content-type: text/html
+server: AmazonS3
+x-cache: Miss from cloudfront
+```
+
+Deployed config:
+
+```text
+curl https://observatory.wuji.dev.csm.agent-logic.ai/runtime-v3.config.json
+api_base = https://api.wuji.dev.csm.agent-logic.ai
+```
+
+Allowed CORS origin:
+
+```text
+curl -i -X OPTIONS https://api.wuji.dev.csm.agent-logic.ai/v1/health \
+  -H 'Origin: https://observatory.wuji.dev.csm.agent-logic.ai' \
+  -H 'Access-Control-Request-Method: GET'
+
+access-control-allow-origin: https://observatory.wuji.dev.csm.agent-logic.ai
+access-control-allow-methods: GET,OPTIONS,POST
+access-control-allow-headers: authorization,content-type,origin,traceparent,tracestate,x-csm-correlation-id,x-request-id
+access-control-allow-credentials: true
+```
+
+Rejected CORS origin:
+
+```text
+curl -i -X OPTIONS https://api.wuji.dev.csm.agent-logic.ai/v1/health \
+  -H 'Origin: https://evil.example.com' \
+  -H 'Access-Control-Request-Method: GET'
+
+No access-control-allow-origin header emitted.
+```
+
+## Remaining live Runtime gate
+
+The Runtime is healthy locally through `CSMctl`:
+
+```text
+./CSMctl status
+CSMctl probe /v1/ready http=200
+CSMctl probe /v1/observatory http=200
+CSMctl probe /v1/health http=200
+CSMctl status=pass runtime_base=https://localhost:20997
+```
+
+But the selected public Runtime origin is not reachable externally:
+
+```text
+curl --resolve wuji.agent-logic.ai:443:47.146.81.109 https://wuji.agent-logic.ai/v1/health
+curl: (28) Connection timed out
+
+curl --resolve wuji.agent-logic.ai:20997:47.146.81.109 https://wuji.agent-logic.ai:20997/v1/health
+curl: (7) Failed to connect
+```
+
+Therefore API and WSS Runtime proof remain blocked on exposing the Runtime at a
+public TLS origin that CloudFront/API Gateway can reach. The edge DNS, ACM,
+CloudFront, WAF, API Gateway CORS allowlist, Observatory asset serving, and
+Observatory config hookup are live-proven.

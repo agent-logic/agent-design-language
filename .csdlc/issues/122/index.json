@@ -4,47 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "451fe3cb9a4ecfaf1b5b5802f84499dc478815ed1871af323630407a95c6d769",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "2db678551547e06ee133b5cd6f597aecf23a6ed8294ba1d36197151ec6634952",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": {
-    "reviewer": "fresh-session:485afd45-1935-4819-9616-f232c9743e2b",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:0a0a1d14dad1374a4856710deabd2166f4b1bbb9:57eac29b9708aa6e91305534a6072fe6ea53b79200ef8ca16b0016e151aea427",
-    "scope": [
-      ".gitignore",
-      ".csdlc/issues/122",
-      ".csdlc/evidence/122",
-      ".csdlc/prepared/issues/122/terraform-execution-plan.md",
-      "adl/tools/validate_csm_public_edge_static.sh",
-      "adl/tools/validate_csm_public_edge_live.sh",
-      "docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md",
-      "infra/aws/csm-public-edge"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:485afd45-1935-4819-9616-f232c9743e2b",
-    "scope": [
-      ".gitignore",
-      ".csdlc/issues/122",
-      ".csdlc/evidence/122",
-      ".csdlc/prepared/issues/122/terraform-execution-plan.md",
-      "adl/tools/validate_csm_public_edge_static.sh",
-      "adl/tools/validate_csm_public_edge_live.sh",
-      "docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md",
-      "infra/aws/csm-public-edge"
-    ],
-    "reviewed_revision": "git-blake3:0a0a1d14dad1374a4856710deabd2166f4b1bbb9:57eac29b9708aa6e91305534a6072fe6ea53b79200ef8ca16b0016e151aea427",
-    "findings": [],
-    "residual_risks": [
-      "Live AWS plan/apply, DNS propagation, ACM issuance, and live HTTPS/WSS handshake proof remain operator-gated and are not claimed by this implementation PR.",
-      "Terraform hostname validation intentionally enforces exact origin shape and wildcard/path rejection; it does not attempt to be a complete public DNS hostname parser."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -59,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a3c37d12772911deb949b03f3e402b8a491aa53b567e06835efa6aab8872db4a",
+      "values_digest": "196a8351093982cb25b22dcaf4350d67d168f5fba05a4d98bf77ddcfcc7aff10",
       "rendered_digest": "f79956e706f3bc59e9419883fd5c0d67ef91f9420af276159c89b6e85fb82f7a",
       "ast_digest": "a3b61442d79225ddcdf144d5d1bcaa0b7e05672bed049ccf1a66e9e256662c52"
     },
     "stp": {
-      "values_digest": "bd40cab323bc3babe8a017736ec910f3ed1d2ada37fe7e3a8b3d9839d2ac6bd7",
+      "values_digest": "ae58a335656dbf8cc21736b5c53791f11be1cbc770550a2b2a1e70a5c567b9c9",
       "rendered_digest": "cb01b5f57d393d55d9c8b7ec487a64c3f993476859f30818eeccdc11c0b0c493",
       "ast_digest": "662b0fc639848571dce874e845e76bf05ca08f6fa58f0419a27b0772ea84b969"
     },
     "spp": {
-      "values_digest": "2f04751baa2956686d4a4043ab3538a1cd7449b4baa9de5ae1dfcd9f1a865bd9",
+      "values_digest": "c2c7726a1f16971f23321daa2abee9b3b68b8639ed1b6bd6961871f177d05bf8",
       "rendered_digest": "6ff1d54056afd10200b7cd1667ab84f13cfc2de34c77fcf0f382d32e28fbd45f",
       "ast_digest": "c1634a33641f81c03bf7bb6632aba6030f5c343805fcce0b20a1e5252e331f9a"
     },
     "vpp": {
-      "values_digest": "f6f9f7854ac16b50aeb6fdfb5fd0d2984eda7357b07a30327a21c09c5db744f7",
+      "values_digest": "1ad194ad82601f6393ed548ee39ad9765015993b32f45a31d815980848e917ac",
       "rendered_digest": "7063fd11aa091255eea71053b22a442efce3d6c22791107788147e39b66d8b04",
       "ast_digest": "a0f3349650c6eefe8db188f8466f392561b6944abe635db2836ba3d1b32518bf"
     },
     "srp": {
-      "values_digest": "890ee2dd2069ed654129e739d4cdeb577766b31c523f8cb14af9f6a0dae16fcd",
-      "rendered_digest": "47a04d686e4899a4bec2a14d7bb020d6df3204265924635aca1a42a94af9f3fe",
-      "ast_digest": "f09e6f6af7640ed599239eecb681cfdd7716acb8f6ebb652e2c052075ff06dff"
+      "values_digest": "7e3317b53452b954ac7da34e391e320dac816f8e775ecfa81816f5b431c64cc9",
+      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
+      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
     },
     "sor": {
-      "values_digest": "32cdaf1991fa6127fbdc4247034481c1f557648c67de6458d0feb330b5282913",
-      "rendered_digest": "cb1532937c3dac18a2d3aacdecd6ae53ec4fff5900e3680fa804f627abe8211a",
-      "ast_digest": "3e9796f7123bcff5eb15e2ab549d3ffedb46e2e7a3a01850901fb00829dbdace"
+      "values_digest": "6df4bf840f429fc29017a45893f255a12485bb804506b1b47503fa51a6095513",
+      "rendered_digest": "e1026f16af110c187dc688660d3bdaa69f4a22bc4e32638a20cff4adb1bf6409",
+      "ast_digest": "c5c8c69ecce0fa7741a6786d012b0281179d9c531b465948cb77a30842f15a58"
     }
   },
   "transitions": [
@@ -117,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #122 review after clean origin/main merge advanced the publication head from reviewed revision 0a0a1d14 to merge head 84ef9adb; no path overlap or conflict occurred, static proof still passes, and a fresh exact review is required before publication."
     }
   ],
   "audit": [
@@ -238,6 +211,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover #122 review after clean origin/main merge advanced the publication head from reviewed revision 0a0a1d14 to merge head 84ef9adb; no path overlap or conflict occurred, static proof still passes, and a fresh exact review is required before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover #122 post-main exact-review assignment before substantive hostname contract correction: operator clarified dev/prod CSM DNS must support <function>.<csm>.<env>.csm.agent-logic.ai and prod <function>.<csm>.csm.agent-logic.com, so the current assigned revision is no longer final.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record truthful live edge execution after operator authorized real AWS apply and Observatory hookup; preserve Runtime-origin public exposure as the remaining external gate.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev. The business AWS account now owns the delegated csm.agent-logic.ai hosted zone and live CloudFront/WAF/S3/API/WSS edge resources. Observatory assets are served at https://observatory.wuji.dev.csm.agent-logic.ai with deployed config pointing at https://api.wuji.dev.csm.agent-logic.ai. API Gateway CORS allows the Observatory origin and rejects unrelated origins. Runtime API/WSS live proof remains blocked because the selected wuji Runtime origin is healthy only locally via CSMctl and is not reachable at public 47.146.81.109:443 or :20997.\",\"changes\":[\"Added Terraform support for first-time CSM hosted zone creation or explicit hosted_zone_id reuse.\",\"Added optional edge_acm_certificate_arn so CloudFront can use a pre-issued per-CSM ACM wildcard certificate.\",\"Added optional origin_cname_target so wuji.dev.csm.agent-logic.ai can CNAME to the existing wuji DDNS hostname without hardcoding an IP address.\",\"Updated naming/docs from generic placeholders to <function>.<csm>.<environment>.csm.agent-logic.ai and production <function>.<csm>.csm.agent-logic.com.\",\"Applied the wuji/dev edge in the Agent Logic business AWS account and uploaded the HTML Observatory assets to the private Observatory S3 bucket.\",\"Tightened the live validator to report Observatory HTTPS, allowed-origin CORS, rejected-origin CORS, and Runtime-origin reachability separately.\"],\"artifacts\":[\"infra/aws/csm-public-edge/\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"],\"validation\":[{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"fmt\",\"-recursive\"],\"purpose\":\"Terraform formatting for the CSM public edge module\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary run after live edge changes\"},{\"command\":[\"bash\",\"adl/tools/validate_csm_public_edge_static.sh\"],\"purpose\":\"Static Terraform init/validate and CSM WSS/CORS guard proof\",\"outcome\":\"passed\",\"evidence_ref\":\"commentary run after live edge changes\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"apply\",\"-auto-approve\",\"issue122-full.tfplan\"],\"purpose\":\"Live AWS apply of CloudFront/WAF/S3/API/WSS edge resources\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"},{\"command\":[\"bash\",\"adl/tools/validate_csm_public_edge_live.sh\",\"--csm\",\"wuji\",\"--environment\",\"dev\",\"--observatory-url\",\"https://observatory.wuji.dev.csm.agent-logic.ai\",\"--api-url\",\"https://api.wuji.dev.csm.agent-logic.ai\",\"--wss-url\",\"wss://wss.wuji.dev.csm.agent-logic.ai/v1/observatory/ws\",\"--wss-origin-hostname\",\"wuji.dev.csm.agent-logic.ai\"],\"purpose\":\"Live API/WSS proof is blocked on the selected wuji Runtime origin accepting public TLS traffic\",\"outcome\":\"blocked\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"}]}"
     }
   ]
 }

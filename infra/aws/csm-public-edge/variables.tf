@@ -11,7 +11,7 @@ variable "approved_aws_account_id" {
 }
 
 variable "environment" {
-  description = "Deployment environment, for example dev or prod."
+  description = "Deployment environment. Non-prod appears in hostnames, for example api.wuji.dev.csm.agent-logic.ai. Prod omits the segment, for example api.wuji.csm.agent-logic.com."
   type        = string
 
   validation {
@@ -21,7 +21,7 @@ variable "environment" {
 }
 
 variable "csm_name" {
-  description = "CSM instance name, for example axioma."
+  description = "CSM instance name, for example wuji."
   type        = string
 
   validation {
@@ -31,9 +31,27 @@ variable "csm_name" {
 }
 
 variable "zone_name" {
-  description = "Route53 hosted zone name."
+  description = "Route53 hosted zone name for the CSM namespace, for example csm.agent-logic.ai for dev/stage or csm.agent-logic.com for prod."
   type        = string
   default     = "csm.agent-logic.ai"
+}
+
+variable "create_hosted_zone" {
+  description = "Create the CSM Route53 hosted zone in this AWS account. Use for first-time business-account setup, then delegate this zone from the parent domain."
+  type        = bool
+  default     = false
+}
+
+variable "hosted_zone_id" {
+  description = "Existing Route53 hosted zone id for zone_name. Leave null to look up zone_name or create it when create_hosted_zone is true."
+  type        = string
+  default     = null
+}
+
+variable "edge_acm_certificate_arn" {
+  description = "Optional existing us-east-1 ACM certificate ARN for the CloudFront viewer aliases. Leave null for Terraform to request exact SANs."
+  type        = string
+  default     = null
 }
 
 variable "observatory_asset_source" {
@@ -88,6 +106,17 @@ variable "wss_origin_https_url" {
 variable "wss_origin_hostname" {
   description = "Origin hostname used by CloudFront for WSS Host/SNI/TLS validation. Must match the origin certificate."
   type        = string
+}
+
+variable "origin_cname_target" {
+  description = "Optional DNS CNAME target for origin_fqdn, for example an existing DDNS hostname such as wuji.agent-logic.ai. Leave null when DNS is managed elsewhere."
+  type        = string
+  default     = null
+
+  validation {
+    condition     = var.origin_cname_target == null || can(regex("^[A-Za-z0-9][A-Za-z0-9.-]*\\.?$", var.origin_cname_target))
+    error_message = "origin_cname_target must be a DNS hostname without scheme or path."
+  }
 }
 
 variable "wss_forward_viewer_host" {
