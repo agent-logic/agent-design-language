@@ -65,11 +65,11 @@ Reconciled onboarding and tooling documentation with Gate 10D2 typed C-SDLC v2 a
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
