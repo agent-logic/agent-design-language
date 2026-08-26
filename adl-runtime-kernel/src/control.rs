@@ -719,7 +719,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             "runtime instance id must be bounded"
         );
         let observatory_origin_policy = ObservatoryOriginPolicy::new(observatory_allowed_origins)
-            .expect("observatory origins must be exact HTTPS origins");
+            .expect("observatory origins must be approved exact origins");
         agent_population
             .sample
             .sort_by(|left, right| left.id.cmp(&right.id));
@@ -3227,7 +3227,7 @@ fn validate_observatory_origins(
     let mut unique = BTreeSet::new();
     for origin in origins {
         if !valid_observatory_origin(&origin) {
-            return Err("observatory_allowed_origins_must_be_exact_https_origins".to_owned());
+            return Err("observatory_allowed_origins_must_be_approved_exact_origins".to_owned());
         }
         if !unique.insert(origin) {
             return Err("observatory_allowed_origins_must_be_unique".to_owned());
@@ -3242,6 +3242,9 @@ fn validate_observatory_origins(
 fn valid_observatory_origin(origin: &str) -> bool {
     if origin == "*" || origin.len() > 512 || origin.bytes().any(|byte| byte.is_ascii_control()) {
         return false;
+    }
+    if origin == "http://localhost:8000" {
+        return true;
     }
     let Ok(uri) = origin.parse::<axum::http::Uri>() else {
         return false;
