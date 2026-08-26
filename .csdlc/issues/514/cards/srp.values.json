@@ -7,23 +7,27 @@
     "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
     "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 8
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl/src/provider/mod.rs\nadl/src/provider/profiles.rs\ndocs/provider/inference-profiles.md\ndocs/milestones/v0.92.1/evidence/provider/prov-a/README.md\n.csdlc/prepared/issues/514/validate-profile-schema.rb\n.csdlc/prepared/issues/514/validate-ollama-materialization.rb\n.csdlc/prepared/issues/514/validate-invalid-profile.rb\n.csdlc/prepared/issues/514/validate-last-known-good.rb\n.csdlc/prepared/issues/514/validate-redaction.rb\n.csdlc/evidence/514/profile-schema.log\n.csdlc/evidence/514/ollama-materialization.log\n.csdlc/evidence/514/invalid-profile.log\n.csdlc/evidence/514/last-known-good.log\n.csdlc/evidence/514/redaction.log",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:9dacacbbf44c7ba9354bf1c1831f045928188b50:3220f5e1d194dbf98ccc653ef9f3489f0d20d5d4ab9d98717995ecbb71170eaf",
+      "reviewer": "openai-responses:gpt-5.6-sol",
       "review_prompts": [
         "Does the implementation stay inside the declared unit boundary?",
         "Does every acceptance criterion have proving evidence?",
         "Are operator-only actions and private material kept outside Git?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "OpenAI Responses API review artifact: response id resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d, model gpt-5.6-sol, verdict PASS, publication_safe true.",
+        "Validation is focused on the issue-local provider tests and validators; a full workspace test suite is not reported.",
+        "Last-known-good retention is an in-memory document transaction contract; persistence and concurrent activation coordination remain caller responsibilities."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9fdf6098309aa72bf2e1efd727a6691adf465920b488e78111c6723537e7619d",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "ea828a996023fa879155c81372ac8efc0ab61a6385ff9645af6f9aabc5218762",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "92456c18516aaeb80ec263f43eaeb0b1870410e1520cd902f7385616a075d452",
   "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "review_assignment": {
     "reviewer": "openai-responses:gpt-5.6-sol",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:e30d220e0010bab69b6ab4abb8a2a9df0c77cf05:37187334deea6cac77a356353e585a32af8bf959330af88085ee9e6bdf5e19bd",
+    "revision": "git-blake3:9dacacbbf44c7ba9354bf1c1831f045928188b50:3220f5e1d194dbf98ccc653ef9f3489f0d20d5d4ab9d98717995ecbb71170eaf",
     "scope": [
       "adl/src/provider/mod.rs",
       "adl/src/provider/profiles.rs",
@@ -30,7 +30,34 @@
       ".csdlc/evidence/514/redaction.log"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "openai-responses:gpt-5.6-sol",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
+      ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+      ".csdlc/prepared/issues/514/validate-ollama-materialization.rb",
+      ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+      ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+      ".csdlc/prepared/issues/514/validate-redaction.rb",
+      ".csdlc/evidence/514/profile-schema.log",
+      ".csdlc/evidence/514/ollama-materialization.log",
+      ".csdlc/evidence/514/invalid-profile.log",
+      ".csdlc/evidence/514/last-known-good.log",
+      ".csdlc/evidence/514/redaction.log"
+    ],
+    "reviewed_revision": "git-blake3:9dacacbbf44c7ba9354bf1c1831f045928188b50:3220f5e1d194dbf98ccc653ef9f3489f0d20d5d4ab9d98717995ecbb71170eaf",
+    "findings": [],
+    "residual_risks": [
+      "OpenAI Responses API review artifact: response id resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d, model gpt-5.6-sol, verdict PASS, publication_safe true.",
+      "Validation is focused on the issue-local provider tests and validators; a full workspace test suite is not reported.",
+      "Last-known-good retention is an in-memory document transaction contract; persistence and concurrent activation coordination remain caller responsibilities."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -45,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73e64317c429555c52ebe88d7bf647f7d190da2c1b48a00b93d05cc96e87431c",
+      "values_digest": "3307ac614567bd2637211c1af1bd5150c762cccb915082c4eb5bbffabf2ce4c4",
       "rendered_digest": "0b2b96047cadd7c25e6919f8aa6aaef361cb8694637c67b3bc457cb05fbfac75",
       "ast_digest": "3a308d39d4ccac0225312a861c790215b1f777524ef0cbe88d624959282eda66"
     },
     "stp": {
-      "values_digest": "fd422c7a1ff44d954ceeac6b2d333e30ae36d34aa30ee1ac717ef82a4827884e",
+      "values_digest": "a2e2e8d117357334b933bb813d517fc6d8e4f2b64f15397ec9cb8ff02b462f16",
       "rendered_digest": "da03dbd130894a30ad371f2dcc53b310c4cccb74f4f97e3187e800c1259eae16",
       "ast_digest": "72a3d9084a14e396224ebcf0b7b1301d9c531df8e9e1db4c78c4af2b8b91467c"
     },
     "spp": {
-      "values_digest": "2bf90f85da92815ce69b516eb5110834b52192c94159e82b39a78e55b2746f20",
+      "values_digest": "bd4ee0372c3f5534f92124d045cd4b810324520287b4c399efa3103ec34a4073",
       "rendered_digest": "c8544d8772f1f01111260278f980490bf763b6eff893e5530c0086dd69a4f009",
       "ast_digest": "633f5fd92e8e0ce90d2c7baa29f4f8fe5d555842b4b0486ea53b355b43330b2b"
     },
     "vpp": {
-      "values_digest": "dbfe871999380fcbf844cd5d4e886a927acc7140e462120f88d6ea04a00ff512",
+      "values_digest": "c34805e6abdace4f8469e2fe458f9cf0e1964e53900d3ddab23eaf58a33fbd8b",
       "rendered_digest": "0f27717b849259d3d877a3281f281b61ed4b6ea845124243260893741e360ea2",
       "ast_digest": "8e5e53c7c10630e30182ae4221d92fd19cea3c9ba4b86b9f9076aa27e946d81d"
     },
     "srp": {
-      "values_digest": "28f04afb7afcebc28628c55052024e09fadecbc95af78905b5cc864645b33246",
-      "rendered_digest": "06255253fbd35724a70c5965e52bce16812eb21f4c45461ade9659d988274e42",
-      "ast_digest": "6c6a1207c1ebb26f0fc3332635e143150d8ef401ceae4f9cfc42b02af4d03dd0"
+      "values_digest": "9894e3b21f7f8411a1ad94fd648f3fc556d7ed662172eaed0455a4117bf8d3b9",
+      "rendered_digest": "366fddedf1f907b3847c4a1c061a3321289aac8795a901f1e4e254b940ccc5ff",
+      "ast_digest": "ff4cf8416bc9d12243280d67eb2bbf49347b9e0963514c1edfacdd4ec83a9ae8"
     },
     "sor": {
-      "values_digest": "fa491d06c817830cef445656d585041ac3b0bd881c70e92b6a7955f14ac35daf",
+      "values_digest": "d5e46e3534f6c5846e747f56ac5fb062560f9e76c66c16eeaf0101f1eed1c86a",
       "rendered_digest": "87d642b733cf277e3f71ecfb38e82dbc7067dcaf7e30586537bbe4433997206e",
       "ast_digest": "c8a99726c69f2991b996a537459291a596d6ab4df44cf1d6f07419178ae88cd0"
     }
@@ -131,6 +158,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #514 review truth after Responses API review resp_0fccd5172659cf42006a8f560cea8087d09fd2135bb943ca0e found F2 still non-proving; activation helper and proof were repaired and require fresh exact-head API review before publication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -217,6 +251,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
