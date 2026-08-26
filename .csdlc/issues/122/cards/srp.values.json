@@ -7,15 +7,15 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 50
+    "generation": 51
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "Fresh no-context exact-head review for #122 at clean commit ed39c2be6f82222b3ed746b9899e01c04e128cbe on branch codex/122-csm-public-edge-terraform in /Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform.\nReview full #122 current implemented scope: permanent CSM public edge Terraform, disposable Spot EC2 and ALB Runtime-origin modules/roots, operator runbook, AWS live evidence, certificate/DNS cleanup truth, lifecycle cards, and prior review finding dispositions.\nSpecifically verify the prior P2 runbook finding is resolved: no API Gateway WebSocket front-door claim, WSS is documented as CloudFront to configured WSS-capable HTTPS origin, and runbook variable names match Terraform variables: zone_name, runtime_origin_url, wss_origin_https_url, websocket_path_pattern, origin_fqdn_override, and subnet_ids.\nVerify permanent edge remains non-compute, disposable origin smoke proof is operator-authorized and torn down, additional allowed origins are exact and fail closed for wildcards, reusable ACM lookup is truthful, stale patch artifact is no longer an applicable patch claim, and no #83/#111-#117/#550 scope is absorbed.\nFindings-first PASS/FAIL; read-only; no source/lifecycle/GitHub/AWS mutation.",
+      "review_revision": "git-blake3:ed39c2be6f82222b3ed746b9899e01c04e128cbe:d2d8286b47ed90ac04258749dc078d6ea5df8ec525d0318d8518599101a5850d",
+      "reviewer": "fresh-session:be7f4e21-5885-4af8-afea-f012251658d4",
       "review_prompts": [
         "Can any public read, browser state, origin, or unsigned request gain Runtime write authority?",
         "Do the exact deployed Observatory and Runtime gateway revisions match through DNS, cache, HTTPS, and WSS paths?",
@@ -25,8 +25,12 @@
         "Does #122 remain deferred beyond v0.92 and non-gating for #83 and #111-#117?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer did not run live AWS reads/writes, Terraform apply/destroy, GitHub writes, or lifecycle mutation.",
+        "Reviewer did not perform a fresh live WSS handshake; retained evidence and static/local validation were reviewed.",
+        "Source and implementation evidence was pinned to HEAD ed39c2be6f82222b3ed746b9899e01c04e128cbe; dirty .csdlc/issues/122 files were current review-assignment metadata only."
+      ],
+      "review_result": "pass"
     }
   }
 }

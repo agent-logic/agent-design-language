@@ -4,13 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
-  "phase": "implemented",
-  "generation": 50,
-  "digest": "1a61d1e3f4ebc197fce4205967b7ec44b51e2b139218fc597aa87f92c4f399fe",
+  "phase": "reviewed",
+  "generation": 51,
+  "digest": "49a63b775c02f8f3a71cdaa41c4e87021c8d84c3005436469d98bff7997d8fc3",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:be7f4e21-5885-4af8-afea-f012251658d4",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ed39c2be6f82222b3ed746b9899e01c04e128cbe:d2d8286b47ed90ac04258749dc078d6ea5df8ec525d0318d8518599101a5850d",
+    "scope": [
+      "Fresh no-context exact-head review for #122 at clean commit ed39c2be6f82222b3ed746b9899e01c04e128cbe on branch codex/122-csm-public-edge-terraform in /Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform.",
+      "Review full #122 current implemented scope: permanent CSM public edge Terraform, disposable Spot EC2 and ALB Runtime-origin modules/roots, operator runbook, AWS live evidence, certificate/DNS cleanup truth, lifecycle cards, and prior review finding dispositions.",
+      "Specifically verify the prior P2 runbook finding is resolved: no API Gateway WebSocket front-door claim, WSS is documented as CloudFront to configured WSS-capable HTTPS origin, and runbook variable names match Terraform variables: zone_name, runtime_origin_url, wss_origin_https_url, websocket_path_pattern, origin_fqdn_override, and subnet_ids.",
+      "Verify permanent edge remains non-compute, disposable origin smoke proof is operator-authorized and torn down, additional allowed origins are exact and fail closed for wildcards, reusable ACM lookup is truthful, stale patch artifact is no longer an applicable patch claim, and no #83/#111-#117/#550 scope is absorbed.",
+      "Findings-first PASS/FAIL; read-only; no source/lifecycle/GitHub/AWS mutation."
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:be7f4e21-5885-4af8-afea-f012251658d4",
+    "scope": [
+      "Fresh no-context exact-head review for #122 at clean commit ed39c2be6f82222b3ed746b9899e01c04e128cbe on branch codex/122-csm-public-edge-terraform in /Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform.",
+      "Review full #122 current implemented scope: permanent CSM public edge Terraform, disposable Spot EC2 and ALB Runtime-origin modules/roots, operator runbook, AWS live evidence, certificate/DNS cleanup truth, lifecycle cards, and prior review finding dispositions.",
+      "Specifically verify the prior P2 runbook finding is resolved: no API Gateway WebSocket front-door claim, WSS is documented as CloudFront to configured WSS-capable HTTPS origin, and runbook variable names match Terraform variables: zone_name, runtime_origin_url, wss_origin_https_url, websocket_path_pattern, origin_fqdn_override, and subnet_ids.",
+      "Verify permanent edge remains non-compute, disposable origin smoke proof is operator-authorized and torn down, additional allowed origins are exact and fail closed for wildcards, reusable ACM lookup is truthful, stale patch artifact is no longer an applicable patch claim, and no #83/#111-#117/#550 scope is absorbed.",
+      "Findings-first PASS/FAIL; read-only; no source/lifecycle/GitHub/AWS mutation."
+    ],
+    "reviewed_revision": "git-blake3:ed39c2be6f82222b3ed746b9899e01c04e128cbe:d2d8286b47ed90ac04258749dc078d6ea5df8ec525d0318d8518599101a5850d",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not run live AWS reads/writes, Terraform apply/destroy, GitHub writes, or lifecycle mutation.",
+      "Reviewer did not perform a fresh live WSS handshake; retained evidence and static/local validation were reviewed.",
+      "Source and implementation evidence was pinned to HEAD ed39c2be6f82222b3ed746b9899e01c04e128cbe; dirty .csdlc/issues/122 files were current review-assignment metadata only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4a53134a77a1d9a633ab877e6b279923da55914a3793f13807544749126b8740",
+      "values_digest": "52db3c3cc639c09c68fbca9fab39d514ec9fa6d2caa05391fce73555dcae9c69",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "713b43b64081cd7148a705d62cddcedaa9c9839d4e480b8d7e44b8cbb43bb113",
+      "values_digest": "325ee859aec5d5b5bc97ad4b55d1984f2b7ef93811cfabd8760c9042adfd4b01",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "e468190e28a6f11baf884f468a8421264aabf03c9b78ec4a700b33100e0efb08",
+      "values_digest": "8f5e49e16f80d243e237e7db8dacf95443b500811adfaa7d969d842f1d822ec3",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "625370a425a40f9b2d5e2ef0b4ab1e53eaa78b64122ba5f16d96313804ac00a0",
+      "values_digest": "c15bd1d7abc3ba1549613da130a7a6f63286f4e4015b54e4bee7a1d85985394a",
       "rendered_digest": "8f61f58de8e982822638648bfc941c11fa6e96fd83c423cb85b14d5dce3b30a6",
       "ast_digest": "491c78890e5c6a24563c40f2de94946462a4f048481d051edaa58602d55ef222"
     },
     "srp": {
-      "values_digest": "b0bf71027513c5569becec47bf65bbc34c15943f6d5d3fb85db7d0479d5d0a31",
-      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
-      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
+      "values_digest": "7332e0ec78c8a01934ff3b0e7f4f9fd9dfcc531de85c665ccabde1a06b83c56c",
+      "rendered_digest": "662c005aa762b38caaa598e8992a523e952708d84a3351a880d354e140900bbc",
+      "ast_digest": "fa2e937020ab4b5a95834d5d24a3d408d631d6aa00d54cbcd56303fed5521753"
     },
     "sor": {
-      "values_digest": "31456b6aad10b561d11a75874ead2f0694e0ab92d9f026e6d9a364321a6bd359",
+      "values_digest": "3ccd10047c18fcd945d02e34c58655884d372ec2fb93aeb89e3e2a3aef52feef",
       "rendered_digest": "756782516544940f21b1d3ac33e788b83aeb94871ac10e02c6f63e77faa07006",
       "ast_digest": "64095a09c87e77664d141025289f9c9a79d032e4578da3527b1ad34d99cf781f"
     }
@@ -104,6 +133,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover scoped VPP-only PASS before resolving the separate stale gemini-review-diff.patch evidence artifact and related deliverable truth. A fresh exact-head review will be required after the evidence/card repair."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -561,6 +597,20 @@
       "actor": "codex:/root",
       "reason": "Recover final #122 exact-head review fresh-session:0990e818-2291-4a98-b74c-0e85c29863cc after FAIL on runbook WSS topology and Terraform variable-name drift. This recovery precedes a bounded runbook-only remediation and fresh exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 66,
+      "generation": 50,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 67,
+      "generation": 51,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
