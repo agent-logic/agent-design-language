@@ -4,13 +4,47 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "3d64a41d35e79694e75a9156ec758219c776640b46fd87068e87d30a9caa39f5",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "451fe3cb9a4ecfaf1b5b5802f84499dc478815ed1871af323630407a95c6d769",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:485afd45-1935-4819-9616-f232c9743e2b",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:0a0a1d14dad1374a4856710deabd2166f4b1bbb9:57eac29b9708aa6e91305534a6072fe6ea53b79200ef8ca16b0016e151aea427",
+    "scope": [
+      ".gitignore",
+      ".csdlc/issues/122",
+      ".csdlc/evidence/122",
+      ".csdlc/prepared/issues/122/terraform-execution-plan.md",
+      "adl/tools/validate_csm_public_edge_static.sh",
+      "adl/tools/validate_csm_public_edge_live.sh",
+      "docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md",
+      "infra/aws/csm-public-edge"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:485afd45-1935-4819-9616-f232c9743e2b",
+    "scope": [
+      ".gitignore",
+      ".csdlc/issues/122",
+      ".csdlc/evidence/122",
+      ".csdlc/prepared/issues/122/terraform-execution-plan.md",
+      "adl/tools/validate_csm_public_edge_static.sh",
+      "adl/tools/validate_csm_public_edge_live.sh",
+      "docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md",
+      "infra/aws/csm-public-edge"
+    ],
+    "reviewed_revision": "git-blake3:0a0a1d14dad1374a4856710deabd2166f4b1bbb9:57eac29b9708aa6e91305534a6072fe6ea53b79200ef8ca16b0016e151aea427",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS plan/apply, DNS propagation, ACM issuance, and live HTTPS/WSS handshake proof remain operator-gated and are not claimed by this implementation PR.",
+      "Terraform hostname validation intentionally enforces exact origin shape and wildcard/path rejection; it does not attempt to be a complete public DNS hostname parser."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "327a7101cbefad7c438ba0480170067e94f333ebf179bc705bfb24f60a7f760a",
+      "values_digest": "a3c37d12772911deb949b03f3e402b8a491aa53b567e06835efa6aab8872db4a",
       "rendered_digest": "f79956e706f3bc59e9419883fd5c0d67ef91f9420af276159c89b6e85fb82f7a",
       "ast_digest": "a3b61442d79225ddcdf144d5d1bcaa0b7e05672bed049ccf1a66e9e256662c52"
     },
     "stp": {
-      "values_digest": "de0707d0737cadce55988223734a4b939977e50a30f058d01bdbc0867917f365",
+      "values_digest": "bd40cab323bc3babe8a017736ec910f3ed1d2ada37fe7e3a8b3d9839d2ac6bd7",
       "rendered_digest": "cb01b5f57d393d55d9c8b7ec487a64c3f993476859f30818eeccdc11c0b0c493",
       "ast_digest": "662b0fc639848571dce874e845e76bf05ca08f6fa58f0419a27b0772ea84b969"
     },
     "spp": {
-      "values_digest": "8b8192a5e0aaacc32150bd3c722df615062bdca12da3306622b0f79e4630c203",
+      "values_digest": "2f04751baa2956686d4a4043ab3538a1cd7449b4baa9de5ae1dfcd9f1a865bd9",
       "rendered_digest": "6ff1d54056afd10200b7cd1667ab84f13cfc2de34c77fcf0f382d32e28fbd45f",
       "ast_digest": "c1634a33641f81c03bf7bb6632aba6030f5c343805fcce0b20a1e5252e331f9a"
     },
     "vpp": {
-      "values_digest": "e0a89097cba1e3b25b994553e118b9fc102f05443678d2c710f83c0c41345b97",
+      "values_digest": "f6f9f7854ac16b50aeb6fdfb5fd0d2984eda7357b07a30327a21c09c5db744f7",
       "rendered_digest": "7063fd11aa091255eea71053b22a442efce3d6c22791107788147e39b66d8b04",
       "ast_digest": "a0f3349650c6eefe8db188f8466f392561b6944abe635db2836ba3d1b32518bf"
     },
     "srp": {
-      "values_digest": "2177ace21863eaebb304c0c95b5fd2316c5fc77494c87f032a7b520f8c1b788e",
-      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
-      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
+      "values_digest": "890ee2dd2069ed654129e739d4cdeb577766b31c523f8cb14af9f6a0dae16fcd",
+      "rendered_digest": "47a04d686e4899a4bec2a14d7bb020d6df3204265924635aca1a42a94af9f3fe",
+      "ast_digest": "f09e6f6af7640ed599239eecb681cfdd7716acb8f6ebb652e2c052075ff06dff"
     },
     "sor": {
-      "values_digest": "7308d0489bec4fa698573d46978c0240f89ce278e44da61f37d5bcf999254dbb",
+      "values_digest": "32cdaf1991fa6127fbdc4247034481c1f557648c67de6458d0feb330b5282913",
       "rendered_digest": "cb1532937c3dac18a2d3aacdecd6ae53ec4fff5900e3680fa804f627abe8211a",
       "ast_digest": "3e9796f7123bcff5eb15e2ab549d3ffedb46e2e7a3a01850901fb00829dbdace"
     }
@@ -76,6 +110,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -183,6 +224,20 @@
       "actor": "codex:/root",
       "reason": "Align #122 implemented-phase SPP affected areas with the current CSM public edge Terraform module, validators, docs, and retained remediation evidence after typed review recovery.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/csm-public-edge/versions.tf\",\"infra/aws/csm-public-edge/variables.tf\",\"infra/aws/csm-public-edge/locals.tf\",\"infra/aws/csm-public-edge/main.tf\",\"infra/aws/csm-public-edge/outputs.tf\",\"infra/aws/csm-public-edge/terraform.tfvars.example\",\"infra/aws/csm-public-edge/.terraform.lock.hcl\",\"infra/aws/csm-public-edge/README.md\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/additional-origins-validation.md\",\".csdlc/evidence/122/gemini-remediation-review.result.json\",\".csdlc/evidence/122/gemini-remediation-review.log\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

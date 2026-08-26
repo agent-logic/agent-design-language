@@ -7,15 +7,15 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 11
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".gitignore\n.csdlc/issues/122\n.csdlc/evidence/122\n.csdlc/prepared/issues/122/terraform-execution-plan.md\nadl/tools/validate_csm_public_edge_static.sh\nadl/tools/validate_csm_public_edge_live.sh\ndocs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\ninfra/aws/csm-public-edge",
+      "review_revision": "git-blake3:0a0a1d14dad1374a4856710deabd2166f4b1bbb9:57eac29b9708aa6e91305534a6072fe6ea53b79200ef8ca16b0016e151aea427",
+      "reviewer": "fresh-session:485afd45-1935-4819-9616-f232c9743e2b",
       "review_prompts": [
         "Can any public read, browser state, origin, or unsigned request gain Runtime write authority?",
         "Do the exact deployed Observatory and Runtime gateway revisions match through DNS, cache, HTTPS, and WSS paths?",
@@ -25,8 +25,11 @@
         "Does #122 remain deferred beyond v0.92 and non-gating for #83 and #111-#117?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Live AWS plan/apply, DNS propagation, ACM issuance, and live HTTPS/WSS handshake proof remain operator-gated and are not claimed by this implementation PR.",
+        "Terraform hostname validation intentionally enforces exact origin shape and wildcard/path rejection; it does not attempt to be a complete public DNS hostname parser."
+      ],
+      "review_result": "pass"
     }
   }
 }
