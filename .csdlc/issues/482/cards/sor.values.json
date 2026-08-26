@@ -7,7 +7,7 @@
     "title": "[v0.92.1][CORP-A] Critical-asset schedule",
     "slug": "v0-92-1-corp-a-critical-asset-schedule",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
@@ -69,7 +69,7 @@
           "evidence_ref": "redaction-and-custody.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

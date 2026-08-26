@@ -76,7 +76,7 @@ Completed the CORP-A critical-asset schedule as documentation/evidence-only cust
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

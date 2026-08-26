@@ -1,8 +1,8 @@
 # CORP-A Critical-Asset Schedule
 
-Issue: #482  
-Sprint umbrella: #529  
-Schedule artifact: `docs/operations/corporate/asset-register/critical-asset-schedule.v1.json`  
+Issue: #482
+Sprint umbrella: #529
+Schedule artifact: `docs/operations/corporate/asset-register/critical-asset-schedule.v1.json`
 Redacted custody evidence: `docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json`
 
 This schedule records the corporate critical-asset denominator for v0.92.1 CORP-A readiness. It is intentionally documentation and evidence only: credential values, private instruments, account recovery material, signatures, tax identifiers, payment data, and executed legal documents are outside repository custody.

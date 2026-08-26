@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5f51adfee9f618eb1bbaf92c6f9729b4e9ab8013f7e7a990ec97b4c030ecaad1",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "1f2367ae4a9c35dd78b686011cd1cf075ff7c12315df741391d95b61a587b304",
+  "generation": 4,
+  "digest": "e23526958257310a8832c3b228b5c47ca6be80701746211d831055ea81b05409",
   "branch": "codex/482-v0-92-1-corp-a-critical-asset-schedule",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-482-corp-a-critical-asset-schedule",
-  "review_assignment": {
-    "reviewer": "fresh-session:codex-482-corp-a-review-r1",
-    "assigned_by": "codex:issue-482-corp-a-execution",
-    "revision": "git-blake3:811fd18c60826b6d0909106b713ed1cbd4096f98:6515b41a492f1d02d7b5ec88984c2f3172905e5994c8d5ddc2efa867196366a1",
-    "scope": [
-      ".csdlc/evidence/482/asset-denominator.log",
-      ".csdlc/evidence/482/diff-hygiene.log",
-      ".csdlc/evidence/482/provenance-and-license.log",
-      ".csdlc/evidence/482/redaction-and-custody.log",
-      ".csdlc/issues/482",
-      ".csdlc/prepared/issues/482",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
-      "docs/operations/corporate/asset-register/critical-asset-schedule.md",
-      "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "76c098505daba706eb37f8bed3bc25592b02c8522749b55e2f1968d9e7d70e1d",
+      "values_digest": "fbd8f699a71737c4d4a59c26cb895d18553de5106ef36c619209ef5ce2902691",
       "rendered_digest": "f9f8cc2d6d02c94e69999ca3c38d881957da1bcd711a4beba5af203947249cf2",
       "ast_digest": "d1957414fe5237159623b932cb0d711ac199ed76f6816df7296dbd8fefb1626f"
     },
     "stp": {
-      "values_digest": "46a3ce95b5c8f41b467442c8fc91f92841397e112ec48674f5262b91a17af6f3",
+      "values_digest": "8581ef29f5ee5be23e26ffe80419de1ccb5ecf66931fd7ea0c4f598cb90aad69",
       "rendered_digest": "d3637f737539f839b080d83bfdf0e55bfb804b891c3be4eed189d4970fe89a35",
       "ast_digest": "c2fcbd3809ef78c52edd8fc837ab9113ade5d90bf1597a0a4b66d3ebb65a0517"
     },
     "spp": {
-      "values_digest": "837fd01954dbd8347ce9b0e0167869b3c3bf7eb5d17ea1979e862595cc143481",
+      "values_digest": "14f6706a20ef4bffd05845f4a2cd7aa74ab9ecd1c78c0d1c24d36d2997cbc9b8",
       "rendered_digest": "213208f98ce766497bf38088df8ea0717494a72e6d3ea3c4ef016fa2aacc9ca2",
       "ast_digest": "ed39be0397f09d95accfe187e34e69a78f128ea1c52d56107150b487bb7b8c15"
     },
     "vpp": {
-      "values_digest": "224a4d50b19bee2097bddb651b31d37d63b71016e829dfea2cb1eedcddf7a72f",
+      "values_digest": "a459fca166f13aff117c06f77b4a144b663e26835bda50e4830f824c0ef36717",
       "rendered_digest": "8084ceb9c3b773da2966537abacbf506cab0e0f0a29b6af2962d8f757814f80f",
       "ast_digest": "31eca5e40829415eb2b69cc5a2c280f0cb068d30cfc3fcd2fbe36c02d6882489"
     },
     "srp": {
-      "values_digest": "31e04310b5180e2d2c5115dff82b66f5a9158c7583c43598c13879c1e5604658",
-      "rendered_digest": "fdbed3d53aa1c1063d84be903925778100547ff04872bc5d9e41c6d369d0eb45",
-      "ast_digest": "1f09c239c5fe55b4a6e1a6e841602654c0e966c7f61f1706518da90c6b584169"
+      "values_digest": "3364c2cfa793e3aa1699746ddeda01863d65c65436e1759efd67513f6131b46a",
+      "rendered_digest": "1da20f1b55775b01669c1b38e206edff4e8b63a8f026cbaebda5abca55ec1167",
+      "ast_digest": "d0faef90d17faf9376acf2edbd8846500c42b3b933df4720a14311bfe2ef3e8e"
     },
     "sor": {
-      "values_digest": "89a0d56441ca07f35876135be3e75e03acfd7129833c035309da95d7efd153a8",
-      "rendered_digest": "8b3b5475fab90948025485cb26bea24d9e60c7c092b081a4c05a0b2f9cacc2f5",
-      "ast_digest": "eb3d99aa2dfcc7a26961367e20d62e0aa10012ce55fb31210f6bcc4f717a9630"
+      "values_digest": "13423b8b47f29aabc025f3495e6fcf5d3df6a78005e44824a1b390d55e207bdc",
+      "rendered_digest": "2c6e38d0aee691239a91dc423a44c27ca31938c9dc7e3c8a226e6d821afa866a",
+      "ast_digest": "250eb5768c01627e8f9afd15f849d904244c7fe6cdc68cb9ccdb88ab9fbf118f"
     }
   },
   "transitions": [
@@ -127,6 +112,20 @@
       "actor": "codex:issue-482-corp-a-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "Recover after fresh-session:codex-482-corp-a-review-r1 found non-proving diff-hygiene evidence and tracked empty lock residue; repair proof and scope before assigning a different fresh exact reviewer.",
+      "operation": "recover_review"
     }
   ]
 }
