@@ -97,6 +97,18 @@ Restored the stale v0.92 Memory Palace README invariant and cached the Runtime-v
     "purpose": "Validate bound #554 lifecycle/card truth after VPP repair and implementation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/554/typed-issue-validation.log"
+  },
+  {
+    "command": [
+      "cargo test --manifest-path adl/Cargo.toml --test memory_palace_tests v092_docs_name_memory_palace_production_authority_without_broad_completion_claim",
+      "cargo test --manifest-path adl/Cargo.toml --lib runtime_v2::tests::unified_runtime_kernel",
+      "cargo fmt --manifest-path adl/Cargo.toml --check",
+      "git diff --check",
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline issue --issue 554"
+    ],
+    "purpose": "Reprove #554 after merging current origin/main: retained v0.92 docs invariant, Runtime-v2 unified-kernel reliability, Rust formatting, whitespace hygiene, and typed lifecycle validity.",
+    "outcome": "passed",
+    "evidence_ref": "local:#554 post-origin/main merge validation in bound FastWork worktree on 2026-08-26; generated evidence logs normalized for diff hygiene."
   }
 ]
 

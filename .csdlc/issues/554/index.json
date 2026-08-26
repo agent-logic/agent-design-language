@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8b889a565674a00c0f4e0df383b31867d279f5897c00dc4465976c381b355d0",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "84c27856d00fbe7e8268125761af789d0e01e59bf691d31e953d4d572fe14a83",
+  "generation": 14,
+  "digest": "dc2eb1ed11033437624538d3e30a55a8328b0095085e96cc57643d9dffc3ab36",
   "branch": "codex/554-v0-92-1-shared-gate-coverage-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d2b18d8552be3a9b7a84202eff31a72a8c24b587b695df7013a61c827a7b8900",
+      "values_digest": "5364a0764a41ac0471cb528d52eb4107013ea23b17b090abeedf91dd650371a2",
       "rendered_digest": "cec90d2250d4b1f535ea540a29f524a58d7a245d762e98ac1737f03e171667bd",
       "ast_digest": "811233c00a315b058310586885b8bcf2a4a13264d362657964b692fe09e5a12b"
     },
     "stp": {
-      "values_digest": "c79b70ca5de9c34b6fbcb4fe4148935055137ac3cdb1e0fdd7f95145d0e89802",
+      "values_digest": "47ca72cfd8a8bd7cdff3f91ba7c918f504df0405990e8670eee642c9805aa145",
       "rendered_digest": "a067f10d1913a6fa4166316c63f62ea4336ee0ad7ca26efefba204d1d99e7326",
       "ast_digest": "da7ff3a417b8de770b9018e0cde1718eb890fc18ba5543099022826823125a54"
     },
     "spp": {
-      "values_digest": "13ba02ced67fa16ff5ed7c2ab28e80122d901ce8f236dc75b91fea8aba0b7e83",
+      "values_digest": "1f268446f156bee2462c9439669cccd1f80ad7c33f79dc353890ab4c3fe1350f",
       "rendered_digest": "770ca57ea1b320f069fc263f8ddef298f00a3032b187c66fe3435fffd86b6abf",
       "ast_digest": "a8d9991feaafa60b9249daae10729a1d48a698199b2811824edc05055ec04aba"
     },
     "vpp": {
-      "values_digest": "10bd0c37729df61d5981f293d6570f4a527caa12066ce1fa99416d4565e9ead3",
+      "values_digest": "d94db6b73bf1a30abe3422ab6a930d7db2017288fa75a9663711a8e696b64a66",
       "rendered_digest": "d32074ffb1822efb418f0e71fd843696766ff2e53fa76a01375ec7f327426220",
       "ast_digest": "c7a7b34ce0eed05ca1ec5d57119a164fd1917b0dab01d63d2ca86e08ca11556d"
     },
     "srp": {
-      "values_digest": "88f9387a58b333c17deae98409ec2dc9c27718f424e5506f9d5d39fcca4f973d",
+      "values_digest": "347a147945b1faad90a96423673496854cf28040d58e795db88942c92f5bb1fc",
       "rendered_digest": "f8015891e67febb285cde9ba834030de0880f3ebade4e437392def1ef065cbb8",
       "ast_digest": "1d46581ab94701644694cb32088a99c96686bfb1d2520c9c5810cf02bb8f7bdf"
     },
     "sor": {
-      "values_digest": "5dd45a38d7ce09f6610ee82e0d1b027d2205280b222f05f7d9b4c52c7eb0d16f",
-      "rendered_digest": "cba8065273455615bc227886e38ffe5dc452bc9b90dadabcfcee5fa94bf64e64",
-      "ast_digest": "0bcb0a551ea142330722e82160272dbb31f92a0cba00b0a061503a8c35c17f99"
+      "values_digest": "24ff63b48d60ca3edab45e29ac6fd2d714eee3d1e483cbc8e1753446ccf736fc",
+      "rendered_digest": "319c8896456af073daf291779737cacc80bcf418ec60a04f51450d8018fbe85e",
+      "ast_digest": "40860e49fb9cd9642da947297f5bae323bafdb0ffbf8a77006822b544fe9b6e5"
     }
   },
   "transitions": [
@@ -204,6 +204,13 @@
       "actor": "codex:/root",
       "reason": "Recover stale exact review after merging current origin/main containing terminal #510.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record post-origin/main merge validation after recovering stale review truth for the shared coverage baseline repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo test --manifest-path adl/Cargo.toml --test memory_palace_tests v092_docs_name_memory_palace_production_authority_without_broad_completion_claim\",\"cargo test --manifest-path adl/Cargo.toml --lib runtime_v2::tests::unified_runtime_kernel\",\"cargo fmt --manifest-path adl/Cargo.toml --check\",\"git diff --check\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline issue --issue 554\"],\"purpose\":\"Reprove #554 after merging current origin/main: retained v0.92 docs invariant, Runtime-v2 unified-kernel reliability, Rust formatting, whitespace hygiene, and typed lifecycle validity.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:#554 post-origin/main merge validation in bound FastWork worktree on 2026-08-26; generated evidence logs normalized for diff hygiene.\"}}"
     }
   ]
 }
