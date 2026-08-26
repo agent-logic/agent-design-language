@@ -1,17 +1,13 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-fc5d04dfc9d07b70)
 
 running 7 tests
 test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated ... ok
-test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence ... ok
-test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_contract_is_stable ... ok
-test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case ... ok
-test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift ... ok
-test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift ... ok
 test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant ... ok
+test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_contract_is_stable ... ok
+test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence ... ok
+test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift ... ok
+test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case ... ok
+test runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift ... ok
 
-test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 1797 filtered out; finished in 5.29s
-
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline/adl-runtime-kernel)
-   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline/adl-runtime)
-   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline/adl)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 19.79s
-     Running unittests src/lib.rs (adl/target/debug/deps/adl-fc5d04dfc9d07b70)
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 1797 filtered out; finished in 5.13s

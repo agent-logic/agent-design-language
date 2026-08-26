@@ -7,27 +7,23 @@
     "title": "[v0.92.1][shared-gate] Restore coverage baseline for v0.92 docs invariant and Runtime-v2 timeouts",
     "slug": "v0-92-1-shared-gate-coverage-baseline",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/554/diff-check.log\n.csdlc/evidence/554/focused-memory-palace-docs.log\n.csdlc/evidence/554/focused-runtime-v2-kernel.log\n.csdlc/evidence/554/rustfmt-check.log\n.csdlc/evidence/554/typed-issue-validation.log\n.csdlc/issues/554/audit.jsonl\n.csdlc/issues/554/authored/design.md\n.csdlc/issues/554/authored/diagram.mmd\n.csdlc/issues/554/cards/sip.md\n.csdlc/issues/554/cards/sip.values.json\n.csdlc/issues/554/cards/sor.md\n.csdlc/issues/554/cards/sor.values.json\n.csdlc/issues/554/cards/spp.md\n.csdlc/issues/554/cards/spp.values.json\n.csdlc/issues/554/cards/srp.md\n.csdlc/issues/554/cards/srp.values.json\n.csdlc/issues/554/cards/stp.md\n.csdlc/issues/554/cards/stp.values.json\n.csdlc/issues/554/cards/vpp.md\n.csdlc/issues/554/cards/vpp.values.json\n.csdlc/issues/554/index.json\n.csdlc/locks/554.lock\n.csdlc/prepared/issues/554/finalize-implementation.json\n.csdlc/prepared/issues/554/record-validation-focused.json\nadl/src/runtime_v2/contracts.rs\ndocs/milestones/v0.92/README.md",
-      "review_revision": "git-blake3:2cfa3e00cce13fc7899e417091d126968c2b5358:b093236e5936400a4bc442b9b42c9d745930b5020d01697c5f843c12cc5d8650",
-      "reviewer": "fresh-session:5d05c91b-57c9-48dd-8b92-90c8f0298e6b",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify the docs fix is truthful and bounded.",
         "Verify Runtime-v2 reliability improves without weakening coverage or hiding failures.",
         "Verify no #483 or #514 behavior changed."
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted coverage and required CI remain pending and fail-closed until publication.",
-        "Local evidence is focused pre-publication proof, not full-suite or hosted integration proof.",
-        "The worktree contains expected post-HEAD typed review-assignment state; implementation review remained anchored to immutable HEAD 2cfa3e00cce13fc7899e417091d126968c2b5358."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -4,84 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8b889a565674a00c0f4e0df383b31867d279f5897c00dc4465976c381b355d0",
-  "phase": "reviewed",
-  "generation": 12,
-  "digest": "46a6d3c4eda04e62431fe0778ad9d66a68d39f6a520baeb5984c53ff4085760d",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "84c27856d00fbe7e8268125761af789d0e01e59bf691d31e953d4d572fe14a83",
   "branch": "codex/554-v0-92-1-shared-gate-coverage-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
-  "review_assignment": {
-    "reviewer": "fresh-session:5d05c91b-57c9-48dd-8b92-90c8f0298e6b",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:2cfa3e00cce13fc7899e417091d126968c2b5358:b093236e5936400a4bc442b9b42c9d745930b5020d01697c5f843c12cc5d8650",
-    "scope": [
-      ".csdlc/evidence/554/diff-check.log",
-      ".csdlc/evidence/554/focused-memory-palace-docs.log",
-      ".csdlc/evidence/554/focused-runtime-v2-kernel.log",
-      ".csdlc/evidence/554/rustfmt-check.log",
-      ".csdlc/evidence/554/typed-issue-validation.log",
-      ".csdlc/issues/554/audit.jsonl",
-      ".csdlc/issues/554/authored/design.md",
-      ".csdlc/issues/554/authored/diagram.mmd",
-      ".csdlc/issues/554/cards/sip.md",
-      ".csdlc/issues/554/cards/sip.values.json",
-      ".csdlc/issues/554/cards/sor.md",
-      ".csdlc/issues/554/cards/sor.values.json",
-      ".csdlc/issues/554/cards/spp.md",
-      ".csdlc/issues/554/cards/spp.values.json",
-      ".csdlc/issues/554/cards/srp.md",
-      ".csdlc/issues/554/cards/srp.values.json",
-      ".csdlc/issues/554/cards/stp.md",
-      ".csdlc/issues/554/cards/stp.values.json",
-      ".csdlc/issues/554/cards/vpp.md",
-      ".csdlc/issues/554/cards/vpp.values.json",
-      ".csdlc/issues/554/index.json",
-      ".csdlc/locks/554.lock",
-      ".csdlc/prepared/issues/554/finalize-implementation.json",
-      ".csdlc/prepared/issues/554/record-validation-focused.json",
-      "adl/src/runtime_v2/contracts.rs",
-      "docs/milestones/v0.92/README.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:5d05c91b-57c9-48dd-8b92-90c8f0298e6b",
-    "scope": [
-      ".csdlc/evidence/554/diff-check.log",
-      ".csdlc/evidence/554/focused-memory-palace-docs.log",
-      ".csdlc/evidence/554/focused-runtime-v2-kernel.log",
-      ".csdlc/evidence/554/rustfmt-check.log",
-      ".csdlc/evidence/554/typed-issue-validation.log",
-      ".csdlc/issues/554/audit.jsonl",
-      ".csdlc/issues/554/authored/design.md",
-      ".csdlc/issues/554/authored/diagram.mmd",
-      ".csdlc/issues/554/cards/sip.md",
-      ".csdlc/issues/554/cards/sip.values.json",
-      ".csdlc/issues/554/cards/sor.md",
-      ".csdlc/issues/554/cards/sor.values.json",
-      ".csdlc/issues/554/cards/spp.md",
-      ".csdlc/issues/554/cards/spp.values.json",
-      ".csdlc/issues/554/cards/srp.md",
-      ".csdlc/issues/554/cards/srp.values.json",
-      ".csdlc/issues/554/cards/stp.md",
-      ".csdlc/issues/554/cards/stp.values.json",
-      ".csdlc/issues/554/cards/vpp.md",
-      ".csdlc/issues/554/cards/vpp.values.json",
-      ".csdlc/issues/554/index.json",
-      ".csdlc/locks/554.lock",
-      ".csdlc/prepared/issues/554/finalize-implementation.json",
-      ".csdlc/prepared/issues/554/record-validation-focused.json",
-      "adl/src/runtime_v2/contracts.rs",
-      "docs/milestones/v0.92/README.md"
-    ],
-    "reviewed_revision": "git-blake3:2cfa3e00cce13fc7899e417091d126968c2b5358:b093236e5936400a4bc442b9b42c9d745930b5020d01697c5f843c12cc5d8650",
-    "findings": [],
-    "residual_risks": [
-      "Hosted coverage and required CI remain pending and fail-closed until publication.",
-      "Local evidence is focused pre-publication proof, not full-suite or hosted integration proof.",
-      "The worktree contains expected post-HEAD typed review-assignment state; implementation review remained anchored to immutable HEAD 2cfa3e00cce13fc7899e417091d126968c2b5358."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -96,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b1a304adb170924df7c77ac5586cc1766a4351a4029f7ee9e0d65c2dd1612f2e",
+      "values_digest": "d2b18d8552be3a9b7a84202eff31a72a8c24b587b695df7013a61c827a7b8900",
       "rendered_digest": "cec90d2250d4b1f535ea540a29f524a58d7a245d762e98ac1737f03e171667bd",
       "ast_digest": "811233c00a315b058310586885b8bcf2a4a13264d362657964b692fe09e5a12b"
     },
     "stp": {
-      "values_digest": "5458bfa855f04774da1361d67f14ec4a4c7cb0ba3f4d9914fae19074594d84d4",
+      "values_digest": "c79b70ca5de9c34b6fbcb4fe4148935055137ac3cdb1e0fdd7f95145d0e89802",
       "rendered_digest": "a067f10d1913a6fa4166316c63f62ea4336ee0ad7ca26efefba204d1d99e7326",
       "ast_digest": "da7ff3a417b8de770b9018e0cde1718eb890fc18ba5543099022826823125a54"
     },
     "spp": {
-      "values_digest": "b2bf360bfdd336010af908c2332b58fa737e792707e7bec10a33e686c476199d",
+      "values_digest": "13ba02ced67fa16ff5ed7c2ab28e80122d901ce8f236dc75b91fea8aba0b7e83",
       "rendered_digest": "770ca57ea1b320f069fc263f8ddef298f00a3032b187c66fe3435fffd86b6abf",
       "ast_digest": "a8d9991feaafa60b9249daae10729a1d48a698199b2811824edc05055ec04aba"
     },
     "vpp": {
-      "values_digest": "fb89d47472006b7a37b63208ef76cd0a4d5b3b32b0eb2b2de0748b346206ffea",
+      "values_digest": "10bd0c37729df61d5981f293d6570f4a527caa12066ce1fa99416d4565e9ead3",
       "rendered_digest": "d32074ffb1822efb418f0e71fd843696766ff2e53fa76a01375ec7f327426220",
       "ast_digest": "c7a7b34ce0eed05ca1ec5d57119a164fd1917b0dab01d63d2ca86e08ca11556d"
     },
     "srp": {
-      "values_digest": "638bb204a211ec20d72a23ac0d045fd341cd7a704e2b313dbf4e8d2ee7a795e4",
-      "rendered_digest": "4984152323d973001011c7a963a1021844ac260ed12a9c7b4a0111585061d71c",
-      "ast_digest": "34a720a01f9925199ad3ce3089f8a932c340cb258af0ee23e89d4053a802c6a8"
+      "values_digest": "88f9387a58b333c17deae98409ec2dc9c27718f424e5506f9d5d39fcca4f973d",
+      "rendered_digest": "f8015891e67febb285cde9ba834030de0880f3ebade4e437392def1ef065cbb8",
+      "ast_digest": "1d46581ab94701644694cb32088a99c96686bfb1d2520c9c5810cf02bb8f7bdf"
     },
     "sor": {
-      "values_digest": "9732febfe6394c7bd4525c9e50b8f8dea217b888ce8241b4acf1485320793a6a",
-      "rendered_digest": "fce1f0befecad48a82eedf1cafeaa6c03a8955d38da0f139a57466134741a3e9",
-      "ast_digest": "6c5119af2b2d2d3c8d0384c81c2aeba9c5dd6d1534cd348b657b76cdd18e48a0"
+      "values_digest": "5dd45a38d7ce09f6610ee82e0d1b027d2205280b222f05f7d9b4c52c7eb0d16f",
+      "rendered_digest": "cba8065273455615bc227886e38ffe5dc452bc9b90dadabcfcee5fa94bf64e64",
+      "ast_digest": "0bcb0a551ea142330722e82160272dbb31f92a0cba00b0a061503a8c35c17f99"
     }
   },
   "transitions": [
@@ -154,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale exact review after merging current origin/main containing terminal #510."
     }
   ],
   "audit": [
@@ -261,6 +197,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover stale exact review after merging current origin/main containing terminal #510.",
+      "operation": "recover_review"
     }
   ]
 }
