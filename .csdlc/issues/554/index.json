@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8b889a565674a00c0f4e0df383b31867d279f5897c00dc4465976c381b355d0",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "22d2d9c689069b04451e73728c2a12a0980c15e384a8c007a64e3a30fdee3db1",
+  "generation": 11,
+  "digest": "5ea4bd499708c3f8e374262f0f89ec3ee990b5b497da8e4eb4df27c793f739d1",
   "branch": "codex/554-v0-92-1-shared-gate-coverage-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "047cdc5fb0d0a67d8558522b9bfe4929315f05073b0e007243e6dd788066e987",
+      "values_digest": "4fd4a54a316731cb4908bb72ecb9c411b72eb16711cfd5662d680922f410e969",
       "rendered_digest": "cec90d2250d4b1f535ea540a29f524a58d7a245d762e98ac1737f03e171667bd",
       "ast_digest": "811233c00a315b058310586885b8bcf2a4a13264d362657964b692fe09e5a12b"
     },
     "stp": {
-      "values_digest": "aaf3fdf24b529b626fbf2ee67f0687f5f381b9f7fdf48f34bfe2256e4a22dfe9",
+      "values_digest": "3255c86247683917c4c18ccb296eaa37612c8b29fe084223e3684c991051e8f7",
       "rendered_digest": "a067f10d1913a6fa4166316c63f62ea4336ee0ad7ca26efefba204d1d99e7326",
       "ast_digest": "da7ff3a417b8de770b9018e0cde1718eb890fc18ba5543099022826823125a54"
     },
     "spp": {
-      "values_digest": "25e82763b7e4b7fb98f8ed9e4f8cf4fc9e175b73d8ba97a5909a9d6d221ecb52",
+      "values_digest": "2770717365a8f2973116b2891fa884f39bed64045a5065492b99e76071164107",
       "rendered_digest": "770ca57ea1b320f069fc263f8ddef298f00a3032b187c66fe3435fffd86b6abf",
       "ast_digest": "a8d9991feaafa60b9249daae10729a1d48a698199b2811824edc05055ec04aba"
     },
     "vpp": {
-      "values_digest": "f003fd5428b5ba2139d4071d97e9125e0de2da5ecd0d70dc3f4bf46b80ff1210",
+      "values_digest": "cd7e419d7f736450c344fdaa44ddface6018722f385601bda377d63c1ec3c61f",
       "rendered_digest": "d32074ffb1822efb418f0e71fd843696766ff2e53fa76a01375ec7f327426220",
       "ast_digest": "c7a7b34ce0eed05ca1ec5d57119a164fd1917b0dab01d63d2ca86e08ca11556d"
     },
     "srp": {
-      "values_digest": "3bddbe972acd03ca61a83f814bba53539df78c50541c8e2155de2aa23a0d7c50",
+      "values_digest": "81c40ef0461380f42633f2b8d524f88585121bbbf7c88c8ab81dfdaca0557758",
       "rendered_digest": "784b9061b47737e0d946b84b6b62dd35faed2a4022a2e58221b6db19dc4d1905",
       "ast_digest": "bc16926d894815dafb92e0f77fa7c5a231538495a62ff6c4837b4857b541d38a"
     },
     "sor": {
-      "values_digest": "46096fde361c18102f3ae6bf73d7f4d7069410fb6eb09c537a953170613bf6ec",
-      "rendered_digest": "0972e2020dee0f279420763a75fa04a634b95998c3f8bf6d31fdf7202267175f",
-      "ast_digest": "3e038d042430bdd9d7d7f843d9bb6d170df999bd26f562acdf4bdeab978e6cf0"
+      "values_digest": "e61f7856a7f057cfa858b0ec630712c2ff41389e4899bdd7f7edcd73f2846de9",
+      "rendered_digest": "fce1f0befecad48a82eedf1cafeaa6c03a8955d38da0f139a57466134741a3e9",
+      "ast_digest": "6c5119af2b2d2d3c8d0384c81c2aeba9c5dd6d1534cd348b657b76cdd18e48a0"
     }
   },
   "transitions": [
@@ -162,6 +162,13 @@
       "actor": "codex:/root",
       "reason": "Mark the remaining #554 review/publication/CI/merge step in progress while exact-head review is next.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Normalize #554 implemented SOR after finalize by removing duplicate execution/artifact rows while preserving the finalized validation evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Restored the stale v0.92 Memory Palace README invariant and cached the Runtime-v2 unified-runtime-kernel contract prototype with the existing OnceCell contract-cache pattern so coverage no longer rebuilds the heavy prototype for every negative-case test.\",\"changes\":[\"Added the bounded Runtime-kernel Memory Palace production-authority wording expected by the retained v0.92 docs invariant without broad completion claims.\",\"Changed runtime_v2_unified_runtime_kernel_contract() to use the existing cached_contract/OnceCell pattern, preserving validation behavior while avoiding repeated heavy prototype rebuilds in coverage.\",\"Repaired #554 VPP readiness lanes so pre-publication validation remains executable from the bound FastWork worktree.\"],\"artifacts\":[\"docs/milestones/v0.92/README.md\",\"adl/src/runtime_v2/contracts.rs\",\".csdlc/issues/554/cards/vpp.md\",\".csdlc/issues/554/cards/vpp.values.json\",\".csdlc/issues/554/cards/spp.md\",\".csdlc/issues/554/cards/spp.values.json\",\".csdlc/issues/554/cards/sor.md\",\".csdlc/issues/554/cards/sor.values.json\",\".csdlc/issues/554/index.json\",\".csdlc/evidence/554\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker artifacts.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/554/diff-check.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--test\",\"memory_palace_tests\",\"v092_docs_name_memory_palace_production_authority_without_broad_completion_claim\"],\"purpose\":\"Prove the v0.92 Memory Palace production-authority README invariant.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/554/focused-memory-palace-docs.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"runtime_v2::tests::unified_runtime_kernel\"],\"purpose\":\"Prove Runtime-v2 unified-runtime-kernel contract and negative-case tests complete under the focused selector.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/554/focused-runtime-v2-kernel.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Reject Rust formatting drift in the changed Runtime-v2 contract file.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/554/rustfmt-check.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline\",\"issue\",\"--issue\",\"554\"],\"purpose\":\"Validate bound #554 lifecycle/card truth after VPP repair and implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/554/typed-issue-validation.log\"}]}"
     }
   ]
 }
