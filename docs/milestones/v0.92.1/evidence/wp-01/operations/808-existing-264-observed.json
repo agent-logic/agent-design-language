@@ -1,0 +1,20 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "existing_verify",
+  "issue": 264,
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "live_issue": {
+    "number": 264,
+    "title": "[v0.92.1][podcast][51.d] Execute directory submissions only after explicit operator authorization",
+    "body": "Split from #51. Part of #51. Depends on terminal #263 (51.c) and a separate explicit future operator authorization. This issue is execution-blocked until that authorization is recorded.\n\n## Outcome\n\nAfter explicit operator authorization, execute the reviewed directory submissions, retain canonical directory IDs/URLs and truthful status, monitor provider outcomes, make bounded corrections, and execute recorded rollback decisions without falsifying submission history.\n\n## Scope\n\n- Operator-authorized submissions to Apple Podcasts, Spotify, Amazon Music, and YouTube.\n- Redacted ownership-verification and submission receipts.\n- Canonical directory show URL/ID, submission date, account owner, state, and follow-up records.\n- Post-submission monitoring, bounded metadata/feed correction, destination-link activation only after live verification, and operator-directed rollback.\n- Truthful rejected, pending, accepted, corrected, withdrawn, or unavailable states.\n\n## Acceptance Criteria\n\n1. Execution remains blocked until terminal #263 (51.c) and explicit future operator authorization naming the approved submissions.\n2. Every submission uses the exact reviewed feed, identity, artwork, rights declarations, and company-controlled account.\n3. Canonical provider IDs/URLs and status are retained without credentials, verification codes, or unsupported acceptance claims.\n4. Site/destination links are added only after the corresponding destination is live and verified.\n5. Corrections and rollback preserve prior submission evidence and do not delete episode source packages.\n6. Exact-head review has no unresolved actionable findings before any authorized external action and after final reconciliation.\n\n## Dependencies And Operator Gate\n\n- Terminal #263 (51.c).\n- Explicit future operator authorization for each provider submission and public launch action.\n- Part of #51.\n- Current execution status: BLOCKED ON OPERATOR AUTHORIZATION.\n\n## Non-Goals\n\n- No automatic or unattended submission.\n- No action before explicit authorization.\n- No credential, recovery-code, or verification-code retention.\n- No episode production, hosting redesign, advertising, paid subscription, or monetization.\n\n## Graph\n\n`split_from: #51`; `part_of: #51`; `depends_on: terminal #263 (51.c), explicit operator authorization`; execution blocked until the operator gate is satisfied.\n\n<!-- csdlc-github-operation:v092-decompose-p51-c4-v1 -->\n\n<!-- csdlc-github-operation:v092-p51-c4-dependency-correction-v1 -->\n",
+    "state": "open",
+    "labels": [
+      "area:demo",
+      "track:roadmap",
+      "type:task",
+      "version:v0.92.1"
+    ],
+    "milestone": 1,
+    "milestone_title": "v0.92.1"
+  }
+}

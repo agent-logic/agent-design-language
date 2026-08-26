@@ -1,0 +1,12 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "XCL-01",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:XCL-01:create",
+  "request_fingerprint": "00ae12111f41974dc42dc963ddbf8ada62760f27b26daa839b5d024fcfda5dd1",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+    "AWS-E": 488,
+    "GCP-D": 493
+  }
+}

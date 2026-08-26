@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-D:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][CORP-D] Corporate diligence acceptance",
+  "body": "## Outcome\n\nProduce one corporate diligence acceptance record bound to the exact diligence index.\n\n## Primary deliverable\n\nOne corporate diligence acceptance record bound to the exact diligence index.\n\n## Verification result\n\nThe prerequisite census reports every CORP-A through CORP-C blocker dispositioned and the bounded acceptance readback passes.\n\n## Unit boundary\n\nIssue completion is exactly one diligence acceptance decision; prerequisite and counsel receipts are inputs to that decision.\n\n## Dependencies\n\n- CORP-A: #482\n- CORP-B: #483\n- CORP-C: #497\n\n## Retained predecessor scope\n\n- #160\n\n## Acceptance criteria\n\n- [ ] Every CORP-A-C blocker has disposition\n- [ ] Counsel-controlled judgments are recorded only as bounded receipts\n- [ ] Corporate acceptance binds the exact diligence index\n\n## Owned paths\n\n- `docs/operations/corporate/diligence/**`\n- `docs/milestones/v0.92.1/evidence/corporate/corp-d/**`\n\n## PVF lanes\n\n- `diligence-index`\n- `prerequisite-census`\n- `counsel-boundary`\n- `acceptance-readback`\n\n## Stop conditions\n\n- An unresolved blocker lacks disposition\n- Private advice would be committed\n\n## Non-goals\n\n- Replacing counsel\n- Inferring legal conclusions\n\n## Canonical planning identity\n\n- Planned ID: `CORP-D`\n- Canonical title: `[v0.92.1][CORP-D] Corporate diligence acceptance`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-D`\n",
+  "labels": [
+    "area:security",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

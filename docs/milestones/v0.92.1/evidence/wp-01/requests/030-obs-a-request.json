@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:OBS-A:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][OBS-A] Observatory experience design",
+  "body": "## Outcome\n\nProduce one reviewed Observatory experience-design contract.\n\n## Primary deliverable\n\nOne reviewed Observatory design contract covering information, interaction, states, hierarchy, and accessibility.\n\n## Verification result\n\nInformation-contract, state-matrix, accessibility, and Runtime-field-census checks pass without invented authority.\n\n## Unit boundary\n\nIssue completion is exactly acceptance of one Observatory experience-design contract; view and accessibility checks are evidence inputs.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Every view has a stable information contract\n- [ ] Empty degraded recovery and revoked states are designed\n- [ ] Keyboard and screen-reader flows are specified\n- [ ] No invented Runtime field is introduced\n\n## Owned paths\n\n- `demos/html-observatory/design/**`\n- `docs/observatory/**`\n- `docs/milestones/v0.92.1/evidence/observatory/obs-a/**`\n\n## PVF lanes\n\n- `information-contract`\n- `state-matrix`\n- `accessibility-plan`\n- `runtime-field-census`\n\n## Stop conditions\n\n- A design requires unavailable Runtime authority\n- Accessibility denominator is incomplete\n\n## Non-goals\n\n- Production implementation\n- Unity TLS work\n\n## Canonical planning identity\n\n- Planned ID: `OBS-A`\n- Canonical title: `[v0.92.1][OBS-A] Observatory experience design`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#OBS-A`\n",
+  "labels": [
+    "area:observatory",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "TAIL-07",
+  "issue": 523,
+  "title": "[v0.92.1][TAIL-07] Next-milestone planning",
+  "labels": [
+    "area:docs",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "TAIL-06": 522
+  },
+  "body_sha256": "f53832c263ed388906088613e36db322bc5079c4c394228282907dd3ba9ecc86",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-07:create",
+  "request_fingerprint": "23b4a64b97ca682d6a1c8fe6284e283b077be406d03ad55ae6901cc4eb1c2809",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "aabd21773d88f3fa4c5234f6ef1801d3717a5f5eb4c7a5b43ec4cc0837b96c89",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one complete v0.92.2 CodeFriend Beta 1 planning package.\n\n## Primary deliverable\n\nOne complete bounded v0.92.2 CodeFriend Beta 1 planning package.\n\n## Verification result\n\nThe successor denominator, deferred routing, Beta 1 exit bar, and v0.95 target checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one successor planning package; planned work is not executed or independently closed here.\n\n## Dependencies\n\n- TAIL-06: #522\n\n## Retained predecessor scope\n\n- #190\n\n## Acceptance criteria\n\n- [ ] The successor scope is bounded\n- [ ] CodeFriend Beta 1 and v0.95 integration target are explicit\n- [ ] Deferred work is routed\n\n## Owned paths\n\n- `docs/milestones/v0.92.2/**`\n- `docs/planning/ADL_FEATURE_LIST.md`\n\n## PVF lanes\n\n- `successor-denominator`\n- `deferred-routing`\n- `beta-target`\n\n## Stop conditions\n\n- Successor ownership is ambiguous\n\n## Non-goals\n\n- Creating successor execution issues\n- Implementing CodeFriend\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-07`\n- Canonical title: `[v0.92.1][TAIL-07] Next-milestone planning`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-07`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-07:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:37:35Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:docs"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 523,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][TAIL-07] Next-milestone planning"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-07:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

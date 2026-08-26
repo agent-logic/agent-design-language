@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "CORP-B",
+  "issue": 483,
+  "title": "[v0.92.1][CORP-B] Corporate account custody register",
+  "labels": [
+    "area:security",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "CORP-A": 482
+  },
+  "body_sha256": "d61cbe6e73811f24c5e67e3c4676bdbf290293e5029eec6d7ca33767590778ef",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-B:create",
+  "request_fingerprint": "752cffbbb5724da770143cfb26a6b86528de304495b2d4935afda623c80d4c90",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "b31aa310074cb75f4b81843219299fcfbe5920852d65d31cfa5f59d8bd2d4c26",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one accepted company-control custody register for the complete critical-service denominator.\n\n## Primary deliverable\n\nOne company-control custody register for every critical service.\n\n## Verification result\n\nReadback and recovery exercises prove corporate administration, billing, MFA, vault, and audited break-glass control for every registered service.\n\n## Unit boundary\n\nIssue completion is exactly acceptance of the one custody register; service readbacks are evidence inputs, not separately closeable results.\n\n## Dependencies\n\n- CORP-A: #482\n\n## Retained predecessor scope\n\n- #156\n\n## Acceptance criteria\n\n- [ ] Every critical service has corporate administration and billing custody\n- [ ] Recovery does not depend on one personal factor\n- [ ] Break-glass use is bounded and audited\n\n## Owned paths\n\n- `docs/operations/corporate/account-custody/**`\n- `docs/milestones/v0.92.1/evidence/corporate/corp-b/**`\n\n## PVF lanes\n\n- `service-denominator`\n- `custody-readback`\n- `recovery-exercise`\n- `redaction`\n\n## Stop conditions\n\n- A service remains founder-only\n- Recovery cannot be exercised\n- Credentials would enter evidence\n\n## Non-goals\n\n- Weakening MFA\n- Publishing credentials\n\n## Canonical planning identity\n\n- Planned ID: `CORP-B`\n- Canonical title: `[v0.92.1][CORP-B] Corporate account custody register`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-B`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-B:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:35:05Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:security",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 483,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][CORP-B] Corporate account custody register"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:CORP-B:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

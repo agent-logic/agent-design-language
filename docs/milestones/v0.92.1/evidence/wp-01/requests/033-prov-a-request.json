@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:PROV-A:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+  "body": "## Outcome\n\nProduce one shared provider inference-profile contract with deterministic Ollama materialization.\n\n## Primary deliverable\n\nOne shared provider inference-profile contract with deterministic Ollama materialization.\n\n## Verification result\n\nSchema, materialization, invalid-profile, last-known-good, and redaction checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one shared provider-profile contract; provider-specific checks are evidence inputs.\n\n## Dependencies\n\n- None.\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Profiles bind provider model and bounded parameters\n- [ ] Invalid profiles fail before activation\n- [ ] Last-known-good state is retained\n- [ ] Credentials prompts and private payloads are excluded\n\n## Owned paths\n\n- `adl/src/provider/**`\n- `adl-runtime/src/provider/**`\n- `docs/provider/**`\n- `docs/milestones/v0.92.1/evidence/provider/prov-a/**`\n\n## PVF lanes\n\n- `profile-schema`\n- `ollama-materialization`\n- `invalid-profile`\n- `last-known-good`\n- `redaction`\n\n## Stop conditions\n\n- Tools require incompatible provider configuration\n- Private material would enter a profile\n\n## Non-goals\n\n- MLX or Metal provider\n- OCI packaging\n\n## Canonical planning identity\n\n- Planned ID: `PROV-A`\n- Canonical title: `[v0.92.1][PROV-A] Shared provider inference profiles`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#PROV-A`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

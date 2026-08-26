@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "TAIL-03",
+  "issue": 519,
+  "title": "[v0.92.1][TAIL-03] Publication finalization",
+  "labels": [
+    "area:docs",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "TAIL-02": 518
+  },
+  "body_sha256": "fd818a37b51e4a7760f88890fce73daa5e5bbf66bc4cc67f09b3c4e9c34d2baf",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-03:create",
+  "request_fingerprint": "48c1c90f94c82f6e777eabcc712133945072df4ca976acf4132b9fd9d9742f9d",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "e8313cb5a1aa45ec409091b3621b9a6f994aa8f6e0fe91a6b5bb7fa7567505ad",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one exact-revision publication-candidate packet.\n\n## Primary deliverable\n\nOne publication-candidate packet bound to the exact reviewed revision.\n\n## Verification result\n\nPublication linkage, redaction, and exact-head validation pass without merge or release mutation.\n\n## Unit boundary\n\nIssue completion is exactly one publication-candidate packet; publication checks are evidence inputs.\n\n## Dependencies\n\n- TAIL-02: #518\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Exact candidate and linkage are recorded\n- [ ] Publication artifacts contain correct closing relationships\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-03/**`\n\n## PVF lanes\n\n- `publication-linkage`\n- `exact-head`\n- `artifact-redaction`\n\n## Stop conditions\n\n- Review is stale\n- Linkage is ambiguous\n\n## Non-goals\n\n- Merge\n- Tag\n- Release\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-03`\n- Canonical title: `[v0.92.1][TAIL-03] Publication finalization`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-03`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-03:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:28:55Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:docs"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 519,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][TAIL-03] Publication finalization"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-03:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

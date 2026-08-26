@@ -2,9 +2,188 @@
   "schema": "adl.v0921.wp01.partial-receipt.v1",
   "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
   "verified_prefix": [
-
+    {
+      "planned_id": "CORP-A",
+      "issue": 482
+    },
+    {
+      "planned_id": "CORP-B",
+      "issue": 483
+    },
+    {
+      "planned_id": "AWS-A",
+      "issue": 484
+    },
+    {
+      "planned_id": "AWS-B",
+      "issue": 485
+    },
+    {
+      "planned_id": "AWS-C",
+      "issue": 486
+    },
+    {
+      "planned_id": "AWS-D",
+      "issue": 487
+    },
+    {
+      "planned_id": "AWS-E",
+      "issue": 488
+    },
+    {
+      "planned_id": "AWS-F",
+      "issue": 489
+    },
+    {
+      "planned_id": "GCP-A",
+      "issue": 490
+    },
+    {
+      "planned_id": "GCP-B",
+      "issue": 491
+    },
+    {
+      "planned_id": "GCP-C",
+      "issue": 492
+    },
+    {
+      "planned_id": "GCP-D",
+      "issue": 493
+    },
+    {
+      "planned_id": "GCP-E",
+      "issue": 494
+    },
+    {
+      "planned_id": "XCL-01",
+      "issue": 495
+    },
+    {
+      "planned_id": "AWS-G",
+      "issue": 496
+    },
+    {
+      "planned_id": "CORP-C",
+      "issue": 497
+    },
+    {
+      "planned_id": "CORP-D",
+      "issue": 498
+    },
+    {
+      "planned_id": "RUST-01",
+      "issue": 499
+    },
+    {
+      "planned_id": "V3-A",
+      "issue": 500
+    },
+    {
+      "planned_id": "V3-B",
+      "issue": 501
+    },
+    {
+      "planned_id": "V3-C",
+      "issue": 502
+    },
+    {
+      "planned_id": "V3-D",
+      "issue": 503
+    },
+    {
+      "planned_id": "V3-E",
+      "issue": 504
+    },
+    {
+      "planned_id": "V3-F",
+      "issue": 505
+    },
+    {
+      "planned_id": "DRT-A",
+      "issue": 506
+    },
+    {
+      "planned_id": "DRT-B",
+      "issue": 507
+    },
+    {
+      "planned_id": "DRT-C",
+      "issue": 508
+    },
+    {
+      "planned_id": "DRT-D",
+      "issue": 509
+    },
+    {
+      "planned_id": "HOT-01",
+      "issue": 510
+    },
+    {
+      "planned_id": "OBS-A",
+      "issue": 511
+    },
+    {
+      "planned_id": "OBS-B",
+      "issue": 512
+    },
+    {
+      "planned_id": "DEC-01",
+      "issue": 513
+    },
+    {
+      "planned_id": "PROV-A",
+      "issue": 514
+    },
+    {
+      "planned_id": "PROV-B",
+      "issue": 515
+    },
+    {
+      "planned_id": "INT-01",
+      "issue": 516
+    },
+    {
+      "planned_id": "TAIL-01",
+      "issue": 517
+    },
+    {
+      "planned_id": "TAIL-02",
+      "issue": 518
+    },
+    {
+      "planned_id": "TAIL-03",
+      "issue": 519
+    },
+    {
+      "planned_id": "TAIL-04",
+      "issue": 520
+    },
+    {
+      "planned_id": "TAIL-05",
+      "issue": 521
+    },
+    {
+      "planned_id": "TAIL-06",
+      "issue": 522
+    },
+    {
+      "planned_id": "TAIL-07",
+      "issue": 523
+    },
+    {
+      "planned_id": "TAIL-08",
+      "issue": 524
+    },
+    {
+      "planned_id": "TAIL-09",
+      "issue": 525
+    },
+    {
+      "planned_id": "TAIL-10",
+      "issue": 526
+    }
   ],
-  "next_absent_id": "CORP-A",
-  "journal_root_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "complete": false
+  "next_absent_id": null,
+  "journal_root_sha256": "39242cc950eec2433fddfad0bca83e3675f64851aae986c16d7739e3767cc525",
+  "complete": true
 }

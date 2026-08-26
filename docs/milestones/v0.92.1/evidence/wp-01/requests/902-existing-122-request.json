@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:existing-122:route",
+  "token_file": null,
+  "issue": 122,
+  "pull_request": null,
+  "title": "[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM",
+  "body": "## Status\n\nPlanned for v0.92.1. This work begins only after the distributed Runtime is complete. It is not part of the v0.92 scope and does not gate local implementation, review, or publication of #83.\n\n## Summary\n\nDeploy the completed distributed Observatory and Runtime gateway for deliberate public exposure. This issue owns AWS-facing DNS, ACM, static hosting, ingress, deployment, and public operational proof.\n\n## Goal\n\nAfter the distributed Runtime is terminal, expose the Observatory at `observatory.dev.agent-logic.ai` and its Runtime API at `runtime.dev.agent-logic.ai` through an operator-authorized AWS deployment using ordinary browser trust.\n\n## Deliverables\n\n- Route53 records for both canonical hostnames.\n- ACM certificates and renewal posture for the public endpoints.\n- S3 and CloudFront static Observatory deployment.\n- An approved distributed Runtime public ingress with exact CORS, WSS, authentication, and origin policy.\n- Bounded deployment, rollback, and ownership verification.\n- Exact-revision public browser evidence with no secrets or private agent state.\n\n## Acceptance Criteria\n\n- The distributed Runtime integration proof is terminal before execution starts.\n- Both public hostnames resolve to resources owned by the Agent Logic business AWS account.\n- Browser, curl, and WSS clients validate the public certificate chain and exact hostname through ordinary platform trust.\n- The public Observatory loads its exact deployed revision and reaches the matching distributed Runtime revision.\n- Signed Layer 8 messages remain governed; public reads do not grant write authority.\n- CORS, CSP, WSS origin checks, rate limits, redaction, health reporting, rollback, and resource ownership are proven.\n- Deployment uses the approved business AWS profile and launches no EC2 or Spot instances.\n- One exact-head security and operational review has no unresolved actionable findings.\n\n## Dependencies\n\n- The distributed Runtime is complete.\n- #83 is implemented and independently validated locally.\n- #110 defines the Observatory-as-Polis product direction.\n\n## Non-Goals\n\n- No execution during v0.92.\n- No #83 product implementation or local acceptance gating.\n- No birthday-specific behavior.\n- No EC2, Spot, or CodeBuild.\n- No production marketing launch without separate operator authorization.\n<!-- csdlc-github-operation:v0921-issue-122-public-exposure-routing-v1 -->\n",
+  "labels": [
+    "area:observatory",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

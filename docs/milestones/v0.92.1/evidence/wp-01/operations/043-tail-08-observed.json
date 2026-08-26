@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "TAIL-08",
+  "issue": 524,
+  "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan",
+  "labels": [
+    "area:docs",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "TAIL-07": 523
+  },
+  "body_sha256": "dee18baa7b49045d468368d4214903945428c817d92acfd846ab6f52b4cadfe0",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-08:create",
+  "request_fingerprint": "3acc638ce1ab6a5ced6caa9a61617cebf2b8e6099bed7fbb978c38d1e052db08",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "3aac4494efbc41807ac763fd32c7bb60c1b90b93dee373d3deae1e812c4b4ac8",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one reviewed v0.92.2 closeout and release-tail plan.\n\n## Primary deliverable\n\nOne reviewed v0.92.2 closeout and release-tail plan.\n\n## Verification result\n\nThe closeout denominator, exact tail order, operator gates, and asynchronous bookkeeping boundary validate.\n\n## Unit boundary\n\nIssue completion is exactly one successor closeout plan; no closeout action is executed here.\n\n## Dependencies\n\n- TAIL-07: #523\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Closeout denominator and operator gates are explicit\n- [ ] Tail order matches standards\n\n## Owned paths\n\n- `docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md`\n- `docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md`\n\n## PVF lanes\n\n- `closeout-denominator`\n- `tail-order`\n- `operator-gates`\n\n## Stop conditions\n\n- Tail authority is implicit\n\n## Non-goals\n\n- Successor execution\n- Current release\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-08`\n- Canonical title: `[v0.92.1][TAIL-08] Next-milestone closeout plan`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-08`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-08:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:39:43Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:docs"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 524,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][TAIL-08] Next-milestone closeout plan"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-08:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

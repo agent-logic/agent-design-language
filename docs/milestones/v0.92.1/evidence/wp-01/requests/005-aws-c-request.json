@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:AWS-C:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+  "body": "## Outcome\n\nProduce one recoverable AWS Terraform account-foundation bootstrap.\n\n## Primary deliverable\n\nOne recoverable AWS account-foundation backend and deployment-role bootstrap isolated from existing website and workload states.\n\n## Verification result\n\nBackend identity, locking, versioning, recovery, provider pins, saved-plan review, and rollback checks pass from an independent readback.\n\n## Unit boundary\n\nIssue completion is exactly one recoverable Terraform bootstrap; backend creation and state migration are internal steps.\n\n## Dependencies\n\n- AWS-B: #485\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Existing website and DDNS states are inventoried first\n- [ ] The new backend is encrypted versioned locked and recoverable\n- [ ] Deployment identity is least privilege\n- [ ] No existing state is copied or dual-owned\n\n## Owned paths\n\n- `infra/aws/bootstrap/**`\n- `docs/operations/cloud/aws/terraform-bootstrap/**`\n- `docs/milestones/v0.92.1/evidence/cloud/aws-c/**`\n\n## PVF lanes\n\n- `backend-identity`\n- `lock-and-versioning`\n- `recovery-rehearsal`\n- `provider-pin`\n- `state-isolation`\n\n## Stop conditions\n\n- An existing backend owner is unknown\n- State recovery fails\n- A reviewed plan differs at apply\n\n## Non-goals\n\n- Website state migration\n- Runtime deployment\n- CloudFormation retirement\n\n## Canonical planning identity\n\n- Planned ID: `AWS-C`\n- Canonical title: `[v0.92.1][AWS-C] AWS Terraform bootstrap`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-C`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

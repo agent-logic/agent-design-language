@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-D:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][DRT-D] GCP portability qualification",
+  "body": "## Outcome\n\nProduce one optional GCP six-resident portability qualification packet.\n\n## Primary deliverable\n\nOne optional GCP six-resident portability qualification packet.\n\n## Verification result\n\nIdentity, workload, continuity, cost, and cleanup-zero checks pass without altering AWS qualification authority.\n\n## Unit boundary\n\nIssue completion is exactly one optional GCP portability qualification decision; run checks are evidence inputs.\n\n## Dependencies\n\n- DRT-C: #508\n- GCP-E: #494\n- XCL-01: #495\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Six identities and lineage remain exact\n- [ ] GCP account project billing and credentials are separately governed\n- [ ] Cost and cleanup receipts are retained\n- [ ] No resources remain\n\n## Owned paths\n\n- `adl-runtime/tests/**`\n- `docs/milestones/v0.92.1/evidence/runtime/drt-d/**`\n\n## PVF lanes\n\n- `gcp-identity`\n- `six-resident-workload`\n- `continuity`\n- `cost`\n- `cleanup-zero`\n\n## Stop conditions\n\n- Paid-run authorization is absent\n- Provider identity is ambiguous\n- Cleanup cannot be proven\n\n## Non-goals\n\n- Replacing AWS qualification\n- Executing issue 269\n\n## Canonical planning identity\n\n- Planned ID: `DRT-D`\n- Canonical title: `[v0.92.1][DRT-D] GCP portability qualification`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#DRT-D`\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}
