@@ -15,6 +15,7 @@ REQUESTS = File.join(EVIDENCE, "requests")
 PLAN_PATH = File.join(EVIDENCE, "creation-plan.json")
 PARTIAL_PATH = File.join(EVIDENCE, "partial-receipt.json")
 FINAL_PATH = File.join(EVIDENCE, "final-creation-receipt.json")
+LIVE_CENSUS_PATH = File.join(EVIDENCE, "live-census.json")
 WAVE_PATH = File.join(MILESTONE, "WP_ISSUE_WAVE_v0.92.1.yaml")
 SPEC_PATH = File.join(MILESTONE, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
 REPOSITORY = "agent-logic/agent-design-language"
@@ -33,6 +34,7 @@ EXISTING_TARGETS = {
   251 => ["[v0.92.1][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity", %w[area:runtime track:roadmap type:bug version:v0.92.1]],
   345 => ["[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner", %w[area:runtime track:roadmap type:task version:v0.92.1]]
 }.freeze
+EXPECTED_EXISTING = [51, 84, 122, 251, 261, 262, 263, 264, 342, 345].freeze
 
 def load_yaml(path)
   YAML.safe_load(File.read(path), permitted_classes: [], aliases: false)
@@ -111,12 +113,35 @@ def run_json(argv)
   JSON.parse(stdout)
 end
 
-def github_binary
-  ENV.fetch("CSDLC_GITHUB_ISSUE_BIN")
+def run_read_json(argv)
+  stdout, stderr, status = Open3.capture3(*argv, chdir: ROOT)
+  abort "read command failed (#{status.exitstatus}): #{argv.join(' ')}\n#{stderr}" unless status.success?
+  JSON.parse(stdout)
 end
 
-def token_file
-  ENV.fetch("ADL_GITHUB_TOKEN_FILE", File.join(Dir.home, "keys/github.token"))
+def normalize_live_issue(packet)
+  milestone = packet["milestone"]
+  milestone_number = milestone.is_a?(Hash) ? milestone["number"] : milestone
+  {
+    "number" => packet.fetch("number"), "title" => packet.fetch("title"),
+    "body" => packet.fetch("body", ""), "state" => packet.fetch("state").downcase,
+    "labels" => packet.fetch("labels", []).map { |label| label.is_a?(Hash) ? label.fetch("name") : label }.sort,
+    "milestone" => milestone_number
+  }
+end
+
+def live_issue(issue)
+  normalize_live_issue(run_read_json(["gh", "issue", "view", issue.to_s, "--repo", REPOSITORY,
+                                      "--json", "number,title,body,state,labels,milestone"]))
+end
+
+def live_milestone_census
+  run_read_json(["gh", "issue", "list", "--repo", REPOSITORY, "--state", "all", "--milestone", "v0.92.1",
+                 "--limit", "1000", "--json", "number,title,body,state,labels,milestone"]).map { |row| normalize_live_issue(row) }
+end
+
+def github_binary
+  ENV.fetch("CSDLC_GITHUB_ISSUE_BIN")
 end
 
 def operation_paths(sequence, identity)
@@ -187,8 +212,45 @@ def observed_children
   Dir.glob(File.join(OPERATIONS, "*-observed.json")).sort.each_with_object({}) do |path, memo|
     row = JSON.parse(File.read(path))
     next unless row["kind"] == "child_create"
+    abort "stale planning digest in #{path}" unless row["planning_digest"] == planning_digest
+    intent_path = path.sub(/-observed\.json\z/, "-intent.json")
+    abort "missing intent for #{path}" unless File.file?(intent_path)
+    intent = JSON.parse(File.read(intent_path))
+    abort "intent/observed fingerprint mismatch for #{path}" unless intent["request_fingerprint"] == row["request_fingerprint"]
+    abort "intent/observed operation mismatch for #{path}" unless intent["operation_key"] == row["operation_key"]
     memo[row.fetch("planned_id")] = row
   end
+end
+
+def canonical_request_fingerprint(request)
+  Digest::SHA256.hexdigest(JSON.generate(request.reject { |key, _| key == :token_file || key == "token_file" }))
+end
+
+def append_marker(body, operation_key)
+  marker = "<!-- csdlc-github-operation:#{operation_key} -->"
+  return body if body.include?(marker)
+  body.end_with?("\n") ? "#{body}#{marker}\n" : "#{body}\n\n#{marker}\n"
+end
+
+def assert_no_conflicts!(plan)
+  census = live_milestone_census
+  observed = observed_children
+  plan.fetch(:children).each do |entry|
+    id = entry.fetch(:planned_id)
+    marker = "<!-- csdlc-github-operation:#{entry.fetch(:operation_key)} -->"
+    candidates = census.select { |issue| issue["title"] == entry.fetch(:title) || issue["title"].include?("[#{id}]") || issue["body"].include?(marker) }
+    allowed = observed[id]&.fetch("issue", nil)
+    candidates.reject! { |issue| issue["number"] == allowed }
+    # An intent-only retry may safely adopt the one remotely marked issue.
+    intent = Dir.glob(File.join(OPERATIONS, "*-#{id.downcase}-intent.json")).first
+    marked = candidates.select { |issue| issue["body"].include?(marker) }
+    abort "ambiguous live operation marker for #{id}" if marked.length > 1
+    candidates.reject! { |issue| intent && marked.length == 1 && issue["number"] == marked.first["number"] }
+    abort "live conflict for #{id}: #{candidates.map { |row| "##{row['number']} #{row['title']}" }.join(', ')}" unless candidates.empty?
+  end
+  replace_json(LIVE_CENSUS_PATH, { schema: "adl.v0921.wp01.live-census.v1", planning_digest: planning_digest,
+                                   observed_at_head: `git rev-parse HEAD`.strip, issues: census })
+  census
 end
 
 def update_partial(ids)
@@ -228,13 +290,13 @@ def build_plan
         labels: [area_for(id), "track:roadmap", "type:task", VERSION_LABEL].sort,
         depends_on: Array(row["depends_on"]),
         predecessor_issues: Array(row["predecessor_issues"]),
-        operation_key: "v0921-wp01:#{planning_digest}:#{id}:create",
+        operation_key: "v0921-wp01-#{planning_digest}-#{id.downcase}-create",
         specification_sha256: Digest::SHA256.hexdigest(JSON.generate(specs.fetch(id)))
       }
     end,
     existing_routing: EXISTING_TARGETS.map do |issue, (title, labels)|
       { issue: issue, title: title, labels: labels.sort, milestone: MILESTONE_NUMBER,
-        operation_key: "v0921-wp01:#{planning_digest}:existing-#{issue}:route" }
+        operation_key: "v0921-wp01-#{planning_digest}-existing-#{issue}-route" }
     end
   }
   replace_json(PLAN_PATH, plan)
@@ -244,29 +306,45 @@ end
 
 def reconcile_existing(issue)
   plan = build_plan
-  row = plan.fetch(:existing_routing).find { |entry| entry[:issue] == issue } or abort "unsupported existing issue #{issue}"
+  assert_no_conflicts!(plan)
+  abort "unsupported existing issue #{issue}" unless EXPECTED_EXISTING.include?(issue)
+  live_before = live_issue(issue)
+  row = plan.fetch(:existing_routing).find { |entry| entry[:issue] == issue }
+  if row.nil?
+    sequence = 800 + EXPECTED_EXISTING.index(issue) + 1
+    intent_path, observed_path, = operation_paths(sequence, "existing-#{issue}")
+    create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_verify", issue: issue,
+                               planning_digest: planning_digest, live_before_sha256: Digest::SHA256.hexdigest(JSON.generate(live_before)) })
+    create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "existing_verify", issue: issue,
+                                 planning_digest: planning_digest, live_issue: live_before })
+    puts JSON.pretty_generate(live_before)
+    return
+  end
   sequence = 900 + plan.fetch(:existing_routing).index(row) + 1
   intent_path, observed_path, request_path = operation_paths(sequence, "existing-#{issue}")
   request = {
-    repository: REPOSITORY, action: "issue_update", operation_key: row[:operation_key], token_file: token_file,
-    issue: issue, pull_request: nil, title: row[:title], body: nil, labels: row[:labels], assignees: [],
+    repository: REPOSITORY, action: "issue_update", operation_key: row[:operation_key], token_file: nil,
+    issue: issue, pull_request: nil, title: row[:title], body: live_before.fetch("body"), labels: row[:labels], assignees: [],
     milestone: row[:milestone], state: nil, comment_body: nil, required_checks: [], require_review: false, linked_issue: nil
   }
-  fingerprint = Digest::SHA256.hexdigest(JSON.generate(request))
+  fingerprint = canonical_request_fingerprint(request)
   create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_route", issue: issue,
                              operation_key: row[:operation_key], request_fingerprint: fingerprint, planning_digest: planning_digest })
   replace_json(request_path, request)
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
-  abort "existing issue readback mismatch ##{issue}" unless packet["number"] == issue && packet["title"] == row[:title] && packet["labels"].sort == row[:labels] && packet["milestone"] == MILESTONE_NUMBER
+  expected_body = append_marker(live_before.fetch("body"), row[:operation_key])
+  abort "existing issue readback mismatch ##{issue}" unless packet["number"] == issue && packet["title"] == row[:title] && packet["labels"].sort == row[:labels] && packet["milestone"] == MILESTONE_NUMBER && packet["body"] == expected_body
   create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "existing_route", issue: issue,
                                operation_key: row[:operation_key], request_fingerprint: fingerprint,
+                               planning_digest: planning_digest, live_issue: normalize_live_issue(packet),
                                live_response_sha256: Digest::SHA256.hexdigest(JSON.generate(result)), state: packet["state"] })
   puts JSON.pretty_generate(result)
 end
 
 def create_child(id)
   plan = build_plan
+  assert_no_conflicts!(plan)
   entry = plan.fetch(:children).find { |row| row[:planned_id] == id } or abort "unknown planned ID #{id}"
   observed = observed_children
   if observed.key?(id)
@@ -280,11 +358,11 @@ def create_child(id)
   title = entry.fetch(:title)
   body = body_for(id, title, specifications.fetch(id), deps, entry.fetch(:predecessor_issues))
   request = {
-    repository: REPOSITORY, action: "issue_create", operation_key: entry.fetch(:operation_key), token_file: token_file,
+    repository: REPOSITORY, action: "issue_create", operation_key: entry.fetch(:operation_key), token_file: nil,
     issue: nil, pull_request: nil, title: title, body: body, labels: entry.fetch(:labels), assignees: [],
     milestone: MILESTONE_NUMBER, state: nil, comment_body: nil, required_checks: [], require_review: false, linked_issue: nil
   }
-  fingerprint = Digest::SHA256.hexdigest(JSON.generate(request))
+  fingerprint = canonical_request_fingerprint(request)
   intent_path, observed_path, request_path = operation_paths(entry.fetch(:sequence), id)
   create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "child_create", planned_id: id,
                              operation_key: entry.fetch(:operation_key), request_fingerprint: fingerprint,
@@ -292,13 +370,14 @@ def create_child(id)
   replace_json(request_path, request)
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
-  expected_body = body + "\n<!-- csdlc-github-operation:#{entry.fetch(:operation_key)} -->\n"
+  expected_body = append_marker(body, entry.fetch(:operation_key))
   abort "child readback mismatch #{id}" unless packet["title"] == title && packet["labels"].sort == entry.fetch(:labels) && packet["milestone"] == MILESTONE_NUMBER && packet["body"] == expected_body
   create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "child_create", planned_id: id,
                                issue: packet.fetch("number"), title: packet.fetch("title"), labels: packet.fetch("labels").sort,
                                milestone: packet.fetch("milestone"), state: packet.fetch("state"), dependencies: deps,
                                body_sha256: Digest::SHA256.hexdigest(packet.fetch("body")), operation_key: entry.fetch(:operation_key),
-                               request_fingerprint: fingerprint, live_response_sha256: Digest::SHA256.hexdigest(JSON.generate(result)) })
+                               request_fingerprint: fingerprint, planning_digest: planning_digest,
+                               live_response_sha256: Digest::SHA256.hexdigest(JSON.generate(result)) })
   update_partial(plan.fetch(:children).map { |child| child.fetch(:planned_id) })
   puts JSON.pretty_generate(result)
 end
@@ -309,10 +388,30 @@ def finalize
   observed = observed_children
   abort "cannot finalize: #{45 - observed.length} children absent" unless observed.keys.sort == ids.sort
   children = ids.map { |id| observed.fetch(id) }
+  assert_no_conflicts!(plan)
+  live_children = children.map do |row|
+    live = live_issue(row.fetch("issue"))
+    expected = plan.fetch(:children).find { |entry| entry.fetch(:planned_id) == row.fetch("planned_id") }
+    expected_body_sha = row.fetch("body_sha256")
+    valid = live["title"] == expected.fetch(:title) && live["labels"] == expected.fetch(:labels) &&
+            live["milestone"] == MILESTONE_NUMBER && live["state"] == "open" && Digest::SHA256.hexdigest(live.fetch("body")) == expected_body_sha
+    abort "final live readback mismatch #{row.fetch('planned_id')} ##{row.fetch('issue')}" unless valid
+    row.merge("live_readback_sha256" => Digest::SHA256.hexdigest(JSON.generate(live)))
+  end
+  existing_live = EXPECTED_EXISTING.map do |issue|
+    path = Dir.glob(File.join(OPERATIONS, "*-existing-#{issue}-observed.json")).first
+    abort "cannot finalize: existing issue verification absent for #{issue}" unless path
+    retained = JSON.parse(File.read(path))
+    abort "stale existing verification for #{issue}" unless retained["planning_digest"] == planning_digest
+    current = live_issue(issue)
+    abort "existing issue drift for #{issue}" unless retained.fetch("live_issue") == current
+    { "issue" => issue, "live_sha256" => Digest::SHA256.hexdigest(JSON.generate(current)), "live_issue" => current }
+  end
   create_json(FINAL_PATH, {
     schema: "adl.v0921.wp01.final-creation-receipt.v1", repository: REPOSITORY, conductor_issue: WP01_ISSUE,
-    planning_digest: planning_digest, children: children, child_count: children.length,
-    issue_numbers_sha256: Digest::SHA256.hexdigest(JSON.generate(children.map { |row| row.fetch("issue") }))
+    planning_digest: planning_digest, children: live_children, child_count: live_children.length,
+    live_verified: true, existing_issues_verified: EXPECTED_EXISTING, existing_issues: existing_live,
+    issue_numbers_sha256: Digest::SHA256.hexdigest(JSON.generate(live_children.map { |row| row.fetch("issue") }))
   })
   puts File.read(FINAL_PATH)
 end

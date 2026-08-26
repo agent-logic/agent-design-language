@@ -23,7 +23,7 @@
         154,
         155
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:CORP-A:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-corp-a-create",
       "specification_sha256": "2cbd9556a87e273d469ae0ddb9d611959e6697da204afbcd786df0061779aa89"
     },
     {
@@ -42,7 +42,7 @@
       "predecessor_issues": [
         156
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:CORP-B:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-corp-b-create",
       "specification_sha256": "b31aa310074cb75f4b81843219299fcfbe5920852d65d31cfa5f59d8bd2d4c26"
     },
     {
@@ -61,7 +61,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:AWS-A:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-aws-a-create",
       "specification_sha256": "f768024586bd25c4d2c9e97c5abdd1c455ac735816628322c117c36d92c274df"
     },
     {
@@ -80,7 +80,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:AWS-B:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-aws-b-create",
       "specification_sha256": "06d27d0d741e71085cc326d966aec33cbe9ef2bc7a8f267dfeedead3fc43d962"
     },
     {
@@ -99,7 +99,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:AWS-C:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-aws-c-create",
       "specification_sha256": "0c2abd777568e84bb8ea3e0f76a793a7b084bc2880de791ffa8b17b328de5785"
     },
     {
@@ -118,7 +118,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:AWS-D:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-aws-d-create",
       "specification_sha256": "00c0bd009550925a611b1bc1d563160f13cca5b937325bca210bfcda9c90948c"
     },
     {
@@ -137,7 +137,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:AWS-E:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-aws-e-create",
       "specification_sha256": "845dccae526b2d9e6f2f049ec81e89784eb13da1bb38a15a9adbe3b6e6fd0a15"
     },
     {
@@ -157,7 +157,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:AWS-F:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-aws-f-create",
       "specification_sha256": "2d59356f7d6fdd4e12a41a7a9cbfb4a4cbf5e7d4eea84e065a00032110f78a94"
     },
     {
@@ -176,7 +176,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:GCP-A:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-gcp-a-create",
       "specification_sha256": "b31df4b3950e9e706b8487a13a89d500c7c01d3c4abac70bd7563e1d5f6f8863"
     },
     {
@@ -195,7 +195,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:GCP-B:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-gcp-b-create",
       "specification_sha256": "656c739357746f29fe33af1dff9a18d0f196fffb01531572c40b8624ec85efe0"
     },
     {
@@ -214,7 +214,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:GCP-C:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-gcp-c-create",
       "specification_sha256": "afc31607e960aecc226404b00471a97727bbc31496d759a90a95a1edc62c5c70"
     },
     {
@@ -233,7 +233,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:GCP-D:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-gcp-d-create",
       "specification_sha256": "baf4130dc79dbb0bd5b899789f208372416253bbe517ea2b3a1dd4a09e45371f"
     },
     {
@@ -252,7 +252,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:GCP-E:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-gcp-e-create",
       "specification_sha256": "e4a5840ac93ada0212c84353af8527b00cc38d710ec5f0bb14bbc50cf6480851"
     },
     {
@@ -272,7 +272,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:XCL-01:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-xcl-01-create",
       "specification_sha256": "fe8a9d6c348c3796c86933dc3a5f37ead0f155e222e616a2216c360994391c53"
     },
     {
@@ -292,7 +292,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:AWS-G:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-aws-g-create",
       "specification_sha256": "2d0100f4beb5e60942528eec2ea9a501807dfa7dc52f6c83c95589588bf15928"
     },
     {
@@ -316,7 +316,7 @@
         158,
         159
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:CORP-C:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-corp-c-create",
       "specification_sha256": "92168c2666207956df37ed6fc00dcb78ef339a8be0284bd5e9683db1b95bc43f"
     },
     {
@@ -337,7 +337,7 @@
       "predecessor_issues": [
         160
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:CORP-D:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-corp-d-create",
       "specification_sha256": "2f609ea5c67ad9665582ea53ee48d250de039e0572a4869d08cbf5ff6597be00"
     },
     {
@@ -356,7 +356,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:RUST-01:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-rust-01-create",
       "specification_sha256": "28d50e87fdbf39994a923d2741afcf9c5beadf53b36870ff9553b7a1a3b8f333"
     },
     {
@@ -377,7 +377,7 @@
         162,
         163
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:V3-A:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-v3-a-create",
       "specification_sha256": "aff314a5b4bf1eb3a830eb66fbe2b8b30f671d886ae8eb53d3c5318c04dd7a28"
     },
     {
@@ -399,7 +399,7 @@
         166,
         167
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:V3-B:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-v3-b-create",
       "specification_sha256": "bc0a975f5cad717b9b5527f502a398cdb2fee5fadba9720720b8c562fb58cd04"
     },
     {
@@ -420,7 +420,7 @@
         169,
         170
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:V3-C:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-v3-c-create",
       "specification_sha256": "d9d56b6ecf21ec95d4f52a211d3ff4491202deff5d1e5a12fb12d75019528c33"
     },
     {
@@ -441,7 +441,7 @@
         172,
         173
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:V3-D:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-v3-d-create",
       "specification_sha256": "613f11c779abba59bbba4f5bf7b193bb19c17f95cbc4a897e8d2c11a53e42335"
     },
     {
@@ -464,7 +464,7 @@
         177,
         178
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:V3-E:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-v3-e-create",
       "specification_sha256": "7d2d625dd578d8cb67fc2e3bad14ba895ca5111d4e18331514f5a9dc2b38fd2c"
     },
     {
@@ -484,7 +484,7 @@
         179,
         180
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:V3-F:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-v3-f-create",
       "specification_sha256": "b654a090cd839712efcaa2e6e95cc3062499bdb16be2b611c9b53e7e072b37c8"
     },
     {
@@ -504,7 +504,7 @@
         181,
         182
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:DRT-A:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-drt-a-create",
       "specification_sha256": "e40bff65b081f92d1cb9313509c8bd40afb70307ce5df738492fd7695a454e60"
     },
     {
@@ -525,7 +525,7 @@
         183,
         184
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:DRT-B:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-drt-b-create",
       "specification_sha256": "f730d5b5c0a61201cc0b276de287dc21221647f0a3739d166a9fad0bf27db7bc"
     },
     {
@@ -546,7 +546,7 @@
         186,
         187
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:DRT-C:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-drt-c-create",
       "specification_sha256": "4b47139f9bbc7482166dc8af75ed6f5a6569da35cd0b697facd9ff54ae6f528d"
     },
     {
@@ -567,7 +567,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:DRT-D:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-drt-d-create",
       "specification_sha256": "5a5f1d34a211044ed7f62a3cd8cfa714310b30a7a0ff3ca6c36b1e3d225c7c91"
     },
     {
@@ -586,7 +586,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:HOT-01:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-hot-01-create",
       "specification_sha256": "fe073f4c536507594f21ea5206be6ef683dcbcbb9034baa06d129b3453df06ca"
     },
     {
@@ -605,7 +605,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:OBS-A:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-obs-a-create",
       "specification_sha256": "f5d20144857f64d35b9aaeda68425f72e43c618674a441a1a1829bc6a4b4a140"
     },
     {
@@ -625,7 +625,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:OBS-B:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-obs-b-create",
       "specification_sha256": "96ecebdb975ed4ed5275fa7349330e18203415df0e852915b9ff18ddbcec72f9"
     },
     {
@@ -644,7 +644,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:DEC-01:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-dec-01-create",
       "specification_sha256": "f5814388c27c4cfca2adca4f1fcaf2a1b77070ff1e3a275d7d79152b82027d8c"
     },
     {
@@ -663,7 +663,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:PROV-A:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-prov-a-create",
       "specification_sha256": "877177d1fa84fd34ea2f21e8d392550c148b4885a34460a64209fbbcd97adf22"
     },
     {
@@ -682,7 +682,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:PROV-B:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-prov-b-create",
       "specification_sha256": "a8fd8c45298950212480d691fa8a9c7a221d7f2570dc2d6fd9c3382890797b4b"
     },
     {
@@ -713,7 +713,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:INT-01:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-int-01-create",
       "specification_sha256": "2a0e65a2f3508f81624b3eb93fce40c8abc86fc0e7587be027df7cd21b503dd5"
     },
     {
@@ -732,7 +732,7 @@
       "predecessor_issues": [
         188
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-01:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-01-create",
       "specification_sha256": "63ec5b5e2400317063542e1f1564e295b399f82cc426dc685bded48b09a4ca66"
     },
     {
@@ -751,7 +751,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-02:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-02-create",
       "specification_sha256": "93327dfbfb377940ad7caeeb8536623d8c05a47522d77009580f6a7a3e047546"
     },
     {
@@ -770,7 +770,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-03:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-03-create",
       "specification_sha256": "e8313cb5a1aa45ec409091b3621b9a6f994aa8f6e0fe91a6b5bb7fa7567505ad"
     },
     {
@@ -789,7 +789,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-04:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-04-create",
       "specification_sha256": "a18d90a233fed4ca8997c5ea4dab5353df720c15f1a9e0fd74df8825bc854a79"
     },
     {
@@ -808,7 +808,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-05:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-05-create",
       "specification_sha256": "3a62caf47fe43197df5d608b9b623e80a428006b4db746477c2c4f067d36b141"
     },
     {
@@ -827,7 +827,7 @@
       "predecessor_issues": [
         188
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-06:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-06-create",
       "specification_sha256": "ec7e42d0eda38f0a4647a3fc3d60d5fbaa75676cbfadd9284b8d80b3b03641ea"
     },
     {
@@ -846,7 +846,7 @@
       "predecessor_issues": [
         190
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-07:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-07-create",
       "specification_sha256": "aabd21773d88f3fa4c5234f6ef1801d3717a5f5eb4c7a5b43ec4cc0837b96c89"
     },
     {
@@ -865,7 +865,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-08:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-08-create",
       "specification_sha256": "3aac4494efbc41807ac763fd32c7bb60c1b90b93dee373d3deae1e812c4b4ac8"
     },
     {
@@ -884,7 +884,7 @@
       "predecessor_issues": [
 
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-09:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-09-create",
       "specification_sha256": "7d6afafd61ace6be670a282b3565bd57a05a3d3c4e715f033d2225f92f28ffe1"
     },
     {
@@ -903,7 +903,7 @@
       "predecessor_issues": [
         189
       ],
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:TAIL-10:create",
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-tail-10-create",
       "specification_sha256": "1cc0657cdedfd49250ecd56d9623cd966db847791363685dc5158bed63178050"
     }
   ],
@@ -918,7 +918,7 @@
         "version:v0.92.1"
       ],
       "milestone": 1,
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:existing-84:route"
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-existing-84-route"
     },
     {
       "issue": 122,
@@ -930,7 +930,7 @@
         "version:v0.92.1"
       ],
       "milestone": 1,
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:existing-122:route"
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-existing-122-route"
     },
     {
       "issue": 251,
@@ -942,7 +942,7 @@
         "version:v0.92.1"
       ],
       "milestone": 1,
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:existing-251:route"
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-existing-251-route"
     },
     {
       "issue": 345,
@@ -954,7 +954,7 @@
         "version:v0.92.1"
       ],
       "milestone": 1,
-      "operation_key": "v0921-wp01:33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36:existing-345:route"
+      "operation_key": "v0921-wp01-33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36-existing-345-route"
     }
   ]
 }

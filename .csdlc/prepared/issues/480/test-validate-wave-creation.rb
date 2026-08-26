@@ -21,6 +21,7 @@ creation_plan = JSON.parse(plan_stdout)
 children = creation_plan.fetch("children")
 abort "executor denominator mismatch" unless children.length == 45
 abort "executor operation keys are not unique" unless children.map { |row| row.fetch("operation_key") }.uniq.length == 45
+abort "executor operation key is not portable" unless children.all? { |row| row.fetch("operation_key").match?(/\Av0921-wp01-[a-f0-9]{64}-[a-z0-9-]+-create\z/) }
 abort "executor title contract mismatch" unless children.all? { |row| row.fetch("title").start_with?("[v0.92.1][#{row.fetch('planned_id')}] ") }
 abort "executor routing contract mismatch" unless children.all? do |row|
   labels = row.fetch("labels")

@@ -3,6 +3,7 @@
 
 require "digest"
 require "json"
+require "open3"
 require "yaml"
 
 ROOT = File.expand_path("../../../..", __dir__)
@@ -12,6 +13,7 @@ SPEC_PATH = File.join(MILESTONE, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
 FINAL_RECEIPT = File.join(MILESTONE, "evidence/wp-01/final-creation-receipt.json")
 EXPECTED_EXISTING = [51, 84, 122, 251, 261, 262, 263, 264, 342, 345].freeze
 EXCLUDED = [269].freeze
+REPOSITORY = "agent-logic/agent-design-language"
 
 def fail!(messages)
   messages.each { |message| warn "BLOCK: #{message}" }
@@ -106,6 +108,42 @@ def validate_live(plan)
     labels = row.fetch("labels", []).sort
     labels == [expected_area(row.fetch("planned_id")), "track:roadmap", "type:task", "version:v0.92.1"].sort &&
       row["milestone"] == 1
+  end
+  errors << "final receipt lacks independent-live flag" unless receipt["live_verified"] == true
+  errors << "existing issue verification denominator mismatch" unless receipt["existing_issues_verified"] == EXPECTED_EXISTING
+  existing_rows = receipt.fetch("existing_issues", [])
+  errors << "existing live row denominator mismatch" unless existing_rows.map { |row| row["issue"] } == EXPECTED_EXISTING
+  existing_rows.each do |row|
+    stdout, stderr, status = Open3.capture3("gh", "issue", "view", row.fetch("issue").to_s, "--repo", REPOSITORY,
+                                            "--json", "number,title,body,state,labels,milestone", chdir: ROOT)
+    unless status.success?
+      errors << "existing live read failed for ##{row['issue']}: #{stderr.strip}"
+      next
+    end
+    live = JSON.parse(stdout)
+    normalized = {
+      "number" => live.fetch("number"), "title" => live.fetch("title"), "body" => live.fetch("body", ""),
+      "state" => live.fetch("state").downcase,
+      "labels" => live.fetch("labels", []).map { |label| label.fetch("name") }.sort,
+      "milestone" => live["milestone"]&.fetch("number", nil)
+    }
+    errors << "existing live drift for ##{row['issue']}" unless Digest::SHA256.hexdigest(JSON.generate(normalized)) == row["live_sha256"]
+  end
+  rows.each do |row|
+    stdout, stderr, status = Open3.capture3("gh", "issue", "view", row.fetch("issue").to_s, "--repo", REPOSITORY,
+                                            "--json", "number,title,body,state,labels,milestone", chdir: ROOT)
+    unless status.success?
+      errors << "live read failed for #{row['planned_id']}: #{stderr.strip}"
+      next
+    end
+    live = JSON.parse(stdout)
+    labels = live.fetch("labels", []).map { |label| label.fetch("name") }.sort
+    expected_title = "[v0.92.1][#{row.fetch('planned_id')}] "
+    errors << "live title mismatch for #{row['planned_id']}" unless live.fetch("title").start_with?(expected_title) && live.fetch("title") == row.fetch("title")
+    errors << "live labels mismatch for #{row['planned_id']}" unless labels == row.fetch("labels").sort
+    errors << "live milestone mismatch for #{row['planned_id']}" unless live.dig("milestone", "number") == 1
+    errors << "live state mismatch for #{row['planned_id']}" unless live.fetch("state").downcase == "open"
+    errors << "live body mismatch for #{row['planned_id']}" unless Digest::SHA256.hexdigest(live.fetch("body")) == row.fetch("body_sha256")
   end
   fail!(errors) unless errors.empty?
   plan.merge(live_result: "passed", final_receipt_sha256: Digest::SHA256.file(FINAL_RECEIPT).hexdigest)
