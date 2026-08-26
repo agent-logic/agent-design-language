@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9fdf6098309aa72bf2e1efd727a6691adf465920b488e78111c6723537e7619d",
-  "phase": "reviewed",
-  "generation": 3,
-  "digest": "54bb88c21532d0d707ef59b44b1367e2ec4bc7766123e5f1406887040ace17fa",
+  "phase": "published",
+  "generation": 4,
+  "digest": "403c2c8e8394103a06e6e1fd1c8652500c1a775fd4456fa94eb66182f3a59d5b",
   "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "review_assignment": {
@@ -40,7 +40,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 514,
+    "pull_request": 549,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/549",
+    "base": "main",
+    "head": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
+    "revision": "git-blake3:260a1e291ee56996f500d691d4f8c099f0cf6032:1280d0d11db100c5028ab963f3d8b8973d0df4857059e8b9a5a812fbc8199e44",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -54,34 +65,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "107565c033d86432e78731700ab8626b84cc59bff76cb7b042eb32df63470463",
+      "values_digest": "80ff2a1c10468dd092d64e514d393558d6b775612c55d5a6b64714cab7b35101",
       "rendered_digest": "0b2b96047cadd7c25e6919f8aa6aaef361cb8694637c67b3bc457cb05fbfac75",
       "ast_digest": "3a308d39d4ccac0225312a861c790215b1f777524ef0cbe88d624959282eda66"
     },
     "stp": {
-      "values_digest": "4ed564c12b1773917854d298a4538bc3867ba907203b2fa496904f34789f04c7",
+      "values_digest": "5e7609f3a17cf8183a8c852ca006fa280242ec0b15973ca76d5fe9321f830951",
       "rendered_digest": "da03dbd130894a30ad371f2dcc53b310c4cccb74f4f97e3187e800c1259eae16",
       "ast_digest": "72a3d9084a14e396224ebcf0b7b1301d9c531df8e9e1db4c78c4af2b8b91467c"
     },
     "spp": {
-      "values_digest": "905d2bb3d794c11a4250182d1fb490552aa5846cb1c3993c14533701f5fad501",
+      "values_digest": "19d4f7d852861de60d747673e4e0dc0a572e279972ad76f739631fbfba93ea4f",
       "rendered_digest": "c8544d8772f1f01111260278f980490bf763b6eff893e5530c0086dd69a4f009",
       "ast_digest": "633f5fd92e8e0ce90d2c7baa29f4f8fe5d555842b4b0486ea53b355b43330b2b"
     },
     "vpp": {
-      "values_digest": "f8d1eb8a22807e5b49e8dcb2172893d1fd93dd592d0ddf77d7c107d1ae55991e",
+      "values_digest": "a0b30c7355fbe7a5fb428d2b686f0c01eb85943d109e0cb30ed2d983a5b2c6d3",
       "rendered_digest": "0f27717b849259d3d877a3281f281b61ed4b6ea845124243260893741e360ea2",
       "ast_digest": "8e5e53c7c10630e30182ae4221d92fd19cea3c9ba4b86b9f9076aa27e946d81d"
     },
     "srp": {
-      "values_digest": "9aa74d2431eef49978feef204a2e0f79fe45819c4613ca6b83de5f9da9b48618",
+      "values_digest": "0e2409c28b56f3ec327d6e7f6083227a178ea594f34b9e758fb0bb79c42983ac",
       "rendered_digest": "a797222b1f5b6b954ae3fe339997dde2d972323159510f26b077eec51db4ff8c",
       "ast_digest": "4391dddcae0e97622501288cafec29090b8c3024e68b62512ba4f08ae3f0297c"
     },
     "sor": {
-      "values_digest": "b3194fcff6f9b416a224d69ca95ae86953602f32cca6d9f2e7f9ee22d23ecc2e",
-      "rendered_digest": "402d7046bb4a0900420d788cff28549375ebd531f17a5d96836d05dfd90c8be4",
-      "ast_digest": "55a633e2ac7ed4f8cfaef07675ac49c07f669da7d3073f79115170cb08ed2d2a"
+      "values_digest": "9f90f05143e8b5561b997d513eb9b7ff5a5a3545fc4dc125a1e2766e5d07a1a6",
+      "rendered_digest": "311683efb04066d92c9aaf21658a90c18d8170ebf82eb9b9885b4341d1dac2d3",
+      "ast_digest": "68e6635932afb3c82f0c4ccb1d046391f6e8305739148c841105c5b9bc20dec8"
     }
   },
   "transitions": [
@@ -112,6 +123,13 @@
       "to": "reviewed",
       "actor": "codex:sprint-1-issue-514-worker",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -156,6 +174,13 @@
       "actor": "codex:sprint-1-issue-514-worker",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
