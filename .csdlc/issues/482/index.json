@@ -3,9 +3,9 @@
   "issue": 482,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5f51adfee9f618eb1bbaf92c6f9729b4e9ab8013f7e7a990ec97b4c030ecaad1",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "b08bb504d44e5c430c5c41aa88e55bf48b713bb14da1ee6c5f5682c19fe1509e",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "c8098a44ef7755e698a8a6dc5dfc92e3668997a906087b787eb7e6c77f0d6373",
   "branch": "codex/482-v0-92-1-corp-a-critical-asset-schedule",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-482-corp-a-critical-asset-schedule",
   "review_assignment": {
@@ -24,7 +24,29 @@
       "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:codex-482-corp-a-review-r2",
+    "scope": [
+      ".csdlc/evidence/482/asset-denominator.log",
+      ".csdlc/evidence/482/diff-hygiene.log",
+      ".csdlc/evidence/482/provenance-and-license.log",
+      ".csdlc/evidence/482/redaction-and-custody.log",
+      ".csdlc/issues/482",
+      ".csdlc/prepared/issues/482",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+      "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+      "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+    ],
+    "reviewed_revision": "git-blake3:04b7db20f31c26a336b342ebd035869c290c6099:511751a29525368d6b8949f54598e57e9face82abdab1e59ea524b0952051334",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not rerun the Ruby validators against a checked-out exact worktree because live HEAD contained later review-assignment metadata; reviewer inspected validator source/evidence logs and ran exact-revision Git diff hygiene directly.",
+      "Reviewer could not independently verify the supplied git-blake3 digest because b3sum was unavailable.",
+      "Private custody envelope, counsel/legal assertions, and provider account facts are intentionally represented only through redacted role attestations and were not independently verified."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e84782c9ec4c60a8b1a945934ae369e5fb085a5ad50a4ea6216552fe38b99e26",
+      "values_digest": "1c46700cb4b2e696e69f98e0bc9f087ec664aba6ca088cb829fedd81f7ca5e01",
       "rendered_digest": "f9f8cc2d6d02c94e69999ca3c38d881957da1bcd711a4beba5af203947249cf2",
       "ast_digest": "d1957414fe5237159623b932cb0d711ac199ed76f6816df7296dbd8fefb1626f"
     },
     "stp": {
-      "values_digest": "44b816f63c56decf7a919707482db3d9785867897e1927f5291ab6c1f60047e9",
+      "values_digest": "4fb8d86935656aa95a7c9a99e5fdc4de80924ffebb3c87e8156412fe820dd1e8",
       "rendered_digest": "d3637f737539f839b080d83bfdf0e55bfb804b891c3be4eed189d4970fe89a35",
       "ast_digest": "c2fcbd3809ef78c52edd8fc837ab9113ade5d90bf1597a0a4b66d3ebb65a0517"
     },
     "spp": {
-      "values_digest": "c0907196f98652a5fba78f35f8aba938ad8793006f338878d5e191ecc8201c30",
+      "values_digest": "4d2ac3f6cbe5ec1a3957ee62e7351d244edf87413ca64dc0bd7c2c0847de0f76",
       "rendered_digest": "213208f98ce766497bf38088df8ea0717494a72e6d3ea3c4ef016fa2aacc9ca2",
       "ast_digest": "ed39be0397f09d95accfe187e34e69a78f128ea1c52d56107150b487bb7b8c15"
     },
     "vpp": {
-      "values_digest": "8d0d69fdbf85d79a84c6e7fc01312e523b241827d60472620f01f417a314c9fd",
+      "values_digest": "02fc8d1b80dcd34606125faee8f911020db68afb61ad2d814655c7b92b0b547f",
       "rendered_digest": "c3723205e4fbb61c4500880cbab075c6576268584dfe3cd4e3ff635e8fb2f5a2",
       "ast_digest": "1488461af57329f86082eefa4b51ab613f3763211c99a07f9cd4e98d4632cb7b"
     },
     "srp": {
-      "values_digest": "23681802b07176f7c408e83d24cfe505bb9ce6bf2a627575d61254a31e5a6d9c",
-      "rendered_digest": "9386f679ca9381e80b1a56e98c1820645d908f583925a33fa7fee7624bec6034",
-      "ast_digest": "dc2f45b7700041c5f1f993f5e7544addefdebf845cd08fdaa021e0afc1da4a4d"
+      "values_digest": "c54c5b79603ccf43e966b6164ada72d72a9e665fea956246ec51a4e26cb9e97e",
+      "rendered_digest": "f94d11e04ec3ca334271922d936bae8f5b001c4ad099d1a7111d73fc6b9b36f0",
+      "ast_digest": "ae111e565b8a27ff068e9e5c010f5240942d1fd5fa1fd1ce77b883453af0c9dc"
     },
     "sor": {
-      "values_digest": "dbcfe1cfdc3087fee18962301f996beb546af21e16d5d9a669cf9e2e47638127",
+      "values_digest": "ddc9d329606712f3a2231bcde18bd0cdd36dc5dde0dd18b30d34ed3cbe29b46e",
       "rendered_digest": "f3553308ee69c06a9b9c8ecd1257edb3758afe9ba41002962d9ed92ca863435d",
       "ast_digest": "828fe65314714aba6c678da4ae667c251df6e61da42381bd9a11af71d4f790b9"
     }
@@ -90,6 +112,13 @@
       "to": "implemented",
       "actor": "codex:issue-482-corp-a-execution",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -162,6 +191,13 @@
       "actor": "codex:issue-482-corp-a-execution",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
