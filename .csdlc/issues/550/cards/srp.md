@@ -42,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e7baf7c313d508722cd313d03d8e7b9a66228ddb:d281cd0d7d5235dc5b3aaa9d471f264ea0323ec80a3bb76e5ea76786bd853e79")
 
-Reviewer: None
+Reviewer: Some("fresh-session:01a01755-c400-7050-a049-b98e947a5684")
 
-Result: pre_review
+Result: pass
