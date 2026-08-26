@@ -4,53 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
-  "phase": "reviewed",
-  "generation": 26,
-  "digest": "aef5cf7faa9de66c3438d46116696a95284694fceca7ad138e8be7d28a2b83ff",
+  "phase": "implemented",
+  "generation": 27,
+  "digest": "463958483d34e6d799aaac72c16420a26bc2a945f42052469f95f0150b8a20bd",
   "branch": "codex/550-runtime-trusted-observatory-origin",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
-  "review_assignment": {
-    "reviewer": "fresh-session:janitor-550-pr552-after-workspace-coverage-race",
-    "assigned_by": "codex:/root/janitor_550_pr552_after_554",
-    "revision": "git-blake3:e3771b51b062d0e7a19c42b240ef10389ea640ee:6e5948c9eef8d96abbf98551ee00b837ad90091fbe6b16a97a951919ee250dbe",
-    "scope": [
-      "adl/src/cli/observability.rs",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "demos/html-observatory",
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:janitor-550-pr552-after-workspace-coverage-race",
-    "scope": [
-      "adl/src/cli/observability.rs",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "demos/html-observatory",
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example"
-    ],
-    "reviewed_revision": "git-blake3:e3771b51b062d0e7a19c42b240ef10389ea640ee:6e5948c9eef8d96abbf98551ee00b837ad90091fbe6b16a97a951919ee250dbe",
-    "findings": [],
-    "residual_risks": [
-      "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.",
-      "Six unified Runtime kernel tests remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds the per-test timeout."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -65,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "321d4b0a09180eda23ac5a394aa1535421e9699ea36ca7629b37e265e9f61456",
+      "values_digest": "44a4768bb6a1ab7196f2d697e29967e3d57ca54b8c33ed1de5302ecc73a992e1",
       "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
       "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
     },
     "stp": {
-      "values_digest": "91d13305525b418b571191759090862e96605fa140ac81078123cf6f152a4846",
+      "values_digest": "5801dc586767a648c7b05cc71b24f03f268bc7e4c14944fcbb154715804f36ad",
       "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
       "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
     },
     "spp": {
-      "values_digest": "c35802d69bc069e770a14b86b37514d8dd014a6c32729fcbd40e43dea9a94db4",
+      "values_digest": "9ad6b702238dba114b1a14a1ee3ffa010c32d412b53649af270da9c417aa7308",
       "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
       "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
     },
     "vpp": {
-      "values_digest": "f1bc45588b034b6ce7ee75d72629eb8b6f36b72dcb7b5cba1a75fd3a263d7b30",
+      "values_digest": "c9d6599842bc93461772ade8f4f28c21be3ff6949ed6210ecb3eb25a6423cd11",
       "rendered_digest": "dc7c929b9c4c9249b5d55b0028327a2a3363a53acc95d5b9e5eccbe37b78fa2a",
       "ast_digest": "4303c53f72528956d22e0762d95a8de5985af1062e6077e4c38b402c1e8e38f3"
     },
     "srp": {
-      "values_digest": "b3ae214d33c55fcabed20a206b0a8b9c19a2e6f955268164261a3e7299c0f043",
-      "rendered_digest": "7d2e58073499eca8bd7be5aa8ac63685e4bc9504673047876a2398a6139f3475",
-      "ast_digest": "daa14b3b0d2076b9dfb9a68097dab60563313074beb9ce5b76fb291d8b3ed690"
+      "values_digest": "8df644d59d85bfb19688c9b37806c573c8e351586899de92a7684278a9470a5c",
+      "rendered_digest": "38912253fde86a5295f105b3a58f9a45fc6c41e717568f6e6e30046219036ca6",
+      "ast_digest": "d15d17ff20b05012c059b224a832b2a50bb339c8eaad909fcd1461ca4378bb70"
     },
     "sor": {
-      "values_digest": "28b5314c74877e8e00b2c9e890a4f30b250311848f33df004b283b1b08637f0a",
+      "values_digest": "cf9b874a7fa525650e820d3cc62978e0351d1af403715b79a211a532a3a03d5d",
       "rendered_digest": "59a15cdb7b66a7056fa2816ace2ef888d95e79f4d083fec62e8b85cb0b7bf37f",
       "ast_digest": "54d72af242969909cdd6f0be0f85da3d6a8a1c07e2f3041f7a1f01cff484c25f"
     }
@@ -186,6 +146,13 @@
       "to": "reviewed",
       "actor": "codex:/root/janitor_550_pr552_after_554",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover the current review after the final Clippy-required explicit non-truncating lock-file option. This does not change runtime behavior; focused concurrency, daemon smoke, ordinary unified-kernel family, coverage contract, formatting, strict Clippy, and diff hygiene all pass."
     }
   ],
   "audit": [
@@ -419,6 +386,13 @@
       "actor": "codex:/root/janitor_550_pr552_after_554",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover the current review after the final Clippy-required explicit non-truncating lock-file option. This does not change runtime behavior; focused concurrency, daemon smoke, ordinary unified-kernel family, coverage contract, formatting, strict Clippy, and diff hygiene all pass.",
+      "operation": "recover_review"
     }
   ]
 }
