@@ -90,3 +90,61 @@
   - aws elbv2 describe-load-balancers --region eu-west-1
   - aws acm list-certificates --region eu-west-1
   - aws cloudformation list-stacks --region eu-west-1 --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE UPDATE_ROLLBACK_COMPLETE IMPORT_COMPLETE
+  - aws ec2 describe-instances --region eu-west-2
+  - aws ec2 describe-volumes --region eu-west-2
+  - aws ec2 describe-vpcs --region eu-west-2
+  - aws ec2 describe-subnets --region eu-west-2
+  - aws ec2 describe-security-groups --region eu-west-2
+  - aws elbv2 describe-load-balancers --region eu-west-2
+  - aws acm list-certificates --region eu-west-2
+  - aws cloudformation list-stacks --region eu-west-2 --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE UPDATE_ROLLBACK_COMPLETE IMPORT_COMPLETE
+  - aws ec2 describe-instances --region eu-west-3
+  - aws ec2 describe-volumes --region eu-west-3
+  - aws ec2 describe-vpcs --region eu-west-3
+  - aws ec2 describe-subnets --region eu-west-3
+  - aws ec2 describe-security-groups --region eu-west-3
+  - aws elbv2 describe-load-balancers --region eu-west-3
+  - aws acm list-certificates --region eu-west-3
+  - aws cloudformation list-stacks --region eu-west-3 --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE UPDATE_ROLLBACK_COMPLETE IMPORT_COMPLETE
+  - aws ec2 describe-instances --region sa-east-1
+  - aws ec2 describe-volumes --region sa-east-1
+  - aws ec2 describe-vpcs --region sa-east-1
+  - aws ec2 describe-subnets --region sa-east-1
+  - aws ec2 describe-security-groups --region sa-east-1
+  - aws elbv2 describe-load-balancers --region sa-east-1
+  - aws acm list-certificates --region sa-east-1
+  - aws cloudformation list-stacks --region sa-east-1 --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE UPDATE_ROLLBACK_COMPLETE IMPORT_COMPLETE
+  - aws ec2 describe-instances --region us-east-1
+  - aws ec2 describe-volumes --region us-east-1
+  - aws ec2 describe-vpcs --region us-east-1
+  - aws ec2 describe-subnets --region us-east-1
+  - aws ec2 describe-security-groups --region us-east-1
+  - aws elbv2 describe-load-balancers --region us-east-1
+  - aws acm list-certificates --region us-east-1
+  - aws cloudformation list-stacks --region us-east-1 --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE UPDATE_ROLLBACK_COMPLETE IMPORT_COMPLETE
+  - aws ec2 describe-instances --region us-east-2
+  - aws ec2 describe-volumes --region us-east-2
+  - aws ec2 describe-vpcs --region us-east-2
+  - aws ec2 describe-subnets --region us-east-2
+  - aws ec2 describe-security-groups --region us-east-2
+  - aws elbv2 describe-load-balancers --region us-east-2
+  - aws acm list-certificates --region us-east-2
+  - aws cloudformation list-stacks --region us-east-2 --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE UPDATE_ROLLBACK_COMPLETE IMPORT_COMPLETE
+  - aws ec2 describe-instances --region us-west-1
+  - aws ec2 describe-volumes --region us-west-1
+  - aws ec2 describe-vpcs --region us-west-1
+  - aws ec2 describe-subnets --region us-west-1
+  - aws ec2 describe-security-groups --region us-west-1
+  - aws elbv2 describe-load-balancers --region us-west-1
+  - aws acm list-certificates --region us-west-1
+  - aws cloudformation list-stacks --region us-west-1 --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE UPDATE_ROLLBACK_COMPLETE IMPORT_COMPLETE
+  - aws ec2 describe-instances --region us-west-2
+  - aws ec2 describe-volumes --region us-west-2
+  - aws ec2 describe-vpcs --region us-west-2
+  - aws ec2 describe-subnets --region us-west-2
+  - aws ec2 describe-security-groups --region us-west-2
+  - aws elbv2 describe-load-balancers --region us-west-2
+  - aws acm list-certificates --region us-west-2
+  - aws cloudformation list-stacks --region us-west-2 --stack-status-filter CREATE_COMPLETE UPDATE_COMPLETE UPDATE_ROLLBACK_COMPLETE IMPORT_COMPLETE
+
+All commands above are read-only list/describe/get calls. Failures are recorded as read_failed JSON surfaces and do not trigger mutation.
