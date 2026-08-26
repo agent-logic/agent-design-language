@@ -41,12 +41,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live AWS, credentialed Terraform, or WebSocket probe was run by the reviewer.
+- WSS handshake remains an explicit residual gate pending the separately approved Runtime WebSocket probe.
+- Historical append-only audit entries retain earlier overclaim/repair history; current VPP/SOR/runbook truth no longer relies on those overclaims.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ee91c87339fdfd5ad8effdfe386bc64d6f268e0f:f0afbd15218f708a73af4d22ad28dde2a320ee4068f2f144f1d80887a87a8ead")
 
-Reviewer: None
+Reviewer: Some("fresh-session:fa41854f-fe62-4a61-9de2-220be687d341")
 
-Result: pre_review
+Result: pass

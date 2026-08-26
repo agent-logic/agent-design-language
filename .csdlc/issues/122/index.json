@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
-  "phase": "implemented",
-  "generation": 61,
-  "digest": "267b8e5cba0e5492442fcac79970858e4ce8164614b3e59a32c553348880f0db",
+  "phase": "reviewed",
+  "generation": 62,
+  "digest": "59fafb1bd0d7bc0bc66f13e29fa5e1ef4815857d23ffb072ce38f111d1332179",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
   "review_assignment": {
@@ -25,7 +25,29 @@
       "docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:fa41854f-fe62-4a61-9de2-220be687d341",
+    "scope": [
+      "infra/aws/csm-public-edge/",
+      "infra/aws/csm-runtime-spot/",
+      "infra/aws/csm-runtime-alb/",
+      "infra/aws/modules/csm-runtime-spot/",
+      "infra/aws/modules/csm-runtime-alb/",
+      "adl/tools/validate_csm_public_edge_static.sh",
+      "adl/tools/validate_csm_public_edge_live.sh",
+      "docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md",
+      "docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md"
+    ],
+    "reviewed_revision": "git-blake3:ee91c87339fdfd5ad8effdfe386bc64d6f268e0f:f0afbd15218f708a73af4d22ad28dde2a320ee4068f2f144f1d80887a87a8ead",
+    "findings": [],
+    "residual_risks": [
+      "No live AWS, credentialed Terraform, or WebSocket probe was run by the reviewer.",
+      "WSS handshake remains an explicit residual gate pending the separately approved Runtime WebSocket probe.",
+      "Historical append-only audit entries retain earlier overclaim/repair history; current VPP/SOR/runbook truth no longer relies on those overclaims."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +62,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e920440c72ced222ef2bf1288dc6cc5135dd760a081e363472f4d446c845dc22",
+      "values_digest": "ed5b05ef4df5817104f6c2852f4e89e3004a282d38615b66eb82779657c21d58",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "0dbdd3ac4c7ac3f4117ad944215da2f36fd4c6ffa57832ee08272800e4cc3d64",
+      "values_digest": "a93e653d9e0ee2efabb78b77fe2000607ebf5ffcb482988060f04a0f8c567176",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "39b2b260c080484a007c97d426c02f8c60c0a2cc51fafacd2f0f34a99566ef6e",
+      "values_digest": "429ae94ca6a92f0d695028045d8dc5b6689ca6c8b7c591ec1da8a741ff96d207",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "c81e64f6d8952c0d6cbdf11db9959a93202a8fbbbe0a233c19b9f0c34b71d4fd",
+      "values_digest": "969431fd73c98e2c3754f86982ea43df5cfadf45023b1450fa9f9ddbdc8450fd",
       "rendered_digest": "832485a93cad1cbb8228950655e809e0201547775d8f4c6eb5e66bdf30af6d97",
       "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "706e0299a4decf44b3387aed1055b002baf0087b76f3159a6b88741150686b77",
-      "rendered_digest": "3ad934122101407a150aa5a7ac4050bea21b24f18a017d27cc60926717407752",
-      "ast_digest": "cf0ba834b50eb91f3ddfe2860e9e82c99bc9b70b01e9efcb47f8bfd53d541715"
+      "values_digest": "0db08b878a5dc8cc0598fdc48f85bba01e6c65bf3b9aa9784445f743443d1230",
+      "rendered_digest": "3c6bcb168af44ab6354048ad7d98c04b6faf53212da8a594d2cd56fdbd98e51b",
+      "ast_digest": "d9a01d74a2665a5adfbcb32bac635d53fe38940afb86cd9b45a4ee0d1d54b40f"
     },
     "sor": {
-      "values_digest": "6733034836a50076773cde11604319253d5447f1ea6dba7f48d55eae72f18490",
+      "values_digest": "51c156526fd3db00b6f6aeb6067869b1b4dff8e29456b01a340fffc0e16485c4",
       "rendered_digest": "5a45bb70790fb704d34805b7f498d11ad25ca043a01c30d76f52879cabd1e57e",
       "ast_digest": "336b181985ce9ed93f89bc052a2031551f454a38550b4d01062a9ce597649be0"
     }
@@ -154,6 +176,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale exact review/publication after merging current origin/main containing terminal #510, #484, and #554."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -723,6 +752,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 82,
+      "generation": 62,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
