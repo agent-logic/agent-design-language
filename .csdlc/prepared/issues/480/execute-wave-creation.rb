@@ -144,8 +144,7 @@ def normalize_live_issue(packet)
 end
 
 def live_issue(issue)
-  normalize_live_issue(run_read_json(["gh", "issue", "view", issue.to_s, "--repo", REPOSITORY,
-                                      "--json", "number,title,body,state,labels,milestone"]))
+  normalize_live_issue(run_read_json(["gh", "api", "repos/#{REPOSITORY}/issues/#{issue}"]))
 end
 
 def assert_execution_authority!
