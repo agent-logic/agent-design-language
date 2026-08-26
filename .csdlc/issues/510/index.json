@@ -1,0 +1,327 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 510,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "7bfe676397915786eed2aa7ff57c7c55ab61746c837cfe92e9e6d7f89326d374",
+  "phase": "published",
+  "generation": 12,
+  "digest": "66a3205583ea23017c511a369b764e9f78c3fbc50d5f43143dfe81da41e3f745",
+  "branch": "codex/510-hot-01-axum-config-hot-reload",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload",
+  "review_assignment": {
+    "reviewer": "openai-responses:gpt-5.6-sol:resp_07dc4f89eb9ab044006a8f48c2c82487d0b9caebc41d268624",
+    "assigned_by": "codex:sprint-1-conductor",
+    "revision": "git-blake3:65b1c38de88b127c5b34ef64bcb5c3b78433a174:df31705b5a8c45d7b09bd18f8e7d86e8bb90fcdf345b33fe374d777243661ed5",
+    "scope": [
+      ".csdlc/issues/510/audit.jsonl",
+      ".csdlc/issues/510/cards/sip.values.json",
+      ".csdlc/issues/510/cards/sor.values.json",
+      ".csdlc/issues/510/cards/spp.values.json",
+      ".csdlc/issues/510/cards/srp.values.json",
+      ".csdlc/issues/510/cards/stp.values.json",
+      ".csdlc/issues/510/cards/vpp.values.json",
+      ".csdlc/issues/510/index.json",
+      ".csdlc/prepared/issues/510/assign-final-api-review.json",
+      ".csdlc/prepared/issues/510/publish-final.json",
+      ".csdlc/prepared/issues/510/record-final-api-review.json",
+      ".csdlc/prepared/issues/510/recover-publication-review.json"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:gpt-5.6-sol:resp_07dc4f89eb9ab044006a8f48c2c82487d0b9caebc41d268624",
+    "scope": [
+      ".csdlc/issues/510/audit.jsonl",
+      ".csdlc/issues/510/cards/sip.values.json",
+      ".csdlc/issues/510/cards/sor.values.json",
+      ".csdlc/issues/510/cards/spp.values.json",
+      ".csdlc/issues/510/cards/srp.values.json",
+      ".csdlc/issues/510/cards/stp.values.json",
+      ".csdlc/issues/510/cards/vpp.values.json",
+      ".csdlc/issues/510/index.json",
+      ".csdlc/prepared/issues/510/assign-final-api-review.json",
+      ".csdlc/prepared/issues/510/publish-final.json",
+      ".csdlc/prepared/issues/510/record-final-api-review.json",
+      ".csdlc/prepared/issues/510/recover-publication-review.json"
+    ],
+    "reviewed_revision": "git-blake3:65b1c38de88b127c5b34ef64bcb5c3b78433a174:df31705b5a8c45d7b09bd18f8e7d86e8bb90fcdf345b33fe374d777243661ed5",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "metadata_only_review_projection",
+      "from_revision": "git-blake3:da2f0e9e7bf66a2ac16050644ce6eb376ae4fde1:292158182e5101f26956b13819d3d306d3f961ba1b7985733cc6eba365626eca",
+      "to_revision": "git-blake3:65b1c38de88b127c5b34ef64bcb5c3b78433a174:df31705b5a8c45d7b09bd18f8e7d86e8bb90fcdf345b33fe374d777243661ed5",
+      "from_commit": "da2f0e9e7bf66a2ac16050644ce6eb376ae4fde1",
+      "to_commit": "65b1c38de88b127c5b34ef64bcb5c3b78433a174",
+      "changed_paths": [
+        ".csdlc/issues/510/audit.jsonl",
+        ".csdlc/issues/510/cards/sip.values.json",
+        ".csdlc/issues/510/cards/sor.values.json",
+        ".csdlc/issues/510/cards/spp.values.json",
+        ".csdlc/issues/510/cards/srp.values.json",
+        ".csdlc/issues/510/cards/stp.values.json",
+        ".csdlc/issues/510/cards/vpp.values.json",
+        ".csdlc/issues/510/index.json",
+        ".csdlc/prepared/issues/510/assign-final-api-review.json",
+        ".csdlc/prepared/issues/510/publish-final.json",
+        ".csdlc/prepared/issues/510/record-final-api-review.json",
+        ".csdlc/prepared/issues/510/recover-publication-review.json"
+      ]
+    }
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 510,
+    "pull_request": 546,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/546",
+    "base": "main",
+    "head": "codex/510-hot-01-axum-config-hot-reload",
+    "revision": "git-blake3:65b1c38de88b127c5b34ef64bcb5c3b78433a174:df31705b5a8c45d7b09bd18f8e7d86e8bb90fcdf345b33fe374d777243661ed5",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/510/design.md",
+  "diagram_path": ".csdlc/prepared/issues/510/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "revision": "a00e20d94c57a7bc2cec5b2dc2d1fae9bf6f2a5bf0a7f2297d183e6cd5d75798"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7c4930783935536bf7efba2dddb206425857d229a5853234c6d41845df1e4681",
+      "rendered_digest": "f74751b161d50aee86803c7fc30275a546e854fab88e74fa59112c3a7520e1ec",
+      "ast_digest": "ea3a1a7c17404b9df86dd82a6d21019bc90635e0eb1ccf08779f06624116c812"
+    },
+    "stp": {
+      "values_digest": "2aa2ccf30d31b9d1479534187ac3badc9a021fad1041fe853a62dc099c0c329a",
+      "rendered_digest": "6e1551c438e00d65871511ebc3a863e00a4cc915bb709494a13ed50e1cac7250",
+      "ast_digest": "71dca90b1c60e816480bcfa4f25d696b066ff7c4796e530e01680cd237c032c3"
+    },
+    "spp": {
+      "values_digest": "32472e49160bf54308b822159065eef99bc57595749e48c967c6393e2ebe0e66",
+      "rendered_digest": "22624646750274ad03d332f799c84529e2c06ee8d393657a951cc510db68329b",
+      "ast_digest": "d24df4cf39383ff570be13f597dde9bf5f7d1d0594afa547cf77f0d72afc0f59"
+    },
+    "vpp": {
+      "values_digest": "91bca900c0ef417d84090f495a5dd7fe00eabbb73dfdf610d0c414b2072999d5",
+      "rendered_digest": "cad9ded18490dfe77ce3fa126ca665289202d553e81cdefca0cd43559644450f",
+      "ast_digest": "a538f88e0d779c8720dc2835512a9e94f55041093257b0b74b585dcddf8e72c2"
+    },
+    "srp": {
+      "values_digest": "d8ca9c12da99015edd1c8eb6e6d6b2b3ff883bd685b9fbe6e66d6b2f586ad3bc",
+      "rendered_digest": "76b0cc68c02424850a7d6abae7a819469cc617fd0c1b0b2b97bff7b916039b87",
+      "ast_digest": "51e141d2e361d48de3565b36cfc049e520b8c6ecc32932d8aeddef94757451e3"
+    },
+    "sor": {
+      "values_digest": "a21ff1742d0635cecb026d3a2f216644fbc49a86bd1ad3556213bf168707561b",
+      "rendered_digest": "8029ac6526b90f947aaa3b7d012d297ef70f277d568f945d31beae73b0623f21",
+      "ast_digest": "d6f1060e711258ba14809204a22b80009f6e2f188b0b6ca31c39cfe701e3b415"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Operator expanded HOT-01 before merge to require production Runtime Observatory origin-policy hot reload. The published code only exposes a generic watcher and does not yet wire CORS and WSS origin authority, so clear stale review/publication truth before implementation and fresh exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "The final publication request and prior typed review metadata were committed after the exact scoped product review; recover so a metadata-only reconciliation can bind the current publication head without changing reviewed product bytes."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:510-hot-01-execution-recovery",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:510-hot-01-execution-recovery",
+      "reason": "repair pre-bind owned-path denominator after projection recovery",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/config_reload.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/config_reload.rs\",\"docs/runtime/config-hot-reload.md\",\".csdlc/prepared/issues/510/validate-valid-reload.rb\",\".csdlc/prepared/issues/510/validate-invalid-retention.rb\",\".csdlc/prepared/issues/510/validate-debounce.rb\",\".csdlc/prepared/issues/510/validate-concurrent-read.rb\",\".csdlc/prepared/issues/510/validate-watcher-shutdown.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "recover review state after independent review found in-scope actionable issues requiring a new substantive revision",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Operator expanded HOT-01 before merge to require production Runtime Observatory origin-policy hot reload. The published code only exposes a generic watcher and does not yet wire CORS and WSS origin authority, so clear stale review/publication truth before implementation and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Correct the recovered required outcome to include the operator-required production Runtime Observatory origin-policy integration.",
+      "operation": "{\"new_value\":\"One production-ready Axum hot-reload implementation with last-known-good retention, including config-only atomic Runtime Observatory origin-policy updates consumed by both HTTP CORS and authenticated WSS without rebuild, continuity rotation, or Runtime restart.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"One production-ready Axum hot-reload implementation with last-known-good retention.\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "The final publication request and prior typed review metadata were committed after the exact scoped product review; recover so a metadata-only reconciliation can bind the current publication head without changing reviewed product bytes.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

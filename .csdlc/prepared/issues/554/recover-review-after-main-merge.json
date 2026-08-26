@@ -1,0 +1,7 @@
+{
+  "issue": 554,
+  "expected_generation": 12,
+  "expected_digest": "46a6d3c4eda04e62431fe0778ad9d66a68d39f6a520baeb5984c53ff4085760d",
+  "actor": "codex:/root",
+  "reason": "Recover #554 review truth after merging current origin/main advanced the clean substantive commit; publication requires fresh exact-head review at the merge head."
+}

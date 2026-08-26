@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 554,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Restore coverage baseline for v0.92 docs invariant and Runtime-v2 timeouts",
+    "slug": "v0-92-1-shared-gate-coverage-baseline",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Shared CI baseline repair only: stale v0.92 README invariant and Runtime-v2 coverage reliability.",
+      "deliverables": [
+        "Focused source/docs fix",
+        "Focused validation evidence",
+        "Reviewed #554 PR with Closes #554"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The Memory Palace v0.92 docs invariant test passes without broad release-truth rewrites.",
+        "AC-2: Runtime-v2 unified-runtime-kernel tests no longer time out in the required coverage posture.",
+        "AC-3: The #554 PR is reviewed, required checks are green, and it merges before #549 is rerun."
+      ],
+      "dependencies": [
+        "Observed #549 run 32998653026 failure evidence"
+      ],
+      "repo_inputs": [
+        ".git/csdlc-v2/logs/issue-514-pr-549-job-98275292059.zip",
+        "docs/milestones/v0.92/README.md",
+        "adl/tests/memory_palace_tests.rs",
+        "adl/src/runtime_v2"
+      ],
+      "non_goals": [
+        "Do not alter #514 provider-profile functionality.",
+        "Do not touch #483.",
+        "Do not bypass required coverage."
+      ]
+    }
+  }
+}

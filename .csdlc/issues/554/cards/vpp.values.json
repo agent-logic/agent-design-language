@@ -1,0 +1,92 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 554,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Restore coverage baseline for v0.92 docs invariant and Runtime-v2 timeouts",
+    "slug": "v0-92-1-shared-gate-coverage-baseline",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused-memory-palace-docs",
+          "proof_role": "AC-1 docs invariant",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--test",
+            "memory_palace_tests",
+            "v092_docs_name_memory_palace_production_authority_without_broad_completion_claim"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "focused-runtime-v2-kernel",
+          "proof_role": "AC-2 timeout reliability",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--lib",
+            "runtime_v2::tests::unified_runtime_kernel"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-issue-validation",
+          "proof_role": "AC-3 lifecycle/card validation before review and publication; hosted required checks remain fail-closed after publication.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
+            "issue",
+            "--issue",
+            "554"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed and preserve logs; do not rerun #549 until #554 is green and merged.",
+      "design_ref": ".csdlc/issues/554/authored/design.md",
+      "design_digest": "c77477c95fd48ab5b2f60f7db680c50e69e3db6cfde4c159f70c4f3c8622d39d",
+      "diagram_ref": ".csdlc/issues/554/authored/diagram.mmd",
+      "diagram_digest": "47c42c6d63b7770ce876f72a2b74795e4af59689a4ac0f169e3701b7c7f8c491"
+    }
+  }
+}

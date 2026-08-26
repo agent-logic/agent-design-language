@@ -1,0 +1,110 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 484
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Completed the AWS-A read-only resource ownership inventory for the Agent Logic business AWS account, including global, tagged-resource, and per-region readback dispositions.
+
+## Artifacts
+
+- docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md
+- docs/milestones/v0.92.1/evidence/cloud/aws-a/readbacks/
+- docs/milestones/v0.92.1/evidence/cloud/aws-a/run-readonly-inventory.sh
+- docs/milestones/v0.92.1/evidence/cloud/aws-a/build-inventory-summary.sh
+- .csdlc/prepared/issues/484/validate-aws-a-inventory.sh
+- .csdlc/evidence/484/
+
+## Execution
+
+- Captured read-only AWS account, region, global service, tag-mapping, and per-region service inventory readbacks.
+- Generated the AWS resource ownership inventory with explicit owned, frozen-unknown, and not-observed dispositions for the discovered readback denominator.
+- Fixed regional readback filename parsing so resources in regions such as us-east-1 and ap-southeast-2 are included instead of being skipped.
+- Strengthened the issue-owned validator to compare inventory rows against discovered resource identifiers from retained readbacks and reject missing dispositions.
+- Validated that retained evidence has required surfaces, avoids obvious credential-like material, and records no mutation commands.
+
+## Validation
+
+[
+  {
+    "command": [
+      "bash",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-a/build-inventory-summary.sh",
+      "."
+    ],
+    "purpose": "Regenerate the inventory table from retained read-only AWS readbacks after regional/tagged-resource denominator repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/484/build-inventory-summary.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/484/validate-aws-a-inventory.sh",
+      "."
+    ],
+    "purpose": "Reject credential-like material, mutation commands, missing required readbacks, and missing discovered-resource inventory dispositions.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/484/validate-aws-a-inventory.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-484-aws-resource-ownership-inventory",
+      "issue",
+      "--issue",
+      "484"
+    ],
+    "purpose": "Validate typed #484 lifecycle/card truth after review recovery and SOR repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/484/csdlc-validate.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+      "--repo",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-484-aws-resource-ownership-inventory",
+      "--issue",
+      "484"
+    ],
+    "purpose": "Verify typed C-SDLC doctor health after review recovery and SOR repair.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/484/csdlc-doctor.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject patch whitespace and diff hygiene defects.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/484/git-diff-check.log"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none
