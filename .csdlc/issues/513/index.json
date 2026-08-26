@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "ca20746487792902839fd1aec8ec38097664f07b87b52dfaff0319b1af594469",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "81e9114aed5984a4f2ba4167427b13cd118efcf558ab63352d1f6223e5e4038f",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-responses:resp_082c6a71386fee33006a8f58dcfc3487d09c69e7d1c6b53d61:gpt-5.6-sol",
+    "assigned_by": "codex:issue-513-dec-01-runtime-authority-separation",
+    "revision": "git-blake3:ca83c7a5f96c7190696adb3ec06f4c14bf647848:4e8d5509dd222671d43deeb9d5d52462b1513b1a4b703a42f431bafb51befda1",
+    "scope": [
+      ".csdlc/issues/513",
+      ".csdlc/prepared/issues/513",
+      ".csdlc/evidence/513",
+      "docs/runtime/runtime-v2-v3-authority-topology.md",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:resp_082c6a71386fee33006a8f58dcfc3487d09c69e7d1c6b53d61:gpt-5.6-sol",
+    "scope": [
+      ".csdlc/issues/513",
+      ".csdlc/prepared/issues/513",
+      ".csdlc/evidence/513",
+      "docs/runtime/runtime-v2-v3-authority-topology.md",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
+    ],
+    "reviewed_revision": "git-blake3:ca83c7a5f96c7190696adb3ec06f4c14bf647848:4e8d5509dd222671d43deeb9d5d52462b1513b1a4b703a42f431bafb51befda1",
+    "findings": [],
+    "residual_risks": [
+      "OpenAI Responses API review resp_082c6a71386fee33006a8f58dcfc3487d09c69e7d1c6b53d61 returned PASS and publication_safe: true for exact head ca83c7a5f96c7190696adb3ec06f4c14bf647848.",
+      "Required GitHub CI remains the integration gate after publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0908ee5ac577f64427c3ee754e6b8f02b9cac809a7928194d29338b66de0df06",
+      "values_digest": "c3fec6f57556d1bacbf789277614c0591d8e98dfe0463ca0436435cd4e940afd",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "1fc09efdad2832e2e265638d3dd2125e6163973a7e57af164bb6eeb5e4a27281",
+      "values_digest": "45aac0b51a27138b089188eac79795b14c86109c9129bc8ae39eb92967f94e92",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "436eff3011803a2f3cab8e9c296669a9b98a8f63c83698795af3f1b631fa8480",
+      "values_digest": "d1c401e3667c44494139eae1a5f9e578c3fb72bb31a4575473e385912d3c9ea7",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "de209382bdb1271545882e31a763f2cc360497256df02c23ca3b859794bea5f9",
+      "values_digest": "e15dae16d0d155b3d7323f00505b43671e59152bd15679e9e6734977a87534ac",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "ff45a464b8d4d042f88c54ceb261fd6509965b26ce9e128a8f22cb6a1dcb153e",
-      "rendered_digest": "03e88f3677bef8af4c9f730cf3457f0bc5c4a195cc6c37bd0bf4d69b88ff9441",
-      "ast_digest": "1c24973c23f184bdc5fd4591a212c46605060fe551fbb8fbfd7f1f131d14bc81"
+      "values_digest": "5fdae919e6302f525ee2f5ba5aa17437e6dad7a4b341340f8645d01c5a40824a",
+      "rendered_digest": "c86dee79ac5db4687448c3ea3fca891437cadb35269c24c0c86836b35b8b99e5",
+      "ast_digest": "46d0e67d973801ad64f2ab920a934c1dca6abf102dd19c92d58eaab3b2f00f0a"
     },
     "sor": {
-      "values_digest": "4ca3af481e39cc4f5f6da892fb34cb9d4dccdc16db8695bf6b8dfb74f5945f61",
+      "values_digest": "a12746dc6cfc0ec623539d2893273b677f440428aba564442afcf277f3027842",
       "rendered_digest": "1fc5c4a59dedf7d6dd7f75881ad1478af9f3d59df6612a125140e60d705f12dd",
       "ast_digest": "14f1f96e4bb394639d4dc756227a7a6a0fcb6825636ffdf4090842e5fe70a6d2"
     }
@@ -104,6 +132,13 @@
       "to": "implemented",
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "Recover stale review after rebasing onto current origin/main with merged #510; rerun proof and obtain OpenAI Responses API exact-head review."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -239,6 +274,20 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "Record validation after OpenAI Responses API Markdown-bypass remediation finding.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove Markdown Runtime-v4 exclusion checks compare complete approved lines exactly, enforce expected counts, and reject same-line bypass content after API re-review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-markdown-bypass-remediation.log\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
