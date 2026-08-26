@@ -79,11 +79,11 @@ Completed the CORP-A critical-asset schedule as documentation/evidence-only cust
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
