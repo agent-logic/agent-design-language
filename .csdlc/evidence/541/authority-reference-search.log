@@ -1,0 +1,22 @@
+adl/tools/README.md:9:- `.adl/bin/csdlc-v2/`: installed typed C-SDLC v2 owner binaries for issue lifecycle work.
+adl/tools/README.md:71:.adl/bin/csdlc-v2/csdlc-install resolve --repo . --issue <issue_num>
+adl/tools/README.md:74:.adl/bin/csdlc-v2/csdlc-issue --root <repo> create --request <bootstrap-request.json>
+adl/tools/README.md:75:.adl/bin/csdlc-v2/csdlc-doctor --repo <repo> --issue <issue_num>
+adl/tools/README.md:78:.adl/bin/csdlc-v2/csdlc-bind --root <worktree> --request <bind-request.json>
+adl/tools/README.md:129:.adl/bin/csdlc-v2/csdlc-edit --repo <worktree> apply --request <edit-request.json>
+adl/tools/README.md:130:.adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>
+adl/tools/README.md:133:.adl/bin/csdlc-v2/csdlc-validate --root <worktree> finalize --request <finalize-request.json>
+adl/tools/README.md:134:.adl/bin/csdlc-v2/csdlc-review record --request <review-request.json>
+adl/tools/README.md:135:.adl/bin/csdlc-v2/csdlc-publish publish --request <publication-request.json>
+adl/tools/README.md:145:  compatibility inspection, not for current Gate 10D2 lifecycle operation
+docs/onboarding.md:20:Gate 10D2 is the current C-SDLC authority. Current issue lifecycle work uses
+docs/onboarding.md:21:the independent typed Rust owner binaries under `.adl/bin/csdlc-v2/`, selected
+docs/onboarding.md:22:through the typed contracts in `csdlc-v2/operator/skills/`. The old
+docs/onboarding.md:30:`csdlc-edit`, `csdlc-validate`, `csdlc-review`, `csdlc-publish`,
+docs/onboarding.md:31:`csdlc-finish`, and `csdlc-clean` routes for lifecycle state changes.
+docs/onboarding.md:33:The canonical repository is `agent-logic/agent-design-language`. The
+docs/onboarding.md:36:should identify the canonical repository; `legacy-origin`, when present, should
+docs/onboarding.md:50:`/Volumes/FastWork/adl-worktrees` unless a typed migration/recovery route
+docs/onboarding.md:55:`csdlc-review` records exact-head review, `csdlc-publish` records publication,
+docs/onboarding.md:56:`csdlc-finish` derives terminal authority from live GitHub state, and
+docs/onboarding.md:57:`csdlc-clean` removes the exact registered worktree after truthful closeout.
