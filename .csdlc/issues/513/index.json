@@ -4,41 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
-  "phase": "reviewed",
-  "generation": 6,
-  "digest": "b74b912269c5726862a8507d180bd8ff5f2c2deef5411aa9469e30dd092353fc",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "9a56425b5be0be68221b8e2fdd24112edb5a1fd6a47e9b93e27d78da5d628bf9",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
-  "review_assignment": {
-    "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
-    "assigned_by": "codex:issue-513-dec-01-runtime-authority-separation",
-    "revision": "git-blake3:6060943e7875378c4eab0e7c5f7a534e5db4273e:4700b5dd14ab9770e69da6e75ea7461aa2c958f6542b94c2ba5736439b661b19",
-    "scope": [
-      ".csdlc/issues/513",
-      ".csdlc/prepared/issues/513",
-      ".csdlc/evidence/513",
-      "docs/runtime/runtime-v2-v3-authority-topology.md",
-      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
-    ]
-  },
-  "review": {
-    "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
-    "scope": [
-      ".csdlc/issues/513",
-      ".csdlc/prepared/issues/513",
-      ".csdlc/evidence/513",
-      "docs/runtime/runtime-v2-v3-authority-topology.md",
-      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
-    ],
-    "reviewed_revision": "git-blake3:6060943e7875378c4eab0e7c5f7a534e5db4273e:4700b5dd14ab9770e69da6e75ea7461aa2c958f6542b94c2ba5736439b661b19",
-    "findings": [],
-    "residual_risks": [
-      "Origin/main or required CI movement before merge can still require ancestry refresh and re-observation.",
-      "Untracked .csdlc/tmp request files are operational inputs only and must not be staged into the publication branch."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -53,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "25c88bd0e0d156335961b1c071862b011c8e6ac4a4a8d942cd296778941083e4",
+      "values_digest": "ac1e478b63c4eeb3d23146bdf782eacf0e70a46980c521f8d7e25e3391d59964",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "8aaf254d3414ad6f807ba09c83d923eb578ba143b6459ba727f341b51682348d",
+      "values_digest": "8d6396945ae18acc3a95c6113137e009a2fab3b52b60c947fce4a96a8451ec0b",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "63f76eb2e82a93bde2fc49d8e43a2abbdd188f0bbb6f00ad4ac5afc30b81afb4",
+      "values_digest": "93cffd36299cc34eefc46a3131f46daf1f67ae7c1bd2820dfcc4da1f1471628d",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "60a95fdb5c52ecfaf4f6f6cd594676eb48d6410134b9537f9ca795967d37c1b2",
+      "values_digest": "110723b505258fafb5942b1287b7e5e96a34f54c7bfd8b6ce4fb17564f5d15c0",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "499a0a6648881b472a0728f558b70537dc0f340c4c68bac7905f97e2fa4742fa",
-      "rendered_digest": "723e6394b837ad155659d45743575d7cf61862d5d7876ccd7d7d12ab880345a9",
-      "ast_digest": "49df75b1337c72818842e6b72204ecdcd19af1d76cf9916e105b99914ce562b6"
+      "values_digest": "72e3bf4427dc2b6a9398eafba0fb00871835ea6bdeefb598d6b7c03f8a19452a",
+      "rendered_digest": "03e88f3677bef8af4c9f730cf3457f0bc5c4a195cc6c37bd0bf4d69b88ff9441",
+      "ast_digest": "1c24973c23f184bdc5fd4591a212c46605060fe551fbb8fbfd7f1f131d14bc81"
     },
     "sor": {
-      "values_digest": "4c066c6f15843e6bb00563fa7ef0f84c33ad06cc5cf1a47c9829b020d800b084",
+      "values_digest": "9a5bed401922527b1df4fd5958fca4e89d80f5590f7015e667526c1716ad4486",
       "rendered_digest": "6e65b00519459a30b7cbbe2ca2ed4161cbca44accded39dba86d36a2b7e8d951",
       "ast_digest": "f37bffdd964dfcb78327132b872c71d334ba8f15b6864926ff882dec52e8574e"
     }
@@ -125,6 +97,13 @@
       "to": "reviewed",
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Recover stale review after rebasing onto current origin/main with merged #510; rerun proof and obtain OpenAI Responses API exact-head review."
     }
   ],
   "audit": [
@@ -197,6 +176,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Recover stale review after rebasing onto current origin/main with merged #510; rerun proof and obtain OpenAI Responses API exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -8,3 +8,4 @@
 {"sequence":8,"generation":5,"actor":"codex:issue-513-dec-01-runtime-authority-separation","reason":"Recover review metadata after publication guard rejected prepared-request drift; re-run exact-head review from a metadata-safe head.","operation":"recover_review"}
 {"sequence":9,"generation":5,"actor":"codex:issue-513-dec-01-runtime-authority-separation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":10,"generation":6,"actor":"codex:issue-513-dec-01-runtime-authority-separation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":11,"generation":7,"actor":"codex:issue-513-dec-01-runtime-authority-separation","reason":"Recover stale review after rebasing onto current origin/main with merged #510; rerun proof and obtain OpenAI Responses API exact-head review.","operation":"recover_review"}
