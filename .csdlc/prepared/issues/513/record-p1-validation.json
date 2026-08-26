@@ -1,0 +1,20 @@
+{
+  "issue": 513,
+  "expected_generation": 2,
+  "expected_digest": "1df49693235995801523f9f82aedad90874fb1364f74eb2e80e3021fe5a189ff",
+  "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+  "card": "sor",
+  "reason": "Record fresh validation after independent review P1 ambiguity hardening.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh"
+      ],
+      "evidence_ref": ".csdlc/evidence/513/dec-01-runtime-authority-topology-p1-rerun.log",
+      "outcome": "passed",
+      "purpose": "Prove the DEC-01 topology after replacing first-match reverse-reference classification with longest-prefix ambiguity detection and non-overlapping support-surface rows."
+    }
+  }
+}

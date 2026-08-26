@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 513,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+    "slug": "v0-92-1-dec-01-runtime-v2-v3-authority-separation",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one independently owned Runtime v2 and Runtime v3 authority topology with executable migration and rollback proof while excluding Runtime v4.",
+      "required_outcome": "One accepted Runtime v2/v3 source and authority topology, backed by executable source-denominator, reverse-reference, compatibility, rollback, and migration checks.",
+      "declared_scope": [
+        "adl/src/runtime_v2/**",
+        "adl-runtime/**",
+        "adl-runtime-kernel/**",
+        "docs/runtime/**",
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/**",
+        ".csdlc/prepared/issues/513/**",
+        ".csdlc/issues/513/**"
+      ],
+      "authority_boundary": [
+        "Runtime v2 authority remains under adl/src/runtime_v2/**.",
+        "Runtime v3 authority remains under adl-runtime/** and adl-runtime-kernel/**.",
+        "Shared docs and DEC-01 evidence record topology and proof only; they do not move runtime authority silently.",
+        "Runtime v4 is excluded and any v4 requirement stops the issue for replanning.",
+        "Issue #513 does not absorb #483 or sibling Sprint 1 work."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use the canonical FastWork issue worktree.",
+        "Do not touch tracked main.",
+        "Do not touch #483.",
+        "Use typed C-SDLC v2 routes only for lifecycle writes.",
+        "Publish with Closes #513 and keep CI green before merge."
+      ]
+    }
+  }
+}

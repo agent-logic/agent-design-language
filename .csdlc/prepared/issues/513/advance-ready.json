@@ -1,0 +1,12 @@
+{
+  "issue": 513,
+  "actor": "codex:/root/issue_513_dec_01",
+  "expected_generation": 0,
+  "expected_digest": "c1fe1ec23eba32c6f3f64c92a96353fbb3316c22b18717a085d72f5746b81589",
+  "card": "spp",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  },
+  "reason": "Advance DEC-01 after approved planning-digest design and complete typed bootstrap packet."
+}

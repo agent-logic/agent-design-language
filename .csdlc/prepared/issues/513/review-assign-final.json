@@ -1,0 +1,14 @@
+{
+  "issue": 513,
+  "expected_generation": 3,
+  "expected_digest": "00cabfe6913812405fbd3aa330521349c551c3adbd15f92d87065dbf174658cf",
+  "assigned_by": "codex:issue-513-dec-01-runtime-authority-separation",
+  "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
+  "scope": [
+    ".csdlc/issues/513",
+    ".csdlc/prepared/issues/513",
+    ".csdlc/evidence/513",
+    "docs/runtime/runtime-v2-v3-authority-topology.md",
+    "docs/milestones/v0.92.1/evidence/runtime-decoupling"
+  ]
+}
