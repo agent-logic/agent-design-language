@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
-  "generation": 52,
-  "digest": "ed26ef6213d63f1802bcd99be5b0a22a40c672fce718bc179a5cb3dab447daf6",
+  "generation": 54,
+  "digest": "a0eb6769aa8647bba498dd7b2f24e8e16f442b9d88982300c85244df41e9426f",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "053ce4ab761b44002255913569e7e5657441d56d8924aa70ec5f2977a88f6c67",
+      "values_digest": "7efe6258b366d86dc9b8aa947268c234678b64d77c4b05977594f314f38f82c1",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "cc30bb84cee4cc33db9851ff956f505f2f923660c9c8517a79fae0e2231915a1",
+      "values_digest": "a443b1aae3892b74fecc02393ca773ae5e629891db36d314b4abf761277dfb53",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "696230ab510d2800ac0479b9c315b812ec06aaa0d99242772788aa7597aa511a",
+      "values_digest": "14f7653b8259d77563f2d4533dd407b7eb51bf2e783b3a5a16723adb695d4264",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "9482fd245449df161caee306f853c5ab4b5d2da7c2fca233d458a5604ca94ac4",
+      "values_digest": "8fb1a6735d3960a11813a88dee5b363736b1dc00fdc3a5e3ab1b1273848dd80c",
       "rendered_digest": "8f61f58de8e982822638648bfc941c11fa6e96fd83c423cb85b14d5dce3b30a6",
       "ast_digest": "491c78890e5c6a24563c40f2de94946462a4f048481d051edaa58602d55ef222"
     },
     "srp": {
-      "values_digest": "f4f11018a54329b54d0a3d4804b4312706511446dcc8b57aec382e9776800e24",
+      "values_digest": "574768ee9e38f1948d964c8da4d154894a8bcddc4180344c510287c81bb87eba",
       "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
       "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
     },
     "sor": {
-      "values_digest": "4142d9a6ab7460d85621b168ddd7572082150d26a6d211907382fe9e834c105f",
+      "values_digest": "c3948be7a85fc20f79fa694131c8e6dbfa72951121aa273465233a55865d9eb6",
       "rendered_digest": "756782516544940f21b1d3ac33e788b83aeb94871ac10e02c6f63e77faa07006",
       "ast_digest": "64095a09c87e77664d141025289f9c9a79d032e4578da3527b1ad34d99cf781f"
     }
@@ -595,6 +595,27 @@
       "generation": 52,
       "actor": "codex:/root",
       "reason": "Recover #122 exact review PASS after clean merge of current origin/main advanced HEAD from reviewed substantive revision ed39c2be6f82222b3ed746b9899e01c04e128cbe to post-merge revision 2dae26068238e06909aad62d070fe6ace86f9994. No #122 touched-path conflicts occurred; focused Terraform/static/diff proof was rerun green. A fresh exact-head review is required before typed publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 52,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 53,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 71,
+      "generation": 54,
+      "actor": "codex:/root",
+      "reason": "Recover #122 post-main exact review fresh-session:638dc652-8a44-4506-99d3-91883979c99e after P3 trailing-whitespace finding in .csdlc/evidence/122/gemini-review-diff.historical.txt. The product/runbook/Terraform surfaces had no P0-P2 findings; recovery precedes a bounded whitespace-only evidence hygiene fix and fresh exact-head review.",
       "operation": "recover_review"
     }
   ]
