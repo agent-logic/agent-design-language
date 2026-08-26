@@ -93,11 +93,11 @@ Completed the AWS-A read-only resource ownership inventory for the Agent Logic b
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
