@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 550,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
+    "slug": "runtime-observatory-trusted-origin-csm-config",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #550 source, docs, executable tests, live proof, lifecycle truth, and exact branch range.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does parsing accept only an exact HTTPS DNS origin with a valid optional port?",
+        "Do executable tests cover all valid combinations and unsafe input classes?",
+        "Can invalid input alter the generated Runtime config?",
+        "Does the HTML Observatory trust the configured Runtime host instead of a stale hard-coded hostname?",
+        "Is the delta isolated from newer main work and from HOT-01 dynamic reload?",
+        "Does live proof establish trusted TLS and exact CORS for both Observatory origins?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

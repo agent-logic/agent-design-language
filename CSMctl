@@ -48,6 +48,7 @@ RUNTIME_BASE="${ADL_CSM_RUNTIME_BASE:-https://localhost:$RUNTIME_PORT}"
 RUNTIME_ADDRESS="${ADL_CSM_RUNTIME_ADDRESS:-127.0.0.1:$RUNTIME_PORT}"
 RUNTIME_PUBLIC_BASE_URL="${ADL_CSM_RUNTIME_PUBLIC_BASE_URL:-$RUNTIME_BASE}"
 RUNTIME_SERVER_NAME="${ADL_CSM_RUNTIME_SERVER_NAME:-localhost}"
+ALLOW_LOCALHOST_8000_ORIGIN="${ADL_CSM_ALLOW_LOCALHOST_8000_ORIGIN:-0}"
 LAUNCH_WORKING_DIR="${ADL_CSM_LAUNCH_WORKING_DIR:-$PRIMARY_REPO_ROOT}"
 INIT_FILE="${ADL_CSM_RUNTIME_INIT:-$GENERATED_DIR/runtime-init.current.toml}"
 PID_FILE="${ADL_CSM_PID_FILE:-$STATE_DIR/start_CSM.pid}"
@@ -93,6 +94,7 @@ OBSERVATORY_PORT="${ADL_CSM_OBSERVATORY_PORT:-8765}"
 OBSERVATORY_PORTS="${ADL_CSM_OBSERVATORY_PORTS:-$OBSERVATORY_PORT}"
 OBSERVATORY_BASE="${ADL_CSM_OBSERVATORY_BASE:-https://localhost:$OBSERVATORY_PORT}"
 OBSERVATORY_URL="${ADL_CSM_OBSERVATORY_URL:-$OBSERVATORY_BASE/index.html?runtime=v3&runtimeApiBase=$OBSERVATORY_RUNTIME_BASE&live=1}"
+OBSERVATORY_PUBLIC_ORIGIN="${ADL_CSM_OBSERVATORY_PUBLIC_ORIGIN:-}"
 OBSERVATORY_TLS_CERT="${ADL_CSM_OBSERVATORY_TLS_CERT:-${ADL_CSM_API_TLS_CERT:-$CERT_FILE}}"
 OBSERVATORY_TLS_KEY="${ADL_CSM_OBSERVATORY_TLS_KEY:-${ADL_CSM_API_TLS_KEY:-$KEY_FILE}}"
 OBSERVATORY_PID_FILE="${ADL_CSM_OBSERVATORY_PID_FILE:-$STATE_DIR/CSMctl.observatory.pid}"
@@ -315,8 +317,48 @@ write_launch_plist() {
 EOF
 }
 
+validate_observatory_public_origin() {
+  local origin="$1" authority host port port_value label canonical_origin
+  local -a labels
+  [[ "$origin" == https://* ]] || fail "invalid_observatory_public_origin expected=https_origin"
+  authority="${origin#https://}"
+  [[ "$authority" != *"/"* && "$authority" != *"?"* && "$authority" != *"#"* ]] || \
+    fail "invalid_observatory_public_origin expected=host_and_optional_port"
+  [[ "$authority" != *"@"* ]] || fail "invalid_observatory_public_origin expected=host_and_optional_port"
+  [[ "$authority" =~ ^[A-Za-z0-9][A-Za-z0-9.-]*[A-Za-z0-9](:[0-9]{1,5})?$ ]] || \
+    fail "invalid_observatory_public_origin expected=host_and_optional_port"
+  host="${authority%%:*}"
+  [[ "$host" == *.* ]] || fail "invalid_observatory_public_origin expected=dns_host"
+  (( ${#host} <= 253 )) || fail "invalid_observatory_public_origin expected=dns_host"
+  IFS='.' read -r -a labels <<< "$host"
+  for label in "${labels[@]}"; do
+    (( ${#label} >= 1 && ${#label} <= 63 )) || \
+      fail "invalid_observatory_public_origin expected=dns_host"
+    [[ "$label" =~ ^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?$ ]] || \
+      fail "invalid_observatory_public_origin expected=dns_host"
+  done
+  if [[ "$authority" == *:* ]]; then
+    port="${authority##*:}"
+    port_value=$((10#$port))
+    (( port_value >= 1 && port_value <= 65535 )) || \
+      fail "invalid_observatory_public_origin expected=valid_port"
+  fi
+  canonical_origin="$(printf '%s' "$origin" | tr '[:upper:]' '[:lower:]')"
+  [[ "$canonical_origin" != "https://localhost:8765" && \
+     "$canonical_origin" != "https://observatory.dev.agent-logic.ai" && \
+     "$canonical_origin" != "https://observatory.dev.agent-logic.ai:443" ]] || \
+    fail "duplicate_observatory_public_origin"
+}
+
 ensure_current_init() {
   load_service_env
+  case "$ALLOW_LOCALHOST_8000_ORIGIN" in
+    0|1) ;;
+    *) fail "invalid_allow_localhost_8000_origin expected=0_or_1" ;;
+  esac
+  if [[ -n "$OBSERVATORY_PUBLIC_ORIGIN" ]]; then
+    validate_observatory_public_origin "$OBSERVATORY_PUBLIC_ORIGIN"
+  fi
   if [[ -n "${ADL_CSM_API_TLS_CERT:-}" || -n "${ADL_CSM_API_TLS_KEY:-}" || -n "${ADL_CSM_API_TLS_TRUST_ROOTS:-}" ]]; then
     [[ -n "${ADL_CSM_API_TLS_CERT:-}" ]] || fail "missing_api_tls_cert_for_custom_api_tls"
     [[ -n "${ADL_CSM_API_TLS_KEY:-}" ]] || fail "missing_api_tls_key_for_custom_api_tls"
@@ -379,6 +421,15 @@ ensure_current_init() {
   write_secret_file "$CREDENTIAL_DIR/continuity-signing-key.hex" "$ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX"
   write_secret_file "$CREDENTIAL_DIR/observatory-token.txt" "$ADL_RUNTIME_OBSERVATORY_TOKEN"
   write_secret_file "$CREDENTIAL_DIR/acip-write-token.txt" "${ADL_RUNTIME_ACIP_WRITE_TOKEN:-$ADL_RUNTIME_OBSERVATORY_TOKEN}"
+
+  local additional_allowed_origins_toml='additional_allowed_origins = []'
+  if [[ "$ALLOW_LOCALHOST_8000_ORIGIN" == "1" && -n "$OBSERVATORY_PUBLIC_ORIGIN" ]]; then
+    additional_allowed_origins_toml="additional_allowed_origins = [\"http://localhost:8000\", \"$OBSERVATORY_PUBLIC_ORIGIN\"]"
+  elif [[ "$ALLOW_LOCALHOST_8000_ORIGIN" == "1" ]]; then
+    additional_allowed_origins_toml='additional_allowed_origins = ["http://localhost:8000"]'
+  elif [[ -n "$OBSERVATORY_PUBLIC_ORIGIN" ]]; then
+    additional_allowed_origins_toml="additional_allowed_origins = [\"$OBSERVATORY_PUBLIC_ORIGIN\"]"
+  fi
 
   umask 077
   cat > "$CREDENTIAL_DIR/birth-witness-trust.json" <<EOF
@@ -444,6 +495,7 @@ server_name = "$RUNTIME_SERVER_NAME"
 
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.dev.agent-logic.ai"]
+$additional_allowed_origins_toml
 
 [kernel]
 recorder_capacity = 1024

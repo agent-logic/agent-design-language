@@ -27,6 +27,13 @@ ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997
 ADL_CSM_RUNTIME_BASE=https://localhost:20997
 ADL_CSM_RUNTIME_PUBLIC_BASE_URL=https://localhost:20997
 ADL_CSM_RUNTIME_SERVER_NAME=localhost
+# Opt in to the exact Origin of a separately operated local development
+# server. CSMctl does not bind or own port 8000.
+ADL_CSM_ALLOW_LOCALHOST_8000_ORIGIN=0
+# Optional browser-trusted HTTPS origin for the repo-owned Observatory server,
+# such as https://wuji.dev.csm.agent-logic.ai:8765. The certificate configured
+# for that server must cover the same hostname.
+ADL_CSM_OBSERVATORY_PUBLIC_ORIGIN=
 
 # launchd service identity and local process files.
 ADL_CSM_LAUNCH_LABEL=com.agentlogic.start-csm
