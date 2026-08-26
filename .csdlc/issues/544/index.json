@@ -4,13 +4,44 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0b8aa5c966363ac9cf55e79de078ee6483310794407cf840b79dd74fbede4428",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "578108de6f075f2c0d746545d6f4bda44318d2e5ada6b951cbdb7424962a1a5c",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "a43fd6315abdb3427ccf0569ee2353376efb45bb0b195a109d9aafa2d1d04a0f",
   "branch": "codex/544-primary-checkout-bootstrap-guard",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-544-primary-checkout-bootstrap-guard",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:01a03f42-ba25-79b2-bec5-5604c8f53592",
+    "assigned_by": "codex:issue-544-implementation",
+    "revision": "git-blake3:3d1529fb8e19475b34d14ccee5341d3085bde5ad:b6300c24095bf7c565cd33530567d56aae891232b462eafd79dd6838ef9ab015",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+      "docs/onboarding.md",
+      "csdlc-v2/README.md",
+      ".csdlc/issues/544",
+      ".csdlc/prepared/issues/544/design.md",
+      ".csdlc/prepared/issues/544/diagram.mmd"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a03f42-ba25-79b2-bec5-5604c8f53592",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+      "docs/onboarding.md",
+      "csdlc-v2/README.md",
+      ".csdlc/issues/544",
+      ".csdlc/prepared/issues/544/design.md",
+      ".csdlc/prepared/issues/544/diagram.mmd"
+    ],
+    "reviewed_revision": "git-blake3:3d1529fb8e19475b34d14ccee5341d3085bde5ad:b6300c24095bf7c565cd33530567d56aae891232b462eafd79dd6838ef9ab015",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to issue #544 scope and did not assess merge or finish readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "89343050b8fd5d754b43def9863a064d03d019b1eae738cbae186bd7b098f14c",
+      "values_digest": "19d7da435f2b0a4e0233d454288f8bf10bfd07274954ce1b26d53335c1010603",
       "rendered_digest": "f9200e94d5b34c2683ed23c3adc5ae63d885fa5978819ebd35ba399294faf352",
       "ast_digest": "4b3853cbf5df7b759c44da8fcd07307b864f0c2fe29efef887d7456d53450752"
     },
     "stp": {
-      "values_digest": "d5fe17bf28aa959e41dca5ef3fce13e01f84ed8b4c28954ecc73d01214b1476c",
+      "values_digest": "866a1d5b42d3b2bab8e7c319ee8796141d0d5faf83fabad79506cf30f2f2465a",
       "rendered_digest": "3625c11b15677727953342f978ba6b0572b026124b599c7b7e388a605d7678c9",
       "ast_digest": "62d39e800a0030b76803f92508674a830d47bbfc9ca1540e2c7938cdaf0f3db5"
     },
     "spp": {
-      "values_digest": "2e12d67d863f7646bffbad41a4b71be309bb0e50478b926766802eadef60e864",
+      "values_digest": "202bb39ced9a79fe4bef8969b4068336958aea5b0b9b5e0ac3774fef65b7c3a2",
       "rendered_digest": "97f60ee4446c21b0a6387cf5c99185b8f193a148b57e1c2acc6950e73f1d670a",
       "ast_digest": "9f034b55388e4996f810eb685dc38f0bc40d005ee79c6cfa38b8b00c350d90e2"
     },
     "vpp": {
-      "values_digest": "b8c1906076e66c9cc77ab4cf26dfd2f0c0628916013842baca7e8eddc854d34e",
+      "values_digest": "a79a351332bb47388cd4c26ad664d465e0c04052fc827c86a1c5d5f05f466239",
       "rendered_digest": "8c5bfd1bba767ce996acbdc88f5eb793e2fb346105e71f1b5aa5c237c763e37c",
       "ast_digest": "d5ed78f8e12dd41b147bf0f532d72e228928b3064193bd569a7659d2002363eb"
     },
     "srp": {
-      "values_digest": "981a364adcf40f27a3c537fd1452bea4d2e326dbe30dd3fccd27ae9a6e2bc6d3",
-      "rendered_digest": "f894b14f499903c9d772c9c9e93771700faf470aaed973d8d19b92f640947a44",
-      "ast_digest": "49fcfadf2bd1c755c0dd5133934f69c510df00eaea2e6826f6810a78e06a9381"
+      "values_digest": "a895b359f23efca7f0865eb202f801742bf235527c35819581e5e2a8168885fe",
+      "rendered_digest": "b398e32e2906df3290c1db2073105fd3893490fe6845cfc835a94f440caddadb",
+      "ast_digest": "965950f117243589425a1b693536772588b3748f294a5f7b435e99bdaa9bd2c3"
     },
     "sor": {
-      "values_digest": "3e06ebc212d6715ba3a97aa8dfb87c3cfde68ee8b076a657aa443020122d9050",
+      "values_digest": "64436ed502adad80976e611093a5ca466bd8ae55dc5fa0cb8e5531ac8de35ff7",
       "rendered_digest": "50a4a249d9cbccf3daa68cb10da4994ca8b0b7712e8ee914245b86868c036edd",
       "ast_digest": "285f7a2df7d776872028c138482a4f1d5975500426702390dc80c3d14e14dd2f"
     }
@@ -76,6 +107,13 @@
       "to": "implemented",
       "actor": "codex:issue-544-implementation",
       "reason": "implementation and focused validation are complete"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:01a03f42-ba25-79b2-bec5-5604c8f53592",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -225,6 +263,20 @@
       "actor": "codex:issue-544-validation",
       "reason": "record focused guard integration validation after design recovery and reapproval",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"primary_checkout_bootstrap_guard\"],\"purpose\":\"Focused integration proof after design recovery and reapproval, including primary subdirectory rejection and zero residue.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output after design recovery: 4 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:issue-544-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "fresh-session:01a03f42-ba25-79b2-bec5-5604c8f53592",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
