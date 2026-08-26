@@ -508,6 +508,7 @@ fn lock_otel_status(status_path: &str) -> Result<std::fs::File, String> {
         .create(true)
         .read(true)
         .write(true)
+        .truncate(false)
         .open(&lock_path)
         .map_err(|err| {
             format!(
