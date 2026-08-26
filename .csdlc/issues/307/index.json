@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "29c7a23f636e3b348471faf3b649ba296fa93dc6651e7d4383da98c74a7c74ba",
+  "generation": 20,
+  "digest": "38e6c255f5bc111283756f3f10f960a394ba8ea4878b0f209c95a459a7d27cd0",
   "branch": "codex/307-v092-quality-release-tail-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "71614357b12e24f872a353f2da9214bee20a631a8e2460ed23b145d267c125f4",
+      "values_digest": "1931119a3479da1fb896c8c42470b5fc19261fcd430aeec350eb2ab061d903ac",
       "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
       "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
     },
     "stp": {
-      "values_digest": "8c96d07e28f8ff9690bc7ac627f65acdb115ac106823e8de2aa37151c122864e",
+      "values_digest": "fd47e57b5e5f0543fcb890b8eb7bfa103742dbf43c992e251cb868a9f25e5f27",
       "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
       "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
     },
     "spp": {
-      "values_digest": "74948a9722f9cc77d9080bc233405f3797e19d58ec9c2ae90266d8187a427bb8",
+      "values_digest": "de8dd03a792c19282c6f681ffd646b3cb86fd9a0dc4b566febac527061bbe017",
       "rendered_digest": "81883f08e984fb441950825f45d68e364fa94fd8d9ca9352e50852f9df7a3a6e",
       "ast_digest": "1dbfb17b19fd053ff598cf438c6dce55b6522876103fd50206c3d2b93f7c2e3e"
     },
     "vpp": {
-      "values_digest": "379af03937350ab0908fe35836a94267382484d2e02cf83cf4eae61336ed022f",
+      "values_digest": "afb4406eaa584d5dfb43df2b0e2f4d17d114a405ee844111a0853f1c2ab46046",
       "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
       "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
     },
     "srp": {
-      "values_digest": "8de4d7fe46e42b3d6541588a604ee0967a7c3a2dbd5a65d13ae76a70aebb69a0",
+      "values_digest": "c3c1c628552cc1e41657fa67ed3927d7f8c4a5c84d7a3d33805d2d3c1a8a25ea",
       "rendered_digest": "2f233ecc15df8f1877f54e2b846e0910d5b6113985c1f3241b9b82fced42c405",
       "ast_digest": "ef31797c7d32e002f019cadaba276160cc34ff14f770b954b3f4aee8ae677dc3"
     },
     "sor": {
-      "values_digest": "7257e38c1f0601ccd687178b5c118b3c14a9af0956acd0059a817b1c5ddb72e5",
+      "values_digest": "1345b5d4c7edb3bc53c7905937bd8efe4a8a9705f51431d2c84b19075bb255f2",
       "rendered_digest": "c6973ef2837056ff31ce98f4b22dcc63865e0e8540e43ff5012c4e005e15ac47",
       "ast_digest": "221919c32acdf39604dda3abe55b3eecc0144b39e8b37277c9b43ab4bb2b4d0d"
     }
@@ -252,6 +252,20 @@
       "generation": 19,
       "actor": "codex:/root/issue-307-closeout",
       "reason": "Clear ambiguous shared-session reviewer attribution and refresh exact-head review with the canonical subagent task identity.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Remove the necessarily post-review publication request from tracked review scope; it will be generated in the invocation directory after exact-head review is recorded.",
       "operation": "recover_review"
     }
   ]

@@ -21,3 +21,5 @@
 {"sequence":21,"generation":18,"actor":"codex:/root/issue-307-closeout","reason":"Refresh exact-head review after committing only the prior typed review projections and final publication request.","operation":"recover_review"}
 {"sequence":22,"generation":18,"actor":"codex:/root/issue-307-closeout","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":23,"generation":19,"actor":"codex:/root/issue-307-closeout","reason":"Clear ambiguous shared-session reviewer attribution and refresh exact-head review with the canonical subagent task identity.","operation":"recover_review"}
+{"sequence":24,"generation":19,"actor":"codex:/root/issue-307-closeout","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":25,"generation":20,"actor":"codex:/root/issue-307-closeout","reason":"Remove the necessarily post-review publication request from tracked review scope; it will be generated in the invocation directory after exact-head review is recorded.","operation":"recover_review"}
