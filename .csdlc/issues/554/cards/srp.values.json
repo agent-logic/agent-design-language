@@ -7,23 +7,26 @@
     "title": "[v0.92.1][shared-gate] Restore coverage baseline for v0.92 docs invariant and Runtime-v2 timeouts",
     "slug": "v0-92-1-shared-gate-coverage-baseline",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/milestones/v0.92/README.md\nadl/src/runtime_v2/contracts.rs\n.csdlc/issues/554\n.csdlc/evidence/554",
+      "review_revision": "git-blake3:c61367a900955deb5408817e08e3d2eb4092a9a7:1928560984f691a91c86b20cad596ba43b360082ed657f39514754cdbb52bbea",
+      "reviewer": "openai-responses:resp_019dc5f474c188ba006a8f4d47985087d0bbfc71f2f946a7c7:gpt-5.6-sol",
       "review_prompts": [
         "Verify the docs fix is truthful and bounded.",
         "Verify Runtime-v2 reliability improves without weakening coverage or hiding failures.",
         "Verify no #483 or #514 behavior changed."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted coverage remains pending as fail-closed post-publication proof; the recorded focused local tests do not replace that hosted result.",
+        "OpenAI Responses API review artifact: response id resp_019dc5f474c188ba006a8f4d47985087d0bbfc71f2f946a7c7, model gpt-5.6-sol, publication_safe true."
+      ],
+      "review_result": "pass"
     }
   }
 }

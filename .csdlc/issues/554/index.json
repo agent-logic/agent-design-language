@@ -4,13 +4,29 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8b889a565674a00c0f4e0df383b31867d279f5897c00dc4465976c381b355d0",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "f2276c489f0e0d202b51d89597ea546fbc78cb6a1a7ed61596ce0fd4223ae22d",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "389d4eb10446e0db7e88f8c8b762c3a3f8f5f0856aec28a9256e42abe1820fa4",
   "branch": "codex/554-v0-92-1-shared-gate-coverage-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "openai-responses:resp_019dc5f474c188ba006a8f4d47985087d0bbfc71f2f946a7c7:gpt-5.6-sol",
+    "scope": [
+      "docs/milestones/v0.92/README.md",
+      "adl/src/runtime_v2/contracts.rs",
+      ".csdlc/issues/554",
+      ".csdlc/evidence/554"
+    ],
+    "reviewed_revision": "git-blake3:c61367a900955deb5408817e08e3d2eb4092a9a7:1928560984f691a91c86b20cad596ba43b360082ed657f39514754cdbb52bbea",
+    "findings": [],
+    "residual_risks": [
+      "Hosted coverage remains pending as fail-closed post-publication proof; the recorded focused local tests do not replace that hosted result.",
+      "OpenAI Responses API review artifact: response id resp_019dc5f474c188ba006a8f4d47985087d0bbfc71f2f946a7c7, model gpt-5.6-sol, publication_safe true."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +41,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fd809b488c22db9ad28a28851bfe2f7008e71b96dcbe6c305fac304800851941",
+      "values_digest": "415c43839e272c1fa51e52e471d792d9165479dbad3e3ef5829b0221e75cffe0",
       "rendered_digest": "cec90d2250d4b1f535ea540a29f524a58d7a245d762e98ac1737f03e171667bd",
       "ast_digest": "811233c00a315b058310586885b8bcf2a4a13264d362657964b692fe09e5a12b"
     },
     "stp": {
-      "values_digest": "2f1ea8d19a63091580e6a46cad08e37fd9e429180e14b0dc5c6915efe9d09ca7",
+      "values_digest": "caef2daa8aa2c63c674184d37448753f8c23b50e1e9ae5587bde5077cb0920ed",
       "rendered_digest": "a067f10d1913a6fa4166316c63f62ea4336ee0ad7ca26efefba204d1d99e7326",
       "ast_digest": "da7ff3a417b8de770b9018e0cde1718eb890fc18ba5543099022826823125a54"
     },
     "spp": {
-      "values_digest": "82159e3c5b53f6fd9854a5e67b2a44d0e20dae2321baf67b95c1d19be4364ab5",
+      "values_digest": "c191afb54292111fa6241d9dacad821341113dfcece77a8f6388bab1c4f5be6e",
       "rendered_digest": "770ca57ea1b320f069fc263f8ddef298f00a3032b187c66fe3435fffd86b6abf",
       "ast_digest": "a8d9991feaafa60b9249daae10729a1d48a698199b2811824edc05055ec04aba"
     },
     "vpp": {
-      "values_digest": "f1d8f5143a7d1ae4571916e4fb2b4b545efc835bd4e802fd5245c7c6ee4bb077",
+      "values_digest": "0a389bfe95ecad84ea19204089199cb91e83d7d4842e7df0e3914dfdbcd86bb4",
       "rendered_digest": "d32074ffb1822efb418f0e71fd843696766ff2e53fa76a01375ec7f327426220",
       "ast_digest": "c7a7b34ce0eed05ca1ec5d57119a164fd1917b0dab01d63d2ca86e08ca11556d"
     },
     "srp": {
-      "values_digest": "1f28c7f75c97c8ef3d8d3937ce14be348b8bcc7fcbe79d4460f81a7b7d289953",
-      "rendered_digest": "f8015891e67febb285cde9ba834030de0880f3ebade4e437392def1ef065cbb8",
-      "ast_digest": "1d46581ab94701644694cb32088a99c96686bfb1d2520c9c5810cf02bb8f7bdf"
+      "values_digest": "b580074853bbe2984b94e0ba85c0ebf66391a6f522769fe50c0d388728e2febf",
+      "rendered_digest": "aa6943a76e800ba87f562a15861d834cdedaebe59fb32712632ebb8389d10511",
+      "ast_digest": "6cd2b1e80174b9fe69f18b53d0a5202cbe523c6a9446f4ab88955443649289c6"
     },
     "sor": {
-      "values_digest": "3eff171bf3fed0f12957e9c7da32275617738ba1739606a42f999413d615f079",
+      "values_digest": "10a6d44bb70de76f7159d43f2d507ca13b078acf910605904e7de78a1ef1905e",
       "rendered_digest": "319c8896456af073daf291779737cacc80bcf418ec60a04f51450d8018fbe85e",
       "ast_digest": "40860e49fb9cd9642da947297f5bae323bafdb0ffbf8a77006822b544fe9b6e5"
     }
@@ -111,6 +127,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #554 after PR publication occurred with a non-API review; operator requires an independent OpenAI Responses API review response id/revision in typed review state before merge and before any further publication update."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "openai-responses:resp_019dc5f474c188ba006a8f4d47985087d0bbfc71f2f946a7c7:gpt-5.6-sol",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -260,6 +283,13 @@
       "actor": "codex:/root",
       "reason": "Recover #554 after PR publication occurred with a non-API review; operator requires an independent OpenAI Responses API review response id/revision in typed review state before merge and before any further publication update.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "openai-responses:resp_019dc5f474c188ba006a8f4d47985087d0bbfc71f2f946a7c7:gpt-5.6-sol",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
