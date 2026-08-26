@@ -156,8 +156,8 @@ def assert_execution_authority!
 end
 
 def live_milestone_census
-  run_read_json(["gh", "issue", "list", "--repo", REPOSITORY, "--state", "all",
-                 "--limit", "1000", "--json", "number,title,body,state,labels,milestone"]).map { |row| normalize_live_issue(row) }
+  pages = run_read_json(["gh", "api", "--paginate", "--slurp", "repos/#{REPOSITORY}/issues?state=all&per_page=100"])
+  pages.flatten.reject { |row| row.key?("pull_request") }.map { |row| normalize_live_issue(row) }
 end
 
 def github_binary

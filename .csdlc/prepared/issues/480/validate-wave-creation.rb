@@ -228,11 +228,10 @@ def validate_live(plan)
                                row.fetch("dependencies"), expected_rows.fetch(row.fetch("planned_id")).fetch("predecessor_issues", []))
     errors << "live body mismatch for #{row['planned_id']}" unless live.fetch("body") == exact_body
   end
-  census_stdout, census_stderr, census_status = Open3.capture3("gh", "issue", "list", "--repo", REPOSITORY, "--state", "all",
-                                                                "--limit", "1000",
-                                                                "--json", "number,title,body", chdir: ROOT)
+  census_stdout, census_stderr, census_status = Open3.capture3("gh", "api", "--paginate", "--slurp",
+                                                                "repos/#{REPOSITORY}/issues?state=all&per_page=100", chdir: ROOT)
   if census_status.success?
-    census = JSON.parse(census_stdout)
+    census = JSON.parse(census_stdout).flatten.reject { |issue| issue.key?("pull_request") }
     rows.each do |row|
       id = row.fetch("planned_id")
       marker = "<!-- csdlc-github-operation:v0921-wp01:#{planning_digest}:#{id}:create -->"
