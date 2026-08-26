@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 307,
+  "expected_generation": 16,
+  "expected_digest": "ed64ecdba59445ccbef895fd611624ffa1ad7f4ccf0373eae450e69b31dcec29",
+  "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+  "assigned_by": "codex:/root/issue-307-closeout",
+  "scope": [
+    ".csdlc/evidence/307",
+    ".csdlc/issues/307",
+    ".csdlc/prepared/issues/307",
+    "docs/milestones/v0.92/review/sprint_307/README.md"
+  ]
+}

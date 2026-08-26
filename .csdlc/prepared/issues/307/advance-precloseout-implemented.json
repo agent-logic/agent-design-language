@@ -1,0 +1,10 @@
+{
+  "issue": 307,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "14a55a45f0cbf5912cc75a779ea0a1f1730a60dfd1f9ea6f3d2f00260319dc25",
+  "actor": "codex:issue-307-closeout",
+  "reason": "Advance the bounded precloseout packet to implemented while final #319 ceremony and #314 terminal reconciliation remain explicit review/publication blockers.",
+  "operation": {"operation":"advance_phase","phase":"implemented"},
+  "fail_after_backup": false
+}

@@ -1,0 +1,31 @@
+[release-ceremony] repo root: <repo-root>
+[release-ceremony] loading milestone docs for v0.92
+[release-ceremony] running merge-based milestone ceremony gate for v0.92
+{"schema":"adl.v092.release_ceremony_validation.v1","mode":"gate","status":"pass"}
+
+Release ceremony plan
+  version:        v0.92
+  tag:            v0.92
+  target branch:  main
+  release plan:   docs/milestones/v0.92/RELEASE_PLAN_v0.92.md
+  release notes:  docs/milestones/v0.92/RELEASE_NOTES_v0.92.md
+  checklist:      docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md
+
+Requested actions
+  check only:         yes
+  create tag:         no
+  push tag:           no
+  create draft rel.:  no
+  publish release:    no
+
+Manual ceremony reminders
+  - Review docs/milestones/v0.92/RELEASE_PLAN_v0.92.md and docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md before mutating release state.
+  - Confirm review/remediation/next-milestone gates are actually closed or explicitly dispositioned.
+  - Verify docs/milestones/v0.92/RELEASE_NOTES_v0.92.md is final before creating or publishing the GitHub release.
+
+Split-step sequence (recommended)
+  1. --create-tag        (creates local tag)
+  2. --push-tag          (pushes tag to origin)
+  3. --draft-release     (creates draft release for the pushed tag)
+  4. --publish-release   (publishes the drafted release)
+[release-ceremony] preflight checks passed; no mutating actions requested

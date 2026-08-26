@@ -1,0 +1,369 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 307,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
+  "phase": "published",
+  "generation": 25,
+  "digest": "d11be1a9365e647e3addedb7847bf10ec3700d1613191ae51c7a3f9321d14f96",
+  "branch": "codex/307-v092-quality-release-tail-closeout",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_307_final_55",
+    "assigned_by": "codex:/root/issue-307-closeout",
+    "revision": "git-blake3:1933a0e6fcbf5808f3760a75d63898861deb28a9:adad8d190bdca01a708acadf4b6b544100643c0a38f942ec852b99396df81a86",
+    "scope": [
+      ".csdlc/evidence/307",
+      ".csdlc/issues/307",
+      ".csdlc/prepared/issues/307",
+      "docs/milestones/v0.92/review/sprint_307/README.md"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_307_final_55",
+    "scope": [
+      ".csdlc/evidence/307",
+      ".csdlc/issues/307",
+      ".csdlc/prepared/issues/307",
+      "docs/milestones/v0.92/review/sprint_307/README.md"
+    ],
+    "reviewed_revision": "git-blake3:1933a0e6fcbf5808f3760a75d63898861deb28a9:adad8d190bdca01a708acadf4b6b544100643c0a38f942ec852b99396df81a86",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 307,
+    "pull_request": 481,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/481",
+    "base": "main",
+    "head": "codex/307-v092-quality-release-tail-closeout",
+    "revision": "git-blake3:b2f47fee1e00a4909cdc88a4bed2506f962669c7:5a5b7424f6f5f510d6d86582e9600f363a7a755d20d75bfbd2b39a9ff5933697",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/307/design.md",
+  "diagram_path": ".csdlc/prepared/issues/307/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4deb75de-c03c-4aed-a5d5-bec70cbc1e31",
+      "revision": "ef41596905540fe13c30e98d4616b9870417e22be2c47f4fe2525ee9a9f4baa1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c5b1ed4ad9fdd2b90eb90e6fa693d117e35cdf0474d80aedf19a97314ce7829a",
+      "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
+      "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
+    },
+    "stp": {
+      "values_digest": "cd833a984a254f759949a510a431f17586f21c34d5d726f558a742b59ebf7042",
+      "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
+      "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
+    },
+    "spp": {
+      "values_digest": "9dd7b7bf69fcf14aafc321c6465b2bac731d753e9167256c28467493341584bd",
+      "rendered_digest": "81883f08e984fb441950825f45d68e364fa94fd8d9ca9352e50852f9df7a3a6e",
+      "ast_digest": "1dbfb17b19fd053ff598cf438c6dce55b6522876103fd50206c3d2b93f7c2e3e"
+    },
+    "vpp": {
+      "values_digest": "63588f7de04219a301c85ed3a82980941bea3995a95f7b5c3b67f8f7696be860",
+      "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
+      "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
+    },
+    "srp": {
+      "values_digest": "ece000a863b93cedc5b103894b11a981cdb19202480f2b4e74d761ec892d11a2",
+      "rendered_digest": "22f7d760122cbcd38d1bc5928bb323ced1d310207efdbd80dc08fc77d3b00bdc",
+      "ast_digest": "4596dfa86f3351e56fcb521ebb4efb7516e2ce70789097f4fed4935dd4a05ed1"
+    },
+    "sor": {
+      "values_digest": "1c17be48c306e08341d9ee4d64b3862e5ddfbefda05769b67eb8b4d921daa7e7",
+      "rendered_digest": "a600974fb95ede1b1320d89605568c60652ab6c9761b906c89a30ee5fa095d0d",
+      "ast_digest": "e0b436100bb6b143cf6d9028ff7dd6a42697a6e29f9ab9d321a9ecefa6e040df"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-307-closeout",
+      "reason": "Advance the current-main #307 coordination packet after preserving the legacy corrupt projection, retaining the approved design, and verifying typed doctor readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-307-closeout",
+      "reason": "Advance the bounded precloseout packet to implemented while final #319 ceremony and #314 terminal reconciliation remain explicit review/publication blockers."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Refresh exact-head review after committing only the prior typed review projections and final publication request."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-307-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:4deb75de-c03c-4aed-a5d5-bec70cbc1e31",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"ef41596905540fe13c30e98d4616b9870417e22be2c47f4fe2525ee9a9f4baa1\",\"design_ref\":\".csdlc/prepared/issues/307/design.md\",\"diagram_digest\":\"638a46a7b3c3a4e5593a388cf8a4e23595f7fdda7def2c1ea96d26f87301c78b\",\"diagram_ref\":\".csdlc/prepared/issues/307/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Advance the current-main #307 coordination packet after preserving the legacy corrupt projection, retaining the approved design, and verifying typed doctor readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Record completed preparation validation and preservation of the exact release-tail sequence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Record completed current-main typed bootstrap, retained design approval, readiness, and FastWork execution binding.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Record child reconciliation through closed #318 while separately owned #319 ceremony and #314 no-PR terminal reconciliation remain pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Record the bounded #307 closeout packet and truthful remaining gates before final ceremony reconciliation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bound the current-main #307 closeout worktree, reconciled the live child graph through closed #318, retained #268 and #471 routing truth, removed three verified terminal worktrees, and preserved #319 plus #314 as explicit unresolved terminal gates.\",\"changes\":[\".csdlc/evidence/307/precloseout-status.json records the live child, terminal, cleanup, carryover, and nested-remediation boundary\",\"docs/milestones/v0.92/review/sprint_307/README.md records final review gates without taking #319 authority\",\".csdlc/prepared/issues/307 validators and typed request artifacts preserve the exact #308-through-#319 denominator\"],\"artifacts\":[\".csdlc/evidence/307/precloseout-status.json\",\"docs/milestones/v0.92/review/sprint_307/README.md\",\"typed recordless terminal receipt for #310\",\"typed cleanup results for #311, #314, #315, #316, and #317\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Advance the bounded precloseout packet to implemented while final #319 ceremony and #314 terminal reconciliation remain explicit review/publication blockers.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record complete reconciliation of the exact #308-through-#319 child universe after #319 terminal ceremony readback and cleanup.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record the completed release-tail child reconciliation before fresh exact-head sprint review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Reconciled the exact #308-through-#319 release-tail universe after #319 completed its separately owned ceremony, verified terminal/canonical/ancestral truth where supported, retained explicit asynchronous dispositions without false cache claims, and produced the passing final child ledger.\",\"changes\":[\"Added the exact ordered child ledger with reviewed heads, ancestral merges, checks, handoffs, terminal dispositions, residual risks, #471 routing, and successful #268 carryover truth.\",\"Recorded #319 PR #479 green merge, canonical typed terminal receipt, and exact execution-worktree cleanup without executing its ceremony from #307.\",\"Dispositioned #314 and other historical bookkeeping gaps as explicit async_pending records rather than inventing canonical authority.\"],\"artifacts\":[\".csdlc/evidence/307/child-sequence.json\",\".csdlc/evidence/307/precloseout-status.json\",\"docs/milestones/v0.92/review/sprint_307/README.md\",\".git/csdlc-v2/derived-terminal/319.json\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record passing final child-universe, preparation, and diff-hygiene proof before exact-head sprint review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"git diff --check\"],\"purpose\":\"Prove the exact #308-through-#319 denominator, terminal and asynchronous disposition truth, #268/#471 routing, authored preparation bundle, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record the corrected and now executable child-merge ancestry proof after detecting the non-ancestral WP-26 intake source commit.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/prepared/issues/307/validate_child_sequence.py\",\"--terminal\"],\"purpose\":\"Resolve every reviewed and merge SHA as a commit and prove every child integration merge is ancestral to origin/main, including the WP-26 intake integration through WP-27.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record remediation of the fresh exact-head review's missing final ceremony receipt and self-asserted evidence findings.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Retained the clean-main post-merge #319 ceremony receipt and output, added typed live PR/check readback, bound exact review evidence and publication heads, represented WP-27 through its reviewed #476 follow-on, and made the terminal validator execute those evidence checks.\",\"changes\":[\"Retained the exact clean-main check-only ceremony output and immutable #319 final receipt under #307-owned evidence without tag or release mutation.\",\"Added typed live readback for every merged child PR and disposition-specific no-PR evidence for #314.\",\"Strengthened the terminal validator to bind review evidence, publication heads, green checks, merge ancestry, successor handoffs, terminal receipts, and the final ceremony output digest.\"],\"artifacts\":[\".csdlc/evidence/307/github-pr-readback.json\",\".csdlc/evidence/307/issue-319-final-ceremony.log\",\".csdlc/evidence/307/issue-319-final-ceremony-receipt.json\",\".csdlc/prepared/issues/307/validate_child_sequence.py\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record passing executable evidence-binding validation after exact-head review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json\",\"python3 -m json.tool .csdlc/evidence/307/issue-319-final-ceremony-receipt.json\",\"git diff --check\"],\"purpose\":\"Prove the final receipt/output digest, retained review evidence, live merged PR/check readback, no-PR disposition, terminal caches, ancestry, handoffs, and artifact syntax.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-319-final-ceremony-receipt.json\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record redacted final ceremony receipt digest and packet path-hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"shasum -a 256 .csdlc/evidence/307/issue-319-final-ceremony.log\",\"! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307\",\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\"],\"purpose\":\"Bind the redacted immutable ceremony output digest, prove no host-absolute path remains in the publishable packet, and revalidate the terminal evidence graph.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/issue-319-final-ceremony-receipt.json\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Resolve the fresh exact-head review findings by separating #315 from #476 and replacing uniform pass and handoff assertions with disposition-specific evidence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integration identity, #476/PR #477 is separately bound follow-on remediation, #310 and #314 retain their actual exceptional dispositions, and every sequence handoff is proven by ancestry or explicit retained exception evidence.\",\"changes\":[\"Restored #315/PR #473 as the primary child integration record and added a separate exact #476 follow-on record with review, PR, merge, checks, and terminal receipt bindings.\",\"Changed #310 to not_tracked_disclosed and #314 to intake_completed_with_blockers/not_applicable_no_pr rather than claiming unsupported review and check passes.\",\"Replaced handoff_accepted booleans with executable predecessor-merge ancestry checks, the validated #314-to-#315 handoff, the documented #315/#316 concurrent-lane exception, and the final #319 ceremony receipt.\"],\"artifacts\":[\".csdlc/evidence/307/child-sequence.json\",\".csdlc/evidence/307/github-pr-readback.json\",\".csdlc/evidence/307/issue-315-review-receipt.json\",\".csdlc/prepared/issues/307/validate_child_sequence.py\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record passing disposition-aware child ledger, preparation, privacy, syntax, and diff proof before fresh exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json\",\"python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json\",\"! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307\",\"git diff --check\"],\"purpose\":\"Prove exact #315/#476 identity separation, truthful #310/#314 dispositions, evidence-derived handoffs, packet privacy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-315-review-receipt.json\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Refresh exact-head review after committing only the prior typed review projections and final publication request.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Clear ambiguous shared-session reviewer attribution and refresh exact-head review with the canonical subagent task identity.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Remove the necessarily post-review publication request from tracked review scope; it will be generated in the invocation directory after exact-head review is recorded.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Add executable review-to-publication content binding after the final exact-head review exposed missing equivalence enforcement.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record executable review-to-publication content binding for every release-tail child.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bound every passed child review to its publication content: metadata-only descendants are enforced, #312 has an exact final-content retrospective review receipt, #315 has exact scoped blob equivalence across rebased history, and #476 has the same metadata-only publication guard.\",\"changes\":[\"Added an exact #312 final-content receipt for the two post-review documentation changes and their final blobs and SHA-256 digests.\",\"Extended the #315 historical review receipt with exact reviewed/publication blob identity for both scoped product files.\",\"Made the terminal validator reject unreviewed substantive review-to-publication drift for every passed row and the #476 follow-on.\"],\"artifacts\":[\".csdlc/evidence/307/issue-312-final-content-review-receipt.json\",\".csdlc/evidence/307/issue-315-review-receipt.json\",\".csdlc/evidence/307/child-sequence.json\",\".csdlc/prepared/issues/307/validate_child_sequence.py\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record passing executable review-to-publication bindings before the final exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"python3 -m json.tool .csdlc/evidence/307/issue-312-final-content-review-receipt.json\",\"python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json\",\"! rg -n '/(Users|Volumes|private)/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307\",\"git diff --check\"],\"purpose\":\"Reject substantive review-to-publication drift while proving #312 final-content review, #315 scoped equivalence, metadata-only descendants, privacy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/issue-312-final-content-review-receipt.json; .csdlc/evidence/307/issue-315-review-receipt.json; .csdlc/evidence/307/child-sequence.json\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

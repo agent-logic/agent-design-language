@@ -1,0 +1,109 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 307,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][sprint] Quality and release tail",
+    "slug": "quality-release-tail",
+    "version": "v0.92",
+    "generation": 25
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-contract",
+          "proof_role": "Validate exact coordination scope, current child inventory, #343 entry gate, exact #308-through-#319 sequence, and authored bundle.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/307/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "307-serial-01-preparation",
+          "defer_reason": null
+        },
+        {
+          "lane": "child-sequence",
+          "proof_role": "Fail closed unless the exact #308-through-#319 graph is retained and every predecessor satisfies the dependent issue's merge/readiness contract.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/307/validate_child_sequence.py",
+            "--terminal"
+          ],
+          "parallel_group": "307-serial-02-sequence",
+          "defer_reason": "Deferred until #343 terminal."
+        },
+        {
+          "lane": "release-tail-reconciliation",
+          "proof_role": "Validate included-child review, merge, async terminal/cleanup, finding, release, handoff, #268 successful closure, and #471 WP-27 child-remediation evidence at exact revisions.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/307/validate_child_sequence.py",
+            "--terminal"
+          ],
+          "parallel_group": "307-serial-03-release",
+          "defer_reason": "Deferred until approved child sequence completes."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed final coordination packet changes.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "307-serial-04-diff",
+          "defer_reason": "Deferred until final sprint packet exists."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on child-graph drift, dependency, authority, review, check, ancestry, release, evidence, handoff, final closeout reconciliation, or #471 routing mismatch; never repair child work from #307.",
+      "design_ref": ".csdlc/prepared/issues/307/design.md",
+      "design_digest": "ef41596905540fe13c30e98d4616b9870417e22be2c47f4fe2525ee9a9f4baa1",
+      "diagram_ref": ".csdlc/prepared/issues/307/diagram.mmd",
+      "diagram_digest": "638a46a7b3c3a4e5593a388cf8a4e23595f7fdda7def2c1ea96d26f87301c78b"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "issue": 307,
+  "card": "sor",
+  "expected_generation": 14,
+  "expected_digest": "d17237ecfcf385a60ae5482309f7a8c50986b9a1d8d24d64833ee17b314ab199",
+  "actor": "codex:/root/issue-307-closeout",
+  "reason": "Resolve the fresh exact-head review findings by separating #315 from #476 and replacing uniform pass and handoff assertions with disposition-specific evidence.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integration identity, #476/PR #477 is separately bound follow-on remediation, #310 and #314 retain their actual exceptional dispositions, and every sequence handoff is proven by ancestry or explicit retained exception evidence.",
+    "changes": [
+      "Restored #315/PR #473 as the primary child integration record and added a separate exact #476 follow-on record with review, PR, merge, checks, and terminal receipt bindings.",
+      "Changed #310 to not_tracked_disclosed and #314 to intake_completed_with_blockers/not_applicable_no_pr rather than claiming unsupported review and check passes.",
+      "Replaced handoff_accepted booleans with executable predecessor-merge ancestry checks, the validated #314-to-#315 handoff, the documented #315/#316 concurrent-lane exception, and the final #319 ceremony receipt."
+    ],
+    "artifacts": [
+      ".csdlc/evidence/307/child-sequence.json",
+      ".csdlc/evidence/307/github-pr-readback.json",
+      ".csdlc/evidence/307/issue-315-review-receipt.json",
+      ".csdlc/prepared/issues/307/validate_child_sequence.py"
+    ]
+  }
+}

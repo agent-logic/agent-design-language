@@ -1,0 +1,37 @@
+{
+  "schema": "adl.issue307.final-content-review-receipt.v1",
+  "issue": 312,
+  "review_type": "retrospective_exact_publication_content",
+  "reviewed_publication_head": "9745d789a7fac37e39a531698881fbdf21b1848f",
+  "review_result": "pass",
+  "review_scope": "exact two non-lifecycle files added after the original reviewed head",
+  "original_reviewed_head": "72f3d519eac1f4abe6ab4a99245ba1e8459ceb8c",
+  "original_review_evidence": ".csdlc/issues/312/cards/srp.md",
+  "publication_diff_paths": [
+    ".csdlc/issues/312/audit.jsonl",
+    ".csdlc/issues/312/cards/sip.values.json",
+    ".csdlc/issues/312/cards/sor.md",
+    ".csdlc/issues/312/cards/sor.values.json",
+    ".csdlc/issues/312/cards/spp.values.json",
+    ".csdlc/issues/312/cards/srp.md",
+    ".csdlc/issues/312/cards/srp.values.json",
+    ".csdlc/issues/312/cards/stp.values.json",
+    ".csdlc/issues/312/cards/vpp.values.json",
+    ".csdlc/issues/312/index.json",
+    "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+    "docs/reviews/v0.92/docs-release-truth-312/inventory.json"
+  ],
+  "retrospectively_reviewed_files": [
+    {
+      "path": "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "publication_blob": "7bb5ccc0317d76efbc798bb84d00525fc135a9c7",
+      "publication_sha256": "ded40ee558923e29e15eee1816470f608f37a54af1a71faf23c0b4c8c60dfed0"
+    },
+    {
+      "path": "docs/reviews/v0.92/docs-release-truth-312/inventory.json",
+      "publication_blob": "6c9ead603f612e53fa5a23900b21b0bf04193f83",
+      "publication_sha256": "26457e794640c1f3b2f769e4ad6f508a4f500d40eb64bb21f40b201532b56d91"
+    }
+  ],
+  "disposition": "original exact-head review passed; final two non-lifecycle publication files are separately bound by this receipt"
+}
