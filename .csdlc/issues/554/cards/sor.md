@@ -114,11 +114,11 @@ Restored the stale v0.92 Memory Palace README invariant and cached the Runtime-v
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
