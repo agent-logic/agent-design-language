@@ -12,9 +12,11 @@ MILESTONE = 1
 TOKEN_FILE = "/Users/daniel/keys/github.token"
 OWNER = "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue"
 EVIDENCE = File.join(ROOT, "docs/milestones/v0.92.1/evidence/wp-01")
-REQUESTS = File.join(EVIDENCE, "umbrella-requests")
-RESULTS = File.join(EVIDENCE, "umbrella-operations")
-RECEIPT = File.join(EVIDENCE, "sprint-umbrella-receipt.json")
+MODE = ARGV.fetch(0, "create")
+abort "usage: create-sprint-umbrellas.rb [create|update]" unless %w[create update].include?(MODE)
+REQUESTS = File.join(EVIDENCE, MODE == "create" ? "umbrella-requests" : "umbrella-update-requests")
+RESULTS = File.join(EVIDENCE, MODE == "create" ? "umbrella-operations" : "umbrella-update-operations")
+RECEIPT = File.join(EVIDENCE, MODE == "create" ? "sprint-umbrella-receipt.json" : "sprint-umbrella-update-receipt.json")
 
 SPRINTS = [
   [1, "Independent foundations", [482, 483, 510, 513, 514, 499]],
@@ -45,19 +47,25 @@ def issue_body(number, name, members)
 
     Coordinate Sprint #{number} — #{name} as one bounded execution wave without absorbing child implementation.
 
-    ## Exact child membership
+    ## Initial child membership baseline
 
     #{members.map { |issue| "- ##{issue}" }.join("\n")}
 
+    ## Change protocol
+
+    - This roster is the opening baseline, not a permanent freeze.
+    - The milestone operator may add, remove, split, or reroute work through a typed issue update that records the reason and rechecks dependencies.
+    - Every update must preserve one bounded result per child and must not silently drop unfinished work.
+
     ## Completion gate
 
-    - Every listed child has an independently reviewed, green merge into `main` and its merge commit is ancestral to the sprint closing revision.
+    - Every child in the current declared roster has an independently reviewed, green merge into `main` and its merge commit is ancestral to the sprint closing revision.
     - Blocked or deferred children retain an explicit operator-approved disposition; the umbrella never fabricates completion.
     - Typed finish and worktree cleanup are asynchronous and never gate another issue.
 
     ## Concrete result
 
-    One immutable Sprint #{number} result records the exact child denominator, dispositions, reviewed merge heads, green checks, merge commits, and ancestry.
+    One reviewable Sprint #{number} result records the current roster version, dispositions, reviewed merge heads, green checks, merge commits, and ancestry.
 
     ## Non-goals
 
@@ -70,16 +78,22 @@ def issue_body(number, name, members)
 end
 
 FileUtils.mkdir_p([REQUESTS, RESULTS])
+existing = if MODE == "update"
+             JSON.parse(File.read(File.join(EVIDENCE, "sprint-umbrella-receipt.json")))
+                 .fetch("umbrellas").to_h { |row| [row.fetch("sprint"), row.fetch("issue")] }
+           else
+             {}
+           end
 observed = SPRINTS.map do |number, name, members|
-  key = "v0921-wp01:sprint-#{number}:create"
+  key = "v0921-wp01:sprint-#{number}:#{MODE == "create" ? "create" : "membership-v2-update"}"
   request_path = File.join(REQUESTS, format("sprint-%02d.json", number))
   result_path = File.join(RESULTS, format("sprint-%02d.json", number))
   request = {
     "repository" => REPOSITORY,
-    "action" => "issue_create",
+    "action" => MODE == "create" ? "issue_create" : "issue_update",
     "operation_key" => key,
     "token_file" => nil,
-    "issue" => nil,
+    "issue" => existing[number],
     "pull_request" => nil,
     "title" => issue_title(number, name),
     "body" => issue_body(number, name, members),
