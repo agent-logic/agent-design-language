@@ -29,9 +29,9 @@ abort "executor routing contract mismatch" unless children.all? do |row|
 end
 
 review_env = { "WP01_APPROVED_REVISION" => `git -C #{ROOT} rev-parse HEAD`.strip }
-_order_stdout, order_stderr, order_status = Open3.capture3(review_env, "ruby", EXECUTOR, "create", "CORP-B", chdir: ROOT)
-abort "out-of-order create did not fail closed" if order_status.success?
-abort "out-of-order diagnostic missing" unless order_stderr.include?("out-of-order create")
+_gate_stdout, gate_stderr, gate_status = Open3.capture3(review_env, "ruby", EXECUTOR, "create", "CORP-B", chdir: ROOT)
+abort "missing-existing-authority create did not fail closed" if gate_status.success?
+abort "existing-authority diagnostic missing" unless gate_stderr.include?("existing issue verification is incomplete")
 
 _unknown_stdout, unknown_stderr, unknown_status = Open3.capture3(review_env, "ruby", EXECUTOR, "create", "UNKNOWN", chdir: ROOT)
 abort "unknown create did not fail closed" if unknown_status.success?
