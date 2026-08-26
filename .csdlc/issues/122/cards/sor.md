@@ -63,7 +63,7 @@ Implement #122 Terraform-only permanent CSM public edge foundation with CloudFro
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "9190064d00ca2788a03b18cade6309595912b11f5790e18337d25757add778be",
+  "generation": 4,
+  "digest": "ce019672d2fe653923028706334d8bba7601c9409914a4b26494b521d4f5de33",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "039b76a7ac42dd4efa1bcb4d7cdda5fdbf3127af387b9151aac0e0b9d21afbfe",
+      "values_digest": "75392aa95a84841c3f5dcc168309107b8728c8355102832f724a4fc273151da1",
       "rendered_digest": "cd12ee5641d38d3bd2e1945212425c319e086675af0ec5170898707db64d292a",
       "ast_digest": "9b5408522cb87aed403bc16f61cdd97e784e50f5454714eeb79ae8ca857fb0ea"
     },
     "stp": {
-      "values_digest": "a47a11982ff4cafd94fd54bfd3254063d39faf9595602b3d1e7ea062272a3106",
+      "values_digest": "bc7fbe4df3818d6f242d67e3809041949241b0c90e0ae0475daedd702d0a3bce",
       "rendered_digest": "361ff93b0e1e61d9f92b5a14ad007a42ae0828cefcaaac058d68f27792959ca7",
       "ast_digest": "a2808dfa07211e20ffe81ad241ffccb00062fd49bcd6aafd0461dd0519f5994c"
     },
     "spp": {
-      "values_digest": "21f70e90734a2b2542022d7140f8c3c2d6143e7e4cef8625c24c1ef38a6da6b8",
+      "values_digest": "7222255535ea5c7d0d48798094febe589d639b688d8a64ee5c3c1468783dffb1",
       "rendered_digest": "cdced21297dacb45fae0e5a33d01417fc34e3a37beb92c2fedf2089068131907",
       "ast_digest": "305f66418ecff6b46a8f90f4eb244a7509f94176e773522b5d063e5b4b1184cc"
     },
     "vpp": {
-      "values_digest": "f4e805bd469497a50301086ab40fdca4dae84dfc029efa7cdcc8f40e20d1968b",
+      "values_digest": "aa04d12ac64b6d9acb5cf31a80145536be919ae151d99ef8abeafb705e0b4e3f",
       "rendered_digest": "54884b946276e73ff76a987aca011bc8a01fc8f3338c8d06081d4cc634cf3acd",
       "ast_digest": "6790beddbe97c9ce51ac664e4cdd26451c7d19554bf19e02d1857fd2295cfbb1"
     },
     "srp": {
-      "values_digest": "77db273d2d06be8ba9799e1bf7cea6fca55fd648216ee8343ae0e1903ace9b5f",
-      "rendered_digest": "c6c1df921371209cc16cdc36ddc8d74638777ff928e7696dfa925db98596ff1e",
-      "ast_digest": "3a18bc9350b48fbe9c203a3dc5e1f7a702a033d7bb1edf58f679fd0ce4254e09"
+      "values_digest": "687643e1ba56cf9ba15118ff8a116d719b038d21bba8d7f5b567be85ac2fa5ba",
+      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
+      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
     },
     "sor": {
-      "values_digest": "8f5e94089fd87f37ab48888e7e9ff9abcc6b2745244cc4527114ecc1cc7532ba",
-      "rendered_digest": "cfae193b5c0c25f732f6701b51eda8e1211f28b194593854861a9a9653f73c95",
-      "ast_digest": "09bd4352f742c6adef82e6bfa70af162710e113bce4f7e2764954477e3bba6e4"
+      "values_digest": "66752876dc27fedc2a178e81d112094bec664ae979caee94ea453cbbc7e8db4a",
+      "rendered_digest": "fa5f2898e7c6b2f0f9510c241efc762736a6c949266a9ed1191337ff345cd03c",
+      "ast_digest": "cb07b2344cb6b190fe20f3c1e7f5bb8fc4ad979ca533b2addc5edd20b4fd0cfb"
     }
   },
   "transitions": [
@@ -113,6 +113,20 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Interrupted silent assignment-only reviewer fresh-session:e4f23ffc-4054-4cfd-8c06-ac011aa38fd3 after bounded waits; no verdict was returned, so clear review_assignment before assigning a different fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

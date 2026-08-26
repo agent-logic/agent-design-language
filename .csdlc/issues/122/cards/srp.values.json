@@ -7,13 +7,13 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 3
+    "generation": 4
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #122 deferred public Route53, ACM, S3, CloudFront, approved non-EC2 Runtime ingress, exact revision and browser trust, public security policy, business-account authority, rollback, cleanup, forbidden-compute proof, and non-gating boundaries.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

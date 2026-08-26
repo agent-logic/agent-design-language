@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #122 deferred public Route53, ACM, S3, CloudFront, approved non-EC2 Runtime ingress, exact revision and browser trust, public security policy, business-account authority, rollback, cleanup, forbidden-compute proof, and non-gating boundaries.
+
 
 ## Prompts
 
