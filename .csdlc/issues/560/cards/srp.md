@@ -35,12 +35,11 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - Hosted adl-coverage remains the required integration proof before merge.
-- Milestone detection remains document-pattern dependent and may need maintenance after future planning-format changes.
 
 ## Review Result
 
-Revision: Some("git-blake3:82f7115bda4d3f0981717b634783c9ec553ed96a:3f42dd75d82806f4348909fa78fbf38425234aa8e18ce6f43d99b8660ac300fa")
+Revision: Some("git-blake3:f42ac0d181a9dd58a1a6bdb0f5c6bebc87dca173:868f159cf7e16dcce28a79b59d0daf39a286738e051db87fa7c604b503c432fc")
 
-Reviewer: Some("openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7")
+Reviewer: Some("openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7:metadata-reconciliation")
 
 Result: pass

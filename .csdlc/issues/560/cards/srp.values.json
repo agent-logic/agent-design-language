@@ -7,15 +7,15 @@
     "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
     "slug": "runtime-v2-workspace-coverage-timeouts",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/560\n.csdlc/prepared/issues/560\n.csdlc/evidence/560\nadl/.config/nextest.toml\nadl/src/adl_gws_context_mirror.rs",
-      "review_revision": "git-blake3:82f7115bda4d3f0981717b634783c9ec553ed96a:3f42dd75d82806f4348909fa78fbf38425234aa8e18ce6f43d99b8660ac300fa",
-      "reviewer": "openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7",
+      "review_revision": "git-blake3:f42ac0d181a9dd58a1a6bdb0f5c6bebc87dca173:868f159cf7e16dcce28a79b59d0daf39a286738e051db87fa7c604b503c432fc",
+      "reviewer": "openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7:metadata-reconciliation",
       "review_prompts": [
         "Verify the change is an exact ci-coverage timeout/profile adjustment for only the three observed runtime_v2 tests.",
         "Verify Runtime v2 semantics and assertions are unchanged.",
@@ -23,8 +23,7 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Hosted adl-coverage remains the required integration proof before merge.",
-        "Milestone detection remains document-pattern dependent and may need maintenance after future planning-format changes."
+        "Hosted adl-coverage remains the required integration proof before merge."
       ],
       "review_result": "pass"
     }
