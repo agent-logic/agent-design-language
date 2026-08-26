@@ -4,13 +4,60 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9fdf6098309aa72bf2e1efd727a6691adf465920b488e78111c6723537e7619d",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "20c49f1c4c4bf06f30676d352617f4c68a0d8017afa44164332fbd7dc1a3b632",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "f8f988f1a017cbb0a968b33845fbc0aab0aef2f7226494699a80bc0c2b101e81",
   "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-responses:gpt-5.6-sol",
+    "assigned_by": "codex-root",
+    "revision": "git-blake3:47e6b73c0c3d310eb520b73422bde2ae4f6108b4:790ddfc34212dce3b3366fae8c7fa21226cc30b22c0e444f402764d45fb4b694",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
+      ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+      ".csdlc/prepared/issues/514/validate-ollama-materialization.rb",
+      ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+      ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+      ".csdlc/prepared/issues/514/validate-redaction.rb",
+      ".csdlc/evidence/514/profile-schema.log",
+      ".csdlc/evidence/514/ollama-materialization.log",
+      ".csdlc/evidence/514/invalid-profile.log",
+      ".csdlc/evidence/514/last-known-good.log",
+      ".csdlc/evidence/514/redaction.log"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:gpt-5.6-sol",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
+      ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+      ".csdlc/prepared/issues/514/validate-ollama-materialization.rb",
+      ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+      ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+      ".csdlc/prepared/issues/514/validate-redaction.rb",
+      ".csdlc/evidence/514/profile-schema.log",
+      ".csdlc/evidence/514/ollama-materialization.log",
+      ".csdlc/evidence/514/invalid-profile.log",
+      ".csdlc/evidence/514/last-known-good.log",
+      ".csdlc/evidence/514/redaction.log"
+    ],
+    "reviewed_revision": "git-blake3:47e6b73c0c3d310eb520b73422bde2ae4f6108b4:790ddfc34212dce3b3366fae8c7fa21226cc30b22c0e444f402764d45fb4b694",
+    "findings": [],
+    "residual_risks": [
+      "OpenAI Responses API review resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d passed the #514 substantive provider-profile diff before the current-main ancestry refresh.",
+      "Current review revision is the clean #514 head after merging origin/main for the shared CI timeout/coverage repair; provider-profile implementation scope remains bounded.",
+      "Full workspace integration remains PR CI authority after republish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ca47be28df42e7b0721369958e249d9b8a21c443029c9b5ecdb43ddca2033168",
+      "values_digest": "9a11e5e59e8d206143f908afd037312dc73226a84cd03a4688f6989c67a7d661",
       "rendered_digest": "0b2b96047cadd7c25e6919f8aa6aaef361cb8694637c67b3bc457cb05fbfac75",
       "ast_digest": "3a308d39d4ccac0225312a861c790215b1f777524ef0cbe88d624959282eda66"
     },
     "stp": {
-      "values_digest": "7e20b60bf5a47643d6d82f3f8ae31a1963e66996de3e935786ff1020ecf32d5a",
+      "values_digest": "5a29d694920c345a76ab000ccf5c9b4efd227d67d95f750366d64277c9c496ca",
       "rendered_digest": "da03dbd130894a30ad371f2dcc53b310c4cccb74f4f97e3187e800c1259eae16",
       "ast_digest": "72a3d9084a14e396224ebcf0b7b1301d9c531df8e9e1db4c78c4af2b8b91467c"
     },
     "spp": {
-      "values_digest": "a6b6d9c41ad1bebb61d70d4aa488ffeeeb273a0daf4c8abaf17c2e35398a4c8c",
+      "values_digest": "88ad05b8d6abd78423cc403707db23ca82b462a7df1dce7e31429e1184e55ca3",
       "rendered_digest": "c8544d8772f1f01111260278f980490bf763b6eff893e5530c0086dd69a4f009",
       "ast_digest": "633f5fd92e8e0ce90d2c7baa29f4f8fe5d555842b4b0486ea53b355b43330b2b"
     },
     "vpp": {
-      "values_digest": "42b8e07d9c46f1121d12d33e8671af3579634ab606263bca5d10749bddf5baf6",
+      "values_digest": "5aeaec2876e6ca7eb85413f327398d03a9714718707e514156a2c85c0e1274f5",
       "rendered_digest": "0f27717b849259d3d877a3281f281b61ed4b6ea845124243260893741e360ea2",
       "ast_digest": "8e5e53c7c10630e30182ae4221d92fd19cea3c9ba4b86b9f9076aa27e946d81d"
     },
     "srp": {
-      "values_digest": "4a727fb301168cb2862a6c8e3bf8660728dd83f0e9bff80026c432e402d60ceb",
-      "rendered_digest": "f427e4a4c7059effc1b38f747d37aa751f47e800bba13528203d3a2c71813ac3",
-      "ast_digest": "31c3e61c3d56e1dbfe2e55a471e0d798c2ccad77d4704e24499219b0e0be1b2a"
+      "values_digest": "afefd36981f2ea19bcc74b278d29214c2537bf0c0ff4f110808f7e9f21d57915",
+      "rendered_digest": "53843633fff19eb97fa29434b86abd0e251c675f4b7c847ef6d3615a452ba6b6",
+      "ast_digest": "a35460ba796f3816e6b658a00cb7f0e8cd28b5548ce57db45d388cec324b6a88"
     },
     "sor": {
-      "values_digest": "bd71bd8094a4f855b9cc140c69e301543a6fd93c21a85e16d93ab59f4f295257",
+      "values_digest": "938d34b0c35f7a5514c8f70b0f2cd75aa32e4e5dabf336d4faf3b7f6654afa3f",
       "rendered_digest": "87d642b733cf277e3f71ecfb38e82dbc7067dcaf7e30586537bbe4433997206e",
       "ast_digest": "c8a99726c69f2991b996a537459291a596d6ab4df44cf1d6f07419178ae88cd0"
     }
@@ -132,6 +179,13 @@
       "to": "implemented",
       "actor": "codex-root",
       "reason": "Current origin/main was merged into PR #549 to pick up the shared CI timeout/coverage repair after the published Responses API review. The #514 provider-profile diff remains bounded, but the exact clean head changed, so typed review recovery is required before republishing."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -246,6 +300,20 @@
       "actor": "codex-root",
       "reason": "Current origin/main was merged into PR #549 to pick up the shared CI timeout/coverage repair after the published Responses API review. The #514 provider-profile diff remains bounded, but the exact clean head changed, so typed review recovery is required before republishing.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
