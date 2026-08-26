@@ -1,0 +1,228 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 482,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "5f51adfee9f618eb1bbaf92c6f9729b4e9ab8013f7e7a990ec97b4c030ecaad1",
+  "phase": "published",
+  "generation": 8,
+  "digest": "bd5526b92129eb2288871702d19e533ab95f7d8fdc64f0291117f761acb876f3",
+  "branch": "codex/482-v0-92-1-corp-a-critical-asset-schedule",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-482-corp-a-critical-asset-schedule",
+  "review_assignment": {
+    "reviewer": "fresh-session:codex-482-corp-a-review-r2",
+    "assigned_by": "codex:issue-482-corp-a-execution",
+    "revision": "git-blake3:04b7db20f31c26a336b342ebd035869c290c6099:511751a29525368d6b8949f54598e57e9face82abdab1e59ea524b0952051334",
+    "scope": [
+      ".csdlc/evidence/482/asset-denominator.log",
+      ".csdlc/evidence/482/diff-hygiene.log",
+      ".csdlc/evidence/482/provenance-and-license.log",
+      ".csdlc/evidence/482/redaction-and-custody.log",
+      ".csdlc/issues/482",
+      ".csdlc/prepared/issues/482",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+      "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+      "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:codex-482-corp-a-review-r2",
+    "scope": [
+      ".csdlc/evidence/482/asset-denominator.log",
+      ".csdlc/evidence/482/diff-hygiene.log",
+      ".csdlc/evidence/482/provenance-and-license.log",
+      ".csdlc/evidence/482/redaction-and-custody.log",
+      ".csdlc/issues/482",
+      ".csdlc/prepared/issues/482",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+      "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+      "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+    ],
+    "reviewed_revision": "git-blake3:04b7db20f31c26a336b342ebd035869c290c6099:511751a29525368d6b8949f54598e57e9face82abdab1e59ea524b0952051334",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not rerun the Ruby validators against a checked-out exact worktree because live HEAD contained later review-assignment metadata; reviewer inspected validator source/evidence logs and ran exact-revision Git diff hygiene directly.",
+      "Reviewer could not independently verify the supplied git-blake3 digest because b3sum was unavailable.",
+      "Private custody envelope, counsel/legal assertions, and provider account facts are intentionally represented only through redacted role attestations and were not independently verified."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 482,
+    "pull_request": 545,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/545",
+    "base": "main",
+    "head": "codex/482-v0-92-1-corp-a-critical-asset-schedule",
+    "revision": "git-blake3:724688dc8aace2c1a05e3d09744bd5026d13a31c:c5d1b67d0c1de051c9cc3d279689f9cd5801d63a2d26227cc4c4a27b2b377b30",
+    "linkage_mode": "closing",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/482/design.md",
+  "diagram_path": ".csdlc/prepared/issues/482/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "revision": "e52268ade257af75c462783492e3afbb11fc5eec7eff7b0357d093c9f0882ac3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "dc6105785ddd89a2c7de5bf0a1a3e12c30ba2c3d3c48ae8621eceab3353179f7",
+      "rendered_digest": "f9f8cc2d6d02c94e69999ca3c38d881957da1bcd711a4beba5af203947249cf2",
+      "ast_digest": "d1957414fe5237159623b932cb0d711ac199ed76f6816df7296dbd8fefb1626f"
+    },
+    "stp": {
+      "values_digest": "14b7383dd96def07c9a7df2ae39140fc5a1bb4567b04a8d31cb6639beffacf16",
+      "rendered_digest": "d3637f737539f839b080d83bfdf0e55bfb804b891c3be4eed189d4970fe89a35",
+      "ast_digest": "c2fcbd3809ef78c52edd8fc837ab9113ade5d90bf1597a0a4b66d3ebb65a0517"
+    },
+    "spp": {
+      "values_digest": "d9a45b85c14b8cec3ce8b97d271f59cc2b7cbf1c6dfd5de7a2390a935e027514",
+      "rendered_digest": "213208f98ce766497bf38088df8ea0717494a72e6d3ea3c4ef016fa2aacc9ca2",
+      "ast_digest": "ed39be0397f09d95accfe187e34e69a78f128ea1c52d56107150b487bb7b8c15"
+    },
+    "vpp": {
+      "values_digest": "df9e4db86e0d7938826e3ca1ad2291c21b45376ffefba5fe7772a7383b882fad",
+      "rendered_digest": "c3723205e4fbb61c4500880cbab075c6576268584dfe3cd4e3ff635e8fb2f5a2",
+      "ast_digest": "1488461af57329f86082eefa4b51ab613f3763211c99a07f9cd4e98d4632cb7b"
+    },
+    "srp": {
+      "values_digest": "751df7bf60cb0065887684127cbb95eae1a548b2fa6d4c104d87a5ccf480a672",
+      "rendered_digest": "f94d11e04ec3ca334271922d936bae8f5b001c4ad099d1a7111d73fc6b9b36f0",
+      "ast_digest": "ae111e565b8a27ff068e9e5c010f5240942d1fd5fa1fd1ce77b883453af0c9dc"
+    },
+    "sor": {
+      "values_digest": "cc08dd61175eebef5450fd2e6faccb90dc0fdd61616f52b93537807372873fdd",
+      "rendered_digest": "5a8dcf8a214563fa919e38872c5a7abf5fad208c130ac1e3badbcb50f454503f",
+      "ast_digest": "fb11c34d6a685fb7cf7a05c64cdd1936398f08b2f95fe6e3a4dd4864cc083fe5"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/v0921-sprint1-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"e52268ade257af75c462783492e3afbb11fc5eec7eff7b0357d093c9f0882ac3\",\"design_ref\":\".csdlc/prepared/issues/482/design.md\",\"diagram_digest\":\"38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a\",\"diagram_ref\":\".csdlc/prepared/issues/482/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "Recover after fresh-session:codex-482-corp-a-review-r1 found non-proving diff-hygiene evidence and tracked empty lock residue; repair proof and scope before assigning a different fresh exact reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "Repair R1 finding: make diff hygiene prove the full #482 branch diff against main rather than only the current working-tree diff.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"asset-denominator\",\"proof_role\":\"Prove asset denominator for CORP-A.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1800,\"argv\":[\"ruby\",\".csdlc/prepared/issues/482/validate-asset-denominator.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"provenance-and-license\",\"proof_role\":\"Prove provenance and license for CORP-A.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1800,\"argv\":[\"ruby\",\".csdlc/prepared/issues/482/validate-provenance-and-license.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"redaction-and-custody\",\"proof_role\":\"Prove redaction and custody for CORP-A.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1800,\"argv\":[\"ruby\",\".csdlc/prepared/issues/482/validate-redaction-and-custody.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove full branch diff hygiene for CORP-A.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1800,\"argv\":[\"git\",\"diff\",\"main...HEAD\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "Repair R1 finding: record the full-branch diff-hygiene proof and scope cleanup in SOR execution truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the CORP-A critical-asset schedule as documentation/evidence-only custody truth with accepted ownership, licensing, trademark, assignment, provenance, redacted custody, and validation surfaces.\",\"changes\":[\"Added a machine-readable critical-asset schedule covering the accepted CORP-A corporate asset denominator.\",\"Added redacted custody receipts for every asset row without repository credential, private-instrument, tax, payment, or recovery-material payloads.\",\"Added a reviewer-facing Markdown schedule that summarizes owner, custodian, assignment, license, trademark, provenance, receipt, and validation routing.\",\"Implemented focused issue-local validators for denominator coverage, provenance/licensing/trademark routing, redaction/custody integrity, and full branch diff hygiene.\",\"Recovered the first exact-review findings by removing trailing Markdown whitespace, excluding the empty lock from the tracked deliverable, and strengthening diff hygiene to `git diff main...HEAD --check`.\"],\"artifacts\":[\"docs/operations/corporate/asset-register/critical-asset-schedule.v1.json\",\"docs/operations/corporate/asset-register/critical-asset-schedule.md\",\"docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json\",\".csdlc/prepared/issues/482/validate-asset-denominator.rb\",\".csdlc/prepared/issues/482/validate-provenance-and-license.rb\",\".csdlc/prepared/issues/482/validate-redaction-and-custody.rb\",\".csdlc/issues/482\",\".csdlc/prepared/issues/482\",\".csdlc/evidence/482\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-asset-denominator.rb\"],\"purpose\":\"Prove the critical-asset schedule covers every declared CORP-A asset class exactly once with accepted rows and matching custody receipts.\",\"outcome\":\"passed\",\"evidence_ref\":\"asset-denominator.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-provenance-and-license.rb\"],\"purpose\":\"Prove every asset row records source provenance, evidence refs, licensing route, trademark route, assignment acceptance, and Markdown visibility.\",\"outcome\":\"passed\",\"evidence_ref\":\"provenance-and-license.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-redaction-and-custody.rb\"],\"purpose\":\"Prove every asset row has an accepted redacted custody receipt and that schedule evidence avoids obvious sensitive keys and private credential payload patterns.\",\"outcome\":\"passed\",\"evidence_ref\":\"redaction-and-custody.log\"},{\"command\":[\"git\",\"diff\",\"main...HEAD\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift across the full #482 branch diff against main.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

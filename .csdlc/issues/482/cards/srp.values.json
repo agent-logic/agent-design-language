@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 482,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+    "slug": "v0-92-1-corp-a-critical-asset-schedule",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/482/asset-denominator.log\n.csdlc/evidence/482/diff-hygiene.log\n.csdlc/evidence/482/provenance-and-license.log\n.csdlc/evidence/482/redaction-and-custody.log\n.csdlc/issues/482\n.csdlc/prepared/issues/482\ndocs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json\ndocs/operations/corporate/asset-register/critical-asset-schedule.md\ndocs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+      "review_revision": "git-blake3:04b7db20f31c26a336b342ebd035869c290c6099:511751a29525368d6b8949f54598e57e9face82abdab1e59ea524b0952051334",
+      "reviewer": "fresh-session:codex-482-corp-a-review-r2",
+      "review_prompts": [
+        "Does the implementation stay inside the declared unit boundary?",
+        "Does every acceptance criterion have proving evidence?",
+        "Are operator-only actions and private material kept outside Git?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Reviewer did not rerun the Ruby validators against a checked-out exact worktree because live HEAD contained later review-assignment metadata; reviewer inspected validator source/evidence logs and ran exact-revision Git diff hygiene directly.",
+        "Reviewer could not independently verify the supplied git-blake3 digest because b3sum was unavailable.",
+        "Private custody envelope, counsel/legal assertions, and provider account facts are intentionally represented only through redacted role attestations and were not independently verified."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
