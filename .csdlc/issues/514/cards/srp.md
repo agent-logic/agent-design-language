@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-PROV-A declared paths, acceptance criteria, PVF evidence, and operator boundary only.
+adl/src/provider/mod.rs
+adl/src/provider/profiles.rs
+docs/provider/inference-profiles.md
+docs/milestones/v0.92.1/evidence/provider/prov-a/README.md
+.csdlc/prepared/issues/514/validate-*.rb
+.csdlc/evidence/514/*.log
 
 ## Prompts
 
@@ -30,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Focused local validation passed; broader workspace integration remains deferred to PR CI.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:525b393dfc246e8458b135aeb82ef5b99d1810a8:824bab33091d06a2863176f557b1742770b2d89e0f9ff794cc7e375e2e7f2563")
 
-Reviewer: None
+Reviewer: Some("gpt-5.5-subagent:prov-a-current-head")
 
-Result: pre_review
+Result: pass

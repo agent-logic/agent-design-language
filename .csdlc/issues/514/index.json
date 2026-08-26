@@ -4,13 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9fdf6098309aa72bf2e1efd727a6691adf465920b488e78111c6723537e7619d",
-  "phase": "implemented",
-  "generation": 2,
-  "digest": "2c04352c0db33bf4b5d6a6ef8925e6350ae0b4ef2e8a970c9cc846250a438c17",
+  "phase": "reviewed",
+  "generation": 3,
+  "digest": "54bb88c21532d0d707ef59b44b1367e2ec4bc7766123e5f1406887040ace17fa",
   "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "gpt-5.5-subagent:prov-a-current-head",
+    "assigned_by": "codex:sprint-1-issue-514-worker",
+    "revision": "git-blake3:525b393dfc246e8458b135aeb82ef5b99d1810a8:824bab33091d06a2863176f557b1742770b2d89e0f9ff794cc7e375e2e7f2563",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
+      ".csdlc/prepared/issues/514/validate-*.rb",
+      ".csdlc/evidence/514/*.log"
+    ]
+  },
+  "review": {
+    "reviewer": "gpt-5.5-subagent:prov-a-current-head",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
+      ".csdlc/prepared/issues/514/validate-*.rb",
+      ".csdlc/evidence/514/*.log"
+    ],
+    "reviewed_revision": "git-blake3:525b393dfc246e8458b135aeb82ef5b99d1810a8:824bab33091d06a2863176f557b1742770b2d89e0f9ff794cc7e375e2e7f2563",
+    "findings": [],
+    "residual_risks": [
+      "Focused local validation passed; broader workspace integration remains deferred to PR CI."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ea813d4920342aac1267541ac0311816297e4ea5233547ca35ee0e18d65e06a",
+      "values_digest": "107565c033d86432e78731700ab8626b84cc59bff76cb7b042eb32df63470463",
       "rendered_digest": "0b2b96047cadd7c25e6919f8aa6aaef361cb8694637c67b3bc457cb05fbfac75",
       "ast_digest": "3a308d39d4ccac0225312a861c790215b1f777524ef0cbe88d624959282eda66"
     },
     "stp": {
-      "values_digest": "848a42962dc029d756681f103cdfbdc5703921553c1832950387fc2d9e9a963f",
+      "values_digest": "4ed564c12b1773917854d298a4538bc3867ba907203b2fa496904f34789f04c7",
       "rendered_digest": "da03dbd130894a30ad371f2dcc53b310c4cccb74f4f97e3187e800c1259eae16",
       "ast_digest": "72a3d9084a14e396224ebcf0b7b1301d9c531df8e9e1db4c78c4af2b8b91467c"
     },
     "spp": {
-      "values_digest": "99a119737cf7f8d0b9c4f77788c0793a4bd28da6735e359016f5aaa6d898a900",
+      "values_digest": "905d2bb3d794c11a4250182d1fb490552aa5846cb1c3993c14533701f5fad501",
       "rendered_digest": "c8544d8772f1f01111260278f980490bf763b6eff893e5530c0086dd69a4f009",
       "ast_digest": "633f5fd92e8e0ce90d2c7baa29f4f8fe5d555842b4b0486ea53b355b43330b2b"
     },
     "vpp": {
-      "values_digest": "16b016ee705d6fba59747515a82e69ec1a9de1e0eba38133abcac075fdb2a721",
+      "values_digest": "f8d1eb8a22807e5b49e8dcb2172893d1fd93dd592d0ddf77d7c107d1ae55991e",
       "rendered_digest": "0f27717b849259d3d877a3281f281b61ed4b6ea845124243260893741e360ea2",
       "ast_digest": "8e5e53c7c10630e30182ae4221d92fd19cea3c9ba4b86b9f9076aa27e946d81d"
     },
     "srp": {
-      "values_digest": "4f33f30e2e3327d0d3925442d6aa67c494ec3138514f62fcfdde295f57ad6a9c",
-      "rendered_digest": "bf04f454716c875bf1cb50ddbb00a5f7a096112039c980ed0c661b5803548ca8",
-      "ast_digest": "966eacffce3e2a63a25c3c777e52fa943c8a35a70af187d7f72b3fcdbdfb0f70"
+      "values_digest": "9aa74d2431eef49978feef204a2e0f79fe45819c4613ca6b83de5f9da9b48618",
+      "rendered_digest": "a797222b1f5b6b954ae3fe339997dde2d972323159510f26b077eec51db4ff8c",
+      "ast_digest": "4391dddcae0e97622501288cafec29090b8c3024e68b62512ba4f08ae3f0297c"
     },
     "sor": {
-      "values_digest": "7ed25b259f7243d5713f960a879911048402dd6a987289da798727c888a07896",
+      "values_digest": "b3194fcff6f9b416a224d69ca95ae86953602f32cca6d9f2e7f9ee22d23ecc2e",
       "rendered_digest": "402d7046bb4a0900420d788cff28549375ebd531f17a5d96836d05dfd90c8be4",
       "ast_digest": "55a633e2ac7ed4f8cfaef07675ac49c07f669da7d3073f79115170cb08ed2d2a"
     }
@@ -76,6 +105,13 @@
       "to": "implemented",
       "actor": "codex:issue-514-prov-a",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -106,6 +142,20 @@
       "actor": "codex:issue-514-prov-a",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
