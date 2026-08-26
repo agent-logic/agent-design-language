@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved review finding REV-544-P1-PRIMARY-SUBDIR-BYPASS by comparing the invocation Git top-level to the primary worktree and adding a primary-subdirectory zero-residue regression test.
+Adjusted gate2 bootstrap fixtures to run issue creation from linked non-primary worktrees so the new primary-checkout bootstrap guard is preserved while legacy fixture coverage remains valid.
 
 ## Artifacts
 
@@ -22,6 +22,7 @@ Resolved review finding REV-544-P1-PRIMARY-SUBDIR-BYPASS by comparing the invoca
 - csdlc-v2/README.md
 - csdlc-v2/src/lifecycle.rs
 - csdlc-v2/tests/primary_checkout_bootstrap_guard.rs
+- csdlc-v2/tests/gate2.rs
 
 ## Execution
 
@@ -32,6 +33,9 @@ Resolved review finding REV-544-P1-PRIMARY-SUBDIR-BYPASS by comparing the invoca
 - reject_primary_checkout_bootstrap now resolves `git rev-parse --path-format=absolute --show-toplevel` before comparing to the topology primary checkout.
 - initialize_native_json runs the primary-checkout guard before native registry validation so primary subdirectory invocations fail before reads or writes.
 - primary_checkout_bootstrap_guard.rs now covers primary subdirectory rejection with zero issue residue.
+- Added a gate2 test helper that detaches the fixture primary checkout and checks out main in a linked worktree used as the test repository root.
+- Updated focused and manual gate2 fixtures that bootstrap ADL issue records to use sibling primary checkouts plus linked non-primary worktrees.
+- Kept production guard behavior unchanged; the fix is limited to test fixtures that previously initialized from their topology primary checkout.
 
 ## Validation
 
@@ -105,16 +109,39 @@ Resolved review finding REV-544-P1-PRIMARY-SUBDIR-BYPASS by comparing the invoca
     "purpose": "Focused integration proof after design recovery and reapproval, including primary subdirectory rejection and zero residue.",
     "outcome": "passed",
     "evidence_ref": "local output after design recovery: 4 passed, 0 failed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate2"
+    ],
+    "purpose": "Targeted reproduction for the csdlc-v2-standalone failure caused by gate2 primary-checkout bootstrap fixtures.",
+    "outcome": "passed",
+    "evidence_ref": "local output after janitor fix: 14 passed, 0 failed"
+  },
+  {
+    "command": [
+      "cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check",
+      "cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings"
+    ],
+    "purpose": "Workflow-equivalent format and strict Clippy proof for the fixture-only janitor change.",
+    "outcome": "passed",
+    "evidence_ref": "local output after janitor fix: fmt --check passed; clippy finished without warnings"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
