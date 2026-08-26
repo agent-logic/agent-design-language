@@ -1,0 +1,10 @@
+{
+  "schema": "adl.v0921.wp01.partial-receipt.v1",
+  "planning_digest": "33a7484d7f23fa5b6bf8fdf43194025983894edd87b747f3a4195daee48a1c36",
+  "verified_prefix": [
+
+  ],
+  "next_absent_id": "CORP-A",
+  "journal_root_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "complete": false
+}
