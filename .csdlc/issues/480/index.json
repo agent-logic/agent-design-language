@@ -4,48 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f6c582c5700e044ffef21116ae636bbd9ebdb8120a91c5805a887231557c4680",
-  "phase": "published",
-  "generation": 9,
-  "digest": "52c4389b5fb7a8e672ba6bfba699af8436cf1411d9d9e1eab057ceda7364ce9d",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "0733eda65b02ba94775cb8e571b1013215b128c1e2170a2f78e5443d59c1fe12",
   "branch": "codex/480-v0921-wp01-execution-wave",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-480-v0921-wp01-execution-wave",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_480_final",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:e759bdc84d1b12359c423b50c3a6d0b04d42ea69:b678cc25909570f33134684a7ccedc17aaf589edb80309234e82deeaacc67e75",
-    "scope": [
-      ".csdlc/issues/480",
-      ".csdlc/prepared/issues/480",
-      "docs/milestones/v0.92.1/evidence/wp-01"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_480_final",
-    "scope": [
-      ".csdlc/issues/480",
-      ".csdlc/prepared/issues/480",
-      "docs/milestones/v0.92.1/evidence/wp-01"
-    ],
-    "reviewed_revision": "git-blake3:e759bdc84d1b12359c423b50c3a6d0b04d42ea69:b678cc25909570f33134684a7ccedc17aaf589edb80309234e82deeaacc67e75",
-    "findings": [],
-    "residual_risks": [
-      "Publication and merge remain separate gates; this review proves the exact live wave and retained evidence, not downstream child completion."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 480,
-    "pull_request": 527,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/527",
-    "base": "main",
-    "head": "codex/480-v0921-wp01-execution-wave",
-    "revision": "git-blake3:debc94d07f9390b4bb3946009bc5e8843ccb11b4:b011068ed0784ff741dc509d707f896758ae7e156c750268b3ff06e481b29c2f",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -59,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3c6cfbc336cc44413517cc74414e6784d08e69da6dbd59c3ee9cea6208423956",
+      "values_digest": "c3b15ebccc704e7185ab3c710e42025e02def475f2239709dc25eeedb68edd3c",
       "rendered_digest": "5ec5d5d22db98fcc3f7bcd86d4fd53a6efaf01df8e80e81abaebfc9dc0a34063",
       "ast_digest": "aa12ccd926f12add74930004aa60c2b20837df2bee29015bbff8229e728d0691"
     },
     "stp": {
-      "values_digest": "cff5c15231da8dc15b2ab17d6c2931c0d6f5cde6b16a59eb7077d9e046c148f1",
+      "values_digest": "96b21cd85bc61935fb84d34420c322824f8165297b074e2a56e70dcf5d57c26d",
       "rendered_digest": "6f691ebb3200563531fa1c881343ef091cb5e9d250a393987e742f992a442d88",
       "ast_digest": "96b3b295648c2402e96cfa0d4c826d933e256226450f2ac8ada40e409ab0a610"
     },
     "spp": {
-      "values_digest": "ed20e7d54dbc4c4fadd7af2bf634e5f7cab78180020c9e8dc615bc0d6e710566",
+      "values_digest": "b5525aae601b9df4b67c94493b07e8785f2e49ca00e4e7421071ed2f30f9549a",
       "rendered_digest": "1c6e1342b6cb60ee57531fcf0c59868f4031811c4a4717f0dd2607443580ca00",
       "ast_digest": "7c559ebbcd9e0eb3eeebe50ba2d120c1409f69796b46e896a9d14c93917a2514"
     },
     "vpp": {
-      "values_digest": "e40016e994a7d4a99b4202dc86e8f1f5ee06287efada4dba455c6721b9567113",
+      "values_digest": "e1168d3e8cc62c3978f091ab8d2ec368814efd14299e66fc9f63a47d999a96f3",
       "rendered_digest": "5ba96d32ec4999b579ebc0374889f798a2d532b2db05aca6988f2bdfb482a7a0",
       "ast_digest": "4a163e4a211be4450582effd07600b0765b86613d2001d101e510d2ea826fded"
     },
     "srp": {
-      "values_digest": "be1a5cd50cf7fc5f8e99fb2f5537ce2bc2e8de2e2222bc5fc69cf6b6824ddb8b",
-      "rendered_digest": "c6b227e442a22a8a6cbc79df29b0caffcbc0a107e8d6f9e07b0f56af2dde21b7",
-      "ast_digest": "a2bac66e7675937e2111dd653431a5c0fe003d334cd90198129a234551ba8c63"
+      "values_digest": "3d8d68db9d04c697da0297ebfcbf1f64c07b57197a89c2e5fb1c01a32d6c0e1f",
+      "rendered_digest": "116c65bec130b67fd918d57b381061eff452b234d02482803a07487dba013245",
+      "ast_digest": "ae11422532f2b7e8eae0b9b8ae021c81db9a42e9525cfc0bc4b93525cd2edc16"
     },
     "sor": {
-      "values_digest": "1f8f0f00cd46bc722bc696c7bbfbf965a49e71ec7460aeb4d1e2af89167b0aa4",
-      "rendered_digest": "9e4033314fc08e45fad797d7c82ddb5779db026ef410a29ce9bbef5d837b257d",
-      "ast_digest": "f7bccae1359a6ff24b2b47f60f3423bbf3c43a2c2195915c93dc83c181f903a2"
+      "values_digest": "7b5548dd179f5606f825e4a9f5171e8d349b13e3530d125384b77d4d4d36362b",
+      "rendered_digest": "bada7a7dd30ab605ebea89a4f23e3a0cda4e5d9b82151b1d47c52539f980b8fa",
+      "ast_digest": "f82b5a8a5340d4eb86650f3d42a4fa727eae3d45d9475f4586a5e12b1f05bd23"
     }
   },
   "transitions": [
@@ -124,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #480 after the operator identified the missing Sprint 1-11 coordination umbrella layer; the corrected live umbrellas and versioned update contract require a new exact-head review and publication."
     }
   ],
   "audit": [
@@ -210,6 +183,27 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover #480 after the operator identified the missing Sprint 1-11 coordination umbrella layer; the corrected live umbrellas and versioned update contract require a new exact-head review and publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Record the missing Sprint 1-11 umbrella layer and its updateable membership contract.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added the 11 missing v0.92.1 coordination umbrellas without changing the original 45-child planning digest.\",\"changes\":[\"Created Sprint 1 through Sprint 11 umbrellas as #529 through #539 with explicit initial child membership.\",\"Kept child implementation independent and typed finish/worktree cleanup asynchronous and non-gating.\",\"Added monotonically versioned membership updates with mandatory change reasons so the sprint graph can evolve without losing history.\",\"Removed machine-local binary and token paths from the retained umbrella runner.\"],\"artifacts\":[\"docs/milestones/v0.92.1/SPRINT_v0.92.1.md\",\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-receipt.json\",\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json\",\".csdlc/prepared/issues/480/create-sprint-umbrellas.rb\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record the focused Sprint umbrella and unchanged original-wave validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/480/create-sprint-umbrellas.rb\",\"update\"],\"purpose\":\"Verified 11/11 unique live Sprint umbrellas, explicit membership version and reason, version-specific receipts, portable typed owner resolution, and unchanged 45-child planning validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json\"}}"
     }
   ]
 }
