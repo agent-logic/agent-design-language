@@ -73,3 +73,4 @@
 {"sequence":73,"generation":55,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":74,"generation":56,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":75,"generation":57,"actor":"codex:/root","reason":"Recover stale exact review/publication after merging current origin/main containing terminal #510, #484, and #554.","operation":"recover_review"}
+{"sequence":76,"generation":57,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}

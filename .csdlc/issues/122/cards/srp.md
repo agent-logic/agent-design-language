@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+infra/aws/csm-public-edge/
+infra/aws/csm-runtime-spot/
+infra/aws/csm-runtime-alb/
+infra/aws/modules/csm-runtime-spot/
+infra/aws/modules/csm-runtime-alb/
+adl/tools/validate_csm_public_edge_static.sh
+adl/tools/validate_csm_public_edge_live.sh
+docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md
+docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md
 
 ## Prompts
 
