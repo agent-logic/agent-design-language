@@ -4,47 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0b8aa5c966363ac9cf55e79de078ee6483310794407cf840b79dd74fbede4428",
-  "phase": "published",
-  "generation": 25,
-  "digest": "c3467cce97ca40923e1caf6021914b333f28e5dea81e60856031d7a0bcbcf371",
+  "phase": "implemented",
+  "generation": 29,
+  "digest": "77b81027a188b9f720cb0cee7b24857bc8f576ab401f8a26e864b3c7f63915b6",
   "branch": "codex/544-primary-checkout-bootstrap-guard",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-544-primary-checkout-bootstrap-guard",
-  "review_assignment": {
-    "reviewer": "fresh-session:01a03f5e-088d-7283-8b59-dfe33c5ca145",
-    "assigned_by": "codex:issue-544-pr-janitor",
-    "revision": "git-blake3:8efcbaa27756350a78fb9eb9bd3848b57a971201:25989d3d466b10f9b46b9316cfd1758360ebf0b4eccb1f90b37ce8f883fc16ce",
-    "scope": [
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/544"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:01a03f5e-088d-7283-8b59-dfe33c5ca145",
-    "scope": [
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/544"
-    ],
-    "reviewed_revision": "git-blake3:8efcbaa27756350a78fb9eb9bd3848b57a971201:25989d3d466b10f9b46b9316cfd1758360ebf0b4eccb1f90b37ce8f883fc16ce",
-    "findings": [],
-    "residual_risks": [
-      "Review was bounded to the PR janitor fixture/lifecycle delta and did not assess merge, finish, or unrelated repository readiness.",
-      "Final external Sol API review remains deferred until the republished PR head has stable green checks."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 544,
-    "pull_request": 548,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/548",
-    "base": "main",
-    "head": "codex/544-primary-checkout-bootstrap-guard",
-    "revision": "git-blake3:98d190180970964cde85383165c34d02ddf01d52:6a61f3cf95e1f82012268785aed10cc3fc631d8370cd9d9b37b28591dd263fc2",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -58,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c0daf461250d7cc6bae5b93a22473ba752b370928626edd9b86cd3fbbcc57dd1",
+      "values_digest": "1ccaaed8f10aa2b9c4ec35226c08e0be4d0e7bf995fca8a91488c6bfa9c591a2",
       "rendered_digest": "f9200e94d5b34c2683ed23c3adc5ae63d885fa5978819ebd35ba399294faf352",
       "ast_digest": "4b3853cbf5df7b759c44da8fcd07307b864f0c2fe29efef887d7456d53450752"
     },
     "stp": {
-      "values_digest": "80582d94a01a9bf7ed6217d603ddb9c383ff6e166f2875c73f014f3af370cfa4",
+      "values_digest": "7c5ad6aaff099c80cff6880ee9f9c5ff48570aceadc1587cc63779fd11e985a4",
       "rendered_digest": "3625c11b15677727953342f978ba6b0572b026124b599c7b7e388a605d7678c9",
       "ast_digest": "62d39e800a0030b76803f92508674a830d47bbfc9ca1540e2c7938cdaf0f3db5"
     },
     "spp": {
-      "values_digest": "ac71f427cdb8875abe4f84069d51dab6ac27f7452cbed94bdaa813aaa4447969",
+      "values_digest": "5da30797d1996931d000a7364ada10f5321b749dba0deac56601275ae1a8daaf",
       "rendered_digest": "97f60ee4446c21b0a6387cf5c99185b8f193a148b57e1c2acc6950e73f1d670a",
       "ast_digest": "9f034b55388e4996f810eb685dc38f0bc40d005ee79c6cfa38b8b00c350d90e2"
     },
     "vpp": {
-      "values_digest": "b2ed7b41f435300e2d873a1a3fb695c7199105110eb9927aca063dc74c8f0662",
+      "values_digest": "55c158360ef0a13efb14009bd09733fdb5aa22949b1b05693da407f1d0c2bdf6",
       "rendered_digest": "8c5bfd1bba767ce996acbdc88f5eb793e2fb346105e71f1b5aa5c237c763e37c",
       "ast_digest": "d5ed78f8e12dd41b147bf0f532d72e228928b3064193bd569a7659d2002363eb"
     },
     "srp": {
-      "values_digest": "93a792e517251305134a85c3d99bdf1add4d422f72baeb874e4d23e3e04b29a2",
-      "rendered_digest": "c19077c3e24ca1a8c8b90600723b7de0b0eae91a6aae0a5a62a3f3a49aba5268",
-      "ast_digest": "02aea9a8d9de75b38958a824d3dee4bcc4b1f494d42def23cae7b7654d03a9b7"
+      "values_digest": "a0f2b2989a13da79f68297391536f816e1b94d5c56de0fb9024679d2a2c9e1c5",
+      "rendered_digest": "f894b14f499903c9d772c9c9e93771700faf470aaed973d8d19b92f640947a44",
+      "ast_digest": "49fcfadf2bd1c755c0dd5133934f69c510df00eaea2e6826f6810a78e06a9381"
     },
     "sor": {
-      "values_digest": "36647754ab41fad39653a5b2b366e40ad0423a605c8847d42af57d84edfe704c",
-      "rendered_digest": "09f06c12a144f8af2566f1b9c63a488d37670b41537bae268e8e6f407d58002b",
-      "ast_digest": "4695a7f5fa6e1ba25865c5eeb0664906dc224e1d9dd7954f1a500f94329ef515"
+      "values_digest": "a383dbfaff99867c1bf614b3793df25a3d776b94acb7e39cfe0104bc8f081b05",
+      "rendered_digest": "ec3a85edd2e1f410b35dc03ee3a50c24197512c0743cc99771cb24903697888f",
+      "ast_digest": "c136035a9d10f019c4e4781922a9156ebe1fba79b72bf9b64b5e2dc84b0b0d29"
     }
   },
   "transitions": [
@@ -144,6 +111,13 @@
       "to": "published",
       "actor": "codex:issue-544-publish",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-544-pr-janitor",
+      "reason": "Recover from published state after PR #548 csdlc-v2-standalone failure in initialized_decomposition_recovery fixture; bounded janitor fix updates the fixture to bootstrap from a linked non-primary worktree."
     }
   ],
   "audit": [
@@ -363,6 +337,34 @@
       "actor": "codex:issue-544-publish",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 32,
+      "generation": 26,
+      "actor": "codex:issue-544-pr-janitor",
+      "reason": "Recover from published state after PR #548 csdlc-v2-standalone failure in initialized_decomposition_recovery fixture; bounded janitor fix updates the fixture to bootstrap from a linked non-primary worktree.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 27,
+      "actor": "codex:issue-544-pr-janitor",
+      "reason": "record bounded PR janitor fix for csdlc-v2-standalone initialized_decomposition_recovery fixture failure",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Adjusted initialized_decomposition_recovery fixtures to build their synthetic repository under a linked non-primary worktree so bootstrap creation remains compatible with the primary-checkout guard.\",\"changes\":[\"Changed fixture_repo in csdlc-v2/tests/initialized_decomposition_recovery.rs to create a sibling primary fixture repository and add the test root as a linked main worktree.\",\"Moved fixture file population into write_fixture_files so the primary fixture can be committed before the linked worktree is created.\",\"Kept production primary-checkout guard behavior unchanged; the fix is limited to a test fixture that previously inherited the Actions primary checkout topology.\"],\"artifacts\":[\"csdlc-v2/tests/initialized_decomposition_recovery.rs\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 28,
+      "actor": "codex:issue-544-validation",
+      "reason": "record targeted initialized_decomposition_recovery validation after PR janitor fixture fix",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"initialized_decomposition_recovery\"],\"purpose\":\"Targeted reproduction for the csdlc-v2-standalone failure caused by initialized_decomposition_recovery bootstrapping inside the Actions primary checkout.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output after janitor fix: 2 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 35,
+      "generation": 29,
+      "actor": "codex:issue-544-validation",
+      "reason": "record formatting and strict clippy validation after initialized_decomposition_recovery fixture fix",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check\",\"cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Workflow-equivalent format and strict Clippy proof for the second fixture-only janitor change.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output after initialized_decomposition_recovery fixture fix: fmt --check passed; clippy finished without warnings\"}}"
     }
   ]
 }

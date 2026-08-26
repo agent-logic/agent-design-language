@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Adjusted gate2 bootstrap fixtures to run issue creation from linked non-primary worktrees so the new primary-checkout bootstrap guard is preserved while legacy fixture coverage remains valid.
+Adjusted initialized_decomposition_recovery fixtures to build their synthetic repository under a linked non-primary worktree so bootstrap creation remains compatible with the primary-checkout guard.
 
 ## Artifacts
 
@@ -23,6 +23,7 @@ Adjusted gate2 bootstrap fixtures to run issue creation from linked non-primary 
 - csdlc-v2/src/lifecycle.rs
 - csdlc-v2/tests/primary_checkout_bootstrap_guard.rs
 - csdlc-v2/tests/gate2.rs
+- csdlc-v2/tests/initialized_decomposition_recovery.rs
 
 ## Execution
 
@@ -36,6 +37,9 @@ Adjusted gate2 bootstrap fixtures to run issue creation from linked non-primary 
 - Added a gate2 test helper that detaches the fixture primary checkout and checks out main in a linked worktree used as the test repository root.
 - Updated focused and manual gate2 fixtures that bootstrap ADL issue records to use sibling primary checkouts plus linked non-primary worktrees.
 - Kept production guard behavior unchanged; the fix is limited to test fixtures that previously initialized from their topology primary checkout.
+- Changed fixture_repo in csdlc-v2/tests/initialized_decomposition_recovery.rs to create a sibling primary fixture repository and add the test root as a linked main worktree.
+- Moved fixture file population into write_fixture_files so the primary fixture can be committed before the linked worktree is created.
+- Kept production primary-checkout guard behavior unchanged; the fix is limited to a test fixture that previously inherited the Actions primary checkout topology.
 
 ## Validation
 
@@ -132,16 +136,39 @@ Adjusted gate2 bootstrap fixtures to run issue creation from linked non-primary 
     "purpose": "Workflow-equivalent format and strict Clippy proof for the fixture-only janitor change.",
     "outcome": "passed",
     "evidence_ref": "local output after janitor fix: fmt --check passed; clippy finished without warnings"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "initialized_decomposition_recovery"
+    ],
+    "purpose": "Targeted reproduction for the csdlc-v2-standalone failure caused by initialized_decomposition_recovery bootstrapping inside the Actions primary checkout.",
+    "outcome": "passed",
+    "evidence_ref": "local output after janitor fix: 2 passed, 0 failed"
+  },
+  {
+    "command": [
+      "cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check",
+      "cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings"
+    ],
+    "purpose": "Workflow-equivalent format and strict Clippy proof for the second fixture-only janitor change.",
+    "outcome": "passed",
+    "evidence_ref": "local output after initialized_decomposition_recovery fixture fix: fmt --check passed; clippy finished without warnings"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

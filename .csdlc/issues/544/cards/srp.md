@@ -12,8 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v2/tests/gate2.rs
-.csdlc/issues/544
+
 
 ## Prompts
 
@@ -34,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review was bounded to the PR janitor fixture/lifecycle delta and did not assess merge, finish, or unrelated repository readiness.
-- Final external Sol API review remains deferred until the republished PR head has stable green checks.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:8efcbaa27756350a78fb9eb9bd3848b57a971201:25989d3d466b10f9b46b9316cfd1758360ebf0b4eccb1f90b37ce8f883fc16ce")
+Revision: None
 
-Reviewer: Some("fresh-session:01a03f5e-088d-7283-8b59-dfe33c5ca145")
+Reviewer: None
 
-Result: pass
+Result: pre_review
