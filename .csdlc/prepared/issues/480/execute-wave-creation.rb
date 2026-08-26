@@ -302,7 +302,7 @@ def assert_no_conflicts!(plan)
     abort "existing-route live conflict for ##{entry.fetch(:issue)}" unless conflicts.empty?
   end
   replace_json(LIVE_CENSUS_PATH, { schema: "adl.v0921.wp01.live-census.v1", planning_digest: planning_digest,
-                                   observed_at_head: `git rev-parse HEAD`.strip, issues: census })
+                                   issues: census })
   census
 end
 
