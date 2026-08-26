@@ -4,57 +4,40 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "34509f31c80be5cf38a5b8085f6eae0006c612f628dfac516322bc7213517061",
-  "phase": "published",
-  "generation": 7,
-  "digest": "3d37533b748e0dc4eaf86a305bf46232b3c64315496dc8d7b594ff03f1d9e909",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "c021a3f09e4d24bf4301ae83471415dc26f3154304897d169e85ccc2748305fc",
   "branch": "codex/319-v092-wp30-release-ceremony",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-319-release-ceremony",
   "review_assignment": {
-    "reviewer": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
+    "reviewer": "fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:ae7bb8164e3a44dd85f495f63feecbfa99cda47a:a1eb6034f9b019b5b606e4882045113e62ae200182388153a94a669987f70f14",
+    "revision": "git-blake3:96f1dd343d0954a133529924b3c9978282d84425:b4fcca1eb7de1dbd37671244e864fd095f70537f10d925ec911dbd4b3bd1111d",
     "scope": [
-      "adl/tools/release_ceremony.sh",
-      "adl/tools/test_release_ceremony.sh",
-      ".csdlc/prepared/issues/319",
-      ".csdlc/evidence/319",
-      ".csdlc/issues/319",
-      "docs/milestones/v0.92/RELEASE_CEREMONY_GATE_v0.92.json",
-      "docs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md"
+      ".github/workflows/ci.yaml",
+      "adl/.config/nextest.toml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
+    "reviewer": "fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51",
     "scope": [
-      "adl/tools/release_ceremony.sh",
-      "adl/tools/test_release_ceremony.sh",
-      ".csdlc/prepared/issues/319",
-      ".csdlc/evidence/319",
-      ".csdlc/issues/319",
-      "docs/milestones/v0.92/RELEASE_CEREMONY_GATE_v0.92.json",
-      "docs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md"
+      ".github/workflows/ci.yaml",
+      "adl/.config/nextest.toml",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh"
     ],
-    "reviewed_revision": "git-blake3:ae7bb8164e3a44dd85f495f63feecbfa99cda47a:a1eb6034f9b019b5b606e4882045113e62ae200182388153a94a669987f70f14",
+    "reviewed_revision": "git-blake3:96f1dd343d0954a133529924b3c9978282d84425:b4fcca1eb7de1dbd37671244e864fd095f70537f10d925ec911dbd4b3bd1111d",
     "findings": [],
     "residual_risks": [
-      "The post-merge clean-main receipt remains deferred until the reviewed PR merges.",
-      "Tag and GitHub release mutation require separate operator authorization and were not performed."
+      "The replacement hosted coverage run must still demonstrate the bounded profile on GitHub before merge readiness.",
+      "The post-merge clean-main ceremony receipt remains deferred until the reviewed PR merges; tag and release mutation remain unauthorized."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 319,
-    "pull_request": 479,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/479",
-    "base": "main",
-    "head": "codex/319-v092-wp30-release-ceremony",
-    "revision": "git-blake3:2a7b6980fc8ed61d2d12aa9f2db4c4b7cea558fe:1120108b9067e595b64e6106c74bd6111bd224390709b9c8298c6117aa7dbe1a",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +51,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "759792cef09590dfe19aa3e353d2f07afc4921b260a628bb2e8e09730de69fa8",
+      "values_digest": "7540d8bdcb909d976801707a910f63bfd92d8850d76d06dcbfe6020a6051d07a",
       "rendered_digest": "f388437ad1bf2c81953f4eefc674999867a8394550150706d870ed5b2341887a",
       "ast_digest": "86bb20778de54dc3d9460bed3b0351d7265f968cffb0387c5ce072bad7b3d1db"
     },
     "stp": {
-      "values_digest": "f5e3537d71a60b7e77769c691d7a3903b5aab1ce77231b75eae56c1b7e56f5ca",
+      "values_digest": "c4d0a2d00095e1119988d43ad76829769b0d50a071e815a135cc93f697e8b9b3",
       "rendered_digest": "2024b1f4df276abf337f890ab4a48d016e9c4977a8c82ce1ec83c1e3355d3983",
       "ast_digest": "16f5a4016c7645cd277fcc1f48b2b2504dc8ba6c24b8f4edfdb71471279c8c63"
     },
     "spp": {
-      "values_digest": "276f70b0bc89edaa912a4aedeab27b8a2a57cdaaa273d5a72e5598968de30860",
+      "values_digest": "ba0ebc6a5c42362a3ea1a6021af70b3b9e802293c1c045df710d9d28ecec235d",
       "rendered_digest": "2b78403b4a571c95674a16bd9e9abcfcba054fb67e0dd45acd66bbf7d79c8ee2",
       "ast_digest": "92196c40904e5bab8fa2b6279a744f81bf6587f7e6697210943626f118229868"
     },
     "vpp": {
-      "values_digest": "1c25d4066032312a50aabafe3b4b53b4702a1f9c526fbca07731d5d2d50bcb89",
+      "values_digest": "c4f98b6c1fae5f2c37d6c545289995dbbf7f1172e5fd51579b1a4faeb5f8767f",
       "rendered_digest": "24e9493e3f74ae3d2d1ef466d1c00ee0ae0ccb87919f1f2172f05d05a8ae2057",
       "ast_digest": "1a12fdffecad014518d9d8e8e33a7746eb370adb1358df747d230d16bafda903"
     },
     "srp": {
-      "values_digest": "831026974d70473facc0877176157922cef220abf122b10eb4aae194ede90d05",
-      "rendered_digest": "941ea7f31dbee29c14743e6f6947a3fb41fc8ec215e421e14845e74868cea51b",
-      "ast_digest": "b22017c6463a08f5949f5925a7eec22f619e419d34eb4ef049033367a628a891"
+      "values_digest": "cbba6070ec0aa6d3d44fc0e5bfdf5ff4c49e0af3874dd06353ad3ea1f5f0b8b9",
+      "rendered_digest": "a320b9c15fd4aef1dc03e090b8dd4d9fdfac17c221f00cd9e06a54f1c9c63170",
+      "ast_digest": "31fba596e239ebb270418549aaa7a54f1a4f02d108da3789c3519bb1862924d7"
     },
     "sor": {
-      "values_digest": "3aff51181066213af938a25189a3f57a11d688c81de5cccc93c9758ddb9c3f23",
-      "rendered_digest": "aa3cb5ee76b5b601bb5ef6712c7aa51c63b1e3356313bba636bf6799c7753cab",
-      "ast_digest": "dd4bdaf374d51607a25207c34ee6a145a374e39321c23b2757c10a1a69e63db3"
+      "values_digest": "6839d161a7a500f670666d019ed101d9a975f6f4e8b651619afcbc79523dee93",
+      "rendered_digest": "e419318516146cb770378462badb8e142aa0f1b198e31a7b8b1f5d09734d7807",
+      "ast_digest": "db37614fd8f63110100118db7f60691c4c0f8e51c5a9bc15ec63756ab8bb73b6"
     }
   },
   "transitions": [
@@ -133,6 +116,20 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover published review state for the bounded CI hang remediation committed at 96f1dd343d0954a133529924b3c9978282d84425. The release evidence remains unchanged; only the workspace coverage timeout/profile contract and its focused test changed."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -205,6 +202,27 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover published review state for the bounded CI hang remediation committed at 96f1dd343d0954a133529924b3c9978282d84425. The release evidence remains unchanged; only the workspace coverage timeout/profile contract and its focused test changed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
