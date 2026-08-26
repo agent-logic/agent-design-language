@@ -17,7 +17,7 @@ slow-timeout = { period = "120s", terminate-after = 1 }
 # ceiling while 1221/1224 tests passed. Keep the default fail-closed ceiling for
 # unrelated tests and grant only these exact tests a bounded coverage allowance.
 [[profile.ci-coverage.overrides]]
-filter = 'test(/^(runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift|runtime_v2_unified_runtime_kernel_events_are_correlated|runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift)$/)'
+filter = 'test(/^(runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift|runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated|runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift)$/)'
 slow-timeout = { period = "240s", terminate-after = 1 }
 
 # Both issue #208 harnesses synchronously close their fixture roots, and every

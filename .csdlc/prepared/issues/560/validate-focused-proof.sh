@@ -6,7 +6,7 @@ cd "$ROOT"
 
 mkdir -p .csdlc/evidence/560
 
-expression='test(runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift) or test(runtime_v2_unified_runtime_kernel_events_are_correlated) or test(runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift)'
+expression='test(/^(runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift|runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated|runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift)$/)'
 
 {
   echo "## focused ci-coverage runtime_v2 unified-kernel proof"
