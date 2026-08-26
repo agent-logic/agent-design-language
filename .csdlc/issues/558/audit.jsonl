@@ -8,3 +8,4 @@
 {"sequence":8,"generation":6,"actor":"codex:issue-558-shared-gate","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":9,"generation":6,"actor":"codex:issue-558-shared-gate","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":10,"generation":7,"actor":"codex:issue-558-shared-gate","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":11,"generation":8,"actor":"codex:issue-558-shared-gate","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

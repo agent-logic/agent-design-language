@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "928d2531fc0a5ac14aa0d11046d570b5d6bc9a01fe430c95bf4212c21d120ec5",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "639db6610e42e4f3987c2684784b8b9d9cb9cad04baf881aa206c9c858cc9455",
+  "phase": "published",
+  "generation": 8,
+  "digest": "c60a7dc811f2ff56e451dbf20ec38cab9bca1bd4f54f09e9582916720417ed66",
   "branch": "codex/558-v0-92-1-shared-gate-coverage-learner-replication-stability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability",
   "review_assignment": {
@@ -38,7 +38,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 558,
+    "pull_request": 559,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/559",
+    "base": "main",
+    "head": "codex/558-v0-92-1-shared-gate-coverage-learner-replication-stability",
+    "revision": "git-blake3:3b3031dce0f7513c0b2482473be1026e80696278:d4566958d37a5c397e2aaca8e4187ac4e751fb64f48651e16906f987161a2aa2",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -52,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6d03ad9c0a1bf0c379a95454c4ad353d34ecb0620ff50e056f5aba9fb1422804",
+      "values_digest": "ff3858fd61f62adfb2115a279deae7e794f1ade9b2f183a92772b02e1e86b6ec",
       "rendered_digest": "10ca635095e6392f66788c1c04651cc0c0c72583a3aaf931237e95179039983e",
       "ast_digest": "e976b6ab6dbfe37360d03f0dbd12f6093380005ebf45aa7eeb200202f09d314a"
     },
     "stp": {
-      "values_digest": "d7c025ebc5fa7eb2b8f91e6511558fb08b83fb081793272abbf4d40e1b29111c",
+      "values_digest": "6fe2d1f263e5ca0d8262449019e71ccd2b923b49628a886cbbec81619c532381",
       "rendered_digest": "8137ebd38f0b4f584c0f21ba8aff17335c984a8f01cc2893a6cc3cbf7f8fda0f",
       "ast_digest": "cd492a4cd24ea9778a851d27a07125ad1ad824a9d447b2de0e0b0971479400b1"
     },
     "spp": {
-      "values_digest": "5a3070e9c505fb9cf52ff02f41dc4c4fcb604ecf5897e2e1ca82b1d3890b6155",
+      "values_digest": "a4ee717a07b4a646a4e0a84c2c6449d31e1b7021453ca3969828c788bc35ed29",
       "rendered_digest": "9025726504a6e3eb5767075aecd0ceabeab98be3c5f0d65f39109501e1df11bf",
       "ast_digest": "1971fceaf33b56041dd65235c9d015ecc99486601d1e6d64f19ac46b8b8e0e93"
     },
     "vpp": {
-      "values_digest": "513f5a70d181bcc0bf5b7db6e83fbd490c989b726e82b28c30e82c42439fda24",
+      "values_digest": "8b40904605b2631c612235158804e6828d7738b31ac2bd96247097ab1fca25cf",
       "rendered_digest": "5cbb094b3f765ed0c5e08be88aa89a1b29a0c3f607441fdfee8c7c3496198bd9",
       "ast_digest": "f2d42bb45f7c63c7c4994405660a34fb2c93f4babe476d5495251be94d061252"
     },
     "srp": {
-      "values_digest": "b134070898db423282636a2ca928b1a19fc89c6ed9bbcd41e3887e9b286e95bf",
+      "values_digest": "e36ac7b51e0d311326408ef94f42a8a4f1d194ea9a039c37f08883c98b2c3b32",
       "rendered_digest": "99350cb2de563c1f3805344e494befaafb04851694372538cfb149b53a802c01",
       "ast_digest": "cb5072c052094a8e77be324985c73ff74ef243b17dcdadc371c606d82a708bbd"
     },
     "sor": {
-      "values_digest": "78dc91ad6a1bcc3063a52b4de67f89fde8c2eee8df222addc3e46875ce5eec00",
-      "rendered_digest": "214f4c319ccee18c4cd486a5732cefa32e45f55a948ae10d725748e5eeeb7328",
-      "ast_digest": "91b6d11dbd8abda8bcae8263b3a987cebd8ad47504be576789018c70534a9271"
+      "values_digest": "df40e00f968f5d716758661b079f5844dbcb8dcae9991254fb1d3dbe71d8dcc7",
+      "rendered_digest": "1d776f4e64558a11165c1c1407753d1e81e4fc5f8326f5e69fdf3f89afa6437c",
+      "ast_digest": "26a6a498211a902cef4190d34be2ffbd2b494675620bf9af6db139815ce738d6"
     }
   },
   "transitions": [
@@ -110,6 +121,13 @@
       "to": "reviewed",
       "actor": "codex:issue-558-shared-gate",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -182,6 +200,13 @@
       "actor": "codex:issue-558-shared-gate",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

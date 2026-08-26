@@ -66,11 +66,11 @@ Stabilized the governed learner replication proof for coverage instrumentation b
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
