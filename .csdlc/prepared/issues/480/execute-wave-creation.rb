@@ -126,9 +126,14 @@ def run_json(argv)
 end
 
 def run_read_json(argv)
-  stdout, stderr, status = Open3.capture3(*argv, chdir: ROOT)
-  abort "read command failed (#{status.exitstatus}): #{argv.join(' ')}\n#{stderr}" unless status.success?
-  JSON.parse(stdout)
+  attempts = 0
+  loop do
+    attempts += 1
+    stdout, stderr, status = Open3.capture3(*argv, chdir: ROOT)
+    return JSON.parse(stdout) if status.success?
+    retryable = stderr.include?("TLS handshake timeout") || stderr.include?("connection reset by peer")
+    abort "read command failed (#{status.exitstatus}): #{argv.join(' ')}\n#{stderr}" unless retryable && attempts < 3
+  end
 end
 
 def normalize_live_issue(packet)
