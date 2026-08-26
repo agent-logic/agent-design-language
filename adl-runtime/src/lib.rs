@@ -10,7 +10,7 @@ pub use adl_runtime_kernel::{LiveContinuity, LiveKernelSnapshot, RuntimeRecorder
 pub mod acip;
 pub mod backpressure;
 pub mod cav;
-pub mod config_reload;
+pub use adl_runtime_kernel::config_reload;
 pub mod constructability;
 pub mod continuity_history;
 pub mod curiosity;

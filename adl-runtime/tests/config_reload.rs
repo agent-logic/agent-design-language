@@ -165,6 +165,30 @@ async fn file_events_are_debounced() {
     assert_eq!(outcome.reloads_applied, 1);
 }
 
+#[tokio::test]
+async fn reverting_during_debounce_cancels_the_pending_reload() {
+    let temp = TempDir::new().expect("temp dir");
+    let path = temp.path().join("runtime.toml");
+    let initial = render("initial", 1, 1);
+    write_config(&path, initial.clone()).await;
+
+    let controller = start_config_reload(&path, parser(), options())
+        .await
+        .expect("start reload");
+    let handle = controller.handle();
+
+    write_config(&path, render("transient", 2, 2)).await;
+    sleep(Duration::from_millis(15)).await;
+    write_config(&path, initial).await;
+    sleep(Duration::from_millis(120)).await;
+
+    assert_eq!(handle.current().generation(), 0);
+    assert_eq!(handle.current().value().name, "initial");
+    let outcome = controller.shutdown().await.expect("shutdown");
+    assert_eq!(outcome.reloads_applied, 0);
+    assert_eq!(outcome.invalid_updates_rejected, 0);
+}
+
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
 async fn concurrent_readers_observe_complete_configurations() {
     let temp = TempDir::new().expect("temp dir");

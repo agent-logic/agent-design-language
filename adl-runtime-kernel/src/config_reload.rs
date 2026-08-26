@@ -16,6 +16,8 @@ use tokio_util::sync::CancellationToken;
 
 pub type ConfigParser<T> =
     Arc<dyn Fn(&str) -> Result<T, ConfigReloadError> + Send + Sync + 'static>;
+pub type ConfigApplier<T> =
+    Arc<dyn Fn(&T) -> Result<(), ConfigReloadError> + Send + Sync + 'static>;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct ConfigReloadOptions {
@@ -196,15 +198,38 @@ pub async fn start_config_reload_with_shutdown<T>(
 where
     T: Send + Sync + 'static,
 {
+    start_config_reload_with_applier_and_shutdown(path, parser, None, options, shutdown).await
+}
+
+pub async fn start_config_reload_with_applier_and_shutdown<T>(
+    path: impl Into<PathBuf>,
+    parser: ConfigParser<T>,
+    applier: Option<ConfigApplier<T>>,
+    options: ConfigReloadOptions,
+    shutdown: CancellationToken,
+) -> Result<ConfigReloadController<T>, ConfigReloadError>
+where
+    T: Send + Sync + 'static,
+{
     let path = path.into();
     let options = options.validate()?;
-    let signature = file_signature(&path).await?;
-    let initial = load_snapshot(&path, &parser, 0).await?;
+    let raw = read_config(&path).await?;
+    let signature = FileSignature::from_bytes(&raw);
+    let initial = parse_snapshot(&path, &parser, &raw, 0)?;
     let (sender, receiver) = watch::channel(Arc::new(initial));
     let task_shutdown = shutdown.clone();
     let task_path = path.clone();
     let task = tokio::spawn(async move {
-        watch_config(task_path, parser, options, task_shutdown, signature, sender).await
+        watch_config(
+            task_path,
+            parser,
+            applier,
+            options,
+            task_shutdown,
+            signature,
+            sender,
+        )
+        .await
     });
 
     Ok(ConfigReloadController {
@@ -217,6 +242,7 @@ where
 async fn watch_config<T>(
     path: PathBuf,
     parser: ConfigParser<T>,
+    applier: Option<ConfigApplier<T>>,
     options: ConfigReloadOptions,
     shutdown: CancellationToken,
     mut last_evaluated: FileSignature,
@@ -228,7 +254,7 @@ where
     let mut interval = time::interval(options.poll_interval);
     interval.set_missed_tick_behavior(MissedTickBehavior::Delay);
 
-    let mut pending: Option<(FileSignature, Instant)> = None;
+    let mut pending: Option<(FileSignature, Vec<u8>, Instant)> = None;
     let mut generation = 0;
     let mut reloads_applied = 0;
     let mut invalid_updates_rejected = 0;
@@ -243,26 +269,32 @@ where
                 };
             }
             _ = interval.tick() => {
-                if let Ok(signature) = file_signature(&path).await {
-                    if signature != last_evaluated
-                        && pending.as_ref().map(|(pending, _)| pending) != Some(&signature)
-                    {
-                        pending = Some((signature, Instant::now() + options.debounce));
+                if let Ok(raw) = read_config(&path).await {
+                    let signature = FileSignature::from_bytes(&raw);
+                    if signature == last_evaluated {
+                        pending = None;
+                    } else if pending.as_ref().map(|(pending, _, _)| pending) != Some(&signature) {
+                        pending = Some((signature, raw, Instant::now() + options.debounce));
                     }
                 }
 
                 let ready = pending
                     .as_ref()
-                    .is_some_and(|(_, deadline)| Instant::now() >= *deadline);
+                    .is_some_and(|(_, _, deadline)| Instant::now() >= *deadline);
                 if !ready {
                     continue;
                 }
 
-                let Some((signature, _)) = pending.take() else {
+                let Some((signature, raw, _)) = pending.take() else {
                     continue;
                 };
                 generation += 1;
-                match load_snapshot(&path, &parser, generation).await {
+                match parse_snapshot(&path, &parser, &raw, generation).and_then(|snapshot| {
+                    if let Some(applier) = applier.as_ref() {
+                        applier(snapshot.value())?;
+                    }
+                    Ok(snapshot)
+                }) {
                     Ok(snapshot) => {
                         sender.send_replace(Arc::new(snapshot));
                         last_evaluated = signature;
@@ -278,18 +310,15 @@ where
     }
 }
 
-async fn load_snapshot<T>(
+fn parse_snapshot<T>(
     path: &Path,
     parser: &ConfigParser<T>,
+    raw: &[u8],
     generation: u64,
 ) -> Result<ConfigSnapshot<T>, ConfigReloadError> {
-    let raw = fs::read_to_string(path)
-        .await
-        .map_err(|source| ConfigReloadError::Io {
-            path: path.to_path_buf(),
-            source,
-        })?;
-    let value = parser(&raw)?;
+    let raw =
+        std::str::from_utf8(raw).map_err(|error| ConfigReloadError::Parse(error.to_string()))?;
+    let value = parser(raw)?;
     Ok(ConfigSnapshot {
         generation,
         value,
@@ -304,16 +333,21 @@ struct FileSignature {
     sha256: [u8; 32],
 }
 
-async fn file_signature(path: &Path) -> Result<FileSignature, ConfigReloadError> {
-    let raw = fs::read(path)
+impl FileSignature {
+    fn from_bytes(raw: &[u8]) -> Self {
+        let digest = Sha256::digest(raw);
+        Self {
+            len: raw.len() as u64,
+            sha256: digest.into(),
+        }
+    }
+}
+
+async fn read_config(path: &Path) -> Result<Vec<u8>, ConfigReloadError> {
+    fs::read(path)
         .await
         .map_err(|source| ConfigReloadError::Io {
             path: path.to_path_buf(),
             source,
-        })?;
-    let digest = Sha256::digest(&raw);
-    Ok(FileSignature {
-        len: raw.len() as u64,
-        sha256: digest.into(),
-    })
+        })
 }

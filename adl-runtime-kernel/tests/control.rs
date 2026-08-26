@@ -9,16 +9,17 @@ use std::{
 
 use adl_runtime_kernel::{
     channel, load_control_tls, serve_control_listener, serve_control_listener_until,
-    serve_control_listener_until_ready, write_observability_event, write_payload, AdapterKind,
-    AdapterPolicy, AuthorityMode, CanonicalIngress, CheckpointingControl, ClockAuthority,
-    ComponentId, ComponentRegistry, ContinuityHead, ControlAction, ControlApiPolicy,
-    ControlAuthority, ControlCapability, ControlError, ControlExit, ControlObservabilityEvent,
-    ControlOutcome, ControlService, DiskWeather, DomainWork, ExecutorError, Kernel, KernelExit,
-    LifecycleControl, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
-    ObservabilityHealth, Observation, OperationExecutor, OperationRequest, OperationalAdapter,
-    OperationalFactory, ResourceState, RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig,
-    ShutdownDecision, SignedControlCommand, TrustedControlKey, WeatherConfig, WeatherHealthReport,
-    WeatherSample, DOMAIN_WORK_SCHEMA,
+    serve_control_listener_until_ready, start_config_reload_with_applier_and_shutdown,
+    write_observability_event, write_payload, AdapterKind, AdapterPolicy, AuthorityMode,
+    CanonicalIngress, CheckpointingControl, ClockAuthority, ComponentId, ComponentRegistry,
+    ConfigApplier, ConfigParser, ConfigReloadError, ConfigReloadOptions, ContinuityHead,
+    ControlAction, ControlApiPolicy, ControlAuthority, ControlCapability, ControlError,
+    ControlExit, ControlObservabilityEvent, ControlOutcome, ControlService, DiskWeather,
+    DomainWork, ExecutorError, Kernel, KernelExit, LifecycleControl, LiveContinuity,
+    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, Observation,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, ResourceState,
+    RuntimeEvent, RuntimeRecorder, RuntimeTlsInitConfig, ShutdownDecision, SignedControlCommand,
+    TrustedControlKey, WeatherConfig, WeatherHealthReport, WeatherSample, DOMAIN_WORK_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -1387,6 +1388,11 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
 
 #[tokio::test]
 async fn observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_replacement() {
+    let temp = tempfile::tempdir().unwrap();
+    let config_path = temp.path().join("observatory-origins.txt");
+    tokio::fs::write(&config_path, "https://observatory.initial.test\n")
+        .await
+        .unwrap();
     let key = SigningKey::from_bytes(&[15; 32]);
     let service = Arc::new(ControlService::new_with_observatory_config(
         "instance-1",
@@ -1409,6 +1415,33 @@ async fn observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_repl
         tls,
         test_api_policy(),
     ));
+    let reload_parser: ConfigParser<Vec<String>> = Arc::new(|raw| {
+        Ok(raw
+            .lines()
+            .map(str::trim)
+            .filter(|line| !line.is_empty())
+            .map(ToOwned::to_owned)
+            .collect())
+    });
+    let reload_service = Arc::clone(&service);
+    let reload_applier: ConfigApplier<Vec<String>> = Arc::new(move |origins| {
+        reload_service
+            .replace_observatory_allowed_origins(origins.clone())
+            .map_err(ConfigReloadError::validation)
+    });
+    let reload = start_config_reload_with_applier_and_shutdown(
+        &config_path,
+        reload_parser,
+        Some(reload_applier),
+        ConfigReloadOptions {
+            poll_interval: Duration::from_millis(10),
+            debounce: Duration::from_millis(40),
+        },
+        tokio_util::sync::CancellationToken::new(),
+    )
+    .await
+    .unwrap();
+    let mut reload_handle = reload.handle();
 
     let absent_origin = https_request(
         &client,
@@ -1419,11 +1452,15 @@ async fn observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_repl
     assert!(absent_origin.starts_with("HTTP/1.1 403 Forbidden"));
     assert!(!absent_origin.contains("access-control-allow-origin"));
 
-    service
-        .replace_observatory_allowed_origins([
-            "https://observatory.initial.test".to_owned(),
-            "https://observatory.new.test".to_owned(),
-        ])
+    tokio::fs::write(
+        &config_path,
+        "https://observatory.initial.test\nhttps://observatory.new.test\n",
+    )
+    .await
+    .unwrap();
+    tokio::time::timeout(Duration::from_secs(2), reload_handle.changed())
+        .await
+        .unwrap()
         .unwrap();
     let hot_loaded_origin = https_request(
         &client,
@@ -1434,15 +1471,8 @@ async fn observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_repl
     assert!(hot_loaded_origin.starts_with("HTTP/1.1 200 OK"));
     assert!(hot_loaded_origin.contains("access-control-allow-origin: https://observatory.new.test"));
 
-    assert!(service
-        .replace_observatory_allowed_origins(["*".to_owned()])
-        .is_err());
-    assert!(service
-        .replace_observatory_allowed_origins([
-            "https://observatory.new.test".to_owned(),
-            "https://observatory.new.test".to_owned(),
-        ])
-        .is_err());
+    tokio::fs::write(&config_path, "*\n").await.unwrap();
+    tokio::time::sleep(Duration::from_millis(120)).await;
     let fail_closed_rejection = https_request(
         &client,
         address,
@@ -1461,6 +1491,9 @@ async fn observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_repl
     assert!(retained_origin.starts_with("HTTP/1.1 200 OK"));
     assert!(retained_origin.contains("access-control-allow-origin: https://observatory.new.test"));
 
+    let outcome = reload.shutdown().await.unwrap();
+    assert_eq!(outcome.reloads_applied, 1);
+    assert_eq!(outcome.invalid_updates_rejected, 1);
     server.abort();
 }
 
