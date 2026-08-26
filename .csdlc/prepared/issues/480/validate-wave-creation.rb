@@ -16,6 +16,7 @@ FINAL_RECEIPT = File.join(MILESTONE, "evidence/wp-01/final-creation-receipt.json
 EXPECTED_EXISTING = [51, 84, 122, 251, 261, 262, 263, 264, 342, 345].freeze
 EXCLUDED = [269].freeze
 REPOSITORY = "agent-logic/agent-design-language"
+HISTORICAL_TITLE_PROVENANCE = { "INT-01" => 188 }.freeze
 EXPECTED_PLANNING_DIGEST = "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251"
 EXISTING_TARGETS = {
   84 => ["[v0.92.1][Observatory] Complete live Unity Observatory Runtime v3 integration", %w[area:observatory track:roadmap type:task version:v0.92.1]],
@@ -236,6 +237,7 @@ def validate_live(plan)
       id = row.fetch("planned_id")
       marker = "<!-- csdlc-github-operation:v0921-wp01:#{planning_digest}:#{id}:create -->"
       matches = census.select { |issue| issue["title"] == row["title"] || issue["title"].include?("[#{id}]") || issue.fetch("body", "").include?(marker) }
+      matches.reject! { |issue| issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"].to_s.downcase == "closed" }
       errors << "live census ambiguity for #{id}" unless matches.map { |issue| issue["number"] } == [row["issue"]]
     end
   else

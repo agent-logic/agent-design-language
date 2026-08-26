@@ -38,6 +38,7 @@ EXISTING_TARGETS = {
   345 => ["[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner", %w[area:runtime track:roadmap type:task version:v0.92.1]]
 }.freeze
 EXPECTED_EXISTING = [51, 84, 122, 251, 261, 262, 263, 264, 342, 345].freeze
+HISTORICAL_TITLE_PROVENANCE = { "INT-01" => 188 }.freeze
 
 def load_yaml(path)
   YAML.safe_load(File.read(path), permitted_classes: [], aliases: false)
@@ -294,6 +295,7 @@ def assert_no_conflicts!(plan)
     id = entry.fetch(:planned_id)
     marker = "<!-- csdlc-github-operation:#{entry.fetch(:operation_key)} -->"
     candidates = census.select { |issue| issue["title"] == entry.fetch(:title) || issue["title"].include?("[#{id}]") || issue["body"].include?(marker) }
+    candidates.reject! { |issue| issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"] == "closed" }
     allowed = observed[id]&.fetch("issue", nil)
     candidates.reject! { |issue| issue["number"] == allowed }
     # An intent-only retry may safely adopt the one remotely marked issue.
