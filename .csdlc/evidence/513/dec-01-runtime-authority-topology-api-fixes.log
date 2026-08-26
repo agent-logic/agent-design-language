@@ -1,0 +1,33 @@
+Strengthened DEC-01 validator after OpenAI Responses API review findings.
+
+Validation command:
+  bash docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh
+
+Proof results:
+  - Runtime v3 captured-baseline contract passed:
+    parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency ... ok
+  - Runtime v2 to Runtime v3 reasoning bridge proof passed:
+    runtime_v2::reasoning_runtime_bridge::tests::runtime_v2_reasoning_objects_execute_through_native_component_core ... ok
+  - Migration dry-run passed.
+  - Rollback dry-run passed.
+  - Negative probes failed closed as expected:
+    owner-swap, duplicate-root, missing-root, runtime-v4-authority-data.
+
+Final machine-readable output:
+{
+  "schema": "adl.runtime_v2_v3_authority_topology_validation.v1",
+  "issue": 513,
+  "manifest": "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json",
+  "result": "passed",
+  "classified_reverse_references": 4084,
+  "compatibility_proofs": [
+    "runtime-v3-captured-baseline",
+    "runtime-v2-to-v3-reasoning-bridge"
+  ],
+  "negative_probes": [
+    "owner-swap",
+    "duplicate-root",
+    "missing-root",
+    "runtime-v4-authority-data"
+  ]
+}

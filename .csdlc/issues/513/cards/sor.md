@@ -58,6 +58,15 @@ Implemented the DEC-01 Runtime v2/v3 authority-separation topology without Runti
     "purpose": "Prove the DEC-01 Runtime v2/v3 topology and reverse-reference denominator after integrating current origin/main.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/513/dec-01-runtime-authority-topology-rebased.log"
+  },
+  {
+    "command": [
+      "bash",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh"
+    ],
+    "purpose": "Prove exact source-root ownership, structural Runtime v4 exclusion, negative probes, captured-baseline compatibility, and Runtime v2-to-v3 reasoning bridge compatibility after API review findings.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/513/dec-01-runtime-authority-topology-api-fixes.log"
   }
 ]
 

@@ -28,13 +28,24 @@ Any reverse reference outside those dispositions fails the DEC-01 validator.
 
 ## Compatibility
 
-Supported compatibility is proven by the focused Runtime v3 contract test:
+Supported compatibility is proven by two focused checks:
 
 ```text
 cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test contracts parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency
+cargo test --manifest-path adl/Cargo.toml runtime_v2_reasoning_objects_execute_through_native_component_core
 ```
 
-That test keeps the existing Runtime v3 baseline inventory as a captured compatibility record rather than a live source dependency. DEC-01 adds a wrapper validator that executes this proof and then validates the live topology manifest.
+The first test keeps the existing Runtime v3 baseline inventory as a captured compatibility record rather than a live source dependency. The second compiles and exercises the explicit `adl/src/runtime_v2/reasoning_runtime_bridge.rs` path against the native `adl_runtime::reasoning_runtime` surface. DEC-01 adds a wrapper validator that executes both proofs and then validates the live topology manifest.
+
+## Validator Invariants
+
+The validator fails closed unless:
+
+1. The three authoritative source roots are exactly `adl/src/runtime_v2`, `adl-runtime`, and `adl-runtime-kernel`.
+2. Each source root has exactly one declared owner and one authoritative disposition from the DEC-01 vocabulary.
+3. Reverse-reference rows use the declared owner/disposition vocabulary and agree with their source root owner.
+4. The excluded future generation appears only in the approved exclusion sentences in this document and never in manifest authority-bearing data.
+5. Negative probes for owner swaps, duplicate roots, missing roots, and future-generation authority data all fail as expected.
 
 ## Migration Contract
 

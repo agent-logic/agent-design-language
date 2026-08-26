@@ -20,45 +20,140 @@ require_tool() {
 require_tool jq
 require_tool rg
 
-if [[ ! -f "$manifest" ]]; then
-  echo "missing manifest: $manifest" >&2
-  exit 1
-fi
+tmp_dir="$(git rev-parse --git-path csdlc-v2/tmp)"
+mkdir -p "$tmp_dir"
+tmp_refs="$(mktemp "$tmp_dir/dec01-runtime-refs.XXXXXX")"
+bad_owner_manifest=""
+duplicate_root_manifest=""
+missing_root_manifest=""
+runtime_v4_manifest=""
+trap 'rm -f "$tmp_refs" "$bad_owner_manifest" "$duplicate_root_manifest" "$missing_root_manifest" "$runtime_v4_manifest"' EXIT
 
-schema="$(jq -r '.schema' "$manifest")"
-if [[ "$schema" != "adl.runtime_v2_v3_authority_topology.v1" ]]; then
-  echo "unexpected manifest schema: $schema" >&2
-  exit 1
-fi
+expected_source_roots_tsv=$'adl-runtime\truntime-v3-guardian\tauthoritative-runtime-v3-guardian-source\nadl-runtime-kernel\truntime-v3-kernel\tauthoritative-runtime-v3-kernel-source\nadl/src/runtime_v2\truntime-v2\tauthoritative-runtime-v2-source'
 
-if [[ "$(jq -r '.runtime_v4_excluded' "$manifest")" != "true" ]]; then
-  echo "Runtime v4 must remain excluded" >&2
-  exit 1
-fi
+allowed_source_owners_regex='^(runtime-v2|runtime-v3-guardian|runtime-v3-kernel)$'
+allowed_source_dispositions_regex='^(authoritative-runtime-v2-source|authoritative-runtime-v3-guardian-source|authoritative-runtime-v3-kernel-source)$'
+allowed_reference_owners_regex='^(runtime-v2|runtime-v3-guardian|runtime-v3-kernel|runtime-docs|milestone-v0\.92\.1|dec-01)$'
+allowed_reference_dispositions_regex='^(runtime-v2-to-v3-compatibility-bridge|runtime-v2-source|runtime-v3-source-or-compatibility-metadata|runtime-v3-source-or-release-gate-metadata|runtime-v3-proof|runtime-v3-support-surface|runtime-docs|runtime-planning-docs|dec-01-lifecycle-evidence|dec-01-lifecycle-state)$'
 
-while IFS=$'\t' read -r path owner disposition; do
-  if [[ ! -e "$path" ]]; then
-    echo "declared source root is missing: $path" >&2
-    exit 1
+validate_static_manifest_contract() {
+  local candidate="$1"
+  if [[ ! -f "$candidate" ]]; then
+    echo "missing manifest: $candidate" >&2
+    return 1
   fi
-  if [[ -z "$owner" || -z "$disposition" ]]; then
-    echo "source root lacks owner/disposition: $path" >&2
-    exit 1
+
+  local schema
+  schema="$(jq -r '.schema' "$candidate")"
+  if [[ "$schema" != "adl.runtime_v2_v3_authority_topology.v1" ]]; then
+    echo "unexpected manifest schema: $schema" >&2
+    return 1
   fi
-done < <(jq -r '.source_roots[] | [.path, .owner, .disposition] | @tsv' "$manifest")
 
-if jq -e '.source_roots[] | select(.owner | test("runtime-v4"; "i"))' "$manifest" >/dev/null; then
-  echo "Runtime v4 cannot own a DEC-01 source root" >&2
-  exit 1
-fi
+  if [[ "$(jq -r '.runtime_v4_excluded' "$candidate")" != "true" ]]; then
+    echo "Runtime v4 must remain excluded" >&2
+    return 1
+  fi
 
-if rg -n "runtime-v4|Runtime v4|runtime_v4" \
-  docs/runtime/runtime-v2-v3-authority-topology.md \
-  docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json \
-  | rg -v "excluded|excludes|out of scope|replanning|Stop Conditions|cannot own|does not appear|non_goals|Non-Goals|runtime_v4_excluded|runtime-v4\"; \"i\"|Runtime v4 cannot own|exclusion language" >/dev/null; then
-  echo "Runtime v4 appears outside exclusion language" >&2
-  exit 1
-fi
+  local source_root_count unique_source_root_count
+  source_root_count="$(jq '.source_roots | length' "$candidate")"
+  unique_source_root_count="$(jq '[.source_roots[].path] | unique | length' "$candidate")"
+  if [[ "$source_root_count" != "3" || "$unique_source_root_count" != "3" ]]; then
+    echo "DEC-01 requires exactly three unique authoritative source roots" >&2
+    return 1
+  fi
+
+  local observed_source_roots
+  observed_source_roots="$(jq -r '.source_roots[] | [.path, .owner, .disposition] | @tsv' "$candidate" | sort)"
+  if [[ "$observed_source_roots" != "$expected_source_roots_tsv" ]]; then
+    echo "source-root owner/disposition contract drifted" >&2
+    return 1
+  fi
+
+  while IFS=$'\t' read -r path owner disposition; do
+    if [[ ! -e "$path" ]]; then
+      echo "declared source root is missing: $path" >&2
+      return 1
+    fi
+    if [[ ! "$owner" =~ $allowed_source_owners_regex ]]; then
+      echo "source root has unexpected owner: $path -> $owner" >&2
+      return 1
+    fi
+    if [[ ! "$disposition" =~ $allowed_source_dispositions_regex ]]; then
+      echo "source root has unexpected disposition: $path -> $disposition" >&2
+      return 1
+    fi
+  done < <(jq -r '.source_roots[] | [.path, .owner, .disposition] | @tsv' "$candidate")
+
+  while IFS=$'\t' read -r prefix owner disposition transfer; do
+    if [[ -z "$prefix" || ! "$owner" =~ $allowed_reference_owners_regex ]]; then
+      echo "reverse-reference row has unexpected owner: $prefix -> $owner" >&2
+      return 1
+    fi
+    if [[ ! "$disposition" =~ $allowed_reference_dispositions_regex ]]; then
+      echo "reverse-reference row has unexpected disposition: $prefix -> $disposition" >&2
+      return 1
+    fi
+    if [[ "$transfer" != "false" ]]; then
+      echo "reverse-reference row transfers authority: $prefix" >&2
+      return 1
+    fi
+    case "$prefix" in
+      adl/src/runtime_v2/*)
+        [[ "$owner" == "runtime-v2" ]] || {
+          echo "Runtime v2 reverse-reference owner mismatch: $prefix -> $owner" >&2
+          return 1
+        }
+        ;;
+      adl-runtime/*)
+        [[ "$owner" == "runtime-v3-guardian" ]] || {
+          echo "Runtime v3 guardian reverse-reference owner mismatch: $prefix -> $owner" >&2
+          return 1
+        }
+        ;;
+      adl-runtime-kernel/*)
+        [[ "$owner" == "runtime-v3-kernel" ]] || {
+          echo "Runtime v3 kernel reverse-reference owner mismatch: $prefix -> $owner" >&2
+          return 1
+        }
+        ;;
+    esac
+  done < <(jq -r '.reverse_reference_dispositions[] | [.path_prefix, .owner, .disposition, (.authority_transfer | tostring)] | @tsv' "$candidate")
+}
+
+validate_runtime_v4_manifest_contract() {
+  local candidate="$1"
+  if jq -e '
+    paths(scalars) as $p
+    | select(($p | join(".")) != "runtime_v4_excluded")
+    | select((getpath($p) | tostring) | test("runtime[-_ ]?v4|Runtime v4"; "i"))
+  ' "$candidate" >/dev/null; then
+    echo "Runtime v4 token appears in manifest authority-bearing data" >&2
+    return 1
+  fi
+  if jq -e '.source_roots[] | select(.owner | test("runtime-v4"; "i"))' "$candidate" >/dev/null; then
+    echo "Runtime v4 cannot own a DEC-01 source root" >&2
+    return 1
+  fi
+}
+
+validate_runtime_v4_markdown_contract() {
+  local line
+  while IFS= read -r line; do
+    case "$line" in
+      *":This document is the DEC-01 authority contract for v0.92.1. It separates Runtime v2 and Runtime v3 ownership without deleting Runtime v2, making Runtime v3 the default, or admitting Runtime v4; Runtime v4 is excluded."|\
+      *":| \`docs/milestones/v0.92.1/evidence/runtime-decoupling/**\` | DEC-01 evidence | Machine-readable topology and executable validation; Runtime v4 authority is excluded. |"|\
+      *":5. Stop for replanning if Runtime v4 is required because Runtime v4 is excluded."|\
+      *":4. Runtime v4 remains excluded."|\
+      *":- Runtime v4 becomes necessary despite the explicit Runtime v4 excluded boundary.")
+        ;;
+      *)
+        echo "Runtime v4 appears outside the approved exclusion sentences: $line" >&2
+        return 1
+        ;;
+    esac
+  done < <(rg -n "runtime-v4|Runtime v4|runtime_v4" docs/runtime/runtime-v2-v3-authority-topology.md || true)
+}
 
 classify_path() {
   local path="$1"
@@ -81,84 +176,124 @@ classify_path() {
   ' "$manifest" | head -n 1
 }
 
-reference_roots=(
-  "adl/src/runtime_v2"
-  "adl-runtime"
-  "adl-runtime-kernel"
-  "docs/runtime"
-  "docs/milestones/v0.92.1"
-  ".csdlc/prepared/issues/513"
-  ".csdlc/issues/513"
-)
+validate_reverse_reference_census() {
+  local reference_roots=(
+    "adl/src/runtime_v2"
+    "adl-runtime"
+    "adl-runtime-kernel"
+    "docs/runtime"
+    "docs/milestones/v0.92.1"
+    ".csdlc/prepared/issues/513"
+    ".csdlc/issues/513"
+  )
 
-terms=()
-while IFS= read -r term; do
-  terms+=("$term")
-done < <(jq -r '.reverse_reference_terms[]' "$manifest")
+  local terms=()
+  while IFS= read -r term; do
+    terms+=("$term")
+  done < <(jq -r '.reverse_reference_terms[]' "$manifest")
 
-tmp_dir="$(git rev-parse --git-path csdlc-v2/tmp)"
-mkdir -p "$tmp_dir"
-tmp_refs="$(mktemp "$tmp_dir/dec01-runtime-refs.XXXXXX")"
-trap 'rm -f "$tmp_refs"' EXIT
+  : >"$tmp_refs"
+  for term in "${terms[@]}"; do
+    rg -n --fixed-strings "$term" "${reference_roots[@]}" >>"$tmp_refs" || true
+  done
 
-for term in "${terms[@]}"; do
-  rg -n --fixed-strings "$term" "${reference_roots[@]}" >>"$tmp_refs" || true
-done
+  sort -u "$tmp_refs" -o "$tmp_refs"
 
-sort -u "$tmp_refs" -o "$tmp_refs"
-
-if [[ ! -s "$tmp_refs" ]]; then
-  echo "no Runtime v2/v3 reverse references found; denominator is suspiciously empty" >&2
-  exit 1
-fi
-
-unclassified=0
-ambiguous=0
-authority_transfers=0
-while IFS= read -r ref; do
-  path="${ref%%:*}"
-  classification="$(classify_path "$path")"
-  if [[ -z "$classification" ]]; then
-    echo "unclassified reverse reference: $ref" >&2
-    unclassified=$((unclassified + 1))
-    continue
+  if [[ ! -s "$tmp_refs" ]]; then
+    echo "no Runtime v2/v3 reverse references found; denominator is suspiciously empty" >&2
+    return 1
   fi
-  if [[ "$classification" == AMBIGUOUS$'\t'* ]]; then
-    echo "ambiguous reverse reference: $ref" >&2
-    ambiguous=$((ambiguous + 1))
-    continue
-  fi
-  transfer="$(printf '%s\n' "$classification" | cut -f3)"
-  if [[ "$transfer" == "true" ]]; then
-    echo "forbidden authority transfer reference: $ref" >&2
-    authority_transfers=$((authority_transfers + 1))
-  fi
-done < "$tmp_refs"
 
-if [[ "$unclassified" -ne 0 || "$ambiguous" -ne 0 || "$authority_transfers" -ne 0 ]]; then
-  echo "reverse-reference census failed: unclassified=$unclassified ambiguous=$ambiguous authority_transfers=$authority_transfers" >&2
-  exit 1
-fi
+  local unclassified=0
+  local ambiguous=0
+  local authority_transfers=0
+  while IFS= read -r ref; do
+    local path classification transfer
+    path="${ref%%:*}"
+    classification="$(classify_path "$path")"
+    if [[ -z "$classification" ]]; then
+      echo "unclassified reverse reference: $ref" >&2
+      unclassified=$((unclassified + 1))
+      continue
+    fi
+    if [[ "$classification" == AMBIGUOUS$'\t'* ]]; then
+      echo "ambiguous reverse reference: $ref" >&2
+      ambiguous=$((ambiguous + 1))
+      continue
+    fi
+    transfer="$(printf '%s\n' "$classification" | cut -f3)"
+    if [[ "$transfer" == "true" ]]; then
+      echo "forbidden authority transfer reference: $ref" >&2
+      authority_transfers=$((authority_transfers + 1))
+    fi
+  done < "$tmp_refs"
+
+  if [[ "$unclassified" -ne 0 || "$ambiguous" -ne 0 || "$authority_transfers" -ne 0 ]]; then
+    echo "reverse-reference census failed: unclassified=$unclassified ambiguous=$ambiguous authority_transfers=$authority_transfers" >&2
+    return 1
+  fi
+}
+
+run_negative_manifest_probes() {
+  bad_owner_manifest="$(mktemp "$tmp_dir/dec01-bad-owner.XXXXXX")"
+  duplicate_root_manifest="$(mktemp "$tmp_dir/dec01-duplicate-root.XXXXXX")"
+  missing_root_manifest="$(mktemp "$tmp_dir/dec01-missing-root.XXXXXX")"
+  runtime_v4_manifest="$(mktemp "$tmp_dir/dec01-runtime-v4.XXXXXX")"
+
+  jq '(.source_roots[] | select(.path == "adl/src/runtime_v2") | .owner) = "runtime-v3-kernel"' "$manifest" >"$bad_owner_manifest"
+  jq '.source_roots += [.source_roots[0]]' "$manifest" >"$duplicate_root_manifest"
+  jq '.source_roots = [.source_roots[] | select(.path != "adl-runtime")]' "$manifest" >"$missing_root_manifest"
+  jq '.shared_surfaces += [{"path":"runtime-v4-authoritative-source","owner":"runtime-v4","disposition":"authoritative-runtime-v4-source"}]' "$manifest" >"$runtime_v4_manifest"
+
+  if validate_static_manifest_contract "$bad_owner_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: owner swap was accepted" >&2
+    return 1
+  fi
+  if validate_static_manifest_contract "$duplicate_root_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: duplicate root was accepted" >&2
+    return 1
+  fi
+  if validate_static_manifest_contract "$missing_root_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: missing root was accepted" >&2
+    return 1
+  fi
+  if validate_runtime_v4_manifest_contract "$runtime_v4_manifest" >/dev/null 2>&1; then
+    echo "negative probe failed: Runtime v4 authority data was accepted" >&2
+    return 1
+  fi
+}
+
+validate_all_static_contracts() {
+  validate_static_manifest_contract "$manifest"
+  validate_runtime_v4_manifest_contract "$manifest"
+  validate_runtime_v4_markdown_contract
+  validate_reverse_reference_census
+  run_negative_manifest_probes
+}
 
 migration_dry_run() {
+  validate_all_static_contracts
   jq -n \
     --arg schema "adl.runtime_v2_v3_migration_dry_run.v1" \
     --arg manifest "$manifest" \
     --arg issue "513" \
-    '{schema: $schema, issue: ($issue | tonumber), manifest: $manifest, result: "passed", runtime_v4_excluded: true}'
+    '{schema: $schema, issue: ($issue | tonumber), manifest: $manifest, result: "passed", checked: ["source-root-exactness", "reverse-reference-classification", "runtime-v4-exclusion"]}'
 }
 
 rollback_dry_run() {
+  validate_all_static_contracts
   jq -n \
     --arg schema "adl.runtime_v2_v3_rollback_dry_run.v1" \
     --arg manifest "$manifest" \
     --arg issue "513" \
-    '{schema: $schema, issue: ($issue | tonumber), manifest: $manifest, result: "passed", runtime_v2_root: "adl/src/runtime_v2", runtime_v3_roots: ["adl-runtime", "adl-runtime-kernel"]}'
+    '{schema: $schema, issue: ($issue | tonumber), manifest: $manifest, result: "passed", runtime_v2_root: "adl/src/runtime_v2", runtime_v3_roots: ["adl-runtime", "adl-runtime-kernel"], checked: ["independent-source-owners", "authoritative-dispositions"]}'
 }
 
 case "${1:-}" in
   "")
+    validate_all_static_contracts
     cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test contracts parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency
+    cargo test --manifest-path adl/Cargo.toml runtime_v2_reasoning_objects_execute_through_native_component_core
     migration_dry_run >/dev/null
     rollback_dry_run >/dev/null
     refs_count="$(wc -l < "$tmp_refs" | tr -d ' ')"
@@ -166,7 +301,7 @@ case "${1:-}" in
       --arg schema "adl.runtime_v2_v3_authority_topology_validation.v1" \
       --arg manifest "$manifest" \
       --arg refs_count "$refs_count" \
-      '{schema: $schema, issue: 513, manifest: $manifest, result: "passed", classified_reverse_references: ($refs_count | tonumber)}'
+      '{schema: $schema, issue: 513, manifest: $manifest, result: "passed", classified_reverse_references: ($refs_count | tonumber), compatibility_proofs: ["runtime-v3-captured-baseline", "runtime-v2-to-v3-reasoning-bridge"], negative_probes: ["owner-swap", "duplicate-root", "missing-root", "runtime-v4-authority-data"]}'
     ;;
   "--migration-dry-run")
     migration_dry_run
