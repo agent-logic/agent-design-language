@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 558,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+    "slug": "coverage-learner-replication-stability",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs and #558 C-SDLC evidence only",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify the change is test/harness-only and cannot weaken learner authorization or membership semantics.",
+        "Verify the wait/leader stabilization directly addresses the coverage failure signature rather than hiding arbitrary failures.",
+        "Verify #499/#514 are only consumers and not modified by this issue."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

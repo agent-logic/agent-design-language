@@ -1,0 +1,171 @@
+
+running 1 test
+ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=factory_admission_receipt_exact_current_and_mismatch_denied
+ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication
+ADL_ISSUE_199_ASSERTION_V1 case=crash_phase_matrix assertion=enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility
+test distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 338 filtered out; finished in 5.79s
+
+Filename                                                 Regions    Missed Regions     Cover   Functions  Missed Functions  Executed       Lines      Missed Lines     Cover    Branches   Missed Branches     Cover
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+acip.rs                                                      926               926     0.00%          48                48     0.00%         623               623     0.00%           0                 0         -
+backpressure.rs                                             2061              2061     0.00%         169               169     0.00%        1519              1519     0.00%           0                 0         -
+cav.rs                                                        58                58     0.00%           6                 6     0.00%          73                73     0.00%           0                 0         -
+constructability.rs                                          266               266     0.00%          13                13     0.00%         183               183     0.00%           0                 0         -
+continuity_history.rs                                       1015              1015     0.00%          50                50     0.00%         503               503     0.00%           0                 0         -
+curiosity.rs                                                 187               187     0.00%          11                11     0.00%         136               136     0.00%           0                 0         -
+determinism.rs                                               699               699     0.00%          43                43     0.00%         556               556     0.00%           0                 0         -
+distributed/authority_protocol.rs                           1878              1751     6.76%         110                99    10.00%        1595              1482     7.08%           0                 0         -
+distributed/authority_reconciliation.rs                      987               987     0.00%          53                53     0.00%         757               757     0.00%           0                 0         -
+distributed/authority_store_adapters.rs                     1028              1028     0.00%          61                61     0.00%         787               787     0.00%           0                 0         -
+distributed/capability_advertisement.rs                      616               616     0.00%          29                29     0.00%         496               496     0.00%           0                 0         -
+distributed/certificates.rs                                 1421               838    41.03%          68                32    52.94%         837               448    46.48%           0                 0         -
+distributed/continuity_transfer.rs                           637               637     0.00%          25                25     0.00%         532               532     0.00%           0                 0         -
+distributed/discovery.rs                                    1152              1152     0.00%          50                50     0.00%         838               838     0.00%           0                 0         -
+distributed/failure_detection.rs                             749               749     0.00%          48                48     0.00%         595               595     0.00%           0                 0         -
+distributed/fencing.rs                                       964               964     0.00%          54                54     0.00%         677               677     0.00%           0                 0         -
+distributed/identity.rs                                     1689              1611     4.62%          79                72     8.86%        1028               973     5.35%           0                 0         -
+distributed/integrated_serving_authority_snapshot.rs         576               576     0.00%          34                34     0.00%         417               417     0.00%           0                 0         -
+distributed/lease.rs                                        1507              1339    11.15%          87                71    18.39%        1118               988    11.63%           0                 0         -
+distributed/membership.rs                                    387               156    59.69%          25                 4    84.00%         294               110    62.59%           0                 0         -
+distributed/membership_coordinator.rs                       2331               355    84.77%         123                 8    93.50%        1855               202    89.11%           0                 0         -
+distributed/migration.rs                                    2289              2289     0.00%         131               131     0.00%        1680              1680     0.00%           0                 0         -
+distributed/observatory_serving_eligibility.rs               720               720     0.00%          52                52     0.00%         545               545     0.00%           0                 0         -
+distributed/placement.rs                                    1036              1036     0.00%          77                77     0.00%         818               818     0.00%           0                 0         -
+distributed/projection.rs                                   1058              1058     0.00%          68                68     0.00%         700               700     0.00%           0                 0         -
+distributed/recovery.rs                                     2754              2754     0.00%         153               153     0.00%        1953              1953     0.00%           0                 0         -
+distributed/resource_weather.rs                              812               812     0.00%          38                38     0.00%         578               578     0.00%           0                 0         -
+distributed/runtime_continuity_bridge.rs                     286               286     0.00%          12                12     0.00%         201               201     0.00%           0                 0         -
+distributed/serving_authority.rs                             739               739     0.00%          74                74     0.00%         589               589     0.00%           0                 0         -
+distributed/shepherd_serving_eligibility.rs                  772               772     0.00%          61                61     0.00%         586               586     0.00%           0                 0         -
+distributed/snapshot_catalog.rs                             1130              1130     0.00%          57                57     0.00%         843               843     0.00%           0                 0         -
+distributed/transport/core.rs                               2937              1752    40.35%         218               100    54.13%        2262              1236    45.36%           0                 0         -
+distributed/transport/governed/learner_transport.rs         2002               558    72.13%         161                48    70.19%        1794               434    75.81%           0                 0         -
+distributed/transport/governed/polis_runtime.rs             6024              4161    30.93%         354               221    37.57%        4792              3338    30.34%           0                 0         -
+freedom_gate.rs                                               98                98     0.00%           7                 7     0.00%          80                80     0.00%           0                 0         -
+guardian.rs                                                 2091              2091     0.00%         126               126     0.00%        1643              1643     0.00%           0                 0         -
+kernel_continuity_client.rs                                  997               997     0.00%          50                50     0.00%         671               671     0.00%           0                 0         -
+memory_palace.rs                                            1343              1343     0.00%          51                51     0.00%         865               865     0.00%           0                 0         -
+networking.rs                                                 17                17     0.00%           3                 3     0.00%          12                12     0.00%           0                 0         -
+observability.rs                                            1107              1107     0.00%          56                56     0.00%         748               748     0.00%           0                 0         -
+reasoning_runtime.rs                                        1320              1320     0.00%          73                73     0.00%         910               910     0.00%           0                 0         -
+resident_agent.rs                                            446               446     0.00%          24                24     0.00%         360               360     0.00%           0                 0         -
+runtime_api.rs                                               176               176     0.00%          18                18     0.00%         162               162     0.00%           0                 0         -
+runtime_api_auth.rs                                         1762              1762     0.00%         123               123     0.00%        1110              1110     0.00%           0                 0         -
+runtime_v3_soak.rs                                           679               679     0.00%          15                15     0.00%         620               620     0.00%           0                 0         -
+shutdown.rs                                                  226               226     0.00%          14                14     0.00%         186               186     0.00%           0                 0         -
+supervision.rs                                              1311              1311     0.00%         117               117     0.00%        1227              1227     0.00%           0                 0         -
+topology.rs                                                  431               431     0.00%          25                25     0.00%         394               394     0.00%           0                 0         -
+weather.rs                                                   319               319     0.00%          26                26     0.00%         278               278     0.00%           0                 0         -
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                      56016             48361    13.67%        3370              2800    16.91%       42026             35662    15.14%           0                 0         -
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:495:19
+    |
+334 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+495 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:922:19
+    |
+840 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+922 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+935 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:673:19
+    |
+535 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+673 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:674:19
+    |
+571 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+674 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.29s
+     Running unittests src/lib.rs (adl-runtime/target/debug/deps/adl_runtime-7aa3ca57c98e56ac)
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication expiry_writer_waits_through_real_raft_effect_and_response
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication raft_add_learner_replicated
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication voter_quorum_unchanged
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication quinn_append_snapshot_only
+ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed
+info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability/adl-runtime)
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:495:19
+    |
+334 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+495 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:922:19
+    |
+840 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+922 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+935 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:673:19
+    |
+535 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+673 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:674:19
+    |
+571 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+674 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 19.00s
+     Running unittests src/lib.rs (adl-runtime/target/llvm-cov-target/debug/deps/adl_runtime-7aa3ca57c98e56ac)
+
+running 1 test
+ADL_ISSUE_199_ASSERTION_V1 case=add_learner_joint_final_publish assertion=factory_admission_receipt_exact_current_and_mismatch_denied
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication expiry_writer_waits_through_real_raft_effect_and_response
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication raft_add_learner_replicated
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication voter_quorum_unchanged
+ADL_ISSUE_202_ASSERTION_V1 real_four_node_learner_replication quinn_append_snapshot_only
+ADL_ISSUE_199_ASSERTION_V1 case=remove_rejoin_real_nodes assertion=exclusion_retain_false_separate_enrollment_promotion_catchup_and_parity_publication
+ADL_ISSUE_199_ASSERTION_V1 case=crash_phase_matrix assertion=enrollment_removal_promotion_boundaries_retry_without_duplicate_visibility
+ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed
+test distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 338 filtered out; finished in 5.41s
+
