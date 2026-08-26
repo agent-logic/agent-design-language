@@ -86,11 +86,11 @@ Implemented shared provider inference-profile materialization with deterministic
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
