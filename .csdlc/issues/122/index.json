@@ -4,13 +4,44 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
-  "phase": "implemented",
-  "generation": 54,
-  "digest": "a0eb6769aa8647bba498dd7b2f24e8e16f442b9d88982300c85244df41e9426f",
+  "phase": "reviewed",
+  "generation": 55,
+  "digest": "d3e63bfb67f24e57e4c9e6fb9d3a13299687a9226ece02fd1cb006928cac8f2d",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:570ae1e6-92f1-4422-95cc-40452d9f05cb",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1f68195a2ac1c79156409e0f68fbfb0a24e9bd16:de12e7b482ecb43d434bb9d953eb574c5447de3c58a7efe02d3bafe4b7d27e04",
+    "scope": [
+      "Fresh no-context exact-head review for #122 at clean post-whitespace-fix commit 1f68195a2ac1c79156409e0f68fbfb0a24e9bd16 on branch codex/122-csm-public-edge-terraform in /Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform.",
+      "Review full #122 current implemented scope after merging origin/main e2c1d1649 and fixing the P3 evidence whitespace finding: permanent CSM public edge Terraform, disposable Spot EC2 and ALB Runtime-origin modules/roots, operator runbook, AWS live evidence, certificate/DNS cleanup truth, lifecycle cards, prior review finding dispositions, and no collision with merged #482/#540/#541/corporate/onboarding/runtime-config changes.",
+      "Specifically verify prior P3 is resolved: git diff --check origin/main...HEAD is clean for .csdlc/evidence/122/gemini-review-diff.historical.txt and all #122 evidence/lifecycle surfaces.",
+      "Verify the prior P2 runbook finding remains resolved: no API Gateway WebSocket front-door claim, WSS is documented as CloudFront to configured WSS-capable HTTPS origin, and runbook variable names match Terraform variables: zone_name, runtime_origin_url, wss_origin_https_url, websocket_path_pattern, origin_fqdn_override, and subnet_ids.",
+      "Verify permanent edge remains non-compute, disposable origin smoke proof is operator-authorized and torn down, additional allowed origins are exact and fail closed for wildcards, reusable ACM lookup is truthful, stale patch artifact is no longer an applicable patch claim, and no #83/#111-#117/#550 scope is absorbed.",
+      "Findings-first PASS/FAIL; read-only; no source/lifecycle/GitHub/AWS mutation."
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:570ae1e6-92f1-4422-95cc-40452d9f05cb",
+    "scope": [
+      "Fresh no-context exact-head review for #122 at clean post-whitespace-fix commit 1f68195a2ac1c79156409e0f68fbfb0a24e9bd16 on branch codex/122-csm-public-edge-terraform in /Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform.",
+      "Review full #122 current implemented scope after merging origin/main e2c1d1649 and fixing the P3 evidence whitespace finding: permanent CSM public edge Terraform, disposable Spot EC2 and ALB Runtime-origin modules/roots, operator runbook, AWS live evidence, certificate/DNS cleanup truth, lifecycle cards, prior review finding dispositions, and no collision with merged #482/#540/#541/corporate/onboarding/runtime-config changes.",
+      "Specifically verify prior P3 is resolved: git diff --check origin/main...HEAD is clean for .csdlc/evidence/122/gemini-review-diff.historical.txt and all #122 evidence/lifecycle surfaces.",
+      "Verify the prior P2 runbook finding remains resolved: no API Gateway WebSocket front-door claim, WSS is documented as CloudFront to configured WSS-capable HTTPS origin, and runbook variable names match Terraform variables: zone_name, runtime_origin_url, wss_origin_https_url, websocket_path_pattern, origin_fqdn_override, and subnet_ids.",
+      "Verify permanent edge remains non-compute, disposable origin smoke proof is operator-authorized and torn down, additional allowed origins are exact and fail closed for wildcards, reusable ACM lookup is truthful, stale patch artifact is no longer an applicable patch claim, and no #83/#111-#117/#550 scope is absorbed.",
+      "Findings-first PASS/FAIL; read-only; no source/lifecycle/GitHub/AWS mutation."
+    ],
+    "reviewed_revision": "git-blake3:1f68195a2ac1c79156409e0f68fbfb0a24e9bd16:de12e7b482ecb43d434bb9d953eb574c5447de3c58a7efe02d3bafe4b7d27e04",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not run AWS live checks, Terraform apply/destroy, or credentialed operations.",
+      "Reviewer did not rerun terraform init/validate during review; parent session reran static validator, Terraform validates, diff hygiene, and typed validation before assignment.",
+      "PASS is for the assigned exact head and committed implementation/evidence truth, not future live DNS, cert, Runtime, Caddy, CloudFront propagation, or AWS account state drift."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7efe6258b366d86dc9b8aa947268c234678b64d77c4b05977594f314f38f82c1",
+      "values_digest": "52284ef363b32d036f08beba8e8722fbfebe868547d4f1a07c81c102be01fb6e",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "a443b1aae3892b74fecc02393ca773ae5e629891db36d314b4abf761277dfb53",
+      "values_digest": "9868161950710ea78a5071543c80c72b21e88d8a2f7e73e2e18c4ce2f9832ccc",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "14f7653b8259d77563f2d4533dd407b7eb51bf2e783b3a5a16723adb695d4264",
+      "values_digest": "56b9b2b79042d771bef2b627de13bce37f9872ed5dafc804c8a7fe80ff5d2d6b",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "8fb1a6735d3960a11813a88dee5b363736b1dc00fdc3a5e3ab1b1273848dd80c",
+      "values_digest": "8c9713c8ef36cef2a7efae4c2109cd46fcccdda5f96404cbc3f239dcf24e3e8e",
       "rendered_digest": "8f61f58de8e982822638648bfc941c11fa6e96fd83c423cb85b14d5dce3b30a6",
       "ast_digest": "491c78890e5c6a24563c40f2de94946462a4f048481d051edaa58602d55ef222"
     },
     "srp": {
-      "values_digest": "574768ee9e38f1948d964c8da4d154894a8bcddc4180344c510287c81bb87eba",
-      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
-      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
+      "values_digest": "1164fc8238a5cb25bff899d9c173c8451706d1c97305a0ec38959952e67f6a51",
+      "rendered_digest": "dd9a165a29c32eb91523a6972a8b78bd936b344d01c35f1b23849b3510635629",
+      "ast_digest": "3a0cc3c61f319bfc70ee6c3cfb5c2007ceffbac1a59352004308e1bebf05c0ce"
     },
     "sor": {
-      "values_digest": "c3948be7a85fc20f79fa694131c8e6dbfa72951121aa273465233a55865d9eb6",
+      "values_digest": "3d4de0709333f8c1b938a1c78171ad40d8eb1c1095cb7e76199eddd7eeba9d81",
       "rendered_digest": "756782516544940f21b1d3ac33e788b83aeb94871ac10e02c6f63e77faa07006",
       "ast_digest": "64095a09c87e77664d141025289f9c9a79d032e4578da3527b1ad34d99cf781f"
     }
@@ -118,6 +149,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #122 exact review PASS after clean merge of current origin/main advanced HEAD from reviewed substantive revision ed39c2be6f82222b3ed746b9899e01c04e128cbe to post-merge revision 2dae26068238e06909aad62d070fe6ace86f9994. No #122 touched-path conflicts occurred; focused Terraform/static/diff proof was rerun green. A fresh exact-head review is required before typed publication."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -617,6 +655,20 @@
       "actor": "codex:/root",
       "reason": "Recover #122 post-main exact review fresh-session:638dc652-8a44-4506-99d3-91883979c99e after P3 trailing-whitespace finding in .csdlc/evidence/122/gemini-review-diff.historical.txt. The product/runbook/Terraform surfaces had no P0-P2 findings; recovery precedes a bounded whitespace-only evidence hygiene fix and fresh exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 72,
+      "generation": 54,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 55,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
