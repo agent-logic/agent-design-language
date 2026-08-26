@@ -8,3 +8,4 @@
 {"sequence":8,"generation":6,"actor":"codex:/root","reason":"Record exact diff hygiene validation.","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Rejected malformed diff and whitespace errors in the WP-01 candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"commit 21b29ce8901e1569659dff8c09d638608a554e04\"}}"}
 {"sequence":9,"generation":7,"actor":"codex:/root","reason":"All 45 planned v0.92.1 child issues are live, the 10 existing issues are reconciled, and the canonical final receipt validator passed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":10,"generation":7,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":8,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

@@ -7,15 +7,15 @@
     "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
     "slug": "v0921-wp01-execution-wave",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/480\n.csdlc/prepared/issues/480\ndocs/milestones/v0.92.1/evidence/wp-01",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:e759bdc84d1b12359c423b50c3a6d0b04d42ea69:b678cc25909570f33134684a7ccedc17aaf589edb80309234e82deeaacc67e75",
+      "reviewer": "subagent:/root/review_480_final",
       "review_prompts": [
         "Is the 45-slot denominator exact and complete?",
         "Can any interruption create a duplicate or renumber a verified child?",
@@ -23,8 +23,10 @@
         "Does the final receipt prove exact live title, routing, body/spec, and dependency parity?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Publication and merge remain separate gates; this review proves the exact live wave and retained evidence, not downstream child completion."
+      ],
+      "review_result": "pass"
     }
   }
 }

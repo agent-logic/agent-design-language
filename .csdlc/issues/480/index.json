@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f6c582c5700e044ffef21116ae636bbd9ebdb8120a91c5805a887231557c4680",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "ae4cb82413f9ef3c52b0b32660668d316806dcc20830f20cbf7582882fa5937d",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "522fe417323d7259b3be3bea4bfc273f349a365a77e146246f9643ccde86d9af",
   "branch": "codex/480-v0921-wp01-execution-wave",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-480-v0921-wp01-execution-wave",
   "review_assignment": {
@@ -19,7 +19,21 @@
       "docs/milestones/v0.92.1/evidence/wp-01"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_480_final",
+    "scope": [
+      ".csdlc/issues/480",
+      ".csdlc/prepared/issues/480",
+      "docs/milestones/v0.92.1/evidence/wp-01"
+    ],
+    "reviewed_revision": "git-blake3:e759bdc84d1b12359c423b50c3a6d0b04d42ea69:b678cc25909570f33134684a7ccedc17aaf589edb80309234e82deeaacc67e75",
+    "findings": [],
+    "residual_risks": [
+      "Publication and merge remain separate gates; this review proves the exact live wave and retained evidence, not downstream child completion."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d63d8384bbee1d659dbb89a33a096ba30bada40824bdec71b744378a7c3289d0",
+      "values_digest": "077cf2b9769adcf456df0fe12b190fa8c92168175e4f5facff4d9f5d7068f1a1",
       "rendered_digest": "5ec5d5d22db98fcc3f7bcd86d4fd53a6efaf01df8e80e81abaebfc9dc0a34063",
       "ast_digest": "aa12ccd926f12add74930004aa60c2b20837df2bee29015bbff8229e728d0691"
     },
     "stp": {
-      "values_digest": "6a353147e4e722dcca3e8d7701c05ac68918b3eb3832342ef341b7b503fbf1de",
+      "values_digest": "0ddb4b6f1535029df7d69bd3cd374327a98a93216da69e206095eac0645e206a",
       "rendered_digest": "6f691ebb3200563531fa1c881343ef091cb5e9d250a393987e742f992a442d88",
       "ast_digest": "96b3b295648c2402e96cfa0d4c826d933e256226450f2ac8ada40e409ab0a610"
     },
     "spp": {
-      "values_digest": "2ccdb4beb172ba5f6e42bf1d4b636d7ee670a7f59a6acaa17f9956b6a2fa4485",
+      "values_digest": "835e085ce1b95cf241cd3e63e54081397c9ab4eae79727dc920ccedc5b173695",
       "rendered_digest": "1c6e1342b6cb60ee57531fcf0c59868f4031811c4a4717f0dd2607443580ca00",
       "ast_digest": "7c559ebbcd9e0eb3eeebe50ba2d120c1409f69796b46e896a9d14c93917a2514"
     },
     "vpp": {
-      "values_digest": "896389e3b93e2a02511d808fde1bc693f2f8d5451d33722acaeab10ba52a0547",
+      "values_digest": "c637cea615ab309a0408c1349ff5f4621fa269cf28dbba66343a63ea8775a276",
       "rendered_digest": "5ba96d32ec4999b579ebc0374889f798a2d532b2db05aca6988f2bdfb482a7a0",
       "ast_digest": "4a163e4a211be4450582effd07600b0765b86613d2001d101e510d2ea826fded"
     },
     "srp": {
-      "values_digest": "aecb8f6a3fb26b36acfb1815f1cb02eaaa6c04be3d7c7d136388d5e12a7ca535",
-      "rendered_digest": "1f2d6653682f9b8351e22714359547a8707e608248f155ee0d99bd726932b13e",
-      "ast_digest": "a082fa77e3a97e1d8b9eafec39ac9026445ac6e1fd53a12e439f614f27b44d8b"
+      "values_digest": "3f80165e0f72e1c60b6c3da8e046b411ee26c7c62ab0d54a4d24d7be65a5bd7b",
+      "rendered_digest": "c6b227e442a22a8a6cbc79df29b0caffcbc0a107e8d6f9e07b0f56af2dde21b7",
+      "ast_digest": "a2bac66e7675937e2111dd653431a5c0fe003d334cd90198129a234551ba8c63"
     },
     "sor": {
-      "values_digest": "8c536806dfa4d96d62ab65cd97bd34526f744f90d7b3cf36426945c351729279",
+      "values_digest": "03a05d2d4e18bf6cb6c26f480f442a2a5f49bba1425b14c60f63ffe44a512778",
       "rendered_digest": "e71f0c1267ecddb845a09144b3ebd941efbf3977107b83d3a29855b32f1e1257",
       "ast_digest": "00c663e1c8f803ee22a22c55dfeebe04618317edb8aa8c282e02725a728201ad"
     }
@@ -85,6 +99,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "All 45 planned v0.92.1 child issues are live, the 10 existing issues are reconciled, and the canonical final receipt validator passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -157,6 +178,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
