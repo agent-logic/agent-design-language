@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
     "slug": "runtime-observatory-trusted-origin-csm-config",
     "version": "v0.92.1",
-    "generation": 28
+    "generation": 29
   },
   "status": "ready",
   "content": {
