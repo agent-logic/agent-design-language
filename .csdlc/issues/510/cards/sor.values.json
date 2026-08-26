@@ -7,7 +7,7 @@
     "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
     "slug": "hot-01-axum-configuration-hot-reload",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
@@ -76,8 +76,8 @@
           "evidence_ref": "watcher-shutdown.log"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

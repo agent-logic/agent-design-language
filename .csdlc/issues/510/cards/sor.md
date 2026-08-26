@@ -83,11 +83,11 @@ Implemented Axum runtime configuration hot reload with atomic snapshot replaceme
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
