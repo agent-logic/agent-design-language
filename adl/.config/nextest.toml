@@ -4,6 +4,14 @@ nextest-version = "0.9.133"
 retries = 0
 leak-timeout = "100ms"
 
+[profile.ci-coverage]
+retries = 0
+leak-timeout = "100ms"
+# Coverage instrumentation can make ordinary tests slower, but no individual
+# test may hold the hosted release gate indefinitely. Terminate a test that
+# exceeds this bounded coverage-only ceiling and report its exact identity.
+slow-timeout = { period = "120s", terminate-after = 1 }
+
 # Both issue #208 harnesses synchronously close their fixture roots, and every
 # client case additionally proves at its shared teardown boundary that it owns
 # no live or unreaped child process before returning.
