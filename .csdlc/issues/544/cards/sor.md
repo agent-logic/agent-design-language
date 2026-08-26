@@ -110,11 +110,11 @@ Resolved review finding REV-544-P1-PRIMARY-SUBDIR-BYPASS by comparing the invoca
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
