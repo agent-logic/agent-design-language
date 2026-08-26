@@ -3203,7 +3203,7 @@ impl ObservatoryOriginPolicy {
     }
 
     pub fn replace(&self, origins: impl IntoIterator<Item = String>) -> Result<(), String> {
-        let origins = Arc::new(validate_observatory_origins(origins, false)?);
+        let origins = Arc::new(validate_observatory_origins(origins, true)?);
         let mut active = self
             .origins
             .write()

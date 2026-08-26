@@ -1491,8 +1491,22 @@ async fn observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_repl
     assert!(retained_origin.starts_with("HTTP/1.1 200 OK"));
     assert!(retained_origin.contains("access-control-allow-origin: https://observatory.new.test"));
 
+    tokio::fs::write(&config_path, "").await.unwrap();
+    tokio::time::timeout(Duration::from_secs(2), reload_handle.changed())
+        .await
+        .unwrap()
+        .unwrap();
+    let cleared_origin = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://observatory.new.test\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(cleared_origin.starts_with("HTTP/1.1 403 Forbidden"));
+    assert!(!cleared_origin.contains("access-control-allow-origin"));
+
     let outcome = reload.shutdown().await.unwrap();
-    assert_eq!(outcome.reloads_applied, 1);
+    assert_eq!(outcome.reloads_applied, 2);
     assert_eq!(outcome.invalid_updates_rejected, 1);
     server.abort();
 }
