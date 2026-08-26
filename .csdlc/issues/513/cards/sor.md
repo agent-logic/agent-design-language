@@ -126,11 +126,11 @@ Implemented the DEC-01 Runtime v2/v3 authority-separation topology without Runti
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

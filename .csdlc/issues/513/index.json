@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
-  "phase": "reviewed",
-  "generation": 16,
-  "digest": "81e9114aed5984a4f2ba4167427b13cd118efcf558ab63352d1f6223e5e4038f",
+  "phase": "published",
+  "generation": 17,
+  "digest": "0b2068db645b7d12001db238c72df19367f156d899ff52ae8d5c95dd33971ab3",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
   "review_assignment": {
@@ -39,7 +39,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 513,
+    "pull_request": 557,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/557",
+    "base": "main",
+    "head": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
+    "revision": "git-blake3:f1ee0df456593f51f03d407bc343d720874b8355:34bc1c73a4ec6719312b2455962f6c56bee31f646862e52932c5a7c0d1d14f0a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -53,34 +64,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c3fec6f57556d1bacbf789277614c0591d8e98dfe0463ca0436435cd4e940afd",
+      "values_digest": "5e6ca0418e094996e63d10bc39ff49980ae41896278a48b0e697a2b0923e5973",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "45aac0b51a27138b089188eac79795b14c86109c9129bc8ae39eb92967f94e92",
+      "values_digest": "f1298b7c3aa36768cb534194f7d419f45f47f44bb30f1e737bd9129bd579ee99",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "d1c401e3667c44494139eae1a5f9e578c3fb72bb31a4575473e385912d3c9ea7",
+      "values_digest": "7e354c408c23555ea1056c830df6f836366e95a44050e441329056ed3bd16fbb",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "e15dae16d0d155b3d7323f00505b43671e59152bd15679e9e6734977a87534ac",
+      "values_digest": "5c156e92b2601a6846df5cf7e3d56ad75f5121c27adbbbaeec712752a30ff645",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "5fdae919e6302f525ee2f5ba5aa17437e6dad7a4b341340f8645d01c5a40824a",
+      "values_digest": "ed9809140aee22ef518801dc57e85145d45ec3868c54f077436d2d83ac541f42",
       "rendered_digest": "c86dee79ac5db4687448c3ea3fca891437cadb35269c24c0c86836b35b8b99e5",
       "ast_digest": "46d0e67d973801ad64f2ab920a934c1dca6abf102dd19c92d58eaab3b2f00f0a"
     },
     "sor": {
-      "values_digest": "a12746dc6cfc0ec623539d2893273b677f440428aba564442afcf277f3027842",
-      "rendered_digest": "1fc5c4a59dedf7d6dd7f75881ad1478af9f3d59df6612a125140e60d705f12dd",
-      "ast_digest": "14f1f96e4bb394639d4dc756227a7a6a0fcb6825636ffdf4090842e5fe70a6d2"
+      "values_digest": "ed35fa505e95d711814b1e7f962418594fc08fc8b0075bd9c7f25b295481c379",
+      "rendered_digest": "0159db7d002f44257e659b6f39defb4f67e879eb2c0bcaa29d26c2d3009ab686",
+      "ast_digest": "e9c3272c764a6f3ad4b0d560d55a73f6efac6eaf48626653c7282acf7866aa19"
     }
   },
   "transitions": [
@@ -139,6 +150,13 @@
       "to": "reviewed",
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -288,6 +306,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
