@@ -29,17 +29,20 @@ end
 
 SPRINTS = [
   [1, "Independent foundations", [482, 483, 510, 513, 514, 499]],
-  [2, "Parallel cloud foundations", [484, 485, 486, 487, 488, 490, 491, 492, 493, 122, 251, 84, 345]],
+  [2, "Parallel cloud foundations", [484, 485, 486, 487, 488, 490, 491, 492, 493, 122, 251]],
   [3, "Cloud convergence", [495, 489, 496, 494]],
   [4, "Corporate acceptance", [497, 498]],
   [5, "C-SDLC v3 foundation", [500, 501, 502]],
   [6, "C-SDLC v3 delivery and cutover", [503, 504, 505]],
   [7, "Distributed Runtime qualification", [506, 345, 507, 508, 509]],
-  [8, "Product lanes", [51, 261, 262, 263, 264, 342, 511, 251, 122, 345, 84, 512]],
+  [8, "Product lanes", [51, 261, 262, 263, 264, 342, 511, 84, 512]],
   [9, "Provider comparison and convergence", [515, 516, 517, 518, 519]],
   [10, "Review and remediation", [520, 521, 522]],
   [11, "Handoff and release", [523, 524, 525, 526]]
 ].freeze
+
+all_members = SPRINTS.flat_map { |_number, _name, members| members }
+abort "duplicate issue ownership across Sprint umbrellas" unless all_members.uniq.length == all_members.length
 
 def write_json(path, value)
   FileUtils.mkdir_p(File.dirname(path))

@@ -12,14 +12,16 @@ Status: pre_phase
 
 ## Summary
 
-Opened v0.92.1 with exactly 45 bounded work issues, reconciled 10 existing authorities, and added 11 updateable Sprint coordination umbrellas.
+Opened v0.92.1 with 45 bounded work issues, 10 reconciled existing authorities, and 11 flexible Sprint umbrellas with unique issue ownership.
 
 ## Artifacts
 
 - docs/milestones/v0.92.1/SPRINT_v0.92.1.md
 - docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json
 - docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-receipt.json
-- docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json
+- docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v4-receipt.json
+- docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-requests/
+- docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-operations/
 - .csdlc/prepared/issues/480/create-sprint-umbrellas.rb
 - .csdlc/prepared/issues/480/validate-sprint-umbrellas.rb
 - .csdlc/prepared/issues/480/validate-wave-creation.rb
@@ -28,9 +30,10 @@ Opened v0.92.1 with exactly 45 bounded work issues, reconciled 10 existing autho
 
 - Created the exact ordered 45-child v0.92.1 issue wave from CORP-A through TAIL-10.
 - Reconciled existing issues #51, #84, #122, #251, #261-#264, #342, and #345 without duplicate creation.
-- Created Sprint 1 through Sprint 11 umbrellas as #529 through #539 with versioned, reasoned, updateable membership.
+- Created Sprint 1 through Sprint 11 umbrellas as #529 through #539 with monotonically versioned, reasoned, updateable membership.
+- Normalized duplicate roster ownership so #122 and #251 belong only to Sprint 2, #345 only to Sprint 7, and #84 only to Sprint 8.
+- Added fail-closed validation for duplicate ownership, exact live membership blocks, current receipt version, operation hashes, and portable typed owner resolution.
 - Kept child implementation independent and typed finish/worktree cleanup asynchronous and non-gating.
-- Retained deterministic create/update requests, observed results, recovery receipts, live census, and final receipts without machine-local credentials or binary paths.
 
 ## Validation
 
@@ -50,9 +53,9 @@ Opened v0.92.1 with exactly 45 bounded work issues, reconciled 10 existing autho
       "ruby",
       ".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb"
     ],
-    "purpose": "Validate 11/11 unique live umbrellas, current membership version and reason, exact members, result hashes, and portable typed owner resolution.",
+    "purpose": "Validate 11 live umbrellas, 55 unique owned issues, exact version-4 membership, result hashes, and portable typed owner resolution.",
     "outcome": "passed",
-    "evidence_ref": "docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json"
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v4-receipt.json"
   },
   {
     "command": [
@@ -62,7 +65,7 @@ Opened v0.92.1 with exactly 45 bounded work issues, reconciled 10 existing autho
     ],
     "purpose": "Reject malformed diff and whitespace errors.",
     "outcome": "passed",
-    "evidence_ref": "working tree at corrected implementation head"
+    "evidence_ref": "working tree at unique-ownership implementation head"
   }
 ]
 
