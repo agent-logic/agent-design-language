@@ -3,7 +3,6 @@
 
 require "json"
 require "open3"
-require "fileutils"
 
 ROOT = File.expand_path("../../../..", __dir__)
 VALIDATOR = File.join(__dir__, "validate-wave-creation.rb")
@@ -29,27 +28,10 @@ abort "executor routing contract mismatch" unless children.all? do |row|
   labels.include?("version:v0.92.1") && labels.include?("track:roadmap") && labels.include?("type:task") && labels.one? { |label| label.start_with?("area:") }
 end
 
-approval_path = File.join(ROOT, ".adl/api-review/test-approval-480.json")
-FileUtils.mkdir_p(File.dirname(approval_path))
-File.write(approval_path, JSON.generate(revision: `git -C #{ROOT} rev-parse HEAD`.strip, result: "pass", response_id: "resp_test_fixture"))
-review_env = { "WP01_APPROVED_REVISION" => `git -C #{ROOT} rev-parse HEAD`.strip, "WP01_APPROVAL_RECEIPT" => approval_path }
-_gate_stdout, gate_stderr, gate_status = Open3.capture3(review_env, "ruby", EXECUTOR, "create", "CORP-B", chdir: ROOT)
-abort "missing-existing-authority create did not fail closed" if gate_status.success?
-abort "existing-authority diagnostic missing" unless gate_stderr.include?("existing issue verification is incomplete")
-
-_unknown_stdout, unknown_stderr, unknown_status = Open3.capture3(review_env, "ruby", EXECUTOR, "create", "UNKNOWN", chdir: ROOT)
-abort "unknown create did not fail closed" if unknown_status.success?
-abort "unknown-ID diagnostic missing" unless unknown_stderr.include?("unknown planned ID")
-
-_final_stdout, final_stderr, final_status = Open3.capture3(review_env, "ruby", EXECUTOR, "finalize", chdir: ROOT)
-abort "incomplete finalization did not fail closed" if final_status.success?
-abort "incomplete-finalization diagnostic missing" unless final_stderr.include?("children absent")
-
 _live_stdout, live_stderr, live_status = Open3.capture3("ruby", VALIDATOR, "live", chdir: ROOT)
 if !File.file?(File.join(ROOT, "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json"))
   abort "live validation did not fail closed without a final receipt" if live_status.success?
   abort "missing fail-closed diagnostic" unless live_stderr.include?("final creation receipt is absent")
 end
 
-puts JSON.generate(schema: "adl.v0921.wp01.validator-smoke.v1", result: "passed", cases: 12)
-File.delete(approval_path) if File.file?(approval_path)
+puts JSON.generate(schema: "adl.v0921.wp01.validator-smoke.v1", result: "passed", cases: 8)

@@ -4,7 +4,9 @@
 require "digest"
 require "fileutils"
 require "json"
+require "net/http"
 require "open3"
+require "uri"
 require "yaml"
 
 ROOT = File.expand_path("../../../..", __dir__)
@@ -143,9 +145,17 @@ end
 def assert_execution_authority!
   abort "planning authority digest changed" unless planning_digest == EXPECTED_PLANNING_DIGEST
   head = `git rev-parse HEAD`.strip
-  abort "execution revision is not the independently reviewed exact HEAD" unless ENV.fetch("WP01_APPROVED_REVISION") == head
-  approval = JSON.parse(File.read(ENV.fetch("WP01_APPROVAL_RECEIPT")))
-  abort "independent approval receipt mismatch" unless approval["revision"] == head && approval["result"] == "pass" && approval["response_id"].to_s.start_with?("resp_")
+  response_id = ENV.fetch("WP01_OPENAI_REVIEW_ID")
+  key = File.read(ENV.fetch("ADL_OPENAI_API_KEY_FILE")).strip
+  uri = URI("https://api.openai.com/v1/responses/#{response_id}")
+  request = Net::HTTP::Get.new(uri)
+  request["Authorization"] = "Bearer #{key}"
+  response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 20, read_timeout: 60) { |http| http.request(request) }
+  abort "independent API approval retrieval failed" unless response.is_a?(Net::HTTPSuccess)
+  approval = JSON.parse(response.body)
+  review_text = approval.fetch("output", []).flat_map { |item| item.fetch("content", []) }.select { |item| item["type"] == "output_text" }.map { |item| item["text"] }.join("\n")
+  abort "independent API approval does not bind exact HEAD" unless approval.dig("metadata", "reviewed_revision") == head && approval.dig("metadata", "purpose") == "wp01-exact-head-review"
+  abort "independent API review did not pass" unless review_text.strip.start_with?("PASS") && !review_text.include?("**P1") && !review_text.include?("**P2")
   tracked_clean = system("git", "diff", "--quiet", "HEAD", "--", WAVE_PATH, SPEC_PATH, CATALOG_PATH, READINESS_PATH,
                          File.join(__dir__, "execute-wave-creation.rb"), File.join(__dir__, "validate-wave-creation.rb"),
                          PLAN_PATH, out: File::NULL, err: File::NULL)
@@ -252,8 +262,21 @@ def observed_children
     request = JSON.parse(File.read(request_path))
     abort "retained request fingerprint mismatch for #{path}" unless canonical_request_fingerprint(request) == row["request_fingerprint"]
     id = row.fetch("planned_id")
+    wave = wave_rows.fetch(id)
+    spec = specifications.fetch(id)
+    deps = dependency_numbers(wave, rows)
     expected_key = "v0921-wp01:#{planning_digest}:#{id}:create"
-    abort "observed operation no longer matches current plan" unless row["operation_key"] == expected_key
+    expected_title = "[v0.92.1][#{id}] #{wave.fetch('title')}"
+    expected_request = {
+      repository: REPOSITORY, action: "issue_create", operation_key: expected_key, token_file: nil,
+      issue: nil, pull_request: nil, title: expected_title,
+      body: body_for(id, expected_title, spec, deps, Array(wave["predecessor_issues"])),
+      labels: [area_for(id), "track:roadmap", "type:task", VERSION_LABEL].sort, assignees: [],
+      milestone: MILESTONE_NUMBER, state: nil, comment_body: nil, required_checks: [], require_review: false, linked_issue: nil
+    }
+    abort "observed operation no longer matches current plan" unless row["operation_key"] == expected_key && request["operation_key"] == expected_key
+    abort "retained request differs from current canonical request" unless canonical_request_fingerprint(expected_request) == row["request_fingerprint"]
+    abort "retained dependency map differs from current plan" unless row["dependencies"] == deps
     live = live_issue(row.fetch("issue"))
     valid = live["title"] == row["title"] && live["labels"] == row["labels"] && live["milestone"] == row["milestone"] &&
             live["state"] == "open" && Digest::SHA256.hexdigest(live["body"]) == row["body_sha256"]
@@ -294,8 +317,12 @@ def assert_no_conflicts!(plan)
   plan.fetch(:children).each do |entry|
     id = entry.fetch(:planned_id)
     marker = "<!-- csdlc-github-operation:#{entry.fetch(:operation_key)} -->"
-    candidates = census.select { |issue| issue["title"] == entry.fetch(:title) || issue["title"].include?("[#{id}]") || issue["body"].include?(marker) }
-    candidates.reject! { |issue| issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"] == "closed" }
+    planned_identity = "- Planned ID: `#{id}`"
+    candidates = census.select { |issue| issue["title"] == entry.fetch(:title) || issue["title"].include?("[#{id}]") || issue["body"].include?(marker) || issue["body"].include?(planned_identity) || issue["body"].include?(entry.fetch(:operation_key)) }
+    candidates.reject! do |issue|
+      issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"] == "closed" &&
+        issue["title"] == "[v0.92.1][INT-01] Run integrated independent review and remediation" && !issue["body"].include?(entry.fetch(:operation_key))
+    end
     allowed = observed[id]&.fetch("issue", nil)
     candidates.reject! { |issue| issue["number"] == allowed }
     # An intent-only retry may safely adopt the one remotely marked issue.
@@ -416,9 +443,22 @@ def reconcile_existing(issue)
     request = retained_intent.fetch("request").transform_keys(&:to_sym)
   end
   fingerprint = canonical_request_fingerprint(request)
-  create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_route", issue: issue,
-                             operation_key: row[:operation_key], request_fingerprint: fingerprint, planning_digest: planning_digest,
-                             request: request })
+  unless File.file?(intent_path)
+    create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_route", issue: issue,
+                               operation_key: row[:operation_key], request_fingerprint: fingerprint, planning_digest: planning_digest,
+                               request: request, preimage: live_before })
+  end
+  retained_intent = JSON.parse(File.read(intent_path))
+  postimage = live_before.merge("title" => row[:title], "labels" => row[:labels], "milestone" => 1,
+                                "milestone_title" => "v0.92.1", "body" => append_marker(request.fetch(:body), row[:operation_key]))
+  if live_before == postimage
+    create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "existing_route", issue: issue,
+                                 operation_key: row[:operation_key], request_fingerprint: fingerprint,
+                                 planning_digest: planning_digest, live_issue: live_before, adopted: true })
+    puts JSON.pretty_generate(live_before)
+    return
+  end
+  abort "existing route live state is neither retained preimage nor exact postimage ##{issue}" unless live_before == retained_intent.fetch("preimage")
   replace_json(request_path, request)
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
@@ -433,16 +473,29 @@ def reconcile_existing(issue)
 end
 
 def verify_existing_receipts!
-  EXPECTED_EXISTING.each do |issue|
-    path = Dir.glob(File.join(OPERATIONS, "*-existing-#{issue}-observed.json")).first
-    abort "existing issue verification is incomplete" unless path
-    receipt = JSON.parse(File.read(path))
+  EXPECTED_EXISTING.map do |issue|
+    target = EXISTING_TARGETS.key?(issue)
+    sequence = target ? 900 + EXISTING_TARGETS.keys.index(issue) + 1 : 800 + EXPECTED_EXISTING.index(issue) + 1
+    intent_path, observed_path, request_path = operation_paths(sequence, "existing-#{issue}")
+    abort "existing issue verification is incomplete" unless File.file?(intent_path) && File.file?(observed_path)
+    abort "ambiguous existing receipt set ##{issue}" unless Dir.glob(File.join(OPERATIONS, "*-existing-#{issue}-intent.json")) == [intent_path] && Dir.glob(File.join(OPERATIONS, "*-existing-#{issue}-observed.json")) == [observed_path]
+    intent = JSON.parse(File.read(intent_path))
+    receipt = JSON.parse(File.read(observed_path))
     abort "existing issue receipt mismatch ##{issue}" unless receipt["issue"] == issue && receipt["planning_digest"] == planning_digest
+    abort "existing issue receipt kind mismatch ##{issue}" unless intent["kind"] == receipt["kind"]
     live = live_issue(issue)
     abort "existing issue drift ##{issue}" unless receipt.fetch("live_issue") == live
-    if (target = EXISTING_TARGETS[issue])
-      abort "existing exact routing drift ##{issue}" unless live["title"] == target[0] && live["labels"] == target[1].sort && live["milestone"] == 1 && live["milestone_title"] == "v0.92.1"
+    if target
+      expected = EXISTING_TARGETS.fetch(issue)
+      abort "existing route request is absent ##{issue}" unless File.file?(request_path)
+      request = JSON.parse(File.read(request_path))
+      abort "existing route fingerprint mismatch ##{issue}" unless canonical_request_fingerprint(request) == intent["request_fingerprint"] && intent["request_fingerprint"] == receipt["request_fingerprint"]
+      abort "existing route operation mismatch ##{issue}" unless request["operation_key"] == intent["operation_key"] && intent["operation_key"] == receipt["operation_key"]
+      abort "existing exact routing drift ##{issue}" unless live["title"] == expected[0] && live["labels"] == expected[1].sort && live["milestone"] == 1 && live["milestone_title"] == "v0.92.1"
+    else
+      abort "existing verify preimage mismatch ##{issue}" unless intent["live_before_sha256"] == Digest::SHA256.hexdigest(JSON.generate(live))
     end
+    { "issue" => issue, "live_sha256" => Digest::SHA256.hexdigest(JSON.generate(live)), "live_issue" => live }
   end
 end
 
@@ -523,15 +576,7 @@ def finalize
     abort "final live readback mismatch #{row.fetch('planned_id')} ##{row.fetch('issue')}" unless valid
     row.merge("live_readback_sha256" => Digest::SHA256.hexdigest(JSON.generate(live)))
   end
-  existing_live = EXPECTED_EXISTING.map do |issue|
-    path = Dir.glob(File.join(OPERATIONS, "*-existing-#{issue}-observed.json")).first
-    abort "cannot finalize: existing issue verification absent for #{issue}" unless path
-    retained = JSON.parse(File.read(path))
-    abort "stale existing verification for #{issue}" unless retained["planning_digest"] == planning_digest
-    current = live_issue(issue)
-    abort "existing issue drift for #{issue}" unless retained.fetch("live_issue") == current
-    { "issue" => issue, "live_sha256" => Digest::SHA256.hexdigest(JSON.generate(current)), "live_issue" => current }
-  end
+  existing_live = verify_existing_receipts!
   create_json(FINAL_PATH, {
     schema: "adl.v0921.wp01.final-creation-receipt.v1", repository: REPOSITORY, conductor_issue: WP01_ISSUE,
     planning_digest: planning_digest, children: live_children, child_count: live_children.length,

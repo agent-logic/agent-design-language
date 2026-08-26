@@ -235,9 +235,14 @@ def validate_live(plan)
     census = JSON.parse(census_stdout).flatten.reject { |issue| issue.key?("pull_request") }
     rows.each do |row|
       id = row.fetch("planned_id")
-      marker = "<!-- csdlc-github-operation:v0921-wp01:#{planning_digest}:#{id}:create -->"
-      matches = census.select { |issue| issue["title"] == row["title"] || issue["title"].include?("[#{id}]") || issue.fetch("body", "").include?(marker) }
-      matches.reject! { |issue| issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"].to_s.downcase == "closed" }
+      operation_key = "v0921-wp01:#{planning_digest}:#{id}:create"
+      marker = "<!-- csdlc-github-operation:#{operation_key} -->"
+      planned_identity = "- Planned ID: `#{id}`"
+      matches = census.select { |issue| issue["title"] == row["title"] || issue["title"].include?("[#{id}]") || issue.fetch("body", "").include?(marker) || issue.fetch("body", "").include?(planned_identity) || issue.fetch("body", "").include?(operation_key) }
+      matches.reject! do |issue|
+        issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"].to_s.downcase == "closed" &&
+          issue["title"] == "[v0.92.1][INT-01] Run integrated independent review and remediation" && !issue.fetch("body", "").include?(operation_key)
+      end
       errors << "live census ambiguity for #{id}" unless matches.map { |issue| issue["number"] } == [row["issue"]]
     end
   else
