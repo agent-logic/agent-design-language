@@ -42,6 +42,7 @@ allowed_source_owners_regex='^(runtime-v2|runtime-v3-guardian|runtime-v3-kernel)
 allowed_source_dispositions_regex='^(authoritative-runtime-v2-source|authoritative-runtime-v3-guardian-source|authoritative-runtime-v3-kernel-source)$'
 allowed_reference_owners_regex='^(runtime-v2|runtime-v3-guardian|runtime-v3-kernel|runtime-docs|milestone-v0\.92\.1|dec-01)$'
 allowed_reference_dispositions_regex='^(runtime-v2-to-v3-compatibility-bridge|runtime-v2-source|runtime-v3-source-or-compatibility-metadata|runtime-v3-source-or-release-gate-metadata|runtime-v3-proof|runtime-v3-support-surface|runtime-docs|runtime-planning-docs|dec-01-lifecycle-evidence|dec-01-lifecycle-state)$'
+expected_reverse_reference_dispositions=$'dec-01-lifecycle-evidence\ndec-01-lifecycle-state\nruntime-docs\nruntime-planning-docs\nruntime-v2-source\nruntime-v2-to-v3-compatibility-bridge\nruntime-v3-proof\nruntime-v3-source-or-compatibility-metadata\nruntime-v3-source-or-release-gate-metadata\nruntime-v3-support-surface'
 
 validate_manifest_shape() {
   local candidate="$1"
@@ -220,6 +221,30 @@ validate_runtime_v4_markdown_contract() {
   done < <(rg -n "runtime-v4|Runtime v4|runtime_v4" docs/runtime/runtime-v2-v3-authority-topology.md || true)
 }
 
+validate_documented_disposition_vocabulary() {
+  local manifest_dispositions documented_dispositions
+  manifest_dispositions="$(jq -r '.reverse_reference_dispositions[].disposition' "$manifest" | sort -u)"
+  documented_dispositions="$(awk '
+    /^## Reverse-Reference Dispositions/ { in_section=1; next }
+    /^## Compatibility/ { in_section=0 }
+    in_section && /^- `/ {
+      line=$0
+      sub(/^- `/, "", line)
+      sub(/`.*/, "", line)
+      print line
+    }
+  ' docs/runtime/runtime-v2-v3-authority-topology.md | sort -u)"
+
+  if [[ "$manifest_dispositions" != "$expected_reverse_reference_dispositions" ]]; then
+    echo "manifest reverse-reference disposition vocabulary drifted" >&2
+    return 1
+  fi
+  if [[ "$documented_dispositions" != "$expected_reverse_reference_dispositions" ]]; then
+    echo "documented reverse-reference disposition vocabulary drifted" >&2
+    return 1
+  fi
+}
+
 classify_path() {
   local path="$1"
   jq -r --arg path "$path" '
@@ -362,6 +387,7 @@ validate_all_static_contracts() {
   validate_static_manifest_contract "$manifest"
   validate_runtime_v4_manifest_contract "$manifest"
   validate_runtime_v4_markdown_contract
+  validate_documented_disposition_vocabulary
   validate_reverse_reference_census
   run_negative_manifest_probes
 }

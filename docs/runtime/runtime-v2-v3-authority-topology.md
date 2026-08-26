@@ -18,11 +18,14 @@ Runtime v2 and Runtime v3 may mention each other only through declared dispositi
 
 - `runtime-v2-source`: Runtime v2 internal source, tests, fixtures, or compatibility records.
 - `runtime-v2-to-v3-compatibility-bridge`: the explicit `reasoning_runtime_bridge` compatibility bridge from Runtime v2 into the existing `adl_runtime::reasoning_runtime` surface.
-- `runtime-v3-source`: Runtime v3 guardian or kernel source.
-- `runtime-v3-compatibility-metadata`: Runtime v3 records historical Runtime v2 schema/source references as metadata without acquiring Runtime v2 authority.
+- `runtime-v3-source-or-compatibility-metadata`: Runtime v3 guardian/kernel source or captured compatibility metadata that does not acquire Runtime v2 authority.
+- `runtime-v3-source-or-release-gate-metadata`: Runtime v3 guardian/kernel source or release-gate metadata that does not acquire Runtime v2 authority.
 - `runtime-v3-proof`: Runtime v3 tests and parity contracts that prove Runtime v2 is preserved, not deleted, and not silently reused.
+- `runtime-v3-support-surface`: Runtime v3 support code, fixtures, generated baselines, or local helper surfaces without cross-generation authority transfer.
 - `runtime-docs`: milestone and runtime documentation references.
-- `dec-01-evidence`: DEC-01 manifest, validator, and lifecycle evidence.
+- `runtime-planning-docs`: runtime planning documents that reference Runtime v2/v3 topology without owning runtime source.
+- `dec-01-lifecycle-evidence`: DEC-01 manifest, validator, retained proof logs, and API-review evidence.
+- `dec-01-lifecycle-state`: DEC-01 typed lifecycle cards and issue state.
 
 Any reverse reference outside those dispositions fails the DEC-01 validator.
 

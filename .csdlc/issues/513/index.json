@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "dd695e8c7e0ea672e0820317c44809fb09cec9c687e6c3bd33e08e1039109639",
+  "generation": 13,
+  "digest": "5a93203e9dd9821dfa4eb17964f14277503c3589a4e9e6266206f150ec880877",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "77fbfb70812dcc6e2be8573af1a000dbb23d46ee81d4b8faa0e51642e23b350c",
+      "values_digest": "d215a7807f253c40db10c31df6314b91c2835a0ec337f7422454f6a7c7c8a26b",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "159df9691625fa059ac64ab24faf57024aa7f9539f3ad21002c58ef4790e3fe6",
+      "values_digest": "c1363584345958da87e9b95584b8a85be3d07f7e21491c8571c91db229f9f2f9",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "c3ec923b0c61cd0fd0580a99fcd1d311035dcde37a652645facff850b3ea024d",
+      "values_digest": "37917503c95e1a9134c5307b1af95bdba86af988f2edb04dc77fa3d9449fb8e0",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "b9ec0ce5cddc33c19d70eba6fc8a75fcad868b2706fe092d802012ce80b45c88",
+      "values_digest": "5cb0ca89bb8a5350f4b34cd37a10b489ffc1e33dbaf9a837c0efc0c7b8d0e162",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "a7d867fa026e5499f02f5a159e865b407d50e6298515cf31667fc1d749715d79",
+      "values_digest": "1022cb9e41a55a6af81db760a76bd5fcdd0985a29f3ca3dac3d33c2eabcd0d00",
       "rendered_digest": "03e88f3677bef8af4c9f730cf3457f0bc5c4a195cc6c37bd0bf4d69b88ff9441",
       "ast_digest": "1c24973c23f184bdc5fd4591a212c46605060fe551fbb8fbfd7f1f131d14bc81"
     },
     "sor": {
-      "values_digest": "2a77ea404dba444ced5263d77d63fe037ab663cd70091f4a0c5ad8a8e769c20b",
-      "rendered_digest": "e9d3af91801e80979087a444cf4949c0d02c36b2272522c95f574d8990895066",
-      "ast_digest": "4b0fa44e6042725b25b810be08ebfe72ec01514a60f2ff50e5da1d805b9210a5"
+      "values_digest": "ac97fc596ebf804134df59a135fb2274a3ed2e6c042f974d5f003e1bd3993cfc",
+      "rendered_digest": "fca1af0899a6d7004e3701774223a62b5d3fc3268d4a974b81865e358454bc50",
+      "ast_digest": "c9536bac31252eb5d5177ffd3dabdab1cbccd77f2871de7d82b0072bad37c7ed"
     }
   },
   "transitions": [
@@ -218,6 +218,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "Record validation after final OpenAI Responses API P1/P2 remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove closed manifest shape, exact shared-surface vocabulary, authoritative-disposition confinement, Runtime-v4 key/value exclusion, focused compatibility proofs, and expanded negative probes after final API review findings.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-final-api-remediation.log\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Record validation after OpenAI Responses API vocabulary-remediation finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove the documented reverse-reference disposition vocabulary matches the manifest and validator vocabulary after API re-review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-vocabulary-remediation.log\"}}"
     }
   ]
 }
