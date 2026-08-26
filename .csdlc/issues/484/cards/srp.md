@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/484
+.csdlc/prepared/issues/484
+.csdlc/evidence/484
+docs/milestones/v0.92.1/evidence/cloud/aws-a
+docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md
 
 ## Prompts
 
