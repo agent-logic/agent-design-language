@@ -11,7 +11,10 @@ absorbing child implementation or release authority.
   ancestral to current `main`.
 - #319 completed in its separate release-ceremony session. Its PR #479 is
   merged and green, its typed terminal cache is canonical, and its execution
-  worktree is cleaned. This packet did not execute its ceremony.
+  worktree is cleaned. After that closeout, the canonical check-only ceremony
+  was rerun from clean exact `main`; the immutable output and receipt are
+  retained under `.csdlc/evidence/307/`. No tag or GitHub release mutation was
+  authorized or performed.
 - #314 is an intentional review-only, no-PR closure. The retained WP-28A
   closeout plan classifies its typed finish and projectionless worktree cleanup
   as asynchronous, non-gating bookkeeping. This packet records
@@ -23,9 +26,11 @@ absorbing child implementation or release authority.
 
 ## Terminal boundary
 
-The final generated child-sequence evidence now passes the issue-owned terminal
-validator. #307 is ready for one fresh exact-head sprint review, publication,
-merge, typed finish, and cleanup.
+The final generated child-sequence evidence now binds retained exact review
+records, typed live PR/check readback, merge ancestry, successor handoffs,
+terminal receipts, and the post-merge #319 ceremony receipt. It passes the
+issue-owned terminal validator. #307 is ready for one fresh exact-head sprint
+review, publication, merge, typed finish, and cleanup.
 
 Historical projectionless preparation worktrees for #314 and #315 are retained
 because typed cleanup refused to infer ownership. They are not treated as live

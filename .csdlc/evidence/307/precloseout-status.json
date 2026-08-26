@@ -15,7 +15,10 @@
     "merge_sha": "aa5766d71864713b97210abdb5aa8e5c2481ed31",
     "terminal_digest": "8c5d001d2784824c08091fbd94aa75d378ac82d47f56aa9f8b5bc1ddc43d2115",
     "canonical_match": true,
-    "worktree_cleaned": true
+    "worktree_cleaned": true,
+    "final_ceremony_receipt": ".csdlc/evidence/307/issue-319-final-ceremony-receipt.json",
+    "final_ceremony_output_sha256": "a31da60da33a208c3fc00e1e9af1fab8d3e634b7b368f0588897bc81163938d9",
+    "release_mutation_performed": false
   },
   "terminal_reconciliation": {
     "canonical_cached": [268, 308, 309, 311, 312, 313, 315, 316, 317, 318, 319, 471],

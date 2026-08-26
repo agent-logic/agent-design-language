@@ -1,0 +1,22 @@
+{
+  "schema": "adl.issue307.github-pr-readback.v1",
+  "repository": "agent-logic/agent-design-language",
+  "observed_date": "2026-08-25",
+  "source": "typed csdlc-github-pr live readback",
+  "rows": [
+    {"issue":308,"pull_request":447,"head_sha":"528a870f26db42582c91f9c339ffffce1f8c79cb","merge_sha":"9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":309,"pull_request":460,"head_sha":"e6fd6cd6e297f267f4749b9e5b6adc5609fb7e64","merge_sha":"5b3657582fea2109f000623bb121b7998185ac0a","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":310,"pull_request":465,"head_sha":"ca78a65a1390f2bc088f8cf20018670d06e87068","merge_sha":"a06c34774ad88ea8c56a00533f0fcef810fa7441","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":311,"pull_request":466,"head_sha":"5d7b0a6cad5dc363c5790f9bbd70aaab1ee3b215","merge_sha":"035b249096c6a27a6e40af9435d6df8e35090000","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":312,"pull_request":469,"head_sha":"9745d789a7fac37e39a531698881fbdf21b1848f","merge_sha":"c6792e54df1db5969fa28c59b6dfe4c714ed5559","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":313,"pull_request":470,"head_sha":"99cf417e5a146c2007249b60ce9ba8a7b297c2f5","merge_sha":"c666ff3d411e6062d5cc5750d2f88be9efbcd673","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":315,"follow_on_issue":476,"pull_request":477,"head_sha":"9ba0a8ffbd10bb7719ec004ab07ec6fe63a47380","merge_sha":"19d479541df4f58e9a40f09f6711593f7829a1d3","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":316,"pull_request":472,"head_sha":"8478f11e21a34530ba07bf64afc260e7a6eedd33","merge_sha":"5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":317,"pull_request":474,"head_sha":"b7d12f4cf0b8657c324d0354e8812c7a57c9806f","merge_sha":"5b035094725d1872b48dda8692ef88f46487f37c","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":318,"pull_request":478,"head_sha":"4dd782df9f375f441632a0ff38f0a3c4fd024b93","merge_sha":"737257211b08ac90bdb9a2537455de17ac5df1a3","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"},
+    {"issue":319,"pull_request":479,"head_sha":"d394671a84c6a1ae20d0109c7c873a7fd800aa3d","merge_sha":"aa5766d71864713b97210abdb5aa8e5c2481ed31","state":"closed","merged":true,"adl_ci":"success","adl_coverage":"success","adl_path_policy":"success"}
+  ],
+  "no_pr_dispositions": [
+    {"issue":314,"disposition":"external_review_input_no_closing_pr","reviewed_head":"3eb2aa93761c6ce94cd28241380e008525af0e5d","integration_merge":"e43efbca80cece11b543d931655febd50dfdc755","validation":"docs/reviews/v0.92/external-review-5847/validation.json","handoff":"docs/reviews/v0.92/external-review-5847/HANDOFF_TO_315.md"}
+  ]
+}

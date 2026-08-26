@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "71afe3596ddc35a8c141ce3201ea48077353fabb12757d8f4ba69e6b8fafa207",
+  "generation": 14,
+  "digest": "d17237ecfcf385a60ae5482309f7a8c50986b9a1d8d24d64833ee17b314ab199",
   "branch": "codex/307-v092-quality-release-tail-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1766c0676e32ae42b50d13c56ef9cae07be5d19339de59ba5818686f2cf4a6ba",
+      "values_digest": "b1b7fc2510225ae628754129a7eae30a87697c749e07d8b6f3b94d0665e7bb1e",
       "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
       "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
     },
     "stp": {
-      "values_digest": "9110f720b721f6ff6ad2d7e97e079b7f1c8e2e01281809ecc8819bf8650af142",
+      "values_digest": "3fd006ad8fe0b78245048363eebf85460661992088905597c6467ba3912f34bc",
       "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
       "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
     },
     "spp": {
-      "values_digest": "74a2c7d47d190e6afeb36878c567559ea56edad6d8a66086cad7d934f823c37d",
+      "values_digest": "87481aa33a617d10589538ccdabc51af968a4019c259af6d2bc8e083c8fdab44",
       "rendered_digest": "81883f08e984fb441950825f45d68e364fa94fd8d9ca9352e50852f9df7a3a6e",
       "ast_digest": "1dbfb17b19fd053ff598cf438c6dce55b6522876103fd50206c3d2b93f7c2e3e"
     },
     "vpp": {
-      "values_digest": "3b87d169db59a46ce4e6e291a3ba9a67acc8bc0d9134b15baed64e68b9cb3174",
+      "values_digest": "c3179b332cf1c1cdd73c43f2020703f66961ad36899fc8448ec37a4c8453ff92",
       "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
       "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
     },
     "srp": {
-      "values_digest": "dff31ad02f1f4c71f4242e71d7fa1b36f915aa41524baad4c1640601f1d3522d",
+      "values_digest": "348217310f782d62ded9dd8173ecd33512411dfaa8c4731642a9c8397be0ea90",
       "rendered_digest": "d35f2c74801aca74fb163e005ecf6183281a55eeb749db1bcc39785f0a0903e7",
       "ast_digest": "4761227ae8ccaa3d4105d64163740935c75e3395572da17b5c303d9b33c7d54e"
     },
     "sor": {
-      "values_digest": "1340395794cd0ef196c7f1caac61e97fe709c0c7f8bb206c173f68619fa393a9",
-      "rendered_digest": "89c6489a3f4ea21214729ffb09e18483667d8dc70601d20fe8e87a99a8e323b6",
-      "ast_digest": "5b2af6dba9477982e0733adaacb0dee01f89d8ccc148d9c4a3a23b64a2e98f6d"
+      "values_digest": "a13986131b006f80469dff560b1b21440d3cec54ac65adcbde289b17790db8d3",
+      "rendered_digest": "3eb6f1a9f071905c78a7eed5ac92f0e558a6eb776cbd456702499159cef19070",
+      "ast_digest": "fa59f908de816ed0acbc3ca3006f57fc50d7c59022a540ac0a943c672a82235a"
     }
   },
   "transitions": [
@@ -169,6 +169,27 @@
       "actor": "codex:/root/issue-307-closeout",
       "reason": "Record the corrected and now executable child-merge ancestry proof after detecting the non-ancestral WP-26 intake source commit.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/prepared/issues/307/validate_child_sequence.py\",\"--terminal\"],\"purpose\":\"Resolve every reviewed and merge SHA as a commit and prove every child integration merge is ancestral to origin/main, including the WP-26 intake integration through WP-27.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record remediation of the fresh exact-head review's missing final ceremony receipt and self-asserted evidence findings.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Retained the clean-main post-merge #319 ceremony receipt and output, added typed live PR/check readback, bound exact review evidence and publication heads, represented WP-27 through its reviewed #476 follow-on, and made the terminal validator execute those evidence checks.\",\"changes\":[\"Retained the exact clean-main check-only ceremony output and immutable #319 final receipt under #307-owned evidence without tag or release mutation.\",\"Added typed live readback for every merged child PR and disposition-specific no-PR evidence for #314.\",\"Strengthened the terminal validator to bind review evidence, publication heads, green checks, merge ancestry, successor handoffs, terminal receipts, and the final ceremony output digest.\"],\"artifacts\":[\".csdlc/evidence/307/github-pr-readback.json\",\".csdlc/evidence/307/issue-319-final-ceremony.log\",\".csdlc/evidence/307/issue-319-final-ceremony-receipt.json\",\".csdlc/prepared/issues/307/validate_child_sequence.py\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record passing executable evidence-binding validation after exact-head review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json\",\"python3 -m json.tool .csdlc/evidence/307/issue-319-final-ceremony-receipt.json\",\"git diff --check\"],\"purpose\":\"Prove the final receipt/output digest, retained review evidence, live merged PR/check readback, no-PR disposition, terminal caches, ancestry, handoffs, and artifact syntax.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-319-final-ceremony-receipt.json\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record redacted final ceremony receipt digest and packet path-hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"shasum -a 256 .csdlc/evidence/307/issue-319-final-ceremony.log\",\"! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307\",\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\"],\"purpose\":\"Bind the redacted immutable ceremony output digest, prove no host-absolute path remains in the publishable packet, and revalidate the terminal evidence graph.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/issue-319-final-ceremony-receipt.json\"}}"
     }
   ]
 }
