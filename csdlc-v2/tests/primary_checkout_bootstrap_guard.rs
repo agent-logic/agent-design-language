@@ -148,6 +148,24 @@ fn primary_checkout_bootstrap_rejects_before_issue_residue() {
 }
 
 #[test]
+fn primary_subdirectory_bootstrap_rejects_before_issue_residue() {
+    let temp = tempfile::tempdir().unwrap();
+    init_repo(temp.path());
+    let subdir = temp.path().join("docs");
+
+    let error = initialize_native_json(
+        &Store::new(&subdir),
+        &serde_json::to_vec(&bootstrap_request()).unwrap(),
+    )
+    .expect_err("primary checkout subdirectory bootstrap should fail");
+
+    assert_eq!(error.code, ErrorCode::UnsafeCheckout);
+    assert!(error.message.contains("primary checkout"));
+    assert_no_issue_residue(temp.path());
+    assert_no_issue_residue(&subdir);
+}
+
+#[test]
 fn non_primary_checkout_bootstrap_succeeds_and_is_idempotent() {
     let temp = tempfile::tempdir().unwrap();
     let primary = temp.path().join("primary");

@@ -5,12 +5,50 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0b8aa5c966363ac9cf55e79de078ee6483310794407cf840b79dd74fbede4428",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "64f91d9c2509210de3b317214a2d6fcdb2925716f62b7fb4e6b10e951c4bb944",
+  "generation": 11,
+  "digest": "3b167a97e207dae6993418a4ea3e2481622a961009ae1351d24a84896a8ed408",
   "branch": "codex/544-primary-checkout-bootstrap-guard",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-544-primary-checkout-bootstrap-guard",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:01a03f33-6211-7253-bf25-d178afac8962",
+    "assigned_by": "codex:issue-544-implementation",
+    "revision": "git-blake3:22400c62ddd206c08db6331a8d95016cd237fb11:a9f447d829f602057c275d4aaefff590aab30a45ea00588072beb2d86ea6f992",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+      "docs/onboarding.md",
+      "csdlc-v2/README.md",
+      ".csdlc/issues/544",
+      ".csdlc/prepared/issues/544"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a03f33-6211-7253-bf25-d178afac8962",
+    "scope": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+      "docs/onboarding.md",
+      "csdlc-v2/README.md",
+      ".csdlc/issues/544",
+      ".csdlc/prepared/issues/544"
+    ],
+    "reviewed_revision": "git-blake3:22400c62ddd206c08db6331a8d95016cd237fb11:a9f447d829f602057c275d4aaefff590aab30a45ea00588072beb2d86ea6f992",
+    "findings": [
+      {
+        "id": "REV-544-P1-PRIMARY-SUBDIR-BYPASS",
+        "severity": "p1",
+        "summary": "Primary-checkout bootstrap can be bypassed by invoking csdlc-issue create with --root set to a subdirectory of the primary checkout because the guard compares the supplied root directly to the primary worktree root instead of Git's resolved top-level.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c47a71bf63a99ef82bf405547ed0afa555b1d8a9f65fbf2398d5cf29b069acc5",
+      "values_digest": "91d575ab82cea14360fb3880d5258417e1a209210ae63b429aeb5912c99eef9e",
       "rendered_digest": "f9200e94d5b34c2683ed23c3adc5ae63d885fa5978819ebd35ba399294faf352",
       "ast_digest": "4b3853cbf5df7b759c44da8fcd07307b864f0c2fe29efef887d7456d53450752"
     },
     "stp": {
-      "values_digest": "6e3b7e80888eb67a44247341a90573fa1db18c65415498111ef9085521b31775",
+      "values_digest": "7f50d9d1a53b2d26d213b17bb41c4611d62e1402f3298f340c48c528eab250a6",
       "rendered_digest": "3625c11b15677727953342f978ba6b0572b026124b599c7b7e388a605d7678c9",
       "ast_digest": "62d39e800a0030b76803f92508674a830d47bbfc9ca1540e2c7938cdaf0f3db5"
     },
     "spp": {
-      "values_digest": "639add48883cabbd9691cb71fac0b4c7b762bbba82fc75662e24bebed89f28e5",
+      "values_digest": "1311aee7b323add40ff114d92b4c09b23474ce4eca8e5564d80823342be03fe5",
       "rendered_digest": "5dde310b510d8b331dc7ba365335d838fdc1fa76002c25f33ae6ba70ca39b527",
       "ast_digest": "e64170bf5270c8928bcf75e5a8171cd06a46dd7fbf4aa3ad600a6b1f26edc07a"
     },
     "vpp": {
-      "values_digest": "b03c3f8794965267a48ee2b0350aeca94a5d20c0f7be9cf3bbaa8951313c6db1",
+      "values_digest": "89dd8bf9562a47b6b5d6e69df03ac300a11b0208b6b10506514b661183799c78",
       "rendered_digest": "8c5bfd1bba767ce996acbdc88f5eb793e2fb346105e71f1b5aa5c237c763e37c",
       "ast_digest": "d5ed78f8e12dd41b147bf0f532d72e228928b3064193bd569a7659d2002363eb"
     },
     "srp": {
-      "values_digest": "64c4d2f226ea1147629ebdbdb7dc854047b563bd5449aab71009b40abf524c72",
-      "rendered_digest": "157a98dcbf77cdfc5ae5ec8c5024e81c9a43ceb3e09c3f4e947164b3d996ad55",
-      "ast_digest": "27fd4c5a807308aaba0f71438f407a65bf1b670a98ac8dad1d6452d42df5e4d1"
+      "values_digest": "f3e3ee0b8851044749283075bcefdb3b4c221b6e163fdde02375df99bbaa7dee",
+      "rendered_digest": "5917247f978d86dd84302ea749c47641936ffdee25cf174babd43672d957fa31",
+      "ast_digest": "13ecbfb16a9207d1c49d64dafd0ff6305606f634131049b298c0ef488a44397a"
     },
     "sor": {
-      "values_digest": "6405d3bc81df08445a677e1f7d05200e9da422c18220282df1720bfcaa9a7c52",
-      "rendered_digest": "e9b3b017735f952132117a56b3cee8d02195d528b193aef42744ec3f70083c90",
-      "ast_digest": "90c27b682ebd17ac24a9dd18f22c7c4824a0de8b4a110646ae5c22859b9117d2"
+      "values_digest": "a87bb80e0f69b7fe36010c0979c5a598f1d542ed16c0aca69bc5a8882e9a397c",
+      "rendered_digest": "c5f25b801c0d53ed87bebdd8f3c0d4341372c785f33a2d6217b4f29bb1ae1230",
+      "ast_digest": "ed5352870840d4c2ac6754aab0dd9c2809125de80bafa3c25aae717a832e1316"
     }
   },
   "transitions": [
@@ -148,6 +186,34 @@
       "actor": "codex:issue-544-implementation",
       "reason": "implementation and focused validation are complete",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-544-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "fresh-session:01a03f33-6211-7253-bf25-d178afac8962",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:issue-544-review-fix",
+      "reason": "record remediation for exact-head review finding",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved review finding REV-544-P1-PRIMARY-SUBDIR-BYPASS by comparing the invocation Git top-level to the primary worktree and adding a primary-subdirectory zero-residue regression test.\",\"changes\":[\"reject_primary_checkout_bootstrap now resolves `git rev-parse --path-format=absolute --show-toplevel` before comparing to the topology primary checkout.\",\"initialize_native_json runs the primary-checkout guard before native registry validation so primary subdirectory invocations fail before reads or writes.\",\"primary_checkout_bootstrap_guard.rs now covers primary subdirectory rejection with zero issue residue.\"],\"artifacts\":[\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/primary_checkout_bootstrap_guard.rs\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:issue-544-validation",
+      "reason": "record focused validation after review remediation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"primary_checkout_bootstrap_guard\"],\"purpose\":\"Focused integration proof after review remediation, including primary subdirectory rejection and zero residue.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output after remediation: 4 passed, 0 failed\"}}"
     }
   ]
 }

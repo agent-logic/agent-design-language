@@ -254,9 +254,22 @@ fn reject_primary_checkout_bootstrap(root: &Path, repository: &str) -> Result<()
     if !requires_worktree_policy(repository) {
         return Ok(());
     }
-    let invocation = root
-        .canonicalize()
-        .map_err(|error| unsafe_checkout(format!("canonicalize bootstrap checkout: {error}")))?;
+    let invocation = git::run(
+        root,
+        &["rev-parse", "--path-format=absolute", "--show-toplevel"],
+    )
+    .map_err(|error| {
+        unsafe_checkout(format!(
+            "cannot determine bootstrap checkout top-level: {}",
+            error.message
+        ))
+    })?
+    .stdout;
+    let invocation = PathBuf::from(invocation).canonicalize().map_err(|error| {
+        unsafe_checkout(format!(
+            "canonicalize bootstrap checkout top-level: {error}"
+        ))
+    })?;
     let listed = git::worktrees(root).map_err(|error| {
         unsafe_checkout(format!(
             "cannot determine Git worktree topology before bootstrap: {}",
@@ -648,6 +661,7 @@ pub fn initialize_native_json(store: &Store, bytes: &[u8]) -> Result<crate::Issu
         ));
     }
     let request: BootstrapRequest = serde_json::from_value(value)?;
+    reject_primary_checkout_bootstrap(store.root(), &request.repository)?;
     crate::registry::validate_native_registry(store.root())?;
     initialize_issue(store, request)
 }
@@ -1030,7 +1044,7 @@ mod fastwork_policy_tests {
         assert_eq!(error.code, ErrorCode::UnsafeCheckout);
         assert!(error
             .message
-            .contains("cannot determine Git worktree topology"));
+            .contains("cannot determine bootstrap checkout top-level"));
     }
 
     #[test]

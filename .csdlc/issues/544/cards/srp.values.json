@@ -7,15 +7,15 @@
     "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
     "slug": "v0-92-1-csdlc-primary-checkout-bootstrap-guard",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #544 lifecycle guard, focused tests, operator docs, and lifecycle records at exact head.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/lifecycle.rs\ncsdlc-v2/tests/primary_checkout_bootstrap_guard.rs\ndocs/onboarding.md\ncsdlc-v2/README.md\n.csdlc/issues/544\n.csdlc/prepared/issues/544",
+      "review_revision": "git-blake3:22400c62ddd206c08db6331a8d95016cd237fb11:a9f447d829f602057c275d4aaefff590aab30a45ea00588072beb2d86ea6f992",
+      "reviewer": "fresh-session:01a03f33-6211-7253-bf25-d178afac8962",
       "review_prompts": [
         "Does the guard use Git topology authority rather than branch heuristics?",
         "Does the guard run before all initialization writes, including design, diagram, issue, prepared, and lock surfaces?",
@@ -24,9 +24,20 @@
         "Does it leave csdlc-bind FastWork policy unchanged?",
         "Are tests isolated from the real repository and do they prove zero residue?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "REV-544-P1-PRIMARY-SUBDIR-BYPASS",
+          "severity": "p1",
+          "summary": "Primary-checkout bootstrap can be bypassed by invoking csdlc-issue create with --root set to a subdirectory of the primary checkout because the guard compares the supplied root directly to the primary worktree root instead of Git's resolved top-level.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }
