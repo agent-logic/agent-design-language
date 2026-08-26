@@ -7,7 +7,7 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 4
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -16,10 +16,10 @@
       "goal": "After the distributed Runtime is terminal and a separate operator authorizes AWS, expose the exact Observatory and matching Runtime gateway through bounded business-account infrastructure.",
       "required_outcome": "Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress provide ordinary browser trust, exact revision parity, governed access, rollback, and ownership proof without private-state exposure.",
       "declared_scope": [
-        "infra/aws/public-observatory/**",
-        "adl/tools/validate_public_observatory_exposure.sh",
-        "adl/tools/validate_public_runtime_gateway.sh",
-        "docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md",
+        "infra/aws/csm-public-edge/**",
+        "adl/tools/validate_csm_public_edge_static.sh",
+        "adl/tools/validate_csm_public_edge_live.sh",
+        "docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md",
         ".csdlc/issues/122/**",
         ".csdlc/prepared/issues/122/**",
         ".csdlc/evidence/122/**"

@@ -100,12 +100,29 @@ variable "websocket_path_pattern" {
   description = "CloudFront path pattern for public WSS traffic."
   type        = string
   default     = "/v1/observatory/ws*"
+
+  validation {
+    condition     = startswith(var.websocket_path_pattern, "/") && strcontains(var.websocket_path_pattern, "*")
+    error_message = "websocket_path_pattern must be a CloudFront path pattern such as /v1/observatory/ws*."
+  }
 }
 
 variable "additional_allowed_origins" {
-  description = "Additional exact browser origins allowed for CORS/WSS beyond the Observatory hostname."
+  description = "Additional exact browser origins allowed for CORS/WSS beyond the Observatory hostname. Use exact scheme://host[:port] origins only; wildcards and paths are rejected."
   type        = list(string)
   default     = []
+
+  validation {
+    condition = alltrue([
+      for origin in var.additional_allowed_origins :
+      !strcontains(origin, "*")
+      && (
+        can(regex("^https://[A-Za-z0-9][A-Za-z0-9.-]*(:[0-9]{1,5})?$", origin))
+        || can(regex("^http://localhost(:[0-9]{1,5})?$", origin))
+      )
+    ])
+    error_message = "additional_allowed_origins must contain exact https://host[:port] origins, or http://localhost[:port] for local development; wildcards, paths, and patterns are not allowed."
+  }
 }
 
 variable "waf_rate_limit" {

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "ce019672d2fe653923028706334d8bba7601c9409914a4b26494b521d4f5de33",
+  "generation": 11,
+  "digest": "3d64a41d35e79694e75a9156ec758219c776640b46fd87068e87d30a9caa39f5",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "75392aa95a84841c3f5dcc168309107b8728c8355102832f724a4fc273151da1",
-      "rendered_digest": "cd12ee5641d38d3bd2e1945212425c319e086675af0ec5170898707db64d292a",
-      "ast_digest": "9b5408522cb87aed403bc16f61cdd97e784e50f5454714eeb79ae8ca857fb0ea"
+      "values_digest": "327a7101cbefad7c438ba0480170067e94f333ebf179bc705bfb24f60a7f760a",
+      "rendered_digest": "f79956e706f3bc59e9419883fd5c0d67ef91f9420af276159c89b6e85fb82f7a",
+      "ast_digest": "a3b61442d79225ddcdf144d5d1bcaa0b7e05672bed049ccf1a66e9e256662c52"
     },
     "stp": {
-      "values_digest": "bc7fbe4df3818d6f242d67e3809041949241b0c90e0ae0475daedd702d0a3bce",
-      "rendered_digest": "361ff93b0e1e61d9f92b5a14ad007a42ae0828cefcaaac058d68f27792959ca7",
-      "ast_digest": "a2808dfa07211e20ffe81ad241ffccb00062fd49bcd6aafd0461dd0519f5994c"
+      "values_digest": "de0707d0737cadce55988223734a4b939977e50a30f058d01bdbc0867917f365",
+      "rendered_digest": "cb01b5f57d393d55d9c8b7ec487a64c3f993476859f30818eeccdc11c0b0c493",
+      "ast_digest": "662b0fc639848571dce874e845e76bf05ca08f6fa58f0419a27b0772ea84b969"
     },
     "spp": {
-      "values_digest": "7222255535ea5c7d0d48798094febe589d639b688d8a64ee5c3c1468783dffb1",
-      "rendered_digest": "cdced21297dacb45fae0e5a33d01417fc34e3a37beb92c2fedf2089068131907",
-      "ast_digest": "305f66418ecff6b46a8f90f4eb244a7509f94176e773522b5d063e5b4b1184cc"
+      "values_digest": "8b8192a5e0aaacc32150bd3c722df615062bdca12da3306622b0f79e4630c203",
+      "rendered_digest": "6ff1d54056afd10200b7cd1667ab84f13cfc2de34c77fcf0f382d32e28fbd45f",
+      "ast_digest": "c1634a33641f81c03bf7bb6632aba6030f5c343805fcce0b20a1e5252e331f9a"
     },
     "vpp": {
-      "values_digest": "aa04d12ac64b6d9acb5cf31a80145536be919ae151d99ef8abeafb705e0b4e3f",
-      "rendered_digest": "54884b946276e73ff76a987aca011bc8a01fc8f3338c8d06081d4cc634cf3acd",
-      "ast_digest": "6790beddbe97c9ce51ac664e4cdd26451c7d19554bf19e02d1857fd2295cfbb1"
+      "values_digest": "e0a89097cba1e3b25b994553e118b9fc102f05443678d2c710f83c0c41345b97",
+      "rendered_digest": "7063fd11aa091255eea71053b22a442efce3d6c22791107788147e39b66d8b04",
+      "ast_digest": "a0f3349650c6eefe8db188f8466f392561b6944abe635db2836ba3d1b32518bf"
     },
     "srp": {
-      "values_digest": "687643e1ba56cf9ba15118ff8a116d719b038d21bba8d7f5b567be85ac2fa5ba",
+      "values_digest": "2177ace21863eaebb304c0c95b5fd2316c5fc77494c87f032a7b520f8c1b788e",
       "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
       "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
     },
     "sor": {
-      "values_digest": "66752876dc27fedc2a178e81d112094bec664ae979caee94ea453cbbc7e8db4a",
-      "rendered_digest": "fa5f2898e7c6b2f0f9510c241efc762736a6c949266a9ed1191337ff345cd03c",
-      "ast_digest": "cb07b2344cb6b190fe20f3c1e7f5bb8fc4ad979ca533b2addc5edd20b4fd0cfb"
+      "values_digest": "7308d0489bec4fa698573d46978c0240f89ce278e44da61f37d5bcf999254dbb",
+      "rendered_digest": "cb1532937c3dac18a2d3aacdecd6ae53ec4fff5900e3680fa804f627abe8211a",
+      "ast_digest": "3e9796f7123bcff5eb15e2ab549d3ffedb46e2e7a3a01850901fb00829dbdace"
     }
   },
   "transitions": [
@@ -127,6 +127,62 @@
       "actor": "codex:/root",
       "reason": "Interrupted silent assignment-only reviewer fresh-session:e4f23ffc-4054-4cfd-8c06-ac011aa38fd3 after bounded waits; no verdict was returned, so clear review_assignment before assigning a different fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover exact-head review fresh-session:f996da23-5360-4cbb-854c-ab092995e2aa before remediating actionable P2/P3 findings on CORS origin validation, WSS path-pattern truth, and SOR implemented status.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Resolve exact review P3 by normalizing SOR rendered status after typed review recovery; issue is implemented with recorded execution and validation evidence but not published or terminal.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Resolve #122 implemented-phase VPP drift after review recovery by replacing stale public-observatory validator names with available CSM public-edge Terraform validation lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csm-public-edge-static\",\"proof_role\":\"Validate the #122 Terraform public-edge module is formatted, provider-initializable, syntactically valid, Terraform-only, native-WSS-capable, exact-origin guarded, and free of authored compute/NAT/CodeBuild resources.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/validate_csm_public_edge_static.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csm-public-edge-additional-origins-smoke\",\"proof_role\":\"Retain evidence that exact additional allowed origins are accepted and wildcard origins fail closed before API Gateway CORS configuration.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"console\"],\"parallel_group\":\"local\",\"defer_reason\":\"Executed manually as a console smoke with exact -var inputs; retained in .csdlc/evidence/122/additional-origins-validation.md because terraform console is interactive.\"},{\"lane\":\"csm-public-edge-live-apply-gated\",\"proof_role\":\"Operator-authorized live proof of DNS, ACM, HTTPS, WSS reachability, exact origin behavior, business-account ownership, and absence of forbidden compute after reviewed terraform plan/apply authority.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"bash\",\"adl/tools/validate_csm_public_edge_live.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Live AWS apply and Runtime endpoint proof require separate operator approval and configured deployed endpoints; no live apply is claimed in this PR.\"},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts across #122 Terraform, documentation, validation, evidence, and lifecycle surfaces.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Resolve #122 implemented-phase validator target drift after review recovery by replacing stale STP deliverables with actual CSM public-edge Terraform, docs, validator, and evidence paths.",
+      "operation": "{\"new_values\":[\"infra/aws/csm-public-edge/versions.tf\",\"infra/aws/csm-public-edge/variables.tf\",\"infra/aws/csm-public-edge/locals.tf\",\"infra/aws/csm-public-edge/main.tf\",\"infra/aws/csm-public-edge/outputs.tf\",\"infra/aws/csm-public-edge/terraform.tfvars.example\",\"infra/aws/csm-public-edge/.terraform.lock.hcl\",\"infra/aws/csm-public-edge/README.md\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/additional-origins-validation.md\",\".csdlc/evidence/122/gemini-remediation-review.result.json\",\".csdlc/evidence/122/gemini-remediation-review.log\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"infra/aws/public-observatory/main.tf\",\"infra/aws/public-observatory/variables.tf\",\"adl/tools/validate_public_observatory_exposure.sh\",\"adl/tools/validate_public_runtime_gateway.sh\",\"docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md\"],\"recovery_generation\":6,\"recovery_sequence\":10}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Post-review #122 recovery: align SIP issue-owned scope with the approved CSM public edge Terraform module, validators, docs, and evidence so implemented-phase validation can reason over current ownership without absorbing unrelated public-observatory paths.",
+      "operation": "{\"new_values\":[\"infra/aws/csm-public-edge/**\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\".csdlc/issues/122/**\",\".csdlc/prepared/issues/122/**\",\".csdlc/evidence/122/**\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"infra/aws/public-observatory/**\",\"adl/tools/validate_public_observatory_exposure.sh\",\"adl/tools/validate_public_runtime_gateway.sh\",\"docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md\",\".csdlc/issues/122/**\",\".csdlc/prepared/issues/122/**\",\".csdlc/evidence/122/**\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Align #122 implemented-phase SPP affected areas with the current CSM public edge Terraform module, validators, docs, and retained remediation evidence after typed review recovery.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/csm-public-edge/versions.tf\",\"infra/aws/csm-public-edge/variables.tf\",\"infra/aws/csm-public-edge/locals.tf\",\"infra/aws/csm-public-edge/main.tf\",\"infra/aws/csm-public-edge/outputs.tf\",\"infra/aws/csm-public-edge/terraform.tfvars.example\",\"infra/aws/csm-public-edge/.terraform.lock.hcl\",\"infra/aws/csm-public-edge/README.md\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\".csdlc/prepared/issues/122/terraform-execution-plan.md\",\".csdlc/evidence/122/additional-origins-validation.md\",\".csdlc/evidence/122/gemini-remediation-review.result.json\",\".csdlc/evidence/122/gemini-remediation-review.log\"]}"
     }
   ]
 }

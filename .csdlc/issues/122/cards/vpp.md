@@ -24,10 +24,11 @@ Diagram: .csdlc/prepared/issues/122/diagram.mmd
 
 [
   {
-    "lane": "public-exposure-policy",
-    "proof_role": "Exact issue-owned local policy target for serial gates, non-gating topology, resource allowlist, forbidden compute, canonical hostnames, origin policy, revision binding, redaction, ownership, rollback, cleanup, and review prerequisites.",
+    "lane": "csm-public-edge-static",
+    "proof_role": "Validate the #122 Terraform public-edge module is formatted, provider-initializable, syntactically valid, Terraform-only, native-WSS-capable, exact-origin guarded, and free of authored compute/NAT/CodeBuild resources.",
     "acceptance_ids": [
       "AC-1",
+      "AC-2",
       "AC-3",
       "AC-4",
       "AC-5",
@@ -38,19 +39,18 @@ Diagram: .csdlc/prepared/issues/122/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 600,
-    "budget_tokens": 4000,
+    "budget_seconds": 180,
+    "budget_tokens": 2500,
     "argv": [
       "bash",
-      "adl/tools/validate_public_observatory_exposure.sh",
-      "--local-only"
+      "adl/tools/validate_csm_public_edge_static.sh"
     ],
     "parallel_group": "local",
-    "defer_reason": "Issue-owned target is intentionally created only after the distributed Runtime is terminal and separate operator AWS authorization exists."
+    "defer_reason": null
   },
   {
-    "lane": "public-runtime-gateway-policy",
-    "proof_role": "Exact issue-owned local gateway target for HTTPS, WSS, authentication, CORS, origin, rate-limit, redaction, health, and revision contracts.",
+    "lane": "csm-public-edge-additional-origins-smoke",
+    "proof_role": "Retain evidence that exact additional allowed origins are accepted and wildcard origins fail closed before API Gateway CORS configuration.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
@@ -58,19 +58,19 @@ Diagram: .csdlc/prepared/issues/122/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 600,
-    "budget_tokens": 4000,
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
     "argv": [
-      "bash",
-      "adl/tools/validate_public_runtime_gateway.sh",
-      "--local-only"
+      "terraform",
+      "-chdir=infra/aws/csm-public-edge",
+      "console"
     ],
     "parallel_group": "local",
-    "defer_reason": "Issue-owned target is intentionally created only after the distributed Runtime is terminal and separate operator AWS authorization exists."
+    "defer_reason": "Executed manually as a console smoke with exact -var inputs; retained in .csdlc/evidence/122/additional-origins-validation.md because terraform console is interactive."
   },
   {
-    "lane": "authorized-live-public-proof",
-    "proof_role": "Operator-authorized live proof of DNS, ACM, HTTPS, WSS, exact revision parity, business-account ownership, rollback, cleanup, and absence of forbidden compute.",
+    "lane": "csm-public-edge-live-apply-gated",
+    "proof_role": "Operator-authorized live proof of DNS, ACM, HTTPS, WSS reachability, exact origin behavior, business-account ownership, and absence of forbidden compute after reviewed terraform plan/apply authority.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -85,15 +85,14 @@ Diagram: .csdlc/prepared/issues/122/diagram.mmd
     "budget_tokens": 10000,
     "argv": [
       "bash",
-      "adl/tools/validate_public_observatory_exposure.sh",
-      "--live"
+      "adl/tools/validate_csm_public_edge_live.sh"
     ],
     "parallel_group": "live",
-    "defer_reason": "Live AWS proof is prohibited until distributed Runtime terminal state and separate operator authorization; this preparation performs no AWS action."
+    "defer_reason": "Live AWS apply and Runtime endpoint proof require separate operator approval and configured deployed endpoints; no live apply is claimed in this PR."
   },
   {
     "lane": "issue-diff-hygiene",
-    "proof_role": "Reject malformed whitespace and patch artifacts in the eventual issue implementation.",
+    "proof_role": "Reject malformed whitespace and patch artifacts across #122 Terraform, documentation, validation, evidence, and lifecycle surfaces.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -106,7 +105,7 @@ Diagram: .csdlc/prepared/issues/122/diagram.mmd
       "diff",
       "--check"
     ],
-    "parallel_group": "static",
+    "parallel_group": "local",
     "defer_reason": null
   }
 ]
@@ -123,9 +122,9 @@ Tokens: 50000
 
 ## Commands
 
-- `bash adl/tools/validate_public_observatory_exposure.sh --local-only`
-- `bash adl/tools/validate_public_runtime_gateway.sh --local-only`
-- `bash adl/tools/validate_public_observatory_exposure.sh --live`
+- `bash adl/tools/validate_csm_public_edge_static.sh`
+- `terraform -chdir=infra/aws/csm-public-edge console`
+- `bash adl/tools/validate_csm_public_edge_live.sh`
 - `git diff --check`
 
 ## Failure Semantics

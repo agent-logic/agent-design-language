@@ -17,6 +17,11 @@ The first implementation creates three public edge surfaces:
 - `wss.<csm>.<env>` for native WebSocket traffic through CloudFront to a
   WSS-capable Runtime origin.
 
+Additional browser origins are supported through exact-origin allowlist values
+for operator/development workflows. The Terraform module rejects wildcard,
+pattern, path, and query-bearing origins before they can become API Gateway CORS
+configuration.
+
 All AWS-managed public certificates come from ACM. CloudFront viewer
 certificates are in `us-east-1`; any regional AWS listener certificates are
 regional ACM certificates. Non-AWS hosts that terminate origin TLS directly need

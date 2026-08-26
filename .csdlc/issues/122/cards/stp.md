@@ -16,11 +16,21 @@ Prepare now; only after all serial gates may a separately authorized session imp
 
 ## Deliverables
 
-- infra/aws/public-observatory/main.tf
-- infra/aws/public-observatory/variables.tf
-- adl/tools/validate_public_observatory_exposure.sh
-- adl/tools/validate_public_runtime_gateway.sh
-- docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md
+- infra/aws/csm-public-edge/versions.tf
+- infra/aws/csm-public-edge/variables.tf
+- infra/aws/csm-public-edge/locals.tf
+- infra/aws/csm-public-edge/main.tf
+- infra/aws/csm-public-edge/outputs.tf
+- infra/aws/csm-public-edge/terraform.tfvars.example
+- infra/aws/csm-public-edge/.terraform.lock.hcl
+- infra/aws/csm-public-edge/README.md
+- adl/tools/validate_csm_public_edge_static.sh
+- adl/tools/validate_csm_public_edge_live.sh
+- docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md
+- .csdlc/prepared/issues/122/terraform-execution-plan.md
+- .csdlc/evidence/122/additional-origins-validation.md
+- .csdlc/evidence/122/gemini-remediation-review.result.json
+- .csdlc/evidence/122/gemini-remediation-review.log
 
 ## Acceptance
 

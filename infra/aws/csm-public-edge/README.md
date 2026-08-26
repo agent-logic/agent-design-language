@@ -29,6 +29,23 @@ API Gateway HTTP API is not used for WSS. API Gateway WebSocket API is a later
 adapter-mode option only after Runtime connection-id and `@connections`
 semantics are designed and reviewed.
 
+## Operator-configurable origins
+
+`additional_allowed_origins` is intentionally supported for same-day operator
+workflows where the Observatory UI is served from a separate exact browser
+origin. Values must be exact origins only:
+
+- `https://host[:port]`
+- `http://localhost[:port]` for local development
+
+Wildcards, paths, query strings, and origin patterns fail Terraform variable
+validation before reaching API Gateway CORS.
+
+`websocket_path_pattern` controls the ordered CloudFront WSS behavior path, with
+`/v1/observatory/ws*` as the default. The WSS distribution still has a default
+WSS origin behavior so the dedicated `wss.*` hostname can be used without
+sharing the HTTP API distribution.
+
 ## Validation
 
 Static validation:

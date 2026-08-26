@@ -440,6 +440,17 @@ resource "aws_cloudfront_distribution" "wss" {
     compress                 = false
   }
 
+  ordered_cache_behavior {
+    path_pattern             = var.websocket_path_pattern
+    target_origin_id         = local.wss_origin_id
+    viewer_protocol_policy   = "https-only"
+    allowed_methods          = ["GET", "HEAD", "OPTIONS"]
+    cached_methods           = ["GET", "HEAD"]
+    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_disabled.id
+    origin_request_policy_id = var.wss_forward_viewer_host ? data.aws_cloudfront_origin_request_policy.all_viewer.id : aws_cloudfront_origin_request_policy.wss_without_host.id
+    compress                 = false
+  }
+
   restrictions {
     geo_restriction {
       restriction_type = "none"

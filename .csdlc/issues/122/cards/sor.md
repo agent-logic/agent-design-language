@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: ready
 
 ## Summary
 

@@ -20,10 +20,10 @@ Route53, ACM, S3, CloudFront, and an approved non-EC2 Runtime ingress provide or
 
 ## Scope
 
-- infra/aws/public-observatory/**
-- adl/tools/validate_public_observatory_exposure.sh
-- adl/tools/validate_public_runtime_gateway.sh
-- docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md
+- infra/aws/csm-public-edge/**
+- adl/tools/validate_csm_public_edge_static.sh
+- adl/tools/validate_csm_public_edge_live.sh
+- docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md
 - .csdlc/issues/122/**
 - .csdlc/prepared/issues/122/**
 - .csdlc/evidence/122/**
