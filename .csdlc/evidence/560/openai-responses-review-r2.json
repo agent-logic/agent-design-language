@@ -1,0 +1,13 @@
+{
+  "schema": "adl.openai_review_response.v1",
+  "response_id": "resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7",
+  "model": "gpt-5.6-sol",
+  "requested_model": "gpt-5.6-sol",
+  "reviewed_head": "ee456e7cfa9dd6720c82d4bd051d537c2d22d76c",
+  "reviewed_revision": "git:ee456e7cfa9dd6720c82d4bd051d537c2d22d76c",
+  "status": 200,
+  "latency_ms": 26771,
+  "output_chars": 828,
+  "request_id_present": true,
+  "text": "{\n  \"publication_safe\": true,\n  \"verdict\": \"PASS\",\n  \"response_reviewed_revision\": \"git:ee456e7cfa9dd6720c82d4bd051d537c2d22d76c\",\n  \"findings\": [],\n  \"residual_risks\": [\n    \"The required hosted adl-coverage integration proof remains pending after publication; local focused evidence cannot fully reproduce hosted coverage timing.\",\n    \"The milestone detector remains document-pattern dependent, so future planning-document format changes may require baseline maintenance.\"\n  ],\n  \"one_sentence_summary\": \"Exact HEAD narrowly applies the 240s ci-coverage override to the fully qualified seven-test unified-kernel module prefix, proves all seven pass, updates current v0.92.1 milestone truth and fixture compatibility, preserves Runtime v2 semantics, and truthfully leaves hosted coverage as the pre-merge integration proof.\"\n}"
+}
