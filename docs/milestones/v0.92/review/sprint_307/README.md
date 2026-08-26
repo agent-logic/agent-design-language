@@ -22,6 +22,9 @@ absorbing child implementation or release authority.
 - #315 remains bound to its actual PR #473 and merge. The later #476/PR #477
   review-truth repair is retained as a separate follow-on record rather than
   replacing #315's integration identity.
+- #312 and #315 retain extra review-to-publication receipts: #312 binds the
+  exact two final non-lifecycle files at PR #469 publication, and #315 binds
+  the two reviewed Runtime files unchanged from review head to PR #473 head.
 - #471 is reconciled as a WP-27/#315 remediation child, not a separate
   release-tail lane.
 - #268 is closed with a canonical terminal receipt and retained passing AWS

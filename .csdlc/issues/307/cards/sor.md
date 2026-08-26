@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integration identity, #476/PR #477 is separately bound follow-on remediation, #310 and #314 retain their actual exceptional dispositions, and every sequence handoff is proven by ancestry or explicit retained exception evidence.
+Bound every passed child review to its publication content: metadata-only descendants are enforced, #312 has an exact final-content retrospective review receipt, #315 has exact scoped blob equivalence across rebased history, and #476 has the same metadata-only publication guard.
 
 ## Artifacts
 
@@ -32,6 +32,10 @@ Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integratio
 - .csdlc/evidence/307/github-pr-readback.json
 - .csdlc/evidence/307/issue-315-review-receipt.json
 - .csdlc/prepared/issues/307/validate_child_sequence.py
+- .csdlc/evidence/307/issue-312-final-content-review-receipt.json
+- .csdlc/evidence/307/issue-315-review-receipt.json
+- .csdlc/evidence/307/child-sequence.json
+- .csdlc/prepared/issues/307/validate_child_sequence.py
 
 ## Execution
 
@@ -47,6 +51,9 @@ Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integratio
 - Restored #315/PR #473 as the primary child integration record and added a separate exact #476 follow-on record with review, PR, merge, checks, and terminal receipt bindings.
 - Changed #310 to not_tracked_disclosed and #314 to intake_completed_with_blockers/not_applicable_no_pr rather than claiming unsupported review and check passes.
 - Replaced handoff_accepted booleans with executable predecessor-merge ancestry checks, the validated #314-to-#315 handoff, the documented #315/#316 concurrent-lane exception, and the final #319 ceremony receipt.
+- Added an exact #312 final-content receipt for the two post-review documentation changes and their final blobs and SHA-256 digests.
+- Extended the #315 historical review receipt with exact reviewed/publication blob identity for both scoped product files.
+- Made the terminal validator reject unreviewed substantive review-to-publication drift for every passed row and the #476 follow-on.
 
 ## Validation
 
@@ -105,6 +112,19 @@ Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integratio
     "purpose": "Prove exact #315/#476 identity separation, truthful #310/#314 dispositions, evidence-derived handoffs, packet privacy, and diff hygiene.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-315-review-receipt.json"
+  },
+  {
+    "command": [
+      "python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal",
+      "python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py",
+      "python3 -m json.tool .csdlc/evidence/307/issue-312-final-content-review-receipt.json",
+      "python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json",
+      "! rg -n '/(Users|Volumes|private)/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307",
+      "git diff --check"
+    ],
+    "purpose": "Reject substantive review-to-publication drift while proving #312 final-content review, #315 scoped equivalence, metadata-only descendants, privacy, and diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/307/issue-312-final-content-review-receipt.json; .csdlc/evidence/307/issue-315-review-receipt.json; .csdlc/evidence/307/child-sequence.json"
   }
 ]
 

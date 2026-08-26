@@ -26,6 +26,138 @@ def git_ok(*argv: str) -> bool:
         check=False,
     ).returncode == 0
 
+def git_stdout(*argv: str) -> str | None:
+    result = subprocess.run(
+        ["git", "-C", str(ROOT), *argv],
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    return result.stdout
+
+def git_changed_paths(base: str, head: str) -> list[str]:
+    output = git_stdout("diff", "--name-only", base, head)
+    if output is None:
+        return []
+    return [line for line in output.splitlines() if line]
+
+def git_blob_id(commit: str, path: str) -> str | None:
+    output = git_stdout("ls-tree", commit, path)
+    if output is None:
+        return None
+    parts = output.strip().split()
+    if len(parts) < 3 or parts[1] != "blob":
+        return None
+    return parts[2]
+
+def git_blob_sha256(commit: str, path: str) -> str | None:
+    result = subprocess.run(
+        ["git", "-C", str(ROOT), "show", f"{commit}:{path}"],
+        text=False,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    return hashlib.sha256(result.stdout).hexdigest()
+
+def issue_lifecycle_paths(issue: int) -> set[str]:
+    prefix = f".csdlc/issues/{issue}"
+    return {
+        f"{prefix}/audit.jsonl",
+        f"{prefix}/index.json",
+        f"{prefix}/cards/sip.md",
+        f"{prefix}/cards/sip.values.json",
+        f"{prefix}/cards/stp.md",
+        f"{prefix}/cards/stp.values.json",
+        f"{prefix}/cards/spp.md",
+        f"{prefix}/cards/spp.values.json",
+        f"{prefix}/cards/vpp.md",
+        f"{prefix}/cards/vpp.values.json",
+        f"{prefix}/cards/srp.md",
+        f"{prefix}/cards/srp.values.json",
+        f"{prefix}/cards/sor.md",
+        f"{prefix}/cards/sor.values.json",
+    }
+
+def validate_metadata_only_publication(issue: int, reviewed_head: str, publication_head: str) -> None:
+    if not git_ok("merge-base", "--is-ancestor", reviewed_head, publication_head):
+        errors.append(f"child #{issue} reviewed_head is not ancestral to publication_head")
+        return
+    changed = set(git_changed_paths(reviewed_head, publication_head))
+    if not changed:
+        errors.append(f"child #{issue} has no reviewed-to-publication diff paths")
+        return
+    unexpected = sorted(changed - issue_lifecycle_paths(issue))
+    if unexpected:
+        errors.append(f"child #{issue} reviewed-to-publication diff is not lifecycle-only: {unexpected}")
+
+def validate_issue_312_receipt(item: dict) -> None:
+    receipt_path = repo_file(item.get("retrospective_review_receipt"), label="child #312 retrospective_review_receipt")
+    if receipt_path is None:
+        return
+    try:
+        receipt = json.loads(receipt_path.read_text())
+    except json.JSONDecodeError:
+        errors.append("child #312 final-content review receipt is invalid JSON")
+        return
+    if (
+        receipt.get("issue") != 312
+        or receipt.get("reviewed_publication_head") != item.get("publication_head")
+        or receipt.get("original_reviewed_head") != item.get("reviewed_head")
+        or receipt.get("review_result") != "pass"
+    ):
+        errors.append("child #312 final-content review receipt identity is inconsistent")
+    changed = git_changed_paths(item["reviewed_head"], item["publication_head"])
+    if receipt.get("publication_diff_paths") != changed:
+        errors.append("child #312 final-content receipt does not match exact publication diff path set")
+    scoped_files = {
+        row.get("path"): row
+        for row in receipt.get("retrospectively_reviewed_files", [])
+        if isinstance(row, dict)
+    }
+    expected_paths = [
+        "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+        "docs/reviews/v0.92/docs-release-truth-312/inventory.json",
+    ]
+    if sorted(scoped_files) != expected_paths:
+        errors.append("child #312 final-content receipt must bind exactly the two non-lifecycle files")
+        return
+    for path in expected_paths:
+        row = scoped_files[path]
+        if row.get("publication_blob") != git_blob_id(item["publication_head"], path):
+            errors.append(f"child #312 final-content receipt blob mismatch for {path}")
+        if row.get("publication_sha256") != git_blob_sha256(item["publication_head"], path):
+            errors.append(f"child #312 final-content receipt sha256 mismatch for {path}")
+
+def validate_issue_315_scope_receipt(item: dict, receipt: dict) -> None:
+    if receipt.get("publication_head") != item.get("publication_head"):
+        errors.append("child #315 historical review receipt does not bind the PR publication head")
+    scoped_files = receipt.get("review_scope_files")
+    if not isinstance(scoped_files, list) or len(scoped_files) != 2:
+        errors.append("child #315 historical review receipt must bind exactly two review-scope files")
+        return
+    expected_paths = [
+        "adl-runtime-kernel/src/production_birthday.rs",
+        "adl-runtime-kernel/tests/production_birthday.rs",
+    ]
+    by_path = {row.get("path"): row for row in scoped_files if isinstance(row, dict)}
+    if sorted(by_path) != expected_paths:
+        errors.append("child #315 historical review receipt has the wrong scoped files")
+        return
+    for path in expected_paths:
+        row = by_path[path]
+        reviewed_blob = git_blob_id(item["reviewed_head"], path)
+        publication_blob = git_blob_id(item["publication_head"], path)
+        if row.get("reviewed_blob") != reviewed_blob or row.get("publication_blob") != publication_blob:
+            errors.append(f"child #315 scoped receipt blob mismatch for {path}")
+        if reviewed_blob != publication_blob:
+            errors.append(f"child #315 scoped file changed after review: {path}")
+        if row.get("sha256") != git_blob_sha256(item["publication_head"], path):
+            errors.append(f"child #315 scoped receipt sha256 mismatch for {path}")
+
 def repo_file(value: object, *, label: str) -> Path | None:
     if not isinstance(value, str) or not value or Path(value).is_absolute() or ".." in Path(value).parts:
         errors.append(f"{label} must be a contained repo-relative path")
@@ -93,6 +225,11 @@ else:
             errors.append(f"child #{issue} merge_sha is not ancestral to origin/main")
         review_path = repo_file(item.get("review_evidence"), label=f"child #{issue} review_evidence")
         reviewed_head = item.get("reviewed_head")
+        publication_head = item.get("publication_head")
+        if issue in {308, 309, 311, 313, 316, 317, 318, 319}:
+            validate_metadata_only_publication(issue, reviewed_head, publication_head)
+        elif issue == 312:
+            validate_issue_312_receipt(item)
         if review_path is not None:
             review_text = review_path.read_text(errors="replace")
             if issue in {308, 309, 311, 312, 313, 316, 317, 318, 319}:
@@ -118,6 +255,7 @@ else:
                     or "Result: pass" not in historical.decode(errors="replace")
                 ):
                     errors.append("child #315 historical review receipt does not bind its exact passed head")
+                validate_issue_315_scope_receipt(item, receipt)
             elif issue == 310:
                 try:
                     universe = json.loads(review_text)
@@ -283,6 +421,8 @@ else:
         errors.append("issue #476 live PR/check readback does not match follow-on evidence")
     if not git_ok("merge-base", "--is-ancestor", follow_on.get("merge_sha", ""), "origin/main"):
         errors.append("issue #476 merge is not ancestral to origin/main")
+    if isinstance(follow_on.get("reviewed_head"), str) and isinstance(follow_on.get("publication_head"), str):
+        validate_metadata_only_publication(476, follow_on["reviewed_head"], follow_on["publication_head"])
     common_dir = subprocess.run(
         ["git", "-C", str(ROOT), "rev-parse", "--git-common-dir"],
         text=True,

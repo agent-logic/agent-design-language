@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
   "phase": "implemented",
-  "generation": 20,
-  "digest": "38e6c255f5bc111283756f3f10f960a394ba8ea4878b0f209c95a459a7d27cd0",
+  "generation": 23,
+  "digest": "0686efdb1c3f9c1a7f09c2a635353b49463f7a828212fe8db8219baa4d1b11cf",
   "branch": "codex/307-v092-quality-release-tail-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1931119a3479da1fb896c8c42470b5fc19261fcd430aeec350eb2ab061d903ac",
+      "values_digest": "76f9a13f8faaed43b9ea1987b73d508c7ccfa87cf9f0e325207cb21a4f4b29ed",
       "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
       "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
     },
     "stp": {
-      "values_digest": "fd47e57b5e5f0543fcb890b8eb7bfa103742dbf43c992e251cb868a9f25e5f27",
+      "values_digest": "d3f22e493b14790642fe71018d4aca3bcb2ead332a836aec817d5669d8c79292",
       "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
       "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
     },
     "spp": {
-      "values_digest": "de8dd03a792c19282c6f681ffd646b3cb86fd9a0dc4b566febac527061bbe017",
+      "values_digest": "5e8c247e3d1fb211b55c783571f2462e52b8f83953484cc0ccdf1448b7547cfd",
       "rendered_digest": "81883f08e984fb441950825f45d68e364fa94fd8d9ca9352e50852f9df7a3a6e",
       "ast_digest": "1dbfb17b19fd053ff598cf438c6dce55b6522876103fd50206c3d2b93f7c2e3e"
     },
     "vpp": {
-      "values_digest": "afb4406eaa584d5dfb43df2b0e2f4d17d114a405ee844111a0853f1c2ab46046",
+      "values_digest": "c4d3830a4a03b59f935760c92b56034c99693c43cfc22420360028de91703fa4",
       "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
       "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
     },
     "srp": {
-      "values_digest": "c3c1c628552cc1e41657fa67ed3927d7f8c4a5c84d7a3d33805d2d3c1a8a25ea",
+      "values_digest": "db685f3c8a9ae3c48e187661a516c95899c7cd9cbed1bd0da21d90a01270ad69",
       "rendered_digest": "2f233ecc15df8f1877f54e2b846e0910d5b6113985c1f3241b9b82fced42c405",
       "ast_digest": "ef31797c7d32e002f019cadaba276160cc34ff14f770b954b3f4aee8ae677dc3"
     },
     "sor": {
-      "values_digest": "1345b5d4c7edb3bc53c7905937bd8efe4a8a9705f51431d2c84b19075bb255f2",
-      "rendered_digest": "c6973ef2837056ff31ce98f4b22dcc63865e0e8540e43ff5012c4e005e15ac47",
-      "ast_digest": "221919c32acdf39604dda3abe55b3eecc0144b39e8b37277c9b43ab4bb2b4d0d"
+      "values_digest": "70af3b9518ac107bb2308c877e91b435d5228110af6e711edf39dbcec8531a5c",
+      "rendered_digest": "3c6b5f05ca47a34e6004d3ed8a7731d6739b3db0f327f14a3a0b5dbeb98cdede",
+      "ast_digest": "7a0e39aea19706446245c36c214438a56dd85823984d730fb42c165f8a26e609"
     }
   },
   "transitions": [
@@ -267,6 +267,34 @@
       "actor": "codex:/root/issue-307-closeout",
       "reason": "Remove the necessarily post-review publication request from tracked review scope; it will be generated in the invocation directory after exact-head review is recorded.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Add executable review-to-publication content binding after the final exact-head review exposed missing equivalence enforcement.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record executable review-to-publication content binding for every release-tail child.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bound every passed child review to its publication content: metadata-only descendants are enforced, #312 has an exact final-content retrospective review receipt, #315 has exact scoped blob equivalence across rebased history, and #476 has the same metadata-only publication guard.\",\"changes\":[\"Added an exact #312 final-content receipt for the two post-review documentation changes and their final blobs and SHA-256 digests.\",\"Extended the #315 historical review receipt with exact reviewed/publication blob identity for both scoped product files.\",\"Made the terminal validator reject unreviewed substantive review-to-publication drift for every passed row and the #476 follow-on.\"],\"artifacts\":[\".csdlc/evidence/307/issue-312-final-content-review-receipt.json\",\".csdlc/evidence/307/issue-315-review-receipt.json\",\".csdlc/evidence/307/child-sequence.json\",\".csdlc/prepared/issues/307/validate_child_sequence.py\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record passing executable review-to-publication bindings before the final exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"python3 -m json.tool .csdlc/evidence/307/issue-312-final-content-review-receipt.json\",\"python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json\",\"! rg -n '/(Users|Volumes|private)/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307\",\"git diff --check\"],\"purpose\":\"Reject substantive review-to-publication drift while proving #312 final-content review, #315 scoped equivalence, metadata-only descendants, privacy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/issue-312-final-content-review-receipt.json; .csdlc/evidence/307/issue-315-review-receipt.json; .csdlc/evidence/307/child-sequence.json\"}}"
     }
   ]
 }

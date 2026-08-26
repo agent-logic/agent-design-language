@@ -5,6 +5,21 @@
   "source_path": ".csdlc/issues/315/cards/srp.md",
   "source_sha256": "2441a39c9086249a0d28449ecbd5dcdfef8cd5f622287596ca9a947437532c57",
   "reviewed_head": "f910198512a706b4d7737c3b1c228068c451d97f",
+  "publication_head": "d171dbe3fca0d74b6d2efb18fd2edf2d6cd0b107",
   "review_result": "pass",
+  "review_scope_files": [
+    {
+      "path": "adl-runtime-kernel/src/production_birthday.rs",
+      "reviewed_blob": "eb8c697810e62476baaf0ad7684f80601155484d",
+      "publication_blob": "eb8c697810e62476baaf0ad7684f80601155484d",
+      "sha256": "6547b4b49b9f65a2c8cba8434b9af7d8d43ec37df787b5c9202df2dfa4972846"
+    },
+    {
+      "path": "adl-runtime-kernel/tests/production_birthday.rs",
+      "reviewed_blob": "f1485063bd06786d0485904e4af78f1d76d1c2f7",
+      "publication_blob": "f1485063bd06786d0485904e4af78f1d76d1c2f7",
+      "sha256": "44efa9ea9568cf035c7bf6745683022d56a462dd8654fd553d6116ffc10c7091"
+    }
+  ],
   "disposition": "historical_review_later_remediated_by_issue_476"
 }
