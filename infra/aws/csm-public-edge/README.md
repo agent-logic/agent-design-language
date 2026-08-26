@@ -5,6 +5,15 @@ does not create Runtime compute. It creates DNS, ACM-backed CloudFront edges,
 WAF, S3 static Observatory hosting, API Gateway HTTP routing, and a native WSS
 edge that can point at wuji, nessus, GCP, or a public AWS ALB.
 
+Runtime origin infrastructure is intentionally separate:
+
+- `infra/aws/csm-runtime-spot` creates one disposable small Spot EC2 host.
+- `infra/aws/csm-runtime-alb` creates one replaceable HTTPS ALB origin and
+  reuses an existing regional ACM certificate by default.
+
+Those stacks can be applied and destroyed independently from this permanent
+edge stack.
+
 Hostnames follow the CSM namespace convention. Non-production hostnames include
 the environment segment:
 
@@ -97,3 +106,15 @@ Live validation requires an operator-approved AWS account and selected Runtime
 origins. The edge can be applied before Runtime public exposure is live, but
 API/WSS proof remains incomplete until the selected origin accepts public TLS
 traffic from CloudFront/API Gateway.
+
+For local wuji testing, Caddy can own the Let's Encrypt certificate and proxy
+`wuji.dev.csm.agent-logic.ai` to the local Runtime. In that mode, CSMctl stays
+responsible for keeping Runtime alive on `localhost:20997`; Caddy is only the
+public origin TLS and reverse-proxy layer.
+
+For AWS ALB origin testing, the ALB stack checks for an existing ISSUED regional
+ACM certificate for the origin hostname and uses it before any certificate
+creation path is considered. First-time certificate creation is an explicit
+bootstrap mode, not the normal ALB recycle path. When the reusable certificate
+is a wildcard, set the ALB stack's `certificate_lookup_domain` to that wildcard
+domain.

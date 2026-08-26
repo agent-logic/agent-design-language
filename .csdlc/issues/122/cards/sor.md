@@ -12,11 +12,15 @@ Status: ready
 
 ## Summary
 
-Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev. The business AWS account now owns the delegated csm.agent-logic.ai hosted zone and live CloudFront/WAF/S3/API/WSS edge resources. Observatory assets are served at https://observatory.wuji.dev.csm.agent-logic.ai with deployed config pointing at https://api.wuji.dev.csm.agent-logic.ai. API Gateway CORS allows the Observatory origin and rejects unrelated origins. Runtime API/WSS live proof remains blocked because the selected wuji Runtime origin is healthy only locally via CSMctl and is not reachable at public 47.146.81.109:443 or :20997.
+Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev, then added separate quick-create/quick-destroy AWS Runtime origin stacks for a disposable Spot EC2 host and HTTPS ALB. The permanent business AWS edge owns the delegated csm.agent-logic.ai hosted zone plus CloudFront/WAF/S3/API/WSS surfaces. Observatory assets are served at https://observatory.wuji.dev.csm.agent-logic.ai with deployed config pointing at https://api.wuji.dev.csm.agent-logic.ai. API Gateway CORS allows the Observatory origin and rejects unrelated origins. The selected local wuji Runtime origin remains coordinated through Caddy/Let's Encrypt, but the AWS ALB origin path is live-proven: an external HTTPS call to origin-smoke.wuji.dev.csm.agent-logic.ai reached the disposable EC2 instance and returned the instance id, then both disposable stacks were destroyed while the reusable regional ACM certificate remained for future ALB cycles.
 
 ## Artifacts
 
 - infra/aws/csm-public-edge/
+- infra/aws/csm-runtime-spot/
+- infra/aws/csm-runtime-alb/
+- infra/aws/modules/csm-runtime-spot/
+- infra/aws/modules/csm-runtime-alb/
 - adl/tools/validate_csm_public_edge_static.sh
 - adl/tools/validate_csm_public_edge_live.sh
 - docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md
@@ -30,7 +34,10 @@ Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev. T
 - Added optional origin_cname_target so wuji.dev.csm.agent-logic.ai can CNAME to the existing wuji DDNS hostname without hardcoding an IP address.
 - Updated naming/docs from generic placeholders to <function>.<csm>.<environment>.csm.agent-logic.ai and production <function>.<csm>.csm.agent-logic.com.
 - Applied the wuji/dev edge in the Agent Logic business AWS account and uploaded the HTML Observatory assets to the private Observatory S3 bucket.
-- Tightened the live validator to report Observatory HTTPS, allowed-origin CORS, rejected-origin CORS, and Runtime-origin reachability separately.
+- Added infra/aws/csm-runtime-spot for one disposable small Spot EC2 Runtime host with ALB-scoped ingress and optional user_data_file smoke bootstrap.
+- Added infra/aws/csm-runtime-alb for one replaceable public HTTPS ALB origin with target attachment, health checks, DNS aliasing, and lookup-first reusable ACM certificate handling.
+- Changed the ALB origin cert contract so normal ALB recycling looks up an existing ISSUED regional ACM certificate before any explicit first-time certificate creation path; wildcard reuse is supported through certificate_lookup_domain.
+- Live-proved the disposable AWS origin path by creating ALB and Spot resources, attaching the target, observing target health healthy, receiving HTTP 200 from the public origin with the EC2 instance id in the response, and destroying all disposable Spot/ALB resources afterward.
 
 ## Validation
 
@@ -40,11 +47,63 @@ Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev. T
       "terraform",
       "-chdir=infra/aws/csm-public-edge",
       "fmt",
-      "-recursive"
+      "-check"
     ],
-    "purpose": "Terraform formatting for the CSM public edge module",
+    "purpose": "Terraform formatting for the permanent CSM public edge stack",
     "outcome": "passed",
-    "evidence_ref": "commentary run after live edge changes"
+    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/csm-runtime-spot",
+      "fmt",
+      "-check"
+    ],
+    "purpose": "Terraform formatting for the disposable Spot Runtime origin stack",
+    "outcome": "passed",
+    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/csm-runtime-alb",
+      "fmt",
+      "-check"
+    ],
+    "purpose": "Terraform formatting for the disposable ALB Runtime origin stack",
+    "outcome": "passed",
+    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/csm-public-edge",
+      "validate"
+    ],
+    "purpose": "Terraform validation for the permanent CSM public edge stack",
+    "outcome": "passed",
+    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/csm-runtime-spot",
+      "validate"
+    ],
+    "purpose": "Terraform validation for the disposable Spot Runtime origin stack",
+    "outcome": "passed",
+    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/csm-runtime-alb",
+      "validate"
+    ],
+    "purpose": "Terraform validation for the disposable ALB Runtime origin stack",
+    "outcome": "passed",
+    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
   },
   {
     "command": [
@@ -53,7 +112,7 @@ Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev. T
     ],
     "purpose": "Static Terraform init/validate and CSM WSS/CORS guard proof",
     "outcome": "passed",
-    "evidence_ref": "commentary run after live edge changes"
+    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
   },
   {
     "command": [
@@ -70,23 +129,50 @@ Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev. T
   },
   {
     "command": [
-      "bash",
-      "adl/tools/validate_csm_public_edge_live.sh",
-      "--csm",
-      "wuji",
-      "--environment",
-      "dev",
-      "--observatory-url",
-      "https://observatory.wuji.dev.csm.agent-logic.ai",
-      "--api-url",
-      "https://api.wuji.dev.csm.agent-logic.ai",
-      "--wss-url",
-      "wss://wss.wuji.dev.csm.agent-logic.ai/v1/observatory/ws",
-      "--wss-origin-hostname",
-      "wuji.dev.csm.agent-logic.ai"
+      "curl",
+      "-sS",
+      "--max-time",
+      "20",
+      "-D",
+      "-",
+      "https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health"
     ],
-    "purpose": "Live API/WSS proof is blocked on the selected wuji Runtime origin accepting public TLS traffic",
-    "outcome": "blocked",
+    "purpose": "Live AWS ALB-to-EC2 origin proof: external HTTPS call reached the disposable Runtime instance and returned the instance id",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "terraform",
+      "-chdir=infra/aws/csm-runtime-spot",
+      "destroy"
+    ],
+    "purpose": "Teardown proof for disposable Spot Runtime origin resources",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "terraform",
+      "-chdir=infra/aws/csm-runtime-alb",
+      "destroy"
+    ],
+    "purpose": "Teardown proof for disposable ALB Runtime origin resources while preserving reusable ACM cert outside disposable state",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "terraform",
+      "-chdir=infra/aws/csm-runtime-alb",
+      "plan",
+      "-out=issue122-alb-recreate-lookup-smoke.tfplan"
+    ],
+    "purpose": "Empty-state ALB recreate proof: lookup existing regional ACM cert before planning disposable ALB resources",
+    "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md"
   }
 ]

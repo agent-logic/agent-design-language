@@ -1,0 +1,19 @@
+environment = "dev"
+csm_name    = "wuji"
+vpc_id      = "vpc-REPLACE"
+subnet_id   = "subnet-REPLACE"
+
+# Keep tiny unless the Runtime workload proves it needs more.
+instance_type = "t3.micro"
+runtime_port  = 20997
+
+# Fill this after creating csm-runtime-alb, or leave null for direct smoke only.
+alb_security_group_id = null
+
+# Optional direct smoke access. Prefer your /32, not 0.0.0.0/0.
+operator_ingress_cidrs = []
+ssh_ingress_cidrs      = []
+key_name               = null
+
+# User-data may install/start Runtime, but do not commit secret values.
+user_data = null

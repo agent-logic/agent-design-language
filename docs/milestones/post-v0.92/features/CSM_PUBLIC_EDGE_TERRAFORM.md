@@ -1,8 +1,9 @@
 # CSM Public Edge Terraform
 
 Issue #122 implements the Terraform-owned permanent public edge for CSM
-instances. It replaces the earlier CloudFormation-oriented idea with a
-Terraform module that can expose many named CSMs without creating compute.
+instances. It replaces the earlier CloudFormation-oriented idea with Terraform
+modules that can expose many named CSMs and can also stand up a disposable AWS
+Runtime origin when local/GCP origins are unavailable.
 
 The canonical development/staging hostname pattern is:
 
@@ -45,5 +46,15 @@ The implementation supports pre-issued CloudFront viewer certificates through
 `*.wuji.dev.csm.agent-logic.ai` ACM certificate and published
 `wuji.dev.csm.agent-logic.ai` as a CNAME to the existing wuji DDNS hostname.
 
-This issue does not create Runtime compute, EC2, Spot, GPU, CodeBuild,
-Kubernetes, or NAT gateways.
+The permanent public edge stack does not create Runtime compute, NAT gateways,
+GPU, CodeBuild, Kubernetes, or containers. Disposable Runtime origin
+infrastructure is split into separate quick-create/quick-destroy stacks:
+
+- `infra/aws/csm-runtime-spot`: one small Spot EC2 instance with no NAT.
+- `infra/aws/csm-runtime-alb`: one public HTTPS ALB origin that looks up and
+  reuses an existing regional ACM certificate before any explicit first-time
+  certificate creation path, with optional target attachment.
+
+Local wuji testing may instead use Caddy as the Let's Encrypt TLS/reverse-proxy
+layer in front of the existing CSMctl-managed Runtime. In that mode, Caddy owns
+public origin TLS and CSMctl owns Runtime liveness.

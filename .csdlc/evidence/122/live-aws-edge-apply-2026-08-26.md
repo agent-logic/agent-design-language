@@ -178,3 +178,97 @@ Therefore API and WSS Runtime proof remain blocked on exposing the Runtime at a
 public TLS origin that CloudFront/API Gateway can reach. The edge DNS, ACM,
 CloudFront, WAF, API Gateway CORS allowlist, Observatory asset serving, and
 Observatory config hookup are live-proven.
+
+## Runtime origin follow-up in same issue
+
+After the public-origin blocker was observed, #122 was widened to include two
+separate quick-create/quick-destroy AWS origin stacks:
+
+- `infra/aws/csm-runtime-spot`: one disposable small Spot EC2 Runtime host.
+- `infra/aws/csm-runtime-alb`: one public HTTPS ALB origin with reusable ACM
+  certificate lookup and optional target attachment.
+
+These are deliberately separate from `infra/aws/csm-public-edge`, so the
+permanent CloudFront/WAF/API Gateway/DNS edge can stay up while the Runtime host
+or ALB is killed and recreated.
+
+## Disposable AWS Runtime origin smoke
+
+The disposable Runtime origin stacks were live-tested after the permanent edge
+proof:
+
+1. Created one public HTTPS ALB origin for
+   `origin-smoke.wuji.dev.csm.agent-logic.ai`.
+2. Created one small Spot EC2 instance with user-data that served
+   `/v1/health` over HTTPS on port `20997`.
+3. Attached the instance to the ALB target group.
+4. Waited for the ALB target to become healthy.
+5. Called the public ALB origin from outside the instance.
+6. Detached and destroyed the Spot stack.
+7. Destroyed the disposable ALB stack.
+
+The proof call returned HTTP 200 from the public origin and included the EC2
+instance id in the response body:
+
+```text
+curl -sS --max-time 20 -D - https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health
+
+HTTP/2 200
+content-type: application/json
+server: nginx/1.30.4
+
+{"schema":"adl.csm_runtime_origin_smoke.v1","status":"ok","origin":"ec2-smoke","instance_id":"i-027183bbc454a62e3"}
+```
+
+The matching target-health check reported the same instance healthy on port
+`20997`.
+
+Teardown proof:
+
+```text
+terraform -chdir=infra/aws/csm-runtime-spot destroy ... -> Destroy complete! Resources: 4 destroyed.
+terraform -chdir=infra/aws/csm-runtime-alb destroy ...  -> Destroy complete! Resources: 7 destroyed.
+terraform -chdir=infra/aws/csm-runtime-spot show        -> The state file is empty.
+terraform -chdir=infra/aws/csm-runtime-alb show         -> The state file is empty.
+```
+
+The ALB stack was corrected after the smoke so it does not mint a fresh ACM
+certificate every run. Normal behavior is:
+
+- `certificate_arn = null`
+- `reuse_existing_certificate = true`
+- `create_certificate = false`
+
+With that configuration, Terraform looks up an existing ISSUED regional ACM
+certificate for `origin_fqdn` and fails closed if none exists. The first-time
+certificate bootstrap path remains explicit:
+
+- `reuse_existing_certificate = false`
+- `create_certificate = true`
+
+The smoke-created regional ACM certificate for
+`origin-smoke.wuji.dev.csm.agent-logic.ai` remains in AWS and is intentionally
+outside the disposable ALB Terraform state so future ALB create/destroy cycles
+reuse the same certificate instead of creating a new one.
+
+The empty-state ALB recreate plan proved the lookup-first behavior without
+applying new resources:
+
+```text
+terraform -chdir=infra/aws/csm-runtime-alb plan \
+  -out=issue122-alb-recreate-lookup-smoke.tfplan \
+  -var origin_fqdn_override=origin-smoke.wuji.dev.csm.agent-logic.ai \
+  ...
+
+module.runtime_alb.data.aws_acm_certificate.existing_origin[0]: Read complete
+Plan: 7 to add, 0 to change, 0 to destroy.
+certificate_arn = existing regional ACM certificate
+```
+
+No ACM certificate resource appeared in the plan.
+
+The local wuji path is being coordinated through Caddy/Let's Encrypt: Caddy
+should terminate public origin TLS for `wuji.dev.csm.agent-logic.ai` (or the
+selected origin hostname) and proxy to the CSMctl-managed Runtime on localhost.
+CSMctl remains responsible for Runtime liveness; Caddy is only the public TLS
+and reverse-proxy layer.

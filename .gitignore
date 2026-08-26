@@ -44,6 +44,22 @@ infra/aws/csm-public-edge/*.auto.tfvars
 infra/aws/csm-public-edge/*.tfvars
 infra/aws/csm-public-edge/*.tfplan
 !infra/aws/csm-public-edge/terraform.tfvars.example
+infra/aws/csm-runtime-spot/.terraform/
+infra/aws/csm-runtime-spot/terraform.tfstate
+infra/aws/csm-runtime-spot/terraform.tfstate.backup
+infra/aws/csm-runtime-spot/terraform.tfstate.*.backup
+infra/aws/csm-runtime-spot/*.auto.tfvars
+infra/aws/csm-runtime-spot/*.tfvars
+infra/aws/csm-runtime-spot/*.tfplan
+!infra/aws/csm-runtime-spot/terraform.tfvars.example
+infra/aws/csm-runtime-alb/.terraform/
+infra/aws/csm-runtime-alb/terraform.tfstate
+infra/aws/csm-runtime-alb/terraform.tfstate.backup
+infra/aws/csm-runtime-alb/terraform.tfstate.*.backup
+infra/aws/csm-runtime-alb/*.auto.tfvars
+infra/aws/csm-runtime-alb/*.tfvars
+infra/aws/csm-runtime-alb/*.tfplan
+!infra/aws/csm-runtime-alb/terraform.tfvars.example
 
 # Unity observatory local proof inputs. These are operator-provisioned or
 # generated proof/tooling payloads unless a later issue approves a specific
