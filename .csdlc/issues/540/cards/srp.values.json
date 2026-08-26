@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 540,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][observatory] Prove additional_allowed_origins for localhost:8000",
+    "slug": "runtime-additional-allowed-origins-localhost-8000",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #540 Runtime v3 CORS/configuration paths, focused tests, and port-8000 non-listener invariant only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the change prove http://localhost:8000 only as an explicit Origin header value?",
+        "Does the default policy still deny unconfigured localhost:8000?",
+        "Did the implementation avoid binding or serving any ADL component on port 8000?",
+        "Are canonical Runtime/Observatory ports and existing origin behavior preserved?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

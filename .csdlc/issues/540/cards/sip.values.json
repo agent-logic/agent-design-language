@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 540,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][observatory] Prove additional_allowed_origins for localhost:8000",
+    "slug": "runtime-additional-allowed-origins-localhost-8000",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prove Runtime v3 can admit an explicit additional browser CORS origin for http://localhost:8000 without using port 8000 as an ADL-owned listener.",
+      "required_outcome": "Focused Runtime kernel tests prove configured allow and default deny for http://localhost:8000 while https://localhost:8765 remains canonical and ADL software does not bind port 8000.",
+      "declared_scope": [
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/control.rs",
+        ".csdlc/issues/540",
+        ".csdlc/prepared/issues/540"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#540.",
+        "The issue may only affect Runtime v3 configured-origin CORS proof and any minimal support needed for additional_allowed_origins.",
+        "Port 8000 may be used only as an HTTP Origin header value; ADL software must not bind or serve on port 8000."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not use /private/tmp.",
+        "Do not write tracked implementation on main.",
+        "No AWS, big runner, paid jobs, or long-running external resources.",
+        "Keep Observatory fixed on https://localhost:8765 and Runtime API fixed on https://localhost:20997."
+      ]
+    }
+  }
+}

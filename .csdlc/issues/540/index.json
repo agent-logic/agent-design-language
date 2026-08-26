@@ -1,0 +1,153 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 540,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "61aca8b37ea6067a5825b268931f131f463f3fe535896b9967a00d0e7483d706",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "3ce23f97556d986c8851e0b47efafb2b8ef1bba8eecc5f4c476574b99932a816",
+  "branch": "codex/540-runtime-additional-origins-localhost-8000",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-540-runtime-additional-origins-localhost-8000",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/540/design.md",
+  "diagram_path": ".csdlc/prepared/issues/540/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:ebdb203d-48f5-400a-97f4-738843da9f30",
+      "revision": "0df482853fe212f927dfba2c806ef7c2987e5835622d8ffb5b54b4dc9a6e62d6"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "1b093a88559a5ba7e62c84d710b62aa1973df83ec9e2aed05e47dcc37e3adbd3",
+      "rendered_digest": "a87a7f7fe581138524d6c39e863384a4e30aa29ddea86e0964cd2a719fa11741",
+      "ast_digest": "ada8685d062bd49429c8e4a15782c8e46e6c3de0909c3b041a25a6f9a6d313ce"
+    },
+    "stp": {
+      "values_digest": "3c08b90aaee2b3a40170bd559fa7ba516aa6bec89a78ddd20ff9030561ae9af5",
+      "rendered_digest": "925e2100da38061799ce2db4bc02e32beec0cb8df07bc03f90e57c7c2619d965",
+      "ast_digest": "61d5b54bcfa66225ca0557dc09b091d5951d75efe51db8750606defff130401e"
+    },
+    "spp": {
+      "values_digest": "52ad6af05b5824b886f4b5e303cf2476bf8b8032c87ee088edddfe4eb075689c",
+      "rendered_digest": "a895a872686357ab31429a3947da1c232371df4a09d3e6a9cd9d281f6bd9e964",
+      "ast_digest": "81235870b54cc70879ba6a650cabaafd6edd57823014e728b01e503894b89286"
+    },
+    "vpp": {
+      "values_digest": "fbe53ca447417b2f9239b1d939919f316c74cb6904360d03b37fda6ba7701c69",
+      "rendered_digest": "1a251053940dae66f21caf2687d14aff95f9ab19a5435c94953f6cb9602dbf81",
+      "ast_digest": "077757d84bb04d290436c0067f9c2235e0c530accd74cd4959d8a0f87a32cb76"
+    },
+    "srp": {
+      "values_digest": "c0b90403a982eb8bef190a4b026974e61fa5616ed5a9c8f042cf058a3ef69249",
+      "rendered_digest": "06370584f29ce51a59d62f81a368155b2e93f272800ecca14b234b09e0f4bb11",
+      "ast_digest": "5695f1f20dca5844de810e55226090dea280d82eac10f6f7ea2fe66a4fa1d144"
+    },
+    "sor": {
+      "values_digest": "72af44ee2c91db07658ad8f05b364a08745a3fb41e2a9000010766296fa2ad3a",
+      "rendered_digest": "a6b8e2be6fec515501783281cea9cffa227f4d61252dd2b0616c9255f7d839c2",
+      "ast_digest": "b7a2aeca01a4a0b2d9a877a4b84a46f4519c527f2ac031f6f1f747e367fde0e5"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:ebdb203d-48f5-400a-97f4-738843da9f30",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"0df482853fe212f927dfba2c806ef7c2987e5835622d8ffb5b54b4dc9a6e62d6\",\"design_ref\":\".csdlc/prepared/issues/540/design.md\",\"diagram_digest\":\"217557995e9b3588958fa94510b77f5707aa53cda49e4a2f361509743ad7f42f\",\"diagram_ref\":\".csdlc/prepared/issues/540/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "Repair execution readiness metadata so affected areas are safe repository-owned paths selected by validation lanes.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\".csdlc/issues/540\",\".csdlc/prepared/issues/540\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "Record bounded Runtime v3 additional_allowed_origins implementation for the localhost:8000 draft Observatory origin.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added a narrow Runtime v3 additional_allowed_origins configuration field and focused CORS proof for the externally served draft Observatory origin http://localhost:8000, while preserving HTTPS-only primary allowed_origins and exact-origin fail-closed behavior.\",\"changes\":[\"Added observatory.additional_allowed_origins as an additive Runtime init field with default empty behavior.\",\"Kept observatory.allowed_origins HTTPS-only and allowed only the explicit draft http://localhost:8000 origin through the additional-origin path.\",\"Merged allowed_origins and additional_allowed_origins for Runtime service CORS admission while preserving duplicate, wildcard, path, and unconfigured-origin rejection.\",\"Added positive Runtime CORS proof for Origin: http://localhost:8000 and default-deny proof when the origin is not configured.\",\"Kept Runtime test listeners on ephemeral ports; localhost:8000 is used only as a browser Origin value for the external draft Observatory.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "Record Runtime init configuration validation for additional_allowed_origins.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Runtime init accepts additional_allowed_origins = [\\\"http://localhost:8000\\\"], preserves canonical https://localhost:8765, and rejects wildcard, duplicate, path, and non-approved HTTP origins.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: adl-runtime-kernel configuration target passed 22/22\"}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "Record focused Runtime control CORS validation for the draft localhost:8000 origin.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"observatory_cors\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Runtime v3 allows Origin: http://localhost:8000 only when explicitly configured, denies it by default, preserves configured HTTPS origins, and uses only ephemeral test listeners.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: adl-runtime-kernel control observatory_cors filter passed 2/2\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "Record formatting, compile, and strict lint validation for #540.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml -- --check\",\"cargo check --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets\",\"cargo clippy --locked --manifest-path adl-runtime-kernel/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Prove formatting, full Runtime kernel target compilation, and strict lint cleanliness for the #540 additive configuration and CORS test changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: rustfmt check passed; cargo check --all-targets passed; strict clippy passed\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "Align validation planning with the observed draft Observatory on localhost:8000: prove Runtime CORS/config behavior without requiring port 8000 to be unbound.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-config-origin\",\"proof_role\":\"Prove Runtime configuration accepts explicit additional_allowed_origins = [\\\"http://localhost:8000\\\"] and preserves the canonical HTTPS Observatory origin.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\"],\"parallel_group\":\"runtime-kernel\",\"defer_reason\":null},{\"lane\":\"runtime-control-cors\",\"proof_role\":\"Prove configured allow and default deny for Origin: http://localhost:8000 on Runtime v3 browser CORS routes; test servers bind ephemeral ports only, not 8000.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"observatory_cors\",\"--\",\"--nocapture\"],\"parallel_group\":\"runtime-kernel\",\"defer_reason\":null},{\"lane\":\"runtime-check\",\"proof_role\":\"Prove all Runtime kernel targets compile after the additive config field and CORS test changes.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\"],\"parallel_group\":\"runtime-kernel\",\"defer_reason\":null},{\"lane\":\"runtime-fmt\",\"proof_role\":\"Prove formatting for touched Runtime kernel files.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":800,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"format\",\"defer_reason\":null},{\"lane\":\"runtime-clippy\",\"proof_role\":\"Prove strict lint cleanliness for the Runtime kernel after the additive config field and focused CORS tests.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":200,\"budget_tokens\":1200,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"runtime-kernel\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
