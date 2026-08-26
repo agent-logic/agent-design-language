@@ -7,14 +7,14 @@
     "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
     "slug": "hot-01-axum-configuration-hot-reload",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 8
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Produce one production-ready Axum hot-reload implementation.",
-      "required_outcome": "One production-ready Axum hot-reload implementation with last-known-good retention.",
+      "required_outcome": "One production-ready Axum hot-reload implementation with last-known-good retention, including config-only atomic Runtime Observatory origin-policy updates consumed by both HTTP CORS and authenticated WSS without rebuild, continuity rotation, or Runtime restart.",
       "declared_scope": [
         "adl-runtime/src/config_reload.rs",
         "adl-runtime/tests/config_reload.rs",

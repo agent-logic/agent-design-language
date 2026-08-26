@@ -16,7 +16,7 @@ Produce one production-ready Axum hot-reload implementation.
 
 ## Required Outcome
 
-One production-ready Axum hot-reload implementation with last-known-good retention.
+One production-ready Axum hot-reload implementation with last-known-good retention, including config-only atomic Runtime Observatory origin-policy updates consumed by both HTTP CORS and authenticated WSS without rebuild, continuity rotation, or Runtime restart.
 
 ## Scope
 

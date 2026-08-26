@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7bfe676397915786eed2aa7ff57c7c55ab61746c837cfe92e9e6d7f89326d374",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "6c325eb02ad2f0ab093cdd53413a366704ae57f21cf2afcc0f20ad4bf2795492",
+  "generation": 8,
+  "digest": "24ac2fd052bd359e3a6ec2ed801cc51d4fc3e1ea2b00168db98630ddba3def9a",
   "branch": "codex/510-hot-01-axum-config-hot-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "48d71d2bef91e80eea3c7a1bbb306722e4d8898c20e22dd188aad1a5c7b1d43b",
-      "rendered_digest": "8a7f80506ae6b6eaa9529545ff9c0d972cc126b826808af156720200ccd7c7f7",
-      "ast_digest": "d1eb0d7caa261cf05347a981269c958b62f12dfce7cb6534a0871286ce4747ad"
+      "values_digest": "a5fd1bd99d92ee66d1f8bf365242b7348a8a2e6a7e54715d47eeed814d6cea25",
+      "rendered_digest": "f74751b161d50aee86803c7fc30275a546e854fab88e74fa59112c3a7520e1ec",
+      "ast_digest": "ea3a1a7c17404b9df86dd82a6d21019bc90635e0eb1ccf08779f06624116c812"
     },
     "stp": {
-      "values_digest": "f0ddc42c5e3e4530e545c4107e06d24bfcde7aa0eb3b4db0f50dc1b4f08bfe67",
+      "values_digest": "1aa1f297e4d38d461ab413321eed4bb494b2f590dd596b81380556302c174244",
       "rendered_digest": "6e1551c438e00d65871511ebc3a863e00a4cc915bb709494a13ed50e1cac7250",
       "ast_digest": "71dca90b1c60e816480bcfa4f25d696b066ff7c4796e530e01680cd237c032c3"
     },
     "spp": {
-      "values_digest": "f4d5a40ed8d5d7cb5a0033c16b04d8c81318bc1d15281701ff373f4ec139e57f",
+      "values_digest": "3c2b9279dd331179a691b55a53476bc792fa5d6543d4b41a649481b7ac09edd5",
       "rendered_digest": "22624646750274ad03d332f799c84529e2c06ee8d393657a951cc510db68329b",
       "ast_digest": "d24df4cf39383ff570be13f597dde9bf5f7d1d0594afa547cf77f0d72afc0f59"
     },
     "vpp": {
-      "values_digest": "26518e25241433d4d3711d680c20315fbfb568b3f6441fec99e57a45b61fc8d6",
+      "values_digest": "35d6c81fdde83c193b359b5518a786368e05851e0bb994935d81514ca6935a85",
       "rendered_digest": "cad9ded18490dfe77ce3fa126ca665289202d553e81cdefca0cd43559644450f",
       "ast_digest": "a538f88e0d779c8720dc2835512a9e94f55041093257b0b74b585dcddf8e72c2"
     },
     "srp": {
-      "values_digest": "984c97f1860eae4d5d2c9f5ea3a4a3995691728ff256622d110c4960011975b7",
+      "values_digest": "0dfcffdc7ef5353ba14398dba2c255f27d18b02472491eb8ab75011c22d34e64",
       "rendered_digest": "28d0cc34e2e2f6abfb29966d796d32f4808e7a0c67c412ecaff300bb767ba0f8",
       "ast_digest": "8d4f78d7228724cef34ceab6cf952b39fe1bb841b8ce0b817fc4d72709a9fb89"
     },
     "sor": {
-      "values_digest": "cd02f3c31ce93ceb1368527f4769c7ee4cf49af9c1f2b4f2ee70fa75d2a44ee5",
+      "values_digest": "40dba2d7581e714475d5c846f7ec4a2843b1bc7108ccd43e3da1ad53e48028b3",
       "rendered_digest": "894bb830d6b6fb6c72ecf93322c747cd09f7bb0f580309a802327df1ccc45695",
       "ast_digest": "c07fe163e1ea7afd1f2382c4a4b42141a87ba85b5349cc3f7932fbbd6875ba52"
     }
@@ -175,6 +175,13 @@
       "actor": "codex:/root",
       "reason": "Operator expanded HOT-01 before merge to require production Runtime Observatory origin-policy hot reload. The published code only exposes a generic watcher and does not yet wire CORS and WSS origin authority, so clear stale review/publication truth before implementation and fresh exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Correct the recovered required outcome to include the operator-required production Runtime Observatory origin-policy integration.",
+      "operation": "{\"new_value\":\"One production-ready Axum hot-reload implementation with last-known-good retention, including config-only atomic Runtime Observatory origin-policy updates consumed by both HTTP CORS and authenticated WSS without rebuild, continuity rotation, or Runtime restart.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"One production-ready Axum hot-reload implementation with last-known-good retention.\"}"
     }
   ]
 }
