@@ -43,8 +43,11 @@ const DETERMINISTIC_OLLAMA_INFERENCE_PROFILE: ProviderInferenceProfilePreset =
     };
 
 const PROFILE_STATE_SCHEMA: &str = "adl.provider_profile_state.v1";
+const PROFILE_MATERIALIZATION_STATE_SCHEMA: &str = "adl.provider_profile_materialization_state.v1";
 const PROFILE_MATERIALIZATION_SCHEMA: &str = "adl.provider_profile_materialization_projection.v1";
 const PROFILE_REDACTION_SCHEMA: &str = "adl.provider_profile_redacted_projection.v1";
+const MAX_PROFILE_OUTPUT_TOKENS: u64 = 32_768;
+const MAX_PROFILE_TIMEOUT_SECS: u64 = 600;
 
 const HTTP_PROFILE_PLACEHOLDER_ENDPOINT: &str = "https://api.example.invalid/v1/complete";
 const INVALID_ENDPOINT_HOST_MARKER: &str = "example.invalid";
@@ -193,12 +196,12 @@ fn validate_bounded_f64(
     }
 }
 
-fn validate_positive_u64(provider_id: &str, key: &str, value: u64) -> Result<()> {
-    if value > 0 {
+fn validate_bounded_u64(provider_id: &str, key: &str, value: u64, max: u64) -> Result<()> {
+    if value > 0 && value <= max {
         Ok(())
     } else {
         Err(anyhow!(
-            "providers.{provider_id}.config.{key} must be a positive integer"
+            "providers.{provider_id}.config.{key} must be a positive integer no greater than {max}"
         ))
     }
 }
@@ -226,14 +229,24 @@ fn ensure_inference_profile_config(
 
     let max_output_tokens = config_u64(provider_id, config, "max_output_tokens")?
         .unwrap_or(inference.max_output_tokens);
-    validate_positive_u64(provider_id, "max_output_tokens", max_output_tokens)?;
+    validate_bounded_u64(
+        provider_id,
+        "max_output_tokens",
+        max_output_tokens,
+        MAX_PROFILE_OUTPUT_TOKENS,
+    )?;
     config
         .entry("max_output_tokens".to_string())
         .or_insert_with(|| json!(inference.max_output_tokens));
 
     let timeout_secs =
         config_u64(provider_id, config, "timeout_secs")?.unwrap_or(inference.timeout_secs);
-    validate_positive_u64(provider_id, "timeout_secs", timeout_secs)?;
+    validate_bounded_u64(
+        provider_id,
+        "timeout_secs",
+        timeout_secs,
+        MAX_PROFILE_TIMEOUT_SECS,
+    )?;
     config
         .entry("timeout_secs".to_string())
         .or_insert_with(|| json!(inference.timeout_secs));
@@ -262,12 +275,16 @@ fn ensure_inference_profile_config(
         );
     }
 
-    let state = retained_profile_state(profile_name, config.get("profile_state"))?;
+    let state = retained_profile_state(profile_name, config.get("profile_state"), &config)?;
     config.insert("profile_state".to_string(), state);
     Ok(())
 }
 
-fn retained_profile_state(profile_name: &str, previous_state: Option<&Value>) -> Result<Value> {
+fn retained_profile_state(
+    profile_name: &str,
+    previous_state: Option<&Value>,
+    config: &BTreeMap<String, Value>,
+) -> Result<Value> {
     if let Some(previous_state) = previous_state {
         let schema = previous_state
             .get("schema")
@@ -292,14 +309,76 @@ fn retained_profile_state(profile_name: &str, previous_state: Option<&Value>) ->
             previous_lkg
         ));
     }
+    let previous_materialization = previous_state
+        .and_then(Value::as_object)
+        .and_then(|state| state.get("last_known_good_materialization"));
+    let last_known_good_materialization = match previous_materialization {
+        Some(materialization) => {
+            validate_materialization_state(previous_lkg, materialization)?;
+            materialization.clone()
+        }
+        None => {
+            let retained_preset = provider_profile_registry()
+                .get(previous_lkg)
+                .copied()
+                .ok_or_else(|| {
+                    anyhow!(
+                        "providers profile_state.last_known_good_profile '{}' must name a known profile",
+                        previous_lkg
+                    )
+                })?;
+            materialization_state(previous_lkg, retained_preset, config)
+        }
+    };
 
     Ok(json!({
         "schema": PROFILE_STATE_SCHEMA,
         "profile": profile_name,
         "last_known_good_profile": previous_lkg,
+        "last_known_good_materialization": last_known_good_materialization,
         "retention": "retain_last_valid_materialization",
         "activation": "validate_before_activation"
     }))
+}
+
+fn validate_materialization_state(profile_name: &str, materialization: &Value) -> Result<()> {
+    let schema = materialization
+        .get("schema")
+        .and_then(Value::as_str)
+        .unwrap_or_default();
+    let materialized_profile = materialization
+        .get("profile")
+        .and_then(Value::as_str)
+        .unwrap_or_default();
+    if schema != PROFILE_MATERIALIZATION_STATE_SCHEMA || materialized_profile != profile_name {
+        return Err(anyhow!(
+            "providers profile_state.last_known_good_materialization must use schema {PROFILE_MATERIALIZATION_STATE_SCHEMA} for last_known_good_profile '{}'",
+            profile_name
+        ));
+    }
+    Ok(())
+}
+
+fn materialization_state(
+    profile_name: &str,
+    preset: ProviderProfilePreset,
+    config: &BTreeMap<String, Value>,
+) -> Value {
+    let mut redacted_config = Map::new();
+    for (key, value) in config {
+        if key == "profile_state" {
+            continue;
+        }
+        redacted_config.insert(key.clone(), redacted_value_for_key(key, value));
+    }
+    json!({
+        "schema": PROFILE_MATERIALIZATION_STATE_SCHEMA,
+        "profile": profile_name,
+        "type": preset.kind,
+        "default_model": preset.default_model,
+        "base_url_present": false,
+        "config": redacted_config
+    })
 }
 
 fn materialized_config(
@@ -376,7 +455,7 @@ pub fn provider_profile_materialization_projection(doc: &adl::AdlDoc) -> Result<
                 "id": spec.id,
                 "profile": spec.profile,
                 "type": spec.kind,
-                "base_url": spec.base_url,
+                "base_url_present": spec.base_url.is_some(),
                 "default_model": spec.default_model,
                 "config": config
             }),

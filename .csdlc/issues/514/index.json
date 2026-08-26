@@ -4,54 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9fdf6098309aa72bf2e1efd727a6691adf465920b488e78111c6723537e7619d",
-  "phase": "published",
-  "generation": 4,
-  "digest": "403c2c8e8394103a06e6e1fd1c8652500c1a775fd4456fa94eb66182f3a59d5b",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "3f4a626001d7b607877096e425bd004f615a979a07cfe1c82b8f43f5f006b457",
   "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
-  "review_assignment": {
-    "reviewer": "gpt-5.5-subagent:prov-a-current-head",
-    "assigned_by": "codex:sprint-1-issue-514-worker",
-    "revision": "git-blake3:525b393dfc246e8458b135aeb82ef5b99d1810a8:824bab33091d06a2863176f557b1742770b2d89e0f9ff794cc7e375e2e7f2563",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/src/provider/profiles.rs",
-      "docs/provider/inference-profiles.md",
-      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
-      ".csdlc/prepared/issues/514/validate-*.rb",
-      ".csdlc/evidence/514/*.log"
-    ]
-  },
-  "review": {
-    "reviewer": "gpt-5.5-subagent:prov-a-current-head",
-    "scope": [
-      "adl/src/provider/mod.rs",
-      "adl/src/provider/profiles.rs",
-      "docs/provider/inference-profiles.md",
-      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
-      ".csdlc/prepared/issues/514/validate-*.rb",
-      ".csdlc/evidence/514/*.log"
-    ],
-    "reviewed_revision": "git-blake3:525b393dfc246e8458b135aeb82ef5b99d1810a8:824bab33091d06a2863176f557b1742770b2d89e0f9ff794cc7e375e2e7f2563",
-    "findings": [],
-    "residual_risks": [
-      "Focused local validation passed; broader workspace integration remains deferred to PR CI."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 514,
-    "pull_request": 549,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/549",
-    "base": "main",
-    "head": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
-    "revision": "git-blake3:260a1e291ee56996f500d691d4f8c099f0cf6032:1280d0d11db100c5028ab963f3d8b8973d0df4857059e8b9a5a812fbc8199e44",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "80ff2a1c10468dd092d64e514d393558d6b775612c55d5a6b64714cab7b35101",
+      "values_digest": "403021c5d19933741dc49ab13f9642dfe4dfbacf58716e829e3b451eeb95923e",
       "rendered_digest": "0b2b96047cadd7c25e6919f8aa6aaef361cb8694637c67b3bc457cb05fbfac75",
       "ast_digest": "3a308d39d4ccac0225312a861c790215b1f777524ef0cbe88d624959282eda66"
     },
     "stp": {
-      "values_digest": "5e7609f3a17cf8183a8c852ca006fa280242ec0b15973ca76d5fe9321f830951",
+      "values_digest": "853c2f0081c32f929627bc65b671f86d918df13c3f27d88207598e6a0752c08c",
       "rendered_digest": "da03dbd130894a30ad371f2dcc53b310c4cccb74f4f97e3187e800c1259eae16",
       "ast_digest": "72a3d9084a14e396224ebcf0b7b1301d9c531df8e9e1db4c78c4af2b8b91467c"
     },
     "spp": {
-      "values_digest": "19d4f7d852861de60d747673e4e0dc0a572e279972ad76f739631fbfba93ea4f",
+      "values_digest": "d3132f4fc00076f43586ac6abc2490f521c9388c8fde5869dda40744036e4884",
       "rendered_digest": "c8544d8772f1f01111260278f980490bf763b6eff893e5530c0086dd69a4f009",
       "ast_digest": "633f5fd92e8e0ce90d2c7baa29f4f8fe5d555842b4b0486ea53b355b43330b2b"
     },
     "vpp": {
-      "values_digest": "a0b30c7355fbe7a5fb428d2b686f0c01eb85943d109e0cb30ed2d983a5b2c6d3",
+      "values_digest": "e2bac4fcef333905034192c433218492bc2689488763d9afc107578c758bdfb3",
       "rendered_digest": "0f27717b849259d3d877a3281f281b61ed4b6ea845124243260893741e360ea2",
       "ast_digest": "8e5e53c7c10630e30182ae4221d92fd19cea3c9ba4b86b9f9076aa27e946d81d"
     },
     "srp": {
-      "values_digest": "0e2409c28b56f3ec327d6e7f6083227a178ea594f34b9e758fb0bb79c42983ac",
-      "rendered_digest": "a797222b1f5b6b954ae3fe339997dde2d972323159510f26b077eec51db4ff8c",
-      "ast_digest": "4391dddcae0e97622501288cafec29090b8c3024e68b62512ba4f08ae3f0297c"
+      "values_digest": "65f5129b024171ad0ac3fbb9c02a56c0b5e2bcfabc205f6c8b6475efdd2d64b0",
+      "rendered_digest": "f427e4a4c7059effc1b38f747d37aa751f47e800bba13528203d3a2c71813ac3",
+      "ast_digest": "31c3e61c3d56e1dbfe2e55a471e0d798c2ccad77d4704e24499219b0e0be1b2a"
     },
     "sor": {
-      "values_digest": "9f90f05143e8b5561b997d513eb9b7ff5a5a3545fc4dc125a1e2766e5d07a1a6",
-      "rendered_digest": "311683efb04066d92c9aaf21658a90c18d8170ebf82eb9b9885b4341d1dac2d3",
-      "ast_digest": "68e6635932afb3c82f0c4ccb1d046391f6e8305739148c841105c5b9bc20dec8"
+      "values_digest": "9af272f7f75b4cfee62fbb7942734a818d42472915404ee287c56b2f041e994b",
+      "rendered_digest": "87d642b733cf277e3f71ecfb38e82dbc7067dcaf7e30586537bbe4433997206e",
+      "ast_digest": "c8a99726c69f2991b996a537459291a596d6ab4df44cf1d6f07419178ae88cd0"
     }
   },
   "transitions": [
@@ -130,6 +90,13 @@
       "to": "published",
       "actor": "codex:sprint-1-issue-514-worker",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "Recover #514 review truth after merging current origin/main advanced the clean substantive commit; operator requires fresh independent OpenAI Responses API review before #514 republish and merge."
     }
   ],
   "audit": [
@@ -181,6 +148,13 @@
       "actor": "codex:sprint-1-issue-514-worker",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "Recover #514 review truth after merging current origin/main advanced the clean substantive commit; operator requires fresh independent OpenAI Responses API review before #514 republish and merge.",
+      "operation": "recover_review"
     }
   ]
 }

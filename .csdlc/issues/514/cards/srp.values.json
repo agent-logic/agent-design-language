@@ -7,25 +7,23 @@
     "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
     "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider/mod.rs\nadl/src/provider/profiles.rs\ndocs/provider/inference-profiles.md\ndocs/milestones/v0.92.1/evidence/provider/prov-a/README.md\n.csdlc/prepared/issues/514/validate-*.rb\n.csdlc/evidence/514/*.log",
-      "review_revision": "git-blake3:525b393dfc246e8458b135aeb82ef5b99d1810a8:824bab33091d06a2863176f557b1742770b2d89e0f9ff794cc7e375e2e7f2563",
-      "reviewer": "gpt-5.5-subagent:prov-a-current-head",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the implementation stay inside the declared unit boundary?",
         "Does every acceptance criterion have proving evidence?",
         "Are operator-only actions and private material kept outside Git?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Focused local validation passed; broader workspace integration remains deferred to PR CI."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

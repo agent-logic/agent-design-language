@@ -5,3 +5,4 @@
 {"sequence":5,"generation":2,"actor":"codex:sprint-1-issue-514-worker","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":6,"generation":3,"actor":"codex:sprint-1-issue-514-worker","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":7,"generation":4,"actor":"codex:sprint-1-issue-514-worker","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":8,"generation":5,"actor":"codex-root","reason":"Recover #514 review truth after merging current origin/main advanced the clean substantive commit; operator requires fresh independent OpenAI Responses API review before #514 republish and merge.","operation":"recover_review"}

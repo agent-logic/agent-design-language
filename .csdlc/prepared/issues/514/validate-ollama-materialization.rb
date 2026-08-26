@@ -16,4 +16,14 @@ required = [
 
 missing = required.reject { |needle| profiles.include?(needle) || tests.include?(needle) }
 abort "missing PROV-A ollama materialization markers: #{missing.join(", ")}" unless missing.empty?
+rust_tests = [
+  "provider_mod_profile_expansion_materializes_bounded_inference_defaults",
+  "provider_mod_profile_materialization_projection_is_stable_and_redacted"
+]
+Dir.chdir(root) do
+  rust_tests.each do |test|
+    ok = system("cargo", "test", "--manifest-path", "adl/Cargo.toml", "--lib", test)
+    abort "PROV-A ollama-materialization Rust test failed: #{test}" unless ok
+  end
+end
 puts "PROV-A ollama-materialization: pass"

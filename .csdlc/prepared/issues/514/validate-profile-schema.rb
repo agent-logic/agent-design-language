@@ -16,4 +16,15 @@ required = [
 
 missing = required.reject { |needle| profiles.include?(needle) || tests.include?(needle) || doc.include?(needle) }
 abort "missing PROV-A schema proof markers: #{missing.join(", ")}" unless missing.empty?
+rust_tests = [
+  "provider_mod_profile_expansion_materializes_bounded_inference_defaults",
+  "provider_mod_profile_expansion_rejects_malformed_inference_values",
+  "provider_mod_profile_expansion_rejects_provider_model_id_conflicts"
+]
+Dir.chdir(root) do
+  rust_tests.each do |test|
+    ok = system("cargo", "test", "--manifest-path", "adl/Cargo.toml", "--lib", test)
+    abort "PROV-A profile-schema Rust test failed: #{test}" unless ok
+  end
+end
 puts "PROV-A profile-schema: pass"

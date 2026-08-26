@@ -5,7 +5,7 @@ tests = File.read(File.join(root, "adl/src/provider/mod.rs"))
 
 required = [
   "validate_bounded_f64",
-  "validate_positive_u64",
+  "validate_bounded_u64",
   "config.temperature",
   "deterministic_seed must remain 0",
   "provider_mod_profile_expansion_rejects_non_deterministic_ollama_seed",
@@ -15,4 +15,15 @@ required = [
 
 missing = required.reject { |needle| profiles.include?(needle) || tests.include?(needle) }
 abort "missing PROV-A invalid-profile markers: #{missing.join(", ")}" unless missing.empty?
+rust_tests = [
+  "provider_mod_profile_expansion_rejects_non_deterministic_ollama_seed",
+  "provider_mod_profile_expansion_rejects_malformed_inference_values",
+  "provider_mod_profile_expansion_rejects_provider_model_id_conflicts"
+]
+Dir.chdir(root) do
+  rust_tests.each do |test|
+    ok = system("cargo", "test", "--manifest-path", "adl/Cargo.toml", "--lib", test)
+    abort "PROV-A invalid-profile Rust test failed: #{test}" unless ok
+  end
+end
 puts "PROV-A invalid-profile: pass"

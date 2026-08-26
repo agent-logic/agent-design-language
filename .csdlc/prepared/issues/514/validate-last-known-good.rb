@@ -8,12 +8,25 @@ required = [
   "PROFILE_STATE_SCHEMA",
   "adl.provider_profile_state.v1",
   "last_known_good_profile",
+  "last_known_good_materialization",
   "retain_last_valid_materialization",
   "validate_before_activation",
   "retained_profile_state",
-  "provider_mod_profile_state_retains_previous_last_known_good"
+  "provider_mod_profile_state_retains_previous_last_known_good",
+  "provider_mod_profile_activation_preserves_active_materialization_on_invalid_candidate"
 ]
 
 missing = required.reject { |needle| profiles.include?(needle) || tests.include?(needle) || evidence.include?(needle) }
 abort "missing PROV-A last-known-good markers: #{missing.join(", ")}" unless missing.empty?
+rust_tests = [
+  "provider_mod_profile_state_retains_previous_last_known_good",
+  "provider_mod_profile_state_rejects_unknown_last_known_good",
+  "provider_mod_profile_activation_preserves_active_materialization_on_invalid_candidate"
+]
+Dir.chdir(root) do
+  rust_tests.each do |test|
+    ok = system("cargo", "test", "--manifest-path", "adl/Cargo.toml", "--lib", test)
+    abort "PROV-A last-known-good Rust test failed: #{test}" unless ok
+  end
+end
 puts "PROV-A last-known-good: pass"
