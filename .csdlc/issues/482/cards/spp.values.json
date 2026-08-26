@@ -1,0 +1,92 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 482,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+    "slug": "v0-92-1-corp-a-critical-asset-schedule",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Reconcile the issue boundary, produce the single CORP-A deliverable, validate it, and obtain exact-head review.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Reconcile dependencies and freeze the exact issue-local denominator.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Produce the bounded primary deliverable without widening authority.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run every planned PVF lane and retain bounded redacted evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain exact-head review and prepare a truthful publication handoff.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/operations/corporate/asset-register",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-a",
+        ".csdlc/prepared/issues/482",
+        ".csdlc/prepared/issues/482/validate-asset-denominator.rb",
+        ".csdlc/prepared/issues/482/validate-provenance-and-license.rb",
+        ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb"
+      ],
+      "invariants": [
+        "Issue completion is exactly acceptance of the one critical-asset schedule; source-specific checks are evidence inputs, not separately closeable results.",
+        "The asset validator proves every critical asset appears exactly once with an accepted disposition and redacted receipt.",
+        "No secret or private material in Git"
+      ],
+      "risks": [
+        "Unknown critical-asset ownership",
+        "Counsel or corporate authority is missing",
+        "Private material would enter Git"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Unknown critical-asset ownership",
+        "Counsel or corporate authority is missing",
+        "Private material would enter Git"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/482/design.md",
+      "design_digest": "e52268ade257af75c462783492e3afbb11fc5eec7eff7b0357d093c9f0882ac3",
+      "diagram_ref": ".csdlc/prepared/issues/482/diagram.mmd",
+      "diagram_digest": "38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a"
+    }
+  }
+}

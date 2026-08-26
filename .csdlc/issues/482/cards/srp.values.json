@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 482,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+    "slug": "v0-92-1-corp-a-critical-asset-schedule",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "CORP-A declared paths, acceptance criteria, PVF evidence, and operator boundary only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the implementation stay inside the declared unit boundary?",
+        "Does every acceptance criterion have proving evidence?",
+        "Are operator-only actions and private material kept outside Git?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

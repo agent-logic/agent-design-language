@@ -1,0 +1,105 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 482,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+    "slug": "v0-92-1-corp-a-critical-asset-schedule",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "asset-denominator",
+          "proof_role": "Prove asset denominator for CORP-A.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/482/validate-asset-denominator.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "provenance-and-license",
+          "proof_role": "Prove provenance and license for CORP-A.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/482/validate-provenance-and-license.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "redaction-and-custody",
+          "proof_role": "Prove redaction and custody for CORP-A.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Prove diff hygiene for CORP-A.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1800,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on any stop condition, authority ambiguity, secret exposure, incomplete denominator, or non-proving validation.",
+      "design_ref": ".csdlc/prepared/issues/482/design.md",
+      "design_digest": "e52268ade257af75c462783492e3afbb11fc5eec7eff7b0357d093c9f0882ac3",
+      "diagram_ref": ".csdlc/prepared/issues/482/diagram.mmd",
+      "diagram_digest": "38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a"
+    }
+  }
+}

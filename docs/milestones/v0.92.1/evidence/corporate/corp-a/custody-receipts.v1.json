@@ -1,0 +1,167 @@
+{
+  "schema": "adl.corporate.redacted_custody_receipts.v1",
+  "issue": 482,
+  "schedule_ref": "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+  "redaction_policy": {
+    "private_material_in_git": false,
+    "public_fields": [
+      "receipt_id",
+      "asset_id",
+      "asset_class",
+      "custodian_role",
+      "evidence_kind",
+      "redaction",
+      "verification_result"
+    ],
+    "forbidden_material": [
+      "credential values",
+      "provider recovery factors",
+      "tax identifiers",
+      "executed legal instruments",
+      "payment account numbers",
+      "registrar authentication material"
+    ]
+  },
+  "receipts": [
+    {
+      "receipt_id": "corp-a-source-control",
+      "asset_id": "corp-a-source-control",
+      "asset_class": "source_control",
+      "custodian_role": "engineering-maintainer-role",
+      "evidence_kind": "redacted-account-custody-attestation",
+      "redaction": "Repository names and custody roles are public; account recovery factors and credential values are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-ci-cd",
+      "asset_id": "corp-a-ci-cd",
+      "asset_class": "ci_cd",
+      "custodian_role": "release-maintainer-role",
+      "evidence_kind": "redacted-automation-custody-attestation",
+      "redaction": "Workflow surface is public; repository variables, credential values, and provider recovery factors are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-production-domains",
+      "asset_id": "corp-a-production-domains",
+      "asset_class": "production_domains",
+      "custodian_role": "infrastructure-maintainer-role",
+      "evidence_kind": "redacted-registrar-custody-attestation",
+      "redaction": "Domain-control fact is represented; registrar authentication material and payment data are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-dns-route53",
+      "asset_id": "corp-a-dns-route53",
+      "asset_class": "dns_route53",
+      "custodian_role": "infrastructure-maintainer-role",
+      "evidence_kind": "redacted-dns-custody-attestation",
+      "redaction": "Hosted-zone custody is represented; AWS identifiers and credential values are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-certificates",
+      "asset_id": "corp-a-certificates",
+      "asset_class": "certificates",
+      "custodian_role": "infrastructure-maintainer-role",
+      "evidence_kind": "redacted-certificate-custody-attestation",
+      "redaction": "Certificate custody and renewal role are represented; private keys and account recovery factors are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-email",
+      "asset_id": "corp-a-email",
+      "asset_class": "email",
+      "custodian_role": "business-operations-role",
+      "evidence_kind": "redacted-mailbox-custody-attestation",
+      "redaction": "Administrative routing is represented; mailbox credentials, recovery factors, and payment data are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-infrastructure-as-code",
+      "asset_id": "corp-a-infrastructure-as-code",
+      "asset_class": "infrastructure_as_code",
+      "custodian_role": "infrastructure-maintainer-role",
+      "evidence_kind": "repository-controlled-source-attestation",
+      "redaction": "Infrastructure source references are public; state files, credential values, and provider account material are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-aws-infrastructure",
+      "asset_id": "corp-a-aws-infrastructure",
+      "asset_class": "aws_infrastructure",
+      "custodian_role": "cloud-operations-role",
+      "evidence_kind": "redacted-cloud-account-custody-attestation",
+      "redaction": "Business-account custody is represented; account identifiers, credential values, and billing instruments are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-deployment-operations",
+      "asset_id": "corp-a-deployment-operations",
+      "asset_class": "deployment_operations",
+      "custodian_role": "release-maintainer-role",
+      "evidence_kind": "repository-controlled-procedure-attestation",
+      "redaction": "Procedure ownership is public; incident channels, escalation contact material, and provider credentials are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-brand-trademark",
+      "asset_id": "corp-a-brand-trademark",
+      "asset_class": "brand_trademark",
+      "custodian_role": "business-operations-role",
+      "evidence_kind": "redacted-brand-custody-attestation",
+      "redaction": "Brand custody route is represented; executed instruments and counsel communications are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-provenance-license",
+      "asset_id": "corp-a-provenance-license",
+      "asset_class": "provenance_license",
+      "custodian_role": "engineering-maintainer-role",
+      "evidence_kind": "repository-controlled-license-surface-attestation",
+      "redaction": "Public license and provenance paths are referenced; private assignments and counsel communications are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-assignment-acceptance",
+      "asset_id": "corp-a-assignment-acceptance",
+      "asset_class": "assignment_acceptance",
+      "custodian_role": "business-operations-role",
+      "evidence_kind": "redacted-assignment-acceptance-attestation",
+      "redaction": "Acceptance fact and custody role are represented; executed instruments, consideration terms, and signatures are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-private-custody",
+      "asset_id": "corp-a-private-custody",
+      "asset_class": "private_custody",
+      "custodian_role": "business-operations-role",
+      "evidence_kind": "redacted-private-envelope-attestation",
+      "redaction": "Envelope existence and custodian role are represented; credential values, recovery factors, legal instruments, and tax material are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    },
+    {
+      "receipt_id": "corp-a-data-model-media",
+      "asset_id": "corp-a-data-model-media",
+      "asset_class": "data_model_media",
+      "custodian_role": "documentation-maintainer-role",
+      "evidence_kind": "repository-controlled-documentation-attestation",
+      "redaction": "Repository media and documentation surfaces are referenced; unpublished source material and private assignment records are excluded.",
+      "private_custody_ref": "operator-held-corp-a-envelope",
+      "verification_result": "accepted"
+    }
+  ]
+}

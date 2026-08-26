@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 482,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+    "slug": "v0-92-1-corp-a-critical-asset-schedule",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one accepted critical-asset schedule for the complete asset denominator.",
+      "required_outcome": "One accepted critical-asset schedule with provenance, ownership, licensing, trademark, and assignment dispositions. The asset validator proves every critical asset appears exactly once with an accepted disposition and redacted receipt.",
+      "declared_scope": [
+        "docs/operations/corporate/asset-register/**",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-a/**",
+        ".csdlc/prepared/issues/482"
+      ],
+      "authority_boundary": [
+        "Issue completion is exactly acceptance of the one critical-asset schedule; source-specific checks are evidence inputs, not separately closeable results.",
+        "Issue authority is agent-logic/agent-design-language#482",
+        "No adjacent sprint or provider authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "No paid cloud or provider mutation",
+        "No secrets, legal instruments, auth codes, or recovery factors in Git"
+      ]
+    }
+  }
+}
