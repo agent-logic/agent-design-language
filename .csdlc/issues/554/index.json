@@ -4,13 +4,62 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8b889a565674a00c0f4e0df383b31867d279f5897c00dc4465976c381b355d0",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "dc2eb1ed11033437624538d3e30a55a8328b0095085e96cc57643d9dffc3ab36",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "b5996fddabced996d00989263b8f0442f91e587e065b4303347c2a971939702e",
   "branch": "codex/554-v0-92-1-shared-gate-coverage-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:55c86efb-d755-4bff-974e-f6a78fb5a3a0",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ac9550295ead9e3076ad91e2c083df6cc8010a29:d2fe23799435cce2d8efb18fde4ada061f470aafaddac45d5e618c362e02104e",
+    "scope": [
+      "adl/src/runtime_v2/contracts.rs",
+      "docs/milestones/v0.92/README.md",
+      ".csdlc/evidence/554/diff-check.log",
+      ".csdlc/evidence/554/focused-memory-palace-docs.log",
+      ".csdlc/evidence/554/focused-runtime-v2-kernel.log",
+      ".csdlc/evidence/554/rustfmt-check.log",
+      ".csdlc/evidence/554/typed-issue-validation.log",
+      ".csdlc/issues/554/audit.jsonl",
+      ".csdlc/issues/554/cards/sip.md",
+      ".csdlc/issues/554/cards/stp.md",
+      ".csdlc/issues/554/cards/spp.md",
+      ".csdlc/issues/554/cards/vpp.md",
+      ".csdlc/issues/554/cards/srp.md",
+      ".csdlc/issues/554/cards/sor.md",
+      ".csdlc/issues/554/index.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:55c86efb-d755-4bff-974e-f6a78fb5a3a0",
+    "scope": [
+      "adl/src/runtime_v2/contracts.rs",
+      "docs/milestones/v0.92/README.md",
+      ".csdlc/evidence/554/diff-check.log",
+      ".csdlc/evidence/554/focused-memory-palace-docs.log",
+      ".csdlc/evidence/554/focused-runtime-v2-kernel.log",
+      ".csdlc/evidence/554/rustfmt-check.log",
+      ".csdlc/evidence/554/typed-issue-validation.log",
+      ".csdlc/issues/554/audit.jsonl",
+      ".csdlc/issues/554/cards/sip.md",
+      ".csdlc/issues/554/cards/stp.md",
+      ".csdlc/issues/554/cards/spp.md",
+      ".csdlc/issues/554/cards/vpp.md",
+      ".csdlc/issues/554/cards/srp.md",
+      ".csdlc/issues/554/cards/sor.md",
+      ".csdlc/issues/554/index.json"
+    ],
+    "reviewed_revision": "git-blake3:ac9550295ead9e3076ad91e2c083df6cc8010a29:d2fe23799435cce2d8efb18fde4ada061f470aafaddac45d5e618c362e02104e",
+    "findings": [],
+    "residual_risks": [
+      "Hosted coverage and required CI remain pending and fail-closed until publication.",
+      "Review did not rerun tests; it inspected recorded focused evidence and source semantics.",
+      "PASS does not claim #122/#550/#552/#553 publication, merge, or terminal state."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +74,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5364a0764a41ac0471cb528d52eb4107013ea23b17b090abeedf91dd650371a2",
+      "values_digest": "8a1ee8e995087a738d4e1392e8bc956dbe5b2eb7890ccacdb13f4a9aa5774d39",
       "rendered_digest": "cec90d2250d4b1f535ea540a29f524a58d7a245d762e98ac1737f03e171667bd",
       "ast_digest": "811233c00a315b058310586885b8bcf2a4a13264d362657964b692fe09e5a12b"
     },
     "stp": {
-      "values_digest": "47ca72cfd8a8bd7cdff3f91ba7c918f504df0405990e8670eee642c9805aa145",
+      "values_digest": "0efe6ec1c780bd6b857e2fd38a25656a8d3f2e9bb4f7d1dbec32cbe41bb4d888",
       "rendered_digest": "a067f10d1913a6fa4166316c63f62ea4336ee0ad7ca26efefba204d1d99e7326",
       "ast_digest": "da7ff3a417b8de770b9018e0cde1718eb890fc18ba5543099022826823125a54"
     },
     "spp": {
-      "values_digest": "1f268446f156bee2462c9439669cccd1f80ad7c33f79dc353890ab4c3fe1350f",
+      "values_digest": "7a019d58f916187d8a9c1c1f4729ed205baffacbc82551b2b362b0d8bc403df3",
       "rendered_digest": "770ca57ea1b320f069fc263f8ddef298f00a3032b187c66fe3435fffd86b6abf",
       "ast_digest": "a8d9991feaafa60b9249daae10729a1d48a698199b2811824edc05055ec04aba"
     },
     "vpp": {
-      "values_digest": "d94db6b73bf1a30abe3422ab6a930d7db2017288fa75a9663711a8e696b64a66",
+      "values_digest": "63ef54a44dbe774fe5775a555eb41217a7e0eaafeefc906351f6798cd519730b",
       "rendered_digest": "d32074ffb1822efb418f0e71fd843696766ff2e53fa76a01375ec7f327426220",
       "ast_digest": "c7a7b34ce0eed05ca1ec5d57119a164fd1917b0dab01d63d2ca86e08ca11556d"
     },
     "srp": {
-      "values_digest": "347a147945b1faad90a96423673496854cf28040d58e795db88942c92f5bb1fc",
-      "rendered_digest": "f8015891e67febb285cde9ba834030de0880f3ebade4e437392def1ef065cbb8",
-      "ast_digest": "1d46581ab94701644694cb32088a99c96686bfb1d2520c9c5810cf02bb8f7bdf"
+      "values_digest": "caa51e06b8c4cdd8028fc799d31743f21c3296355c53f6ea0b6ea220f37b426d",
+      "rendered_digest": "149303e8cf0834998452415d3bce90f8e5e5aab403404319fbef48c101e1ed9e",
+      "ast_digest": "dfa497f337868657da4ec5eaac8f8fff0ec8bc5394d438b5ab175ee3cbd9bc87"
     },
     "sor": {
-      "values_digest": "24ff63b48d60ca3edab45e29ac6fd2d714eee3d1e483cbc8e1753446ccf736fc",
+      "values_digest": "e6884b24352d740e822b91486427d309dbb5e6f971481d3d13901b6bbc3a417b",
       "rendered_digest": "319c8896456af073daf291779737cacc80bcf418ec60a04f51450d8018fbe85e",
       "ast_digest": "40860e49fb9cd9642da947297f5bae323bafdb0ffbf8a77006822b544fe9b6e5"
     }
@@ -90,6 +139,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale exact review after merging current origin/main containing terminal #510."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -211,6 +267,20 @@
       "actor": "codex:/root",
       "reason": "Record post-origin/main merge validation after recovering stale review truth for the shared coverage baseline repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo test --manifest-path adl/Cargo.toml --test memory_palace_tests v092_docs_name_memory_palace_production_authority_without_broad_completion_claim\",\"cargo test --manifest-path adl/Cargo.toml --lib runtime_v2::tests::unified_runtime_kernel\",\"cargo fmt --manifest-path adl/Cargo.toml --check\",\"git diff --check\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-554-v0-92-1-shared-gate-coverage-baseline issue --issue 554\"],\"purpose\":\"Reprove #554 after merging current origin/main: retained v0.92 docs invariant, Runtime-v2 unified-kernel reliability, Rust formatting, whitespace hygiene, and typed lifecycle validity.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:#554 post-origin/main merge validation in bound FastWork worktree on 2026-08-26; generated evidence logs normalized for diff hygiene.\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
