@@ -7,13 +7,13 @@
     "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
     "slug": "hot-01-axum-configuration-hot-reload",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 4
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review exact issue #510 HOT-01 runtime hot-reload changes across adl-runtime/src/config_reload.rs, adl-runtime/src/lib.rs, adl-runtime/tests/config_reload.rs, docs/runtime/config-hot-reload.md, prepared validators, validation evidence, and PR publication readiness. Reject partial snapshots, restart-required reload, invalid-update activation, missing debounce, lingering watcher tasks, stale review, merge/closeout, or DEC-01 #513 scope absorption.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

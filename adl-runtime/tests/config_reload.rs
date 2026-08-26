@@ -78,23 +78,33 @@ async fn wait_for_generation(
 async fn valid_reload_atomically_replaces_snapshot() {
     let temp = TempDir::new().expect("temp dir");
     let path = temp.path().join("runtime.toml");
-    write_config(&path, render("before", 2, 7)).await;
+    write_config(&path, render("stable-a", 2, 7)).await;
 
     let controller = start_config_reload(&path, parser(), options())
         .await
         .expect("start reload");
     let handle = controller.handle();
-    assert_eq!(handle.current().value().name, "before");
+    assert_eq!(handle.current().value().name, "stable-a");
 
-    write_config(&path, render("after", 4, 9)).await;
+    write_config(&path, render("stable-b", 4, 9)).await;
     let snapshot = wait_for_generation(&handle, 1).await;
 
-    assert_eq!(snapshot.value().name, "after");
+    assert_eq!(snapshot.value().name, "stable-b");
     assert_eq!(snapshot.value().workers, 4);
     assert_eq!(snapshot.value().left, snapshot.value().right);
 
+    write_config(&path, render("stable-c", 6, 5)).await;
+    let same_length_snapshot = wait_for_generation(&handle, 2).await;
+
+    assert_eq!(same_length_snapshot.value().name, "stable-c");
+    assert_eq!(same_length_snapshot.value().workers, 6);
+    assert_eq!(
+        render("stable-b", 4, 9).len(),
+        render("stable-c", 6, 5).len()
+    );
+
     let outcome = controller.shutdown().await.expect("shutdown");
-    assert_eq!(outcome.reloads_applied, 1);
+    assert_eq!(outcome.reloads_applied, 2);
     assert!(outcome.shutdown_requested);
 }
 

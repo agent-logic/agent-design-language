@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7bfe676397915786eed2aa7ff57c7c55ab61746c837cfe92e9e6d7f89326d374",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "2ab7671523eb72f3c1c93ea233026aa21b7dccf30873e55a6444f7eaa95cc611",
+  "generation": 4,
+  "digest": "845f7ccbeae7fedda8ca237493de39b889eb6805ede7fdf72200d1b982de0590",
   "branch": "codex/510-hot-01-axum-config-hot-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3a9180a6f0439d95300512b88c6236ebb41fd2916c7582006a83b1e712235280",
+      "values_digest": "4b904c32e125f0e0afe58cdb065c747e7e77cfa1cd7f0d88767c83746d1cf799",
       "rendered_digest": "8a7f80506ae6b6eaa9529545ff9c0d972cc126b826808af156720200ccd7c7f7",
       "ast_digest": "d1eb0d7caa261cf05347a981269c958b62f12dfce7cb6534a0871286ce4747ad"
     },
     "stp": {
-      "values_digest": "afd65e1e40aa1100e8a7d067c6cd9c4490408093491afe3127049e45e49fdfba",
+      "values_digest": "43b6258c833173ff6a9cad219dd0e38eb34fc37dc71c52cb79dbc7c38963c83e",
       "rendered_digest": "6e1551c438e00d65871511ebc3a863e00a4cc915bb709494a13ed50e1cac7250",
       "ast_digest": "71dca90b1c60e816480bcfa4f25d696b066ff7c4796e530e01680cd237c032c3"
     },
     "spp": {
-      "values_digest": "c323403c6547487f36f6845f40fc4347542f53cd9c11f6da07f5df370dc7666a",
+      "values_digest": "01bdc6250fc8ea7c4aed0197852a8b842a920b8db4c3aab98541a03c421643fc",
       "rendered_digest": "22624646750274ad03d332f799c84529e2c06ee8d393657a951cc510db68329b",
       "ast_digest": "d24df4cf39383ff570be13f597dde9bf5f7d1d0594afa547cf77f0d72afc0f59"
     },
     "vpp": {
-      "values_digest": "a30328c8bcedb06d1f1209f9959a2fd0c2e0ed8f5bb6d010c5799b093d0aa71b",
+      "values_digest": "61ff73864e30cd4fff1652dcc2e81df66a9cc5545201b1acf7a771539fccf588",
       "rendered_digest": "cad9ded18490dfe77ce3fa126ca665289202d553e81cdefca0cd43559644450f",
       "ast_digest": "a538f88e0d779c8720dc2835512a9e94f55041093257b0b74b585dcddf8e72c2"
     },
     "srp": {
-      "values_digest": "3518b047c4891dedec5985b5b880899145b3cd94f3abf18de4cfacf367a43d08",
-      "rendered_digest": "a6e8746be1fcaad6ad8aee6def9a0ca51efcad5f5a6232ec74f801e7cbe53588",
-      "ast_digest": "d8077a425847fa3022e4c9966e46a8e44ef07beebf7b56fe2ac190f4d0090668"
+      "values_digest": "cd89860cbf2ebdde49fbee27b48bbbf3813b3b616ed83a131ded1104c36f9671",
+      "rendered_digest": "28d0cc34e2e2f6abfb29966d796d32f4808e7a0c67c412ecaff300bb767ba0f8",
+      "ast_digest": "8d4f78d7228724cef34ceab6cf952b39fe1bb841b8ce0b817fc4d72709a9fb89"
     },
     "sor": {
-      "values_digest": "4a3c941a6f13592a067ebb112ddfc5216d6a34614f17d09475ae9f3af9ce39aa",
-      "rendered_digest": "aef5622d4e6f98aeb9c0e0316e2330259ec3ba0137b08a5b1b633e6729d9f6b6",
-      "ast_digest": "62c453e2331cc60ba63b9b498774a6a1209403f62a34bdd8cd8d369d30a934f0"
+      "values_digest": "39208666c37d7767db12f3db1ca463bd7374d40317008d55cc052f4909285b8e",
+      "rendered_digest": "894bb830d6b6fb6c72ecf93322c747cd09f7bb0f580309a802327df1ccc45695",
+      "ast_digest": "c07fe163e1ea7afd1f2382c4a4b42141a87ba85b5349cc3f7932fbbd6875ba52"
     }
   },
   "transitions": [
@@ -105,6 +105,27 @@
       "actor": "codex",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "recover review state after independent review found in-scope actionable issues requiring a new substantive revision",
+      "operation": "recover_review"
     }
   ]
 }

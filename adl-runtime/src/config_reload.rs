@@ -5,6 +5,7 @@ use std::{
     time::SystemTime,
 };
 
+use sha2::{Digest, Sha256};
 use tokio::{
     fs,
     sync::watch,
@@ -299,19 +300,20 @@ async fn load_snapshot<T>(
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 struct FileSignature {
-    modified: Option<SystemTime>,
     len: u64,
+    sha256: [u8; 32],
 }
 
 async fn file_signature(path: &Path) -> Result<FileSignature, ConfigReloadError> {
-    let metadata = fs::metadata(path)
+    let raw = fs::read(path)
         .await
         .map_err(|source| ConfigReloadError::Io {
             path: path.to_path_buf(),
             source,
         })?;
+    let digest = Sha256::digest(&raw);
     Ok(FileSignature {
-        modified: metadata.modified().ok(),
-        len: metadata.len(),
+        len: raw.len() as u64,
+        sha256: digest.into(),
     })
 }

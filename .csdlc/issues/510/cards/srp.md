@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Review exact issue #510 HOT-01 runtime hot-reload changes across adl-runtime/src/config_reload.rs, adl-runtime/src/lib.rs, adl-runtime/tests/config_reload.rs, docs/runtime/config-hot-reload.md, prepared validators, validation evidence, and PR publication readiness. Reject partial snapshots, restart-required reload, invalid-update activation, missing debounce, lingering watcher tasks, stale review, merge/closeout, or DEC-01 #513 scope absorption.
+
 
 ## Prompts
 

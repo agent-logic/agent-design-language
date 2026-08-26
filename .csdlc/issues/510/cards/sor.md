@@ -83,7 +83,7 @@ Implemented Axum runtime configuration hot reload with atomic snapshot replaceme
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
