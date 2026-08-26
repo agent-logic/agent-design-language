@@ -7,7 +7,7 @@
     "title": "[v0.92][sprint] Quality and release tail",
     "slug": "quality-release-tail",
     "version": "v0.92",
-    "generation": 17
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
@@ -103,7 +103,7 @@
           "evidence_ref": ".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-315-review-receipt.json"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

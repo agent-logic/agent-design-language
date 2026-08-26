@@ -8,14 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/evidence/307
-.csdlc/issues/307
-.csdlc/prepared/issues/307
-docs/milestones/v0.92/review/sprint_307/README.md
+
 
 ## Prompts
 
@@ -35,14 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- #310 remains explicitly disclosed as recordless rather than retroactively claiming a tracked pre-merge review.
-- #314 remains an intake completed with blockers and no PR; its validated handoff and WP-27 integration are retained without claiming release readiness.
-- Historical projectionless preparation worktrees for #314 and #315 remain asynchronous bookkeeping and are not execution authority.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:3e0a939333f113221f4d3fc2ea216991cbf89566:85d0194ef0c9b7c0f9521ef9c2393f631a5fec0bb1fe4e136a57383aff239347")
+Revision: None
 
-Reviewer: Some("fresh-session:01a01755-c400-7050-a049-b98e947a5684")
+Reviewer: None
 
-Result: pass
+Result: pre_review

@@ -4,40 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
-  "phase": "reviewed",
-  "generation": 17,
-  "digest": "e46eff68c843355e81962ce0f0da0f0ce23a2de0a1b87236de5b316371b20cbb",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "29c7a23f636e3b348471faf3b649ba296fa93dc6651e7d4383da98c74a7c74ba",
   "branch": "codex/307-v092-quality-release-tail-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
-  "review_assignment": {
-    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
-    "assigned_by": "codex:/root/issue-307-closeout",
-    "revision": "git-blake3:3e0a939333f113221f4d3fc2ea216991cbf89566:85d0194ef0c9b7c0f9521ef9c2393f631a5fec0bb1fe4e136a57383aff239347",
-    "scope": [
-      ".csdlc/evidence/307",
-      ".csdlc/issues/307",
-      ".csdlc/prepared/issues/307",
-      "docs/milestones/v0.92/review/sprint_307/README.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
-    "scope": [
-      ".csdlc/evidence/307",
-      ".csdlc/issues/307",
-      ".csdlc/prepared/issues/307",
-      "docs/milestones/v0.92/review/sprint_307/README.md"
-    ],
-    "reviewed_revision": "git-blake3:3e0a939333f113221f4d3fc2ea216991cbf89566:85d0194ef0c9b7c0f9521ef9c2393f631a5fec0bb1fe4e136a57383aff239347",
-    "findings": [],
-    "residual_risks": [
-      "#310 remains explicitly disclosed as recordless rather than retroactively claiming a tracked pre-merge review.",
-      "#314 remains an intake completed with blockers and no PR; its validated handoff and WP-27 integration are retained without claiming release readiness.",
-      "Historical projectionless preparation worktrees for #314 and #315 remain asynchronous bookkeeping and are not execution authority."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "858df26725ebc7eec49f295cfd3dc8d54b7380a6eff74e41bb4abb9540038a56",
+      "values_digest": "71614357b12e24f872a353f2da9214bee20a631a8e2460ed23b145d267c125f4",
       "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
       "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
     },
     "stp": {
-      "values_digest": "264ff58047526b285f42721cbb3b0ddcd9e39ffec568a49278b0d8fb6c34af28",
+      "values_digest": "8c96d07e28f8ff9690bc7ac627f65acdb115ac106823e8de2aa37151c122864e",
       "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
       "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
     },
     "spp": {
-      "values_digest": "5d5d60d594b04be1b445f6f268da5ff7fd5db1137b7824329ed41c714ea91fd4",
+      "values_digest": "74948a9722f9cc77d9080bc233405f3797e19d58ec9c2ae90266d8187a427bb8",
       "rendered_digest": "81883f08e984fb441950825f45d68e364fa94fd8d9ca9352e50852f9df7a3a6e",
       "ast_digest": "1dbfb17b19fd053ff598cf438c6dce55b6522876103fd50206c3d2b93f7c2e3e"
     },
     "vpp": {
-      "values_digest": "0345210375e6240c9ba10aeca4e48db4a0b12d52b88029eda658c7f33fe85e60",
+      "values_digest": "379af03937350ab0908fe35836a94267382484d2e02cf83cf4eae61336ed022f",
       "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
       "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
     },
     "srp": {
-      "values_digest": "11fb60fd140bee7ce7c064d503b3d596a7efb9b54195d9e4db9daf1ff109cd61",
-      "rendered_digest": "f9a66593a2cd8a9c70d83f479e25024899f0f3745b2eada39f937c9c280bb3da",
-      "ast_digest": "b07b0e770b25b79ef6e1823c9a9c5dd7fbf026f11bff3cbbaebd8ac8b626b141"
+      "values_digest": "8de4d7fe46e42b3d6541588a604ee0967a7c3a2dbd5a65d13ae76a70aebb69a0",
+      "rendered_digest": "2f233ecc15df8f1877f54e2b846e0910d5b6113985c1f3241b9b82fced42c405",
+      "ast_digest": "ef31797c7d32e002f019cadaba276160cc34ff14f770b954b3f4aee8ae677dc3"
     },
     "sor": {
-      "values_digest": "5b2059ee234689b1821503a92b7857f5665947b1bb7d979ba290db39c54376ce",
-      "rendered_digest": "cb9ccf66cfb1ded14eb7e30db689c20e1e4da16286b2f00d80ec304e4a432a84",
-      "ast_digest": "737c4f6859337869effc9ce38796e299beb4936e37c823db5cac14a0f6f1a15a"
+      "values_digest": "7257e38c1f0601ccd687178b5c118b3c14a9af0956acd0059a817b1c5ddb72e5",
+      "rendered_digest": "c6973ef2837056ff31ce98f4b22dcc63865e0e8540e43ff5012c4e005e15ac47",
+      "ast_digest": "221919c32acdf39604dda3abe55b3eecc0144b39e8b37277c9b43ab4bb2b4d0d"
     }
   },
   "transitions": [
@@ -110,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root/issue-307-closeout",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Refresh exact-head review after committing only the prior typed review projections and final publication request."
     }
   ],
   "audit": [
@@ -252,6 +232,27 @@
       "actor": "codex:/root/issue-307-closeout",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Refresh exact-head review after committing only the prior typed review projections and final publication request.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Clear ambiguous shared-session reviewer attribution and refresh exact-head review with the canonical subagent task identity.",
+      "operation": "recover_review"
     }
   ]
 }

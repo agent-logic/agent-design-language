@@ -13,7 +13,7 @@
         "python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py",
         "python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json",
         "python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json",
-        "! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307",
+        "! rg -n '/(Users|Volumes|private)/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307",
         "git diff --check"
       ],
       "purpose": "Prove exact #315/#476 identity separation, truthful #310/#314 dispositions, evidence-derived handoffs, packet privacy, and diff hygiene.",

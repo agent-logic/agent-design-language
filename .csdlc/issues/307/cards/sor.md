@@ -110,7 +110,7 @@ Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integratio
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
