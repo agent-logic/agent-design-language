@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "68aa9c4cb45783b91719a3cb5b1bf605aa34ea5a73a11008569381166fb0f552",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "c6a13cb48bf4f63e4c4957f91d4975d7dc8ed1567d5202fad4bca2d51a8183be",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "8ce6b6b57766a34f0180dd1fd8fe7cbd1ada28c591ce6b2413e6663d38d69c55",
   "branch": "codex/484-aws-resource-ownership-inventory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-484-aws-resource-ownership-inventory",
   "review_assignment": {
@@ -21,7 +21,24 @@
       "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:e364169b-9eba-40df-8cc4-b5ac0d8de826",
+    "scope": [
+      ".csdlc/issues/484",
+      ".csdlc/prepared/issues/484",
+      ".csdlc/evidence/484",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-a",
+      "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
+    ],
+    "reviewed_revision": "git-blake3:1f81b33ffba9a652983071372466e53413f1a989:ff98161bc76e73273823d30dadc8534e9adff08d60f56757144e81bd8b47150c",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer was read-only and did not run AWS credentialed calls, mutate lifecycle state, publish, or record review.",
+      "The post-reviewed current HEAD 913b20551245c167f40d15e1f13e020cbf8c82c4 contains metadata-only review-assignment truth above the reviewed substantive revision."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5996af00ed1b8b15f06fdb89b7d47d2964de51f3d56013ad4a398f13e16aa055",
+      "values_digest": "6216dbce483fb6f5b625f839a0fda8206ba644d5131bb8edb6890e63278baf0a",
       "rendered_digest": "6f851c754b01a72876709d2f3480cf48fa806701b116984c6175bbd3c04c2086",
       "ast_digest": "534a9c15d3fea8da0ec97e7be68d7f610e05c9174bf6fbc3cce514a2a744a885"
     },
     "stp": {
-      "values_digest": "55f0aa97fed137d6f5241ff65ba92c9451d2072a742b5c9b66a036438871f040",
+      "values_digest": "077ee03c9c7ca33a18b025cb078ff078a68acc90df7fd740f83b4496ed40de19",
       "rendered_digest": "93839d02e9fcbb94ae327fc82b7c90d31b1fedabf8491b440742bb2d05731025",
       "ast_digest": "a46caa6eab98bfcace9d125809d2ce423c6b76c4c161588162b7fbe7106f5a84"
     },
     "spp": {
-      "values_digest": "808ca7c4543ebe5fd4a12c0a10868d1d47075ca6cb220b1e87af2bc976c76660",
+      "values_digest": "35c05786606ff94ff26a72d1ae87b7da01097b16168351f9ffdaf0adffd689a4",
       "rendered_digest": "c05ddce36fbc5a8aad9bc7a51a8cc374fe3a2ede76084fb4707907e27dbbdc5e",
       "ast_digest": "8624b6a469a3723c65aa4ceb1251a8f3a0ebc1b10cf5778019fd3c17330dd807"
     },
     "vpp": {
-      "values_digest": "af3cb2d4d3d9dd4af43f58f7a69cd1f96ee23e17a84f7da4339ed2747bb3ec3f",
+      "values_digest": "75716739f8ab01452a101935fb7edadb7ee922466bafb9e88f5493e2fd523f8c",
       "rendered_digest": "48c68f2dd8e1eea48da1e45b2d30337eb05a7e949b87cfc3c11ac484fae24a4a",
       "ast_digest": "0352c7ee54432e4afcd54fde6ff62bb605c0767c019a0129185ed6c9a5eb1728"
     },
     "srp": {
-      "values_digest": "0440d85aa7dc1e552ce6f2a3825dea0896fb6594c85e9ba7ea9df2bcecc4b9cd",
-      "rendered_digest": "5a1b990ba1a55b0446a2f51309d207931a37de56037a7a51ec2b54d392ada180",
-      "ast_digest": "8c6aeb4b685d31540d31332ad96650a86c101f3756cd4e4a0ce5e2f03d47f4a5"
+      "values_digest": "82dd6f3318b912e38526b3d06ed9eabff07d85c8fd263a8faa8a673ebacadd6c",
+      "rendered_digest": "66113d0723e701859587b902c719b244cd3565fb6f76336d7532f7e166aabf44",
+      "ast_digest": "642d995e04978783294844040d0220b6e8df5c3ade6755bac0db44ff2136b7bd"
     },
     "sor": {
-      "values_digest": "06531d41a5543b1f75bc09ed1d5170a4d874baa1ed141bcc18ea4de629363b41",
+      "values_digest": "7853af2645c1e16013c403bd1eeb7c08f5c47e91e7b708373f3d7073a5eb6a03",
       "rendered_digest": "6dcee69b5b9cc3bfb1f229d7eacfcbc60401688e6723daf35b1b83e76362c99e",
       "ast_digest": "23a5149eba54c3d50c3ce0c0f4e4f39bd035a3966ccba860ac00f802ba0cf50c"
     }
@@ -87,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Implementation evidence is recorded for the #484 AWS-A read-only inventory."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:e364169b-9eba-40df-8cc4-b5ac0d8de826",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -180,6 +204,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "fresh-session:e364169b-9eba-40df-8cc4-b5ac0d8de826",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

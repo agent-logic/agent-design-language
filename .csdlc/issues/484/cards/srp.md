@@ -36,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer was read-only and did not run AWS credentialed calls, mutate lifecycle state, publish, or record review.
+- The post-reviewed current HEAD 913b20551245c167f40d15e1f13e020cbf8c82c4 contains metadata-only review-assignment truth above the reviewed substantive revision.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1f81b33ffba9a652983071372466e53413f1a989:ff98161bc76e73273823d30dadc8534e9adff08d60f56757144e81bd8b47150c")
 
-Reviewer: None
+Reviewer: Some("fresh-session:e364169b-9eba-40df-8cc4-b5ac0d8de826")
 
-Result: pre_review
+Result: pass

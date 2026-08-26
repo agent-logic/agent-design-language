@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
     "slug": "aws-resource-ownership-inventory",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/484\n.csdlc/prepared/issues/484\n.csdlc/evidence/484\ndocs/milestones/v0.92.1/evidence/cloud/aws-a\ndocs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:1f81b33ffba9a652983071372466e53413f1a989:ff98161bc76e73273823d30dadc8534e9adff08d60f56757144e81bd8b47150c",
+      "reviewer": "fresh-session:e364169b-9eba-40df-8cc4-b5ac0d8de826",
       "review_prompts": [
         "Is the approved account and region basis explicit and evidence-backed?",
         "Does every discovered resource have an owner or frozen-unknown disposition?",
@@ -24,8 +24,11 @@
         "Does retained evidence avoid credentials and mutation commands?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer was read-only and did not run AWS credentialed calls, mutate lifecycle state, publish, or record review.",
+        "The post-reviewed current HEAD 913b20551245c167f40d15e1f13e020cbf8c82c4 contains metadata-only review-assignment truth above the reviewed substantive revision."
+      ],
+      "review_result": "pass"
     }
   }
 }
