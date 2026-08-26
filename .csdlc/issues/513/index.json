@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "00cabfe6913812405fbd3aa330521349c551c3adbd15f92d87065dbf174658cf",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "22cd0b0438013a2b89c8369dce853473685837d79d62202afaa7e82420469a8b",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
+    "assigned_by": "codex:issue-513-dec-01-runtime-authority-separation",
+    "revision": "git-blake3:0e6b6fd4ad73493ab5dd342f6c03db19d898fc87:c1800ff5f9cf8272bea63396f0eec358bfc37e2790fc5fa99d5bc0ce0120b288",
+    "scope": [
+      ".csdlc/issues/513",
+      ".csdlc/prepared/issues/513",
+      ".csdlc/evidence/513",
+      "docs/runtime/runtime-v2-v3-authority-topology.md",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
+    ]
+  },
+  "review": {
+    "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
+    "scope": [
+      ".csdlc/issues/513",
+      ".csdlc/prepared/issues/513",
+      ".csdlc/evidence/513",
+      "docs/runtime/runtime-v2-v3-authority-topology.md",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
+    ],
+    "reviewed_revision": "git-blake3:0e6b6fd4ad73493ab5dd342f6c03db19d898fc87:c1800ff5f9cf8272bea63396f0eec358bfc37e2790fc5fa99d5bc0ce0120b288",
+    "findings": [],
+    "residual_risks": [
+      "Origin/main or required CI movement before merge can still require ancestry refresh and re-observation.",
+      "The DEC-01 contract proves authority topology and dry-run migration/rollback behavior; it does not implement Runtime v4 or move Runtime v2/v3 source ownership."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "064f05b58ffdaa44b17deaf0ec8f48b7a3c2a1d8efaa40a86b7b8b31feca2f44",
+      "values_digest": "eaf7522e9459c7130841ac9c7cb2475f646d7008ba1700c24a242fba15df0046",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "91a1e6d5ad0afc0ae1b1f8e3527a1fc2d61346d5e859df0487bbf3b0b72074c2",
+      "values_digest": "1c76e0179441ed3a651bae15c3536a97e43c5551ecc5a9eb8a49ed2cd63e3ff4",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "4d2289e183e6ecc3ad5deb773c3eb100722741afd5432bc58bb871450540bece",
+      "values_digest": "20e466d17d8fdae3b72b9dcd6c6c184166d76caae383ef812f90e2fda595e857",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "599166f01d7f71cdaf74e17218c24afcd138155cadb4449830a4252a29442092",
+      "values_digest": "5ab2f0c41a837370fd5a5eb6f87852a5e510899d01c98908cb0093bbbaef762b",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "93b94da8bcdfeca59b8a0921f0c9afbbbabcf57d89d0a2e99de2bbcbb2736f2e",
-      "rendered_digest": "3f9522a8286d32018fd2ba8889a9aec96cbfe05659a325bc1233ae1b6bc705af",
-      "ast_digest": "74512fbcecdf579eeb15789f2d70f71c2af5ea9514cc5779bcd56b0a40bac394"
+      "values_digest": "2d7ee0262202255389b21d95ab8fa0b173f5f95baa686d0509cd17a4aa4d7c84",
+      "rendered_digest": "c6430955a361b96f0718b4e0c00f25c71070e1cc3f438e6139122648272c19d5",
+      "ast_digest": "ae087509d63ace8a9a1aad6a7a4ce3fdbcf159c006930bff7d5ba361440661a7"
     },
     "sor": {
-      "values_digest": "d10c499a8efe7ebb873d25ac450e0215871a4ae0a9c3a227a4482db000e922f5",
+      "values_digest": "45f2ea7cd119f57b872ef79d6a9baf2ccf2f25641614ebe8158f24cf45fc9420",
       "rendered_digest": "e15758c673c64abfc1f861bc0d5922528fd4a1bdcb8080a9c4fd7ce9a0445440",
       "ast_digest": "bec94f38de4d69b19ac47cf9e026cd35805d49889082278c59a78d624fa8eed5"
     }
@@ -76,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -113,6 +148,20 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "Record fresh validation after independent review P1 ambiguity hardening.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove the DEC-01 topology after replacing first-match reverse-reference classification with longest-prefix ambiguity detection and non-overlapping support-surface rows.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-p1-rerun.log\"}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
