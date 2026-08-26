@@ -140,6 +140,12 @@
       "authority_transfer": false
     },
     {
+      "path_prefix": ".csdlc/evidence/513/",
+      "owner": "dec-01",
+      "disposition": "dec-01-lifecycle-evidence",
+      "authority_transfer": false
+    },
+    {
       "path_prefix": ".csdlc/issues/513/",
       "owner": "dec-01",
       "disposition": "dec-01-lifecycle-state",

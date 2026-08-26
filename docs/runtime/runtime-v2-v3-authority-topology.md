@@ -22,12 +22,37 @@ Runtime v2 and Runtime v3 may mention each other only through declared dispositi
 - `runtime-v3-source-or-release-gate-metadata`: Runtime v3 guardian/kernel source or release-gate metadata that does not acquire Runtime v2 authority.
 - `runtime-v3-proof`: Runtime v3 tests and parity contracts that prove Runtime v2 is preserved, not deleted, and not silently reused.
 - `runtime-v3-support-surface`: Runtime v3 support code, fixtures, generated baselines, or local helper surfaces without cross-generation authority transfer.
-- `runtime-docs`: milestone and runtime documentation references.
-- `runtime-planning-docs`: runtime planning documents that reference Runtime v2/v3 topology without owning runtime source.
-- `dec-01-lifecycle-evidence`: DEC-01 manifest, validator, retained proof logs, and API-review evidence.
+- `runtime-docs`: `docs/runtime/` runtime documentation references.
+- `runtime-planning-docs`: `docs/milestones/v0.92.1/` milestone planning and evidence references that do not own runtime source.
+- `dec-01-lifecycle-evidence`: `.csdlc/prepared/issues/513/` prepared lifecycle requests plus `.csdlc/evidence/513/` retained proof logs and API-review artifacts.
 - `dec-01-lifecycle-state`: DEC-01 typed lifecycle cards and issue state.
 
 Any reverse reference outside those dispositions fails the DEC-01 validator.
+
+## Reverse-Reference Path Mapping
+
+The validator compares this table exactly with the manifest's executable `reverse_reference_dispositions` rows:
+
+| Path prefix | Owner | Disposition |
+| --- | --- | --- |
+| `.csdlc/evidence/513/` | `dec-01` | `dec-01-lifecycle-evidence` |
+| `.csdlc/issues/513/` | `dec-01` | `dec-01-lifecycle-state` |
+| `.csdlc/prepared/issues/513/` | `dec-01` | `dec-01-lifecycle-evidence` |
+| `adl-runtime-kernel/Cargo.lock` | `runtime-v3-kernel` | `runtime-v3-support-surface` |
+| `adl-runtime-kernel/Cargo.toml` | `runtime-v3-kernel` | `runtime-v3-support-surface` |
+| `adl-runtime-kernel/src/` | `runtime-v3-kernel` | `runtime-v3-source-or-release-gate-metadata` |
+| `adl-runtime-kernel/tests/` | `runtime-v3-kernel` | `runtime-v3-proof` |
+| `adl-runtime-kernel/tools/` | `runtime-v3-kernel` | `runtime-v3-support-surface` |
+| `adl-runtime-kernel/vector/` | `runtime-v3-kernel` | `runtime-v3-support-surface` |
+| `adl-runtime/Cargo.lock` | `runtime-v3-guardian` | `runtime-v3-support-surface` |
+| `adl-runtime/Cargo.toml` | `runtime-v3-guardian` | `runtime-v3-support-surface` |
+| `adl-runtime/examples/` | `runtime-v3-guardian` | `runtime-v3-support-surface` |
+| `adl-runtime/src/` | `runtime-v3-guardian` | `runtime-v3-source-or-compatibility-metadata` |
+| `adl-runtime/tests/` | `runtime-v3-guardian` | `runtime-v3-proof` |
+| `adl/src/runtime_v2/` | `runtime-v2` | `runtime-v2-source` |
+| `adl/src/runtime_v2/reasoning_runtime_bridge.rs` | `runtime-v2` | `runtime-v2-to-v3-compatibility-bridge` |
+| `docs/milestones/v0.92.1/` | `milestone-v0.92.1` | `runtime-planning-docs` |
+| `docs/runtime/` | `runtime-docs` | `runtime-docs` |
 
 ## Compatibility
 

@@ -245,6 +245,31 @@ validate_documented_disposition_vocabulary() {
   fi
 }
 
+validate_documented_path_mapping() {
+  local manifest_mapping documented_mapping
+  manifest_mapping="$(jq -r '.reverse_reference_dispositions[] | [.path_prefix, .owner, .disposition] | @tsv' "$manifest" | sort)"
+  documented_mapping="$(awk '
+    function trim(s) {
+      sub(/^[[:space:]]+/, "", s)
+      sub(/[[:space:]]+$/, "", s)
+      return s
+    }
+    /^## Reverse-Reference Path Mapping/ { in_section=1; next }
+    /^## Compatibility/ { in_section=0 }
+    in_section && /^\| `/ {
+      line=$0
+      gsub(/`/, "", line)
+      split(line, cols, "|")
+      print trim(cols[2]) "\t" trim(cols[3]) "\t" trim(cols[4])
+    }
+  ' docs/runtime/runtime-v2-v3-authority-topology.md | sort)"
+
+  if [[ "$documented_mapping" != "$manifest_mapping" ]]; then
+    echo "documented reverse-reference path mapping drifted from manifest" >&2
+    return 1
+  fi
+}
+
 classify_path() {
   local path="$1"
   jq -r --arg path "$path" '
@@ -274,6 +299,7 @@ validate_reverse_reference_census() {
     "docs/runtime"
     "docs/milestones/v0.92.1"
     ".csdlc/prepared/issues/513"
+    ".csdlc/evidence/513"
     ".csdlc/issues/513"
   )
 
@@ -388,6 +414,7 @@ validate_all_static_contracts() {
   validate_runtime_v4_manifest_contract "$manifest"
   validate_runtime_v4_markdown_contract
   validate_documented_disposition_vocabulary
+  validate_documented_path_mapping
   validate_reverse_reference_census
   run_negative_manifest_probes
 }

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "5a93203e9dd9821dfa4eb17964f14277503c3589a4e9e6266206f150ec880877",
+  "generation": 14,
+  "digest": "872de1613033057de0e5635387dcfc4d1c6ef57f34e61b8e2f96f65df80d6725",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d215a7807f253c40db10c31df6314b91c2835a0ec337f7422454f6a7c7c8a26b",
+      "values_digest": "8df79a792a82be0d0a797ebcfa92685b78f6abb3dbf1cec74903bb363aaa4c67",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "c1363584345958da87e9b95584b8a85be3d07f7e21491c8571c91db229f9f2f9",
+      "values_digest": "e5e45538f230d6f2f15c6438fb7e2e017d2b4373caa225144f8908ca20470e4f",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "37917503c95e1a9134c5307b1af95bdba86af988f2edb04dc77fa3d9449fb8e0",
+      "values_digest": "21a31e1c28d3aa29eae1a4910b85dc982a250f002444340a232d7362a04c66f4",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "5cb0ca89bb8a5350f4b34cd37a10b489ffc1e33dbaf9a837c0efc0c7b8d0e162",
+      "values_digest": "d94e27b3929a69a89e99d9f2eae8c35235d077a9a1306146dc7309d202ccb0b2",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "1022cb9e41a55a6af81db760a76bd5fcdd0985a29f3ca3dac3d33c2eabcd0d00",
+      "values_digest": "b4131ba2b8f6ac14b5bac0a4392d5b6d7179cf02bf574becba9920fa70aadf66",
       "rendered_digest": "03e88f3677bef8af4c9f730cf3457f0bc5c4a195cc6c37bd0bf4d69b88ff9441",
       "ast_digest": "1c24973c23f184bdc5fd4591a212c46605060fe551fbb8fbfd7f1f131d14bc81"
     },
     "sor": {
-      "values_digest": "ac97fc596ebf804134df59a135fb2274a3ed2e6c042f974d5f003e1bd3993cfc",
-      "rendered_digest": "fca1af0899a6d7004e3701774223a62b5d3fc3268d4a974b81865e358454bc50",
-      "ast_digest": "c9536bac31252eb5d5177ffd3dabdab1cbccd77f2871de7d82b0072bad37c7ed"
+      "values_digest": "93e370e0d7225a424347072c8577636d0e4ad6a8de7b50d05f932e2970c8b992",
+      "rendered_digest": "cb59f6f09622a49743778ec42996af8554b9fda6591afad511c3c139e2d067dd",
+      "ast_digest": "88ca8a7f8c3f0f5842f19af7acc5e7b25f057fbaed0996cf2f401dda6b94d7a7"
     }
   },
   "transitions": [
@@ -225,6 +225,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "Record validation after OpenAI Responses API vocabulary-remediation finding.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove the documented reverse-reference disposition vocabulary matches the manifest and validator vocabulary after API re-review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-vocabulary-remediation.log\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Record validation after OpenAI Responses API evidence-census remediation finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove retained DEC-01 evidence artifacts are included in the reverse-reference census and documented path-prefix semantics match the executable manifest after API re-review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-evidence-census-remediation.log\"}}"
     }
   ]
 }
