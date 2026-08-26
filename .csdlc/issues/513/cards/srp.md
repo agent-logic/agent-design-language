@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/513
+.csdlc/prepared/issues/513
+.csdlc/evidence/513
+docs/runtime/runtime-v2-v3-authority-topology.md
+docs/milestones/v0.92.1/evidence/runtime-decoupling
 
 ## Prompts
 

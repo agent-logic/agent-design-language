@@ -6,10 +6,21 @@
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
   "phase": "implemented",
   "generation": 5,
-  "digest": "0c7ba66fbf80ba24a5f7902c1611a97aa8c5766358fa5585f1e4bab6d181e73e",
+  "digest": "1326abd3f539a2c223dd1d0afc5a94e2a12b78bbded1b59596f8a306063f8d6b",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "gpt-5.5:thread-01a03fad-ed50-7141-ac1b-510bc6620305",
+    "assigned_by": "codex:issue-513-dec-01-runtime-authority-separation",
+    "revision": "git-blake3:6060943e7875378c4eab0e7c5f7a534e5db4273e:4700b5dd14ab9770e69da6e75ea7461aa2c958f6542b94c2ba5736439b661b19",
+    "scope": [
+      ".csdlc/issues/513",
+      ".csdlc/prepared/issues/513",
+      ".csdlc/evidence/513",
+      "docs/runtime/runtime-v2-v3-authority-topology.md",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "dc776e6638a6e4e302448bbdb9e3ef86bff4529558b89ab042a1ae8cc5aa06cd",
-      "rendered_digest": "03e88f3677bef8af4c9f730cf3457f0bc5c4a195cc6c37bd0bf4d69b88ff9441",
-      "ast_digest": "1c24973c23f184bdc5fd4591a212c46605060fe551fbb8fbfd7f1f131d14bc81"
+      "values_digest": "d13e7293903c4dc64d5b17e1b648dac26a3e28d1d9aef72fa483dfa4e205b362",
+      "rendered_digest": "6f28d2af0ebb0978f46387b2ef726883e0f288031f3e9762c0740c3921cb4343",
+      "ast_digest": "a13b1662c906d23ef366a1d42128ea62b64140faedb440fdea3fd5d2dfb49a64"
     },
     "sor": {
       "values_digest": "0b0d7e7c023776e51e1c0c8523055ff33a5ccd061510295f845aabde16bc1f52",
@@ -148,6 +159,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "Recover review metadata after publication guard rejected prepared-request drift; re-run exact-head review from a metadata-safe head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

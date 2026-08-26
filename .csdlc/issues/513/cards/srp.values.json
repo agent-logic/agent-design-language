@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/513\n.csdlc/prepared/issues/513\n.csdlc/evidence/513\ndocs/runtime/runtime-v2-v3-authority-topology.md\ndocs/milestones/v0.92.1/evidence/runtime-decoupling",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
