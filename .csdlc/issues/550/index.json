@@ -4,68 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
-  "phase": "published",
-  "generation": 32,
-  "digest": "0b4217544293ce47bd2c7ab10f48b60d7190ba4f89b249e7f3ef417b93492781",
+  "phase": "implemented",
+  "generation": 33,
+  "digest": "6f40f270763d09f6fe3c7512d072d798b1ab61b0e8a71626ea95d589047f4aae",
   "branch": "codex/550-runtime-trusted-observatory-origin",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
-  "review_assignment": {
-    "reviewer": "fresh-session:janitor-550-pr552-after-main-refresh",
-    "assigned_by": "codex:/root/janitor_550_pr552_after_554",
-    "revision": "git-blake3:d1e4f1d8264f622e31c430fe07bdb12006384164:fb079a52ca19d723bb88d95ebbcafaf8540c5d62edb72bdf36ed7118737cfbed",
-    "scope": [
-      "adl/src/cli/observability.rs",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "demos/html-observatory",
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example",
-      "origin/main merge at 5bc84a0f27a522b6d500551d64f8d12dc2357427"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:janitor-550-pr552-after-main-refresh",
-    "scope": [
-      "adl/src/cli/observability.rs",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "demos/html-observatory",
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example",
-      "origin/main merge at 5bc84a0f27a522b6d500551d64f8d12dc2357427"
-    ],
-    "reviewed_revision": "git-blake3:d1e4f1d8264f622e31c430fe07bdb12006384164:fb079a52ca19d723bb88d95ebbcafaf8540c5d62edb72bdf36ed7118737cfbed",
-    "findings": [],
-    "residual_risks": [
-      "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.",
-      "Six unified Runtime kernel tests remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds the per-test timeout.",
-      "The current-main refresh was a clean merge from origin/main 5bc84a0f27a522b6d500551d64f8d12dc2357427; no #550 path conflict was observed, and CI remains the integration authority for the refreshed PR head."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 550,
-    "pull_request": 552,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/552",
-    "base": "main",
-    "head": "codex/550-runtime-trusted-observatory-origin",
-    "revision": "git-blake3:b49747aa947bbcd843810c8ec43fb605eae5d570:2126387bf5d1b8d01d49906c1dcd4ce46915226dd54f71d52d7b5e5b783f8b19",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "02e13b5f258af855bf16fa4c431b12ce388d5d6ae33b9027f9e8ed42feaed116",
+      "values_digest": "2f02df08279523d0f66a3e27e4cef8b79d30b1af73f025f23d3cd35648425665",
       "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
       "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
     },
     "stp": {
-      "values_digest": "ebb7208af0e3918d1c8abc82032f126c37d61428f49f63fd2243cbe9ae2ec707",
+      "values_digest": "21e6c3e6326896b604d95cc4d02463daa564faa0d3b7467d825d26bd3c25d9cb",
       "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
       "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
     },
     "spp": {
-      "values_digest": "1bccab78a30ead8ea2f53963e369f45b764147cdd4e3ed4e415ffcc467a917f0",
+      "values_digest": "a190c690a4255b256c6d9e2a170c8cbe89b8be108815f2bfc1e50f2f94d9be91",
       "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
       "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
     },
     "vpp": {
-      "values_digest": "f346b45dea7ab0a08eb71b7169a51a878813ee016fa4fc09b721651ff84522f0",
+      "values_digest": "4651e1fd2cc5f612dad6289556a012bcdb3c4a7d4ac08da8422346cbc91bc4f9",
       "rendered_digest": "dc7c929b9c4c9249b5d55b0028327a2a3363a53acc95d5b9e5eccbe37b78fa2a",
       "ast_digest": "4303c53f72528956d22e0762d95a8de5985af1062e6077e4c38b402c1e8e38f3"
     },
     "srp": {
-      "values_digest": "e4458bee249b742fb03544f071c86c355e2af218ad875e4692c3920e5759481b",
-      "rendered_digest": "2cbfed5cc00104ff923ed7b10bd50ea3906f529ddd49254ec80403d640443a69",
-      "ast_digest": "ee3907bc64c455d163c8b94a7e79f471383c3d5565c19cf7b9df291ccf896191"
+      "values_digest": "b25f23bfffd29bf042fcb49b4f85c3e39dbdbe8f739e48f37f579753c366f875",
+      "rendered_digest": "38912253fde86a5295f105b3a58f9a45fc6c41e717568f6e6e30046219036ca6",
+      "ast_digest": "d15d17ff20b05012c059b224a832b2a50bb339c8eaad909fcd1461ca4378bb70"
     },
     "sor": {
-      "values_digest": "86130e23abb2db2267e122734177b5ed9475f8a634ce83e160da919765ddb90d",
-      "rendered_digest": "817b9aabda72a595d54a2e7b5879b5c8e30c12d553c2bd2a67345c1076afcf82",
-      "ast_digest": "3f56151bb52c254be8158dd01bfd7eba5ed89cda3d3df465b468de2a23d620bf"
+      "values_digest": "b55b14887bec4215f59551b8bccccb0bc09c0b57e96efe56ba1927357e6c985e",
+      "rendered_digest": "59a15cdb7b66a7056fa2816ace2ef888d95e79f4d083fec62e8b85cb0b7bf37f",
+      "ast_digest": "54d72af242969909cdd6f0be0f85da3d6a8a1c07e2f3041f7a1f01cff484c25f"
     }
   },
   "transitions": [
@@ -242,6 +188,13 @@
       "to": "published",
       "actor": "codex:/root/janitor_550_pr552_after_554",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication after CI run 33017009425 exposed two LLVM-coverage-only timing failures. The ordinary four-node learner test passed three consecutive runs and the unified Runtime kernel family passed outside instrumentation; the coverage lane now excludes exactly those instrumentation-hostile proof surfaces while retaining ordinary behavioral authority."
     }
   ],
   "audit": [
@@ -531,6 +484,13 @@
       "actor": "codex:/root/janitor_550_pr552_after_554",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication after CI run 33017009425 exposed two LLVM-coverage-only timing failures. The ordinary four-node learner test passed three consecutive runs and the unified Runtime kernel family passed outside instrumentation; the coverage lane now excludes exactly those instrumentation-hostile proof surfaces while retaining ordinary behavioral authority.",
+      "operation": "recover_review"
     }
   ]
 }
