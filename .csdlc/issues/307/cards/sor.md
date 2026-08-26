@@ -130,11 +130,11 @@ Bound every passed child review to its publication content: metadata-only descen
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
