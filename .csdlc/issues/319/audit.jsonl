@@ -11,3 +11,4 @@
 {"sequence":11,"generation":8,"actor":"codex:/root","reason":"Recover published review state for the bounded CI hang remediation committed at 96f1dd343d0954a133529924b3c9978282d84425. The release evidence remains unchanged; only the workspace coverage timeout/profile contract and its focused test changed.","operation":"recover_review"}
 {"sequence":12,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":9,"actor":"fresh-session:0568ed92-192f-4e8c-9553-928e0d85ef51","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":14,"generation":10,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

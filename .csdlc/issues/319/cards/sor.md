@@ -44,11 +44,11 @@ Replaced the obsolete all-records-closed ceremony gate with exact disposition ev
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
