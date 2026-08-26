@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 510,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+    "slug": "hot-01-axum-configuration-hot-reload",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/510/audit.jsonl\n.csdlc/issues/510/cards/sip.values.json\n.csdlc/issues/510/cards/sor.values.json\n.csdlc/issues/510/cards/spp.values.json\n.csdlc/issues/510/cards/srp.values.json\n.csdlc/issues/510/cards/stp.values.json\n.csdlc/issues/510/cards/vpp.values.json\n.csdlc/issues/510/index.json\n.csdlc/prepared/issues/510/assign-final-api-review.json\n.csdlc/prepared/issues/510/publish-final.json\n.csdlc/prepared/issues/510/record-final-api-review.json\n.csdlc/prepared/issues/510/recover-publication-review.json",
+      "review_revision": "git-blake3:65b1c38de88b127c5b34ef64bcb5c3b78433a174:df31705b5a8c45d7b09bd18f8e7d86e8bb90fcdf345b33fe374d777243661ed5",
+      "reviewer": "openai-responses:gpt-5.6-sol:resp_07dc4f89eb9ab044006a8f48c2c82487d0b9caebc41d268624",
+      "review_prompts": [
+        "Does the implementation atomically swap complete configuration snapshots for readers?",
+        "Does invalid update content preserve the last-known-good configuration without restart?",
+        "Are file events debounced in production behavior and proven by focused tests?",
+        "Can concurrent readers ever observe partial or mixed configuration state?",
+        "Does the watcher shut down cleanly without lingering tasks?",
+        "Is DEC-01 #513 clearly gated from concurrent edits to the #510 runtime files?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

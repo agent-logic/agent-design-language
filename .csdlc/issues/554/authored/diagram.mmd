@@ -1,0 +1,9 @@
+flowchart TD
+  A["PR #549 required coverage red"] --> B["#554 shared-gate remediation"]
+  B --> C["v0.92 README invariant restored"]
+  B --> D["Runtime-v2 coverage reliability restored"]
+  C --> E["focused local validation"]
+  D --> E
+  E --> F["reviewed PR for #554"]
+  F --> G["required checks green and merge"]
+  G --> H["refresh and rerun #549"]

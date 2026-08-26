@@ -1,0 +1,6 @@
+flowchart LR
+  D[Dependencies reconciled] --> S[Scope and denominator frozen]
+  S --> W[Issue-local work]
+  W --> V[PVF validation]
+  V --> R[Exact-head review]
+  R --> H[Publication handoff]

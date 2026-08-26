@@ -1,0 +1,82 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 482,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+    "slug": "v0-92-1-corp-a-critical-asset-schedule",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Completed the CORP-A critical-asset schedule as documentation/evidence-only custody truth with accepted ownership, licensing, trademark, assignment, provenance, redacted custody, and validation surfaces.",
+      "actual_changes": [
+        "Added a machine-readable critical-asset schedule covering the accepted CORP-A corporate asset denominator.",
+        "Added redacted custody receipts for every asset row without repository credential, private-instrument, tax, payment, or recovery-material payloads.",
+        "Added a reviewer-facing Markdown schedule that summarizes owner, custodian, assignment, license, trademark, provenance, receipt, and validation routing.",
+        "Implemented focused issue-local validators for denominator coverage, provenance/licensing/trademark routing, redaction/custody integrity, and full branch diff hygiene.",
+        "Recovered the first exact-review findings by removing trailing Markdown whitespace, excluding the empty lock from the tracked deliverable, and strengthening diff hygiene to `git diff main...HEAD --check`."
+      ],
+      "artifacts": [
+        "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+        "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+        ".csdlc/prepared/issues/482/validate-asset-denominator.rb",
+        ".csdlc/prepared/issues/482/validate-provenance-and-license.rb",
+        ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb",
+        ".csdlc/issues/482",
+        ".csdlc/prepared/issues/482",
+        ".csdlc/evidence/482"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/482/validate-asset-denominator.rb"
+          ],
+          "purpose": "Prove the critical-asset schedule covers every declared CORP-A asset class exactly once with accepted rows and matching custody receipts.",
+          "outcome": "passed",
+          "evidence_ref": "asset-denominator.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/482/validate-provenance-and-license.rb"
+          ],
+          "purpose": "Prove every asset row records source provenance, evidence refs, licensing route, trademark route, assignment acceptance, and Markdown visibility.",
+          "outcome": "passed",
+          "evidence_ref": "provenance-and-license.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/482/validate-redaction-and-custody.rb"
+          ],
+          "purpose": "Prove every asset row has an accepted redacted custody receipt and that schedule evidence avoids obvious sensitive keys and private credential payload patterns.",
+          "outcome": "passed",
+          "evidence_ref": "redaction-and-custody.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "main...HEAD",
+            "--check"
+          ],
+          "purpose": "Reject whitespace and conflict-marker drift across the full #482 branch diff against main.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "draft",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
