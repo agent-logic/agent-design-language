@@ -12,6 +12,9 @@ required = [
   "redacted_value_for_key",
   "provider_mod_redacted_profile_projection_excludes_private_payloads",
   "base_url_present",
+  "password",
+  "passphrase",
+  "pin",
   "recovery_code"
 ]
 

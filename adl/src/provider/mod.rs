@@ -613,6 +613,11 @@ mod tests {
                         serde_json::json!({
                             "safe_count": 2,
                             "api_key": "secret-key",
+                            "password": 123456,
+                            "pin": 654321,
+                            "passphrase": {
+                                "hint": "swordfish"
+                            },
                             "private_payload": {
                                 "prompt": "do not retain"
                             }
@@ -653,6 +658,9 @@ mod tests {
         assert!(json1.contains("<redacted>"));
         assert!(!json1.contains("secret-key"));
         assert!(!json1.contains("do not retain"));
+        assert!(!json1.contains("123456"));
+        assert!(!json1.contains("654321"));
+        assert!(!json1.contains("swordfish"));
 
         let mixed = adl::AdlDoc {
             version: "0.92".to_string(),
@@ -1047,6 +1055,33 @@ mod tests {
             promoted_state["last_known_good_materialization"]["profile"],
             serde_json::json!("ollama:qwen2.5-7b")
         );
+
+        let mut chained_invalid_doc = active_doc.clone();
+        let chained_invalid = chained_invalid_doc
+            .providers
+            .get_mut("local")
+            .expect("candidate");
+        chained_invalid.profile = Some("ollama:phi4-mini".to_string());
+        chained_invalid
+            .config
+            .insert("temperature".to_string(), serde_json::json!(3.0));
+        let retained =
+            activate_provider_profile_candidate(&accepted.document, &chained_invalid_doc)
+                .expect("chained invalid candidate should retain materialized active state");
+        assert!(!retained.accepted);
+        assert_eq!(
+            retained.document, accepted.document,
+            "returned materialized activation document must be reusable as active state"
+        );
+
+        let accepted_again = activate_provider_profile_candidate(&retained.document, &active_doc)
+            .expect("retained materialized active state should allow later valid activation");
+        assert!(accepted_again.accepted);
+        assert_eq!(
+            accepted_again.document.providers["local"].config["profile_state"]
+                ["last_known_good_profile"],
+            serde_json::json!("ollama:phi4-mini")
+        );
     }
 
     #[test]
@@ -1118,8 +1153,14 @@ mod tests {
                 ),
                 (
                     "metadata".to_string(),
-                    serde_json::json!({"recovery_code": 123456, "safe_count": 2}),
+                    serde_json::json!({
+                        "recovery_code": 123456,
+                        "pin": 654321,
+                        "password": {"value": 777777},
+                        "safe_count": 2
+                    }),
                 ),
+                ("passphrase".to_string(), serde_json::json!(987654)),
             ]),
         };
 
@@ -1142,6 +1183,18 @@ mod tests {
             serde_json::json!("<redacted>")
         );
         assert_eq!(
+            projection["config"]["metadata"]["pin"],
+            serde_json::json!("<redacted>")
+        );
+        assert_eq!(
+            projection["config"]["metadata"]["password"],
+            serde_json::json!("<redacted>")
+        );
+        assert_eq!(
+            projection["config"]["passphrase"],
+            serde_json::json!("<redacted>")
+        );
+        assert_eq!(
             projection["config"]["metadata"]["safe_count"],
             serde_json::json!(2)
         );
@@ -1149,6 +1202,9 @@ mod tests {
         assert!(!rendered.contains("OPENAI_API_KEY"));
         assert!(!rendered.contains("raw prompt"));
         assert!(!rendered.contains("123456"));
+        assert!(!rendered.contains("654321"));
+        assert!(!rendered.contains("777777"));
+        assert!(!rendered.contains("987654"));
     }
 
     #[test]

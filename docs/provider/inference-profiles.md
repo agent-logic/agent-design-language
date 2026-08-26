@@ -20,8 +20,8 @@ The shared profile contract is:
   supplied and requires `validate_before_activation`.
 - Review and evidence packets use
   `adl.provider_profile_redacted_projection.v1`, which redacts credential,
-  token, key, prompt, secret, auth, and private-payload config surfaces,
-  including nested private keys.
+  token, key, password, passphrase, PIN, prompt, secret, auth, and
+  private-payload config surfaces, including nested private keys.
 - Deterministic byte evidence uses
   `adl.provider_profile_materialization_projection.v1`, a canonical sorted
   provider/config projection that records only `base_url_present` instead of

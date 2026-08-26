@@ -21,7 +21,7 @@ Local proof lanes:
   materialization unchanged.
 - `redaction`: focused Rust provider tests prove private profile config values
   and raw endpoint URLs do not appear in redacted/materialization projections,
-  including nested private-key values.
+  including nested private-key, password, passphrase, and PIN values.
 
 No credentials, private prompts, provider responses, legal instruments, auth
 codes, recovery factors, or paid cloud/provider mutations are retained here.

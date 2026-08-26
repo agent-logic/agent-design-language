@@ -12,7 +12,20 @@ Status: draft
 
 ## Scope
 
-
+adl/src/provider/mod.rs
+adl/src/provider/profiles.rs
+docs/provider/inference-profiles.md
+docs/milestones/v0.92.1/evidence/provider/prov-a/README.md
+.csdlc/prepared/issues/514/validate-profile-schema.rb
+.csdlc/prepared/issues/514/validate-ollama-materialization.rb
+.csdlc/prepared/issues/514/validate-invalid-profile.rb
+.csdlc/prepared/issues/514/validate-last-known-good.rb
+.csdlc/prepared/issues/514/validate-redaction.rb
+.csdlc/evidence/514/profile-schema.log
+.csdlc/evidence/514/ollama-materialization.log
+.csdlc/evidence/514/invalid-profile.log
+.csdlc/evidence/514/last-known-good.log
+.csdlc/evidence/514/redaction.log
 
 ## Prompts
 

@@ -427,6 +427,9 @@ fn is_private_config_key(key: &str) -> bool {
         || normalized.contains("secret")
         || normalized.contains("token")
         || normalized.contains("key")
+        || normalized.contains("password")
+        || normalized.contains("passphrase")
+        || normalized.contains("pin")
         || normalized.contains("recovery")
         || normalized.contains("code")
         || normalized.contains("prompt")
@@ -730,6 +733,56 @@ pub fn provider_profile_names() -> Vec<String> {
         .collect()
 }
 
+fn materialized_active_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
+    let registry = provider_profile_registry();
+    let active = doc.clone();
+    let mut provider_ids: Vec<String> = active.providers.keys().cloned().collect();
+    provider_ids.sort();
+
+    for provider_id in provider_ids {
+        let Some(spec) = active.providers.get(&provider_id) else {
+            continue;
+        };
+        let Some(profile_name) = spec.profile.as_deref().map(str::trim) else {
+            continue;
+        };
+        let Some(preset) = registry.get(profile_name).copied() else {
+            return Err(anyhow!(
+                "providers.{provider_id}.profile '{}' is unknown",
+                profile_name
+            ));
+        };
+        if spec.kind.trim().is_empty() && spec.base_url.is_none() && spec.default_model.is_none() {
+            return expand_provider_profiles(doc);
+        }
+        if spec.kind != preset.kind
+            || spec.base_url.is_some()
+            || spec.default_model.as_deref() != preset.default_model
+        {
+            return Err(anyhow!(
+                "providers.{provider_id} active materialization does not match profile '{}'",
+                profile_name
+            ));
+        }
+        let state = spec.config.get("profile_state").ok_or_else(|| {
+            anyhow!("providers.{provider_id}.config.profile_state is required for active materialization")
+        })?;
+        let last_known_good_profile = state
+            .get("last_known_good_profile")
+            .and_then(Value::as_str)
+            .unwrap_or_default();
+        let materialization = state
+            .get("last_known_good_materialization")
+            .ok_or_else(|| {
+                anyhow!(
+                    "providers.{provider_id}.config.profile_state.last_known_good_materialization is required"
+                )
+            })?;
+        validate_materialization_state(last_known_good_profile, materialization)?;
+    }
+    Ok(active)
+}
+
 /// Expand provider profiles in an ADL document into explicit concrete specs.
 ///
 /// This is a bounded transform: it expands profile-only providers while keeping
@@ -841,7 +894,7 @@ pub fn activate_provider_profile_candidate(
     active_doc: &adl::AdlDoc,
     candidate_doc: &adl::AdlDoc,
 ) -> Result<ProviderProfileActivation> {
-    let active = expand_provider_profiles(active_doc)?;
+    let active = materialized_active_provider_profiles(active_doc)?;
     match expand_provider_profiles(candidate_doc) {
         Ok(mut candidate) => {
             promote_last_known_good_materializations(&mut candidate)?;
