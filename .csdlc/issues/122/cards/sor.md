@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev, then added separate quick-create/quick-destroy AWS Runtime origin stacks for a disposable Spot EC2 host and HTTPS ALB. The permanent business AWS edge owns the delegated csm.agent-logic.ai hosted zone plus CloudFront/WAF/S3/API/WSS surfaces. Observatory assets are served at https://observatory.wuji.dev.csm.agent-logic.ai with deployed config pointing at https://api.wuji.dev.csm.agent-logic.ai. API Gateway CORS allows the Observatory origin and rejects unrelated origins. The selected local wuji Runtime origin remains coordinated through Caddy/Let's Encrypt, but the AWS ALB origin path is live-proven: an external HTTPS call to origin-smoke.wuji.dev.csm.agent-logic.ai reached the disposable EC2 instance and returned the instance id, then both disposable stacks were destroyed while the reusable regional ACM certificate remained for future ALB cycles.
+Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev, then added separate quick-create/quick-destroy AWS Runtime origin stacks for a disposable Spot EC2 host and HTTPS ALB. The permanent Agent Logic business AWS edge owns the delegated csm.agent-logic.ai hosted zone plus CloudFront/WAF/S3/API/WSS surfaces. Observatory assets are served at https://observatory.wuji.dev.csm.agent-logic.ai with deployed config pointing at https://api.wuji.dev.csm.agent-logic.ai. API Gateway CORS allows the Observatory origin and rejects unrelated origins. The AWS ALB origin path is live-proven: an external HTTPS call to origin-smoke.wuji.dev.csm.agent-logic.ai reached the disposable EC2 instance and returned the instance id, then both disposable stacks were destroyed. The disposable ALB stack now reuses an existing regional ACM certificate by default; extra unused namespace certificates and their stale parent-zone ACM validation CNAMEs created during live exploration were deleted after review. The selected local wuji Runtime origin remains coordinated separately through Caddy/Let's Encrypt. Parent DNS used the distinct default AWS profile only as a bounded parent-zone exception for delegation and ACM DNS-validation records because the parent agent-logic.ai hosted zone lives there; CSM edge/runtime resources stayed in the business profile.
 
 ## Artifacts
 
@@ -38,43 +38,13 @@ Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev, t
 - Added infra/aws/csm-runtime-alb for one replaceable public HTTPS ALB origin with target attachment, health checks, DNS aliasing, and lookup-first reusable ACM certificate handling.
 - Changed the ALB origin cert contract so normal ALB recycling looks up an existing ISSUED regional ACM certificate before any explicit first-time certificate creation path; wildcard reuse is supported through certificate_lookup_domain.
 - Live-proved the disposable AWS origin path by creating ALB and Spot resources, attaching the target, observing target health healthy, receiving HTTP 200 from the public origin with the EC2 instance id in the response, and destroying all disposable Spot/ALB resources afterward.
+- Deleted unused additional namespace ACM certificates that were created during live exploration and recorded post-delete inventory so #122 no longer leaves certificate churn beyond the retained CloudFront viewer cert and reusable regional origin cert.
+- Deleted the two stale parent-zone ACM validation CNAMEs for the deleted extra namespace certificates while preserving the csm.agent-logic.ai NS delegation and active *.wuji.dev.csm.agent-logic.ai validation CNAME.
+- Recorded the parent-zone AWS profile boundary truth: default and agent-logic-admin are distinct accounts; default was used only for bounded parent-zone delegation/ACM validation records because the parent hosted zone lives there, while CSM edge/runtime resources remained in the business account.
 
 ## Validation
 
 [
-  {
-    "command": [
-      "terraform",
-      "-chdir=infra/aws/csm-public-edge",
-      "fmt",
-      "-check"
-    ],
-    "purpose": "Terraform formatting for the permanent CSM public edge stack",
-    "outcome": "passed",
-    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
-  },
-  {
-    "command": [
-      "terraform",
-      "-chdir=infra/aws/csm-runtime-spot",
-      "fmt",
-      "-check"
-    ],
-    "purpose": "Terraform formatting for the disposable Spot Runtime origin stack",
-    "outcome": "passed",
-    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
-  },
-  {
-    "command": [
-      "terraform",
-      "-chdir=infra/aws/csm-runtime-alb",
-      "fmt",
-      "-check"
-    ],
-    "purpose": "Terraform formatting for the disposable ALB Runtime origin stack",
-    "outcome": "passed",
-    "evidence_ref": "2026-08-26 focused validation rerun in #122 worktree"
-  },
   {
     "command": [
       "terraform",
@@ -174,6 +144,84 @@ Implemented and live-applied the Terraform-owned CSM public edge for wuji/dev, t
     "purpose": "Empty-state ALB recreate proof: lookup existing regional ACM cert before planning disposable ALB resources",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "aws",
+      "acm",
+      "delete-certificate",
+      "--region",
+      "us-east-1"
+    ],
+    "purpose": "Review remediation for unused extra namespace ACM certificates created during live exploration",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md and Git-common ACM read/delete receipts"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "aws",
+      "acm",
+      "list-certificates",
+      "--region",
+      "us-east-1"
+    ],
+    "purpose": "Post-delete inventory proved extra namespace certs were removed from ACM",
+    "outcome": "passed",
+    "evidence_ref": "Git-common request receipts issue122-acm-useast1-post-delete-2.json"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "aws",
+      "acm",
+      "list-certificates",
+      "--region",
+      "us-west-2"
+    ],
+    "purpose": "Post-delete inventory proved the reusable regional origin certificate remains",
+    "outcome": "passed",
+    "evidence_ref": "Git-common request receipt issue122-acm-uswest2-post-delete.json"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=default",
+      "aws",
+      "route53",
+      "change-resource-record-sets",
+      "--hosted-zone-id",
+      "Z0105194MPK8MKMH2XAQ",
+      "--change-batch",
+      "file://.git/csdlc-v2/requests/issue122-route53-delete-stale-acm-validation-cnames.json"
+    ],
+    "purpose": "Review remediation for stale parent-zone ACM validation CNAMEs associated with deleted extra namespace certificates",
+    "outcome": "passed",
+    "evidence_ref": ".git/csdlc-v2/requests/issue122-route53-delete-stale-acm-validation-cnames.json and Route53 change /change/C0169968O3N8DSCH7LIG"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=default",
+      "aws",
+      "route53",
+      "list-resource-record-sets",
+      "--hosted-zone-id",
+      "Z0105194MPK8MKMH2XAQ"
+    ],
+    "purpose": "Post-cleanup parent-zone inventory proved only csm.agent-logic.ai delegation and active *.wuji.dev.csm.agent-logic.ai validation remain for the CSM namespace",
+    "outcome": "passed",
+    "evidence_ref": "2026-08-26 commentary inventory after Route53 change /change/C0169968O3N8DSCH7LIG"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin/default",
+      "aws",
+      "sts",
+      "get-caller-identity"
+    ],
+    "purpose": "Profile boundary check proved default and agent-logic-admin are distinct accounts, requiring explicit parent-zone exception truth",
+    "outcome": "passed",
+    "evidence_ref": "commentary output profiles_differ; account ids not recorded in committed evidence"
   }
 ]
 

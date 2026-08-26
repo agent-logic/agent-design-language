@@ -6,7 +6,15 @@ Date: 2026-08-26
 
 - Business AWS profile used for edge resources: `agent-logic-admin`
 - Approved business account verified by Terraform account guard; account id is not recorded in committed evidence.
-- Parent DNS profile used only for `agent-logic.ai` delegation/ACM validation records: `default`
+- Parent DNS profile used only for `agent-logic.ai` delegation/ACM validation
+  records: `default`
+- Parent DNS authority note: `default` and `agent-logic-admin` resolve to
+  different AWS accounts. The `default` profile was used only for the parent
+  hosted zone because the parent `agent-logic.ai` zone lives there, and only
+  for bounded parent-zone delegation / ACM DNS-validation records needed after
+  the operator explicitly instructed this session to get the CSM domain names
+  and certificates working. It was not used for CSM edge resources, Runtime
+  origin resources, S3, CloudFront, WAF, API Gateway, EC2, or ALB.
 - Parent public hosted zone: `agent-logic.ai` / `Z0105194MPK8MKMH2XAQ`
 - Created business hosted zone: `csm.agent-logic.ai` / `Z02742802Q0LW6PL6HQ2D`
 - Delegated name servers:
@@ -28,6 +36,27 @@ Additional namespace certificates requested for future naming variants:
 - `*.csm.agent-logic.ai`: `ISSUED`
 - `*.dev.csm.agent-logic.ai`: `ISSUED`
 - `*.wuji.csm.agent-logic.com`: `PENDING_VALIDATION` because no accessible Route53 hosted zone for `agent-logic.com` was found in the available AWS profiles.
+
+Review remediation: these extra namespace certificates were unused and were
+deleted from ACM after review identified them as certificate churn. Post-delete
+ACM inventory retained only the active CloudFront viewer certificate
+`*.wuji.dev.csm.agent-logic.ai` in `us-east-1` plus the reusable regional
+origin certificate `origin-smoke.wuji.dev.csm.agent-logic.ai` in `us-west-2`.
+No disposable ALB stack owns or recreates those certificates by default.
+
+Review remediation also removed the two stale parent-zone ACM validation CNAMEs
+that corresponded to the deleted `*.csm.agent-logic.ai` and
+`*.dev.csm.agent-logic.ai` certificates. The parent `agent-logic.ai` zone now
+retains only:
+
+- the `csm.agent-logic.ai` NS delegation; and
+- the active ACM validation CNAME for `*.wuji.dev.csm.agent-logic.ai`.
+
+Route53 cleanup change:
+
+```text
+/change/C0169968O3N8DSCH7LIG
+```
 
 ## Terraform apply
 
