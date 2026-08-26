@@ -20,15 +20,17 @@ use adl_runtime_kernel::{
     build_production_operation_executors_with_recorder, load_control_tls, load_identity,
     load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
     serve_control_listener_until_ready, serve_private_continuity_listener,
-    validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
-    AgentPopulationFeed, CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
-    ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
-    ControlService, DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
-    RecorderTrustedTime, RsntpTimeSampleSource, RunningState, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
-    TlsIdentityPaths, TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS,
-    OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
+    start_config_reload_with_applier_and_shutdown, validate_production_operation_executors,
+    verifying_key_from_hex, AdapterKind, AgentPopulationFeed, CatalogSigningAuthority,
+    CheckpointShutdownRequest, CheckpointingControl, ConfigApplier, ConfigParser,
+    ConfigReloadError, ConfigReloadOptions, ContinuityControlService, ControlApiPolicy,
+    ControlAuthority, ControlCapability, ControlService, DurableContinuityJournal, Kernel,
+    KernelExit, LiveBindings, LiveContinuity, LiveKernelSnapshot, ObservabilityDegradation,
+    ObservabilityHealth, OperationRequest, RecorderTrustedTime, RsntpTimeSampleSource,
+    RunningState, RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver,
+    TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths,
+    TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA,
+    PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -61,7 +63,7 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let init = match RuntimeInitConfig::load(Some(init_path)) {
+            let init = match RuntimeInitConfig::load(Some(init_path.clone())) {
                 Ok(config) => config,
                 Err(error) => {
                     eprintln!("runtime init invalid: {error}");
@@ -668,9 +670,34 @@ async fn main() -> ExitCode {
             service.set_weather_stale_after(std::time::Duration::from_millis(
                 init.kernel.weather_stale_after_millis,
             ));
+            let api_shutdown = tokio_util::sync::CancellationToken::new();
+            let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
+                RuntimeInitConfig::from_toml_str(raw)
+                    .map_err(|error| ConfigReloadError::parse(error.to_string()))
+            });
+            let reload_service = Arc::clone(&service);
+            let reload_applier: ConfigApplier<RuntimeInitConfig> = Arc::new(move |next| {
+                reload_service
+                    .replace_observatory_allowed_origins_from_runtime_init(next)
+                    .map_err(ConfigReloadError::validation)
+            });
+            let config_reload = match start_config_reload_with_applier_and_shutdown(
+                init_path,
+                reload_parser,
+                Some(reload_applier),
+                ConfigReloadOptions::default(),
+                api_shutdown.child_token(),
+            )
+            .await
+            {
+                Ok(controller) => controller,
+                Err(error) => {
+                    eprintln!("runtime config reload failed to start: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let pressure_checkpoint_deadline =
                 std::time::Duration::from_millis(init.weather.checkpoint_deadline_millis);
-            let api_shutdown = tokio_util::sync::CancellationToken::new();
             let vector_config = RuntimeVectorConfig::from_init_config(
                 init.runtime_observability(),
                 init.paths.observability_root(&operation_state_identity),
@@ -998,6 +1025,9 @@ async fn main() -> ExitCode {
                 break 'serve terminal;
             };
             let mut observability_shutdown_error = None;
+            if let Err(error) = config_reload.shutdown().await {
+                eprintln!("runtime config reload shutdown failed: {error}");
+            }
             if let Some(observability) = observability.as_mut() {
                 recorder.set_observability_pipeline(observability.snapshot());
                 if let Err(error) = observability.shutdown().await {

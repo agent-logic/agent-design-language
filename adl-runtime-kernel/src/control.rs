@@ -6,7 +6,7 @@ use std::{
     net::SocketAddr,
     path::Path,
     sync::Arc,
-    sync::Mutex,
+    sync::{Mutex, RwLock},
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
@@ -652,7 +652,7 @@ pub struct ControlService<C> {
     weather_stale_after_millis: Mutex<u64>,
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
     acip_write_bearer_digest: Mutex<Option<blake3::Hash>>,
-    observatory_allowed_origins: BTreeSet<String>,
+    observatory_origin_policy: ObservatoryOriginPolicy,
     agent_population: AgentPopulationFeed,
     control_addr: Mutex<SocketAddr>,
     public_base_url: Mutex<String>,
@@ -718,7 +718,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             is_safe_identifier(&instance_id),
             "runtime instance id must be bounded"
         );
-        let observatory_allowed_origins = observatory_allowed_origins.into_iter().collect();
+        let observatory_origin_policy = ObservatoryOriginPolicy::new(observatory_allowed_origins)
+            .expect("observatory origins must be approved exact origins");
         agent_population
             .sample
             .sort_by(|left, right| left.id.cmp(&right.id));
@@ -743,7 +744,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             weather_stale_after_millis: Mutex::new(30_000),
             observatory_bearer_digest: Mutex::new(None),
             acip_write_bearer_digest: Mutex::new(None),
-            observatory_allowed_origins,
+            observatory_origin_policy,
             agent_population,
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
             public_base_url: Mutex::new("https://localhost".to_owned()),
@@ -758,6 +759,24 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             #[cfg(test)]
             conversation_attachment_test_hook: Mutex::new(None),
         }
+    }
+
+    pub fn observatory_origin_policy(&self) -> ObservatoryOriginPolicy {
+        self.observatory_origin_policy.clone()
+    }
+
+    pub fn replace_observatory_allowed_origins(
+        &self,
+        origins: impl IntoIterator<Item = String>,
+    ) -> Result<(), String> {
+        self.observatory_origin_policy.replace(origins)
+    }
+
+    pub fn replace_observatory_allowed_origins_from_runtime_init(
+        &self,
+        init: &crate::RuntimeInitConfig,
+    ) -> Result<(), String> {
+        self.replace_observatory_allowed_origins(init.observatory_allowed_origins())
     }
 
     #[cfg(test)]
@@ -3163,10 +3182,77 @@ fn allowed_origin<C: LifecycleControl + 'static>(
         .get(header::ORIGIN)
         .and_then(|value| value.to_str().ok())?;
     service
-        .observatory_allowed_origins
+        .observatory_origin_policy
         .contains(origin)
         .then(|| HeaderValue::from_str(origin).ok())
         .flatten()
+}
+
+#[derive(Clone, Debug)]
+pub struct ObservatoryOriginPolicy {
+    origins: Arc<RwLock<Arc<BTreeSet<String>>>>,
+}
+
+impl ObservatoryOriginPolicy {
+    pub fn new(origins: impl IntoIterator<Item = String>) -> Result<Self, String> {
+        Ok(Self {
+            origins: Arc::new(RwLock::new(Arc::new(validate_observatory_origins(
+                origins, true,
+            )?))),
+        })
+    }
+
+    pub fn replace(&self, origins: impl IntoIterator<Item = String>) -> Result<(), String> {
+        let origins = Arc::new(validate_observatory_origins(origins, true)?);
+        let mut active = self
+            .origins
+            .write()
+            .map_err(|_| "observatory_origin_policy_unavailable".to_owned())?;
+        *active = origins;
+        Ok(())
+    }
+
+    pub fn contains(&self, origin: &str) -> bool {
+        self.origins
+            .read()
+            .map(|origins| origins.contains(origin))
+            .unwrap_or(false)
+    }
+}
+
+fn validate_observatory_origins(
+    origins: impl IntoIterator<Item = String>,
+    allow_empty: bool,
+) -> Result<BTreeSet<String>, String> {
+    let mut unique = BTreeSet::new();
+    for origin in origins {
+        if !valid_observatory_origin(&origin) {
+            return Err("observatory_allowed_origins_must_be_approved_exact_origins".to_owned());
+        }
+        if !unique.insert(origin) {
+            return Err("observatory_allowed_origins_must_be_unique".to_owned());
+        }
+    }
+    if !allow_empty && unique.is_empty() {
+        return Err("observatory_allowed_origins_required".to_owned());
+    }
+    Ok(unique)
+}
+
+fn valid_observatory_origin(origin: &str) -> bool {
+    if origin == "*" || origin.len() > 512 || origin.bytes().any(|byte| byte.is_ascii_control()) {
+        return false;
+    }
+    if origin == "http://localhost:8000" {
+        return true;
+    }
+    let Ok(uri) = origin.parse::<axum::http::Uri>() else {
+        return false;
+    };
+    uri.scheme_str() == Some("https")
+        && uri.authority().is_some()
+        && uri.path() == "/"
+        && uri.query().is_none()
 }
 
 fn cors_json<T: Serialize>(

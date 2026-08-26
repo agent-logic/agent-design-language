@@ -1,0 +1,24 @@
+{
+  "issue": 510,
+  "expected_generation": 8,
+  "expected_digest": "462d8471d785047a63d9d4e301d94303005bdf0be4a95e4b822bbeacec42aead",
+  "actor": "codex:sprint-1-conductor",
+  "evidence": {
+    "reviewer": "openai-responses:gpt-5.6-sol:resp_0e13a64dc209853a006a8f46af92a887d0bf83c464fa1289bb",
+    "scope": [
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/config_reload.rs",
+      "docs/runtime/config-hot-reload.md"
+    ],
+    "reviewed_revision": "git-blake3:da2f0e9e7bf66a2ac16050644ce6eb376ae4fde1:292158182e5101f26956b13819d3d306d3f961ba1b7985733cc6eba365626eca",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

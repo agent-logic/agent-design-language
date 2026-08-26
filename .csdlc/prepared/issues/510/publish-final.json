@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 510,
+  "expected_generation": 9,
+  "expected_digest": "c9a6f7b09db8842d5a329ac7d2048bcc8e981cf8b42ae0e3d5ecbca9909d1a84",
+  "actor": "codex:sprint-1-conductor",
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": null,
+  "base": "main",
+  "head": "codex/510-hot-01-axum-config-hot-reload",
+  "title": "[v0.92.1][HOT-01] Add runtime config hot reload",
+  "body": "## Summary\n- Add atomic, debounced Runtime configuration hot reload with last-known-good retention and clean shutdown.\n- Wire accepted RuntimeInitConfig origin updates into the production Observatory authority used by HTTP CORS and authenticated WSS.\n- Support immediate revocation to an empty origin set, consistent initial application, and single-read snapshot parsing.\n\n## Validation\n- adl-runtime config_reload integration: 8 passed\n- adl-runtime-kernel live Observatory origin-policy integration: passed\n- adl-runtime-kernel production binary cargo check: passed\n- git diff --check: passed\n\n## Review\n- Independent GPT-5.6 Sol API review found and verified fixes for production wiring, same-snapshot parsing, debounce cancellation, startup consistency, read-failure handling, and empty-origin revocation.\n- Final exact scoped review: PASS with no findings.\n\nCloses #510",
+  "linkage_mode": "closing",
+  "draft": false,
+  "remote": "origin",
+  "token_file": null
+}
