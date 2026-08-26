@@ -1356,6 +1356,85 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
 }
 
 #[tokio::test]
+async fn observatory_origin_policy_hot_loads_new_origin_and_rejects_invalid_replacement() {
+    let key = SigningKey::from_bytes(&[15; 32]);
+    let service = Arc::new(ControlService::new_with_observatory_config(
+        "instance-1",
+        RuntimeRecorder::new(4),
+        FakeLifecycle {
+            calls: Arc::new(AtomicUsize::new(0)),
+        },
+        authority(&key, [ControlCapability::Read]),
+        4,
+        ["https://observatory.initial.test".to_owned()],
+    ));
+    let listener = tokio::net::TcpListener::bind((TEST_BIND_HOST, 0))
+        .await
+        .unwrap();
+    let address = listener.local_addr().unwrap();
+    let (tls, client) = test_https().await;
+    let server = tokio::spawn(serve_control_listener(
+        Arc::clone(&service),
+        listener,
+        tls,
+        test_api_policy(),
+    ));
+
+    let absent_origin = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://observatory.new.test\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(absent_origin.starts_with("HTTP/1.1 403 Forbidden"));
+    assert!(!absent_origin.contains("access-control-allow-origin"));
+
+    service
+        .replace_observatory_allowed_origins([
+            "https://observatory.initial.test".to_owned(),
+            "https://observatory.new.test".to_owned(),
+        ])
+        .unwrap();
+    let hot_loaded_origin = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://observatory.new.test\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(hot_loaded_origin.starts_with("HTTP/1.1 200 OK"));
+    assert!(hot_loaded_origin.contains("access-control-allow-origin: https://observatory.new.test"));
+
+    assert!(service
+        .replace_observatory_allowed_origins(["*".to_owned()])
+        .is_err());
+    assert!(service
+        .replace_observatory_allowed_origins([
+            "https://observatory.new.test".to_owned(),
+            "https://observatory.new.test".to_owned(),
+        ])
+        .is_err());
+    let fail_closed_rejection = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://attacker.invalid\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(fail_closed_rejection.starts_with("HTTP/1.1 403 Forbidden"));
+    assert!(!fail_closed_rejection.contains("access-control-allow-origin"));
+
+    let retained_origin = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://observatory.new.test\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(retained_origin.starts_with("HTTP/1.1 200 OK"));
+    assert!(retained_origin.contains("access-control-allow-origin: https://observatory.new.test"));
+
+    server.abort();
+}
+
+#[tokio::test]
 async fn graceful_api_shutdown_drains_an_active_control_response() {
     let key = SigningKey::from_bytes(&[8; 32]);
     let started = Arc::new(Notify::new());
