@@ -216,6 +216,9 @@ where
     let raw = read_config(&path).await?;
     let signature = FileSignature::from_bytes(&raw);
     let initial = parse_snapshot(&path, &parser, &raw, 0)?;
+    if let Some(applier) = applier.as_ref() {
+        applier(initial.value())?;
+    }
     let (sender, receiver) = watch::channel(Arc::new(initial));
     let task_shutdown = shutdown.clone();
     let task_path = path.clone();
@@ -269,13 +272,16 @@ where
                 };
             }
             _ = interval.tick() => {
-                if let Ok(raw) = read_config(&path).await {
-                    let signature = FileSignature::from_bytes(&raw);
-                    if signature == last_evaluated {
-                        pending = None;
-                    } else if pending.as_ref().map(|(pending, _, _)| pending) != Some(&signature) {
-                        pending = Some((signature, raw, Instant::now() + options.debounce));
+                match read_config(&path).await {
+                    Ok(raw) => {
+                        let signature = FileSignature::from_bytes(&raw);
+                        if signature == last_evaluated {
+                            pending = None;
+                        } else if pending.as_ref().map(|(pending, _, _)| pending) != Some(&signature) {
+                            pending = Some((signature, raw, Instant::now() + options.debounce));
+                        }
                     }
+                    Err(_) => pending = None,
                 }
 
                 let ready = pending

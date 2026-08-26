@@ -7,11 +7,13 @@ use std::{
 };
 
 use adl_runtime::config_reload::{
-    start_config_reload, ConfigParser, ConfigReloadError, ConfigReloadOptions, HotReloadHandle,
+    start_config_reload, start_config_reload_with_applier_and_shutdown, ConfigApplier,
+    ConfigParser, ConfigReloadError, ConfigReloadOptions, HotReloadHandle,
 };
 use serde::Deserialize;
 use tempfile::TempDir;
 use tokio::time::{sleep, timeout};
+use tokio_util::sync::CancellationToken;
 
 #[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 struct TestConfig {
@@ -187,6 +189,61 @@ async fn reverting_during_debounce_cancels_the_pending_reload() {
     let outcome = controller.shutdown().await.expect("shutdown");
     assert_eq!(outcome.reloads_applied, 0);
     assert_eq!(outcome.invalid_updates_rejected, 0);
+}
+
+#[tokio::test]
+async fn initial_snapshot_is_applied_before_the_watcher_starts() {
+    let temp = TempDir::new().expect("temp dir");
+    let path = temp.path().join("runtime.toml");
+    write_config(&path, render("initial", 1, 1)).await;
+    let applied = Arc::new(std::sync::Mutex::new(None));
+    let applied_value = Arc::clone(&applied);
+    let applier: ConfigApplier<TestConfig> = Arc::new(move |config| {
+        *applied_value.lock().expect("applied mutex") = Some(config.clone());
+        Ok(())
+    });
+
+    let controller = start_config_reload_with_applier_and_shutdown(
+        &path,
+        parser(),
+        Some(applier),
+        options(),
+        CancellationToken::new(),
+    )
+    .await
+    .expect("start reload");
+
+    assert_eq!(
+        applied.lock().expect("applied mutex").as_ref(),
+        Some(&TestConfig {
+            name: "initial".to_owned(),
+            workers: 1,
+            left: 1,
+            right: 1,
+        })
+    );
+    controller.shutdown().await.expect("shutdown");
+}
+
+#[tokio::test]
+async fn unreadable_file_cancels_a_pending_reload() {
+    let temp = TempDir::new().expect("temp dir");
+    let path = temp.path().join("runtime.toml");
+    write_config(&path, render("initial", 1, 1)).await;
+    let controller = start_config_reload(&path, parser(), options())
+        .await
+        .expect("start reload");
+    let handle = controller.handle();
+
+    write_config(&path, render("transient", 2, 2)).await;
+    sleep(Duration::from_millis(15)).await;
+    tokio::fs::remove_file(&path).await.expect("remove config");
+    sleep(Duration::from_millis(120)).await;
+
+    assert_eq!(handle.current().generation(), 0);
+    assert_eq!(handle.current().value().name, "initial");
+    let outcome = controller.shutdown().await.expect("shutdown");
+    assert_eq!(outcome.reloads_applied, 0);
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
