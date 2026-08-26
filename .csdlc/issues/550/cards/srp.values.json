@@ -7,15 +7,15 @@
     "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
     "slug": "runtime-observatory-trusted-origin-csm-config",
     "version": "v0.92.1",
-    "generation": 27
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/src/cli/observability.rs\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\n.csdlc/issues/550\n.csdlc/evidence/550\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime/tests/runtime_api_wss.rs\ndemos/html-observatory\nCSMctl\ndocs/tooling/CSMctl.conf.example",
+      "review_revision": "git-blake3:e9a73ade3a5904fbf4250b867e006411697cd6cc:244b727c42c8647a8ac1ef2a78d0770532b983999abe61037b8ee4b055122b97",
+      "reviewer": "fresh-session:janitor-550-pr552-after-lock-retention",
       "review_prompts": [
         "Does parsing accept only an exact HTTPS DNS origin with a valid optional port?",
         "Do executable tests cover all valid combinations and unsafe input classes?",
@@ -25,8 +25,11 @@
         "Does live proof establish trusted TLS and exact CORS for both Observatory origins?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.",
+        "Six unified Runtime kernel tests remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds the per-test timeout."
+      ],
+      "review_result": "pass"
     }
   }
 }
