@@ -9,14 +9,23 @@ require "open3"
 ROOT = File.expand_path("../../../..", __dir__)
 REPOSITORY = "agent-logic/agent-design-language"
 MILESTONE = 1
-TOKEN_FILE = "/Users/daniel/keys/github.token"
-OWNER = "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-github-issue"
+OWNER = ENV.fetch("CSDLC_GITHUB_ISSUE_BIN")
 EVIDENCE = File.join(ROOT, "docs/milestones/v0.92.1/evidence/wp-01")
 MODE = ARGV.fetch(0, "create")
 abort "usage: create-sprint-umbrellas.rb [create|update]" unless %w[create update].include?(MODE)
-REQUESTS = File.join(EVIDENCE, MODE == "create" ? "umbrella-requests" : "umbrella-update-requests")
-RESULTS = File.join(EVIDENCE, MODE == "create" ? "umbrella-operations" : "umbrella-update-operations")
-RECEIPT = File.join(EVIDENCE, MODE == "create" ? "sprint-umbrella-receipt.json" : "sprint-umbrella-update-receipt.json")
+MEMBERSHIP_VERSION = MODE == "create" ? 1 : Integer(ENV.fetch("SPRINT_MEMBERSHIP_VERSION"), 10)
+CHANGE_REASON = MODE == "create" ? "Initial milestone-opening roster." : ENV.fetch("SPRINT_MEMBERSHIP_REASON")
+abort "update membership version must be at least 2" if MODE == "update" && MEMBERSHIP_VERSION < 2
+abort "membership change reason is required" if CHANGE_REASON.strip.empty?
+REQUESTS = File.join(EVIDENCE, MODE == "create" ? "umbrella-requests" : "umbrella-update-v#{MEMBERSHIP_VERSION}-requests")
+RESULTS = File.join(EVIDENCE, MODE == "create" ? "umbrella-operations" : "umbrella-update-v#{MEMBERSHIP_VERSION}-operations")
+RECEIPT = File.join(EVIDENCE, MODE == "create" ? "sprint-umbrella-receipt.json" : "sprint-umbrella-membership-v#{MEMBERSHIP_VERSION}-receipt.json")
+if MODE == "update"
+  prior_versions = Dir.glob(File.join(EVIDENCE, "sprint-umbrella-membership-v*-receipt.json"))
+                      .map { |path| File.basename(path)[/membership-v(\d+)-receipt/, 1]&.to_i }.compact
+  prior_versions << 2 if File.exist?(File.join(EVIDENCE, "sprint-umbrella-update-receipt.json"))
+  abort "membership version must advance exactly once" unless MEMBERSHIP_VERSION == prior_versions.max.to_i + 1
+end
 
 SPRINTS = [
   [1, "Independent foundations", [482, 483, 510, 513, 514, 499]],
@@ -41,7 +50,7 @@ def issue_title(number, name)
   "[v0.92.1][Sprint #{number}] #{name}"
 end
 
-def issue_body(number, name, members)
+def issue_body(number, name, members, membership_version, change_reason)
   <<~BODY
     ## Outcome
 
@@ -50,6 +59,9 @@ def issue_body(number, name, members)
     ## Initial child membership baseline
 
     #{members.map { |issue| "- ##{issue}" }.join("\n")}
+
+    - Membership version: `#{membership_version}`
+    - Change reason: #{change_reason}
 
     ## Change protocol
 
@@ -85,7 +97,7 @@ existing = if MODE == "update"
              {}
            end
 observed = SPRINTS.map do |number, name, members|
-  key = "v0921-wp01:sprint-#{number}:#{MODE == "create" ? "create" : "membership-v2-update"}"
+  key = "v0921-wp01:sprint-#{number}:#{MODE == "create" ? "create" : "membership-v#{MEMBERSHIP_VERSION}-update"}"
   request_path = File.join(REQUESTS, format("sprint-%02d.json", number))
   result_path = File.join(RESULTS, format("sprint-%02d.json", number))
   request = {
@@ -96,7 +108,7 @@ observed = SPRINTS.map do |number, name, members|
     "issue" => existing[number],
     "pull_request" => nil,
     "title" => issue_title(number, name),
-    "body" => issue_body(number, name, members),
+    "body" => issue_body(number, name, members, MEMBERSHIP_VERSION, CHANGE_REASON),
     "labels" => ["area:runtime", "track:roadmap", "type:task", "version:v0.92.1"],
     "assignees" => [],
     "milestone" => MILESTONE,
@@ -107,8 +119,7 @@ observed = SPRINTS.map do |number, name, members|
     "linked_issue" => nil
   }
   write_json(request_path, request)
-  stdout, stderr, status = Open3.capture3({ "ADL_GITHUB_TOKEN_FILE" => TOKEN_FILE }, OWNER,
-                                          "run", "--request", request_path, chdir: ROOT)
+  stdout, stderr, status = Open3.capture3(OWNER, "run", "--request", request_path, chdir: ROOT)
   abort "Sprint #{number} creation failed: #{stderr}" unless status.success?
   result = JSON.parse(stdout)
   write_json(result_path, result)
@@ -123,15 +134,19 @@ observed = SPRINTS.map do |number, name, members|
     "issue" => issue.fetch("number"),
     "title" => issue.fetch("title"),
     "members" => members,
+    "membership_version" => MEMBERSHIP_VERSION,
+    "change_reason" => CHANGE_REASON,
     "operation_key" => key,
     "result_sha256" => Digest::SHA256.file(result_path).hexdigest
   }
 end
 
 write_json(RECEIPT, {
-  "schema" => "adl.v0921.wp01.sprint-umbrella-receipt.v1",
+  "schema" => MODE == "create" ? "adl.v0921.wp01.sprint-umbrella-receipt.v1" : "adl.v0921.wp01.sprint-umbrella-membership-update.v1",
   "repository" => REPOSITORY,
   "conductor_issue" => 480,
+  "membership_version" => MEMBERSHIP_VERSION,
+  "change_reason" => CHANGE_REASON,
   "umbrellas" => observed
 })
 puts JSON.pretty_generate("result" => "passed", "umbrellas" => observed)
