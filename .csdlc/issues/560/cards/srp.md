@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/560
+.csdlc/prepared/issues/560
+.csdlc/evidence/560
+adl/.config/nextest.toml
+adl/src/adl_gws_context_mirror.rs
 
 ## Prompts
 
@@ -30,12 +34,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted adl-coverage remains the required integration proof before merge.
+- Milestone detection remains document-pattern dependent and may need maintenance after future planning-format changes.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:82f7115bda4d3f0981717b634783c9ec553ed96a:3f42dd75d82806f4348909fa78fbf38425234aa8e18ce6f43d99b8660ac300fa")
 
-Reviewer: None
+Reviewer: Some("openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7")
 
-Result: pre_review
+Result: pass

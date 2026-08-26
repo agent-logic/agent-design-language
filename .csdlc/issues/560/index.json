@@ -4,13 +4,53 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a43b525a61790257019207e3d1187d1c53001b830cef623010b0dd69b318f435",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "0735d0fbc4949e2a3fa80d545a2820781459bce3e319a6e9f466444338abc12a",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "62faf85c7abd6a391f3c57d2f280700f88941a59b250126f2521666de61423ca",
   "branch": "codex/560-runtime-v2-workspace-coverage-timeouts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:82f7115bda4d3f0981717b634783c9ec553ed96a:3f42dd75d82806f4348909fa78fbf38425234aa8e18ce6f43d99b8660ac300fa",
+    "scope": [
+      ".csdlc/issues/560",
+      ".csdlc/prepared/issues/560",
+      ".csdlc/evidence/560",
+      "adl/.config/nextest.toml",
+      "adl/src/adl_gws_context_mirror.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7",
+    "scope": [
+      ".csdlc/issues/560",
+      ".csdlc/prepared/issues/560",
+      ".csdlc/evidence/560",
+      "adl/.config/nextest.toml",
+      "adl/src/adl_gws_context_mirror.rs"
+    ],
+    "reviewed_revision": "git-blake3:82f7115bda4d3f0981717b634783c9ec553ed96a:3f42dd75d82806f4348909fa78fbf38425234aa8e18ce6f43d99b8660ac300fa",
+    "findings": [],
+    "residual_risks": [
+      "Hosted adl-coverage remains the required integration proof before merge.",
+      "Milestone detection remains document-pattern dependent and may need maintenance after future planning-format changes."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git:ee456e7cfa9dd6720c82d4bd051d537c2d22d76c",
+      "to_revision": "git-blake3:82f7115bda4d3f0981717b634783c9ec553ed96a:3f42dd75d82806f4348909fa78fbf38425234aa8e18ce6f43d99b8660ac300fa",
+      "from_commit": "ee456e7cfa9dd6720c82d4bd051d537c2d22d76c",
+      "to_commit": "82f7115bda4d3f0981717b634783c9ec553ed96a",
+      "changed_paths": [
+        ".csdlc/evidence/560/openai-responses-review-r2.json",
+        ".csdlc/evidence/560/openai-responses-review-r2.txt",
+        ".csdlc/evidence/560/openai-responses-review-pass-r2.json",
+        ".csdlc/evidence/560/openai-responses-review-pass-r2.txt"
+      ]
+    }
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ee02e0da93cea555e6546cab2c9cc682cfec318245dbcaca09c31df2556b513c",
+      "values_digest": "56ec18800588965d656d24f5076d53137f6b3b9231cec8eea0f5cac0d1be389a",
       "rendered_digest": "70f5c9b2e3b520aac7444595ff1c2671bf5e5b091bc68e84c4a195b285260210",
       "ast_digest": "09021e4f502392feb5e59861355e230f2b5e5d1d23f28cfa8dcac6f7405e76c7"
     },
     "stp": {
-      "values_digest": "f83083e6509f2d513a1dd3d97008aa8924c405774ee7dfbad43fa3c0ffbb889d",
+      "values_digest": "c8b4f3a7b082b7266ed1c3e2b374e4b531251b2d97025eb3a83adec650eb11ce",
       "rendered_digest": "1ca4c4f432d4d1d4b0f609c7f0494fd54d49950efa61f3e5f296cc2e394183f3",
       "ast_digest": "a0ea2badb5bc379214e09ba7ccf6a83c419600993c2a4bc683274e14bc0406b2"
     },
     "spp": {
-      "values_digest": "84ca7f771c717343ecb259f7b44e7d189b8827ed8e72d379e356a004b0a21166",
+      "values_digest": "d5a07b49466af0f9a0f94fd81f9e82bb5a22873105312557043fdac833441e47",
       "rendered_digest": "eb8dc0875759a3609f106f1bbcab83e0aa08094602b0fbc5981938944b93b275",
       "ast_digest": "94e49b61be4dd98be4b1264d872d4a605f4ec4b85ffea0a44553239623411af9"
     },
     "vpp": {
-      "values_digest": "b22a3059fa0b48acde009bd23e418696a162735f0bf6ef72dd9646210ba1b023",
+      "values_digest": "dd774e27291d20ad107316e0b420a15cbc774a8eb11e2cf8a8f02e8176ec589e",
       "rendered_digest": "ac2965e804a7314787ac739e5e47e12fd6d9b944a3189bed5d30a0a52b06ee94",
       "ast_digest": "bc307fa308bbf34ed77e882f9858becbd7fb771728c088d79bfd47f94cd74180"
     },
     "srp": {
-      "values_digest": "9b32c1a98f3a9f3b5c169fc369d5bbdf63f14e9a7507da3c4eeca991fab2758b",
-      "rendered_digest": "5117945cadf0f03230753d721605a0fd7168feabef34d3e4a65f0bbdd720c13a",
-      "ast_digest": "4d406d6c641275799db99d290272ae7052bf39d492c65e9c354ce1e719c4819a"
+      "values_digest": "8edd6248f514fecf40891fc9514a0b59a5080538559a654d48129c443b95aec7",
+      "rendered_digest": "61e63acae2ec2614759047d17bf8dafc4748bd965078bb82126131ca675609f3",
+      "ast_digest": "87cd02689b16105b2ba1a72d9a5bdd0691812fd64f2fb35d7cd94ba08ffcf535"
     },
     "sor": {
-      "values_digest": "01929d08a3bf691c6b67d2bfd5ff81f6f77512a2ecbfa7924347ac97f30bdd4f",
+      "values_digest": "eda0d94e56b6064b93c901697c5ce4fa1f45c23afc3ed14c79cb576471fa9411",
       "rendered_digest": "d811d1037ecc507e1a3b6145183e465bd8a4826e2da242f581dc8c4b07ba76d4",
       "ast_digest": "40c68670b36d7fc5c1694f639edf0f3760856fe7772938c11fa72608526eceea"
     }
@@ -97,6 +137,13 @@
       "to": "implemented",
       "actor": "codex:/root/issue_513_dec_01",
       "reason": "Recover #560 after PR #561 hosted workspace coverage run 33021333783 failed on four additional runtime_v2 unified-kernel module tests at the generic 120s ci-coverage ceiling and on stale v0.92.1 context-mirror milestone truth. Repair remains behavior-preserving coverage/test-baseline work and requires refreshed validation, exact-head API review, publication, and green hosted checks before finish."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -218,6 +265,20 @@
       "actor": "codex:/root/issue_513_dec_01",
       "reason": "Update #560 SOR after hosted run 33021333783 recovery so execution truth records the module-prefix timeout remediation, v0.92.1 context-mirror milestone truth, and refreshed focused evidence before exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered PR #561 after hosted workspace coverage run 33021333783 and stabilized the shared coverage gate by granting only the exact runtime_v2 unified-kernel module prefix a bounded ci-coverage nextest timeout override while correcting current v0.92.1 context-mirror milestone truth.\",\"changes\":[\"Changed the ci-coverage nextest override from three exact runtime_v2 unified-kernel test names to the exact fully qualified `runtime_v2::tests::unified_runtime_kernel::*` module prefix after run 33021333783 proved four sibling module tests still hit the generic 120s coverage ceiling.\",\"Kept the override ceiling at 240s with terminate-after = 1, leaving the profile-wide ci-coverage timeout at 120s for all unrelated tests.\",\"Updated the issue-owned focused proof to assert the selector denominator is exactly seven tests, then run those seven tests under cargo llvm-cov nextest ci-coverage.\",\"Updated the context-mirror milestone truth path to read the current ADL feature list in addition to README milestone markers, accept v0.92.1 as a current milestone, and expect v0.92 activation no longer blocked when v0.92.1 is current.\",\"Added temp-repo fixture coverage for the feature-list dependency so execute-mode context mirroring remains compatible outside the repository root.\",\"Recorded typed review/publication recovery, design-review recovery, refreshed authored design/diagram bindings, refreshed VPP validation lanes, and retained current local proof evidence.\",\"Kept Runtime v2 product semantics and unified-kernel test assertions unchanged; the change is instrumentation-aware coverage scheduling plus stale baseline/test truth repair.\"],\"artifacts\":[\"adl/.config/nextest.toml\",\"adl/src/adl_gws_context_mirror.rs\",\".csdlc/prepared/issues/560/design.md\",\".csdlc/prepared/issues/560/diagram.mmd\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\",\".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh\",\".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log\",\".csdlc/evidence/560/context-mirror-temp-repo-compat.log\",\".csdlc/evidence/560/lifecycle-evidence-hygiene.log\",\".csdlc/evidence/560/diff-hygiene.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\"],\"purpose\":\"Prove the ci-coverage override selector matches exactly seven runtime_v2 unified-kernel module tests, run all seven under cargo llvm-cov nextest ci-coverage, run the current-repo v0.92.1 milestone truth test, and run diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log\"},{\"command\":[\"cargo\",\"test\",\"-p\",\"adl\",\"--lib\",\"adl_gws_context_mirror::tests::execute_mode_recursively_mirrors_markdown_with_verified_content\"],\"purpose\":\"Prove the context-mirror execute-mode temp-repo fixture remains compatible with the feature-list milestone reader dependency.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/560/context-mirror-temp-repo-compat.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh\"],\"purpose\":\"Verify issue-local lifecycle state and evidence directory exist before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/560/lifecycle-evidence-hygiene.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene drift.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/560/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
