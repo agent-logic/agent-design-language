@@ -23,7 +23,9 @@ The first implementation creates three public edge surfaces:
 - `observatory.<csm>.<env>` for static HTML Observatory assets.
 - `api.<csm>.<env>` for HTTPS Runtime API traffic through API Gateway HTTP API.
 - `wss.<csm>.<env>` for native WebSocket traffic through CloudFront to a
-  WSS-capable Runtime origin.
+  WSS-capable host-only HTTPS Runtime origin. Path-bearing WSS origin URLs are
+  rejected unless a future change adds explicit CloudFront `origin_path`
+  support.
 
 The module can either use an existing Route53 CSM namespace zone or create it
 in the Agent Logic business AWS account and output name servers for one-time

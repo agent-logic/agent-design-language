@@ -71,11 +71,8 @@ resource "terraform_data" "wss_origin_mode_guard" {
     }
 
     precondition {
-      condition = (
-        var.wss_origin_https_url == "https://${var.wss_origin_hostname}"
-        || startswith(var.wss_origin_https_url, "https://${var.wss_origin_hostname}/")
-      )
-      error_message = "wss_origin_https_url must use wss_origin_hostname so CloudFront origin routing and TLS/SNI evidence describe the same endpoint."
+      condition     = var.wss_origin_https_url == "https://${var.wss_origin_hostname}"
+      error_message = "wss_origin_https_url must exactly equal https://wss_origin_hostname with no path; this root does not configure CloudFront origin_path, so path-bearing origins are rejected."
     }
 
     precondition {

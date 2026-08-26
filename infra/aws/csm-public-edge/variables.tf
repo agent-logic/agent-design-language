@@ -99,7 +99,7 @@ variable "wss_origin_mode" {
 }
 
 variable "wss_origin_https_url" {
-  description = "HTTPS custom-origin endpoint for WSS. The origin must accept WebSocket upgrade; public viewer URL remains wss://."
+  description = "Host-only HTTPS custom-origin endpoint for WSS, exactly https://wss_origin_hostname with no path. The origin must accept WebSocket upgrade; public viewer URL remains wss://."
   type        = string
 }
 

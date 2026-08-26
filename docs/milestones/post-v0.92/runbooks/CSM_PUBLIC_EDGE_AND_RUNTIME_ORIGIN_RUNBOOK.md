@@ -78,7 +78,8 @@ values are:
 - `hosted_zone_id` or first-time hosted-zone creation settings
 - `edge_acm_certificate_arn`, when reusing an issued CloudFront viewer cert
 - `runtime_origin_url`
-- `wss_origin_https_url`
+- `wss_origin_https_url` (host-only, exactly `https://wss_origin_hostname`; no
+  path prefix is accepted by this Terraform root)
 - `websocket_path_pattern`
 - `additional_allowed_origins`
 - `origin_cname_target`, when pointing the base CSM hostname at DDNS or another
@@ -202,7 +203,10 @@ The proof should show:
 - Observatory HTTPS returns 200.
 - Configured CORS origins are accepted exactly.
 - Unconfigured browser origins are rejected.
-- API/WSS origin routing reaches the configured Runtime origin.
+- API origin routing reaches the configured Runtime origin. WSS publication
+  proof must additionally include the separate approved WebSocket handshake
+  probe named by the Runtime operator; the bundled live validator does not claim
+  that handshake by itself.
 - Disposable ALB smoke reaches the actual instance when that path is used.
 
 ## 6. Tear down disposable resources

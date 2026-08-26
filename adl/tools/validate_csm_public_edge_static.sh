@@ -23,6 +23,10 @@ find "$TF_DIR" -path "$TF_DIR/.terraform" -prune -o -type f -print0 \
 
 grep -R 'resource "aws_cloudfront_distribution" "wss"' "$TF_DIR" >/dev/null || fail "missing dedicated native WSS CloudFront distribution"
 grep -R 'wss_origin_https_url' "$TF_DIR" >/dev/null || fail "missing native WSS HTTPS origin input"
+grep -R 'var.wss_origin_https_url == "https://${var.wss_origin_hostname}"' "$TF_DIR" >/dev/null \
+  || fail "missing fail-closed host-only WSS origin URL guard"
+grep -R 'startswith(var.wss_origin_https_url, "https://${var.wss_origin_hostname}/")' "$TF_DIR" >/dev/null \
+  && fail "WSS origin URL guard must not accept path-bearing origins without CloudFront origin_path support"
 grep -R 'Sec-WebSocket-Protocol' "$TF_DIR" >/dev/null || fail "missing WSS protocol header forwarding"
 grep -R 'wss_forward_viewer_host' "$TF_DIR" >/dev/null || fail "missing WSS Host/SNI guard"
 

@@ -5,26 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
-  "generation": 57,
-  "digest": "c4f9217d86d28e9f0b0a7cdcc18a33a5c6b1089fd56d73116d7683ba66a9750a",
+  "generation": 61,
+  "digest": "f73b61f2f3a63ff15dbb34049ea089bb2a946dca9249ee679a2d6e31ed30d299",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": {
-    "reviewer": "fresh-session:f450e600-21b5-4c18-b015-25f55b9e29ef",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:8e7a41b694169cb996baf0bac4dd8d22d0fed56d:236072d38711c345ec7ac8527a1719cb70c783dee78701d7ba82ca2ce341c411",
-    "scope": [
-      "infra/aws/csm-public-edge/",
-      "infra/aws/csm-runtime-spot/",
-      "infra/aws/csm-runtime-alb/",
-      "infra/aws/modules/csm-runtime-spot/",
-      "infra/aws/modules/csm-runtime-alb/",
-      "adl/tools/validate_csm_public_edge_static.sh",
-      "adl/tools/validate_csm_public_edge_live.sh",
-      "docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md",
-      "docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -40,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f07a429106ef2d785bbd2bb65224c840977e1904aeeb27348d0faafb5a64c5a7",
+      "values_digest": "e920440c72ced222ef2bf1288dc6cc5135dd760a081e363472f4d446c845dc22",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "b30264f45915d0f09449b6fc6a5d183496755d5f5f48133e1de0d8e8803dced7",
+      "values_digest": "0dbdd3ac4c7ac3f4117ad944215da2f36fd4c6ffa57832ee08272800e4cc3d64",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "9988458605939013311302c2bb36a6e1c780789c4dfe49cbea4bb344e8fc4abb",
+      "values_digest": "39b2b260c080484a007c97d426c02f8c60c0a2cc51fafacd2f0f34a99566ef6e",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "3e4b2cc400ec86234a8293e7decbc85c15a39e5c0d211acb5f22e21776016b2b",
-      "rendered_digest": "8f61f58de8e982822638648bfc941c11fa6e96fd83c423cb85b14d5dce3b30a6",
-      "ast_digest": "491c78890e5c6a24563c40f2de94946462a4f048481d051edaa58602d55ef222"
+      "values_digest": "c81e64f6d8952c0d6cbdf11db9959a93202a8fbbbe0a233c19b9f0c34b71d4fd",
+      "rendered_digest": "832485a93cad1cbb8228950655e809e0201547775d8f4c6eb5e66bdf30af6d97",
+      "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "1a506a066d772f5065d49f83824a69455b331c3e33f7955081966c514027973d",
-      "rendered_digest": "3ad934122101407a150aa5a7ac4050bea21b24f18a017d27cc60926717407752",
-      "ast_digest": "cf0ba834b50eb91f3ddfe2860e9e82c99bc9b70b01e9efcb47f8bfd53d541715"
+      "values_digest": "aa18afc9b9f190553af0195f8933171a654da1cebd809237c89f1c222346f3db",
+      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
+      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
     },
     "sor": {
-      "values_digest": "2733c6f3c4a09c4edaf0fa2c5d34b6f8f45a3011b48771487b7556323ff408c3",
-      "rendered_digest": "756782516544940f21b1d3ac33e788b83aeb94871ac10e02c6f63e77faa07006",
-      "ast_digest": "64095a09c87e77664d141025289f9c9a79d032e4578da3527b1ad34d99cf781f"
+      "values_digest": "6733034836a50076773cde11604319253d5447f1ea6dba7f48d55eae72f18490",
+      "rendered_digest": "5a45bb70790fb704d34805b7f498d11ad25ca043a01c30d76f52879cabd1e57e",
+      "ast_digest": "336b181985ce9ed93f89bc052a2031551f454a38550b4d01062a9ce597649be0"
     }
   },
   "transitions": [
@@ -688,6 +673,34 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 77,
+      "generation": 58,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 78,
+      "generation": 59,
+      "actor": "codex:/root",
+      "reason": "Recover #122 exact review fresh-session:f450e600-21b5-4c18-b015-25f55b9e29ef after actionable P2 WSS origin path mismatch and P3 WSS proof truth finding. Recovery precedes bounded Terraform/runbook/VPP/SOR remediation and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 79,
+      "generation": 60,
+      "actor": "codex:/root",
+      "reason": "Resolve #122 review findings by making WSS host-only origin validation explicit and removing live-lane WSS handshake overclaim.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csm-public-edge-static\",\"proof_role\":\"Validate the permanent public-edge stack and disposable runtime-origin stacks are formatted, provider-initializable, syntactically valid, native-WSS-capable, exact-origin guarded, host-only for WSS origins unless CloudFront origin_path is implemented, and free of committed state or plan artifacts; permanent edge resources remain non-compute.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/validate_csm_public_edge_static.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"terraform-public-edge-validate\",\"proof_role\":\"Focused Terraform validate for infra/aws/csm-public-edge.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"validate\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"terraform-runtime-spot-validate\",\"proof_role\":\"Focused Terraform validate for the disposable Spot Runtime-origin stack.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-spot\",\"validate\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"terraform-runtime-alb-validate\",\"proof_role\":\"Focused Terraform validate for the disposable ALB Runtime-origin stack, including lookup-first reusable ACM certificate contract.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"validate\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csm-public-edge-additional-origins-smoke\",\"proof_role\":\"Retain evidence that exact additional allowed origins are accepted and wildcard origins fail closed before API Gateway CORS configuration.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"console\"],\"parallel_group\":\"local\",\"defer_reason\":\"Executed manually as a console smoke with exact -var inputs; retained in .csdlc/evidence/122/additional-origins-validation.md because terraform console is interactive.\"},{\"lane\":\"csm-public-edge-live-apply-gated\",\"proof_role\":\"Operator-authorized live proof of DNS, ACM, HTTPS, API origin behavior, exact origin/CORS policy, business-account ownership, and permanent-edge absence of compute resources. This lane does not by itself claim a successful WebSocket handshake; WSS handshake proof requires the separate approved Runtime probe.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"bash\",\"adl/tools/validate_csm_public_edge_live.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Live AWS apply was separately operator-authorized for #122 and is recorded in SOR/evidence; the bundled live validator proves HTTPS/CORS/API reachability only. WSS handshake proof remains gated on an approved Runtime WebSocket probe and target endpoint.\"},{\"lane\":\"csm-runtime-origin-smoke-live\",\"proof_role\":\"Operator-authorized disposable AWS origin proof creates a small Spot EC2 host and HTTPS ALB, verifies an external request reaches the instance, then destroys all disposable origin resources.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"curl\",\"-sS\",\"--max-time\",\"20\",\"-D\",\"-\",\"https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health\"],\"parallel_group\":\"live\",\"defer_reason\":\"Executed once as bounded live evidence and torn down; future reruns remain gated because they create billable disposable AWS resources.\"},{\"lane\":\"csm-runtime-origin-teardown-empty-state\",\"proof_role\":\"Verify disposable Spot/ALB stacks are destroyed and their Terraform states contain zero resources while reusable ACM certificate remains outside disposable state.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"show\",\"-json\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts across #122 Terraform, documentation, validation, evidence, and lifecycle surfaces.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 80,
+      "generation": 61,
+      "actor": "codex:/root",
+      "reason": "Resolve #122 review findings by recording host-only WSS origin remediation, post-fix local proof, and explicit WSS handshake residual truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and validated the CSM public edge Terraform stack, disposable Spot EC2 origin stack, and disposable ALB origin stack. Review remediation now rejects path-bearing wss_origin_https_url values unless future work adds explicit CloudFront origin_path support, documents the host-only WSS origin contract, and stops claiming that the bundled live validator proves a WebSocket handshake. Historical operator-authorized AWS apply/origin smoke/teardown evidence remains retained; current post-fix proof is local, non-live, and publication WSS handshake proof remains an explicit residual gate for an approved Runtime WebSocket probe.\",\"changes\":[\"Changed the WSS origin guard so wss_origin_https_url must exactly equal https://wss_origin_hostname with no path.\",\"Updated WSS origin variable/docs/runbook wording to describe host-only HTTPS origins and future origin_path requirements.\",\"Added static-validator assertions that reject path-bearing WSS origin acceptance without CloudFront origin_path support.\",\"Updated VPP live-lane truth so the bundled live validator proves HTTPS/CORS/API reachability only and does not claim a successful WebSocket handshake.\"],\"artifacts\":[\"infra/aws/csm-public-edge/\",\"infra/aws/csm-runtime-spot/\",\"infra/aws/csm-runtime-alb/\",\"infra/aws/modules/csm-runtime-spot/\",\"infra/aws/modules/csm-runtime-alb/\",\"adl/tools/validate_csm_public_edge_static.sh\",\"adl/tools/validate_csm_public_edge_live.sh\",\"docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md\",\"docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md\",\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"],\"validation\":[{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"fmt\",\"-recursive\",\"-check\"],\"purpose\":\"Terraform formatting for the permanent CSM public edge stack after WSS origin guard remediation\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 post-review local rerun in #122 worktree\"},{\"command\":[\"bash\",\"adl/tools/validate_csm_public_edge_static.sh\"],\"purpose\":\"Static Terraform init/validate plus WSS host-only origin guard and CORS policy proof\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 post-review local rerun in #122 worktree\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"validate\"],\"purpose\":\"Terraform validation for the permanent CSM public edge stack after WSS origin guard remediation\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 post-review local rerun in #122 worktree\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-spot\",\"validate\"],\"purpose\":\"Terraform validation for the disposable Spot Runtime origin stack\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 post-review local rerun in #122 worktree\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"validate\"],\"purpose\":\"Terraform validation for the disposable ALB Runtime origin stack\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 post-review local rerun in #122 worktree\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-alb\",\"show\",\"-json\"],\"purpose\":\"Verify disposable ALB Runtime-origin Terraform state remains empty after teardown while reusable ACM certificate remains outside disposable state\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 post-review local rerun returned {\\\"format_version\\\":\\\"1.0\\\"}\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace and patch artifacts after WSS origin/proof-truth remediation\",\"outcome\":\"passed\",\"evidence_ref\":\"2026-08-26 post-review local rerun in #122 worktree\"},{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"terraform\",\"-chdir=infra/aws/csm-public-edge\",\"apply\",\"-auto-approve\",\"issue122-full.tfplan\"],\"purpose\":\"Historical operator-authorized live AWS apply of CloudFront/WAF/S3/API/WSS edge resources\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"},{\"command\":[\"curl\",\"-sS\",\"--max-time\",\"20\",\"-D\",\"-\",\"https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health\"],\"purpose\":\"Historical operator-authorized disposable ALB-to-EC2 origin proof: external HTTPS call reached the disposable Runtime instance and returned the instance id\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md\"},{\"command\":[\"approved-runtime-websocket-probe\",\"wss://wss.<csm>.<env>.csm.agent-logic.ai/<runtime-ws-path>\"],\"purpose\":\"Publication WSS handshake and exact-origin policy proof using the approved Runtime WebSocket probe\",\"outcome\":\"deferred\",\"evidence_ref\":\"Explicit residual gate; bundled validate_csm_public_edge_live.sh does not claim this handshake\"}]}"
     }
   ]
 }

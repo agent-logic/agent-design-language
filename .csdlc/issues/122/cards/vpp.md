@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/122/diagram.mmd
 [
   {
     "lane": "csm-public-edge-static",
-    "proof_role": "Validate the permanent public-edge stack and disposable runtime-origin stacks are formatted, provider-initializable, syntactically valid, native-WSS-capable, exact-origin guarded, and free of committed state or plan artifacts; permanent edge resources remain non-compute.",
+    "proof_role": "Validate the permanent public-edge stack and disposable runtime-origin stacks are formatted, provider-initializable, syntactically valid, native-WSS-capable, exact-origin guarded, host-only for WSS origins unless CloudFront origin_path is implemented, and free of committed state or plan artifacts; permanent edge resources remain non-compute.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -129,7 +129,7 @@ Diagram: .csdlc/prepared/issues/122/diagram.mmd
   },
   {
     "lane": "csm-public-edge-live-apply-gated",
-    "proof_role": "Operator-authorized live proof of DNS, ACM, HTTPS, WSS reachability, exact origin behavior, business-account ownership, and permanent-edge absence of compute resources.",
+    "proof_role": "Operator-authorized live proof of DNS, ACM, HTTPS, API origin behavior, exact origin/CORS policy, business-account ownership, and permanent-edge absence of compute resources. This lane does not by itself claim a successful WebSocket handshake; WSS handshake proof requires the separate approved Runtime probe.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -147,7 +147,7 @@ Diagram: .csdlc/prepared/issues/122/diagram.mmd
       "adl/tools/validate_csm_public_edge_live.sh"
     ],
     "parallel_group": "live",
-    "defer_reason": "Live AWS apply was separately operator-authorized for #122 and is recorded in SOR/evidence; future reruns remain gated on operator-approved AWS profile and target endpoints."
+    "defer_reason": "Live AWS apply was separately operator-authorized for #122 and is recorded in SOR/evidence; the bundled live validator proves HTTPS/CORS/API reachability only. WSS handshake proof remains gated on an approved Runtime WebSocket probe and target endpoint."
   },
   {
     "lane": "csm-runtime-origin-smoke-live",

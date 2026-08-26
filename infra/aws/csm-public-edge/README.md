@@ -72,7 +72,10 @@ current DDNS IP address.
 
 API Gateway HTTP API is not used for WSS. API Gateway WebSocket API is a later
 adapter-mode option only after Runtime connection-id and `@connections`
-semantics are designed and reviewed.
+semantics are designed and reviewed. The configured WSS origin URL is
+deliberately host-only (`https://<wss_origin_hostname>`). If a future Runtime
+origin needs a path prefix, add explicit CloudFront `origin_path` support before
+allowing path-bearing WSS origin URLs.
 
 ## Operator-configurable origins
 
