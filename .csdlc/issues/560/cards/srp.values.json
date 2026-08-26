@@ -7,28 +7,23 @@
     "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
     "slug": "runtime-v2-workspace-coverage-timeouts",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/560\n.csdlc/prepared/issues/560\n.csdlc/evidence/560\nadl/.config/nextest.toml",
-      "review_revision": "git-blake3:a75e499a75cd4a69c27bd45c4f68f3f7279eb84c:3ad581bb5cc9bb39b71b5093039f37d71d8150f9906c43695a45e539e4ce41c5",
-      "reviewer": "openai-responses:resp_0db9cfd6d229d16d006a8f6d76679887d08a074998060a2b4d:gpt-5.6-sol",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify the change is an exact ci-coverage timeout/profile adjustment for only the three observed runtime_v2 tests.",
         "Verify Runtime v2 semantics and assertions are unchanged.",
         "Verify hosted coverage remains the final shared-gate proof."
       ],
       "findings": [],
-      "residual_risk": [
-        "OpenAI Responses API exact-head review PASS response resp_0db9cfd6d229d16d006a8f6d76679887d08a074998060a2b4d at commit a75e499a75cd4a69c27bd45c4f68f3f7279eb84c.",
-        "The focused local run completed in about 5 seconds and therefore cannot reproduce hosted contention or prove that the 240-second ceiling is sufficient.",
-        "Full hosted workspace coverage remains the fail-closed integration proof and must pass before merge.",
-        "The timeout override is exact to the three fully qualified test names but is not additionally constrained by package or binary; the recorded run nevertheless selected exactly those three tests across 33 binaries."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

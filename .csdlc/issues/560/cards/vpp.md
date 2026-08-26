@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/560/diagram.mmd
 [
   {
     "lane": "focused-runtime-v2-unified-kernel-coverage",
-    "proof_role": "Run the issue-owned focused coverage script for the three exact runtime_v2 unified-kernel tests under ci-coverage.",
+    "proof_role": "Prove the ci-coverage override selects exactly seven runtime_v2::tests::unified_runtime_kernel::* tests, all seven pass under cargo llvm-cov nextest ci-coverage, and the current-repo milestone truth test accepts v0.92.1.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -33,13 +33,35 @@ Diagram: .csdlc/prepared/issues/560/diagram.mmd
     ],
     "deterministic": true,
     "resource_profile": "large",
-    "budget_seconds": 7080,
+    "budget_seconds": 6780,
     "budget_tokens": 1200,
     "argv": [
       "bash",
       ".csdlc/prepared/issues/560/validate-focused-proof.sh"
     ],
     "parallel_group": "560-serial-01",
+    "defer_reason": null
+  },
+  {
+    "lane": "context-mirror-temp-repo-compat",
+    "proof_role": "Prove the context-mirror execute-mode temp-repo fixture remains compatible with the feature-list milestone reader dependency.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 300,
+    "budget_tokens": 800,
+    "argv": [
+      "cargo",
+      "test",
+      "-p",
+      "adl",
+      "--lib",
+      "adl_gws_context_mirror::tests::execute_mode_recursively_mirrors_markdown_with_verified_content"
+    ],
+    "parallel_group": "560-serial-02",
     "defer_reason": null
   },
   {
@@ -58,7 +80,7 @@ Diagram: .csdlc/prepared/issues/560/diagram.mmd
       "bash",
       ".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh"
     ],
-    "parallel_group": "560-serial-02",
+    "parallel_group": "560-serial-03",
     "defer_reason": null
   }
 ]
@@ -76,6 +98,7 @@ Tokens: 50000
 ## Commands
 
 - `bash .csdlc/prepared/issues/560/validate-focused-proof.sh`
+- `cargo test -p adl --lib adl_gws_context_mirror::tests::execute_mode_recursively_mirrors_markdown_with_verified_content`
 - `bash .csdlc/prepared/issues/560/validate-lifecycle-evidence.sh`
 
 ## Failure Semantics

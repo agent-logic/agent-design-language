@@ -14,21 +14,33 @@ Hosted workspace coverage run `33017588921` on PR #514 head
 The same run completed `1224` tests with `1221` passed. Normal CI,
 runtime-hosted coverage, fmt/clippy, and runtime tests were green.
 
+Follow-up hosted run `33021333783` on PR #561 proved the original three tests
+passed under the bounded `240s` allowance, but four sibling
+`runtime_v2::tests::unified_runtime_kernel::*` tests reached the unchanged
+`120s` ceiling. The same run also exposed that
+`adl_gws_context_mirror::tests::milestone_truth_reads_current_repo_story`
+accepted current milestones through `v0.92` but not the active `v0.92.1`
+planning band.
+
 ## Bounded solution
 
-Prefer a coverage-profile-only nextest override for those exact test names:
+Prefer a coverage-profile-only nextest override for the exact fully-qualified
+`runtime_v2::tests::unified_runtime_kernel::*` module prefix:
 
 - keep `profile.ci-coverage` default timeout unchanged for the rest of the workspace;
-- increase only the three observed runtime_v2 unified-kernel tests to a bounded
+- increase only the seven runtime_v2 unified-kernel module tests to a bounded
   instrumentation-aware slow-timeout;
+- add `v0.92.1` to the context-mirror test's explicit accepted current-milestone
+  set;
 - do not change Runtime v2 implementation semantics, assertions, event
   correlation logic, summary drift logic, or participant drift logic.
 
 ## Validation
 
-Focused proof should run the three affected tests through `cargo llvm-cov
-nextest` using the `ci-coverage` profile or the closest repo-supported focused
-coverage equivalent. Hosted proof remains the required `adl-coverage` check.
+Focused proof should prove the selector denominator selects exactly seven
+runtime_v2 unified-kernel tests, run those tests through `cargo llvm-cov nextest`
+using the `ci-coverage` profile, and run the context-mirror milestone truth
+test. Hosted proof remains the required `adl-coverage` check.
 
 ## Non-goals
 
