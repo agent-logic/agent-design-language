@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "CORP-A declared paths, acceptance criteria, PVF evidence, and operator boundary only.",
+      "review_scope": ".csdlc/evidence/482/asset-denominator.log\n.csdlc/evidence/482/diff-hygiene.log\n.csdlc/evidence/482/provenance-and-license.log\n.csdlc/evidence/482/redaction-and-custody.log\n.csdlc/issues/482\n.csdlc/prepared/issues/482\ndocs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json\ndocs/operations/corporate/asset-register/critical-asset-schedule.md\ndocs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
