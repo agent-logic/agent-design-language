@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime][observatory] Prove additional_allowed_origins for localhost:8000",
     "slug": "runtime-additional-allowed-origins-localhost-8000",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "ready",
   "content": {

@@ -4,13 +4,46 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "61aca8b37ea6067a5825b268931f131f463f3fe535896b9967a00d0e7483d706",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "3ce23f97556d986c8851e0b47efafb2b8ef1bba8eecc5f4c476574b99932a816",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "9f3ab733d5dce23f2864d6c6ac4654b56e2e3b4e007538e5f9b615b43240ad0b",
   "branch": "codex/540-runtime-additional-origins-localhost-8000",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-540-runtime-additional-origins-localhost-8000",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a77cfb6d-ccff-462c-a88f-9b9b0b5a0590",
+    "assigned_by": "codex:/root/540-runtime-additional-origins",
+    "revision": "git-blake3:1c6948ad0d241cd47556def3fd57e920f4b551f3:9c34847fe12a81549eec085ac28330e9c822e8c776b2f81f61073bbdcfa90671",
+    "scope": [
+      "Exact commit 1c6948ad0d241cd47556def3fd57e920f4b551f3",
+      "adl-runtime-kernel/src/config.rs additional_allowed_origins behavior",
+      "adl-runtime-kernel/tests/configuration.rs Runtime init origin validation",
+      "adl-runtime-kernel/tests/control.rs Runtime v3 configured/default CORS behavior",
+      ".csdlc/issues/540 and .csdlc/prepared/issues/540 lifecycle truth",
+      ".csdlc/evidence/540 retained local validation logs",
+      "No ADL-owned listener/bind behavior on port 8000; localhost:8000 is only an external browser Origin value"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:a77cfb6d-ccff-462c-a88f-9b9b0b5a0590",
+    "scope": [
+      "Exact commit 1c6948ad0d241cd47556def3fd57e920f4b551f3",
+      "adl-runtime-kernel/src/config.rs additional_allowed_origins behavior",
+      "adl-runtime-kernel/tests/configuration.rs Runtime init origin validation",
+      "adl-runtime-kernel/tests/control.rs Runtime v3 configured/default CORS behavior",
+      ".csdlc/issues/540 and .csdlc/prepared/issues/540 lifecycle truth",
+      ".csdlc/evidence/540 retained local validation logs",
+      "No ADL-owned listener/bind behavior on port 8000; localhost:8000 is only an external browser Origin value"
+    ],
+    "reviewed_revision": "git-blake3:1c6948ad0d241cd47556def3fd57e920f4b551f3:9c34847fe12a81549eec085ac28330e9c822e8c776b2f81f61073bbdcfa90671",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer confirmed localhost:8000 appears only as a configured Origin string; no ADL-owned listener or bind on port 8000 was introduced.",
+      "Reviewer confirmed default-deny behavior and explicit configured CORS allow behavior are covered by retained focused tests.",
+      "GitHub CI remains the hosted integration gate after typed publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +58,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1b093a88559a5ba7e62c84d710b62aa1973df83ec9e2aed05e47dcc37e3adbd3",
+      "values_digest": "218f197bb8e1bbb20ec2c5e33bf826c0c364a32f139fc83d3ac7d172bf44c500",
       "rendered_digest": "a87a7f7fe581138524d6c39e863384a4e30aa29ddea86e0964cd2a719fa11741",
       "ast_digest": "ada8685d062bd49429c8e4a15782c8e46e6c3de0909c3b041a25a6f9a6d313ce"
     },
     "stp": {
-      "values_digest": "3c08b90aaee2b3a40170bd559fa7ba516aa6bec89a78ddd20ff9030561ae9af5",
+      "values_digest": "7c747af223e6280451a20651d194027ea1d817922c30f8deb74d7d8ef7d4587a",
       "rendered_digest": "925e2100da38061799ce2db4bc02e32beec0cb8df07bc03f90e57c7c2619d965",
       "ast_digest": "61d5b54bcfa66225ca0557dc09b091d5951d75efe51db8750606defff130401e"
     },
     "spp": {
-      "values_digest": "52ad6af05b5824b886f4b5e303cf2476bf8b8032c87ee088edddfe4eb075689c",
+      "values_digest": "b7c6e4ea5cf43fc0d511a758f1b857fbdf256e154a02b698c5dd29a321afc3d2",
       "rendered_digest": "a895a872686357ab31429a3947da1c232371df4a09d3e6a9cd9d281f6bd9e964",
       "ast_digest": "81235870b54cc70879ba6a650cabaafd6edd57823014e728b01e503894b89286"
     },
     "vpp": {
-      "values_digest": "fbe53ca447417b2f9239b1d939919f316c74cb6904360d03b37fda6ba7701c69",
+      "values_digest": "ac618dcd988aca3c082f697976c39c23a35d3f49cc9c3a4dfd2058411c00a9a7",
       "rendered_digest": "1a251053940dae66f21caf2687d14aff95f9ab19a5435c94953f6cb9602dbf81",
       "ast_digest": "077757d84bb04d290436c0067f9c2235e0c530accd74cd4959d8a0f87a32cb76"
     },
     "srp": {
-      "values_digest": "c0b90403a982eb8bef190a4b026974e61fa5616ed5a9c8f042cf058a3ef69249",
-      "rendered_digest": "06370584f29ce51a59d62f81a368155b2e93f272800ecca14b234b09e0f4bb11",
-      "ast_digest": "5695f1f20dca5844de810e55226090dea280d82eac10f6f7ea2fe66a4fa1d144"
+      "values_digest": "5ad7192fc75ccb6d685edab98a1906d1df2006530cc36713b9f82a0bcddb6fd7",
+      "rendered_digest": "92bf7d33a29db8fcf8bc89bbd82b4bcdf7d1bb5b3744e6eddc8ca0e05348c1a2",
+      "ast_digest": "c41835fb1dd07e91d6f4875eac1d9696a94a000350a962b01d499ba9fd7799ad"
     },
     "sor": {
-      "values_digest": "72af44ee2c91db07658ad8f05b364a08745a3fb41e2a9000010766296fa2ad3a",
+      "values_digest": "37366daf4ae94f53f5c3b50479609ec62d94f81ba8b984d7cd76eba69c293dc2",
       "rendered_digest": "a6b8e2be6fec515501783281cea9cffa227f4d61252dd2b0616c9255f7d839c2",
       "ast_digest": "b7a2aeca01a4a0b2d9a877a4b84a46f4519c527f2ac031f6f1f747e367fde0e5"
     }
@@ -76,6 +109,13 @@
       "to": "implemented",
       "actor": "codex:/root/540-runtime-additional-origins",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -148,6 +188,20 @@
       "actor": "codex:/root/540-runtime-additional-origins",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/540-runtime-additional-origins",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

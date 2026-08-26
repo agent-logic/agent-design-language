@@ -7,15 +7,15 @@
     "title": "[v0.92][runtime][observatory] Prove additional_allowed_origins for localhost:8000",
     "slug": "runtime-additional-allowed-origins-localhost-8000",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #540 Runtime v3 CORS/configuration paths, focused tests, and port-8000 non-listener invariant only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "Exact commit 1c6948ad0d241cd47556def3fd57e920f4b551f3\nadl-runtime-kernel/src/config.rs additional_allowed_origins behavior\nadl-runtime-kernel/tests/configuration.rs Runtime init origin validation\nadl-runtime-kernel/tests/control.rs Runtime v3 configured/default CORS behavior\n.csdlc/issues/540 and .csdlc/prepared/issues/540 lifecycle truth\n.csdlc/evidence/540 retained local validation logs\nNo ADL-owned listener/bind behavior on port 8000; localhost:8000 is only an external browser Origin value",
+      "review_revision": "git-blake3:1c6948ad0d241cd47556def3fd57e920f4b551f3:9c34847fe12a81549eec085ac28330e9c822e8c776b2f81f61073bbdcfa90671",
+      "reviewer": "fresh-session:a77cfb6d-ccff-462c-a88f-9b9b0b5a0590",
       "review_prompts": [
         "Does the change prove http://localhost:8000 only as an explicit Origin header value?",
         "Does the default policy still deny unconfigured localhost:8000?",
@@ -23,8 +23,12 @@
         "Are canonical Runtime/Observatory ports and existing origin behavior preserved?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer confirmed localhost:8000 appears only as a configured Origin string; no ADL-owned listener or bind on port 8000 was introduced.",
+        "Reviewer confirmed default-deny behavior and explicit configured CORS allow behavior are covered by retained focused tests.",
+        "GitHub CI remains the hosted integration gate after typed publication."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-Issue #540 Runtime v3 CORS/configuration paths, focused tests, and port-8000 non-listener invariant only.
+Exact commit 1c6948ad0d241cd47556def3fd57e920f4b551f3
+adl-runtime-kernel/src/config.rs additional_allowed_origins behavior
+adl-runtime-kernel/tests/configuration.rs Runtime init origin validation
+adl-runtime-kernel/tests/control.rs Runtime v3 configured/default CORS behavior
+.csdlc/issues/540 and .csdlc/prepared/issues/540 lifecycle truth
+.csdlc/evidence/540 retained local validation logs
+No ADL-owned listener/bind behavior on port 8000; localhost:8000 is only an external browser Origin value
 
 ## Prompts
 
@@ -31,12 +37,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer confirmed localhost:8000 appears only as a configured Origin string; no ADL-owned listener or bind on port 8000 was introduced.
+- Reviewer confirmed default-deny behavior and explicit configured CORS allow behavior are covered by retained focused tests.
+- GitHub CI remains the hosted integration gate after typed publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1c6948ad0d241cd47556def3fd57e920f4b551f3:9c34847fe12a81549eec085ac28330e9c822e8c776b2f81f61073bbdcfa90671")
 
-Reviewer: None
+Reviewer: Some("fresh-session:a77cfb6d-ccff-462c-a88f-9b9b0b5a0590")
 
-Result: pre_review
+Result: pass
