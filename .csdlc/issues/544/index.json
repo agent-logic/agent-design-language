@@ -4,13 +4,35 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0b8aa5c966363ac9cf55e79de078ee6483310794407cf840b79dd74fbede4428",
-  "phase": "implemented",
-  "generation": 29,
-  "digest": "77b81027a188b9f720cb0cee7b24857bc8f576ab401f8a26e864b3c7f63915b6",
+  "phase": "reviewed",
+  "generation": 30,
+  "digest": "7fffd9ce66baa1fc8c8bb8eb06f2930ccd53bc0fd8f7809d5cea6149f94ae3ff",
   "branch": "codex/544-primary-checkout-bootstrap-guard",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-544-primary-checkout-bootstrap-guard",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:01a03f6a-1aab-72f0-8023-173ac0bab792",
+    "assigned_by": "codex:issue-544-pr-janitor",
+    "revision": "git-blake3:ac59c300db4284c2078471833dad4f1d003cf688:46a39a37ee6c745baae07ae00c402c12019aaeeedd62105fac3e55481bfc5a83",
+    "scope": [
+      "csdlc-v2/tests/initialized_decomposition_recovery.rs",
+      ".csdlc/issues/544"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a03f6a-1aab-72f0-8023-173ac0bab792",
+    "scope": [
+      "csdlc-v2/tests/initialized_decomposition_recovery.rs",
+      ".csdlc/issues/544"
+    ],
+    "reviewed_revision": "git-blake3:ac59c300db4284c2078471833dad4f1d003cf688:46a39a37ee6c745baae07ae00c402c12019aaeeedd62105fac3e55481bfc5a83",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to the second PR janitor fixture/lifecycle delta and did not assess merge, finish, or unrelated repository readiness.",
+      "Final external Sol API review remains deferred until the republished PR head has stable green checks."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1ccaaed8f10aa2b9c4ec35226c08e0be4d0e7bf995fca8a91488c6bfa9c591a2",
+      "values_digest": "abd6e0bad4a43edfa8d2a957332e1f23ceb7471a94b3c90bbd80eb145dbc68d0",
       "rendered_digest": "f9200e94d5b34c2683ed23c3adc5ae63d885fa5978819ebd35ba399294faf352",
       "ast_digest": "4b3853cbf5df7b759c44da8fcd07307b864f0c2fe29efef887d7456d53450752"
     },
     "stp": {
-      "values_digest": "7c5ad6aaff099c80cff6880ee9f9c5ff48570aceadc1587cc63779fd11e985a4",
+      "values_digest": "09e133a60a601a27a9dcfd5d01b16aa8ea6d2e77608070d220d2bf35ec92340b",
       "rendered_digest": "3625c11b15677727953342f978ba6b0572b026124b599c7b7e388a605d7678c9",
       "ast_digest": "62d39e800a0030b76803f92508674a830d47bbfc9ca1540e2c7938cdaf0f3db5"
     },
     "spp": {
-      "values_digest": "5da30797d1996931d000a7364ada10f5321b749dba0deac56601275ae1a8daaf",
+      "values_digest": "ffad6cb89b0ccf9f7ab9a0c27907521f9fd11be1d7d3d8922f154cb6c94ce901",
       "rendered_digest": "97f60ee4446c21b0a6387cf5c99185b8f193a148b57e1c2acc6950e73f1d670a",
       "ast_digest": "9f034b55388e4996f810eb685dc38f0bc40d005ee79c6cfa38b8b00c350d90e2"
     },
     "vpp": {
-      "values_digest": "55c158360ef0a13efb14009bd09733fdb5aa22949b1b05693da407f1d0c2bdf6",
+      "values_digest": "6c57294baf95a76a36a9618988571491e89393ed7cd3c74729621b3832b72b30",
       "rendered_digest": "8c5bfd1bba767ce996acbdc88f5eb793e2fb346105e71f1b5aa5c237c763e37c",
       "ast_digest": "d5ed78f8e12dd41b147bf0f532d72e228928b3064193bd569a7659d2002363eb"
     },
     "srp": {
-      "values_digest": "a0f2b2989a13da79f68297391536f816e1b94d5c56de0fb9024679d2a2c9e1c5",
-      "rendered_digest": "f894b14f499903c9d772c9c9e93771700faf470aaed973d8d19b92f640947a44",
-      "ast_digest": "49fcfadf2bd1c755c0dd5133934f69c510df00eaea2e6826f6810a78e06a9381"
+      "values_digest": "cc054f03db464d661734019d4e0aa40920abe54829c734b15a79e2fd94b4863a",
+      "rendered_digest": "206fe0ffb82e1644db867c87b39f594287e8da440acba2246932e10f36404bdb",
+      "ast_digest": "b22b88ca75eb473d793306430978147be5d97c9012cf17b7421cb88757eddeed"
     },
     "sor": {
-      "values_digest": "a383dbfaff99867c1bf614b3793df25a3d776b94acb7e39cfe0104bc8f081b05",
+      "values_digest": "b50c4b53874bdc3b64a8fbfc8000487f3c1c0a400e2ed40478b55e9ebdb1d6a7",
       "rendered_digest": "ec3a85edd2e1f410b35dc03ee3a50c24197512c0743cc99771cb24903697888f",
       "ast_digest": "c136035a9d10f019c4e4781922a9156ebe1fba79b72bf9b64b5e2dc84b0b0d29"
     }
@@ -118,6 +140,13 @@
       "to": "implemented",
       "actor": "codex:issue-544-pr-janitor",
       "reason": "Recover from published state after PR #548 csdlc-v2-standalone failure in initialized_decomposition_recovery fixture; bounded janitor fix updates the fixture to bootstrap from a linked non-primary worktree."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:01a03f6a-1aab-72f0-8023-173ac0bab792",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -365,6 +394,20 @@
       "actor": "codex:issue-544-validation",
       "reason": "record formatting and strict clippy validation after initialized_decomposition_recovery fixture fix",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check\",\"cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Workflow-equivalent format and strict Clippy proof for the second fixture-only janitor change.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output after initialized_decomposition_recovery fixture fix: fmt --check passed; clippy finished without warnings\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 29,
+      "actor": "codex:issue-544-pr-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "fresh-session:01a03f6a-1aab-72f0-8023-173ac0bab792",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

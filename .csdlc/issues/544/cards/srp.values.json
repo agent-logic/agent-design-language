@@ -7,15 +7,15 @@
     "title": "[v0.92.1][C-SDLC][defect] Prevent bootstrap state on the primary main checkout",
     "slug": "v0-92-1-csdlc-primary-checkout-bootstrap-guard",
     "version": "v0.92.1",
-    "generation": 29
+    "generation": 30
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/tests/initialized_decomposition_recovery.rs\n.csdlc/issues/544",
+      "review_revision": "git-blake3:ac59c300db4284c2078471833dad4f1d003cf688:46a39a37ee6c745baae07ae00c402c12019aaeeedd62105fac3e55481bfc5a83",
+      "reviewer": "fresh-session:01a03f6a-1aab-72f0-8023-173ac0bab792",
       "review_prompts": [
         "Does the guard use Git topology authority rather than branch heuristics?",
         "Does the guard run before all initialization writes, including design, diagram, issue, prepared, and lock surfaces?",
@@ -25,8 +25,11 @@
         "Are tests isolated from the real repository and do they prove zero residue?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was bounded to the second PR janitor fixture/lifecycle delta and did not assess merge, finish, or unrelated repository readiness.",
+        "Final external Sol API review remains deferred until the republished PR head has stable green checks."
+      ],
+      "review_result": "pass"
     }
   }
 }
