@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 319,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-30] Release ceremony",
+    "slug": "v0-92-wp-30-release-ceremony",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Replaced the obsolete all-records-closed ceremony gate with exact disposition evidence, passed the real check-only ceremony on the clean candidate, and retained a no-mutation receipt.",
+      "actual_changes": [
+        "Merge-based milestone ceremony gate",
+        "Disposition-specific #310/#314 predecessor authority",
+        "Canonical ceremony-script candidate preflight"
+      ],
+      "artifacts": [
+        "docs/milestones/v0.92/RELEASE_CEREMONY_GATE_v0.92.json",
+        "docs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md",
+        ".csdlc/evidence/319/candidate-ceremony-receipt.json"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby .csdlc/prepared/issues/319/validate-release-evidence.rb all",
+            "bash adl/tools/test_release_ceremony.sh",
+            "bash adl/tools/release_ceremony.sh --version v0.92 --target-branch codex/319-v092-wp30-release-ceremony",
+            "git diff --check"
+          ],
+          "purpose": "Prove merge-based predecessor truth, negative ceremony behavior, and the real non-mutating candidate preflight.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/319/candidate-ceremony-receipt.json"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

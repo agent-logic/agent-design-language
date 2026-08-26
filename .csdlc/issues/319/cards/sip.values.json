@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 319,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-30] Release ceremony",
+    "slug": "v0-92-wp-30-release-ceremony",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Complete the v0.92 release ceremony from one exact reviewed milestone candidate.",
+      "required_outcome": "One retained release-ceremony receipt binding the exact candidate, merge-based dependency truth, notes, checklist, validation, and release identity.",
+      "declared_scope": [
+        "v0.92 release ceremony preflight and exact receipt",
+        "merge-based ceremony dependency gate",
+        "final v0.92 release truth documents"
+      ],
+      "authority_boundary": [
+        "No product implementation or evidence invention",
+        "No v0.93 activation or v0.92.1 issue creation",
+        "No tag or GitHub release mutation before reviewed #319 merge and explicit operator authorization",
+        "Typed finish and worktree cleanup are asynchronous and non-gating"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Run the canonical ceremony script",
+        "Keep main clean and make tracked edits only in the bound FastWork worktree",
+        "Preserve #268 as a truthful qualification disposition without claiming a pass"
+      ]
+    }
+  }
+}

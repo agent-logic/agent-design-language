@@ -381,7 +381,7 @@ done
 for required in \
   "cmd=llvm-cov clean --workspace" \
   "cmd=llvm-cov show-env --sh" \
-  "cmd=nextest run --workspace --no-fail-fast --no-tests pass" \
+  "cmd=nextest run --profile ci-coverage --workspace --no-fail-fast --no-tests pass" \
   "--test-threads 4" \
   "--partition count:1/2" \
   "--partition count:2/2" \
@@ -412,7 +412,7 @@ do
   fi
 done
 
-workspace_prebuild="cmd=nextest run --workspace --no-tests pass --test-threads 4 --no-run"
+workspace_prebuild="cmd=nextest run --profile ci-coverage --workspace --no-tests pass --test-threads 4 --no-run"
 runtime_prebuild="cmd=nextest run --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --no-tests pass --test-threads 4 --no-run"
 if [ "$(grep -Fxc -- "$workspace_prebuild" "$cargo_log")" -ne 1 ] ||
    [ "$(grep -Fxc -- "$runtime_prebuild" "$cargo_log")" -ne 1 ]; then
