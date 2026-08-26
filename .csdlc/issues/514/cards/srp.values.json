@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 514,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+    "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "PROV-A declared paths, acceptance criteria, PVF evidence, and operator boundary only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the implementation stay inside the declared unit boundary?",
+        "Does every acceptance criterion have proving evidence?",
+        "Are operator-only actions and private material kept outside Git?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

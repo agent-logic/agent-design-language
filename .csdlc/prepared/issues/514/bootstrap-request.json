@@ -1,0 +1,234 @@
+{
+  "issue": 514,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root/v0921-sprint1-readiness",
+  "design_path": ".csdlc/prepared/issues/514/design.md",
+  "diagram_path": ".csdlc/prepared/issues/514/diagram.mmd",
+  "design_reviewer": "pending",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+    "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
+    "version": "v0.92.1",
+    "goal": "Produce one shared provider inference-profile contract with deterministic Ollama materialization.",
+    "required_outcome": "One shared provider inference-profile contract with deterministic Ollama materialization. Schema, materialization, invalid-profile, last-known-good, and redaction checks pass.",
+    "declared_scope": [
+      "adl/src/provider/**",
+      "adl-runtime/src/provider/**",
+      "docs/provider/**",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a/**",
+      ".csdlc/prepared/issues/514"
+    ],
+    "authority_boundary": [
+      "Issue completion is exactly one shared provider-profile contract; provider-specific checks are evidence inputs.",
+      "Issue authority is agent-logic/agent-design-language#514",
+      "No adjacent sprint or provider authority"
+    ],
+    "operator_constraints": [
+      "No paid cloud or provider mutation",
+      "No secrets, legal instruments, auth codes, or recovery factors in Git"
+    ],
+    "task_boundary": "Issue completion is exactly one shared provider-profile contract; provider-specific checks are evidence inputs.",
+    "deliverables": [
+      "One shared provider inference-profile contract with deterministic Ollama materialization.",
+      "Bounded validation evidence",
+      "Exact-head review receipt"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Profiles bind provider model and bounded parameters",
+      "AC-2: Invalid profiles fail before activation",
+      "AC-3: Last-known-good state is retained",
+      "AC-4: Credentials prompts and private payloads are excluded"
+    ],
+    "dependencies": [
+      "#480 WP-01 merged opening gate"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#514",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#PROV-A",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md"
+    ],
+    "non_goals": [
+      "MLX or Metal provider",
+      "OCI packaging"
+    ],
+    "plan_summary": "Reconcile the issue boundary, produce the single PROV-A deliverable, validate it, and obtain exact-head review.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Reconcile dependencies and freeze the exact issue-local denominator.",
+        "acceptance_ids": [
+          "AC-1"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Produce the bounded primary deliverable without widening authority.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Run every planned PVF lane and retain bounded redacted evidence.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Obtain exact-head review and prepare a truthful publication handoff.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "adl/src/provider",
+      "adl-runtime/src/provider",
+      "docs/provider",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a",
+      ".csdlc/prepared/issues/514",
+      ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+      ".csdlc/prepared/issues/514/validate-ollama-materialization.rb",
+      ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+      ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+      ".csdlc/prepared/issues/514/validate-redaction.rb"
+    ],
+    "invariants": [
+      "Issue completion is exactly one shared provider-profile contract; provider-specific checks are evidence inputs.",
+      "Schema, materialization, invalid-profile, last-known-good, and redaction checks pass.",
+      "No secret or private material in Git"
+    ],
+    "risks": [
+      "Tools require incompatible provider configuration",
+      "Private material would enter a profile"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Tools require incompatible provider configuration",
+      "Private material would enter a profile"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "profile-schema",
+        "proof_role": "Prove profile schema for PROV-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/514/validate-profile-schema.rb"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "ollama-materialization",
+        "proof_role": "Prove ollama materialization for PROV-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/514/validate-ollama-materialization.rb"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "invalid-profile",
+        "proof_role": "Prove invalid profile for PROV-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/514/validate-invalid-profile.rb"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "last-known-good",
+        "proof_role": "Prove last known good for PROV-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/514/validate-last-known-good.rb"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "redaction",
+        "proof_role": "Prove redaction for PROV-A.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 1800,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/514/validate-redaction.rb"
+        ],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on any stop condition, authority ambiguity, secret exposure, incomplete denominator, or non-proving validation.",
+    "review_prompts": [
+      "Does the implementation stay inside the declared unit boundary?",
+      "Does every acceptance criterion have proving evidence?",
+      "Are operator-only actions and private material kept outside Git?"
+    ],
+    "review_scope": "PROV-A declared paths, acceptance criteria, PVF evidence, and operator boundary only."
+  }
+}

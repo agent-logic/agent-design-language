@@ -1,0 +1,4 @@
+{"sequence":1,"generation":0,"actor":"codex:/root/v0921-sprint1-readiness","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19","reason":"approve completed issue design","operation":"{\"design_digest\":\"1ed0957e58b6ce64aeaee2096c6a9798aa51b5c9c4f3bf14bd0a8115bf64ef77\",\"design_ref\":\".csdlc/prepared/issues/514/design.md\",\"diagram_digest\":\"38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a\",\"diagram_ref\":\".csdlc/prepared/issues/514/diagram.mmd\",\"operation\":\"approve_design\"}"}
+{"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":4,"generation":2,"actor":"codex:issue-514-prov-a","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}

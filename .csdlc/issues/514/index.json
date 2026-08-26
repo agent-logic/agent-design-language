@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 514,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "9fdf6098309aa72bf2e1efd727a6691adf465920b488e78111c6723537e7619d",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "2c04352c0db33bf4b5d6a6ef8925e6350ae0b4ef2e8a970c9cc846250a438c17",
+  "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/514/design.md",
+  "diagram_path": ".csdlc/prepared/issues/514/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "revision": "1ed0957e58b6ce64aeaee2096c6a9798aa51b5c9c4f3bf14bd0a8115bf64ef77"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3ea813d4920342aac1267541ac0311816297e4ea5233547ca35ee0e18d65e06a",
+      "rendered_digest": "0b2b96047cadd7c25e6919f8aa6aaef361cb8694637c67b3bc457cb05fbfac75",
+      "ast_digest": "3a308d39d4ccac0225312a861c790215b1f777524ef0cbe88d624959282eda66"
+    },
+    "stp": {
+      "values_digest": "848a42962dc029d756681f103cdfbdc5703921553c1832950387fc2d9e9a963f",
+      "rendered_digest": "da03dbd130894a30ad371f2dcc53b310c4cccb74f4f97e3187e800c1259eae16",
+      "ast_digest": "72a3d9084a14e396224ebcf0b7b1301d9c531df8e9e1db4c78c4af2b8b91467c"
+    },
+    "spp": {
+      "values_digest": "99a119737cf7f8d0b9c4f77788c0793a4bd28da6735e359016f5aaa6d898a900",
+      "rendered_digest": "c8544d8772f1f01111260278f980490bf763b6eff893e5530c0086dd69a4f009",
+      "ast_digest": "633f5fd92e8e0ce90d2c7baa29f4f8fe5d555842b4b0486ea53b355b43330b2b"
+    },
+    "vpp": {
+      "values_digest": "16b016ee705d6fba59747515a82e69ec1a9de1e0eba38133abcac075fdb2a721",
+      "rendered_digest": "0f27717b849259d3d877a3281f281b61ed4b6ea845124243260893741e360ea2",
+      "ast_digest": "8e5e53c7c10630e30182ae4221d92fd19cea3c9ba4b86b9f9076aa27e946d81d"
+    },
+    "srp": {
+      "values_digest": "4f33f30e2e3327d0d3925442d6aa67c494ec3138514f62fcfdde295f57ad6a9c",
+      "rendered_digest": "bf04f454716c875bf1cb50ddbb00a5f7a096112039c980ed0c661b5803548ca8",
+      "ast_digest": "966eacffce3e2a63a25c3c777e52fa943c8a35a70af187d7f72b3fcdbdfb0f70"
+    },
+    "sor": {
+      "values_digest": "7ed25b259f7243d5713f960a879911048402dd6a987289da798727c888a07896",
+      "rendered_digest": "402d7046bb4a0900420d788cff28549375ebd531f17a5d96836d05dfd90c8be4",
+      "ast_digest": "55a633e2ac7ed4f8cfaef07675ac49c07f669da7d3073f79115170cb08ed2d2a"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-514-prov-a",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/v0921-sprint1-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"1ed0957e58b6ce64aeaee2096c6a9798aa51b5c9c4f3bf14bd0a8115bf64ef77\",\"design_ref\":\".csdlc/prepared/issues/514/design.md\",\"diagram_digest\":\"38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a\",\"diagram_ref\":\".csdlc/prepared/issues/514/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-514-prov-a",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "issue": 514,
+  "base_branch": "main",
+  "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
+  "code_repository": "agent-logic/agent-design-language"
+}

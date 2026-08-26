@@ -1,0 +1,97 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 514,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+    "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Reconcile the issue boundary, produce the single PROV-A deliverable, validate it, and obtain exact-head review.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Reconcile dependencies and freeze the exact issue-local denominator.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Produce the bounded primary deliverable without widening authority.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run every planned PVF lane and retain bounded redacted evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain exact-head review and prepare a truthful publication handoff.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/src/provider",
+        "adl-runtime/src/provider",
+        "docs/provider",
+        "docs/milestones/v0.92.1/evidence/provider/prov-a",
+        ".csdlc/prepared/issues/514",
+        ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+        ".csdlc/prepared/issues/514/validate-ollama-materialization.rb",
+        ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+        ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+        ".csdlc/prepared/issues/514/validate-redaction.rb"
+      ],
+      "invariants": [
+        "Issue completion is exactly one shared provider-profile contract; provider-specific checks are evidence inputs.",
+        "Schema, materialization, invalid-profile, last-known-good, and redaction checks pass.",
+        "No secret or private material in Git"
+      ],
+      "risks": [
+        "Tools require incompatible provider configuration",
+        "Private material would enter a profile"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Tools require incompatible provider configuration",
+        "Private material would enter a profile"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/514/design.md",
+      "design_digest": "1ed0957e58b6ce64aeaee2096c6a9798aa51b5c9c4f3bf14bd0a8115bf64ef77",
+      "diagram_ref": ".csdlc/prepared/issues/514/diagram.mmd",
+      "diagram_digest": "38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a"
+    }
+  }
+}

@@ -35,7 +35,10 @@ pub use http_family::{
 };
 pub use http_family::{DeepSeekProvider, OpenRouterProvider};
 pub use local::{MockProvider, OllamaProvider};
-pub use profiles::{expand_provider_profiles, provider_profile_names};
+pub use profiles::{
+    expand_provider_profiles, provider_profile_materialization_projection, provider_profile_names,
+    redacted_provider_profile_projection,
+};
 
 pub(crate) use profiles::{
     is_allowed_ollama_endpoint, is_allowed_remote_endpoint, ANTHROPIC_MESSAGES_ENDPOINT,
@@ -523,6 +526,478 @@ mod tests {
             provider_profile_registry()["kimi:k2.5"].provider_model_id,
             provider_profile_registry()["xai:grok-4.5"].provider_model_id
         );
+    }
+
+    #[test]
+    fn provider_mod_profile_expansion_materializes_bounded_inference_defaults() {
+        let mut doc = adl::AdlDoc {
+            version: "0.92".to_string(),
+            providers: HashMap::from([(
+                "local".to_string(),
+                adl::ProviderSpec {
+                    id: Some("local".to_string()),
+                    profile: Some("ollama:phi4-mini".to_string()),
+                    kind: String::new(),
+                    base_url: None,
+                    default_model: None,
+                    config: HashMap::new(),
+                },
+            )]),
+            tools: HashMap::new(),
+            agents: HashMap::new(),
+            tasks: HashMap::new(),
+            workflows: HashMap::new(),
+            patterns: Vec::new(),
+            signature: None,
+            run: adl::RunSpec {
+                id: None,
+                name: None,
+                created_at: None,
+                defaults: Default::default(),
+                workflow_ref: None,
+                workflow: None,
+                pattern_ref: None,
+                inputs: HashMap::new(),
+                placement: None,
+                remote: None,
+                delegation_policy: None,
+            },
+        };
+
+        let expanded = expand_provider_profiles(&doc).expect("profile expansion");
+        let local = expanded.providers.get("local").expect("local provider");
+        assert_eq!(local.kind, "ollama");
+        assert_eq!(local.default_model.as_deref(), Some("phi4-mini"));
+        assert_eq!(
+            local.config["provider_model_id"],
+            serde_json::json!("phi4-mini")
+        );
+        assert_eq!(local.config["temperature"], serde_json::json!(0.0));
+        assert_eq!(local.config["top_p"], serde_json::json!(1.0));
+        assert_eq!(local.config["max_output_tokens"], serde_json::json!(512));
+        assert_eq!(local.config["timeout_secs"], serde_json::json!(120));
+        assert_eq!(local.config["deterministic_seed"], serde_json::json!(0));
+        assert_eq!(
+            local.config["materialization_policy"],
+            serde_json::json!("deterministic_ollama_v1")
+        );
+        assert_eq!(
+            local.config["profile_state"]["retention"],
+            serde_json::json!("retain_last_valid_materialization")
+        );
+
+        doc.providers
+            .get_mut("local")
+            .expect("local")
+            .config
+            .insert("temperature".to_string(), serde_json::json!(3.0));
+        let err = expand_provider_profiles(&doc).expect_err("out-of-bounds profile should fail");
+        assert!(err.to_string().contains("config.temperature"));
+    }
+
+    #[test]
+    fn provider_mod_profile_materialization_projection_is_stable_and_redacted() {
+        let doc = adl::AdlDoc {
+            version: "0.92".to_string(),
+            providers: HashMap::from([(
+                "local".to_string(),
+                adl::ProviderSpec {
+                    id: Some("local".to_string()),
+                    profile: Some("ollama:phi4-mini".to_string()),
+                    kind: String::new(),
+                    base_url: None,
+                    default_model: None,
+                    config: HashMap::from([(
+                        "metadata".to_string(),
+                        serde_json::json!({
+                            "safe_count": 2,
+                            "api_key": "secret-key",
+                            "private_payload": {
+                                "prompt": "do not retain"
+                            }
+                        }),
+                    )]),
+                },
+            )]),
+            tools: HashMap::new(),
+            agents: HashMap::new(),
+            tasks: HashMap::new(),
+            workflows: HashMap::new(),
+            patterns: Vec::new(),
+            signature: None,
+            run: adl::RunSpec {
+                id: None,
+                name: None,
+                created_at: None,
+                defaults: Default::default(),
+                workflow_ref: None,
+                workflow: None,
+                pattern_ref: None,
+                inputs: HashMap::new(),
+                placement: None,
+                remote: None,
+                delegation_policy: None,
+            },
+        };
+
+        let projection1 =
+            provider_profile_materialization_projection(&doc).expect("projection run 1");
+        let projection2 =
+            provider_profile_materialization_projection(&doc).expect("projection run 2");
+        let json1 = serde_json::to_string(&projection1).expect("serialize projection 1");
+        let json2 = serde_json::to_string(&projection2).expect("serialize projection 2");
+        assert_eq!(json1, json2, "canonical projection must be byte-stable");
+        assert!(json1.contains("adl.provider_profile_materialization_projection.v1"));
+        assert!(json1.contains("\"safe_count\":2"));
+        assert!(json1.contains("<redacted>"));
+        assert!(!json1.contains("secret-key"));
+        assert!(!json1.contains("do not retain"));
+    }
+
+    #[test]
+    fn provider_mod_profile_expansion_rejects_non_deterministic_ollama_seed() {
+        let doc = adl::AdlDoc {
+            version: "0.92".to_string(),
+            providers: HashMap::from([(
+                "local".to_string(),
+                adl::ProviderSpec {
+                    id: Some("local".to_string()),
+                    profile: Some("ollama:phi4-mini".to_string()),
+                    kind: String::new(),
+                    base_url: None,
+                    default_model: None,
+                    config: HashMap::from([(
+                        "deterministic_seed".to_string(),
+                        serde_json::json!(7),
+                    )]),
+                },
+            )]),
+            tools: HashMap::new(),
+            agents: HashMap::new(),
+            tasks: HashMap::new(),
+            workflows: HashMap::new(),
+            patterns: Vec::new(),
+            signature: None,
+            run: adl::RunSpec {
+                id: None,
+                name: None,
+                created_at: None,
+                defaults: Default::default(),
+                workflow_ref: None,
+                workflow: None,
+                pattern_ref: None,
+                inputs: HashMap::new(),
+                placement: None,
+                remote: None,
+                delegation_policy: None,
+            },
+        };
+
+        let err = expand_provider_profiles(&doc).expect_err("seed drift should fail");
+        assert!(err.to_string().contains("deterministic_seed must remain 0"));
+    }
+
+    #[test]
+    fn provider_mod_profile_expansion_rejects_malformed_inference_values() {
+        for (key, value) in [
+            ("temperature", serde_json::json!("hot")),
+            ("temperature", serde_json::json!("0.2")),
+            ("top_p", serde_json::json!(true)),
+            ("timeout_secs", serde_json::json!("later")),
+            ("timeout_secs", serde_json::json!("120")),
+            ("max_output_tokens", serde_json::json!(-1)),
+            ("deterministic_seed", serde_json::json!("seed")),
+            ("deterministic_seed", serde_json::json!("0")),
+        ] {
+            let doc = adl::AdlDoc {
+                version: "0.92".to_string(),
+                providers: HashMap::from([(
+                    "local".to_string(),
+                    adl::ProviderSpec {
+                        id: Some("local".to_string()),
+                        profile: Some("ollama:phi4-mini".to_string()),
+                        kind: String::new(),
+                        base_url: None,
+                        default_model: None,
+                        config: HashMap::from([(key.to_string(), value)]),
+                    },
+                )]),
+                tools: HashMap::new(),
+                agents: HashMap::new(),
+                tasks: HashMap::new(),
+                workflows: HashMap::new(),
+                patterns: Vec::new(),
+                signature: None,
+                run: adl::RunSpec {
+                    id: None,
+                    name: None,
+                    created_at: None,
+                    defaults: Default::default(),
+                    workflow_ref: None,
+                    workflow: None,
+                    pattern_ref: None,
+                    inputs: HashMap::new(),
+                    placement: None,
+                    remote: None,
+                    delegation_policy: None,
+                },
+            };
+            let err = expand_provider_profiles(&doc).expect_err("malformed profile should fail");
+            assert!(err.to_string().contains(key), "{key}: {err:#}");
+        }
+    }
+
+    #[test]
+    fn provider_mod_profile_expansion_rejects_provider_model_id_conflicts() {
+        for value in [
+            serde_json::json!("llama3.1:8b"),
+            serde_json::json!(123),
+            serde_json::json!(true),
+            serde_json::json!({ "model": "phi4-mini" }),
+        ] {
+            let doc = adl::AdlDoc {
+                version: "0.92".to_string(),
+                providers: HashMap::from([(
+                    "local".to_string(),
+                    adl::ProviderSpec {
+                        id: Some("local".to_string()),
+                        profile: Some("ollama:phi4-mini".to_string()),
+                        kind: String::new(),
+                        base_url: None,
+                        default_model: None,
+                        config: HashMap::from([("provider_model_id".to_string(), value)]),
+                    },
+                )]),
+                tools: HashMap::new(),
+                agents: HashMap::new(),
+                tasks: HashMap::new(),
+                workflows: HashMap::new(),
+                patterns: Vec::new(),
+                signature: None,
+                run: adl::RunSpec {
+                    id: None,
+                    name: None,
+                    created_at: None,
+                    defaults: Default::default(),
+                    workflow_ref: None,
+                    workflow: None,
+                    pattern_ref: None,
+                    inputs: HashMap::new(),
+                    placement: None,
+                    remote: None,
+                    delegation_policy: None,
+                },
+            };
+
+            let err = expand_provider_profiles(&doc).expect_err("model conflict should fail");
+            assert!(err.to_string().contains("provider_model_id"));
+        }
+    }
+
+    #[test]
+    fn provider_mod_profile_expansion_rejects_malformed_identity_config() {
+        for (profile, key, value) in [
+            ("z_ai:glm-5", "endpoint", serde_json::json!(123)),
+            (
+                "z_ai:glm-5",
+                "endpoint",
+                serde_json::json!({ "url": "https://open.bigmodel.cn/api/paas/v4/chat/completions" }),
+            ),
+            ("ollama:phi4-mini", "vendor", serde_json::json!(true)),
+        ] {
+            let doc = adl::AdlDoc {
+                version: "0.92".to_string(),
+                providers: HashMap::from([(
+                    "local".to_string(),
+                    adl::ProviderSpec {
+                        id: Some("local".to_string()),
+                        profile: Some(profile.to_string()),
+                        kind: String::new(),
+                        base_url: None,
+                        default_model: None,
+                        config: HashMap::from([(key.to_string(), value)]),
+                    },
+                )]),
+                tools: HashMap::new(),
+                agents: HashMap::new(),
+                tasks: HashMap::new(),
+                workflows: HashMap::new(),
+                patterns: Vec::new(),
+                signature: None,
+                run: adl::RunSpec {
+                    id: None,
+                    name: None,
+                    created_at: None,
+                    defaults: Default::default(),
+                    workflow_ref: None,
+                    workflow: None,
+                    pattern_ref: None,
+                    inputs: HashMap::new(),
+                    placement: None,
+                    remote: None,
+                    delegation_policy: None,
+                },
+            };
+
+            let err = expand_provider_profiles(&doc).expect_err("malformed config should fail");
+            assert!(err.to_string().contains(key), "{key}: {err:#}");
+        }
+    }
+
+    #[test]
+    fn provider_mod_profile_state_retains_previous_last_known_good() {
+        let doc = adl::AdlDoc {
+            version: "0.92".to_string(),
+            providers: HashMap::from([(
+                "local".to_string(),
+                adl::ProviderSpec {
+                    id: Some("local".to_string()),
+                    profile: Some("ollama:qwen2.5-7b".to_string()),
+                    kind: String::new(),
+                    base_url: None,
+                    default_model: None,
+                    config: HashMap::from([(
+                        "profile_state".to_string(),
+                        serde_json::json!({
+                            "schema": "adl.provider_profile_state.v1",
+                            "profile": "ollama:phi4-mini",
+                            "last_known_good_profile": "ollama:phi4-mini",
+                            "retention": "retain_last_valid_materialization",
+                            "activation": "validate_before_activation"
+                        }),
+                    )]),
+                },
+            )]),
+            tools: HashMap::new(),
+            agents: HashMap::new(),
+            tasks: HashMap::new(),
+            workflows: HashMap::new(),
+            patterns: Vec::new(),
+            signature: None,
+            run: adl::RunSpec {
+                id: None,
+                name: None,
+                created_at: None,
+                defaults: Default::default(),
+                workflow_ref: None,
+                workflow: None,
+                pattern_ref: None,
+                inputs: HashMap::new(),
+                placement: None,
+                remote: None,
+                delegation_policy: None,
+            },
+        };
+
+        let expanded = expand_provider_profiles(&doc).expect("profile expansion");
+        let state = &expanded.providers["local"].config["profile_state"];
+        assert_eq!(state["profile"], serde_json::json!("ollama:qwen2.5-7b"));
+        assert_eq!(
+            state["last_known_good_profile"],
+            serde_json::json!("ollama:phi4-mini")
+        );
+    }
+
+    #[test]
+    fn provider_mod_profile_state_rejects_unknown_last_known_good() {
+        let doc = adl::AdlDoc {
+            version: "0.92".to_string(),
+            providers: HashMap::from([(
+                "local".to_string(),
+                adl::ProviderSpec {
+                    id: Some("local".to_string()),
+                    profile: Some("ollama:qwen2.5-7b".to_string()),
+                    kind: String::new(),
+                    base_url: None,
+                    default_model: None,
+                    config: HashMap::from([(
+                        "profile_state".to_string(),
+                        serde_json::json!({
+                            "schema": "adl.provider_profile_state.v1",
+                            "profile": "ollama:phi4-mini",
+                            "last_known_good_profile": "ollama:unknown",
+                            "retention": "retain_last_valid_materialization",
+                            "activation": "validate_before_activation"
+                        }),
+                    )]),
+                },
+            )]),
+            tools: HashMap::new(),
+            agents: HashMap::new(),
+            tasks: HashMap::new(),
+            workflows: HashMap::new(),
+            patterns: Vec::new(),
+            signature: None,
+            run: adl::RunSpec {
+                id: None,
+                name: None,
+                created_at: None,
+                defaults: Default::default(),
+                workflow_ref: None,
+                workflow: None,
+                pattern_ref: None,
+                inputs: HashMap::new(),
+                placement: None,
+                remote: None,
+                delegation_policy: None,
+            },
+        };
+
+        let err = expand_provider_profiles(&doc).expect_err("unknown LKG should fail");
+        assert!(err.to_string().contains("last_known_good_profile"));
+    }
+
+    #[test]
+    fn provider_mod_redacted_profile_projection_excludes_private_payloads() {
+        let spec = adl::ProviderSpec {
+            id: Some("hosted".to_string()),
+            profile: Some("chatgpt:gpt-5.4".to_string()),
+            kind: "http".to_string(),
+            base_url: None,
+            default_model: Some("gpt-5.4".to_string()),
+            config: HashMap::from([
+                ("temperature".to_string(), serde_json::json!(0.2)),
+                (
+                    "auth".to_string(),
+                    serde_json::json!({"env": "OPENAI_API_KEY"}),
+                ),
+                (
+                    "private_payload".to_string(),
+                    serde_json::json!("raw prompt"),
+                ),
+                (
+                    "metadata".to_string(),
+                    serde_json::json!({"recovery_code": 123456, "safe_count": 2}),
+                ),
+            ]),
+        };
+
+        let projection = redacted_provider_profile_projection("hosted", &spec);
+        assert_eq!(
+            projection["schema"],
+            serde_json::json!("adl.provider_profile_redacted_projection.v1")
+        );
+        assert_eq!(projection["config"]["temperature"], serde_json::json!(0.2));
+        assert_eq!(
+            projection["config"]["auth"],
+            serde_json::json!("<redacted>")
+        );
+        assert_eq!(
+            projection["config"]["private_payload"],
+            serde_json::json!("<redacted>")
+        );
+        assert_eq!(
+            projection["config"]["metadata"]["recovery_code"],
+            serde_json::json!("<redacted>")
+        );
+        assert_eq!(
+            projection["config"]["metadata"]["safe_count"],
+            serde_json::json!(2)
+        );
+        let rendered = serde_json::to_string(&projection).expect("json");
+        assert!(!rendered.contains("OPENAI_API_KEY"));
+        assert!(!rendered.contains("raw prompt"));
+        assert!(!rendered.contains("123456"));
     }
 
     #[test]
