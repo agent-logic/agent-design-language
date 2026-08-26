@@ -3,13 +3,44 @@
   "issue": 510,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7bfe676397915786eed2aa7ff57c7c55ab61746c837cfe92e9e6d7f89326d374",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "24ac2fd052bd359e3a6ec2ed801cc51d4fc3e1ea2b00168db98630ddba3def9a",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "c9a6f7b09db8842d5a329ac7d2048bcc8e981cf8b42ae0e3d5ecbca9909d1a84",
   "branch": "codex/510-hot-01-axum-config-hot-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-responses:gpt-5.6-sol:resp_0e13a64dc209853a006a8f46af92a887d0bf83c464fa1289bb",
+    "assigned_by": "codex:sprint-1-conductor",
+    "revision": "git-blake3:da2f0e9e7bf66a2ac16050644ce6eb376ae4fde1:292158182e5101f26956b13819d3d306d3f961ba1b7985733cc6eba365626eca",
+    "scope": [
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/config_reload.rs",
+      "docs/runtime/config-hot-reload.md"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:gpt-5.6-sol:resp_0e13a64dc209853a006a8f46af92a887d0bf83c464fa1289bb",
+    "scope": [
+      "adl-runtime-kernel/src/config_reload.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/config_reload.rs",
+      "docs/runtime/config-hot-reload.md"
+    ],
+    "reviewed_revision": "git-blake3:da2f0e9e7bf66a2ac16050644ce6eb376ae4fde1:292158182e5101f26956b13819d3d306d3f961ba1b7985733cc6eba365626eca",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a5fd1bd99d92ee66d1f8bf365242b7348a8a2e6a7e54715d47eeed814d6cea25",
+      "values_digest": "c6441b3365b984a226ae045e08c16f25d034c4fb83a2a16ef47153ebc88b8a58",
       "rendered_digest": "f74751b161d50aee86803c7fc30275a546e854fab88e74fa59112c3a7520e1ec",
       "ast_digest": "ea3a1a7c17404b9df86dd82a6d21019bc90635e0eb1ccf08779f06624116c812"
     },
     "stp": {
-      "values_digest": "1aa1f297e4d38d461ab413321eed4bb494b2f590dd596b81380556302c174244",
+      "values_digest": "687fb7117f696dd5b9f47f1ec5b894aae6a0a153225aa3dea4d178a5b463a246",
       "rendered_digest": "6e1551c438e00d65871511ebc3a863e00a4cc915bb709494a13ed50e1cac7250",
       "ast_digest": "71dca90b1c60e816480bcfa4f25d696b066ff7c4796e530e01680cd237c032c3"
     },
     "spp": {
-      "values_digest": "3c2b9279dd331179a691b55a53476bc792fa5d6543d4b41a649481b7ac09edd5",
+      "values_digest": "7bb267846db8c839a63a9f5e8f5d25b7a9213a74e02bb979ea8a8be3b137a9d2",
       "rendered_digest": "22624646750274ad03d332f799c84529e2c06ee8d393657a951cc510db68329b",
       "ast_digest": "d24df4cf39383ff570be13f597dde9bf5f7d1d0594afa547cf77f0d72afc0f59"
     },
     "vpp": {
-      "values_digest": "35d6c81fdde83c193b359b5518a786368e05851e0bb994935d81514ca6935a85",
+      "values_digest": "650b613a78f57a07b8f2d6227ef78fa53d15cf913d4cf7c9c8b494877d719ed3",
       "rendered_digest": "cad9ded18490dfe77ce3fa126ca665289202d553e81cdefca0cd43559644450f",
       "ast_digest": "a538f88e0d779c8720dc2835512a9e94f55041093257b0b74b585dcddf8e72c2"
     },
     "srp": {
-      "values_digest": "0dfcffdc7ef5353ba14398dba2c255f27d18b02472491eb8ab75011c22d34e64",
-      "rendered_digest": "28d0cc34e2e2f6abfb29966d796d32f4808e7a0c67c412ecaff300bb767ba0f8",
-      "ast_digest": "8d4f78d7228724cef34ceab6cf952b39fe1bb841b8ce0b817fc4d72709a9fb89"
+      "values_digest": "f05c7932ac82ff4190ae771c7e110601e6b9434c5644be218837660ede78c753",
+      "rendered_digest": "d257a066afb8c77ebb878a688f0708baee35ec804276ca9cd7c6f4bbc7e42254",
+      "ast_digest": "c5e26264e300fe2fc85c302e1840b6f0d869213daf475e49e6bb20a1ece5377d"
     },
     "sor": {
-      "values_digest": "40dba2d7581e714475d5c846f7ec4a2843b1bc7108ccd43e3da1ad53e48028b3",
+      "values_digest": "4de7d57ffec819bc3016cdc8232cb82c1c6b51aba0b29cfc5e4231e22eb36782",
       "rendered_digest": "894bb830d6b6fb6c72ecf93322c747cd09f7bb0f580309a802327df1ccc45695",
       "ast_digest": "c07fe163e1ea7afd1f2382c4a4b42141a87ba85b5349cc3f7932fbbd6875ba52"
     }
@@ -96,6 +127,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Operator expanded HOT-01 before merge to require production Runtime Observatory origin-policy hot reload. The published code only exposes a generic watcher and does not yet wire CORS and WSS origin authority, so clear stale review/publication truth before implementation and fresh exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -182,6 +220,20 @@
       "actor": "codex:/root",
       "reason": "Correct the recovered required outcome to include the operator-required production Runtime Observatory origin-policy integration.",
       "operation": "{\"new_value\":\"One production-ready Axum hot-reload implementation with last-known-good retention, including config-only atomic Runtime Observatory origin-policy updates consumed by both HTTP CORS and authenticated WSS without rebuild, continuity rotation, or Runtime restart.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"One production-ready Axum hot-reload implementation with last-known-good retention.\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

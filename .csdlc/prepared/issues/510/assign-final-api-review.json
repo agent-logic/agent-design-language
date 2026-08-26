@@ -1,0 +1,17 @@
+{
+  "issue": 510,
+  "expected_generation": 8,
+  "expected_digest": "24ac2fd052bd359e3a6ec2ed801cc51d4fc3e1ea2b00168db98630ddba3def9a",
+  "reviewer": "openai-responses:gpt-5.6-sol:resp_0e13a64dc209853a006a8f46af92a887d0bf83c464fa1289bb",
+  "assigned_by": "codex:sprint-1-conductor",
+  "scope": [
+    "adl-runtime-kernel/src/config_reload.rs",
+    "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/lib.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime/src/lib.rs",
+    "adl-runtime/tests/config_reload.rs",
+    "docs/runtime/config-hot-reload.md"
+  ]
+}
