@@ -7,26 +7,23 @@
     "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
     "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider/mod.rs\nadl/src/provider/profiles.rs\ndocs/provider/inference-profiles.md\ndocs/milestones/v0.92.1/evidence/provider/prov-a/README.md\n.csdlc/prepared/issues/514/validate-profile-schema.rb\n.csdlc/prepared/issues/514/validate-ollama-materialization.rb\n.csdlc/prepared/issues/514/validate-invalid-profile.rb\n.csdlc/prepared/issues/514/validate-last-known-good.rb\n.csdlc/prepared/issues/514/validate-redaction.rb\n.csdlc/evidence/514/profile-schema.log\n.csdlc/evidence/514/ollama-materialization.log\n.csdlc/evidence/514/invalid-profile.log\n.csdlc/evidence/514/last-known-good.log\n.csdlc/evidence/514/redaction.log",
-      "review_revision": "git-blake3:29bcb1b40ebab52dd086c04d8eba3de67d1aed0d:09774b0ee82929a0015fef2849116fed4074fc6477afc3aafcd49f1024c9097c",
-      "reviewer": "openai-responses:gpt-5.6-sol",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the implementation stay inside the declared unit boundary?",
         "Does every acceptance criterion have proving evidence?",
         "Are operator-only actions and private material kept outside Git?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Validation is focused on the provider-profile unit; broader workspace integration remains dependent on PR CI.",
-        "OpenAI Responses API review artifact: response id resp_0a1dc925edf7ce12006a8f55eea81c87d0aaf8c23c83a661aa, model gpt-5.6-sol, publication_safe true."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

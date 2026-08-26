@@ -8,3 +8,4 @@
 {"sequence":8,"generation":5,"actor":"codex-root","reason":"Recover #514 review truth after merging current origin/main advanced the clean substantive commit; operator requires fresh independent OpenAI Responses API review before #514 republish and merge.","operation":"recover_review"}
 {"sequence":9,"generation":5,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":10,"generation":6,"actor":"codex-root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":11,"generation":7,"actor":"codex:/root","reason":"Recover #514 review truth after Responses API review resp_0fccd5172659cf42006a8f560cea8087d09fd2135bb943ca0e found F2 still non-proving; activation helper and proof were repaired and require fresh exact-head API review before publication.","operation":"recover_review"}
