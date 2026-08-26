@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 480,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+    "slug": "v0921-wp01-execution-wave",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Create and verify the exact issue wave; do not implement any child issue.",
+      "deliverables": [
+        "docs/milestones/v0.92.1/evidence/wp-01/creation-plan.json",
+        "docs/milestones/v0.92.1/evidence/wp-01/partial-receipt.json",
+        "docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json",
+        ".csdlc/prepared/issues/480/validate-wave-creation.rb"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Exactly 45 ordered creation slots and complete issue specifications are derived from merged authority.",
+        "AC-2: Duplicate IDs, operation keys, conflicting titles, unresolved dependencies, and extra slots fail before mutation.",
+        "AC-3: Every create is followed by exact live readback and immutable receipt append.",
+        "AC-4: Partial failure resumes from verified live state without duplicate creation or renumbering.",
+        "AC-5: Existing #51, #84, #122, #251, #261-#264, #342, and #345 are reconciled without replacement and #269 remains excluded.",
+        "AC-6: Final independent live readback proves exactly 45 unique children with exact title, labels, milestone, dependencies, and body/spec identity.",
+        "AC-7: Independent exact-head review passes before publication."
+      ],
+      "dependencies": [
+        "#432 merged and ancestral",
+        "PR #479 merged as aa5766d71864713b97210abdb5aa8e5c2481ed31",
+        "operator declaration opening v0.92.1"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#480",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md"
+      ],
+      "non_goals": [
+        "Implement child work",
+        "Delete or recycle issue numbers",
+        "Recreate existing issues",
+        "Activate v0.93",
+        "Tag or release mutation"
+      ]
+    }
+  }
+}

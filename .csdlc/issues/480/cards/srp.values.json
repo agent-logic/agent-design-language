@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 480,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave",
+    "slug": "v0921-wp01-execution-wave",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/milestones/v0.92.1/evidence/wp-01\n.csdlc/prepared/issues/480\n.csdlc/issues/480",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the 45-slot denominator exact and complete?",
+        "Can any interruption create a duplicate or renumber a verified child?",
+        "Are dependencies resolved only to verified issue identities?",
+        "Does the final receipt prove exact live title, routing, body/spec, and dependency parity?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
