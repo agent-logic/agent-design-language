@@ -1,0 +1,192 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 541,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "bcb4dec20816c7cb7078c8fe6dcf9e35540c849f25ecee1f1a334b575f345fd7",
+  "phase": "published",
+  "generation": 5,
+  "digest": "dcb247b02587873e8d83009cb416d6b685c7ffbc5ed813bcf367139f10f140a3",
+  "branch": "codex/541-onboarding-doc-authority-20260826",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-541-onboarding-doc-authority",
+  "review_assignment": {
+    "reviewer": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:3c9fc29cd5fb5903021ca3c9c338f09c49bd66bc:78af959f74de7270e634d34296a7e0751dcae8f9c494d150537cc6c7b0acf92f",
+    "scope": [
+      "docs/onboarding.md",
+      "adl/tools/README.md",
+      ".csdlc/prepared/issues/541/validate-doc-authority.rb",
+      ".csdlc/prepared/issues/541",
+      ".csdlc/evidence/541",
+      ".csdlc/issues/541"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
+    "scope": [
+      "docs/onboarding.md",
+      "adl/tools/README.md",
+      ".csdlc/prepared/issues/541/validate-doc-authority.rb",
+      ".csdlc/prepared/issues/541",
+      ".csdlc/evidence/541",
+      ".csdlc/issues/541"
+    ],
+    "reviewed_revision": "git-blake3:3c9fc29cd5fb5903021ca3c9c338f09c49bd66bc:78af959f74de7270e634d34296a7e0751dcae8f9c494d150537cc6c7b0acf92f",
+    "findings": [],
+    "residual_risks": [
+      "Review was scoped to the exact committed #541 docs, validation script, evidence, and typed record surfaces; it did not mutate or review post-assignment lifecycle metadata as substantive implementation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 541,
+    "pull_request": 542,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/542",
+    "base": "main",
+    "head": "codex/541-onboarding-doc-authority-20260826",
+    "revision": "git-blake3:12683e43b6b99b71a8bffcba79248e9f7d6f168b:69c3502b2687c9b5b31dc7fa9b5594c524335e104d7ea7a9273a4b0502bf78f3",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/541/design.md",
+  "diagram_path": ".csdlc/prepared/issues/541/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:9b895a97-1bc9-4119-9cab-c2b8629fa77b",
+      "revision": "26eabe1bccbd42d412d0c3a0d224078096405e8c78d1fda9c8e4833a5123ebbf"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4f00ab2a63c6fa0c82e146f451d1f16f611a6fc3c15327fd46768a8dc36e97f9",
+      "rendered_digest": "580a3cf5fe3ad14122ad2859f8217e884bfaf65548be9004af22ed2062ee1956",
+      "ast_digest": "63440660a1af022da3637e20ada1bc84f409e32fb410f3be39fbb5e356ff2786"
+    },
+    "stp": {
+      "values_digest": "8f501fc1f7274c32dce0ae5c7268bbad8e5739c9204f1487481fda407c5d752e",
+      "rendered_digest": "54e7eac648bf61192616aece655e4e5c94853806d6aa60de0171e074ca3d6193",
+      "ast_digest": "ee2190edef134c532f4a7afff2f705ab82b893bb5a1d3d36659e1a4b78512470"
+    },
+    "spp": {
+      "values_digest": "58645f4e090b933508afd165d9bcbb5f963fc849983e753abcc1b3ca0810b604",
+      "rendered_digest": "2ae2fb59f57d487c1a49b11da0ec4e667354ef8c0cc616ff32b26f8654ed6695",
+      "ast_digest": "29b29bdd3dfc62a5040b996084c6ca3efab314a19b016faca4320940a0c452f2"
+    },
+    "vpp": {
+      "values_digest": "4c0ec604a6f4412a14765c0b004437625373412053ae8e2584e56263d723bd37",
+      "rendered_digest": "041afe816c76301129b3eb1ef13db731aa5acf9e9393831fb455dc3f18340e97",
+      "ast_digest": "5ff620988a5d43a4e570db20733e0989b040c7acd812e5e1383a949becbce39c"
+    },
+    "srp": {
+      "values_digest": "1082151390a65dafc8cfcc73479945a9ba9733e87905f14e8a87b9bb72e761c3",
+      "rendered_digest": "6994ceb960678be43cd0078b188b86e6052bf628766e4d48f19bfe12cd190a2d",
+      "ast_digest": "320e7a32769473ede7a232174d5ad084b533bb1c2688aee5979db18bf933e86e"
+    },
+    "sor": {
+      "values_digest": "dc255e44e600a2eaf2967f52d60d74e071d51077d3f6404fb7084b837ec13661",
+      "rendered_digest": "32456fd231788a6ef77292f6866e908bb439de32c94103f72540affe2d55fe01",
+      "ast_digest": "8fed0190210289db3dab28fd7f1b0700c8a6799fbf5bf70bc8fec616ef04a5d9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "All six typed cards and the approved bounded docs-truth design are ready for issue-worktree binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:9b895a97-1bc9-4119-9cab-c2b8629fa77b",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"26eabe1bccbd42d412d0c3a0d224078096405e8c78d1fda9c8e4833a5123ebbf\",\"design_ref\":\".csdlc/prepared/issues/541/design.md\",\"diagram_digest\":\"8b5caa43a7f9fba6938424fa49b6af7619e4086c5018b4e0c04fdef889726231\",\"diagram_ref\":\".csdlc/prepared/issues/541/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "All six typed cards and the approved bounded docs-truth design are ready for issue-worktree binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

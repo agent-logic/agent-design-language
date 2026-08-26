@@ -1,0 +1,29 @@
+
+running 22 tests
+test cpu_saturation_is_observable_without_restarting_a_healthy_runtime ... ok
+test resource_policy_warns_stops_and_recovers_with_hysteresis ... ok
+test configured_registry_fails_closed_for_factory_and_surface_drift ... ok
+test configuration_keeps_runtime_bindings_outside_canonical_projection ... ok
+test runtime_configuration_rejects_version_shape_identity_and_secrets ... ok
+test deterministic_port_route_rejects_a_nondeterministic_provider ... ok
+test declarative_registry_builds_contract_checked_topology_canonically ... ok
+test threshold_configuration_rejects_invalid_order_and_zero_bounds ... ok
+test vector_boundary_declares_cloudwatch_emf_route_without_kernel_exporter ... ok
+test weather_health_report_serializes_stop_policy_and_gpu_non_pass_state ... ok
+test runtime_init_rejects_config_manufactured_agent_population ... ok
+test runtime_init_rejects_missing_or_reused_tls_paths ... ok
+test periodic_weather_monitor_publishes_reports_until_stop_is_required ... ok
+test runtime_init_rejects_ipv6_bind_addresses ... ok
+test runtime_init_rejects_missing_state_root_and_split_tls_roots ... ok
+test runtime_init_rejects_invalid_public_api_base ... ok
+test runtime_init_file_defines_local_and_remote_access_intent ... ok
+test continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only ... ok
+test runtime_init_rejects_migration_decision_key_aliases ... ok
+test runtime_init_rejects_wildcard_duplicate_and_path_origins ... ok
+test runtime_kernel_rejects_demo_and_implicit_demo_startup ... ok
+test sysinfo_observer_reports_portable_core_metrics_and_explicit_gpu_absence ... ok
+
+test result: ok. 22 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running tests/configuration.rs (adl-runtime-kernel/target/debug/deps/configuration-0cf75076401dbbde)

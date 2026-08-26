@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 482,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-A] Critical-asset schedule",
+    "slug": "v0-92-1-corp-a-critical-asset-schedule",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly acceptance of the one critical-asset schedule; source-specific checks are evidence inputs, not separately closeable results.",
+      "deliverables": [
+        "One accepted critical-asset schedule with provenance, ownership, licensing, trademark, and assignment dispositions.",
+        "Bounded validation evidence",
+        "Exact-head review receipt"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every critical asset has an owner and disposition",
+        "AC-2: Private instruments remain outside Git",
+        "AC-3: Redacted receipts bind accepted instruments to the asset schedule"
+      ],
+      "dependencies": [
+        "#480 WP-01 merged opening gate"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#482",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-A",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md"
+      ],
+      "non_goals": [
+        "Operational account transfer",
+        "Repository-stored legal advice"
+      ]
+    }
+  }
+}

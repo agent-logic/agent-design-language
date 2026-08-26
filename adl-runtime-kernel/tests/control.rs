@@ -1253,7 +1253,10 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
         },
         authority(&key, [ControlCapability::Read]),
         4,
-        ["https://observatory.example.test".to_owned()],
+        [
+            "https://observatory.example.test".to_owned(),
+            "http://localhost:8000".to_owned(),
+        ],
     ));
     service
         .set_observatory_bearer_token("test-observatory-token-0000000002")
@@ -1279,6 +1282,33 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     assert!(response.starts_with("HTTP/1.1 200 OK"));
     assert!(response.contains("access-control-allow-origin: https://observatory.example.test"));
     assert!(response.contains(&format!("\"port\":{}", address.port())));
+
+    let draft_observatory_response = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: http://localhost:8000\r\nAuthorization: Bearer test-observatory-token-0000000002\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(
+        draft_observatory_response.starts_with("HTTP/1.1 200 OK"),
+        "{draft_observatory_response}"
+    );
+    assert!(
+        draft_observatory_response.contains("access-control-allow-origin: http://localhost:8000")
+    );
+
+    let draft_observatory_preflight = https_request(
+        &client,
+        address,
+        b"OPTIONS /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: http://localhost:8000\r\nAccess-Control-Request-Method: GET\r\nAccess-Control-Request-Headers: authorization\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(draft_observatory_preflight.starts_with("HTTP/1.1 204 No Content"));
+    assert!(
+        draft_observatory_preflight.contains("access-control-allow-origin: http://localhost:8000")
+    );
+    assert!(draft_observatory_preflight.contains("access-control-allow-methods: GET"));
+    assert!(draft_observatory_preflight.contains("cache-control: no-store"));
 
     let response = https_request(
         &client,
@@ -1351,6 +1381,46 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     .await;
     assert!(forbidden_control.starts_with("HTTP/1.1 403 Forbidden"));
     assert!(!forbidden_control.contains("access-control-allow-origin"));
+
+    server.abort();
+}
+
+#[tokio::test]
+async fn observatory_cors_rejects_draft_origin_without_explicit_allowance() {
+    let key = SigningKey::from_bytes(&[14; 32]);
+    let service = Arc::new(ControlService::new_with_observatory_config(
+        "instance-1",
+        RuntimeRecorder::new(4),
+        FakeLifecycle {
+            calls: Arc::new(AtomicUsize::new(0)),
+        },
+        authority(&key, [ControlCapability::Read]),
+        4,
+        ["https://localhost:8765".to_owned()],
+    ));
+    service
+        .set_observatory_bearer_token("test-observatory-token-0000000003")
+        .unwrap();
+    let listener = tokio::net::TcpListener::bind((TEST_BIND_HOST, 0))
+        .await
+        .unwrap();
+    let address = listener.local_addr().unwrap();
+    let (tls, client) = test_https().await;
+    let server = tokio::spawn(serve_control_listener(
+        service,
+        listener,
+        tls,
+        test_api_policy(),
+    ));
+
+    let response = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: http://localhost:8000\r\nAuthorization: Bearer test-observatory-token-0000000003\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(response.starts_with("HTTP/1.1 403 Forbidden"));
+    assert!(!response.contains("access-control-allow-origin"));
 
     server.abort();
 }

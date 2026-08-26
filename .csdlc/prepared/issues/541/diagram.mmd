@@ -1,0 +1,11 @@
+flowchart TD
+  observed[Observed stale onboarding route]
+  authority[Gate 10D2 typed C-SDLC v2 authority]
+  repo[Canonical repo identity]
+  docs[Corrected contributor docs]
+  validation[Focused docs validation]
+
+  observed --> docs
+  authority --> docs
+  repo --> docs
+  docs --> validation

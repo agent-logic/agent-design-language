@@ -1,0 +1,96 @@
+{
+  "schema": "adl.corporate.corp_a_critical_asset_denominator.v1",
+  "issue": 482,
+  "umbrella_issue": 529,
+  "denominator_id": "corp-a-critical-asset-denominator",
+  "class_count": 14,
+  "authority_basis": [
+    {
+      "path": "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#CORP-A",
+      "role": "execution-specification",
+      "claim": "CORP-A requires one accepted critical-asset schedule for the complete asset denominator."
+    },
+    {
+      "path": "docs/milestones/v0.92.1/features/CORPORATE_AND_IP_TRANSFER_v0.92.1.md#CORP-A",
+      "role": "feature-scope",
+      "claim": "CORP-A covers asset inventory, provenance, licensing, trademark disposition, counsel-reviewed assignment, and corporate acceptance."
+    },
+    {
+      "path": ".csdlc/prepared/issues/482/bootstrap-request.json",
+      "role": "issue-local-readiness",
+      "claim": "Issue #482 is bounded to the CORP-A schedule and redacted custody evidence paths."
+    }
+  ],
+  "classes": [
+    {
+      "class_id": "source_control",
+      "required_asset_id": "corp-a-source-control",
+      "rationale": "Source repository custody and chain-of-title surface."
+    },
+    {
+      "class_id": "ci_cd",
+      "required_asset_id": "corp-a-ci-cd",
+      "rationale": "Build, release, and workflow automation custody surface."
+    },
+    {
+      "class_id": "production_domains",
+      "required_asset_id": "corp-a-production-domains",
+      "rationale": "Brand-bearing production domain and registrar-control surface."
+    },
+    {
+      "class_id": "dns_route53",
+      "required_asset_id": "corp-a-dns-route53",
+      "rationale": "Hosted-zone and DNS delegation custody surface."
+    },
+    {
+      "class_id": "certificates",
+      "required_asset_id": "corp-a-certificates",
+      "rationale": "TLS certificate inventory and renewal custody surface."
+    },
+    {
+      "class_id": "email",
+      "required_asset_id": "corp-a-email",
+      "rationale": "Corporate email and administrative-contact route."
+    },
+    {
+      "class_id": "infrastructure_as_code",
+      "required_asset_id": "corp-a-infrastructure-as-code",
+      "rationale": "Terraform, manifests, and deployment runbook custody surface."
+    },
+    {
+      "class_id": "aws_infrastructure",
+      "required_asset_id": "corp-a-aws-infrastructure",
+      "rationale": "Agent Logic business AWS account resource custody surface."
+    },
+    {
+      "class_id": "deployment_operations",
+      "required_asset_id": "corp-a-deployment-operations",
+      "rationale": "Release, deployment, and incident-operation procedure custody."
+    },
+    {
+      "class_id": "brand_trademark",
+      "required_asset_id": "corp-a-brand-trademark",
+      "rationale": "Brand and trademark disposition route."
+    },
+    {
+      "class_id": "provenance_license",
+      "required_asset_id": "corp-a-provenance-license",
+      "rationale": "Project provenance and inbound/outbound licensing route."
+    },
+    {
+      "class_id": "assignment_acceptance",
+      "required_asset_id": "corp-a-assignment-acceptance",
+      "rationale": "Assignment and corporate acceptance evidence surface."
+    },
+    {
+      "class_id": "private_custody",
+      "required_asset_id": "corp-a-private-custody",
+      "rationale": "Private custody envelope for instruments, credentials, and recovery materials."
+    },
+    {
+      "class_id": "data_model_media",
+      "required_asset_id": "corp-a-data-model-media",
+      "rationale": "Documentation, diagrams, data-model, and media asset provenance."
+    }
+  ]
+}

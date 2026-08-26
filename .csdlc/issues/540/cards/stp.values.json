@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 540,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][observatory] Prove additional_allowed_origins for localhost:8000",
+    "slug": "runtime-additional-allowed-origins-localhost-8000",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Test and, only if necessary, minimally repair additional_allowed_origins handling for http://localhost:8000.",
+      "deliverables": [
+        "Focused CORS/configuration regression tests for http://localhost:8000.",
+        "Any smallest Runtime kernel implementation fix required by those tests.",
+        "Truthful validation and review-ready issue record."
+      ],
+      "acceptance_criteria": [
+        "AC-1: Runtime v3 accepts Origin: http://localhost:8000 on relevant Observatory/browser CORS routes when the origin is explicitly configured.",
+        "AC-2: Runtime v3 rejects or omits CORS allowance for Origin: http://localhost:8000 when the origin is not configured.",
+        "AC-3: The canonical Observatory origin https://localhost:8765 remains supported.",
+        "AC-4: No ADL Runtime, Observatory, shell fallback, static server, or test helper binds to port 8000.",
+        "AC-5: No public API, authentication, signed-command, production ingress, or wildcard CORS behavior changes."
+      ],
+      "dependencies": [],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#540",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/control.rs"
+      ],
+      "non_goals": [
+        "Do not move the Observatory from port 8765.",
+        "Do not use port 8000 as an ADL-owned listener.",
+        "Do not add fallback shell behavior or a broad proxy.",
+        "Do not change CORS to wildcard/default-open behavior.",
+        "Do not broaden into production CloudFront/API Gateway/load-balancer work."
+      ]
+    }
+  }
+}
