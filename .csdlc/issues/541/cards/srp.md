@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Docs-truth repair for onboarding/workflow authority and repository identity only.
+docs/onboarding.md
+adl/tools/README.md
+.csdlc/prepared/issues/541/validate-doc-authority.rb
+.csdlc/prepared/issues/541
+.csdlc/evidence/541
+.csdlc/issues/541
 
 ## Prompts
 
@@ -30,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was scoped to the exact committed #541 docs, validation script, evidence, and typed record surfaces; it did not mutate or review post-assignment lifecycle metadata as substantive implementation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3c9fc29cd5fb5903021ca3c9c338f09c49bd66bc:78af959f74de7270e634d34296a7e0751dcae8f9c494d150537cc6c7b0acf92f")
 
-Reviewer: None
+Reviewer: Some("fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f")
 
-Result: pre_review
+Result: pass

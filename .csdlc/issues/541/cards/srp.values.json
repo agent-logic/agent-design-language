@@ -7,23 +7,25 @@
     "title": "[v0.92.1][docs] Reconcile onboarding workflow and repository authority with Gate 10D2",
     "slug": "reconcile-onboarding-workflow-authority",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Docs-truth repair for onboarding/workflow authority and repository identity only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/onboarding.md\nadl/tools/README.md\n.csdlc/prepared/issues/541/validate-doc-authority.rb\n.csdlc/prepared/issues/541\n.csdlc/evidence/541\n.csdlc/issues/541",
+      "review_revision": "git-blake3:3c9fc29cd5fb5903021ca3c9c338f09c49bd66bc:78af959f74de7270e634d34296a7e0751dcae8f9c494d150537cc6c7b0acf92f",
+      "reviewer": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
       "review_prompts": [
         "Do the edited docs clearly route current lifecycle work through Gate 10D2 typed C-SDLC v2 instead of `adl_pr_cycle` or `pr ready`?",
         "Do the edited docs distinguish canonical `agent-logic/agent-design-language` from legacy `danielbaustin/agent-design-language` without erasing historical provenance?",
         "Do the edited docs preserve root checkout, bound worktree, review, publication, finish, and cleanup boundaries?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was scoped to the exact committed #541 docs, validation script, evidence, and typed record surfaces; it did not mutate or review post-assignment lifecycle metadata as substantive implementation."
+      ],
+      "review_result": "pass"
     }
   }
 }

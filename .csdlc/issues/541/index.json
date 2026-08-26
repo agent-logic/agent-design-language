@@ -3,13 +3,42 @@
   "issue": 541,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bcb4dec20816c7cb7078c8fe6dcf9e35540c849f25ecee1f1a334b575f345fd7",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "a0361a21e3ff83c1d703f2955d1bc950ee931c84bc88f00014c133e31a2d79ac",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "f6486ab6845cb257997d0664b2d17458256ea72964d1c8e0ccc943c10d081fd8",
   "branch": "codex/541-onboarding-doc-authority-20260826",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-541-onboarding-doc-authority",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:3c9fc29cd5fb5903021ca3c9c338f09c49bd66bc:78af959f74de7270e634d34296a7e0751dcae8f9c494d150537cc6c7b0acf92f",
+    "scope": [
+      "docs/onboarding.md",
+      "adl/tools/README.md",
+      ".csdlc/prepared/issues/541/validate-doc-authority.rb",
+      ".csdlc/prepared/issues/541",
+      ".csdlc/evidence/541",
+      ".csdlc/issues/541"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
+    "scope": [
+      "docs/onboarding.md",
+      "adl/tools/README.md",
+      ".csdlc/prepared/issues/541/validate-doc-authority.rb",
+      ".csdlc/prepared/issues/541",
+      ".csdlc/evidence/541",
+      ".csdlc/issues/541"
+    ],
+    "reviewed_revision": "git-blake3:3c9fc29cd5fb5903021ca3c9c338f09c49bd66bc:78af959f74de7270e634d34296a7e0751dcae8f9c494d150537cc6c7b0acf92f",
+    "findings": [],
+    "residual_risks": [
+      "Review was scoped to the exact committed #541 docs, validation script, evidence, and typed record surfaces; it did not mutate or review post-assignment lifecycle metadata as substantive implementation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "70bbabacdc8e09da1390dfa3e001302c019f8f925d568d9f5bfa7edfc1e37743",
+      "values_digest": "f72db909026dd257b1c0626ea1d4dabb84f7ecad0e98dfd744705e440338eab1",
       "rendered_digest": "580a3cf5fe3ad14122ad2859f8217e884bfaf65548be9004af22ed2062ee1956",
       "ast_digest": "63440660a1af022da3637e20ada1bc84f409e32fb410f3be39fbb5e356ff2786"
     },
     "stp": {
-      "values_digest": "4319d626c74981223dc4388d53b74bc55431b8be96430fe78d7e3c8db58ca6cf",
+      "values_digest": "fed40a3f6fd11b8c7314a59e068a6b53e855c96b32117b71edecda481aa10103",
       "rendered_digest": "54e7eac648bf61192616aece655e4e5c94853806d6aa60de0171e074ca3d6193",
       "ast_digest": "ee2190edef134c532f4a7afff2f705ab82b893bb5a1d3d36659e1a4b78512470"
     },
     "spp": {
-      "values_digest": "e9de6796c8bf8a00b28e1e5748e3c752d47489ca1b9d56a2c91c59ab656738c5",
+      "values_digest": "6d7a396d61bda6f1976a99dd8a683b9ca7afe9a27ea4401f5cc63bb781ebfd3c",
       "rendered_digest": "2ae2fb59f57d487c1a49b11da0ec4e667354ef8c0cc616ff32b26f8654ed6695",
       "ast_digest": "29b29bdd3dfc62a5040b996084c6ca3efab314a19b016faca4320940a0c452f2"
     },
     "vpp": {
-      "values_digest": "04a7d6e828253cd9ccc4e7c2819f021c229d08dd42ff18cf30f3db4fd5d09eaf",
+      "values_digest": "e72b29aed1a2f21d08788cd8318bae1c657da7baa698ec3bf07e6b1c7ca9c58b",
       "rendered_digest": "041afe816c76301129b3eb1ef13db731aa5acf9e9393831fb455dc3f18340e97",
       "ast_digest": "5ff620988a5d43a4e570db20733e0989b040c7acd812e5e1383a949becbce39c"
     },
     "srp": {
-      "values_digest": "71b5e3e369804b06f61cd98c91009a4a771c91bb40bccd59b88df8ff557a21ae",
-      "rendered_digest": "bb32e3fada3bcec8f12c5178537cb91b1befe457c5707f1b777fb3fd424681de",
-      "ast_digest": "4c02aa65ce350f9e766bb0dd22411bc171aa0d9d8fb00ea6d077c5c9c7e35415"
+      "values_digest": "408d3501cbb57878771cdc22374e7f72a86b8fdad4dedd5ff2381c738fe91e13",
+      "rendered_digest": "6994ceb960678be43cd0078b188b86e6052bf628766e4d48f19bfe12cd190a2d",
+      "ast_digest": "320e7a32769473ede7a232174d5ad084b533bb1c2688aee5979db18bf933e86e"
     },
     "sor": {
-      "values_digest": "aa5bd6d581f46fc9bc6d5305eca4432a33e7ee50b5744da61739abdde90812c2",
+      "values_digest": "84cb7f68f30370ff1ac1bfcf66ccf331e4e6cac4e97f0f21471458a5db57264a",
       "rendered_digest": "564fca74849828552c17da1841a0846035f835b20778a4fdc93a635ce9d1aa8d",
       "ast_digest": "c606708f56321b5f0073a001ed4bfe7a1ab16b1440e5287429f21b82b56818cf"
     }
@@ -75,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -112,6 +148,20 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "fresh-session:e76cf571-57d7-43e4-a3e0-24ad9c026f4f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
