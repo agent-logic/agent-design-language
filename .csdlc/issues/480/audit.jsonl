@@ -9,3 +9,4 @@
 {"sequence":9,"generation":7,"actor":"codex:/root","reason":"All 45 planned v0.92.1 child issues are live, the 10 existing issues are reconciled, and the canonical final receipt validator passed.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":10,"generation":7,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":8,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":9,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -58,11 +58,11 @@ Opened the v0.92.1 execution wave with exactly 45 new issue contracts and reconc
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
