@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 510,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "7bfe676397915786eed2aa7ff57c7c55ab61746c837cfe92e9e6d7f89326d374",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "2ab7671523eb72f3c1c93ea233026aa21b7dccf30873e55a6444f7eaa95cc611",
+  "branch": "codex/510-hot-01-axum-config-hot-reload",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/510/design.md",
+  "diagram_path": ".csdlc/prepared/issues/510/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "revision": "a00e20d94c57a7bc2cec5b2dc2d1fae9bf6f2a5bf0a7f2297d183e6cd5d75798"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3a9180a6f0439d95300512b88c6236ebb41fd2916c7582006a83b1e712235280",
+      "rendered_digest": "8a7f80506ae6b6eaa9529545ff9c0d972cc126b826808af156720200ccd7c7f7",
+      "ast_digest": "d1eb0d7caa261cf05347a981269c958b62f12dfce7cb6534a0871286ce4747ad"
+    },
+    "stp": {
+      "values_digest": "afd65e1e40aa1100e8a7d067c6cd9c4490408093491afe3127049e45e49fdfba",
+      "rendered_digest": "6e1551c438e00d65871511ebc3a863e00a4cc915bb709494a13ed50e1cac7250",
+      "ast_digest": "71dca90b1c60e816480bcfa4f25d696b066ff7c4796e530e01680cd237c032c3"
+    },
+    "spp": {
+      "values_digest": "c323403c6547487f36f6845f40fc4347542f53cd9c11f6da07f5df370dc7666a",
+      "rendered_digest": "22624646750274ad03d332f799c84529e2c06ee8d393657a951cc510db68329b",
+      "ast_digest": "d24df4cf39383ff570be13f597dde9bf5f7d1d0594afa547cf77f0d72afc0f59"
+    },
+    "vpp": {
+      "values_digest": "a30328c8bcedb06d1f1209f9959a2fd0c2e0ed8f5bb6d010c5799b093d0aa71b",
+      "rendered_digest": "cad9ded18490dfe77ce3fa126ca665289202d553e81cdefca0cd43559644450f",
+      "ast_digest": "a538f88e0d779c8720dc2835512a9e94f55041093257b0b74b585dcddf8e72c2"
+    },
+    "srp": {
+      "values_digest": "3518b047c4891dedec5985b5b880899145b3cd94f3abf18de4cfacf367a43d08",
+      "rendered_digest": "a6e8746be1fcaad6ad8aee6def9a0ca51efcad5f5a6232ec74f801e7cbe53588",
+      "ast_digest": "d8077a425847fa3022e4c9966e46a8e44ef07beebf7b56fe2ac190f4d0090668"
+    },
+    "sor": {
+      "values_digest": "4a3c941a6f13592a067ebb112ddfc5216d6a34614f17d09475ae9f3af9ce39aa",
+      "rendered_digest": "aef5622d4e6f98aeb9c0e0316e2330259ec3ba0137b08a5b1b633e6729d9f6b6",
+      "ast_digest": "62c453e2331cc60ba63b9b498774a6a1209403f62a34bdd8cd8d369d30a934f0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:510-hot-01-execution-recovery",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:510-hot-01-execution-recovery",
+      "reason": "repair pre-bind owned-path denominator after projection recovery",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/config_reload.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/tests/config_reload.rs\",\"docs/runtime/config-hot-reload.md\",\".csdlc/prepared/issues/510/validate-valid-reload.rb\",\".csdlc/prepared/issues/510/validate-invalid-retention.rb\",\".csdlc/prepared/issues/510/validate-debounce.rb\",\".csdlc/prepared/issues/510/validate-concurrent-read.rb\",\".csdlc/prepared/issues/510/validate-watcher-shutdown.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
