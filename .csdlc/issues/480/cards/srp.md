@@ -12,9 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-docs/milestones/v0.92.1/evidence/wp-01
-.csdlc/prepared/issues/480
 .csdlc/issues/480
+.csdlc/prepared/issues/480
+docs/milestones/v0.92.1/evidence/wp-01
 
 ## Prompts
 

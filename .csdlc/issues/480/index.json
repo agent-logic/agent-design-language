@@ -6,10 +6,19 @@
   "initialization_digest": "f6c582c5700e044ffef21116ae636bbd9ebdb8120a91c5805a887231557c4680",
   "phase": "implemented",
   "generation": 7,
-  "digest": "01465bb094aed8787c4dd61ef5185c6546408afe6ff57288f8c75cc0139792eb",
+  "digest": "ae4cb82413f9ef3c52b0b32660668d316806dcc20830f20cbf7582882fa5937d",
   "branch": "codex/480-v0921-wp01-execution-wave",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-480-v0921-wp01-execution-wave",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_480_final",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:e759bdc84d1b12359c423b50c3a6d0b04d42ea69:b678cc25909570f33134684a7ccedc17aaf589edb80309234e82deeaacc67e75",
+    "scope": [
+      ".csdlc/issues/480",
+      ".csdlc/prepared/issues/480",
+      "docs/milestones/v0.92.1/evidence/wp-01"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +54,9 @@
       "ast_digest": "4a163e4a211be4450582effd07600b0765b86613d2001d101e510d2ea826fded"
     },
     "srp": {
-      "values_digest": "c9f7580aa210b743f2d14917a9e9e38636fd5d9dd10f6f9f966d2f93800137cb",
-      "rendered_digest": "bc196ac9ab8d7b6a5afaf0d5ec6c8bc5fe3ebbf713ef5c0b547e7c8d5edde3fd",
-      "ast_digest": "4c255f0b73c8fdc37fc39d0ed6f3f3f035dbe7024e555bfd66b8299e096ebb73"
+      "values_digest": "aecb8f6a3fb26b36acfb1815f1cb02eaaa6c04be3d7c7d136388d5e12a7ca535",
+      "rendered_digest": "1f2d6653682f9b8351e22714359547a8707e608248f155ee0d99bd726932b13e",
+      "ast_digest": "a082fa77e3a97e1d8b9eafec39ac9026445ac6e1fd53a12e439f614f27b44d8b"
     },
     "sor": {
       "values_digest": "8c536806dfa4d96d62ab65cd97bd34526f744f90d7b3cf36426945c351729279",
@@ -141,6 +150,13 @@
       "actor": "codex:/root",
       "reason": "All 45 planned v0.92.1 child issues are live, the 10 existing issues are reconciled, and the canonical final receipt validator passed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
