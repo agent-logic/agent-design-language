@@ -7,23 +7,46 @@
     "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
     "slug": "v0-92-1-rust-01-resilience-owner-boundary-refactoring",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/src/resilience.rs\nadl/src/resilience/*.rs\n.csdlc/prepared/issues/499/validate-*.rb\npublication hygiene for extracted modules and validators",
+      "review_revision": "git-blake3:1b24911535a81e8b8ea831b6ed65280b056bc331:f15743a43c8aacd1ba9dfef5087a9c7f64f170eab07a753c04e6049cc5eb336c",
+      "reviewer": "gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b",
       "review_prompts": [
         "Does the implementation stay inside the declared unit boundary?",
         "Does every acceptance criterion have proving evidence?",
         "Are operator-only actions and private material kept outside Git?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "review-p1-untracked-extracted-modules",
+          "severity": "p1",
+          "summary": "Initial review found extracted resilience modules and validators were untracked and absent from git diff; fixed by staging and committing the full intended diff at c3426c10ddf3c697bf06c7f7322529461e89aaa8.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1b24911535a81e8b8ea831b6ed65280b056bc331:f15743a43c8aacd1ba9dfef5087a9c7f64f170eab07a753c04e6049cc5eb336c",
+          "route": null
+        },
+        {
+          "id": "review-p3-api-parity-method-coverage",
+          "severity": "p3",
+          "summary": "Initial review found the API parity validator omitted public inherent methods; fixed by checking 9 public inherent methods in addition to 83 top-level declarations and rerunning the validator successfully.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "fixed",
+          "fix_revision": "git-blake3:1b24911535a81e8b8ea831b6ed65280b056bc331:f15743a43c8aacd1ba9dfef5087a9c7f64f170eab07a753c04e6049cc5eb336c",
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Focused local validation passed; broader workspace integration remains deferred to PR CI."
+      ],
+      "review_result": "pass"
     }
   }
 }
