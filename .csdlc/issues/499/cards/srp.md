@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+adl/src/resilience.rs
+adl/src/resilience/*.rs
+.csdlc/prepared/issues/499/validate-*.rb
+.csdlc/issues/499 lifecycle metadata
+publication safety at exact integrated head
 
 ## Prompts
 
@@ -30,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the fail-closed integration proof after publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:578d26d87e7a88a18b037b3ef2cc6f753638c466:9c0ad4ba3305583e6981aa87bffb0f26d50bbce47de476ff41459477e2365686")
 
-Reviewer: None
+Reviewer: Some("openai-responses-api:resp_01aaf45742faa6f8006a8f52ce1cec87d0abb39c5870e7db56")
 
-Result: pre_review
+Result: pass
