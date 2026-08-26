@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a43b525a61790257019207e3d1187d1c53001b830cef623010b0dd69b318f435",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "8554f57345deac6d1e849932fbeb0c18246c53f1d2b3933e5e233522628dabcc",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "b73f4a684fb61c9a73cc49343d61f6b2b8ad81254efb554a68f5f602cf80fd34",
   "branch": "codex/560-runtime-v2-workspace-coverage-timeouts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-responses:resp_0db9cfd6d229d16d006a8f6d76679887d08a074998060a2b4d:gpt-5.6-sol",
+    "assigned_by": "codex:/root/issue_513_dec_01",
+    "revision": "git-blake3:a75e499a75cd4a69c27bd45c4f68f3f7279eb84c:3ad581bb5cc9bb39b71b5093039f37d71d8150f9906c43695a45e539e4ce41c5",
+    "scope": [
+      ".csdlc/issues/560",
+      ".csdlc/prepared/issues/560",
+      ".csdlc/evidence/560",
+      "adl/.config/nextest.toml"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:resp_0db9cfd6d229d16d006a8f6d76679887d08a074998060a2b4d:gpt-5.6-sol",
+    "scope": [
+      ".csdlc/issues/560",
+      ".csdlc/prepared/issues/560",
+      ".csdlc/evidence/560",
+      "adl/.config/nextest.toml"
+    ],
+    "reviewed_revision": "git-blake3:a75e499a75cd4a69c27bd45c4f68f3f7279eb84c:3ad581bb5cc9bb39b71b5093039f37d71d8150f9906c43695a45e539e4ce41c5",
+    "findings": [],
+    "residual_risks": [
+      "OpenAI Responses API exact-head review PASS response resp_0db9cfd6d229d16d006a8f6d76679887d08a074998060a2b4d at commit a75e499a75cd4a69c27bd45c4f68f3f7279eb84c.",
+      "The focused local run completed in about 5 seconds and therefore cannot reproduce hosted contention or prove that the 240-second ceiling is sufficient.",
+      "Full hosted workspace coverage remains the fail-closed integration proof and must pass before merge.",
+      "The timeout override is exact to the three fully qualified test names but is not additionally constrained by package or binary; the recorded run nevertheless selected exactly those three tests across 33 binaries."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9d2365f90eb41f12a5f59284598742a3ce3a2d5577addcb81997b0c51e7f25e8",
+      "values_digest": "37bae8395ca8ca24f55618976dc84d7d199ed4debeaea97becde6136563a6c18",
       "rendered_digest": "70f5c9b2e3b520aac7444595ff1c2671bf5e5b091bc68e84c4a195b285260210",
       "ast_digest": "09021e4f502392feb5e59861355e230f2b5e5d1d23f28cfa8dcac6f7405e76c7"
     },
     "stp": {
-      "values_digest": "2085974b413f38dbfffe9dff59c74e788834688e92d6a0f2e826457db41afb36",
+      "values_digest": "da24c6e8a6b14c56dec0811b57b30fc575146a84553ca9dc3632a73bf5dc8154",
       "rendered_digest": "1ca4c4f432d4d1d4b0f609c7f0494fd54d49950efa61f3e5f296cc2e394183f3",
       "ast_digest": "a0ea2badb5bc379214e09ba7ccf6a83c419600993c2a4bc683274e14bc0406b2"
     },
     "spp": {
-      "values_digest": "1e50a3f003a3efc1f09f51c46874c0ede20830c9a2dbd72cc6eabc56eaa8e894",
+      "values_digest": "db0c798d2f4a62215074d5247b378f4dc4babdb4b60b8d2399a3291a91ba7599",
       "rendered_digest": "95e85914eccbd0424a253960220dbab7a304084973cc4870fdad395eb5fe80c5",
       "ast_digest": "6d54e897c7c4af1506fa0fb4418316466a2141551c3aef223c56d8d00b74b5fa"
     },
     "vpp": {
-      "values_digest": "cc1d7f9613b03f45b2d8c89ce28d44f33b10ee9c4d50124bb24d26c27f92b8bf",
+      "values_digest": "d9ad09d56412b6afc8cb9d3391df166d0ec976a385be2e820d5ffcfab5fca583",
       "rendered_digest": "423391cde5100cf787b4d98b3426c25835365f5d20e05e383fef6e59cb5fda37",
       "ast_digest": "3af46f3eb7aea69a1813d0e3e0034a619bd30d44bf6b379eb3e81eafd2833bed"
     },
     "srp": {
-      "values_digest": "a30cbd549bb27228cb29d3622edde64f165c3f2c74f5c64a97888a72b6b7ce87",
-      "rendered_digest": "ba38a7b66d3d6b25b9de1327ae8a1dc031c76cb7ac51ef955e097e1ee7a12f6c",
-      "ast_digest": "55b1180bcc8c4d131ca957e3abdd27d4e3a39e8e3dda84bac9127a2d2b99a1d8"
+      "values_digest": "0dfae871ab8312c58d00085f87fe4277085d136df65524cb762a74fbcf1655d2",
+      "rendered_digest": "176a30c30009663ed1a6fe9f50bba41b3a36bdd53cc5c0106cd87f922af37926",
+      "ast_digest": "d8a9e6a3f5986d8c8f7d4360f5fed35cd40ef8b9a1239d4c2609a0750b2df75f"
     },
     "sor": {
-      "values_digest": "8a86f465c630ecaf1d928fb87980d7d1d2a71db96105d639689ebe1db972cfb4",
+      "values_digest": "9d3ba843b20c2632fe42eec0941af6090283d99d918835767025bec4f5b5070b",
       "rendered_digest": "a7a0a493feeb2beaa6b5c3bb63dab67c7695a7574828144fe6b42c0d8db7fe60",
       "ast_digest": "59dd1757cdc37a7510f3a7320954093b70196a8222253a47f457dfe9722e3ee5"
     }
@@ -76,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:/root/issue_513_dec_01",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue_513_dec_01",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -134,6 +169,20 @@
       "actor": "codex:/root/issue_513_dec_01",
       "reason": "Update #560 implemented SOR after API-review P2 fix so execution truth records the fully qualified exact nextest selector and rerun evidence.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Stabilized the runtime_v2 unified-kernel workspace coverage gate by granting only the three timed-out fully qualified correlation/drift proofs a bounded ci-coverage nextest timeout override while preserving the default 120s ceiling for unrelated tests.\",\"changes\":[\"Added an exact ci-coverage nextest override for the three fully qualified runtime_v2 unified-kernel tests that timed out at 120s in hosted workspace coverage run 33017588921.\",\"Set the override ceiling to 240s with terminate-after = 1, leaving the profile-wide ci-coverage timeout at 120s for all unrelated tests.\",\"Corrected the override regex and focused proof selector to use fully qualified nextest names so the validation proves the exact override match surface.\",\"Kept Runtime v2 product semantics and test assertions unchanged; the change is instrumentation-aware test/profile scheduling only.\",\"Added issue-owned focused coverage and lifecycle evidence validators for #560.\"],\"artifacts\":[\"adl/.config/nextest.toml\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\",\".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh\",\".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log\",\".csdlc/evidence/560/lifecycle-evidence-hygiene.log\",\".csdlc/evidence/560/diff-hygiene.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\"],\"purpose\":\"Run the issue-owned validator using the same fully qualified exact nextest selector as the ci-coverage override for the three runtime_v2 unified-kernel correlation/drift tests under cargo llvm-cov nextest ci-coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh\"],\"purpose\":\"Verify issue-local lifecycle state and evidence directory exist before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/560/lifecycle-evidence-hygiene.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene drift.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/560/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/issue_513_dec_01",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root/issue_513_dec_01",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
