@@ -1,0 +1,1003 @@
+{
+    "PaginationToken": "",
+    "ResourceTagMappingList": [
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0e1c37b8b950925aa",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630183142"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630183142"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0d4b1eb7765fd8ff3",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701220739"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220739"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-09cfab23732c43a4d",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "strategic-cognitive-reserve"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "scr-archive-relay-sg"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-011d94b6aa33d5239",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5243"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5243-gha-29191264648-1"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29191264648-1"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-09fc52684a96ead6a",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5191"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "issue-5191-proof-1b-c7ff02695"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5191-issue-5191-proof-1b-c7ff02695"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:s3:::codefriend-ai-origin-agentlogic",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "codefriend.ai"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "Terraform"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "production"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:s3:::agent-logic-ai-origin-agentlogic",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "agent-logic.ai"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "Terraform"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "production"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ssm:us-west-2:713332525889:managed-instance/mi-0dd41a2b1cad222a0",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "ADL"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "4113"
+                },
+                {
+                    "Key": "Host",
+                    "Value": "wuji"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0833ffb665cedaf0d",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701220919"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220919"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-01474cd05a7109f1d",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5574"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5574-gha-29700301599-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5574-adl-wp-5574-gha-29700301599-1-adl-ci-and-coverage"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:snapshot/snap-09003211cc2600dff",
+            "Tags": [
+                {
+                    "Key": "adl:source_volume",
+                    "Value": "vol-02e09df3559b64e75"
+                },
+                {
+                    "Key": "adl:retention_reason",
+                    "Value": "private-continuity-receipts"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "268"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-issue268-final-runtime-archive-20260825"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:s3:::scr-agent-logic-ai-origin-agentlogic",
+            "Tags": [
+                {
+                    "Key": "Account",
+                    "Value": "agent-logic"
+                },
+                {
+                    "Key": "Project",
+                    "Value": "strategic-cognitive-reserve"
+                },
+                {
+                    "Key": "Stack",
+                    "Value": "site-origin"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:s3:::agent-logic-podcast-archive-agentlogic",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "CognitiveSpacetime"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "WP-24A"
+                },
+                {
+                    "Key": "Purpose",
+                    "Value": "PodcastStorage"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:codebuild:us-west-2:713332525889:project/adl-codefriend-build",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "ADL"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "4838"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "adl-tools"
+                },
+                {
+                    "Key": "Lane",
+                    "Value": "CodeFriendBuild"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:logs:us-west-2:713332525889:log-group:/aws/apigateway/csm-wuji-dev-runtime-http",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "agent-logic-csm"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "122"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "terraform"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "CsmName",
+                    "Value": "wuji"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0a271b4781cd616e8",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701164941"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701164941"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0e230571cdd126919",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630182225"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630182225"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0d8e37e4f26741263",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701215953"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701215953"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:events:us-west-2:713332525889:event-bus/adl-csm",
+            "Tags": [
+                {
+                    "Key": "adl:milestone",
+                    "Value": "v0.91.7"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5039"
+                },
+                {
+                    "Key": "adl:purpose",
+                    "Value": "csm-api-gateway-bridge"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-052e1b4273335e5f7",
+            "Tags": [
+                {
+                    "Key": "ManagedBy",
+                    "Value": "adl"
+                },
+                {
+                    "Key": "Purpose",
+                    "Value": "aws-remote-validation-debug"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-debug"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-01a98c8e210b62c85",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701214930"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701214930"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:events:us-west-2:713332525889:rule/adl-ec2-instance-age-12h-hourly",
+            "Tags": []
+        },
+        {
+            "ResourceARN": "arn:aws:s3:::agent-logic-strategic-cognitive-reserve-agentlogic",
+            "Tags": [
+                {
+                    "Key": "Account",
+                    "Value": "agent-logic"
+                },
+                {
+                    "Key": "Project",
+                    "Value": "strategic-cognitive-reserve"
+                },
+                {
+                    "Key": "Stack",
+                    "Value": "archive"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:apigateway:us-west-2::/apis/tb485bn6j4/stages/$default",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "agent-logic-csm"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "122"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "terraform"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "CsmName",
+                    "Value": "wuji"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0b7ccf07b35efa40f",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5419"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5419-gha-29477416287-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29477416287-1-adl-ci-and-coverage"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:sns:us-west-2:713332525889:adl-v0917-csm-governed-notice-4998",
+            "Tags": [
+                {
+                    "Key": "adl:milestone",
+                    "Value": "v0.91.7"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4998"
+                },
+                {
+                    "Key": "adl:purpose",
+                    "Value": "csm-governed-notice-proof"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-01df232252551f607",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4921"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp07-4921-spot-20260706"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4921-adl-wp07-4921-spot-20260706"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ssm:us-west-2:713332525889:managed-instance/mi-0538c965d11eae809",
+            "Tags": [
+                {
+                    "Key": "HostRole",
+                    "Value": "runtime-model-host"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "4318"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "nessus"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-05df85829752c6cd6",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630185900"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630185900"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0f71e25c9b6b29862",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260701220612"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260701220612"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-046ff6902fb0f8cc0",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630182718"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630182718"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-063bdaf36c2e3b0d2",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4603"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-aws-remote-20260630193243"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-4603-adl-aws-remote-20260630193243"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:events:us-west-2:713332525889:rule/adl-ebs-unattached-age-5d-daily",
+            "Tags": [
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "adl-ebs-unattached-age-alert"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-west-2:713332525889:stack/adl-ebs-unattached-age-alert/c7192a10-a0a1-11f1-8445-0a1da76cb771"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "DailyRule"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:lambda:us-west-2:713332525889:function:adl-csm-5039-api-gateway-bridge",
+            "Tags": [
+                {
+                    "Key": "adl:milestone",
+                    "Value": "v0.91.7"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5039"
+                },
+                {
+                    "Key": "adl:purpose",
+                    "Value": "csm-api-gateway-bridge"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:apigateway:us-west-2::/apis/8fej3k7qt5",
+            "Tags": [
+                {
+                    "Key": "adl:milestone",
+                    "Value": "v0.91.7"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "5039"
+                },
+                {
+                    "Key": "adl:purpose",
+                    "Value": "csm-api-gateway-bridge"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-003d8cb7246067499",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5419"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5419-gha-29632596016-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29632596016-1-adl-ci-and-coverage"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0535963eaec330b12",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5344"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5344-linux-0c3d5e093e"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-0c3d5e093e"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-08ea8f565ec5d4985",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5191"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5191-aws-spot-20260712094354"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5191-adl-wp-5191-aws-spot-20260712094354"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-09571038c2d412bb2",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5243"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5243-gha-29321998194-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29321998194-1-adl-ci-and-coverage"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-041f08aeea5391e02",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "268"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "issue268-six-hour-r7i-20260819-22"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260819-22"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:acm:us-west-2:713332525889:certificate/8ba373ca-c226-4de3-bfb5-9da44c28f338",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "agent-logic-csm"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "122"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "terraform"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "CsmName",
+                    "Value": "wuji"
+                },
+                {
+                    "Key": "Component",
+                    "Value": "runtime-alb"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "csm-wuji-dev-runtime-alb"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:instance/i-027183bbc454a62e3",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "agent-logic-csm"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "122"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "terraform"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "CsmName",
+                    "Value": "wuji"
+                },
+                {
+                    "Key": "Component",
+                    "Value": "runtime-spot"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "csm-wuji-dev-runtime"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0ef287ea7be2cbdf7",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "268"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "issue268-six-hour-r7i-20260820-38"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260820-38"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0108df7bb1ab37ffd",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "268"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "issue268-six-hour-r7i-20260819-27"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-268-issue268-six-hour-r7i-20260819-27"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:events:us-west-2:713332525889:event-bus/adl-csm-notice-bus-4998",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4998"
+                },
+                {
+                    "Key": "adl:purpose",
+                    "Value": "csm-notice-routing"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:events:us-west-2:713332525889:rule/adl-csm-notice-bus-4998/adl-csm-notice-to-lambda-4998",
+            "Tags": []
+        },
+        {
+            "ResourceARN": "arn:aws:lambda:us-west-2:713332525889:function:adl-ebs-unattached-age-5d-alert",
+            "Tags": [
+                {
+                    "Key": "aws:cloudformation:stack-name",
+                    "Value": "adl-ebs-unattached-age-alert"
+                },
+                {
+                    "Key": "aws:cloudformation:stack-id",
+                    "Value": "arn:aws:cloudformation:us-west-2:713332525889:stack/adl-ebs-unattached-age-alert/c7192a10-a0a1-11f1-8445-0a1da76cb771"
+                },
+                {
+                    "Key": "aws:cloudformation:logical-id",
+                    "Value": "AlertFunction"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:sns:us-west-2:713332525889:adl-v0917-wp08-acip-sns-4685",
+            "Tags": [
+                {
+                    "Key": "adl:milestone",
+                    "Value": "v0.91.7"
+                },
+                {
+                    "Key": "adl:issue",
+                    "Value": "4685"
+                },
+                {
+                    "Key": "adl:purpose",
+                    "Value": "wp08-acip-sns-proof"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0c5c2cdb816a3ee36",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5344"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5344-linux-lifecycle-4a38aa40a"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-lifecycle-4a38aa40a"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0010f099186c8f9eb",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5419"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5419-gha-29470867446-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5419-adl-wp-5419-gha-29470867446-1-adl-ci-and-coverage"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:apigateway:us-west-2::/apis/tb485bn6j4",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "agent-logic-csm"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "122"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "terraform"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "CsmName",
+                    "Value": "wuji"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:cloudformation:us-west-2:713332525889:stack/adl-ebs-unattached-age-alert/c7192a10-a0a1-11f1-8445-0a1da76cb771",
+            "Tags": []
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-0d790aabae60b5d7a",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5344"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5344-linux-79262133a739"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-79262133a739"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:events:us-west-2:713332525889:rule/adl-wp5795-gpu-deadline-reaper",
+            "Tags": []
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-03e9677b1cb483f25",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5243"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5243-gha-29322484555-1-adl-ci-and-coverage"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5243-adl-wp-5243-gha-29322484555-1-adl-ci-and-coverage"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:ec2:us-west-2:713332525889:security-group/sg-03bf9803b091d0bfb",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "5344"
+                },
+                {
+                    "Key": "adl:run_id",
+                    "Value": "adl-wp-5344-linux-lifecycle-222ff2b16"
+                },
+                {
+                    "Key": "Name",
+                    "Value": "adl-aws-remote-validation-sg-5344-adl-wp-5344-linux-lifecycle-222ff2b16"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:events:us-west-2:713332525889:rule/adl-csm/adl-csm-api-gateway-bridge-5039",
+            "Tags": []
+        },
+        {
+            "ResourceARN": "arn:aws:lambda:us-west-2:713332525889:function:adl-csm-notice-receiver-4998",
+            "Tags": [
+                {
+                    "Key": "adl:issue",
+                    "Value": "4998"
+                },
+                {
+                    "Key": "adl:purpose",
+                    "Value": "csm-notice-control-plane"
+                }
+            ]
+        },
+        {
+            "ResourceARN": "arn:aws:s3:::csm-wuji-dev-observatory-assets",
+            "Tags": [
+                {
+                    "Key": "Project",
+                    "Value": "agent-logic-csm"
+                },
+                {
+                    "Key": "Issue",
+                    "Value": "122"
+                },
+                {
+                    "Key": "ManagedBy",
+                    "Value": "terraform"
+                },
+                {
+                    "Key": "Environment",
+                    "Value": "dev"
+                },
+                {
+                    "Key": "CsmName",
+                    "Value": "wuji"
+                }
+            ]
+        }
+    ]
+}

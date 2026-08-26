@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 484,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-A] AWS resource ownership inventory",
+    "slug": "aws-resource-ownership-inventory",
+    "version": "v0.92.1",
+    "generation": 11
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one accepted all-region AWS resource ownership inventory for the approved Agent Logic business AWS account.",
+      "required_outcome": "A reviewed inventory that records the exact approved account and inspected regions, classifies every discovered AWS resource with an owner or frozen-unknown disposition, separates website Terraform and issue evidence ownership, and does not mutate AWS resources.",
+      "declared_scope": [
+        "docs/operations/cloud/aws/inventory/**",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-a/**",
+        ".csdlc/prepared/issues/484/**",
+        ".csdlc/evidence/484/**"
+      ],
+      "authority_boundary": [
+        "Issue #484 owns only read-only AWS resource discovery and ownership inventory truth.",
+        "Issue #485 owns AWS access and billing baseline after this inventory is accepted.",
+        "Issue #486 owns AWS Terraform bootstrap after #485.",
+        "No AWS resource mutation, import, deletion, cleanup, or Terraform apply is authorized by #484."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use the Agent Logic business AWS profile, not a personal/default profile.",
+        "Do not print, copy, commit, or expose AWS credential material.",
+        "Use only read-only AWS discovery commands.",
+        "Keep work in a bound FastWork issue worktree before tracked implementation edits.",
+        "Obtain fresh exact-head review before publication."
+      ]
+    }
+  }
+}
