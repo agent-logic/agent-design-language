@@ -82,7 +82,7 @@ Diagram: .csdlc/prepared/issues/482/diagram.mmd
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Prove diff hygiene for CORP-A.",
+    "proof_role": "Prove full branch diff hygiene for CORP-A.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -95,6 +95,7 @@ Diagram: .csdlc/prepared/issues/482/diagram.mmd
     "argv": [
       "git",
       "diff",
+      "main...HEAD",
       "--check"
     ],
     "parallel_group": "issue-local",
@@ -117,7 +118,7 @@ Tokens: 25000
 - `ruby .csdlc/prepared/issues/482/validate-asset-denominator.rb`
 - `ruby .csdlc/prepared/issues/482/validate-provenance-and-license.rb`
 - `ruby .csdlc/prepared/issues/482/validate-redaction-and-custody.rb`
-- `git diff --check`
+- `git diff main...HEAD --check`
 
 ## Failure Semantics
 

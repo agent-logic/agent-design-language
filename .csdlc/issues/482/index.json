@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "5f51adfee9f618eb1bbaf92c6f9729b4e9ab8013f7e7a990ec97b4c030ecaad1",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "e23526958257310a8832c3b228b5c47ca6be80701746211d831055ea81b05409",
+  "generation": 6,
+  "digest": "28239433d59a86acaa3bdf2f88e3c53c2a305ab9e0ff8d04d94e12c7b089cd83",
   "branch": "codex/482-v0-92-1-corp-a-critical-asset-schedule",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-482-corp-a-critical-asset-schedule",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fbd8f699a71737c4d4a59c26cb895d18553de5106ef36c619209ef5ce2902691",
+      "values_digest": "e84782c9ec4c60a8b1a945934ae369e5fb085a5ad50a4ea6216552fe38b99e26",
       "rendered_digest": "f9f8cc2d6d02c94e69999ca3c38d881957da1bcd711a4beba5af203947249cf2",
       "ast_digest": "d1957414fe5237159623b932cb0d711ac199ed76f6816df7296dbd8fefb1626f"
     },
     "stp": {
-      "values_digest": "8581ef29f5ee5be23e26ffe80419de1ccb5ecf66931fd7ea0c4f598cb90aad69",
+      "values_digest": "44b816f63c56decf7a919707482db3d9785867897e1927f5291ab6c1f60047e9",
       "rendered_digest": "d3637f737539f839b080d83bfdf0e55bfb804b891c3be4eed189d4970fe89a35",
       "ast_digest": "c2fcbd3809ef78c52edd8fc837ab9113ade5d90bf1597a0a4b66d3ebb65a0517"
     },
     "spp": {
-      "values_digest": "14f6706a20ef4bffd05845f4a2cd7aa74ab9ecd1c78c0d1c24d36d2997cbc9b8",
+      "values_digest": "c0907196f98652a5fba78f35f8aba938ad8793006f338878d5e191ecc8201c30",
       "rendered_digest": "213208f98ce766497bf38088df8ea0717494a72e6d3ea3c4ef016fa2aacc9ca2",
       "ast_digest": "ed39be0397f09d95accfe187e34e69a78f128ea1c52d56107150b487bb7b8c15"
     },
     "vpp": {
-      "values_digest": "a459fca166f13aff117c06f77b4a144b663e26835bda50e4830f824c0ef36717",
-      "rendered_digest": "8084ceb9c3b773da2966537abacbf506cab0e0f0a29b6af2962d8f757814f80f",
-      "ast_digest": "31eca5e40829415eb2b69cc5a2c280f0cb068d30cfc3fcd2fbe36c02d6882489"
+      "values_digest": "8d0d69fdbf85d79a84c6e7fc01312e523b241827d60472620f01f417a314c9fd",
+      "rendered_digest": "c3723205e4fbb61c4500880cbab075c6576268584dfe3cd4e3ff635e8fb2f5a2",
+      "ast_digest": "1488461af57329f86082eefa4b51ab613f3763211c99a07f9cd4e98d4632cb7b"
     },
     "srp": {
-      "values_digest": "3364c2cfa793e3aa1699746ddeda01863d65c65436e1759efd67513f6131b46a",
+      "values_digest": "e504cb292204bd6fcb30c2736858a88aa53a665224e357ae392248f03d6ce353",
       "rendered_digest": "1da20f1b55775b01669c1b38e206edff4e8b63a8f026cbaebda5abca55ec1167",
       "ast_digest": "d0faef90d17faf9376acf2edbd8846500c42b3b933df4720a14311bfe2ef3e8e"
     },
     "sor": {
-      "values_digest": "13423b8b47f29aabc025f3495e6fcf5d3df6a78005e44824a1b390d55e207bdc",
-      "rendered_digest": "2c6e38d0aee691239a91dc423a44c27ca31938c9dc7e3c8a226e6d821afa866a",
-      "ast_digest": "250eb5768c01627e8f9afd15f849d904244c7fe6cdc68cb9ccdb88ab9fbf118f"
+      "values_digest": "dbcfe1cfdc3087fee18962301f996beb546af21e16d5d9a669cf9e2e47638127",
+      "rendered_digest": "f3553308ee69c06a9b9c8ecd1257edb3758afe9ba41002962d9ed92ca863435d",
+      "ast_digest": "828fe65314714aba6c678da4ae667c251df6e61da42381bd9a11af71d4f790b9"
     }
   },
   "transitions": [
@@ -126,6 +126,20 @@
       "actor": "codex:issue-482-corp-a-execution",
       "reason": "Recover after fresh-session:codex-482-corp-a-review-r1 found non-proving diff-hygiene evidence and tracked empty lock residue; repair proof and scope before assigning a different fresh exact reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "Repair R1 finding: make diff hygiene prove the full #482 branch diff against main rather than only the current working-tree diff.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"asset-denominator\",\"proof_role\":\"Prove asset denominator for CORP-A.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1800,\"argv\":[\"ruby\",\".csdlc/prepared/issues/482/validate-asset-denominator.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"provenance-and-license\",\"proof_role\":\"Prove provenance and license for CORP-A.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1800,\"argv\":[\"ruby\",\".csdlc/prepared/issues/482/validate-provenance-and-license.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"redaction-and-custody\",\"proof_role\":\"Prove redaction and custody for CORP-A.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1800,\"argv\":[\"ruby\",\".csdlc/prepared/issues/482/validate-redaction-and-custody.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove full branch diff hygiene for CORP-A.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1800,\"argv\":[\"git\",\"diff\",\"main...HEAD\",\"--check\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "Repair R1 finding: record the full-branch diff-hygiene proof and scope cleanup in SOR execution truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the CORP-A critical-asset schedule as documentation/evidence-only custody truth with accepted ownership, licensing, trademark, assignment, provenance, redacted custody, and validation surfaces.\",\"changes\":[\"Added a machine-readable critical-asset schedule covering the accepted CORP-A corporate asset denominator.\",\"Added redacted custody receipts for every asset row without repository credential, private-instrument, tax, payment, or recovery-material payloads.\",\"Added a reviewer-facing Markdown schedule that summarizes owner, custodian, assignment, license, trademark, provenance, receipt, and validation routing.\",\"Implemented focused issue-local validators for denominator coverage, provenance/licensing/trademark routing, redaction/custody integrity, and full branch diff hygiene.\",\"Recovered the first exact-review findings by removing trailing Markdown whitespace, excluding the empty lock from the tracked deliverable, and strengthening diff hygiene to `git diff main...HEAD --check`.\"],\"artifacts\":[\"docs/operations/corporate/asset-register/critical-asset-schedule.v1.json\",\"docs/operations/corporate/asset-register/critical-asset-schedule.md\",\"docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json\",\".csdlc/prepared/issues/482/validate-asset-denominator.rb\",\".csdlc/prepared/issues/482/validate-provenance-and-license.rb\",\".csdlc/prepared/issues/482/validate-redaction-and-custody.rb\",\".csdlc/issues/482\",\".csdlc/prepared/issues/482\",\".csdlc/evidence/482\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-asset-denominator.rb\"],\"purpose\":\"Prove the critical-asset schedule covers every declared CORP-A asset class exactly once with accepted rows and matching custody receipts.\",\"outcome\":\"passed\",\"evidence_ref\":\"asset-denominator.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-provenance-and-license.rb\"],\"purpose\":\"Prove every asset row records source provenance, evidence refs, licensing route, trademark route, assignment acceptance, and Markdown visibility.\",\"outcome\":\"passed\",\"evidence_ref\":\"provenance-and-license.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-redaction-and-custody.rb\"],\"purpose\":\"Prove every asset row has an accepted redacted custody receipt and that schedule evidence avoids obvious sensitive keys and private credential payload patterns.\",\"outcome\":\"passed\",\"evidence_ref\":\"redaction-and-custody.log\"},{\"command\":[\"git\",\"diff\",\"main...HEAD\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift across the full #482 branch diff against main.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
     }
   ]
 }

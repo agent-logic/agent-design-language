@@ -24,13 +24,15 @@ Completed the CORP-A critical-asset schedule as documentation/evidence-only cust
 - .csdlc/prepared/issues/482/validate-redaction-and-custody.rb
 - .csdlc/issues/482
 - .csdlc/prepared/issues/482
+- .csdlc/evidence/482
 
 ## Execution
 
 - Added a machine-readable critical-asset schedule covering the accepted CORP-A corporate asset denominator.
 - Added redacted custody receipts for every asset row without repository credential, private-instrument, tax, payment, or recovery-material payloads.
 - Added a reviewer-facing Markdown schedule that summarizes owner, custodian, assignment, license, trademark, provenance, receipt, and validation routing.
-- Implemented focused issue-local validators for denominator coverage, provenance/licensing/trademark routing, redaction/custody integrity, and diff hygiene.
+- Implemented focused issue-local validators for denominator coverage, provenance/licensing/trademark routing, redaction/custody integrity, and full branch diff hygiene.
+- Recovered the first exact-review findings by removing trailing Markdown whitespace, excluding the empty lock from the tracked deliverable, and strengthening diff hygiene to `git diff main...HEAD --check`.
 
 ## Validation
 
@@ -43,16 +45,6 @@ Completed the CORP-A critical-asset schedule as documentation/evidence-only cust
     "purpose": "Prove the critical-asset schedule covers every declared CORP-A asset class exactly once with accepted rows and matching custody receipts.",
     "outcome": "passed",
     "evidence_ref": "asset-denominator.log"
-  },
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Reject whitespace and conflict-marker drift in the documentation/evidence diff.",
-    "outcome": "passed",
-    "evidence_ref": "diff-hygiene.log"
   },
   {
     "command": [
@@ -71,6 +63,17 @@ Completed the CORP-A critical-asset schedule as documentation/evidence-only cust
     "purpose": "Prove every asset row has an accepted redacted custody receipt and that schedule evidence avoids obvious sensitive keys and private credential payload patterns.",
     "outcome": "passed",
     "evidence_ref": "redaction-and-custody.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "main...HEAD",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and conflict-marker drift across the full #482 branch diff against main.",
+    "outcome": "passed",
+    "evidence_ref": "diff-hygiene.log"
   }
 ]
 

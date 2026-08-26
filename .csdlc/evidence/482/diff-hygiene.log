@@ -1,0 +1,1 @@
+CORP-A branch diff hygiene ok: git diff main...HEAD --check
