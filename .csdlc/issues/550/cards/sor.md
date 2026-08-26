@@ -12,19 +12,102 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implemented exact config-owned Observatory origins, applied the same CORS policy to Runtime health, removed the stale HTML Runtime hostname, deployed the reviewed candidate to Wuji with the existing Let's Encrypt identity, and proved both localhost:8000 and trusted :8765 Observatory pages reach Runtime over HTTPS and WSS in Chrome.
 
 ## Artifacts
 
-- none
+- CSMctl
+- demos/html-observatory/app.js
+- demos/html-observatory/runtime-v3.config.json
+- adl-runtime-kernel/src/control.rs
+- adl/tools/test_csmctl_observatory_origins.sh
+- .csdlc/evidence/550/live-wuji/browser-proof.json
 
 ## Execution
 
-- none
+- CSMctl validates, canonicalizes, and deterministically emits empty, localhost-only, public-only, or combined exact origins.
+- The HTML Observatory reads its trusted Runtime host from runtime-v3.config.json and rejects arbitrary, insecure, credentialed, path, and query targets.
+- Runtime /v1/health now enforces the same configured-origin CORS behavior as /v1/ready and /v1/observatory.
+- The Wuji service uses one stable service-owned static directory and the existing externally issued wuji.dev.csm.agent-logic.ai certificate; no self-signed certificate or browser bypass was added.
+- A local exact-host DNS alias avoids router hairpin while preserving hostname and certificate validation.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/550/validate-csm-origin-generation.sh"
+    ],
+    "purpose": "Execute valid and invalid CSM origin generation cases.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-550-origin-generation"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "control",
+      "observatory_cors_allows_only_configured_origins_and_reports_canonical_port"
+    ],
+    "purpose": "Prove configured and forbidden Origin behavior on Runtime health.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-550-runtime-health-cors"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss"
+    ],
+    "purpose": "Preserve Runtime API and WSS configuration contracts.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-550-runtime-api-wss"
+  },
+  {
+    "command": [
+      "node",
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
+    ],
+    "purpose": "Prove config-owned trusted host selection and adversarial rejection.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-550-html-trust"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/550/validate-shell-and-diff.sh"
+    ],
+    "purpose": "Prove shell syntax and diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "local:issue-550-hygiene"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/550/validate-live-wuji.sh"
+    ],
+    "purpose": "Prove live Runtime endpoint and exact localhost CORS responses.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/550/live-wuji/browser-proof.json"
+  },
+  {
+    "command": [
+      "Google Chrome",
+      "headless trusted-TLS and WSS proof",
+      "localhost:8000 and wuji:8765"
+    ],
+    "purpose": "Prove both real browser surfaces reach ready Runtime and connected secure WebSocket without certificate bypass.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/550/live-wuji/browser-proof.json"
+  }
+]
 
 ## Integration
 

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
-  "phase": "bound",
-  "generation": 7,
-  "digest": "32eb51defbd9eea4a767328bbfc16b03899785d93bb14508459dad24e7df9ca5",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "eafec4013510f9832fc6e9456f9852a14211ce2b94c7a253f93b218e8d600ec0",
   "branch": "codex/550-runtime-trusted-observatory-origin",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "89cad0e1fad3b188c244ef00c6949ee29e1903f1e99c82cf924b222643865a95",
+      "values_digest": "140feb99a7a8c73352d4e92b1bcfaa1f29d07dc2d66ed690cf8f02373d85f62a",
       "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
       "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
     },
     "stp": {
-      "values_digest": "e46b67412eda9924be88e79c4592d284ec82e969a4ad3f8a407a31b1fedf4d83",
+      "values_digest": "f77fcdc6762c0b5f622fdbba92c04a11cb633eaaac4f86b08b5bbc6d664ec8cc",
       "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
       "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
     },
     "spp": {
-      "values_digest": "9b051d6b139086fa2c9593eea8388d4e4558db02ac72adea567021a80d882b7f",
-      "rendered_digest": "dfa2bc01e6c591c777a53de816c87edb2e9809e29a4ef4dea5edc1fd06782d69",
-      "ast_digest": "b6aa467e43b04b5986b20e4bc75c0aedeba55bf5afeed177adbc25b6e1113ba3"
+      "values_digest": "e65a7f892f3d55aed03fae4ca8b5efd06698d38fe5e165d0d16e39a5ad9a77e8",
+      "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
+      "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
     },
     "vpp": {
-      "values_digest": "33aa731d10ed71d96d8cd4e34754c4b3ee1fea66122426994889f1325f73cf67",
+      "values_digest": "ff2695ab5f2ad63c5e0bdb13c9aa59c8be54a6533da51748bc91d7566f941492",
       "rendered_digest": "633f20ccd3ca93af8c4a069c48ade2f19a969949c6b0237c2409a670a8cb2728",
       "ast_digest": "37e87122084d4b8533885aecd7093a3381d9ea61ba222fbde795bc6131f9c8c1"
     },
     "srp": {
-      "values_digest": "69d47ce6fdbe731936989bb8035f456370c953648fb235a429aa72857a1444bd",
+      "values_digest": "1567bd88987a8f6ab478d1c9a26552830b532dcc0376a04426b1015bcf2cb26d",
       "rendered_digest": "b3d31d00a2aa14972eb7c43464338ba77712807dc63712b37cebd9cf6f5dee04",
       "ast_digest": "2271c610b26360f16a2b1d76eab4633e59810ebb758e46ec311b5b1e5ab29ca8"
     },
     "sor": {
-      "values_digest": "f7a0d4df36a0c27a1c017bb900b2665a948288697cef9c7588b8c987c11dd38f",
-      "rendered_digest": "b67efc6793290fe228cbf567bee0f97800e0971d5af247708050963573c3231b",
-      "ast_digest": "eefef1633721bcff9390b100cc909c214236a854090d864115a1235acf132533"
+      "values_digest": "afd83750666827047b4a26f298df691d885f6d140c5ddc66bc935fdb62284c2e",
+      "rendered_digest": "29732dcbbebf1ab30a31f089bdb876ec831fdf2385ed1b4f05875bc3a1fcc84b",
+      "ast_digest": "92ff88330952165deb12e4ada8d37c23bc0d46cf7de5bb66aa0b011a2aa8d926"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -134,6 +141,55 @@
       "actor": "codex:/root",
       "reason": "Keep the portable owner validation runner visible in the executable validation plan.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"CSMctl\",\"docs/tooling/CSMctl.conf.example\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl/tools/test_csmctl_observatory_origins.sh\",\"adl/tools/run_owner_validation_lane.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\",\".csdlc/prepared/issues/550\",\".csdlc/evidence/550\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "The issue is bound from current main and the trusted-origin delta is isolated on the issue branch.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Exact public-origin validation is canonicalized and executable valid and invalid generation cases pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "The HTML Observatory trusts the config-owned Wuji Runtime host and adversarial host cases fail closed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Runtime health now enforces the configured-origin CORS policy and all three live browser-read endpoints pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Focused source tests, shell and diff hygiene, live Wuji TLS/CORS probes, and real Chrome HTTPS/WSS proof pass for both Observatory origins.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Record the completed trusted-origin implementation, focused proof, and live Wuji browser result before final review and publication.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented exact config-owned Observatory origins, applied the same CORS policy to Runtime health, removed the stale HTML Runtime hostname, deployed the reviewed candidate to Wuji with the existing Let's Encrypt identity, and proved both localhost:8000 and trusted :8765 Observatory pages reach Runtime over HTTPS and WSS in Chrome.\",\"changes\":[\"CSMctl validates, canonicalizes, and deterministically emits empty, localhost-only, public-only, or combined exact origins.\",\"The HTML Observatory reads its trusted Runtime host from runtime-v3.config.json and rejects arbitrary, insecure, credentialed, path, and query targets.\",\"Runtime /v1/health now enforces the same configured-origin CORS behavior as /v1/ready and /v1/observatory.\",\"The Wuji service uses one stable service-owned static directory and the existing externally issued wuji.dev.csm.agent-logic.ai certificate; no self-signed certificate or browser bypass was added.\",\"A local exact-host DNS alias avoids router hairpin while preserving hostname and certificate validation.\"],\"artifacts\":[\"CSMctl\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"adl-runtime-kernel/src/control.rs\",\"adl/tools/test_csmctl_observatory_origins.sh\",\".csdlc/evidence/550/live-wuji/browser-proof.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\"],\"purpose\":\"Execute valid and invalid CSM origin generation cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-origin-generation\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"observatory_cors_allows_only_configured_origins_and_reports_canonical_port\"],\"purpose\":\"Prove configured and forbidden Origin behavior on Runtime health.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-runtime-health-cors\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Preserve Runtime API and WSS configuration contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-runtime-api-wss\"},{\"command\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"purpose\":\"Prove config-owned trusted host selection and adversarial rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-html-trust\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\"],\"purpose\":\"Prove shell syntax and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-hygiene\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\"],\"purpose\":\"Prove live Runtime endpoint and exact localhost CORS responses.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/550/live-wuji/browser-proof.json\"},{\"command\":[\"Google Chrome\",\"headless trusted-TLS and WSS proof\",\"localhost:8000 and wuji:8765\"],\"purpose\":\"Prove both real browser surfaces reach ready Runtime and connected secure WebSocket without certificate bypass.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/550/live-wuji/browser-proof.json\"}]}"
     }
   ]
 }
