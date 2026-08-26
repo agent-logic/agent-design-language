@@ -66,11 +66,11 @@ Stabilized the runtime_v2 unified-kernel workspace coverage gate by granting onl
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
