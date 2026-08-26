@@ -1,7 +1,7 @@
 {
   "assigned_by": "codex:sprint-1-issue-499-worker",
-  "expected_digest": "a35a105008ace69a3a99870fd96fd2ad64bbef05baa294e2283df06deee9b3e9",
-  "expected_generation": 4,
+  "expected_digest": "2e37b3b86c731b0143a7fd8856d07ec48557279e16a2e70a78440bf423fb1007",
+  "expected_generation": 6,
   "issue": 499,
   "reviewer": "gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b",
   "scope": [
