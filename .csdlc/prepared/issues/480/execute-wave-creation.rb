@@ -329,7 +329,8 @@ def assert_no_conflicts!(plan)
     candidates = census.select { |issue| issue["title"] == entry.fetch(:title) || issue["title"].include?("[#{id}]") || issue["body"].include?(marker) || issue["body"].include?(planned_identity) || issue["body"].include?(entry.fetch(:operation_key)) }
     candidates.reject! do |issue|
       issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"] == "closed" &&
-        issue["title"] == "[v0.92.1][INT-01] Run integrated independent review and remediation" && !issue["body"].include?(entry.fetch(:operation_key))
+        issue["title"] == "[v0.92.1][INT-01] Run integrated independent review and remediation" &&
+        !issue["body"].include?(entry.fetch(:operation_key)) && !issue["body"].include?(planned_identity)
     end
     allowed = observed[id]&.fetch("issue", nil)
     candidates.reject! { |issue| issue["number"] == allowed }
@@ -359,7 +360,7 @@ def update_partial(ids)
   observed = observed_children
   ordered = ids.map { |id| observed[id] }.compact
   next_absent = ids.find { |id| !observed.key?(id) }
-  journal = Dir.glob(File.join(OPERATIONS, "*.json")).sort.map do |path|
+  journal = (Dir.glob(File.join(OPERATIONS, "*.json")) + Dir.glob(File.join(REQUESTS, "*.json"))).sort.map do |path|
     [File.basename(path), Digest::SHA256.file(path).hexdigest]
   end
   replace_json(PARTIAL_PATH, {
@@ -433,6 +434,20 @@ def reconcile_existing(issue)
     puts JSON.pretty_generate(retained)
     return
   end
+  if File.file?(intent_path)
+    retained_intent = JSON.parse(File.read(intent_path))
+    if retained_intent["kind"] == "existing_verify"
+      abort "stale existing no-op intent" unless retained_intent["planning_digest"] == planning_digest && retained_intent["issue"] == issue && retained_intent["live_before_sha256"] == Digest::SHA256.hexdigest(JSON.generate(live_before))
+      create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "existing_verify", issue: issue,
+                                   planning_digest: planning_digest, live_issue: live_before })
+      puts JSON.pretty_generate(live_before)
+      return
+    end
+    abort "stale existing route intent" unless retained_intent["planning_digest"] == planning_digest && retained_intent["issue"] == issue &&
+      retained_intent["operation_key"] == row[:operation_key] && retained_intent["request_fingerprint"] == canonical_request_fingerprint(retained_intent.fetch("request")) &&
+      retained_intent.dig("request", "title") == row[:title] && retained_intent.dig("request", "labels") == row[:labels] &&
+      retained_intent.dig("request", "milestone") == 1 && retained_intent.dig("request", "operation_key") == row[:operation_key]
+  end
   if !File.file?(intent_path) && live_before["title"] == row[:title] && live_before["labels"] == row[:labels] && live_before["milestone"] == row[:milestone]
     create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_verify", issue: issue,
                                planning_digest: planning_digest, live_before_sha256: Digest::SHA256.hexdigest(JSON.generate(live_before)) })
@@ -470,6 +485,7 @@ def reconcile_existing(issue)
   end
   abort "existing route live state is neither retained preimage nor exact postimage ##{issue}" unless live_before == retained_intent.fetch("preimage")
   replace_json(request_path, request)
+  assert_no_conflicts!(plan)
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
   expected_body = append_marker(request.fetch(:body), row[:operation_key])
@@ -557,6 +573,7 @@ def create_child(id)
     puts JSON.pretty_generate(packet)
     return
   end
+  assert_no_conflicts!(plan)
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
   expected_body = append_marker(body, entry.fetch(:operation_key))

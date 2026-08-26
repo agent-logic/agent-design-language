@@ -13,6 +13,8 @@ SPEC_PATH = File.join(MILESTONE, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
 CATALOG_PATH = File.join(MILESTONE, "PLANNED_ISSUE_CATALOG_v0.92.1.md")
 READINESS_PATH = File.join(MILESTONE, "WP_EXECUTION_READINESS_v0.92.1.md")
 FINAL_RECEIPT = File.join(MILESTONE, "evidence/wp-01/final-creation-receipt.json")
+OPERATIONS = File.join(MILESTONE, "evidence/wp-01/operations")
+REQUESTS = File.join(MILESTONE, "evidence/wp-01/requests")
 EXPECTED_EXISTING = [51, 84, 122, 251, 261, 262, 263, 264, 342, 345].freeze
 EXCLUDED = [269].freeze
 REPOSITORY = "agent-logic/agent-design-language"
@@ -191,6 +193,11 @@ def validate_live(plan)
       row["milestone"] == 1
   end
   errors << "final receipt lacks independent-live flag" unless receipt["live_verified"] == true
+  journal = (Dir.glob(File.join(OPERATIONS, "*.json")) + Dir.glob(File.join(REQUESTS, "*.json"))).sort.map do |path|
+    [File.basename(path), Digest::SHA256.file(path).hexdigest]
+  end
+  errors << "operation journal root mismatch" unless receipt["journal_root_sha256"] == Digest::SHA256.hexdigest(JSON.generate(journal))
+  errors << "child operation receipt denominator mismatch" unless Dir.glob(File.join(OPERATIONS, "*-observed.json")).count { |path| JSON.parse(File.read(path))["kind"] == "child_create" } == 45
   errors << "existing issue verification denominator mismatch" unless receipt["existing_issues_verified"] == EXPECTED_EXISTING
   existing_rows = receipt.fetch("existing_issues", [])
   errors << "existing live row denominator mismatch" unless existing_rows.map { |row| row["issue"] } == EXPECTED_EXISTING
@@ -254,7 +261,8 @@ def validate_live(plan)
       end
       matches.reject! do |issue|
         issue["number"] == HISTORICAL_TITLE_PROVENANCE[id] && issue["state"].to_s.downcase == "closed" &&
-          issue["title"] == "[v0.92.1][INT-01] Run integrated independent review and remediation" && !issue.fetch("body", "").include?(operation_key)
+          issue["title"] == "[v0.92.1][INT-01] Run integrated independent review and remediation" &&
+          !issue.fetch("body", "").include?(operation_key) && !issue.fetch("body", "").include?(planned_identity)
       end
       errors << "live census ambiguity for #{id}" unless matches.map { |issue| issue["number"] } == [row["issue"]]
     end
