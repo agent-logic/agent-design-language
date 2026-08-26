@@ -5,21 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f6c582c5700e044ffef21116ae636bbd9ebdb8120a91c5805a887231557c4680",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "c32599009ba08c615b3d1470a23873cee59c3e335020e7b70773c77198bbe20b",
+  "generation": 14,
+  "digest": "3c5748da1aaabfbfd429a61a50874f66c4224c977bb12c00a081f3009a4a788e",
   "branch": "codex/480-v0921-wp01-execution-wave",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-480-v0921-wp01-execution-wave",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_480_final",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:0d005ad0e6e6aa12dbf06e005f64810b84ee667c:1ed0b80c1604c91dd95fe7fe8387cce8d483a0cc23b1f5f4193469ab264ec80e",
-    "scope": [
-      ".csdlc/issues/480",
-      ".csdlc/prepared/issues/480/create-sprint-umbrellas.rb",
-      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
-      "docs/milestones/v0.92.1/evidence/wp-01"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c3b15ebccc704e7185ab3c710e42025e02def475f2239709dc25eeedb68edd3c",
+      "values_digest": "59855e67f5c5d5eda636329fa60ed7db1a47311ca1e6bf52dbf1f6ebdb08d9ca",
       "rendered_digest": "5ec5d5d22db98fcc3f7bcd86d4fd53a6efaf01df8e80e81abaebfc9dc0a34063",
       "ast_digest": "aa12ccd926f12add74930004aa60c2b20837df2bee29015bbff8229e728d0691"
     },
     "stp": {
-      "values_digest": "96b21cd85bc61935fb84d34420c322824f8165297b074e2a56e70dcf5d57c26d",
+      "values_digest": "b9a1166ca4df2336371c7f0b42971f05bd2ed3d23c5baa1147eba48e74c7bdd0",
       "rendered_digest": "6f691ebb3200563531fa1c881343ef091cb5e9d250a393987e742f992a442d88",
       "ast_digest": "96b3b295648c2402e96cfa0d4c826d933e256226450f2ac8ada40e409ab0a610"
     },
     "spp": {
-      "values_digest": "b5525aae601b9df4b67c94493b07e8785f2e49ca00e4e7421071ed2f30f9549a",
+      "values_digest": "329b269672e26280d06e69b9fe13165ac7be0ac69cf15a7928c187ed6ebde57e",
       "rendered_digest": "1c6e1342b6cb60ee57531fcf0c59868f4031811c4a4717f0dd2607443580ca00",
       "ast_digest": "7c559ebbcd9e0eb3eeebe50ba2d120c1409f69796b46e896a9d14c93917a2514"
     },
     "vpp": {
-      "values_digest": "e1168d3e8cc62c3978f091ab8d2ec368814efd14299e66fc9f63a47d999a96f3",
+      "values_digest": "0f6dbbbef53e1d223059660c996781d711529160b06128e330b4a35d6efa1bff",
       "rendered_digest": "5ba96d32ec4999b579ebc0374889f798a2d532b2db05aca6988f2bdfb482a7a0",
       "ast_digest": "4a163e4a211be4450582effd07600b0765b86613d2001d101e510d2ea826fded"
     },
     "srp": {
-      "values_digest": "3b8d6fed60298ab14b48819ac18758be1bc77badf9234dd9d846fea50f96fe81",
-      "rendered_digest": "046484b345717ae82f657c4ade71eee446d23dd3d45a6da8ba2e8dffec988eb6",
-      "ast_digest": "86c07eb6ef9c3916b7b31bfa7451ae79dd65cef197a6389c3e3e19e39a6c11cc"
+      "values_digest": "2162afe6f75f61040a27f55d098a89408c1b940793a61dd74ee0ce15884a420f",
+      "rendered_digest": "116c65bec130b67fd918d57b381061eff452b234d02482803a07487dba013245",
+      "ast_digest": "ae11422532f2b7e8eae0b9b8ae021c81db9a42e9525cfc0bc4b93525cd2edc16"
     },
     "sor": {
-      "values_digest": "7b5548dd179f5606f825e4a9f5171e8d349b13e3530d125384b77d4d4d36362b",
-      "rendered_digest": "bada7a7dd30ab605ebea89a4f23e3a0cda4e5d9b82151b1d47c52539f980b8fa",
-      "ast_digest": "f82b5a8a5340d4eb86650f3d42a4fa727eae3d45d9475f4586a5e12b1f05bd23"
+      "values_digest": "70f5b76975065c1bb99907d7c9c6e1ffd0b59e648e7e681c60ae18b95d953fb8",
+      "rendered_digest": "7f116495bc7a1a305731edd439ba97b4267b1009116f99886b8375006ff33016",
+      "ast_digest": "e8110bd53413851e90c6cfcd493430f665d41316b3b0db4fc428a50b15b56c35"
     }
   },
   "transitions": [
@@ -221,6 +211,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover the umbrella review assignment to replace one inaccurate SOR validation command with the actual read-only proof commands.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Replace the inaccurate umbrella validation command with the actual read-only wave and umbrella validators.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Opened v0.92.1 with exactly 45 bounded work issues, reconciled 10 existing authorities, and added 11 updateable Sprint coordination umbrellas.\",\"changes\":[\"Created the exact ordered 45-child v0.92.1 issue wave from CORP-A through TAIL-10.\",\"Reconciled existing issues #51, #84, #122, #251, #261-#264, #342, and #345 without duplicate creation.\",\"Created Sprint 1 through Sprint 11 umbrellas as #529 through #539 with versioned, reasoned, updateable membership.\",\"Kept child implementation independent and typed finish/worktree cleanup asynchronous and non-gating.\",\"Retained deterministic create/update requests, observed results, recovery receipts, live census, and final receipts without machine-local credentials or binary paths.\"],\"artifacts\":[\"docs/milestones/v0.92.1/SPRINT_v0.92.1.md\",\"docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json\",\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-receipt.json\",\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json\",\".csdlc/prepared/issues/480/create-sprint-umbrellas.rb\",\".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb\",\".csdlc/prepared/issues/480/validate-wave-creation.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/480/validate-wave-creation.rb\",\"all\"],\"purpose\":\"Validate the unchanged exact 45-child planning digest, live issue denominator, existing reconciliations, and final receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/wp-01/final-creation-receipt.json\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb\"],\"purpose\":\"Validate 11/11 unique live umbrellas, current membership version and reason, exact members, result hashes, and portable typed owner resolution.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v3-receipt.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed diff and whitespace errors.\",\"outcome\":\"passed\",\"evidence_ref\":\"working tree at corrected implementation head\"}]}"
     }
   ]
 }
