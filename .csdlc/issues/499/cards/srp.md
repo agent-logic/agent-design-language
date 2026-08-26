@@ -33,7 +33,7 @@ publication hygiene for extracted modules and validators
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:1b24911535a81e8b8ea831b6ed65280b056bc331:f15743a43c8aacd1ba9dfef5087a9c7f64f170eab07a753c04e6049cc5eb336c",
+    "fix_revision": "git-blake3:39af22446b3d3d7da2b2e6926c48937f4e954fb5:c75a29027e4007c4a7ff7860b226d2367eb3db7c25f4929c1e025de90b35f53b",
     "route": null
   },
   {
@@ -43,7 +43,7 @@ publication hygiene for extracted modules and validators
     "actionable": true,
     "in_scope": true,
     "disposition": "fixed",
-    "fix_revision": "git-blake3:1b24911535a81e8b8ea831b6ed65280b056bc331:f15743a43c8aacd1ba9dfef5087a9c7f64f170eab07a753c04e6049cc5eb336c",
+    "fix_revision": "git-blake3:39af22446b3d3d7da2b2e6926c48937f4e954fb5:c75a29027e4007c4a7ff7860b226d2367eb3db7c25f4929c1e025de90b35f53b",
     "route": null
   }
 ]
@@ -58,7 +58,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:1b24911535a81e8b8ea831b6ed65280b056bc331:f15743a43c8aacd1ba9dfef5087a9c7f64f170eab07a753c04e6049cc5eb336c")
+Revision: Some("git-blake3:39af22446b3d3d7da2b2e6926c48937f4e954fb5:c75a29027e4007c4a7ff7860b226d2367eb3db7c25f4929c1e025de90b35f53b")
 
 Reviewer: Some("gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b")
 
