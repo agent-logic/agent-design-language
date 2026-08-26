@@ -16,3 +16,4 @@
 {"sequence":16,"generation":10,"actor":"codex-root","reason":"Current origin/main was merged into PR #549 to pick up the shared CI timeout/coverage repair after the published Responses API review. The #514 provider-profile diff remains bounded, but the exact clean head changed, so typed review recovery is required before republishing.","operation":"recover_review"}
 {"sequence":17,"generation":10,"actor":"codex-root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":18,"generation":11,"actor":"openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":19,"generation":12,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
