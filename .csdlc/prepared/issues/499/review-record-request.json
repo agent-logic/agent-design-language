@@ -1,0 +1,42 @@
+{
+  "actor": "codex:sprint-1-issue-499-worker",
+  "evidence": {
+    "completed": true,
+    "findings": [
+      {
+        "actionable": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
+        "id": "review-p1-untracked-extracted-modules",
+        "in_scope": true,
+        "route": null,
+        "severity": "p1",
+        "summary": "Initial review found extracted resilience modules and validators were untracked and absent from git diff; fixed by staging and committing the full intended diff at c3426c10ddf3c697bf06c7f7322529461e89aaa8."
+      },
+      {
+        "actionable": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
+        "id": "review-p3-api-parity-method-coverage",
+        "in_scope": true,
+        "route": null,
+        "severity": "p3",
+        "summary": "Initial review found the API parity validator omitted public inherent methods; fixed by checking 9 public inherent methods in addition to 83 top-level declarations and rerunning the validator successfully."
+      }
+    ],
+    "residual_risks": [
+      "Focused local validation passed; broader workspace integration remains deferred to PR CI."
+    ],
+    "reviewed_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
+    "reviewer": "gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b",
+    "scope": [
+      "adl/src/resilience.rs",
+      "adl/src/resilience/*.rs",
+      ".csdlc/prepared/issues/499/validate-*.rb",
+      "publication hygiene for extracted modules and validators"
+    ]
+  },
+  "expected_digest": "961f493b7782ca314a70beed95a3fc778bb0ef8e6709a6fa1c42fc6b2fbd9f87",
+  "expected_generation": 4,
+  "issue": 499
+}

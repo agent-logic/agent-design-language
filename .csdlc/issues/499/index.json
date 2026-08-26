@@ -4,13 +4,59 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "893c488a403db6ee28efbc8a41379fe8191f2a33bd0a22e07c26103410cd64e0",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "a35a105008ace69a3a99870fd96fd2ad64bbef05baa294e2283df06deee9b3e9",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "01d0733b92b302e2d3bc26835c4e93fe55240c89ac8ff5d3edf8db5b9474d766",
   "branch": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-499-resilience-owner-boundary-refactoring",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b",
+    "assigned_by": "codex:sprint-1-issue-499-worker",
+    "revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
+    "scope": [
+      "adl/src/resilience.rs",
+      "adl/src/resilience/*.rs",
+      ".csdlc/prepared/issues/499/validate-*.rb",
+      "publication hygiene for extracted modules and validators"
+    ]
+  },
+  "review": {
+    "reviewer": "gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b",
+    "scope": [
+      "adl/src/resilience.rs",
+      "adl/src/resilience/*.rs",
+      ".csdlc/prepared/issues/499/validate-*.rb",
+      "publication hygiene for extracted modules and validators"
+    ],
+    "reviewed_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
+    "findings": [
+      {
+        "id": "review-p1-untracked-extracted-modules",
+        "severity": "p1",
+        "summary": "Initial review found extracted resilience modules and validators were untracked and absent from git diff; fixed by staging and committing the full intended diff at c3426c10ddf3c697bf06c7f7322529461e89aaa8.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
+        "route": null
+      },
+      {
+        "id": "review-p3-api-parity-method-coverage",
+        "severity": "p3",
+        "summary": "Initial review found the API parity validator omitted public inherent methods; fixed by checking 9 public inherent methods in addition to 83 top-level declarations and rerunning the validator successfully.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "fixed",
+        "fix_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Focused local validation passed; broader workspace integration remains deferred to PR CI."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aab965c6641a0803aa68395434dbd882b52f5fd796d9d231d15f51cedbf29e1a",
+      "values_digest": "5e8718a29decc4b16e6f6d22aed6e6659f095f0f4ff7bca81b195c51329043f8",
       "rendered_digest": "d1baf5af8289dae4ed771203e980b494de6918c83588ddad7ce553df0cb6126d",
       "ast_digest": "9c4075ccabbcd57f711f3dfe15cb8dd1c9d066ff5cceb031bee600d254fe7c0a"
     },
     "stp": {
-      "values_digest": "f54e3397c4c8c23d832c21b31d3b9b610c32d0b1988bd525cb52d09c5d9c7afa",
+      "values_digest": "dcdcee93d5ca002e8d8068a5e68a5c436ad846cdbfd08717ce304bed7fcc92a9",
       "rendered_digest": "2bc1124ec3c640c68530fb8289d84c07ae83eb6fb162575e1a80cc2a612020bd",
       "ast_digest": "9519a6c725a963f026bc168371395a1bf63c5984a03dc2bb3a59c1157db37c76"
     },
     "spp": {
-      "values_digest": "55112b5b17fb30233a6967e352934d944e20e089894c5bc0fdf7503773c25508",
+      "values_digest": "5bba19fce8474d5b5002f38d95a5e9275dec475972776070653b9f70a31617f6",
       "rendered_digest": "edfbc9dc36e811cad6ff645370e59af295ef36d476c4b0d1e6169d8e4f90af22",
       "ast_digest": "d1192aca0dd165f492a22bb66b597c99be9cc27d3ad28303dcd2c7d3271ceb82"
     },
     "vpp": {
-      "values_digest": "c6601f773a52ef024af5ef16224f41c5f832b41b978394a35ee22bcd653c8313",
+      "values_digest": "993c50cbdc9ccecd0eb3e0b883dcc17ef5bc5ad5f13d6ee2cbf40c00e799b2cc",
       "rendered_digest": "1bebf28c40f26c1aa41619023f3555ed7cd2480e4a05fbf3ba18fdc99f3a44be",
       "ast_digest": "cc1652489c2b027f36722c6741823278a4ff623a27be3d2a3415db43fe6677df"
     },
     "srp": {
-      "values_digest": "b3bee1cf8c6282f67b85219a0c7409eebfc6179c1a22e4e30f54f7fac6bf47f8",
-      "rendered_digest": "d62b9cb0ebf6ac2da6be5c13e940df60cf7e05577a901f9aa7652e23db012e4a",
-      "ast_digest": "c34c3e485d2c1022e4962d0ed94ba0d2f61c60ba06ceb457186010369ee9bc5e"
+      "values_digest": "ea76d766e83bff69146c532744b8e39125f338a5d00804346217c4c3d644b92c",
+      "rendered_digest": "d7bcf5774a99aa5b9686dbd98aaa32a4e75b7902476e91a1d6dde76491fbdadb",
+      "ast_digest": "ca812c11e777414432fb0613f1ba391e380c099bee238e1fa408db0378adc521"
     },
     "sor": {
-      "values_digest": "a9c0eb550dda95c5267dcf0b1a056743bb30850b63fe7cc6a95b0fd0de97be80",
+      "values_digest": "f4829ffb4b0e586996f2cacf43036f9d4e1c7cc2a8e6d0852cbb0a950333852c",
       "rendered_digest": "beda4ac6544c28d07e1713c167ee2b6d1ff6c8bfec7b5f6c4cdb2b634fbc51a1",
       "ast_digest": "4874ed95309ea89a2bdfb430e560982071a4cbeeef79eb04c727a7ca55515194"
     }
@@ -76,6 +122,13 @@
       "to": "implemented",
       "actor": "codex:sprint-1-issue-499-worker",
       "reason": "Advance issue #499 from bound to implemented after the bounded resilience owner-boundary refactor and focused validation passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -120,6 +173,20 @@
       "actor": "codex:sprint-1-issue-499-worker",
       "reason": "Record bounded RUST-01 execution and focused validation proof for issue #499 after implemented phase advance.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Refactored adl/src/resilience.rs into an owner-boundary facade plus focused resilience submodules without changing public resilience API, retry, timeout, cancellation, tracing, fault, rate-limit, bulkhead, circuit-breaker, or fallback behavior.\",\"changes\":[\"Reduced adl/src/resilience.rs from the 5278-line monolith to a 64-line facade that declares resilience submodules and re-exports the preserved public surface.\",\"Moved runtime health/correlation, fault records, policy/manifest, retry, timeout, circuit-breaker, rate-limit, bulkhead, fallback, schema smoke, and existing tests into adl/src/resilience/*.rs.\",\"Converted the six issue-local RUST-01 prepared validators from planned-proof placeholders into executable API, behavior, validation-impact, and fmt/clippy proof scripts.\"],\"artifacts\":[\"adl/src/resilience.rs\",\"adl/src/resilience/runtime.rs\",\"adl/src/resilience/fault.rs\",\"adl/src/resilience/policy.rs\",\"adl/src/resilience/retry.rs\",\"adl/src/resilience/timeout.rs\",\"adl/src/resilience/circuit_breaker.rs\",\"adl/src/resilience/rate_limit.rs\",\"adl/src/resilience/bulkhead.rs\",\"adl/src/resilience/fallback.rs\",\"adl/src/resilience/schema.rs\",\"adl/src/resilience/tests.rs\",\".csdlc/prepared/issues/499/validate-api-parity.rb\",\".csdlc/prepared/issues/499/validate-validation-impact.rb\",\".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb\",\".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb\",\".csdlc/prepared/issues/499/validate-fault-and-trace.rb\",\".csdlc/prepared/issues/499/validate-fmt-clippy.rb\"],\"validation\":[{\"command\":[\".csdlc/prepared/issues/499/validate-api-parity.rb\"],\"purpose\":\"Verify the public resilience top-level declarations and inherent public methods remain declared and facade-exported after the module split.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 api parity passed: 83 public resilience declarations and 9 public inherent methods preserved\"},{\"command\":[\".csdlc/prepared/issues/499/validate-validation-impact.rb\"],\"purpose\":\"Verify the old resilience facade is no longer on the large-module rationale watchlist and extracted modules exist.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 validation-impact passed: adl/src/resilience.rs 64 lines; 11 extracted modules\"},{\"command\":[\".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb\"],\"purpose\":\"Verify positive and negative resilience behavior across retry, timeout, circuit-breaker, rate-limit, bulkhead, fallback, fault, and schema coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: 50 resilience tests passed, 0 failed\"},{\"command\":[\".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb\"],\"purpose\":\"Verify retry, timeout, cancellation, and bounded ID behavior after extraction.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 retry/timeout/cancellation proof passed\"},{\"command\":[\".csdlc/prepared/issues/499/validate-fault-and-trace.rb\"],\"purpose\":\"Verify fault classification, redaction, schema references, and trace-adjacent schema smoke after extraction.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 fault/trace proof passed\"},{\"command\":[\".csdlc/prepared/issues/499/validate-fmt-clippy.rb\"],\"purpose\":\"Verify rustfmt and clippy -D warnings on the library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 fmt/clippy proof passed\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
