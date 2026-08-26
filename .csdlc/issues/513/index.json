@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fcb2d755af1a433da2a8175cb9a52ae98dfe601bdbe70d924f3cb7c3b9b3818f",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "9a56425b5be0be68221b8e2fdd24112edb5a1fd6a47e9b93e27d78da5d628bf9",
+  "generation": 8,
+  "digest": "69533bc6ac9ad5b0bb612a56289988a700078d8c8f7b67a260d0f1ec96a031b4",
   "branch": "codex/513-v0-92-1-dec-01-runtime-authority-separation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-513-dec-01-runtime-authority-separation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ac1e478b63c4eeb3d23146bdf782eacf0e70a46980c521f8d7e25e3391d59964",
+      "values_digest": "ffdc68f805d712d3284e29b922030b97e309518babd4ac437077c5c848f6c0b8",
       "rendered_digest": "f8411680d6ef09ff9948de880e17e21f941fa809cd5f9fa42b17add50480bd91",
       "ast_digest": "ce01c5d92f4ce76a373a5ca17ebf7f9d6fd021cd498f7cfe641112697aa5a39a"
     },
     "stp": {
-      "values_digest": "8d6396945ae18acc3a95c6113137e009a2fab3b52b60c947fce4a96a8451ec0b",
+      "values_digest": "4598b733cdc66b2b7280993f3c7fcab68a1cd606590cfefce1edf650b59c0e5f",
       "rendered_digest": "ca4f26494024f2bb7545cb9b2695ce50df01a5e2dcaab9f566f7391e1a913a4e",
       "ast_digest": "5e6d2f4a380c13a6d3481c9784d337b46b9f71fb1c2f3a21556fde55c6541f07"
     },
     "spp": {
-      "values_digest": "93cffd36299cc34eefc46a3131f46daf1f67ae7c1bd2820dfcc4da1f1471628d",
+      "values_digest": "e1061cf6c022864eb580862fa6e44efef5565e2c43c77cc3964e60931149831f",
       "rendered_digest": "6842cb0b39bacaedc92a27b0c376e76b0f45c5efa635670db07f158474cbe95e",
       "ast_digest": "30c13fe175bb80e24a4b28dec6b51b0631e61b0887f154e095608dd5174fd359"
     },
     "vpp": {
-      "values_digest": "110723b505258fafb5942b1287b7e5e96a34f54c7bfd8b6ce4fb17564f5d15c0",
+      "values_digest": "2aad150a6cdb744c5c9f15928f670699b8612547ca6e280976f5ce350661d659",
       "rendered_digest": "60411c4aa7f83ae7827faf6b480c32e2ad61c7c87796a8dceee605264494b2cc",
       "ast_digest": "1c3ecfbc9ab4ad1368c22aa1c18b0353820149fda9d1507a7d1b06ba1cacf9d8"
     },
     "srp": {
-      "values_digest": "72e3bf4427dc2b6a9398eafba0fb00871835ea6bdeefb598d6b7c03f8a19452a",
+      "values_digest": "723a98affe15bc192975f807751fbf99baf2fa6592598e9639c46412c3ffeb7f",
       "rendered_digest": "03e88f3677bef8af4c9f730cf3457f0bc5c4a195cc6c37bd0bf4d69b88ff9441",
       "ast_digest": "1c24973c23f184bdc5fd4591a212c46605060fe551fbb8fbfd7f1f131d14bc81"
     },
     "sor": {
-      "values_digest": "9a5bed401922527b1df4fd5958fca4e89d80f5590f7015e667526c1716ad4486",
-      "rendered_digest": "6e65b00519459a30b7cbbe2ca2ed4161cbca44accded39dba86d36a2b7e8d951",
-      "ast_digest": "f37bffdd964dfcb78327132b872c71d334ba8f15b6864926ff882dec52e8574e"
+      "values_digest": "40437e41387b3cbbc03a107a34cb68d786c16acba9dfb1059c5acdeabf7623f8",
+      "rendered_digest": "3cf773d3651cb82ca25a2a6c272c94fd7b9301dcb6789fb5ad5dfcbab2c9f096",
+      "ast_digest": "25c36dc0e7aca02785ba99b3dc252f6d5dacf82757933e6448bc8218a1eda8cf"
     }
   },
   "transitions": [
@@ -183,6 +183,13 @@
       "actor": "codex:issue-513-dec-01-runtime-authority-separation",
       "reason": "Recover stale review after rebasing onto current origin/main with merged #510; rerun proof and obtain OpenAI Responses API exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-513-dec-01-runtime-authority-separation",
+      "reason": "Record fresh DEC-01 validation after rebasing onto origin/main with merged #510.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh\"],\"purpose\":\"Prove the DEC-01 Runtime v2/v3 topology and reverse-reference denominator after integrating current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/513/dec-01-runtime-authority-topology-rebased.log\"}}"
     }
   ]
 }

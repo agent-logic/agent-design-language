@@ -49,6 +49,15 @@ Implemented the DEC-01 Runtime v2/v3 authority-separation topology without Runti
     "purpose": "Prove the DEC-01 topology after replacing first-match reverse-reference classification with longest-prefix ambiguity detection and non-overlapping support-surface rows.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/513/dec-01-runtime-authority-topology-p1-rerun.log"
+  },
+  {
+    "command": [
+      "bash",
+      "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh"
+    ],
+    "purpose": "Prove the DEC-01 Runtime v2/v3 topology and reverse-reference denominator after integrating current origin/main.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/513/dec-01-runtime-authority-topology-rebased.log"
   }
 ]
 
