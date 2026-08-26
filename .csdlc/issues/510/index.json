@@ -3,13 +3,92 @@
   "issue": 510,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7bfe676397915786eed2aa7ff57c7c55ab61746c837cfe92e9e6d7f89326d374",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "845f7ccbeae7fedda8ca237493de39b889eb6805ede7fdf72200d1b982de0590",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "8a8039e7475d48b6d292c8c0fecab6fa04bcf5dce9e55762d2da715bc3ace689",
   "branch": "codex/510-hot-01-axum-config-hot-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:codex-510-hot-01-rereview",
+    "assigned_by": "codex",
+    "revision": "git-blake3:4a88c582e6e47cdd897407cd77b968b5e3316f22:7d206e268eb23961ef9bfd8fb0e45c43593f59d43a86fc4b02b53c16477e5de1",
+    "scope": [
+      ".csdlc/evidence/510/concurrent-read.log",
+      ".csdlc/evidence/510/debounce.log",
+      ".csdlc/evidence/510/invalid-retention.log",
+      ".csdlc/evidence/510/valid-reload.log",
+      ".csdlc/evidence/510/watcher-shutdown.log",
+      ".csdlc/issues/510/audit.jsonl",
+      ".csdlc/issues/510/cards/sip.md",
+      ".csdlc/issues/510/cards/sip.values.json",
+      ".csdlc/issues/510/cards/sor.md",
+      ".csdlc/issues/510/cards/sor.values.json",
+      ".csdlc/issues/510/cards/spp.md",
+      ".csdlc/issues/510/cards/spp.values.json",
+      ".csdlc/issues/510/cards/srp.md",
+      ".csdlc/issues/510/cards/srp.values.json",
+      ".csdlc/issues/510/cards/stp.md",
+      ".csdlc/issues/510/cards/stp.values.json",
+      ".csdlc/issues/510/cards/vpp.md",
+      ".csdlc/issues/510/cards/vpp.values.json",
+      ".csdlc/issues/510/index.json",
+      ".csdlc/locks/510.lock",
+      ".csdlc/prepared/issues/510/design.md",
+      ".csdlc/prepared/issues/510/diagram.mmd",
+      ".csdlc/prepared/issues/510/validate-concurrent-read.rb",
+      ".csdlc/prepared/issues/510/validate-debounce.rb",
+      ".csdlc/prepared/issues/510/validate-invalid-retention.rb",
+      ".csdlc/prepared/issues/510/validate-valid-reload.rb",
+      ".csdlc/prepared/issues/510/validate-watcher-shutdown.rb",
+      "adl-runtime/src/config_reload.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/config_reload.rs",
+      "docs/runtime/config-hot-reload.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:codex-510-hot-01-rereview",
+    "scope": [
+      ".csdlc/evidence/510/concurrent-read.log",
+      ".csdlc/evidence/510/debounce.log",
+      ".csdlc/evidence/510/invalid-retention.log",
+      ".csdlc/evidence/510/valid-reload.log",
+      ".csdlc/evidence/510/watcher-shutdown.log",
+      ".csdlc/issues/510/audit.jsonl",
+      ".csdlc/issues/510/cards/sip.md",
+      ".csdlc/issues/510/cards/sip.values.json",
+      ".csdlc/issues/510/cards/sor.md",
+      ".csdlc/issues/510/cards/sor.values.json",
+      ".csdlc/issues/510/cards/spp.md",
+      ".csdlc/issues/510/cards/spp.values.json",
+      ".csdlc/issues/510/cards/srp.md",
+      ".csdlc/issues/510/cards/srp.values.json",
+      ".csdlc/issues/510/cards/stp.md",
+      ".csdlc/issues/510/cards/stp.values.json",
+      ".csdlc/issues/510/cards/vpp.md",
+      ".csdlc/issues/510/cards/vpp.values.json",
+      ".csdlc/issues/510/index.json",
+      ".csdlc/locks/510.lock",
+      ".csdlc/prepared/issues/510/design.md",
+      ".csdlc/prepared/issues/510/diagram.mmd",
+      ".csdlc/prepared/issues/510/validate-concurrent-read.rb",
+      ".csdlc/prepared/issues/510/validate-debounce.rb",
+      ".csdlc/prepared/issues/510/validate-invalid-retention.rb",
+      ".csdlc/prepared/issues/510/validate-valid-reload.rb",
+      ".csdlc/prepared/issues/510/validate-watcher-shutdown.rb",
+      "adl-runtime/src/config_reload.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/tests/config_reload.rs",
+      "docs/runtime/config-hot-reload.md"
+    ],
+    "reviewed_revision": "git-blake3:4a88c582e6e47cdd897407cd77b968b5e3316f22:7d206e268eb23961ef9bfd8fb0e45c43593f59d43a86fc4b02b53c16477e5de1",
+    "findings": [],
+    "residual_risks": [
+      "Re-review did not rerun Cargo tests because the reviewer remained read-only; implementation session reran cargo test, clippy, and all five prepared validators before this review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +103,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4b904c32e125f0e0afe58cdb065c747e7e77cfa1cd7f0d88767c83746d1cf799",
+      "values_digest": "998847a9b072635b0b769659d3f5b2fe20ee551291f2d73d05f690915a7eca25",
       "rendered_digest": "8a7f80506ae6b6eaa9529545ff9c0d972cc126b826808af156720200ccd7c7f7",
       "ast_digest": "d1eb0d7caa261cf05347a981269c958b62f12dfce7cb6534a0871286ce4747ad"
     },
     "stp": {
-      "values_digest": "43b6258c833173ff6a9cad219dd0e38eb34fc37dc71c52cb79dbc7c38963c83e",
+      "values_digest": "5deb8fc99908ef1c4ebbda64af1bde6ca89b3115e10577ab8a694ffd62e7e07d",
       "rendered_digest": "6e1551c438e00d65871511ebc3a863e00a4cc915bb709494a13ed50e1cac7250",
       "ast_digest": "71dca90b1c60e816480bcfa4f25d696b066ff7c4796e530e01680cd237c032c3"
     },
     "spp": {
-      "values_digest": "01bdc6250fc8ea7c4aed0197852a8b842a920b8db4c3aab98541a03c421643fc",
+      "values_digest": "bccf0bb5d2da26be79690499512a90fcabbe1d6289b1df1d2f02cb3a13a5e160",
       "rendered_digest": "22624646750274ad03d332f799c84529e2c06ee8d393657a951cc510db68329b",
       "ast_digest": "d24df4cf39383ff570be13f597dde9bf5f7d1d0594afa547cf77f0d72afc0f59"
     },
     "vpp": {
-      "values_digest": "61ff73864e30cd4fff1652dcc2e81df66a9cc5545201b1acf7a771539fccf588",
+      "values_digest": "3ee66fd80e3607616d31b1aba395413cc5350e639909dde00009b97ff41f2331",
       "rendered_digest": "cad9ded18490dfe77ce3fa126ca665289202d553e81cdefca0cd43559644450f",
       "ast_digest": "a538f88e0d779c8720dc2835512a9e94f55041093257b0b74b585dcddf8e72c2"
     },
     "srp": {
-      "values_digest": "cd89860cbf2ebdde49fbee27b48bbbf3813b3b616ed83a131ded1104c36f9671",
-      "rendered_digest": "28d0cc34e2e2f6abfb29966d796d32f4808e7a0c67c412ecaff300bb767ba0f8",
-      "ast_digest": "8d4f78d7228724cef34ceab6cf952b39fe1bb841b8ce0b817fc4d72709a9fb89"
+      "values_digest": "52c96f165b22a8afda738ce13f162b8adc270be037199d20a98eec36aae3e1ca",
+      "rendered_digest": "055b54991f6152b3dac91c8e53bbdf46c8b5719504f54cf935062e623ceff4b8",
+      "ast_digest": "baefeff0090792c7714cac1b5061abf9b3a0ee842bc5ca7e15e1e9b785e981a4"
     },
     "sor": {
-      "values_digest": "39208666c37d7767db12f3db1ca463bd7374d40317008d55cc052f4909285b8e",
+      "values_digest": "b73a43ef23a2bd467cd1d46564ac37934a67b71fdea4bf7f861d78b088356d68",
       "rendered_digest": "894bb830d6b6fb6c72ecf93322c747cd09f7bb0f580309a802327df1ccc45695",
       "ast_digest": "c07fe163e1ea7afd1f2382c4a4b42141a87ba85b5349cc3f7932fbbd6875ba52"
     }
@@ -75,6 +154,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -126,6 +212,20 @@
       "actor": "codex",
       "reason": "recover review state after independent review found in-scope actionable issues requiring a new substantive revision",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
