@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Retained the clean-main post-merge #319 ceremony receipt and output, added typed live PR/check readback, bound exact review evidence and publication heads, represented WP-27 through its reviewed #476 follow-on, and made the terminal validator execute those evidence checks.
+Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integration identity, #476/PR #477 is separately bound follow-on remediation, #310 and #314 retain their actual exceptional dispositions, and every sequence handoff is proven by ancestry or explicit retained exception evidence.
 
 ## Artifacts
 
@@ -28,6 +28,10 @@ Retained the clean-main post-merge #319 ceremony receipt and output, added typed
 - .csdlc/evidence/307/issue-319-final-ceremony.log
 - .csdlc/evidence/307/issue-319-final-ceremony-receipt.json
 - .csdlc/prepared/issues/307/validate_child_sequence.py
+- .csdlc/evidence/307/child-sequence.json
+- .csdlc/evidence/307/github-pr-readback.json
+- .csdlc/evidence/307/issue-315-review-receipt.json
+- .csdlc/prepared/issues/307/validate_child_sequence.py
 
 ## Execution
 
@@ -40,6 +44,9 @@ Retained the clean-main post-merge #319 ceremony receipt and output, added typed
 - Retained the exact clean-main check-only ceremony output and immutable #319 final receipt under #307-owned evidence without tag or release mutation.
 - Added typed live readback for every merged child PR and disposition-specific no-PR evidence for #314.
 - Strengthened the terminal validator to bind review evidence, publication heads, green checks, merge ancestry, successor handoffs, terminal receipts, and the final ceremony output digest.
+- Restored #315/PR #473 as the primary child integration record and added a separate exact #476 follow-on record with review, PR, merge, checks, and terminal receipt bindings.
+- Changed #310 to not_tracked_disclosed and #314 to intake_completed_with_blockers/not_applicable_no_pr rather than claiming unsupported review and check passes.
+- Replaced handoff_accepted booleans with executable predecessor-merge ancestry checks, the validated #314-to-#315 handoff, the documented #315/#316 concurrent-lane exception, and the final #319 ceremony receipt.
 
 ## Validation
 
@@ -85,6 +92,19 @@ Retained the clean-main post-merge #319 ceremony receipt and output, added typed
     "purpose": "Bind the redacted immutable ceremony output digest, prove no host-absolute path remains in the publishable packet, and revalidate the terminal evidence graph.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/307/issue-319-final-ceremony-receipt.json"
+  },
+  {
+    "command": [
+      "python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal",
+      "python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py",
+      "python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json",
+      "python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json",
+      "! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307",
+      "git diff --check"
+    ],
+    "purpose": "Prove exact #315/#476 identity separation, truthful #310/#314 dispositions, evidence-derived handoffs, packet privacy, and diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-315-review-receipt.json"
   }
 ]
 

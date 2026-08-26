@@ -71,11 +71,15 @@ if not isinstance(children, list) or [item.get("issue") for item in children] !=
 else:
     for index, item in enumerate(children):
         issue = item["issue"]
-        for field in ("merge_ancestral", "handoff_accepted"):
-            if item.get(field) is not True:
-                errors.append(f"child #{issue} lacks {field}=true")
-        if item.get("review_result") != "passed" or item.get("required_checks") != "passed":
-            errors.append(f"child #{issue} lacks passed review/check truth")
+        if item.get("merge_ancestral") is not True:
+            errors.append(f"child #{issue} lacks merge_ancestral=true")
+        expected_disposition = {
+            310: ("not_tracked_disclosed", "passed"),
+            314: ("intake_completed_with_blockers", "not_applicable_no_pr"),
+            315: ("passed_then_remediated_by_476", "passed"),
+        }.get(issue, ("passed", "passed"))
+        if (item.get("review_result"), item.get("required_checks")) != expected_disposition:
+            errors.append(f"child #{issue} review/check disposition is not truthful")
         for field, length in (("reviewed_head", 40), ("merge_sha", 40)):
             value = item.get(field)
             if not isinstance(value, str) or len(value) != length or any(ch not in "0123456789abcdef" for ch in value):
@@ -91,9 +95,29 @@ else:
         reviewed_head = item.get("reviewed_head")
         if review_path is not None:
             review_text = review_path.read_text(errors="replace")
-            if issue in {308, 309, 311, 312, 313, 315, 316, 317, 318, 319}:
+            if issue in {308, 309, 311, 312, 313, 316, 317, 318, 319}:
                 if f'git-blake3:{reviewed_head}:' not in review_text or "Result: pass" not in review_text:
                     errors.append(f"child #{issue} review evidence does not bind its passed reviewed_head")
+            elif issue == 315:
+                try:
+                    receipt = json.loads(review_text)
+                    historical = subprocess.run(
+                        ["git", "-C", str(ROOT), "show", f'{receipt["source_merge"]}:{receipt["source_path"]}'],
+                        text=False,
+                        capture_output=True,
+                        check=True,
+                    ).stdout
+                except (KeyError, json.JSONDecodeError, subprocess.CalledProcessError):
+                    receipt, historical = {}, b""
+                if (
+                    receipt.get("issue") != 315
+                    or receipt.get("reviewed_head") != reviewed_head
+                    or receipt.get("review_result") != "pass"
+                    or hashlib.sha256(historical).hexdigest() != receipt.get("source_sha256")
+                    or f'git-blake3:{reviewed_head}:' not in historical.decode(errors="replace")
+                    or "Result: pass" not in historical.decode(errors="replace")
+                ):
+                    errors.append("child #315 historical review receipt does not bind its exact passed head")
             elif issue == 310:
                 try:
                     universe = json.loads(review_text)
@@ -140,10 +164,33 @@ else:
             }
             if not observed or any(observed.get(field) != value for field, value in expected.items()):
                 errors.append(f"child #{issue} live PR/check readback does not match the ledger")
+        handoff_proof = item.get("handoff_proof")
         if index + 1 < len(children):
-            successor_merge = children[index + 1].get("merge_sha")
-            if not isinstance(successor_merge, str) or not git_ok("merge-base", "--is-ancestor", successor_merge, "origin/main"):
-                errors.append(f"child #{issue} successor handoff is not integrated")
+            successor = children[index + 1]
+            if issue == 314:
+                if handoff_proof != "validated_handoff_to_315_and_integration_merge":
+                    errors.append("child #314 lacks its validated WP-27 handoff proof")
+            elif issue == 315:
+                if handoff_proof != "documented_concurrent_lane_with_reviewed_follow_on_476":
+                    errors.append("child #315 lacks its documented concurrent-lane proof")
+                plan = repo_file(
+                    "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md",
+                    label="child #315 concurrent-lane plan",
+                )
+                if plan is not None:
+                    plan_text = plan.read_text(errors="replace")
+                    if "#316 and #317 did not serialize" not in plan_text:
+                        errors.append("child #315 concurrent-lane exception is not documented")
+            else:
+                if handoff_proof != "successor_publication_contains_predecessor_merge":
+                    errors.append(f"child #{issue} lacks ancestry-bound successor handoff proof")
+                successor_head = successor.get("publication_head")
+                if not isinstance(successor_head, str) or not git_ok(
+                    "merge-base", "--is-ancestor", merge_sha, successor_head
+                ):
+                    errors.append(f"child #{issue} merge is not consumed by successor #{successor.get('issue')} publication")
+        elif handoff_proof != "final_clean_main_ceremony_receipt":
+            errors.append("child #319 lacks final ceremony handoff proof")
         closeout = item.get("closeout")
         if closeout not in ("async_pending", "reconciled"):
             errors.append(f"child #{issue} closeout must be async_pending or reconciled")
@@ -201,6 +248,54 @@ if final_receipt_path is not None:
     }
     if any(final_receipt.get(field) != value for field, value in required_final.items()):
         errors.append("child #319 final ceremony receipt is incomplete or inconsistent")
+follow_on = packet.get("issue_476_follow_on")
+if not isinstance(follow_on, dict) or follow_on.get("issue") != 476 or follow_on.get("parent_issue") != 315:
+    errors.append("issue #476 follow-on remediation row is missing")
+else:
+    expected_follow_on = {
+        "reviewed_head": "bf7031e3c9ba57557efd01922e88ccc65d33f108",
+        "publication_head": "9ba0a8ffbd10bb7719ec004ab07ec6fe63a47380",
+        "pull_request": 477,
+        "merge_sha": "19d479541df4f58e9a40f09f6711593f7829a1d3",
+        "review_result": "passed",
+        "required_checks": "passed",
+        "merge_ancestral": True,
+        "terminal_digest": "7ae5e2e6840d71612f5a2e31d3596fa409459b4d4c5b40132c002e311bf37689",
+    }
+    if any(follow_on.get(field) != value for field, value in expected_follow_on.items()):
+        errors.append("issue #476 follow-on identity or disposition is inconsistent")
+    follow_on_review = repo_file(follow_on.get("review_evidence"), label="issue #476 review_evidence")
+    if follow_on_review is not None:
+        review_text = follow_on_review.read_text(errors="replace")
+        if f'git-blake3:{follow_on["reviewed_head"]}:' not in review_text or "Result: pass" not in review_text:
+            errors.append("issue #476 review evidence does not bind its exact passed head")
+    observed = readback_rows.get(476)
+    if not observed or any(observed.get(field) != value for field, value in {
+        "pull_request": 477,
+        "head_sha": follow_on.get("publication_head"),
+        "merge_sha": follow_on.get("merge_sha"),
+        "state": "closed",
+        "merged": True,
+        "adl_ci": "success",
+        "adl_coverage": "success",
+        "adl_path_policy": "success",
+    }.items()):
+        errors.append("issue #476 live PR/check readback does not match follow-on evidence")
+    if not git_ok("merge-base", "--is-ancestor", follow_on.get("merge_sha", ""), "origin/main"):
+        errors.append("issue #476 merge is not ancestral to origin/main")
+    common_dir = subprocess.run(
+        ["git", "-C", str(ROOT), "rev-parse", "--git-common-dir"],
+        text=True,
+        capture_output=True,
+        check=True,
+    ).stdout.strip()
+    terminal_path = Path(common_dir) / "csdlc-v2" / "derived-terminal" / "476.json"
+    try:
+        terminal = json.loads(terminal_path.read_text())
+    except (OSError, json.JSONDecodeError):
+        terminal = {}
+    if terminal.get("digest") != follow_on.get("terminal_digest") or terminal.get("merge_sha") != follow_on.get("merge_sha"):
+        errors.append("issue #476 terminal cache does not match follow-on evidence")
 remediation = packet.get("issue_471_remediation_subissue")
 if not isinstance(remediation, dict) or remediation.get("issue") != 471:
     errors.append("exact #471 remediation subissue row is missing")

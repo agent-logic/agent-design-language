@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "d17237ecfcf385a60ae5482309f7a8c50986b9a1d8d24d64833ee17b314ab199",
+  "generation": 16,
+  "digest": "ed64ecdba59445ccbef895fd611624ffa1ad7f4ccf0373eae450e69b31dcec29",
   "branch": "codex/307-v092-quality-release-tail-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b1b7fc2510225ae628754129a7eae30a87697c749e07d8b6f3b94d0665e7bb1e",
+      "values_digest": "73fd8e02af80bb5136da63baf8640f00153b298e166e142768d1f4480b523610",
       "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
       "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
     },
     "stp": {
-      "values_digest": "3fd006ad8fe0b78245048363eebf85460661992088905597c6467ba3912f34bc",
+      "values_digest": "0b27df8f6a7475f2c65369db9697d8ab35192a17e59acb84a05b9e1ce0390a25",
       "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
       "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
     },
     "spp": {
-      "values_digest": "87481aa33a617d10589538ccdabc51af968a4019c259af6d2bc8e083c8fdab44",
+      "values_digest": "62be0691ee5ddcf3a19973395e1de9845847cc5d949fae914c98c2d3e174ae76",
       "rendered_digest": "81883f08e984fb441950825f45d68e364fa94fd8d9ca9352e50852f9df7a3a6e",
       "ast_digest": "1dbfb17b19fd053ff598cf438c6dce55b6522876103fd50206c3d2b93f7c2e3e"
     },
     "vpp": {
-      "values_digest": "c3179b332cf1c1cdd73c43f2020703f66961ad36899fc8448ec37a4c8453ff92",
+      "values_digest": "3b8a91d714f88e8c0c072f0b78c66bfbfa9622db435fe98b2caef0c953434293",
       "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
       "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
     },
     "srp": {
-      "values_digest": "348217310f782d62ded9dd8173ecd33512411dfaa8c4731642a9c8397be0ea90",
+      "values_digest": "59073bf0bc0889125ac4db04e862e27018e57e0208913d625858a3bef3e0ef98",
       "rendered_digest": "d35f2c74801aca74fb163e005ecf6183281a55eeb749db1bcc39785f0a0903e7",
       "ast_digest": "4761227ae8ccaa3d4105d64163740935c75e3395572da17b5c303d9b33c7d54e"
     },
     "sor": {
-      "values_digest": "a13986131b006f80469dff560b1b21440d3cec54ac65adcbde289b17790db8d3",
-      "rendered_digest": "3eb6f1a9f071905c78a7eed5ac92f0e558a6eb776cbd456702499159cef19070",
-      "ast_digest": "fa59f908de816ed0acbc3ca3006f57fc50d7c59022a540ac0a943c672a82235a"
+      "values_digest": "39866db04080adbfcf78be750727ba59a144b430a417a923fe4b9b9cdeab3b06",
+      "rendered_digest": "cb9ccf66cfb1ded14eb7e30db689c20e1e4da16286b2f00d80ec304e4a432a84",
+      "ast_digest": "737c4f6859337869effc9ce38796e299beb4936e37c823db5cac14a0f6f1a15a"
     }
   },
   "transitions": [
@@ -190,6 +190,20 @@
       "actor": "codex:/root/issue-307-closeout",
       "reason": "Record redacted final ceremony receipt digest and packet path-hygiene proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"shasum -a 256 .csdlc/evidence/307/issue-319-final-ceremony.log\",\"! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307\",\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\"],\"purpose\":\"Bind the redacted immutable ceremony output digest, prove no host-absolute path remains in the publishable packet, and revalidate the terminal evidence graph.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/issue-319-final-ceremony-receipt.json\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Resolve the fresh exact-head review findings by separating #315 from #476 and replacing uniform pass and handoff assertions with disposition-specific evidence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Corrected the terminal child ledger so #315/PR #473 remains the WP-27 integration identity, #476/PR #477 is separately bound follow-on remediation, #310 and #314 retain their actual exceptional dispositions, and every sequence handoff is proven by ancestry or explicit retained exception evidence.\",\"changes\":[\"Restored #315/PR #473 as the primary child integration record and added a separate exact #476 follow-on record with review, PR, merge, checks, and terminal receipt bindings.\",\"Changed #310 to not_tracked_disclosed and #314 to intake_completed_with_blockers/not_applicable_no_pr rather than claiming unsupported review and check passes.\",\"Replaced handoff_accepted booleans with executable predecessor-merge ancestry checks, the validated #314-to-#315 handoff, the documented #315/#316 concurrent-lane exception, and the final #319 ceremony receipt.\"],\"artifacts\":[\".csdlc/evidence/307/child-sequence.json\",\".csdlc/evidence/307/github-pr-readback.json\",\".csdlc/evidence/307/issue-315-review-receipt.json\",\".csdlc/prepared/issues/307/validate_child_sequence.py\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:/root/issue-307-closeout",
+      "reason": "Record passing disposition-aware child ledger, preparation, privacy, syntax, and diff proof before fresh exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/307/validate_child_sequence.py --terminal\",\"python3 .csdlc/prepared/issues/307/validate_preparation_bundle.py\",\"python3 -m json.tool .csdlc/evidence/307/github-pr-readback.json\",\"python3 -m json.tool .csdlc/evidence/307/issue-315-review-receipt.json\",\"! rg -n '/Users/|/Volumes/|/private/' .csdlc/evidence/307 docs/milestones/v0.92/review/sprint_307 .csdlc/prepared/issues/307\",\"git diff --check\"],\"purpose\":\"Prove exact #315/#476 identity separation, truthful #310/#314 dispositions, evidence-derived handoffs, packet privacy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/307/child-sequence.json; .csdlc/evidence/307/github-pr-readback.json; .csdlc/evidence/307/issue-315-review-receipt.json\"}}"
     }
   ]
 }

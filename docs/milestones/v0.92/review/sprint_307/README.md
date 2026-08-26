@@ -19,6 +19,9 @@ absorbing child implementation or release authority.
   closeout plan classifies its typed finish and projectionless worktree cleanup
   as asynchronous, non-gating bookkeeping. This packet records
   `async_pending` and does not claim a canonical terminal cache.
+- #315 remains bound to its actual PR #473 and merge. The later #476/PR #477
+  review-truth repair is retained as a separate follow-on record rather than
+  replacing #315's integration identity.
 - #471 is reconciled as a WP-27/#315 remediation child, not a separate
   release-tail lane.
 - #268 is closed with a canonical terminal receipt and retained passing AWS
@@ -27,7 +30,8 @@ absorbing child implementation or release authority.
 ## Terminal boundary
 
 The final generated child-sequence evidence now binds retained exact review
-records, typed live PR/check readback, merge ancestry, successor handoffs,
+records, typed live PR/check readback, merge ancestry, evidence-derived
+successor handoffs,
 terminal receipts, and the post-merge #319 ceremony receipt. It passes the
 issue-owned terminal validator. #307 is ready for one fresh exact-head sprint
 review, publication, merge, typed finish, and cleanup.

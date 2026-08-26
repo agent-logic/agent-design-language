@@ -1,0 +1,10 @@
+{
+  "schema": "adl.issue307.historical-review-receipt.v1",
+  "issue": 315,
+  "source_merge": "e43efbca80cece11b543d931655febd50dfdc755",
+  "source_path": ".csdlc/issues/315/cards/srp.md",
+  "source_sha256": "2441a39c9086249a0d28449ecbd5dcdfef8cd5f622287596ca9a947437532c57",
+  "reviewed_head": "f910198512a706b4d7737c3b1c228068c451d97f",
+  "review_result": "pass",
+  "disposition": "historical_review_later_remediated_by_issue_476"
+}
