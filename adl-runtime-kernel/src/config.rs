@@ -580,6 +580,11 @@ impl RuntimeInitConfig {
             "observatory.allowed_origins",
             &self.observatory.allowed_origins,
         )?;
+        validate_additional_origin_list(&self.observatory.additional_allowed_origins)?;
+        validate_combined_origin_list(
+            &self.observatory.allowed_origins,
+            &self.observatory.additional_allowed_origins,
+        )?;
         self.observability_pipeline.validate()?;
         self.weather
             .validate()
@@ -605,7 +610,12 @@ impl RuntimeInitConfig {
     }
 
     pub fn observatory_allowed_origins(&self) -> Vec<String> {
-        self.observatory.allowed_origins.clone()
+        self.observatory
+            .allowed_origins
+            .iter()
+            .chain(self.observatory.additional_allowed_origins.iter())
+            .cloned()
+            .collect()
     }
 
     pub fn runtime_observability(&self) -> &RuntimeObservabilityInitConfig {
@@ -1065,6 +1075,8 @@ impl RuntimeQualificationInitConfig {
 #[serde(deny_unknown_fields)]
 pub struct ObservatoryInitConfig {
     pub allowed_origins: Vec<String>,
+    #[serde(default)]
+    pub additional_allowed_origins: Vec<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1337,6 +1349,33 @@ fn validate_origin_list(field: &'static str, origins: &[String]) -> Result<(), R
     Ok(())
 }
 
+fn validate_additional_origin_list(origins: &[String]) -> Result<(), RuntimeInitError> {
+    let mut seen = BTreeSet::new();
+    for origin in origins {
+        if !seen.insert(origin.clone()) {
+            return Err(RuntimeInitError::DuplicateOrigin(origin.clone()));
+        }
+        validate_additional_origin(origin)?;
+    }
+    Ok(())
+}
+
+fn validate_combined_origin_list(
+    allowed_origins: &[String],
+    additional_allowed_origins: &[String],
+) -> Result<(), RuntimeInitError> {
+    let mut seen = BTreeSet::new();
+    for origin in allowed_origins
+        .iter()
+        .chain(additional_allowed_origins.iter())
+    {
+        if !seen.insert(origin.clone()) {
+            return Err(RuntimeInitError::DuplicateOrigin(origin.clone()));
+        }
+    }
+    Ok(())
+}
+
 fn validate_origin(value: &str) -> Result<(), RuntimeInitError> {
     if value == "*" || value.len() > 512 || value.bytes().any(|byte| byte.is_ascii_control()) {
         return Err(RuntimeInitError::InvalidOrigin(value.to_owned()));
@@ -1346,6 +1385,13 @@ fn validate_origin(value: &str) -> Result<(), RuntimeInitError> {
         return Err(RuntimeInitError::InvalidOrigin(value.to_owned()));
     }
     Ok(())
+}
+
+fn validate_additional_origin(value: &str) -> Result<(), RuntimeInitError> {
+    if value == "http://localhost:8000" {
+        return Ok(());
+    }
+    validate_origin(value)
 }
 
 fn parse_http_uri(value: &str) -> Result<axum::http::Uri, RuntimeInitError> {

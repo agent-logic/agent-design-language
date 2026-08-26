@@ -1,0 +1,11 @@
+
+running 2 tests
+test observatory_cors_rejects_draft_origin_without_explicit_allowance ... ok
+test observatory_cors_allows_only_configured_origins_and_reports_canonical_port ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.09s
+
+    Blocking waiting for file lock on build directory
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.24s
+     Running tests/control.rs (adl-runtime-kernel/target/debug/deps/control-f9e8f949fbdb8103)
+adl_event schema=adl.runtime.event.v1 sequence=0 component=none event=control_command_completed correlation_id=2a113971544e1aaf8fd77ed105282ea7

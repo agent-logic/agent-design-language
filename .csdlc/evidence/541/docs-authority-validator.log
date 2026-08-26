@@ -1,0 +1,11 @@
+{
+  "schema": "adl.docs_authority_validation.v1",
+  "status": "passed",
+  "checked_files": [
+    "docs/onboarding.md",
+    "adl/tools/README.md"
+  ],
+  "errors": [
+
+  ]
+}

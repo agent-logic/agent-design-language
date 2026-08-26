@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 541,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][docs] Reconcile onboarding workflow and repository authority with Gate 10D2",
+    "slug": "reconcile-onboarding-workflow-authority",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Bounded docs-truth repair for onboarding and nearby workflow guidance.",
+      "deliverables": [
+        "Updated onboarding workflow guidance",
+        "Corrected repository identity wording",
+        "Focused validation evidence for retired-route removal and current-authority presence",
+        "Truthful SOR describing actual docs changes and validation"
+      ],
+      "acceptance_criteria": [
+        "AC-1: `docs/onboarding.md` no longer presents `adl_pr_cycle`, `pr ready`, or `pr run` as the current default lifecycle route.",
+        "AC-2: `docs/onboarding.md` names Gate 10D2 typed C-SDLC v2 as current authority and points current lifecycle work at `.adl/bin/csdlc-v2/` plus `csdlc-v2/operator/skills/`.",
+        "AC-3: Documentation distinguishes canonical `agent-logic/agent-design-language` from legacy `danielbaustin/agent-design-language` and explains the latter is historical provenance unless a bounded legacy task explicitly says otherwise.",
+        "AC-4: Startup/root checkout guidance remains aligned with `AGENTS.md`: root should stay on clean `main`, issue work happens in a bound worktree, and new ADL issue worktrees belong under `/Volumes/FastWork/adl-worktrees`.",
+        "AC-5: Docs avoid claiming that an initialized issue, green CI, or publication alone proves terminal closeout; they preserve review, publication, finish, and cleanup boundaries.",
+        "AC-6: Focused validation checks edited docs for retired route strings and confirms current typed v2 authority references are present."
+      ],
+      "dependencies": [
+        "AGENTS.md Gate 10D2 authority",
+        "csdlc-v2/AGENTS.md typed owner contract",
+        "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#541",
+        "docs/onboarding.md",
+        "AGENTS.md",
+        "csdlc-v2/AGENTS.md",
+        "csdlc-v2/operator/SKILLS.md",
+        "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+        "adl/tools/README.md"
+      ],
+      "non_goals": [
+        "Implementing the documentation fix during bootstrap",
+        "Binding a worktree during bootstrap",
+        "Changing runtime behavior",
+        "Changing lifecycle binaries or skill contracts",
+        "Changing GitHub remotes, labels, milestones, PR state, or release state",
+        "Reviving v1 wrappers or the compatibility `adl_pr_cycle` route"
+      ]
+    }
+  }
+}
