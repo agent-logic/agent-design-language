@@ -7,7 +7,7 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 62
+    "generation": 63
   },
   "status": "ready",
   "content": {
@@ -142,8 +142,8 @@
           "evidence_ref": "Explicit residual gate; bundled validate_csm_public_edge_live.sh does not claim this handshake"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
