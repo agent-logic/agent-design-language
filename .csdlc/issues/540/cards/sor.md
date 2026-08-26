@@ -160,11 +160,11 @@ Implemented focused Runtime v3 additional_allowed_origins support for the extern
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

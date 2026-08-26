@@ -10,3 +10,4 @@
 {"sequence":10,"generation":8,"actor":"codex:/root/540-runtime-additional-origins","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":11,"generation":8,"actor":"codex:/root/540-runtime-additional-origins","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":12,"generation":9,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":13,"generation":10,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
