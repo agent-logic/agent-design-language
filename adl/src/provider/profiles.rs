@@ -52,6 +52,13 @@ const MAX_PROFILE_TIMEOUT_SECS: u64 = 600;
 const HTTP_PROFILE_PLACEHOLDER_ENDPOINT: &str = "https://api.example.invalid/v1/complete";
 const INVALID_ENDPOINT_HOST_MARKER: &str = "example.invalid";
 
+#[derive(Debug, Clone, PartialEq)]
+pub struct ProviderProfileActivation {
+    pub document: adl::AdlDoc,
+    pub accepted: bool,
+    pub rejection: Option<String>,
+}
+
 fn profile_vendor(profile: &str) -> Option<&'static str> {
     match profile.split_once(':').map(|(family, _)| family) {
         Some("kimi") => Some("kimi"),
@@ -275,8 +282,6 @@ fn ensure_inference_profile_config(
         );
     }
 
-    let state = retained_profile_state(profile_name, config.get("profile_state"), &config)?;
-    config.insert("profile_state".to_string(), state);
     Ok(())
 }
 
@@ -815,6 +820,8 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
                 }
             }
         }
+        let state = retained_profile_state(profile_name, config.get("profile_state"), &config)?;
+        config.insert("profile_state".to_string(), state);
         expanded.providers.insert(
             provider_id,
             adl::ProviderSpec {
@@ -828,4 +835,60 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
         );
     }
     Ok(expanded)
+}
+
+pub fn activate_provider_profile_candidate(
+    active_doc: &adl::AdlDoc,
+    candidate_doc: &adl::AdlDoc,
+) -> Result<ProviderProfileActivation> {
+    let active = expand_provider_profiles(active_doc)?;
+    match expand_provider_profiles(candidate_doc) {
+        Ok(mut candidate) => {
+            promote_last_known_good_materializations(&mut candidate)?;
+            Ok(ProviderProfileActivation {
+                document: candidate,
+                accepted: true,
+                rejection: None,
+            })
+        }
+        Err(error) => Ok(ProviderProfileActivation {
+            document: active,
+            accepted: false,
+            rejection: Some(error.to_string()),
+        }),
+    }
+}
+
+fn promote_last_known_good_materializations(doc: &mut adl::AdlDoc) -> Result<()> {
+    let registry = provider_profile_registry();
+    let mut provider_ids: Vec<String> = doc.providers.keys().cloned().collect();
+    provider_ids.sort();
+    for provider_id in provider_ids {
+        let Some(spec) = doc.providers.get_mut(&provider_id) else {
+            continue;
+        };
+        let Some(profile_name) = spec.profile.as_deref() else {
+            continue;
+        };
+        let Some(preset) = registry.get(profile_name).copied() else {
+            return Err(anyhow!(
+                "providers.{provider_id}.profile '{}' is unknown",
+                profile_name
+            ));
+        };
+        let config: BTreeMap<String, Value> = spec.config.clone().into_iter().collect();
+        let materialization = materialization_state(profile_name, preset, &config);
+        spec.config.insert(
+            "profile_state".to_string(),
+            json!({
+                "schema": PROFILE_STATE_SCHEMA,
+                "profile": profile_name,
+                "last_known_good_profile": profile_name,
+                "last_known_good_materialization": materialization,
+                "retention": "retain_last_valid_materialization",
+                "activation": "validate_before_activation"
+            }),
+        );
+    }
+    Ok(())
 }

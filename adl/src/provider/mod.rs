@@ -36,8 +36,9 @@ pub use http_family::{
 pub use http_family::{DeepSeekProvider, OpenRouterProvider};
 pub use local::{MockProvider, OllamaProvider};
 pub use profiles::{
-    expand_provider_profiles, provider_profile_materialization_projection, provider_profile_names,
-    redacted_provider_profile_projection,
+    activate_provider_profile_candidate, expand_provider_profiles,
+    provider_profile_materialization_projection, provider_profile_names,
+    redacted_provider_profile_projection, ProviderProfileActivation,
 };
 
 pub(crate) use profiles::{
@@ -1010,16 +1011,41 @@ mod tests {
             active_provider.config["profile_state"].clone(),
         );
 
-        let err = expand_provider_profiles(&candidate_doc)
-            .expect_err("invalid candidate must fail before activation");
-        assert!(err.to_string().contains("config.temperature"));
+        let rejected = activate_provider_profile_candidate(&active_doc, &candidate_doc)
+            .expect("invalid candidate should retain active state");
+        assert!(!rejected.accepted);
+        assert!(rejected
+            .rejection
+            .as_deref()
+            .unwrap_or_default()
+            .contains("config.temperature"));
         assert_eq!(
-            active.providers["local"].config, active_provider.config,
-            "active materialization remains unchanged after failed candidate validation"
+            rejected.document, active,
+            "failed candidate activation must return the retained active materialization"
         );
         assert_eq!(
-            redacted_provider_profile_projection("local", &active.providers["local"]),
+            redacted_provider_profile_projection("local", &rejected.document.providers["local"]),
             active_projection
+        );
+
+        let mut valid_candidate_doc = active_doc.clone();
+        valid_candidate_doc
+            .providers
+            .get_mut("local")
+            .expect("candidate")
+            .profile = Some("ollama:qwen2.5-7b".to_string());
+        let accepted = activate_provider_profile_candidate(&active_doc, &valid_candidate_doc)
+            .expect("valid candidate should promote");
+        assert!(accepted.accepted);
+        assert!(accepted.rejection.is_none());
+        let promoted_state = &accepted.document.providers["local"].config["profile_state"];
+        assert_eq!(
+            promoted_state["last_known_good_profile"],
+            serde_json::json!("ollama:qwen2.5-7b")
+        );
+        assert_eq!(
+            promoted_state["last_known_good_materialization"]["profile"],
+            serde_json::json!("ollama:qwen2.5-7b")
         );
     }
 
