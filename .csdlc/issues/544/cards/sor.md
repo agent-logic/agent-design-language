@@ -137,11 +137,11 @@ Adjusted gate2 bootstrap fixtures to run issue creation from linked non-primary 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
