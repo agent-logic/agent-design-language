@@ -6,10 +6,21 @@
   "initialization_digest": "68aa9c4cb45783b91719a3cb5b1bf605aa34ea5a73a11008569381166fb0f552",
   "phase": "implemented",
   "generation": 7,
-  "digest": "797033c6b577c8f55df1e85dcf875f35d80cfa8d30ace662d931ed3acfc72a51",
+  "digest": "8827ef993152a257a288fd5031f8c2c453215e3d3034ba1766e843b5ab00584c",
   "branch": "codex/484-aws-resource-ownership-inventory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-484-aws-resource-ownership-inventory",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a97961a2-920a-4084-89bd-2c7e1adeab47",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:14340ee7599de0187d07ee293a36e8808ee3966d:4ffddfea2614670ad9a4e4a1b1fd935871a6aabbe353abc1176d3fdbda898d03",
+    "scope": [
+      ".csdlc/issues/484",
+      ".csdlc/prepared/issues/484",
+      ".csdlc/evidence/484",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-a",
+      "docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "0352c7ee54432e4afcd54fde6ff62bb605c0767c019a0129185ed6c9a5eb1728"
     },
     "srp": {
-      "values_digest": "eae4eaf185bebc92ff0068811575ce630c104ba84ecaebf6c1ab4b76de9d0e74",
-      "rendered_digest": "9c35ce00d5104976948e01aa68c5199349ce93057f76471ca948cbd640a37b0d",
-      "ast_digest": "7ecacc12e0f5b2e619098cf796e0ba282ba99644e247690304c4419d47fb6356"
+      "values_digest": "61654e7ee70d2917dda9d055c50fa54d5cea0142d180003e45183436edb063a5",
+      "rendered_digest": "7a298cca0c3b6cad8761ce42ef19003b94b7069fa95cf1a00e4cdbcf513b05ba",
+      "ast_digest": "f147827cfdc6628dd0d6a6329f31a03ed567c289def021a6279edc7ba1fb276e"
     },
     "sor": {
       "values_digest": "b32039b94d521f68683d69aa7dabd3bb181740e1c4e39d9d7ead9ed387bdb76f",
@@ -141,6 +152,13 @@
       "actor": "codex:/root",
       "reason": "Implementation evidence is recorded for the #484 AWS-A read-only inventory.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

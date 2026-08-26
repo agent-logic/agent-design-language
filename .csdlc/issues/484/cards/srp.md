@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Issue #484 docs, evidence, lifecycle truth, inventory denominator, classification table, redaction proof, and exact branch range.
+.csdlc/issues/484
+.csdlc/prepared/issues/484
+.csdlc/evidence/484
+docs/milestones/v0.92.1/evidence/cloud/aws-a
+docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md
 
 ## Prompts
 
