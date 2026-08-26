@@ -96,7 +96,7 @@ Refactored adl/src/resilience.rs into an owner-boundary facade plus focused resi
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

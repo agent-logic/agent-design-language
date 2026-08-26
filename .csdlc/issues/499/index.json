@@ -4,59 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "893c488a403db6ee28efbc8a41379fe8191f2a33bd0a22e07c26103410cd64e0",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "01d0733b92b302e2d3bc26835c4e93fe55240c89ac8ff5d3edf8db5b9474d766",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "2e37b3b86c731b0143a7fd8856d07ec48557279e16a2e70a78440bf423fb1007",
   "branch": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-499-resilience-owner-boundary-refactoring",
-  "review_assignment": {
-    "reviewer": "gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b",
-    "assigned_by": "codex:sprint-1-issue-499-worker",
-    "revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
-    "scope": [
-      "adl/src/resilience.rs",
-      "adl/src/resilience/*.rs",
-      ".csdlc/prepared/issues/499/validate-*.rb",
-      "publication hygiene for extracted modules and validators"
-    ]
-  },
-  "review": {
-    "reviewer": "gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b",
-    "scope": [
-      "adl/src/resilience.rs",
-      "adl/src/resilience/*.rs",
-      ".csdlc/prepared/issues/499/validate-*.rb",
-      "publication hygiene for extracted modules and validators"
-    ],
-    "reviewed_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
-    "findings": [
-      {
-        "id": "review-p1-untracked-extracted-modules",
-        "severity": "p1",
-        "summary": "Initial review found extracted resilience modules and validators were untracked and absent from git diff; fixed by staging and committing the full intended diff at c3426c10ddf3c697bf06c7f7322529461e89aaa8.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
-        "route": null
-      },
-      {
-        "id": "review-p3-api-parity-method-coverage",
-        "severity": "p3",
-        "summary": "Initial review found the API parity validator omitted public inherent methods; fixed by checking 9 public inherent methods in addition to 83 top-level declarations and rerunning the validator successfully.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "fixed",
-        "fix_revision": "git-blake3:c3426c10ddf3c697bf06c7f7322529461e89aaa8:fd940e160cb5cb1196568623808285b5465bd6fa515b316dde7b4e4b7744d33e",
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Focused local validation passed; broader workspace integration remains deferred to PR CI."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -71,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5e8718a29decc4b16e6f6d22aed6e6659f095f0f4ff7bca81b195c51329043f8",
+      "values_digest": "959f2e5aae61862fc500f19e9734ee173c365cbd1a71f51de25cbaf9e09c2c91",
       "rendered_digest": "d1baf5af8289dae4ed771203e980b494de6918c83588ddad7ce553df0cb6126d",
       "ast_digest": "9c4075ccabbcd57f711f3dfe15cb8dd1c9d066ff5cceb031bee600d254fe7c0a"
     },
     "stp": {
-      "values_digest": "dcdcee93d5ca002e8d8068a5e68a5c436ad846cdbfd08717ce304bed7fcc92a9",
+      "values_digest": "244cde4c9e220ac513b4b894eeea2683f59879d0432083425d0e38aa297daa8e",
       "rendered_digest": "2bc1124ec3c640c68530fb8289d84c07ae83eb6fb162575e1a80cc2a612020bd",
       "ast_digest": "9519a6c725a963f026bc168371395a1bf63c5984a03dc2bb3a59c1157db37c76"
     },
     "spp": {
-      "values_digest": "5bba19fce8474d5b5002f38d95a5e9275dec475972776070653b9f70a31617f6",
+      "values_digest": "97456ffc0bbe476d27180a430f5ada00ba4363ab2c11320cfba08d75f7d147de",
       "rendered_digest": "edfbc9dc36e811cad6ff645370e59af295ef36d476c4b0d1e6169d8e4f90af22",
       "ast_digest": "d1192aca0dd165f492a22bb66b597c99be9cc27d3ad28303dcd2c7d3271ceb82"
     },
     "vpp": {
-      "values_digest": "993c50cbdc9ccecd0eb3e0b883dcc17ef5bc5ad5f13d6ee2cbf40c00e799b2cc",
+      "values_digest": "a2c643fb6ba488b54d14ee3f8cb3ee94e780e0d778ff9dd21edb704c1c926dd4",
       "rendered_digest": "1bebf28c40f26c1aa41619023f3555ed7cd2480e4a05fbf3ba18fdc99f3a44be",
       "ast_digest": "cc1652489c2b027f36722c6741823278a4ff623a27be3d2a3415db43fe6677df"
     },
     "srp": {
-      "values_digest": "ea76d766e83bff69146c532744b8e39125f338a5d00804346217c4c3d644b92c",
-      "rendered_digest": "d7bcf5774a99aa5b9686dbd98aaa32a4e75b7902476e91a1d6dde76491fbdadb",
-      "ast_digest": "ca812c11e777414432fb0613f1ba391e380c099bee238e1fa408db0378adc521"
+      "values_digest": "16e621d4cfedbce70ca9bd53bee8fdd6cb17fb48840ca3eab4d2dc5148a319f0",
+      "rendered_digest": "71e15e40f9f6167ab7e8682a398278f54ab728afd2323254a3847adb956d71d9",
+      "ast_digest": "0380b2346cbd4f92c651f74c523f47d4838992c830a488b13a4feaeb99f5c402"
     },
     "sor": {
-      "values_digest": "f4829ffb4b0e586996f2cacf43036f9d4e1c7cc2a8e6d0852cbb0a950333852c",
-      "rendered_digest": "beda4ac6544c28d07e1713c167ee2b6d1ff6c8bfec7b5f6c4cdb2b634fbc51a1",
-      "ast_digest": "4874ed95309ea89a2bdfb430e560982071a4cbeeef79eb04c727a7ca55515194"
+      "values_digest": "0cfa2250983ce2569188abe123be31a0bd7c07d175f14a4d72d1288328dffc1b",
+      "rendered_digest": "0abe79b8e4b213bb3d881976700c83c54c185d93427d6d6a760b880276f3ca81",
+      "ast_digest": "9187e73fb5ff72dcb57aa7227322c47d0b16dbdbe35024d3b04a31c0a89cb549"
     }
   },
   "transitions": [
@@ -129,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:sprint-1-issue-499-worker",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Recover review evidence after the non-substantive C-SDLC review-record commit so publication can verify a clean current head."
     }
   ],
   "audit": [
@@ -187,6 +148,13 @@
       "actor": "codex:sprint-1-issue-499-worker",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Recover review evidence after the non-substantive C-SDLC review-record commit so publication can verify a clean current head.",
+      "operation": "recover_review"
     }
   ]
 }
