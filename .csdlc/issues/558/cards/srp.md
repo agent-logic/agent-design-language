@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs and #558 C-SDLC evidence only
+.csdlc/issues/558
+.csdlc/prepared/issues/558
+.csdlc/evidence/558
+adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
 
 ## Prompts
 
@@ -30,12 +33,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- OpenAI Responses API exact-head review PASS response resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d at commit 9cc23527934f805a02ba40f2a094daf52cf25f21.
+- The supplied proof is focused on the affected test rather than a fresh run of the complete 679-test coverage profile.
+- Increasing bounded waits from 60 to 180 seconds may make genuine liveness failures take longer to report, but it does not suppress them and retains diagnostic timeout failures.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9cc23527934f805a02ba40f2a094daf52cf25f21:221bd325ddeaab1ddb9baed78561c50c222fecfa044334875f12f4a301f908d2")
 
-Reviewer: None
+Reviewer: Some("openai-responses:resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d:gpt-5.6-sol")
 
-Result: pre_review
+Result: pass

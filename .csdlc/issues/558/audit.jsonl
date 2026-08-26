@@ -6,3 +6,5 @@
 {"sequence":6,"generation":5,"actor":"fresh-session:d69bddc8-6bd9-4b7e-9606-1e52d8eae403","reason":"approve completed issue design","operation":"{\"design_digest\":\"5b4c7f2d6bdf6199844832ac14e83ed514183ea6e8bd799d6eaf81b330bdb2c7\",\"design_ref\":\".csdlc/prepared/issues/558/design.md\",\"diagram_digest\":\"b51f18318d8bdc6cf6b92f791baf4fc69aeed4dcf5fcc006b07b8576d6cca1a3\",\"diagram_ref\":\".csdlc/prepared/issues/558/diagram.mmd\",\"operation\":\"approve_design\"}"}
 {"sequence":7,"generation":5,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":8,"generation":6,"actor":"codex:issue-558-shared-gate","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":9,"generation":6,"actor":"codex:issue-558-shared-gate","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":10,"generation":7,"actor":"codex:issue-558-shared-gate","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

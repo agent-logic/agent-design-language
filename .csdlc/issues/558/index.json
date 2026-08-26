@@ -4,13 +4,40 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "928d2531fc0a5ac14aa0d11046d570b5d6bc9a01fe430c95bf4212c21d120ec5",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "de7acd8470efacde15f00d69d5589d93c44998a07900080e35414d5c115cc8ff",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "639db6610e42e4f3987c2684784b8b9d9cb9cad04baf881aa206c9c858cc9455",
   "branch": "codex/558-v0-92-1-shared-gate-coverage-learner-replication-stability",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-558-coverage-learner-replication-stability",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "openai-responses:resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d:gpt-5.6-sol",
+    "assigned_by": "codex:issue-558-shared-gate",
+    "revision": "git-blake3:9cc23527934f805a02ba40f2a094daf52cf25f21:221bd325ddeaab1ddb9baed78561c50c222fecfa044334875f12f4a301f908d2",
+    "scope": [
+      ".csdlc/issues/558",
+      ".csdlc/prepared/issues/558",
+      ".csdlc/evidence/558",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d:gpt-5.6-sol",
+    "scope": [
+      ".csdlc/issues/558",
+      ".csdlc/prepared/issues/558",
+      ".csdlc/evidence/558",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:9cc23527934f805a02ba40f2a094daf52cf25f21:221bd325ddeaab1ddb9baed78561c50c222fecfa044334875f12f4a301f908d2",
+    "findings": [],
+    "residual_risks": [
+      "OpenAI Responses API exact-head review PASS response resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d at commit 9cc23527934f805a02ba40f2a094daf52cf25f21.",
+      "The supplied proof is focused on the affected test rather than a fresh run of the complete 679-test coverage profile.",
+      "Increasing bounded waits from 60 to 180 seconds may make genuine liveness failures take longer to report, but it does not suppress them and retains diagnostic timeout failures."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "379a3d652d2e7af504638e1cd9405ac02a6b7f6cc02ceaf27c7e166a64d214cb",
+      "values_digest": "6d03ad9c0a1bf0c379a95454c4ad353d34ecb0620ff50e056f5aba9fb1422804",
       "rendered_digest": "10ca635095e6392f66788c1c04651cc0c0c72583a3aaf931237e95179039983e",
       "ast_digest": "e976b6ab6dbfe37360d03f0dbd12f6093380005ebf45aa7eeb200202f09d314a"
     },
     "stp": {
-      "values_digest": "02c0b6f086281f513d27159f9ad583eb33b370c16636e0dbfaf0e962d9593f9b",
+      "values_digest": "d7c025ebc5fa7eb2b8f91e6511558fb08b83fb081793272abbf4d40e1b29111c",
       "rendered_digest": "8137ebd38f0b4f584c0f21ba8aff17335c984a8f01cc2893a6cc3cbf7f8fda0f",
       "ast_digest": "cd492a4cd24ea9778a851d27a07125ad1ad824a9d447b2de0e0b0971479400b1"
     },
     "spp": {
-      "values_digest": "3ea73101f205c3d371c0811be5d9f1b65f36f1a34189df99fbbd843293a664c3",
+      "values_digest": "5a3070e9c505fb9cf52ff02f41dc4c4fcb604ecf5897e2e1ca82b1d3890b6155",
       "rendered_digest": "9025726504a6e3eb5767075aecd0ceabeab98be3c5f0d65f39109501e1df11bf",
       "ast_digest": "1971fceaf33b56041dd65235c9d015ecc99486601d1e6d64f19ac46b8b8e0e93"
     },
     "vpp": {
-      "values_digest": "8cfc2b291dcc056b2e834bdeb0757a8245779b1e3d55303b56fe22dd996ce6c5",
+      "values_digest": "513f5a70d181bcc0bf5b7db6e83fbd490c989b726e82b28c30e82c42439fda24",
       "rendered_digest": "5cbb094b3f765ed0c5e08be88aa89a1b29a0c3f607441fdfee8c7c3496198bd9",
       "ast_digest": "f2d42bb45f7c63c7c4994405660a34fb2c93f4babe476d5495251be94d061252"
     },
     "srp": {
-      "values_digest": "bea2da7ee339c823027260f52b79e4e8aa41fba63d8f039ff31261b134a1df12",
-      "rendered_digest": "a3f907449f70dd3a3d96746925e2c299f9f44400d9e8ccb67a62e0ad260a4a1e",
-      "ast_digest": "77124b0b7fecb99ba3e14fab8d8d5dcf80408f24c519167cd03bcf0dfcbcb5a8"
+      "values_digest": "b134070898db423282636a2ca928b1a19fc89c6ed9bbcd41e3887e9b286e95bf",
+      "rendered_digest": "99350cb2de563c1f3805344e494befaafb04851694372538cfb149b53a802c01",
+      "ast_digest": "cb5072c052094a8e77be324985c73ff74ef243b17dcdadc371c606d82a708bbd"
     },
     "sor": {
-      "values_digest": "65eaf6747147b92a2048cd135a6190e56ba3f8ed62527ee8c8ea3061ae6bb9ce",
+      "values_digest": "78dc91ad6a1bcc3063a52b4de67f89fde8c2eee8df222addc3e46875ce5eec00",
       "rendered_digest": "214f4c319ccee18c4cd486a5732cefa32e45f55a948ae10d725748e5eeeb7328",
       "ast_digest": "91b6d11dbd8abda8bcae8263b3a987cebd8ad47504be576789018c70534a9271"
     }
@@ -76,6 +103,13 @@
       "to": "implemented",
       "actor": "codex:issue-558-shared-gate",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -134,6 +168,20 @@
       "actor": "codex:issue-558-shared-gate",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-558-shared-gate",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
