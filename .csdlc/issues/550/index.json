@@ -4,69 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
-  "phase": "published",
-  "generation": 21,
-  "digest": "6cd3eaf57851d337f2a53e8f4338491b746226b1ee560fe38abc87e611194790",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "493ab3c719033f56d58ab097ba74b0fe32762e79ac2bdee806bdaf7d92763c0c",
   "branch": "codex/550-runtime-trusted-observatory-origin",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
-  "review_assignment": {
-    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
-    "assigned_by": "codex:/root/issue-550-runtime-origin",
-    "revision": "git-blake3:567920947599c93c95e5a29cfd7e344f261b31f4:1c854f42b05979729cb7ed6be72627c026ea81a69371787f72db108c76228590",
-    "scope": [
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl/tools/test_csmctl_observatory_origins.sh",
-      "demos/html-observatory",
-      "adl/src/adl_gws_context_mirror.rs",
-      "adl/tests/memory_palace_tests.rs",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
-    "scope": [
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl/tools/test_csmctl_observatory_origins.sh",
-      "demos/html-observatory",
-      "adl/src/adl_gws_context_mirror.rs",
-      "adl/tests/memory_palace_tests.rs",
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550"
-    ],
-    "reviewed_revision": "git-blake3:567920947599c93c95e5a29cfd7e344f261b31f4:1c854f42b05979729cb7ed6be72627c026ea81a69371787f72db108c76228590",
-    "findings": [],
-    "residual_risks": [
-      "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.",
-      "Four unified Runtime kernel tests remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds the per-test timeout."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 550,
-    "pull_request": 552,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/552",
-    "base": "main",
-    "head": "codex/550-runtime-trusted-observatory-origin",
-    "revision": "git-blake3:567920947599c93c95e5a29cfd7e344f261b31f4:1c854f42b05979729cb7ed6be72627c026ea81a69371787f72db108c76228590",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -80,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b00e1683eaded5df6d4c3142ed77eb642138fb9334db779d5a41724713fb00b1",
+      "values_digest": "e62c2c865e73eacf9b473b59796cd96a28483321a2d6a03f06a43ff9ae52dc05",
       "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
       "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
     },
     "stp": {
-      "values_digest": "d91629aa1d9370a0a806e2b049d384c9a8a1ce0e30dbadbcecd37f5f124adeb5",
+      "values_digest": "c5414f52707747f3eb215ba4dd34fcd63ebaac3067945136a5a91d0975ce8dfd",
       "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
       "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
     },
     "spp": {
-      "values_digest": "0ce132516a51c6136cbc976254796f2886ad8a6206e1bb39bec90a186ace0193",
+      "values_digest": "3928fa40a50ca1ce880dc04d259b14f51969c901bdd3e1ecba3638f36bb7044f",
       "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
       "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
     },
     "vpp": {
-      "values_digest": "f88a7ad75ea2e2f8bc53e07ab183b53ed0b1916c832a7dfeb6aba8c1dff97470",
+      "values_digest": "7e422f0727c42b058996c25f5ca779d8aa59f810cb99be39fb75f568e24576de",
       "rendered_digest": "dc7c929b9c4c9249b5d55b0028327a2a3363a53acc95d5b9e5eccbe37b78fa2a",
       "ast_digest": "4303c53f72528956d22e0762d95a8de5985af1062e6077e4c38b402c1e8e38f3"
     },
     "srp": {
-      "values_digest": "3e696fb503a2e74e17c0ba07f3b356af228db594411e561697bd2dc85ce949aa",
-      "rendered_digest": "99692e4545af10d0c4ecbe8f5d22164ce057dcb9eb1a3fe4b9b12e1f3e3d16a0",
-      "ast_digest": "bdb286c88033cc5243497fca90931edf615737250bc43d6ed986b19c551b61e7"
+      "values_digest": "607c891e1266427de9a55d8e594d4c01a281b42774c3dc4a1e8fc9fd87d3234b",
+      "rendered_digest": "38912253fde86a5295f105b3a58f9a45fc6c41e717568f6e6e30046219036ca6",
+      "ast_digest": "d15d17ff20b05012c059b224a832b2a50bb339c8eaad909fcd1461ca4378bb70"
     },
     "sor": {
-      "values_digest": "18a9aec08e4e9944bfd3d9b6d48b082a1ad4e3fb4f3a688a36d25c04faac50d3",
-      "rendered_digest": "817b9aabda72a595d54a2e7b5879b5c8e30c12d553c2bd2a67345c1076afcf82",
-      "ast_digest": "3f56151bb52c254be8158dd01bfd7eba5ed89cda3d3df465b468de2a23d620bf"
+      "values_digest": "42c402293d585e20fe27bd590987eca905ff7f7ebd94007ea2444cd560ae9ba7",
+      "rendered_digest": "59a15cdb7b66a7056fa2816ace2ef888d95e79f4d083fec62e8b85cb0b7bf37f",
+      "ast_digest": "54d72af242969909cdd6f0be0f85da3d6a8a1c07e2f3041f7a1f01cff484c25f"
     }
   },
   "transitions": [
@@ -166,6 +111,13 @@
       "to": "published",
       "actor": "codex:/root/issue-550-runtime-origin",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication after CI identified one final unified-kernel test that passes normally in 5.28 seconds but times out only under LLVM coverage; exact coverage-only exclusion and contract were added at 3032b2c22."
     }
   ],
   "audit": [
@@ -350,6 +302,13 @@
       "actor": "codex:/root/issue-550-runtime-origin",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication after CI identified one final unified-kernel test that passes normally in 5.28 seconds but times out only under LLVM coverage; exact coverage-only exclusion and contract were added at 3032b2c22.",
+      "operation": "recover_review"
     }
   ]
 }
