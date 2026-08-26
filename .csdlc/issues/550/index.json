@@ -4,63 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
-  "phase": "published",
-  "generation": 24,
-  "digest": "b3f6ec6abcee0d7e652d730ba0098088a3721d5fd76f0b5f5c4e3e2a21daf8e4",
+  "phase": "implemented",
+  "generation": 25,
+  "digest": "733ac1dfa68c4eee7f8a1a006789a437c3237aa4f0067a68b54b37810e9e0709",
   "branch": "codex/550-runtime-trusted-observatory-origin",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
-  "review_assignment": {
-    "reviewer": "fresh-session:janitor-550-pr552-after-final-coverage-timeout",
-    "assigned_by": "codex:/root/janitor-550-pr552-after-554",
-    "revision": "git-blake3:d5736e38d3611a5665b92c871281a62d7fa5b0ed:b31c2ee2afc4e674a8bb8e5f1d8a448ce4d2231e4535b6eb457172e6e8e426b2",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "demos/html-observatory",
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:janitor-550-pr552-after-final-coverage-timeout",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "demos/html-observatory",
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example"
-    ],
-    "reviewed_revision": "git-blake3:d5736e38d3611a5665b92c871281a62d7fa5b0ed:b31c2ee2afc4e674a8bb8e5f1d8a448ce4d2231e4535b6eb457172e6e8e426b2",
-    "findings": [],
-    "residual_risks": [
-      "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.",
-      "Five unified Runtime kernel tests remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds the per-test timeout."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 550,
-    "pull_request": 552,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/552",
-    "base": "main",
-    "head": "codex/550-runtime-trusted-observatory-origin",
-    "revision": "git-blake3:d4dd34580a38787eb8c942cabfd749fa3950bfb6:16a276d80613e7571578a66067d6fb1e3584fd41faaaed03a273e23e3c7aaf2d",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -74,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c6a916abfa0739aa342f962c32d214d4585c9b321395ec1e428911213cfb07d4",
+      "values_digest": "a327b1695055fe13d708a4215f4c67942c6b7c588afaa49c95dac346e38399b8",
       "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
       "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
     },
     "stp": {
-      "values_digest": "fc28ae93afc474c5357875c653b18648ce19f69e077205d57e8d78c76924f457",
+      "values_digest": "aad291df4029cb9a1c6e6721c6247a8fd03f74e2a36fcf8643a2c9dfa6192d51",
       "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
       "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
     },
     "spp": {
-      "values_digest": "0d87dadf05410d305fa99779d1e528d62531ee7e5eea37701f50e354b84d53ce",
+      "values_digest": "47a15b97ebda869faf610bcb4f7dbcce6d2d1eb56a6b6d0b46ed3b54586e6879",
       "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
       "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
     },
     "vpp": {
-      "values_digest": "51b9bc5bdf14ea7ff54d5f0c0d78e6a98e76faf61811269d660cc61cbf343cd8",
+      "values_digest": "dcb62207a90500a3ad32334d6c6c487fec26e827371e7273d7e587d53bbfcfa2",
       "rendered_digest": "dc7c929b9c4c9249b5d55b0028327a2a3363a53acc95d5b9e5eccbe37b78fa2a",
       "ast_digest": "4303c53f72528956d22e0762d95a8de5985af1062e6077e4c38b402c1e8e38f3"
     },
     "srp": {
-      "values_digest": "4819ad666aadd27fb82fd117991d1934b7870d97f048ea104089380e208cfff5",
-      "rendered_digest": "d6a327bb6543f99c968a133ce8d50174d52540c48498b8903743b397f39ddb05",
-      "ast_digest": "3701f9dcbe15224ee026cff2283fc48f7eacb8dec19614a18ecf7c196add50ec"
+      "values_digest": "68d0a4912eceee7be841419ba330c9cf02f5de97e3c2fb4a55169411816b460c",
+      "rendered_digest": "38912253fde86a5295f105b3a58f9a45fc6c41e717568f6e6e30046219036ca6",
+      "ast_digest": "d15d17ff20b05012c059b224a832b2a50bb339c8eaad909fcd1461ca4378bb70"
     },
     "sor": {
-      "values_digest": "6962c7ac43100bb273217fe619bd07d195618ab46a1ad4741739bdcdf308417d",
-      "rendered_digest": "817b9aabda72a595d54a2e7b5879b5c8e30c12d553c2bd2a67345c1076afcf82",
-      "ast_digest": "3f56151bb52c254be8158dd01bfd7eba5ed89cda3d3df465b468de2a23d620bf"
+      "values_digest": "e0ac4f2f6c22bd6b83f331eacfbe7298e13877c3fd7029e4d04003fdb8a7309e",
+      "rendered_digest": "59a15cdb7b66a7056fa2816ace2ef888d95e79f4d083fec62e8b85cb0b7bf37f",
+      "ast_digest": "54d72af242969909cdd6f0be0f85da3d6a8a1c07e2f3041f7a1f01cff484c25f"
     }
   },
   "transitions": [
@@ -181,6 +132,13 @@
       "to": "published",
       "actor": "codex:/root/janitor-550-pr552-after-554",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "Recover publication after refreshed PR CI run 33013774771 showed workspace coverage-only failures: one additional unified Runtime kernel timeout and one CSM OTel monitor status race. The runtime test remains authoritative outside LLVM coverage, and the CSM monitor-status update path now serializes concurrent updates."
     }
   ],
   "audit": [
@@ -393,6 +351,13 @@
       "actor": "codex:/root/janitor-550-pr552-after-554",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "Recover publication after refreshed PR CI run 33013774771 showed workspace coverage-only failures: one additional unified Runtime kernel timeout and one CSM OTel monitor status race. The runtime test remains authoritative outside LLVM coverage, and the CSM monitor-status update path now serializes concurrent updates.",
+      "operation": "recover_review"
     }
   ]
 }
