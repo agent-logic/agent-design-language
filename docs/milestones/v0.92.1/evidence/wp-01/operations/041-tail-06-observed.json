@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "TAIL-06",
+  "issue": 522,
+  "title": "[v0.92.1][TAIL-06] Review findings remediation",
+  "labels": [
+    "area:quality",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "TAIL-05": 521
+  },
+  "body_sha256": "8368a0f1a7017bc1046468d6322d3ed672edd054dbef5a1fd67f895988029de8",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-06:create",
+  "request_fingerprint": "2f98a232415327986722b964dee78a66026c19718f735bfe80be332a1a5f2a6f",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "ec7e42d0eda38f0a4647a3fc3d60d5fbaa75676cbfadd9284b8d80b3b03641ea",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one complete finding-disposition ledger for the accepted-finding denominator.\n\n## Primary deliverable\n\nOne finding-disposition ledger binding each accepted finding to a reviewed fix or explicit owned deferral.\n\n## Verification result\n\nThe finding census reports every accepted finding exactly once with evidence, owner, disposition, and review identity.\n\n## Unit boundary\n\nIssue completion is exactly one complete finding-disposition ledger; individual remediations remain separately reviewable evidence.\n\n## Dependencies\n\n- TAIL-05: #521\n\n## Retained predecessor scope\n\n- #188\n\n## Acceptance criteria\n\n- [ ] Every finding has exactly one disposition\n- [ ] Every substantive fix has exact-head review\n- [ ] Every deferral names owner rationale and target milestone\n\n## Owned paths\n\n- `docs/milestones/v0.92.1/evidence/release/tail-06/**`\n\n## PVF lanes\n\n- `finding-census`\n- `remediation-proof`\n- `deferral-truth`\n\n## Stop conditions\n\n- A release-blocking finding remains\n\n## Non-goals\n\n- Silent deferral\n- Ceremony\n\n## Canonical planning identity\n\n- Planned ID: `TAIL-06`\n- Canonical title: `[v0.92.1][TAIL-06] Review findings remediation`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#TAIL-06`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-06:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:35:22Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:quality"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 522,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][TAIL-06] Review findings remediation"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:TAIL-06:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

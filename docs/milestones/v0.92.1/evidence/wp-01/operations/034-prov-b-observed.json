@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "PROV-B",
+  "issue": 515,
+  "title": "[v0.92.1][PROV-B] Local-model shadow execution",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "PROV-A": 514
+  },
+  "body_sha256": "94861a193268444082f684539bc8859a24ed5d4419d45630b2f4bad6d1905a84",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:PROV-B:create",
+  "request_fingerprint": "c30b20e4c6a98d8dad65ede86a59893a418d51e6d5d537df48d14438a76d0f6b",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "a8fd8c45298950212480d691fa8a9c7a221d7f2570dc2d6fd9c3382890797b4b",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one bounded local-model shadow-execution path that cannot acquire authority.\n\n## Primary deliverable\n\nOne bounded local-model shadow-execution and comparison path that cannot acquire authority.\n\n## Verification result\n\nIsolation, deterministic comparison, fallback, and redaction checks prove authoritative results remain unchanged.\n\n## Unit boundary\n\nIssue completion is exactly one non-authoritative shadow-execution path; comparison cases are proof inputs.\n\n## Dependencies\n\n- PROV-A: #514\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Shadow and authority paths are distinguishable\n- [ ] Inputs and comparison rules are exact\n- [ ] Failures preserve the authoritative result\n- [ ] Evidence is redacted\n\n## Owned paths\n\n- `adl/src/provider/**`\n- `docs/milestones/v0.92.1/evidence/provider/prov-b/**`\n\n## PVF lanes\n\n- `shadow-isolation`\n- `deterministic-comparison`\n- `fallback`\n- `redaction`\n\n## Stop conditions\n\n- Shadow output can mutate authority\n- Comparison inputs drift\n\n## Non-goals\n\n- Provider benchmark marketing claims\n- Production cutover\n\n## Canonical planning identity\n\n- Planned ID: `PROV-B`\n- Canonical title: `[v0.92.1][PROV-B] Local-model shadow execution`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#PROV-B`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:PROV-B:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:20:56Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 515,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][PROV-B] Local-model shadow execution"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:PROV-B:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

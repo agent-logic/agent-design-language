@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "GCP-C",
+  "issue": 492,
+  "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "GCP-B": 491
+  },
+  "body_sha256": "a1bf2ee2720092fba9d254282b64fc37cf1c206db334169f89ade94940e769ae",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-C:create",
+  "request_fingerprint": "9e744830b5a0f1cda5a8e050d5799748874e2b4ec5491902f0a327df67b5d931",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "afc31607e960aecc226404b00471a97727bbc31496d759a90a95a1edc62c5c70",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one operational GCP organization and billing baseline.\n\n## Primary deliverable\n\nOne operational organization and billing baseline for the approved folder and project denominator.\n\n## Verification result\n\nFolder, project, billing-link, scoped-policy, administrative-group, budget, export, label, and ownership readbacks pass without changing unrelated POC resources.\n\n## Unit boundary\n\nIssue completion is exactly one operational organization-and-billing baseline; individual folder project and policy changes are implementation parts.\n\n## Dependencies\n\n- GCP-B: #491\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Every new project has corporate group ownership and cost attribution\n- [ ] Policies are scoped and impact-reviewed\n- [ ] Billing export and budgets are observable\n- [ ] Existing POC resources remain unchanged unless explicitly admitted\n\n## Owned paths\n\n- `infra/gcp/organization/**`\n- `docs/operations/cloud/gcp/organization-billing/**`\n- `docs/milestones/v0.92.1/evidence/cloud/gcp-c/**`\n\n## PVF lanes\n\n- `hierarchy-parity`\n- `policy-impact`\n- `group-ownership`\n- `billing-export`\n- `budget-and-label`\n\n## Stop conditions\n\n- A broad policy could affect POC resources\n- Individual-only ownership remains\n- Cost attribution is absent\n\n## Non-goals\n\n- Production activation\n- GPU launch\n- AWS organization changes\n\n## Canonical planning identity\n\n- Planned ID: `GCP-C`\n- Canonical title: `[v0.92.1][GCP-C] GCP organization and billing baseline`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-C`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-C:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:49:13Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 492,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][GCP-C] GCP organization and billing baseline"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:GCP-C:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

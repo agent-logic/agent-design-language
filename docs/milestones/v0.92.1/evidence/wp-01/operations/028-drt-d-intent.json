@@ -1,0 +1,13 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "child_create",
+  "planned_id": "DRT-D",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:DRT-D:create",
+  "request_fingerprint": "6079dd71c73211a7630c24bdc6d0f436c74b65181fd969884dd5d849128678b4",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "dependencies": {
+    "DRT-C": 508,
+    "GCP-E": 494,
+    "XCL-01": 495
+  }
+}

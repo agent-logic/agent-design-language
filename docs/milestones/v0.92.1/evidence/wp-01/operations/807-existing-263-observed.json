@@ -1,0 +1,20 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "existing_verify",
+  "issue": 263,
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "live_issue": {
+    "number": 263,
+    "title": "[v0.92.1][podcast][51.c] Prepare directory submission runbooks and operator preflight",
+    "body": "Split from #51. Part of #51. Depends on terminal #261 (51.a) and terminal #262 (51.b).\n\n## Outcome\n\nPrepare current, executable, provider-specific directory submission runbooks and one operator preflight packet for Apple Podcasts, Spotify, Amazon Music, and YouTube without submitting, publishing, or changing any provider account.\n\n## Scope\n\n- Current official-instruction review for Apple Podcasts Connect, Spotify for Creators, Amazon Music for Podcasters, and YouTube Studio/RSS ingestion.\n- Company-account ownership, 2FA, mailbox, content-rights, availability, feed, artwork, and metadata preflight.\n- Redacted operator checklists that clearly mark every account-side action and irreversible submit/publish step.\n- Submission-ledger schema for owner, date, canonical show URL/ID, state, evidence, and follow-up, excluding credentials and verification codes.\n- Explicit handoff and authorization gate for 51.d.\n\n## Acceptance Criteria\n\n1. Each runbook is checked against current official provider instructions immediately before exact-head review.\n2. The reviewed 51.a identity and 51.b production feed/enclosures are referenced exactly.\n3. Every external account, 2FA, rights, verification, availability, submit, and publish action is identified as operator-controlled.\n4. No directory submission, account mutation, public launch, or credential capture occurs.\n5. The ledger schema can retain canonical IDs/status without secrets or unsupported acceptance claims.\n6. Exact-head review has no unresolved actionable findings.\n\n## Dependencies\n\n- Terminal #261 (51.a).\n- Terminal #262 (51.b).\n- Part of #51.\n\n## Non-Goals\n\n- No Apple, Spotify, Amazon, or YouTube submission.\n- No provider-account creation or mutation.\n- No public launch.\n- No hosting/feed implementation.\n\n## Graph\n\n`split_from: #51`; `part_of: #51`; `depends_on: terminal #261 (51.a), terminal #262 (51.b)`; prerequisite for operator-gated 51.d.\n\n<!-- csdlc-github-operation:v092-decompose-p51-c3-v1 -->\n\n<!-- csdlc-github-operation:v092-p51-c3-dependency-correction-v1 -->\n",
+    "state": "open",
+    "labels": [
+      "area:demo",
+      "track:roadmap",
+      "type:docs",
+      "version:v0.92.1"
+    ],
+    "milestone": 1,
+    "milestone_title": "v0.92.1"
+  }
+}

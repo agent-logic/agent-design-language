@@ -1,0 +1,7 @@
+{
+  "schema": "adl.v0921.wp01.operation-intent.v1",
+  "kind": "existing_verify",
+  "issue": 263,
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "live_before_sha256": "35cbe02f0f0436ed03eb68833a70c3c4814f927a6fe48617cd7f5ec7e4f28ac9"
+}

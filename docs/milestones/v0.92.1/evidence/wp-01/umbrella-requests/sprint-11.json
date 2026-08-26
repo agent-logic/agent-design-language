@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_create",
+  "operation_key": "v0921-wp01:sprint-11:create",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][Sprint 11] Handoff and release",
+  "body": "## Outcome\n\nCoordinate Sprint 11 — Handoff and release as one bounded execution wave without absorbing child implementation.\n\n## Exact child membership\n\n- #523\n- #524\n- #525\n- #526\n\n## Completion gate\n\n- Every listed child has an independently reviewed, green merge into `main` and its merge commit is ancestral to the sprint closing revision.\n- Blocked or deferred children retain an explicit operator-approved disposition; the umbrella never fabricates completion.\n- Typed finish and worktree cleanup are asynchronous and never gate another issue.\n\n## Concrete result\n\nOne immutable Sprint 11 result records the exact child denominator, dispositions, reviewed merge heads, green checks, merge commits, and ancestry.\n\n## Non-goals\n\n- Implementing child work inside this umbrella.\n- Serializing children that have no declared dependency.\n- Treating closeout or cleanup as an execution dependency.\n\n<!-- csdlc-github-operation:v0921-wp01:sprint-11:create -->\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

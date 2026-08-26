@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "HOT-01",
+  "issue": 510,
+  "title": "[v0.92.1][HOT-01] Axum configuration hot reload",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "WP-01": 480
+  },
+  "body_sha256": "4565074b5422e3011f118a95055dc59f5743b4ad0d13fc6fd5d6ef342e5baf1e",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:HOT-01:create",
+  "request_fingerprint": "23a9b7336717f34af848296d616871f04a6552d3101cee7f8baff0ec6a12004c",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "fe073f4c536507594f21ea5206be6ef683dcbcbb9034baa06d129b3453df06ca",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one production-ready Axum hot-reload implementation.\n\n## Primary deliverable\n\nOne production-ready Axum hot-reload implementation with last-known-good retention.\n\n## Verification result\n\nValid reload, invalid retention, debounce, concurrent-read, and watcher-shutdown tests pass.\n\n## Unit boundary\n\nIssue completion is exactly one production-ready hot-reload implementation; behavioral cases are proof inputs.\n\n## Dependencies\n\n- WP-01: #480\n\n## Retained predecessor scope\n\n- None; this is new v0.92.1 work.\n\n## Acceptance criteria\n\n- [ ] Reads use atomically swappable state\n- [ ] Invalid updates preserve the last valid configuration\n- [ ] File events are debounced\n- [ ] Concurrent requests observe complete configurations only\n\n## Owned paths\n\n- `adl-runtime/src/config_reload.rs`\n- `adl-runtime/tests/config_reload.rs`\n- `docs/runtime/config-hot-reload.md`\n\n## PVF lanes\n\n- `valid-reload`\n- `invalid-retention`\n- `debounce`\n- `concurrent-read`\n- `watcher-shutdown`\n\n## Stop conditions\n\n- Reload requires process restart\n- Partial configuration can become visible\n\n## Non-goals\n\n- Database pool replacement\n- HTML template reload\n- Admin mutation API\n\n## Canonical planning identity\n\n- Planned ID: `HOT-01`\n- Canonical title: `[v0.92.1][HOT-01] Axum configuration hot reload`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#HOT-01`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:HOT-01:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T03:11:59Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "area:runtime",
+        "version:v0.92.1"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 510,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][HOT-01] Axum configuration hot reload"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:HOT-01:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}

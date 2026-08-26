@@ -1,0 +1,27 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_update",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:existing-251:route",
+  "token_file": null,
+  "issue": 251,
+  "pull_request": null,
+  "title": "[v0.92.1][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity",
+  "body": "## Problem\n\nRuntime v3's public Axum HTTPS/WSS listener is hard-coded to TLS 1.3 only. Unity 6000.5.1f1's UnityTLS client negotiates TLS 1.2 with otherwise compatible public endpoints and cannot complete the Runtime handshake. This blocks issue #84 even with a valid CA-issued certificate and complete Let’s Encrypt chain.\n\nThe restriction is currently explicit in `adl-runtime-kernel/src/tls.rs` through `with_protocol_versions(&[&rustls::version::TLS13])`.\n\n## Diagnostic evidence\n\nThe #84 native Unity Play Mode lane established the following controls:\n\n- Unity accepted Let’s Encrypt's official X2-terminating Gen-Y test endpoint.\n- Unity rejected direct Root YE trust, as expected.\n- A separately issued short-lived ECDSA Wuji leaf with the same YE/X2 certificate shape still failed against the ADL Runtime with UnityTLS error code 7.\n- The exact Wuji short-lived leaf and chain succeeded when served by OpenSSL on the same host and port. Unity negotiated TLS 1.2 and advanced past certificate validation to the expected application-layer timeout.\n- Therefore the certificate, hostname, ECDSA key, and X2 chain are not the blocker; the Runtime's TLS 1.3-only public listener is the discriminating boundary.\n\nRetained local evidence in the #84 worktree includes:\n\n- `.adl/evidence/84/unity-runtime-v3/20260812T063900Z-live.log` — official X2 endpoint accepted at TLS layer.\n- `.adl/evidence/84/unity-runtime-v3/20260812T064625Z-live.log` — short-lived Wuji certificate rejected against Runtime.\n- `.adl/evidence/84/unity-runtime-v3/20260812T064949Z-live.log` — identical Wuji certificate presentation accepted through OpenSSL; application layer intentionally non-Runtime.\n\n## Required outcome\n\nSupport TLS 1.2 and TLS 1.3 on Runtime v3's public Axum HTTPS/WSS listener using the shared reviewed Rustls provider and secure ECDHE cipher suites, while preserving TLS 1.3-only behavior for Quinn Guardian transport where that is a protocol invariant.\n\n## Acceptance criteria\n\n- Public Axum HTTPS/WSS server configuration enables both Rustls TLS 1.2 and TLS 1.3.\n- TLS 1.2 support is limited to reviewed forward-secret AEAD suites compatible with the configured ECDSA and RSA certificate policies; no legacy TLS versions or weak suites are enabled.\n- Quinn Guardian mTLS remains TLS 1.3-only unless a separate reviewed requirement changes it.\n- Focused tests prove the public listener accepts TLS 1.2 and TLS 1.3 and rejects TLS 1.1 and earlier.\n- Focused tests cover CA-issued ECDSA identity loading and complete-chain presentation without leaf-as-root trust.\n- The real Unity 6000.5.1f1 Play Mode product adapter completes HTTPS and WSS authentication against the Runtime without a proxy, trust-store mutation, custom always-accept certificate handler, or verification bypass.\n- Existing browser/curl clients continue to negotiate TLS 1.3 when supported.\n- Runtime startup remains fail-closed for invalid identity, incomplete chain, wrong SAN, expiry, unsuitable EKU, and unknown issuer.\n- Observability records negotiated TLS version without logging credentials or certificate private material.\n\n## Non-goals\n\n- Disabling certificate validation or adding a Unity-specific trust bypass.\n- Installing or mutating host keychain trust.\n- Adding a TLS-termination proxy as the product solution.\n- Weakening Quinn Guardian mutual authentication.\n- Reissuing certificates as a substitute for protocol compatibility.\n- Implementing this change inside issue #84.\n\n## Issue graph\n\n- Follow-up to closed TLS standardization issue #92.\n- Blocks the real native Unity acceptance lane and publication of #84.\n- #84 owns only the Unity consumer and must treat this Runtime change as an upstream dependency.\n\n<!-- csdlc-github-operation:v092-backlog-runtime-public-tls12-unity-20260812 -->\n",
+  "labels": [
+    "area:runtime",
+    "track:roadmap",
+    "type:bug",
+    "version:v0.92.1"
+  ],
+  "assignees": [
+
+  ],
+  "milestone": 1,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [
+
+  ],
+  "require_review": false,
+  "linked_issue": null
+}

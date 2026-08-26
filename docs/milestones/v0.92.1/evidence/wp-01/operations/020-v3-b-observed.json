@@ -1,0 +1,53 @@
+{
+  "schema": "adl.v0921.wp01.operation-observed.v1",
+  "kind": "child_create",
+  "planned_id": "V3-B",
+  "issue": 501,
+  "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+  "labels": [
+    "area:csdlc",
+    "track:roadmap",
+    "type:task",
+    "version:v0.92.1"
+  ],
+  "milestone": 1,
+  "state": "open",
+  "dependencies": {
+    "V3-A": 500
+  },
+  "body_sha256": "819051a4dfde6e01440592f6c8528152cf573fad294211a29d95d4f2b044cee3",
+  "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-B:create",
+  "request_fingerprint": "05ac98ac8a8c239543e07e8019d5d3357ff078c5dc016cacc5896a87f350236d",
+  "planning_digest": "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251",
+  "specification_sha256": "bc0a975f5cad717b9b5527f502a398cdb2fee5fadba9720720b8c562fb58cd04",
+  "live_response": {
+    "action": "issue_create",
+    "comment_id": null,
+    "issue": {
+      "assignees": [
+
+      ],
+      "body": "## Outcome\n\nProduce one deterministic C-SDLC v3 foundation slice.\n\n## Primary deliverable\n\nOne deterministic C-SDLC v3 foundation slice exposing repository context, state, and projections.\n\n## Verification result\n\nFocused foundation tests prove deterministic replay and requirements 164 through 167.\n\n## Unit boundary\n\nIssue completion is exactly delivery of one deterministic foundation slice; internal components cannot close independently.\n\n## Dependencies\n\n- V3-A: #500\n\n## Retained predecessor scope\n\n- #164\n- #165\n- #166\n- #167\n\n## Acceptance criteria\n\n- [ ] State and projections are deterministic\n- [ ] Repository context is explicit\n- [ ] Requirements 164 through 167 have focused behavioral proof\n\n## Owned paths\n\n- `csdlc-v3/src/bin/**`\n- `csdlc-v3/src/application/**`\n- `csdlc-v3/src/repository/**`\n- `csdlc-v3/tests/foundation/**`\n\n## PVF lanes\n\n- `foundation-unit`\n- `repository-context`\n- `state-projection`\n- `strict-clippy`\n\n## Stop conditions\n\n- Hidden process state is required\n- Projection replay diverges\n\n## Non-goals\n\n- Lifecycle execution\n- GitHub mutation\n\n## Canonical planning identity\n\n- Planned ID: `V3-B`\n- Canonical title: `[v0.92.1][V3-B] C-SDLC v3 foundation`\n- Planning digest: `f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251`\n- Execution specification: `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-B`\n<!-- csdlc-github-operation:v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-B:create -->\n",
+      "closed_at": null,
+      "created_at": "2026-08-26T02:58:51Z",
+      "labels": [
+        "track:roadmap",
+        "type:task",
+        "version:v0.92.1",
+        "area:csdlc"
+      ],
+      "marker_present": true,
+      "milestone": 1,
+      "number": 501,
+      "repository": "agent-logic/agent-design-language",
+      "schema": "csdlc.github_issue.v1",
+      "state": "open",
+      "title": "[v0.92.1][V3-B] C-SDLC v3 foundation"
+    },
+    "operation_key": "v0921-wp01:f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251:V3-B:create",
+    "pr_state": null,
+    "reconciled": true,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_action_result.v1"
+  }
+}
