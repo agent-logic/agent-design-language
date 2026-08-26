@@ -4,68 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
-  "phase": "published",
-  "generation": 35,
-  "digest": "f2e41e66521cd529bf48e94db53d28794e2569532faf416e42e6c371c839f038",
+  "phase": "implemented",
+  "generation": 36,
+  "digest": "1577111d5c3f64301563099c78f459650bdda481ff0d31b0574202e8f42a6df4",
   "branch": "codex/550-runtime-trusted-observatory-origin",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
-  "review_assignment": {
-    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
-    "assigned_by": "codex:/root/issue-550-runtime-origin",
-    "revision": "git-blake3:436ba092f338cd6277dc532b37185f72fda7c6d4:b31001c3ffc4a3a1e0f3a283b19c91c28ea8ec9751b5d6b7ec8a46e2093b45ce",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "adl/src/cli/observability.rs",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "demos/html-observatory",
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example",
-      "PR #552 exact head 436ba092f"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
-    "scope": [
-      "adl/tools/run_authoritative_coverage_lane.sh",
-      "adl/tools/test_run_authoritative_coverage_lane.sh",
-      "adl/src/cli/observability.rs",
-      ".csdlc/issues/550",
-      ".csdlc/evidence/550",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "demos/html-observatory",
-      "CSMctl",
-      "docs/tooling/CSMctl.conf.example",
-      "PR #552 exact head 436ba092f"
-    ],
-    "reviewed_revision": "git-blake3:436ba092f338cd6277dc532b37185f72fda7c6d4:b31001c3ffc4a3a1e0f3a283b19c91c28ea8ec9751b5d6b7ec8a46e2093b45ce",
-    "findings": [],
-    "residual_risks": [
-      "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving hostname and public certificate validation; it is not portable deployment authority for other hosts.",
-      "The unified Runtime kernel family and real four-node learner replication test remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds their bounded test deadlines.",
-      "GitHub CI remains the final integration authority for the exact published PR head."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 550,
-    "pull_request": 552,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/552",
-    "base": "main",
-    "head": "codex/550-runtime-trusted-observatory-origin",
-    "revision": "git-blake3:7c4ea9973de0747235d1766e8a85e247f5cf50e9:1f272b4609562359aabb47e3306fe15e7ea113e0f5ab8e0c6c38420c5e9f61ef",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1826daa6fb7b1f71603ef11f08f2f906346d0a536f5f0acb30e003f0c3de6c9e",
+      "values_digest": "8fe383a72612c03d0a17d4ddd272232eafe45067fdcaabf7231844b5265dda33",
       "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
       "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
     },
     "stp": {
-      "values_digest": "ba9bb598dd4f9188cc408510fcfab0415c96c3495b9978b6b2e8f45aa9fd5373",
+      "values_digest": "cfb55b7addcb161c6d6e8fe8982ba142987de028b1e09991bea79db75a899a20",
       "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
       "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
     },
     "spp": {
-      "values_digest": "8e6bc173124f33e160691be7d144076c6c06abc08f6062f5457c0348bdd482cf",
+      "values_digest": "978c04f18c20a28d6fd50f5c7b258e119638a4bb734efd91140c20846ea4ee90",
       "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
       "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
     },
     "vpp": {
-      "values_digest": "c0fa6cd725ff57dc9306d5bfa447a672578394ebb3edf96930747da0943891f0",
+      "values_digest": "2fe3ee8d56c4be189fc14a9050239dcc955876349b1140d99b9067a0f3d840c0",
       "rendered_digest": "dc7c929b9c4c9249b5d55b0028327a2a3363a53acc95d5b9e5eccbe37b78fa2a",
       "ast_digest": "4303c53f72528956d22e0762d95a8de5985af1062e6077e4c38b402c1e8e38f3"
     },
     "srp": {
-      "values_digest": "1599f32bffd583d04391fc274bf4e4b22ad093413434120518fc289bd77d6e8e",
-      "rendered_digest": "476f0de6fc1a5808d65c84d8e31ee41acd02e1526bbb8bc8fcea63ae18218dfd",
-      "ast_digest": "a72f75530bd3aecb108c6842ac538922647ddcc0af9f1312200181764c1341de"
+      "values_digest": "bad7858e2608acc1c93c5fe463048eb6ee4066075aaad9e3a70fcd46b5c48d13",
+      "rendered_digest": "38912253fde86a5295f105b3a58f9a45fc6c41e717568f6e6e30046219036ca6",
+      "ast_digest": "d15d17ff20b05012c059b224a832b2a50bb339c8eaad909fcd1461ca4378bb70"
     },
     "sor": {
-      "values_digest": "2aa28d779582a2c1e6185311d4b3ce6fc574c93f4675c24b69d3eb8b4e89f50a",
-      "rendered_digest": "817b9aabda72a595d54a2e7b5879b5c8e30c12d553c2bd2a67345c1076afcf82",
-      "ast_digest": "3f56151bb52c254be8158dd01bfd7eba5ed89cda3d3df465b468de2a23d620bf"
+      "values_digest": "9d1d4583bd95a088ca985073156e791407751437a6179967665cc58e3c6548dc",
+      "rendered_digest": "59a15cdb7b66a7056fa2816ace2ef888d95e79f4d083fec62e8b85cb0b7bf37f",
+      "ast_digest": "54d72af242969909cdd6f0be0f85da3d6a8a1c07e2f3041f7a1f01cff484c25f"
     }
   },
   "transitions": [
@@ -263,6 +209,13 @@
       "to": "published",
       "actor": "codex:/root/issue-550-runtime-origin",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 23,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication because the metadata publication push canceled the still-running exact-source CI workflow. Preserve the reviewed coverage repair, publish one final source-bearing explanatory contract commit, wait for its CI to complete, and only then record review and publication metadata."
     }
   ],
   "audit": [
@@ -580,6 +533,13 @@
       "actor": "codex:/root/issue-550-runtime-origin",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 46,
+      "generation": 36,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication because the metadata publication push canceled the still-running exact-source CI workflow. Preserve the reviewed coverage repair, publish one final source-bearing explanatory contract commit, wait for its CI to complete, and only then record review and publication metadata.",
+      "operation": "recover_review"
     }
   ]
 }
