@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 122,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
-  "phase": "initialized",
-  "generation": 2,
-  "digest": "626edb8d9857b343a455030fdf35860fe4f3fb98b8afd05c31697373049942d3",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "9190064d00ca2788a03b18cade6309595912b11f5790e18337d25757add778be",
+  "branch": "codex/122-csm-public-edge-terraform",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +25,59 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "06292e374a6f4e737421179152e285adf1664ad3d39bff5d2298bf8344da421f",
+      "values_digest": "039b76a7ac42dd4efa1bcb4d7cdda5fdbf3127af387b9151aac0e0b9d21afbfe",
       "rendered_digest": "cd12ee5641d38d3bd2e1945212425c319e086675af0ec5170898707db64d292a",
       "ast_digest": "9b5408522cb87aed403bc16f61cdd97e784e50f5454714eeb79ae8ca857fb0ea"
     },
     "stp": {
-      "values_digest": "5453a3275a01e6d496563fe006789b4658e9f298a9a45a6a2cf96e7466adc88c",
+      "values_digest": "a47a11982ff4cafd94fd54bfd3254063d39faf9595602b3d1e7ea062272a3106",
       "rendered_digest": "361ff93b0e1e61d9f92b5a14ad007a42ae0828cefcaaac058d68f27792959ca7",
       "ast_digest": "a2808dfa07211e20ffe81ad241ffccb00062fd49bcd6aafd0461dd0519f5994c"
     },
     "spp": {
-      "values_digest": "188889177d3bab1a38a58c6648d5236fa67a541627197c3642deeb35c3b7b723",
+      "values_digest": "21f70e90734a2b2542022d7140f8c3c2d6143e7e4cef8625c24c1ef38a6da6b8",
       "rendered_digest": "cdced21297dacb45fae0e5a33d01417fc34e3a37beb92c2fedf2089068131907",
       "ast_digest": "305f66418ecff6b46a8f90f4eb244a7509f94176e773522b5d063e5b4b1184cc"
     },
     "vpp": {
-      "values_digest": "ef3073f4e28d975b4b6c7e42aa4b8760988e40414daaec32ebb6ba570d95c2ba",
+      "values_digest": "f4e805bd469497a50301086ab40fdca4dae84dfc029efa7cdcc8f40e20d1968b",
       "rendered_digest": "54884b946276e73ff76a987aca011bc8a01fc8f3338c8d06081d4cc634cf3acd",
       "ast_digest": "6790beddbe97c9ce51ac664e4cdd26451c7d19554bf19e02d1857fd2295cfbb1"
     },
     "srp": {
-      "values_digest": "f0910101bd302fc0fd1135ec1bd29c4195a03232e36060c4499cab2a42d81922",
+      "values_digest": "77db273d2d06be8ba9799e1bf7cea6fca55fd648216ee8343ae0e1903ace9b5f",
       "rendered_digest": "c6c1df921371209cc16cdc36ddc8d74638777ff928e7696dfa925db98596ff1e",
       "ast_digest": "3a18bc9350b48fbe9c203a3dc5e1f7a702a033d7bb1edf58f679fd0ce4254e09"
     },
     "sor": {
-      "values_digest": "509dd08b6077e2f738641e79b1dbe49b23e8ed67b8d8dc8bf3eb4ebfde86d753",
-      "rendered_digest": "7333db4e4fd7402fedef3accd96ebceae46deedce366231ca2ce1052694803e6",
-      "ast_digest": "e454b0636290bb236295d5ed19a59ab52bfb4f94f500737c07709da797b7ddbf"
+      "values_digest": "8f5e94089fd87f37ab48888e7e9ff9abcc6b2745244cc4527114ecc1cc7532ba",
+      "rendered_digest": "cfae193b5c0c25f732f6701b51eda8e1211f28b194593854861a9a9653f73c95",
+      "ast_digest": "09bd4352f742c6adef82e6bfa70af162710e113bce4f7e2764954477e3bba6e4"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -76,6 +99,20 @@
       "actor": "codex:122-deferred-public-exposure-preparation",
       "reason": "Declare exact deferred issue-owned deliverables, including both typed validator denominators.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"infra/aws/public-observatory/main.tf\",\"infra/aws/public-observatory/variables.tf\",\"adl/tools/validate_public_observatory_exposure.sh\",\"adl/tools/validate_public_runtime_gateway.sh\",\"docs/milestones/post-v0.92/features/PUBLIC_OBSERVATORY_EXPOSURE.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

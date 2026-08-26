@@ -35,6 +35,13 @@ infra/ddns/tfplan
 infra/ddns/build/
 infra/ddns/terraform.tfstate
 infra/ddns/terraform.tfstate.backup
+infra/aws/csm-public-edge/.terraform/
+infra/aws/csm-public-edge/tfplan
+infra/aws/csm-public-edge/terraform.tfstate
+infra/aws/csm-public-edge/terraform.tfstate.backup
+infra/aws/csm-public-edge/*.auto.tfvars
+infra/aws/csm-public-edge/*.tfvars
+!infra/aws/csm-public-edge/terraform.tfvars.example
 
 # Unity observatory local proof inputs. These are operator-provisioned or
 # generated proof/tooling payloads unless a later issue approves a specific

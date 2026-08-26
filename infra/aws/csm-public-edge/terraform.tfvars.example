@@ -1,0 +1,19 @@
+environment              = "dev"
+csm_name                 = "axioma"
+zone_name                = "csm.agent-logic.ai"
+observatory_asset_source = "demos/html-observatory"
+
+# Supply real values through an uncommitted *.auto.tfvars file or secure variable
+# source. Never commit the approved Agent Logic AWS account id.
+approved_aws_account_id = "000000000000"
+
+runtime_origin_mode = "external_https"
+runtime_origin_url  = "https://runtime-origin.example.com"
+
+wss_origin_mode      = "external_wss"
+wss_origin_https_url = "https://wss-origin.example.com"
+wss_origin_hostname  = "wss-origin.example.com"
+
+additional_allowed_origins = []
+wss_forwarded_query_strings = []
+wss_forwarded_cookies = []
