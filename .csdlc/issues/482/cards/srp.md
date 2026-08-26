@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/482/asset-denominator.log
+.csdlc/evidence/482/diff-hygiene.log
+.csdlc/evidence/482/provenance-and-license.log
+.csdlc/evidence/482/redaction-and-custody.log
+.csdlc/issues/482
+.csdlc/prepared/issues/482
+docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json
+docs/operations/corporate/asset-register/critical-asset-schedule.md
+docs/operations/corporate/asset-register/critical-asset-schedule.v1.json
 
 ## Prompts
 

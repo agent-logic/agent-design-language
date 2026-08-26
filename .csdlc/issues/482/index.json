@@ -5,10 +5,25 @@
   "initialization_digest": "5f51adfee9f618eb1bbaf92c6f9729b4e9ab8013f7e7a990ec97b4c030ecaad1",
   "phase": "implemented",
   "generation": 6,
-  "digest": "28239433d59a86acaa3bdf2f88e3c53c2a305ab9e0ff8d04d94e12c7b089cd83",
+  "digest": "b08bb504d44e5c430c5c41aa88e55bf48b713bb14da1ee6c5f5682c19fe1509e",
   "branch": "codex/482-v0-92-1-corp-a-critical-asset-schedule",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-482-corp-a-critical-asset-schedule",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:codex-482-corp-a-review-r2",
+    "assigned_by": "codex:issue-482-corp-a-execution",
+    "revision": "git-blake3:04b7db20f31c26a336b342ebd035869c290c6099:511751a29525368d6b8949f54598e57e9face82abdab1e59ea524b0952051334",
+    "scope": [
+      ".csdlc/evidence/482/asset-denominator.log",
+      ".csdlc/evidence/482/diff-hygiene.log",
+      ".csdlc/evidence/482/provenance-and-license.log",
+      ".csdlc/evidence/482/redaction-and-custody.log",
+      ".csdlc/issues/482",
+      ".csdlc/prepared/issues/482",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+      "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+      "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "1488461af57329f86082eefa4b51ab613f3763211c99a07f9cd4e98d4632cb7b"
     },
     "srp": {
-      "values_digest": "e504cb292204bd6fcb30c2736858a88aa53a665224e357ae392248f03d6ce353",
-      "rendered_digest": "1da20f1b55775b01669c1b38e206edff4e8b63a8f026cbaebda5abca55ec1167",
-      "ast_digest": "d0faef90d17faf9376acf2edbd8846500c42b3b933df4720a14311bfe2ef3e8e"
+      "values_digest": "23681802b07176f7c408e83d24cfe505bb9ce6bf2a627575d61254a31e5a6d9c",
+      "rendered_digest": "9386f679ca9381e80b1a56e98c1820645d908f583925a33fa7fee7624bec6034",
+      "ast_digest": "dc2f45b7700041c5f1f993f5e7544addefdebf845cd08fdaa021e0afc1da4a4d"
     },
     "sor": {
       "values_digest": "dbcfe1cfdc3087fee18962301f996beb546af21e16d5d9a669cf9e2e47638127",
@@ -140,6 +155,13 @@
       "actor": "codex:issue-482-corp-a-execution",
       "reason": "Repair R1 finding: record the full-branch diff-hygiene proof and scope cleanup in SOR execution truth.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the CORP-A critical-asset schedule as documentation/evidence-only custody truth with accepted ownership, licensing, trademark, assignment, provenance, redacted custody, and validation surfaces.\",\"changes\":[\"Added a machine-readable critical-asset schedule covering the accepted CORP-A corporate asset denominator.\",\"Added redacted custody receipts for every asset row without repository credential, private-instrument, tax, payment, or recovery-material payloads.\",\"Added a reviewer-facing Markdown schedule that summarizes owner, custodian, assignment, license, trademark, provenance, receipt, and validation routing.\",\"Implemented focused issue-local validators for denominator coverage, provenance/licensing/trademark routing, redaction/custody integrity, and full branch diff hygiene.\",\"Recovered the first exact-review findings by removing trailing Markdown whitespace, excluding the empty lock from the tracked deliverable, and strengthening diff hygiene to `git diff main...HEAD --check`.\"],\"artifacts\":[\"docs/operations/corporate/asset-register/critical-asset-schedule.v1.json\",\"docs/operations/corporate/asset-register/critical-asset-schedule.md\",\"docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json\",\".csdlc/prepared/issues/482/validate-asset-denominator.rb\",\".csdlc/prepared/issues/482/validate-provenance-and-license.rb\",\".csdlc/prepared/issues/482/validate-redaction-and-custody.rb\",\".csdlc/issues/482\",\".csdlc/prepared/issues/482\",\".csdlc/evidence/482\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-asset-denominator.rb\"],\"purpose\":\"Prove the critical-asset schedule covers every declared CORP-A asset class exactly once with accepted rows and matching custody receipts.\",\"outcome\":\"passed\",\"evidence_ref\":\"asset-denominator.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-provenance-and-license.rb\"],\"purpose\":\"Prove every asset row records source provenance, evidence refs, licensing route, trademark route, assignment acceptance, and Markdown visibility.\",\"outcome\":\"passed\",\"evidence_ref\":\"provenance-and-license.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/482/validate-redaction-and-custody.rb\"],\"purpose\":\"Prove every asset row has an accepted redacted custody receipt and that schedule evidence avoids obvious sensitive keys and private credential payload patterns.\",\"outcome\":\"passed\",\"evidence_ref\":\"redaction-and-custody.log\"},{\"command\":[\"git\",\"diff\",\"main...HEAD\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker drift across the full #482 branch diff against main.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:issue-482-corp-a-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
