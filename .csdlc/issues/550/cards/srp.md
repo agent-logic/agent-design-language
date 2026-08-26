@@ -8,20 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-CSMctl
-docs/tooling/CSMctl.conf.example
-adl-runtime/tests/runtime_api_wss.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/tests/control.rs
-adl/tools/test_csmctl_observatory_origins.sh
-demos/html-observatory
-.csdlc/issues/550
-.csdlc/prepared/issues/550
-.csdlc/evidence/550
+
 
 ## Prompts
 
@@ -42,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving the public certificate hostname; it is not portable deployment authority for other hosts.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:e7baf7c313d508722cd313d03d8e7b9a66228ddb:d281cd0d7d5235dc5b3aaa9d471f264ea0323ec80a3bb76e5ea76786bd853e79")
+Revision: None
 
-Reviewer: Some("fresh-session:01a01755-c400-7050-a049-b98e947a5684")
+Reviewer: None
 
-Result: pass
+Result: pre_review
