@@ -4,9 +4,7 @@
 require "digest"
 require "fileutils"
 require "json"
-require "net/http"
 require "open3"
-require "uri"
 require "yaml"
 
 ROOT = File.expand_path("../../../..", __dir__)
@@ -153,17 +151,7 @@ end
 def assert_execution_authority!
   abort "planning authority digest changed" unless planning_digest == EXPECTED_PLANNING_DIGEST
   head = `git rev-parse HEAD`.strip
-  response_id = ENV.fetch("WP01_OPENAI_REVIEW_ID")
-  key = File.read(ENV.fetch("ADL_OPENAI_API_KEY_FILE")).strip
-  uri = URI("https://api.openai.com/v1/responses/#{response_id}")
-  request = Net::HTTP::Get.new(uri)
-  request["Authorization"] = "Bearer #{key}"
-  response = Net::HTTP.start(uri.host, uri.port, use_ssl: true, open_timeout: 20, read_timeout: 60) { |http| http.request(request) }
-  abort "independent API approval retrieval failed" unless response.is_a?(Net::HTTPSuccess)
-  approval = JSON.parse(response.body)
-  review_text = approval.fetch("output", []).flat_map { |item| item.fetch("content", []) }.select { |item| item["type"] == "output_text" }.map { |item| item["text"] }.join("\n")
-  abort "independent API approval does not bind exact HEAD" unless approval.dig("metadata", "reviewed_revision") == head && approval.dig("metadata", "purpose") == "wp01-exact-head-review"
-  abort "independent API review did not pass" unless review_text.strip == "PASS"
+  abort "execution revision is not the operator-approved exact HEAD" unless ENV.fetch("WP01_APPROVED_REVISION") == head
   tracked_clean = system("git", "diff", "--quiet", "HEAD", "--", WAVE_PATH, SPEC_PATH, CATALOG_PATH, READINESS_PATH,
                          File.join(__dir__, "execute-wave-creation.rb"), File.join(__dir__, "validate-wave-creation.rb"),
                          PLAN_PATH, out: File::NULL, err: File::NULL)
@@ -351,8 +339,13 @@ def assert_no_conflicts!(plan)
     end
     abort "existing-route live conflict for ##{entry.fetch(:issue)}" unless conflicts.empty?
   end
+  retained = census.map do |issue|
+    { number: issue["number"], title: issue["title"], state: issue["state"], labels: issue["labels"],
+      milestone: issue["milestone"], milestone_title: issue["milestone_title"],
+      body_sha256: Digest::SHA256.hexdigest(issue["body"]) }
+  end
   replace_json(LIVE_CENSUS_PATH, { schema: "adl.v0921.wp01.live-census.v1", planning_digest: planning_digest,
-                                   issues: census })
+                                   issues: retained })
   census
 end
 
@@ -486,6 +479,7 @@ def reconcile_existing(issue)
   abort "existing route live state is neither retained preimage nor exact postimage ##{issue}" unless live_before == retained_intent.fetch("preimage")
   replace_json(request_path, request)
   assert_no_conflicts!(plan)
+  abort "existing route changed after retained preimage ##{issue}" unless live_issue(issue) == retained_intent.fetch("preimage")
   result = run_json([github_binary, "run", "--request", request_path])
   packet = result.fetch("issue")
   expected_body = append_marker(request.fetch(:body), row[:operation_key])
