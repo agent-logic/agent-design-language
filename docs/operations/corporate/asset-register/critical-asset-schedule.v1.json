@@ -33,6 +33,10 @@
     {
       "path": ".csdlc/prepared/issues/155/stp.md",
       "role": "planned-trademark-predecessor"
+    },
+    {
+      "path": ".csdlc/prepared/issues/482/canonical-critical-asset-denominator.v1.json",
+      "role": "independent-14-class-denominator"
     }
   ],
   "critical_asset_classes": [
@@ -60,8 +64,12 @@
       "custodian": "engineering-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["GitHub organization agent-logic"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-source-control"]
+        "source_refs": [
+          "GitHub organization agent-logic"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-source-control"
+        ]
       },
       "licensing": {
         "disposition": "repository-license-surface-recorded",
@@ -76,7 +84,11 @@
         "receipt_ref": "corp-a-source-control"
       },
       "custody_receipt_ref": "corp-a-source-control",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-ci-cd",
@@ -86,8 +98,12 @@
       "custodian": "release-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": [".github/workflows"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-ci-cd"]
+        "source_refs": [
+          ".github/workflows"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-ci-cd"
+        ]
       },
       "licensing": {
         "disposition": "automation-source-recorded",
@@ -102,7 +118,11 @@
         "receipt_ref": "corp-a-ci-cd"
       },
       "custody_receipt_ref": "corp-a-ci-cd",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-production-domains",
@@ -112,8 +132,12 @@
       "custodian": "infrastructure-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs/milestones/v0.92.1/features/corporate-operational-readiness.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-production-domains"]
+        "source_refs": [
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-production-domains"
+        ]
       },
       "licensing": {
         "disposition": "domain-control-surface-recorded",
@@ -128,7 +152,11 @@
         "receipt_ref": "corp-a-production-domains"
       },
       "custody_receipt_ref": "corp-a-production-domains",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-dns-route53",
@@ -138,8 +166,12 @@
       "custodian": "infrastructure-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-dns-route53"]
+        "source_refs": [
+          "docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-dns-route53"
+        ]
       },
       "licensing": {
         "disposition": "provider-service-custody-recorded",
@@ -154,7 +186,11 @@
         "receipt_ref": "corp-a-dns-route53"
       },
       "custody_receipt_ref": "corp-a-dns-route53",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-certificates",
@@ -164,8 +200,12 @@
       "custodian": "infrastructure-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-certificates"]
+        "source_refs": [
+          "docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-certificates"
+        ]
       },
       "licensing": {
         "disposition": "provider-service-custody-recorded",
@@ -180,7 +220,11 @@
         "receipt_ref": "corp-a-certificates"
       },
       "custody_receipt_ref": "corp-a-certificates",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-email",
@@ -190,8 +234,12 @@
       "custodian": "business-operations-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs/milestones/v0.92.1/features/corporate-operational-readiness.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-email"]
+        "source_refs": [
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-email"
+        ]
       },
       "licensing": {
         "disposition": "provider-service-custody-recorded",
@@ -206,7 +254,11 @@
         "receipt_ref": "corp-a-email"
       },
       "custody_receipt_ref": "corp-a-email",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-infrastructure-as-code",
@@ -216,8 +268,13 @@
       "custodian": "infrastructure-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["infra", "docs/tooling"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-infrastructure-as-code"]
+        "source_refs": [
+          "infra",
+          "docs/tooling"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-infrastructure-as-code"
+        ]
       },
       "licensing": {
         "disposition": "repository-license-surface-recorded",
@@ -232,7 +289,11 @@
         "receipt_ref": "corp-a-infrastructure-as-code"
       },
       "custody_receipt_ref": "corp-a-infrastructure-as-code",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-aws-infrastructure",
@@ -242,8 +303,12 @@
       "custodian": "cloud-operations-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-aws-infrastructure"]
+        "source_refs": [
+          "docs/tooling/CUSTOMER_CLOUD_IDENTITY_AND_AUDIT_BOUNDARIES.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-aws-infrastructure"
+        ]
       },
       "licensing": {
         "disposition": "provider-service-custody-recorded",
@@ -258,7 +323,11 @@
         "receipt_ref": "corp-a-aws-infrastructure"
       },
       "custody_receipt_ref": "corp-a-aws-infrastructure",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-deployment-operations",
@@ -268,8 +337,13 @@
       "custodian": "release-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs/tooling", ".github/workflows"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-deployment-operations"]
+        "source_refs": [
+          "docs/tooling",
+          ".github/workflows"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-deployment-operations"
+        ]
       },
       "licensing": {
         "disposition": "process-custody-recorded",
@@ -284,7 +358,11 @@
         "receipt_ref": "corp-a-deployment-operations"
       },
       "custody_receipt_ref": "corp-a-deployment-operations",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-brand-trademark",
@@ -294,8 +372,12 @@
       "custodian": "business-operations-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs/milestones/v0.92.1/features/corporate-operational-readiness.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-brand-trademark"]
+        "source_refs": [
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-brand-trademark"
+        ]
       },
       "licensing": {
         "disposition": "brand-surface-recorded",
@@ -310,7 +392,11 @@
         "receipt_ref": "corp-a-brand-trademark"
       },
       "custody_receipt_ref": "corp-a-brand-trademark",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-provenance-license",
@@ -320,8 +406,13 @@
       "custodian": "engineering-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["LICENSE", "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-provenance-license"]
+        "source_refs": [
+          "LICENSE",
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-provenance-license"
+        ]
       },
       "licensing": {
         "disposition": "license-review-surface-recorded",
@@ -336,7 +427,11 @@
         "receipt_ref": "corp-a-provenance-license"
       },
       "custody_receipt_ref": "corp-a-provenance-license",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-assignment-acceptance",
@@ -346,8 +441,12 @@
       "custodian": "business-operations-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": [".csdlc/prepared/issues/153/stp.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-assignment-acceptance"]
+        "source_refs": [
+          ".csdlc/prepared/issues/153/stp.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-assignment-acceptance"
+        ]
       },
       "licensing": {
         "disposition": "private-instrument-not-reproduced",
@@ -362,7 +461,11 @@
         "receipt_ref": "corp-a-assignment-acceptance"
       },
       "custody_receipt_ref": "corp-a-assignment-acceptance",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-private-custody",
@@ -372,8 +475,12 @@
       "custodian": "business-operations-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs/milestones/v0.92.1/features/corporate-operational-readiness.md"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-private-custody"]
+        "source_refs": [
+          "docs/milestones/v0.92.1/features/corporate-operational-readiness.md"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-private-custody"
+        ]
       },
       "licensing": {
         "disposition": "private-material-excluded",
@@ -388,7 +495,11 @@
         "receipt_ref": "corp-a-private-custody"
       },
       "custody_receipt_ref": "corp-a-private-custody",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     },
     {
       "id": "corp-a-data-model-media",
@@ -398,8 +509,14 @@
       "custodian": "documentation-maintainer-role",
       "disposition": "accepted-for-corporate-schedule",
       "provenance": {
-        "source_refs": ["docs", "adl/crates", "csdlc-v2"],
-        "evidence_refs": ["docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-data-model-media"]
+        "source_refs": [
+          "docs",
+          "adl/crates",
+          "csdlc-v2"
+        ],
+        "evidence_refs": [
+          "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-data-model-media"
+        ]
       },
       "licensing": {
         "disposition": "repository-license-surface-recorded",
@@ -414,7 +531,19 @@
         "receipt_ref": "corp-a-data-model-media"
       },
       "custody_receipt_ref": "corp-a-data-model-media",
-      "validation_surfaces": ["asset-denominator", "provenance-and-license", "redaction-and-custody"]
+      "validation_surfaces": [
+        "asset-denominator",
+        "provenance-and-license",
+        "redaction-and-custody"
+      ]
     }
-  ]
+  ],
+  "acceptance_authority": {
+    "authority_receipt_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json#corp-a-authority-receipt-2026-08-26-r1",
+    "accepted_by": "corporate-operator-role",
+    "accepted_at": "2026-08-26",
+    "redacted_authority_binding_id": "corp-a-authority-binding-2026-08-26-r1",
+    "redacted_authority_binding_digest": "sha256:b390e740f8628af5e4bc94722163bfa45f49c5c604ded001a6b96e791a14112d",
+    "binding_digest_scope": "sha256 over public tuple: issue|schedule_id|authority_receipt_id|redacted_authority_binding_id|accepted_by|accepted_at"
+  }
 }

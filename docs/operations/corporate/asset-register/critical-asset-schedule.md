@@ -4,6 +4,7 @@ Issue: #482
 Sprint umbrella: #529
 Schedule artifact: `docs/operations/corporate/asset-register/critical-asset-schedule.v1.json`
 Redacted custody evidence: `docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json`
+Canonical denominator: `.csdlc/prepared/issues/482/canonical-critical-asset-denominator.v1.json`
 
 This schedule records the corporate critical-asset denominator for v0.92.1 CORP-A readiness. It is intentionally documentation and evidence only: credential values, private instruments, account recovery material, signatures, tax identifiers, payment data, and executed legal documents are outside repository custody.
 
@@ -12,7 +13,9 @@ This schedule records the corporate critical-asset denominator for v0.92.1 CORP-
 - The schedule is accepted by the corporate operator role for issue #482.
 - Ownership, custody, assignment, license, trademark, provenance, and validation surfaces are represented by roles and redacted evidence references.
 - Counsel review routes are recorded where brand, domain, media, assignment, or license assertions would require legal review.
-- Private custody remains outside the repository and is represented only through redacted receipt IDs.
+- The schedule binds to authority receipt `corp-a-authority-receipt-2026-08-26-r1`, accepted on `2026-08-26` by `corporate-operator-role`.
+- Each asset receipt carries one stable redacted instrument binding ID and one SHA-256 digest over public receipt fields only.
+- Private custody remains outside the repository and is represented only through redacted receipt IDs and public binding digests.
 
 ## Asset Register
 
@@ -38,7 +41,9 @@ This schedule records the corporate critical-asset denominator for v0.92.1 CORP-
 The issue-local validators prove that:
 
 - every declared critical asset class has exactly one accepted asset row
+- the declared asset classes match the independent 14-class canonical denominator manifest
 - each asset row has owner, custodian, provenance, licensing, trademark, assignment, custody receipt, and validation-surface coverage
-- every asset has a matching accepted redacted custody receipt
+- every asset has exactly one matching accepted redacted custody receipt
+- every receipt binds to the accepted authority receipt and recomputes to the recorded public-field digest
 - repository evidence contains no obvious private key, token, credential-value, or instrument payload
 - the Markdown schedule is backed by the machine-readable schedule and custody evidence files
