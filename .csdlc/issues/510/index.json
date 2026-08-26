@@ -3,44 +3,13 @@
   "issue": 510,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7bfe676397915786eed2aa7ff57c7c55ab61746c837cfe92e9e6d7f89326d374",
-  "phase": "reviewed",
-  "generation": 9,
-  "digest": "c9a6f7b09db8842d5a329ac7d2048bcc8e981cf8b42ae0e3d5ecbca9909d1a84",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "d23d171a34a94f9bb5340090699ef3d7121e0afc2c04cddbb33a452fc76c9d01",
   "branch": "codex/510-hot-01-axum-config-hot-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-510-axum-config-hot-reload",
-  "review_assignment": {
-    "reviewer": "openai-responses:gpt-5.6-sol:resp_0e13a64dc209853a006a8f46af92a887d0bf83c464fa1289bb",
-    "assigned_by": "codex:sprint-1-conductor",
-    "revision": "git-blake3:da2f0e9e7bf66a2ac16050644ce6eb376ae4fde1:292158182e5101f26956b13819d3d306d3f961ba1b7985733cc6eba365626eca",
-    "scope": [
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/tests/config_reload.rs",
-      "docs/runtime/config-hot-reload.md"
-    ]
-  },
-  "review": {
-    "reviewer": "openai-responses:gpt-5.6-sol:resp_0e13a64dc209853a006a8f46af92a887d0bf83c464fa1289bb",
-    "scope": [
-      "adl-runtime-kernel/src/config_reload.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/tests/config_reload.rs",
-      "docs/runtime/config-hot-reload.md"
-    ],
-    "reviewed_revision": "git-blake3:da2f0e9e7bf66a2ac16050644ce6eb376ae4fde1:292158182e5101f26956b13819d3d306d3f961ba1b7985733cc6eba365626eca",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c6441b3365b984a226ae045e08c16f25d034c4fb83a2a16ef47153ebc88b8a58",
+      "values_digest": "180972cd58432e0d00b8f8382ecdd31a68e09a3c19cff04fe704dd0e971749cd",
       "rendered_digest": "f74751b161d50aee86803c7fc30275a546e854fab88e74fa59112c3a7520e1ec",
       "ast_digest": "ea3a1a7c17404b9df86dd82a6d21019bc90635e0eb1ccf08779f06624116c812"
     },
     "stp": {
-      "values_digest": "687fb7117f696dd5b9f47f1ec5b894aae6a0a153225aa3dea4d178a5b463a246",
+      "values_digest": "e3bdb4f0729fb542677f08eed97c53f093b144a16852925b777ff0553136b65c",
       "rendered_digest": "6e1551c438e00d65871511ebc3a863e00a4cc915bb709494a13ed50e1cac7250",
       "ast_digest": "71dca90b1c60e816480bcfa4f25d696b066ff7c4796e530e01680cd237c032c3"
     },
     "spp": {
-      "values_digest": "7bb267846db8c839a63a9f5e8f5d25b7a9213a74e02bb979ea8a8be3b137a9d2",
+      "values_digest": "5348cceea64075336d7e4e2cdf2836ed4e43f38348483289beca786e18476fac",
       "rendered_digest": "22624646750274ad03d332f799c84529e2c06ee8d393657a951cc510db68329b",
       "ast_digest": "d24df4cf39383ff570be13f597dde9bf5f7d1d0594afa547cf77f0d72afc0f59"
     },
     "vpp": {
-      "values_digest": "650b613a78f57a07b8f2d6227ef78fa53d15cf913d4cf7c9c8b494877d719ed3",
+      "values_digest": "1630f6a5623dfc0bbbc04af07347ed4ffabc89a4ff94f9c154dcdee7975cde93",
       "rendered_digest": "cad9ded18490dfe77ce3fa126ca665289202d553e81cdefca0cd43559644450f",
       "ast_digest": "a538f88e0d779c8720dc2835512a9e94f55041093257b0b74b585dcddf8e72c2"
     },
     "srp": {
-      "values_digest": "f05c7932ac82ff4190ae771c7e110601e6b9434c5644be218837660ede78c753",
-      "rendered_digest": "d257a066afb8c77ebb878a688f0708baee35ec804276ca9cd7c6f4bbc7e42254",
-      "ast_digest": "c5e26264e300fe2fc85c302e1840b6f0d869213daf475e49e6bb20a1ece5377d"
+      "values_digest": "3662609bdd3cdab4bdd39c7c8704bf880ac5004a7c7bbf7cf5b6d79b031b9b1d",
+      "rendered_digest": "28d0cc34e2e2f6abfb29966d796d32f4808e7a0c67c412ecaff300bb767ba0f8",
+      "ast_digest": "8d4f78d7228724cef34ceab6cf952b39fe1bb841b8ce0b817fc4d72709a9fb89"
     },
     "sor": {
-      "values_digest": "4de7d57ffec819bc3016cdc8232cb82c1c6b51aba0b29cfc5e4231e22eb36782",
+      "values_digest": "09d98972bf1d758c2b3e164ffb57651385873df8a7b49e7f5187f8499bba9d95",
       "rendered_digest": "894bb830d6b6fb6c72ecf93322c747cd09f7bb0f580309a802327df1ccc45695",
       "ast_digest": "c07fe163e1ea7afd1f2382c4a4b42141a87ba85b5349cc3f7932fbbd6875ba52"
     }
@@ -134,6 +103,13 @@
       "to": "reviewed",
       "actor": "codex:sprint-1-conductor",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "The final publication request and prior typed review metadata were committed after the exact scoped product review; recover so a metadata-only reconciliation can bind the current publication head without changing reviewed product bytes."
     }
   ],
   "audit": [
@@ -234,6 +210,13 @@
       "actor": "codex:sprint-1-conductor",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "The final publication request and prior typed review metadata were committed after the exact scoped product review; recover so a metadata-only reconciliation can bind the current publication head without changing reviewed product bytes.",
+      "operation": "recover_review"
     }
   ]
 }

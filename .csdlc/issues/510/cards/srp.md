@@ -12,14 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/config_reload.rs
-adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime/src/lib.rs
-adl-runtime/tests/config_reload.rs
-docs/runtime/config-hot-reload.md
+
 
 ## Prompts
 
@@ -44,8 +37,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:da2f0e9e7bf66a2ac16050644ce6eb376ae4fde1:292158182e5101f26956b13819d3d306d3f961ba1b7985733cc6eba365626eca")
+Revision: None
 
-Reviewer: Some("openai-responses:gpt-5.6-sol:resp_0e13a64dc209853a006a8f46af92a887d0bf83c464fa1289bb")
+Reviewer: None
 
-Result: pass
+Result: pre_review
