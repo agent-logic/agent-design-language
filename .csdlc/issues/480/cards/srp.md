@@ -37,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Sprint membership remains intentionally updateable through a later monotonically versioned typed update; this review proves version 4 and current live parity, not future roster versions.
+- Publication and merge remain separate gates; this review does not authorize merge.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:de5a7b32d6db8a14a800f30935dbaef909b32c02:819a73dfc278c080793ab17efa2f8aaaf4cab1f9a4a23f5892d40b3a8ea42594")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/review_480_final")
 
-Result: pre_review
+Result: pass

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f6c582c5700e044ffef21116ae636bbd9ebdb8120a91c5805a887231557c4680",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "74bb225e54e76ea6ee8e2a493c9f4dacfe4666b84ab348167e12a6f12695cd2a",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "414fcdcd6c0ec53b7a52a27470d622223a13257b10468621ee3efb5d7fa11483",
   "branch": "codex/480-v0921-wp01-execution-wave",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-480-v0921-wp01-execution-wave",
   "review_assignment": {
@@ -23,7 +23,26 @@
       "docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-operations"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/review_480_final",
+    "scope": [
+      ".csdlc/issues/480",
+      ".csdlc/prepared/issues/480/create-sprint-umbrellas.rb",
+      ".csdlc/prepared/issues/480/validate-sprint-umbrellas.rb",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v4-receipt.json",
+      "docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-requests",
+      "docs/milestones/v0.92.1/evidence/wp-01/umbrella-update-v4-operations"
+    ],
+    "reviewed_revision": "git-blake3:de5a7b32d6db8a14a800f30935dbaef909b32c02:819a73dfc278c080793ab17efa2f8aaaf4cab1f9a4a23f5892d40b3a8ea42594",
+    "findings": [],
+    "residual_risks": [
+      "Sprint membership remains intentionally updateable through a later monotonically versioned typed update; this review proves version 4 and current live parity, not future roster versions.",
+      "Publication and merge remain separate gates; this review does not authorize merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c544a697589a6431b21caeddad4bd7aaf4d02f77dfa52c842ffdda9930d14040",
+      "values_digest": "e86af80962b546ff4c8d3292242f0809178143ba03f04443cc04258b8d4f3420",
       "rendered_digest": "5ec5d5d22db98fcc3f7bcd86d4fd53a6efaf01df8e80e81abaebfc9dc0a34063",
       "ast_digest": "aa12ccd926f12add74930004aa60c2b20837df2bee29015bbff8229e728d0691"
     },
     "stp": {
-      "values_digest": "914c0ce9ddcc3d7fcde265ac45ae52183c1ea84ddd37f4472876a0cdbc760d94",
+      "values_digest": "dd8c4a844da83a4974536f64fe08e3390be8018e2375c249903e07e392e12634",
       "rendered_digest": "6f691ebb3200563531fa1c881343ef091cb5e9d250a393987e742f992a442d88",
       "ast_digest": "96b3b295648c2402e96cfa0d4c826d933e256226450f2ac8ada40e409ab0a610"
     },
     "spp": {
-      "values_digest": "c6191e96ea5543c7acddb635747fec8edf91cd16321d891177903faaad080e02",
+      "values_digest": "2758f16b0eb80498f40ced79334400573a98f422bd5daea1a90a347c12c53bf4",
       "rendered_digest": "1c6e1342b6cb60ee57531fcf0c59868f4031811c4a4717f0dd2607443580ca00",
       "ast_digest": "7c559ebbcd9e0eb3eeebe50ba2d120c1409f69796b46e896a9d14c93917a2514"
     },
     "vpp": {
-      "values_digest": "3c137df983123398a936564545e9fa7f65eaec3955a362b28c96476ac50f6717",
+      "values_digest": "45fb3a583682205a4654587eadeb464b084d63d42f472342333718baa660b126",
       "rendered_digest": "5ba96d32ec4999b579ebc0374889f798a2d532b2db05aca6988f2bdfb482a7a0",
       "ast_digest": "4a163e4a211be4450582effd07600b0765b86613d2001d101e510d2ea826fded"
     },
     "srp": {
-      "values_digest": "1bb96a552cfd7b14b80f34ed5f2d9b1770b69c16f2fde9ab4630846e76a9d091",
-      "rendered_digest": "ab32257eb00ff02826aba5cce6b124b9353e19f77e557b6e47fe689008eaf391",
-      "ast_digest": "98a51388701014f40236dbe3861eee658868c2f25389384d7a6dacfccd27b913"
+      "values_digest": "504f771012fe276cb4bfb6303c2f4b018864ae39645313b744fcff1b195a1349",
+      "rendered_digest": "6edbacd5e29dc4a864abf6a6887d72c83fc582a31555edf43384a4b0798ee181",
+      "ast_digest": "d9794c709fda09c1cf908785816eac2f384a0a87289fb9cc3fa4d7cbd5907eb7"
     },
     "sor": {
-      "values_digest": "89f167c913f9da4642241a37776061131fc2c69c44eb6310ba17530f65be7490",
+      "values_digest": "b54c746be906cda175478cc281c40ae23ebb31cbfd239315ccb650f3e6467c6e",
       "rendered_digest": "d911e73894e0199614dac7c6bb7ad1e8aa651682ce43402a352a19e3eb06a0d9",
       "ast_digest": "b64c6e99da03d102672d402dc0f757ba100afc9902eb80d8af54e73136aa1632"
     }
@@ -110,6 +129,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #480 after the operator identified the missing Sprint 1-11 coordination umbrella layer; the corrected live umbrellas and versioned update contract require a new exact-head review and publication."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -266,6 +292,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
