@@ -343,11 +343,15 @@ validate_observatory_public_origin() {
     (( port_value >= 1 && port_value <= 65535 )) || \
       fail "invalid_observatory_public_origin expected=valid_port"
   fi
-  canonical_origin="$(printf '%s' "$origin" | tr '[:upper:]' '[:lower:]')"
+  canonical_origin="https://$(printf '%s' "$host" | tr '[:upper:]' '[:lower:]')"
+  if [[ -n "${port:-}" && "$port_value" -ne 443 ]]; then
+    canonical_origin="$canonical_origin:$port_value"
+  fi
   [[ "$canonical_origin" != "https://localhost:8765" && \
      "$canonical_origin" != "https://observatory.dev.agent-logic.ai" && \
      "$canonical_origin" != "https://observatory.dev.agent-logic.ai:443" ]] || \
     fail "duplicate_observatory_public_origin"
+  OBSERVATORY_PUBLIC_ORIGIN="$canonical_origin"
 }
 
 ensure_current_init() {
