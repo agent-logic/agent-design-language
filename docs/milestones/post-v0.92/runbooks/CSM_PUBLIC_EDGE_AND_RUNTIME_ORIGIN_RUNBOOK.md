@@ -15,7 +15,9 @@ Permanent, non-ephemeral resources:
 - ACM viewer certificate for the CloudFront-facing CSM hostnames.
 - S3 bucket for the static HTML Observatory.
 - CloudFront distribution with WAF.
-- API Gateway HTTP/WebSocket front doors for Runtime API and WSS routing.
+- API Gateway HTTP API front door for Runtime API routing.
+- CloudFront WSS distribution that forwards WebSocket traffic to the configured
+  WSS-capable HTTPS origin.
 
 Disposable proof resources:
 
@@ -72,11 +74,12 @@ values are:
 
 - `csm_name`
 - `environment`
-- `domain_name`
+- `zone_name`
 - `hosted_zone_id` or first-time hosted-zone creation settings
 - `edge_acm_certificate_arn`, when reusing an issued CloudFront viewer cert
-- `origin_https_url`
+- `runtime_origin_url`
 - `wss_origin_https_url`
+- `websocket_path_pattern`
 - `additional_allowed_origins`
 - `origin_cname_target`, when pointing the base CSM hostname at DDNS or another
   operator-owned origin
@@ -111,9 +114,10 @@ Set:
 
 - `csm_name`
 - `environment`
-- `origin_fqdn`
+- `origin_fqdn_override`, when the ALB certificate should use an explicit
+  origin hostname instead of the derived CSM origin name
 - `vpc_id`
-- `public_subnet_ids`
+- `subnet_ids`
 - `certificate_lookup_domain`, normally a reusable wildcard such as
   `*.wuji.dev.csm.agent-logic.ai`
 - `target_instance_id = null` for the first ALB creation pass
