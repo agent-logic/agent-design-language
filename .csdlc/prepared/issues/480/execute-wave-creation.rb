@@ -18,10 +18,13 @@ FINAL_PATH = File.join(EVIDENCE, "final-creation-receipt.json")
 LIVE_CENSUS_PATH = File.join(EVIDENCE, "live-census.json")
 WAVE_PATH = File.join(MILESTONE, "WP_ISSUE_WAVE_v0.92.1.yaml")
 SPEC_PATH = File.join(MILESTONE, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
+CATALOG_PATH = File.join(MILESTONE, "PLANNED_ISSUE_CATALOG_v0.92.1.md")
+READINESS_PATH = File.join(MILESTONE, "WP_EXECUTION_READINESS_v0.92.1.md")
 REPOSITORY = "agent-logic/agent-design-language"
 MILESTONE_NUMBER = 1
 VERSION_LABEL = "version:v0.92.1"
 WP01_ISSUE = 480
+EXPECTED_PLANNING_DIGEST = "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251"
 EXISTING = {
   "issue-51" => 51, "issue-84" => 84, "issue-122" => 122,
   "issue-251" => 251, "issue-261" => 261, "issue-262" => 262,
@@ -55,7 +58,7 @@ def denominator(specs)
 end
 
 def planning_digest
-  Digest::SHA256.hexdigest([Digest::SHA256.file(WAVE_PATH).hexdigest, Digest::SHA256.file(SPEC_PATH).hexdigest].join(":"))
+  Digest::SHA256.hexdigest([WAVE_PATH, SPEC_PATH, CATALOG_PATH, READINESS_PATH].map { |path| Digest::SHA256.file(path).hexdigest }.join(":"))
 end
 
 def area_for(id)
@@ -135,6 +138,20 @@ def live_issue(issue)
                                       "--json", "number,title,body,state,labels,milestone"]))
 end
 
+def assert_execution_authority!
+  abort "planning authority digest changed" unless planning_digest == EXPECTED_PLANNING_DIGEST
+  head = `git rev-parse HEAD`.strip
+  abort "execution revision is not the independently reviewed exact HEAD" unless ENV.fetch("WP01_APPROVED_REVISION") == head
+  tracked_clean = system("git", "diff", "--quiet", "HEAD", "--", WAVE_PATH, SPEC_PATH, CATALOG_PATH, READINESS_PATH,
+                         File.join(__dir__, "execute-wave-creation.rb"), File.join(__dir__, "validate-wave-creation.rb"),
+                         PLAN_PATH, out: File::NULL, err: File::NULL)
+  abort "reviewed execution surfaces have uncommitted drift" unless tracked_clean
+  wp01 = live_issue(WP01_ISSUE)
+  prerequisite = live_issue(432)
+  abort "WP-01 live authority mismatch" unless wp01["title"] == "[v0.92.1][WP-01] Open the v0.92.1 milestone and create the execution wave" && wp01["state"] == "open" && wp01["milestone"] == MILESTONE_NUMBER
+  abort "#432 prerequisite is not terminal" unless prerequisite["state"] == "closed"
+end
+
 def live_milestone_census
   run_read_json(["gh", "issue", "list", "--repo", REPOSITORY, "--state", "all", "--milestone", "v0.92.1",
                  "--limit", "1000", "--json", "number,title,body,state,labels,milestone"]).map { |row| normalize_live_issue(row) }
@@ -161,9 +178,17 @@ def body_for(id, title, spec, dependency_map, predecessors)
 
     #{spec.fetch("primary_deliverable")}
 
+    ## Verification result
+
+    #{spec.fetch("verification_result")}
+
+    ## Unit boundary
+
+    #{spec.fetch("unit_boundary")}
+
     ## Dependencies
 
-    #{deps.empty? ? "- #480 (WP-01 opening authority)" : deps.join("\n")}
+    #{deps.empty? ? "- None." : deps.join("\n")}
 
     ## Retained predecessor scope
 
@@ -209,7 +234,7 @@ end
 def observed_children
   return {} unless Dir.exist?(OPERATIONS)
 
-  Dir.glob(File.join(OPERATIONS, "*-observed.json")).sort.each_with_object({}) do |path, memo|
+  memo = Dir.glob(File.join(OPERATIONS, "*-observed.json")).sort.each_with_object({}) do |path, rows|
     row = JSON.parse(File.read(path))
     next unless row["kind"] == "child_create"
     abort "stale planning digest in #{path}" unless row["planning_digest"] == planning_digest
@@ -218,12 +243,33 @@ def observed_children
     intent = JSON.parse(File.read(intent_path))
     abort "intent/observed fingerprint mismatch for #{path}" unless intent["request_fingerprint"] == row["request_fingerprint"]
     abort "intent/observed operation mismatch for #{path}" unless intent["operation_key"] == row["operation_key"]
-    memo[row.fetch("planned_id")] = row
+    request_path = File.join(REQUESTS, File.basename(path).sub(/-observed\.json\z/, "-request.json"))
+    abort "missing retained request for #{path}" unless File.file?(request_path)
+    request = JSON.parse(File.read(request_path))
+    abort "retained request fingerprint mismatch for #{path}" unless canonical_request_fingerprint(request) == row["request_fingerprint"]
+    id = row.fetch("planned_id")
+    expected_key = "v0921-wp01:#{planning_digest}:#{id}:create"
+    abort "observed operation no longer matches current plan" unless row["operation_key"] == expected_key
+    live = live_issue(row.fetch("issue"))
+    valid = live["title"] == row["title"] && live["labels"] == row["labels"] && live["milestone"] == row["milestone"] &&
+            live["state"] == "open" && Digest::SHA256.hexdigest(live["body"]) == row["body_sha256"]
+    abort "retained child live drift for #{id}" unless valid
+    rows[id] = row
   end
+  abort "retained child issue numbers are not unique" unless memo.values.map { |row| row["issue"] }.uniq.length == memo.length
+  memo
 end
 
 def canonical_request_fingerprint(request)
-  Digest::SHA256.hexdigest(JSON.generate(request.reject { |key, _| key == :token_file || key == "token_file" }))
+  canonicalize = lambda do |value|
+    case value
+    when Hash then value.to_h { |key, child| [key.to_s, canonicalize.call(child)] }.sort.to_h
+    when Array then value.map { |child| canonicalize.call(child) }
+    else value
+    end
+  end
+  portable = request.reject { |key, _| key.to_s == "token_file" }
+  Digest::SHA256.hexdigest(JSON.generate(canonicalize.call(portable)))
 end
 
 def append_marker(body, operation_key)
@@ -247,6 +293,13 @@ def assert_no_conflicts!(plan)
     abort "ambiguous live operation marker for #{id}" if marked.length > 1
     candidates.reject! { |issue| intent && marked.length == 1 && issue["number"] == marked.first["number"] }
     abort "live conflict for #{id}: #{candidates.map { |row| "##{row['number']} #{row['title']}" }.join(', ')}" unless candidates.empty?
+  end
+  plan.fetch(:existing_routing).each do |entry|
+    marker = "<!-- csdlc-github-operation:#{entry.fetch(:operation_key)} -->"
+    conflicts = census.select do |issue|
+      issue["number"] != entry.fetch(:issue) && (issue["title"] == entry.fetch(:title) || issue["body"].include?(marker))
+    end
+    abort "existing-route live conflict for ##{entry.fetch(:issue)}" unless conflicts.empty?
   end
   replace_json(LIVE_CENSUS_PATH, { schema: "adl.v0921.wp01.live-census.v1", planning_digest: planning_digest,
                                    observed_at_head: `git rev-parse HEAD`.strip, issues: census })
@@ -290,13 +343,13 @@ def build_plan
         labels: [area_for(id), "track:roadmap", "type:task", VERSION_LABEL].sort,
         depends_on: Array(row["depends_on"]),
         predecessor_issues: Array(row["predecessor_issues"]),
-        operation_key: "v0921-wp01-#{planning_digest}-#{id.downcase}-create",
+        operation_key: "v0921-wp01:#{planning_digest}:#{id}:create",
         specification_sha256: Digest::SHA256.hexdigest(JSON.generate(specs.fetch(id)))
       }
     end,
     existing_routing: EXISTING_TARGETS.map do |issue, (title, labels)|
       { issue: issue, title: title, labels: labels.sort, milestone: MILESTONE_NUMBER,
-        operation_key: "v0921-wp01-#{planning_digest}-existing-#{issue}-route" }
+        operation_key: "v0921-wp01:#{planning_digest}:existing-#{issue}:route" }
     end
   }
   replace_json(PLAN_PATH, plan)
@@ -305,6 +358,7 @@ def build_plan
 end
 
 def reconcile_existing(issue)
+  assert_execution_authority!
   plan = build_plan
   assert_no_conflicts!(plan)
   abort "unsupported existing issue #{issue}" unless EXPECTED_EXISTING.include?(issue)
@@ -322,11 +376,26 @@ def reconcile_existing(issue)
   end
   sequence = 900 + plan.fetch(:existing_routing).index(row) + 1
   intent_path, observed_path, request_path = operation_paths(sequence, "existing-#{issue}")
+  if File.file?(observed_path)
+    retained = JSON.parse(File.read(observed_path))
+    abort "stale existing observed receipt" unless retained["planning_digest"] == planning_digest && retained.fetch("live_issue") == live_before
+    puts JSON.pretty_generate(retained)
+    return
+  end
+  if !File.file?(intent_path) && live_before["title"] == row[:title] && live_before["labels"] == row[:labels] && live_before["milestone"] == row[:milestone]
+    create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_verify", issue: issue,
+                               planning_digest: planning_digest, live_before_sha256: Digest::SHA256.hexdigest(JSON.generate(live_before)) })
+    create_json(observed_path, { schema: "adl.v0921.wp01.operation-observed.v1", kind: "existing_verify", issue: issue,
+                                 planning_digest: planning_digest, live_issue: live_before })
+    puts JSON.pretty_generate(live_before)
+    return
+  end
   request = {
     repository: REPOSITORY, action: "issue_update", operation_key: row[:operation_key], token_file: nil,
     issue: issue, pull_request: nil, title: row[:title], body: live_before.fetch("body"), labels: row[:labels], assignees: [],
     milestone: row[:milestone], state: nil, comment_body: nil, required_checks: [], require_review: false, linked_issue: nil
   }
+  request = JSON.parse(File.read(request_path), symbolize_names: true) if File.file?(intent_path)
   fingerprint = canonical_request_fingerprint(request)
   create_json(intent_path, { schema: "adl.v0921.wp01.operation-intent.v1", kind: "existing_route", issue: issue,
                              operation_key: row[:operation_key], request_fingerprint: fingerprint, planning_digest: planning_digest })
@@ -343,10 +412,17 @@ def reconcile_existing(issue)
 end
 
 def create_child(id)
+  assert_execution_authority!
   plan = build_plan
   assert_no_conflicts!(plan)
   entry = plan.fetch(:children).find { |row| row[:planned_id] == id } or abort "unknown planned ID #{id}"
   observed = observed_children
+  verified_existing = EXPECTED_EXISTING.all? do |issue|
+    Dir.glob(File.join(OPERATIONS, "*-existing-#{issue}-observed.json")).any? do |path|
+      JSON.parse(File.read(path))["planning_digest"] == planning_digest
+    end
+  end
+  abort "existing issue verification is incomplete" unless verified_existing
   if observed.key?(id)
     puts JSON.pretty_generate(observed.fetch(id))
     return
@@ -383,6 +459,7 @@ def create_child(id)
 end
 
 def finalize
+  assert_execution_authority!
   plan = build_plan
   ids = plan.fetch(:children).map { |row| row.fetch(:planned_id) }
   observed = observed_children

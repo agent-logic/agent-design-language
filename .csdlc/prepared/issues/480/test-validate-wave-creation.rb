@@ -21,22 +21,23 @@ creation_plan = JSON.parse(plan_stdout)
 children = creation_plan.fetch("children")
 abort "executor denominator mismatch" unless children.length == 45
 abort "executor operation keys are not unique" unless children.map { |row| row.fetch("operation_key") }.uniq.length == 45
-abort "executor operation key is not portable" unless children.all? { |row| row.fetch("operation_key").match?(/\Av0921-wp01-[a-f0-9]{64}-[a-z0-9-]+-create\z/) }
+abort "executor operation key contract mismatch" unless children.all? { |row| row.fetch("operation_key").match?(/\Av0921-wp01:[a-f0-9]{64}:[A-Z0-9-]+:create\z/) }
 abort "executor title contract mismatch" unless children.all? { |row| row.fetch("title").start_with?("[v0.92.1][#{row.fetch('planned_id')}] ") }
 abort "executor routing contract mismatch" unless children.all? do |row|
   labels = row.fetch("labels")
   labels.include?("version:v0.92.1") && labels.include?("track:roadmap") && labels.include?("type:task") && labels.one? { |label| label.start_with?("area:") }
 end
 
-_order_stdout, order_stderr, order_status = Open3.capture3("ruby", EXECUTOR, "create", "CORP-B", chdir: ROOT)
+review_env = { "WP01_APPROVED_REVISION" => `git -C #{ROOT} rev-parse HEAD`.strip }
+_order_stdout, order_stderr, order_status = Open3.capture3(review_env, "ruby", EXECUTOR, "create", "CORP-B", chdir: ROOT)
 abort "out-of-order create did not fail closed" if order_status.success?
 abort "out-of-order diagnostic missing" unless order_stderr.include?("out-of-order create")
 
-_unknown_stdout, unknown_stderr, unknown_status = Open3.capture3("ruby", EXECUTOR, "create", "UNKNOWN", chdir: ROOT)
+_unknown_stdout, unknown_stderr, unknown_status = Open3.capture3(review_env, "ruby", EXECUTOR, "create", "UNKNOWN", chdir: ROOT)
 abort "unknown create did not fail closed" if unknown_status.success?
 abort "unknown-ID diagnostic missing" unless unknown_stderr.include?("unknown planned ID")
 
-_final_stdout, final_stderr, final_status = Open3.capture3("ruby", EXECUTOR, "finalize", chdir: ROOT)
+_final_stdout, final_stderr, final_status = Open3.capture3(review_env, "ruby", EXECUTOR, "finalize", chdir: ROOT)
 abort "incomplete finalization did not fail closed" if final_status.success?
 abort "incomplete-finalization diagnostic missing" unless final_stderr.include?("children absent")
 

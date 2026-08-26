@@ -10,10 +10,23 @@ ROOT = File.expand_path("../../../..", __dir__)
 MILESTONE = File.join(ROOT, "docs/milestones/v0.92.1")
 WAVE_PATH = File.join(MILESTONE, "WP_ISSUE_WAVE_v0.92.1.yaml")
 SPEC_PATH = File.join(MILESTONE, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
+CATALOG_PATH = File.join(MILESTONE, "PLANNED_ISSUE_CATALOG_v0.92.1.md")
+READINESS_PATH = File.join(MILESTONE, "WP_EXECUTION_READINESS_v0.92.1.md")
 FINAL_RECEIPT = File.join(MILESTONE, "evidence/wp-01/final-creation-receipt.json")
 EXPECTED_EXISTING = [51, 84, 122, 251, 261, 262, 263, 264, 342, 345].freeze
 EXCLUDED = [269].freeze
 REPOSITORY = "agent-logic/agent-design-language"
+EXPECTED_PLANNING_DIGEST = "f00977324d7bfbfcb17a04d1798d14eca9c99c6d6299a0ae21977f564b518251"
+EXISTING_TARGETS = {
+  84 => ["[v0.92.1][Observatory] Complete live Unity Observatory Runtime v3 integration", %w[area:observatory track:roadmap type:task version:v0.92.1]],
+  122 => ["[v0.92.1][Observatory] Deploy public exposure with Route53 and ACM", %w[area:observatory track:roadmap type:task version:v0.92.1]],
+  251 => ["[v0.92.1][Runtime] Support TLS 1.2 on public Axum HTTPS/WSS for Unity", %w[area:runtime track:roadmap type:bug version:v0.92.1]],
+  345 => ["[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner", %w[area:runtime track:roadmap type:task version:v0.92.1]]
+}.freeze
+
+def planning_digest
+  Digest::SHA256.hexdigest([WAVE_PATH, SPEC_PATH, CATALOG_PATH, READINESS_PATH].map { |path| Digest::SHA256.file(path).hexdigest }.join(":"))
+end
 
 def fail!(messages)
   messages.each { |message| warn "BLOCK: #{message}" }
@@ -89,6 +102,7 @@ def validate_plan
     creation_slots: ids.length,
     ordered_ids: ids,
     existing_issues: EXPECTED_EXISTING,
+    planning_digest: planning_digest,
     excluded_issues: EXCLUDED,
     wave_sha256: Digest::SHA256.file(WAVE_PATH).hexdigest,
     specifications_sha256: Digest::SHA256.file(SPEC_PATH).hexdigest
@@ -100,6 +114,10 @@ def validate_live(plan)
   receipt = JSON.parse(File.read(FINAL_RECEIPT))
   errors = []
   rows = receipt.fetch("children", [])
+  errors << "current planning authority digest mismatch" unless planning_digest == EXPECTED_PLANNING_DIGEST
+  errors << "final receipt planning digest mismatch" unless receipt["planning_digest"] == planning_digest
+  wave = YAML.safe_load(File.read(WAVE_PATH), permitted_classes: [], aliases: false)
+  expected_rows = child_rows(wave).to_h { |row| [row.fetch("id"), row] }
   ids = rows.map { |row| row["planned_id"] }
   errors << "final receipt denominator mismatch" unless ids == plan.fetch(:ordered_ids)
   errors << "final receipt issue numbers are not unique" unless rows.map { |row| row["issue"] }.uniq.length == 45
@@ -128,6 +146,9 @@ def validate_live(plan)
       "milestone" => live["milestone"]&.fetch("number", nil)
     }
     errors << "existing live drift for ##{row['issue']}" unless Digest::SHA256.hexdigest(JSON.generate(normalized)) == row["live_sha256"]
+    if (target = EXISTING_TARGETS[row.fetch("issue")])
+      errors << "existing exact routing mismatch for ##{row['issue']}" unless normalized["title"] == target[0] && normalized["labels"] == target[1].sort && normalized["milestone"] == 1
+    end
   end
   rows.each do |row|
     stdout, stderr, status = Open3.capture3("gh", "issue", "view", row.fetch("issue").to_s, "--repo", REPOSITORY,
@@ -138,12 +159,26 @@ def validate_live(plan)
     end
     live = JSON.parse(stdout)
     labels = live.fetch("labels", []).map { |label| label.fetch("name") }.sort
-    expected_title = "[v0.92.1][#{row.fetch('planned_id')}] "
-    errors << "live title mismatch for #{row['planned_id']}" unless live.fetch("title").start_with?(expected_title) && live.fetch("title") == row.fetch("title")
+    expected_title = "[v0.92.1][#{row.fetch('planned_id')}] #{expected_rows.fetch(row.fetch('planned_id')).fetch('title')}"
+    errors << "live title mismatch for #{row['planned_id']}" unless live.fetch("title") == expected_title && row.fetch("title") == expected_title
     errors << "live labels mismatch for #{row['planned_id']}" unless labels == row.fetch("labels").sort
     errors << "live milestone mismatch for #{row['planned_id']}" unless live.dig("milestone", "number") == 1
     errors << "live state mismatch for #{row['planned_id']}" unless live.fetch("state").downcase == "open"
     errors << "live body mismatch for #{row['planned_id']}" unless Digest::SHA256.hexdigest(live.fetch("body")) == row.fetch("body_sha256")
+  end
+  census_stdout, census_stderr, census_status = Open3.capture3("gh", "issue", "list", "--repo", REPOSITORY, "--state", "all",
+                                                                "--milestone", "v0.92.1", "--limit", "1000",
+                                                                "--json", "number,title,body", chdir: ROOT)
+  if census_status.success?
+    census = JSON.parse(census_stdout)
+    rows.each do |row|
+      id = row.fetch("planned_id")
+      marker = "<!-- csdlc-github-operation:v0921-wp01:#{planning_digest}:#{id}:create -->"
+      matches = census.select { |issue| issue["title"] == row["title"] || issue["title"].include?("[#{id}]") || issue.fetch("body", "").include?(marker) }
+      errors << "live census ambiguity for #{id}" unless matches.map { |issue| issue["number"] } == [row["issue"]]
+    end
+  else
+    errors << "live census failed: #{census_stderr.strip}"
   end
   fail!(errors) unless errors.empty?
   plan.merge(live_result: "passed", final_receipt_sha256: Digest::SHA256.file(FINAL_RECEIPT).hexdigest)
