@@ -37,12 +37,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer did not inspect credential stores and did not perform GitHub, AWS, or lifecycle writes.
+- Reviewer did not rerun AWS readback collection; review validated retained evidence and local validators only.
+- Live worktree includes assignment-only metadata commit bd95a4f5 after the reviewed substantive commit; scoped artifacts are unchanged by that top metadata commit.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9ec2e5e453a0a4a300fcf3e0871e7827939d577e:a8c6d9c85916c6ecbd7845a744bacd38054989493f2d1d3453aaf945c6fac13a")
 
-Reviewer: None
+Reviewer: Some("fresh-session:f0bf501e-d7a2-48cd-b983-da5f21564b5e")
 
-Result: pre_review
+Result: pass
