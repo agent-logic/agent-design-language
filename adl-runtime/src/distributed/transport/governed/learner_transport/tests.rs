@@ -92,7 +92,7 @@ async fn wait_for_machine_mutation(
     node_id: u64,
     mutation_id: &str,
 ) {
-    let observed = tokio::time::timeout(Duration::from_secs(60), async {
+    let observed = tokio::time::timeout(Duration::from_secs(180), async {
         loop {
             let application_state = machines[&node_id].application_state().await;
             if application_state.mutation_ids.contains(mutation_id) {
@@ -111,6 +111,26 @@ async fn wait_for_machine_mutation(
             raft_metrics.last_applied, raft_metrics.current_leader, learner_state.mutation_ids
         );
     }
+}
+
+async fn wait_for_node_leader_observation(nodes: &BTreeMap<u64, PolisRaft>, node_id: u64) -> u64 {
+    tokio::time::timeout(Duration::from_secs(180), async {
+        loop {
+            if let Some(leader) = nodes[&node_id].metrics().borrow().current_leader {
+                break leader;
+            }
+            tokio::time::sleep(Duration::from_millis(25)).await;
+        }
+    })
+    .await
+    .unwrap_or_else(|_| {
+        let raft_metrics = nodes[&node_id].metrics().borrow().clone();
+        panic!(
+            "node {node_id} did not observe a current leader before learner replication; \
+             last_applied={:?}; current_leader={:?}",
+            raft_metrics.last_applied, raft_metrics.current_leader
+        );
+    })
 }
 
 fn identity() -> LearnerIdentity {
@@ -1407,6 +1427,11 @@ async fn real_four_node_learner_replication() {
     assert!(
         !learner_server.is_finished(),
         "learner server ended during catch-up"
+    );
+    let observed_learner_leader = wait_for_node_leader_observation(&nodes, 4).await;
+    assert!(
+        (1..=3).contains(&observed_learner_leader),
+        "learner observed non-voter leader id {observed_learner_leader}"
     );
     let (_, replicated) = write_on_writable_leader(
         &nodes,

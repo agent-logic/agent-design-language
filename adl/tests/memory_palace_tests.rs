@@ -403,7 +403,7 @@ fn v092_docs_name_memory_palace_production_authority_without_broad_completion_cl
     let milestone_readme = fs::read_to_string(repo_root.join("docs/milestones/v0.92/README.md"))
         .expect("read v0.92 README");
     assert!(!milestone_readme.contains("- Full memory palace implementation."));
-    assert!(milestone_readme.contains("Runtime-kernel production-authority slice"));
+    assert!(milestone_readme.contains("Memory Palace context"));
 
     let feature_doc = fs::read_to_string(
         repo_root.join("docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"),

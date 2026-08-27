@@ -1,0 +1,126 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 550,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime][observatory] Wire trusted Observatory origin into CSM launch config",
+    "slug": "runtime-observatory-trusted-origin-csm-config",
+    "version": "v0.92.1",
+    "generation": 38
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Bind current main, transplant only the trusted-origin follow-up, harden exact-origin parsing, make the HTML Observatory trust the configured Wuji Runtime host, make the health endpoint obey the same configured-origin CORS policy as the other Observatory reads, add executable tests, retain live browser proof, obtain fresh review, and publish one closing PR.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bind issue #550 from current main and transplant only the trusted-origin follow-up delta.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Harden exact public-origin validation and add executable valid and invalid generation tests.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Make the HTML Observatory trusted Runtime host config-owned and prove the configured Wuji host is accepted while arbitrary hosts fail.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Apply the configured-origin CORS policy to Runtime health and prove the real Observatory three-endpoint connection.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S5",
+          "action": "Run focused local validation and retain bounded live Wuji trusted-TLS and CORS evidence.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S6",
+          "action": "Obtain fresh exact-head review, fix all findings, publish, shepherd green checks, merge, finish, and clean.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "CSMctl",
+        "docs/tooling/CSMctl.conf.example",
+        "adl-runtime/tests/runtime_api_wss.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/tests/control.rs",
+        "adl/tools/test_csmctl_observatory_origins.sh",
+        "adl/tools/run_owner_validation_lane.sh",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/runtime-v3.config.json",
+        "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+        ".csdlc/prepared/issues/550/validate-csm-origin-generation.sh",
+        ".csdlc/prepared/issues/550/validate-shell-and-diff.sh",
+        ".csdlc/prepared/issues/550/validate-live-wuji.sh",
+        ".csdlc/prepared/issues/550",
+        ".csdlc/evidence/550"
+      ],
+      "invariants": [
+        "Only exact origins are emitted",
+        "No self-signed certificate is introduced",
+        "Invalid input cannot replace generated Runtime config",
+        "The HTML Observatory does not trust arbitrary Runtime v3 hosts",
+        "The merged #540 history remains immutable",
+        "HOT-01 remains the sole dynamic-reload owner"
+      ],
+      "risks": [
+        "Shell parsing could accept path or credential syntax",
+        "A port outside the valid TCP range could pass shallow validation",
+        "Static source assertions could falsely pass without executing generation",
+        "A stale hard-coded HTML trusted host could reject the live Wuji runtime",
+        "Transplanting the old branch could delete newer main work"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The delta expands beyond the three declared source/docs/test files",
+        "Current main cannot be preserved cleanly",
+        "Executable invalid-input proof is absent",
+        "Live 8765 TLS is not browser-trusted",
+        "Fresh review finds unresolved actionable issues"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/550/design.md",
+      "design_digest": "ca3d5ecab77e251dfceec25366d2c2f2174b3e817337ed998b77c9026ecaad83",
+      "diagram_ref": ".csdlc/prepared/issues/550/diagram.mmd",
+      "diagram_digest": "a46fdc97ade937612faa0e9a6053b6e3b4472b17abf13b4968d6762c5ce8e1ce"
+    }
+  }
+}

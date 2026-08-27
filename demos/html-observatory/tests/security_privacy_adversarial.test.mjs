@@ -24,6 +24,8 @@ const {
   operatorAttentionRows,
   operatorAttentionViewModel,
   operatorAttentionActionPayload,
+  applyRuntimeV3Config,
+  getRuntimeV3Config,
   normalizeTrustedRuntimeV3ApiBase
 } = globalThis.AdlHtmlObservatory;
 
@@ -214,13 +216,19 @@ assert.deepEqual(operatorAttentionActionPayload(attention, {
 });
 assert.throws(() => operatorAttentionActionPayload(attention, { action: "approve" }));
 
-assert.equal(normalizeTrustedRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997"), "https://runtime.dev.agent-logic.ai:20997");
+applyRuntimeV3Config({
+  api_base: "https://wuji.dev.csm.agent-logic.ai:20997",
+  trusted_hosts: ["wuji.dev.csm.agent-logic.ai"]
+});
+assert.deepEqual(getRuntimeV3Config().trusted_hosts, ["wuji.dev.csm.agent-logic.ai"]);
+assert.equal(normalizeTrustedRuntimeV3ApiBase("https://wuji.dev.csm.agent-logic.ai:20997"), "https://wuji.dev.csm.agent-logic.ai:20997");
 for (const unsafeBase of [
-  "http://runtime.dev.agent-logic.ai:20997",
+  "http://wuji.dev.csm.agent-logic.ai:20997",
   "https://evil.example:20997",
-  "https://token:secret@runtime.dev.agent-logic.ai:20997",
-  "https://runtime.dev.agent-logic.ai:20997/path",
-  "https://runtime.dev.agent-logic.ai:20997?token=secret"
+  "https://runtime.dev.agent-logic.ai:20997",
+  "https://token:secret@wuji.dev.csm.agent-logic.ai:20997",
+  "https://wuji.dev.csm.agent-logic.ai:20997/path",
+  "https://wuji.dev.csm.agent-logic.ai:20997?token=secret"
 ]) {
   assert.throws(() => normalizeTrustedRuntimeV3ApiBase(unsafeBase));
 }

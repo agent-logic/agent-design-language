@@ -2130,7 +2130,10 @@ where
         .validator_url("none"),
     );
     let router = Router::new()
-        .route(RUNTIME_HEALTH_PATH, get(runtime_health_handler::<C>))
+        .route(
+            RUNTIME_HEALTH_PATH,
+            get(runtime_health_handler::<C>).options(observatory_preflight_handler::<C>),
+        )
         .route(
             RUNTIME_READY_PATH,
             get(runtime_ready_handler::<C>).options(observatory_preflight_handler::<C>),
@@ -2211,8 +2214,17 @@ async fn observatory_openapi_handler() -> impl IntoResponse {
 
 async fn runtime_health_handler<C: LifecycleControl + 'static>(
     State(service): State<Arc<ControlService<C>>>,
+    headers: HeaderMap,
 ) -> Response {
-    Json(service.observatory_feed().health).into_response()
+    let allowed_origin = allowed_origin(&service, &headers);
+    if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
+        return StatusCode::FORBIDDEN.into_response();
+    }
+    observatory_json(
+        StatusCode::OK,
+        service.observatory_feed().health,
+        allowed_origin,
+    )
 }
 
 async fn runtime_ready_handler<C: LifecycleControl + 'static>(

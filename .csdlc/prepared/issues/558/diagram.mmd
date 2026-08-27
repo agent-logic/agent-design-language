@@ -1,0 +1,7 @@
+flowchart TD
+    A["Coverage instrumentation slows distributed test scheduling"] --> B["Node 4 temporarily has no current leader"]
+    B --> C["Existing learner replication wait times out"]
+    C --> D["Shared coverage gate blocks #499 and #514"]
+    E["Issue #558 bounded fix"] --> F["Stabilize test harness wait/leader readiness only"]
+    F --> G["real_four_node_learner_replication deterministic again"]
+    G --> H["Coverage gate can go green without product semantic changes"]
