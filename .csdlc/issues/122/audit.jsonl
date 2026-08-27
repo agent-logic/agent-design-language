@@ -89,3 +89,4 @@
 {"sequence":89,"generation":67,"actor":"codex:/root","reason":"Recover #122 review after committing typed review-record metadata; publication guard requires a fresh exact clean HEAD review before republishing.","operation":"recover_review"}
 {"sequence":90,"generation":67,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":91,"generation":68,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":92,"generation":69,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
