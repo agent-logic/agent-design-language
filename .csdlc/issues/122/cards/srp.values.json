@@ -7,13 +7,13 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 64
+    "generation": 65
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

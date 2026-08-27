@@ -5,18 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
-  "generation": 64,
-  "digest": "39031d9ab2060ffb8f88d31472c766eed75c6ca6cee6464a7ad2db0e7d8a05d3",
+  "generation": 65,
+  "digest": "8b1b9e33d94c7863648d4bc569b7a59e6a769ea1c823602122e258a2d87027d5",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": {
-    "reviewer": "fresh-session:7eae5569-17bf-49ab-a717-c517307a85fd",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:3eeab418acde4867282d0a4815df1ed73606ab23:e85963d1c020659e572f60cc46a916d9dbc67ae2c34e381bb00d493efd883c77",
-    "scope": [
-      "."
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -32,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce1a5579578c3d665d6a235fe7659cba75c43ab848c15921f2ed3d8420d73d1e",
+      "values_digest": "723b634e0c2f649342559c94a52778d170594d9604a501258ad41bf3a2fe7873",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "feffd435714515a7d508b42a40c640c3946b5f2e91fa39c851a86b8a1bf80240",
+      "values_digest": "a30fcaa3c43d7d5af588f631b398bd538655b4207f0c6b8f656f8e137a8db4af",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "acae0ef583d39efc5006fe81424b0cffed0702a69742011fd5b2a8b437c4adfa",
+      "values_digest": "e00cab85e52b83c6cebe17513a984d1b3247a0abdf81c8edfb157501f9f3f92a",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "3871bc34e40dcf79b48a780a4a555695d09733e3d2943e4f964efd5b7984b158",
+      "values_digest": "4356c05d629ba06a5c38d3baf69ed568de34149ab9f41fa65607cb31e44ca198",
       "rendered_digest": "832485a93cad1cbb8228950655e809e0201547775d8f4c6eb5e66bdf30af6d97",
       "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "f9a03cc2182232e159cad8a1cf6cdc0876960c97f2765311938ff6f47c43e614",
-      "rendered_digest": "b9e82e2ed4748e5cde4a653ab68a1f50d01f6e1f8aad3e2f3758337bbfe9318e",
-      "ast_digest": "015bcef0c6aa2d40402f540dd0b3590bf0c4feb30eeef9ce61e6ccaadc6a3051"
+      "values_digest": "c75184d5cdffd2b2b6e6c2cd8ecd58cf3ac1e6e81e9d75a64fe788dc088af049",
+      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
+      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
     },
     "sor": {
-      "values_digest": "185f310f60e6d71d336d00d13efe4cc1f3db60c83642b38c388cf202f50bf2bf",
+      "values_digest": "692f0dd6abde0a512c03a6049bbf14873d4a2f6f1fbf1b01ad8cf749fb00424a",
       "rendered_digest": "5a45bb70790fb704d34805b7f498d11ad25ca043a01c30d76f52879cabd1e57e",
       "ast_digest": "336b181985ce9ed93f89bc052a2031551f454a38550b4d01062a9ce597649be0"
     }
@@ -764,6 +757,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 86,
+      "generation": 65,
+      "actor": "codex:/root",
+      "reason": "Recover silent #122 post-main-merge review assignment fresh-session:7eae5569-17bf-49ab-a717-c517307a85fd after two bounded waits and no verdict; no implementation content changed.",
+      "operation": "recover_review"
     }
   ]
 }

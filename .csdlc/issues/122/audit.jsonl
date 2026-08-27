@@ -83,3 +83,4 @@
 {"sequence":83,"generation":63,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":84,"generation":64,"actor":"codex:/root","reason":"Recover stale #122 review and publication after merging current origin/main coverage-stabilization fixes into the bound worktree; exact reviewed revision ff85da8f is no longer current at clean HEAD 9fab4965.","operation":"recover_review"}
 {"sequence":85,"generation":64,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":86,"generation":65,"actor":"codex:/root","reason":"Recover silent #122 post-main-merge review assignment fresh-session:7eae5569-17bf-49ab-a717-c517307a85fd after two bounded waits and no verdict; no implementation content changed.","operation":"recover_review"}
