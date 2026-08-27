@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 563,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+    "slug": "stale-owner-binary-primary-checkout-guard",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #563 worktree revision across C-SDLC owner mutation entrypoints, provenance/install contracts, primary-checkout guard, focused fixtures, policy docs, and validation evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every repository-mutating installed owner reach one shared read-only gate before locks or filesystem writes?",
+        "Does owner-source freshness avoid whole-repository HEAD false positives while detecting actual C-SDLC drift?",
+        "Can any partial or mixed installation become selected?",
+        "Are primary, linked, isolated, and pre-existing-residue cases proven with exact before/after state?",
+        "Are diagnostics portable, actionable, and free of credential or host-path disclosure?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

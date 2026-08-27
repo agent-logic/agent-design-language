@@ -1,0 +1,60 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 563,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+    "slug": "stale-owner-binary-primary-checkout-guard",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement one shared pre-mutation installed-owner provenance gate, atomic generation verification, and focused primary-checkout safety proof.",
+      "deliverables": [
+        "Shared installed-owner provenance preflight",
+        "Complete-generation atomic install verification",
+        "Independent primary-checkout bootstrap guard coverage",
+        "Before/after no-mutation negative fixtures",
+        "Focused owner/install validation evidence and exact-head review"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every installed owner capable of repository mutation invokes the shared provenance gate before its first mutation",
+        "AC-2: Stale, missing, malformed, partial, or digest-mismatched installations fail closed with no target-checkout change",
+        "AC-3: A current owner still rejects bootstrap on primary main and succeeds in an allowed isolated FastWork checkout",
+        "AC-4: Freshness detects owner-source drift without treating unrelated repository commits as stale",
+        "AC-5: Installation publishes only a complete verified generation and receipt atomically",
+        "AC-6: Existing residue is reported without deletion and diagnostics are portable and credential-free",
+        "AC-7: Focused tests, owner validation, install/resolve contracts, diff hygiene, and exact-head review pass"
+      ],
+      "dependencies": [
+        "#548 primary-checkout bootstrap guard merged into current main"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/lifecycle.rs",
+        "csdlc-v2/src/operator.rs",
+        "csdlc-v2/src/bin",
+        "csdlc-v2/src/bin/csdlc-install.rs",
+        "csdlc-v2/operator/generation-selector.json",
+        "csdlc-v2/operator/skills.json",
+        "csdlc-v2/operator/owner-source-set.json",
+        "csdlc-v2/Cargo.lock",
+        "adl-resilience/Cargo.toml",
+        "adl-resilience/src",
+        "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+        "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+        "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md"
+      ],
+      "non_goals": [
+        "Deleting existing primary-checkout residue",
+        "Changing issue lifecycle semantics",
+        "Making closeout or cleanup an execution dependency",
+        "Reviving v1 wrappers",
+        "Broad repository refactoring"
+      ]
+    }
+  }
+}
