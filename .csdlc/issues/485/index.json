@@ -6,10 +6,22 @@
   "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
   "phase": "implemented",
   "generation": 8,
-  "digest": "f231189230eeef09375745cb7470581d4b1639137852665910ae0c958176d7a9",
+  "digest": "ea4134e64f521ffe4fad6c06e05aed3ecf04618b1ac579790fc3687c03ec11f9",
   "branch": "codex/485-aws-access-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-485-aws-access-billing-baseline",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:59db2b56-3705-4377-8022-836f16ba8077",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4bd7033e810346e589aec68d98ff155c2d161cb4:298fb0da0d9efd035e7409f68637fc25ecc1bf33902ede7ffdbb25451e437e83",
+    "scope": [
+      ".csdlc/issues/485",
+      ".csdlc/prepared/issues/485",
+      ".csdlc/evidence/485",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-b",
+      "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
+      "infra/aws/account-foundation/README.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "19124688faccfc7cda70d364156898b03263527af4dcde97125b270bd1f630d3"
     },
     "srp": {
-      "values_digest": "6a5aefa46a618d2adb59624cdbb012ca9271f83a46406af999254946f3ea16a0",
-      "rendered_digest": "dc20f1c1db625edc0817b20ee813f140a5ab0cdaacd74914931d0de393930956",
-      "ast_digest": "5a35986596d9d83a2cd4694705ebd397fcdc41e4eb2960fefaa3b8ad1e392cf1"
+      "values_digest": "7c72e745d3ad61ee53a7c53f4995cf9bde4391ed247688521e9e54eb7d10c58b",
+      "rendered_digest": "b7716e314b45648cf2019213e74f63eb081bf413d7968f4fc899c612f2926b58",
+      "ast_digest": "901973991fec124d7e946abf199b973d02a6168d439cf94a81adff8d0da81563"
     },
     "sor": {
       "values_digest": "d0ef2f5a74991a6b348574894fb60076982de6bec775efa8dc39f8ab49cdecd5",
@@ -162,6 +174,13 @@
       "actor": "codex:/root",
       "reason": "Repair #485 R3 findings by tightening AWS session-token redaction, regenerating retained readbacks, and refreshing current typed-state evidence.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Finalize AWS-B access and billing baseline with redacted read-only evidence, retained administrator continuity, agent IAM guardrail posture, AWS CLI 2.35+ Agent Toolkit proof, CloudTrail/CloudWatch attribution readbacks, billing visibility evidence, and post-review remediation for sessionToken redaction/current typed-state evidence.\",\"changes\":[\"Added AWS access and billing baseline documentation for corporate recovery, identity census, agent IAM guardrails, audit attribution, and billing visibility.\",\"Added issue-owned redacted readback collector and retained AWS-B evidence under docs/milestones/v0.92.1/evidence/cloud/aws-b.\",\"Recorded current AWS CLI 2.36.32 Agent Toolkit floor proof and refreshed read-only AWS readbacks using the approved agent-logic-admin profile.\",\"Bound #485 to codex/485-aws-access-billing-baseline in the FastWork issue worktree.\",\"Fixed R3 P1 by redacting normal and escaped CloudTrail sessionToken/secretAccessKey fields and tightening the validator against raw sessionToken evidence.\",\"Fixed R3 P2 by refreshing retained .csdlc/evidence/485 typed-state evidence to prove the current implemented generation.\"],\"artifacts\":[\"docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"infra/aws/account-foundation/README.md\",\".csdlc/prepared/issues/485/validate-aws-b-baseline.sh\",\".csdlc/prepared/issues/485/validate-typed-state.sh\",\".csdlc/evidence/485/\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"root-recovery\"],\"purpose\":\"Refresh root recovery and administrator continuity readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/root-recovery.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"identity-census\"],\"purpose\":\"Refresh IAM identity census readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/identity-census.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-toolkit-configuration\"],\"purpose\":\"Refresh AWS CLI and approved-profile STS readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/agent-toolkit-configuration.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-iam-guardrails\"],\"purpose\":\"Refresh agent IAM guardrail readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/agent-iam-guardrails.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-activity-audit\"],\"purpose\":\"Refresh CloudWatch and CloudTrail attribution readback with credential-field redaction.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/agent-activity-audit.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"billing-readback\"],\"purpose\":\"Refresh billing and cost visibility readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/billing-readback.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/485/validate-aws-b-baseline.sh\"],\"purpose\":\"Reject credential material, raw sessionToken values, and unintended mutation verbs in retained AWS-B evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/credential-redaction.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/485/validate-typed-state.sh\"],\"purpose\":\"Prove current typed issue integrity after R3 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/typed-state.log\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
