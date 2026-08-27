@@ -4,64 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a43b525a61790257019207e3d1187d1c53001b830cef623010b0dd69b318f435",
-  "phase": "published",
-  "generation": 21,
-  "digest": "f67b4555ff5e3fcc39ee5f1c2f046eb678a4837bb67fa71c289c3d631e952570",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "961f45157bcda07ed45b25b9e04da3f3be0cbccef37cde44eb26e89d79e3ece8",
   "branch": "codex/560-runtime-v2-workspace-coverage-timeouts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts",
-  "review_assignment": {
-    "reviewer": "openai-responses:resp_05358d9aeb79ba51006a8f7e674e0487d09cc756cdcf1200d6",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:b877efc189b823e6f4b4bc145ea8bbe14c632618:9da95cc9e31763e36a8355db40b9e35b408aee43c0bee060509e391b72970fd2",
-    "scope": [
-      ".csdlc/issues/560",
-      ".csdlc/prepared/issues/560",
-      ".csdlc/evidence/560",
-      "adl/.config/nextest.toml",
-      "adl/src/adl_gws_context_mirror.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "openai-responses:resp_05358d9aeb79ba51006a8f7e674e0487d09cc756cdcf1200d6",
-    "scope": [
-      ".csdlc/issues/560",
-      ".csdlc/prepared/issues/560",
-      ".csdlc/evidence/560",
-      "adl/.config/nextest.toml",
-      "adl/src/adl_gws_context_mirror.rs"
-    ],
-    "reviewed_revision": "git-blake3:b877efc189b823e6f4b4bc145ea8bbe14c632618:9da95cc9e31763e36a8355db40b9e35b408aee43c0bee060509e391b72970fd2",
-    "findings": [],
-    "residual_risks": [
-      "Hosted adl-coverage remains the required integration proof before merge."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git:d503b6d5bbdc87c4212e5519d804e13b0cbc181d",
-      "to_revision": "git-blake3:b877efc189b823e6f4b4bc145ea8bbe14c632618:9da95cc9e31763e36a8355db40b9e35b408aee43c0bee060509e391b72970fd2",
-      "from_commit": "d503b6d5bbdc87c4212e5519d804e13b0cbc181d",
-      "to_commit": "b877efc189b823e6f4b4bc145ea8bbe14c632618",
-      "changed_paths": [
-        ".csdlc/evidence/560/openai-responses-review-r3.json",
-        ".csdlc/evidence/560/openai-responses-review-r3.txt",
-        ".csdlc/evidence/560/openai-responses-review-pass-r3.json",
-        ".csdlc/evidence/560/openai-responses-review-pass-r3.txt"
-      ]
-    }
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 560,
-    "pull_request": 561,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/561",
-    "base": "main",
-    "head": "codex/560-runtime-v2-workspace-coverage-timeouts",
-    "revision": "git-blake3:b877efc189b823e6f4b4bc145ea8bbe14c632618:9da95cc9e31763e36a8355db40b9e35b408aee43c0bee060509e391b72970fd2",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e70826367648b9cd13b6e7b56b03adfe10d8daf65302af059a4ca2d0eaa8e7dc",
+      "values_digest": "9d15acdebc4bf969e8c1244197f69949ab00ed72f041b4258b002c1868fbf72d",
       "rendered_digest": "70f5c9b2e3b520aac7444595ff1c2671bf5e5b091bc68e84c4a195b285260210",
       "ast_digest": "09021e4f502392feb5e59861355e230f2b5e5d1d23f28cfa8dcac6f7405e76c7"
     },
     "stp": {
-      "values_digest": "1ce4d07ca66e138cf55cf58f4af8c1bcab0528a83555e4d73625a58ff28f09fe",
+      "values_digest": "b0088bb3b6c02e45443f863b6cd024e425629de4a51d43843ccec97c5b40c20c",
       "rendered_digest": "1ca4c4f432d4d1d4b0f609c7f0494fd54d49950efa61f3e5f296cc2e394183f3",
       "ast_digest": "a0ea2badb5bc379214e09ba7ccf6a83c419600993c2a4bc683274e14bc0406b2"
     },
     "spp": {
-      "values_digest": "abf95fcd22cbd035a6cd559a3740058d890d9adc989c0eb5e63dcc054a7f2d6a",
+      "values_digest": "a04818f3297d110a4f297d6776548ac6e5802ab98dacda267deac9f3a242454f",
       "rendered_digest": "eb8dc0875759a3609f106f1bbcab83e0aa08094602b0fbc5981938944b93b275",
       "ast_digest": "94e49b61be4dd98be4b1264d872d4a605f4ec4b85ffea0a44553239623411af9"
     },
     "vpp": {
-      "values_digest": "3301b9a8502ec43a7129f6ad8b91165f17cc8f7245f38cff5450019f21d37508",
+      "values_digest": "036815d327a4741d8218040d5feecedb376f428d41e961a590e243ac38fa28d7",
       "rendered_digest": "ac2965e804a7314787ac739e5e47e12fd6d9b944a3189bed5d30a0a52b06ee94",
       "ast_digest": "bc307fa308bbf34ed77e882f9858becbd7fb771728c088d79bfd47f94cd74180"
     },
     "srp": {
-      "values_digest": "05ebe2204138ae570cbb598e4a5d48ddb35063728c3736b34dba9616d66a4db3",
-      "rendered_digest": "ba49e6a1df29fade3d44365cf0a7342e32cfb3c7f7bed66b4a6542ba768a75a2",
-      "ast_digest": "54905f89bdc3fc56b3726a51ddf765b2e48747c4eaf439f991d8ac6c4018ba4a"
+      "values_digest": "dbc4cc4c2ea52f5cb9e9deba612e21b8e8a73b400330f2c1e7db66ba521c54b8",
+      "rendered_digest": "5117945cadf0f03230753d721605a0fd7168feabef34d3e4a65f0bbdd720c13a",
+      "ast_digest": "4d406d6c641275799db99d290272ae7052bf39d492c65e9c354ce1e719c4819a"
     },
     "sor": {
-      "values_digest": "e9b693f51bedd95902f314de51e7945c58a81894c790d5ada09f2c404f8a4aa5",
-      "rendered_digest": "d0de3d95afbf812953c84d5c1737e32f7f41fb37598e52af09046f74a8512ea5",
-      "ast_digest": "d4fc79e98b4acb28298201103f0e82b37b7943cd092f235e53e603b354a63b1c"
+      "values_digest": "7c247966ca3e2f59ec315436c281756407de3e5a1efa04a765eaa0f8c8e18a6b",
+      "rendered_digest": "d811d1037ecc507e1a3b6145183e465bd8a4826e2da242f581dc8c4b07ba76d4",
+      "ast_digest": "40c68670b36d7fc5c1694f639edf0f3760856fe7772938c11fa72608526eceea"
     }
   },
   "transitions": [
@@ -196,6 +146,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #560 from the invalid explicit r3 non-substantive proof after publication metadata commit; re-review the current clean metadata head before republishing."
     }
   ],
   "audit": [
@@ -387,6 +344,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Recover #560 from the invalid explicit r3 non-substantive proof after publication metadata commit; re-review the current clean metadata head before republishing.",
+      "operation": "recover_review"
     }
   ]
 }

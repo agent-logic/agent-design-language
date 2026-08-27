@@ -25,3 +25,4 @@
 {"sequence":25,"generation":19,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":26,"generation":20,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":27,"generation":21,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":28,"generation":22,"actor":"codex:/root","reason":"Recover #560 from the invalid explicit r3 non-substantive proof after publication metadata commit; re-review the current clean metadata head before republishing.","operation":"recover_review"}
