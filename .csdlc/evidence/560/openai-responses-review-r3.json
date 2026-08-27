@@ -1,0 +1,22 @@
+{
+  "id": "resp_05358d9aeb79ba51006a8f7e674e0487d09cc756cdcf1200d6",
+  "model": "gpt-5.6-sol",
+  "created_at": 1787788903,
+  "status": "completed",
+  "reviewed_revision": "git:d503b6d5bbdc87c4212e5519d804e13b0cbc181d",
+  "base_revision": "git:a8c02e53a47e2f20edf77f4f28c61522e113de03",
+  "merge_base": "git:a8c02e53a47e2f20edf77f4f28c61522e113de03",
+  "output_text": "{\"publication_safe\":true,\"verdict\":\"PASS\",\"response_reviewed_revision\":\"git:d503b6d5bbdc87c4212e5519d804e13b0cbc181d\",\"findings\":[],\"residual_risks\":[\"The 240s allowance addresses observed instrumentation overhead, but hosted coverage duration remains dependent on CI load.\",\"The untracked .csdlc/tmp/ directory is outside the reviewed revision and should remain excluded from publication.\"],\"one_sentence_summary\":\"The merge correctly preserves the v0.92.1 context-mirror compatibility, exact ci-coverage module-prefix override, focused denominator validation, and bounded #560 product scope.\"}",
+  "usage": {
+    "input_tokens": 9177,
+    "input_tokens_details": {
+      "cache_write_tokens": 9174,
+      "cached_tokens": 0
+    },
+    "output_tokens": 3247,
+    "output_tokens_details": {
+      "reasoning_tokens": 3106
+    },
+    "total_tokens": 12424
+  }
+}

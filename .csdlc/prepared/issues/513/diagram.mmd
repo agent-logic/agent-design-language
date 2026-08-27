@@ -1,0 +1,13 @@
+flowchart TD
+    I["DEC-01 #513"] --> T["Accepted Runtime v2/v3 authority topology"]
+    T --> V2["Runtime v2 owner: adl/src/runtime_v2/**"]
+    T --> V3A["Runtime v3 owner: adl-runtime/**"]
+    T --> V3K["Runtime v3 kernel owner: adl-runtime-kernel/**"]
+    T --> D["Shared docs: docs/runtime/**"]
+    T --> E["Evidence: docs/milestones/v0.92.1/evidence/runtime-decoupling/**"]
+    E --> C1["source denominator"]
+    E --> C2["reverse-reference census"]
+    E --> C3["compatibility"]
+    E --> C4["rollback"]
+    E --> C5["migration"]
+    T -. excludes .-> V4["Runtime v4"]

@@ -36,12 +36,15 @@ bounded legacy task explicitly names it. In the primary checkout, `origin`
 should identify the canonical repository; `legacy-origin`, when present, should
 not be treated as the default target for current issue or PR work.
 
-The primary checkout should stay clean on `main`. Before starting issue work,
-check `git status --short --branch` and `git worktree list --porcelain`; if a
-feature branch or tracked changes are sitting in the primary checkout, route
-the recovery through typed v2 `csdlc-doctor` / `csdlc-bind`
-evidence when available. Use only the narrowest manual fallback needed to
-preserve work in an issue worktree and restore root to clean `main`. See
+The primary checkout is inspection-only and should stay clean on `main`. Before
+starting issue work, check `git status --short --branch` and
+`git worktree list --porcelain`; if a feature branch or tracked changes are
+sitting in the primary checkout, route the recovery through typed v2
+`csdlc-doctor` / `csdlc-bind` evidence when available. Use only the narrowest
+manual fallback needed to preserve work in an issue worktree and restore root
+to clean `main`. Native C-SDLC bootstrap for ADL issues runs from an isolated
+staging checkout, then `csdlc-bind` moves approved work into the canonical
+FastWork issue worktree. See
 `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md` for the
 cross-session handoff and broadcast-note rules.
 

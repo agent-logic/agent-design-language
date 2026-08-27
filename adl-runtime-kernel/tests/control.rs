@@ -1311,6 +1311,26 @@ async fn observatory_cors_allows_only_configured_origins_and_reports_canonical_p
     assert!(draft_observatory_preflight.contains("access-control-allow-methods: GET"));
     assert!(draft_observatory_preflight.contains("cache-control: no-store"));
 
+    let draft_health = https_request(
+        &client,
+        address,
+        b"GET /v1/health HTTP/1.1\r\nHost: localhost\r\nOrigin: http://localhost:8000\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(draft_health.starts_with("HTTP/1.1 200 OK"));
+    assert!(draft_health.contains("access-control-allow-origin: http://localhost:8000"));
+    assert!(draft_health.contains("cache-control: no-store"));
+    assert!(draft_health.contains(adl_runtime_kernel::RUNTIME_SNAPSHOT_SCHEMA));
+
+    let forbidden_health = https_request(
+        &client,
+        address,
+        b"GET /v1/health HTTP/1.1\r\nHost: localhost\r\nOrigin: https://other.example.test\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(forbidden_health.starts_with("HTTP/1.1 403 Forbidden"));
+    assert!(!forbidden_health.contains("access-control-allow-origin"));
+
     let response = https_request(
         &client,
         address,

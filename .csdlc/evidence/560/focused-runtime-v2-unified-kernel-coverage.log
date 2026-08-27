@@ -1,0 +1,233 @@
+## focused ci-coverage runtime_v2 unified-kernel proof
+expression=test(/^runtime_v2::tests::unified_runtime_kernel::/)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_contract_is_stable
+adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated
+adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant
+adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift
+adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case
+adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift
+adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+selected_count=7
+info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.34s
+────────────
+ Nextest run ID 398e7efb-4507-4d4c-94d2-95bc3b407361 with nextest profile: ci-coverage
+    Starting 7 tests across 33 binaries (2466 tests skipped)
+        PASS [   5.017s] (1/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated
+        PASS [   5.019s] (2/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_contract_is_stable
+        PASS [   5.023s] (3/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant
+        PASS [   5.030s] (4/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case
+        PASS [   5.032s] (5/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift
+        PASS [   5.027s] (6/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift
+        PASS [   4.896s] (7/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence
+────────────
+     Summary [  14.947s] 7 tests run: 7 passed, 2466 skipped
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+     Running unittests src/lib.rs (target/debug/deps/adl-81ab49619ea2ef8c)
+
+running 1 test
+test adl_gws_context_mirror::tests::milestone_truth_reads_current_repo_story ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1805 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/adl-a4a18ccc9daf9de8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 223 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_aws_remote_validation.rs (target/debug/deps/adl_aws_remote_validation-3ab2aa112d95c541)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 52 filtered out; finished in 0.00s
+
+     Running unittests src/bin/demo_adl_gws_context_mirror.rs (target/debug/deps/adl_gws_context_mirror-8927fe0dff9537ef)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_process.rs (target/debug/deps/adl_process-366454936bb0cbbf)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running unittests tools/adl_provider_adapter.rs (target/debug/deps/adl_provider_adapter-a64c128ed33dc873)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_remote.rs (target/debug/deps/adl_remote-7763b4f252730061)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_review.rs (target/debug/deps/adl_review-979f972a09438286)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_runtime.rs (target/debug/deps/adl_runtime-fa7322ee64448fd4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/adl_resident_shepherd_continuity.rs (target/debug/deps/adl_resident_shepherd_continuity-d6b4623aa0255a3d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/csm.rs (target/debug/deps/csm-30e4cff0a01659b6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/csmctl.rs (target/debug/deps/csmctl-dc9f1e2e2f337842)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/demo_adl_gws_native_drive_sync.rs (target/debug/deps/demo_adl_gws_native_drive_sync-5d5611fe9a7fc920)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+     Running unittests src/bin/run_wp08_acip_sns_live_proof.rs (target/debug/deps/run_wp08_acip_sns_live_proof-f927d84d0e45c154)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/adl_tests.rs (target/debug/deps/adl_tests-af1cfd941aac2fac)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 30 filtered out; finished in 0.00s
+
+     Running tests/cli_smoke.rs (target/debug/deps/cli_smoke-ea1784194dcc6958)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 108 filtered out; finished in 0.00s
+
+     Running tests/demo_tests.rs (target/debug/deps/demo_tests-89bbef9442790cd4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 20 filtered out; finished in 0.00s
+
+     Running tests/execute_tests.rs (target/debug/deps/execute_tests-3c9f14ae99c0e724)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 77 filtered out; finished in 0.00s
+
+     Running tests/file_inputs.rs (target/debug/deps/file_inputs-d34cbe81268d8cbd)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+     Running tests/helpers.rs (target/debug/deps/helpers-a0234e1dfdbe6d6c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/instrument_tests.rs (target/debug/deps/instrument_tests-fdcf96aa48da9101)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s
+
+     Running tests/issue_327_removed_tooling.rs (target/debug/deps/issue_327_removed_tooling-0f225f24c36d0133)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/local_ollama_provider_tests.rs (target/debug/deps/local_ollama_provider_tests-04ee5cac3923bb37)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+     Running tests/memory_palace_tests.rs (target/debug/deps/memory_palace_tests-7aafa8779f870b84)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/mock_provider_tests.rs (target/debug/deps/mock_provider_tests-aa1ba05fb2b636f6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/obsmem_validation_tests.rs (target/debug/deps/obsmem_validation_tests-bd47babdde305d31)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+     Running tests/production_birthday_runtime.rs (target/debug/deps/production_birthday_runtime-d6179bfa0138b9a4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/provider_tests.rs (target/debug/deps/provider_tests-14b4b6c1025e6ff6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 62 filtered out; finished in 0.00s
+
+     Running tests/remote_ollama_provider_tests.rs (target/debug/deps/remote_ollama_provider_tests-3b050d4d85bfd675)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.00s
+
+     Running tests/resolve_tests.rs (target/debug/deps/resolve_tests-e97ae5c5734d6e91)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 0.00s
+
+     Running tests/schema_tests.rs (target/debug/deps/schema_tests-c30e99149a7a154f)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 0.00s
+
+     Running tests/signing_tests.rs (target/debug/deps/signing_tests-de567c960f5b144d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 13 filtered out; finished in 0.00s
+
+     Running tests/trace_tests.rs (target/debug/deps/trace_tests-f77f1fc59d3a73a1)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 5 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
+     Running unittests src/bin/demo_adl_gws_context_mirror.rs (target/debug/deps/adl_gws_context_mirror-8927fe0dff9537ef)
+
+running 1 test
+test tests::context_mirror_demo_runs_and_writes_report ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.01s

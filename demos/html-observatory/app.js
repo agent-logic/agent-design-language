@@ -78,9 +78,10 @@ let liveReconnectAttempt = 0;
 const OBSERVATORY_VERSION = "Runtime v3";
 const OBSERVATORY_MANIFOLD_LABEL = `${OBSERVATORY_VERSION} CSM runtime mirror`;
 const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packet`;
-const RUNTIME_V3_TRUSTED_HOST = "runtime.dev.agent-logic.ai";
+const RUNTIME_V3_DEFAULT_TRUSTED_HOST = "wuji.dev.csm.agent-logic.ai";
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
-  api_base: `https://${RUNTIME_V3_TRUSTED_HOST}:20997`,
+  api_base: `https://${RUNTIME_V3_DEFAULT_TRUSTED_HOST}:20997`,
+  trusted_hosts: [RUNTIME_V3_DEFAULT_TRUSTED_HOST],
   health_endpoint: "/v1/health",
   observatory_endpoint: "/v1/observatory",
   readiness_endpoint: "/v1/ready",
@@ -168,10 +169,34 @@ function normalizeRuntimeV3Endpoint(value, fallback) {
   return endpoint.startsWith("/") && !endpoint.startsWith("//") ? endpoint : fallback;
 }
 
+function hostFromApiBase(value) {
+  try {
+    return new URL(normalizeApiBase(value)).hostname.toLowerCase();
+  } catch (_error) {
+    return "";
+  }
+}
+
+function normalizeRuntimeV3TrustedHosts(value, fallback = RUNTIME_V3_DEFAULT_CONFIG.trusted_hosts) {
+  const rawHosts = Array.isArray(value) ? value : [];
+  const hosts = rawHosts
+    .map((host) => String(host || "").trim().toLowerCase())
+    .filter((host) => /^[a-z0-9][a-z0-9.-]*[a-z0-9]$/.test(host));
+  const unique = [...new Set(hosts)];
+  return unique.length > 0 ? unique : [...fallback];
+}
+
 function applyRuntimeV3Config(config = {}) {
-  const apiBase = normalizeRuntimeV3ConfigApiBase(config.api_base || config.default_api_base);
+  const configuredApiBase = config.api_base || config.default_api_base;
+  const configuredHost = hostFromApiBase(configuredApiBase);
+  const trustedHosts = normalizeRuntimeV3TrustedHosts(
+    config.trusted_hosts || config.trusted_runtime_hosts,
+    configuredHost ? [configuredHost] : RUNTIME_V3_DEFAULT_CONFIG.trusted_hosts
+  );
+  const apiBase = normalizeRuntimeV3ConfigApiBase(configuredApiBase, trustedHosts);
   runtimeV3Config = {
     api_base: apiBase || RUNTIME_V3_DEFAULT_CONFIG.api_base,
+    trusted_hosts: trustedHosts,
     health_endpoint: normalizeRuntimeV3Endpoint(
       config.health_endpoint,
       RUNTIME_V3_DEFAULT_CONFIG.health_endpoint
@@ -200,9 +225,9 @@ function applyRuntimeV3Config(config = {}) {
   return runtimeV3Config;
 }
 
-function normalizeRuntimeV3ConfigApiBase(value) {
+function normalizeRuntimeV3ConfigApiBase(value, trustedHosts = getRuntimeV3Config().trusted_hosts) {
   try {
-    return value ? normalizeTrustedRuntimeV3ApiBase(value) : "";
+    return value ? normalizeTrustedRuntimeV3ApiBase(value, trustedHosts) : "";
   } catch (_error) {
     return "";
   }
@@ -1226,11 +1251,12 @@ function isRuntimeV3ApiBase(value) {
   }
 }
 
-function normalizeTrustedRuntimeV3ApiBase(value) {
+function normalizeTrustedRuntimeV3ApiBase(value, trustedHosts = getRuntimeV3Config().trusted_hosts) {
   const base = normalizeApiBase(value);
   const parsed = new URL(base);
   const observatoryHost = String(globalThis.location?.hostname || "").toLowerCase();
-  const allowedHost = parsed.hostname === RUNTIME_V3_TRUSTED_HOST
+  const allowedHosts = normalizeRuntimeV3TrustedHosts(trustedHosts);
+  const allowedHost = allowedHosts.includes(parsed.hostname.toLowerCase())
     || (observatoryHost && parsed.hostname === observatoryHost);
   if (
     parsed.protocol !== "https:" ||
@@ -1241,7 +1267,7 @@ function normalizeTrustedRuntimeV3ApiBase(value) {
     parsed.search ||
     parsed.hash
   ) {
-    throw new Error("Runtime v3 selection requires HTTPS for the configured Runtime host or this Observatory host.");
+    throw new Error("Runtime v3 selection requires HTTPS for a configured Runtime host or this Observatory host.");
   }
   return parsed.origin;
 }
@@ -1258,7 +1284,7 @@ async function checkEventsEndpoint(apiBase) {
   }
   if (requestedRuntimeSelection() === "v3") {
     if (!isRuntimeV3ApiBase(base)) {
-      throw new Error(`Runtime v3 event checks require HTTPS for ${RUNTIME_V3_TRUSTED_HOST}.`);
+      throw new Error("Runtime v3 event checks require HTTPS for a configured Runtime host.");
     }
     const snapshot = await fetchRuntimeV3ObservatorySnapshot(base);
     return {

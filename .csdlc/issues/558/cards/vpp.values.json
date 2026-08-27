@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 558,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+    "slug": "coverage-learner-replication-stability",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "focused-learner-replication",
+          "proof_role": "Prove the exact governed learner replication test passes after behavior-preserving stabilization.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 1200,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/558/validate-focused-proof.sh"
+          ],
+          "parallel_group": "558-serial-01",
+          "defer_reason": null
+        },
+        {
+          "lane": "lifecycle-evidence",
+          "proof_role": "Verify issue-local lifecycle evidence exists when review, publication, and finish evidence become available.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 800,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/558/validate-lifecycle-evidence.sh"
+          ],
+          "parallel_group": "558-lifecycle",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on semantic Runtime changes, missing focused proof, missing exact-head API review, stale head, red required checks, or lifecycle topology drift.",
+      "design_ref": ".csdlc/prepared/issues/558/design.md",
+      "design_digest": "5b4c7f2d6bdf6199844832ac14e83ed514183ea6e8bd799d6eaf81b330bdb2c7",
+      "diagram_ref": ".csdlc/prepared/issues/558/diagram.mmd",
+      "diagram_digest": "b51f18318d8bdc6cf6b92f791baf4fc69aeed4dcf5fcc006b07b8576d6cca1a3"
+    }
+  }
+}

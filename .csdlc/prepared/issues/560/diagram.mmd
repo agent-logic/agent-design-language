@@ -1,0 +1,10 @@
+flowchart TD
+  A["Run 33017588921 workspace coverage"] --> B["1221/1224 pass"]
+  B --> C["3 runtime_v2 unified-kernel tests hit 120s ci-coverage timeout"]
+  C --> D["Run 33021333783: original 3 pass; 4 sibling unified-kernel tests hit 120s"]
+  D --> E["Exact profile.ci-coverage override for runtime_v2::tests::unified_runtime_kernel::*"]
+  E --> H["Add v0.92.1 to context-mirror accepted current milestones"]
+  H --> I["Selector denominator: exactly 7 unified-kernel tests"]
+  I --> J["Focused llvm-cov nextest + context-mirror proof"]
+  J --> F["Hosted adl-coverage green"]
+  E -. "no product semantic edits" .-> G["Runtime v2 behavior unchanged"]
