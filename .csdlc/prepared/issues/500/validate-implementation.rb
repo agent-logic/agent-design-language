@@ -20,6 +20,7 @@ expected_requirements = {
   161 => %w[
     command-tree
     state-output-contracts
+    schema-evolution
     capability-matrix
     reviewer-independence
     publication-linkage

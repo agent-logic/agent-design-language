@@ -9,9 +9,10 @@
 pub const PREDECESSOR_DENOMINATOR: [u64; 3] = [161, 162, 163];
 
 /// Requirement-level retained predecessor denominator for V3-A.
-pub const PREDECESSOR_REQUIREMENTS: [&str; 19] = [
+pub const PREDECESSOR_REQUIREMENTS: [&str; 20] = [
     "command-tree",
     "state-output-contracts",
+    "schema-evolution",
     "capability-matrix",
     "reviewer-independence",
     "publication-linkage",

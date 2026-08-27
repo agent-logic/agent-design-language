@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "22a830f7960e22c8aff54ecb1f8a0e2d13e57aa522d1636de5898b261884a175",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "4c3a590860a2e80d3a7c32569ffe32523122d94323871b258887ac7e031c8138",
+  "generation": 21,
+  "digest": "8e6f54e0eb06e40d797abdeb4a66124e59ffbfc8d8f5e7e2210fb8c915b3449e",
   "branch": "codex/500-v3-a-contract-construction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3672e82ae67c5ae50cb2126a7e3a11de471d85529f60c70a899df77f3d483c8b",
+      "values_digest": "33c0064c7138729f9d3e016928b6f3740c460551f7aa4b5398c9266dbbc854d4",
       "rendered_digest": "aec800d4753f996cc76ea47e5fe15904e9006c772b32f278ab79d6a2095a9be9",
       "ast_digest": "275e6d78bca0947476cc246f0126060f28493c24ef4679fec0cf7d204233c3be"
     },
     "stp": {
-      "values_digest": "3c8aace822b9eb77924d3cc5b48dc1617f64bdb7422aa17d73e61ea3a2f4b099",
+      "values_digest": "1475ac5653566abaa81bd57a4ed9a3e396f9fb5a70f44c7f4db789708d4a7d34",
       "rendered_digest": "e6ac8038e3ecf65c5e0cc7b62344355643acdcb7b7637296b8ecf2126e612a06",
       "ast_digest": "c20112b3ad370c4a6e5afa1a7c704529bea388f58ebf4d3eb1311eae987485a8"
     },
     "spp": {
-      "values_digest": "9407aff42c348c86931e0ff54f9e122871ae2160791bee7390ccae1553a7a749",
+      "values_digest": "90c0288b0d21cf958276d0693afe77549410736dfa124d51d1c8ccaba6b30e0b",
       "rendered_digest": "1c24245d83c0cee53b3e8038b04058de056147cda54573dbde245dcb55836cb2",
       "ast_digest": "62679e503e5f2ee877d31e9dc6fb31a38de425cdf37c5457241165ec9325dd88"
     },
     "vpp": {
-      "values_digest": "20e8a6ce90bfd9120a8d2c54aa2459fea45545fc234ce27fd95c5397b7a07aeb",
+      "values_digest": "dd8f3bfb6be9b1bf99d4dac3c293d1a3cfbffb983d90eecdfbe6e0dbfaa798db",
       "rendered_digest": "3c32b5be7441e07db01bbcfb1724938387158e8c2e2548d3c69eea66a1439b42",
       "ast_digest": "e00992a10923ecd947e697c4cb57f66b6056ff21c8ae9bb99c4a48b036ab63cc"
     },
     "srp": {
-      "values_digest": "de719dc3743288321bd8845d24243c22f886c1d70fe51b770c9fbdbaebeaf189",
+      "values_digest": "ff7433a3c9e4864e7f2641d487cee625e1e91ac11a48c72207f5b3d8b8298ac2",
       "rendered_digest": "c82b2e34bbc0107529ae721a44263e66c3932042d63c9be0dabd96e2da14d912",
       "ast_digest": "cf330c0a008bd3c5ca2d7e830272bad2f7b38fd94cc8e22bae5b2c2cf2f6e97c"
     },
     "sor": {
-      "values_digest": "af33d1e54fa31424c7e9bbd1e133999405bbc8dfbd5acff3b57c52326ae77395",
+      "values_digest": "b7cafcccced6d47d41b48092379ea11dae1da6ba24a5c757df55a0f8f038a433",
       "rendered_digest": "a222c7f9bc93757e0dc9551a634c04a1569b41027cd5e7a88bddcc2536b8887c",
       "ast_digest": "983fa1776eb3d511266e5a3575452242b3b3cf341e37c2788ba15f126cece44f"
     }
@@ -238,6 +238,27 @@
       "actor": "codex:worker-6",
       "reason": "Align SPP step statuses with implemented execution truth after exact-head review finding.",
       "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Inventory requirements #161 through #163 and map them exactly into the retained v3 contract.\",\"id\":\"S1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Write the versioned v3 contract with explicit v2 coexistence and authority boundaries.\",\"id\":\"S2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Classify each existing checkpoint, projection, review, and transition as retained, collapsed, derived, or removed by named risk; record construction, rollback, and simplified operator-flow decisions; then run one focused proof and one independent implementation review.\",\"id\":\"S3\",\"status\":\"completed\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Inventory requirements #161 through #163 and map them exactly into the retained v3 contract.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Write the versioned v3 contract with explicit v2 coexistence and authority boundaries.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Classify each existing checkpoint, projection, review, and transition as retained, collapsed, derived, or removed by named risk; record construction, rollback, and simplified operator-flow decisions; then run one focused proof and one independent implementation review.\",\"id\":\"S3\",\"status\":\"pending\"}],\"recovery_generation\":18,\"recovery_sequence\":22}"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "fresh-session:d564e279-40fe-49b2-abc7-bdf32cf5f87f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:worker-6",
+      "reason": "Recover from recorded schema-evolution coverage review finding so issue #500 can apply in-scope denominator remediation.",
+      "operation": "recover_review"
     }
   ]
 }

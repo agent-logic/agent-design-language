@@ -20,6 +20,12 @@
           "notes": "Retained as the stable state and machine-output contract boundary."
         },
         {
+          "id": "schema-evolution",
+          "disposition": "retained",
+          "maps_to": ["retained-predecessor-contract"],
+          "notes": "Retained as the schema-versioning boundary for later v3 state and prompt-card evolution."
+        },
+        {
           "id": "capability-matrix",
           "disposition": "retained",
           "maps_to": ["retained-predecessor-contract"],
