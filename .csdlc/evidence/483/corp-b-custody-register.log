@@ -1,0 +1,13 @@
+{
+  "schema": "adl.corporate.corp_b_validation.v1",
+  "outcome": "passed",
+  "rows": 14,
+  "completed_domain_registration_transfers": [
+    "agent-logic.ai",
+    "agent-logic.net",
+    "aptitude-atlas.com",
+    "codefriend.ai",
+    "cognitivespacetimemanifold.com"
+  ],
+  "backlog_non_gating": true
+}

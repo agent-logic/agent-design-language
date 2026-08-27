@@ -1,0 +1,87 @@
+{
+  "schema": "adl.corporate.corp_b_readback_receipts.v1",
+  "issue": 483,
+  "created_at": "2026-08-27",
+  "authority_boundary": {
+    "classification": "read-only-register-evidence",
+    "external_mutations_performed": false,
+    "credential_material_included": false,
+    "private_recovery_material_included": false,
+    "notes": [
+      "This evidence packet records nonsecret readbacks and local operational receipts only.",
+      "It does not perform or claim DNS hosted-zone migration, account mutation, MFA change, recovery exercise, vault move, or break-glass use."
+    ]
+  },
+  "domain_registration_transfer_receipts": [
+    {
+      "domain": "agent-logic.ai",
+      "source_profile": "default",
+      "destination_profile": "agent-logic-admin",
+      "source_operation_status": "SUCCESSFUL",
+      "destination_operation_status": "SUCCESSFUL",
+      "destination_ownership_observed": true,
+      "hosted_zone_moved": false,
+      "auto_renew_before": true,
+      "receipt_ref": ".git/csdlc-v2/domain-transfers/agent-logic.ai.json",
+      "recorded_at": "2026-08-26T19:27:27.504407+00:00",
+      "contains_transfer_password": false
+    },
+    {
+      "domain": "codefriend.ai",
+      "source_profile": "default",
+      "destination_profile": "agent-logic-admin",
+      "source_operation_status": "SUCCESSFUL",
+      "destination_operation_status": "SUCCESSFUL",
+      "destination_ownership_observed": true,
+      "hosted_zone_moved": false,
+      "auto_renew_before": true,
+      "receipt_ref": ".git/csdlc-v2/domain-transfers/codefriend.ai.json",
+      "recorded_at": "2026-08-26T19:28:12.000000+00:00",
+      "contains_transfer_password": false
+    },
+    {
+      "domain": "agent-logic.net",
+      "source_profile": "default",
+      "destination_profile": "agent-logic-admin",
+      "source_operation_status": "SUCCESSFUL",
+      "destination_operation_status": "SUCCESSFUL",
+      "destination_ownership_observed": true,
+      "hosted_zone_moved": false,
+      "auto_renew_before": true,
+      "receipt_ref": ".git/csdlc-v2/domain-transfers/agent-logic.net.json",
+      "recorded_at": "2026-08-26T19:28:53.000000+00:00",
+      "contains_transfer_password": false
+    },
+    {
+      "domain": "aptitude-atlas.com",
+      "source_profile": "default",
+      "destination_profile": "agent-logic-admin",
+      "source_operation_status": "SUCCESSFUL",
+      "destination_operation_status": "SUCCESSFUL",
+      "destination_ownership_observed": true,
+      "hosted_zone_moved": false,
+      "auto_renew_before": true,
+      "receipt_ref": ".git/csdlc-v2/domain-transfers/aptitude-atlas.com.json",
+      "recorded_at": "2026-08-26T19:29:34.000000+00:00",
+      "contains_transfer_password": false
+    },
+    {
+      "domain": "cognitivespacetimemanifold.com",
+      "source_profile": "default",
+      "destination_profile": "agent-logic-admin",
+      "source_operation_status": "SUCCESSFUL",
+      "destination_operation_status": "SUCCESSFUL",
+      "destination_ownership_observed": true,
+      "hosted_zone_moved": false,
+      "auto_renew_before": true,
+      "receipt_ref": ".git/csdlc-v2/domain-transfers/cognitivespacetimemanifold.com.json",
+      "recorded_at": "2026-08-26T19:30:16.000000+00:00",
+      "contains_transfer_password": false
+    }
+  ],
+  "readback_limits": [
+    "Registration ownership transfer evidence is not DNS hosted-zone ownership evidence.",
+    "AWS account profile names are retained as roles only; account identifiers and credentials are excluded.",
+    "Recovery, MFA, vault, and break-glass posture is recorded as a follow-up requirement unless already proven by prior accepted repository evidence."
+  ]
+}

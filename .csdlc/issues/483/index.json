@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 483,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1727260fde9f711fea656f956c7216956508dbc33f130b13a43e6cba6cccabd9",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "3f073b574a089d665654b134a02ca602d4238834ea2d3cd0eaf6e1ce849d60d9",
+  "branch": "codex/483-v0-92-1-corp-b-corporate-account-custody-register",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-483-corp-b-corporate-account-custody-register",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/483/design.md",
+  "diagram_path": ".csdlc/prepared/issues/483/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:c55af37d-db88-49eb-8154-91f462d484ca",
+      "revision": "42a96e269c8502c070599bb4204a7774672065e435e83852c35b5682220b9d3b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "39d61a629a7d7a470e9ebfccd1cdbb470ab16930417498562771eaa1e82c22a7",
+      "rendered_digest": "48e2cd709f3efaf6e6596a237766ce55e8f1021c133d2f3f75941771c95261eb",
+      "ast_digest": "f8cc9c79491240ad765979d1e932804282280f2a0e443422527e908233e92828"
+    },
+    "stp": {
+      "values_digest": "e3f5449e30059a62b920d791a101f7b75f62015332509e5da5677ea8b3f5e9a9",
+      "rendered_digest": "3308dc3c347cc3783247e4780b83fde212e9d2e0a004894f1d379cc182745e84",
+      "ast_digest": "b09090b4c2a9703e5048b25d35a1bae55aa3270c77f87ef31c32b193125eb4d3"
+    },
+    "spp": {
+      "values_digest": "e983c421e90156475ee8e73a13b083f65ec918b5db81685910b8612b2038cb3d",
+      "rendered_digest": "7ccb7be64e5b38f67725ecd1fb4ee06ea45b5d2d04bea5ba391af5b1ccf277cf",
+      "ast_digest": "02abcbeb79e787b92623f53562abccedbf21763f2908eb6ff98bac7a660d0ac4"
+    },
+    "vpp": {
+      "values_digest": "a514b5bb3ca3aa7330306f2967e32819d17b4b7d496985208383f9ca36097edf",
+      "rendered_digest": "6785afe5472ddc58c8e16a41d02cebb6a430dffd4966681cdaf601582fc662a8",
+      "ast_digest": "9812219b37b59e7cc5e9a0511419985ec90468c86bfaf940bf5639257ee87e0f"
+    },
+    "srp": {
+      "values_digest": "0b30bc17c4acc30bf0945d7da353500446c0202d805caebf9f36089ce6965d3d",
+      "rendered_digest": "0b0a37b3f4824f52fa9f51bddb3fdb6de362d6af5a3f856353c0f699fdb4f8e9",
+      "ast_digest": "f396d8c18d46570a9f7cbe4daea3975072b1c0d3b3351ccdeff1058ea4a06617"
+    },
+    "sor": {
+      "values_digest": "a4fffd9f36272ca89409b61b585adac4e4643bc1152c5a39a7c88d584bdb6f41",
+      "rendered_digest": "8bc548711319e3ebfc31f42874ff3ac290df31ef98944ec6cf34b223b7e2954e",
+      "ast_digest": "b622dcceffdc2ed8e3e1ae5a9136da4327258890553afcdac974c457379a9124"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "Declare the issue-specific custody-register validator as an exact owned target required by the typed readiness gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/corporate/account-custody/**\",\"docs/milestones/v0.92.1/evidence/corporate/corp-b/**\",\".csdlc/issues/483/**\",\".csdlc/prepared/issues/483/**\",\".csdlc/evidence/483/**\",\".csdlc/prepared/issues/483/validate-custody-register.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "fresh-session:c55af37d-db88-49eb-8154-91f462d484ca",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"42a96e269c8502c070599bb4204a7774672065e435e83852c35b5682220b9d3b\",\"design_ref\":\".csdlc/prepared/issues/483/design.md\",\"diagram_digest\":\"2c9ec19c6c0f743bf503f146842feebefcf541165b176d9736786e12bbbc223c\",\"diagram_ref\":\".csdlc/prepared/issues/483/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 483,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-B] Corporate account custody register",
+    "slug": "v0-92-1-corp-b-corporate-account-custody-register",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Produced the read-only corporate account custody register and complete follow-up action list without external service mutations.",
+      "actual_changes": [
+        "Added a 14-row custody register covering every CORP-A critical asset class exactly once.",
+        "Recorded the five completed internal Route53 registration transfers without claiming hosted-zone or DNS migration.",
+        "Recorded explicit owners and next actions for every remaining custody gap.",
+        "Kept every v-*.ai domain, including v-dev.ai, unscheduled and non-gating."
+      ],
+      "artifacts": [
+        "docs/operations/corporate/account-custody/corporate-custody-register.md",
+        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
+        ".csdlc/prepared/issues/483/validate-custody-register.rb"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/483/validate-custody-register.rb"
+          ],
+          "purpose": "Run the focused read-only custody-register validator.",
+          "outcome": "passed",
+          "evidence_ref": "corp-b-custody-register.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
