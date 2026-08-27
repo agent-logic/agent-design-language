@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 514,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+    "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one shared provider inference-profile contract with deterministic Ollama materialization.",
+      "required_outcome": "One shared provider inference-profile contract with deterministic Ollama materialization. Schema, materialization, invalid-profile, last-known-good, and redaction checks pass.",
+      "declared_scope": [
+        "adl/src/provider/**",
+        "adl-runtime/src/provider/**",
+        "docs/provider/**",
+        "docs/milestones/v0.92.1/evidence/provider/prov-a/**",
+        ".csdlc/prepared/issues/514"
+      ],
+      "authority_boundary": [
+        "Issue completion is exactly one shared provider-profile contract; provider-specific checks are evidence inputs.",
+        "Issue authority is agent-logic/agent-design-language#514",
+        "No adjacent sprint or provider authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "No paid cloud or provider mutation",
+        "No secrets, legal instruments, auth codes, or recovery factors in Git"
+      ]
+    }
+  }
+}

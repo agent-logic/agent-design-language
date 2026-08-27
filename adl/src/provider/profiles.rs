@@ -4,6 +4,7 @@
 //! ADL documents into explicit provider specs before execution.
 use super::*;
 use reqwest::Url;
+use serde_json::{json, Map};
 
 /// Profile payload used by `provider_profile_registry`.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -14,8 +15,49 @@ pub(crate) struct ProviderProfilePreset {
     pub(crate) endpoint: Option<&'static str>,
 }
 
+/// Shared bounded inference defaults applied to materialized provider profiles.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub(crate) struct ProviderInferenceProfilePreset {
+    pub(crate) temperature: f64,
+    pub(crate) top_p: f64,
+    pub(crate) max_output_tokens: u64,
+    pub(crate) timeout_secs: u64,
+    pub(crate) deterministic_seed: Option<u64>,
+}
+
+const DEFAULT_INFERENCE_PROFILE: ProviderInferenceProfilePreset = ProviderInferenceProfilePreset {
+    temperature: 0.2,
+    top_p: 0.95,
+    max_output_tokens: 1024,
+    timeout_secs: 120,
+    deterministic_seed: None,
+};
+
+const DETERMINISTIC_OLLAMA_INFERENCE_PROFILE: ProviderInferenceProfilePreset =
+    ProviderInferenceProfilePreset {
+        temperature: 0.0,
+        top_p: 1.0,
+        max_output_tokens: 512,
+        timeout_secs: 120,
+        deterministic_seed: Some(0),
+    };
+
+const PROFILE_STATE_SCHEMA: &str = "adl.provider_profile_state.v1";
+const PROFILE_MATERIALIZATION_STATE_SCHEMA: &str = "adl.provider_profile_materialization_state.v1";
+const PROFILE_MATERIALIZATION_SCHEMA: &str = "adl.provider_profile_materialization_projection.v1";
+const PROFILE_REDACTION_SCHEMA: &str = "adl.provider_profile_redacted_projection.v1";
+const MAX_PROFILE_OUTPUT_TOKENS: u64 = 32_768;
+const MAX_PROFILE_TIMEOUT_SECS: u64 = 600;
+
 const HTTP_PROFILE_PLACEHOLDER_ENDPOINT: &str = "https://api.example.invalid/v1/complete";
 const INVALID_ENDPOINT_HOST_MARKER: &str = "example.invalid";
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct ProviderProfileActivation {
+    pub document: adl::AdlDoc,
+    pub accepted: bool,
+    pub rejection: Option<String>,
+}
 
 fn profile_vendor(profile: &str) -> Option<&'static str> {
     match profile.split_once(':').map(|(family, _)| family) {
@@ -100,6 +142,357 @@ pub(crate) const COHERE_CHAT_ENDPOINT: &str = "https://api.cohere.com/v2/chat";
 pub(crate) const DEEPGRAM_API_ENDPOINT: &str = "https://api.deepgram.com";
 /// Canonical Anthropic API version used by the HTTP adapter.
 pub(crate) const ANTHROPIC_VERSION: &str = "2023-06-01";
+
+fn inference_profile_for(preset: ProviderProfilePreset) -> ProviderInferenceProfilePreset {
+    match preset.kind {
+        "ollama" => DETERMINISTIC_OLLAMA_INFERENCE_PROFILE,
+        _ => DEFAULT_INFERENCE_PROFILE,
+    }
+}
+
+fn config_f64(
+    provider_id: &str,
+    config: &BTreeMap<String, Value>,
+    key: &str,
+) -> Result<Option<f64>> {
+    let Some(value) = config.get(key) else {
+        return Ok(None);
+    };
+    match value {
+        Value::Number(number) => number
+            .as_f64()
+            .map(Some)
+            .ok_or_else(|| anyhow!("providers.{provider_id}.config.{key} must be a finite number")),
+        _ => Err(anyhow!(
+            "providers.{provider_id}.config.{key} must be a finite number"
+        )),
+    }
+}
+
+fn config_u64(
+    provider_id: &str,
+    config: &BTreeMap<String, Value>,
+    key: &str,
+) -> Result<Option<u64>> {
+    let Some(value) = config.get(key) else {
+        return Ok(None);
+    };
+    match value {
+        Value::Number(number) => number.as_u64().map(Some).ok_or_else(|| {
+            anyhow!("providers.{provider_id}.config.{key} must be a positive integer")
+        }),
+        _ => Err(anyhow!(
+            "providers.{provider_id}.config.{key} must be a positive integer"
+        )),
+    }
+}
+
+fn validate_bounded_f64(
+    provider_id: &str,
+    key: &str,
+    value: f64,
+    min: f64,
+    max: f64,
+) -> Result<()> {
+    if value.is_finite() && value >= min && value <= max {
+        Ok(())
+    } else {
+        Err(anyhow!(
+            "providers.{provider_id}.config.{key} must be a finite number in [{min}, {max}]"
+        ))
+    }
+}
+
+fn validate_bounded_u64(provider_id: &str, key: &str, value: u64, max: u64) -> Result<()> {
+    if value > 0 && value <= max {
+        Ok(())
+    } else {
+        Err(anyhow!(
+            "providers.{provider_id}.config.{key} must be a positive integer no greater than {max}"
+        ))
+    }
+}
+
+fn ensure_inference_profile_config(
+    provider_id: &str,
+    profile_name: &str,
+    preset: ProviderProfilePreset,
+    config: &mut BTreeMap<String, Value>,
+) -> Result<()> {
+    let inference = inference_profile_for(preset);
+
+    let temperature =
+        config_f64(provider_id, config, "temperature")?.unwrap_or(inference.temperature);
+    validate_bounded_f64(provider_id, "temperature", temperature, 0.0, 2.0)?;
+    config
+        .entry("temperature".to_string())
+        .or_insert_with(|| json!(inference.temperature));
+
+    let top_p = config_f64(provider_id, config, "top_p")?.unwrap_or(inference.top_p);
+    validate_bounded_f64(provider_id, "top_p", top_p, 0.0, 1.0)?;
+    config
+        .entry("top_p".to_string())
+        .or_insert_with(|| json!(inference.top_p));
+
+    let max_output_tokens = config_u64(provider_id, config, "max_output_tokens")?
+        .unwrap_or(inference.max_output_tokens);
+    validate_bounded_u64(
+        provider_id,
+        "max_output_tokens",
+        max_output_tokens,
+        MAX_PROFILE_OUTPUT_TOKENS,
+    )?;
+    config
+        .entry("max_output_tokens".to_string())
+        .or_insert_with(|| json!(inference.max_output_tokens));
+
+    let timeout_secs =
+        config_u64(provider_id, config, "timeout_secs")?.unwrap_or(inference.timeout_secs);
+    validate_bounded_u64(
+        provider_id,
+        "timeout_secs",
+        timeout_secs,
+        MAX_PROFILE_TIMEOUT_SECS,
+    )?;
+    config
+        .entry("timeout_secs".to_string())
+        .or_insert_with(|| json!(inference.timeout_secs));
+
+    if let Some(seed) = inference.deterministic_seed {
+        let explicit_seed = config_u64(provider_id, config, "deterministic_seed")?.unwrap_or(seed);
+        config
+            .entry("deterministic_seed".to_string())
+            .or_insert_with(|| json!(seed));
+        if preset.kind == "ollama" && explicit_seed != seed {
+            return Err(anyhow!(
+                "providers.{provider_id}.config.deterministic_seed must remain {seed} for deterministic Ollama profile '{}'",
+                profile_name
+            ));
+        }
+    }
+
+    if preset.kind == "ollama" {
+        config.insert(
+            "materialization_policy".to_string(),
+            json!("deterministic_ollama_v1"),
+        );
+        config.insert(
+            "activation_policy".to_string(),
+            json!("validate_before_activation"),
+        );
+    }
+
+    Ok(())
+}
+
+fn retained_profile_state(
+    profile_name: &str,
+    previous_state: Option<&Value>,
+    config: &BTreeMap<String, Value>,
+) -> Result<Value> {
+    if let Some(previous_state) = previous_state {
+        let schema = previous_state
+            .get("schema")
+            .and_then(Value::as_str)
+            .unwrap_or_default();
+        if schema != PROFILE_STATE_SCHEMA {
+            return Err(anyhow!(
+                "providers profile_state must use schema {PROFILE_STATE_SCHEMA}"
+            ));
+        }
+    }
+    let previous_lkg = previous_state
+        .and_then(Value::as_object)
+        .and_then(|state| state.get("last_known_good_profile"))
+        .and_then(Value::as_str)
+        .map(str::trim)
+        .filter(|profile| !profile.is_empty())
+        .unwrap_or(profile_name);
+    if !provider_profile_registry().contains_key(previous_lkg) {
+        return Err(anyhow!(
+            "providers profile_state.last_known_good_profile '{}' must name a known profile",
+            previous_lkg
+        ));
+    }
+    let previous_materialization = previous_state
+        .and_then(Value::as_object)
+        .and_then(|state| state.get("last_known_good_materialization"));
+    let last_known_good_materialization = match previous_materialization {
+        Some(materialization) => {
+            validate_materialization_state(previous_lkg, materialization)?;
+            materialization.clone()
+        }
+        None => {
+            let retained_preset = provider_profile_registry()
+                .get(previous_lkg)
+                .copied()
+                .ok_or_else(|| {
+                    anyhow!(
+                        "providers profile_state.last_known_good_profile '{}' must name a known profile",
+                        previous_lkg
+                    )
+                })?;
+            materialization_state(previous_lkg, retained_preset, config)
+        }
+    };
+
+    Ok(json!({
+        "schema": PROFILE_STATE_SCHEMA,
+        "profile": profile_name,
+        "last_known_good_profile": previous_lkg,
+        "last_known_good_materialization": last_known_good_materialization,
+        "retention": "retain_last_valid_materialization",
+        "activation": "validate_before_activation"
+    }))
+}
+
+fn validate_materialization_state(profile_name: &str, materialization: &Value) -> Result<()> {
+    let schema = materialization
+        .get("schema")
+        .and_then(Value::as_str)
+        .unwrap_or_default();
+    let materialized_profile = materialization
+        .get("profile")
+        .and_then(Value::as_str)
+        .unwrap_or_default();
+    if schema != PROFILE_MATERIALIZATION_STATE_SCHEMA || materialized_profile != profile_name {
+        return Err(anyhow!(
+            "providers profile_state.last_known_good_materialization must use schema {PROFILE_MATERIALIZATION_STATE_SCHEMA} for last_known_good_profile '{}'",
+            profile_name
+        ));
+    }
+    Ok(())
+}
+
+fn materialization_state(
+    profile_name: &str,
+    preset: ProviderProfilePreset,
+    config: &BTreeMap<String, Value>,
+) -> Value {
+    let mut redacted_config = Map::new();
+    for (key, value) in config {
+        if key == "profile_state" {
+            continue;
+        }
+        redacted_config.insert(key.clone(), redacted_value_for_key(key, value));
+    }
+    json!({
+        "schema": PROFILE_MATERIALIZATION_STATE_SCHEMA,
+        "profile": profile_name,
+        "type": preset.kind,
+        "default_model": preset.default_model,
+        "base_url_present": false,
+        "config": redacted_config
+    })
+}
+
+fn materialized_config(
+    mut target: HashMap<String, Value>,
+    config: BTreeMap<String, Value>,
+) -> HashMap<String, Value> {
+    target.clear();
+    for (key, value) in config {
+        target.insert(key, value);
+    }
+    target
+}
+
+fn redacted_value_for_key(key: &str, value: &Value) -> Value {
+    if is_private_config_key(key) {
+        return Value::String("<redacted>".to_string());
+    }
+    match value {
+        Value::Object(object) => {
+            let mut redacted = Map::new();
+            for (key, value) in object {
+                redacted.insert(key.clone(), redacted_value_for_key(key, value));
+            }
+            Value::Object(redacted)
+        }
+        Value::Array(values) => Value::Array(
+            values
+                .iter()
+                .map(|value| redacted_value_for_key(key, value))
+                .collect(),
+        ),
+        Value::String(_) => Value::String("<redacted>".to_string()),
+        Value::Number(_) | Value::Bool(_) | Value::Null => value.clone(),
+    }
+}
+
+fn is_private_config_key(key: &str) -> bool {
+    let normalized = key.to_ascii_lowercase();
+    normalized.contains("auth")
+        || normalized.contains("credential")
+        || normalized.contains("secret")
+        || normalized.contains("token")
+        || normalized.contains("key")
+        || normalized.contains("password")
+        || normalized.contains("passphrase")
+        || normalized.contains("pin")
+        || normalized.contains("recovery")
+        || normalized.contains("code")
+        || normalized.contains("prompt")
+        || normalized.contains("private_payload")
+}
+
+/// Build a canonical, redacted materialization projection for provider-profile
+/// evidence. Raw ADL provider maps retain their public `HashMap` shape; this is
+/// the stable byte boundary for deterministic profile materialization proof.
+pub fn provider_profile_materialization_projection(doc: &adl::AdlDoc) -> Result<Value> {
+    let expanded = expand_provider_profiles(doc)?;
+    let mut providers = Map::new();
+    let mut provider_ids: Vec<_> = expanded.providers.keys().cloned().collect();
+    provider_ids.sort();
+
+    for provider_id in provider_ids {
+        let spec = &expanded.providers[&provider_id];
+        let mut config = Map::new();
+        let mut config_keys: Vec<_> = spec.config.keys().cloned().collect();
+        config_keys.sort();
+        for key in config_keys {
+            let value = spec
+                .config
+                .get(&key)
+                .expect("sorted key came from materialized config");
+            config.insert(key.clone(), redacted_value_for_key(&key, value));
+        }
+        providers.insert(
+            provider_id,
+            json!({
+                "id": spec.id,
+                "profile": spec.profile,
+                "type": spec.kind,
+                "base_url_present": spec.base_url.is_some(),
+                "default_model": spec.default_model,
+                "config": config
+            }),
+        );
+    }
+
+    Ok(json!({
+        "schema": PROFILE_MATERIALIZATION_SCHEMA,
+        "providers": providers
+    }))
+}
+
+/// Redacted projection suitable for profile evidence and review packets.
+pub fn redacted_provider_profile_projection(provider_id: &str, spec: &adl::ProviderSpec) -> Value {
+    let mut config = Map::new();
+    for (key, value) in &spec.config {
+        config.insert(key.clone(), redacted_value_for_key(key, value));
+    }
+
+    json!({
+        "schema": PROFILE_REDACTION_SCHEMA,
+        "provider_id": provider_id,
+        "profile": spec.profile,
+        "type": spec.kind,
+        "default_model": spec.default_model,
+        "base_url_present": spec.base_url.is_some(),
+        "config": config
+    })
+}
 
 pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProfilePreset> {
     let mut m = BTreeMap::new();
@@ -340,6 +733,56 @@ pub fn provider_profile_names() -> Vec<String> {
         .collect()
 }
 
+fn materialized_active_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
+    let registry = provider_profile_registry();
+    let active = doc.clone();
+    let mut provider_ids: Vec<String> = active.providers.keys().cloned().collect();
+    provider_ids.sort();
+
+    for provider_id in provider_ids {
+        let Some(spec) = active.providers.get(&provider_id) else {
+            continue;
+        };
+        let Some(profile_name) = spec.profile.as_deref().map(str::trim) else {
+            continue;
+        };
+        let Some(preset) = registry.get(profile_name).copied() else {
+            return Err(anyhow!(
+                "providers.{provider_id}.profile '{}' is unknown",
+                profile_name
+            ));
+        };
+        if spec.kind.trim().is_empty() && spec.base_url.is_none() && spec.default_model.is_none() {
+            return expand_provider_profiles(doc);
+        }
+        if spec.kind != preset.kind
+            || spec.base_url.is_some()
+            || spec.default_model.as_deref() != preset.default_model
+        {
+            return Err(anyhow!(
+                "providers.{provider_id} active materialization does not match profile '{}'",
+                profile_name
+            ));
+        }
+        let state = spec.config.get("profile_state").ok_or_else(|| {
+            anyhow!("providers.{provider_id}.config.profile_state is required for active materialization")
+        })?;
+        let last_known_good_profile = state
+            .get("last_known_good_profile")
+            .and_then(Value::as_str)
+            .unwrap_or_default();
+        let materialization = state
+            .get("last_known_good_materialization")
+            .ok_or_else(|| {
+                anyhow!(
+                    "providers.{provider_id}.config.profile_state.last_known_good_materialization is required"
+                )
+            })?;
+        validate_materialization_state(last_known_good_profile, materialization)?;
+    }
+    Ok(active)
+}
+
 /// Expand provider profiles in an ADL document into explicit concrete specs.
 ///
 /// This is a bounded transform: it expands profile-only providers while keeping
@@ -374,35 +817,64 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
             ));
         };
 
-        let mut config = spec.config.clone();
-        if let (Some(explicit), Some(expected)) = (
-            config.get("vendor").and_then(|value| value.as_str()),
-            profile_vendor(profile_name),
-        ) {
-            let normalized = explicit.trim().to_ascii_lowercase();
-            if normalized != expected {
+        let mut config: BTreeMap<String, Value> = spec.config.clone().into_iter().collect();
+        if let Some(explicit) = config.get("vendor") {
+            let Some(explicit) = explicit.as_str() else {
                 return Err(anyhow!(
-                    "providers.{provider_id}.config.vendor '{}' conflicts with profile vendor '{}'",
-                    explicit.trim(),
-                    expected
+                    "providers.{provider_id}.config.vendor must be a string"
                 ));
+            };
+            if let Some(expected) = profile_vendor(profile_name) {
+                let normalized = explicit.trim().to_ascii_lowercase();
+                if normalized != expected {
+                    return Err(anyhow!(
+                        "providers.{provider_id}.config.vendor '{}' conflicts with profile vendor '{}'",
+                        explicit.trim(),
+                        expected
+                    ));
+                }
             }
         }
 
-        if let Some(provider_model_id) = preset.provider_model_id {
-            config
-                .entry("provider_model_id".to_string())
-                .or_insert_with(|| Value::String(provider_model_id.to_string()));
+        ensure_inference_profile_config(&provider_id, profile_name, *preset, &mut config)?;
+        if let Some(provider_model_id) = preset.provider_model_id.or(preset.default_model) {
+            if let Some(explicit) = config.get("provider_model_id") {
+                let Some(explicit) = explicit.as_str() else {
+                    return Err(anyhow!(
+                        "providers.{provider_id}.config.provider_model_id must be a string"
+                    ));
+                };
+                if explicit.trim() != provider_model_id {
+                    return Err(anyhow!(
+                        "providers.{provider_id}.config.provider_model_id '{}' conflicts with profile model '{}'",
+                        explicit.trim(),
+                        provider_model_id
+                    ));
+                }
+            }
+            config.insert(
+                "provider_model_id".to_string(),
+                Value::String(provider_model_id.to_string()),
+            );
         }
         if let Some(endpoint) = preset.endpoint {
-            match config.get("endpoint").and_then(|v| v.as_str()) {
-                Some(explicit) => validate_profile_endpoint(&provider_id, profile_name, explicit)?,
+            match config.get("endpoint") {
+                Some(explicit) => {
+                    let Some(explicit) = explicit.as_str() else {
+                        return Err(anyhow!(
+                            "providers.{provider_id}.config.endpoint must be a string"
+                        ));
+                    };
+                    validate_profile_endpoint(&provider_id, profile_name, explicit)?;
+                }
                 None => {
                     validate_profile_endpoint(&provider_id, profile_name, endpoint)?;
                     config.insert("endpoint".to_string(), Value::String(endpoint.to_string()));
                 }
             }
         }
+        let state = retained_profile_state(profile_name, config.get("profile_state"), &config)?;
+        config.insert("profile_state".to_string(), state);
         expanded.providers.insert(
             provider_id,
             adl::ProviderSpec {
@@ -411,9 +883,65 @@ pub fn expand_provider_profiles(doc: &adl::AdlDoc) -> Result<adl::AdlDoc> {
                 kind: preset.kind.to_string(),
                 base_url: None,
                 default_model: preset.default_model.map(|m| m.to_string()),
-                config,
+                config: materialized_config(spec.config.clone(), config),
             },
         );
     }
     Ok(expanded)
+}
+
+pub fn activate_provider_profile_candidate(
+    active_doc: &adl::AdlDoc,
+    candidate_doc: &adl::AdlDoc,
+) -> Result<ProviderProfileActivation> {
+    let active = materialized_active_provider_profiles(active_doc)?;
+    match expand_provider_profiles(candidate_doc) {
+        Ok(mut candidate) => {
+            promote_last_known_good_materializations(&mut candidate)?;
+            Ok(ProviderProfileActivation {
+                document: candidate,
+                accepted: true,
+                rejection: None,
+            })
+        }
+        Err(error) => Ok(ProviderProfileActivation {
+            document: active,
+            accepted: false,
+            rejection: Some(error.to_string()),
+        }),
+    }
+}
+
+fn promote_last_known_good_materializations(doc: &mut adl::AdlDoc) -> Result<()> {
+    let registry = provider_profile_registry();
+    let mut provider_ids: Vec<String> = doc.providers.keys().cloned().collect();
+    provider_ids.sort();
+    for provider_id in provider_ids {
+        let Some(spec) = doc.providers.get_mut(&provider_id) else {
+            continue;
+        };
+        let Some(profile_name) = spec.profile.as_deref() else {
+            continue;
+        };
+        let Some(preset) = registry.get(profile_name).copied() else {
+            return Err(anyhow!(
+                "providers.{provider_id}.profile '{}' is unknown",
+                profile_name
+            ));
+        };
+        let config: BTreeMap<String, Value> = spec.config.clone().into_iter().collect();
+        let materialization = materialization_state(profile_name, preset, &config);
+        spec.config.insert(
+            "profile_state".to_string(),
+            json!({
+                "schema": PROFILE_STATE_SCHEMA,
+                "profile": profile_name,
+                "last_known_good_profile": profile_name,
+                "last_known_good_materialization": materialization,
+                "retention": "retain_last_valid_materialization",
+                "activation": "validate_before_activation"
+            }),
+        );
+    }
+    Ok(())
 }
