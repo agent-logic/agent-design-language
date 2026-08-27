@@ -7,14 +7,14 @@
     "title": "[v0.92.1][CORP-B] Corporate account custody register",
     "slug": "v0-92-1-corp-b-corporate-account-custody-register",
     "version": "v0.92.1",
-    "generation": 5
+    "generation": 8
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/operations/corporate/account-custody\ndocs/milestones/v0.92.1/evidence/corporate/corp-b\n.csdlc/prepared/issues/483/validate-custody-register.rb\n.csdlc/issues/483\n.csdlc/evidence/483",
-      "review_revision": "git-blake3:0c24bd096b78b9b569e5b4826504c3a14b832df9:594969aefe6707d82d19b972c436cec2a18c5dc9ea784b5a74ec7ca5688e8741",
+      "review_scope": ".csdlc/issues/483\n.csdlc/prepared/issues/483",
+      "review_revision": "git-blake3:5be9f0207682f2654550d48e6852016218a80f31:89cd2296a4f7bd3764f93b178f330031f3850de8d8803ed564c4268a89aa2334",
       "reviewer": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
       "review_prompts": [
         "Does the register cover every CORP-A critical-service class without overclaiming live custody completion?",
@@ -24,9 +24,7 @@
         "Are credentials, PII, payment data, tax data, private instruments, and recovery materials excluded?"
       ],
       "findings": [],
-      "residual_risk": [
-        "This documentation issue performs no external account, domain, DNS, hosted-zone, credential, or recovery mutation."
-      ],
+      "residual_risk": [],
       "review_result": "pass"
     }
   }

@@ -3,41 +3,44 @@
   "issue": 483,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1727260fde9f711fea656f956c7216956508dbc33f130b13a43e6cba6cccabd9",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "32a6adaa5f42cda1b208e4e48a52911a60ae3191249c66b6576c14cac55f6e79",
+  "phase": "published",
+  "generation": 8,
+  "digest": "33bfbcb951751cb11064be0a656ce9b5b83514a93d1e3a05844a32a8b9ea6f76",
   "branch": "codex/483-v0-92-1-corp-b-corporate-account-custody-register",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-483-corp-b-corporate-account-custody-register",
   "review_assignment": {
     "reviewer": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
     "assigned_by": "codex:issue-483-corp-b-execution",
-    "revision": "git-blake3:0c24bd096b78b9b569e5b4826504c3a14b832df9:594969aefe6707d82d19b972c436cec2a18c5dc9ea784b5a74ec7ca5688e8741",
+    "revision": "git-blake3:5be9f0207682f2654550d48e6852016218a80f31:89cd2296a4f7bd3764f93b178f330031f3850de8d8803ed564c4268a89aa2334",
     "scope": [
-      "docs/operations/corporate/account-custody",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-b",
-      ".csdlc/prepared/issues/483/validate-custody-register.rb",
       ".csdlc/issues/483",
-      ".csdlc/evidence/483"
+      ".csdlc/prepared/issues/483"
     ]
   },
   "review": {
     "reviewer": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
     "scope": [
-      "docs/operations/corporate/account-custody",
-      "docs/milestones/v0.92.1/evidence/corporate/corp-b",
-      ".csdlc/prepared/issues/483/validate-custody-register.rb",
       ".csdlc/issues/483",
-      ".csdlc/evidence/483"
+      ".csdlc/prepared/issues/483"
     ],
-    "reviewed_revision": "git-blake3:0c24bd096b78b9b569e5b4826504c3a14b832df9:594969aefe6707d82d19b972c436cec2a18c5dc9ea784b5a74ec7ca5688e8741",
+    "reviewed_revision": "git-blake3:5be9f0207682f2654550d48e6852016218a80f31:89cd2296a4f7bd3764f93b178f330031f3850de8d8803ed564c4268a89aa2334",
     "findings": [],
-    "residual_risks": [
-      "This documentation issue performs no external account, domain, DNS, hosted-zone, credential, or recovery mutation."
-    ],
+    "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 483,
+    "pull_request": 562,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/562",
+    "base": "main",
+    "head": "codex/483-v0-92-1-corp-b-corporate-account-custody-register",
+    "revision": "git-blake3:5be9f0207682f2654550d48e6852016218a80f31:89cd2296a4f7bd3764f93b178f330031f3850de8d8803ed564c4268a89aa2334",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -51,34 +54,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "17f7d105838983b48c46e8b5c95e985ed1580fbcc60bbcbf5ca63f6b2f0fea45",
+      "values_digest": "01cb05ab315f36d09b7f3978205c248516a8d9c5017a36f57424fb5f857b666a",
       "rendered_digest": "48e2cd709f3efaf6e6596a237766ce55e8f1021c133d2f3f75941771c95261eb",
       "ast_digest": "f8cc9c79491240ad765979d1e932804282280f2a0e443422527e908233e92828"
     },
     "stp": {
-      "values_digest": "19b11bc1ab9653c94fa2c726ed6eca9c6543a46c0a7d5f964d553b72f4a0a603",
+      "values_digest": "04941bacf796217991b2c8ef506ac16bed4a99b4d2ea17848669e2f0662c3711",
       "rendered_digest": "3308dc3c347cc3783247e4780b83fde212e9d2e0a004894f1d379cc182745e84",
       "ast_digest": "b09090b4c2a9703e5048b25d35a1bae55aa3270c77f87ef31c32b193125eb4d3"
     },
     "spp": {
-      "values_digest": "6e69ecb63bbca08868b68e88195d8d88a9c51d896b0cbfffb0accf61d4b04b29",
+      "values_digest": "7721ab19f74ffe29469627135054dd7ab0b19f17b59f89424933147504603118",
       "rendered_digest": "7ccb7be64e5b38f67725ecd1fb4ee06ea45b5d2d04bea5ba391af5b1ccf277cf",
       "ast_digest": "02abcbeb79e787b92623f53562abccedbf21763f2908eb6ff98bac7a660d0ac4"
     },
     "vpp": {
-      "values_digest": "0051536dfbcf0156faff227d492ae9fadd76f9bdd3fa66d18b0088d52c52dd16",
+      "values_digest": "ca5871fa321af228eba096c9eaa32eccec64bc8f0861f75dedf031d4585172dc",
       "rendered_digest": "6785afe5472ddc58c8e16a41d02cebb6a430dffd4966681cdaf601582fc662a8",
       "ast_digest": "9812219b37b59e7cc5e9a0511419985ec90468c86bfaf940bf5639257ee87e0f"
     },
     "srp": {
-      "values_digest": "0a906b1ae5ffab6bf687c70f75aec3ec9be0510d9e2a36ce3b8001e7a6cd9ed3",
-      "rendered_digest": "ef3e9672493fda4c1243b053a4faa9680a1f2dc9496b2b581105bddea872df39",
-      "ast_digest": "9abc0f35ad30b9e928661c7bdf25987107954c99e2eb980382ab13aa7059145f"
+      "values_digest": "088e263e78ba8315a0a57b9d222f6ba3b4a41a89653470479cd8a5e7583a0308",
+      "rendered_digest": "5052f23ffd5e06a794bb179b8841289fdf6996b6fdd4630bfddbc23b8b8329e7",
+      "ast_digest": "e30d61cbea07794a10b0094be1489943ca4381aee567f25fc73d2b89f52f2413"
     },
     "sor": {
-      "values_digest": "a49fb32cbbf41e9b4f5bd31f824202cf14b10a93496a6aaa7d71217528dfb9bb",
-      "rendered_digest": "6126faed992a9e5a31978b1378c841dc1f8d2d1917deb9d33d47a2b5660764d2",
-      "ast_digest": "a5e498e0f2e1ad97359dbdc9a0eac88b46f74d8aa92acaa105fedbfb00260b80"
+      "values_digest": "1b3049396861f1a74778879da7501210467f6b9ee530c335338782e2cbcdcfa2",
+      "rendered_digest": "f14c07748ae00eb9a1fdee9be4739d3c5813e870df7a353973a6784b8ce71193",
+      "ast_digest": "3166a5be30fcb3072f3f4f1b62ce3f50dce007a732ac472b9251d1e1f9b3222c"
     }
   },
   "transitions": [
@@ -109,6 +112,27 @@
       "to": "reviewed",
       "actor": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "Recover the committed typed review projection for exact metadata-only reconciliation before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -174,6 +198,34 @@
       "actor": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "Recover the committed typed review projection for exact metadata-only reconciliation before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

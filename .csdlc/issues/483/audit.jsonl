@@ -7,3 +7,7 @@
 {"sequence":7,"generation":4,"actor":"codex:issue-483-corp-b-execution","reason":"The exact review found four receipt timestamp mismatches; recover assignment truth after the bounded repair for final exact-head review.","operation":"recover_review"}
 {"sequence":8,"generation":4,"actor":"codex:issue-483-corp-b-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":5,"actor":"fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":6,"actor":"codex:issue-483-corp-b-execution","reason":"Recover the committed typed review projection for exact metadata-only reconciliation before publication.","operation":"recover_review"}
+{"sequence":11,"generation":6,"actor":"codex:issue-483-corp-b-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":12,"generation":7,"actor":"fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":13,"generation":8,"actor":"codex:issue-483-corp-b-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

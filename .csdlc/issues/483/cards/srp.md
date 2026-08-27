@@ -12,11 +12,8 @@ Status: draft
 
 ## Scope
 
-docs/operations/corporate/account-custody
-docs/milestones/v0.92.1/evidence/corporate/corp-b
-.csdlc/prepared/issues/483/validate-custody-register.rb
 .csdlc/issues/483
-.csdlc/evidence/483
+.csdlc/prepared/issues/483
 
 ## Prompts
 
@@ -36,11 +33,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This documentation issue performs no external account, domain, DNS, hosted-zone, credential, or recovery mutation.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:0c24bd096b78b9b569e5b4826504c3a14b832df9:594969aefe6707d82d19b972c436cec2a18c5dc9ea784b5a74ec7ca5688e8741")
+Revision: Some("git-blake3:5be9f0207682f2654550d48e6852016218a80f31:89cd2296a4f7bd3764f93b178f330031f3850de8d8803ed564c4268a89aa2334")
 
 Reviewer: Some("fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02")
 

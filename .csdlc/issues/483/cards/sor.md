@@ -44,11 +44,11 @@ Produced the read-only corporate account custody register and complete follow-up
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
