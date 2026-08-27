@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "22a830f7960e22c8aff54ecb1f8a0e2d13e57aa522d1636de5898b261884a175",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "59f3f7af79eba0e20b9403df0cd455caf029782e15e4f57d5be64ae65122f3ec",
+  "generation": 19,
+  "digest": "4c3a590860a2e80d3a7c32569ffe32523122d94323871b258887ac7e031c8138",
   "branch": "codex/500-v3-a-contract-construction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "14a4c26fc8650decd83c09cc1aeb34f9e8744eee210c2f992fae5c218db293d4",
+      "values_digest": "3672e82ae67c5ae50cb2126a7e3a11de471d85529f60c70a899df77f3d483c8b",
       "rendered_digest": "aec800d4753f996cc76ea47e5fe15904e9006c772b32f278ab79d6a2095a9be9",
       "ast_digest": "275e6d78bca0947476cc246f0126060f28493c24ef4679fec0cf7d204233c3be"
     },
     "stp": {
-      "values_digest": "939cc8cdab5022298504237b811a6b3e7997c26526512fdc4ff89f33f201df36",
+      "values_digest": "3c8aace822b9eb77924d3cc5b48dc1617f64bdb7422aa17d73e61ea3a2f4b099",
       "rendered_digest": "e6ac8038e3ecf65c5e0cc7b62344355643acdcb7b7637296b8ecf2126e612a06",
       "ast_digest": "c20112b3ad370c4a6e5afa1a7c704529bea388f58ebf4d3eb1311eae987485a8"
     },
     "spp": {
-      "values_digest": "524f9f74222f5778122f22bc12ab88c1f3054761aead4a7c95ef543d5dd28906",
-      "rendered_digest": "e90b96ff4c669faf5063d4a1b99bd944af55d3060d77ffa06fd0017c9598365a",
-      "ast_digest": "234af9ffe84aded5c72f150475804162e9d50e957bbd23f922db87308928ad36"
+      "values_digest": "9407aff42c348c86931e0ff54f9e122871ae2160791bee7390ccae1553a7a749",
+      "rendered_digest": "1c24245d83c0cee53b3e8038b04058de056147cda54573dbde245dcb55836cb2",
+      "ast_digest": "62679e503e5f2ee877d31e9dc6fb31a38de425cdf37c5457241165ec9325dd88"
     },
     "vpp": {
-      "values_digest": "848ba822433f3fd001134d223ce9cce1bbb6f27e96286f9c6bf1affc6eb7c935",
+      "values_digest": "20e8a6ce90bfd9120a8d2c54aa2459fea45545fc234ce27fd95c5397b7a07aeb",
       "rendered_digest": "3c32b5be7441e07db01bbcfb1724938387158e8c2e2548d3c69eea66a1439b42",
       "ast_digest": "e00992a10923ecd947e697c4cb57f66b6056ff21c8ae9bb99c4a48b036ab63cc"
     },
     "srp": {
-      "values_digest": "ee08b0291a209ba8fbf3b354b5a9dbc20fcf55f52d3d7148a6c257cdbb0761ad",
+      "values_digest": "de719dc3743288321bd8845d24243c22f886c1d70fe51b770c9fbdbaebeaf189",
       "rendered_digest": "c82b2e34bbc0107529ae721a44263e66c3932042d63c9be0dabd96e2da14d912",
       "ast_digest": "cf330c0a008bd3c5ca2d7e830272bad2f7b38fd94cc8e22bae5b2c2cf2f6e97c"
     },
     "sor": {
-      "values_digest": "43e91e745ead8487d0fc7a245408bc8dc565101c3f0c40c427766912b1d4d582",
+      "values_digest": "af33d1e54fa31424c7e9bbd1e133999405bbc8dfbd5acff3b57c52326ae77395",
       "rendered_digest": "a222c7f9bc93757e0dc9551a634c04a1569b41027cd5e7a88bddcc2536b8887c",
       "ast_digest": "983fa1776eb3d511266e5a3575452242b3b3cf341e37c2788ba15f126cece44f"
     }
@@ -210,6 +210,34 @@
       "actor": "codex:worker-6",
       "reason": "Recover from failed exact-head review so issue #500 can apply in-scope remediation and refresh review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "fresh-session:f3c8cdd6-cd56-47ce-8529-e6deae0bf02e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "Recover from recorded failed exact-head review so issue #500 can complete in-scope SPP truth remediation and refresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "Align SPP step statuses with implemented execution truth after exact-head review finding.",
+      "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Inventory requirements #161 through #163 and map them exactly into the retained v3 contract.\",\"id\":\"S1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Write the versioned v3 contract with explicit v2 coexistence and authority boundaries.\",\"id\":\"S2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Classify each existing checkpoint, projection, review, and transition as retained, collapsed, derived, or removed by named risk; record construction, rollback, and simplified operator-flow decisions; then run one focused proof and one independent implementation review.\",\"id\":\"S3\",\"status\":\"completed\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Inventory requirements #161 through #163 and map them exactly into the retained v3 contract.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Write the versioned v3 contract with explicit v2 coexistence and authority boundaries.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Classify each existing checkpoint, projection, review, and transition as retained, collapsed, derived, or removed by named risk; record construction, rollback, and simplified operator-flow decisions; then run one focused proof and one independent implementation review.\",\"id\":\"S3\",\"status\":\"pending\"}],\"recovery_generation\":18,\"recovery_sequence\":22}"
     }
   ]
 }

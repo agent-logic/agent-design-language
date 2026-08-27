@@ -16,7 +16,7 @@ Inventory retained predecessor requirements, define the versioned v3 contract an
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 
@@ -27,7 +27,7 @@ Revision 4
     "acceptance_ids": [
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -35,7 +35,7 @@ Revision 4
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -43,7 +43,7 @@ Revision 4
     "acceptance_ids": [
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

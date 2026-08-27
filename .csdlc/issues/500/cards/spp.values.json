@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
     "slug": "v0-92-1-v3-a-c-sdlc-v3-contract-and-construction-decision",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 19
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 4,
+      "plan_revision": 5,
       "summary": "Inventory retained predecessor requirements, define the versioned v3 contract and construction decisions, specify rollback and coexistence boundaries, then obtain focused validation and exact-head review.",
       "steps": [
         {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -30,7 +30,7 @@
           "acceptance_ids": [
             "AC-1"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -38,7 +38,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
