@@ -3,13 +3,48 @@
   "issue": 500,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "22a830f7960e22c8aff54ecb1f8a0e2d13e57aa522d1636de5898b261884a175",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "269630ac01b404b18581a9b0a6a42c695e9896c2d3d9fe7635ccbae19f76b8c3",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "08335ee8a811b9ffd8fe616447f46c3a72e1fe5c2d8de1e395c316bfafce3628",
   "branch": "codex/500-v3-a-contract-construction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:e77d61f5-ab00-4989-8596-ad1b2327e172",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:c5182e209c7c0bc645440c1659b4f42c885595d3:2c83492ae76405f8b698f816f106bba02ab01dd266f83caa0186d07ad1b0aff8",
+    "scope": [
+      "docs/csdlc-v3/CONTRACT.md",
+      "docs/csdlc-v3/predecessor-coverage.json",
+      "docs/csdlc-v3/proportional-lifecycle.json",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/src/lib.rs",
+      ".csdlc/prepared/issues/500",
+      ".csdlc/evidence/500",
+      ".csdlc/issues/500"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:e77d61f5-ab00-4989-8596-ad1b2327e172",
+    "scope": [
+      "docs/csdlc-v3/CONTRACT.md",
+      "docs/csdlc-v3/predecessor-coverage.json",
+      "docs/csdlc-v3/proportional-lifecycle.json",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/src/lib.rs",
+      ".csdlc/prepared/issues/500",
+      ".csdlc/evidence/500",
+      ".csdlc/issues/500"
+    ],
+    "reviewed_revision": "git-blake3:c5182e209c7c0bc645440c1659b4f42c885595d3:2c83492ae76405f8b698f816f106bba02ab01dd266f83caa0186d07ad1b0aff8",
+    "findings": [],
+    "residual_risks": [
+      "Focused V3-A static contract proof does not implement V3-B/V3-C runtime behavior or authority cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e6f0cf010290ae51f725e7ea734baae99146c6ac87279675e42693ed3ac9d244",
+      "values_digest": "69b86dc4449c74f18054189b6cb1667367a3518fa78a0fd93001d7a79200d14f",
       "rendered_digest": "aec800d4753f996cc76ea47e5fe15904e9006c772b32f278ab79d6a2095a9be9",
       "ast_digest": "275e6d78bca0947476cc246f0126060f28493c24ef4679fec0cf7d204233c3be"
     },
     "stp": {
-      "values_digest": "572092b696c9caae19ac9409b2726a5fa3f3851e2c0ea01a03e64e76ed40ffdf",
+      "values_digest": "7aa337bf4d6e05481be4bef22692ca592691527333520943f5e0186e40a46715",
       "rendered_digest": "e6ac8038e3ecf65c5e0cc7b62344355643acdcb7b7637296b8ecf2126e612a06",
       "ast_digest": "c20112b3ad370c4a6e5afa1a7c704529bea388f58ebf4d3eb1311eae987485a8"
     },
     "spp": {
-      "values_digest": "3d79d0f42d4209b00032dcec2c597463e72e0aff72445d84d22da5f93d2265a5",
+      "values_digest": "f6294592693fd122d8df25440598313026810f2a5dfc74f098aa379f6e009004",
       "rendered_digest": "1c24245d83c0cee53b3e8038b04058de056147cda54573dbde245dcb55836cb2",
       "ast_digest": "62679e503e5f2ee877d31e9dc6fb31a38de425cdf37c5457241165ec9325dd88"
     },
     "vpp": {
-      "values_digest": "4269ed301f7673a33046fc86caec07ccb4bdccaa18b763074cabdc2d36b860ae",
+      "values_digest": "5154f05e2c0903e15ba8c0dd468b1d5de5fadbffe9286242e851a4a0fd15ea71",
       "rendered_digest": "3c32b5be7441e07db01bbcfb1724938387158e8c2e2548d3c69eea66a1439b42",
       "ast_digest": "e00992a10923ecd947e697c4cb57f66b6056ff21c8ae9bb99c4a48b036ab63cc"
     },
     "srp": {
-      "values_digest": "84776a67b13971ce6263ba9fee2af36a2c522687f8da81152f0950a0452717e7",
-      "rendered_digest": "c82b2e34bbc0107529ae721a44263e66c3932042d63c9be0dabd96e2da14d912",
-      "ast_digest": "cf330c0a008bd3c5ca2d7e830272bad2f7b38fd94cc8e22bae5b2c2cf2f6e97c"
+      "values_digest": "ab42c8c3a03bdda220c29d9a929da7d72c38446ab4061c386e49853795b3acba",
+      "rendered_digest": "e05d3a1344bbdf91f4586e78ae1603c34ce108054a057a76caf53ea0f508c39b",
+      "ast_digest": "f033612d5fb8d20e9739b2af08d0a587f8bb17b81e73eb8fff7718d96714157b"
     },
     "sor": {
-      "values_digest": "4130a9cfd62081c237bf769d04512a1d9a0727ab86ddaae278d9ab821145c513",
+      "values_digest": "10f657e021187e240ae24952085350549a14dcd789cfeb17f1df4fe59f35f15d",
       "rendered_digest": "a222c7f9bc93757e0dc9551a634c04a1569b41027cd5e7a88bddcc2536b8887c",
       "ast_digest": "983fa1776eb3d511266e5a3575452242b3b3cf341e37c2788ba15f126cece44f"
     }
@@ -75,6 +110,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:e77d61f5-ab00-4989-8596-ad1b2327e172",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -301,6 +343,20 @@
       "actor": "codex:worker-6",
       "reason": "Recover from recorded retained-denominator review finding so issue #500 can apply source-grounded acceptance-row coverage.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 26,
+      "actor": "fresh-session:e77d61f5-ab00-4989-8596-ad1b2327e172",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

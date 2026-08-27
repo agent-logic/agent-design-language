@@ -30,3 +30,5 @@
 {"sequence":30,"generation":23,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":24,"actor":"fresh-session:abdc5ad3-df9c-40ae-9800-3a04271c57e2","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":32,"generation":25,"actor":"codex:worker-6","reason":"Recover from recorded retained-denominator review finding so issue #500 can apply source-grounded acceptance-row coverage.","operation":"recover_review"}
+{"sequence":33,"generation":25,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":34,"generation":26,"actor":"fresh-session:e77d61f5-ab00-4989-8596-ad1b2327e172","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

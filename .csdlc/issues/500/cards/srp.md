@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+docs/csdlc-v3/CONTRACT.md
+docs/csdlc-v3/predecessor-coverage.json
+docs/csdlc-v3/proportional-lifecycle.json
+csdlc-v3/Cargo.toml
+csdlc-v3/Cargo.lock
+csdlc-v3/src/lib.rs
+.csdlc/prepared/issues/500
+.csdlc/evidence/500
+.csdlc/issues/500
 
 ## Prompts
 
@@ -33,12 +41,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Focused V3-A static contract proof does not implement V3-B/V3-C runtime behavior or authority cutover.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c5182e209c7c0bc645440c1659b4f42c885595d3:2c83492ae76405f8b698f816f106bba02ab01dd266f83caa0186d07ad1b0aff8")
 
-Reviewer: None
+Reviewer: Some("fresh-session:e77d61f5-ab00-4989-8596-ad1b2327e172")
 
-Result: pre_review
+Result: pass
