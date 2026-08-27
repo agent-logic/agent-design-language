@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 558,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize governed learner replication coverage proof",
+    "slug": "coverage-learner-replication-stability",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/558\n.csdlc/prepared/issues/558\n.csdlc/evidence/558\nadl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "review_revision": "git-blake3:9cc23527934f805a02ba40f2a094daf52cf25f21:221bd325ddeaab1ddb9baed78561c50c222fecfa044334875f12f4a301f908d2",
+      "reviewer": "openai-responses:resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d:gpt-5.6-sol",
+      "review_prompts": [
+        "Verify the change is test/harness-only and cannot weaken learner authorization or membership semantics.",
+        "Verify the wait/leader stabilization directly addresses the coverage failure signature rather than hiding arbitrary failures.",
+        "Verify #499/#514 are only consumers and not modified by this issue."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "OpenAI Responses API exact-head review PASS response resp_0f5e4950af8e8a6d006a8f60d5106c87d099d3a6d6b90b800d at commit 9cc23527934f805a02ba40f2a094daf52cf25f21.",
+        "The supplied proof is focused on the affected test rather than a fresh run of the complete 679-test coverage profile.",
+        "Increasing bounded waits from 60 to 180 seconds may make genuine liveness failures take longer to report, but it does not suppress them and retains diagnostic timeout failures."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

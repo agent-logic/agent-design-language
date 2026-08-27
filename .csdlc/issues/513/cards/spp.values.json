@@ -1,0 +1,114 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 513,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][DEC-01] Runtime v2/v3 authority separation",
+    "slug": "v0-92-1-dec-01-runtime-v2-v3-authority-separation",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bind #513 in FastWork, add a runtime authority topology document, machine-readable manifest, and executable validator, run focused proof, obtain fresh exact-head review, publish, shepherd green checks, and merge through typed C-SDLC v2.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bind #513 and establish issue-local lifecycle state.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Author the Runtime v2/v3 authority topology and manifest.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement executable validation for denominator, reverse references, compatibility, rollback, migration, and Runtime v4 exclusion.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused validation and finalize implemented truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Obtain fresh exact-head review, publish, shepherd, merge, and finish.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/runtime/runtime-v2-v3-authority-topology.md",
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json",
+        "docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh",
+        ".csdlc/prepared/issues/513/**",
+        ".csdlc/issues/513/**"
+      ],
+      "invariants": [
+        "Every source root has exactly one declared owner.",
+        "Reverse references are either owned, compatibility-only, documentation-only, or evidence-only.",
+        "Migration and rollback are explicit dry-run contracts.",
+        "Runtime v4 does not appear as a source owner or migration target.",
+        "#483 remains untouched."
+      ],
+      "risks": [
+        "Reverse-reference census can drift as sibling PRs land.",
+        "A documentation-only topology could overclaim behavior if not backed by executable checks.",
+        "Runtime v4 mentions in historical planning docs could be mistaken for current authority.",
+        "Source ownership could become ambiguous if Runtime v2 imports Runtime v3 or vice versa."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "A supported consumer is unclassified.",
+        "Either runtime silently acquires the other runtime's authority.",
+        "Runtime v4 scope is required.",
+        "The issue branch or worktree identity drifts.",
+        "Fresh review finds unresolved actionable issues.",
+        "Required checks are red."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/513/design.md",
+      "design_digest": "db6c89dfbece755904892e6322d9666cf958ff46280a8829fa6450ceecdcc692",
+      "diagram_ref": ".csdlc/prepared/issues/513/diagram.mmd",
+      "diagram_digest": "e627b2cd99b14ac2e4dc9d16adf09d51b0830434cce80c48cad7365109750b04"
+    }
+  }
+}

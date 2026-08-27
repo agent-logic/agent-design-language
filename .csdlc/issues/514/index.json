@@ -1,0 +1,383 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 514,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "9fdf6098309aa72bf2e1efd727a6691adf465920b488e78111c6723537e7619d",
+  "phase": "published",
+  "generation": 15,
+  "digest": "d36b5a03575a09eefb592270d8163ab16f496a7fb274b6d5574a18fb28007100",
+  "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
+  "review_assignment": {
+    "reviewer": "openai-responses:gpt-5.6-sol",
+    "assigned_by": "codex:issue-514-after-560-merge",
+    "revision": "git-blake3:521422349892e58f828044a5238c2ea687d9b28a:7afe37b998c0f11dcae9e7d481f12c3f36fc93a532c88937c0e18f03b8c06613",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
+      ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+      ".csdlc/prepared/issues/514/validate-ollama-materialization.rb",
+      ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+      ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+      ".csdlc/prepared/issues/514/validate-redaction.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "openai-responses:gpt-5.6-sol",
+    "scope": [
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/milestones/v0.92.1/evidence/provider/prov-a/README.md",
+      ".csdlc/prepared/issues/514/validate-profile-schema.rb",
+      ".csdlc/prepared/issues/514/validate-ollama-materialization.rb",
+      ".csdlc/prepared/issues/514/validate-invalid-profile.rb",
+      ".csdlc/prepared/issues/514/validate-last-known-good.rb",
+      ".csdlc/prepared/issues/514/validate-redaction.rb"
+    ],
+    "reviewed_revision": "git-blake3:521422349892e58f828044a5238c2ea687d9b28a:7afe37b998c0f11dcae9e7d481f12c3f36fc93a532c88937c0e18f03b8c06613",
+    "findings": [],
+    "residual_risks": [
+      "OpenAI Responses API review resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d passed the #514 substantive provider-profile diff before the #560 shared coverage repair merge.",
+      "Current review revision is the clean #514 head after merging origin/main at #560 merge 6a2a6f1d0b595797022eb291528a3c4c8c5541e9; provider-profile implementation scope remains bounded.",
+      "Full workspace integration remains PR CI authority after republish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 514,
+    "pull_request": 549,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/549",
+    "base": "main",
+    "head": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
+    "revision": "git-blake3:b3362e849bc31cb40a3989250f1527fdb4cff91c:67ed4cc9fb0fd484256be6084e764eb729cbc8234fc0f767f533fe43e8bfb6d3",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/514/design.md",
+  "diagram_path": ".csdlc/prepared/issues/514/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "revision": "1ed0957e58b6ce64aeaee2096c6a9798aa51b5c9c4f3bf14bd0a8115bf64ef77"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "065994b0013cd229fbb4bc11afe4b30fd64f438fd3e649b162758f0085558ad9",
+      "rendered_digest": "0b2b96047cadd7c25e6919f8aa6aaef361cb8694637c67b3bc457cb05fbfac75",
+      "ast_digest": "3a308d39d4ccac0225312a861c790215b1f777524ef0cbe88d624959282eda66"
+    },
+    "stp": {
+      "values_digest": "3a16f809213a163892710f1f75a9ad28d76ef157812217dd551c337d40bb20d8",
+      "rendered_digest": "da03dbd130894a30ad371f2dcc53b310c4cccb74f4f97e3187e800c1259eae16",
+      "ast_digest": "72a3d9084a14e396224ebcf0b7b1301d9c531df8e9e1db4c78c4af2b8b91467c"
+    },
+    "spp": {
+      "values_digest": "a829928f883032ab68fd159033c1693e23a38a0822a239aa9a0d099c375b6031",
+      "rendered_digest": "c8544d8772f1f01111260278f980490bf763b6eff893e5530c0086dd69a4f009",
+      "ast_digest": "633f5fd92e8e0ce90d2c7baa29f4f8fe5d555842b4b0486ea53b355b43330b2b"
+    },
+    "vpp": {
+      "values_digest": "4223f93db7f68257f735eeb3df9ac34e09f0dcf19dd6115069982c5f82919b57",
+      "rendered_digest": "0f27717b849259d3d877a3281f281b61ed4b6ea845124243260893741e360ea2",
+      "ast_digest": "8e5e53c7c10630e30182ae4221d92fd19cea3c9ba4b86b9f9076aa27e946d81d"
+    },
+    "srp": {
+      "values_digest": "919f6f9b4201e2734a1da2172c6de05016ea589b6bd7d27b714b7caaa80eff2e",
+      "rendered_digest": "7a28ea3c9701aa1c9b446158a61bdb3dfb3c4f1a45c4856296c272278bec430c",
+      "ast_digest": "c67420befbcc485353746170bc8c03473b5995bbd8dd2e03086a0edce416479a"
+    },
+    "sor": {
+      "values_digest": "d33cadc239c67a36b5b22971c2f8935b23a41099509efed63ce3d672d3e7b5a7",
+      "rendered_digest": "311683efb04066d92c9aaf21658a90c18d8170ebf82eb9b9885b4341d1dac2d3",
+      "ast_digest": "68e6635932afb3c82f0c4ccb1d046391f6e8305739148c841105c5b9bc20dec8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-514-prov-a",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "Recover #514 review truth after merging current origin/main advanced the clean substantive commit; operator requires fresh independent OpenAI Responses API review before #514 republish and merge."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #514 review truth after Responses API review resp_0fccd5172659cf42006a8f560cea8087d09fd2135bb943ca0e found F2 still non-proving; activation helper and proof were repaired and require fresh exact-head API review before publication."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "Current origin/main was merged into PR #549 to pick up the shared CI timeout/coverage repair after the published Responses API review. The #514 provider-profile diff remains bounded, but the exact clean head changed, so typed review recovery is required before republishing."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-514-after-560-merge",
+      "reason": "Recover stale #514 review/publication truth after merging current origin/main with the #560 shared workspace coverage timeout repair; PROV-A product bytes remain bounded to #514 and publication must be reconciled to the clean current head."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled-after-560",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-514-after-560-merge",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/v0921-sprint1-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"1ed0957e58b6ce64aeaee2096c6a9798aa51b5c9c4f3bf14bd0a8115bf64ef77\",\"design_ref\":\".csdlc/prepared/issues/514/design.md\",\"diagram_digest\":\"38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a\",\"diagram_ref\":\".csdlc/prepared/issues/514/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-514-prov-a",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:sprint-1-issue-514-worker",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex-root",
+      "reason": "Recover #514 review truth after merging current origin/main advanced the clean substantive commit; operator requires fresh independent OpenAI Responses API review before #514 republish and merge.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover #514 review truth after Responses API review resp_0fccd5172659cf42006a8f560cea8087d09fd2135bb943ca0e found F2 still non-proving; activation helper and proof were repaired and require fresh exact-head API review before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex-root",
+      "reason": "Current origin/main was merged into PR #549 to pick up the shared CI timeout/coverage repair after the published Responses API review. The #514 provider-profile diff remains bounded, but the exact clean head changed, so typed review recovery is required before republishing.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex-root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:issue-514-after-560-merge",
+      "reason": "Recover stale #514 review/publication truth after merging current origin/main with the #560 shared workspace coverage timeout repair; PROV-A product bytes remain bounded to #514 and publication must be reconciled to the clean current head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:issue-514-after-560-merge",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled-after-560",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:issue-514-after-560-merge",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

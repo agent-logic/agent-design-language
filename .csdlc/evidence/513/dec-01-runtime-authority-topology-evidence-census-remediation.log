@@ -1,0 +1,46 @@
+schema: adl.issue_513_dec_01_runtime_authority_topology_validation_log.v1
+issue: 513
+branch: codex/513-v0-92-1-dec-01-runtime-authority-separation
+base: origin/main
+head_before_commit: 522f5b7e4976d1086a32a866add1f1a9ea11bd78
+date_utc: 2026-08-26
+
+trigger:
+  - OpenAI Responses API review resp_0245ce524147d1ce006a8f56186b7487d0a36427794e7b6bdd found one P2: retained .csdlc/evidence/513 artifacts were not included in the reverse-reference census and the human disposition semantics overclaimed path coverage.
+
+fixes:
+  - Add .csdlc/evidence/513/ to reverse_reference_dispositions as dec-01 lifecycle evidence.
+  - Add .csdlc/evidence/513 to the validator census roots.
+  - Correct runtime-docs, runtime-planning-docs, and dec-01-lifecycle-evidence documentation to match executable path-prefix coverage.
+  - Add a documented path-prefix mapping table and a validator check that compares it exactly with manifest reverse_reference_dispositions.
+
+command:
+  bash docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh
+
+result: passed
+
+focused_proofs:
+  - cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test contracts parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency
+    result: passed
+  - cargo test --manifest-path adl/Cargo.toml runtime_v2_reasoning_objects_execute_through_native_component_core
+    result: passed
+
+validator_output:
+  schema: adl.runtime_v2_v3_authority_topology_validation.v1
+  issue: 513
+  manifest: docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json
+  result: passed
+  classified_reverse_references: 4144
+  compatibility_proofs:
+    - runtime-v3-captured-baseline
+    - runtime-v2-to-v3-reasoning-bridge
+  negative_probes:
+    - owner-swap
+    - duplicate-root
+    - missing-root
+    - authoritative-shared-surface
+    - unknown-authority-field
+    - runtime-v4-authority-data
+    - runtime-v4-key
+    - deceptive-runtime-v4-authority-data
+    - conflicting-source-disposition

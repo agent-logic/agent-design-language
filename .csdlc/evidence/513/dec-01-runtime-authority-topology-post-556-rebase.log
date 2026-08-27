@@ -1,0 +1,37 @@
+schema: adl.issue_513_dec_01_runtime_authority_topology_validation_log.v1
+issue: 513
+branch: codex/513-v0-92-1-dec-01-runtime-authority-separation
+base: origin/main
+base_integrated_after: e5f30c60c [v0.92.1][AWS-A] AWS resource ownership inventory (#556)
+head: fa68c5948a4e017b8148c8115ff17c03e09003db
+date_utc: 2026-08-26
+
+command:
+  bash docs/milestones/v0.92.1/evidence/runtime-decoupling/validate-runtime-authority-topology.sh
+
+result: passed
+
+focused_proofs:
+  - cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test contracts parity_baseline_manifest_is_a_captured_inventory_not_a_live_repo_dependency
+    result: passed
+  - cargo test --manifest-path adl/Cargo.toml runtime_v2_reasoning_objects_execute_through_native_component_core
+    result: passed
+
+validator_output:
+  schema: adl.runtime_v2_v3_authority_topology_validation.v1
+  issue: 513
+  manifest: docs/milestones/v0.92.1/evidence/runtime-decoupling/runtime-authority-topology.json
+  result: passed
+  classified_reverse_references: 4088
+  compatibility_proofs:
+    - runtime-v3-captured-baseline
+    - runtime-v2-to-v3-reasoning-bridge
+  negative_probes:
+    - owner-swap
+    - duplicate-root
+    - missing-root
+    - runtime-v4-authority-data
+
+notes:
+  - This proof was rerun after rebasing #513 onto origin/main containing #556.
+  - The reverse-reference count increased from 4084 to 4088 after the base update; all references remained classified with no authority-transfer failures.

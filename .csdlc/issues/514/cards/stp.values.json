@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 514,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-A] Shared provider inference profiles",
+    "slug": "v0-92-1-prov-a-shared-provider-inference-profiles",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue completion is exactly one shared provider-profile contract; provider-specific checks are evidence inputs.",
+      "deliverables": [
+        "One shared provider inference-profile contract with deterministic Ollama materialization.",
+        "Bounded validation evidence",
+        "Exact-head review receipt"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Profiles bind provider model and bounded parameters",
+        "AC-2: Invalid profiles fail before activation",
+        "AC-3: Last-known-good state is retained",
+        "AC-4: Credentials prompts and private payloads are excluded"
+      ],
+      "dependencies": [
+        "#480 WP-01 merged opening gate"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#514",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#PROV-A",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md"
+      ],
+      "non_goals": [
+        "MLX or Metal provider",
+        "OCI packaging"
+      ]
+    }
+  }
+}
