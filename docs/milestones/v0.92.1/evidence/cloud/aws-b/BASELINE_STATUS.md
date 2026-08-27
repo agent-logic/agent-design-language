@@ -2,7 +2,7 @@
 
 Issue: #485
 
-Status: draft, not yet accepted; AWS CLI floor is satisfied, but typed bind/review/publication are still pending.
+Status: draft, not yet accepted; AWS CLI floor and typed bind are satisfied, but exact-head review/publication are still pending.
 
 ## Completed readbacks
 
@@ -23,7 +23,7 @@ AC-3 requires AWS CLI 2.35 or newer for the approved Agent Toolkit path. The ret
 aws-cli/2.36.32 Python/3.14.7 Darwin/25.5.0 source/arm64
 ```
 
-This satisfies the required floor. The baseline cannot be accepted or published as complete until typed bind, validation, exact-head review, publication, and shepherd gates complete.
+This satisfies the required floor. The baseline cannot be accepted or published as complete until validation, exact-head review, publication, and shepherd gates complete.
 
 ## Non-claims
 

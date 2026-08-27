@@ -3,7 +3,7 @@
 - issue: #485
 - profile: agent-logic-admin
 - region: us-east-1
-- generated_at_utc: 2026-08-26T20:44:18Z
+- generated_at_utc: 2026-08-27T19:29:15Z
 - posture: read-only evidence collection
 
 ## Cost Explorer seven-day unblended cost
@@ -11,20 +11,6 @@
 ```text
 {
     "ResultsByTime": [
-        {
-            "TimePeriod": {
-                "Start": "2026-08-19",
-                "End": "2026-08-20"
-            },
-            "Total": {
-                "UnblendedCost": {
-                    "Amount": "4.5515873333",
-                    "Unit": "USD"
-                }
-            },
-            "Groups": [],
-            "Estimated": true
-        },
         {
             "TimePeriod": {
                 "Start": "2026-08-20",
@@ -46,7 +32,7 @@
             },
             "Total": {
                 "UnblendedCost": {
-                    "Amount": "5.7024719902",
+                    "Amount": "5.7024719901",
                     "Unit": "USD"
                 }
             },
@@ -102,7 +88,21 @@
             },
             "Total": {
                 "UnblendedCost": {
-                    "Amount": "4.5429380078",
+                    "Amount": "4.6289413666",
+                    "Unit": "USD"
+                }
+            },
+            "Groups": [],
+            "Estimated": true
+        },
+        {
+            "TimePeriod": {
+                "Start": "2026-08-26",
+                "End": "2026-08-27"
+            },
+            "Total": {
+                "UnblendedCost": {
+                    "Amount": "0.320200436",
                     "Unit": "USD"
                 }
             },
@@ -132,16 +132,16 @@
             },
             "CalculatedSpend": {
                 "ActualSpend": {
-                    "Amount": "104.667",
+                    "Amount": "105.107",
                     "Unit": "USD"
                 },
                 "ForecastedSpend": {
-                    "Amount": "148.3",
+                    "Amount": "133.053",
                     "Unit": "USD"
                 }
             },
             "BudgetType": "COST",
-            "LastUpdatedTime": "2026-08-26T02:17:27.062000-07:00",
+            "LastUpdatedTime": "2026-08-27T11:54:09.932000-07:00",
             "FilterExpression": {
                 "Not": {
                     "Dimensions": {
@@ -159,7 +159,7 @@
             "BillingViewArn": "[AWS_ARN_REDACTED][AWS_ACCOUNT_ID_REDACTED]:billingview/primary",
             "HealthStatus": {
                 "Status": "HEALTHY",
-                "LastUpdatedTime": "2026-08-26T02:17:26.550000-07:00"
+                "LastUpdatedTime": "2026-08-27T11:54:09.476000-07:00"
             }
         }
     ]
@@ -175,8 +175,8 @@
             "MonitorArn": "[AWS_ARN_REDACTED][AWS_ACCOUNT_ID_REDACTED]:anomalymonitor/4e5ff3a0-9489-40c3-a0d9-159ce49e2770",
             "MonitorName": "Default-Services-Monitor",
             "CreationDate": "2026-06-20T01:02:55.750643086Z",
-            "LastUpdatedDate": "2026-08-26T10:05:22.748Z",
-            "LastEvaluatedDate": "2026-08-26T10:05:22.748767943Z",
+            "LastUpdatedDate": "2026-08-27T12:47:45.248Z",
+            "LastEvaluatedDate": "2026-08-27T12:47:45.248632188Z",
             "MonitorType": "DIMENSIONAL",
             "MonitorDimension": "SERVICE",
             "DimensionalValueCount": 18
@@ -198,6 +198,18 @@
         },
         {
             "TagKey": "Account",
+            "Type": "UserDefined",
+            "Status": "Inactive",
+            "LastUsedDate": "2026-08-01T00:00:00Z"
+        },
+        {
+            "TagKey": "Component",
+            "Type": "UserDefined",
+            "Status": "Inactive",
+            "LastUsedDate": "2026-08-01T00:00:00Z"
+        },
+        {
+            "TagKey": "CsmName",
             "Type": "UserDefined",
             "Status": "Inactive",
             "LastUsedDate": "2026-08-01T00:00:00Z"

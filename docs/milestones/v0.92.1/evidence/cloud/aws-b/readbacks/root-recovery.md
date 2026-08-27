@@ -3,7 +3,7 @@
 - issue: #485
 - profile: agent-logic-admin
 - region: us-east-1
-- generated_at_utc: 2026-08-26T20:44:05Z
+- generated_at_utc: 2026-08-27T19:29:27Z
 - posture: read-only evidence collection
 
 ## Baseline assertions

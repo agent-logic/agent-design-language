@@ -3,7 +3,7 @@
 - issue: #485
 - profile: agent-logic-admin
 - region: us-east-1
-- generated_at_utc: 2026-08-26T20:44:08Z
+- generated_at_utc: 2026-08-27T19:29:23Z
 - posture: read-only evidence collection
 
 ## Classification rule
@@ -841,8 +841,8 @@
                         "Action": "sts:AssumeRoleWithWebIdentity",
                         "Condition": {
                             "StringEquals": {
-                                "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-                                "token.actions.githubusercontent.com:sub": "repo:agent-logic/agent-logic.ai:ref:refs/heads/main"
+                                "token.actions.githubusercontent.com:sub": "repo:agent-logic/agent-logic.ai:ref:refs/heads/main",
+                                "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
                             }
                         }
                     }
@@ -1015,8 +1015,8 @@
                         "Action": "sts:AssumeRoleWithWebIdentity",
                         "Condition": {
                             "StringEquals": {
-                                "token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
-                                "token.actions.githubusercontent.com:sub": "repo:agent-logic/codefriend.ai:ref:refs/heads/main"
+                                "token.actions.githubusercontent.com:sub": "repo:agent-logic/codefriend.ai:ref:refs/heads/main",
+                                "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
                             }
                         }
                     }
