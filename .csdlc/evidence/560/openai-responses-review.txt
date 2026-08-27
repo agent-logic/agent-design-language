@@ -1,0 +1,18 @@
+{
+  "publication_safe": false,
+  "verdict": "CHANGES_REQUIRED",
+  "response_reviewed_revision": "git:86f3afa69e025db573a4d1b5a8081a62564108b4",
+  "findings": [
+    {
+      "severity": "P2",
+      "evidence": "The override regex is anchored to bare test basenames, but the focused nextest log identifies the tests by full names such as runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated. Under nextest test-filter semantics, the anchored basename regex therefore does not match those full test names. The focused validator uses a different, unanchored substring expression and completes in about 5 seconds, so it neither demonstrates that the override selects the three tests nor that the 240s setting is applied. Consequently, the SOR claim that the hosted timeout was stabilized is not yet supported.",
+      "recommendation": "Use an exact regex over the three fully qualified nextest test names, optionally constrained to the adl binary/package, and add validation using the same selector to prove that exactly those three tests match. Keep the 240s terminate-after=1 setting and the profile-wide 120s default unchanged, then leave full hosted workspace coverage as the fail-closed integration proof."
+    }
+  ],
+  "residual_risks": [
+    "The focused local run is much faster than the hosted coverage failure and cannot reproduce hosted contention or prove the extended ceiling is sufficient.",
+    "Full hosted workspace coverage remains pending and must pass before integration or merge.",
+    "No Runtime v2 product or test source files appear in the scoped change, so semantic/assertion drift is not indicated by the supplied diff."
+  ],
+  "one_sentence_summary": "The change is bounded in intent and contains no product-semantic edits, but the anchored nextest filter appears not to match the fully qualified test names, making the shared-gate fix ineffective until corrected and selector-matched validation is recorded."
+}

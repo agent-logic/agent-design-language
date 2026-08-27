@@ -659,12 +659,14 @@ pub async fn write_workspace_context_mirror_report(
 pub fn read_milestone_truth(repo_root: &Path) -> Result<WorkspaceMilestoneTruthRecord> {
     let readme = std::fs::read_to_string(repo_root.join("README.md"))
         .with_context(|| "read repo README".to_string())?;
+    let feature_list = std::fs::read_to_string(repo_root.join("docs/planning/ADL_FEATURE_LIST.md"))
+        .with_context(|| "read ADL feature list".to_string())?;
     let v092_ledger = std::fs::read_to_string(
         repo_root.join("docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md"),
     )
     .with_context(|| "read v0.92 activation ledger".to_string())?;
 
-    let current = detect_current_milestone(&readme);
+    let current = detect_current_milestone(&format!("{readme}\n{feature_list}"));
     let v092_blocked = v092_ledger.contains("activation remains blocked");
     let planning_sequence = if current == "v0.92" {
         vec!["v0.92".to_string()]
@@ -681,21 +683,25 @@ pub fn read_milestone_truth(repo_root: &Path) -> Result<WorkspaceMilestoneTruthR
 }
 
 fn detect_current_milestone(readme: &str) -> String {
-    for milestone in ["v0.92", "v0.91.8", "v0.91.7", "v0.91.6"] {
+    let mut detected = Vec::new();
+    for milestone in ["v0.92.1", "v0.92", "v0.91.8", "v0.91.7", "v0.91.6"] {
         let active_patterns = [
             format!("Active milestone: {milestone}"),
-            format!("Current milestone state: {milestone}"),
-            format!("### {milestone} - Active"),
-            format!("### {milestone} - Completed Milestone"),
+            format!("Active status: {milestone}"),
         ];
-        if active_patterns
-            .iter()
-            .any(|pattern| readme.contains(pattern))
+        if readme
+            .lines()
+            .map(str::trim)
+            .any(|line| active_patterns.iter().any(|pattern| line == pattern))
         {
-            return milestone.to_string();
+            detected.push(milestone.to_string());
         }
     }
-    "unknown".to_string()
+    detected.dedup();
+    match detected.as_slice() {
+        [milestone] => milestone.clone(),
+        _ => "unknown".to_string(),
+    }
 }
 
 #[cfg(test)]
@@ -902,7 +908,7 @@ mod tests {
     fn milestone_truth_reads_current_repo_story() {
         let repo_root = crate::adl_gws_native::tracked_path("");
         let truth = read_milestone_truth(&repo_root).expect("milestone truth");
-        assert!(["v0.91.6", "v0.91.7", "v0.91.8", "v0.92"]
+        assert!(["v0.91.6", "v0.91.7", "v0.91.8", "v0.92", "v0.92.1"]
             .contains(&truth.chatgpt_facing_current_milestone.as_str()));
         assert_eq!(
             truth.planning_sequence.first().map(String::as_str),
@@ -1046,12 +1052,28 @@ mod tests {
             "v0.91.7"
         );
         assert_eq!(
-            detect_current_milestone("Current milestone state: v0.92 planning"),
-            "v0.92"
+            detect_current_milestone("Active milestone: v0.92.1"),
+            "v0.92.1"
+        );
+        assert_eq!(
+            detect_current_milestone("Active status: v0.92.1"),
+            "v0.92.1"
+        );
+    }
+
+    #[test]
+    fn milestone_detection_rejects_non_active_and_conflicting_markers() {
+        assert_eq!(
+            detect_current_milestone("`v0.92.1` is the next planning and execution band"),
+            "unknown"
         );
         assert_eq!(
             detect_current_milestone("### v0.92 - Completed Milestone"),
-            "v0.92"
+            "unknown"
+        );
+        assert_eq!(
+            detect_current_milestone("Active milestone: v0.91.8\nActive milestone: v0.92.1"),
+            "unknown"
         );
     }
 
@@ -1094,12 +1116,21 @@ mod tests {
         tokio::fs::create_dir_all(repo_root.join("docs/milestones/v0.92"))
             .await
             .expect("create v0.92 tree");
+        tokio::fs::create_dir_all(repo_root.join("docs/planning"))
+            .await
+            .expect("create planning tree");
         tokio::fs::create_dir_all(&staging_dir)
             .await
             .expect("create staging tree");
         tokio::fs::write(repo_root.join("README.md"), "Active milestone: v0.91.7\n")
             .await
             .expect("write README");
+        tokio::fs::write(
+            repo_root.join("docs/planning/ADL_FEATURE_LIST.md"),
+            "Active milestone: v0.91.7\n",
+        )
+        .await
+        .expect("write feature list");
         tokio::fs::write(
             repo_root.join("docs/milestones/v0.91.7/README.md"),
             "# v0.91.7\n",

@@ -12,6 +12,16 @@ leak-timeout = "100ms"
 # exceeds this bounded coverage-only ceiling and report its exact identity.
 slow-timeout = { period = "120s", terminate-after = 1 }
 
+# Issue #560: hosted workspace coverage first showed three runtime_v2
+# unified-kernel correlation/drift proofs reaching the generic 120s ceiling
+# while 1221/1224 tests passed, then showed four sibling unified-kernel module
+# tests reaching the same ceiling once the first three had a bounded allowance.
+# Keep the default fail-closed ceiling for unrelated tests and grant only this
+# exact module prefix a bounded coverage allowance.
+[[profile.ci-coverage.overrides]]
+filter = 'test(/^runtime_v2::tests::unified_runtime_kernel::/)'
+slow-timeout = { period = "240s", terminate-after = 1 }
+
 # Both issue #208 harnesses synchronously close their fixture roots, and every
 # client case additionally proves at its shared teardown boundary that it owns
 # no live or unreaped child process before returning.

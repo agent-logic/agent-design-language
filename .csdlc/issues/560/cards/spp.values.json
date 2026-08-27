@@ -1,0 +1,91 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 560,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
+    "slug": "runtime-v2-workspace-coverage-timeouts",
+    "version": "v0.92.1",
+    "generation": 44
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 5,
+      "summary": "Stabilize workspace ci-coverage with an exact seven-test Runtime v2 timeout override, repair the context-mirror fixture and explicit active-milestone authority exposed by hosted coverage, retain focused proof, obtain exact-head review, republish once, and require green hosted coverage before merge.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and bind #560 to its dedicated FastWork worktree.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Apply and prove the exact seven-test ci-coverage timeout override without changing Runtime v2 semantics.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Repair context-mirror canonical input resolution and strict active-milestone detection; retain exact binary and negative proof.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain fresh exact-head review, republish the reviewed head, and shepherd required hosted checks to green before merge.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "in_progress"
+        }
+      ],
+      "affected_areas": [
+        "adl/.config/nextest.toml",
+        "adl/src/adl_gws_context_mirror.rs",
+        "adl/src/bin/demo_adl_gws_context_mirror.rs",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".csdlc/prepared/issues/560/validate-focused-proof.sh",
+        ".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log"
+      ],
+      "invariants": [
+        "All seven unified-kernel tests keep their existing semantic assertions.",
+        "Coverage instrumentation gets an exact bounded timeout allowance only for the named test module.",
+        "Context-mirror milestone truth requires exactly one explicit active-status marker.",
+        "The default ci-coverage timeout remains fail-closed for unrelated tests."
+      ],
+      "risks": [
+        "A too-broad timeout increase could hide unrelated hangs.",
+        "Local focused proof may be shorter than hosted workspace coverage; hosted `adl-coverage` remains final proof."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "A required fix would alter Runtime v2 product semantics.",
+        "The focused coverage proof still times out after bounded adjustment.",
+        "Typed lifecycle or exact-head review cannot be completed."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/560/design.md",
+      "design_digest": "e20d5a3b15b9ff7b83a325f051d43f5e970d696cc191e2579cdd49f89d5545b3",
+      "diagram_ref": ".csdlc/prepared/issues/560/diagram.mmd",
+      "diagram_digest": "ab1176ec352e1b0f78d942d6d82491b26acc0c23116b30721c40b265c959cf05"
+    }
+  }
+}
