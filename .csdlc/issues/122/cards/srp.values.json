@@ -7,15 +7,15 @@
     "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
     "slug": "deferred-public-observatory-exposure",
     "version": "post-v0.92",
-    "generation": 67
+    "generation": 68
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:7b01c23d9986a565a4b4ddeb349800c7c3e55135:5c9d59690d50f84b0a3d61043f499ac9d1918e7582439117f21d1c8ae74a1d78",
+      "reviewer": "fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7",
       "review_prompts": [
         "Can any public read, browser state, origin, or unsigned request gain Runtime write authority?",
         "Do the exact deployed Observatory and Runtime gateway revisions match through DNS, cache, HTTPS, and WSS paths?",
@@ -25,8 +25,11 @@
         "Does #122 remain deferred beyond v0.92 and non-gating for #83 and #111-#117?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer did not wait for CI, publish, merge, mutate lifecycle state, or perform live AWS actions.",
+        "Live WSS handshake remains explicitly gated on a separate approved Runtime probe; #122 proof does not claim that handshake."
+      ],
+      "review_result": "pass"
     }
   }
 }

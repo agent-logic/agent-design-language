@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
-  "phase": "implemented",
-  "generation": 67,
-  "digest": "45da9b43a681466949599a1a0e2b87d4f058947605cdbb6216ee1d2cfd25ec61",
+  "phase": "reviewed",
+  "generation": 68,
+  "digest": "ac83dd672e94295b003e1e6ba952c7e90725895fe7d550dc865b562cd15662c1",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
   "review_assignment": {
@@ -17,7 +17,20 @@
       "."
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7",
+    "scope": [
+      "."
+    ],
+    "reviewed_revision": "git-blake3:7b01c23d9986a565a4b4ddeb349800c7c3e55135:5c9d59690d50f84b0a3d61043f499ac9d1918e7582439117f21d1c8ae74a1d78",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not wait for CI, publish, merge, mutate lifecycle state, or perform live AWS actions.",
+      "Live WSS handshake remains explicitly gated on a separate approved Runtime probe; #122 proof does not claim that handshake."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -32,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c490607e4a701fd4f4593d29f14b63698a91498639baff963237b09c7a27fb7e",
+      "values_digest": "b841a36aee8cfdc11f704bcb75936fbad13136075cc5a9763535cf1e1a1c3755",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "83116b3d086f6121d8330741cded2d28684f42b75805c6e79174074c442f385c",
+      "values_digest": "24eebfccd0f974a9123635212bb5247ba8e7d8b880acdb634aeead4c7f34d971",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "2629bad57bb2ed905b88572b3aa03c66929b2f7b066b2314323477efe8b1be4e",
+      "values_digest": "3346c6b0a5795bd3a7504eec7c3f502271f41c8a0cad2010c6eb6fb7f8a61fa0",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "ed0149ccf38731829f9cc36df962743d672c57a6ef6fd8484dae24cf48144fab",
+      "values_digest": "aa7c864578b16e88d8b0a43de4c37e0fbcdcaa659f6f18a9d61ea1ecf87b00ce",
       "rendered_digest": "832485a93cad1cbb8228950655e809e0201547775d8f4c6eb5e66bdf30af6d97",
       "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "c94d69909efc5564149c8c2d30eaad8a5970aa13e53267a2ad880832849a46f6",
-      "rendered_digest": "b9e82e2ed4748e5cde4a653ab68a1f50d01f6e1f8aad3e2f3758337bbfe9318e",
-      "ast_digest": "015bcef0c6aa2d40402f540dd0b3590bf0c4feb30eeef9ce61e6ccaadc6a3051"
+      "values_digest": "e1af25209bf44492924e06cced11f9baac190d93a5a5dece38ad610cb814f665",
+      "rendered_digest": "7faeb4afd5ac851a557a4c1a730c8301d3c3559ecb3697dda038954843c66064",
+      "ast_digest": "b31c0dc3c0ff87e39c5964e5cce908e11b883cbf14dad3645308efe99051084a"
     },
     "sor": {
-      "values_digest": "7d356890ec2804a7be6fc5af489c1615149f2683d0caf4d296c6848925633cc5",
+      "values_digest": "146938273de10cb0eded772b49dd65872d8320f2d56af4af3ef7a7f7194991c9",
       "rendered_digest": "5a45bb70790fb704d34805b7f498d11ad25ca043a01c30d76f52879cabd1e57e",
       "ast_digest": "336b181985ce9ed93f89bc052a2031551f454a38550b4d01062a9ce597649be0"
     }
@@ -181,6 +194,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #122 review after committing typed review-record metadata; publication guard requires a fresh exact clean HEAD review before republishing."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -813,6 +833,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 68,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

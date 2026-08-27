@@ -33,12 +33,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer did not wait for CI, publish, merge, mutate lifecycle state, or perform live AWS actions.
+- Live WSS handshake remains explicitly gated on a separate approved Runtime probe; #122 proof does not claim that handshake.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7b01c23d9986a565a4b4ddeb349800c7c3e55135:5c9d59690d50f84b0a3d61043f499ac9d1918e7582439117f21d1c8ae74a1d78")
 
-Reviewer: None
+Reviewer: Some("fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7")
 
-Result: pre_review
+Result: pass
