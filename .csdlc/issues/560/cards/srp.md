@@ -38,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:f42ac0d181a9dd58a1a6bdb0f5c6bebc87dca173:868f159cf7e16dcce28a79b59d0daf39a286738e051db87fa7c604b503c432fc")
+Revision: Some("git-blake3:b877efc189b823e6f4b4bc145ea8bbe14c632618:9da95cc9e31763e36a8355db40b9e35b408aee43c0bee060509e391b72970fd2")
 
-Reviewer: Some("openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7:metadata-reconciliation")
+Reviewer: Some("openai-responses:resp_05358d9aeb79ba51006a8f7e674e0487d09cc756cdcf1200d6")
 
 Result: pass

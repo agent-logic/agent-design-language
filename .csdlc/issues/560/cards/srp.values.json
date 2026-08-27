@@ -7,15 +7,15 @@
     "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
     "slug": "runtime-v2-workspace-coverage-timeouts",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 21
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/560\n.csdlc/prepared/issues/560\n.csdlc/evidence/560\nadl/.config/nextest.toml\nadl/src/adl_gws_context_mirror.rs",
-      "review_revision": "git-blake3:f42ac0d181a9dd58a1a6bdb0f5c6bebc87dca173:868f159cf7e16dcce28a79b59d0daf39a286738e051db87fa7c604b503c432fc",
-      "reviewer": "openai-responses:resp_0ffaf1b830609d2c006a8f7cb1c32087d085ec42651c870ea7:metadata-reconciliation",
+      "review_revision": "git-blake3:b877efc189b823e6f4b4bc145ea8bbe14c632618:9da95cc9e31763e36a8355db40b9e35b408aee43c0bee060509e391b72970fd2",
+      "reviewer": "openai-responses:resp_05358d9aeb79ba51006a8f7e674e0487d09cc756cdcf1200d6",
       "review_prompts": [
         "Verify the change is an exact ci-coverage timeout/profile adjustment for only the three observed runtime_v2 tests.",
         "Verify Runtime v2 semantics and assertions are unchanged.",
