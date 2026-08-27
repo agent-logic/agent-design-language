@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a43b525a61790257019207e3d1187d1c53001b830cef623010b0dd69b318f435",
   "phase": "implemented",
-  "generation": 25,
-  "digest": "8be8190c431748265ed2b111f30462c9ee350058cfae23f061e0dda3aa329a50",
+  "generation": 28,
+  "digest": "9a371c00a6abe198ececba65e42cbbf265787993df91c5a877bb8aaff89041cd",
   "branch": "codex/560-runtime-v2-workspace-coverage-timeouts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7980f5f7d2a6cc57ff17d6acbf9c970c2886c3bc26856dd946b6c6f39c67d378",
+      "values_digest": "f8bf8e5e3ddf69f43c16210b3c0fe2a0f429f2ab7de26704827c3eac4d35814f",
       "rendered_digest": "70f5c9b2e3b520aac7444595ff1c2671bf5e5b091bc68e84c4a195b285260210",
       "ast_digest": "09021e4f502392feb5e59861355e230f2b5e5d1d23f28cfa8dcac6f7405e76c7"
     },
     "stp": {
-      "values_digest": "db3468e73fa74ca71328038a5f2897849ec99128f18bff6151c7bd9ce1f6f12c",
-      "rendered_digest": "1ca4c4f432d4d1d4b0f609c7f0494fd54d49950efa61f3e5f296cc2e394183f3",
-      "ast_digest": "a0ea2badb5bc379214e09ba7ccf6a83c419600993c2a4bc683274e14bc0406b2"
+      "values_digest": "c0427c789071bc37e169a83e285445fba2fa1445c7e6d16b2022957bac61e446",
+      "rendered_digest": "d3fb1234882fdfa4f311cd126d2a830f1a6effb46dced87136302ec48fa679c1",
+      "ast_digest": "e935451a5b286bee8294c32d028f5e365d03dae8f05ef157f6b25d4bc1292e29"
     },
     "spp": {
-      "values_digest": "ab6c8e2e77c037a3ed9e73a3a421b3fa3388d3b13bac8e4baa4d16dd3f2c4931",
+      "values_digest": "c99d131f04a607b7804c73b96998dd4344e6bc4d7fbeb7d6040731ee7cef4ea8",
       "rendered_digest": "eb8dc0875759a3609f106f1bbcab83e0aa08094602b0fbc5981938944b93b275",
       "ast_digest": "94e49b61be4dd98be4b1264d872d4a605f4ec4b85ffea0a44553239623411af9"
     },
     "vpp": {
-      "values_digest": "2bb502f6c7336a135e1164b6de1376d625cc10bba7a8ee5f545f0d416e0085b1",
+      "values_digest": "25be1bf21bb4a60897428c9965ee8a8584ad95d8fefc0860e3a18cb879406e56",
       "rendered_digest": "ac2965e804a7314787ac739e5e47e12fd6d9b944a3189bed5d30a0a52b06ee94",
       "ast_digest": "bc307fa308bbf34ed77e882f9858becbd7fb771728c088d79bfd47f94cd74180"
     },
     "srp": {
-      "values_digest": "667a7e1714ca80bb12acb5a5882d094cf24707e0cc22ab52165e61ea159e96aa",
+      "values_digest": "9009ee067500cfdf5e736a3b937becef25bb90f6d183f3e8b0b092471cd10cf5",
       "rendered_digest": "5117945cadf0f03230753d721605a0fd7168feabef34d3e4a65f0bbdd720c13a",
       "ast_digest": "4d406d6c641275799db99d290272ae7052bf39d492c65e9c354ce1e719c4819a"
     },
     "sor": {
-      "values_digest": "56ab38cf3bfb72b17419a1ab4e6329f0a2f14e1015a72854f66cad808fd0a8ff",
+      "values_digest": "26f4ac89e41ec838306fcbaf7269d97b33183306625799e3e4c0aec9609183ae",
       "rendered_digest": "d811d1037ecc507e1a3b6145183e465bd8a4826e2da242f581dc8c4b07ba76d4",
       "ast_digest": "40c68670b36d7fc5c1694f639edf0f3760856fe7772938c11fa72608526eceea"
     }
@@ -400,6 +400,27 @@
       "actor": "codex:/root/fix_560_workspace_timeout",
       "reason": "Recover #560 after hosted workspace coverage run 33025738363 exposed a real context-mirror demo fixture portability failure: the demo fixture did not create docs/planning/ADL_FEATURE_LIST.md even though read_milestone_truth now requires that canonical input. The bounded repair adds only the missing fixture input and refreshes focused proof evidence before exact-head review and republishing.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Align STP boundary with the exact hosted failures and bounded remediation.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Bounded workspace ci-coverage stabilization for the seven runtime_v2 unified-kernel tests plus the context-mirror milestone-input portability defect exposed by the exact hosted lane; no unrelated product behavior.\"}"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Replace stale three-test acceptance wording with the executed seven-test and context-mirror remediation while preserving AC identities.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The ci-coverage profile applies an exact bounded timeout override to seven runtime_v2 unified-kernel tests without weakening unrelated tests.\",\"AC-2: Runtime v2 product semantics and all seven tests' semantic assertions remain unchanged.\",\"AC-3: Focused local proof selects and passes exactly seven unified-kernel tests and the previously failing context-mirror binary test.\",\"AC-4: The context-mirror fixture supplies canonical inputs and milestone detection accepts only one explicit active-status marker, rejecting future, completed, or conflicting markers.\",\"AC-5: Independent exact-head review passes before republication.\",\"AC-6: Required hosted checks, including workspace coverage, are green before merge.\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "Record exact bounded deliverables after hosted remediation.",
+      "operation": "{\"new_values\":[\"adl/.config/nextest.toml\",\"adl/src/adl_gws_context_mirror.rs\",\"adl/src/bin/demo_adl_gws_context_mirror.rs\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\",\".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl/.config/nextest.toml\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\",\".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh\"],\"recovery_generation\":25,\"recovery_sequence\":32}"
     }
   ]
 }
