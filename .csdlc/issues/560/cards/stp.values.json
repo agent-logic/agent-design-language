@@ -7,7 +7,7 @@
     "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
     "slug": "runtime-v2-workspace-coverage-timeouts",
     "version": "v0.92.1",
-    "generation": 28
+    "generation": 39
   },
   "status": "ready",
   "content": {
@@ -37,10 +37,12 @@
       ],
       "repo_inputs": [
         "GitHub issue #560",
-        "GitHub Actions run 33017588921",
-        "PR #514 head 401a6b533bce34c2d1d3b580b36939a3392f3b78",
+        "GitHub Actions runs 33017588921 and 33025738363",
         "adl/.config/nextest.toml",
-        "adl/tools/run_authoritative_coverage_lane.sh"
+        "adl/tools/run_authoritative_coverage_lane.sh",
+        "adl/src/adl_gws_context_mirror.rs",
+        "adl/src/bin/demo_adl_gws_context_mirror.rs",
+        "docs/planning/ADL_FEATURE_LIST.md"
       ],
       "non_goals": [
         "No Runtime v2 product semantic changes.",

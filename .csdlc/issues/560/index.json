@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a43b525a61790257019207e3d1187d1c53001b830cef623010b0dd69b318f435",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "9a371c00a6abe198ececba65e42cbbf265787993df91c5a877bb8aaff89041cd",
+  "generation": 39,
+  "digest": "077c2e6c4852ec02fa371f05d524b06e442702893ad044c38c7e03a2dbfb364d",
   "branch": "codex/560-runtime-v2-workspace-coverage-timeouts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f8bf8e5e3ddf69f43c16210b3c0fe2a0f429f2ab7de26704827c3eac4d35814f",
+      "values_digest": "d9b48ba47f45cfc1bc82bb7afbfeb3c363a052f0911b6405fa876f023da7c662",
       "rendered_digest": "70f5c9b2e3b520aac7444595ff1c2671bf5e5b091bc68e84c4a195b285260210",
       "ast_digest": "09021e4f502392feb5e59861355e230f2b5e5d1d23f28cfa8dcac6f7405e76c7"
     },
     "stp": {
-      "values_digest": "c0427c789071bc37e169a83e285445fba2fa1445c7e6d16b2022957bac61e446",
-      "rendered_digest": "d3fb1234882fdfa4f311cd126d2a830f1a6effb46dced87136302ec48fa679c1",
-      "ast_digest": "e935451a5b286bee8294c32d028f5e365d03dae8f05ef157f6b25d4bc1292e29"
+      "values_digest": "10a7e7a70ed794d4b0d85ab41c4624a798314867722e4f2b27c9f3972bbf1a44",
+      "rendered_digest": "23f804d1e3d99f33b4214dd0c048e0af6edf3562f3c1b0d9e88d561a5c7f5de1",
+      "ast_digest": "4fc6d3d052e6f159c4e519acd712cf22206073a394aae97663684929db0192b0"
     },
     "spp": {
-      "values_digest": "c99d131f04a607b7804c73b96998dd4344e6bc4d7fbeb7d6040731ee7cef4ea8",
-      "rendered_digest": "eb8dc0875759a3609f106f1bbcab83e0aa08094602b0fbc5981938944b93b275",
-      "ast_digest": "94e49b61be4dd98be4b1264d872d4a605f4ec4b85ffea0a44553239623411af9"
+      "values_digest": "1fe3ad9e5a6fe1523e8f496e7faa09fdbcd78e2871c73427907465b69d1830ee",
+      "rendered_digest": "e14a4d85ce3fd4d2d38e116635a5cda86f4c0847129a413f019a5cd87f940cc2",
+      "ast_digest": "bb612152b109208710115c69841fd40d532f6fb1a36db7857c019eeee26e3256"
     },
     "vpp": {
-      "values_digest": "25be1bf21bb4a60897428c9965ee8a8584ad95d8fefc0860e3a18cb879406e56",
+      "values_digest": "b3509c10f66601b0ea84cd8bf562c51080abf35a3739c354f12923da0cfa17ed",
       "rendered_digest": "ac2965e804a7314787ac739e5e47e12fd6d9b944a3189bed5d30a0a52b06ee94",
       "ast_digest": "bc307fa308bbf34ed77e882f9858becbd7fb771728c088d79bfd47f94cd74180"
     },
     "srp": {
-      "values_digest": "9009ee067500cfdf5e736a3b937becef25bb90f6d183f3e8b0b092471cd10cf5",
+      "values_digest": "18487f3fd669859229fc6b2e0e51e5a69b06f89dc1db4d0fbac3e61b288af570",
       "rendered_digest": "5117945cadf0f03230753d721605a0fd7168feabef34d3e4a65f0bbdd720c13a",
       "ast_digest": "4d406d6c641275799db99d290272ae7052bf39d492c65e9c354ce1e719c4819a"
     },
     "sor": {
-      "values_digest": "26f4ac89e41ec838306fcbaf7269d97b33183306625799e3e4c0aec9609183ae",
+      "values_digest": "a71593f46d09a9c03451cf997195422a75bdf1a55f3e9ac670b18572705c7057",
       "rendered_digest": "d811d1037ecc507e1a3b6145183e465bd8a4826e2da242f581dc8c4b07ba76d4",
       "ast_digest": "40c68670b36d7fc5c1694f639edf0f3760856fe7772938c11fa72608526eceea"
     }
@@ -421,6 +421,90 @@
       "actor": "codex:/root",
       "reason": "Record exact bounded deliverables after hosted remediation.",
       "operation": "{\"new_values\":[\"adl/.config/nextest.toml\",\"adl/src/adl_gws_context_mirror.rs\",\"adl/src/bin/demo_adl_gws_context_mirror.rs\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\",\".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl/.config/nextest.toml\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\",\".csdlc/prepared/issues/560/validate-lifecycle-evidence.sh\"],\"recovery_generation\":25,\"recovery_sequence\":32}"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "Recover from the exact 292fa8b P2 review so the remaining SPP truth can be corrected before re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "Record exact source inputs for both hosted failures.",
+      "operation": "{\"new_values\":[\"GitHub issue #560\",\"GitHub Actions runs 33017588921 and 33025738363\",\"adl/.config/nextest.toml\",\"adl/tools/run_authoritative_coverage_lane.sh\",\"adl/src/adl_gws_context_mirror.rs\",\"adl/src/bin/demo_adl_gws_context_mirror.rs\",\"docs/planning/ADL_FEATURE_LIST.md\"],\"operation\":\"correct_stp_repo_inputs_after_recovery\",\"previous_values\":[\"GitHub issue #560\",\"GitHub Actions run 33017588921\",\"PR #514 head 401a6b533bce34c2d1d3b580b36939a3392f3b78\",\"adl/.config/nextest.toml\",\"adl/tools/run_authoritative_coverage_lane.sh\"],\"recovery_generation\":30,\"recovery_sequence\":38}"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "Align operative plan summary with actual bounded execution.",
+      "operation": "{\"new_value\":\"Stabilize workspace ci-coverage with an exact seven-test Runtime v2 timeout override, repair the context-mirror fixture and explicit active-milestone authority exposed by hosted coverage, retain focused proof, obtain exact-head review, republish once, and require green hosted coverage before merge.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Bind #560 in a new FastWork worktree, add an exact ci-coverage nextest override for the three timed-out runtime_v2 unified-kernel tests, run focused llvm-cov nextest proof, obtain exact-head API review, publish ready, shepherd green checks, and finish merge.\",\"recovery_generation\":30,\"recovery_sequence\":38}"
+    },
+    {
+      "sequence": 41,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Replace stale three-test plan actions with the truthful bounded plan.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Bootstrap and bind #560 to its dedicated FastWork worktree.\",\"acceptance_ids\":[\"AC-1\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Apply and prove the exact seven-test ci-coverage timeout override without changing Runtime v2 semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Repair context-mirror canonical input resolution and strict active-milestone detection; retain exact binary and negative proof.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Obtain fresh exact-head review, republish the reviewed head, and shepherd required hosted checks to green before merge.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 34,
+      "actor": "codex:/root",
+      "reason": "Mark evidenced execution step complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 43,
+      "generation": 35,
+      "actor": "codex:/root",
+      "reason": "Mark evidenced execution step complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 36,
+      "actor": "codex:/root",
+      "reason": "Mark evidenced execution step complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 45,
+      "generation": 37,
+      "actor": "codex:/root",
+      "reason": "Mark review/republication/hosted-green step in progress.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 46,
+      "generation": 38,
+      "actor": "codex:/root",
+      "reason": "Replace the stale three-test invariant with the executed bounded invariants.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"All seven unified-kernel tests keep their existing semantic assertions.\",\"Coverage instrumentation gets an exact bounded timeout allowance only for the named test module.\",\"Context-mirror milestone truth requires exactly one explicit active-status marker.\",\"The default ci-coverage timeout remains fail-closed for unrelated tests.\"]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 39,
+      "actor": "codex:/root",
+      "reason": "Record exact affected areas after the hosted remediation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/.config/nextest.toml\",\"adl/src/adl_gws_context_mirror.rs\",\"adl/src/bin/demo_adl_gws_context_mirror.rs\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/560/validate-focused-proof.sh\",\".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log\"]}"
     }
   ]
 }

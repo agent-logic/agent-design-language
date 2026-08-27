@@ -12,56 +12,58 @@ Status: ready
 
 ## Summary
 
-Bind #560 in a new FastWork worktree, add an exact ci-coverage nextest override for the three timed-out runtime_v2 unified-kernel tests, run focused llvm-cov nextest proof, obtain exact-head API review, publish ready, shepherd green checks, and finish merge.
+Stabilize workspace ci-coverage with an exact seven-test Runtime v2 timeout override, repair the context-mirror fixture and explicit active-milestone authority exposed by hosted coverage, retain focused proof, obtain exact-head review, republish once, and require green hosted coverage before merge.
 
 ## Plan
 
-Revision 2
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Bootstrap and bind #560 to a dedicated FastWork worktree from current origin/main.",
+    "action": "Bootstrap and bind #560 to its dedicated FastWork worktree.",
     "acceptance_ids": [
-      "AC-4"
+      "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Apply the smallest instrumentation-aware ci-coverage timeout/profile adjustment for the three exact tests.",
+    "action": "Apply and prove the exact seven-test ci-coverage timeout override without changing Runtime v2 semantics.",
     "acceptance_ids": [
       "AC-1",
-      "AC-2"
+      "AC-2",
+      "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Run focused local coverage proof and retain evidence.",
+    "action": "Repair context-mirror canonical input resolution and strict active-milestone detection; retain exact binary and negative proof.",
     "acceptance_ids": [
-      "AC-3"
+      "AC-3",
+      "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
-    "action": "Obtain exact-head OpenAI Responses API review, publish ready, shepherd required checks, and typed finish merge.",
+    "action": "Obtain fresh exact-head review, republish the reviewed head, and shepherd required hosted checks to green before merge.",
     "acceptance_ids": [
-      "AC-4",
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 
 ## Invariants
 
-- The three affected tests keep their existing semantic assertions.
-- Coverage instrumentation gets an explicit bounded timeout allowance.
+- All seven unified-kernel tests keep their existing semantic assertions.
+- Coverage instrumentation gets an exact bounded timeout allowance only for the named test module.
+- Context-mirror milestone truth requires exactly one explicit active-status marker.
 - The default ci-coverage timeout remains fail-closed for unrelated tests.
 
 ## Risks

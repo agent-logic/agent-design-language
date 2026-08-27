@@ -41,10 +41,12 @@ Bounded workspace ci-coverage stabilization for the seven runtime_v2 unified-ker
 ## Inputs
 
 - GitHub issue #560
-- GitHub Actions run 33017588921
-- PR #514 head 401a6b533bce34c2d1d3b580b36939a3392f3b78
+- GitHub Actions runs 33017588921 and 33025738363
 - adl/.config/nextest.toml
 - adl/tools/run_authoritative_coverage_lane.sh
+- adl/src/adl_gws_context_mirror.rs
+- adl/src/bin/demo_adl_gws_context_mirror.rs
+- docs/planning/ADL_FEATURE_LIST.md
 
 ## Non Goals
 
