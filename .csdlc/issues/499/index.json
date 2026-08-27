@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "893c488a403db6ee28efbc8a41379fe8191f2a33bd0a22e07c26103410cd64e0",
-  "phase": "published",
-  "generation": 13,
-  "digest": "6f330ca42c4e752bbd2993369a3fab70e95842530ba7e60ffd28764d08db2314",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "f780814559211d2dd058a68a0dc8c3a281058cb12835cc42647ede121061098d",
   "branch": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-499-resilience-owner-boundary-refactoring",
   "review_assignment": {
-    "reviewer": "openai-responses-api:resp_01aaf45742faa6f8006a8f52ce1cec87d0abb39c5870e7db56",
-    "assigned_by": "codex:sprint-1-conductor",
-    "revision": "git-blake3:578d26d87e7a88a18b037b3ef2cc6f753638c466:9c0ad4ba3305583e6981aa87bffb0f26d50bbce47de476ff41459477e2365686",
+    "reviewer": "openai-responses-api:resp_099758cbc0d0767c006a90883ba19487d0b37ddbecef1b3a4d",
+    "assigned_by": "codex:issue-499-takeover",
+    "revision": "git-blake3:2474118a22f95c45e0ca44730df8e492e5dcc0c7:c4c0712ab562022ba614c82bdd853a9afedc20a96eb4034d65245e4a65f52f7a",
     "scope": [
       "adl/src/resilience.rs",
       "adl/src/resilience/*.rs",
@@ -22,7 +22,7 @@
     ]
   },
   "review": {
-    "reviewer": "openai-responses-api:resp_01aaf45742faa6f8006a8f52ce1cec87d0abb39c5870e7db56",
+    "reviewer": "openai-responses-api:resp_099758cbc0d0767c006a90883ba19487d0b37ddbecef1b3a4d",
     "scope": [
       "adl/src/resilience.rs",
       "adl/src/resilience/*.rs",
@@ -30,26 +30,17 @@
       ".csdlc/issues/499 lifecycle metadata",
       "publication safety at exact integrated head"
     ],
-    "reviewed_revision": "git-blake3:578d26d87e7a88a18b037b3ef2cc6f753638c466:9c0ad4ba3305583e6981aa87bffb0f26d50bbce47de476ff41459477e2365686",
+    "reviewed_revision": "git-blake3:2474118a22f95c45e0ca44730df8e492e5dcc0c7:c4c0712ab562022ba614c82bdd853a9afedc20a96eb4034d65245e4a65f52f7a",
     "findings": [],
     "residual_risks": [
-      "Hosted CI remains the fail-closed integration proof after publication."
+      "Hosted CI remains the fail-closed integration proof after publication.",
+      "The independent API reviewer noted that the API-parity validator is lexical rather than a full semantic compatibility checker; focused compile, behavior, fmt, and clippy proof passed, and hosted CI remains required.",
+      "The supported public resilience facade paths remain re-exported and source-compatible; internal Rust definition paths may differ after the module split."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 499,
-    "pull_request": 547,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/547",
-    "base": "main",
-    "head": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
-    "revision": "git-blake3:8f22cea7930c4d3182fd1d543b7b60374ca88db0:5c97906e7f770a95b72c3f4b4b591daf0f4f3d19af306fffb3b6263fe9a085a7",
-    "linkage_mode": "closing",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -63,34 +54,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "41835f6d8ba8ae78d6a9b49089d317f8e11852d8682d0fb4e6942f7c3215e211",
+      "values_digest": "de324e4c540d44839ccf8ca18fd36c9d9f628a5ec73ab898cc67f2760417f123",
       "rendered_digest": "d1baf5af8289dae4ed771203e980b494de6918c83588ddad7ce553df0cb6126d",
       "ast_digest": "9c4075ccabbcd57f711f3dfe15cb8dd1c9d066ff5cceb031bee600d254fe7c0a"
     },
     "stp": {
-      "values_digest": "6fc947ff6ed64cc6ca30dfd285868540bc50016fc87356191a8ec3ac848254bc",
+      "values_digest": "d7d598f6dd205400a84e8a8d6cb054c27b0ba0f66cd7b53f5c2483cf07211047",
       "rendered_digest": "2bc1124ec3c640c68530fb8289d84c07ae83eb6fb162575e1a80cc2a612020bd",
       "ast_digest": "9519a6c725a963f026bc168371395a1bf63c5984a03dc2bb3a59c1157db37c76"
     },
     "spp": {
-      "values_digest": "1183f9b5307d7da77b7624601e6de8153860aa3a519b889a5c798b96bc12fc96",
+      "values_digest": "17d779721c21f6d52cae36ffae4ccbd2287bf58e88ec00c68c2eb1c14832e6d9",
       "rendered_digest": "edfbc9dc36e811cad6ff645370e59af295ef36d476c4b0d1e6169d8e4f90af22",
       "ast_digest": "d1192aca0dd165f492a22bb66b597c99be9cc27d3ad28303dcd2c7d3271ceb82"
     },
     "vpp": {
-      "values_digest": "8210be301b5965912bc01214d7d13178446aed52980bea0972e8e7edf7caf9ae",
+      "values_digest": "220c31f523af5456896a2e06f4f5ce691d99ca98e2530c140263009a8f2bc5a3",
       "rendered_digest": "1bebf28c40f26c1aa41619023f3555ed7cd2480e4a05fbf3ba18fdc99f3a44be",
       "ast_digest": "cc1652489c2b027f36722c6741823278a4ff623a27be3d2a3415db43fe6677df"
     },
     "srp": {
-      "values_digest": "3583c3b69878558a5d65733adb09a69588774396b502a019967272a8cd826ccd",
-      "rendered_digest": "216761080f0acd2d11cb9371ebcd99d084411e1cdf0252195e420125be571b92",
-      "ast_digest": "e9018796ed8aee29cc5a89c17369de04bab41156712d98d89478109d51ab403b"
+      "values_digest": "947c3aa2f1506236726604f1d5be5b4a94191e4045847ddcbb5e14b60289a7c3",
+      "rendered_digest": "905bd6f301d8477acc6384e9c8f73eac25cdd398d811b2a1f135dd370a56271a",
+      "ast_digest": "1402ac5a7aec6f455baee92c0b46f9849d779bbbde98f992f2a5fafe4e988c7a"
     },
     "sor": {
-      "values_digest": "db234f31dd753d38cfb9a8f5660cf9c755b53630414c8d548fbfb8644c72e409",
-      "rendered_digest": "a5bf3d51246ea67eb4bad804aebe6d315b260180ba2b50922342c1ed6d31707f",
-      "ast_digest": "b8016322ccc2adc5d9974a7ea35ceafba444c71a50c44aef7d7c2a8a490e8b49"
+      "values_digest": "0dfbbdb65ba60f7f04a546800887e4df9f4f2356051fdcb5d173f9892610368d",
+      "rendered_digest": "0abe79b8e4b213bb3d881976700c83c54c185d93427d6d6a760b880276f3ca81",
+      "ast_digest": "9187e73fb5ff72dcb57aa7227322c47d0b16dbdbe35024d3b04a31c0a89cb549"
     }
   },
   "transitions": [
@@ -177,6 +168,20 @@
       "to": "published",
       "actor": "codex:sprint-1-conductor",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-499-takeover",
+      "reason": "Recover stale review/publication truth after integrating current origin/main containing the shared coverage repair and dependent Sprint 1 merges, before recording fresh exact-head review for PR #547."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-499-takeover",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -312,6 +317,27 @@
       "actor": "codex:sprint-1-conductor",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:issue-499-takeover",
+      "reason": "Recover stale review/publication truth after integrating current origin/main containing the shared coverage repair and dependent Sprint 1 merges, before recording fresh exact-head review for PR #547.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:issue-499-takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:issue-499-takeover",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

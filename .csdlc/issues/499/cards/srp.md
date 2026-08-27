@@ -35,11 +35,13 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - Hosted CI remains the fail-closed integration proof after publication.
+- The independent API reviewer noted that the API-parity validator is lexical rather than a full semantic compatibility checker; focused compile, behavior, fmt, and clippy proof passed, and hosted CI remains required.
+- The supported public resilience facade paths remain re-exported and source-compatible; internal Rust definition paths may differ after the module split.
 
 ## Review Result
 
-Revision: Some("git-blake3:578d26d87e7a88a18b037b3ef2cc6f753638c466:9c0ad4ba3305583e6981aa87bffb0f26d50bbce47de476ff41459477e2365686")
+Revision: Some("git-blake3:2474118a22f95c45e0ca44730df8e492e5dcc0c7:c4c0712ab562022ba614c82bdd853a9afedc20a96eb4034d65245e4a65f52f7a")
 
-Reviewer: Some("openai-responses-api:resp_01aaf45742faa6f8006a8f52ce1cec87d0abb39c5870e7db56")
+Reviewer: Some("openai-responses-api:resp_099758cbc0d0767c006a90883ba19487d0b37ddbecef1b3a4d")
 
 Result: pass
