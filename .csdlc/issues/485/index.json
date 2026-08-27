@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 485,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 3,
-  "digest": "9c66ee0ba7412df5ae188a7dc628546d589a46ee26c913076022f7d5051f190e",
-  "branch": null,
-  "worktree": null,
+  "digest": "67928c80d9f495bde081e571df2af4cf740542a106f97c70ad536e7d41ae8f5a",
+  "branch": "codex/485-aws-access-billing-baseline",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-485-aws-access-billing-baseline",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -54,7 +55,22 @@
       "ast_digest": "d13ae7ae86a440caa282bf730c2bb05c0f6a074ae94bf8a0c30ce6c52da65894"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -83,6 +99,13 @@
       "actor": "fresh-session:01a03fcb-1770-70d1-af43-d7d3f49b30eb",
       "reason": "approve completed issue design",
       "operation": "{\"design_digest\":\"e37e23e073732cac34573fb7bed7c8d169a46f1ad930bbdb9a57f01fa6c744d5\",\"design_ref\":\".csdlc/prepared/issues/485/design.md\",\"diagram_digest\":\"d63606ef1e768660e36bcbb80de7d053aaea89e77858bdbe24026c0003a150bc\",\"diagram_ref\":\".csdlc/prepared/issues/485/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
