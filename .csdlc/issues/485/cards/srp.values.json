@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 485,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+    "slug": "aws-access-billing-baseline",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #485 docs, evidence, lifecycle truth, access/billing baseline, readback scripts, redaction proof, and exact branch range.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is #484 dependency truth accurately represented without re-owning AWS-A inventory scope?",
+        "Does the baseline prove recovery, identity separation, agent guardrails, audit attribution, and billing visibility from retained evidence?",
+        "Does the Agent Toolkit section avoid authorizing unbounded AWS mutation?",
+        "Are credentials, payment data, and secret material excluded from retained evidence?",
+        "Are #486 and #122 scopes clearly out of bounds?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

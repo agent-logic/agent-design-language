@@ -1,0 +1,88 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 485,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
+  "phase": "initialized",
+  "generation": 3,
+  "digest": "9c66ee0ba7412df5ae188a7dc628546d589a46ee26c913076022f7d5051f190e",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/485/design.md",
+  "diagram_path": ".csdlc/prepared/issues/485/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a03fcb-1770-70d1-af43-d7d3f49b30eb",
+      "revision": "e37e23e073732cac34573fb7bed7c8d169a46f1ad930bbdb9a57f01fa6c744d5"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7006bad0ed25144df66eb4cf2a09528979e4a26a6bc2b8ccc820a933d6c79615",
+      "rendered_digest": "b82db0319f7c803d90a0e2485767968e7e48ae522b88bb5ff1dcccf639a8635f",
+      "ast_digest": "8362b69b9646c72249d8ac8b91853fbc65864d0393c8bcc0d64142afcd18538a"
+    },
+    "stp": {
+      "values_digest": "5425b6fb211b70eb7fba0dfce8e192ff648cef88b78568f2e05acc18bb7a368f",
+      "rendered_digest": "82419bc49019f9ae4afc5a79c10a1dbfad43c3649d70a27b9b7081e291a92afa",
+      "ast_digest": "f8e0d29ce8dd8c826d850627dd48694a8c50cd9cf86e399214a705cbee88251c"
+    },
+    "spp": {
+      "values_digest": "1b2baff03519770beb8bee3f6faba5cea9a217a1ab329537bdfd02832bf5983a",
+      "rendered_digest": "80ee1083cac3c99eb1b46849e6a09586cb7a9e853ede7a48b8abe6242e3b09de",
+      "ast_digest": "de70792bcb7ba42fe6951fcc0fa71f4bd016bf33602dbfa06150b73db099fd0a"
+    },
+    "vpp": {
+      "values_digest": "2405069094e68acbc4e634e9b8d763bf040e5548dbc1a23c2c8e118a07f075bb",
+      "rendered_digest": "338a4181176c7bda9b2b47c658178eae5bd7f125336d209c3307190d01836553",
+      "ast_digest": "19124688faccfc7cda70d364156898b03263527af4dcde97125b270bd1f630d3"
+    },
+    "srp": {
+      "values_digest": "05c2b24c687ade30ab138545493676b18c76fc997ce26cc8ed8ea467866feee8",
+      "rendered_digest": "18023450e234598a6a418f8ce91c1e55ef09cd66a8818460cc510902d362277e",
+      "ast_digest": "d28dfdf393355555598188225b36d05a52472d3877637b10f1e6561678674a57"
+    },
+    "sor": {
+      "values_digest": "1103840a378993522a6f4045d0bea6155e1885f33150b2032cc5ae7f9a98be75",
+      "rendered_digest": "39c45165c28492bfc65c0895272cfdefa4b8065bcef2c0fefa7d18144a180560",
+      "ast_digest": "d13ae7ae86a440caa282bf730c2bb05c0f6a074ae94bf8a0c30ce6c52da65894"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/issue485_aws_b_owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/issue485_aws_b_owner",
+      "reason": "Replace AWS-B validation lanes with issue-owned executable targets, including an issue-owned typed doctor wrapper because stable v2 binaries are installed in the primary checkout, not this local worktree.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"root-recovery\",\"proof_role\":\"Record corporate recovery posture without removing existing administrator access.\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"root-recovery\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":null},{\"lane\":\"identity-census\",\"proof_role\":\"Read back human, workload, and agent-visible IAM identities without credential disclosure.\",\"acceptance_ids\":[\"AC-2\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"identity-census\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":null},{\"lane\":\"agent-toolkit-configuration\",\"proof_role\":\"Verify AWS CLI 2.35 or newer and record the approved Agent Toolkit for AWS Codex path.\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-toolkit-configuration\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"agent-iam-guardrails\",\"proof_role\":\"Verify agent IAM read-only default posture and context policy documentation.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-iam-guardrails\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":null},{\"lane\":\"agent-activity-audit\",\"proof_role\":\"Verify CloudWatch and CloudTrail attribution readbacks for the configured profile and agent path.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-activity-audit\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":null},{\"lane\":\"billing-readback\",\"proof_role\":\"Verify billing ownership, budget, anomaly, export, and cost-attribution readbacks.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"billing-readback\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":null},{\"lane\":\"credential-redaction\",\"proof_role\":\"Reject credential material and unintended mutation verbs in retained AWS-B evidence.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/485/validate-aws-b-baseline.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"typed-review-publication\",\"proof_role\":\"Prove current typed issue integrity before exact-head review and closing publication.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/485/validate-typed-state.sh\"],\"parallel_group\":\"lifecycle\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/issue485_aws_b_owner",
+      "reason": "Add exact #485 validator and readback script paths to affected areas so AWS-B validation lanes are issue-governed by executable targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/account-foundation\",\"infra/aws/account-foundation/README.md\",\"docs/operations/cloud/aws/access-billing\",\"docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/BASELINE_STATUS.md\",\".csdlc/prepared/issues/485\",\".csdlc/prepared/issues/485/validate-aws-b-baseline.sh\",\".csdlc/prepared/issues/485/validate-typed-state.sh\",\".csdlc/evidence/485\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:01a03fcb-1770-70d1-af43-d7d3f49b30eb",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"e37e23e073732cac34573fb7bed7c8d169a46f1ad930bbdb9a57f01fa6c744d5\",\"design_ref\":\".csdlc/prepared/issues/485/design.md\",\"diagram_digest\":\"d63606ef1e768660e36bcbb80de7d053aaea89e77858bdbe24026c0003a150bc\",\"diagram_ref\":\".csdlc/prepared/issues/485/diagram.mmd\",\"operation\":\"approve_design\"}"
+    }
+  ]
+}
