@@ -6,10 +6,17 @@
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
   "generation": 64,
-  "digest": "138263710b114c24b3f173122dfbdb0d24b83aec257ea4a3c7085aed84656e19",
+  "digest": "39031d9ab2060ffb8f88d31472c766eed75c6ca6cee6464a7ad2db0e7d8a05d3",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:7eae5569-17bf-49ab-a717-c517307a85fd",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:3eeab418acde4867282d0a4815df1ed73606ab23:e85963d1c020659e572f60cc46a916d9dbc67ae2c34e381bb00d493efd883c77",
+    "scope": [
+      "."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +52,9 @@
       "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "b9088b578ddad9e8bfc1fff676eaabe9c0b6e03e337221a19bcc4b7a2ecbd779",
-      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
-      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
+      "values_digest": "f9a03cc2182232e159cad8a1cf6cdc0876960c97f2765311938ff6f47c43e614",
+      "rendered_digest": "b9e82e2ed4748e5cde4a653ab68a1f50d01f6e1f8aad3e2f3758337bbfe9318e",
+      "ast_digest": "015bcef0c6aa2d40402f540dd0b3590bf0c4feb30eeef9ce61e6ccaadc6a3051"
     },
     "sor": {
       "values_digest": "185f310f60e6d71d336d00d13efe4cc1f3db60c83642b38c388cf202f50bf2bf",
@@ -750,6 +757,13 @@
       "actor": "codex:/root",
       "reason": "Recover stale #122 review and publication after merging current origin/main coverage-stabilization fixes into the bound worktree; exact reviewed revision ff85da8f is no longer current at clean HEAD 9fab4965.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 85,
+      "generation": 64,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
