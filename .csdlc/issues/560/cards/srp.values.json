@@ -7,23 +7,25 @@
     "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
     "slug": "runtime-v2-workspace-coverage-timeouts",
     "version": "v0.92.1",
-    "generation": 39
+    "generation": 40
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/560/cards/stp.md\n.csdlc/issues/560/cards/spp.md\n.csdlc/issues/560/cards/stp.values.json\n.csdlc/issues/560/cards/spp.values.json\nadl/.config/nextest.toml\nadl/src/adl_gws_context_mirror.rs\nadl/src/bin/demo_adl_gws_context_mirror.rs\ndocs/planning/ADL_FEATURE_LIST.md\n.csdlc/prepared/issues/560/validate-focused-proof.sh\n.csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log",
+      "review_revision": "git-blake3:4a6e49e0e0119254a117197e44e5ef930eb08ee0:92891ec76abfc8fd55ec7576ea822de9166ab1005bc3d601bfc52a59563efd75",
+      "reviewer": "fresh-session:review-319-exact-r3",
       "review_prompts": [
         "Verify the change is an exact ci-coverage timeout/profile adjustment for only the three observed runtime_v2 tests.",
         "Verify Runtime v2 semantics and assertions are unchanged.",
         "Verify hosted coverage remains the final shared-gate proof."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted workspace coverage remains the final pre-merge integration gate."
+      ],
+      "review_result": "pass"
     }
   }
 }
