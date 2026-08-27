@@ -6,10 +6,17 @@
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
   "generation": 65,
-  "digest": "8b1b9e33d94c7863648d4bc569b7a59e6a769ea1c823602122e258a2d87027d5",
+  "digest": "7394a31a4cb8bb79c8016e2e309fc151abfd9e4736a4e55a7e2c129a573cc296",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:d30dd3d11503a2a89cf035a040606f90e991f15a:86e2de81bcc4d4984e499069ee2678d2f0cd7f284ff2d555330efcb1f2c0bc41",
+    "scope": [
+      "."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +52,9 @@
       "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "c75184d5cdffd2b2b6e6c2cd8ecd58cf3ac1e6e81e9d75a64fe788dc088af049",
-      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
-      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
+      "values_digest": "8b59915df15f8f60cd915df42b6da09950239d8c8443680fceda18bcbe6edc96",
+      "rendered_digest": "b9e82e2ed4748e5cde4a653ab68a1f50d01f6e1f8aad3e2f3758337bbfe9318e",
+      "ast_digest": "015bcef0c6aa2d40402f540dd0b3590bf0c4feb30eeef9ce61e6ccaadc6a3051"
     },
     "sor": {
       "values_digest": "692f0dd6abde0a512c03a6049bbf14873d4a2f6f1fbf1b01ad8cf749fb00424a",
@@ -764,6 +771,13 @@
       "actor": "codex:/root",
       "reason": "Recover silent #122 post-main-merge review assignment fresh-session:7eae5569-17bf-49ab-a717-c517307a85fd after two bounded waits and no verdict; no implementation content changed.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 87,
+      "generation": 65,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
