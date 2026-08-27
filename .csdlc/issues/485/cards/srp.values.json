@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
     "slug": "aws-access-billing-baseline",
     "version": "v0.92.1",
-    "generation": 5
+    "generation": 8
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/485\n.csdlc/prepared/issues/485\n.csdlc/evidence/485\ndocs/milestones/v0.92.1/evidence/cloud/aws-b\ndocs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md\ninfra/aws/account-foundation/README.md",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

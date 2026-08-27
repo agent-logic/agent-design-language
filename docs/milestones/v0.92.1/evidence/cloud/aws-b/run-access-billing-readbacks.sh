@@ -14,6 +14,10 @@ mkdir -p "${READBACK_DIR}"
 
 redact() {
   sed -E \
+    -e 's/("sessionToken"[[:space:]]*:[[:space:]]*")[^"]+/\1[AWS_SESSION_TOKEN_REDACTED]/g' \
+    -e 's/(\\"sessionToken\\"[[:space:]]*:[[:space:]]*\\")[^\\"]+/\1[AWS_SESSION_TOKEN_REDACTED]/g' \
+    -e 's/("secretAccessKey"[[:space:]]*:[[:space:]]*")[^"]+/\1[AWS_SECRET_ACCESS_KEY_REDACTED]/g' \
+    -e 's/(\\"secretAccessKey\\"[[:space:]]*:[[:space:]]*\\")[^\\"]+/\1[AWS_SECRET_ACCESS_KEY_REDACTED]/g' \
     -e 's/[0-9]{12}/[AWS_ACCOUNT_ID_REDACTED]/g' \
     -e 's/arn:aws:[A-Za-z0-9_:+/.,@=-]+/[AWS_ARN_REDACTED]/g' \
     -e 's/[A-Z0-9]{16,}/[AWS_IDENTIFIER_REDACTED]/g' \

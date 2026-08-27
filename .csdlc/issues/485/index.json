@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "907ecfb791bca7de776bb1b0a8eb553d20fe5a280c15e3b7a7d7fcf33fa3dcaf",
+  "generation": 8,
+  "digest": "f231189230eeef09375745cb7470581d4b1639137852665910ae0c958176d7a9",
   "branch": "codex/485-aws-access-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-485-aws-access-billing-baseline",
-  "review_assignment": {
-    "reviewer": "fresh-session:5f095f20-0049-4b0f-9bfa-6bfbaa043d18",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:610fabd201a471df4839ac2fe9ab6aaff28efea4:c4274ab349f3d8f2bfc0f9e817d62182abc88fe9a86125bd220603fa0fc7d6ae",
-    "scope": [
-      ".csdlc/issues/485",
-      ".csdlc/prepared/issues/485",
-      ".csdlc/evidence/485",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-b",
-      "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
-      "infra/aws/account-foundation/README.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9975294e3d4402d042764389fb25d5fbdd4810f4c0c741d1b82929b3f0e6ea62",
+      "values_digest": "665dec75ede78233373af6531dfb60b264d6714b5725d4ad76bfd629427b4351",
       "rendered_digest": "b82db0319f7c803d90a0e2485767968e7e48ae522b88bb5ff1dcccf639a8635f",
       "ast_digest": "8362b69b9646c72249d8ac8b91853fbc65864d0393c8bcc0d64142afcd18538a"
     },
     "stp": {
-      "values_digest": "a8a95869ae9ccf5d4245185efadf3200b9428a49dc60b7088ba66cfb45dcb724",
+      "values_digest": "f7463fbdda235a24fe2420861a8f12cbe95ab85fa9c21376f7ad77bece1adf9f",
       "rendered_digest": "82419bc49019f9ae4afc5a79c10a1dbfad43c3649d70a27b9b7081e291a92afa",
       "ast_digest": "f8e0d29ce8dd8c826d850627dd48694a8c50cd9cf86e399214a705cbee88251c"
     },
     "spp": {
-      "values_digest": "b67c2c8eb2bd801a350308de3a11408e801f65ad266a445fcd167fabcd07d112",
+      "values_digest": "0005df2a67b3bb8e01ba8c46b50b559c0c38ebfc1fea12d2f7cdce020415ee3b",
       "rendered_digest": "80ee1083cac3c99eb1b46849e6a09586cb7a9e853ede7a48b8abe6242e3b09de",
       "ast_digest": "de70792bcb7ba42fe6951fcc0fa71f4bd016bf33602dbfa06150b73db099fd0a"
     },
     "vpp": {
-      "values_digest": "d8a9522bf0e7a5fbc94d19e924e42f7ed8c18a49a394864514eeb4b3eaf51c29",
+      "values_digest": "e3d1054dadc4fc587e1fe8227e023244224f8ba19888e74b59ceea4c443dfa44",
       "rendered_digest": "338a4181176c7bda9b2b47c658178eae5bd7f125336d209c3307190d01836553",
       "ast_digest": "19124688faccfc7cda70d364156898b03263527af4dcde97125b270bd1f630d3"
     },
     "srp": {
-      "values_digest": "f7646bf7c0f147ea704749588b115fe81c5b40df42b2f0dc0d670851ec08b84c",
-      "rendered_digest": "b7716e314b45648cf2019213e74f63eb081bf413d7968f4fc899c612f2926b58",
-      "ast_digest": "901973991fec124d7e946abf199b973d02a6168d439cf94a81adff8d0da81563"
+      "values_digest": "6a5aefa46a618d2adb59624cdbb012ca9271f83a46406af999254946f3ea16a0",
+      "rendered_digest": "dc20f1c1db625edc0817b20ee813f140a5ab0cdaacd74914931d0de393930956",
+      "ast_digest": "5a35986596d9d83a2cd4694705ebd397fcdc41e4eb2960fefaa3b8ad1e392cf1"
     },
     "sor": {
-      "values_digest": "63b6af0a3bad2bb46644661ce99a82e2025226ede65a4747f049390f0e7b85ab",
-      "rendered_digest": "962e12bdc4bdfb4ee0c2867d5f275a1b14da52f95ba921f12bee6d9919696305",
-      "ast_digest": "b48b0b33ac7e9fd5a94e11697ec541ed34b3cd1749527057fdc013c3050ded62"
+      "values_digest": "d0ef2f5a74991a6b348574894fb60076982de6bec775efa8dc39f8ab49cdecd5",
+      "rendered_digest": "a080239f8ce0028ab98ea71171e6304e09017fe0e592e1c5f73f32675064d9c0",
+      "ast_digest": "c15b22b5a8295966869505ee08fff7333f0716eb334578bf214e3acf3bf02f74"
     }
   },
   "transitions": [
@@ -153,6 +141,27 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover R3 FAIL before repairing retained AWS-B evidence redaction and stale typed-state proof; preserve the exact findings in audit/review truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Repair #485 R3 findings by tightening AWS session-token redaction, regenerating retained readbacks, and refreshing current typed-state evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Finalize AWS-B access and billing baseline with redacted read-only evidence, retained administrator continuity, agent IAM guardrail posture, AWS CLI 2.35+ Agent Toolkit proof, CloudTrail/CloudWatch attribution readbacks, billing visibility evidence, and post-review remediation for sessionToken redaction/current typed-state evidence.\",\"changes\":[\"Added AWS access and billing baseline documentation for corporate recovery, identity census, agent IAM guardrails, audit attribution, and billing visibility.\",\"Added issue-owned redacted readback collector and retained AWS-B evidence under docs/milestones/v0.92.1/evidence/cloud/aws-b.\",\"Recorded current AWS CLI 2.36.32 Agent Toolkit floor proof and refreshed read-only AWS readbacks using the approved agent-logic-admin profile.\",\"Bound #485 to codex/485-aws-access-billing-baseline in the FastWork issue worktree.\",\"Fixed R3 P1 by redacting normal and escaped CloudTrail sessionToken/secretAccessKey fields and tightening the validator against raw sessionToken evidence.\",\"Fixed R3 P2 by refreshing retained .csdlc/evidence/485 typed-state evidence to prove the current implemented generation.\"],\"artifacts\":[\"docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"infra/aws/account-foundation/README.md\",\".csdlc/prepared/issues/485/validate-aws-b-baseline.sh\",\".csdlc/prepared/issues/485/validate-typed-state.sh\",\".csdlc/evidence/485/\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"root-recovery\"],\"purpose\":\"Refresh root recovery and administrator continuity readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/root-recovery.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"identity-census\"],\"purpose\":\"Refresh IAM identity census readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/identity-census.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-toolkit-configuration\"],\"purpose\":\"Refresh AWS CLI and approved-profile STS readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/agent-toolkit-configuration.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-iam-guardrails\"],\"purpose\":\"Refresh agent IAM guardrail readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/agent-iam-guardrails.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"agent-activity-audit\"],\"purpose\":\"Refresh CloudWatch and CloudTrail attribution readback with credential-field redaction.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/agent-activity-audit.log\"},{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-b/run-access-billing-readbacks.sh\",\"--lane\",\"billing-readback\"],\"purpose\":\"Refresh billing and cost visibility readback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/billing-readback.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/485/validate-aws-b-baseline.sh\"],\"purpose\":\"Reject credential material, raw sessionToken values, and unintended mutation verbs in retained AWS-B evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/credential-redaction.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/485/validate-typed-state.sh\"],\"purpose\":\"Prove current typed issue integrity after R3 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/485/typed-state.log\"}]}"
     }
   ]
 }

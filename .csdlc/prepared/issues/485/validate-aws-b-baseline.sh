@@ -42,8 +42,20 @@ for term in "${required_terms[@]}"; do
   fi
 done
 
-if grep -RIEq 'AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|aws_secret_access_key|aws_session_token|BEGIN (RSA|OPENSSH|EC|DSA)? ?PRIVATE KEY|password[[:space:]]*[:=]' "${BASELINE}" "${EVIDENCE}"; then
+credential_scan_targets=(
+  "${BASELINE}"
+  "${EVIDENCE}/BASELINE_STATUS.md"
+  "${EVIDENCE}/README.md"
+  "${EVIDENCE}/readbacks"
+)
+
+if grep -RIEq 'AKIA[0-9A-Z]{16}|ASIA[0-9A-Z]{16}|aws_secret_access_key|aws_session_token|secretAccessKey|BEGIN (RSA|OPENSSH|EC|DSA)? ?PRIVATE KEY|password[[:space:]]*[:=]' "${credential_scan_targets[@]}"; then
   echo "credential-like material found in AWS-B retained evidence" >&2
+  exit 1
+fi
+
+if grep -RIE 'sessionToken' "${credential_scan_targets[@]}" | grep -Fv '[AWS_SESSION_TOKEN_REDACTED]' >/dev/null; then
+  echo "unredacted sessionToken found in AWS-B retained evidence" >&2
   exit 1
 fi
 

@@ -2,8 +2,8 @@
   "schema": "csdlc.doctor.report.v1",
   "issue": 485,
   "status": "pass",
-  "phase": "bound",
-  "generation": 3,
+  "phase": "implemented",
+  "generation": 7,
   "ready": false,
   "findings": [],
   "next_operation": "inspect_phase"
