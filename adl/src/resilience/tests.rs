@@ -10,6 +10,144 @@ use super::timeout::{
 use super::*;
 use serde_json::Value;
 use std::cell::{Cell, RefCell};
+use std::sync::atomic::{AtomicUsize, Ordering};
+
+static BULKHEAD_COVERAGE_SCENARIO: AtomicUsize = AtomicUsize::new(0);
+static CIRCUIT_BREAKER_COVERAGE_SCENARIO: AtomicUsize = AtomicUsize::new(0);
+static FALLBACK_COVERAGE_SCENARIO: AtomicUsize = AtomicUsize::new(0);
+static TIMEOUT_COVERAGE_SCENARIO: AtomicUsize = AtomicUsize::new(0);
+
+fn coverage_fault(
+    fault_class: ResilienceFaultClassV1,
+    disposition: ResilienceFaultDispositionV1,
+    summary: &str,
+) -> ResilienceFaultClassificationV1 {
+    ResilienceFaultClassificationV1 {
+        schema_version: RESILIENCE_FAULT_CLASSIFICATION_SCHEMA_V1.to_string(),
+        surface: ResilienceSurfaceV1::Provider,
+        fault_class,
+        retryable: disposition == ResilienceFaultDispositionV1::Retryable,
+        disposition,
+        summary: summary.to_string(),
+        component_ref: None,
+        http_status: None,
+        retry_after_ms: None,
+    }
+}
+
+fn bulkhead_coverage_operation() -> Result<&'static str, ResilienceFaultClassificationV1> {
+    match BULKHEAD_COVERAGE_SCENARIO.load(Ordering::Relaxed) {
+        0 => Ok("ok"),
+        _ => Err(coverage_fault(
+            ResilienceFaultClassV1::RuntimeFailure,
+            ResilienceFaultDispositionV1::Terminal,
+            "bulkhead operation failed",
+        )),
+    }
+}
+
+fn bulkhead_coverage_rejection(_state: &BulkheadStateV1) -> ResilienceFaultClassificationV1 {
+    let disposition = match BULKHEAD_COVERAGE_SCENARIO.load(Ordering::Relaxed) {
+        2 => ResilienceFaultDispositionV1::DegradedAllowed,
+        3 => ResilienceFaultDispositionV1::QuarantineRequired,
+        4 => ResilienceFaultDispositionV1::Terminal,
+        _ => ResilienceFaultDispositionV1::Retryable,
+    };
+    coverage_fault(
+        ResilienceFaultClassV1::RuntimeFailure,
+        disposition,
+        "bulkhead saturated",
+    )
+}
+
+fn circuit_breaker_coverage_operation() -> Result<&'static str, ResilienceFaultClassificationV1> {
+    match CIRCUIT_BREAKER_COVERAGE_SCENARIO.load(Ordering::Relaxed) {
+        0 => Ok("ok"),
+        2 => Err(coverage_fault(
+            ResilienceFaultClassV1::ToolFailure,
+            ResilienceFaultDispositionV1::Terminal,
+            "tool failed",
+        )),
+        _ => Err(ResilienceFaultClassificationV1::provider(
+            "provider timeout",
+            None,
+        )),
+    }
+}
+
+fn resilience_coverage_fallback() -> &'static str {
+    "fallback"
+}
+
+fn fallback_coverage_operation() -> Result<&'static str, ResilienceFaultClassificationV1> {
+    match FALLBACK_COVERAGE_SCENARIO.load(Ordering::Relaxed) {
+        0 => Ok("primary"),
+        2 => Err(coverage_fault(
+            ResilienceFaultClassV1::ToolFailure,
+            ResilienceFaultDispositionV1::Terminal,
+            "tool failed",
+        )),
+        _ => Err(ResilienceFaultClassificationV1::provider(
+            "provider timeout",
+            None,
+        )),
+    }
+}
+
+fn timeout_coverage_operation() -> TimeoutObservation<&'static str, ResilienceFaultClassificationV1>
+{
+    match TIMEOUT_COVERAGE_SCENARIO.load(Ordering::Relaxed) {
+        0 => TimeoutObservation {
+            result: Ok("ok"),
+            elapsed_ms: 10,
+            cancelled: false,
+        },
+        1 => TimeoutObservation {
+            result: Ok("late"),
+            elapsed_ms: 110,
+            cancelled: false,
+        },
+        2 => TimeoutObservation {
+            result: Ok("cancelled"),
+            elapsed_ms: 5,
+            cancelled: true,
+        },
+        3 => TimeoutObservation {
+            result: Err(ResilienceFaultClassificationV1::provider(
+                "provider timed out",
+                None,
+            )),
+            elapsed_ms: 110,
+            cancelled: false,
+        },
+        4 => TimeoutObservation {
+            result: Err(ResilienceFaultClassificationV1::provider(
+                "provider timed out",
+                None,
+            )),
+            elapsed_ms: 10,
+            cancelled: false,
+        },
+        5 => TimeoutObservation {
+            result: Err(coverage_fault(
+                ResilienceFaultClassV1::ToolFailure,
+                ResilienceFaultDispositionV1::Terminal,
+                "business failure",
+            )),
+            elapsed_ms: 110,
+            cancelled: false,
+        },
+        _ => TimeoutObservation {
+            result: Err(coverage_fault(
+                ResilienceFaultClassV1::ToolFailure,
+                ResilienceFaultDispositionV1::Terminal,
+                "business failure",
+            )),
+            elapsed_ms: 10,
+            cancelled: false,
+        },
+    }
+}
 
 fn clone_fault_classification(
     error: &ResilienceFaultClassificationV1,
@@ -2458,4 +2596,466 @@ fn bulkhead_decision_artifacts_keep_bounded_unique_ids() {
 
     assert_ne!(first_event.event_id, second_event.event_id);
     assert_ne!(first_artifact.artifact_id, second_artifact.artifact_id);
+}
+
+#[test]
+fn bulkhead_shared_instantiation_covers_disabled_admitted_and_recovery_dispositions() {
+    let operation: fn() -> Result<&'static str, ResilienceFaultClassificationV1> =
+        bulkhead_coverage_operation;
+    let classify: fn(&ResilienceFaultClassificationV1) -> ResilienceFaultClassificationV1 =
+        clone_fault_classification;
+    let reject: fn(&BulkheadStateV1) -> ResilienceFaultClassificationV1 =
+        bulkhead_coverage_rejection;
+
+    let disabled_policy = ResiliencePolicyV1 {
+        bulkhead: None,
+        ..test_bulkhead_policy("disabled", 1)
+    };
+    BULKHEAD_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+    let disabled_success = execute_bulkhead_policy(
+        &disabled_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.bulkhead.disabled.success",
+        &bulkhead_initial_state(&disabled_policy),
+        operation,
+        classify,
+        reject,
+    );
+    assert_eq!(disabled_success.result.expect("disabled success"), "ok");
+    assert_eq!(disabled_success.trace.max_concurrency, 0);
+
+    BULKHEAD_COVERAGE_SCENARIO.store(1, Ordering::Relaxed);
+    let disabled_failure = execute_bulkhead_policy(
+        &disabled_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.bulkhead.disabled.failure",
+        &bulkhead_initial_state(&disabled_policy),
+        operation,
+        classify,
+        reject,
+    );
+    assert!(disabled_failure.result.is_err());
+    assert!(disabled_failure.trace.fault.is_some());
+
+    let policy = test_bulkhead_policy("coverage.bulkhead", 1);
+    BULKHEAD_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+    let admitted = execute_bulkhead_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.bulkhead.admitted",
+        &bulkhead_initial_state(&policy),
+        operation,
+        classify,
+        reject,
+    );
+    assert_eq!(admitted.result.expect("admitted success"), "ok");
+
+    let saturated_state = BulkheadStateV1 {
+        schema_version: RESILIENCE_BULKHEAD_STATE_SCHEMA_V1.to_string(),
+        policy_id: policy.policy_id.clone(),
+        fault_domain: "coverage.bulkhead".to_string(),
+        in_flight: 1,
+    };
+    let expected = [
+        (1, RecoveryDispositionV1::RetryAllowed),
+        (2, RecoveryDispositionV1::FallbackAllowed),
+        (3, RecoveryDispositionV1::QuarantineRequired),
+        (4, RecoveryDispositionV1::OperatorInterventionRequired),
+    ];
+    for (scenario, disposition) in expected {
+        BULKHEAD_COVERAGE_SCENARIO.store(scenario, Ordering::Relaxed);
+        let rejected = execute_bulkhead_policy(
+            &policy,
+            ResilienceSurfaceV1::Provider,
+            "coverage.bulkhead.saturated",
+            &saturated_state,
+            operation,
+            classify,
+            reject,
+        );
+        assert!(rejected.result.is_err());
+        assert_eq!(
+            rejected
+                .trace
+                .recovery_artifact
+                .expect("recovery artifact")
+                .disposition,
+            disposition
+        );
+    }
+    BULKHEAD_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+}
+
+#[test]
+fn fallback_shared_instantiation_covers_every_policy_outcome() {
+    let operation: fn() -> Result<&'static str, ResilienceFaultClassificationV1> =
+        fallback_coverage_operation;
+    let classify: fn(&ResilienceFaultClassificationV1) -> ResilienceFaultClassificationV1 =
+        clone_fault_classification;
+    let fallback: fn() -> &'static str = resilience_coverage_fallback;
+
+    let degraded_policy = test_degraded_fallback_policy();
+    FALLBACK_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+    let primary = execute_fallback_policy(
+        &degraded_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.fallback.primary",
+        operation,
+        classify,
+        Some(fallback),
+    );
+    assert_eq!(primary.result.expect("primary success"), "primary");
+
+    FALLBACK_COVERAGE_SCENARIO.store(1, Ordering::Relaxed);
+    let degraded = execute_fallback_policy(
+        &degraded_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.fallback.degraded",
+        operation,
+        classify,
+        Some(fallback),
+    );
+    assert_eq!(degraded.result.expect("degraded fallback"), "fallback");
+    assert_eq!(
+        degraded.trace.final_status,
+        FallbackExecutionFinalStatusV1::DegradedSuccess
+    );
+
+    let alternate_policy = test_alternate_route_policy();
+    let alternate = execute_fallback_policy(
+        &alternate_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.fallback.alternate",
+        operation,
+        classify,
+        Some(fallback),
+    );
+    assert_eq!(alternate.result.expect("alternate fallback"), "fallback");
+    assert_eq!(
+        alternate.trace.final_status,
+        FallbackExecutionFinalStatusV1::AlternateRouteSuccess
+    );
+
+    let unavailable = execute_fallback_policy(
+        &degraded_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.fallback.unavailable",
+        operation,
+        classify,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(
+        unavailable.trace.final_status,
+        FallbackExecutionFinalStatusV1::FallbackUnavailable
+    );
+
+    FALLBACK_COVERAGE_SCENARIO.store(2, Ordering::Relaxed);
+    let disallowed = execute_fallback_policy(
+        &degraded_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.fallback.disallowed",
+        operation,
+        classify,
+        Some(fallback),
+    );
+    assert_eq!(
+        disallowed.trace.final_status,
+        FallbackExecutionFinalStatusV1::PrimaryFailure
+    );
+
+    let no_policy = ResiliencePolicyV1 {
+        fallback: None,
+        ..degraded_policy
+    };
+    let absent = execute_fallback_policy(
+        &no_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.fallback.absent",
+        operation,
+        classify,
+        Some(fallback),
+    );
+    assert_eq!(
+        absent.trace.final_status,
+        FallbackExecutionFinalStatusV1::PrimaryFailure
+    );
+    FALLBACK_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+}
+
+#[test]
+fn timeout_shared_instantiation_covers_success_failure_breach_and_cancellation() {
+    let operation: fn() -> TimeoutObservation<&'static str, ResilienceFaultClassificationV1> =
+        timeout_coverage_operation;
+    let classify: fn(&ResilienceFaultClassificationV1) -> ResilienceFaultClassificationV1 =
+        clone_fault_classification;
+    let timeout_error: fn(TimeoutBreachKindV1, u64, u64) -> ResilienceFaultClassificationV1 =
+        provider_timeout_fault;
+    let cancellation_error: fn(u64) -> ResilienceFaultClassificationV1 = provider_cancelled_fault;
+    let policy = test_circuit_breaker_policy();
+
+    let expected = [
+        (0, TimeoutExecutionFinalStatusV1::Succeeded),
+        (1, TimeoutExecutionFinalStatusV1::TimedOut),
+        (2, TimeoutExecutionFinalStatusV1::Cancelled),
+        (3, TimeoutExecutionFinalStatusV1::TimedOut),
+        (4, TimeoutExecutionFinalStatusV1::TimedOut),
+        (5, TimeoutExecutionFinalStatusV1::Failed),
+        (6, TimeoutExecutionFinalStatusV1::Failed),
+    ];
+    for (scenario, final_status) in expected {
+        TIMEOUT_COVERAGE_SCENARIO.store(scenario, Ordering::Relaxed);
+        let execution = execute_timeout_policy(
+            &policy,
+            ResilienceSurfaceV1::Provider,
+            "coverage.timeout",
+            operation,
+            classify,
+            timeout_error,
+            cancellation_error,
+        );
+        assert_eq!(execution.trace.final_status, final_status);
+    }
+
+    let no_timeout_policy = ResiliencePolicyV1 {
+        timeout: None,
+        ..policy
+    };
+    TIMEOUT_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+    let no_timeout = execute_timeout_policy(
+        &no_timeout_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.timeout.disabled",
+        operation,
+        classify,
+        timeout_error,
+        cancellation_error,
+    );
+    assert_eq!(
+        no_timeout.trace.final_status,
+        TimeoutExecutionFinalStatusV1::Succeeded
+    );
+    assert!(no_timeout.trace.telemetry_event.is_none());
+}
+
+#[test]
+fn circuit_breaker_shared_instantiation_covers_all_lifecycle_states() {
+    let operation: fn() -> Result<&'static str, ResilienceFaultClassificationV1> =
+        circuit_breaker_coverage_operation;
+    let classify: fn(&ResilienceFaultClassificationV1) -> ResilienceFaultClassificationV1 =
+        clone_fault_classification;
+    let reject: fn(&CircuitBreakerStateV1, u64) -> ResilienceFaultClassificationV1 =
+        provider_breaker_rejection;
+    let fallback: fn() -> &'static str = resilience_coverage_fallback;
+
+    let disabled_policy = ResiliencePolicyV1 {
+        circuit_breaker: None,
+        ..test_circuit_breaker_policy()
+    };
+    CIRCUIT_BREAKER_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+    let disabled_success = execute_circuit_breaker_policy(
+        &disabled_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.disabled.success",
+        &circuit_breaker_initial_state(&disabled_policy),
+        0,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(disabled_success.result.expect("disabled success"), "ok");
+    CIRCUIT_BREAKER_COVERAGE_SCENARIO.store(1, Ordering::Relaxed);
+    let disabled_failure = execute_circuit_breaker_policy(
+        &disabled_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.disabled.failure",
+        &circuit_breaker_initial_state(&disabled_policy),
+        1,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert!(disabled_failure.result.is_err());
+
+    let policy = test_circuit_breaker_policy();
+    CIRCUIT_BREAKER_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+    let closed_success = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.closed.success",
+        &circuit_breaker_initial_state(&policy),
+        2,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(
+        closed_success.trace.final_status,
+        CircuitBreakerFinalStatusV1::ClosedSuccess
+    );
+
+    CIRCUIT_BREAKER_COVERAGE_SCENARIO.store(1, Ordering::Relaxed);
+    let first_failure = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.closed.failure.one",
+        &circuit_breaker_initial_state(&policy),
+        3,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    let opened = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.closed.failure.two",
+        &first_failure.state,
+        4,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(opened.state.state, CircuitBreakerStateKindV1::Open);
+
+    let open_fallback = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.open.fallback",
+        &opened.state,
+        5,
+        operation,
+        classify,
+        reject,
+        Some(fallback),
+    );
+    assert_eq!(
+        open_fallback.trace.final_status,
+        CircuitBreakerFinalStatusV1::OpenFallback
+    );
+    let open_rejected = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.open.rejected",
+        &opened.state,
+        6,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(
+        open_rejected.trace.final_status,
+        CircuitBreakerFinalStatusV1::OpenRejected
+    );
+
+    let disallowed_open = CircuitBreakerStateV1 {
+        last_failure: Some(coverage_fault(
+            ResilienceFaultClassV1::ToolFailure,
+            ResilienceFaultDispositionV1::Terminal,
+            "tool failed",
+        )),
+        ..opened.state.clone()
+    };
+    let policy_rejected = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.open.policy-rejected",
+        &disallowed_open,
+        7,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(
+        policy_rejected.trace.final_status,
+        CircuitBreakerFinalStatusV1::OpenRejected
+    );
+
+    let half_open = CircuitBreakerStateV1 {
+        schema_version: RESILIENCE_CIRCUIT_BREAKER_STATE_SCHEMA_V1.to_string(),
+        policy_id: policy.policy_id.clone(),
+        state: CircuitBreakerStateKindV1::HalfOpen,
+        consecutive_failures: 2,
+        half_open_attempts: 0,
+        opened_at_ms: None,
+        last_failure: opened.state.last_failure.clone(),
+    };
+    CIRCUIT_BREAKER_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
+    let probe_success = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.probe.success",
+        &half_open,
+        40,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(
+        probe_success.trace.final_status,
+        CircuitBreakerFinalStatusV1::HalfOpenProbeSuccess
+    );
+
+    CIRCUIT_BREAKER_COVERAGE_SCENARIO.store(1, Ordering::Relaxed);
+    let probe_failure = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.probe.failure",
+        &half_open,
+        41,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(probe_failure.state.state, CircuitBreakerStateKindV1::Open);
+
+    let mut multi_probe_policy = policy.clone();
+    multi_probe_policy
+        .circuit_breaker
+        .as_mut()
+        .expect("breaker policy")
+        .half_open_max_attempts = 2;
+    let retained_half_open = execute_circuit_breaker_policy(
+        &multi_probe_policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.probe.retained",
+        &half_open,
+        42,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(
+        retained_half_open.state.state,
+        CircuitBreakerStateKindV1::HalfOpen
+    );
+
+    let exhausted_half_open = CircuitBreakerStateV1 {
+        half_open_attempts: 1,
+        ..half_open
+    };
+    let rejected_probe = execute_circuit_breaker_policy(
+        &policy,
+        ResilienceSurfaceV1::Provider,
+        "coverage.breaker.probe.rejected",
+        &exhausted_half_open,
+        43,
+        operation,
+        classify,
+        reject,
+        None::<fn() -> &'static str>,
+    );
+    assert_eq!(
+        rejected_probe.trace.final_status,
+        CircuitBreakerFinalStatusV1::HalfOpenProbeRejected
+    );
+    CIRCUIT_BREAKER_COVERAGE_SCENARIO.store(0, Ordering::Relaxed);
 }
