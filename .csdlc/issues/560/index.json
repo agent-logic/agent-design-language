@@ -4,50 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a43b525a61790257019207e3d1187d1c53001b830cef623010b0dd69b318f435",
-  "phase": "reviewed",
-  "generation": 40,
-  "digest": "e0d37124465a6d9906d0b894da9967dc4d193380f8fb3f7895f67db5953e2237",
+  "phase": "implemented",
+  "generation": 42,
+  "digest": "a482479d6f32888b0b2ee13d62107a073fddbe16c91166a0ac4d62cf40e014a1",
   "branch": "codex/560-runtime-v2-workspace-coverage-timeouts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts",
-  "review_assignment": {
-    "reviewer": "fresh-session:review-319-exact-r3",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:4a6e49e0e0119254a117197e44e5ef930eb08ee0:92891ec76abfc8fd55ec7576ea822de9166ab1005bc3d601bfc52a59563efd75",
-    "scope": [
-      ".csdlc/issues/560/cards/stp.md",
-      ".csdlc/issues/560/cards/spp.md",
-      ".csdlc/issues/560/cards/stp.values.json",
-      ".csdlc/issues/560/cards/spp.values.json",
-      "adl/.config/nextest.toml",
-      "adl/src/adl_gws_context_mirror.rs",
-      "adl/src/bin/demo_adl_gws_context_mirror.rs",
-      "docs/planning/ADL_FEATURE_LIST.md",
-      ".csdlc/prepared/issues/560/validate-focused-proof.sh",
-      ".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:review-319-exact-r3",
-    "scope": [
-      ".csdlc/issues/560/cards/stp.md",
-      ".csdlc/issues/560/cards/spp.md",
-      ".csdlc/issues/560/cards/stp.values.json",
-      ".csdlc/issues/560/cards/spp.values.json",
-      "adl/.config/nextest.toml",
-      "adl/src/adl_gws_context_mirror.rs",
-      "adl/src/bin/demo_adl_gws_context_mirror.rs",
-      "docs/planning/ADL_FEATURE_LIST.md",
-      ".csdlc/prepared/issues/560/validate-focused-proof.sh",
-      ".csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log"
-    ],
-    "reviewed_revision": "git-blake3:4a6e49e0e0119254a117197e44e5ef930eb08ee0:92891ec76abfc8fd55ec7576ea822de9166ab1005bc3d601bfc52a59563efd75",
-    "findings": [],
-    "residual_risks": [
-      "Hosted workspace coverage remains the final pre-merge integration gate."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -62,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "72dd36acdd3e78dfac7c92f5c84d0afe68c7ed6330966ef544fc90b16876df13",
+      "values_digest": "b631830cdff019f0b9902d6f19a030445943b467500a30778ceff498c38d9e2f",
       "rendered_digest": "70f5c9b2e3b520aac7444595ff1c2671bf5e5b091bc68e84c4a195b285260210",
       "ast_digest": "09021e4f502392feb5e59861355e230f2b5e5d1d23f28cfa8dcac6f7405e76c7"
     },
     "stp": {
-      "values_digest": "62f66bc7fdb3763b4f322dca1556c24dc3ced40ecf89387895f947566790295a",
+      "values_digest": "6fdb4b6d86dad5d396e49637d67972136025c13936bd3edf887c5e13fcc705e9",
       "rendered_digest": "23f804d1e3d99f33b4214dd0c048e0af6edf3562f3c1b0d9e88d561a5c7f5de1",
       "ast_digest": "4fc6d3d052e6f159c4e519acd712cf22206073a394aae97663684929db0192b0"
     },
     "spp": {
-      "values_digest": "0cb990e781c53c85b2bd6636ffaef579ae0ed7d9a6c3765cbd52384b742d0224",
+      "values_digest": "52046b69e00b2bb3e2ff0a557e1cb5c029ae6ae9d657ab7bdd7aee9eeeeb5cca",
       "rendered_digest": "e14a4d85ce3fd4d2d38e116635a5cda86f4c0847129a413f019a5cd87f940cc2",
       "ast_digest": "bb612152b109208710115c69841fd40d532f6fb1a36db7857c019eeee26e3256"
     },
     "vpp": {
-      "values_digest": "b5b31ac43da705a6315feee2e1296a9de397dd6bc27b1e857b3e5986c4720c2a",
+      "values_digest": "14d5b93197951e6c5eacb4310b02eff32bb274b84651b24fdf01d9f673c2a8c9",
       "rendered_digest": "ac2965e804a7314787ac739e5e47e12fd6d9b944a3189bed5d30a0a52b06ee94",
       "ast_digest": "bc307fa308bbf34ed77e882f9858becbd7fb771728c088d79bfd47f94cd74180"
     },
     "srp": {
-      "values_digest": "e513a0f999a0acf483e67cee72b4830337d37864804a5a7b351d3781d0bc7b95",
-      "rendered_digest": "3e02df0b816b26c3864958d11b7289c8994819a74f18ddcc5e665396f3138288",
-      "ast_digest": "89b468aa8903eade5bd5f3e3b4163cf0fc29aee9e4cb1262a5c2e65beb6bf548"
+      "values_digest": "2b7104918a9e3a382c0ef6f1852b7d2ec2a7cbb90d78e0bab5e83fb6392af6d2",
+      "rendered_digest": "8ab742326015365e7c086052947b2f7c70675f78fb49dfcd2530dfee10561892",
+      "ast_digest": "c2e9897cf6bb0178c9c494eb7747b25d50738017ee113a76932890c34fa78e54"
     },
     "sor": {
-      "values_digest": "0705f96a3e81d49b83b8c034d8e84ed106ad8dacac39c465932895840b0e6b6f",
+      "values_digest": "afe6c3ab6ce6131c17e7222cb7231e3888d7a7353ccfa72b5dfae42346b76c2a",
       "rendered_digest": "d811d1037ecc507e1a3b6145183e465bd8a4826e2da242f581dc8c4b07ba76d4",
       "ast_digest": "40c68670b36d7fc5c1694f639edf0f3760856fe7772938c11fa72608526eceea"
     }
@@ -218,6 +181,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover from metadata review finding to correct stale three-test SRP prompt before final exact-head review."
     }
   ],
   "audit": [
@@ -563,6 +533,20 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 41,
+      "actor": "codex:/root",
+      "reason": "Recover from metadata review finding to correct stale three-test SRP prompt before final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 42,
+      "actor": "codex:/root",
+      "reason": "Replace stale three-test review instruction with the exact bounded reviewed surface.",
+      "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Verify the exact seven-test runtime_v2 unified-kernel ci-coverage override remains module-bounded and preserves semantic assertions.\",\"Verify the context-mirror fixture supplies canonical inputs and the previously failing binary test passes.\",\"Verify milestone detection accepts exactly one explicit active-status marker and rejects future, completed, or conflicting markers.\",\"Verify focused evidence, operative STP/SPP truth, diff hygiene, and hosted-green gating are current before publication.\"]}"
     }
   ]
 }
