@@ -72,8 +72,12 @@ available through read-only compatibility inspection. They are not writable
 delivery authority. New terminal authority is the minimal derived envelope
 produced by `csdlc-finish` from live GitHub state.
 
-Issue-local bootstrap is supported when all six cards and the approved design
-already live in the target worktree. Run `csdlc-bind` from that worktree; the
-binder verifies the issue, branch, worktree, and GitHub state in place without
-writing to the primary checkout. Branch/worktree topology and live issue/PR
-state are the coordination authority.
+The ADL primary checkout is inspection-only. Native `csdlc-issue create`
+bootstrap for `agent-logic/agent-design-language` must run from an isolated
+staging checkout, never from root `main`; the bootstrap guard fails closed when
+Git topology cannot prove a non-primary checkout. Issue-local bootstrap remains
+supported when all six cards and the approved design already live in the target
+worktree. Run `csdlc-bind` from that worktree; the binder verifies the issue,
+branch, worktree, and GitHub state in place without writing to the primary
+checkout. Branch/worktree topology and live issue/PR state are the coordination
+authority.

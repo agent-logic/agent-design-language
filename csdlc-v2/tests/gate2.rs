@@ -96,40 +96,54 @@ fn install_worktree_policy(root: &Path) {
     .expect("worktree policy fixture");
 }
 
+fn add_non_primary_main_worktree(primary: &Path, worktree: &Path) {
+    git(primary, &["switch", "--detach", "HEAD"]);
+    git(
+        primary,
+        &["worktree", "add", &worktree.to_string_lossy(), "main"],
+    );
+}
+
 fn focused_fixture_repo(root: &Path) {
-    fs::create_dir_all(root.join("docs/templates/prompts")).expect("registry directory");
-    fs::create_dir_all(root.join("csdlc-v2/operator")).expect("manifest directory");
-    fs::create_dir_all(root.join("csdlc-v2/tests")).expect("test directory");
-    fs::create_dir_all(root.join("design")).expect("design directory");
+    let primary = root.with_file_name(format!(
+        "{}-primary",
+        root.file_name()
+            .and_then(|name| name.to_str())
+            .expect("fixture repo name")
+    ));
+    fs::create_dir_all(primary.join("docs/templates/prompts")).expect("registry directory");
+    fs::create_dir_all(primary.join("csdlc-v2/operator")).expect("manifest directory");
+    fs::create_dir_all(primary.join("csdlc-v2/tests")).expect("test directory");
+    fs::create_dir_all(primary.join("design")).expect("design directory");
     fs::write(
-        root.join("docs/templates/prompts/current.json"),
+        primary.join("docs/templates/prompts/current.json"),
         include_bytes!("../../docs/templates/prompts/current.json"),
     )
     .expect("registry fixture");
     fs::write(
-        root.join("csdlc-v2/operator/native-card-shape.json"),
+        primary.join("csdlc-v2/operator/native-card-shape.json"),
         include_bytes!("../operator/native-card-shape.json"),
     )
     .expect("shape fixture");
-    fs::write(root.join("csdlc-v2/tests/gate2.rs"), "// fixture\n").expect("test fixture");
-    install_worktree_policy(root);
+    fs::write(primary.join("csdlc-v2/tests/gate2.rs"), "// fixture\n").expect("test fixture");
+    install_worktree_policy(&primary);
     for issue in [42_u64, 43] {
         fs::write(
-            root.join(format!("design/issue-{issue}.md")),
+            primary.join(format!("design/issue-{issue}.md")),
             format!("# Approved design for issue {issue}\n"),
         )
         .expect("design fixture");
         fs::write(
-            root.join(format!("design/issue-{issue}.mmd")),
+            primary.join(format!("design/issue-{issue}.mmd")),
             "flowchart LR\n  Create --> Bind\n",
         )
         .expect("diagram fixture");
     }
-    git(root, &["init", "-b", "main"]);
-    git(root, &["config", "user.email", "test@example.com"]);
-    git(root, &["config", "user.name", "C-SDLC Test"]);
+    git(&primary, &["init", "-b", "main"]);
+    git(&primary, &["config", "user.email", "test@example.com"]);
+    git(&primary, &["config", "user.name", "C-SDLC Test"]);
     git(
-        root,
+        &primary,
         &[
             "remote",
             "add",
@@ -137,8 +151,9 @@ fn focused_fixture_repo(root: &Path) {
             "https://github.com/agent-logic/agent-design-language.git",
         ],
     );
-    git(root, &["add", "."]);
-    git(root, &["commit", "-m", "fixture"]);
+    git(&primary, &["add", "."]);
+    git(&primary, &["commit", "-m", "fixture"]);
+    add_non_primary_main_worktree(&primary, root);
 }
 
 fn focused_request(issue: u64) -> BootstrapRequest {
@@ -1145,42 +1160,47 @@ fn intentional_deletion_deliverable_rejects_branch_local_add_then_delete() {
 #[test]
 fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     let temp = tempfile::tempdir().expect("tempdir");
+    let primary = temp.path().join("repo-primary");
     let repo = temp.path().join("repo");
     let worktree = temp.path().join("worktrees/issue-42");
     let conflict = temp.path().join("worktrees/conflict");
-    fs::create_dir_all(repo.join("docs/templates/prompts")).expect("registry directory");
-    fs::create_dir_all(repo.join("csdlc-v2/operator")).expect("manifest directory");
-    fs::create_dir_all(repo.join("csdlc-v2/tests")).expect("test directory");
-    fs::create_dir_all(repo.join("design")).expect("design directory");
+    fs::create_dir_all(primary.join("docs/templates/prompts")).expect("registry directory");
+    fs::create_dir_all(primary.join("csdlc-v2/operator")).expect("manifest directory");
+    fs::create_dir_all(primary.join("csdlc-v2/tests")).expect("test directory");
+    fs::create_dir_all(primary.join("design")).expect("design directory");
     fs::write(
-        repo.join("docs/templates/prompts/current.json"),
+        primary.join("docs/templates/prompts/current.json"),
         include_bytes!("../../docs/templates/prompts/current.json"),
     )
     .expect("registry fixture");
     fs::write(
-        repo.join("csdlc-v2/operator/native-card-shape.json"),
+        primary.join("csdlc-v2/operator/native-card-shape.json"),
         include_bytes!("../operator/native-card-shape.json"),
     )
     .expect("shape fixture");
-    fs::write(repo.join("csdlc-v2/tests/gate2.rs"), "// focused fixture\n").expect("gate2 fixture");
-    install_worktree_policy(&repo);
     fs::write(
-        repo.join("csdlc-v2/tests/gate4.rs"),
+        primary.join("csdlc-v2/tests/gate2.rs"),
+        "// focused fixture\n",
+    )
+    .expect("gate2 fixture");
+    install_worktree_policy(&primary);
+    fs::write(
+        primary.join("csdlc-v2/tests/gate4.rs"),
         "// unrelated fixture\n",
     )
     .expect("unrelated gate4 fixture");
-    fs::write(repo.join("design/issue-42.md"), "# Approved design\n").expect("design");
+    fs::write(primary.join("design/issue-42.md"), "# Approved design\n").expect("design");
     fs::write(
-        repo.join("design/issue-42.mmd"),
+        primary.join("design/issue-42.mmd"),
         "flowchart LR\n  Create --> Bind\n",
     )
     .expect("diagram");
 
-    git(&repo, &["init", "-b", "main"]);
-    git(&repo, &["config", "user.email", "test@example.com"]);
-    git(&repo, &["config", "user.name", "C-SDLC Test"]);
+    git(&primary, &["init", "-b", "main"]);
+    git(&primary, &["config", "user.email", "test@example.com"]);
+    git(&primary, &["config", "user.name", "C-SDLC Test"]);
     git(
-        &repo,
+        &primary,
         &[
             "remote",
             "add",
@@ -1188,8 +1208,9 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "https://github.com/agent-logic/agent-design-language.git",
         ],
     );
-    git(&repo, &["add", "."]);
-    git(&repo, &["commit", "-m", "fixture"]);
+    git(&primary, &["add", "."]);
+    git(&primary, &["commit", "-m", "fixture"]);
+    add_non_primary_main_worktree(&primary, &repo);
 
     let invalid_create_request = temp.path().join("invalid-create.json");
     let mut invalid_create = request();
@@ -3628,33 +3649,39 @@ fn implemented_sip_scope_correction() {
         .prefix("issue-63-scope-")
         .tempdir_in(&target)
         .expect("repo-local tempdir");
+    let primary = temp.path().join("repo-primary");
     let repo = temp.path().join("repo");
-    fs::create_dir_all(repo.join("docs/templates/prompts")).expect("registry directory");
-    fs::create_dir_all(repo.join("csdlc-v2/operator")).expect("manifest directory");
-    fs::create_dir_all(repo.join("csdlc-v2/tests")).expect("test directory");
-    fs::create_dir_all(repo.join("design")).expect("design directory");
+    fs::create_dir_all(primary.join("docs/templates/prompts")).expect("registry directory");
+    fs::create_dir_all(primary.join("csdlc-v2/operator")).expect("manifest directory");
+    fs::create_dir_all(primary.join("csdlc-v2/tests")).expect("test directory");
+    fs::create_dir_all(primary.join("design")).expect("design directory");
     fs::write(
-        repo.join("docs/templates/prompts/current.json"),
+        primary.join("docs/templates/prompts/current.json"),
         include_bytes!("../../docs/templates/prompts/current.json"),
     )
     .expect("registry fixture");
     fs::write(
-        repo.join("csdlc-v2/operator/native-card-shape.json"),
+        primary.join("csdlc-v2/operator/native-card-shape.json"),
         include_bytes!("../operator/native-card-shape.json"),
     )
     .expect("shape fixture");
-    fs::write(repo.join("csdlc-v2/tests/gate2.rs"), "// focused fixture\n").expect("gate2 fixture");
-    fs::write(repo.join("design/issue-42.md"), "# Approved design\n").expect("design");
     fs::write(
-        repo.join("design/issue-42.mmd"),
+        primary.join("csdlc-v2/tests/gate2.rs"),
+        "// focused fixture\n",
+    )
+    .expect("gate2 fixture");
+    fs::write(primary.join("design/issue-42.md"), "# Approved design\n").expect("design");
+    fs::write(
+        primary.join("design/issue-42.mmd"),
         "flowchart LR\n  Edit --> Validate\n",
     )
     .expect("diagram");
-    git(&repo, &["init", "-b", "main"]);
-    git(&repo, &["config", "user.email", "test@example.com"]);
-    git(&repo, &["config", "user.name", "C-SDLC Test"]);
-    git(&repo, &["add", "."]);
-    git(&repo, &["commit", "-m", "fixture"]);
+    git(&primary, &["init", "-b", "main"]);
+    git(&primary, &["config", "user.email", "test@example.com"]);
+    git(&primary, &["config", "user.name", "C-SDLC Test"]);
+    git(&primary, &["add", "."]);
+    git(&primary, &["commit", "-m", "fixture"]);
+    add_non_primary_main_worktree(&primary, &repo);
 
     let store = Store::new(&repo);
     let record = csdlc_v2::initialize_native_json(

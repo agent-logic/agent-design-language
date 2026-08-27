@@ -235,13 +235,34 @@ fn initialized_decomposition_recovery_accepts_preserved_114_gen35_golden_fixture
 }
 
 fn fixture_repo(name: &str) -> PathBuf {
-    let root = std::env::current_dir()
+    let base = std::env::current_dir()
         .expect("cwd")
-        .join("target/csdlc-291-tests")
-        .join(format!("{}-{}", std::process::id(), name));
+        .join("target/csdlc-291-tests");
+    let fixture_name = format!("{}-{}", std::process::id(), name);
+    let root = base.join(&fixture_name);
+    let primary = base.join(format!("{fixture_name}-primary"));
     if root.exists() {
         fs::remove_dir_all(&root).expect("remove stale fixture");
     }
+    if primary.exists() {
+        fs::remove_dir_all(&primary).expect("remove stale primary fixture");
+    }
+    fs::create_dir_all(&primary).expect("primary fixture directory");
+    write_fixture_files(&primary);
+    git(&primary, &["init", "-b", "main"]);
+    git(&primary, &["config", "user.email", "test@example.com"]);
+    git(&primary, &["config", "user.name", "Test User"]);
+    git(&primary, &["add", "."]);
+    git(&primary, &["commit", "-m", "fixture"]);
+    git(&primary, &["switch", "--detach", "HEAD"]);
+    git(
+        &primary,
+        &["worktree", "add", &root.to_string_lossy(), "main"],
+    );
+    root
+}
+
+fn write_fixture_files(root: &Path) {
     fs::create_dir_all(root.join("docs/templates/prompts")).expect("registry directory");
     fs::create_dir_all(root.join("csdlc-v2/operator")).expect("operator directory");
     fs::create_dir_all(root.join("csdlc-v2/tests")).expect("tests directory");
@@ -271,7 +292,18 @@ fn fixture_repo(name: &str) -> PathBuf {
         "flowchart LR\n  A --> B\n",
     )
     .expect("diagram fixture");
-    root
+}
+
+fn git(root: &Path, args: &[&str]) -> Output {
+    let output = command(root, "git", args);
+    assert!(
+        output.status.success(),
+        "git {:?}\nstdout:\n{}\nstderr:\n{}",
+        args,
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    output
 }
 
 fn initialize_fixture_issue(repo: &Path) -> csdlc_v2::IssueRecord {
