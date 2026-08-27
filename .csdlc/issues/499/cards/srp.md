@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+adl/src/resilience/tests.rs
+.csdlc/issues/499 lifecycle metadata
+focused per-file coverage proof for PR #547
 
 ## Prompts
 
@@ -30,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the authoritative integration and changed-source coverage proof after the PR head is updated.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3a9aa6db62eb966a3bd070e06a544f5cdc7b1626:02395d894ffd9889c2b2cbae2fe89c987f6818db8b6d9d585871f80529342a66")
 
-Reviewer: None
+Reviewer: Some("/root/review_499_final")
 
-Result: pre_review
+Result: pass

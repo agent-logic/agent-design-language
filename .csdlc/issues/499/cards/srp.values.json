@@ -7,23 +7,25 @@
     "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
     "slug": "v0-92-1-rust-01-resilience-owner-boundary-refactoring",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/src/resilience/tests.rs\n.csdlc/issues/499 lifecycle metadata\nfocused per-file coverage proof for PR #547",
+      "review_revision": "git-blake3:3a9aa6db62eb966a3bd070e06a544f5cdc7b1626:02395d894ffd9889c2b2cbae2fe89c987f6818db8b6d9d585871f80529342a66",
+      "reviewer": "/root/review_499_final",
       "review_prompts": [
         "Does the implementation stay inside the declared unit boundary?",
         "Does every acceptance criterion have proving evidence?",
         "Are operator-only actions and private material kept outside Git?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI remains the authoritative integration and changed-source coverage proof after the PR head is updated."
+      ],
+      "review_result": "pass"
     }
   }
 }

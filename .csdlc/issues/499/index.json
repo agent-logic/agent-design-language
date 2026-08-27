@@ -4,13 +4,36 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "893c488a403db6ee28efbc8a41379fe8191f2a33bd0a22e07c26103410cd64e0",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "49d8456e590c1291e2a2c6985a605ee7b52569a5541bbcc2dd959660504431e2",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "5295bf281b5009d24dbac5e510156c63e9e6d268bddb17c2151bc2488a9443f4",
   "branch": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-499-resilience-owner-boundary-refactoring",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/review_499_final",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:3a9aa6db62eb966a3bd070e06a544f5cdc7b1626:02395d894ffd9889c2b2cbae2fe89c987f6818db8b6d9d585871f80529342a66",
+    "scope": [
+      "adl/src/resilience/tests.rs",
+      ".csdlc/issues/499 lifecycle metadata",
+      "focused per-file coverage proof for PR #547"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_499_final",
+    "scope": [
+      "adl/src/resilience/tests.rs",
+      ".csdlc/issues/499 lifecycle metadata",
+      "focused per-file coverage proof for PR #547"
+    ],
+    "reviewed_revision": "git-blake3:3a9aa6db62eb966a3bd070e06a544f5cdc7b1626:02395d894ffd9889c2b2cbae2fe89c987f6818db8b6d9d585871f80529342a66",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the authoritative integration and changed-source coverage proof after the PR head is updated."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f21d38e322f8f7db32c1910b37d7436b2d1ab504999f338edf06ab6a9219c796",
+      "values_digest": "4aad37fdfd1fef39df56377fa9c97586ff4f6092d14105ccb273e8fa8aa7ce74",
       "rendered_digest": "d1baf5af8289dae4ed771203e980b494de6918c83588ddad7ce553df0cb6126d",
       "ast_digest": "9c4075ccabbcd57f711f3dfe15cb8dd1c9d066ff5cceb031bee600d254fe7c0a"
     },
     "stp": {
-      "values_digest": "fd96158e2f818adbffed99424eb3f896a7f4a9c00b9b7cab45f4ab7151bea4be",
+      "values_digest": "1de545d3a7336e8f1231a5977d841686bcaeaf3e2f02c0de91d077b57f87467d",
       "rendered_digest": "2bc1124ec3c640c68530fb8289d84c07ae83eb6fb162575e1a80cc2a612020bd",
       "ast_digest": "9519a6c725a963f026bc168371395a1bf63c5984a03dc2bb3a59c1157db37c76"
     },
     "spp": {
-      "values_digest": "8a9f2a04ef0d83afeaebfee2045248bf7e9acde10bf374fa131abb8919938bf0",
+      "values_digest": "78b36bb501d6321bc0fdc6a02eab8d1c8c029de15f21ceb8be55cf84132cfc94",
       "rendered_digest": "edfbc9dc36e811cad6ff645370e59af295ef36d476c4b0d1e6169d8e4f90af22",
       "ast_digest": "d1192aca0dd165f492a22bb66b597c99be9cc27d3ad28303dcd2c7d3271ceb82"
     },
     "vpp": {
-      "values_digest": "16c5550ec5f529cb02bc2e914d49bfd3e4581061c9721d19b94a71cb6ebb3294",
+      "values_digest": "9bd0bd9a9698ac7fd53d4390aafffea3469820f918d7f3603a4372987c53b330",
       "rendered_digest": "1bebf28c40f26c1aa41619023f3555ed7cd2480e4a05fbf3ba18fdc99f3a44be",
       "ast_digest": "cc1652489c2b027f36722c6741823278a4ff623a27be3d2a3415db43fe6677df"
     },
     "srp": {
-      "values_digest": "513616f9cb03eec467e09f1b7e632bec5b78ab34a7b21e86e25ebc03b6ff66f9",
-      "rendered_digest": "71e15e40f9f6167ab7e8682a398278f54ab728afd2323254a3847adb956d71d9",
-      "ast_digest": "0380b2346cbd4f92c651f74c523f47d4838992c830a488b13a4feaeb99f5c402"
+      "values_digest": "29aae4ef66bf1013c2d048809ffd3a51cd17c5adb7396f955209b5b9755afc5b",
+      "rendered_digest": "3402c1fab069c5c57c0c6406645508916579b91e14de84dcad76500ec38651e8",
+      "ast_digest": "c186655e8c21de0eda6b7ad9a90c59f56890187e90ca8b8f22e79de1d306d3a7"
     },
     "sor": {
-      "values_digest": "9c3514327a6af7b3772de88f57ea42c4775ebd362dea8515bc15f2317491ceb6",
+      "values_digest": "c5ec66cca718c646903ed1d2f30c136a5554b48ce264c335cbc02217f1e1e060",
       "rendered_digest": "0abe79b8e4b213bb3d881976700c83c54c185d93427d6d6a760b880276f3ca81",
       "ast_digest": "9187e73fb5ff72dcb57aa7227322c47d0b16dbdbe35024d3b04a31c0a89cb549"
     }
@@ -167,6 +190,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale published review after the focused resilience coverage test commit for PR #547."
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -337,6 +367,20 @@
       "actor": "codex:/root",
       "reason": "Recover stale published review after the focused resilience coverage test commit for PR #547.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
