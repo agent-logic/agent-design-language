@@ -1,6 +1,7 @@
 ## focused ci-coverage runtime_v2 unified-kernel proof
 expression=test(/^runtime_v2::tests::unified_runtime_kernel::/)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 20.35s
 adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_contract_is_stable
 adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated
 adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant
@@ -8,41 +9,44 @@ adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel
 adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case
 adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift
 adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.34s
 selected_count=7
 info: cargo-llvm-cov currently setting cfg(coverage); you can opt-out it by passing --no-cfg-coverage
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.35s
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts/adl-runtime)
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-560-runtime-v2-workspace-coverage-timeouts/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 38.26s
 ────────────
- Nextest run ID 8a45e743-6eac-47f2-a4b0-43f07fe872dc with nextest profile: ci-coverage
-    Starting 7 tests across 33 binaries (2462 tests skipped)
-        PASS [   5.194s] (1/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated
-        PASS [   5.196s] (2/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_contract_is_stable
-        PASS [   5.196s] (3/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant
-        PASS [   5.026s] (4/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift
-        PASS [   5.027s] (5/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift
-        PASS [   5.029s] (6/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case
-        PASS [   4.797s] (7/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence
+ Nextest run ID 0b9237be-ef5a-40f5-bfec-7feb9ce232fe with nextest profile: ci-coverage
+    Starting 7 tests across 33 binaries (2465 tests skipped)
+        PASS [   5.034s] (1/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_events_are_correlated
+        PASS [   5.034s] (2/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_contract_is_stable
+        PASS [   5.034s] (3/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_duplicate_event_participant
+        PASS [   4.912s] (4/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_missing_participant_or_negative_case
+        PASS [   4.912s] (5/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_summary_and_participant_drift
+        PASS [   4.912s] (6/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_event_order_and_correlation_drift
+        PASS [   4.813s] (7/7) adl runtime_v2::tests::unified_runtime_kernel::runtime_v2_unified_runtime_kernel_rejects_unretained_negative_evidence
 ────────────
-     Summary [  15.020s] 7 tests run: 7 passed, 2462 skipped
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+     Summary [  14.761s] 7 tests run: 7 passed, 2465 skipped
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.43s
      Running unittests src/lib.rs (target/debug/deps/adl-81ab49619ea2ef8c)
 
 running 1 test
 test adl_gws_context_mirror::tests::milestone_truth_reads_current_repo_story ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1803 filtered out; finished in 0.01s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1804 filtered out; finished in 0.01s
 
      Running unittests src/main.rs (target/debug/deps/adl-a4a18ccc9daf9de8)
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 222 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 223 filtered out; finished in 0.00s
 
      Running unittests src/bin/adl_aws_remote_validation.rs (target/debug/deps/adl_aws_remote_validation-3ab2aa112d95c541)
 
 running 0 tests
 
-test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 51 filtered out; finished in 0.00s
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 52 filtered out; finished in 0.00s
 
      Running unittests src/bin/demo_adl_gws_context_mirror.rs (target/debug/deps/adl_gws_context_mirror-8927fe0dff9537ef)
 

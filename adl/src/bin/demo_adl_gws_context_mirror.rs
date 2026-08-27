@@ -242,6 +242,9 @@ mod tests {
         tokio::fs::create_dir_all(repo_root.join("docs/milestones/v0.92"))
             .await
             .expect("create activation tree");
+        tokio::fs::create_dir_all(repo_root.join("docs/planning"))
+            .await
+            .expect("create planning tree");
         tokio::fs::create_dir_all(repo_root.join(".adl/docs/TBD"))
             .await
             .expect("create TBD tree");
@@ -257,6 +260,12 @@ mod tests {
         )
         .await
         .expect("write milestone README");
+        tokio::fs::write(
+            repo_root.join("docs/planning/ADL_FEATURE_LIST.md"),
+            "Active milestone: v0.91.8\n",
+        )
+        .await
+        .expect("write feature list");
         tokio::fs::write(
             repo_root.join("docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md"),
             "activation remains blocked\n",
