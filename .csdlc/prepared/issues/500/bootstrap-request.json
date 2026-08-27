@@ -1,0 +1,177 @@
+{
+  "issue": 500,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:sprint-5-readiness-issue-500",
+  "design_path": ".csdlc/prepared/issues/500/design.md",
+  "diagram_path": ".csdlc/prepared/issues/500/diagram.mmd",
+  "design_reviewer": "pending:independent-card-review",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+    "slug": "v0-92-1-v3-a-c-sdlc-v3-contract-and-construction-decision",
+    "version": "v0.92.1",
+    "goal": "Produce one reviewed C-SDLC v3 contract and construction-decision packet.",
+    "required_outcome": "A reviewable versioned contract, exact predecessor-coverage matrix, construction decision, and rollback posture for requirements #161 through #163, while C-SDLC v2 remains sole operational authority.",
+    "declared_scope": [
+      "docs/csdlc-v3/**",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/src/lib.rs",
+      ".csdlc/issues/500/**",
+      ".csdlc/prepared/issues/500/**",
+      ".csdlc/evidence/500/**"
+    ],
+    "authority_boundary": [
+      "C-SDLC v2 remains the sole operational lifecycle authority throughout #500.",
+      "Issue completion is exactly acceptance of one v3 contract and construction decision.",
+      "No authority cutover, v2 retirement, or later V3 implementation is authorized."
+    ],
+    "operator_constraints": [
+      "Do not bind or execute during readiness preparation.",
+      "Do not modify C-SDLC v2 behavior or authority.",
+      "Do not touch other Sprint 5 issues or unrelated issue records."
+    ],
+    "task_boundary": "Define and review only the V3-A contract and construction-decision packet, including exact retained-requirement mapping and rollback posture.",
+    "deliverables": [
+      "Versioned C-SDLC v3 contract under docs/csdlc-v3/**",
+      "Exact predecessor coverage matrix for #161, #162, and #163",
+      "Reviewable construction and rollback decision packet",
+      "Minimal non-authoritative csdlc-v3 crate contract boundary",
+      "Focused validation and exact-head review evidence"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The v3 authority boundary and compatibility posture are explicit.",
+      "AC-2: Requirements 161 through 163 are mapped exactly.",
+      "AC-3: Construction and rollback decisions are reviewable."
+    ],
+    "dependencies": [
+      "None; #161, #162, and #163 are retained predecessor inputs, not open execution blockers."
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#500",
+      "agent-logic/agent-design-language#161",
+      "agent-logic/agent-design-language#162",
+      "agent-logic/agent-design-language#163",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-A",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md"
+    ],
+    "non_goals": [
+      "Authority cutover",
+      "C-SDLC v2 retirement",
+      "Implementation of V3-B or later issues",
+      "Repository-wide lifecycle refactoring"
+    ],
+    "plan_summary": "Inventory retained predecessor requirements, define the versioned v3 contract and construction decisions, specify rollback and coexistence boundaries, then obtain focused validation and exact-head review.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Inventory and normalize every retained requirement and decision from #161 through #163.",
+        "acceptance_ids": ["AC-2"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Write the versioned v3 contract and explicit v2 coexistence and compatibility boundary.",
+        "acceptance_ids": ["AC-1", "AC-2"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Record construction and rollback decisions and the minimal non-authoritative crate boundary.",
+        "acceptance_ids": ["AC-1", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run all focused PVF lanes and obtain independent exact-head review.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "docs/csdlc-v3",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/src/lib.rs",
+      ".csdlc/issues/500",
+      ".csdlc/prepared/issues/500",
+      ".csdlc/evidence/500"
+    ],
+    "invariants": [
+      "C-SDLC v2 remains sole operational authority.",
+      "Every retained requirement from #161 through #163 has exactly one explicit disposition.",
+      "The construction packet does not silently implement or authorize later V3 work.",
+      "Rollback and unsupported-platform behavior fail closed."
+    ],
+    "risks": [
+      "A retained predecessor requirement is omitted or duplicated.",
+      "Compatibility language silently grants v3 authority.",
+      "Construction decisions drift from measured #162 or approved #163 evidence.",
+      "Minimal crate work widens into implementation."
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "The v2 coexistence boundary is ambiguous.",
+      "A predecessor requirement is unmapped.",
+      "Construction requires authority cutover or v2 retirement.",
+      "Work expands into V3-B or later implementation."
+    ],
+    "validation_lanes": [
+      {
+        "lane": "contract-schema",
+        "proof_role": "Validate the versioned v3 contract shape and mandatory authority, compatibility, construction, and rollback clauses.",
+        "acceptance_ids": ["AC-1", "AC-3"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v3/Cargo.toml", "--lib", "contract_schema"],
+        "parallel_group": "v3-a-focused",
+        "defer_reason": "Runs after the contract and minimal crate boundary are implemented."
+      },
+      {
+        "lane": "predecessor-coverage",
+        "proof_role": "Prove exact, non-duplicated disposition coverage for retained requirements #161 through #163.",
+        "acceptance_ids": ["AC-2"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v3/Cargo.toml", "--lib", "predecessor_coverage"],
+        "parallel_group": "v3-a-focused",
+        "defer_reason": "Runs after the predecessor coverage matrix is implemented."
+      },
+      {
+        "lane": "architecture-boundary",
+        "proof_role": "Reject ambiguous coexistence, v2 authority changes, and construction decisions outside the declared V3-A boundary.",
+        "acceptance_ids": ["AC-1", "AC-3"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v3/Cargo.toml", "--lib", "architecture_boundary"],
+        "parallel_group": "v3-a-focused",
+        "defer_reason": "Runs after the contract boundary is implemented."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject whitespace and malformed diff defects in the bounded issue diff.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 400,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "v3-a-focused",
+        "defer_reason": "Runs after implementation changes exist."
+      }
+    ],
+    "failure_policy": "Fail closed on ambiguous v2 coexistence, missing or duplicated predecessor coverage, unreviewable rollback, undeclared scope, or any implied authority cutover.",
+    "review_prompts": [
+      "Does every retained requirement from #161 through #163 have exactly one traceable disposition?",
+      "Can any contract clause be read as granting v3 operational authority before V3-F?",
+      "Are construction and rollback decisions grounded in #162 measurements and #163 operator approval?",
+      "Does the minimal crate surface stay non-authoritative and inside V3-A?"
+    ],
+    "review_scope": "V3-A contract, predecessor mapping, construction and rollback decisions, v2 coexistence boundary, and declared owned paths only."
+  }
+}

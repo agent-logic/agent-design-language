@@ -1,0 +1,65 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 500,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+    "slug": "v0-92-1-v3-a-c-sdlc-v3-contract-and-construction-decision",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "v3-a-design-readiness",
+          "proof_role": "Prove the bounded V3-A design, retained authority boundary, exact predecessor scope, and issue-owned validation entrypoints are ready.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 800,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/500/validate-design-readiness.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "v3-a-focused-implementation",
+          "proof_role": "Prove contract shape, predecessor coverage, authority and rollback boundaries, and the proportional-lifecycle matrix; fail on unjustified retained gates, duplicate authority, repeated child proof, or a default path wider than one design gate, focused validation, one independent implementation review, and closeout.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/500/validate-implementation.rb"
+          ],
+          "parallel_group": "issue-local",
+          "defer_reason": "Runs after the V3-A contract, proportional-lifecycle decision, and minimal crate boundary exist; readiness must not manufacture implementation proof."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on ambiguous v2 coexistence, missing or duplicated predecessor coverage, unreviewable rollback, undeclared scope, or any implied authority cutover.",
+      "design_ref": ".csdlc/prepared/issues/500/design.recovered.md",
+      "design_digest": "4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd",
+      "diagram_ref": ".csdlc/prepared/issues/500/diagram.recovered.mmd",
+      "diagram_digest": "9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f"
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 500,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "22a830f7960e22c8aff54ecb1f8a0e2d13e57aa522d1636de5898b261884a175",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "1c8a4f38d3a7f326d7386a96a09dbf92d8d26e970f91a12e5e22f1c6946c3b49",
+  "branch": "codex/500-v3-a-contract-construction",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/500/design.recovered.md",
+  "diagram_path": ".csdlc/prepared/issues/500/diagram.recovered.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4e884e9e-9579-4841-9571-0880bc62b622",
+      "revision": "4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "75f50773bcf72d699f479f6c40019aec8a14bcf21058c5e81ef95c9f4b1146be",
+      "rendered_digest": "aec800d4753f996cc76ea47e5fe15904e9006c772b32f278ab79d6a2095a9be9",
+      "ast_digest": "275e6d78bca0947476cc246f0126060f28493c24ef4679fec0cf7d204233c3be"
+    },
+    "stp": {
+      "values_digest": "6bc526cc514da3c2140e46284b4267c2d5f3966286c2779eefd15dcb93479e7f",
+      "rendered_digest": "e6ac8038e3ecf65c5e0cc7b62344355643acdcb7b7637296b8ecf2126e612a06",
+      "ast_digest": "c20112b3ad370c4a6e5afa1a7c704529bea388f58ebf4d3eb1311eae987485a8"
+    },
+    "spp": {
+      "values_digest": "de2ab032596f38622f81d05dde03928f9c965cad2931dd9c7a5757f64dd8b941",
+      "rendered_digest": "e90b96ff4c669faf5063d4a1b99bd944af55d3060d77ffa06fd0017c9598365a",
+      "ast_digest": "234af9ffe84aded5c72f150475804162e9d50e957bbd23f922db87308928ad36"
+    },
+    "vpp": {
+      "values_digest": "d97fdc76e3309ebc9c343db47d80f096acd2d790efda7050626aa1e28ed169ed",
+      "rendered_digest": "3c32b5be7441e07db01bbcfb1724938387158e8c2e2548d3c69eea66a1439b42",
+      "ast_digest": "e00992a10923ecd947e697c4cb57f66b6056ff21c8ae9bb99c4a48b036ab63cc"
+    },
+    "srp": {
+      "values_digest": "16c8e7258b4c40d5e640a027c1f8598c537d1daa04916f7967c04e15b3970549",
+      "rendered_digest": "b98b4504f2f5e742a1f28e23d9a706bd7796a157f3ca8c4c0a92cf2261862e56",
+      "ast_digest": "f7b01cd0e7f34fbb0c31a02a8c02d47b6e4af5147c50d9444cb720c13e0d5505"
+    },
+    "sor": {
+      "values_digest": "0f37d5d1add0ebfe0d18101c2f6579dd9431bf333dbf3c4e6b41fe1d3ab897aa",
+      "rendered_digest": "5d23eab4e6fb98a20a3359b51da179b69014c74b7630c21e0913befbdcf408a0",
+      "ast_digest": "f6cad43e200da833d4dcf2ef2538a014623643252f265310e0bb90080cb0b82c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Independent design and packet review passed and focused readiness proof is green; stop before binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint-5-readiness-issue-500",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint-5-readiness-issue-500",
+      "reason": "Name the deferred issue-owned Rust manifest target exactly so the typed readiness gate can verify the planned validation denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/csdlc-v3/** versioned C-SDLC v3 contract\",\"docs/csdlc-v3/** exact predecessor coverage matrix for #161, #162, and #163\",\"docs/csdlc-v3/** reviewable construction and rollback decision packet\",\"csdlc-v3/Cargo.toml\",\"csdlc-v3/src/lib.rs minimal non-authoritative contract boundary\",\".csdlc/evidence/500/** focused validation and exact-head review evidence\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:67217f40-9b42-4fc8-84bf-b0a816b49e56",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"afeeb1f2f07fe815ef6be4fdb91f8b427cb81a80ff4a81fa87cf888eea06d873\",\"design_ref\":\".csdlc/prepared/issues/500/design.md\",\"diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"diagram_ref\":\".csdlc/prepared/issues/500/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Declare exact issue-owned readiness and implementation validator entrypoints.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/csdlc-v3\",\"csdlc-v3/Cargo.toml\",\"csdlc-v3/src/lib.rs\",\".csdlc/issues/500\",\".csdlc/prepared/issues/500\",\".csdlc/evidence/500\",\".csdlc/prepared/issues/500/validate-design-readiness.rb\",\".csdlc/prepared/issues/500/validate-implementation.rb\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "recover initialized design envelope and require fresh approval",
+      "operation": "{\"approval_disposition\":\"invalidated_pending_reapproval\",\"fork_turns\":\"none\",\"new_design_digest\":\"4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd\",\"new_design_path\":\".csdlc/prepared/issues/500/design.recovered.md\",\"new_diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"new_diagram_path\":\".csdlc/prepared/issues/500/diagram.recovered.mmd\",\"new_reviewer\":\"fresh-session:67217f40-9b42-4fc8-84bf-b0a816b49e56\",\"old_design_digest\":\"4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd\",\"old_design_path\":\".csdlc/prepared/issues/500/design.md\",\"old_design_review\":{\"approved\":{\"reviewer\":\"fresh-session:67217f40-9b42-4fc8-84bf-b0a816b49e56\",\"revision\":\"afeeb1f2f07fe815ef6be4fdb91f8b427cb81a80ff4a81fa87cf888eea06d873\"}},\"old_diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"old_diagram_path\":\".csdlc/prepared/issues/500/diagram.mmd\",\"old_reviewer\":\"fresh-session:67217f40-9b42-4fc8-84bf-b0a816b49e56\",\"operation\":\"recover_initialized_design_envelope\",\"post_generation\":4,\"post_state_digest\":\"445eba85cdd8beb75ba118c684cfe92d3b64762fe3173e56ea4b93567833c9d1\",\"pre_state_digest\":\"0f6854bf617752e017a1b773d402ec780c4e2ba75ace2484056c3dcd8a3a575f\",\"reviewed_digest\":\"afeeb1f2f07fe815ef6be4fdb91f8b427cb81a80ff4a81fa87cf888eea06d873\",\"reviewed_generation\":3,\"reviewer_session_uuid\":\"67217f40-9b42-4fc8-84bf-b0a816b49e56\",\"reviewer_turn_uuid\":\"11f2459d-cb97-452c-a5b9-76f3919dbf76\",\"spawned_task\":\"/root/sprint5_design_review\",\"thread_source\":\"subagent\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "fresh-session:3119be16-3692-4dc2-8d7a-3b9827861a0c",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd\",\"design_ref\":\".csdlc/prepared/issues/500/design.recovered.md\",\"diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"diagram_ref\":\".csdlc/prepared/issues/500/diagram.recovered.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Make proportional lifecycle simplification an acceptance requirement without changing the frozen acceptance denominator.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/500/design.recovered.md\",\"diagram_ref\":\".csdlc/prepared/issues/500/diagram.recovered.mmd\",\"new_design_digest\":\"4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd\",\"new_diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"old_design_digest\":\"4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd\",\"old_diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The v3 authority boundary and compatibility posture are explicit.\",\"AC-2: Requirements 161 through 163 are mapped exactly.\",\"AC-3: Construction and rollback decisions are reviewable, and V3 removes, collapses, or derives checkpoints, projections, reviews, and transitions that do not mitigate a named risk; its default path uses one meaningful design gate, focused validation, one independent implementation review, and truthful closeout, making a routine three-issue sprint mechanically ready in minutes rather than hours.\"]}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Add the risk-based lifecycle simplification decision as a required deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/csdlc-v3/** versioned C-SDLC v3 contract\",\"docs/csdlc-v3/** exact predecessor coverage matrix for #161, #162, and #163\",\"docs/csdlc-v3/** reviewable construction and rollback decision packet\",\"docs/csdlc-v3/** proportional-lifecycle matrix classifying existing checkpoints, projections, reviews, and transitions as retained, collapsed, derived, or removed with a named risk for every retained gate\",\"csdlc-v3/Cargo.toml\",\"csdlc-v3/src/lib.rs minimal non-authoritative contract boundary\",\".csdlc/evidence/500/** focused validation and exact-head review evidence\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Bind execution to explicit removal of unjustified lifecycle ceremony.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/500/design.recovered.md\",\"diagram_ref\":\".csdlc/prepared/issues/500/diagram.recovered.mmd\",\"new_design_digest\":\"4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd\",\"new_diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"old_design_digest\":\"4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd\",\"old_diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Inventory requirements #161 through #163 and map them exactly into the retained v3 contract.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Write the versioned v3 contract with explicit v2 coexistence and authority boundaries.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Classify each existing checkpoint, projection, review, and transition as retained, collapsed, derived, or removed by named risk; record construction, rollback, and simplified operator-flow decisions; then run one focused proof and one independent implementation review.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Require proportional ceremony and forbid duplicate authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"C-SDLC v2 remains sole operational authority.\",\"Every retained requirement from #161 through #163 has exactly one explicit disposition.\",\"Every v3 checkpoint, projection, review, or transition mitigates a named concrete risk; otherwise it is removed, collapsed, or derived.\",\"The default path has one meaningful design gate, focused validation, one independent implementation review, and truthful closeout; no duplicate authority or umbrella re-review of child proof.\",\"A routine three-issue sprint is mechanically prepared and ready in minutes without hand-authored lifecycle JSON or repeated generation and digest choreography.\",\"Rollback and unsupported-platform behavior fail closed.\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Collapse V3-A proof into one readiness lane and one focused implementation lane that enforces proportional lifecycle rules.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v3-a-design-readiness\",\"proof_role\":\"Prove the bounded V3-A design, retained authority boundary, exact predecessor scope, and issue-owned validation entrypoints are ready.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":800,\"argv\":[\"ruby\",\".csdlc/prepared/issues/500/validate-design-readiness.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":null},{\"lane\":\"v3-a-focused-implementation\",\"proof_role\":\"Prove contract shape, predecessor coverage, authority and rollback boundaries, and the proportional-lifecycle matrix; fail on unjustified retained gates, duplicate authority, repeated child proof, or a default path wider than one design gate, focused validation, one independent implementation review, and closeout.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/500/validate-implementation.rb\"],\"parallel_group\":\"issue-local\",\"defer_reason\":\"Runs after the V3-A contract, proportional-lifecycle decision, and minimal crate boundary exist; readiness must not manufacture implementation proof.\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Require independent review of actual ceremony removal and risk justification.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does every retained requirement from #161 through #163 have exactly one traceable disposition?\",\"Can any contract clause be read as granting v3 operational authority before V3-F?\",\"Are construction and rollback decisions grounded in #162 measurements and #163 operator approval?\",\"Does the minimal crate surface stay non-authoritative and inside V3-A?\",\"Does the proportional-lifecycle matrix classify every checkpoint, projection, review, and transition as retained, collapsed, derived, or removed, with a concrete hazard named for every retained gate?\",\"Does the default path actually eliminate duplicate authority, repeated generation/digest choreography, duplicate readiness review, and umbrella re-review of child proof while preserving one design gate, focused validation, one independent implementation review, and truthful closeout?\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Name the structured artifacts required to prevent keyword-only or zero-test false passes.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/csdlc-v3/CONTRACT.md with explicit v2 sole-authority, compatibility, construction, and rollback rules\",\"docs/csdlc-v3/predecessor-coverage.json with exactly one nonempty disposition for each of #161, #162, and #163\",\"docs/csdlc-v3/proportional-lifecycle.json with the complete lifecycle-surface denominator, exactly one retained/collapsed/derived/removed disposition per surface, named hazards for retained gates, and fixed default-path cardinality\",\"csdlc-v3/Cargo.toml\",\"csdlc-v3/src/lib.rs minimal non-authoritative contract boundary with named contract_schema, predecessor_coverage, architecture_boundary, and proportional_lifecycle tests\",\".csdlc/evidence/500/** focused validation and exact-head review evidence\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "fresh-session:4e884e9e-9579-4841-9571-0880bc62b622",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd\",\"design_ref\":\".csdlc/prepared/issues/500/design.recovered.md\",\"diagram_digest\":\"9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f\",\"diagram_ref\":\".csdlc/prepared/issues/500/diagram.recovered.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:sprint-5-readiness",
+      "reason": "Independent design and packet review passed and focused readiness proof is green; stop before binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

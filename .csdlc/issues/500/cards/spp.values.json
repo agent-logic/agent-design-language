@@ -1,0 +1,86 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 500,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+    "slug": "v0-92-1-v3-a-c-sdlc-v3-contract-and-construction-decision",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 4,
+      "summary": "Inventory retained predecessor requirements, define the versioned v3 contract and construction decisions, specify rollback and coexistence boundaries, then obtain focused validation and exact-head review.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Inventory requirements #161 through #163 and map them exactly into the retained v3 contract.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Write the versioned v3 contract with explicit v2 coexistence and authority boundaries.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Classify each existing checkpoint, projection, review, and transition as retained, collapsed, derived, or removed by named risk; record construction, rollback, and simplified operator-flow decisions; then run one focused proof and one independent implementation review.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/csdlc-v3",
+        "csdlc-v3/Cargo.toml",
+        "csdlc-v3/src/lib.rs",
+        ".csdlc/issues/500",
+        ".csdlc/prepared/issues/500",
+        ".csdlc/evidence/500",
+        ".csdlc/prepared/issues/500/validate-design-readiness.rb",
+        ".csdlc/prepared/issues/500/validate-implementation.rb"
+      ],
+      "invariants": [
+        "C-SDLC v2 remains sole operational authority.",
+        "Every retained requirement from #161 through #163 has exactly one explicit disposition.",
+        "Every v3 checkpoint, projection, review, or transition mitigates a named concrete risk; otherwise it is removed, collapsed, or derived.",
+        "The default path has one meaningful design gate, focused validation, one independent implementation review, and truthful closeout; no duplicate authority or umbrella re-review of child proof.",
+        "A routine three-issue sprint is mechanically prepared and ready in minutes without hand-authored lifecycle JSON or repeated generation and digest choreography.",
+        "Rollback and unsupported-platform behavior fail closed."
+      ],
+      "risks": [
+        "A retained predecessor requirement is omitted or duplicated.",
+        "Compatibility language silently grants v3 authority.",
+        "Construction decisions drift from measured #162 or approved #163 evidence.",
+        "Minimal crate work widens into implementation."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The v2 coexistence boundary is ambiguous.",
+        "A predecessor requirement is unmapped.",
+        "Construction requires authority cutover or v2 retirement.",
+        "Work expands into V3-B or later implementation."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/500/design.recovered.md",
+      "design_digest": "4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd",
+      "diagram_ref": ".csdlc/prepared/issues/500/diagram.recovered.mmd",
+      "diagram_digest": "9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f"
+    }
+  }
+}

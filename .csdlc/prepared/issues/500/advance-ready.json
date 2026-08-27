@@ -1,0 +1,1 @@
+{"issue":500,"card":"sip","expected_generation":13,"expected_digest":"795fa7ed1e1a331a96c52974185cafbeceacd37e587db3ca2f4095f98d129b00","actor":"codex:sprint-5-readiness","reason":"Independent design and packet review passed and focused readiness proof is green; stop before binding.","operation":{"operation":"advance_phase","phase":"ready"}}

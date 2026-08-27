@@ -1,0 +1,64 @@
+{
+  "schema": "adl.csdlc_v3.predecessor_coverage.v1",
+  "issue": 500,
+  "denominator": [161, 162, 163],
+  "entries": [
+    {
+      "issue": 161,
+      "title": "Freeze Product Contract And Retained Invariants",
+      "disposition": "retained",
+      "maps_to": [
+        "authority-and-compatibility",
+        "retained-predecessor-contract",
+        "proportional-lifecycle-contract"
+      ],
+      "requirement_ids": [
+        "command-tree",
+        "state-output-contracts",
+        "capability-matrix",
+        "reviewer-independence",
+        "publication-linkage",
+        "finish-cleanup-migration",
+        "supported-platform-matrix",
+        "state-size-guard",
+        "output-filter-subset"
+      ],
+      "notes": "Retained as product and invariant contract. Later v3 issues implement only through their declared ownership."
+    },
+    {
+      "issue": 162,
+      "title": "Prove The Rust Construction Slice",
+      "disposition": "retained",
+      "maps_to": [
+        "construction-decision",
+        "proportional-lifecycle-contract",
+        "rollback-and-fail-closed-behavior"
+      ],
+      "requirement_ids": [
+        "four-layer-rust-shape",
+        "dependency-thresholds",
+        "parser-template-boundaries",
+        "github-client-capability-gaps",
+        "commit-primitive-recommendation",
+        "promote-or-discard-disposition"
+      ],
+      "notes": "Retained as measured construction evidence and constraint input, not as operational authority."
+    },
+    {
+      "issue": 163,
+      "title": "Approve platform commit matrix and Windows posture",
+      "disposition": "retained",
+      "maps_to": [
+        "rollback-and-fail-closed-behavior",
+        "construction-decision"
+      ],
+      "requirement_ids": [
+        "platform-commit-matrix",
+        "durability-semantics",
+        "windows-fail-closed-posture",
+        "operator-decision"
+      ],
+      "notes": "Retained as the operator-approved durability and rollback boundary before later transaction storage work."
+    }
+  ]
+}

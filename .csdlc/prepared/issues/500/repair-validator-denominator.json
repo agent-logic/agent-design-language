@@ -1,0 +1,21 @@
+{
+  "issue": 500,
+  "card": "stp",
+  "expected_generation": 0,
+  "expected_digest": "b946f618bcc19abccc0dc29e0fb6522b5cd359dad8d121f4a23a11df9f7b222e",
+  "actor": "codex:sprint-5-readiness-issue-500",
+  "reason": "Name the deferred issue-owned Rust manifest target exactly so the typed readiness gate can verify the planned validation denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "deliverables",
+    "values": [
+      "docs/csdlc-v3/** versioned C-SDLC v3 contract",
+      "docs/csdlc-v3/** exact predecessor coverage matrix for #161, #162, and #163",
+      "docs/csdlc-v3/** reviewable construction and rollback decision packet",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/src/lib.rs minimal non-authoritative contract boundary",
+      ".csdlc/evidence/500/** focused validation and exact-head review evidence"
+    ]
+  },
+  "fail_after_backup": false
+}
