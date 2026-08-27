@@ -1,0 +1,24 @@
+{
+  "issue": 483,
+  "expected_generation": 4,
+  "expected_digest": "7e4222b91b6409b1bbe097d1f93cd29d10392ae7c3e438123ee1a2a2e8147c57",
+  "claim_id": "claim-483-corp-b-custody-register",
+  "actor": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
+  "evidence": {
+    "reviewer": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
+    "scope": [
+      "docs/operations/corporate/account-custody",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-b",
+      ".csdlc/prepared/issues/483/validate-custody-register.rb",
+      ".csdlc/issues/483",
+      ".csdlc/evidence/483"
+    ],
+    "reviewed_revision": "git-blake3:0c24bd096b78b9b569e5b4826504c3a14b832df9:594969aefe6707d82d19b972c436cec2a18c5dc9ea784b5a74ec7ca5688e8741",
+    "findings": [],
+    "residual_risks": [
+      "This documentation issue performs no external account, domain, DNS, hosted-zone, credential, or recovery mutation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

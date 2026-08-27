@@ -1,0 +1,15 @@
+flowchart LR
+  CORPA["CORP-A accepted asset schedule"] --> DENOM["CORP-B critical-service denominator"]
+  DOMAIN["Five completed Route53 registration receipts"] --> READBACK["Redacted readback receipts"]
+  DENOM --> REGISTER["Corporate custody register"]
+  READBACK --> REGISTER
+  REGISTER --> STATUS{"Custody complete?"}
+  STATUS -->|"yes"| ACCEPTED["Accepted read-only row"]
+  STATUS -->|"no"| ACTIONS["Follow-up action list with later owner"]
+  ACTIONS --> CORPC["Later owner: CORP-C or service lane"]
+  REGISTER --> REVIEW["Redaction and exact-head review"]
+  REVIEW --> PR["Reviewed PR for #483"]
+
+  subgraph FORBIDDEN["Forbidden in #483"]
+    MUTATE["No transfers, DNS moves, admin/billing/MFA/recovery/vault/break-glass mutations"]
+  end
