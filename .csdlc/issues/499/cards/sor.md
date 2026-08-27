@@ -96,11 +96,11 @@ Refactored adl/src/resilience.rs into an owner-boundary facade plus focused resi
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
