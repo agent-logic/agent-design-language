@@ -49,7 +49,7 @@ variable "certificate_lookup_domain" {
 }
 
 variable "create_certificate" {
-  description = "Request and DNS-validate one regional ACM certificate for origin_fqdn when certificate_arn is null. Keep false for normal ALB recycling."
+  description = "Request and DNS-validate one regional ACM certificate for origin_fqdn when certificate_arn is null. Requires hosted_zone_id. Keep false for normal ALB recycling."
   type        = bool
   default     = false
 }
@@ -73,9 +73,9 @@ variable "health_check_path" {
 }
 
 variable "allowed_ingress_cidrs" {
-  description = "CIDRs allowed to reach ALB HTTPS."
+  description = "CIDRs allowed to reach ALB HTTPS. Defaults closed; operators must explicitly allow CloudFront/origin smoke CIDRs when exposing a public ALB."
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  default     = []
 }
 
 variable "tags" {

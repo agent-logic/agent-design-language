@@ -19,6 +19,11 @@ Permanent, non-ephemeral resources:
 - CloudFront WSS distribution that forwards WebSocket traffic to the configured
   WSS-capable HTTPS origin.
 
+Residual nonclaim: the raw API Gateway `execute-api` endpoint remains a direct
+public API Gateway endpoint for this stack shape. Use `api.<csm>.<env>.csm...`
+for the CloudFront/WAF-governed edge. Blocking raw execute-api access belongs
+to a separate reviewed API Gateway custom-domain/authorizer design.
+
 Disposable proof resources:
 
 - `infra/aws/csm-runtime-spot`: one small Spot EC2 Runtime host.
@@ -122,6 +127,8 @@ Set:
 - `certificate_lookup_domain`, normally a reusable wildcard such as
   `*.wuji.dev.csm.agent-logic.ai`
 - `target_instance_id = null` for the first ALB creation pass
+- `allowed_ingress_cidrs`, explicitly set to approved CloudFront/origin-smoke
+  CIDRs when public ALB ingress is required. The module default is closed.
 
 Validate and apply:
 

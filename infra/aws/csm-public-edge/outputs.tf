@@ -44,5 +44,6 @@ output "observatory_bucket" {
 }
 
 output "runtime_http_api_endpoint" {
-  value = aws_apigatewayv2_api.runtime_http.api_endpoint
+  description = "Raw API Gateway execute-api endpoint. This remains a direct public API Gateway endpoint and does not traverse the CloudFront/WAF edge; use api_fqdn for the governed public edge."
+  value       = aws_apigatewayv2_api.runtime_http.api_endpoint
 }

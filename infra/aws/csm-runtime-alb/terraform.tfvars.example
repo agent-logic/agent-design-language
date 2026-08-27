@@ -19,4 +19,7 @@ create_dns_record  = true
 runtime_port       = 20997
 target_instance_id = null
 
-allowed_ingress_cidrs = ["0.0.0.0/0"]
+# Defaults closed. For a bounded smoke, set operator-approved CIDRs or AWS
+# CloudFront origin-facing prefix-list CIDRs explicitly; do not leave a reusable
+# Runtime origin open to the whole internet by accident.
+allowed_ingress_cidrs = []

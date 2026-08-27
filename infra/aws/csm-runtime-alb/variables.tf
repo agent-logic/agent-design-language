@@ -62,7 +62,7 @@ variable "certificate_lookup_domain" {
 }
 
 variable "create_certificate" {
-  description = "Create one regional ACM certificate when certificate_arn is null. Keep false for normal ALB recycling."
+  description = "Create one regional ACM certificate when certificate_arn is null. Requires hosted_zone_id. Keep false for normal ALB recycling."
   type        = bool
   default     = false
 }
@@ -92,7 +92,7 @@ variable "health_check_path" {
 }
 
 variable "allowed_ingress_cidrs" {
-  description = "CIDRs allowed to reach the ALB."
+  description = "CIDRs allowed to reach the ALB. Defaults closed; explicitly allow CloudFront/origin smoke CIDRs before exposing the public ALB."
   type        = list(string)
-  default     = ["0.0.0.0/0"]
+  default     = []
 }

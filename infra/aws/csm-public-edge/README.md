@@ -48,6 +48,20 @@ wuji.csm.agent-logic.com
 - `api.*` -> CloudFront + WAF -> API Gateway HTTP API -> Runtime HTTPS origin
 - `wss.*` -> CloudFront + WAF -> native WSS-capable HTTPS origin
 
+## Security boundary and residual nonclaims
+
+The governed browser/API hostname for operators and demos is `api.*` through
+CloudFront and the attached WAF. AWS also exposes the HTTP API's raw
+`execute-api` endpoint; this stack outputs it only for diagnostics and does not
+claim that raw endpoint traverses CloudFront/WAF. Preventing direct
+`execute-api` invocation requires a separate reviewed API Gateway custom-domain
+or authorizer design and is intentionally not hidden inside this Terraform
+janitor patch.
+
+The reusable Runtime ALB origin defaults closed. Operators must explicitly set
+`allowed_ingress_cidrs` to approved CloudFront/origin-smoke CIDRs before a
+public ALB accepts HTTPS traffic.
+
 ## DNS setup
 
 For first-time setup in the Agent Logic business AWS account, set

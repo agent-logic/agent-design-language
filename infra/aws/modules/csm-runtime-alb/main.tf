@@ -51,6 +51,11 @@ resource "aws_acm_certificate" "origin" {
 
   lifecycle {
     create_before_destroy = true
+
+    precondition {
+      condition     = var.hosted_zone_id != null
+      error_message = "create_certificate=true requires hosted_zone_id so Terraform can create DNS validation records before the ALB listener uses the certificate."
+    }
   }
 
   tags = local.tags
