@@ -6,10 +6,22 @@
   "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
   "phase": "implemented",
   "generation": 10,
-  "digest": "1223006da34e7628651a9a55c00795169b4caec8b89ff3d32e6aa09ee73bf19e",
+  "digest": "959bc89ab236123c0fe3cd492175c0406a37cdaca670f376eaf1c1071daf98c2",
   "branch": "codex/485-aws-access-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-485-aws-access-billing-baseline",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:f0bf501e-d7a2-48cd-b983-da5f21564b5e",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9ec2e5e453a0a4a300fcf3e0871e7827939d577e:a8c6d9c85916c6ecbd7845a744bacd38054989493f2d1d3453aaf945c6fac13a",
+    "scope": [
+      ".csdlc/issues/485",
+      ".csdlc/prepared/issues/485",
+      ".csdlc/evidence/485",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-b",
+      "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
+      "infra/aws/account-foundation/README.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "19124688faccfc7cda70d364156898b03263527af4dcde97125b270bd1f630d3"
     },
     "srp": {
-      "values_digest": "d988ab061ea980484863db456464644a649407a53d15c70cf29c21aae95962b0",
-      "rendered_digest": "dc20f1c1db625edc0817b20ee813f140a5ab0cdaacd74914931d0de393930956",
-      "ast_digest": "5a35986596d9d83a2cd4694705ebd397fcdc41e4eb2960fefaa3b8ad1e392cf1"
+      "values_digest": "6fbe773aed10f4c0fa1a79bd0d3cfcd9cfcf872ed49d89f48fba097141205145",
+      "rendered_digest": "b7716e314b45648cf2019213e74f63eb081bf413d7968f4fc899c612f2926b58",
+      "ast_digest": "901973991fec124d7e946abf199b973d02a6168d439cf94a81adff8d0da81563"
     },
     "sor": {
       "values_digest": "ca119fa80c27610272ccb3b201eec44a0f7f939205d6254dd647789292fd6198",
@@ -183,6 +195,13 @@
       "actor": "codex:/root",
       "reason": "Recover R4 FAIL before refreshing retained typed-state evidence from generation 7 to the current implemented issue generation; preserve exact review finding in audit/review truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
