@@ -6,10 +6,22 @@
   "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
   "phase": "implemented",
   "generation": 5,
-  "digest": "d5d90ee1d0d4f2245cb823cabd279aea7d7f3cf0071ec3e31c2eae02d1a5b1d9",
+  "digest": "907ecfb791bca7de776bb1b0a8eb553d20fe5a280c15e3b7a7d7fcf33fa3dcaf",
   "branch": "codex/485-aws-access-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-485-aws-access-billing-baseline",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:5f095f20-0049-4b0f-9bfa-6bfbaa043d18",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:610fabd201a471df4839ac2fe9ab6aaff28efea4:c4274ab349f3d8f2bfc0f9e817d62182abc88fe9a86125bd220603fa0fc7d6ae",
+    "scope": [
+      ".csdlc/issues/485",
+      ".csdlc/prepared/issues/485",
+      ".csdlc/evidence/485",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-b",
+      "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
+      "infra/aws/account-foundation/README.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "19124688faccfc7cda70d364156898b03263527af4dcde97125b270bd1f630d3"
     },
     "srp": {
-      "values_digest": "16e99d50a4a36da966feb1c1506200dd9093ed5b4615caa0f29ccdf4f296731b",
-      "rendered_digest": "dc20f1c1db625edc0817b20ee813f140a5ab0cdaacd74914931d0de393930956",
-      "ast_digest": "5a35986596d9d83a2cd4694705ebd397fcdc41e4eb2960fefaa3b8ad1e392cf1"
+      "values_digest": "f7646bf7c0f147ea704749588b115fe81c5b40df42b2f0dc0d670851ec08b84c",
+      "rendered_digest": "b7716e314b45648cf2019213e74f63eb081bf413d7968f4fc899c612f2926b58",
+      "ast_digest": "901973991fec124d7e946abf199b973d02a6168d439cf94a81adff8d0da81563"
     },
     "sor": {
       "values_digest": "63b6af0a3bad2bb46644661ce99a82e2025226ede65a4747f049390f0e7b85ab",
@@ -134,6 +146,13 @@
       "actor": "codex:/root",
       "reason": "Interrupted silent assignment-only reviewer fresh-session:f4341620-144e-46fb-87b0-e2b7a0d004ff after bounded waits; no verdict was returned, so clear review_assignment before assigning a different fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
