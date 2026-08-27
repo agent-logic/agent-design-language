@@ -5,3 +5,4 @@
 {"sequence":5,"generation":3,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":6,"generation":4,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":7,"generation":4,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":8,"generation":5,"actor":"codex:/root","reason":"Interrupted silent assignment-only reviewer fresh-session:f4341620-144e-46fb-87b0-e2b7a0d004ff after bounded waits; no verdict was returned, so clear review_assignment before assigning a different fresh reviewer.","operation":"recover_review"}

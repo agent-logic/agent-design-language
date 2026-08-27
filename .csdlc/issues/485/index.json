@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "4b5d2cc849c9d7e8775aa57c4c457edd371aab4083a26d6fb18001dad128e052",
+  "generation": 5,
+  "digest": "d5d90ee1d0d4f2245cb823cabd279aea7d7f3cf0071ec3e31c2eae02d1a5b1d9",
   "branch": "codex/485-aws-access-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-485-aws-access-billing-baseline",
-  "review_assignment": {
-    "reviewer": "fresh-session:f4341620-144e-46fb-87b0-e2b7a0d004ff",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:1c3d0b0a955e5f79cda499930bb3827a89dcdc12:cafd3ec850b67f74379e509d234d643f645696e0748d4104195e79d77d0a6e86",
-    "scope": [
-      ".csdlc/issues/485",
-      ".csdlc/prepared/issues/485",
-      ".csdlc/evidence/485",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-b",
-      "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
-      "infra/aws/account-foundation/README.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "12d825bebfbd360b843abfd03d58acb468cbd30132f04e3b6b332cb319299d76",
+      "values_digest": "9975294e3d4402d042764389fb25d5fbdd4810f4c0c741d1b82929b3f0e6ea62",
       "rendered_digest": "b82db0319f7c803d90a0e2485767968e7e48ae522b88bb5ff1dcccf639a8635f",
       "ast_digest": "8362b69b9646c72249d8ac8b91853fbc65864d0393c8bcc0d64142afcd18538a"
     },
     "stp": {
-      "values_digest": "0521276cac38b064514fabb47a5755557fbe34e993e9984d1bf9c92301f06c50",
+      "values_digest": "a8a95869ae9ccf5d4245185efadf3200b9428a49dc60b7088ba66cfb45dcb724",
       "rendered_digest": "82419bc49019f9ae4afc5a79c10a1dbfad43c3649d70a27b9b7081e291a92afa",
       "ast_digest": "f8e0d29ce8dd8c826d850627dd48694a8c50cd9cf86e399214a705cbee88251c"
     },
     "spp": {
-      "values_digest": "5b686bb9ff6ea5b9e585d614d8d6157ea8a9299b6d1957ed3b21c77a1c446a83",
+      "values_digest": "b67c2c8eb2bd801a350308de3a11408e801f65ad266a445fcd167fabcd07d112",
       "rendered_digest": "80ee1083cac3c99eb1b46849e6a09586cb7a9e853ede7a48b8abe6242e3b09de",
       "ast_digest": "de70792bcb7ba42fe6951fcc0fa71f4bd016bf33602dbfa06150b73db099fd0a"
     },
     "vpp": {
-      "values_digest": "80facfbda3b98f9bfcda8b20b03747c365ab7d6dd55c1cf99d1e484f360ece66",
+      "values_digest": "d8a9522bf0e7a5fbc94d19e924e42f7ed8c18a49a394864514eeb4b3eaf51c29",
       "rendered_digest": "338a4181176c7bda9b2b47c658178eae5bd7f125336d209c3307190d01836553",
       "ast_digest": "19124688faccfc7cda70d364156898b03263527af4dcde97125b270bd1f630d3"
     },
     "srp": {
-      "values_digest": "b68ca3cb1622f6b71e5e492064e288de69bc9044e5da1262877ebb8acd24b37a",
-      "rendered_digest": "db9e5a0653f3bebb7f5fe0819a8f3b2595f2b2c0f6be03b15d226375e1b36a60",
-      "ast_digest": "6a06b0462582455bcba02bd5169b028971ea833ec51f102a7f5aa42dbc5b345d"
+      "values_digest": "16e99d50a4a36da966feb1c1506200dd9093ed5b4615caa0f29ccdf4f296731b",
+      "rendered_digest": "dc20f1c1db625edc0817b20ee813f140a5ab0cdaacd74914931d0de393930956",
+      "ast_digest": "5a35986596d9d83a2cd4694705ebd397fcdc41e4eb2960fefaa3b8ad1e392cf1"
     },
     "sor": {
-      "values_digest": "38156b51846fb6921fb6ceb6dde17a8a162d8271c4e5597c8cfbe8996fda736a",
-      "rendered_digest": "3a3581fe738effeea313c4846f4348a8c4c56083abb6357d18443c070b81e667",
-      "ast_digest": "e5d0cdb1ed034d315c0d7f1221721df2cf31afe1b159d9305b873de9b49f4ec8"
+      "values_digest": "63b6af0a3bad2bb46644661ce99a82e2025226ede65a4747f049390f0e7b85ab",
+      "rendered_digest": "962e12bdc4bdfb4ee0c2867d5f275a1b14da52f95ba921f12bee6d9919696305",
+      "ast_digest": "b48b0b33ac7e9fd5a94e11697ec541ed34b3cd1749527057fdc013c3050ded62"
     }
   },
   "transitions": [
@@ -139,6 +127,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Interrupted silent assignment-only reviewer fresh-session:f4341620-144e-46fb-87b0-e2b7a0d004ff after bounded waits; no verdict was returned, so clear review_assignment before assigning a different fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

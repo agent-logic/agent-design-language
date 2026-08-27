@@ -121,7 +121,7 @@ Finalize AWS-B access and billing baseline with redacted read-only evidence, ret
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

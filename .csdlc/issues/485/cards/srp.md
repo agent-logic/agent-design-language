@@ -8,16 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/issues/485
-.csdlc/prepared/issues/485
-.csdlc/evidence/485
-docs/milestones/v0.92.1/evidence/cloud/aws-b
-docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md
-infra/aws/account-foundation/README.md
+
 
 ## Prompts
 
