@@ -690,6 +690,7 @@ fn detect_current_milestone(readme: &str) -> String {
             format!("### {milestone} - Active"),
             format!("`{milestone}` is the next planning and execution band"),
             format!("### `{milestone}`"),
+            format!("### {milestone} - Completed Milestone"),
         ];
         if active_patterns
             .iter()
@@ -918,11 +919,7 @@ mod tests {
         assert!(truth
             .planning_sequence
             .contains(&truth.chatgpt_facing_current_milestone));
-        if truth.chatgpt_facing_current_milestone == "v0.92.1" {
-            assert!(!truth.v092_activation_blocked);
-        } else {
-            assert!(truth.v092_activation_blocked);
-        }
+        assert!(!truth.v092_activation_blocked);
     }
 
     #[tokio::test]
@@ -1059,6 +1056,10 @@ mod tests {
         assert_eq!(
             detect_current_milestone("`v0.92.1` is the next planning and execution band"),
             "v0.92.1"
+        );
+        assert_eq!(
+            detect_current_milestone("### v0.92 - Completed Milestone"),
+            "v0.92"
         );
     }
 

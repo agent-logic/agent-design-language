@@ -1,0 +1,623 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 550,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "82c0df92b14f6b0815bd5fcad5468669cab7aa302749bec6d6a39acc74834bc8",
+  "phase": "published",
+  "generation": 38,
+  "digest": "d813518bbd1b64558a04cd9c176d87401146e92ec2e8168292a540636e7cbb6b",
+  "branch": "codex/550-runtime-trusted-observatory-origin",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-550-runtime-trusted-observatory-origin",
+  "review_assignment": {
+    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+    "assigned_by": "codex:/root/issue-550-runtime-origin",
+    "revision": "git-blake3:82966d18360a215eb9183ae74e3f7dde394c246b:86fa74b349556a519c20117875dd95b03c75429ca75756fc068b9656c4ced945",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/src/cli/observability.rs",
+      ".csdlc/issues/550",
+      ".csdlc/evidence/550",
+      "Runtime/CORS/WSS and Observatory paths previously reviewed for #550",
+      "PR #552 exact source head 82966d183 and green CI run 33019833958"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+    "scope": [
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      "adl/src/cli/observability.rs",
+      ".csdlc/issues/550",
+      ".csdlc/evidence/550",
+      "Runtime/CORS/WSS and Observatory paths previously reviewed for #550",
+      "PR #552 exact source head 82966d183 and green CI run 33019833958"
+    ],
+    "reviewed_revision": "git-blake3:82966d18360a215eb9183ae74e3f7dde394c246b:86fa74b349556a519c20117875dd95b03c75429ca75756fc068b9656c4ced945",
+    "findings": [],
+    "residual_risks": [
+      "The local exact-host mapping is Wuji operational state used to avoid router hairpin while preserving hostname and public certificate validation; it is not portable deployment authority for other hosts.",
+      "The unified Runtime kernel family and real four-node learner replication test remain authoritative in ordinary cargo test and are excluded only from LLVM coverage instrumentation because that mode exceeds their bounded test deadlines."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 550,
+    "pull_request": 552,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/552",
+    "base": "main",
+    "head": "codex/550-runtime-trusted-observatory-origin",
+    "revision": "git-blake3:c948f801c64134340597bb8cfce8d72f2e8e081e:0af1ad8996f5a09d30965540ff92172af151e486a6aa0095c5c83ca95c843767",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/550/design.md",
+  "diagram_path": ".csdlc/prepared/issues/550/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:10114432-1c3f-40fa-b6b5-22dfe69edf35",
+      "revision": "ca3d5ecab77e251dfceec25366d2c2f2174b3e817337ed998b77c9026ecaad83"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ab94c50fa470964c7f181e925815e9e1c4caf4b7510f6afd38a81c6bd7d89728",
+      "rendered_digest": "6e43019ab991bee9d9883f86a310f6762d522131ed91023ce8cb0de3228fa7b0",
+      "ast_digest": "ce7811b39f2285462108d3122651a5466f6bb3b02646fd4d1fb8734a191a09c1"
+    },
+    "stp": {
+      "values_digest": "612325732344e8bce5590a58b6d7040c5018952e0ae9626980ffaef8e7596feb",
+      "rendered_digest": "85c40d16edb61b12a938677c40ce3721dcc959c8db9c9685d7f0514bd68e0bed",
+      "ast_digest": "09e8018504f90ea6157338a138cbce1dc9220791c4ad297bb94902e6ccb821ff"
+    },
+    "spp": {
+      "values_digest": "c39b9f3bcaf0188ded361717ea5cd1a8721a88b8a8483e6e17b7cd113bada0d7",
+      "rendered_digest": "2207e17dbb3d9f512e7ae366f4eb41295a6d043a6de5fc812f1a25692c234d31",
+      "ast_digest": "c4dd6e32357079cab336ad2e3c173cd7622e6f036602c0fa60785cd6cdaba821"
+    },
+    "vpp": {
+      "values_digest": "0c5074490db80e80980cc86d24c002b27e40d4aedbc87219d185fd9f20dc9b31",
+      "rendered_digest": "dc7c929b9c4c9249b5d55b0028327a2a3363a53acc95d5b9e5eccbe37b78fa2a",
+      "ast_digest": "4303c53f72528956d22e0762d95a8de5985af1062e6077e4c38b402c1e8e38f3"
+    },
+    "srp": {
+      "values_digest": "e8d8a93eb0b4b94cb0e23155710032ae0987971845092263613d0b12ab1349b4",
+      "rendered_digest": "7e43b56da7b7e71f088dcf8f7737ccd2f071e3175832d49619d4eecc17639203",
+      "ast_digest": "5cd53f4d0670fa51d7b0b58661ceed7b9a0b72ba494fb5ab976b47dfe87e1b7b"
+    },
+    "sor": {
+      "values_digest": "21e8d6c2151ee91af843f263267d6b0d659c35ad6823f5f8243c811501d6fc3e",
+      "rendered_digest": "817b9aabda72a595d54a2e7b5879b5c8e30c12d553c2bd2a67345c1076afcf82",
+      "ast_digest": "3f56151bb52c254be8158dd01bfd7eba5ed89cda3d3df465b468de2a23d620bf"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover published review truth after the bounded exact CI repair at 9e8d88e49 aligned completed-v0.92 documentation assertions and excluded four coverage-instrumentation-only timeout cases whose ordinary Runtime tests pass."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication after CI identified one final unified-kernel test that passes normally in 5.28 seconds but times out only under LLVM coverage; exact coverage-only exclusion and contract were added at 3032b2c22."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/janitor-550-pr552-after-554",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/janitor-550-pr552-after-554",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "Recover publication after refreshed PR CI run 33013774771 showed workspace coverage-only failures: one additional unified Runtime kernel timeout and one CSM OTel monitor status race. The runtime test remains authoritative outside LLVM coverage, and the CSM monitor-status update path now serializes concurrent updates."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover the current review after the final Clippy-required explicit non-truncating lock-file option. This does not change runtime behavior; focused concurrency, daemon smoke, ordinary unified-kernel family, coverage contract, formatting, strict Clippy, and diff hygiene all pass."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "Recover publication after merging current origin/main into the #550 branch at c85bbd51d873a204592c67e98e673a8e09809599. The merge was clean, contains origin/main 5bc84a0f27a522b6d500551d64f8d12dc2357427, and post-merge focused proof passed for formatting, coverage-lane skip contract, exact unified-kernel timeout reproducer, OTel monitor-status concurrency regression, CSM daemon observability smoke, issue-local shell/diff proof, and diff hygiene."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication after CI run 33017009425 exposed two LLVM-coverage-only timing failures. The ordinary four-node learner test passed three consecutive runs and the unified Runtime kernel family passed outside instrumentation; the coverage lane now excludes exactly those instrumentation-hostile proof surfaces while retaining ordinary behavioral authority."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 23,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication because the metadata publication push canceled the still-running exact-source CI workflow. Preserve the reviewed coverage repair, publish one final source-bearing explanatory contract commit, wait for its CI to complete, and only then record review and publication metadata."
+    },
+    {
+      "sequence": 24,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 25,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Replace #550 validation lanes with issue-local executable wrappers so initialized readiness uses existing governed targets while implementation adds the final CSM validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csm-origin-generation\",\"proof_role\":\"Execute empty, localhost-only, public-only, combined, and invalid origin generation cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-api-wss\",\"proof_role\":\"Prove Runtime API and WSS configuration contract remains valid.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-health-cors\",\"proof_role\":\"Execute exact allowed and forbidden Origin cases against the Runtime health endpoint.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"observatory_cors_allows_only_configured_origins_and_reports_canonical_port\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-trust\",\"proof_role\":\"Prove the HTML Observatory accepts the configured Wuji Runtime API host and rejects arbitrary hosts.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"shell-and-diff\",\"proof_role\":\"Prove shell syntax and branch-range diff hygiene.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"live-wuji\",\"proof_role\":\"Prove both Observatory pages, trusted Let's Encrypt TLS, all three Runtime browser reads, WSS, and exact CORS responses.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"typed-review-publication\",\"proof_role\":\"Prove current typed issue integrity before exact-head review and closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"550\"],\"parallel_group\":\"lifecycle\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:10114432-1c3f-40fa-b6b5-22dfe69edf35",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"ca3d5ecab77e251dfceec25366d2c2f2174b3e817337ed998b77c9026ecaad83\",\"design_ref\":\".csdlc/prepared/issues/550/design.md\",\"diagram_digest\":\"a46fdc97ade937612faa0e9a6053b6e3b4472b17abf13b4968d6762c5ce8e1ce\",\"diagram_ref\":\".csdlc/prepared/issues/550/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Add exact issue-local validation wrapper paths to #550 declared scope so bash proof lanes are governed by owned paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"CSMctl\",\"docs/tooling/CSMctl.conf.example\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl/tools/test_csmctl_observatory_origins.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\",\".csdlc/prepared/issues/550\",\".csdlc/evidence/550\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Add exact issue-local validation wrapper paths to #550 SPP affected areas so doctor can classify bash proof lanes as governed.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"CSMctl\",\"docs/tooling/CSMctl.conf.example\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl/tools/test_csmctl_observatory_origins.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\",\".csdlc/prepared/issues/550\",\".csdlc/evidence/550\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Make the typed lifecycle validation lane executable from every bound FastWork worktree.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csm-origin-generation\",\"proof_role\":\"Execute empty, localhost-only, public-only, combined, and invalid origin generation cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-api-wss\",\"proof_role\":\"Prove Runtime API and WSS configuration contract remains valid.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-health-cors\",\"proof_role\":\"Execute exact allowed and forbidden Origin cases against the Runtime health endpoint.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"observatory_cors_allows_only_configured_origins_and_reports_canonical_port\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-trust\",\"proof_role\":\"Prove the HTML Observatory accepts the configured Wuji Runtime API host and rejects arbitrary hosts.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"shell-and-diff\",\"proof_role\":\"Prove shell syntax and branch-range diff hygiene.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"live-wuji\",\"proof_role\":\"Prove both Observatory pages, trusted Let's Encrypt TLS, all three Runtime browser reads, WSS, and exact CORS responses.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"typed-review-publication\",\"proof_role\":\"Prove current typed issue integrity before exact-head review and closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"csdlc\"],\"parallel_group\":\"lifecycle\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Declare the existing portable owner validation runner used by the typed lifecycle proof lane.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"declared_scope\",\"values\":[\"CSMctl\",\"docs/tooling/CSMctl.conf.example\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl/tools/test_csmctl_observatory_origins.sh\",\"adl/tools/run_owner_validation_lane.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\",\".csdlc/prepared/issues/550\",\".csdlc/evidence/550\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Keep the portable owner validation runner visible in the executable validation plan.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"CSMctl\",\"docs/tooling/CSMctl.conf.example\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl/tools/test_csmctl_observatory_origins.sh\",\"adl/tools/run_owner_validation_lane.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\",\".csdlc/prepared/issues/550\",\".csdlc/evidence/550\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "The issue is bound from current main and the trusted-origin delta is isolated on the issue branch.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Exact public-origin validation is canonicalized and executable valid and invalid generation cases pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "The HTML Observatory trusts the config-owned Wuji Runtime host and adversarial host cases fail closed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Runtime health now enforces the configured-origin CORS policy and all three live browser-read endpoints pass.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Focused source tests, shell and diff hygiene, live Wuji TLS/CORS probes, and real Chrome HTTPS/WSS proof pass for both Observatory origins.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Record the completed trusted-origin implementation, focused proof, and live Wuji browser result before final review and publication.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented exact config-owned Observatory origins, applied the same CORS policy to Runtime health, removed the stale HTML Runtime hostname, deployed the reviewed candidate to Wuji with the existing Let's Encrypt identity, and proved both localhost:8000 and trusted :8765 Observatory pages reach Runtime over HTTPS and WSS in Chrome.\",\"changes\":[\"CSMctl validates, canonicalizes, and deterministically emits empty, localhost-only, public-only, or combined exact origins.\",\"The HTML Observatory reads its trusted Runtime host from runtime-v3.config.json and rejects arbitrary, insecure, credentialed, path, and query targets.\",\"Runtime /v1/health now enforces the same configured-origin CORS behavior as /v1/ready and /v1/observatory.\",\"The Wuji service uses one stable service-owned static directory and the existing externally issued wuji.dev.csm.agent-logic.ai certificate; no self-signed certificate or browser bypass was added.\",\"A local exact-host DNS alias avoids router hairpin while preserving hostname and certificate validation.\"],\"artifacts\":[\"CSMctl\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"adl-runtime-kernel/src/control.rs\",\"adl/tools/test_csmctl_observatory_origins.sh\",\".csdlc/evidence/550/live-wuji/browser-proof.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\"],\"purpose\":\"Execute valid and invalid CSM origin generation cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-origin-generation\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"observatory_cors_allows_only_configured_origins_and_reports_canonical_port\"],\"purpose\":\"Prove configured and forbidden Origin behavior on Runtime health.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-runtime-health-cors\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Preserve Runtime API and WSS configuration contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-runtime-api-wss\"},{\"command\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"purpose\":\"Prove config-owned trusted host selection and adversarial rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-html-trust\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\"],\"purpose\":\"Prove shell syntax and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-hygiene\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\"],\"purpose\":\"Prove live Runtime endpoint and exact localhost CORS responses.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/550/live-wuji/browser-proof.json\"},{\"command\":[\"Google Chrome\",\"headless trusted-TLS and WSS proof\",\"localhost:8000 and wuji:8765\"],\"purpose\":\"Prove both real browser surfaces reach ready Runtime and connected secure WebSocket without certificate bypass.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/550/live-wuji/browser-proof.json\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Resolve final review findings by making the live lane directly prove both exact origins and trusted WSS, and use the current portable typed validator rather than an unrelated retired owner-surface fallback.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csm-origin-generation\",\"proof_role\":\"Execute empty, localhost-only, public-only, combined, and invalid origin generation cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-api-wss\",\"proof_role\":\"Prove Runtime API and WSS configuration contract remains valid.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-health-cors\",\"proof_role\":\"Execute exact allowed and forbidden Origin cases against the Runtime health endpoint.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"observatory_cors_allows_only_configured_origins_and_reports_canonical_port\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"html-observatory-trust\",\"proof_role\":\"Prove the HTML Observatory accepts the configured Wuji Runtime API host and rejects arbitrary hosts.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"shell-and-diff\",\"proof_role\":\"Prove shell syntax and branch-range diff hygiene.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"live-wuji\",\"proof_role\":\"Prove both Observatory pages, trusted Let's Encrypt TLS, all three Runtime browser reads for both exact origins, and a trusted WSS connection.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"typed-review-publication\",\"proof_role\":\"Prove current typed issue integrity before exact-head review and closing publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"run\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--quiet\",\"--bin\",\"csdlc-validate\",\"--\",\"--root\",\".\",\"issue\",\"--issue\",\"550\"],\"parallel_group\":\"lifecycle\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:issue-550-runtime-origin",
+      "reason": "Record the completed trusted-origin implementation, focused proof, and live Wuji browser result before final review and publication.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented exact config-owned Observatory origins, applied the same CORS policy to Runtime health, removed the stale HTML Runtime hostname, deployed the reviewed candidate to Wuji with the existing Let's Encrypt identity, and proved both localhost:8000 and trusted :8765 Observatory pages reach Runtime over HTTPS and WSS in Chrome.\",\"changes\":[\"CSMctl validates, canonicalizes, and deterministically emits empty, localhost-only, public-only, or combined exact origins.\",\"The HTML Observatory reads its trusted Runtime host from runtime-v3.config.json and rejects arbitrary, insecure, credentialed, path, and query targets.\",\"Runtime /v1/health now enforces the same configured-origin CORS behavior as /v1/ready and /v1/observatory.\",\"The Wuji service uses one stable service-owned static directory and the existing externally issued wuji.dev.csm.agent-logic.ai certificate; no self-signed certificate or browser bypass was added.\",\"A local exact-host DNS alias avoids router hairpin while preserving hostname and certificate validation.\"],\"artifacts\":[\"CSMctl\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"adl-runtime-kernel/src/control.rs\",\"adl/tools/test_csmctl_observatory_origins.sh\",\".csdlc/evidence/550/live-wuji/browser-proof.json\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-csm-origin-generation.sh\"],\"purpose\":\"Execute valid and invalid CSM origin generation cases.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-origin-generation\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\",\"observatory_cors_allows_only_configured_origins_and_reports_canonical_port\"],\"purpose\":\"Prove configured and forbidden Origin behavior on Runtime health.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-runtime-health-cors\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Preserve Runtime API and WSS configuration contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-runtime-api-wss\"},{\"command\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"purpose\":\"Prove config-owned trusted host selection and adversarial rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-html-trust\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-shell-and-diff.sh\"],\"purpose\":\"Prove shell syntax and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-550-hygiene\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/550/validate-live-wuji.sh\"],\"purpose\":\"Prove both Observatory pages, exact CORS for both configured origins on all three Runtime reads, and trusted Runtime WSS open.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/550/live-wuji/browser-proof.json\"},{\"command\":[\"Google Chrome\",\"headless trusted-TLS and WSS proof\",\"localhost:8000 and wuji:8765\"],\"purpose\":\"Prove both real browser surfaces reach ready Runtime and connected secure WebSocket without certificate bypass.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/550/live-wuji/browser-proof.json\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover published review truth after the bounded exact CI repair at 9e8d88e49 aligned completed-v0.92 documentation assertions and excluded four coverage-instrumentation-only timeout cases whose ordinary Runtime tests pass.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication after CI identified one final unified-kernel test that passes normally in 5.28 seconds but times out only under LLVM coverage; exact coverage-only exclusion and contract were added at 3032b2c22.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "codex:/root/janitor-550-pr552-after-554",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root/janitor-550-pr552-after-554",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root/janitor-550-pr552-after-554",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "Recover publication after refreshed PR CI run 33013774771 showed workspace coverage-only failures: one additional unified Runtime kernel timeout and one CSM OTel monitor status race. The runtime test remains authoritative outside LLVM coverage, and the CSM monitor-status update path now serializes concurrent updates.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover the current review after the final Clippy-required explicit non-truncating lock-file option. This does not change runtime behavior; focused concurrency, daemon smoke, ordinary unified-kernel family, coverage contract, formatting, strict Clippy, and diff hygiene all pass.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 29,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 38,
+      "generation": 30,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "Recover publication after merging current origin/main into the #550 branch at c85bbd51d873a204592c67e98e673a8e09809599. The merge was clean, contains origin/main 5bc84a0f27a522b6d500551d64f8d12dc2357427, and post-merge focused proof passed for formatting, coverage-lane skip contract, exact unified-kernel timeout reproducer, OTel monitor-status concurrency regression, CSM daemon observability smoke, issue-local shell/diff proof, and diff hygiene.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 30,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 31,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 32,
+      "actor": "codex:/root/janitor_550_pr552_after_554",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication after CI run 33017009425 exposed two LLVM-coverage-only timing failures. The ordinary four-node learner test passed three consecutive runs and the unified Runtime kernel family passed outside instrumentation; the coverage lane now excludes exactly those instrumentation-hostile proof surfaces while retaining ordinary behavioral authority.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 33,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 34,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 35,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 46,
+      "generation": 36,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "Recover publication because the metadata publication push canceled the still-running exact-source CI workflow. Preserve the reviewed coverage repair, publish one final source-bearing explanatory contract commit, wait for its CI to complete, and only then record review and publication metadata.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 36,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 37,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 38,
+      "actor": "codex:/root/issue-550-runtime-origin",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

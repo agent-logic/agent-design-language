@@ -127,6 +127,15 @@ fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
         "observatory_fixed_port_violation configured_port=$OBSERVATORY_PORT expected=8765",
         "observatory_fixed_port_violation configured_ports='$OBSERVATORY_PORTS' expected=8765",
         "allowed_origins = [\"https://localhost:8765\", \"https://observatory.dev.agent-logic.ai\"]",
+        "ALLOW_LOCALHOST_8000_ORIGIN=\"${ADL_CSM_ALLOW_LOCALHOST_8000_ORIGIN:-0}\"",
+        "additional_allowed_origins = [\"http://localhost:8000\"]",
+        "OBSERVATORY_PUBLIC_ORIGIN=\"${ADL_CSM_OBSERVATORY_PUBLIC_ORIGIN:-}\"",
+        "validate_observatory_public_origin",
+        "invalid_observatory_public_origin expected=https_origin",
+        "invalid_observatory_public_origin expected=host_and_optional_port",
+        "invalid_observatory_public_origin expected=dns_host",
+        "invalid_observatory_public_origin expected=valid_port",
+        "duplicate_observatory_public_origin",
     ] {
         assert!(
             CSMCTL.contains(required),
@@ -140,8 +149,8 @@ fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
         "npx",
         "http-server",
         "8766",
-        "localhost:8000",
-        ":8000",
+        "ADL_CSM_OBSERVATORY_PORT=8000",
+        "OBSERVATORY_PORT=8000",
     ] {
         assert!(
             !CSMCTL.contains(forbidden),

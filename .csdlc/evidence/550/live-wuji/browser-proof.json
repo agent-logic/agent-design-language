@@ -1,0 +1,36 @@
+{
+  "schema": "adl.issue550.live_browser_proof.v1",
+  "observed_at": "2026-08-26T19:29:48Z",
+  "runtime_api_base": "https://wuji.dev.csm.agent-logic.ai:20997",
+  "certificate": {
+    "hostname_validated": true,
+    "publicly_trusted": true,
+    "browser_bypass_used": false
+  },
+  "surfaces": [
+    {
+      "observatory_origin": "http://localhost:8000",
+      "runtime": "v3",
+      "connection": "connected",
+      "secure_stream": "live",
+      "websocket": "connected",
+      "runtime_ready": true
+    },
+    {
+      "observatory_origin": "https://wuji.dev.csm.agent-logic.ai:8765",
+      "runtime": "v3",
+      "connection": "connected",
+      "secure_stream": "live",
+      "websocket": "connected",
+      "runtime_ready": true
+    }
+  ],
+  "cors": {
+    "allowed_origins": [
+      "http://localhost:8000",
+      "https://wuji.dev.csm.agent-logic.ai:8765"
+    ],
+    "arbitrary_origin_denied": true
+  },
+  "evidence_boundary": "Bounded browser result only; no credentials, private Runtime payloads, machine-local paths, or raw response bodies are retained."
+}

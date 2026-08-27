@@ -1,6 +1,7 @@
 {
   "schema": "adl.html_observatory.runtime_v3_config.v1",
-  "api_base": "https://runtime.dev.agent-logic.ai:20997",
+  "api_base": "https://wuji.dev.csm.agent-logic.ai:20997",
+  "trusted_hosts": ["wuji.dev.csm.agent-logic.ai"],
   "health_endpoint": "/v1/health",
   "observatory_endpoint": "/v1/observatory",
   "readiness_endpoint": "/v1/ready",
