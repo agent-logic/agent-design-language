@@ -6,7 +6,7 @@
     "validation": "focused",
     "implementation_reviews": 1,
     "closeouts": 1,
-    "three_issue_ready_minutes_max": 10
+    "three_issue_ready_minutes_max": 3
   },
   "duplicate_authority": "forbidden",
   "umbrella_repeats_child_proof": false,

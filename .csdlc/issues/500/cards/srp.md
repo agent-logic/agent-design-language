@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-V3-A contract, predecessor mapping, construction and rollback decisions, v2 coexistence boundary, and declared owned paths only.
+
 
 ## Prompts
 

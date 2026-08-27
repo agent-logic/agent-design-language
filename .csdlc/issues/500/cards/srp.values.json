@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
     "slug": "v0-92-1-v3-a-c-sdlc-v3-contract-and-construction-decision",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "V3-A contract, predecessor mapping, construction and rollback decisions, v2 coexistence boundary, and declared owned paths only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

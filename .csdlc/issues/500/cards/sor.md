@@ -70,7 +70,7 @@ Implemented the V3-A C-SDLC v3 contract and construction-decision packet while p
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -16,7 +16,45 @@ coverage = JSON.parse(File.read(File.join(root, "docs/csdlc-v3/predecessor-cover
 entries = coverage.fetch("entries")
 issues = entries.map { |entry| Integer(entry.fetch("issue")) }
 abort("predecessor denominator must be exactly 161, 162, 163") unless issues.sort == [161, 162, 163] && issues.uniq.length == 3
-abort("predecessor disposition missing") unless entries.all? { |entry| !entry.fetch("disposition").strip.empty? }
+expected_requirements = {
+  161 => %w[
+    command-tree
+    state-output-contracts
+    capability-matrix
+    reviewer-independence
+    publication-linkage
+    finish-cleanup-migration
+    supported-platform-matrix
+    state-size-guard
+    output-filter-subset
+  ],
+  162 => %w[
+    four-layer-rust-shape
+    dependency-thresholds
+    parser-template-boundaries
+    github-client-capability-gaps
+    commit-primitive-recommendation
+    promote-or-discard-disposition
+  ],
+  163 => %w[
+    platform-commit-matrix
+    durability-semantics
+    windows-fail-closed-posture
+    operator-decision
+  ]
+}
+entries.each do |entry|
+  issue = Integer(entry.fetch("issue"))
+  requirements = entry.fetch("requirements")
+  ids = requirements.map { |requirement| requirement.fetch("id") }
+  abort("requirement denominator mismatch for ##{issue}") unless ids.sort == expected_requirements.fetch(issue).sort
+  abort("duplicate requirement disposition for ##{issue}") unless ids.uniq.length == ids.length
+  requirements.each do |requirement|
+    abort("requirement disposition missing for ##{issue}/#{requirement.fetch('id')}") unless requirement.fetch("disposition").strip == "retained"
+    maps_to = requirement.fetch("maps_to")
+    abort("requirement mapping missing for ##{issue}/#{requirement.fetch('id')}") unless maps_to.is_a?(Array) && maps_to.any? { |target| !target.strip.empty? }
+  end
+end
 
 matrix = JSON.parse(File.read(File.join(root, "docs/csdlc-v3/proportional-lifecycle.json")))
 expected_surfaces = %w[sip stp spp vpp srp sor design_review readiness bind implementation_review publication finish cleanup sprint_umbrella_review generation_digest_cas]
@@ -32,7 +70,7 @@ abort("default path must have one design gate") unless default_path.fetch("desig
 abort("default path must use focused validation") unless default_path.fetch("validation") == "focused"
 abort("default path must have one implementation review") unless default_path.fetch("implementation_reviews") == 1
 abort("default path must have one truthful closeout") unless default_path.fetch("closeouts") == 1
-abort("routine sprint readiness budget is not minutes-scale") unless (1..10).cover?(default_path.fetch("three_issue_ready_minutes_max"))
+abort("routine sprint readiness budget must be three minutes or less") unless (1..3).cover?(default_path.fetch("three_issue_ready_minutes_max"))
 abort("duplicate authority is permitted") unless matrix.fetch("duplicate_authority") == "forbidden"
 abort("umbrella re-review of child proof is permitted") unless matrix.fetch("umbrella_repeats_child_proof") == false
 

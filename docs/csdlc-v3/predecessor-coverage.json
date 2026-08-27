@@ -6,57 +6,135 @@
     {
       "issue": 161,
       "title": "Freeze Product Contract And Retained Invariants",
-      "disposition": "retained",
-      "maps_to": [
-        "authority-and-compatibility",
-        "retained-predecessor-contract",
-        "proportional-lifecycle-contract"
-      ],
-      "requirement_ids": [
-        "command-tree",
-        "state-output-contracts",
-        "capability-matrix",
-        "reviewer-independence",
-        "publication-linkage",
-        "finish-cleanup-migration",
-        "supported-platform-matrix",
-        "state-size-guard",
-        "output-filter-subset"
+      "requirements": [
+        {
+          "id": "command-tree",
+          "disposition": "retained",
+          "maps_to": ["authority-and-compatibility"],
+          "notes": "Retained as the command-surface compatibility denominator."
+        },
+        {
+          "id": "state-output-contracts",
+          "disposition": "retained",
+          "maps_to": ["authority-and-compatibility"],
+          "notes": "Retained as the stable state and machine-output contract boundary."
+        },
+        {
+          "id": "capability-matrix",
+          "disposition": "retained",
+          "maps_to": ["retained-predecessor-contract"],
+          "notes": "Retained as predecessor coverage evidence, not as new v3 authority."
+        },
+        {
+          "id": "reviewer-independence",
+          "disposition": "retained",
+          "maps_to": ["proportional-lifecycle-contract"],
+          "notes": "Retained through one independent implementation review on the child issue."
+        },
+        {
+          "id": "publication-linkage",
+          "disposition": "retained",
+          "maps_to": ["proportional-lifecycle-contract"],
+          "notes": "Retained through the v2 publication route until v3 is separately promoted."
+        },
+        {
+          "id": "finish-cleanup-migration",
+          "disposition": "retained",
+          "maps_to": ["rollback-and-fail-closed-behavior"],
+          "notes": "Retained as finish and cleanup rollback behavior; V3-A does not migrate authority."
+        },
+        {
+          "id": "supported-platform-matrix",
+          "disposition": "retained",
+          "maps_to": ["rollback-and-fail-closed-behavior"],
+          "notes": "Retained as the platform support and fail-closed baseline."
+        },
+        {
+          "id": "state-size-guard",
+          "disposition": "retained",
+          "maps_to": ["retained-predecessor-contract"],
+          "notes": "Retained as an invariant for later state-store implementation."
+        },
+        {
+          "id": "output-filter-subset",
+          "disposition": "retained",
+          "maps_to": ["authority-and-compatibility"],
+          "notes": "Retained as compatibility filtering, not as a broader v3 command surface."
+        }
       ],
       "notes": "Retained as product and invariant contract. Later v3 issues implement only through their declared ownership."
     },
     {
       "issue": 162,
       "title": "Prove The Rust Construction Slice",
-      "disposition": "retained",
-      "maps_to": [
-        "construction-decision",
-        "proportional-lifecycle-contract",
-        "rollback-and-fail-closed-behavior"
-      ],
-      "requirement_ids": [
-        "four-layer-rust-shape",
-        "dependency-thresholds",
-        "parser-template-boundaries",
-        "github-client-capability-gaps",
-        "commit-primitive-recommendation",
-        "promote-or-discard-disposition"
+      "requirements": [
+        {
+          "id": "four-layer-rust-shape",
+          "disposition": "retained",
+          "maps_to": ["construction-decision"],
+          "notes": "Retained as the construction-shape baseline for later implementation slices."
+        },
+        {
+          "id": "dependency-thresholds",
+          "disposition": "retained",
+          "maps_to": ["construction-decision"],
+          "notes": "Retained as the dependency budget that keeps V3-A minimal."
+        },
+        {
+          "id": "parser-template-boundaries",
+          "disposition": "retained",
+          "maps_to": ["retained-predecessor-contract"],
+          "notes": "Retained as a boundary against hand-authored template drift."
+        },
+        {
+          "id": "github-client-capability-gaps",
+          "disposition": "retained",
+          "maps_to": ["rollback-and-fail-closed-behavior"],
+          "notes": "Retained as a blocker class for authority cutover, not solved by V3-A."
+        },
+        {
+          "id": "commit-primitive-recommendation",
+          "disposition": "retained",
+          "maps_to": ["construction-decision"],
+          "notes": "Retained as the later transaction-storage design input."
+        },
+        {
+          "id": "promote-or-discard-disposition",
+          "disposition": "retained",
+          "maps_to": ["proportional-lifecycle-contract"],
+          "notes": "Retained as the explicit decision that later v3 slices must earn promotion."
+        }
       ],
       "notes": "Retained as measured construction evidence and constraint input, not as operational authority."
     },
     {
       "issue": 163,
       "title": "Approve platform commit matrix and Windows posture",
-      "disposition": "retained",
-      "maps_to": [
-        "rollback-and-fail-closed-behavior",
-        "construction-decision"
-      ],
-      "requirement_ids": [
-        "platform-commit-matrix",
-        "durability-semantics",
-        "windows-fail-closed-posture",
-        "operator-decision"
+      "requirements": [
+        {
+          "id": "platform-commit-matrix",
+          "disposition": "retained",
+          "maps_to": ["rollback-and-fail-closed-behavior"],
+          "notes": "Retained as the platform-specific mutation and rollback denominator."
+        },
+        {
+          "id": "durability-semantics",
+          "disposition": "retained",
+          "maps_to": ["construction-decision"],
+          "notes": "Retained as later transaction-storage semantics, not implemented by V3-A."
+        },
+        {
+          "id": "windows-fail-closed-posture",
+          "disposition": "retained",
+          "maps_to": ["rollback-and-fail-closed-behavior"],
+          "notes": "Retained as the Windows read-only/fail-closed constraint."
+        },
+        {
+          "id": "operator-decision",
+          "disposition": "retained",
+          "maps_to": ["proportional-lifecycle-contract"],
+          "notes": "Retained as the operator-approved V3-A/V3-B/V3-C sequencing boundary."
+        }
       ],
       "notes": "Retained as the operator-approved durability and rollback boundary before later transaction storage work."
     }

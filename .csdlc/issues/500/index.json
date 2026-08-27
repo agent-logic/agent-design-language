@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "22a830f7960e22c8aff54ecb1f8a0e2d13e57aa522d1636de5898b261884a175",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "1c8a4f38d3a7f326d7386a96a09dbf92d8d26e970f91a12e5e22f1c6946c3b49",
+  "generation": 16,
+  "digest": "59f3f7af79eba0e20b9403df0cd455caf029782e15e4f57d5be64ae65122f3ec",
   "branch": "codex/500-v3-a-contract-construction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "75f50773bcf72d699f479f6c40019aec8a14bcf21058c5e81ef95c9f4b1146be",
+      "values_digest": "14a4c26fc8650decd83c09cc1aeb34f9e8744eee210c2f992fae5c218db293d4",
       "rendered_digest": "aec800d4753f996cc76ea47e5fe15904e9006c772b32f278ab79d6a2095a9be9",
       "ast_digest": "275e6d78bca0947476cc246f0126060f28493c24ef4679fec0cf7d204233c3be"
     },
     "stp": {
-      "values_digest": "6bc526cc514da3c2140e46284b4267c2d5f3966286c2779eefd15dcb93479e7f",
+      "values_digest": "939cc8cdab5022298504237b811a6b3e7997c26526512fdc4ff89f33f201df36",
       "rendered_digest": "e6ac8038e3ecf65c5e0cc7b62344355643acdcb7b7637296b8ecf2126e612a06",
       "ast_digest": "c20112b3ad370c4a6e5afa1a7c704529bea388f58ebf4d3eb1311eae987485a8"
     },
     "spp": {
-      "values_digest": "de2ab032596f38622f81d05dde03928f9c965cad2931dd9c7a5757f64dd8b941",
+      "values_digest": "524f9f74222f5778122f22bc12ab88c1f3054761aead4a7c95ef543d5dd28906",
       "rendered_digest": "e90b96ff4c669faf5063d4a1b99bd944af55d3060d77ffa06fd0017c9598365a",
       "ast_digest": "234af9ffe84aded5c72f150475804162e9d50e957bbd23f922db87308928ad36"
     },
     "vpp": {
-      "values_digest": "d97fdc76e3309ebc9c343db47d80f096acd2d790efda7050626aa1e28ed169ed",
+      "values_digest": "848ba822433f3fd001134d223ce9cce1bbb6f27e96286f9c6bf1affc6eb7c935",
       "rendered_digest": "3c32b5be7441e07db01bbcfb1724938387158e8c2e2548d3c69eea66a1439b42",
       "ast_digest": "e00992a10923ecd947e697c4cb57f66b6056ff21c8ae9bb99c4a48b036ab63cc"
     },
     "srp": {
-      "values_digest": "16c8e7258b4c40d5e640a027c1f8598c537d1daa04916f7967c04e15b3970549",
-      "rendered_digest": "b98b4504f2f5e742a1f28e23d9a706bd7796a157f3ca8c4c0a92cf2261862e56",
-      "ast_digest": "f7b01cd0e7f34fbb0c31a02a8c02d47b6e4af5147c50d9444cb720c13e0d5505"
+      "values_digest": "ee08b0291a209ba8fbf3b354b5a9dbc20fcf55f52d3d7148a6c257cdbb0761ad",
+      "rendered_digest": "c82b2e34bbc0107529ae721a44263e66c3932042d63c9be0dabd96e2da14d912",
+      "ast_digest": "cf330c0a008bd3c5ca2d7e830272bad2f7b38fd94cc8e22bae5b2c2cf2f6e97c"
     },
     "sor": {
-      "values_digest": "0f37d5d1add0ebfe0d18101c2f6579dd9431bf333dbf3c4e6b41fe1d3ab897aa",
-      "rendered_digest": "5d23eab4e6fb98a20a3359b51da179b69014c74b7630c21e0913befbdcf408a0",
-      "ast_digest": "f6cad43e200da833d4dcf2ef2538a014623643252f265310e0bb90080cb0b82c"
+      "values_digest": "43e91e745ead8487d0fc7a245408bc8dc565101c3f0c40c427766912b1d4d582",
+      "rendered_digest": "a222c7f9bc93757e0dc9551a634c04a1569b41027cd5e7a88bddcc2536b8887c",
+      "ast_digest": "983fa1776eb3d511266e5a3575452242b3b3cf341e37c2788ba15f126cece44f"
     }
   },
   "transitions": [
@@ -196,6 +196,20 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:worker-6",
+      "reason": "Recover from failed exact-head review so issue #500 can apply in-scope remediation and refresh review.",
+      "operation": "recover_review"
     }
   ]
 }

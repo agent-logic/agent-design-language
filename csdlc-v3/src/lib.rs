@@ -8,6 +8,29 @@
 /// The predecessor issues retained by the V3-A contract.
 pub const PREDECESSOR_DENOMINATOR: [u64; 3] = [161, 162, 163];
 
+/// Requirement-level retained predecessor denominator for V3-A.
+pub const PREDECESSOR_REQUIREMENTS: [&str; 19] = [
+    "command-tree",
+    "state-output-contracts",
+    "capability-matrix",
+    "reviewer-independence",
+    "publication-linkage",
+    "finish-cleanup-migration",
+    "supported-platform-matrix",
+    "state-size-guard",
+    "output-filter-subset",
+    "four-layer-rust-shape",
+    "dependency-thresholds",
+    "parser-template-boundaries",
+    "github-client-capability-gaps",
+    "commit-primitive-recommendation",
+    "promote-or-discard-disposition",
+    "platform-commit-matrix",
+    "durability-semantics",
+    "windows-fail-closed-posture",
+    "operator-decision",
+];
+
 /// Lifecycle surfaces classified by the V3-A proportional-lifecycle decision.
 pub const PROPORTIONAL_SURFACES: [&str; 15] = [
     "sip",
@@ -83,6 +106,19 @@ mod tests {
         assert!(!is_v3a_predecessor(160));
         assert!(!is_v3a_predecessor(164));
         assert!(coverage.contains("\"denominator\": [161, 162, 163]"));
+        assert!(!coverage.contains("\"requirement_ids\""));
+        for requirement in PREDECESSOR_REQUIREMENTS {
+            assert!(coverage.contains(&format!("\"id\": \"{requirement}\"")));
+            assert!(coverage.contains(&format!("\"disposition\": \"retained\"")));
+            assert!(coverage.contains("\"maps_to\""));
+        }
+        assert_eq!(
+            PREDECESSOR_REQUIREMENTS
+                .into_iter()
+                .collect::<BTreeSet<_>>()
+                .len(),
+            PREDECESSOR_REQUIREMENTS.len()
+        );
         assert_eq!(
             PREDECESSOR_DENOMINATOR.into_iter().collect::<BTreeSet<_>>(),
             BTreeSet::from([161, 162, 163])
@@ -124,7 +160,7 @@ mod tests {
         assert!(matrix.contains("\"validation\": \"focused\""));
         assert!(matrix.contains("\"implementation_reviews\": 1"));
         assert!(matrix.contains("\"closeouts\": 1"));
-        assert!(matrix.contains("\"three_issue_ready_minutes_max\": 10"));
+        assert!(matrix.contains("\"three_issue_ready_minutes_max\": 3"));
         assert!(matrix.contains("\"duplicate_authority\": \"forbidden\""));
         assert!(matrix.contains("\"umbrella_repeats_child_proof\": false"));
         assert_eq!(

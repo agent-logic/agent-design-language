@@ -78,8 +78,8 @@ derived, collapsed, or removed by default. Additional gates are risk-triggered:
 each retained gate must name a concrete hazard, not process completeness alone.
 
 A routine three-issue sprint must be mechanically prepared and made ready in
-minutes, not hours. Hand-authored lifecycle JSON and repeated digest choreography
-are not acceptable as the default operator experience.
+three minutes or less, not hours. Hand-authored lifecycle JSON and repeated
+digest choreography are not acceptable as the default operator experience.
 
 ## Rollback and fail-closed behavior
 

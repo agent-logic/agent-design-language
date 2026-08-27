@@ -15,3 +15,5 @@
 {"sequence":15,"generation":14,"actor":"codex:sprint-5-readiness","reason":"Independent design and packet review passed and focused readiness proof is green; stop before binding.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":16,"generation":14,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":17,"generation":15,"actor":"codex:worker-6","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":18,"generation":15,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":19,"generation":16,"actor":"codex:worker-6","reason":"Recover from failed exact-head review so issue #500 can apply in-scope remediation and refresh review.","operation":"recover_review"}
