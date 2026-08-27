@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "22a830f7960e22c8aff54ecb1f8a0e2d13e57aa522d1636de5898b261884a175",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "8e6f54e0eb06e40d797abdeb4a66124e59ffbfc8d8f5e7e2210fb8c915b3449e",
+  "generation": 23,
+  "digest": "beb8dd1517a0b1f42bf16be1dfdedb3730a3a2a3449018c8ea93396019a1f499",
   "branch": "codex/500-v3-a-contract-construction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "33c0064c7138729f9d3e016928b6f3740c460551f7aa4b5398c9266dbbc854d4",
+      "values_digest": "42742fa1679508d99f75dc44de75dced4f1b708fc5da4550f08d61a07433a8f3",
       "rendered_digest": "aec800d4753f996cc76ea47e5fe15904e9006c772b32f278ab79d6a2095a9be9",
       "ast_digest": "275e6d78bca0947476cc246f0126060f28493c24ef4679fec0cf7d204233c3be"
     },
     "stp": {
-      "values_digest": "1475ac5653566abaa81bd57a4ed9a3e396f9fb5a70f44c7f4db789708d4a7d34",
+      "values_digest": "00d43c3c75919eebbc114d1e9a82661b954db78dbfbfa34bb0da8e6bc7c18a7f",
       "rendered_digest": "e6ac8038e3ecf65c5e0cc7b62344355643acdcb7b7637296b8ecf2126e612a06",
       "ast_digest": "c20112b3ad370c4a6e5afa1a7c704529bea388f58ebf4d3eb1311eae987485a8"
     },
     "spp": {
-      "values_digest": "90c0288b0d21cf958276d0693afe77549410736dfa124d51d1c8ccaba6b30e0b",
+      "values_digest": "1a26edbf3a50d8f6af69eed54d8ee58749d2228a8f5958a20346f22afc7c02a3",
       "rendered_digest": "1c24245d83c0cee53b3e8038b04058de056147cda54573dbde245dcb55836cb2",
       "ast_digest": "62679e503e5f2ee877d31e9dc6fb31a38de425cdf37c5457241165ec9325dd88"
     },
     "vpp": {
-      "values_digest": "dd8f3bfb6be9b1bf99d4dac3c293d1a3cfbffb983d90eecdfbe6e0dbfaa798db",
+      "values_digest": "e8583da1e0639540ddad8f0fbc6f7d7e93e7076e206393810ff2806aef2e39b7",
       "rendered_digest": "3c32b5be7441e07db01bbcfb1724938387158e8c2e2548d3c69eea66a1439b42",
       "ast_digest": "e00992a10923ecd947e697c4cb57f66b6056ff21c8ae9bb99c4a48b036ab63cc"
     },
     "srp": {
-      "values_digest": "ff7433a3c9e4864e7f2641d487cee625e1e91ac11a48c72207f5b3d8b8298ac2",
+      "values_digest": "c85e5c378a8cce9531830fb5ecb87219222a7ee630a506d33d8020c10a11cf6c",
       "rendered_digest": "c82b2e34bbc0107529ae721a44263e66c3932042d63c9be0dabd96e2da14d912",
       "ast_digest": "cf330c0a008bd3c5ca2d7e830272bad2f7b38fd94cc8e22bae5b2c2cf2f6e97c"
     },
     "sor": {
-      "values_digest": "b7cafcccced6d47d41b48092379ea11dae1da6ba24a5c757df55a0f8f038a433",
+      "values_digest": "959cbd0d52094e8229fa0fd60ebd8d893cca77a541f26b66c78b25a5645b48e9",
       "rendered_digest": "a222c7f9bc93757e0dc9551a634c04a1569b41027cd5e7a88bddcc2536b8887c",
       "ast_digest": "983fa1776eb3d511266e5a3575452242b3b3cf341e37c2788ba15f126cece44f"
     }
@@ -258,6 +258,27 @@
       "generation": 21,
       "actor": "codex:worker-6",
       "reason": "Recover from recorded schema-evolution coverage review finding so issue #500 can apply in-scope denominator remediation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
+      "actor": "fresh-session:edad5ee2-5d33-4725-9dbc-c38fa109030e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "Recover from recorded scope-review finding so issue #500 can request a full changed-surface exact-head review.",
       "operation": "recover_review"
     }
   ]
