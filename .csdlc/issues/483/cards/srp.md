@@ -14,7 +14,7 @@ Status: pre_phase
 
 docs/operations/corporate/account-custody
 docs/milestones/v0.92.1/evidence/corporate/corp-b
-.csdlc/prepared/issues/483
+.csdlc/prepared/issues/483/validate-custody-register.rb
 .csdlc/issues/483
 .csdlc/evidence/483
 

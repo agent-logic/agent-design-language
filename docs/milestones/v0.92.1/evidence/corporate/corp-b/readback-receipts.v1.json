@@ -36,7 +36,7 @@
       "hosted_zone_moved": false,
       "auto_renew_before": true,
       "receipt_ref": ".git/csdlc-v2/domain-transfers/codefriend.ai.json",
-      "recorded_at": "2026-08-26T19:28:12.000000+00:00",
+      "recorded_at": "2026-08-26T19:27:56.423550+00:00",
       "contains_transfer_password": false
     },
     {
@@ -49,7 +49,7 @@
       "hosted_zone_moved": false,
       "auto_renew_before": true,
       "receipt_ref": ".git/csdlc-v2/domain-transfers/agent-logic.net.json",
-      "recorded_at": "2026-08-26T19:28:53.000000+00:00",
+      "recorded_at": "2026-08-26T19:28:19.451273+00:00",
       "contains_transfer_password": false
     },
     {
@@ -62,7 +62,7 @@
       "hosted_zone_moved": false,
       "auto_renew_before": true,
       "receipt_ref": ".git/csdlc-v2/domain-transfers/aptitude-atlas.com.json",
-      "recorded_at": "2026-08-26T19:29:34.000000+00:00",
+      "recorded_at": "2026-08-26T19:28:46.884873+00:00",
       "contains_transfer_password": false
     },
     {
@@ -75,7 +75,7 @@
       "hosted_zone_moved": false,
       "auto_renew_before": true,
       "receipt_ref": ".git/csdlc-v2/domain-transfers/cognitivespacetimemanifold.com.json",
-      "recorded_at": "2026-08-26T19:30:16.000000+00:00",
+      "recorded_at": "2026-08-26T19:29:26.947036+00:00",
       "contains_transfer_password": false
     }
   ],

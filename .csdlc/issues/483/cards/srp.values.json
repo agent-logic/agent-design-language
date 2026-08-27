@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/operations/corporate/account-custody\ndocs/milestones/v0.92.1/evidence/corporate/corp-b\n.csdlc/prepared/issues/483\n.csdlc/issues/483\n.csdlc/evidence/483",
+      "review_scope": "docs/operations/corporate/account-custody\ndocs/milestones/v0.92.1/evidence/corporate/corp-b\n.csdlc/prepared/issues/483/validate-custody-register.rb\n.csdlc/issues/483\n.csdlc/evidence/483",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

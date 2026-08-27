@@ -5,10 +5,21 @@
   "initialization_digest": "1727260fde9f711fea656f956c7216956508dbc33f130b13a43e6cba6cccabd9",
   "phase": "implemented",
   "generation": 3,
-  "digest": "3f073b574a089d665654b134a02ca602d4238834ea2d3cd0eaf6e1ce849d60d9",
+  "digest": "8d8ac99988c81f30525fda11dbe13622e3fb539651ed69ec9a34f2dd4b386490",
   "branch": "codex/483-v0-92-1-corp-b-corporate-account-custody-register",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-483-corp-b-corporate-account-custody-register",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
+    "assigned_by": "codex:issue-483-corp-b-execution",
+    "revision": "git-blake3:6123696d5cd497fc5cdb95f6fc569385925642f1:b155f1e7c62353121f93121e99c817df4288afe55a6ce2934220cc0ee7352dae",
+    "scope": [
+      "docs/operations/corporate/account-custody",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-b",
+      ".csdlc/prepared/issues/483/validate-custody-register.rb",
+      ".csdlc/issues/483",
+      ".csdlc/evidence/483"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "9812219b37b59e7cc5e9a0511419985ec90468c86bfaf940bf5639257ee87e0f"
     },
     "srp": {
-      "values_digest": "0b30bc17c4acc30bf0945d7da353500446c0202d805caebf9f36089ce6965d3d",
-      "rendered_digest": "0b0a37b3f4824f52fa9f51bddb3fdb6de362d6af5a3f856353c0f699fdb4f8e9",
-      "ast_digest": "f396d8c18d46570a9f7cbe4daea3975072b1c0d3b3351ccdeff1058ea4a06617"
+      "values_digest": "12279c13a39ff4dc8d59bdb5b9228506e3138cae83dd5e8186a64d76893bad52",
+      "rendered_digest": "9267bc2d61e7d958b7ba66c78f06c4b50faee128486ea9bfda59b4c0b07bda42",
+      "ast_digest": "7f30ff4b1618ac4d6dd67ac54a4b6ec955bce065aaaab2b0451a574ab1df1c77"
     },
     "sor": {
       "values_digest": "a4fffd9f36272ca89409b61b585adac4e4643bc1152c5a39a7c88d584bdb6f41",
@@ -112,6 +123,13 @@
       "actor": "codex:issue-483-corp-b-execution",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-483-corp-b-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
