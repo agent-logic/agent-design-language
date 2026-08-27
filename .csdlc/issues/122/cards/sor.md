@@ -149,11 +149,11 @@ Implemented and validated the CSM public edge Terraform stack, disposable Spot E
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
