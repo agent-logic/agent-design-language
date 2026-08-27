@@ -34,12 +34,13 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - Reviewer did not wait for CI, publish, merge, mutate lifecycle state, or perform live AWS actions.
-- Live WSS handshake remains explicitly gated on a separate approved Runtime probe; #122 proof does not claim that handshake.
+- Review accepted API Gateway raw execute-api reachability as an explicitly documented residual nonclaim rather than a CloudFront/WAF-enforced invariant.
+- No fresh live AWS paid proof was run for the d59 remediation; local Terraform/static proof and hosted CI provide publication evidence.
 
 ## Review Result
 
-Revision: Some("git-blake3:7b01c23d9986a565a4b4ddeb349800c7c3e55135:5c9d59690d50f84b0a3d61043f499ac9d1918e7582439117f21d1c8ae74a1d78")
+Revision: Some("git-blake3:d59c3cabfa3c22ba882e6e6f9c26e34fa2817698:57a1f610b2998ca5819a6d9fa3dd527b78759ae9aa59167f0bff65351a6cbd2c")
 
-Reviewer: Some("fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7")
+Reviewer: Some("fresh-session:issue122-pr553-d59c-existing-pass")
 
 Result: pass

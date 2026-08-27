@@ -5,28 +5,29 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "published",
-  "generation": 69,
-  "digest": "4c6a24c5a014168a13370fe8ae27e3621ca1b32cbc6c2fc5a829628f53a33735",
+  "generation": 72,
+  "digest": "fa195e6fff9bcd6ec138f0fbf565135ef5140612372e3c86b2861d9eb436dc02",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
   "review_assignment": {
-    "reviewer": "fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7",
+    "reviewer": "fresh-session:issue122-pr553-d59c-existing-pass",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:7b01c23d9986a565a4b4ddeb349800c7c3e55135:5c9d59690d50f84b0a3d61043f499ac9d1918e7582439117f21d1c8ae74a1d78",
+    "revision": "git-blake3:d59c3cabfa3c22ba882e6e6f9c26e34fa2817698:57a1f610b2998ca5819a6d9fa3dd527b78759ae9aa59167f0bff65351a6cbd2c",
     "scope": [
       "."
     ]
   },
   "review": {
-    "reviewer": "fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7",
+    "reviewer": "fresh-session:issue122-pr553-d59c-existing-pass",
     "scope": [
       "."
     ],
-    "reviewed_revision": "git-blake3:7b01c23d9986a565a4b4ddeb349800c7c3e55135:5c9d59690d50f84b0a3d61043f499ac9d1918e7582439117f21d1c8ae74a1d78",
+    "reviewed_revision": "git-blake3:d59c3cabfa3c22ba882e6e6f9c26e34fa2817698:57a1f610b2998ca5819a6d9fa3dd527b78759ae9aa59167f0bff65351a6cbd2c",
     "findings": [],
     "residual_risks": [
       "Reviewer did not wait for CI, publish, merge, mutate lifecycle state, or perform live AWS actions.",
-      "Live WSS handshake remains explicitly gated on a separate approved Runtime probe; #122 proof does not claim that handshake."
+      "Review accepted API Gateway raw execute-api reachability as an explicitly documented residual nonclaim rather than a CloudFront/WAF-enforced invariant.",
+      "No fresh live AWS paid proof was run for the d59 remediation; local Terraform/static proof and hosted CI provide publication evidence."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -38,7 +39,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/553",
     "base": "main",
     "head": "codex/122-csm-public-edge-terraform",
-    "revision": "git-blake3:f8828625aa14eb9fad2dc6c02a17b15814da178b:1c645a5bb095efd266482c7ea1c82ba6807259cb83ddf3b79273959fb5df67c2",
+    "revision": "git-blake3:d59c3cabfa3c22ba882e6e6f9c26e34fa2817698:57a1f610b2998ca5819a6d9fa3dd527b78759ae9aa59167f0bff65351a6cbd2c",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -56,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "562efb8c613c4da8ddfd507de1bf765ddd060a07730e029b95affb8dbd3fb5eb",
+      "values_digest": "e792b9da69c0be1bd53fecc065eeab5718e5a4ad75d7d7fa3231b3d8b620cd0c",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "68e431de744baefce5753e295313abc834a37d7883ea76a405808f83811607b9",
+      "values_digest": "11c410b95ec9101600d9a1a51b977fb239d244a832f383804ede10cf8d108160",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "0d29554d30e31036577118e378bf680644539e8c120025714b8951568048b53e",
+      "values_digest": "bdc925d206e3dd0aa1692a02c8ea8d1ffeae3a3c243ed2315218fa0abd42f514",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "897c8003670d07ec7632d6d74db1c966ef50659f402293e0afcd11287bf250dc",
+      "values_digest": "b05825c58f7c0babd75dc759b8ab5fdae6c44e594173353e29081a58d959cd26",
       "rendered_digest": "832485a93cad1cbb8228950655e809e0201547775d8f4c6eb5e66bdf30af6d97",
       "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "c5cfebebc3cd5f6cca2aa1143da1660ca3c5d7f6e12a02bea570b20952bcb66a",
-      "rendered_digest": "7faeb4afd5ac851a557a4c1a730c8301d3c3559ecb3697dda038954843c66064",
-      "ast_digest": "b31c0dc3c0ff87e39c5964e5cce908e11b883cbf14dad3645308efe99051084a"
+      "values_digest": "2a17fde0c132c4597c4f7744a21a8ca9ebfd32b2771a8c16c0e3247938307eac",
+      "rendered_digest": "8cf1c8cb98a1aebd616a3edff6c16c25f5a3d2bfebe1a4e2a304e6fee5e71a4a",
+      "ast_digest": "0f9452fe9363a536e76f4883cd46ebce3e8c2ef541ed9554695c03f354ddd6f5"
     },
     "sor": {
-      "values_digest": "18be4b2e7076a8ed446a753bc59bda085c8acd7965b6bba58a9d0fd78c59ce1b",
+      "values_digest": "a1a27239186b170235f8dc23d78a84c4f8a26ee2339536224f57d98c8aa34268",
       "rendered_digest": "37fa466926c2906f3127ba3b2a8c8e41aabc4fbf60a0801c40e3710de614c533",
       "ast_digest": "bb96a2a3250d898899177768042cdc5acdf46cd56b34df47674cadbd83440e45"
     }
@@ -215,6 +216,27 @@
     },
     {
       "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale #122 review/publication before finish: PR #553 is green at substantive head d59c3cabfa3c22ba882e6e6f9c26e34fa2817698, while typed publication still records older revision f8828625. The d59 change bounds public-edge exposure claims and requires current exact review/publication truth before merge."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:/root",
@@ -862,6 +884,34 @@
     {
       "sequence": 92,
       "generation": 69,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 93,
+      "generation": 70,
+      "actor": "codex:/root",
+      "reason": "Recover stale #122 review/publication before finish: PR #553 is green at substantive head d59c3cabfa3c22ba882e6e6f9c26e34fa2817698, while typed publication still records older revision f8828625. The d59 change bounds public-edge exposure claims and requires current exact review/publication truth before merge.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 94,
+      "generation": 70,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 95,
+      "generation": 71,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 96,
+      "generation": 72,
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
