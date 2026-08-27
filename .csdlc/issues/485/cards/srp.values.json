@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #485 docs, evidence, lifecycle truth, access/billing baseline, readback scripts, redaction proof, and exact branch range.",
+      "review_scope": ".csdlc/issues/485\n.csdlc/prepared/issues/485\n.csdlc/evidence/485\ndocs/milestones/v0.92.1/evidence/cloud/aws-b\ndocs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md\ninfra/aws/account-foundation/README.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

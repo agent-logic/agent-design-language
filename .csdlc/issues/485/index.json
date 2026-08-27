@@ -6,10 +6,22 @@
   "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
   "phase": "implemented",
   "generation": 4,
-  "digest": "685539b1e209b5b7949a6f334cb024f07b08d96fb949958a5e80207860fea0c1",
+  "digest": "4b5d2cc849c9d7e8775aa57c4c457edd371aab4083a26d6fb18001dad128e052",
   "branch": "codex/485-aws-access-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-485-aws-access-billing-baseline",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:f4341620-144e-46fb-87b0-e2b7a0d004ff",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1c3d0b0a955e5f79cda499930bb3827a89dcdc12:cafd3ec850b67f74379e509d234d643f645696e0748d4104195e79d77d0a6e86",
+    "scope": [
+      ".csdlc/issues/485",
+      ".csdlc/prepared/issues/485",
+      ".csdlc/evidence/485",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-b",
+      "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
+      "infra/aws/account-foundation/README.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "19124688faccfc7cda70d364156898b03263527af4dcde97125b270bd1f630d3"
     },
     "srp": {
-      "values_digest": "72ab3096f5f01c7865169dcfafc5f40b94c18335533c817775bc3d3fc0e26c53",
-      "rendered_digest": "18023450e234598a6a418f8ce91c1e55ef09cd66a8818460cc510902d362277e",
-      "ast_digest": "d28dfdf393355555598188225b36d05a52472d3877637b10f1e6561678674a57"
+      "values_digest": "b68ca3cb1622f6b71e5e492064e288de69bc9044e5da1262877ebb8acd24b37a",
+      "rendered_digest": "db9e5a0653f3bebb7f5fe0819a8f3b2595f2b2c0f6be03b15d226375e1b36a60",
+      "ast_digest": "6a06b0462582455bcba02bd5169b028971ea833ec51f102a7f5aa42dbc5b345d"
     },
     "sor": {
       "values_digest": "38156b51846fb6921fb6ceb6dde17a8a162d8271c4e5597c8cfbe8996fda736a",
@@ -120,6 +132,13 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
