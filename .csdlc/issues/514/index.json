@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "9fdf6098309aa72bf2e1efd727a6691adf465920b488e78111c6723537e7619d",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "d266b888858928453e0ace489fc0db0b14eb251bc6f74e3f5edd670bf72a85d3",
+  "phase": "published",
+  "generation": 15,
+  "digest": "d36b5a03575a09eefb592270d8163ab16f496a7fb274b6d5574a18fb28007100",
   "branch": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-514-v0-92-1-prov-a-shared-provider-inference-profiles",
   "review_assignment": {
@@ -48,7 +48,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 514,
+    "pull_request": 549,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/549",
+    "base": "main",
+    "head": "codex/514-v0-92-1-prov-a-shared-provider-inference-profiles",
+    "revision": "git-blake3:b3362e849bc31cb40a3989250f1527fdb4cff91c:67ed4cc9fb0fd484256be6084e764eb729cbc8234fc0f767f533fe43e8bfb6d3",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f2c59bf84e51a91ebe672e62646f24902bc0f613c96282c6d6ef1fec2e30c23e",
+      "values_digest": "065994b0013cd229fbb4bc11afe4b30fd64f438fd3e649b162758f0085558ad9",
       "rendered_digest": "0b2b96047cadd7c25e6919f8aa6aaef361cb8694637c67b3bc457cb05fbfac75",
       "ast_digest": "3a308d39d4ccac0225312a861c790215b1f777524ef0cbe88d624959282eda66"
     },
     "stp": {
-      "values_digest": "f5aac897dbcc87969adf7a12ea97085dd032fda687cf2d759b3746ca492b4250",
+      "values_digest": "3a16f809213a163892710f1f75a9ad28d76ef157812217dd551c337d40bb20d8",
       "rendered_digest": "da03dbd130894a30ad371f2dcc53b310c4cccb74f4f97e3187e800c1259eae16",
       "ast_digest": "72a3d9084a14e396224ebcf0b7b1301d9c531df8e9e1db4c78c4af2b8b91467c"
     },
     "spp": {
-      "values_digest": "5ae3dfc1d8bf95b3dfb8666c8153f5f28185a58002aa04f017c4b9199f522d89",
+      "values_digest": "a829928f883032ab68fd159033c1693e23a38a0822a239aa9a0d099c375b6031",
       "rendered_digest": "c8544d8772f1f01111260278f980490bf763b6eff893e5530c0086dd69a4f009",
       "ast_digest": "633f5fd92e8e0ce90d2c7baa29f4f8fe5d555842b4b0486ea53b355b43330b2b"
     },
     "vpp": {
-      "values_digest": "9c9159288edaf5bb9f799c21c8b775b50986887973bccf78fcc54f8f35ddf211",
+      "values_digest": "4223f93db7f68257f735eeb3df9ac34e09f0dcf19dd6115069982c5f82919b57",
       "rendered_digest": "0f27717b849259d3d877a3281f281b61ed4b6ea845124243260893741e360ea2",
       "ast_digest": "8e5e53c7c10630e30182ae4221d92fd19cea3c9ba4b86b9f9076aa27e946d81d"
     },
     "srp": {
-      "values_digest": "c83df00aeb618edf99fc840c4f22e6246828225d9ecb52d228ca855783126068",
+      "values_digest": "919f6f9b4201e2734a1da2172c6de05016ea589b6bd7d27b714b7caaa80eff2e",
       "rendered_digest": "7a28ea3c9701aa1c9b446158a61bdb3dfb3c4f1a45c4856296c272278bec430c",
       "ast_digest": "c67420befbcc485353746170bc8c03473b5995bbd8dd2e03086a0edce416479a"
     },
     "sor": {
-      "values_digest": "f52f99f374cfbf714961271cfb3047d6697ce2a457f9a675e6e4574f2fd0177e",
-      "rendered_digest": "87d642b733cf277e3f71ecfb38e82dbc7067dcaf7e30586537bbe4433997206e",
-      "ast_digest": "c8a99726c69f2991b996a537459291a596d6ab4df44cf1d6f07419178ae88cd0"
+      "values_digest": "d33cadc239c67a36b5b22971c2f8935b23a41099509efed63ce3d672d3e7b5a7",
+      "rendered_digest": "311683efb04066d92c9aaf21658a90c18d8170ebf82eb9b9885b4341d1dac2d3",
+      "ast_digest": "68e6635932afb3c82f0c4ccb1d046391f6e8305739148c841105c5b9bc20dec8"
     }
   },
   "transitions": [
@@ -197,6 +208,13 @@
       "to": "reviewed",
       "actor": "openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled-after-560",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-514-after-560-merge",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -353,6 +371,13 @@
       "actor": "openai-responses:gpt-5.6-sol:resp_0dde11635cd2b4fc006a8f586514a487d08a40eec3abb60f4d:ancestry-reconciled-after-560",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:issue-514-after-560-merge",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
