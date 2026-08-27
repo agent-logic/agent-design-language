@@ -4,54 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "893c488a403db6ee28efbc8a41379fe8191f2a33bd0a22e07c26103410cd64e0",
-  "phase": "published",
-  "generation": 16,
-  "digest": "68effbb5806017a17a98bd733d07e697b3caf1c05cb4a827dee3e4d849f9ed79",
+  "phase": "implemented",
+  "generation": 17,
+  "digest": "49d8456e590c1291e2a2c6985a605ee7b52569a5541bbcc2dd959660504431e2",
   "branch": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-499-resilience-owner-boundary-refactoring",
-  "review_assignment": {
-    "reviewer": "openai-responses-api:resp_099758cbc0d0767c006a90883ba19487d0b37ddbecef1b3a4d",
-    "assigned_by": "codex:issue-499-takeover",
-    "revision": "git-blake3:2474118a22f95c45e0ca44730df8e492e5dcc0c7:c4c0712ab562022ba614c82bdd853a9afedc20a96eb4034d65245e4a65f52f7a",
-    "scope": [
-      "adl/src/resilience.rs",
-      "adl/src/resilience/*.rs",
-      ".csdlc/prepared/issues/499/validate-*.rb",
-      ".csdlc/issues/499 lifecycle metadata",
-      "publication safety at exact integrated head"
-    ]
-  },
-  "review": {
-    "reviewer": "openai-responses-api:resp_099758cbc0d0767c006a90883ba19487d0b37ddbecef1b3a4d",
-    "scope": [
-      "adl/src/resilience.rs",
-      "adl/src/resilience/*.rs",
-      ".csdlc/prepared/issues/499/validate-*.rb",
-      ".csdlc/issues/499 lifecycle metadata",
-      "publication safety at exact integrated head"
-    ],
-    "reviewed_revision": "git-blake3:2474118a22f95c45e0ca44730df8e492e5dcc0c7:c4c0712ab562022ba614c82bdd853a9afedc20a96eb4034d65245e4a65f52f7a",
-    "findings": [],
-    "residual_risks": [
-      "Hosted CI remains the fail-closed integration proof after publication.",
-      "The independent API reviewer noted that the API-parity validator is lexical rather than a full semantic compatibility checker; focused compile, behavior, fmt, and clippy proof passed, and hosted CI remains required.",
-      "The supported public resilience facade paths remain re-exported and source-compatible; internal Rust definition paths may differ after the module split."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 499,
-    "pull_request": 547,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/547",
-    "base": "main",
-    "head": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
-    "revision": "git-blake3:999a4a6edbdc7069e75e9bc89c5d28adf7c8ac2b:a64eb60dccd8d3f7f0350bbf766be9b94d6f889bb650c5a8a86fc5973f126754",
-    "linkage_mode": "closing",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a42d15fa3c5a7de12db27ba03baaa18ba15b9b3af9e688b705b864240ca67239",
+      "values_digest": "f21d38e322f8f7db32c1910b37d7436b2d1ab504999f338edf06ab6a9219c796",
       "rendered_digest": "d1baf5af8289dae4ed771203e980b494de6918c83588ddad7ce553df0cb6126d",
       "ast_digest": "9c4075ccabbcd57f711f3dfe15cb8dd1c9d066ff5cceb031bee600d254fe7c0a"
     },
     "stp": {
-      "values_digest": "ca5403b29a9fc03ab740b781596b7d4b37ead0222e152020988c34d20eca33c3",
+      "values_digest": "fd96158e2f818adbffed99424eb3f896a7f4a9c00b9b7cab45f4ab7151bea4be",
       "rendered_digest": "2bc1124ec3c640c68530fb8289d84c07ae83eb6fb162575e1a80cc2a612020bd",
       "ast_digest": "9519a6c725a963f026bc168371395a1bf63c5984a03dc2bb3a59c1157db37c76"
     },
     "spp": {
-      "values_digest": "41b0eb36cd1578ee5ef904a90651eb5c24a9a5f3fbf3627b5f31620db6217e17",
+      "values_digest": "8a9f2a04ef0d83afeaebfee2045248bf7e9acde10bf374fa131abb8919938bf0",
       "rendered_digest": "edfbc9dc36e811cad6ff645370e59af295ef36d476c4b0d1e6169d8e4f90af22",
       "ast_digest": "d1192aca0dd165f492a22bb66b597c99be9cc27d3ad28303dcd2c7d3271ceb82"
     },
     "vpp": {
-      "values_digest": "6e0d69a6d79a8a9c2ad812ff14163d3e132341150f48aadc1819f85bda66240e",
+      "values_digest": "16c5550ec5f529cb02bc2e914d49bfd3e4581061c9721d19b94a71cb6ebb3294",
       "rendered_digest": "1bebf28c40f26c1aa41619023f3555ed7cd2480e4a05fbf3ba18fdc99f3a44be",
       "ast_digest": "cc1652489c2b027f36722c6741823278a4ff623a27be3d2a3415db43fe6677df"
     },
     "srp": {
-      "values_digest": "b5f2b1abc9d0dd755c890b8aa3939d97cf41a9f7446f2214b88dd27c12273808",
-      "rendered_digest": "905bd6f301d8477acc6384e9c8f73eac25cdd398d811b2a1f135dd370a56271a",
-      "ast_digest": "1402ac5a7aec6f455baee92c0b46f9849d779bbbde98f992f2a5fafe4e988c7a"
+      "values_digest": "513616f9cb03eec467e09f1b7e632bec5b78ab34a7b21e86e25ebc03b6ff66f9",
+      "rendered_digest": "71e15e40f9f6167ab7e8682a398278f54ab728afd2323254a3847adb956d71d9",
+      "ast_digest": "0380b2346cbd4f92c651f74c523f47d4838992c830a488b13a4feaeb99f5c402"
     },
     "sor": {
-      "values_digest": "7c1a0e31e0716f94901abf92359697b50bf2e0bc9ce47c9c593e18bbf19a731d",
-      "rendered_digest": "a5bf3d51246ea67eb4bad804aebe6d315b260180ba2b50922342c1ed6d31707f",
-      "ast_digest": "b8016322ccc2adc5d9974a7ea35ceafba444c71a50c44aef7d7c2a8a490e8b49"
+      "values_digest": "9c3514327a6af7b3772de88f57ea42c4775ebd362dea8515bc15f2317491ceb6",
+      "rendered_digest": "0abe79b8e4b213bb3d881976700c83c54c185d93427d6d6a760b880276f3ca81",
+      "ast_digest": "9187e73fb5ff72dcb57aa7227322c47d0b16dbdbe35024d3b04a31c0a89cb549"
     }
   },
   "transitions": [
@@ -200,6 +160,13 @@
       "to": "published",
       "actor": "codex:issue-499-takeover",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale published review after the focused resilience coverage test commit for PR #547."
     }
   ],
   "audit": [
@@ -363,6 +330,13 @@
       "actor": "codex:issue-499-takeover",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover stale published review after the focused resilience coverage test commit for PR #547.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -7,27 +7,23 @@
     "title": "[v0.92.1][RUST-01] Resilience owner-boundary refactoring",
     "slug": "v0-92-1-rust-01-resilience-owner-boundary-refactoring",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/resilience.rs\nadl/src/resilience/*.rs\n.csdlc/prepared/issues/499/validate-*.rb\n.csdlc/issues/499 lifecycle metadata\npublication safety at exact integrated head",
-      "review_revision": "git-blake3:2474118a22f95c45e0ca44730df8e492e5dcc0c7:c4c0712ab562022ba614c82bdd853a9afedc20a96eb4034d65245e4a65f52f7a",
-      "reviewer": "openai-responses-api:resp_099758cbc0d0767c006a90883ba19487d0b37ddbecef1b3a4d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the implementation stay inside the declared unit boundary?",
         "Does every acceptance criterion have proving evidence?",
         "Are operator-only actions and private material kept outside Git?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted CI remains the fail-closed integration proof after publication.",
-        "The independent API reviewer noted that the API-parity validator is lexical rather than a full semantic compatibility checker; focused compile, behavior, fmt, and clippy proof passed, and hosted CI remains required.",
-        "The supported public resilience facade paths remain re-exported and source-compatible; internal Rust definition paths may differ after the module split."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
