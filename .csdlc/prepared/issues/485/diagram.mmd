@@ -1,0 +1,11 @@
+flowchart TD
+  AWSA["#484 AWS-A<br/>accepted resource inventory"] --> AWSB["#485 AWS-B<br/>access and billing baseline"]
+  AWSB --> Recovery["Corporate recovery<br/>no single personal factor"]
+  AWSB --> Identity["Human / workload / agent identity census"]
+  AWSB --> Toolkit["Agent Toolkit for AWS<br/>Codex path, CLI >= 2.35"]
+  AWSB --> Guardrails["Agent IAM guardrails<br/>read-only default + context policy"]
+  AWSB --> Audit["CloudWatch / CloudTrail attribution"]
+  AWSB --> Cost["Billing / budgets / anomaly / export / cost tags"]
+  AWSB --> Redaction["Credential redaction and no-mutation proof"]
+  AWSB -. "does not own" .-> AWSC["#486 AWS-C<br/>Terraform bootstrap"]
+  AWSB -. "does not recreate" .-> WSS["#122 public WSS / Route53 / ACM exposure"]

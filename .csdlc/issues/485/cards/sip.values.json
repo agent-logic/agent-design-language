@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 485,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-B] AWS access and billing baseline",
+    "slug": "aws-access-billing-baseline",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one accepted AWS access and billing control baseline for the approved Agent Logic business AWS account.",
+      "required_outcome": "A reviewed access and billing baseline with independently recoverable corporate administration, governed Agent Toolkit access, read-only default agent posture, CloudWatch and CloudTrail attribution, visible billing ownership, budgets, anomaly handling, export, and cost attribution without removing the proven administrator path.",
+      "declared_scope": [
+        "infra/aws/account-foundation/**",
+        "docs/operations/cloud/aws/access-billing/**",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/**",
+        ".csdlc/prepared/issues/485/**",
+        ".csdlc/evidence/485/**"
+      ],
+      "authority_boundary": [
+        "Issue #485 owns only the AWS access and billing baseline.",
+        "Issue #484 owns the accepted AWS resource ownership inventory predecessor.",
+        "Issue #486 owns AWS Terraform bootstrap after this baseline is accepted.",
+        "Issue #122 continues to own public WSS, Route53, ACM, and public exposure topology.",
+        "No AWS Organizations rollout, workload deployment, administrator removal, Terraform apply, resource cleanup, unrestricted agent mutation, or production traffic change is authorized by #485.",
+        "AWS mutation is not performed unless a typed issue lane explicitly records the exact approved operation and operator approval boundary."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use the Agent Logic business AWS profile agent-logic-admin, not a personal/default profile.",
+        "Do not print, copy, commit, or expose AWS credential material.",
+        "Default AWS evidence collection to read-only commands.",
+        "Preserve existing administrator access until replacement is independently proven.",
+        "Keep work in the existing FastWork issue worktree and preserve #122, #554, and #490 lanes.",
+        "Obtain fresh exact-head review before publication."
+      ]
+    }
+  }
+}
