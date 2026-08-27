@@ -70,11 +70,11 @@ Implemented the V3-A C-SDLC v3 contract and construction-decision packet while p
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
