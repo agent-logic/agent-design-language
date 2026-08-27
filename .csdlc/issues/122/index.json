@@ -4,46 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
-  "phase": "reviewed",
-  "generation": 66,
-  "digest": "4661e9d5564a6001b6c93276e008439e8de7b1aa8eaadc54e327c160f152126f",
+  "phase": "implemented",
+  "generation": 67,
+  "digest": "71704e0bb2a7337a6d359b343c10f6113463db6eb5de5d3a7b8b34e421f04b5e",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": {
-    "reviewer": "fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:d30dd3d11503a2a89cf035a040606f90e991f15a:86e2de81bcc4d4984e499069ee2678d2f0cd7f284ff2d555330efcb1f2c0bc41",
-    "scope": [
-      "."
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7",
-    "scope": [
-      "."
-    ],
-    "reviewed_revision": "git-blake3:d30dd3d11503a2a89cf035a040606f90e991f15a:86e2de81bcc4d4984e499069ee2678d2f0cd7f284ff2d555330efcb1f2c0bc41",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer did not wait for CI, publish, merge, mutate lifecycle state, or perform live AWS actions.",
-      "Reviewer treated a65de5b32c81c8c5247e82aa4a4451b1ea8efe4e as review-assignment metadata over substantive revision d30dd3d11503a2a89cf035a040606f90e991f15a.",
-      "Live WSS handshake remains explicitly gated on a separate approved Runtime probe; #122 proof does not claim that handshake."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "assignment_metadata_only",
-      "from_revision": "git-blake3:d30dd3d11503a2a89cf035a040606f90e991f15a:86e2de81bcc4d4984e499069ee2678d2f0cd7f284ff2d555330efcb1f2c0bc41",
-      "to_revision": "git-blake3:a65de5b32c81c8c5247e82aa4a4451b1ea8efe4e:749192f5059e294905261dd34f851eb15ab9b6592431967cbd0f526e8bdb8d9e",
-      "from_commit": "d30dd3d11503a2a89cf035a040606f90e991f15a",
-      "to_commit": "a65de5b32c81c8c5247e82aa4a4451b1ea8efe4e",
-      "changed_paths": [
-        ".csdlc/issues/122/audit.jsonl",
-        ".csdlc/issues/122/cards/srp.md",
-        ".csdlc/issues/122/cards/srp.values.json",
-        ".csdlc/issues/122/index.json"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -58,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f815f09e92f7deb5cf2028efc7b4193a8f9353607fcc752f5240fdbfd0934f49",
+      "values_digest": "c490607e4a701fd4f4593d29f14b63698a91498639baff963237b09c7a27fb7e",
       "rendered_digest": "e6a5ad9d1150b9ca65144f15a41baa421b83e8c0cf227b043b5d54ff352c074b",
       "ast_digest": "da8b04bbbed612e57901c843f91ce4f25dc40caaf669072630f6cf63b3dc3aaa"
     },
     "stp": {
-      "values_digest": "8850fbc116e52091374c70b66f70a673d182f49f7626d7e3226f52534c34f872",
+      "values_digest": "83116b3d086f6121d8330741cded2d28684f42b75805c6e79174074c442f385c",
       "rendered_digest": "a43906ba80e798564146b4ce4f8b35bb6189e37cc51150681df9eefb606d754a",
       "ast_digest": "a01d700c1a4566e106b464e0b97386a7a90fe264d7bcc94e8cfffa830f409ad8"
     },
     "spp": {
-      "values_digest": "54a49056802ddf670ff076b2c02128e645a3b3f6274142eebef32e4209511839",
+      "values_digest": "2629bad57bb2ed905b88572b3aa03c66929b2f7b066b2314323477efe8b1be4e",
       "rendered_digest": "b74f78546584fffebee24165a4464d22e1720f045b899bcd5638b8df035f2c91",
       "ast_digest": "7a81280dd5612039f64c03674bdbb8e1fb08b674a80bc3952944a358ab1d65a4"
     },
     "vpp": {
-      "values_digest": "ffbe92898da3b55f395d8a228ea91da7981a1d96b848837ba31bf220e492ee85",
+      "values_digest": "ed0149ccf38731829f9cc36df962743d672c57a6ef6fd8484dae24cf48144fab",
       "rendered_digest": "832485a93cad1cbb8228950655e809e0201547775d8f4c6eb5e66bdf30af6d97",
       "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "66e5404c83d25badc3c97a2c784eabf73d6f346b3a3f6d19fdc455b9b442b676",
-      "rendered_digest": "2f0333bf07674e3e84b57f99a488fa64616fa6f088f97f54f9066ea94284f57a",
-      "ast_digest": "583281adeab0445ef8e22c1462f3e0915a5f735ee91f37018e104c020772d99e"
+      "values_digest": "dcc09a0d9080619324a34e468014795a19cea6e01f37da48fd81bdbc2c70ed10",
+      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
+      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
     },
     "sor": {
-      "values_digest": "6c1232824e6b81b953b319af3a582776f9a9623fb5f490975318910218ee3b05",
+      "values_digest": "7d356890ec2804a7be6fc5af489c1615149f2683d0caf4d296c6848925633cc5",
       "rendered_digest": "5a45bb70790fb704d34805b7f498d11ad25ca043a01c30d76f52879cabd1e57e",
       "ast_digest": "336b181985ce9ed93f89bc052a2031551f454a38550b4d01062a9ce597649be0"
     }
@@ -200,6 +167,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 17,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #122 review after committing typed review-record metadata; publication guard requires a fresh exact clean HEAD review before republishing."
     }
   ],
   "audit": [
@@ -818,6 +792,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 89,
+      "generation": 67,
+      "actor": "codex:/root",
+      "reason": "Recover #122 review after committing typed review-record metadata; publication guard requires a fresh exact clean HEAD review before republishing.",
+      "operation": "recover_review"
     }
   ]
 }
