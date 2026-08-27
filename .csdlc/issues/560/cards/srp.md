@@ -12,7 +12,18 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/560/cards/stp.md
+.csdlc/issues/560/cards/spp.md
+.csdlc/issues/560/cards/srp.md
+.csdlc/issues/560/cards/stp.values.json
+.csdlc/issues/560/cards/spp.values.json
+.csdlc/issues/560/cards/srp.values.json
+adl/.config/nextest.toml
+adl/src/adl_gws_context_mirror.rs
+adl/src/bin/demo_adl_gws_context_mirror.rs
+docs/planning/ADL_FEATURE_LIST.md
+.csdlc/prepared/issues/560/validate-focused-proof.sh
+.csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log
 
 ## Prompts
 
@@ -31,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted workspace coverage remains the final pre-merge integration gate.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0508f56547e088972199b4924040da4214bee458:68da112de14b5c7bffbc79a1d10b04d67e5b87cf33ac11b86dcf7f352eee1596")
 
-Reviewer: None
+Reviewer: Some("fresh-session:review-319-exact-final")
 
-Result: pre_review
+Result: pass

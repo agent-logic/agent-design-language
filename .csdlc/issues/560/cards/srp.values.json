@@ -7,15 +7,15 @@
     "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
     "slug": "runtime-v2-workspace-coverage-timeouts",
     "version": "v0.92.1",
-    "generation": 42
+    "generation": 43
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/560/cards/stp.md\n.csdlc/issues/560/cards/spp.md\n.csdlc/issues/560/cards/srp.md\n.csdlc/issues/560/cards/stp.values.json\n.csdlc/issues/560/cards/spp.values.json\n.csdlc/issues/560/cards/srp.values.json\nadl/.config/nextest.toml\nadl/src/adl_gws_context_mirror.rs\nadl/src/bin/demo_adl_gws_context_mirror.rs\ndocs/planning/ADL_FEATURE_LIST.md\n.csdlc/prepared/issues/560/validate-focused-proof.sh\n.csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log",
+      "review_revision": "git-blake3:0508f56547e088972199b4924040da4214bee458:68da112de14b5c7bffbc79a1d10b04d67e5b87cf33ac11b86dcf7f352eee1596",
+      "reviewer": "fresh-session:review-319-exact-final",
       "review_prompts": [
         "Verify the exact seven-test runtime_v2 unified-kernel ci-coverage override remains module-bounded and preserves semantic assertions.",
         "Verify the context-mirror fixture supplies canonical inputs and the previously failing binary test passes.",
@@ -23,8 +23,10 @@
         "Verify focused evidence, operative STP/SPP truth, diff hygiene, and hosted-green gating are current before publication."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted workspace coverage remains the final pre-merge integration gate."
+      ],
+      "review_result": "pass"
     }
   }
 }
