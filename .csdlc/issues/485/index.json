@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e9e4925d9ff720b167d1bd71805c4bb8c5e15fd063089328bcf3c5583963d301",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "ea4134e64f521ffe4fad6c06e05aed3ecf04618b1ac579790fc3687c03ec11f9",
+  "generation": 10,
+  "digest": "1223006da34e7628651a9a55c00795169b4caec8b89ff3d32e6aa09ee73bf19e",
   "branch": "codex/485-aws-access-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-485-aws-access-billing-baseline",
-  "review_assignment": {
-    "reviewer": "fresh-session:59db2b56-3705-4377-8022-836f16ba8077",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:4bd7033e810346e589aec68d98ff155c2d161cb4:298fb0da0d9efd035e7409f68637fc25ecc1bf33902ede7ffdbb25451e437e83",
-    "scope": [
-      ".csdlc/issues/485",
-      ".csdlc/prepared/issues/485",
-      ".csdlc/evidence/485",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-b",
-      "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
-      "infra/aws/account-foundation/README.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "665dec75ede78233373af6531dfb60b264d6714b5725d4ad76bfd629427b4351",
+      "values_digest": "f24eb6d4e0c3210b9387a0a41f783c1faaabceba02f20075a4e42182a7cca8ed",
       "rendered_digest": "b82db0319f7c803d90a0e2485767968e7e48ae522b88bb5ff1dcccf639a8635f",
       "ast_digest": "8362b69b9646c72249d8ac8b91853fbc65864d0393c8bcc0d64142afcd18538a"
     },
     "stp": {
-      "values_digest": "f7463fbdda235a24fe2420861a8f12cbe95ab85fa9c21376f7ad77bece1adf9f",
+      "values_digest": "059e10aafdee1f2d75b8f1dcbd6c894fcf45497fead029fad89aaa3614670b2e",
       "rendered_digest": "82419bc49019f9ae4afc5a79c10a1dbfad43c3649d70a27b9b7081e291a92afa",
       "ast_digest": "f8e0d29ce8dd8c826d850627dd48694a8c50cd9cf86e399214a705cbee88251c"
     },
     "spp": {
-      "values_digest": "0005df2a67b3bb8e01ba8c46b50b559c0c38ebfc1fea12d2f7cdce020415ee3b",
+      "values_digest": "5b1b80a0606e42cd2f02e26a9d8afc523838954c4f873dd7512094b5328e5dc5",
       "rendered_digest": "80ee1083cac3c99eb1b46849e6a09586cb7a9e853ede7a48b8abe6242e3b09de",
       "ast_digest": "de70792bcb7ba42fe6951fcc0fa71f4bd016bf33602dbfa06150b73db099fd0a"
     },
     "vpp": {
-      "values_digest": "e3d1054dadc4fc587e1fe8227e023244224f8ba19888e74b59ceea4c443dfa44",
+      "values_digest": "015e854e791fce144fe813b0d37be1e7e604ab90b2c232f5f6bbc9d4481efdc0",
       "rendered_digest": "338a4181176c7bda9b2b47c658178eae5bd7f125336d209c3307190d01836553",
       "ast_digest": "19124688faccfc7cda70d364156898b03263527af4dcde97125b270bd1f630d3"
     },
     "srp": {
-      "values_digest": "7c72e745d3ad61ee53a7c53f4995cf9bde4391ed247688521e9e54eb7d10c58b",
-      "rendered_digest": "b7716e314b45648cf2019213e74f63eb081bf413d7968f4fc899c612f2926b58",
-      "ast_digest": "901973991fec124d7e946abf199b973d02a6168d439cf94a81adff8d0da81563"
+      "values_digest": "d988ab061ea980484863db456464644a649407a53d15c70cf29c21aae95962b0",
+      "rendered_digest": "dc20f1c1db625edc0817b20ee813f140a5ab0cdaacd74914931d0de393930956",
+      "ast_digest": "5a35986596d9d83a2cd4694705ebd397fcdc41e4eb2960fefaa3b8ad1e392cf1"
     },
     "sor": {
-      "values_digest": "d0ef2f5a74991a6b348574894fb60076982de6bec775efa8dc39f8ab49cdecd5",
+      "values_digest": "ca119fa80c27610272ccb3b201eec44a0f7f939205d6254dd647789292fd6198",
       "rendered_digest": "a080239f8ce0028ab98ea71171e6304e09017fe0e592e1c5f73f32675064d9c0",
       "ast_digest": "c15b22b5a8295966869505ee08fff7333f0716eb334578bf214e3acf3bf02f74"
     }
@@ -181,6 +169,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover R4 FAIL before refreshing retained typed-state evidence from generation 7 to the current implemented issue generation; preserve exact review finding in audit/review truth.",
+      "operation": "recover_review"
     }
   ]
 }
