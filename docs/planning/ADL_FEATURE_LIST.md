@@ -120,6 +120,8 @@ contracts it depends on.
 ## Current Repo Status
 
 Current roadmap planning truth, last verified 2026-08-05:
+Active status: v0.92.1
+
 - the feature-doc production wave is tracked as issue `#3779` with child
   issues `#3778`, `#3780`, `#3781`, and `#3782`
 - `v0.91.6` is the completed first pre-v0.92 readiness tranche

@@ -7,25 +7,23 @@
     "title": "[v0.92.1][shared-gate] Stabilize runtime_v2 unified kernel workspace coverage timeouts",
     "slug": "runtime-v2-workspace-coverage-timeouts",
     "version": "v0.92.1",
-    "generation": 24
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/560\n.csdlc/prepared/issues/560\n.csdlc/evidence/560\nadl/.config/nextest.toml\nadl/src/adl_gws_context_mirror.rs",
-      "review_revision": "git-blake3:65631db732b1d8b8e7fbfc859163171b76051e10:c5772903ef566b0ef30f13037d580bbf761a4fe29e411afbb73128662a95187c",
-      "reviewer": "openai-responses:resp_05358d9aeb79ba51006a8f7e674e0487d09cc756cdcf1200d6:metadata-head-reconciliation",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify the change is an exact ci-coverage timeout/profile adjustment for only the three observed runtime_v2 tests.",
         "Verify Runtime v2 semantics and assertions are unchanged.",
         "Verify hosted coverage remains the final shared-gate proof."
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted adl-coverage remains the required integration proof before merge."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

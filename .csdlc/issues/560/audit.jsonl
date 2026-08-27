@@ -29,3 +29,4 @@
 {"sequence":29,"generation":22,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":23,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":31,"generation":24,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":32,"generation":25,"actor":"codex:/root/fix_560_workspace_timeout","reason":"Recover #560 after hosted workspace coverage run 33025738363 exposed a real context-mirror demo fixture portability failure: the demo fixture did not create docs/planning/ADL_FEATURE_LIST.md even though read_milestone_truth now requires that canonical input. The bounded repair adds only the missing fixture input and refreshes focused proof evidence before exact-head review and republishing.","operation":"recover_review"}

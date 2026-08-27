@@ -18,6 +18,7 @@ expression='test(/^runtime_v2::tests::unified_runtime_kernel::/)'
   test "$selected_count" = "7"
   cargo llvm-cov nextest --profile ci-coverage --no-report --no-fail-fast --test-threads 3 -E "$expression"
   cargo test -p adl adl_gws_context_mirror::tests::milestone_truth_reads_current_repo_story
+  cargo test --bin adl-gws-context-mirror context_mirror_demo_runs_and_writes_report
 } 2>&1 | tee .csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log
 
 perl -0pi -e 's/\n+\z/\n/' .csdlc/evidence/560/focused-runtime-v2-unified-kernel-coverage.log

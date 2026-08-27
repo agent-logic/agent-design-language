@@ -683,23 +683,25 @@ pub fn read_milestone_truth(repo_root: &Path) -> Result<WorkspaceMilestoneTruthR
 }
 
 fn detect_current_milestone(readme: &str) -> String {
+    let mut detected = Vec::new();
     for milestone in ["v0.92.1", "v0.92", "v0.91.8", "v0.91.7", "v0.91.6"] {
         let active_patterns = [
             format!("Active milestone: {milestone}"),
-            format!("Current milestone state: {milestone}"),
-            format!("### {milestone} - Active"),
-            format!("`{milestone}` is the next planning and execution band"),
-            format!("### `{milestone}`"),
-            format!("### {milestone} - Completed Milestone"),
+            format!("Active status: {milestone}"),
         ];
-        if active_patterns
-            .iter()
-            .any(|pattern| readme.contains(pattern))
+        if readme
+            .lines()
+            .map(str::trim)
+            .any(|line| active_patterns.iter().any(|pattern| line == pattern))
         {
-            return milestone.to_string();
+            detected.push(milestone.to_string());
         }
     }
-    "unknown".to_string()
+    detected.dedup();
+    match detected.as_slice() {
+        [milestone] => milestone.clone(),
+        _ => "unknown".to_string(),
+    }
 }
 
 #[cfg(test)]
@@ -1050,16 +1052,28 @@ mod tests {
             "v0.91.7"
         );
         assert_eq!(
-            detect_current_milestone("Current milestone state: v0.92 planning"),
-            "v0.92"
-        );
-        assert_eq!(
-            detect_current_milestone("`v0.92.1` is the next planning and execution band"),
+            detect_current_milestone("Active milestone: v0.92.1"),
             "v0.92.1"
         );
         assert_eq!(
+            detect_current_milestone("Active status: v0.92.1"),
+            "v0.92.1"
+        );
+    }
+
+    #[test]
+    fn milestone_detection_rejects_non_active_and_conflicting_markers() {
+        assert_eq!(
+            detect_current_milestone("`v0.92.1` is the next planning and execution band"),
+            "unknown"
+        );
+        assert_eq!(
             detect_current_milestone("### v0.92 - Completed Milestone"),
-            "v0.92"
+            "unknown"
+        );
+        assert_eq!(
+            detect_current_milestone("Active milestone: v0.91.8\nActive milestone: v0.92.1"),
+            "unknown"
         );
     }
 

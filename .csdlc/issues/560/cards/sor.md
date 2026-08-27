@@ -85,11 +85,11 @@ Recovered PR #561 after hosted workspace coverage run 33021333783 and stabilized
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
