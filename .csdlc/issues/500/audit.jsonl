@@ -27,3 +27,6 @@
 {"sequence":27,"generation":21,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":28,"generation":22,"actor":"fresh-session:edad5ee2-5d33-4725-9dbc-c38fa109030e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":29,"generation":23,"actor":"codex:worker-6","reason":"Recover from recorded scope-review finding so issue #500 can request a full changed-surface exact-head review.","operation":"recover_review"}
+{"sequence":30,"generation":23,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":31,"generation":24,"actor":"fresh-session:abdc5ad3-df9c-40ae-9800-3a04271c57e2","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":32,"generation":25,"actor":"codex:worker-6","reason":"Recover from recorded retained-denominator review finding so issue #500 can apply source-grounded acceptance-row coverage.","operation":"recover_review"}

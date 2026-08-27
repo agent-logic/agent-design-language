@@ -18,30 +18,37 @@ issues = entries.map { |entry| Integer(entry.fetch("issue")) }
 abort("predecessor denominator must be exactly 161, 162, 163") unless issues.sort == [161, 162, 163] && issues.uniq.length == 3
 expected_requirements = {
   161 => %w[
-    command-tree
-    state-output-contracts
-    schema-evolution
-    capability-matrix
-    reviewer-independence
-    publication-linkage
-    finish-cleanup-migration
-    supported-platform-matrix
-    state-size-guard
-    output-filter-subset
+    issue-161-ac-1-public-command-output-contracts
+    issue-161-ac-2-v2-invariant-owner-proof-map
+    issue-161-ac-3-unweakened-review-github-topology-state-cleanup
+    issue-161-ac-4-explicit-reviewed-v2-drift
+    issue-161-ac-5-importer-retention-window
+    issue-161-ac-6-in-process-filter-template-boundary
+    issue-161-ac-7-reviewer-independence-check
+    issue-161-ac-8-closing-vs-partof-publication
+    issue-161-ac-9-authoritative-field-owner-matrix
+    issue-161-ac-10-capability-matrix-derived-help-auth-tests
+    issue-161-ac-11-state-size-warning-block-audit
+    issue-161-ac-12-measured-largest-v2-bundle
+    issue-161-ac-13-architecture-review-on-impractical-state-size
+    issue-161-ac-14-v3-16-canary-sizing
+    issue-161-ac-15-frozen-jq-subset
+    issue-161-ac-16-official-cli-source-baseline
   ],
   162 => %w[
-    four-layer-rust-shape
-    dependency-thresholds
-    parser-template-boundaries
-    github-client-capability-gaps
-    commit-primitive-recommendation
-    promote-or-discard-disposition
+    issue-162-ac-1-one-binary-one-library-four-layers
+    issue-162-ac-2-parse-without-repo-credentials-network-child-task
+    issue-162-ac-3-fake-adapter-determinism
+    issue-162-ac-4-github-operation-capability-classification
+    issue-162-ac-5-end-to-end-recovery-journey
+    issue-162-ac-6-measurement-threshold-stop-go
+    issue-162-ac-7-decision-11-not-satisfied-by-recommendation
   ],
   163 => %w[
-    platform-commit-matrix
-    durability-semantics
-    windows-fail-closed-posture
-    operator-decision
+    issue-163-ac-1-platform-commit-primitive-durability
+    issue-163-ac-2-windows-proven-or-fail-closed-read-only
+    issue-163-ac-3-operator-decision-cites-v3-02-evidence
+    issue-163-ac-4-v3-08-blocked-until-terminal
   ]
 }
 entries.each do |entry|
@@ -51,6 +58,7 @@ entries.each do |entry|
   abort("requirement denominator mismatch for ##{issue}") unless ids.sort == expected_requirements.fetch(issue).sort
   abort("duplicate requirement disposition for ##{issue}") unless ids.uniq.length == ids.length
   requirements.each do |requirement|
+    abort("source acceptance missing for ##{issue}/#{requirement.fetch('id')}") unless requirement.fetch("source_acceptance").match?(/\AAC-\d+\z/)
     abort("requirement disposition missing for ##{issue}/#{requirement.fetch('id')}") unless requirement.fetch("disposition").strip == "retained"
     maps_to = requirement.fetch("maps_to")
     abort("requirement mapping missing for ##{issue}/#{requirement.fetch('id')}") unless maps_to.is_a?(Array) && maps_to.any? { |target| !target.strip.empty? }

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "22a830f7960e22c8aff54ecb1f8a0e2d13e57aa522d1636de5898b261884a175",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "beb8dd1517a0b1f42bf16be1dfdedb3730a3a2a3449018c8ea93396019a1f499",
+  "generation": 25,
+  "digest": "269630ac01b404b18581a9b0a6a42c695e9896c2d3d9fe7635ccbae19f76b8c3",
   "branch": "codex/500-v3-a-contract-construction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-500-v3-a-contract-construction",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "42742fa1679508d99f75dc44de75dced4f1b708fc5da4550f08d61a07433a8f3",
+      "values_digest": "e6f0cf010290ae51f725e7ea734baae99146c6ac87279675e42693ed3ac9d244",
       "rendered_digest": "aec800d4753f996cc76ea47e5fe15904e9006c772b32f278ab79d6a2095a9be9",
       "ast_digest": "275e6d78bca0947476cc246f0126060f28493c24ef4679fec0cf7d204233c3be"
     },
     "stp": {
-      "values_digest": "00d43c3c75919eebbc114d1e9a82661b954db78dbfbfa34bb0da8e6bc7c18a7f",
+      "values_digest": "572092b696c9caae19ac9409b2726a5fa3f3851e2c0ea01a03e64e76ed40ffdf",
       "rendered_digest": "e6ac8038e3ecf65c5e0cc7b62344355643acdcb7b7637296b8ecf2126e612a06",
       "ast_digest": "c20112b3ad370c4a6e5afa1a7c704529bea388f58ebf4d3eb1311eae987485a8"
     },
     "spp": {
-      "values_digest": "1a26edbf3a50d8f6af69eed54d8ee58749d2228a8f5958a20346f22afc7c02a3",
+      "values_digest": "3d79d0f42d4209b00032dcec2c597463e72e0aff72445d84d22da5f93d2265a5",
       "rendered_digest": "1c24245d83c0cee53b3e8038b04058de056147cda54573dbde245dcb55836cb2",
       "ast_digest": "62679e503e5f2ee877d31e9dc6fb31a38de425cdf37c5457241165ec9325dd88"
     },
     "vpp": {
-      "values_digest": "e8583da1e0639540ddad8f0fbc6f7d7e93e7076e206393810ff2806aef2e39b7",
+      "values_digest": "4269ed301f7673a33046fc86caec07ccb4bdccaa18b763074cabdc2d36b860ae",
       "rendered_digest": "3c32b5be7441e07db01bbcfb1724938387158e8c2e2548d3c69eea66a1439b42",
       "ast_digest": "e00992a10923ecd947e697c4cb57f66b6056ff21c8ae9bb99c4a48b036ab63cc"
     },
     "srp": {
-      "values_digest": "c85e5c378a8cce9531830fb5ecb87219222a7ee630a506d33d8020c10a11cf6c",
+      "values_digest": "84776a67b13971ce6263ba9fee2af36a2c522687f8da81152f0950a0452717e7",
       "rendered_digest": "c82b2e34bbc0107529ae721a44263e66c3932042d63c9be0dabd96e2da14d912",
       "ast_digest": "cf330c0a008bd3c5ca2d7e830272bad2f7b38fd94cc8e22bae5b2c2cf2f6e97c"
     },
     "sor": {
-      "values_digest": "959cbd0d52094e8229fa0fd60ebd8d893cca77a541f26b66c78b25a5645b48e9",
+      "values_digest": "4130a9cfd62081c237bf769d04512a1d9a0727ab86ddaae278d9ab821145c513",
       "rendered_digest": "a222c7f9bc93757e0dc9551a634c04a1569b41027cd5e7a88bddcc2536b8887c",
       "ast_digest": "983fa1776eb3d511266e5a3575452242b3b3cf341e37c2788ba15f126cece44f"
     }
@@ -279,6 +279,27 @@
       "generation": 23,
       "actor": "codex:worker-6",
       "reason": "Recover from recorded scope-review finding so issue #500 can request a full changed-surface exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "fresh-session:abdc5ad3-df9c-40ae-9800-3a04271c57e2",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:worker-6",
+      "reason": "Recover from recorded retained-denominator review finding so issue #500 can apply source-grounded acceptance-row coverage.",
       "operation": "recover_review"
     }
   ]

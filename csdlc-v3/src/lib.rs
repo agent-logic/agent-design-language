@@ -9,27 +9,34 @@
 pub const PREDECESSOR_DENOMINATOR: [u64; 3] = [161, 162, 163];
 
 /// Requirement-level retained predecessor denominator for V3-A.
-pub const PREDECESSOR_REQUIREMENTS: [&str; 20] = [
-    "command-tree",
-    "state-output-contracts",
-    "schema-evolution",
-    "capability-matrix",
-    "reviewer-independence",
-    "publication-linkage",
-    "finish-cleanup-migration",
-    "supported-platform-matrix",
-    "state-size-guard",
-    "output-filter-subset",
-    "four-layer-rust-shape",
-    "dependency-thresholds",
-    "parser-template-boundaries",
-    "github-client-capability-gaps",
-    "commit-primitive-recommendation",
-    "promote-or-discard-disposition",
-    "platform-commit-matrix",
-    "durability-semantics",
-    "windows-fail-closed-posture",
-    "operator-decision",
+pub const PREDECESSOR_REQUIREMENTS: [&str; 27] = [
+    "issue-161-ac-1-public-command-output-contracts",
+    "issue-161-ac-2-v2-invariant-owner-proof-map",
+    "issue-161-ac-3-unweakened-review-github-topology-state-cleanup",
+    "issue-161-ac-4-explicit-reviewed-v2-drift",
+    "issue-161-ac-5-importer-retention-window",
+    "issue-161-ac-6-in-process-filter-template-boundary",
+    "issue-161-ac-7-reviewer-independence-check",
+    "issue-161-ac-8-closing-vs-partof-publication",
+    "issue-161-ac-9-authoritative-field-owner-matrix",
+    "issue-161-ac-10-capability-matrix-derived-help-auth-tests",
+    "issue-161-ac-11-state-size-warning-block-audit",
+    "issue-161-ac-12-measured-largest-v2-bundle",
+    "issue-161-ac-13-architecture-review-on-impractical-state-size",
+    "issue-161-ac-14-v3-16-canary-sizing",
+    "issue-161-ac-15-frozen-jq-subset",
+    "issue-161-ac-16-official-cli-source-baseline",
+    "issue-162-ac-1-one-binary-one-library-four-layers",
+    "issue-162-ac-2-parse-without-repo-credentials-network-child-task",
+    "issue-162-ac-3-fake-adapter-determinism",
+    "issue-162-ac-4-github-operation-capability-classification",
+    "issue-162-ac-5-end-to-end-recovery-journey",
+    "issue-162-ac-6-measurement-threshold-stop-go",
+    "issue-162-ac-7-decision-11-not-satisfied-by-recommendation",
+    "issue-163-ac-1-platform-commit-primitive-durability",
+    "issue-163-ac-2-windows-proven-or-fail-closed-read-only",
+    "issue-163-ac-3-operator-decision-cites-v3-02-evidence",
+    "issue-163-ac-4-v3-08-blocked-until-terminal",
 ];
 
 /// Lifecycle surfaces classified by the V3-A proportional-lifecycle decision.
@@ -108,11 +115,15 @@ mod tests {
         assert!(!is_v3a_predecessor(164));
         assert!(coverage.contains("\"denominator\": [161, 162, 163]"));
         assert!(!coverage.contains("\"requirement_ids\""));
+        assert!(coverage.contains("\"denominator_source\""));
         for requirement in PREDECESSOR_REQUIREMENTS {
             assert!(coverage.contains(&format!("\"id\": \"{requirement}\"")));
             assert!(coverage.contains(&format!("\"disposition\": \"retained\"")));
             assert!(coverage.contains("\"maps_to\""));
         }
+        assert!(coverage.contains("\"source_acceptance\": \"AC-16\""));
+        assert!(coverage.contains("\"source_acceptance\": \"AC-7\""));
+        assert!(coverage.contains("\"source_acceptance\": \"AC-4\""));
         assert_eq!(
             PREDECESSOR_REQUIREMENTS
                 .into_iter()
