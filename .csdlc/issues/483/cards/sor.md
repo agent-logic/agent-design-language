@@ -44,7 +44,7 @@ Produced the read-only corporate account custody register and complete follow-up
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

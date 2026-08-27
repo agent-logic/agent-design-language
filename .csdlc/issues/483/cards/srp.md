@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This documentation issue performs no external account, domain, DNS, hosted-zone, credential, or recovery mutation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0c24bd096b78b9b569e5b4826504c3a14b832df9:594969aefe6707d82d19b972c436cec2a18c5dc9ea784b5a74ec7ca5688e8741")
 
-Reviewer: None
+Reviewer: Some("fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02")
 
-Result: pre_review
+Result: pass
