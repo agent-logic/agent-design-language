@@ -6,10 +6,17 @@
   "initialization_digest": "4ed15475a0d9322e1d24dc339e8aa75fc52e284a95a8cb073b9ae484572c3398",
   "phase": "implemented",
   "generation": 67,
-  "digest": "71704e0bb2a7337a6d359b343c10f6113463db6eb5de5d3a7b8b34e421f04b5e",
+  "digest": "45da9b43a681466949599a1a0e2b87d4f058947605cdbb6216ee1d2cfd25ec61",
   "branch": "codex/122-csm-public-edge-terraform",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-122-csm-public-edge-terraform",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ab99c632-e4c0-4e40-9f6d-76557dc80ef7",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:7b01c23d9986a565a4b4ddeb349800c7c3e55135:5c9d59690d50f84b0a3d61043f499ac9d1918e7582439117f21d1c8ae74a1d78",
+    "scope": [
+      "."
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +52,9 @@
       "ast_digest": "18843b924612c493c264365f7e2789a49ffedc1b307f4464679c96da4157625a"
     },
     "srp": {
-      "values_digest": "dcc09a0d9080619324a34e468014795a19cea6e01f37da48fd81bdbc2c70ed10",
-      "rendered_digest": "f6a1a3df1a3557919105b7511c9cfc2a376785249ce299dbdfd88a93e9053156",
-      "ast_digest": "5a89e8db3c45d863e95ed8eb22c2f0dfe512e980c0b7673db14773f6800f379e"
+      "values_digest": "c94d69909efc5564149c8c2d30eaad8a5970aa13e53267a2ad880832849a46f6",
+      "rendered_digest": "b9e82e2ed4748e5cde4a653ab68a1f50d01f6e1f8aad3e2f3758337bbfe9318e",
+      "ast_digest": "015bcef0c6aa2d40402f540dd0b3590bf0c4feb30eeef9ce61e6ccaadc6a3051"
     },
     "sor": {
       "values_digest": "7d356890ec2804a7be6fc5af489c1615149f2683d0caf4d296c6848925633cc5",
@@ -799,6 +806,13 @@
       "actor": "codex:/root",
       "reason": "Recover #122 review after committing typed review-record metadata; publication guard requires a fresh exact clean HEAD review before republishing.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 90,
+      "generation": 67,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
