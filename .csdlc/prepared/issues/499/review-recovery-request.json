@@ -1,0 +1,7 @@
+{
+  "actor": "codex:sprint-1-issue-499-worker",
+  "expected_digest": "01d0733b92b302e2d3bc26835c4e93fe55240c89ac8ff5d3edf8db5b9474d766",
+  "expected_generation": 5,
+  "issue": 499,
+  "reason": "Recover review evidence after the non-substantive C-SDLC review-record commit so publication can verify a clean current head."
+}

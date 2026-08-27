@@ -1,0 +1,37 @@
+{
+  "actor": "codex:sprint-1-issue-499-worker",
+  "card": "sor",
+  "expected_digest": "d5e44e65c0a0fed0c81080e086ab32691f907492216bc78b7c1a595e47e00f5c",
+  "expected_generation": 1,
+  "issue": 499,
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Refactored adl/src/resilience.rs into an owner-boundary facade plus focused resilience submodules without changing public resilience API, retry, timeout, cancellation, tracing, fault, rate-limit, bulkhead, circuit-breaker, or fallback behavior.",
+    "changes": [
+      "Reduced adl/src/resilience.rs from the 5278-line monolith to a 64-line facade that declares resilience submodules and re-exports the preserved public surface.",
+      "Moved runtime health/correlation, fault records, policy/manifest, retry, timeout, circuit-breaker, rate-limit, bulkhead, fallback, schema smoke, and existing tests into adl/src/resilience/*.rs.",
+      "Converted the six issue-local RUST-01 prepared validators from planned-proof placeholders into executable API, behavior, validation-impact, and fmt/clippy proof scripts."
+    ],
+    "artifacts": [
+      "adl/src/resilience.rs",
+      "adl/src/resilience/runtime.rs",
+      "adl/src/resilience/fault.rs",
+      "adl/src/resilience/policy.rs",
+      "adl/src/resilience/retry.rs",
+      "adl/src/resilience/timeout.rs",
+      "adl/src/resilience/circuit_breaker.rs",
+      "adl/src/resilience/rate_limit.rs",
+      "adl/src/resilience/bulkhead.rs",
+      "adl/src/resilience/fallback.rs",
+      "adl/src/resilience/schema.rs",
+      "adl/src/resilience/tests.rs",
+      ".csdlc/prepared/issues/499/validate-api-parity.rb",
+      ".csdlc/prepared/issues/499/validate-validation-impact.rb",
+      ".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb",
+      ".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb",
+      ".csdlc/prepared/issues/499/validate-fault-and-trace.rb",
+      ".csdlc/prepared/issues/499/validate-fmt-clippy.rb"
+    ]
+  },
+  "reason": "Record bounded RUST-01 execution evidence for issue #499 before implemented phase advance."
+}
