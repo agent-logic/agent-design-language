@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 502,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+    "slug": "v0-92-1-v3-c-c-sdlc-v3-lifecycle-kernel",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one transactional C-SDLC v3 lifecycle-kernel slice.",
+      "required_outcome": "A transactional, non-authoritative C-SDLC v3 lifecycle-kernel slice with capability-checked transitions, atomic modeled commits, recovery replay, typed adapters, crate-local AGENTS.md guidance, and focused failure-injection proof for retained requirements #168 through #170.",
+      "declared_scope": [
+        "csdlc-v3/src/lifecycle/**",
+        "csdlc-v3/src/storage/**",
+        "csdlc-v3/src/adapters/**",
+        "csdlc-v3/tests/transactions.rs",
+        "csdlc-v3/AGENTS.md",
+        ".csdlc/issues/502/**",
+        ".csdlc/prepared/issues/502/**",
+        ".csdlc/evidence/502/**"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains the sole operational lifecycle authority throughout #502.",
+        "Issue completion is exactly delivery of one transactional lifecycle-kernel slice; storage, adapters, tests, and crate-local guidance are inseparable implementation parts.",
+        "The #502 slice is non-authoritative and must not perform live lifecycle writes, GitHub mutation, publication, finish, cleanup, v2 migration, or authority cutover."
+      ],
+      "initial_assumptions": [
+        "#501 is published/reviewed and remains the stack base until it merges.",
+        "Final #502 integration remains ordered behind #501.",
+        "The crate-local AGENTS.md is guidance only and remains subordinate to root AGENTS.md."
+      ],
+      "operator_constraints": [
+        "Execute #502 after #501 is published/reviewed and keep final #502 integration ordered behind #501.",
+        "Stack #502 on the #501 branch while #501 is not yet merged to main.",
+        "Do not modify C-SDLC v2 behavior or authority.",
+        "Do not start V3-D or later implementation inside this issue.",
+        "Keep issue-start mechanics simple enough that a prepared issue can be inspected, bound, and started quickly without bypassing typed v2 authority."
+      ]
+    }
+  }
+}

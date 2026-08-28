@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 502,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "82b503676ccf4a22d0dbc47e281dec6b87f4a248a1f1a4b478c4f20b0e0a951a",
+  "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/502/design.md",
+  "diagram_path": ".csdlc/prepared/issues/502/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:50250250-2502-4502-8502-502502502502",
+      "revision": "df99b55e3349870fa305781b1f093b4b17ccb52d4d497a591183392c22ad149f"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c84ebe769546c0eb0db1c789525349655ef2af52172814d60415cb9c050e7875",
+      "rendered_digest": "586a7982b1e0f3092d591c32d3c122d93af9f28bab3131eaa3b67d7bb25b65dc",
+      "ast_digest": "f6b8055e02a6433850689b71b3f9ec0371dc513f2be23f17e675ff4ee637b49c"
+    },
+    "stp": {
+      "values_digest": "66efcf0aadec0e25d6d0e1a3a883c1a7df823123a02f524ee7b73e019f71f058",
+      "rendered_digest": "b20c663d5fb080ca3aee3471f9f5bcc730ae6a3a95f78ed146eb4ef06fbecb3b",
+      "ast_digest": "2d82914d8f9e739e95a46f29b9004c31158554791c6a63129b97f0ac9248d4f5"
+    },
+    "spp": {
+      "values_digest": "d18da56c472239306c36d252451ee14ec01160ac30ae315cf99d2ba9aaa3fe9a",
+      "rendered_digest": "43bc5b0aebd2201594c013dfa4698f94bd4ba4c81eb3ddd0a73c74919cd26f4a",
+      "ast_digest": "f00a8ff6c49ddde156a505009c2c29cfad9d9153d8d7db1fad3ee75fb9e0f8d5"
+    },
+    "vpp": {
+      "values_digest": "f01c04c4346a0b4b40e81502799b6722f866e6ae7258ba021ac5cd0af5563739",
+      "rendered_digest": "68e4ac33848d009bdd0b54fccf2958ddb175a150b6cb70d68c3a4a21ca3374d9",
+      "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
+    },
+    "srp": {
+      "values_digest": "884f3ee8278bc3c1b85f409488f85600e695c626b791854ba71f49b2d3214f36",
+      "rendered_digest": "c0a5f24eca8192b6aa051e61c572ac160c9941526435bc2c21f4102a8ff824a3",
+      "ast_digest": "2f0cb9846491ce392d6fba9d581a1985cbdf782be0549ac44e05a156da6c8999"
+    },
+    "sor": {
+      "values_digest": "3542ab9e6a5ba3a8081af837cec1c710dcb709dbd6681b367fe9886e8843d85f",
+      "rendered_digest": "e47a520c55d51763356cf0804f8c65437d08887bf028df26f735a54285c60f24",
+      "ast_digest": "269414b83aa2936ed06f9aa84c7eaa69fe6ba7ab9d588949200d1490fbfe294c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance #502 to ready in the stacked worktree after typed design approval, doctor PASS, and csdlc-validate PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "recover initialized #502 cards after pre-bind decomposition tightening for exact validator target and crate-local AGENTS.md task",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"issue-168\",\"relation\":\"retained-by\",\"to\":\"issue-502\"},{\"from\":\"issue-169\",\"relation\":\"retained-by\",\"to\":\"issue-502\"},{\"from\":\"issue-170\",\"relation\":\"retained-by\",\"to\":\"issue-502\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":168,\"node_id\":\"issue-168\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"retained-transition-requirement\"},{\"in_scope\":true,\"issue\":169,\"node_id\":\"issue-169\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"retained-transaction-recovery-requirement\"},{\"in_scope\":true,\"issue\":170,\"node_id\":\"issue-170\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"retained-adapter-boundary-requirement\"},{\"in_scope\":true,\"issue\":502,\"node_id\":\"issue-502\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"v3-c-lifecycle-kernel-owner\"}],\"parent_integration_owner\":\"issue-502\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"df99b55e3349870fa305781b1f093b4b17ccb52d4d497a591183392c22ad149f\",\"byte_sha256\":\"6e1e9cf96a3bb8b9761e9114d5f69efc6cb5e760e781932b2bd65e01516c6e8a\",\"path\":\".csdlc/prepared/issues/502/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"a69cf80de8610e1435636d445889d2b93d0385a417ea45824038d526d065fd21\",\"byte_sha256\":\"03f639fb0fe075c3f808e980b4365a68546f6344037e1da12c52d98982cef6c2\",\"path\":\".csdlc/prepared/issues/502/diagram.mmd\"},\"recovery_scope\":[\"exact validator deliverable denominator\",\"crate-local AGENTS.md deliverable\",\"v2 authority boundary and three-minute issue-start simplification prompt\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:50250250-2502-4502-8502-502502502502",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"df99b55e3349870fa305781b1f093b4b17ccb52d4d497a591183392c22ad149f\",\"design_ref\":\".csdlc/prepared/issues/502/design.md\",\"diagram_digest\":\"a69cf80de8610e1435636d445889d2b93d0385a417ea45824038d526d065fd21\",\"diagram_ref\":\".csdlc/prepared/issues/502/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "Advance #502 to ready in the stacked worktree after typed design approval, doctor PASS, and csdlc-validate PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

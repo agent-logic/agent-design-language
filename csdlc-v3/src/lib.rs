@@ -5,11 +5,17 @@
 //! execution, GitHub mutation, worktree binding, finish, cleanup, or authority
 //! cutover APIs.
 
+pub mod adapters;
 pub mod application;
+pub mod lifecycle;
 pub mod repository;
+pub mod storage;
 
 /// The predecessor issues retained by the V3-A contract.
 pub const PREDECESSOR_DENOMINATOR: [u64; 3] = [161, 162, 163];
+
+/// The predecessor issues retained by the V3-C lifecycle-kernel slice.
+pub const LIFECYCLE_KERNEL_PREDECESSORS: [u64; 3] = [168, 169, 170];
 
 /// Requirement-level retained predecessor denominator for V3-A.
 pub const PREDECESSOR_REQUIREMENTS: [&str; 27] = [
@@ -64,6 +70,11 @@ pub const PROPORTIONAL_SURFACES: [&str; 15] = [
 /// Returns true only for the explicit retained V3-A predecessor denominator.
 pub fn is_v3a_predecessor(issue: u64) -> bool {
     PREDECESSOR_DENOMINATOR.contains(&issue)
+}
+
+/// Returns true only for the explicit retained V3-C predecessor denominator.
+pub fn is_v3c_lifecycle_predecessor(issue: u64) -> bool {
+    LIFECYCLE_KERNEL_PREDECESSORS.contains(&issue)
 }
 
 /// Returns true only for surfaces in the V3-A proportional-lifecycle denominator.

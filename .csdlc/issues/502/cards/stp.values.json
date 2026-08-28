@@ -1,0 +1,61 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 502,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+    "slug": "v0-92-1-v3-c-c-sdlc-v3-lifecycle-kernel",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the V3-C lifecycle-kernel slice: transition/capability model, transaction storage/recovery model, typed adapter boundaries, crate-local AGENTS.md guidance, and focused failure-injection proof for requirements #168 through #170.",
+      "deliverables": [
+        "csdlc-v3/src/lifecycle/mod.rs",
+        "csdlc-v3/src/storage/mod.rs",
+        "csdlc-v3/src/adapters/mod.rs",
+        "csdlc-v3/tests/transactions.rs",
+        "csdlc-v3/AGENTS.md",
+        "Truthful validation and review evidence for #502"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Transitions are capability-checked and atomic.",
+        "AC-2: Recovery preserves audit provenance.",
+        "AC-3: Requirements #168 through #170 pass transition, failure-injection, recovery-replay, and adapter-boundary tests."
+      ],
+      "dependencies": [
+        "V3-B: #501 must remain reviewed/published and final #502 integration must stay ordered behind #501."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#502",
+        "agent-logic/agent-design-language#501",
+        "agent-logic/agent-design-language#168",
+        "agent-logic/agent-design-language#169",
+        "agent-logic/agent-design-language#170",
+        "docs/csdlc-v3/CONTRACT.md",
+        "docs/csdlc-v3/predecessor-coverage.json",
+        "docs/csdlc-v3/proportional-lifecycle.json",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-C",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "docs/milestones/v0.92.1/planned-issue-packets/issues/168/cards/stp.md",
+        "docs/milestones/v0.92.1/planned-issue-packets/issues/169/cards/stp.md",
+        "docs/milestones/v0.92.1/planned-issue-packets/issues/170/cards/stp.md"
+      ],
+      "non_goals": [
+        "Publication as implementation behavior",
+        "v2 migration or retirement",
+        "Live GitHub mutation from csdlc-v3",
+        "Distributed transactions",
+        "Remote rollback",
+        "Lock-as-ownership authority",
+        "V3-D local-preparation workflow",
+        "Repository-wide lifecycle refactoring"
+      ]
+    }
+  }
+}
