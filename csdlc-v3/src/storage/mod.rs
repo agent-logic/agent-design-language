@@ -13,13 +13,24 @@ pub struct StateRecord {
 
 impl StateRecord {
     pub fn new(state: LifecycleState) -> Self {
-        Self {
+        let mut record = Self {
             generation: 0,
-            digest: digest_for(0, state, &[]),
+            digest: String::new(),
             state,
             audit: Vec::new(),
             projections_repair_required: false,
-        }
+        };
+        record.refresh_digest();
+        record
+    }
+
+    fn refresh_digest(&mut self) {
+        self.digest = digest_for(
+            self.generation,
+            self.state,
+            &self.audit,
+            self.projections_repair_required,
+        );
     }
 }
 
@@ -58,6 +69,7 @@ pub enum StoreError {
         expected_generation: u64,
         actual_generation: u64,
     },
+    ProjectionRepairRequired,
     RejectedTransition,
 }
 
@@ -100,6 +112,9 @@ impl TransactionStore {
                 actual_generation: self.committed.generation,
             });
         }
+        if self.committed.projections_repair_required {
+            return Err(StoreError::ProjectionRepairRequired);
+        }
         let decision = decide(self.committed.state, command, capabilities);
         let TransitionOutcome::Allowed { to, .. } = decision.outcome else {
             return Err(StoreError::RejectedTransition);
@@ -113,13 +128,14 @@ impl TransactionStore {
             to,
             provenance: provenance.into(),
         });
-        let next_state = StateRecord {
+        let mut next_state = StateRecord {
             generation: next_generation,
-            digest: digest_for(next_generation, to, &next_audit),
+            digest: String::new(),
             state: to,
             audit: next_audit,
             projections_repair_required: false,
         };
+        next_state.refresh_digest();
         Ok(StagedTransaction {
             intent: TransactionIntent {
                 expected_generation,
@@ -140,14 +156,25 @@ impl TransactionStore {
         &mut self,
         transaction: StagedTransaction,
         projection_write: ProjectionWrite,
-    ) -> CommitResult {
+    ) -> Result<CommitResult, StoreError> {
+        if transaction.intent.expected_generation != self.committed.generation
+            || transaction.intent.expected_digest != self.committed.digest
+        {
+            return Err(StoreError::StaleWriter {
+                expected_generation: transaction.intent.expected_generation,
+                actual_generation: self.committed.generation,
+            });
+        }
         self.journal.push(transaction.intent);
         self.committed = transaction.next_state;
         match projection_write {
-            ProjectionWrite::Success => CommitResult::Committed(self.committed.clone()),
+            ProjectionWrite::Success => Ok(CommitResult::Committed(self.committed.clone())),
             ProjectionWrite::FailAfterStateCommit => {
                 self.committed.projections_repair_required = true;
-                CommitResult::ProjectionRepairRequired(self.committed.clone())
+                self.committed.refresh_digest();
+                Ok(CommitResult::ProjectionRepairRequired(
+                    self.committed.clone(),
+                ))
             }
         }
     }
@@ -228,6 +255,39 @@ pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassifica
     }
 }
 
-fn digest_for(generation: u64, state: LifecycleState, audit: &[AuditEvent]) -> String {
-    format!("v3:{generation}:{state}:{}", audit.len())
+fn digest_for(
+    generation: u64,
+    state: LifecycleState,
+    audit: &[AuditEvent],
+    projections_repair_required: bool,
+) -> String {
+    let mut canonical =
+        format!("generation={generation};state={state};repair={projections_repair_required};");
+    for event in audit {
+        canonical.push_str(&format!(
+            "audit=g{}:{:?}:{}>{}:{};",
+            event.generation,
+            event.command,
+            event.from,
+            event.to,
+            escape_digest_field(&event.provenance)
+        ));
+    }
+    format!("v3:{:016x}", stable_hash64(canonical.as_bytes()))
+}
+
+fn stable_hash64(bytes: &[u8]) -> u64 {
+    let mut hash = 0xcbf2_9ce4_8422_2325_u64;
+    for byte in bytes {
+        hash ^= u64::from(*byte);
+        hash = hash.wrapping_mul(0x0000_0100_0000_01b3);
+    }
+    hash
+}
+
+fn escape_digest_field(value: &str) -> String {
+    value
+        .replace('\\', "\\\\")
+        .replace(';', "\\;")
+        .replace(':', "\\:")
 }

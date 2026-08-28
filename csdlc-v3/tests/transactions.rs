@@ -104,7 +104,9 @@ fn transaction_stale_writer_fails_before_commit() {
             "bind provenance",
         )
         .expect("bind transaction stages");
-    store.commit(transaction, ProjectionWrite::Success);
+    store
+        .commit(transaction, ProjectionWrite::Success)
+        .expect("initial commit succeeds");
     let stale = store.begin(
         LifecycleCommand::RecordImplementation,
         &full_capabilities(),
@@ -133,13 +135,27 @@ fn transaction_state_commit_is_atomic_and_projection_failure_requires_repair() {
             "durable typed intent",
         )
         .expect("bind transaction stages");
-    let result = store.commit(transaction, ProjectionWrite::FailAfterStateCommit);
+    let result = store
+        .commit(transaction, ProjectionWrite::FailAfterStateCommit)
+        .expect("post-state projection failure still commits state");
     let CommitResult::ProjectionRepairRequired(committed) = result else {
         panic!("projection failure must not roll back state");
     };
     assert_eq!(committed.state, LifecycleState::Bound);
     assert!(committed.projections_repair_required);
     assert_eq!(committed.audit[0].provenance, "durable typed intent");
+    assert_eq!(store.committed().digest, committed.digest);
+    let blocked = store.begin(
+        LifecycleCommand::RecordImplementation,
+        &full_capabilities(),
+        committed.generation,
+        committed.digest,
+        "must wait for projection repair",
+    );
+    assert_eq!(
+        blocked,
+        Err(csdlc_v3::storage::StoreError::ProjectionRepairRequired)
+    );
 }
 
 #[test]
@@ -155,7 +171,10 @@ fn recovery_classifies_interrupted_writes_without_losing_provenance() {
             "recovery provenance",
         )
         .expect("bind transaction stages");
-    let committed = match store.commit(transaction, ProjectionWrite::FailAfterStateCommit) {
+    let committed = match store
+        .commit(transaction, ProjectionWrite::FailAfterStateCommit)
+        .expect("post-state projection failure still commits state")
+    {
         CommitResult::ProjectionRepairRequired(state) => state,
         CommitResult::Committed(_) => panic!("expected projection repair"),
     };
@@ -182,11 +201,75 @@ fn recovery_classifies_interrupted_writes_without_losing_provenance() {
 }
 
 #[test]
+fn transaction_commit_rechecks_cas_and_digest_binds_contents() {
+    let initial = StateRecord::new(LifecycleState::Ready);
+    let mut store = TransactionStore::new(initial.clone());
+    let first = store
+        .begin(
+            LifecycleCommand::Bind,
+            &full_capabilities(),
+            initial.generation,
+            initial.digest.clone(),
+            "first writer provenance",
+        )
+        .expect("first transaction stages");
+    let second = store
+        .begin(
+            LifecycleCommand::Bind,
+            &full_capabilities(),
+            initial.generation,
+            initial.digest.clone(),
+            "second writer provenance",
+        )
+        .expect("second transaction stages from same snapshot");
+    let committed = match store
+        .commit(first, ProjectionWrite::Success)
+        .expect("first commit succeeds")
+    {
+        CommitResult::Committed(state) => state,
+        CommitResult::ProjectionRepairRequired(_) => panic!("unexpected projection repair"),
+    };
+    assert_eq!(
+        store.commit(second, ProjectionWrite::Success),
+        Err(csdlc_v3::storage::StoreError::StaleWriter {
+            expected_generation: 0,
+            actual_generation: 1
+        })
+    );
+
+    let mut alternate = TransactionStore::new(initial.clone());
+    let alternate_transaction = alternate
+        .begin(
+            LifecycleCommand::Bind,
+            &full_capabilities(),
+            initial.generation,
+            initial.digest,
+            "different provenance",
+        )
+        .expect("alternate transaction stages");
+    let alternate_committed = match alternate
+        .commit(alternate_transaction, ProjectionWrite::Success)
+        .expect("alternate commit succeeds")
+    {
+        CommitResult::Committed(state) => state,
+        CommitResult::ProjectionRepairRequired(_) => panic!("unexpected projection repair"),
+    };
+    assert_ne!(
+        committed.audit[0].provenance,
+        alternate_committed.audit[0].provenance
+    );
+    assert_ne!(committed.digest, alternate_committed.digest);
+}
+
+#[test]
 fn adapter_invocations_are_argv_based_and_shell_strings_are_rejected() {
     assert!(CommandInvocation::new("git", ["status", "--short"]).is_ok());
     assert!(CommandInvocation::new("git status", ["--short"]).is_err());
     assert!(CommandInvocation::new("git", ["status && gh pr merge"]).is_err());
     assert!(CommandInvocation::new("sh", ["-c", "git status"]).is_err());
+    assert!(CommandInvocation::new("/bin/sh", ["-c", "git status"]).is_err());
+    assert!(CommandInvocation::new("./bash", ["-c", "git status"]).is_err());
+    assert!(CommandInvocation::new("tools/pwsh", ["-c", "git status"]).is_err());
     assert!(CommandInvocation::new("git", ["status", "$(cat secret)"]).is_err());
 }
 

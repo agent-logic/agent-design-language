@@ -128,8 +128,9 @@ impl GitAdapter for FakeGitAdapter {
 }
 
 fn looks_like_shell(value: &str) -> bool {
+    let program_name = value.rsplit(['/', '\\']).next().unwrap_or(value);
     if matches!(
-        value,
+        program_name,
         "sh" | "bash" | "zsh" | "fish" | "cmd" | "powershell" | "pwsh"
     ) {
         return true;
