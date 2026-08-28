@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 578,
+  "expected_generation": 5,
+  "expected_digest": "90faa820def38092f331072ec7b23b7511a09086e269e9a6df8ac27dfefd51bc",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "actor": "codex:root",
+  "repository": "agent-logic/agent-design-language",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/578-glm-5-3-flash-provider-profile",
+  "title": "[v0.92.1][PROV] Add GLM-5.3-Flash provider profile",
+  "body": "Closes #578\n\n## Summary\n- adds general profile `z_ai:glm-5.3-flash` resolving to `hosted:adl-z-ai:glm-5.3-flash` and provider model id `glm-5.3-flash`\n- updates the direct Z.ai endpoint to `https://api.z.ai/api/paas/v4/chat/completions`\n- materializes GLM-5.3-Flash defaults for `reasoning_effort=max`, `clear_thinking=false`, `temperature=1.0`, `top_p=0.95`, and bounded output tokens\n- supports runtime overrides and rejects invalid GLM-5.3-Flash settings before network dispatch\n- proves reviewer-agent selection uses the general profile rather than reviewer-only routing\n- documents source rationale plus the OpenRouter/Ollama-cloud variant boundary\n\n## Validation\n- `cargo fmt --manifest-path adl/Cargo.toml --check`\n- `cargo test --manifest-path adl/Cargo.toml --test provider_tests profiles::z_ai_glm_5_3_flash_profile_expands_for_reviewer_agent_selection`\n- `cargo test --manifest-path adl/Cargo.toml --test provider_tests http_family::zai_glm_5_3_flash_request_materializes_profile_defaults_and_runtime_overrides`\n- `cargo test --manifest-path adl/Cargo.toml --test provider_tests z_ai_glm_5_3_flash`\n- `cargo test --manifest-path adl/Cargo.toml --test provider_tests zai_glm_5_3_flash`\n- `bash .csdlc/prepared/issues/578/reviewer-selection-smoke.sh`\n- `cargo test --manifest-path adl/Cargo.toml --test provider_tests` (66 passed, 1 credential-gated ignored)\n\n## Review\nIndependent exact-head review PASS by `fresh-session:b8205d48-4329-489e-9298-4449cf0552d8` with no findings at `git-blake3:55cf30e99e3c240ceef6f140013ad7feab3135c1:cf0f9bfc8b13973bd5a07cd12304a1f8990368a02e97fa4cd236a23744764965`.\n\n## Notes\n- Live Z.ai dispatch remains credential-gated; this PR does not claim a live model call.\n- OpenRouter `z-ai/glm-5.3-flash` and Ollama `glm-5.3-flash:cloud` remain separate provider routes and are not implemented here.\n- The bind/prepared-helper materialization issue is captured in `.csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md`.",
+  "draft": false,
+  "token_file": null
+}
