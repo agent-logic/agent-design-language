@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "b4d1cb7fe6a704780bcf8771b1fd240385e2f1b6a7e217a1ed8a67dc10a3357a",
+  "generation": 6,
+  "digest": "dd1882ebf0a7f93e51fcf2fb147aba0d0d44f985b73443f472d5552b09d03dad",
   "branch": "codex/503-v3-d-local-preparation-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d8b47650cc2c9e9765c9c072aeb9bb5cb1a8fc2ebde6be1c75a3eaa978450888",
+      "values_digest": "b908aec39a7e67e58667386c6ad9b32f55345d26e7dcbc37b3aa6866ff6afaa7",
       "rendered_digest": "3958ca74dddd8aaf85763659195100ba365f4a8ced6634d25ff76d80c10c56bc",
       "ast_digest": "484ed7ec53f13cbb802f1c0e36dd66776df6966f92cc3414f77becf084a96013"
     },
     "stp": {
-      "values_digest": "c78f625bd2d3152effb5dd01a0abeaa676057c62344267b8ed4dd1a2108beac8",
+      "values_digest": "c72fc87fd8c1bfac7aaa994c21edfbe7c3474e6151aa5251889f172a61acfbfd",
       "rendered_digest": "e5cedcf5f0a5a3962edb09d18a4d1e03898a5e3efcde1463d0ab34ff3ec555f4",
       "ast_digest": "f371d273d3a4f1bd857d25506b9d31d15115f0ff3afce7b2e1169b5f6c558c50"
     },
     "spp": {
-      "values_digest": "affa23b6c4c4aaf5143a0e0a66c34d332f72df7b720aca0ba878091101cd2cb8",
+      "values_digest": "9264af580ed6cd8b3512f80c3e25c57ef78e5e75cde833a293bb15806cc90b08",
       "rendered_digest": "69f2e7ce598741f8e40b20c89d8646f2370ed13f95a69808c986fb06e4305408",
       "ast_digest": "c76595133e4cbf12128ffd1cf7f22617e64c6ac10b99aa71fbc094adbd483e3e"
     },
     "vpp": {
-      "values_digest": "3f439188eb46412f3404b3820ba51612e4d3a2322f3f11c339216d2f52f31e81",
+      "values_digest": "6dd7643ac264e4b21a92ec84819b5624209e20693a464fce20f4d05724d91729",
       "rendered_digest": "01a8b90503cdae47ca5ff5fc15aec182ac7646a04b9c16e8f7d206953e5eb7dd",
       "ast_digest": "a479386f18161ee8a7429da309a23c8c510cae65f95ceedccacf75f5d4b9f50b"
     },
     "srp": {
-      "values_digest": "6be08d10def71643d0f67fa041ce0a26440c6aa31f63387294dcaa53e15998f8",
+      "values_digest": "1919bf6bfabce7c2eda807da2709eb2654a6673059805720f015a38a03f25490",
       "rendered_digest": "16e7bc4a408b096fbae9011d0060c87c80fc33427d665b7703457d5611b84c97",
       "ast_digest": "6690f288018ebf1a17746e20dea7cb9a423ba1a57bc45d070f8d68fc90286c6b"
     },
     "sor": {
-      "values_digest": "c1baaccc80922ab072d3e263f4bae42a158292db8c9d0a74852795ef5f492768",
-      "rendered_digest": "de966f3c930950546b07f39a23393dd72a10a241b3f3d81770ccfd879ca9fc9f",
-      "ast_digest": "48652edcf5197219227ab69993a9536951c0dde79ca8fc51238258a254443858"
+      "values_digest": "6befb2f07b1f5e5a0e1a4334586d255240f20d793d38d6aee28df0f7507776e9",
+      "rendered_digest": "616d3882cd66496b7638b685fc83e1c2fc66a6ecad33911b6edf9defb19f7145",
+      "ast_digest": "9c43dc5ae7c054aea39ef2c7321e76fb547c5c958516c3cc60b8cb0098653181"
     }
   },
   "transitions": [
@@ -147,6 +147,13 @@
       "actor": "codex:worker-6",
       "reason": "Clear the stale #503 review assignment before replacing a machine-local absolute worktree path in the local-command test fixture.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #503 execution truth after replacing the machine-local absolute test fixture path with a portable registered-worktree identifier.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the first non-authoritative V3-D local-preparation command contract slice, then corrected the local-command proof fixture to avoid machine-local absolute path assumptions.\",\"changes\":[\"Bootstrapped issue #503 local C-SDLC state from the live GitHub issue body, approved the design packet, repaired SPP affected areas to include the exact issue-local files, advanced the issue to ready, and bound the execution worktree through csdlc-bind.\",\"Added the csdlc-v3 local command module scaffold for prepare-issue, bind-worktree, PVF planning, and doctor-style local findings while keeping V3-D explicitly non-authoritative.\",\"Added typed JSON parsing for the V3-D local preparation request and active prompt-template registry so malformed contract inputs fail closed instead of being treated as prose.\",\"Added focused local command tests covering typed command contracts, registered worktree topology binding, active registry card denominator round-tripping, and distinct doctor outcome states.\",\"Replaced the test fixture's real FastWork absolute worktree path with a portable registered-worktree identity while preserving exact branch/worktree matching semantics.\",\"Kept Sprint 6 sequencing explicit: #503 is moving after Sprint 5 closeout, while remote delivery, docs readiness, the #571 corrective gate, and authority cutover remain downstream gates.\"],\"artifacts\":[\"csdlc-v3/Cargo.toml\",\"csdlc-v3/Cargo.lock\",\"csdlc-v3/src/lib.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/local/mod.rs\",\"csdlc-v3/tests/local_commands.rs\",\".csdlc/issues/503\",\".csdlc/prepared/issues/503\",\".csdlc/evidence/503\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Verify formatting for the V3-D Rust contract slice after the portable fixture correction.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:42493325a:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"local_commands\"],\"purpose\":\"Run the focused V3-D local command contract, topology, card registry, and doctor outcome tests after the portable fixture correction.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:42493325a:4-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across csdlc-v3 targets after the portable fixture correction.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:42493325a:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace hygiene for the V3-D portable fixture correction.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:42493325a:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec\",\"issue\",\"--issue\",\"503\"],\"purpose\":\"Verify typed C-SDLC issue state after review recovery and the portable fixture correction.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:42493325a:status pass, phase implemented, generation 5\"}]}"
     }
   ]
 }
