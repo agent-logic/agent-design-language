@@ -1,0 +1,10 @@
+flowchart TD
+  EDGE["#122 public edge\nRoute53/ACM/CloudFront/API Gateway"] --> AWSF["#489 AWS-F\nRuntime platform modules"]
+  ADOPT["#488 AWS-E\nadoption register"] --> AWSF
+  AWSF --> NET["private Runtime network attachment"]
+  AWSF --> HOSTS["private hosts / node groups\nno direct public ingress"]
+  AWSF --> BUILD["exact Runtime artifact wiring"]
+  AWSF --> OBS["logs, metrics, deadline/cost"]
+  AWSF --> PROOF["disposable external-path proof\nthen zero-residue cleanup"]
+  AWSF -.non-goal.-> AWSG["#496 CloudFormation retirement"]
+  AWSF -.non-goal.-> XCL["#495 cross-cloud conversion"]

@@ -1,0 +1,287 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 489,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "711716d4ad01d96be990fae790e7ddfc21afa70e14aa1d99964656baa8e4d074",
+  "phase": "published",
+  "generation": 13,
+  "digest": "26c7a1de95cfbed286bc9b24293762353c5ba586fa78e572c4949bca3fbe9214",
+  "branch": "codex/489-aws-runtime-platform-modules",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-489-aws-runtime-platform-modules",
+  "review_assignment": {
+    "reviewer": "fresh-session:2d46c7d9-3e7b-4892-97c2-ff8941aa41e5",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:cd3819e661ad0625e2bcda5cedf04cdfa362dc57:04873ca361130cec80538e7c5dcbe43e47339cf0781ee45132c94965e0fbf1d8",
+    "scope": [
+      ".gitignore",
+      ".csdlc/issues/489",
+      ".csdlc/prepared/issues/489",
+      ".csdlc/evidence/489",
+      "infra/aws/runtime",
+      "docs/operations/cloud/aws/runtime-platform/README.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:2d46c7d9-3e7b-4892-97c2-ff8941aa41e5",
+    "scope": [
+      ".gitignore",
+      ".csdlc/issues/489",
+      ".csdlc/prepared/issues/489",
+      ".csdlc/evidence/489",
+      "infra/aws/runtime",
+      "docs/operations/cloud/aws/runtime-platform/README.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md"
+    ],
+    "reviewed_revision": "git-blake3:cd3819e661ad0625e2bcda5cedf04cdfa362dc57:04873ca361130cec80538e7c5dcbe43e47339cf0781ee45132c94965e0fbf1d8",
+    "findings": [],
+    "residual_risks": [
+      "Review did not perform live AWS readbacks, Terraform apply/plan against AWS, or GitHub publication.",
+      "Live disposable deployment, ALB target-health, external request receipt, and zero-residue teardown remain operator-authorized live-proof gates; #489 records static Terraform/runtime-platform readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 489,
+    "pull_request": 577,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/577",
+    "base": "main",
+    "head": "codex/489-aws-runtime-platform-modules",
+    "revision": "git-blake3:b0effe7fad532ef3d01fdedd6bd03d589e246739:dfba9318d3f7fd1f9970269289d71d216fdda40c7123241e0c7840c6a6712468",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/489/design.md",
+  "diagram_path": ".csdlc/prepared/issues/489/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:8e4c0a8c-94ad-4e43-8b68-e8f1f2cfad21",
+      "revision": "d04ad7f1fb46894da562bcf6544887beede453de71e2a8ffdeb2d207f4c495b4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9ac53ce7d63cd2903bacfb1637ae12df1eb9ea12374d148f0601bd31ad2b62bd",
+      "rendered_digest": "ccdee50175cd6e8bcbd70bc33f38247323d6162c30a64fa14495fec9c07c2ec7",
+      "ast_digest": "1ecfc3c22e3087ab5f8f6c2918f1fa1fc337a075b0938995ecf01b91565b72ed"
+    },
+    "stp": {
+      "values_digest": "fe72f0033a91539a9fbd409d2c88c3490890bdf55a2d0bca1234d52e8519f9cf",
+      "rendered_digest": "98bf94b30192987fcfbb7fcc8449147328f2c0dcb3e370ff91fc18bcd083bd17",
+      "ast_digest": "4fcaf6929b544a263f872a8690e3d506a7cc7e3da82f1675aa7cc139c4ea07bf"
+    },
+    "spp": {
+      "values_digest": "9e936718d9fa7e25ea1a0eb761b4a0d46e5e140ee28b77dbe06cc3e07599f709",
+      "rendered_digest": "99c2c4f56bf8e6d8585da80b5b9417d64d684e467eba12e4cc539ddae5e7f748",
+      "ast_digest": "db1b3fdc8fde323bfe9eba3cfc036545690b557de426dac61652e4259a4bb34a"
+    },
+    "vpp": {
+      "values_digest": "352f18b12b0c847ee638930621fac53aaf70395c398736daad552207ddd9a3b0",
+      "rendered_digest": "737c61ff33db0c34bbddd515776bda97fd12aeeb48bf194013f72c98bf84b94b",
+      "ast_digest": "fdf4667786ec4c029c14c73aee4cc6baef79c4f1f396e22468511c3bacc5e97f"
+    },
+    "srp": {
+      "values_digest": "2ab4449272cf288981b73a51d319588138dc021bd38960b97cf24e8a7e08e607",
+      "rendered_digest": "627bd2da317a1cbbe731f3eb324a190e9f458c5ba4c52d374cdc17d812a2d2de",
+      "ast_digest": "cd2b499cd54cbb8a603497d8d8a02075818af911496eecc2694b84f863cf9886"
+    },
+    "sor": {
+      "values_digest": "e3f79ec3181367522e6e1d1c6c7f5e10aef3627404f7880933a445c0c71590e1",
+      "rendered_digest": "2bbbf553079011bd2aa026033e6262dc03c01fdd7d951f312cc039ab8c065a54",
+      "ast_digest": "f894b08f75051487d11a8000e3e0eebac64e09a940e4812d078af739f2ea522b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #489 from initialized to ready after typed design approval, doctor pass, and prebind validation pass."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:4b2c180e-5f88-4a4c-a59b-8fb6650b5364",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #489 review truth before replacing unpublished local branch history. Tip content was reviewed PASS, but an earlier unpublished commit briefly tracked generated Terraform provider cache under .terraform; publishing that history caused push/publication to hang. The branch has no remote PR/head. Preserve the reviewed tree as local backup, squash to a clean publishable head, rerun focused proof, and assign a fresh exact-head reviewer."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:2d46c7d9-3e7b-4892-97c2-ff8941aa41e5",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #489 initialized execution readiness by declaring the issue-owned prebind validator and readback scripts as affected areas, matching the deliverables and VPP lane targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime\",\"docs/operations/cloud/aws/runtime-platform\",\"docs/milestones/v0.92.1/evidence/cloud/aws-f\",\".csdlc/prepared/issues/489\",\".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh\",\".csdlc/prepared/issues/489/run-aws-f-readbacks.sh\",\".csdlc/evidence/489\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Repair #489 initialized design-readiness by keeping exact-head review as a lifecycle gate instead of a non-executable validation lane, while preserving governed issue-owned validator and readback lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-aws-runtime-platform-packet\",\"proof_role\":\"Proves #489 design packet readiness, #122/#488 terminal dependency gates, owned-path boundaries, no-direct-public-ingress posture, separated state ownership, and disposable cleanup invariants before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-aws-runtime-platform-static\",\"proof_role\":\"Proves the AWS-F readback entrypoint has a static non-credentialed mode and reports cloud-mutation, credential-retention, and production-traffic posture.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/489/run-aws-f-readbacks.sh\",\"--lane=static\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"aws-f-runtime-platform-static\",\"proof_role\":\"After bind, verifies implemented Runtime platform Terraform, runbook, proof packet, no-direct-public-ingress invariant, state separation, and cleanup selectors.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh\",\"--phase=postbind\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #489 is bound and implementation creates the complete module/runbook/evidence surfaces.\"},{\"lane\":\"prepublication-review-readiness-static\",\"proof_role\":\"Before publication, reruns the issue-owned AWS-F validator as the local readiness input for fresh exact-head review; the actual review result remains recorded by csdlc-review, not by this shell lane.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh\",\"--phase=postbind\"],\"parallel_group\":\"review-readiness\",\"defer_reason\":\"Deferred until #489 is bound and implemented; this lane supplies local proof for fresh exact-head review, while csdlc-review records the review verdict before publication.\"},{\"lane\":\"aws-f-inventory-readonly\",\"proof_role\":\"After reviewed implementation and approved AWS profile, runs redacted read-only AWS identity/resource readbacks for the module denominator without mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/489/run-aws-f-readbacks.sh\",\"--lane=inventory-readonly\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"Deferred until #489 is bound, reviewed baseline exists, and approved AWS business-profile read-only context is selected without exposing credential contents.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:8e4c0a8c-94ad-4e43-8b68-e8f1f2cfad21",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d04ad7f1fb46894da562bcf6544887beede453de71e2a8ffdeb2d207f4c495b4\",\"design_ref\":\".csdlc/prepared/issues/489/design.md\",\"diagram_digest\":\"426a1f454fe55727b0062c748448dfdec9a80e289472c4c723eb241963ec328d\",\"diagram_ref\":\".csdlc/prepared/issues/489/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Advance #489 from initialized to ready after typed design approval, doctor pass, and prebind validation pass.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover #489 review assignment after fresh-session:92848561-7a9b-4d4c-a5ee-04e75e2e004c returned FAIL with actionable findings: missing issue-owned Terraform module/root implementation, private-runtime posture contradiction through public Spot reference, and overclaiming static proof coverage. Clear review truth before bounded remediation and fresh rereview.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #489 remediation after fresh-session:92848561-7a9b-4d4c-a5ee-04e75e2e004c found missing issue-owned Terraform roots, contradictory public-node posture, and overclaimed static proof. The corrected implementation adds private Runtime node Terraform, ALB origin wrappers, and truthful static Terraform validation without AWS mutation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented AWS-F Runtime platform Terraform roots and private Runtime node module with truthful static proof and no live AWS mutation.\",\"changes\":[\"Added issue-owned Terraform root infra/aws/runtime/alb-origin to create or reuse the replaceable Runtime ALB origin while keeping public edge ownership in #122.\",\"Added issue-owned Terraform root infra/aws/runtime/private-node and module infra/aws/runtime/modules/private-runtime-node for a private EC2 Spot Runtime node with no public IPv4 address and Runtime ingress only from the ALB security group.\",\"Updated AWS-F runbook and proof packet to describe the separate ALB/private-node lifecycle, saved-plan/live-proof gates, zero-residue teardown, and credential redaction boundaries.\",\"Tightened the issue-owned validator so postbind proof requires real Terraform files, rejects public Runtime node IPs, rejects committed public ingress CIDR shortcuts, and runs Terraform formatting checks when Terraform is available.\",\"Kept live AWS apply, target-health, external request receipt, and zero-residue readbacks as explicit operator-authorized live-proof gates rather than claiming them from static validation.\"],\"artifacts\":[\"infra/aws/runtime/alb-origin\",\"infra/aws/runtime/private-node\",\"infra/aws/runtime/modules/private-runtime-node\",\"infra/aws/runtime/README.md\",\"docs/operations/cloud/aws/runtime-platform/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md\",\".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh\",\".csdlc/evidence/489\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh\",\"--phase=postbind\"],\"purpose\":\"Run the issue-owned AWS-F postbind validator covering Terraform roots, no-direct-public-ingress defaults, runbook/proof markers, and static readback posture.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/489/aws-f-runtime-platform-static.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/489/run-aws-f-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Confirm the #489 readback lane is non-mutating, retains no credential material, and sends no production traffic.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/489/aws-f-readback-static.log\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/alb-origin\",\"validate\",\"-no-color\"],\"purpose\":\"Validate the issue-owned AWS-F ALB origin Terraform root after backend-disabled init.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:terraform-alb-origin-validate\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/private-node\",\"validate\",\"-no-color\"],\"purpose\":\"Validate the issue-owned AWS-F private Runtime node Terraform root after backend-disabled init.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:terraform-private-node-validate\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime\",\"fmt\",\"-check\",\"-recursive\"],\"purpose\":\"Reject Terraform formatting drift under the issue-owned AWS-F runtime platform roots and module.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:terraform-runtime-fmt\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene problems before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal:git-diff-check\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record the final #489 hygiene repair that prevents generated Terraform provider caches from being committed under the new AWS-F roots while preserving the already-passing static Terraform validation evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented AWS-F Runtime platform Terraform roots and private Runtime node module with truthful static proof, no live AWS mutation, and committed cache-ignore hygiene.\",\"changes\":[\"Added issue-owned Terraform root infra/aws/runtime/alb-origin to create or reuse the replaceable Runtime ALB origin while keeping public edge ownership in #122.\",\"Added issue-owned Terraform root infra/aws/runtime/private-node and module infra/aws/runtime/modules/private-runtime-node for a private EC2 Spot Runtime node with no public IPv4 address and Runtime ingress only from the ALB security group.\",\"Updated AWS-F runbook and proof packet to describe the separate ALB/private-node lifecycle, saved-plan/live-proof gates, zero-residue teardown, and credential redaction boundaries.\",\"Tightened the issue-owned validator so postbind proof requires real Terraform files, rejects public Runtime node IPs, rejects committed public ingress CIDR shortcuts, and runs Terraform formatting checks when Terraform is available.\",\"Added .gitignore coverage for the new AWS-F Terraform roots so generated .terraform caches, state, tfvars, and tfplan files are not committed.\",\"Kept live AWS apply, target-health, external request receipt, and zero-residue readbacks as explicit operator-authorized live-proof gates rather than claiming them from static validation.\"],\"artifacts\":[\".gitignore\",\"infra/aws/runtime/alb-origin\",\"infra/aws/runtime/private-node\",\"infra/aws/runtime/modules/private-runtime-node\",\"infra/aws/runtime/README.md\",\"docs/operations/cloud/aws/runtime-platform/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md\",\".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh\",\".csdlc/evidence/489\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh\",\"--phase=postbind\"],\"purpose\":\"Run the issue-owned AWS-F postbind validator covering Terraform roots, no-direct-public-ingress defaults, runbook/proof markers, and static readback posture.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/489/aws-f-runtime-platform-static.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/489/run-aws-f-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Confirm the #489 readback lane is non-mutating, retains no credential material, and sends no production traffic.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/489/aws-f-readback-static.log\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/alb-origin\",\"validate\",\"-no-color\"],\"purpose\":\"Validate the issue-owned AWS-F ALB origin Terraform root after backend-disabled init.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/489/aws-f-terraform-alb-origin-validate.log\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/private-node\",\"validate\",\"-no-color\"],\"purpose\":\"Validate the issue-owned AWS-F private Runtime node Terraform root after backend-disabled init.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/489/aws-f-terraform-private-node-validate.log\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime\",\"fmt\",\"-check\",\"-recursive\"],\"purpose\":\"Reject Terraform formatting drift under the issue-owned AWS-F runtime platform roots and module.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/489/aws-f-terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene problems before review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/489/aws-f-diff-check.log\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "fresh-session:4b2c180e-5f88-4a4c-a59b-8fb6650b5364",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover #489 review truth before replacing unpublished local branch history. Tip content was reviewed PASS, but an earlier unpublished commit briefly tracked generated Terraform provider cache under .terraform; publishing that history caused push/publication to hang. The branch has no remote PR/head. Preserve the reviewed tree as local backup, squash to a clean publishable head, rerun focused proof, and assign a fresh exact-head reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #489 review assignment after fresh-session:4fa94e42-a43c-4841-8393-56fbe7f6af23 returned FAIL with one P2 proof-hygiene finding: committed Terraform validate evidence logs contain trailing blank lines, so git diff --check origin/main..HEAD fails while SOR records patch hygiene as passed. Clear assignment before bounded evidence repair and fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "fresh-session:2d46c7d9-3e7b-4892-97c2-ff8941aa41e5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
