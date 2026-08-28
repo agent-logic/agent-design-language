@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 490,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+    "slug": "gcp-hierarchy-cost-decision",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #490 docs, evidence, lifecycle truth, decision denominator, redaction proof, and exact branch range.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the organization/folder/project/billing/region decision explicit or blocked with evidence?",
+        "Are POC and long-term ownership distinct?",
+        "Is the first workload cost ceiling hard and reviewable?",
+        "Does the register avoid treating quota as capacity?",
+        "Does retained evidence avoid credentials and mutation commands?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

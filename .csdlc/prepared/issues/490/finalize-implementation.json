@@ -1,0 +1,106 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 490,
+  "expected_generation": 1,
+  "expected_digest": "facff72fbba2f4c8b461e2015a9f42924478fdc50cd5b5d0be0349bfffc1e4b8",
+  "actor": "codex:issue-490-gcp-a-owner",
+  "summary": "Accepted the GCP-A hierarchy and cost decision from refreshed read-only GCP evidence, preserved no-mutation and redaction proof, and documented the company-controlled execution identity plan for #491+.",
+  "changes": [
+    "Retained read-only GCP hierarchy, billing, IAM, service, quota, and network readbacks under the #490 evidence directory.",
+    "Accepted the long-term GCP organization, folder, project, billing account, region, data-residency, quota, and cost-envelope decision where readbacks support it.",
+    "Recorded the #491+ Terraform execution identity recommendation without mutating GCP or creating service-account keys."
+  ],
+  "artifacts": [
+    "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+    "docs/milestones/v0.92.1/evidence/cloud/gcp-a/readbacks",
+    "docs/milestones/v0.92.1/evidence/cloud/gcp-a/run-readonly-decision-readbacks.sh",
+    "docs/milestones/v0.92.1/evidence/cloud/gcp-a/gcp-execution-identity-plan.md",
+    "docs/milestones/v0.92.1/evidence/cloud/gcp-a/operator-reauth-proof-packet.md",
+    "docs/milestones/v0.92.1/evidence/cloud/gcp-a/readiness-repair.md",
+    ".csdlc/prepared/issues/490/validate-gcp-a-decision.sh"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "decision-denominator",
+          "proof_role": "Validate the accepted GCP-A decision register, retained readbacks, redaction posture, no-mutation command manifest, hard cost ceiling, and quota boundary.",
+          "purpose": "Prove the issue-owned GCP-A decision denominator is locally coherent and safe to review.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "bash",
+          "argv": [
+            ".csdlc/prepared/issues/490/validate-gcp-a-decision.sh",
+            "."
+          ],
+          "evidence": {
+            "max_log_bytes": 20000,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "typed-doctor",
+          "proof_role": "Validate typed C-SDLC v2 issue integrity after implementation artifacts are prepared.",
+          "purpose": "Prove #490 typed state remains coherent before exact-head review.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 1000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "decision-denominator"
+          ],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": ".adl/bin/csdlc-v2/csdlc-doctor",
+          "argv": [
+            "--repo",
+            ".",
+            "--issue",
+            "490"
+          ],
+          "evidence": {
+            "max_log_bytes": 20000,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "decision-denominator",
+        "typed-doctor"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 2,
+      "memory_mib": 512,
+      "tokens": 3000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-490-gcp-hierarchy-cost-decision",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-490-gcp-hierarchy-cost-decision/.csdlc/evidence/490",
+    "cancellation_file": null
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "group:gcp-organization-admins@agent-logic.ai"
+      ],
+      "role": "roles/billing.projectManager"
+    },
+    {
+      "members": [
+        "serviceAccount:27581932047@cloudbuild.gserviceaccount.com"
+      ],
+      "role": "roles/cloudbuild.builds.builder"
+    },
+    {
+      "members": [
+        "serviceAccount:service-27581932047@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+      ],
+      "role": "roles/cloudbuild.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:27581932047@cloudservices.gserviceaccount.com"
+      ],
+      "role": "roles/compute.instanceGroupManagerServiceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-27581932047@compute-system.iam.gserviceaccount.com"
+      ],
+      "role": "roles/compute.serviceAgent"
+    },
+    {
+      "members": [
+        "group:gcp-organization-admins@agent-logic.ai"
+      ],
+      "role": "roles/config.admin"
+    },
+    {
+      "members": [
+        "serviceAccount:service-27581932047@container-engine-robot.iam.gserviceaccount.com"
+      ],
+      "role": "roles/container.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-27581932047@containerregistry.iam.gserviceaccount.com"
+      ],
+      "role": "roles/containerregistry.ServiceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-27581932047@cloud-filer.iam.gserviceaccount.com"
+      ],
+      "role": "roles/file.serviceAgent"
+    },
+    {
+      "members": [
+        "group:gcp-organization-admins@agent-logic.ai"
+      ],
+      "role": "roles/iam.serviceAccountAdmin"
+    },
+    {
+      "members": [
+        "group:gcp-organization-admins@agent-logic.ai"
+      ],
+      "role": "roles/iam.serviceAccountUser"
+    },
+    {
+      "members": [
+        "user:daniel@agent-logic.ai"
+      ],
+      "role": "roles/owner"
+    },
+    {
+      "members": [
+        "serviceAccount:service-27581932047@gcp-sa-pubsub.iam.gserviceaccount.com"
+      ],
+      "role": "roles/pubsub.serviceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-27581932047@serverless-robot-prod.iam.gserviceaccount.com"
+      ],
+      "role": "roles/run.serviceAgent"
+    },
+    {
+      "members": [
+        "group:gcp-organization-admins@agent-logic.ai"
+      ],
+      "role": "roles/serviceusage.serviceUsageAdmin"
+    },
+    {
+      "members": [
+        "group:gcp-organization-admins@agent-logic.ai"
+      ],
+      "role": "roles/storage.admin"
+    }
+  ],
+  "etag": "BwZZl2LIkUU=",
+  "version": 1
+}

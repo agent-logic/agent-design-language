@@ -1,0 +1,15 @@
+{
+  "createTime": "2026-08-21T23:54:35.835Z",
+  "labels": {
+    "gcp-onboarding-component": "cs-host-project",
+    "gcp-onboarding-host-project-org-id": "321515087273"
+  },
+  "lifecycleState": "ACTIVE",
+  "name": "Cloud Setup Host Project",
+  "parent": {
+    "id": "929563862525",
+    "type": "folder"
+  },
+  "projectId": "cs-host-377d41e71a824f92802120",
+  "projectNumber": "27581932047"
+}
