@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #486 AWS-C Terraform bootstrap paths only: infra/aws/bootstrap, docs/operations/cloud/aws/terraform-bootstrap, docs/milestones/v0.92.1/evidence/cloud/aws-c, and issue-owned validators.
+
 
 ## Prompts
 
@@ -31,7 +31,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Pre-bind readiness does not prove Terraform apply/readback until the issue is bound and implementation-owned paths exist.
+- none
 
 ## Review Result
 

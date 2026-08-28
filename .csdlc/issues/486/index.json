@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dccbcb792550a70657a41153e958ae7f448cf851553ea1c649b052e727709a54",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "ffd52292d34265567708a5c74b40e51c00c5b29587c1b9fb62fb79925ef7346c",
+  "generation": 8,
+  "digest": "653fccdc52a693e8603c80d3aa7bf51defe56a537ae31ee81d0a20f8b8be531d",
   "branch": "codex/486-aws-terraform-bootstrap",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-486-aws-terraform-bootstrap",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "94dcf7138636fa20b697dda5f4dc06967965b814bba5dba92e0b4bbedbe366df",
+      "values_digest": "8ccfc80f0f6632d688dc5ab974e2b614434bfcbe39c49e6b1c77b83e84f27cb4",
       "rendered_digest": "b8f9d9c4188e84d4ac9a918f90c0f9b34e75c7124c56cef1b5af40cc6c652cde",
       "ast_digest": "a542f5add94da4e4ae4f27d2f6acb376880d58be77393f1db52c888a8bf9b141"
     },
     "stp": {
-      "values_digest": "10f71d15bf325deb2ebc94c937c486976056ecfcd4fd267c1f4e600e09515e6b",
+      "values_digest": "ce98583cb24962993a3679b1c28aaeaacdd7dab8f5064710cf53607c705df30a",
       "rendered_digest": "7123bdf50ab66e7a7e2c51fdfc96404133171ecab4c77ec8e3b236c6116f35ec",
       "ast_digest": "04367f9a83ff4a7966b8d98fae2a8719ee00a9927afe5ca8258fee179ea6708e"
     },
     "spp": {
-      "values_digest": "612f4aaaab9878dae958f23c1be568b07717de97b7f16fcbd0c029f9fc3f19ec",
+      "values_digest": "d25001b7aba74a2aeaedf4c38d24723628f3d9ac662f114a52610099c38d9adb",
       "rendered_digest": "0bc03aa28a1a675b53a5435d089caadb7095cc7c4126fe05977ab0bed5c05ac7",
       "ast_digest": "c8dc103f6f6c4bbf740d9001b463b83cad3a727f63a994bfe990db409403a844"
     },
     "vpp": {
-      "values_digest": "048c00a0ebe6cd3d33497106df9e5656a3ed9578df6cb26de6d3bcd1b28e2222",
+      "values_digest": "62ff8d5d0f432a7185c8fb57ca2d4efe166d466f1f218db0bd8ae9267d08061e",
       "rendered_digest": "12fb3f89914fd9871a7fe166b72956cc35692b1e608ffa61f2cd608d76bae41d",
       "ast_digest": "eec7405d5ca6abf3f75188c7ff81b3a8e25e6e859d64211eef39735b95586bb4"
     },
     "srp": {
-      "values_digest": "20a0f22ced92948335c688c202e4554149834e35a466a09592d254acb7d1b8fe",
-      "rendered_digest": "937348c7cca8107fb071eb3505884ea07b760c5f1477a58f28e8b86fe35aea0a",
-      "ast_digest": "f5a877a6ca2e66c86fb9cf86116616cda447be57f6770dc664536185079869bb"
+      "values_digest": "19b83f984dddc02548cf0a41d4d48a8d701d6115633415ca5d1db54a85512855",
+      "rendered_digest": "94d5334d92f028179f2cbabb039c4de30baaccdfda2fec7fbeeeac41ac0824f5",
+      "ast_digest": "2224ef707707829eaf83cb4fca84c09c3b7d5b4abe678feed3af4d1b2e6d9aee"
     },
     "sor": {
-      "values_digest": "de74710a3b6535009dc2586195e65e8c2836e2b3ddd881f6f658b93cf8a223de",
-      "rendered_digest": "e6dd345d45dfe451ff04dbe44509fd9c94200aa88a998bd14f560c5adaa708a4",
-      "ast_digest": "dc2cb72781fb4b87faf69d126f7b2b7b1c497d7d249332d4c1a2cec5764f4ecc"
+      "values_digest": "7e2b550707ffda307267f6bec4f47505c5e1618a8c47c9984f3b81c075209043",
+      "rendered_digest": "a180f62bd083011a6d1205ef0219c6d6d45f25da239f25007c0df2083b84f6e6",
+      "ast_digest": "9943e5c23160846cc66087c97db59809aa4834737e4a84477e256c513f2b7973"
     }
   },
   "transitions": [
@@ -134,6 +134,27 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Repair #486 R1 review findings by recording the retained state-isolation register and replacing stale SOR execution truth before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the AWS-C Terraform bootstrap root, operator runbook, retained state-isolation register, and issue-owned validation/readback script for a recoverable Agent Logic account-foundation backend.\",\"changes\":[\"Added infra/aws/bootstrap with provider pins, encrypted/versioned S3 state bucket, DynamoDB lock table, and scoped Terraform deployment role/backend-access policy.\",\"Added an AWS Terraform bootstrap runbook that documents static proof, saved-plan review, apply, readback, backend handoff values, and state-isolation boundaries.\",\"Added a retained AWS-C state-isolation register proving existing website, DDNS, public-edge, Runtime, and workload state are not imported, copied, referenced, or dual-owned by the bootstrap root.\",\"Added the AWS-C issue-owned readback/validation script with terraform-static and aws-readback lanes plus register checks.\",\"Validated the lifecycle packet, Terraform formatting, Terraform init -backend=false, Terraform validate, and diff hygiene.\"],\"artifacts\":[\".csdlc/prepared/issues/486/design.md\",\".csdlc/prepared/issues/486/diagram.mmd\",\".csdlc/prepared/issues/486/aws-b-terminal-receipt.md\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\",\"infra/aws/bootstrap\",\"docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md\",\".csdlc/issues/486\",\".csdlc/prepared/issues/486\"],\"validation\":[{\"command\":[\"/usr/bin/env\",\"bash\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\"],\"purpose\":\"Run the issue-owned #486 validator, including retained state-isolation register checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"aws-c-bootstrap-packet.log\"},{\"command\":[\"/usr/bin/env\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Run git diff --check.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"/usr/bin/env\",\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\",\"--lane\",\"terraform-static\"],\"purpose\":\"Run the AWS-C terraform-static lane.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-bootstrap-static.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #486 R1 failed exact-head review after preserving findings: missing retained state-isolation register and stale SOR lifecycle truth.",
+      "operation": "recover_review"
     }
   ]
 }

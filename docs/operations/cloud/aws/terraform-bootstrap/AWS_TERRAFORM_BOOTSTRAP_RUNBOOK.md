@@ -11,6 +11,8 @@ the Agent Logic business AWS account.
 - Do not use the personal/default AWS profile for ADL infrastructure.
 - Do not import, copy, or dual-own existing website, DDNS, public-edge, Runtime,
   or workload Terraform state.
+- Confirm the retained state-isolation register before plan/apply:
+  `docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md`.
 - Review the saved plan before apply. If the plan changes after review, stop and
   re-review.
 
@@ -62,3 +64,15 @@ AWS_PROFILE=agent-logic-admin terraform -chdir=infra/aws/bootstrap output backen
 
 Keep backend ownership singular: one state bucket, one lock table, no copied
 state, and no state imports in this bootstrap issue.
+
+## State-isolation register
+
+The retained register for this issue is:
+
+```text
+docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md
+```
+
+It is the publication-time boundary proof that #486 does not adopt website,
+DDNS, public-edge, Runtime, or workload state. Update that register before any
+future #486 plan review if the bootstrap root changes ownership boundaries.

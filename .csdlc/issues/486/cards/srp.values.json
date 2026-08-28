@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
     "slug": "aws-terraform-bootstrap",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 8
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #486 AWS-C Terraform bootstrap paths only: infra/aws/bootstrap, docs/operations/cloud/aws/terraform-bootstrap, docs/milestones/v0.92.1/evidence/cloud/aws-c, and issue-owned validators.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
@@ -23,9 +23,7 @@
         "Does retained evidence avoid credentials and avoid overclaiming Runtime deployment or CloudFormation retirement?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Pre-bind readiness does not prove Terraform apply/readback until the issue is bound and implementation-owned paths exist."
-      ],
+      "residual_risk": [],
       "review_result": "pre_review"
     }
   }

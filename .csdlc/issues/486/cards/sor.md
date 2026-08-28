@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the AWS-C Terraform bootstrap root, operator runbook, and issue-owned validation/readback script for a recoverable Agent Logic account-foundation backend.
+Implemented the AWS-C Terraform bootstrap root, operator runbook, retained state-isolation register, and issue-owned validation/readback script for a recoverable Agent Logic account-foundation backend.
 
 ## Artifacts
 
@@ -23,6 +23,7 @@ Implemented the AWS-C Terraform bootstrap root, operator runbook, and issue-owne
 - infra/aws/bootstrap
 - docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md
 - docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh
+- docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md
 - .csdlc/issues/486
 - .csdlc/prepared/issues/486
 
@@ -30,8 +31,9 @@ Implemented the AWS-C Terraform bootstrap root, operator runbook, and issue-owne
 
 - Added infra/aws/bootstrap with provider pins, encrypted/versioned S3 state bucket, DynamoDB lock table, and scoped Terraform deployment role/backend-access policy.
 - Added an AWS Terraform bootstrap runbook that documents static proof, saved-plan review, apply, readback, backend handoff values, and state-isolation boundaries.
-- Added the AWS-C issue-owned readback/validation script with terraform-static and aws-readback lanes.
-- Validated the pre-bind lifecycle packet, Terraform formatting, Terraform init -backend=false, Terraform validate, and diff hygiene.
+- Added a retained AWS-C state-isolation register proving existing website, DDNS, public-edge, Runtime, and workload state are not imported, copied, referenced, or dual-owned by the bootstrap root.
+- Added the AWS-C issue-owned readback/validation script with terraform-static and aws-readback lanes plus register checks.
+- Validated the lifecycle packet, Terraform formatting, Terraform init -backend=false, Terraform validate, and diff hygiene.
 
 ## Validation
 
@@ -42,9 +44,9 @@ Implemented the AWS-C Terraform bootstrap root, operator runbook, and issue-owne
       "bash",
       ".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh"
     ],
-    "purpose": "Run the issue-owned #486 prebind validator.",
+    "purpose": "Run the issue-owned #486 validator, including retained state-isolation register checks.",
     "outcome": "passed",
-    "evidence_ref": "aws-c-prebind-packet.log"
+    "evidence_ref": "aws-c-bootstrap-packet.log"
   },
   {
     "command": [
@@ -73,7 +75,7 @@ Implemented the AWS-C Terraform bootstrap root, operator runbook, and issue-owne
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
