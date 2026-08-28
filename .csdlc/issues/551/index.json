@@ -5,65 +5,70 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
   "phase": "reviewed",
-  "generation": 48,
-  "digest": "fff53d2c695db0fe9604ee43b216ea224e3ebfc0b0d775e65af84df5255fd38e",
+  "generation": 50,
+  "digest": "c45c510d008a99cb32df1f8120373e486c95cf62b00392e24c8ead91703e1754",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
   "review_assignment": {
-    "reviewer": "fresh-session:032c6dee-997d-4868-a0b2-ee0135d580f9",
+    "reviewer": "fresh-session:8f7bb69d-260b-4c67-a4b6-6c91df40c2ed",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0",
+    "revision": "git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d",
     "scope": [
-      ".csdlc/prepared/issues/551/design.md",
-      ".csdlc/prepared/issues/551/diagram.mmd",
+      ".csdlc/issues/551/audit.jsonl",
+      ".csdlc/issues/551/index.json",
+      ".csdlc/issues/551/cards/sip.values.json",
       ".csdlc/issues/551/cards/stp.values.json",
       ".csdlc/issues/551/cards/spp.values.json",
+      ".csdlc/issues/551/cards/vpp.values.json",
+      ".csdlc/issues/551/cards/srp.md",
       ".csdlc/issues/551/cards/srp.values.json",
       ".csdlc/issues/551/cards/sor.values.json",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/runtime-v3.config.json",
-      "adl/tools/validate_v0917_html_observatory.py",
-      ".csdlc/evidence/551/html-polis-node.tap"
+      ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
+      ".csdlc/prepared/issues/551/record-r2-exact-review.json"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:032c6dee-997d-4868-a0b2-ee0135d580f9",
+    "reviewer": "fresh-session:8f7bb69d-260b-4c67-a4b6-6c91df40c2ed",
     "scope": [
-      ".csdlc/prepared/issues/551/design.md",
-      ".csdlc/prepared/issues/551/diagram.mmd",
+      ".csdlc/issues/551/audit.jsonl",
+      ".csdlc/issues/551/index.json",
+      ".csdlc/issues/551/cards/sip.values.json",
       ".csdlc/issues/551/cards/stp.values.json",
       ".csdlc/issues/551/cards/spp.values.json",
+      ".csdlc/issues/551/cards/vpp.values.json",
+      ".csdlc/issues/551/cards/srp.md",
       ".csdlc/issues/551/cards/srp.values.json",
       ".csdlc/issues/551/cards/sor.values.json",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/runtime-v3.config.json",
-      "adl/tools/validate_v0917_html_observatory.py",
-      ".csdlc/evidence/551/html-polis-node.tap"
+      ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
+      ".csdlc/prepared/issues/551/record-r2-exact-review.json"
     ],
-    "reviewed_revision": "git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0",
+    "reviewed_revision": "git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d",
     "findings": [],
     "residual_risks": [
       "Hosted CI remains the final integration gate before merge.",
       "The exact-head review did not perform a live browser, external network, or deployed TLS exercise; local Runtime TLS/WSS and HTML proof remain the bounded pre-publication evidence."
     ],
     "completed": true,
-    "non_substantive_proof": null
+    "non_substantive_proof": {
+      "policy": "metadata_only_review_projection",
+      "from_revision": "git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0",
+      "to_revision": "git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d",
+      "from_commit": "dd01d24449fd8c84d8e5709808e1d19ae71948a9",
+      "to_commit": "7bf1277277e6b64c54840ff0336120d2545a5984",
+      "changed_paths": [
+        ".csdlc/issues/551/audit.jsonl",
+        ".csdlc/issues/551/cards/sip.values.json",
+        ".csdlc/issues/551/cards/sor.values.json",
+        ".csdlc/issues/551/cards/spp.values.json",
+        ".csdlc/issues/551/cards/srp.md",
+        ".csdlc/issues/551/cards/srp.values.json",
+        ".csdlc/issues/551/cards/stp.values.json",
+        ".csdlc/issues/551/cards/vpp.values.json",
+        ".csdlc/issues/551/index.json",
+        ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
+        ".csdlc/prepared/issues/551/record-r2-exact-review.json"
+      ]
+    }
   },
   "publication": null,
   "readiness": null,
@@ -79,32 +84,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ea1a8eb9205aecd254279721dbf6f054e3151b749439032a916dc14512c5d421",
+      "values_digest": "21d4b7f13d9048552edd54d4628a20c3be8d5db9627f609a54d46bd4b623e791",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "455d010ed8aa540249fde0e875ae4c48e7fe728eb3c368103507d37bdcfb9b9a",
+      "values_digest": "f7ad972edcc0ad8ce351b0702add46f649d1459ee67e0a1ce910b72cb6dad998",
       "rendered_digest": "cf2567f90e060a9e980fc89e374894bc5b09262a3186eff2160fc12880a8e510",
       "ast_digest": "78d816272741f7f118d456204abc7428a4655d5f8508ccb79db2de6c924845f2"
     },
     "spp": {
-      "values_digest": "b3ab1b7c6098be13b012a8a8a238b5e14c355d1ea19e40ec492c81c96999acc0",
+      "values_digest": "311fcf1c639aa434b4124b264ee2cc2e6609276d1c991dc7bc36ac42b814cc23",
       "rendered_digest": "a666f14982eff05ea1d3b5067be873e6a7ace7eea5db9285dcab59df12fe42cf",
       "ast_digest": "d31e118878c8ec5319038be004da30e0a9138905834b82409bd3198dacbe1846"
     },
     "vpp": {
-      "values_digest": "70e01539c1c30f4884e0623c68326d359695aab442d26faf870223a40855ca06",
+      "values_digest": "b35cc75e78ef6593075eb9224174c3753cf290118d52a72eb44563f399862b66",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "c7af2069f233d86e0d8904b01d97bb6971d78eeb7dfe4d0ffbce85ea92716429",
-      "rendered_digest": "d2b32a867680c699e0f6887434ee20688d0c778d3014c8b1b1c31ee7e4a0a0f4",
-      "ast_digest": "6d27f5c978cbcf67c001a8037013f2b6ecef6d32b3e8d493f18a2d20d7f8f889"
+      "values_digest": "4d76f206d48586581e5b5186acd7759335ed9bbda6637542c4f546397b68c894",
+      "rendered_digest": "975b332b373532e6d2189de05c20d9c665cf1fccdd6e5e2258b8b5f03ec83cd7",
+      "ast_digest": "264f0c098b56b0ec0c08abb13c7b63f97ef008dab5545ac7a64c39058365c36d"
     },
     "sor": {
-      "values_digest": "73fb3ecf2a80ac685c94bdd4a51ca6bdbc878d29e5ef53cdae6045fa1771fce5",
+      "values_digest": "67b97d647ee40a04fa728f8d4ba3ea4fb3e520c3ef4f387649e33882ebddd96b",
       "rendered_digest": "aea583815c1751a5b8ae43735198afc60ec665618f467c992513847bbc251e00",
       "ast_digest": "61171e488d027e16e2e297063791c51494dfa84529f49c4cbbc537208de5cd7b"
     }
@@ -231,6 +236,20 @@
     },
     {
       "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the typed review projection so the independently passed metadata-only head can be bound before republication."
+    },
+    {
+      "sequence": 20,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:/root",
@@ -633,6 +652,27 @@
     {
       "sequence": 57,
       "generation": 48,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 58,
+      "generation": 49,
+      "actor": "codex:/root",
+      "reason": "Recover the typed review projection so the independently passed metadata-only head can be bound before republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 49,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 50,
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

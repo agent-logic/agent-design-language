@@ -2,14 +2,14 @@
   "schema": "csdlc.publication_request.v1",
   "issue": 551,
   "repository": "agent-logic/agent-design-language",
-  "expected_generation": 36,
-  "expected_digest": "df9fcdaef00ffa5823d283bd2b0c47a07658ff234e0e926e87e58760afe23be2",
+  "expected_generation": 50,
+  "expected_digest": "c45c510d008a99cb32df1f8120373e486c95cf62b00392e24c8ead91703e1754",
   "actor": "codex:/root",
   "remote": "origin",
   "base": "main",
   "head": "codex/551-runtime-polis-config-owned-name-domain",
   "title": "[v0.92.1][runtime][observatory] Hot-load Polis identity and domain",
-  "body": "Closes #551\n\nAdds a required validated Runtime-owned Polis identity and public endpoint contract, projects it through Observatory feed schema v3, and renders the configured Polis name and domain in the HTML Observatory.\n\nEvery declared Polis parameter—ID, display name, public domain, Runtime API base, and Observatory public origin—hot-loads as one shared Runtime presentation snapshot without restarting the Runtime. Invalid reloads retain the complete last-known-good identity, API base, and origin policy and emit bounded redacted diagnostics. Legacy Observatory v1 and v2 compatibility constants remain explicit; Unity #84 remains deferred and non-gating.\n\nFocused proof passed: 76/76 affected Runtime integration tests, the Guardian schema test, exact nonzero configuration/control/feed/OpenAPI/diagnostic targets, 3/3 HTML tests, Rust formatting, and diff hygiene. Independent exact-head review passed with no findings.",
+  "body": "Closes #551\n\nAdds a required validated Runtime-owned Polis identity and public endpoint contract, projects it through an explicitly negotiated Observatory feed, and renders the configured Polis name and domain in the HTML Observatory.\n\nEvery declared Polis parameter—ID, display name, public domain, Runtime API base, and Observatory public origin—hot-loads as one shared Runtime presentation snapshot without restarting the Runtime. The advertised Observatory origin must be accepted by the combined origin policy before startup or reload. Invalid reloads retain the complete last-known-good identity, API base, and origin policy and emit bounded redacted diagnostics.\n\nREST and WSS preserve v2 for selector-free clients, provide an exact historical v1 projection for schema=v1, provide the identity-bearing v3 projection for schema=v3, and reject unsupported selectors. The HTML Observatory explicitly opts into v3. Unity #84 remains deferred and non-gating.\n\nFocused proof passed: 76/76 affected Runtime integration tests, the Guardian v3 negotiation test, exact nonzero configuration/control/feed/OpenAPI/diagnostic targets, 3/3 HTML tests, Rust formatting, and diff hygiene. Independent exact-head and metadata-only reviews passed with no findings.",
   "draft": false,
   "token_file": null
 }

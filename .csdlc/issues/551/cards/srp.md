@@ -12,24 +12,17 @@ Status: draft
 
 ## Scope
 
-.csdlc/prepared/issues/551/design.md
-.csdlc/prepared/issues/551/diagram.mmd
+.csdlc/issues/551/audit.jsonl
+.csdlc/issues/551/index.json
+.csdlc/issues/551/cards/sip.values.json
 .csdlc/issues/551/cards/stp.values.json
 .csdlc/issues/551/cards/spp.values.json
+.csdlc/issues/551/cards/vpp.values.json
+.csdlc/issues/551/cards/srp.md
 .csdlc/issues/551/cards/srp.values.json
 .csdlc/issues/551/cards/sor.values.json
-adl-runtime-kernel/src/config.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/tests/configuration.rs
-adl-runtime-kernel/tests/control.rs
-adl-runtime-kernel/tests/guardian_soak.rs
-adl-runtime-kernel/tests/observatory.rs
-adl-runtime-kernel/tests/openapi_contract.rs
-docs/api/runtime-v3/v1/observatory.openapi.json
-demos/html-observatory/app.js
-demos/html-observatory/runtime-v3.config.json
-adl/tools/validate_v0917_html_observatory.py
-.csdlc/evidence/551/html-polis-node.tap
+.csdlc/prepared/issues/551/assign-r2-exact-review.json
+.csdlc/prepared/issues/551/record-r2-exact-review.json
 
 ## Prompts
 
@@ -55,8 +48,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0")
+Revision: Some("git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d")
 
-Reviewer: Some("fresh-session:032c6dee-997d-4868-a0b2-ee0135d580f9")
+Reviewer: Some("fresh-session:8f7bb69d-260b-4c67-a4b6-6c91df40c2ed")
 
 Result: pass

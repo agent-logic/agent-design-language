@@ -1,0 +1,49 @@
+{
+  "issue": 551,
+  "expected_generation": 49,
+  "expected_digest": "3f754dfbdcd13bf00a2c7f0020f4bb1940e3cf117a9965be550fbf9d9cd17896",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "fresh-session:8f7bb69d-260b-4c67-a4b6-6c91df40c2ed",
+    "scope": [
+      ".csdlc/issues/551/audit.jsonl",
+      ".csdlc/issues/551/index.json",
+      ".csdlc/issues/551/cards/sip.values.json",
+      ".csdlc/issues/551/cards/stp.values.json",
+      ".csdlc/issues/551/cards/spp.values.json",
+      ".csdlc/issues/551/cards/vpp.values.json",
+      ".csdlc/issues/551/cards/srp.md",
+      ".csdlc/issues/551/cards/srp.values.json",
+      ".csdlc/issues/551/cards/sor.values.json",
+      ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
+      ".csdlc/prepared/issues/551/record-r2-exact-review.json"
+    ],
+    "reviewed_revision": "git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "The exact-head review did not perform a live browser, external network, or deployed TLS exercise; local Runtime TLS/WSS and HTML proof remain the bounded pre-publication evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "metadata_only_review_projection",
+      "from_commit": "dd01d24449fd8c84d8e5709808e1d19ae71948a9",
+      "to_commit": "7bf1277277e6b64c54840ff0336120d2545a5984",
+      "from_revision": "git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0",
+      "to_revision": "git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d",
+      "changed_paths": [
+        ".csdlc/issues/551/audit.jsonl",
+        ".csdlc/issues/551/cards/sip.values.json",
+        ".csdlc/issues/551/cards/sor.values.json",
+        ".csdlc/issues/551/cards/spp.values.json",
+        ".csdlc/issues/551/cards/srp.md",
+        ".csdlc/issues/551/cards/srp.values.json",
+        ".csdlc/issues/551/cards/stp.values.json",
+        ".csdlc/issues/551/cards/vpp.values.json",
+        ".csdlc/issues/551/index.json",
+        ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
+        ".csdlc/prepared/issues/551/record-r2-exact-review.json"
+      ]
+    }
+  }
+}
