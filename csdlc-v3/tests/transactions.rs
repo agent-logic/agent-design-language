@@ -1,17 +1,19 @@
 use csdlc_v3::adapters::{
     CommandInvocation, CredentialScope, FakeGitAdapter, FakeProcessAdapter, GitAdapter,
-    ProcessAdapter, ProcessOutput, ProcessStatus,
+    ProcessAdapter, ProcessOutput, ProcessStatus, StaticCredentialResolver,
 };
 use csdlc_v3::lifecycle::{
     decide, transition_matrix, Capability, CapabilitySet, LifecycleCommand, LifecycleState,
-    ProjectionInvalidation, RejectReason, TransitionOutcome,
+    ProjectionInvalidation, RejectReason, ReviewRecoveryProvenance, TransitionOutcome,
 };
 use csdlc_v3::storage::{
-    classify_recovery, CommitResult, ProjectionWrite, RecoveryClassification, RecoveryObservation,
-    RecoveryRejectReason, RecoveryRepair, StateRecord, TransactionIntent, TransactionStore,
+    classify_recovery, CommitResult, DurableTransactionStore, ProjectionWrite,
+    RecoveryClassification, RecoveryObservation, RecoveryRejectReason, RecoveryRepair, StateRecord,
+    TransactionIntent, TransactionStore,
 };
 use csdlc_v3::LIFECYCLE_KERNEL_PREDECESSORS;
 use std::collections::BTreeSet;
+use std::fs;
 
 fn full_capabilities() -> CapabilitySet {
     CapabilitySet::new([
@@ -60,6 +62,7 @@ fn transition_review_recovery_matches_retained_v2_behavior() {
             TransitionOutcome::Allowed {
                 to: LifecycleState::Implemented,
                 invalidates: vec![
+                    ProjectionInvalidation::Readiness,
                     ProjectionInvalidation::Review,
                     ProjectionInvalidation::Publication,
                     ProjectionInvalidation::Terminal
@@ -76,6 +79,20 @@ fn transition_review_recovery_matches_retained_v2_behavior() {
             }
         );
     }
+}
+
+#[test]
+fn review_recovery_requires_structured_stale_truth_provenance() {
+    let provenance =
+        ReviewRecoveryProvenance::new("worker-6", "review failed exact-head check", "b8c42844")
+            .expect("structured provenance");
+    assert_eq!(
+        provenance.audit_provenance(),
+        r"review_recovery actor=worker-6 reason=review\sfailed\sexact-head\scheck stale_review_revision=b8c42844"
+    );
+    assert!(ReviewRecoveryProvenance::new("", "reason", "head").is_err());
+    assert!(ReviewRecoveryProvenance::new("actor", "", "head").is_err());
+    assert!(ReviewRecoveryProvenance::new("actor", "reason", "").is_err());
 }
 
 #[test]
@@ -269,11 +286,54 @@ fn transaction_commits_preserve_projection_invalidations() {
     assert_eq!(
         recovered.invalidated_projections,
         [
+            ProjectionInvalidation::Readiness,
             ProjectionInvalidation::Review,
             ProjectionInvalidation::Publication,
             ProjectionInvalidation::Terminal
         ]
     );
+}
+
+#[test]
+fn durable_transaction_store_persists_intent_before_atomic_state_replacement() {
+    let directory = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
+        "target/csdlc-v3-durable-store-{}",
+        std::process::id()
+    ));
+    let _ = fs::remove_dir_all(&directory);
+    {
+        let initial = StateRecord::new(LifecycleState::Ready);
+        let mut store =
+            DurableTransactionStore::create(&directory, initial.clone()).expect("durable store");
+        assert!(directory.join("state.lock").exists());
+        let transaction = store
+            .begin(
+                LifecycleCommand::Bind,
+                &full_capabilities(),
+                initial.generation,
+                initial.digest,
+                "durable pre-network intent",
+            )
+            .expect("bind transaction stages");
+        let committed = match store
+            .commit(transaction, ProjectionWrite::Success)
+            .expect("durable commit succeeds")
+        {
+            CommitResult::Committed(state) => state,
+            CommitResult::ProjectionRepairRequired(_) => panic!("unexpected projection repair"),
+        };
+        assert_eq!(committed.generation, 1);
+        assert_eq!(store.journal().len(), 1);
+        assert!(fs::read_to_string(directory.join("intents.jsonl"))
+            .expect("intent journal")
+            .contains("durable pre-network intent"));
+        let state_json = fs::read_to_string(directory.join("state.json")).expect("state json");
+        assert!(state_json.contains("\"generation\":1"));
+        assert!(state_json.contains(&committed.digest));
+        assert!(!directory.join("state.json.tmp").exists());
+    }
+    assert!(!directory.join("state.lock").exists());
+    let _ = fs::remove_dir_all(&directory);
 }
 
 #[test]
@@ -570,54 +630,70 @@ fn adapter_invocations_are_argv_based_and_shell_strings_are_rejected() {
 
 #[test]
 fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
-    let invocation = CommandInvocation::new("git", ["fetch", "token=abc123"])
+    assert_eq!(
+        CommandInvocation::new("git", ["fetch", "token=abc123"]),
+        Err(csdlc_v3::adapters::AdapterError::SecretArgumentRejected)
+    );
+    assert_eq!(
+        CommandInvocation::new("gh", ["api", "--token", "abc123"]),
+        Err(csdlc_v3::adapters::AdapterError::SecretArgumentRejected)
+    );
+    let resolver = StaticCredentialResolver::new("ADL_GITHUB_TOKEN_FILE", "/safe/token/path");
+    let invocation = CommandInvocation::new("git", ["fetch", "origin"])
         .expect("argv invocation")
-        .with_child_credential("ADL_GITHUB_TOKEN_FILE");
+        .with_resolved_child_credential("ADL_GITHUB_TOKEN_FILE", &resolver)
+        .expect("child credential resolved");
     assert_eq!(
         invocation.credential_scope,
         CredentialScope::ChildProcessOnly {
             name: "ADL_GITHUB_TOKEN_FILE".to_owned()
         }
     );
-    assert_eq!(invocation.redacted_argv(), ["fetch", "[REDACTED]"]);
-    let split_secret = CommandInvocation::new(
-        "gh",
+    assert_eq!(
+        invocation.child_credential_name(),
+        Some("ADL_GITHUB_TOKEN_FILE")
+    );
+    assert_eq!(
+        invocation.child_credential_value_for_process(),
+        Some("/safe/token/path")
+    );
+    assert_eq!(invocation.redacted_argv(), ["fetch", "origin"]);
+    assert!(!format!("{invocation:?}").contains("/safe/token/path"));
+    assert_eq!(
+        CommandInvocation::new(
+            "git",
+            [
+                "status",
+                "--token",
+                "abc123",
+                "--password",
+                "hunter2",
+                "--api-key=also-secret",
+                "TOKEN=upper-secret",
+                "Authorization: Bearer secret",
+                "https://user:token@example.test/path",
+                "--client-secret",
+                "separate-secret",
+                "https://access-token@example.test/path",
+                "repos",
+            ],
+        ),
+        Err(csdlc_v3::adapters::AdapterError::SecretArgumentRejected)
+    );
+    let safe_invocation = CommandInvocation::new(
+        "git",
         [
-            "api",
-            "--token",
-            "abc123",
-            "--password",
-            "hunter2",
-            "--api-key=also-secret",
-            "TOKEN=upper-secret",
-            "Authorization: Bearer secret",
-            "--header=Authorization: Bearer inline-secret",
-            "https://user:token@example.test/path",
-            "--client-secret",
-            "separate-secret",
-            "https://access-token@example.test/path",
+            "status",
+            "--worktree",
+            "/repo",
+            "--pathspec-from-file",
             "repos",
         ],
     )
-    .expect("argv invocation");
+    .expect("safe argv invocation");
     assert_eq!(
-        split_secret.redacted_argv(),
-        [
-            "api",
-            "--token",
-            "[REDACTED]",
-            "--password",
-            "[REDACTED]",
-            "[REDACTED]",
-            "[REDACTED]",
-            "[REDACTED]",
-            "[REDACTED]",
-            "[REDACTED]",
-            "--client-secret",
-            "[REDACTED]",
-            "[REDACTED]",
-            "repos"
-        ]
+        safe_invocation.redacted_argv(),
+        ["status", "--worktree", "/repo", "--pathspec-from-file", "repos"]
     );
     let mut adapter = FakeProcessAdapter::new(ProcessOutput {
         status: ProcessStatus::TimedOut,

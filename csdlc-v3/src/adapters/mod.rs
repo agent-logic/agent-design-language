@@ -1,8 +1,11 @@
-#[derive(Debug, Clone, PartialEq, Eq)]
+use std::fmt;
+
+#[derive(Clone, PartialEq, Eq)]
 pub struct CommandInvocation {
     pub program: String,
-    pub argv: Vec<String>,
+    argv: Vec<String>,
     pub credential_scope: CredentialScope,
+    child_credential: Option<ChildCredential>,
 }
 
 impl CommandInvocation {
@@ -21,16 +24,58 @@ impl CommandInvocation {
         if argv.iter().any(|arg| looks_like_shell(arg)) {
             return Err(AdapterError::ShellStringRejected);
         }
+        if argv
+            .iter()
+            .any(|arg| is_secret_flag(arg) || redact(arg) != *arg)
+        {
+            return Err(AdapterError::SecretArgumentRejected);
+        }
         Ok(Self {
             program,
             argv,
             credential_scope: CredentialScope::None,
+            child_credential: None,
         })
     }
 
-    pub fn with_child_credential(mut self, name: impl Into<String>) -> Self {
-        self.credential_scope = CredentialScope::ChildProcessOnly { name: name.into() };
-        self
+    pub fn with_child_credential(mut self, name: impl Into<String>) -> Result<Self, AdapterError> {
+        let name = name.into();
+        if !is_safe_credential_name(&name) {
+            return Err(AdapterError::CredentialResolutionFailed);
+        }
+        self.credential_scope = CredentialScope::ChildProcessOnly { name };
+        Ok(self)
+    }
+
+    pub fn with_resolved_child_credential(
+        mut self,
+        name: impl Into<String>,
+        resolver: &impl CredentialResolver,
+    ) -> Result<Self, AdapterError> {
+        let name = name.into();
+        if !is_safe_credential_name(&name) {
+            return Err(AdapterError::CredentialResolutionFailed);
+        }
+        let value = resolver.resolve(&name)?;
+        self.credential_scope = CredentialScope::ChildProcessOnly { name: name.clone() };
+        self.child_credential = Some(ChildCredential { name, value });
+        Ok(self)
+    }
+
+    pub fn argv(&self) -> &[String] {
+        &self.argv
+    }
+
+    pub fn child_credential_name(&self) -> Option<&str> {
+        self.child_credential
+            .as_ref()
+            .map(|credential| credential.name.as_str())
+    }
+
+    pub fn child_credential_value_for_process(&self) -> Option<&str> {
+        self.child_credential
+            .as_ref()
+            .map(|credential| credential.value.as_str())
     }
 
     pub fn redacted_argv(&self) -> Vec<String> {
@@ -52,6 +97,24 @@ impl CommandInvocation {
     }
 }
 
+impl fmt::Debug for CommandInvocation {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter
+            .debug_struct("CommandInvocation")
+            .field("program", &self.program)
+            .field("argv", &self.redacted_argv())
+            .field("credential_scope", &self.credential_scope)
+            .field(
+                "child_credential",
+                &self
+                    .child_credential
+                    .as_ref()
+                    .map(|credential| (&credential.name, "[REDACTED]")),
+            )
+            .finish()
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum CredentialScope {
     None,
@@ -61,6 +124,43 @@ pub enum CredentialScope {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum AdapterError {
     ShellStringRejected,
+    SecretArgumentRejected,
+    CredentialResolutionFailed,
+}
+
+pub trait CredentialResolver {
+    fn resolve(&self, name: &str) -> Result<String, AdapterError>;
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct StaticCredentialResolver {
+    name: String,
+    value: String,
+}
+
+impl StaticCredentialResolver {
+    pub fn new(name: impl Into<String>, value: impl Into<String>) -> Self {
+        Self {
+            name: name.into(),
+            value: value.into(),
+        }
+    }
+}
+
+impl CredentialResolver for StaticCredentialResolver {
+    fn resolve(&self, name: &str) -> Result<String, AdapterError> {
+        if self.name == name {
+            Ok(self.value.clone())
+        } else {
+            Err(AdapterError::CredentialResolutionFailed)
+        }
+    }
+}
+
+#[derive(Clone, PartialEq, Eq)]
+struct ChildCredential {
+    name: String,
+    value: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -131,7 +231,7 @@ impl FakeGitAdapter {
 
 impl GitAdapter for FakeGitAdapter {
     fn observe_branch(&mut self, invocation: CommandInvocation) -> GitObservation {
-        let branch = invocation.argv.last().cloned().unwrap_or_default();
+        let branch = invocation.argv().last().cloned().unwrap_or_default();
         let observation = GitObservation {
             branch,
             authorizes_lifecycle: false,
@@ -184,6 +284,14 @@ fn is_secret_flag(value: &str) -> bool {
     }
     let key = value.trim_start_matches('-').to_ascii_lowercase();
     is_sensitive_key(&key)
+}
+
+fn is_safe_credential_name(value: &str) -> bool {
+    !value.trim().is_empty()
+        && value
+            .chars()
+            .all(|ch| ch.is_ascii_uppercase() || ch.is_ascii_digit() || ch == '_')
+        && !looks_like_shell(value)
 }
 
 fn is_inline_secret_assignment(value: &str) -> bool {
