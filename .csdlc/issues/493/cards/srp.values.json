@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/evidence/493/exact-diff-hygiene.log\n.csdlc/evidence/493/gcp-d-static-product.log\n.csdlc/evidence/493/terraform-fmt.log\n.csdlc/issues/493\n.csdlc/prepared/issues/493/design.md\n.csdlc/prepared/issues/493/diagram.mmd\n.csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\nadl-runtime/tests/config_reload.rs\nadl-runtime/tests/guardian_cli.rs\ndocs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\ndocs/operations/cloud/gcp/platform-foundation/README.md\ndocs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\ninfra/gcp/platform",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
