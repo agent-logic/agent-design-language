@@ -108,11 +108,11 @@ Remediated #491 review findings by binding GCP readbacks to the approved service
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

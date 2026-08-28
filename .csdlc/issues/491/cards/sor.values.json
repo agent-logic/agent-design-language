@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
     "slug": "gcp-terraform-bootstrap",
     "version": "v0.92.1",
-    "generation": 30
+    "generation": 31
   },
   "status": "pre_phase",
   "content": {
@@ -101,8 +101,8 @@
           "evidence_ref": "Success! The configuration is valid."
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
