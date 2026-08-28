@@ -89,11 +89,11 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

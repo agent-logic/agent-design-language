@@ -4,14 +4,62 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "841e1f7066315a32659ee0a8e62fc02ba3de34a76df6d873f3ba917ccb857eb1",
+  "phase": "published",
+  "generation": 10,
+  "digest": "7155902b8c51823c3b66296c11869570b4affd8a73abaabd65d2a88f64edfaf4",
   "branch": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-570-v3-g-docs-skill-cutover-readiness-exec",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue_570_final_review_3",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:88a7e2f86589020ef6f753377941c96a908da94c:372c1ad4a0a6b8709ffd240c1245bd5e626c1ac1a27b441a092e12ca2f7905db",
+    "scope": [
+      "AGENTS.md",
+      "docs/onboarding.md",
+      "csdlc-v3/README.md",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      ".csdlc/issues/570",
+      ".csdlc/prepared/issues/570",
+      ".csdlc/evidence/570"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue_570_final_review_3",
+    "scope": [
+      "AGENTS.md",
+      "docs/onboarding.md",
+      "csdlc-v3/README.md",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      ".csdlc/issues/570",
+      ".csdlc/prepared/issues/570",
+      ".csdlc/evidence/570"
+    ],
+    "reviewed_revision": "git-blake3:88a7e2f86589020ef6f753377941c96a908da94c:372c1ad4a0a6b8709ffd240c1245bd5e626c1ac1a27b441a092e12ca2f7905db",
+    "findings": [],
+    "residual_risks": [
+      "Publication was not present during review, so the PR body closing keyword remains a publication-time check; the PR must include Closes #570."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 570,
+    "pull_request": 584,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/584",
+    "base": "main",
+    "head": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
+    "revision": "git-blake3:88a7e2f86589020ef6f753377941c96a908da94c:372c1ad4a0a6b8709ffd240c1245bd5e626c1ac1a27b441a092e12ca2f7905db",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9492b0b4c730073c308c8fca76ffa06c176263495f297b21eaa9761a6e1a35fa",
+      "values_digest": "43aaabaeaba6b3924151580f350ccf06bb94f52d59e873a883f3977d9cd883c0",
       "rendered_digest": "a0f1df29d26efffed38f38ce76e54ef72b3cd61cd9b241a64a5fadf2ec0c47c0",
       "ast_digest": "a8c869961fed96df668604afb6d345f5cd78825095d561726245bb830be0eabd"
     },
     "stp": {
-      "values_digest": "c519e5041a5e73d0aeb31788fcb843f5d4a442aaa321f5d628cc64f1a7187dfa",
+      "values_digest": "2193928f334eb4474d6547558350e1c9bbac601bbac7385d80645918384c5b3d",
       "rendered_digest": "78b657196e5f4dd108a92b646c4577b6fc27825d5a621c2f854bd76ba888b968",
       "ast_digest": "99c410d85adc5562f0ecb8c8c15e6da3579ccf3ee4d0ec07929946c85d1dd522"
     },
     "spp": {
-      "values_digest": "55454623293a8a27df8bf9f4dd5a64e013ad9ada1015528d4a576cac0bd74d96",
+      "values_digest": "a9f945d761feb3e844ef74716003e0163c6c1da4db801e1e5a26706df33c866a",
       "rendered_digest": "c250fd9ac553a4733e8093e4b2b750710b4ea2fb3d0a6d1321d41553e13520b7",
       "ast_digest": "9c27b9c89b0142a75c195f07b1de413dff533b464f784fb14d107cf09fdab6fa"
     },
     "vpp": {
-      "values_digest": "26d68bb0ac966ccac5f7c0379a9c4918271bb5d9a01a7184b2ef586bec4445ec",
+      "values_digest": "fd8b3ebcae0ec04ceacc67922155291ffcd3d6319cab9d0b3705b90e8c3eecf9",
       "rendered_digest": "2fd6ab6cb6f8732ad50836a77cc927def7cec3c26946e8e98c91bbb830389e51",
       "ast_digest": "24a7e5bd76d1175940f4b16035da5e2e3dbb727dba6b895cf8489e9a5ae883c5"
     },
     "srp": {
-      "values_digest": "f2569897d2ff3269f796662b6e001cd4d937e0382252c164a8fcd66384a38d0b",
-      "rendered_digest": "52b999a47c7895de7b5c42826b75d3b1d8df5e1fcb30424afec407c883d59ffc",
-      "ast_digest": "ef55d8449d7c0898af93df2cb6c0d6641384900683ce30133405f040ae81d117"
+      "values_digest": "7817f886e2575eefabbfb937fe908c689d938ae413d2d7c25ae59896ac25919c",
+      "rendered_digest": "f164a1cfacfee47efa5302b0f113b0930b880df4c2fdd0d258b8f9629bb6bb3c",
+      "ast_digest": "6ad12efacbebd8a4daa5a2344ff847a1e29e7281fbd258bae806ae4dea86fd27"
     },
     "sor": {
-      "values_digest": "e4447ebc2484c8049b2cf81e8d20715401bf796d23fc1c881214557e9a9a61f3",
-      "rendered_digest": "1a062e7b5a73ca65f07ea19cd8339534f76787f8062eac77cdaaa77ad99a2a63",
-      "ast_digest": "72175bb5a3162b21b38cd71f0e224cc65f6c26f708d2a9a68613c260272970b5"
+      "values_digest": "79a109c8f6a9613ca21a8dd12817b6196f64bf584ef9e1be40036eda5a058d8d",
+      "rendered_digest": "25b42a9de5fdbca10b69d95c61e1979e3c9b4dc5093b4ab3b0d09bf5b60c303d",
+      "ast_digest": "f8e383ae86e7e8760f5048673243782a80b620897c1f410d31a6babd5386cd43"
     }
   },
   "transitions": [
@@ -76,6 +124,20 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue_570_final_review_3",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -162,6 +224,27 @@
       "actor": "codex:worker-6",
       "reason": "Recover the assigned review after formal exact-head review found the skill-guidance validator missed equivalent pre-cutover v3 authority claims when the before-cutover clause precedes the v3 action.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "subagent:issue_570_final_review_3",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
