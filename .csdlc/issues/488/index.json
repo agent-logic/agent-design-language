@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "255aa3452d9d3e93a2f84fec27e0fce419f3c9fd8f130d235558f1cad7c8667b",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "7ef923147085ebbc7a0997319c40bb9ff96463c45cb4c9596e90715c9ec1d686",
+  "generation": 12,
+  "digest": "61e098c9cbc40b346401f13488340b7421e9aa5beb93a8e42e0a90323907b74e",
   "branch": "codex/488-aws-resource-adoption-register",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-488-aws-resource-adoption-register",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a9b676ed0d91e3eb989184b351a35cdcc4506ba3b6c040edf5c5b3162fc73118",
+      "values_digest": "86c86d46df7062079032e4e5d445449456b6add7df54fe58d2527a799866bf2f",
       "rendered_digest": "10d92682f3d611267d93d5f1f197430f77f92288d9b3d3afdd12b87700acc10f",
       "ast_digest": "7e6d49a4ec57b8fa02ae1b0dc6f0bcf23159b0c091040b595f00a6d2918de56f"
     },
     "stp": {
-      "values_digest": "c8ccb0dbc63fcae0bfb805f6e0be267090913a5df7476f60b165c52f0bfbc16f",
+      "values_digest": "b20a43d0ea1f98f14f2e503e67f8c714f6db8c49a101daae77df14ea1868e15c",
       "rendered_digest": "c5b495eedad617f5fef87837c2bd284d956f0516215690923f3ae853eec7103b",
       "ast_digest": "feccd94b3ae8555af69107648f7fdc3d00568976ba62aef562012f30c77aae35"
     },
     "spp": {
-      "values_digest": "7734eae15600485ecb346787bf4c699d6132f8e08662e7e469027236f8742c44",
+      "values_digest": "4fa91a1d53c10838c1d3ca78792a7955213de6c5f3ab41414fe58de3ac380a5d",
       "rendered_digest": "7c526e645343c46b28ca0a3c25ee6db8679bc361271f480d192b227070c8e762",
       "ast_digest": "7434fb371ac50ff475ffc68dc8f212475891f6d7590fa89a0b48060c00e5b606"
     },
     "vpp": {
-      "values_digest": "9ccb343c5516489428160a5164a84604ce19e5ad7d67308547930a10628af0bf",
+      "values_digest": "2faf07749aebe01c55602c3accf8790180348ef6dc83415bd4f983de496fbf91",
       "rendered_digest": "e55dd9fcd301c5441d7eff466b1c5617ef4adeb3a7b5a0c58f3194d14931e41d",
       "ast_digest": "55bb098d58e1e5e29ef6ba6e35900dcaaa111f21fecab2b45cd9bdb32019590f"
     },
     "srp": {
-      "values_digest": "f8717f679f460fb79094debf84973d88140a0350afba3c08428edcf3380abdae",
-      "rendered_digest": "8b018259d7131933415839dbe93130c8f13ffb09ce27ba95109f5fabbeedcd75",
-      "ast_digest": "efac038b0f88969f84d5b4377fde2d631158bb1d283dd85c8a5166cf7dfaa361"
+      "values_digest": "c7a0e23afa39f6be48b3a14edc025743d18f6b6bddedb31a7607dc9ab75d6d35",
+      "rendered_digest": "f44cdab9a48da46cd4c38f0a15d81df77a781a5174a5783347f014fe2b0f55d7",
+      "ast_digest": "a542b70ec2a658d09a913871e27ccdffbee11ff71ab9be6329bc272ef3c13ee7"
     },
     "sor": {
-      "values_digest": "6dee9e7aa5700758e76ec300d54390d8fc3b0f0aba80e54746c6a310a28adba0",
-      "rendered_digest": "9a1e8afb4c1a072457c4d4aee81760f4dd050ea300eeb0a5f745d750f8ed00ae",
-      "ast_digest": "c629fc4e956fe6c50afbccb9a1dfa71bbf69e3292832ccb5aeba44768bdd0108"
+      "values_digest": "eb3b630d7dc1f13c75a5118ab1280c30d9a0a6dc376e36490626d790cdb98d42",
+      "rendered_digest": "54f30a5b294bab51a14c176d68fd08b18ea036c557551923324f56570ea99c1a",
+      "ast_digest": "56accdd2c5abd5e208b58ecfebf3906df0a9b74275c5a01cfa1ebf81ca4a523a"
     }
   },
   "transitions": [
@@ -169,6 +169,20 @@
       "actor": "codex:/root",
       "reason": "Record #488 live read-only AWS-E reconciliation after exact review found the inventory-readonly lane was a stub.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"bash\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\"--lane=inventory-readonly\",\"--repo=.\"],\"purpose\":\"Use the approved agent-logic-admin AWS profile for read-only account, region, S3, Route53, CloudFront, and tagged-resource reconciliation against the adoption register without printing names, ARNs, or credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/488/aws-e-live-readback-summary.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover #488 R2 exact review after findings-first FAIL reported only P3 trailing whitespace in two in-scope Markdown files; preserve the finding and permit bounded hygiene repair plus fresh review assignment.",
+      "operation": "recover_review"
     }
   ]
 }

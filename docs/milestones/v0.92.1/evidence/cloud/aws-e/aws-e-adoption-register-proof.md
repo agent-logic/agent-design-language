@@ -1,6 +1,6 @@
 # AWS-E adoption register proof
 
-Issue: #488  
+Issue: #488
 Branch: `codex/488-aws-resource-adoption-register`
 
 ## Proof markers

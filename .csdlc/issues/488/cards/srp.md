@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #488 AWS-E paths only: docs/operations/cloud/aws/adoption, docs/milestones/v0.92.1/evidence/cloud/aws-e, .csdlc/prepared/issues/488, .csdlc/evidence/488, and narrow issue-owned validators/readbacks.
+
 
 ## Prompts
 

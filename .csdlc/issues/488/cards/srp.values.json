@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS-E] AWS resource adoption register",
     "slug": "aws-resource-adoption-register",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #488 AWS-E paths only: docs/operations/cloud/aws/adoption, docs/milestones/v0.92.1/evidence/cloud/aws-e, .csdlc/prepared/issues/488, .csdlc/evidence/488, and narrow issue-owned validators/readbacks.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

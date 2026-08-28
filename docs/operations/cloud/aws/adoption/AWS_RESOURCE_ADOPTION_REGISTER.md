@@ -1,8 +1,8 @@
 # AWS-E resource adoption register
 
-Issue: #488  
-Sprint: v0.92.1 Sprint 2  
-Profile for live readback: `agent-logic-admin`  
+Issue: #488
+Sprint: v0.92.1 Sprint 2
+Profile for live readback: `agent-logic-admin`
 Dependency: #487 terminal merge `1d31016a8df3cf07a4c3f2e6acd2694bd10570c2`
 
 This register adopts the read-only AWS-A inventory denominator and records the

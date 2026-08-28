@@ -82,7 +82,7 @@ Implemented the AWS-E adoption register as a non-mutating authority register ove
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
