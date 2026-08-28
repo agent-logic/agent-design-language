@@ -30,3 +30,4 @@
 {"sequence":30,"generation":24,"actor":"codex:/root/sprint8-podcast-lane","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":25,"actor":"codex:/root/sprint8-podcast-lane","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":32,"generation":26,"actor":"codex:/root/sprint8-podcast-lane","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":33,"generation":27,"actor":"codex:/root/sprint8-podcast-lane","reason":"Recover published review state after fixing the issue-owned readiness validator so it remains truthful in the published checkpoint phase.","operation":"recover_review"}

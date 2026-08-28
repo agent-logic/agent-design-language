@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
     "slug": "podcast-studio-first-ten-episodes",
     "version": "v0.92.1",
-    "generation": 26
+    "generation": 27
   },
   "status": "pre_phase",
   "content": {
@@ -117,8 +117,8 @@
           "evidence_ref": "wp24a-bound-readiness.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

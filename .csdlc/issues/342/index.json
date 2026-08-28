@@ -3,52 +3,14 @@
   "issue": 342,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f22f50785de3595fa31cdc85e96af67d56171c756d8d95f70e35e786ad312b9f",
-  "phase": "published",
-  "generation": 26,
-  "digest": "11dd9e2adac7bb2de72c92007240158af2be845ab00fb8e7aea1071308db4063",
+  "phase": "implemented",
+  "generation": 27,
+  "digest": "3ec7e16d916dc037b40cc2dfc235d1351299ae1777dea65d9d92928761e98483",
   "branch": "codex/342-podcast-studio-first-ten-episodes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-342-podcast-studio-first-ten-episodes",
-  "review_assignment": {
-    "reviewer": "fresh-session:13e6db8b-6537-4016-a056-9296de03f276",
-    "assigned_by": "codex:/root/sprint8-podcast-lane",
-    "revision": "git-blake3:c67307ab839b5a2bfc6905e72c68e9a5cb3fa8c3:a1b6433d649a4016d679db960aa1ac4c6032ff1ae84d9632c6f9cd39320775a1",
-    "scope": [
-      "demos/podcast/episode-packages/**",
-      ".csdlc/issues/342",
-      ".csdlc/prepared/issues/342/validate-episode-packages.rb",
-      ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
-      ".csdlc/prepared/issues/342/validate-readiness.rb"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:13e6db8b-6537-4016-a056-9296de03f276",
-    "scope": [
-      "demos/podcast/episode-packages/**",
-      ".csdlc/issues/342",
-      ".csdlc/prepared/issues/342/validate-episode-packages.rb",
-      ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
-      ".csdlc/prepared/issues/342/validate-readiness.rb"
-    ],
-    "reviewed_revision": "git-blake3:c67307ab839b5a2bfc6905e72c68e9a5cb3fa8c3:a1b6433d649a4016d679db960aa1ac4c6032ff1ae84d9632c6f9cd39320775a1",
-    "findings": [],
-    "residual_risks": [
-      "#342 is intentionally a non-production source-package checkpoint; final audio, production RSS/hosting, directory runbooks, directory submissions, and final show-identity clearance remain owned by #261/#262/#263/#264."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 342,
-    "pull_request": 586,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/586",
-    "base": "main",
-    "head": "codex/342-podcast-studio-first-ten-episodes",
-    "revision": "git-blake3:eb775a3f941efd5ca4ede47b147b59fee1e39853:24e34baa97be92198b25e3762b1ec3a89e88a8ab37b7dadc74dc495fe32228e4",
-    "linkage_mode": "closing",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "abaf276b899770e6e8585cd1a7b975fd9c8c63840c8cc7f3ff456e1cecbd8674",
+      "values_digest": "2292727187de88172a5d40e1ce0194fc6da1a2abe82a96dbebd818b47edda7f7",
       "rendered_digest": "5328667aa3b17e469c4e356c01c9c602c10a712d6a391083d445c63904620910",
       "ast_digest": "6eaf7b8e3cb171db069ce3d7e5b2ba589bb054310e93b6066b0b170a41c98d19"
     },
     "stp": {
-      "values_digest": "c1fd48a6433b6b0150aa95b684b5b86d513c144a95e5c5c0c782d4206901269d",
+      "values_digest": "f7b9aaf9630ee29972ecfe4cc94bb47df3b9027d699bd0c8d63503e3985f67ef",
       "rendered_digest": "acb4546eeec9aa539f66cc016e39189ef9a85660e77e9b6f18539480b6d52b92",
       "ast_digest": "ed2d6b41b560d5723a0958ac88879aa36df82116433163a9d72aa7c2d94ceb23"
     },
     "spp": {
-      "values_digest": "6a5bcf1a0b65562fda85f025f8b3033434ceac99a9e98336ce632b7c7c5b8e38",
+      "values_digest": "936ff998df61ab45767eaaf9a1e5815a8f86052253fce93f4d67aae39320d8dd",
       "rendered_digest": "191480bd99aec1c23e210e976f5f42a848cfbd552f1781829934dbc1ef764e59",
       "ast_digest": "07819b7755ede28a214e3623d7362c71eb7a5e9e1a3448cc31fe0a7dadbc7391"
     },
     "vpp": {
-      "values_digest": "6b2d5ca5b8ce8eebad3469969296b01810a6ff39631c16fa3ef521bd656c3785",
+      "values_digest": "5cedd1859d642f4047c8058435268e3e477ac9015f77db08b32a52dd37ea07f6",
       "rendered_digest": "7b01988e3038715e3c0197ad18a7b2fec0b4eae7a735707af22f4d7bebe55c16",
       "ast_digest": "6b64408653e72de06986bd341bb63150557f388dfd8b5f10c133ccca2822220e"
     },
     "srp": {
-      "values_digest": "2077f23366cd501e712f52993f64cc161afa6295889a7498fbe5725f8234ca04",
-      "rendered_digest": "bb272a00b6088dd3c03279d033ac1bf99f53795a5ef8f2e91274b84c52eea572",
-      "ast_digest": "4256c816ef8644fcecc29fb434dd1944308a7fae57cf5e3089622493624918c6"
+      "values_digest": "1696d6d1904feba661a7ea0373ba86af006267efbc8568e0455941d118eb5563",
+      "rendered_digest": "f3981d397581a00015a75d6c9e78169872aa294aa4e98e1cf125af3d1d684772",
+      "ast_digest": "02b4ab1ca0e7a190cd8d6e5aa0474acb356d498c4bba7f5d5513c8e1120a23fa"
     },
     "sor": {
-      "values_digest": "5fbc5a55b6bddb829ad63793c35c434b0ed3b19aac884904476ef8fd880e1a4e",
-      "rendered_digest": "a5511a687c4a4087590f492bdaf94d0289b1def22b4a91e658313c24b9d93ff1",
-      "ast_digest": "d24574485e5868a2d616b52a284b5bd37d047de60fb216572b23d93b4a2c2f00"
+      "values_digest": "468567e9c9ff4a5a22b7ab427dbd855d74564c7532cf9611b2357ae7cef8493b",
+      "rendered_digest": "11bc7272cde994c5618f78c56d1472b12c1421368b4131117fff1ad018c07799",
+      "ast_digest": "1c627b8aaefa060c0e7144c47437e13db4b85c2286e476adcd437925cefae3f4"
     }
   },
   "transitions": [
@@ -141,6 +103,13 @@
       "to": "published",
       "actor": "codex:/root/sprint8-podcast-lane",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "Recover published review state after fixing the issue-owned readiness validator so it remains truthful in the published checkpoint phase."
     }
   ],
   "audit": [
@@ -367,6 +336,13 @@
       "actor": "codex:/root/sprint8-podcast-lane",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 27,
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "Recover published review state after fixing the issue-owned readiness validator so it remains truthful in the published checkpoint phase.",
+      "operation": "recover_review"
     }
   ]
 }
