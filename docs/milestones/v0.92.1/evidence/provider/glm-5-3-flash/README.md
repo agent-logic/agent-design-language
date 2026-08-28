@@ -14,9 +14,11 @@ Profile: `z_ai:glm-5.3-flash`
   `low`, `high`, and `max`, with `max` as the default/reproduction setting.
 - Z.ai and Unsloth document evaluation-style sampling around
   `temperature=1.0` and `top_p=0.95`.
-- Z.ai and Hugging Face document `clear_thinking` defaulting to `false`;
-  ADL keeps that as the profile default for continuity-preserving long-lived
-  reviewer/agent turns and allows explicit runtime override to `true`.
+- Z.ai's API documentation lists `thinking.clear_thinking` with default
+  `true`, while the Hugging Face/chat-template route documents
+  `clear_thinking` defaulting to `false`. ADL intentionally chooses explicit
+  `false` as the profile default for continuity-preserving long-lived
+  reviewer/agent turns and allows runtime override to `true`.
 - The model is large enough that local execution is not the default ADL proof
   path here; Unsloth lists local quantized memory requirements around 100GB for
   1-bit and 128GB for 3-bit operation.

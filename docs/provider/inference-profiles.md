@@ -51,9 +51,10 @@ The materialized defaults are:
 Runtime overrides are intentionally narrow and validated before dispatch:
 
 - `reasoning_effort` may be `low`, `high`, or `max`.
-- `clear_thinking` must be a boolean. ADL defaults it to `false` for
-  continuity-preserving long-lived agent and reviewer turns; short chat-like
-  calls may set it to `true`.
+- `clear_thinking` must be a boolean. ADL explicitly defaults it to `false`
+  for continuity-preserving long-lived agent and reviewer turns, even though
+  the direct Z.ai API default differs; short chat-like calls may set it to
+  `true`.
 - `temperature` must be in `[0.0, 1.0]`.
 - `top_p` must be in `[0.01, 1.0]`.
 - `max_output_tokens` may be raised as high as `131072` for GLM-5.3-Flash.
