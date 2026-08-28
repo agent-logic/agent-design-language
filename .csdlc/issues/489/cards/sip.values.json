@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 489,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+    "slug": "aws-runtime-platform-modules",
+    "version": "v0.92.1",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one reviewed AWS Runtime platform-module set.",
+      "required_outcome": "One reviewed Terraform module set for private Runtime network, edge, build, and independently scalable node groups.",
+      "declared_scope": [
+        "AWS Runtime private network attachment and host or node group module set",
+        "Private ingress posture with no direct public ingress to Runtime hosts",
+        "Consumption of #122 public edge, ACM, Route53, WSS and allowed-origin authority without re-owning it",
+        "Consumption of #488 adoption-register truth without reclassifying durable resources",
+        "Exact Runtime artifact wiring, observability, cost/deadline, rollback, disposable proof, and zero-residue cleanup"
+      ],
+      "authority_boundary": [
+        "Use the Agent Logic AWS business account through the approved AWS profile only for live readbacks or disposable proofs",
+        "Do not print, copy, commit, or expose cloud credentials or sensitive account data",
+        "Do not create production traffic or perform production cutover",
+        "Do not re-own #122 public exposure, Route53, ACM, CloudFront, API Gateway, WAF, WSS, or allowed-origin work",
+        "Do not re-own #488 adoption-register classifications",
+        "Do not implement #496 CloudFormation retirement or #495 cross-cloud conversion"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes",
+        "Bind beneath /Volumes/FastWork/adl-worktrees before tracked implementation edits",
+        "Use standard runners only for hosted CI",
+        "Preserve primary main cleanliness",
+        "Avoid paid/cloud mutation unless the issue-specific proof explicitly authorizes it",
+        "Keep #489 scoped to AWS-F Runtime platform modules"
+      ]
+    }
+  }
+}

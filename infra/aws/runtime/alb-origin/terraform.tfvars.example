@@ -1,0 +1,22 @@
+environment    = "dev"
+csm_name       = "wuji"
+zone_name      = "csm.agent-logic.ai"
+hosted_zone_id = "Z_REPLACE"
+
+vpc_id            = "vpc-REPLACE"
+public_subnet_ids = ["subnet-REPLACE-A", "subnet-REPLACE-B"]
+
+# Normal path: leave certificate_arn null and reuse_existing_certificate true.
+# Terraform looks up an existing ISSUED regional ACM cert for the origin FQDN.
+certificate_arn            = null
+reuse_existing_certificate = true
+certificate_lookup_domain  = null
+create_certificate         = false
+create_dns_record          = true
+
+runtime_port       = 20997
+target_instance_id = null
+
+# Defaults closed. Add CloudFront origin-facing CIDRs or a bounded operator
+# smoke CIDR explicitly; never commit 0.0.0.0/0 for reusable Runtime origins.
+allowed_ingress_cidrs = []
