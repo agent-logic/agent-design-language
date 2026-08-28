@@ -1,4 +1,5 @@
 use std::fmt;
+use std::fs;
 use std::path::{Path, PathBuf};
 
 /// Explicit repository context for the non-authoritative v3 foundation slice.
@@ -60,6 +61,23 @@ impl RepositoryContext {
         &self.proportional_lifecycle_path
     }
 
+    pub fn issue_record_text(&self, issue: u64) -> Result<String, RepositoryContextError> {
+        let path = self.root.join(format!(".csdlc/issues/{issue}/index.json"));
+        self.read_required_text(path, "v2 issue record")
+    }
+
+    pub fn card_text(&self, issue: u64, card: &str) -> Result<String, RepositoryContextError> {
+        if !matches!(card, "sip" | "stp" | "spp" | "vpp" | "srp" | "sor") {
+            return Err(RepositoryContextError::UnsupportedCard {
+                card: card.to_owned(),
+            });
+        }
+        let path = self
+            .root
+            .join(format!(".csdlc/issues/{issue}/cards/{card}.md"));
+        self.read_required_text(path, "v2 issue card")
+    }
+
     pub fn relative_display(&self, path: &Path) -> String {
         path.strip_prefix(&self.root)
             .unwrap_or(path)
@@ -83,6 +101,21 @@ impl RepositoryContext {
         }
         Ok(())
     }
+
+    fn read_required_text(
+        &self,
+        path: PathBuf,
+        label: &'static str,
+    ) -> Result<String, RepositoryContextError> {
+        self.require_file(&path, label)?;
+        fs::read_to_string(&path).map_err(|source| {
+            RepositoryContextError::RequiredFileUnavailable {
+                label,
+                path,
+                source,
+            }
+        })
+    }
 }
 
 #[derive(Debug)]
@@ -102,6 +135,9 @@ pub enum RepositoryContextError {
     RequiredPathNotFile {
         label: &'static str,
         path: PathBuf,
+    },
+    UnsupportedCard {
+        card: String,
     },
 }
 
@@ -138,6 +174,7 @@ impl fmt::Display for RepositoryContextError {
                     path.display()
                 )
             }
+            Self::UnsupportedCard { card } => write!(formatter, "unsupported card {card:?}"),
         }
     }
 }

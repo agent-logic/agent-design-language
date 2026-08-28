@@ -1,8 +1,10 @@
 use csdlc_v3::application::{
-    FoundationState, FOUNDATION_PREDECESSORS, ISSUE_START_MINUTES_MAX, REQUIREMENT_PROOFS,
+    FoundationState, IssueProjection, FOUNDATION_PREDECESSORS, ISSUE_START_MINUTES_MAX,
+    REQUIREMENT_PROOFS,
 };
 use csdlc_v3::repository::RepositoryContext;
 use std::path::PathBuf;
+use std::process::Command;
 
 fn repo_root() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -35,6 +37,43 @@ fn repository_context_is_explicit() {
     assert_eq!(
         context.relative_display(context.proportional_lifecycle_path()),
         "docs/csdlc-v3/proportional-lifecycle.json"
+    );
+}
+
+#[test]
+fn single_binary_foundation_command_is_read_only_and_explicit() {
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc-v3-foundation"))
+        .args(["--repo-root", &repo_root().to_string_lossy()])
+        .output()
+        .expect("run foundation binary");
+    assert!(output.status.success());
+    let stdout = String::from_utf8(output.stdout).expect("utf8 stdout");
+    assert!(stdout.contains("\"schema\":\"csdlc.v3.foundation.v1\""));
+    assert!(stdout.contains("\"read_only\":true"));
+    assert!(stdout.contains("\"operational_authority\":\"csdlc-v2\""));
+}
+
+#[test]
+fn application_context_reports_typed_missing_root_errors() {
+    let missing = repo_root().join("definitely-missing-v3-foundation-root");
+    let error = RepositoryContext::discover(&missing).expect_err("missing root is rejected");
+    assert!(error.to_string().contains("repository root"));
+}
+
+#[test]
+fn read_only_v2_import_loads_issue_record_and_cards() {
+    let context = RepositoryContext::discover(repo_root()).expect("explicit repository context");
+    let projection = IssueProjection::load(&context, 501).expect("read-only issue projection");
+    assert_eq!(projection.issue, 501);
+    assert!(projection.record_contains_phase);
+    assert_eq!(projection.card_count, 6);
+    assert_eq!(
+        projection
+            .cards
+            .iter()
+            .map(|projection| projection.key.as_str())
+            .collect::<Vec<_>>(),
+        ["sip", "sor", "spp", "srp", "stp", "vpp"]
     );
 }
 

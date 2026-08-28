@@ -187,6 +187,38 @@ impl FoundationState {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct IssueProjection {
+    pub issue: u64,
+    pub record_contains_phase: bool,
+    pub card_count: usize,
+    pub cards: Vec<Projection>,
+}
+
+impl IssueProjection {
+    pub fn load(context: &RepositoryContext, issue: u64) -> Result<Self, FoundationError> {
+        let record = context
+            .issue_record_text(issue)
+            .map_err(FoundationError::Repository)?;
+        let mut cards = BTreeMap::new();
+        for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
+            let text = context
+                .card_text(issue, card)
+                .map_err(FoundationError::Repository)?;
+            cards.insert(card.to_owned(), text.len().to_string());
+        }
+        Ok(Self {
+            issue,
+            record_contains_phase: record.contains("\"phase\""),
+            card_count: cards.len(),
+            cards: cards
+                .into_iter()
+                .map(|(key, value)| Projection { key, value })
+                .collect(),
+        })
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Projection {
     pub key: String,
     pub value: String,
@@ -202,6 +234,7 @@ pub enum FoundationError {
         label: &'static str,
         needle: &'static str,
     },
+    Repository(crate::repository::RepositoryContextError),
 }
 
 impl fmt::Display for FoundationError {
@@ -213,6 +246,7 @@ impl fmt::Display for FoundationError {
             Self::MissingRequiredText { label, needle } => {
                 write!(formatter, "{label} is missing required text {needle:?}")
             }
+            Self::Repository(source) => write!(formatter, "{source}"),
         }
     }
 }
