@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "90d266a57c0014b35b2f5bd639b0348d6e0736aaa4ecbb2f514ed783eca5dcee",
   "phase": "initialized",
-  "generation": 2,
-  "digest": "db6fd2cd99702d61e4cf12d2927bc0f00fbd31355ca38d2382e97b0214ee07bd",
+  "generation": 3,
+  "digest": "497128dd9e491eb3f36f53bcdd3f754c003766d84ac3f1adb42ae409db4c694c",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/261/design.md",
   "diagram_path": ".csdlc/prepared/issues/261/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
+      "revision": "b3c0230d09eb8afe14672d252e912c8ba3f950022cae5b9a9dbcd98f40c68c90"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "d7796951d960efa23cc8a5a7788e05f072f4858fdea738275a203ee3d84a628d",
+      "values_digest": "e3e416a1bc25ff716f791fda47365530682c87628b8bfef1356f612b8079bc27",
       "rendered_digest": "8c603a43a88a31185b9767b02c03ea8320a6151720729033f091ee6b44963413",
       "ast_digest": "189854a87a2fc8001da5c0583168ab995e0373cff891cee8cd2f01e64547112a"
     },
     "stp": {
-      "values_digest": "8637ad5846d33574cb95c895b11a557b2f61f08be1ed7d21b8f9e9e119f00d51",
+      "values_digest": "e5c2f47348ea152b3089c8d9271d03a6f9a4eeae5edeb20d908d5a8b749e2370",
       "rendered_digest": "deac34e55212129f59a2c51fb3eaf1464b26569d0b1977c5624b1a699a175d70",
       "ast_digest": "266f3b23f95bffc66db252c05e6b4a5cfca35686e0caf94057984319a1d59365"
     },
     "spp": {
-      "values_digest": "29567d1fa2a2ff279b494c95935fe3c6942f9bdf29de43822546f03f345e3457",
+      "values_digest": "4642ab95c0010e2cacf5c408c0aa934e0989c6ea559841788ae3713b021e31d5",
       "rendered_digest": "74d7b7e933df836ce7c25c03f7f5084c81af07ffc8e27d4f2f02aee3fd9f6a76",
       "ast_digest": "d0186caa6b29a46f200df18c5a674fc1a0c41be3661db17cbc69f11789d8d070"
     },
     "vpp": {
-      "values_digest": "cc53ccb309bd86a36e309bb2b3ca32281cccca044238cdf3ee405f4636ffa1d6",
+      "values_digest": "571f648388bf406af7db09d51c2f147ec8f65b0de88dfc9163661d545cdfda9c",
       "rendered_digest": "ed6cf8d828f2ca5ccd4efd74ed8fdfc30add9b0d6a1c238da731695879e894dd",
       "ast_digest": "373e2b3f6321fabfd144daf15b03b4769b5785a966f9d384aada08be50a81f0d"
     },
     "srp": {
-      "values_digest": "7796deb9ef5a9fe85ef9d8257ae81b5df54173894bc35f66156bcf5bc2cf9e1a",
+      "values_digest": "0f4fa2a0343c46483a0a4b705dd7ae0a224eb60e56b249496cd4bb7b2e99b044",
       "rendered_digest": "ad77ea332f6dbb4591f41534e34b1ea0b18cdc8199672ef0b3cb5b2def147558",
       "ast_digest": "e4af756200f55ed6da33b7473c24974bf78729d048bf260dedd75a09f828cc0f"
     },
     "sor": {
-      "values_digest": "08dd7a234198aa58fd425a6ff72efd1ff631e75a465a504484acff07d69c6268",
+      "values_digest": "71b85ec498492e9a0aac918a86bafd776736e25d19e57d82ed4d39ccdc7e2ee8",
       "rendered_digest": "938524f2f9d58fc21f09af72f0fb988afc1dc9264df8e4b29533323e5eab5ec6",
       "ast_digest": "643cc1406264c349853e5be243707a0fc0742d14396ab6993cb893dd5433ed0e"
     }
@@ -71,6 +76,13 @@
       "actor": "codex:sprint8-readiness",
       "reason": "Use an explicit governed interpreter argv for the issue-owned proof target.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-261-focused\",\"proof_role\":\"Show-name collision, rights, metadata parity, artwork constraints, mailbox redaction, and digest validation\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/261/validate-show-identity.rb\"],\"parallel_group\":\"sprint8-issue-261\",\"defer_reason\":\"Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication.\"},{\"lane\":\"issue-261-diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"sprint8-hygiene\",\"defer_reason\":\"Run after the issue has a bounded candidate diff.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"b3c0230d09eb8afe14672d252e912c8ba3f950022cae5b9a9dbcd98f40c68c90\",\"design_ref\":\".csdlc/prepared/issues/261/design.md\",\"diagram_digest\":\"1a670f37bfe27744ab2847e73187b7e7e195c0f138e23ff21aedc1fc441705ee\",\"diagram_ref\":\".csdlc/prepared/issues/261/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }

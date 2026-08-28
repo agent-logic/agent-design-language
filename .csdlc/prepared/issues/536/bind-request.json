@@ -1,0 +1,7 @@
+{
+  "issue": 536,
+  "base_branch": "main",
+  "branch": "codex/536-v0921-sprint8-readiness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-readiness",
+  "code_repository": "agent-logic/agent-design-language"
+}

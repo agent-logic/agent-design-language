@@ -1,0 +1,24 @@
+{
+  "schema": "adl.sprint8.readiness.v1",
+  "status": "ready",
+  "sprint_issue": 536,
+  "membership_version": 5,
+  "ordered_issue_numbers": [261, 342, 262, 263, 264, 511, 512, 51],
+  "reviewed_revision": "bc5f8208b0b9f9755ae38906e53ee7db96ef526a",
+  "reviewer": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
+  "packet_sha256": "0c3d299fcccc3f49abf1d29a4ef5c726ca9cfd4834d2fbb6a89151777b3eb768",
+  "known_blockers": [
+    {"issue": 84, "blocks": [512], "disposition": "backlog_dependency"},
+    {"issue": 264, "blocks": [264], "disposition": "provider_specific_operator_authorization_required"}
+  ],
+  "non_blocking_findings": [
+    {"severity": "P3", "issue": 84, "finding": "The future Unity live validator is absent and must be supplied before issue 84 or dependent issue 512 may execute."}
+  ],
+  "validation": [
+    "typed v2 child card readiness: passed for all eight active children",
+    "sprint packet membership and dependency contract: passed",
+    "tracked and installed sprint-conductor parity: passed",
+    "typed issue validation: passed for all eight active children and bound umbrella 536",
+    "git diff --check: passed"
+  ]
+}
