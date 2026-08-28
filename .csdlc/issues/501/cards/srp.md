@@ -51,12 +51,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains non-authoritative; typed C-SDLC v2 remains the operational lifecycle authority.
+- Issue #502 lifecycle kernel work has not been started and remains sequentially blocked on #501 publication/finish.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7b7c8dd6f7c98ba2f1dcc9c00fab520074e4135a:9aed3fab194f6395b444be2827a6e62ed0c3405aa6da726b7f68b0147e1e3c83")
 
-Reviewer: None
+Reviewer: Some("issue_501_current_review")
 
-Result: pre_review
+Result: pass

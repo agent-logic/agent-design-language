@@ -3,15 +3,15 @@
   "issue": 501,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "fa47f9e1a7c307834334da4c81dfafe2d87aa0b8271f54e3640f9c7b107d53fd",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "2c025d2243438a1915a94e3a1a1d0c86351bc47c982e051d1359d6ef06a546e8",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "f648609dbc3f94e841e39afb78e839b19e2296e1682c0d28b99451f5b4c151b5",
   "branch": "codex/501-v3-b-csdlc-v3-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation",
   "review_assignment": {
     "reviewer": "issue_501_current_review",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:4f79392bd1b7b509ada4279bb6c49afc2e70b253:404a632c60dd7f83154dcc0748bed240ff7ab7828049299fde5ffe207860f08b",
+    "revision": "git-blake3:7b7c8dd6f7c98ba2f1dcc9c00fab520074e4135a:9aed3fab194f6395b444be2827a6e62ed0c3405aa6da726b7f68b0147e1e3c83",
     "scope": [
       ".csdlc/issues/501/audit.jsonl",
       ".csdlc/issues/501/cards/sip.md",
@@ -36,7 +36,40 @@
       "csdlc-v3/tests/foundation.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "issue_501_current_review",
+    "scope": [
+      ".csdlc/issues/501/audit.jsonl",
+      ".csdlc/issues/501/cards/sip.md",
+      ".csdlc/issues/501/cards/sip.values.json",
+      ".csdlc/issues/501/cards/sor.md",
+      ".csdlc/issues/501/cards/sor.values.json",
+      ".csdlc/issues/501/cards/spp.md",
+      ".csdlc/issues/501/cards/spp.values.json",
+      ".csdlc/issues/501/cards/srp.md",
+      ".csdlc/issues/501/cards/srp.values.json",
+      ".csdlc/issues/501/cards/stp.md",
+      ".csdlc/issues/501/cards/stp.values.json",
+      ".csdlc/issues/501/cards/vpp.md",
+      ".csdlc/issues/501/cards/vpp.values.json",
+      ".csdlc/issues/501/index.json",
+      ".csdlc/prepared/issues/501/design.md",
+      ".csdlc/prepared/issues/501/diagram.mmd",
+      "csdlc-v3/src/application/mod.rs",
+      "csdlc-v3/src/bin/csdlc-v3-foundation.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/repository/mod.rs",
+      "csdlc-v3/tests/foundation.rs"
+    ],
+    "reviewed_revision": "git-blake3:7b7c8dd6f7c98ba2f1dcc9c00fab520074e4135a:9aed3fab194f6395b444be2827a6e62ed0c3405aa6da726b7f68b0147e1e3c83",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains non-authoritative; typed C-SDLC v2 remains the operational lifecycle authority.",
+      "Issue #502 lifecycle kernel work has not been started and remains sequentially blocked on #501 publication/finish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -51,32 +84,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b5636bbe0a3acd4449f8c3886e2932ce4654f8d3d7737f63d0a1f72639eb75b8",
+      "values_digest": "e9498cef2fe7e5b7af7544efe351f2b0433bc3ee97852cd6dbe07b9ac153e425",
       "rendered_digest": "b8660f4e6e0d079ae8cf6904876e9e4b8ae0e70e39511ab4ba7ab5f01e49ac0e",
       "ast_digest": "0f09c92931040cbf6e052470e0b5a7c14f445971c53def3a2509c41272c8bd0f"
     },
     "stp": {
-      "values_digest": "51f5d84f1def72f0a323939b3d6713f9b965d0032438a0d374a4a6a58370a28f",
+      "values_digest": "39dff2c0535e2074e04c1a1127c8bc22e8aafc53fc6bcd9fece765a50d7e4cac",
       "rendered_digest": "692b12b09ccdd83269cd7cc1f26b01e2ebb97f78b19c4ed173001ed113d70a4a",
       "ast_digest": "3a5825e3602aa17d4b35cf55a20edf71f272eb00d7cb2ed369cf855d747c7e1d"
     },
     "spp": {
-      "values_digest": "5ec1fd7bb35ce60ac670c26b4a3763508d274dcf1cc6328bdf9763a9a95ada7b",
+      "values_digest": "f52161246f3fc3047ff3907dad8266bbbad36260a350f2d506e05de8b5354672",
       "rendered_digest": "a1e98ad4dda0219acced2a5fe3a050a60929e6b8ffac2ddd1955cded5028d110",
       "ast_digest": "73afe27f73b912170120681cd553950c602e4af38c4f3f3e282655463951477f"
     },
     "vpp": {
-      "values_digest": "9067ed4ad3a0c56c043654770b048098e4a73c7ffdc68f7647ee2ce5c362a6d0",
+      "values_digest": "37604d35ffc6314053f99dac9d87c118114e1052908496cd6cc4530cdbd22f75",
       "rendered_digest": "d89e7ed8e040fbdb8811c1feca387f1b274ba0ddf4070ec24ed4ef26c085dd9a",
       "ast_digest": "83595baa407f8f5f553792d3b3025ced1b826524b6522c605267ca8fec3f9442"
     },
     "srp": {
-      "values_digest": "69b03dfd16aa20a49c2d9882d03652490a963b4072949802d09ce83d62e4da86",
-      "rendered_digest": "40b5e8d90eac672ea964a0daf077ea4e2f785f7cc985fbf35661bd880e013561",
-      "ast_digest": "3def47abb434b08fcd19077347246685202b882621ba8efe85d264a6c319437c"
+      "values_digest": "c1e2e5815607d0404220667243435d5e1836729b69395e21c839d7f825b36cff",
+      "rendered_digest": "43496862801007d5ae1d9c35a1787e0e2e17c75a9ea930184be6168a5e8570a3",
+      "ast_digest": "163a5a0ddebbf6ac8f2d24d84907c318854a5b9853b4056b06ca06e595e9352a"
     },
     "sor": {
-      "values_digest": "d5ec322605bc4ef992f2fc3a01fca1551a4cb4cfd6d1073d79bb6202c96208a0",
+      "values_digest": "7215e0170b35fa512d471ee0b535de7cf4bf4d7f98999b8ff90fb017b65c0f9e",
       "rendered_digest": "154b95a72fa6ab5b2d629aef05ec28fab8f1e6fa832f5b2ded21e7667cb6a3cc",
       "ast_digest": "51fb803272b45340368ee503c95973324d2a34ed74c0cfc0b9c4ab933326bae9"
     }
@@ -102,6 +135,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Advance #501 to implemented after V3-B foundation code and focused proof are present in the bound worktree."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -237,6 +277,20 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
