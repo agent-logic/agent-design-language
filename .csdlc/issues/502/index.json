@@ -5,10 +5,38 @@
   "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
   "phase": "implemented",
   "generation": 9,
-  "digest": "40c8bc3d1df62329ec65128151a010a50e252e30accd9700d8f62d62faddb2d7",
+  "digest": "75f69f308a354fc4ddafb565f4b924edde2acbc98dac3806d1ccb6618d4b77ca",
   "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:80294bad-e240-4342-8c82-b7f112818177",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:2ca5319c5d9ef2da04f82bc88880455f00d86e67:b6a7176aef6070f5f6399bacd21640e9797b72be36107011e8b7348567b869c3",
+    "scope": [
+      ".csdlc/issues/502/audit.jsonl",
+      ".csdlc/issues/502/cards/sip.md",
+      ".csdlc/issues/502/cards/sip.values.json",
+      ".csdlc/issues/502/cards/sor.md",
+      ".csdlc/issues/502/cards/sor.values.json",
+      ".csdlc/issues/502/cards/spp.md",
+      ".csdlc/issues/502/cards/spp.values.json",
+      ".csdlc/issues/502/cards/srp.md",
+      ".csdlc/issues/502/cards/srp.values.json",
+      ".csdlc/issues/502/cards/stp.md",
+      ".csdlc/issues/502/cards/stp.values.json",
+      ".csdlc/issues/502/cards/vpp.md",
+      ".csdlc/issues/502/cards/vpp.values.json",
+      ".csdlc/issues/502/index.json",
+      ".csdlc/prepared/issues/502/design.md",
+      ".csdlc/prepared/issues/502/diagram.mmd",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/lifecycle/mod.rs",
+      "csdlc-v3/src/storage/mod.rs",
+      "csdlc-v3/tests/transactions.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +72,9 @@
       "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
     },
     "srp": {
-      "values_digest": "a00b804c42d14d9766d7a39535dd7972f5b5e40961e360b3d2e24879928a785b",
-      "rendered_digest": "c0a5f24eca8192b6aa051e61c572ac160c9941526435bc2c21f4102a8ff824a3",
-      "ast_digest": "2f0cb9846491ce392d6fba9d581a1985cbdf782be0549ac44e05a156da6c8999"
+      "values_digest": "526a8fd85a9f9c54c0ef8f327d69dd0b6e9021669497e8e4a8cb8e31be88cfea",
+      "rendered_digest": "7878bb3b8bbc6af7467d5236dfcf453ad3f375876a4f6478828d5062bf2031ac",
+      "ast_digest": "3519c3b1570a1fd1b2aa4e0fadf00a40d69745479f543ddd6649eeac51074daa"
     },
     "sor": {
       "values_digest": "4d1f7c320dad62a6584a9c3b7d805fd5fc7c4ea3c3b877056b414a08a6886ca1",
@@ -154,6 +182,13 @@
       "actor": "codex:worker-6",
       "reason": "Record #502 independent-review finding fixes, scope cleanup, and post-fix validation evidence.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and review-hardened the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on the stacked branch, including pure transition decisions, transactional state storage/recovery classification, typed adapter boundaries, crate-local AGENTS guidance, focused #168/#169/#170 transaction tests, fixes for independent pre-PR review findings, and cleanup that removes unrelated docs-authority changes from the net #502 diff.\",\"changes\":[\"Added csdlc-v3/src/lifecycle/mod.rs for capability-checked lifecycle transition decisions and projection invalidation semantics.\",\"Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, commit-time generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, and content-bound record digests.\",\"Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, redaction, and shell-executable rejection including path-qualified shells.\",\"Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, and digest-binding tests.\",\"Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.\",\"Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.\",\"Dropped unrelated docs-authority commits from the net #502 branch diff while preserving the explicit csdlc-v3/AGENTS.md deliverable.\"],\"artifacts\":[\"implementation commit b21a7944f8c0274b003af809299026492734cb42\",\"lifecycle truth commit 8a23eacf77eea2066d9e96442a7eab3f8bde1227\",\"review-fix commit 46ec429a5158f2d6b7c21df4ce0fdd3674178828\",\"scope-cleanup commit ad1f446d5e13544e68bacad520a8822eb2005d84\",\"worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel\",\"branch codex/502-v3-c-csdlc-v3-lifecycle-kernel\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"format check for the C-SDLC v3 crate\",\"outcome\":\"passed\",\"evidence_ref\":\"local command passed after review-fix rustfmt\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"transactions\"],\"purpose\":\"focused transaction test target for #168/#169/#170 retained behaviors and review-finding regressions\",\"outcome\":\"passed\",\"evidence_ref\":\"10 tests passed in csdlc-v3/tests/transactions.rs\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"strict clippy for the C-SDLC v3 crate\",\"outcome\":\"passed\",\"evidence_ref\":\"local command passed after review-fix commit 46ec429a5158f2d6b7c21df4ce0fdd3674178828\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"full C-SDLC v3 crate test suite\",\"outcome\":\"passed\",\"evidence_ref\":\"4 lib tests, 8 foundation tests, and 10 transaction tests passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"diff hygiene\",\"outcome\":\"passed\",\"evidence_ref\":\"local command passed before SOR update\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"502\"],\"purpose\":\"typed C-SDLC issue validation\",\"outcome\":\"passed\",\"evidence_ref\":\"status pass, phase implemented, generation 8 before scoped SOR correction\"},{\"command\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"502\"],\"purpose\":\"typed lifecycle doctor\",\"outcome\":\"passed\",\"evidence_ref\":\"status pass, phase implemented, generation 8 before scoped SOR correction\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

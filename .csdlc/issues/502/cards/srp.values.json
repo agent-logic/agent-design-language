@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "V3-C lifecycle transition model, transaction storage/recovery model, typed adapters, crate-local AGENTS.md guidance, focused transaction tests, and issue-local evidence only.",
+      "review_scope": ".csdlc/issues/502/audit.jsonl\n.csdlc/issues/502/cards/sip.md\n.csdlc/issues/502/cards/sip.values.json\n.csdlc/issues/502/cards/sor.md\n.csdlc/issues/502/cards/sor.values.json\n.csdlc/issues/502/cards/spp.md\n.csdlc/issues/502/cards/spp.values.json\n.csdlc/issues/502/cards/srp.md\n.csdlc/issues/502/cards/srp.values.json\n.csdlc/issues/502/cards/stp.md\n.csdlc/issues/502/cards/stp.values.json\n.csdlc/issues/502/cards/vpp.md\n.csdlc/issues/502/cards/vpp.values.json\n.csdlc/issues/502/index.json\n.csdlc/prepared/issues/502/design.md\n.csdlc/prepared/issues/502/diagram.mmd\ncsdlc-v3/AGENTS.md\ncsdlc-v3/src/adapters/mod.rs\ncsdlc-v3/src/lib.rs\ncsdlc-v3/src/lifecycle/mod.rs\ncsdlc-v3/src/storage/mod.rs\ncsdlc-v3/tests/transactions.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
