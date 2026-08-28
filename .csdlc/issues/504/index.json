@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e0ab52f41b32f4c8fee5899510e2daa1004ed5bb8349ea1afc6137449524b86a",
   "phase": "initialized",
-  "generation": 4,
-  "digest": "575eaad89ba0cd8885d22b3f37c5f57399f1fa34f9fe39ff5e04550fb0b14a20",
+  "generation": 5,
+  "digest": "cafba9a0ca74cc314808437ff420901a8c1424d2c3156e12e4a9619bfd9a632e",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/504/design.md",
   "diagram_path": ".csdlc/prepared/issues/504/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:289e86d6-2f6c-4c64-87e3-c5710733d9cb",
+      "revision": "6eb4d3c5e97fb57e8cf22a8d2d689e54a012aa5c0dd8f8df9a1e7c2c206413c6"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "3f28a595ee151b9e206ccb8a38e3de019f5c6b20a1d1dc5789cd303af51aa8e9",
+      "values_digest": "77e30fe2d8a764c405bfea2ae43e64f21faf23717d097504ac3e780ed1eaab0a",
       "rendered_digest": "045795469a2177f1cdf55f4b53ec53acc84e7f540c8a631562535823ddbe66e3",
       "ast_digest": "48ee89ff29f611eb584004ccdd0f55d0e2254bedcb44fdf4bde15720ac2d2aae"
     },
     "stp": {
-      "values_digest": "1e47ecfb7acd8a9a94c1df10c82bfa2647e117a30841e3e7f80f0de86e4a6f4e",
+      "values_digest": "b76e64d940c531f54c8d3a750b1b5bdce0c5cbda75750da7ec010cf89eddd7ff",
       "rendered_digest": "45588a30e0087598da490a38a8ac4fa73943b376b7c4917e0a1cf9030da00a3d",
       "ast_digest": "b4d809790a68270384edcc1baad364ded4c51aca8cfaf21f4807f610cbf98d08"
     },
     "spp": {
-      "values_digest": "aa7c7c64ecc270594dc2a43d8a5dd33800e9161e074ce1c9a0a3b2920e6bddf2",
-      "rendered_digest": "543acffbafda95f10469d638b4b302fc7e54e57c70260eacf65178199084e296",
-      "ast_digest": "fd27d703e69854690dd0c51d7654b825b517518ef94d2dd4202a2743a53f95be"
+      "values_digest": "2d4a9db000167d3fc9fda7f1b20a8af491b0f1c2490888349188371b6e9f36a2",
+      "rendered_digest": "3f4fcb91d40a19dd4d4c531e001198a2e6803c90ad4893689c4d85ee8689193a",
+      "ast_digest": "bf17cce436d9dadae435bdccb912317338a540149714364c80ad7b08fa67beff"
     },
     "vpp": {
-      "values_digest": "b2d8545a1154bd88109796b63a7762e3609644c3231d11a1d19f467641f4efce",
+      "values_digest": "86a90c80b823af64b97099500be74ccf7e056f7d4e3ff3d85f46cfcb60eb43bf",
       "rendered_digest": "8476e1b083720d520f16220d193aea4dac84b7349e68ec91d097961760f578a0",
       "ast_digest": "7aa0bad92b7b3938abe426ee33d49ec6da5c16dca4eeea65fa15a44c71579216"
     },
     "srp": {
-      "values_digest": "cf4039945a1bdce5eb449badc7868a91f3500dce712156856e80e262a0b84070",
+      "values_digest": "e1077ad2e4a3d493faa79c84852c8e6d03c2e6d81da02638750c4aa4a9b4dd8d",
       "rendered_digest": "4438bda905f7a72573b3ea3668d47b38809654fe74bbdbbb4a312121f0132dc6",
       "ast_digest": "3ea112a20d3e3d1844835fbe76cef162ac72450e36e47014c8b9f4dea23cffeb"
     },
     "sor": {
-      "values_digest": "73648c4fba7dfb571aed3ed3c8961e2d6a435d2def13191f0458e552fc04d6fe",
+      "values_digest": "d18902c87865416cdf3eb64ebe59f839158c533ae7c63e65588005cac858279f",
       "rendered_digest": "200a185830219233d18b338c8f51834987115b828d9fba1034974768aa17fb16",
       "ast_digest": "8cbddf5d7d6c8b68363d563c2fc78a5d92579041e4f378bd98e69978d12eda0f"
     }
@@ -85,6 +90,13 @@
       "actor": "codex:worker-6",
       "reason": "Make the #504 pre-bind validator an exact issue-owned affected area for initialized readiness validation.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/commands/remote\",\"csdlc-v3/src/review\",\"csdlc-v3/src/publication\",\"csdlc-v3/tests/remote_commands\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\",\".csdlc/prepared/issues/504\",\".csdlc/evidence/504\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "fresh-session:289e86d6-2f6c-4c64-87e3-c5710733d9cb",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"6eb4d3c5e97fb57e8cf22a8d2d689e54a012aa5c0dd8f8df9a1e7c2c206413c6\",\"design_ref\":\".csdlc/prepared/issues/504/design.md\",\"diagram_digest\":\"5421dcacb842a64acf16491135479b08ed32764db8b008dabea548a16db052e6\",\"diagram_ref\":\".csdlc/prepared/issues/504/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
