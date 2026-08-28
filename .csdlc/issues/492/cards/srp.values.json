@@ -7,15 +7,15 @@
     "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
     "slug": "gcp-organization-billing-baseline",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/492\n.csdlc/prepared/issues/492\n.csdlc/evidence/492\ninfra/gcp/organization\ndocs/operations/cloud/gcp/organization-billing\ndocs/milestones/v0.92.1/evidence/cloud/gcp-c",
-      "review_revision": "git-blake3:e26283d1bcd45ffa10cc9ea30f121c698ee89ac8:8c9f14855dd955ca8525480c74a02a96651a0f8fbd8f5d925e2a84be9872b49a",
-      "reviewer": "fresh-session:72a30d5a-f469-4782-b413-c234b644cb58",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the design keep #492 to GCP organization/billing baseline truth without absorbing #493, #494, #495, or production activation work?",
         "Are corporate group ownership, scoped policy impact, billing export/budget/label observability, and unchanged POC boundaries specified with machine-checkable proof?",
@@ -23,11 +23,8 @@
         "Are dependency and Terraform bootstrap boundaries truthful rather than hidden acceptance of broad GCP drift?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Reviewer did not run live gcloud or inspect credential files; implementation session retained a command-scoped live read-only inventory run proving project and billing readability and the repaired authorized-empty budget status without credential retention.",
-        "#492 establishes the GCP-C organization/billing baseline and does not implement #493 private platform infrastructure, GPU qualification, production traffic, or shared-VPC expansion."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

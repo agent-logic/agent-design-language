@@ -4,43 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "83d63e54f3cdc384cac8900f173f9dd32c7dfa99dfe03ea52cfb8182f80585d6",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "37158b53f6cd34d0854f8f1d87f84a3e18eab7f663f75426ce4b391a0cc77099",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "c10dd1506f8cf523f9476869232967a24002a5e401015346d12419c4751e6e8a",
   "branch": "codex/492-gcp-organization-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-492-gcp-organization-billing-baseline",
-  "review_assignment": {
-    "reviewer": "fresh-session:72a30d5a-f469-4782-b413-c234b644cb58",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:e26283d1bcd45ffa10cc9ea30f121c698ee89ac8:8c9f14855dd955ca8525480c74a02a96651a0f8fbd8f5d925e2a84be9872b49a",
-    "scope": [
-      ".csdlc/issues/492",
-      ".csdlc/prepared/issues/492",
-      ".csdlc/evidence/492",
-      "infra/gcp/organization",
-      "docs/operations/cloud/gcp/organization-billing",
-      "docs/milestones/v0.92.1/evidence/cloud/gcp-c"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:72a30d5a-f469-4782-b413-c234b644cb58",
-    "scope": [
-      ".csdlc/issues/492",
-      ".csdlc/prepared/issues/492",
-      ".csdlc/evidence/492",
-      "infra/gcp/organization",
-      "docs/operations/cloud/gcp/organization-billing",
-      "docs/milestones/v0.92.1/evidence/cloud/gcp-c"
-    ],
-    "reviewed_revision": "git-blake3:e26283d1bcd45ffa10cc9ea30f121c698ee89ac8:8c9f14855dd955ca8525480c74a02a96651a0f8fbd8f5d925e2a84be9872b49a",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer did not run live gcloud or inspect credential files; implementation session retained a command-scoped live read-only inventory run proving project and billing readability and the repaired authorized-empty budget status without credential retention.",
-      "#492 establishes the GCP-C organization/billing baseline and does not implement #493 private platform infrastructure, GPU qualification, production traffic, or shared-VPC expansion."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "79f3489fca07048b626953f151f9ea8fc0ada6698ac9d919ac1ca016dedd03bb",
+      "values_digest": "8f1f16191866e3f4f9dae4a262825469f8ed08484d1eea75691a5e865f841591",
       "rendered_digest": "5d67f2df6a2d06c754e61dc02054c704cee61d4b0bb86ed585c1138deac2840e",
       "ast_digest": "9b154555fd9fb4cd979c18d7ae464026d7b849411eb54f2e1cfcaeeebf1c0459"
     },
     "stp": {
-      "values_digest": "cdbcc92d1fd02cf31b3b52e54686eb19a856332e79a7c6ba076cc0a5f4c87a44",
+      "values_digest": "90aa9dba2fb9d8b3316d3b005f2634e73cbc8955530dd074717c27f117093706",
       "rendered_digest": "c5059d565fdd1c1ef59cfcd64bb123045bcda95f57a7826f6aa92d3ea07ead71",
       "ast_digest": "42ace8e180dccfa768d89751950c2e11a45214925986bcb2605f532c165604e5"
     },
     "spp": {
-      "values_digest": "a6bf71656c1ddd4a585b5180bc6fdd642390b7f3c5a8780b2f455fb679a4ffda",
+      "values_digest": "99c1d64ad1f0c9d46bb3d7d6ca906afb9bdb4648472f57c00f7d1487059d8897",
       "rendered_digest": "d70cb965b50c327a1bff8198a2d5cb6339e13e330acf95e4dbb4b0256ba2f16a",
       "ast_digest": "65d3f76b5386f22e3bdc33c9dee103e48d5cd61f4c7a2fac461c75015d12d054"
     },
     "vpp": {
-      "values_digest": "2045910d4ca7045a6f7b4c388ffe56f50188d70c85a170257820f42bc6487520",
+      "values_digest": "688e86cd2e79101fd49cb932c4339dc902f2a66499a1f5df024a86601f74418c",
       "rendered_digest": "07a3d9c8a35f716f226d6c8215e093c5f1262e154dc392542882e1f8e3c145a3",
       "ast_digest": "2a0c8c6d229d8485b064b2031aa1215458143d2659193a0ce4b44ef35d17feb0"
     },
     "srp": {
-      "values_digest": "03ffa0d12b0aa15e22ef40fef9629b207e5f5eebd4a8169c727fb09855506a3d",
-      "rendered_digest": "a21f61f473207b54d225bc2a70749e40d76b7a8bfc6146352c5f3699f5b7c8b8",
-      "ast_digest": "1b9bfdb748c32d6137fcb89dd27c95c25db81bae6166c3d60ec395d1700fe8ba"
+      "values_digest": "d54f9d89c9c4a0a356f07d84ad08444c24cd098c9171b482d8cf192d841ddd03",
+      "rendered_digest": "b3eabf128220b607a192297a7533e6b613760058be0735f56c3b279d44cfbf9c",
+      "ast_digest": "0c2abb21b2a33a2c5865120802039cf40d7f3ef01716899d55be9f0c91da334c"
     },
     "sor": {
-      "values_digest": "8bfc4ec44db1954f840a58952bd3860d7b590f1ccbaa6ce7a7d5912ca4b5053f",
+      "values_digest": "1a091b6534de42ea437ee236149c95819d9b1d679d21c33851f48a11531cedf5",
       "rendered_digest": "3b7475f0b520f1465cf9581f3f51d107a8a017669113a514c3e25439db4810f5",
       "ast_digest": "914117330eba699362f12c15b0a185672aeefe10f2862205779129b652bf9d7f"
     }
@@ -113,6 +83,13 @@
       "to": "reviewed",
       "actor": "fresh-session:72a30d5a-f469-4782-b413-c234b644cb58",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #492 reviewed state before refreshing the branch onto current origin/main. Fresh-session:72a30d5a-f469-4782-b413-c234b644cb58 returned PASS at e26283d1, but publication gate found origin/main 69ba35e066d1389a9f194659acb066a7dca82a40 was not ancestral to the review-metadata head. Clear review before a no-overlap base merge, proof rerun, and a different fresh exact review."
     }
   ],
   "audit": [
@@ -248,6 +225,13 @@
       "actor": "fresh-session:72a30d5a-f469-4782-b413-c234b644cb58",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover #492 reviewed state before refreshing the branch onto current origin/main. Fresh-session:72a30d5a-f469-4782-b413-c234b644cb58 returned PASS at e26283d1, but publication gate found origin/main 69ba35e066d1389a9f194659acb066a7dca82a40 was not ancestral to the review-metadata head. Clear review before a no-overlap base merge, proof rerun, and a different fresh exact review.",
+      "operation": "recover_review"
     }
   ]
 }
