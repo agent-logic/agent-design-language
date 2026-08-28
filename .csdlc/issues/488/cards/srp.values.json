@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 488,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+    "slug": "aws-resource-adoption-register",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #488 AWS-E paths only: docs/operations/cloud/aws/adoption, docs/milestones/v0.92.1/evidence/cloud/aws-e, .csdlc/prepared/issues/488, .csdlc/evidence/488, and narrow issue-owned validators/readbacks.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design keep #488 to adoption-register truth without absorbing AWS-F, XCL-01, or AWS-G implementation/retirement work?",
+        "Are one-owner resource authority, website/evidence preservation, cleanup authority, and live-vs-declared reconciliation specified with machine-checkable proof?",
+        "Does the live AWS readback plan avoid mutation and avoid printing or retaining credentials/sensitive values?",
+        "Are frozen-unknown and follow-on dispositions truthful rather than hidden acceptance of unresolved dual ownership?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

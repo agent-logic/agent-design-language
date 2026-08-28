@@ -1,0 +1,101 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 488,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-E] AWS resource adoption register",
+    "slug": "aws-resource-adoption-register",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Bootstrap #488 after #487 terminal ancestry, approve a design centered on an adoption-register denominator, bind a FastWork worktree, implement register/readback/validator/evidence surfaces, run focused proof, obtain exact-head review, publish with closing linkage, and finish when green.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and approve the AWS-E adoption-register design from current main containing #487.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Bind the #488 FastWork execution worktree and preserve dependency/collision truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement the adoption register, redacted readback/evidence packets, and issue-owned validation scripts.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Validate, obtain fresh exact-head review, publish with closing linkage, and finish when green.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/operations/cloud/aws/adoption",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-e",
+        ".csdlc/prepared/issues/488",
+        ".csdlc/evidence/488",
+        ".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh",
+        ".csdlc/prepared/issues/488/run-aws-e-readback.sh"
+      ],
+      "invariants": [
+        "Each admitted durable resource has one and only one management authority",
+        "Register rows distinguish retain, import, replace, retire-later, ephemeral, and frozen-unknown",
+        "Website resources and retained historical evidence are preserved unless a later issue explicitly owns their migration",
+        "CloudFormation retirement remains #496 authority and cannot be implied by #488",
+        "Runtime module implementation remains #489/#495 authority and cannot be implied by #488",
+        "Evidence is redacted and never includes credential material"
+      ],
+      "risks": [
+        "A broad inventory denominator can accidentally classify unrelated or website-owned resources",
+        "Dual management can occur if live resources are both imported and separately recreated",
+        "Cleanup evidence can become destructive if non-use and retention recovery are not exact",
+        "Cloud account state can drift between readback and review",
+        "Sensitive ARNs, account identifiers, or logs may leak if evidence is not redacted"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "A resource may belong to website or retained evidence",
+        "Dual management is possible",
+        "Deletion authority is missing",
+        "Live AWS readback would require unavailable credentials or mutation",
+        "A proposed change would implement #489, #495, or #496 scope"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/488/design.md",
+      "design_digest": "7769d45d6158532926412015e20c086e5fae8247732864efae35c562f0ccac5c",
+      "diagram_ref": ".csdlc/prepared/issues/488/diagram.mmd",
+      "diagram_digest": "0214eb9b13c71b88970156f1a9f22813a93d173b3241d28b422261f60aee0947"
+    }
+  }
+}

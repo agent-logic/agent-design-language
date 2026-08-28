@@ -1,0 +1,167 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 488,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "255aa3452d9d3e93a2f84fec27e0fce419f3c9fd8f130d235558f1cad7c8667b",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "b03f1f65f6ff4d751d636e2271750174f44840e8026b2e899b85e7794983022a",
+  "branch": "codex/488-aws-resource-adoption-register",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-488-aws-resource-adoption-register",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/488/design.md",
+  "diagram_path": ".csdlc/prepared/issues/488/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:f374efbb-3b72-498b-8cef-87ee6eda30cc",
+      "revision": "7769d45d6158532926412015e20c086e5fae8247732864efae35c562f0ccac5c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "19d6670526a2fc05b4af4e45e1ef659cf22bd9d32424d498c59f083b78a9f970",
+      "rendered_digest": "10d92682f3d611267d93d5f1f197430f77f92288d9b3d3afdd12b87700acc10f",
+      "ast_digest": "7e6d49a4ec57b8fa02ae1b0dc6f0bcf23159b0c091040b595f00a6d2918de56f"
+    },
+    "stp": {
+      "values_digest": "7631cc70007f785b43c72179235a844d014a6f7e827aa68dcefa73e4e7019a04",
+      "rendered_digest": "c5b495eedad617f5fef87837c2bd284d956f0516215690923f3ae853eec7103b",
+      "ast_digest": "feccd94b3ae8555af69107648f7fdc3d00568976ba62aef562012f30c77aae35"
+    },
+    "spp": {
+      "values_digest": "3d2acec26089342cba7c8e7dd5bd07fa9c6731f5cb9f24958602d8bc4ca73e76",
+      "rendered_digest": "7c526e645343c46b28ca0a3c25ee6db8679bc361271f480d192b227070c8e762",
+      "ast_digest": "7434fb371ac50ff475ffc68dc8f212475891f6d7590fa89a0b48060c00e5b606"
+    },
+    "vpp": {
+      "values_digest": "3f53bc76344ec1feaec19c7a6ab7810c5841de53c01e3088a3f5432185271196",
+      "rendered_digest": "e55dd9fcd301c5441d7eff466b1c5617ef4adeb3a7b5a0c58f3194d14931e41d",
+      "ast_digest": "55bb098d58e1e5e29ef6ba6e35900dcaaa111f21fecab2b45cd9bdb32019590f"
+    },
+    "srp": {
+      "values_digest": "ef48bf0b870650f2adb0bcb0167c66d9e88e6980880f5caa1492ee0327d13ecd",
+      "rendered_digest": "8b018259d7131933415839dbe93130c8f13ffb09ce27ba95109f5fabbeedcd75",
+      "ast_digest": "efac038b0f88969f84d5b4377fde2d631158bb1d283dd85c8a5166cf7dfaa361"
+    },
+    "sor": {
+      "values_digest": "30abac8e75ebaf3f55be71252b1c7d9873c7e8953a64703311af654163a056f7",
+      "rendered_digest": "079197b5f926c0b9cb47a86ac20fcafd13a22aaec702a7bae2f28959365f7664",
+      "ast_digest": "445844f9f0e8dd96a192640f57c59d364ff8b87c415286c3079797c8460bcf17"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #488 after fresh design approval and initialized doctor PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #488 after AWS-E adoption register implementation and focused validation records."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #488 initialized readiness by making pre-bind validation executable through issue-owned local validators and deferring live AWS and exact-head implementation proof until the issue is bound and implemented.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-aws-adoption-packet\",\"proof_role\":\"Proves #488 design packet readiness, #487 terminal dependency gate, owned-path boundaries, one-owner adoption-register invariant, cleanup/deletion stop conditions, and lifecycle distinction between pre-bind packet proof and future implementation/live readback proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-aws-adoption-readback-static\",\"proof_role\":\"Proves the AWS-E readback entrypoint has a static non-credentialed mode and reports cloud-mutation and credential-retention posture without requiring AWS credentials.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\"--lane=static\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #488 has issue-owned executable packet validators before design approval; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"aws-e-register-static\",\"proof_role\":\"After bind, verifies the implemented adoption register, required dispositions, one-owner invariant, non-goal boundaries, retained evidence, and redaction posture.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #488 is bound and the implementation creates the complete adoption-register and evidence surfaces.\"},{\"lane\":\"aws-e-live-readback\",\"proof_role\":\"After reviewed implementation and approved AWS read-only context, reconciles live AWS inventory against the adopted register with redacted retained evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\"--lane=inventory-readonly\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"Deferred until #488 is bound, the reviewed adoption register exists, and the approved agent-logic-admin AWS read-only context is selected without exposing credential contents.\"},{\"lane\":\"exact-head-review\",\"proof_role\":\"Fresh exact-head review proving no actionable P0-P3 findings before publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"csdlc-review\",\"record\"],\"parallel_group\":\"review\",\"defer_reason\":\"Deferred until #488 is implemented and locally validated.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Make #488 validator/readback scripts explicit affected areas so VPP lanes select concrete governed issue-owned targets during initialized readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/cloud/aws/adoption\",\"docs/milestones/v0.92.1/evidence/cloud/aws-e\",\".csdlc/prepared/issues/488\",\".csdlc/evidence/488\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:f374efbb-3b72-498b-8cef-87ee6eda30cc",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"7769d45d6158532926412015e20c086e5fae8247732864efae35c562f0ccac5c\",\"design_ref\":\".csdlc/prepared/issues/488/design.md\",\"diagram_digest\":\"0214eb9b13c71b88970156f1a9f22813a93d173b3241d28b422261f60aee0947\",\"diagram_ref\":\".csdlc/prepared/issues/488/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Align #488 initialized readiness with the proven #491 pattern: keep pre-bind and post-bind executable lanes, but do not require exact-head implementation review before bind.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-aws-adoption-packet\",\"proof_role\":\"Proves #488 design packet readiness, #487 terminal dependency gate, owned-path boundaries, one-owner adoption-register invariant, cleanup/deletion stop conditions, and lifecycle distinction between pre-bind packet proof and future implementation/live readback proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-aws-adoption-readback-static\",\"proof_role\":\"Proves the AWS-E readback entrypoint has a static non-credentialed mode and reports cloud-mutation and credential-retention posture without requiring AWS credentials.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\"--lane=static\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #488 has issue-owned executable packet validators before design approval; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"aws-e-register-static\",\"proof_role\":\"After bind, verifies the implemented adoption register, required dispositions, one-owner invariant, non-goal boundaries, retained evidence, and redaction posture.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #488 is bound and the implementation creates the complete adoption-register and evidence surfaces.\"},{\"lane\":\"aws-e-live-readback\",\"proof_role\":\"After reviewed implementation and approved AWS read-only context, reconciles live AWS inventory against the adopted register with redacted retained evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\"--lane=inventory-readonly\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"Deferred until #488 is bound, the reviewed adoption register exists, and the approved agent-logic-admin AWS read-only context is selected without exposing credential contents.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Advance #488 after fresh design approval and initialized doctor PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record #488 AWS-E adoption register implementation and local proof before exact-head review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the AWS-E adoption register as a non-mutating authority register over the AWS-A read-only denominator, preserving ambiguous resources as frozen-unknown and routing runtime, cross-cloud, and CloudFormation actions to downstream issues.\",\"changes\":[\"Added the accepted AWS resource adoption register with one management authority invariant, disposition vocabulary, deletion gate, downstream boundaries, and by-reference coverage for the full AWS-A denominator.\",\"Added retained AWS-E proof markers recording #487 terminal dependency, no credential retention, no cloud mutation, no speculative cleanup, and downstream nonclaims.\",\"Materialized the reviewed #488 prepared design, diagram, validator, and static/read-only readback entrypoint into the bound worktree.\"],\"artifacts\":[\"docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-e/aws-e-adoption-register-proof.md\",\".csdlc/prepared/issues/488/design.md\",\".csdlc/prepared/issues/488/diagram.mmd\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\".csdlc/evidence/488/aws-e-register-static.log\",\".csdlc/evidence/488/aws-e-readback-static.log\",\".csdlc/evidence/488/aws-e-wrong-profile.status\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record exact #488 local validation after AWS-E adoption register implementation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/488/validate-aws-e-adoption-register.sh\",\".\"],\"purpose\":\"Validate the AWS-E register contract, disposition vocabulary, one-owner invariant, downstream boundaries, proof markers, static readback, and wrong-profile fail-closed posture.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/488/aws-e-register-static.log\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record exact #488 static readback validation after AWS-E adoption register implementation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\"--lane=static\"],\"purpose\":\"Prove the AWS-E readback entrypoint has a non-credentialed static lane with no cloud mutation and no credential retention.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/488/aws-e-readback-static.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record exact #488 wrong-profile fail-closed validation for AWS-E readback.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"AWS_PROFILE=default\",\"bash\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\"--lane=inventory-readonly\"],\"purpose\":\"Prove the AWS-E inventory readback refuses an unapproved AWS profile without printing credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/488/aws-e-wrong-profile.status\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Advance #488 after AWS-E adoption register implementation and focused validation records.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
