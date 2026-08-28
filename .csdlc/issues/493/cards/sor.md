@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, complete disposable-residue readback, and validator-proven Terraform-to-readback selector correspondence.
+Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, complete disposable-residue readback, Terraform-to-readback selector correspondence, and bucket-IAM member target validation.
 
 ## Artifacts
 
@@ -27,7 +27,7 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
 - Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.
 - Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.
 - Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.
-- Strengthened the issue-owned validator with a selector-correspondence section that ties Terraform service-account IDs, network/tag firewall selectors, bucket local naming, bucket IAM member targets, and readback bucket/IAM loops to the same naming contract.
+- Strengthened the issue-owned validator with block-level checks tying each Terraform bucket IAM member to the exact Terraform-created bucket and serviceAccount:${google_service_account.workload.email} member, plus matching readback bucket-IAM policy inspection.
 
 ## Validation
 
@@ -38,7 +38,7 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
       ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
       "--lane=all"
     ],
-    "purpose": "Run the issue-owned static validator for GCP-D including R8 selector-correspondence remediation checks.",
+    "purpose": "Run the issue-owned static validator for GCP-D including R9 bucket-IAM member-target remediation checks.",
     "outcome": "passed",
     "evidence_ref": "gcp-d-static-product.log"
   },

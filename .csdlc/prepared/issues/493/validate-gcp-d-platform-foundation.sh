@@ -20,6 +20,22 @@ require_text() {
   grep -Fq -- "$text" "$file" || { echo "missing required text in $file: $text" >&2; exit 1; }
 }
 
+require_tf_resource_text() {
+  local resource_type="$1"
+  local resource_name="$2"
+  local text="$3"
+  require_file "infra/gcp/platform/main.tf"
+  awk -v start="resource \"${resource_type}\" \"${resource_name}\"" -v needle="$text" '
+    index($0, start) { in_block = 1 }
+    in_block && index($0, needle) { found = 1 }
+    in_block && $0 == "}" { exit }
+    END { exit found ? 0 : 1 }
+  ' "infra/gcp/platform/main.tf" || {
+    echo "missing required text in Terraform resource ${resource_type}.${resource_name}: ${text}" >&2
+    exit 1
+  }
+}
+
 reject_text() {
   local file="$1"
   local text="$2"
@@ -121,6 +137,14 @@ validate_selector_correspondence() {
   require_text "infra/gcp/platform/main.tf" "bucket = google_storage_bucket.models.name"
   require_text "infra/gcp/platform/main.tf" "bucket = google_storage_bucket.continuity_evidence.name"
   require_text "infra/gcp/platform/main.tf" "bucket = google_storage_bucket.logs.name"
+  require_tf_resource_text "google_storage_bucket_iam_member" "workload_artifacts_object_user" 'bucket = google_storage_bucket.artifacts.name'
+  require_tf_resource_text "google_storage_bucket_iam_member" "workload_artifacts_object_user" 'member = "serviceAccount:${google_service_account.workload.email}"'
+  require_tf_resource_text "google_storage_bucket_iam_member" "workload_models_object_viewer" 'bucket = google_storage_bucket.models.name'
+  require_tf_resource_text "google_storage_bucket_iam_member" "workload_models_object_viewer" 'member = "serviceAccount:${google_service_account.workload.email}"'
+  require_tf_resource_text "google_storage_bucket_iam_member" "workload_evidence_object_creator" 'bucket = google_storage_bucket.continuity_evidence.name'
+  require_tf_resource_text "google_storage_bucket_iam_member" "workload_evidence_object_creator" 'member = "serviceAccount:${google_service_account.workload.email}"'
+  require_tf_resource_text "google_storage_bucket_iam_member" "workload_logs_object_creator" 'bucket = google_storage_bucket.logs.name'
+  require_tf_resource_text "google_storage_bucket_iam_member" "workload_logs_object_creator" 'member = "serviceAccount:${google_service_account.workload.email}"'
   require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'gcloud storage buckets get-iam-policy "$bucket"'
 }
 
