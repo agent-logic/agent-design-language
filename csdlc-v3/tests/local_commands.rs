@@ -1,4 +1,5 @@
 use std::collections::BTreeSet;
+use std::process::Command;
 
 use csdlc_v3::commands::local::{
     authorize_bind, grants_operational_authority, plan_cards, prepare_local_workflow,
@@ -14,6 +15,15 @@ fn repo_root() -> PathBuf {
         .parent()
         .expect("manifest has repository parent")
         .to_path_buf()
+}
+
+fn fixture_dir(name: &str) -> PathBuf {
+    let dir = repo_root()
+        .join("csdlc-v3/target/local-command-fixtures")
+        .join(name);
+    let _ = fs::remove_dir_all(&dir);
+    fs::create_dir_all(&dir).expect("fixture directory");
+    dir
 }
 
 fn request() -> LocalPreparationRequest {
@@ -132,4 +142,69 @@ fn doctor_plan_preserves_distinct_outcome_states() {
         statuses.len(),
         "doctor/PVF outcomes must not be conflated"
     );
+}
+
+#[test]
+fn local_preparation_cli_emits_machine_readable_non_authoritative_plan() {
+    let dir = fixture_dir("success");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    fs::write(
+        &request_path,
+        serde_json::to_vec(&request()).expect("request json"),
+    )
+    .expect("write request fixture");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&registrations()).expect("registrations json"),
+    )
+    .expect("write registrations fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc-v3-local"))
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .output()
+        .expect("run local preparation CLI");
+    assert!(output.status.success(), "{output:?}");
+
+    let value: serde_json::Value =
+        serde_json::from_slice(&output.stdout).expect("machine-readable json");
+    assert_eq!(value["schema"], "csdlc.v3.local_preparation.v1");
+    assert_eq!(value["read_only"], true);
+    assert_eq!(value["operational_authority"], false);
+    assert_eq!(value["result"]["issue"], 503);
+    assert_eq!(value["result"]["findings"][0]["code"], "doctor_ready");
+    assert!(output.stderr.is_empty());
+}
+
+#[test]
+fn local_preparation_cli_rejects_malformed_typed_request() {
+    let dir = fixture_dir("malformed");
+    let request_path = dir.join("request.json");
+    let registrations_path = dir.join("registrations.json");
+    fs::write(&request_path, b"{not-json").expect("write malformed request");
+    fs::write(
+        &registrations_path,
+        serde_json::to_vec(&registrations()).expect("registrations json"),
+    )
+    .expect("write registrations fixture");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc-v3-local"))
+        .arg("--request")
+        .arg(&request_path)
+        .arg("--registry")
+        .arg(repo_root().join("docs/templates/prompts/current.json"))
+        .arg("--registrations")
+        .arg(&registrations_path)
+        .output()
+        .expect("run local preparation CLI");
+    assert!(!output.status.success(), "{output:?}");
+
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(stderr.contains("typed_contract_invalid_json"));
+    assert!(output.stdout.is_empty());
 }
