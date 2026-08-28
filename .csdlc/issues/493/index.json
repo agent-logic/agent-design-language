@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 493,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1abd3eac653f9ea21c1b7f6ef530cfb261e6ae30d0bdf8d0ea56e4bc50324a10",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "71081905ff1db835a4d22c8bfdd693c72c474a6d0428485543288f2736ea246e",
+  "branch": "codex/493-gcp-private-platform-foundation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-493-gcp-private-platform-foundation",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/493/design.md",
+  "diagram_path": ".csdlc/prepared/issues/493/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4d9b1fd3-9447-489d-9bd5-6b285253956c",
+      "revision": "b407bc4d9dec406148b8d63f040f34cc4b84bacdb8ee347a2f6c938b78962103"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ec14e897a63dda0dbc5e374d4ef140a0d12131a706e0b91898816434d112975d",
+      "rendered_digest": "04d17631608d2c9962fc6267aaa78dce3ee8f1d9cb9031ac8ce900840b05de05",
+      "ast_digest": "277dbb0c97a5f744aad274fbab36089e58d26620fde0345f68e643ccb0d04bc8"
+    },
+    "stp": {
+      "values_digest": "554ab2679a4ee058b0675d6106053b6ecfc3542ba2e475084d22fac78c8beed4",
+      "rendered_digest": "2238d8fef9e6f6694e3f5571844a62706856b151aee0be0a425092fba23821d3",
+      "ast_digest": "dbccaba5231caf595e23c4d5463bc92e68ef4278e699633b1792dea295d4b081"
+    },
+    "spp": {
+      "values_digest": "f6949a55254ff5ce67722ab013346206468fdd8b63523bf031ccf7e9c28730fb",
+      "rendered_digest": "b699521e870e0876a065047f5205d33508b31da11a9c48f50d84eae2a3cb798f",
+      "ast_digest": "e1cc44714823d95529a2ce8d0bc26fee7258b00a7757efe5bb69413f74698ee4"
+    },
+    "vpp": {
+      "values_digest": "29684a135807be0724f1542a975e00104b0b5bf58cae1710b259e1561538c9a3",
+      "rendered_digest": "f8b502bce8e948971aed60bd5262c90f5a6ab981aef4821ddbf4459cc44bd2bf",
+      "ast_digest": "edaa58c4bf64a953dcc108c8ec2aba490c2b469178a8ce028134ae461419a84e"
+    },
+    "srp": {
+      "values_digest": "55dffc8e19c952dde31e5c6202933db9de1f1ae5a2bde73d9725ac1a5555cf57",
+      "rendered_digest": "ae63df472b5355c11566dcfbeec527cdefd8f6a7ad85ebb445051ea65439af09",
+      "ast_digest": "2362aedb67f0d5e1c059c3813f449d8fb6237fa67ecdf0b0b4f3c556925b2665"
+    },
+    "sor": {
+      "values_digest": "9b1baf54df523f75af560c857dfac6c7433d6cd4ce5b5d37abad51a0813dd9df",
+      "rendered_digest": "d11ce57e39a38e3534ac1038a485ccc8975ee94784af8897138173d3a91a83b3",
+      "ast_digest": "2243b093da3b27bd63444e213d4ce7ba6dc6c4a54e20808d6b520aa1bbc62cb9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #493 initialized VPP readiness so prebind doctor validates only executable prebind lanes; postbind/live/review lanes are planned after bind and must not block design approval.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-gcp-d-platform-packet\",\"proof_role\":\"Proves #493 design packet readiness, #492 terminal dependency gate, owned-path boundaries, private-network posture, identity separation, storage-boundary invariants, and cleanup proof plan.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #493 has an issue-owned executable validator and review scope before design approval; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=packet\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:4d9b1fd3-9447-489d-9bd5-6b285253956c",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"b407bc4d9dec406148b8d63f040f34cc4b84bacdb8ee347a2f6c938b78962103\",\"design_ref\":\".csdlc/prepared/issues/493/design.md\",\"diagram_digest\":\"c45538f51fb071826d23c7467a96b353c344c647abc1a3e8c031c0399a118a4d\",\"diagram_ref\":\".csdlc/prepared/issues/493/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

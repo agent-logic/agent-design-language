@@ -1,0 +1,13 @@
+flowchart TD
+  Org["#492 organization/billing baseline<br/>terminal dependency"] --> Root["infra/gcp/platform"]
+  Root --> VPC["Private custom VPC + subnet<br/>no public IP / no 0.0.0.0 ingress"]
+  VPC --> Egress["Explicit egress posture<br/>reviewed NAT or documented direct egress"]
+  Root --> Access["IAP 35.235.240.0/20 + OS Login<br/>no SSH keys"]
+  Root --> Identities["Human IAM group<br/>Dedicated workload service account"]
+  Root --> Storage["Distinct owners/buckets<br/>state/artifacts/models/evidence/logs"]
+  Root --> Telemetry["Required labels + TTL<br/>logs/metrics/watchdog readback"]
+  Root --> Disposable["Disposable non-GPU workload<br/>label-scoped resources"]
+  Disposable --> Cleanup["Zero-residue cleanup proof<br/>compute/disk/address/firewall/IAM/storage/state"]
+  Root -. excludes .-> GPU["GCP-E GPU qualification"]
+  Root -. excludes .-> Prod["Production traffic"]
+  Root -. excludes .-> Shared["Shared VPC expansion"]

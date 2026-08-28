@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 493,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+    "slug": "gcp-private-platform-foundation",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #493 GCP-D paths only: infra/gcp/platform, docs/operations/cloud/gcp/platform-foundation, docs/milestones/v0.92.1/evidence/cloud/gcp-d, .csdlc/prepared/issues/493, .csdlc/evidence/493, and narrow issue-owned validator/proof surfaces.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design keep #493 to GCP-D private platform foundation without absorbing GCP-E, XCL-01, Observatory, Unity, production traffic, or AWS work?",
+        "Are private network, IAP/OS Login operator access, identity separation, storage ownership, telemetry/watchdog, and cleanup selectors specified with machine-checkable proof?",
+        "Does the live GCP proof plan avoid credential disclosure and require explicit authorization before mutation?",
+        "Are dependency and #492 terminal-cache boundaries truthful rather than hidden acceptance of broad GCP drift?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
