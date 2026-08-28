@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 342,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast Studio first ten episode packages",
+    "slug": "podcast-first-ten-episode-packages",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #342: Podcast Studio first ten episode packages.",
+      "deliverables": [
+        "Ten complete episode-package directories pass package, audio, metadata, redaction, editorial, and digest checks while production feed and deployment remain outside this issue.",
+        "Issue-specific retained validation evidence",
+        "Exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: All ten episode packages contain every required script, audio, transcript, note, metadata, artwork, enclosure fragment, redaction, QA, and review artifact.",
+        "AC-2: Audio and manifest digests, duration, sample rate, channels, loudness, peak, ID3, artwork, listen check, and archive records agree.",
+        "AC-3: Episode enclosure fragments reject local paths, drafts, unstable GUIDs, and metadata mismatches without mutating the production feed.",
+        "AC-4: Rights, consent, synthetic-voice provenance, and redaction remain truthful and privacy-safe.",
+        "AC-5: Source-SHA-bound playback receipts and exact-head review pass before terminal completion."
+      ],
+      "dependencies": [
+        "Sprint 8 umbrella #536",
+        "Terminal #261 canonical show identity and rights inputs",
+        "Retained Podcast Studio v2 proof and approved route/storage decision"
+      ],
+      "repo_inputs": [
+        "demos/podcast/episode-packages",
+        "docs/milestones/v0.92.1/evidence/podcast/wp-24a",
+        "adl/tools/generate_podcast_launch_packet.py",
+        "adl/tools/validate_podcast_launch_packet.py",
+        "adl/tools/test_podcast_launch_packet.sh",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/536/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Production feed ownership",
+        "Hosting or deployment",
+        "Directory submission",
+        "Mailbox verification",
+        "Public launch"
+      ]
+    }
+  }
+}

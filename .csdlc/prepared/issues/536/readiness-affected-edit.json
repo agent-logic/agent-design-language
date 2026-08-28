@@ -1,0 +1,19 @@
+{
+  "issue": 536,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "f19da8aa25232aa0110f67a2b0b015851008cf9904fbca3ca2ec39b6d510d5c2",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/issues/536",
+      ".csdlc/prepared/issues/536",
+      ".csdlc/evidence/536",
+      "adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py",
+      ".csdlc/prepared/issues/536/validate-sprint-readiness.rb"
+    ]
+  }
+}

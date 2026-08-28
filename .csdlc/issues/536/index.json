@@ -1,0 +1,69 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 536,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "cbb8590c7960fd91ecf2bcef6389f14ba34cfda22ce2e5313165a51790e18f1c",
+  "phase": "initialized",
+  "generation": 1,
+  "digest": "01cf52e28ab9748d593d93f3e44531096339caf9aac26dda97e0a6b837de1523",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/536/design.md",
+  "diagram_path": ".csdlc/prepared/issues/536/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "136043940c1ec594e0f0288cb4f4253b6e26085afaf50a12a9c2d9b0b2742a8d",
+      "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
+      "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
+    },
+    "stp": {
+      "values_digest": "51a128874b95134d9ad1664d772b29f226c3c4f6e49d33edcebed510cdaac301",
+      "rendered_digest": "30ce21c04eb1c1fb967e528b1ebf7138aa170f390b42f386dccf6077d4f2c89c",
+      "ast_digest": "976480c842f6709ef6e63257ffe04154d0db746372be135a47357ccb5bf71b91"
+    },
+    "spp": {
+      "values_digest": "b30f26f3f7a5c421a637ed1526ee0a747ee58ed62a2067d264ad1418675ccb42",
+      "rendered_digest": "3b80d347d1b5775039bce81a7c40a2d556c13aa6f02b3ffb9f01c88fd635820c",
+      "ast_digest": "ff4f437c1f7cd9117a0ef880fb8c2dab6e5e296f89ac9d8d5997de898d83d1db"
+    },
+    "vpp": {
+      "values_digest": "bfef6a251a3f9c5fe8b2d1cefcd9af66dd94e0b3cb5fe6aed5b04cb228f96e1b",
+      "rendered_digest": "62ea9a4054eaed6d23d478b76e21acf6dc8409c33312bde64126a1e1f66b2453",
+      "ast_digest": "43ed48049618f0924f2d365526a246885fa31bb9932826295a4b3f2134c074ce"
+    },
+    "srp": {
+      "values_digest": "904d6f9dfb5ee2e5611e867840f617b6cfeaa87ae0c38a6cfdd3af23849b028e",
+      "rendered_digest": "5979ff30b96e42f0dd583718a236f88cb6ff15087c798664b4f6f3d380701603",
+      "ast_digest": "67f48f121a3f884ad8441d84a27261acfda9b809e6db98e259551503eb557d2f"
+    },
+    "sor": {
+      "values_digest": "7943401db4fdab5dc0453ccd1e39946532a4f9daae7038b212929003f149bde1",
+      "rendered_digest": "35b4bb0d8f241ad7e79e7901dc218dc9c8e843d16d6669612b06d252a7721ce8",
+      "ast_digest": "3f717976e4a27fbd6dc432694ed4fa6b640a492c85303b4bc5b264fdf58ec431"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint8-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Add the issue-owned validator to the exact readiness denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/536\",\".csdlc/prepared/issues/536\",\".csdlc/evidence/536\",\"adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py\",\".csdlc/prepared/issues/536/validate-sprint-readiness.rb\"]}"
+    }
+  ]
+}

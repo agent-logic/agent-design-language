@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 84,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Live Unity Observatory Runtime v3 integration",
+    "slug": "unity-observatory-runtime-v3",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Bind the approved Unity Observatory to the stable Runtime v3 API and WSS contract with authenticated controls, explicit failure states, and native Editor proof.",
+      "required_outcome": "The Unity client consumes authentic Runtime v3 state, issues only authorized controls, reconnects safely, and retains positive and negative native Editor evidence without a parallel transport.",
+      "declared_scope": [
+        "demos/v0.91.6/unity-observatory",
+        "adl/tools/validate_v092_unity_observatory_live.sh",
+        "docs/milestones/v0.92.1/evidence/observatory/unity"
+      ],
+      "authority_boundary": [
+        "Issue 84 owns only its declared result and paths; Sprint 8 umbrella #536 coordinates but cannot implement or approve this child."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle only",
+        "Use a dedicated FastWork issue worktree and issue-bound session goal",
+        "Run one bounded exact-head review before publication",
+        "Do not retain credentials, verification codes, recovery material, TLS private keys, or private account data",
+        "Do not widen into another Sprint 8 child's ownership"
+      ]
+    }
+  }
+}

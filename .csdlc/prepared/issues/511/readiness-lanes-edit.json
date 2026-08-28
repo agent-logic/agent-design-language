@@ -1,0 +1,52 @@
+{
+  "issue": 511,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "64a1c3665e2d11fedcb7f05ae74681bdc73a77244c457edf9b13d18bf66987c0",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Use an explicit governed interpreter argv for the issue-owned proof target.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "issue-511-focused",
+        "proof_role": "Information-contract, state-matrix, accessibility-plan, and Runtime-field-census checks",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/511/validate-observatory-experience.rb"
+        ],
+        "parallel_group": "sprint8-issue-511",
+        "defer_reason": "Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication."
+      },
+      {
+        "lane": "issue-511-diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before exact-head review.",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "sprint8-hygiene",
+        "defer_reason": "Run after the issue has a bounded candidate diff."
+      }
+    ]
+  }
+}

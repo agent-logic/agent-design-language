@@ -1,0 +1,86 @@
+sprint_issue: 536
+version: v0.92.1
+slug: product-lanes
+execution_mode: hybrid
+ordered_issue_numbers: [261, 342, 262, 263, 264, 511, 512, 51]
+current_membership_version: 5
+safe_parallel_lanes:
+  - lane: podcast-foundation
+    issues: [261]
+    gate: umbrella readiness is complete
+    boundary: Show identity, rights, artwork, metadata, and mailbox readiness only.
+  - lane: observatory-design
+    issues: [511]
+    gate: umbrella readiness is complete
+    boundary: Experience-design contract only; no production implementation.
+serial_gates:
+  - issue 261 before issue 342
+  - issues 261 and 342 before issue 262
+  - issue 262 before issue 263
+  - issue 263 plus explicit provider-specific operator authorization before issue 264
+  - issues 511 and 84 before issue 512
+  - issues 261, 342, 262, 263, and 264 before issue 51 closeout, unless the operator explicitly accepts a blocked disposition for issue 264
+  - all eight active members before issue 536 integrated review and closeout
+candidate_parallel_lanes:
+  - lane: podcast-and-observatory-opening
+    classification: safe_parallel
+    issues: [261, 511]
+    expected_write_sets:
+      - issue 261 show identity, rights, artwork, metadata, and mailbox-readiness packet
+      - issue 511 demos/html-observatory/design, docs/observatory, and OBS-A evidence
+    expected_pvf_lanes: [podcast-identity-rights, information-contract, state-matrix, accessibility-plan, runtime-field-census]
+    dependency_gates: [umbrella readiness]
+    collision_risks: [shared milestone documentation must remain read-only]
+    watcher: separate issue watcher per child
+    subagent: none during implementation; one bounded review per child before publication
+    coordination: Separate FastWork worktrees and issue-bound goals.
+  - lane: observatory-implementation
+    classification: blocked_until_dependency
+    issues: [512]
+    expected_write_sets: [HTML Observatory redesign surfaces declared by issue 512]
+    expected_pvf_lanes: [runtime-contract, information-architecture, accessibility, live-observatory]
+    dependency_gates: [issue 511 reviewed terminal, backlog issue 84 reactivated and reviewed terminal]
+    collision_risks: [issue 512 must not absorb backlog Unity integration scope]
+    watcher: issue 512 dependency watcher
+    subagent: none during implementation; one bounded review before publication
+    coordination: Keep issue 512 prepared but do not bind implementation until issue 84 is explicitly reactivated and terminal.
+  - lane: podcast-submission
+    classification: blocked_until_dependency
+    issues: [264]
+    expected_write_sets: [redacted submission ledger and provider status evidence]
+    expected_pvf_lanes: [provider-readback, redaction, correction, rollback]
+    dependency_gates: [issue 263 terminal, explicit provider-specific operator authorization]
+    collision_risks: [external account mutation and public-launch authority]
+    watcher: issue 264 operator-gate watcher
+    subagent: none during provider execution; exact-head review before and after authorized actions
+    coordination: No submission or account mutation without a new explicit authorization naming providers.
+review_path: .csdlc/evidence/536/sprint-review.md
+activity_log_path: .csdlc/evidence/536/activity.jsonl
+state_path: .csdlc/evidence/536/sprint-state.json
+readiness_path: .csdlc/evidence/536/readiness.json
+child_goal_rule: Each child session reads AGENTS.md, validates current dependency truth, binds its exact FastWork worktree with typed csdlc-bind, and creates an issue-bound goal naming Sprint 8, the child issue, and the bounded objective before implementation.
+watcher_policy: Every active or waiting child has an issue-local watcher; waiting on CI, review, merge, operator authority, or a serial gate is monitored rather than treated as sprint completion.
+pvf_notes:
+  issue_local_proof: Each child owns its focused deterministic or native proof and records deferred hosted or provider proof truthfully.
+  parallel_validation_lanes: Independent child proof may run concurrently only when write sets and external resources do not overlap.
+  serial_validation_gates: Production feed proof follows episode packages; directory proof follows feed; OBS-B remains deferred behind OBS-A and backlog Unity authority.
+  reusable_proof_criteria: Reuse only exact-digest, exact-revision, redacted evidence named as a read-only dependency by the consuming child.
+  fail_closed_rule: Missing targets, zero-test filters, stale evidence, dependency drift, operator-authority gaps, or mock substitution block the affected child.
+review_policy:
+  child_review: one bounded exact-head review before each child publication
+  sprint_review: one integrated review after all current members are terminal or have explicit accepted dispositions
+  follow_up_policy: post_sprint_follow_on unless explicitly marked must_land_before_sprint_close
+closeout_rule: Close issue 536 only after exact current membership reconciliation, integrated review, ancestral reviewed-green merges for completed implementation children, truthful blocked/deferred dispositions, and typed umbrella finish.
+operator_actions:
+  - approve final podcast show identity in issue 261
+  - control and verify the company podcast mailbox in issue 261
+  - authorize each provider submission separately in issue 264
+  - authorize any paid or externally mutating action in its owning child
+known_external_gate:
+  issue: 84
+  observed_state: backlog
+  blocks: [512]
+  observed_at: "2026-08-27"
+planned_parallelism_summary: Start issues 261 and 511 in separate sessions. Keep issue 512 prepared but deferred until backlog issue 84 is explicitly reactivated and terminal. Advance each later child only through its serial gates.
+actual_parallelism_summary_placeholder: not_started
+prediction_miss_rule: Record any unexpected write-set, proof, dependency, or external-resource collision and reclassify the affected lane before further execution.

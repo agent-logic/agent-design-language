@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 536,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Sprint 8 Product lanes",
+    "slug": "sprint8-product-lanes",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "sprint8-readiness",
+          "proof_role": "Exact membership, dependency graph, child card readiness, operator gates, and coordination-only authority",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/536/validate-sprint-readiness.rb"
+          ],
+          "parallel_group": "sprint8-docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing child readiness, ownership overlap, unmet serial gates, operator-authority gaps, or unsupported completion claims.",
+      "design_ref": ".csdlc/prepared/issues/536/design.md",
+      "design_digest": "27f8d89faf66327516da64350213f1dc942768ca4f18c5284af514f385a6ec08",
+      "diagram_ref": ".csdlc/prepared/issues/536/diagram.mmd",
+      "diagram_digest": "400ffee5b512618f66560d43aee895d92b81b8f95f6fc92c4bf7eb6df8517bbc"
+    }
+  }
+}

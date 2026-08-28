@@ -245,17 +245,13 @@ work_packages:
     title: Observatory redesign
     issue_slot: false
     depends_on: [WP-01]
-    existing_issues: [251, 122, 84]
+    existing_issues: [251, 122]
+    backlog_issues: [84]
     existing_issue_order:
       - issue: 251
         depends_on: []
       - issue: 122
         depends_on: []
-      - issue: 84
-        depends_on: [251, 122, 340, 256]
-        evidence_inputs:
-          - {issue: 340, closing_pr: 430, head: c58cf760228911fa35b11b28f47688a98eb76532, merge: aa36a828793366f92d0d9e16247bd3fb1cce7878}
-          - {issue: 256, closing_pr: 427, head: 6791c38c6e2817387629dbb0e899ae6c61f8b887, merge: fb4c853bdb9cb140059d2a28af02d70bd36a27a4}
     packages:
       - id: OBS-A
         issue: null
@@ -267,6 +263,7 @@ work_packages:
         creation_owner: WP-01
         title: Observatory redesign implementation
         depends_on: [OBS-A, issue-84]
+        disposition: deferred_until_backlog_issue_84_is_reactivated
         evidence_inputs: [issue-340, issue-256]
   - id: INT-01
     lane: integration

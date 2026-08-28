@@ -1,0 +1,17 @@
+{
+  "issue": 261,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "db6fd2cd99702d61e4cf12d2927bc0f00fbd31355ca38d2382e97b0214ee07bd",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/milestones/v0.92.1/evidence/podcast/51-a",
+      "demos/podcast/show-identity",
+      ".csdlc/prepared/issues/261/validate-show-identity.rb"
+    ]
+  }
+}

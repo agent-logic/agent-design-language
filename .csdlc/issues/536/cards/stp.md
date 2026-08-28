@@ -1,0 +1,56 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 536
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-member active roster; retain #84 as a backlog dependency without starting or absorbing its work.
+
+## Deliverables
+
+- Issue-specific six-card sprint record
+- Sprint Execution Packet with exact membership, safe lanes, serial gates, review path, and activity log
+- Sprint-wide child readiness report
+- Integrated sprint review and truthful umbrella closeout record
+
+## Acceptance
+
+1. AC-1: The Sprint Execution Packet records exact active membership #51, #261, #262, #263, #264, #342, #511, and #512 plus the backlog disposition for #84 and dependency order.
+2. AC-2: Podcast and Observatory parallel lanes, their serial gates, collision boundaries, and operator-controlled actions are explicit.
+3. AC-3: Every child has a complete typed six-card bundle and issue-specific design-time plan before implementation handoff.
+4. AC-4: Every child handoff requires a bound FastWork worktree, current readiness, and issue-bound session goal before implementation.
+5. AC-5: #512 remains deferred until backlog #84 is explicitly reactivated and terminal; #264 remains blocked until explicit provider-specific operator authorization.
+6. AC-6: The umbrella closes only after current members have reviewed terminal outcomes or explicit operator-approved dispositions and one integrated sprint review has no unresolved actionable findings.
+
+## Dependencies
+
+- #261 before #342 and #262
+- #342 before #262
+- #262 before #263
+- #263 and explicit operator authorization before #264
+- #511 and a reactivated terminal #84 before #512
+
+## Inputs
+
+- docs/milestones/v0.92.1/SPRINT_v0.92.1.md
+- docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml
+- docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md
+- docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
+- docs/templates/sprints/1.0.0/sprint_execution_packet.md
+- GitHub issues #51, #261, #262, #263, #264, #342, #511, and #512 plus backlog dependency #84
+
+## Non Goals
+
+- Implementing child code, documents, media, hosting, or provider actions
+- Replacing child C-SDLC records
+- Automatically submitting to podcast directories
+- Claiming parallel execution beyond the packet
+- Moving work owned by another sprint into Sprint 8

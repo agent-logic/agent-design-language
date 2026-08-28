@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 512,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Authentic Runtime Observatory redesign implementation",
+    "slug": "observatory-redesign-implementation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #512: Authentic Runtime Observatory redesign implementation.",
+      "deliverables": [
+        "The HTML Observatory implements the accepted contracts with exact browser, accessibility, redaction, recovery, and authentic Runtime-route proof.",
+        "Issue-specific retained validation evidence",
+        "Exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every accepted #511 view, state, hierarchy, and interaction contract is implemented.",
+        "AC-2: Final proof consumes reviewed merged #84 authority and source-grounded Runtime projections.",
+        "AC-3: Exact browser, keyboard, screen-reader, redaction, degraded, recovery, and revoked cases pass.",
+        "AC-4: No mock substitutes for the required authentic Runtime route.",
+        "AC-5: Exact-head review has no unresolved actionable findings."
+      ],
+      "dependencies": [
+        "Terminal #511",
+        "Reviewed merged terminal #84",
+        "Sprint 8 umbrella #536"
+      ],
+      "repo_inputs": [
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/styles.css",
+        "adl/tools/validate_layer8_authority_observatory_ui.sh",
+        "docs/milestones/v0.92.1/evidence/observatory/obs-b",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/536/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "TLS 1.2 implementation",
+        "Public exposure",
+        "Unity client changes",
+        "Runtime API redesign"
+      ]
+    }
+  }
+}

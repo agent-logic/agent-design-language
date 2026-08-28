@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 342,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast Studio first ten episode packages",
+    "slug": "podcast-first-ten-episode-packages",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Create ten complete review-ready episode packages using the approved #261 identity inputs without owning production hosting or feed publication.",
+      "required_outcome": "Ten complete episode-package directories pass package, audio, metadata, redaction, editorial, and digest checks while production feed and deployment remain outside this issue.",
+      "declared_scope": [
+        "demos/podcast/episode-packages",
+        "docs/milestones/v0.92.1/evidence/podcast/wp-24a",
+        "adl/tools/generate_podcast_launch_packet.py",
+        "adl/tools/validate_podcast_launch_packet.py",
+        "adl/tools/test_podcast_launch_packet.sh"
+      ],
+      "authority_boundary": [
+        "Issue 342 owns only its declared result and paths; Sprint 8 umbrella #536 coordinates but cannot implement or approve this child."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle only",
+        "Use a dedicated FastWork issue worktree and issue-bound session goal",
+        "Run one bounded exact-head review before publication",
+        "Do not retain credentials, verification codes, recovery material, TLS private keys, or private account data",
+        "Do not widen into another Sprint 8 child's ownership"
+      ]
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 264,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Operator-authorized podcast directory submissions",
+    "slug": "podcast-directory-submissions",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #264: Operator-authorized podcast directory submissions.",
+      "deliverables": [
+        "Each authorized submission has an exact provider identity and truthful status while unauthorized providers remain untouched.",
+        "Issue-specific retained validation evidence",
+        "Exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: No execution occurs before terminal #263 and explicit authorization naming each provider.",
+        "AC-2: Every submission uses the exact reviewed feed, identity, artwork, rights declaration, and company account.",
+        "AC-3: Canonical IDs, URLs, and status are retained without credentials, verification codes, or unsupported acceptance claims.",
+        "AC-4: Destination links activate only after live verification; corrections and rollback preserve history.",
+        "AC-5: Exact-head reviews pass before external action and after final reconciliation."
+      ],
+      "dependencies": [
+        "Terminal #263",
+        "Explicit future provider-specific operator authorization",
+        "Sprint 8 umbrella #536"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/evidence/podcast/51-d",
+        "docs/podcast/submission-ledger",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/536/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Automatic submission",
+        "Action before explicit authorization",
+        "Credential retention",
+        "Hosting redesign",
+        "Advertising or monetization"
+      ]
+    }
+  }
+}

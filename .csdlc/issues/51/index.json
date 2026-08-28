@@ -1,0 +1,76 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 51,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b3440d117908ce8c5f7a436cb13e2b2da810b14366b2b0e08715d7d96bf099ba",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "8f03995e9bb208a24904ed88ddbfe6a0f8e6cc41d063d86cd7e3dd383d4075e4",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/51/design.md",
+  "diagram_path": ".csdlc/prepared/issues/51/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "53394936e0b8d58331451561a86b4506535082caa6d5ead413ce419291501653",
+      "rendered_digest": "d71aed620e628ce16d6d72ec6fc50aef862b66e814d3966667eddc798102bcfd",
+      "ast_digest": "27d3737ede4943fbc9a6d4a908917d1bf3590aec0d795209ba8e47add4be39f0"
+    },
+    "stp": {
+      "values_digest": "6e185297105a6a178155e8d5ac3b7adbb1998e0a52fd0bc84574dc78de4a0d06",
+      "rendered_digest": "668b9ad5fcf34d988a7c0d7318f601742a8d0fe4d5b37df9309b520b7c762a65",
+      "ast_digest": "203bff13158cf7d844fe2a6ca1409b51a32a20c87448afe54fb453cf22888c48"
+    },
+    "spp": {
+      "values_digest": "eb38decf122d1c4084c7ace831a3b427c1454da052db6172c9d1a2f83a8442a4",
+      "rendered_digest": "6c76bf9fe2b5fe24d5111634adcf670e1c7dc4bed49be36ef8a9fdc401b509d3",
+      "ast_digest": "53290e5f0cd4f79d9efead89e8303b972a3a93804730b4d0051390b234a54cb6"
+    },
+    "vpp": {
+      "values_digest": "5f369cd3dd2ac145f1e988514796c62a20fd552f62b571d573cbffe2bf69f2a4",
+      "rendered_digest": "4ce049ddf6c20cec9681826bf49a8505e2341d0ed75c0475024e96f7d4b201bb",
+      "ast_digest": "7c258437b00c2d5999a2a2ac69cb19796636945263e0be33753961df0fe7d0f8"
+    },
+    "srp": {
+      "values_digest": "3348ed06ba81e12e17b8dc3bd9d2915763c907eccc470fc94462392fe691ad5d",
+      "rendered_digest": "98c353139a208f07fca995618858c360c68ce93e77cf3aaeadda2a5931b3a532",
+      "ast_digest": "8f7aa9e5633961fb5b110fd88afa9e1696d2a1abdc345e23894d2bcc9ee3a6af"
+    },
+    "sor": {
+      "values_digest": "6e3d50aae833a98082b7b6f0ffec2763424d2e95350a26f30bc6b0a8172f0e4c",
+      "rendered_digest": "fbc5d67f802b4d85b474f686f0147d533b0982399ccc05615c6bfb6d897b41a9",
+      "ast_digest": "493ade25e4ef61e15a13aa3657b21e63cf0de4429257e3a5630869f262e73b89"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint8-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Add the issue-owned validator to the exact readiness denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/51\",\".csdlc/prepared/issues/51\",\".csdlc/evidence/51\",\".csdlc/prepared/issues/51/validate-podcast-coordination.rb\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Use an explicit governed interpreter argv for the issue-owned proof target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-51-focused\",\"proof_role\":\"Exact child terminal denominator, cross-child metadata parity, provider-status truth, privacy, and integrated closeout checks\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/51/validate-podcast-coordination.rb\"],\"parallel_group\":\"sprint8-issue-51\",\"defer_reason\":\"Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication.\"},{\"lane\":\"issue-51-diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"sprint8-hygiene\",\"defer_reason\":\"Run after the issue has a bounded candidate diff.\"}]}"
+    }
+  ]
+}

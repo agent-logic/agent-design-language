@@ -1,0 +1,8 @@
+{
+  "action": "issue_update",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 84,
+  "title": "[backlog][Observatory] Complete live Unity Observatory Runtime v3 integration",
+  "operation_key": "v0921-sprint8:84:backlog-v1",
+  "token_file": null
+}

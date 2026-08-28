@@ -1,0 +1,18 @@
+{
+  "issue": 51,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "8f03995e9bb208a24904ed88ddbfe6a0f8e6cc41d063d86cd7e3dd383d4075e4",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/issues/51",
+      ".csdlc/prepared/issues/51",
+      ".csdlc/evidence/51",
+      ".csdlc/prepared/issues/51/validate-podcast-coordination.rb"
+    ]
+  }
+}

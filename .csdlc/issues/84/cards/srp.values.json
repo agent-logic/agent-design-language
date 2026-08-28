@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 84,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Live Unity Observatory Runtime v3 integration",
+    "slug": "unity-observatory-runtime-v3",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review issue #84 design, implementation, focused proof, negative cases, ownership boundary, privacy, and terminal truth.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the candidate satisfy every acceptance criterion on its real owned path?",
+        "Does it preserve sibling ownership, operator authority, privacy, and rollback?",
+        "Are all proof claims exact-revision and non-overstated?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

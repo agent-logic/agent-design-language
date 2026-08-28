@@ -1,0 +1,76 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 512,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1b9ed6026613000bb508137fdf686f8f9929bdbf5751733dae19e319cc34e05a",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "33dc021b75be482427965df15bc961f296fe1d2d71a629bdb613cc7894d553e3",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/512/design.md",
+  "diagram_path": ".csdlc/prepared/issues/512/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "cab34fa9e23823930857eb0f58c1cf7c4521ce45a9379f63854a217d6600c5f1",
+      "rendered_digest": "1c0a1dbc9d385b92a7d1483971844787b5d4a76e29fe39dcc2f5bd975dd18bce",
+      "ast_digest": "c003b6fa42daaa8d178760fd72a3da4d8187ed6c0944fe40a6ab5a529ed8e00a"
+    },
+    "stp": {
+      "values_digest": "f0aafa008ddc872e34bd3983278bf6dc5471549a6c59c0b601cbe22bd09dda22",
+      "rendered_digest": "42bff42e0045d4046a2cb2f51514105901a7b8c503089403cc2755c1de56c96a",
+      "ast_digest": "7afcc1d50e3bf60832b64c17c4213babf688a977a271409db58ccb04ec1e2814"
+    },
+    "spp": {
+      "values_digest": "9cd325e6cd582bd7376107847be120d7f363fe9aa3b784465ae267b962f36b4f",
+      "rendered_digest": "e4904035407e818a15e39a3057159f246a6067f523fed3810b2a67939e3f380c",
+      "ast_digest": "267957ac9fabf339551d07c472af022936915f07d74dfc72c0d6ea34fa799518"
+    },
+    "vpp": {
+      "values_digest": "107bc2939ddc837f6997ab018d8e9e078ca977e1bf31742ce813ff7076505aa1",
+      "rendered_digest": "8ff5cb938249afb54b60f939935a9a5f1ddd8e3fd693bbb87cfc4f03dd4830a2",
+      "ast_digest": "55ac57171781e11485b6c08a4d9dc75964456524174d9a6af33964b3b4ef5cef"
+    },
+    "srp": {
+      "values_digest": "f97fcd16de6d3ff4720707de52a09a8d40b3df7b7a8bd4ad30f0aaacad4b964e",
+      "rendered_digest": "1e64a4e4281e902ec6a904be79866d031eaa34620e2cb30166b0d5686f01e2ac",
+      "ast_digest": "024ce8a532b5f1369b9ac598fe0d72a97f86e273ce6f73be931eb6175631a0d2"
+    },
+    "sor": {
+      "values_digest": "7dfc430d787fbc393902fa16f02d6b7dc086d1b3711f7e574c3878091b5ebafb",
+      "rendered_digest": "23285a1dba38ee3d166e0dc39ed4483ff6f453ab968d0f6636c79c63db86cd16",
+      "ast_digest": "540e1fb75c74bbeee4967df8a23f69bd68c8c3b673ed283bb9a0ee5a47abc384"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint8-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Add the issue-owned validator to the exact readiness denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\"docs/milestones/v0.92.1/evidence/observatory/obs-b\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Use an explicit governed interpreter argv for the issue-owned proof target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-512-focused\",\"proof_role\":\"Authentic Runtime route, exact browser cases, accessibility, redaction, recovery, and design-contract parity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\"],\"parallel_group\":\"sprint8-issue-512\",\"defer_reason\":\"Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication.\"},{\"lane\":\"issue-512-diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"sprint8-hygiene\",\"defer_reason\":\"Run after the issue has a bounded candidate diff.\"}]}"
+    }
+  ]
+}

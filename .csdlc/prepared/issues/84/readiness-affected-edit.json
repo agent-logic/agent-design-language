@@ -1,0 +1,17 @@
+{
+  "issue": 84,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "11c3c1bbbbfc3af4c80e253a2e1703bec6b45354a55c940fa08cb0838d4d7432",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/v0.91.6/unity-observatory",
+      "adl/tools/validate_v092_unity_observatory_live.sh",
+      "docs/milestones/v0.92.1/evidence/observatory/unity"
+    ]
+  }
+}

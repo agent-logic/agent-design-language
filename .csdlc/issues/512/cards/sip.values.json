@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 512,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Authentic Runtime Observatory redesign implementation",
+    "slug": "observatory-redesign-implementation",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement the accepted #511 Observatory design against authentic Runtime projections after reviewed Unity authority #84 is terminal.",
+      "required_outcome": "The HTML Observatory implements the accepted contracts with exact browser, accessibility, redaction, recovery, and authentic Runtime-route proof.",
+      "declared_scope": [
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/styles.css",
+        "adl/tools/validate_layer8_authority_observatory_ui.sh",
+        "docs/milestones/v0.92.1/evidence/observatory/obs-b"
+      ],
+      "authority_boundary": [
+        "Issue 512 owns only its declared result and paths; Sprint 8 umbrella #536 coordinates but cannot implement or approve this child."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle only",
+        "Use a dedicated FastWork issue worktree and issue-bound session goal",
+        "Run one bounded exact-head review before publication",
+        "Do not retain credentials, verification codes, recovery material, TLS private keys, or private account data",
+        "Do not widen into another Sprint 8 child's ownership"
+      ]
+    }
+  }
+}

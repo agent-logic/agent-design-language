@@ -1,0 +1,18 @@
+{
+  "issue": 511,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "69f36aa9e95d4809d4542d7cb0a5f62253469515cb04d935dfcc1ae7096abc5a",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/html-observatory/design",
+      "docs/observatory",
+      "docs/milestones/v0.92.1/evidence/observatory/obs-a",
+      ".csdlc/prepared/issues/511/validate-observatory-experience.rb"
+    ]
+  }
+}

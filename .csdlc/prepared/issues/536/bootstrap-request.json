@@ -1,0 +1,141 @@
+{
+  "issue": 536,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:sprint8-readiness",
+  "design_path": ".csdlc/prepared/issues/536/design.md",
+  "diagram_path": ".csdlc/prepared/issues/536/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "Sprint 8 Product lanes",
+    "slug": "sprint8-product-lanes",
+    "version": "v0.92.1",
+    "goal": "Coordinate the podcast and Observatory product lanes as one dependency-safe hybrid sprint without absorbing child implementation authority.",
+    "required_outcome": "A validated Sprint Execution Packet and typed child batch can be handed to issue-bound sessions with exact dependencies, operator gates, proof lanes, and closeout rules.",
+    "declared_scope": [
+      ".csdlc/issues/536",
+      ".csdlc/prepared/issues/536",
+      ".csdlc/evidence/536",
+      "adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py"
+    ],
+    "authority_boundary": [
+      "The umbrella owns sprint coordination records only; each child owns its implementation, proof, review, publication, finish, and cleanup."
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 lifecycle only",
+      "Use issue-bound FastWork worktrees and issue-bound session goals",
+      "Do not implement child work inside the umbrella",
+      "Do not perform podcast directory submissions or public launch without separate explicit operator authorization",
+      "Do not retain credentials, verification codes, recovery material, TLS private keys, or private account data",
+      "Do not execute paid provider work without issue-specific operator authorization and budget"
+    ],
+    "task_boundary": "Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-member active roster; retain #84 as a backlog dependency without starting or absorbing its work.",
+    "deliverables": [
+      "Issue-specific six-card sprint record",
+      "Sprint Execution Packet with exact membership, safe lanes, serial gates, review path, and activity log",
+      "Sprint-wide child readiness report",
+      "Integrated sprint review and truthful umbrella closeout record"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The Sprint Execution Packet records exact active membership #51, #261, #262, #263, #264, #342, #511, and #512 plus the backlog disposition for #84 and dependency order.",
+      "AC-2: Podcast and Observatory parallel lanes, their serial gates, collision boundaries, and operator-controlled actions are explicit.",
+      "AC-3: Every child has a complete typed six-card bundle and issue-specific design-time plan before implementation handoff.",
+      "AC-4: Every child handoff requires a bound FastWork worktree, current readiness, and issue-bound session goal before implementation.",
+      "AC-5: #512 remains deferred until backlog #84 is explicitly reactivated and terminal; #264 remains blocked until explicit provider-specific operator authorization.",
+      "AC-6: The umbrella closes only after current members have reviewed terminal outcomes or explicit operator-approved dispositions and one integrated sprint review has no unresolved actionable findings."
+    ],
+    "dependencies": [
+      "#261 before #342 and #262",
+      "#342 before #262",
+      "#262 before #263",
+      "#263 and explicit operator authorization before #264",
+      "#511 and a reactivated terminal #84 before #512"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+      "docs/templates/sprints/1.0.0/sprint_execution_packet.md",
+      "GitHub issues #51, #261, #262, #263, #264, #342, #511, and #512 plus backlog dependency #84"
+    ],
+    "non_goals": [
+      "Implementing child code, documents, media, hosting, or provider actions",
+      "Replacing child C-SDLC records",
+      "Automatically submitting to podcast directories",
+      "Claiming parallel execution beyond the packet",
+      "Moving work owned by another sprint into Sprint 8"
+    ],
+    "plan_summary": "Initialize the exact child batch, validate design-time cards, then hand dependency-safe lanes to separate issue sessions and retain integrated closeout truth.",
+    "steps": [
+      {
+        "id": "readiness",
+        "action": "Initialize and validate the Sprint Execution Packet and all child design-time card bundles",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "coordinate",
+        "action": "Route child sessions according to declared safe lanes and serial gates",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "review-close",
+        "action": "Review integrated outcomes and close the umbrella only after terminal child truth",
+        "acceptance_ids": ["AC-6"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      ".csdlc/issues/536",
+      ".csdlc/prepared/issues/536",
+      ".csdlc/evidence/536",
+      "adl/tools/skills/sprint-conductor/scripts/check_sprint_structured_prompt_readiness.py"
+    ],
+    "invariants": [
+      "Child issues retain all implementation and proof authority",
+      "No child starts before declared dependencies",
+      "No umbrella closeout substitutes for child closeout",
+      "Parallel lanes use distinct child worktrees and goals",
+      "Operator-controlled external actions remain blocked until explicitly authorized"
+    ],
+    "risks": [
+      "Podcast publication work could cross child ownership boundaries",
+      "Observatory implementation could begin while Unity authority #84 remains in the backlog",
+      "Provider submission could occur without explicit operator authorization",
+      "The umbrella could overstate completion while a child is nonterminal",
+      "Observatory implementation could invent Runtime fields or use non-authentic routes"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Any overlapping child write ownership",
+      "Any missing or generic child design-time card bundle",
+      "Any required dependency absent from the packet",
+      "Any request for credentials or irreversible provider action without explicit operator authority",
+      "Any attempt to use the umbrella to implement child work"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "sprint8-readiness",
+        "proof_role": "Exact membership, dependency graph, child card readiness, operator gates, and coordination-only authority",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 5000,
+        "argv": ["ruby", ".csdlc/prepared/issues/536/validate-sprint-readiness.rb"],
+        "parallel_group": "sprint8-docs",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on missing child readiness, ownership overlap, unmet serial gates, operator-authority gaps, or unsupported completion claims.",
+    "review_prompts": [
+      "Does the packet preserve exact child ownership and dependency truth?",
+      "Are the podcast and Observatory lanes genuinely independent where marked parallel?",
+      "Are #251 and provider-submission operator gates fail-closed?",
+      "Can the umbrella close only after every current member has truthful terminal state or an explicit accepted disposition?"
+    ],
+    "review_scope": "Review the exact sprint record, design, diagram, Sprint Execution Packet, child membership and cards, parallel-lane independence, serial gates, operator authority, activity log, and closeout rule."
+  }
+}

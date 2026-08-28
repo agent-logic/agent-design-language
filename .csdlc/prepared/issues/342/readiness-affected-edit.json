@@ -1,0 +1,19 @@
+{
+  "issue": 342,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "2e196d121d1e2815605fc0adcb6aeb07c2822bba87156f035cceb72ea8ccb12a",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/podcast/episode-packages",
+      "docs/milestones/v0.92.1/evidence/podcast/wp-24a",
+      "adl/tools/generate_podcast_launch_packet.py",
+      "adl/tools/validate_podcast_launch_packet.py",
+      "adl/tools/test_podcast_launch_packet.sh"
+    ]
+  }
+}

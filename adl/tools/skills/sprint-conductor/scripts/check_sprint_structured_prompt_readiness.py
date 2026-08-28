@@ -18,6 +18,9 @@ def parse_csv_ints(raw: str) -> list[int]:
 
 
 def find_bundle_dir(repo_root: Path, issue_number: int) -> tuple[Path | None, list[str]]:
+    v2_cards = repo_root / '.csdlc' / 'issues' / str(issue_number) / 'cards'
+    if v2_cards.is_dir():
+        return v2_cards, []
     matches = sorted(
         repo_root.glob(f'.adl/*/tasks/issue-{issue_number}__*')
     )
@@ -30,6 +33,8 @@ def find_bundle_dir(repo_root: Path, issue_number: int) -> tuple[Path | None, li
 
 
 def canonical_slug_from_bundle_dir(bundle_dir: Path) -> str:
+    if bundle_dir.name == 'cards' and bundle_dir.parent.name.isdigit():
+        return f'issue-{bundle_dir.parent.name}'
     name = bundle_dir.name
     marker = '__'
     if marker in name:
@@ -262,12 +267,43 @@ def inspect_issue(
     design_time_defects: list[str] = []
     required_editor_skills: list[str] = []
 
+    is_v2_bundle = bundle_dir.name == 'cards' and bundle_dir.parent.name == str(issue_number)
+
     for card_name, editor_skill in required_cards.items():
         card_path = bundle_dir / card_name
         if not card_path.exists():
             missing_cards.append(card_name)
             if editor_skill not in required_editor_skills:
                 required_editor_skills.append(editor_skill)
+            continue
+        if is_v2_bundle:
+            values_path = bundle_dir / card_name.replace('.md', '.values.json')
+            if not values_path.exists():
+                missing_cards.append(values_path.name)
+                if editor_skill not in required_editor_skills:
+                    required_editor_skills.append(editor_skill)
+                continue
+            try:
+                values = json.loads(values_path.read_text())
+            except (json.JSONDecodeError, OSError) as exc:
+                design_time_defects.append(f'{card_name}: invalid typed values ({exc})')
+                if editor_skill not in required_editor_skills:
+                    required_editor_skills.append(editor_skill)
+                continue
+            identity = values.get('identity', {})
+            status_value = values.get('status')
+            allowed = {'pre_phase', 'ready', 'approved'}
+            if identity.get('issue') != issue_number or status_value not in allowed:
+                design_time_defects.append(
+                    f'{card_name}: typed identity/status mismatch issue={identity.get("issue")} status={status_value}'
+                )
+                if editor_skill not in required_editor_skills:
+                    required_editor_skills.append(editor_skill)
+            text = card_path.read_text()
+            if has_unfilled_v1_placeholder(text) or has_truncation_sentinel_line(text):
+                design_time_defects.append(f'{card_name}: unresolved placeholder or truncation sentinel')
+                if editor_skill not in required_editor_skills:
+                    required_editor_skills.append(editor_skill)
             continue
         defect = design_time_defect(card_name, card_path.read_text())
         if defect:

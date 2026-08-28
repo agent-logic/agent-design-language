@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph P["Podcast lane"]
+    P1["#261 identity and rights"] --> P2["#342 episode packages"]
+    P1 --> P3["#262 hosting and feed"]
+    P2 --> P3
+    P3 --> P4["#263 provider runbooks"]
+    P4 --> G1{"Explicit operator authorization"}
+    G1 --> P5["#264 directory submissions"]
+    P5 --> PC["#51 integrated closeout"]
+  end
+
+  subgraph O["Observatory lane"]
+    O1["#511 experience design"] --> O3["#512 redesign implementation"]
+    B["#84 Unity integration — backlog"] -. reactivation and terminal proof .-> O3
+  end
+
+  PC --> S["#536 sprint review and closeout"]
+  O3 --> S

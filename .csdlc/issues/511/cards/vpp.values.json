@@ -1,0 +1,67 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 511,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Observatory experience design",
+    "slug": "observatory-experience-design",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-511-focused",
+          "proof_role": "Information-contract, state-matrix, accessibility-plan, and Runtime-field-census checks",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/511/validate-observatory-experience.rb"
+          ],
+          "parallel_group": "sprint8-issue-511",
+          "defer_reason": "Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication."
+        },
+        {
+          "lane": "issue-511-diff-hygiene",
+          "proof_role": "Reject malformed tracked changes before exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "sprint8-hygiene",
+          "defer_reason": "Run after the issue has a bounded candidate diff."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on dependency, ownership, authority, privacy, validation, exact-revision, or review drift; preserve evidence and route separate defects without widening the issue.",
+      "design_ref": ".csdlc/prepared/issues/511/design.md",
+      "design_digest": "72eeb06a7a4b58ebf0f1554aa586a1d1059e3cecb63c9a22d8c069f3e5137e34",
+      "diagram_ref": ".csdlc/prepared/issues/511/diagram.mmd",
+      "diagram_digest": "71818f0bb3630bf07d286d07575bbcb5d8031d78adfa60a43637a6baa778e2e3"
+    }
+  }
+}

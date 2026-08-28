@@ -1,0 +1,18 @@
+{
+  "issue": 512,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "33dc021b75be482427965df15bc961f296fe1d2d71a629bdb613cc7894d553e3",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      "docs/milestones/v0.92.1/evidence/observatory/obs-b"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "issue": 264,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "43752d40924b43da77daef784dd78dc97a562c03740258d165749ad942c9f685",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Add the issue-owned validator to the exact readiness denominator.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/milestones/v0.92.1/evidence/podcast/51-d",
+      "docs/podcast/submission-ledger",
+      ".csdlc/prepared/issues/264/validate-directory-submissions.rb"
+    ]
+  }
+}

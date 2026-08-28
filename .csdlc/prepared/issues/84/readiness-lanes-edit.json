@@ -1,0 +1,52 @@
+{
+  "issue": 84,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "3098f4c3f2987b3e9ae1019d4e1679e3754da91de3cb9ed176d394db8b46b413",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Use an explicit governed interpreter argv for the issue-owned proof target.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "issue-84-focused",
+        "proof_role": "Unity client, contract parity, authorization, redaction, reconnect, failure-state, and native Editor checks",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "deterministic": false,
+        "resource_profile": "large",
+        "budget_seconds": 1800,
+        "budget_tokens": 8000,
+        "argv": [
+          "bash",
+          "adl/tools/validate_v092_unity_observatory_live.sh"
+        ],
+        "parallel_group": "sprint8-issue-84",
+        "defer_reason": "Deferred until the issue is bound, all declared dependencies pass, and the owned validator or proof target is implemented; missing target, zero tests, or any failure blocks publication."
+      },
+      {
+        "lane": "issue-84-diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before exact-head review.",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "sprint8-hygiene",
+        "defer_reason": "Run after the issue has a bounded candidate diff."
+      }
+    ]
+  }
+}

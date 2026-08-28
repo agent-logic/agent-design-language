@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 536,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Sprint 8 Product lanes",
+    "slug": "sprint8-product-lanes",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review the exact sprint record, design, diagram, Sprint Execution Packet, child membership and cards, parallel-lane independence, serial gates, operator authority, activity log, and closeout rule.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet preserve exact child ownership and dependency truth?",
+        "Are the podcast and Observatory lanes genuinely independent where marked parallel?",
+        "Are #251 and provider-submission operator gates fail-closed?",
+        "Can the umbrella close only after every current member has truthful terminal state or an explicit accepted disposition?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

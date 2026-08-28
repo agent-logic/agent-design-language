@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 261,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Podcast show identity, artwork, rights, metadata, and mailbox readiness",
+    "slug": "podcast-show-identity",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #261: Podcast show identity, artwork, rights, metadata, and mailbox readiness.",
+      "deliverables": [
+        "A versioned show-identity manifest, final rights-backed artwork, consistent metadata, and redacted company-mailbox readiness proof are accepted without publishing anything.",
+        "Issue-specific retained validation evidence",
+        "Exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The operator approves a collision-reviewed title and complete show metadata.",
+        "AC-2: Final artwork has exact source, rights, dimensions, color space, format, and digest evidence.",
+        "AC-3: Company-mailbox receipt proves readiness without retaining private addresses, credentials, or verification codes.",
+        "AC-4: One versioned manifest is internally consistent and consumable by #342 and #262.",
+        "AC-5: Exact-head review has no unresolved actionable findings."
+      ],
+      "dependencies": [
+        "Sprint 8 umbrella #536",
+        "Operator approval of the final show identity",
+        "Company-controlled mailbox ownership"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/evidence/podcast/51-a",
+        "demos/podcast/show-identity",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/536/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Hosting or RSS publication",
+        "Directory submission",
+        "Episode production",
+        "Public launch"
+      ]
+    }
+  }
+}

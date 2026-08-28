@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 511,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Observatory experience design",
+    "slug": "observatory-experience-design",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #511: Observatory experience design.",
+      "deliverables": [
+        "A complete experience-design contract covers every view and empty, degraded, recovery, revoked, keyboard, and screen-reader state without inventing Runtime authority.",
+        "Issue-specific retained validation evidence",
+        "Exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every view has a stable information and interaction contract.",
+        "AC-2: Empty, degraded, recovery, revoked, loading, and incompatible states are designed.",
+        "AC-3: Keyboard and screen-reader flows plus focus and announcement behavior are specified.",
+        "AC-4: Runtime field census proves no invented field or authority is introduced.",
+        "AC-5: Exact-head review has no unresolved actionable findings."
+      ],
+      "dependencies": [
+        "Sprint 8 umbrella #536"
+      ],
+      "repo_inputs": [
+        "demos/html-observatory/design",
+        "docs/observatory",
+        "docs/milestones/v0.92.1/evidence/observatory/obs-a",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/536/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Production implementation",
+        "Unity TLS or adapter work",
+        "Runtime API changes"
+      ]
+    }
+  }
+}
