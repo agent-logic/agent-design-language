@@ -71,6 +71,7 @@ pub enum StoreError {
     },
     ProjectionRepairRequired,
     RejectedTransition,
+    InvalidRecordDigest,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -80,11 +81,21 @@ pub struct TransactionStore {
 }
 
 impl TransactionStore {
-    pub fn new(initial: StateRecord) -> Self {
-        Self {
+    pub fn new(initial: StateRecord) -> Result<Self, StoreError> {
+        if initial.digest
+            != digest_for(
+                initial.generation,
+                initial.state,
+                &initial.audit,
+                initial.projections_repair_required,
+            )
+        {
+            return Err(StoreError::InvalidRecordDigest);
+        }
+        Ok(Self {
             committed: initial,
             journal: Vec::new(),
-        }
+        })
     }
 
     pub fn committed(&self) -> &StateRecord {

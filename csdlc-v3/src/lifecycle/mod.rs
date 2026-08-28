@@ -33,6 +33,7 @@ pub enum Capability {
     ImplementationEvidence,
     IndependentExactHeadReview,
     PublicationLinkage,
+    MergeReadinessEvidence,
     LiveMergeEvidence,
     TerminalReceipt,
 }
@@ -150,10 +151,14 @@ pub fn decide(
                 [ProjectionInvalidation::Publication],
             )
         }
-        (LifecycleState::Published, LifecycleCommand::MarkMergeReady) => allow(
-            LifecycleState::MergeReady,
-            [ProjectionInvalidation::Publication],
-        ),
+        (LifecycleState::Published, LifecycleCommand::MarkMergeReady)
+            if capabilities.contains(Capability::MergeReadinessEvidence) =>
+        {
+            allow(
+                LifecycleState::MergeReady,
+                [ProjectionInvalidation::Publication],
+            )
+        }
         (LifecycleState::MergeReady, LifecycleCommand::RecordMerge)
             if capabilities.contains(Capability::LiveMergeEvidence) =>
         {
@@ -210,6 +215,7 @@ pub fn transition_matrix() -> Vec<TransitionDecision> {
         Capability::ImplementationEvidence,
         Capability::IndependentExactHeadReview,
         Capability::PublicationLinkage,
+        Capability::MergeReadinessEvidence,
         Capability::LiveMergeEvidence,
         Capability::TerminalReceipt,
     ]);
@@ -265,11 +271,10 @@ fn required_capability(command: LifecycleCommand) -> Option<Capability> {
         LifecycleCommand::RecordImplementation => Some(Capability::ImplementationEvidence),
         LifecycleCommand::RecordReviewPass => Some(Capability::IndependentExactHeadReview),
         LifecycleCommand::Publish => Some(Capability::PublicationLinkage),
+        LifecycleCommand::MarkMergeReady => Some(Capability::MergeReadinessEvidence),
         LifecycleCommand::RecordMerge => Some(Capability::LiveMergeEvidence),
         LifecycleCommand::Finish | LifecycleCommand::Cleanup => Some(Capability::TerminalReceipt),
-        LifecycleCommand::AssignReview
-        | LifecycleCommand::RecoverReview
-        | LifecycleCommand::MarkMergeReady => None,
+        LifecycleCommand::AssignReview | LifecycleCommand::RecoverReview => None,
     }
 }
 

@@ -34,7 +34,21 @@ impl CommandInvocation {
     }
 
     pub fn redacted_argv(&self) -> Vec<String> {
-        self.argv.iter().map(|arg| redact(arg)).collect::<Vec<_>>()
+        let mut redact_next = false;
+        self.argv
+            .iter()
+            .map(|arg| {
+                if redact_next {
+                    redact_next = false;
+                    return "[REDACTED]".to_owned();
+                }
+                if is_secret_flag(arg) {
+                    redact_next = true;
+                    return arg.clone();
+                }
+                redact(arg)
+            })
+            .collect::<Vec<_>>()
     }
 }
 
@@ -146,4 +160,18 @@ fn redact(value: &str) -> String {
     } else {
         value.to_owned()
     }
+}
+
+fn is_secret_flag(value: &str) -> bool {
+    matches!(
+        value,
+        "--token"
+            | "--secret"
+            | "--password"
+            | "--api-key"
+            | "--access-token"
+            | "-token"
+            | "-secret"
+            | "-password"
+    )
 }

@@ -19,6 +19,7 @@ fn full_capabilities() -> CapabilitySet {
         Capability::ImplementationEvidence,
         Capability::IndependentExactHeadReview,
         Capability::PublicationLinkage,
+        Capability::MergeReadinessEvidence,
         Capability::LiveMergeEvidence,
         Capability::TerminalReceipt,
     ])
@@ -92,9 +93,24 @@ fn transition_branch_observation_alone_does_not_authorize_bind() {
 }
 
 #[test]
+fn transition_merge_ready_requires_current_readiness_evidence() {
+    let decision = decide(
+        LifecycleState::Published,
+        LifecycleCommand::MarkMergeReady,
+        &CapabilitySet::default(),
+    );
+    assert_eq!(
+        decision.outcome,
+        TransitionOutcome::Rejected {
+            reason: RejectReason::MissingCapability(Capability::MergeReadinessEvidence)
+        }
+    );
+}
+
+#[test]
 fn transaction_stale_writer_fails_before_commit() {
     let initial = StateRecord::new(LifecycleState::Ready);
-    let mut store = TransactionStore::new(initial.clone());
+    let mut store = TransactionStore::new(initial.clone()).expect("valid initial digest");
     let transaction = store
         .begin(
             LifecycleCommand::Bind,
@@ -125,7 +141,7 @@ fn transaction_stale_writer_fails_before_commit() {
 #[test]
 fn transaction_state_commit_is_atomic_and_projection_failure_requires_repair() {
     let initial = StateRecord::new(LifecycleState::Ready);
-    let mut store = TransactionStore::new(initial.clone());
+    let mut store = TransactionStore::new(initial.clone()).expect("valid initial digest");
     let transaction = store
         .begin(
             LifecycleCommand::Bind,
@@ -161,7 +177,7 @@ fn transaction_state_commit_is_atomic_and_projection_failure_requires_repair() {
 #[test]
 fn recovery_classifies_interrupted_writes_without_losing_provenance() {
     let prior = StateRecord::new(LifecycleState::Ready);
-    let mut store = TransactionStore::new(prior.clone());
+    let mut store = TransactionStore::new(prior.clone()).expect("valid initial digest");
     let transaction = store
         .begin(
             LifecycleCommand::Bind,
@@ -203,7 +219,7 @@ fn recovery_classifies_interrupted_writes_without_losing_provenance() {
 #[test]
 fn transaction_commit_rechecks_cas_and_digest_binds_contents() {
     let initial = StateRecord::new(LifecycleState::Ready);
-    let mut store = TransactionStore::new(initial.clone());
+    let mut store = TransactionStore::new(initial.clone()).expect("valid initial digest");
     let first = store
         .begin(
             LifecycleCommand::Bind,
@@ -237,7 +253,7 @@ fn transaction_commit_rechecks_cas_and_digest_binds_contents() {
         })
     );
 
-    let mut alternate = TransactionStore::new(initial.clone());
+    let mut alternate = TransactionStore::new(initial.clone()).expect("valid initial digest");
     let alternate_transaction = alternate
         .begin(
             LifecycleCommand::Bind,
@@ -259,6 +275,16 @@ fn transaction_commit_rechecks_cas_and_digest_binds_contents() {
         alternate_committed.audit[0].provenance
     );
     assert_ne!(committed.digest, alternate_committed.digest);
+}
+
+#[test]
+fn transaction_store_rejects_tampered_record_digest_on_ingress() {
+    let mut tampered = StateRecord::new(LifecycleState::Ready);
+    tampered.state = LifecycleState::Bound;
+    assert_eq!(
+        TransactionStore::new(tampered),
+        Err(csdlc_v3::storage::StoreError::InvalidRecordDigest)
+    );
 }
 
 #[test]
@@ -285,6 +311,22 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
         }
     );
     assert_eq!(invocation.redacted_argv(), ["fetch", "[REDACTED]"]);
+    let split_secret = CommandInvocation::new(
+        "gh",
+        ["api", "--token", "abc123", "--password", "hunter2", "repos"],
+    )
+    .expect("argv invocation");
+    assert_eq!(
+        split_secret.redacted_argv(),
+        [
+            "api",
+            "--token",
+            "[REDACTED]",
+            "--password",
+            "[REDACTED]",
+            "repos"
+        ]
+    );
     let mut adapter = FakeProcessAdapter::new(ProcessOutput {
         status: ProcessStatus::TimedOut,
         stdout: "partial".to_owned(),
