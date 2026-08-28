@@ -3,13 +3,50 @@
   "issue": 503,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "21cb9c0021afaa1cec22ad6f0fecf8c644163e084e7e5b1c13b0f187ba730a56",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "739c8452271c80098a405ec3acc78c3515eecd390d29b8a8d05ae1524e395b9a",
   "branch": "codex/503-v3-d-local-preparation-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:issue-503-evidence-review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:a0df81ae7f6cb190ca27cb63d42c3a9e8dd60c8e:e6ce2f325d57dc2c0c52a8e7975cd5849a25093adb1a7e63c707463595ae3ad2",
+    "scope": [
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/bin/csdlc-v3-local.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      ".csdlc/issues/503",
+      ".csdlc/evidence/503"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:issue-503-evidence-review",
+    "scope": [
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/bin/csdlc-v3-local.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      ".csdlc/issues/503",
+      ".csdlc/evidence/503"
+    ],
+    "reviewed_revision": "git-blake3:a0df81ae7f6cb190ca27cb63d42c3a9e8dd60c8e:e6ce2f325d57dc2c0c52a8e7975cd5849a25093adb1a7e63c707463595ae3ad2",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Issue #504 remote delivery, #570 docs/skills readiness, #571 V3-A corrective proof, and #505 authority cutover remain separate downstream gates.",
+      "Publication must visibly include `Closes #503`; V3-D itself remains read-only and non-authoritative."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1e511fe7bff106f08a5654f7b52e16ef5421d54860cf7505c2c921d8b511db40",
+      "values_digest": "bf1a495ea4a6e323d54183e33cc0bd7af2cf7adf914182493f78310d09b15ff7",
       "rendered_digest": "3958ca74dddd8aaf85763659195100ba365f4a8ced6634d25ff76d80c10c56bc",
       "ast_digest": "484ed7ec53f13cbb802f1c0e36dd66776df6966f92cc3414f77becf084a96013"
     },
     "stp": {
-      "values_digest": "fcdbc6e973aef9becfbc662564394378b5bf7ef4ec0541b454a41753bce1694b",
+      "values_digest": "2dc331b1f2789a056a7c3b7d2544d7eaaa1b05993e8ad0b40645dda091c1b8d3",
       "rendered_digest": "e5cedcf5f0a5a3962edb09d18a4d1e03898a5e3efcde1463d0ab34ff3ec555f4",
       "ast_digest": "f371d273d3a4f1bd857d25506b9d31d15115f0ff3afce7b2e1169b5f6c558c50"
     },
     "spp": {
-      "values_digest": "882c4bf807989ab7539f1ec2a0cfd96e1fdd6c80f14224fd1e9019b2d12a7f96",
+      "values_digest": "a4f183cf1edaa611c549f65e7fdea630007013fc51ed855e063f06cc52a7ae8a",
       "rendered_digest": "69f2e7ce598741f8e40b20c89d8646f2370ed13f95a69808c986fb06e4305408",
       "ast_digest": "c76595133e4cbf12128ffd1cf7f22617e64c6ac10b99aa71fbc094adbd483e3e"
     },
     "vpp": {
-      "values_digest": "062d4e4c81e3d25000af9580ef64c039503f1d0a232e1a08e2f4c036f260db5c",
+      "values_digest": "773e6bdd42cfaa2f0f94a4d7f3edd4e8b267e64b6c62b564fa766aead416921d",
       "rendered_digest": "01a8b90503cdae47ca5ff5fc15aec182ac7646a04b9c16e8f7d206953e5eb7dd",
       "ast_digest": "a479386f18161ee8a7429da309a23c8c510cae65f95ceedccacf75f5d4b9f50b"
     },
     "srp": {
-      "values_digest": "3df51c962bc0e3680588a6c28f6f94160420289dc3ff3169af185233be3eff57",
-      "rendered_digest": "16e7bc4a408b096fbae9011d0060c87c80fc33427d665b7703457d5611b84c97",
-      "ast_digest": "6690f288018ebf1a17746e20dea7cb9a423ba1a57bc45d070f8d68fc90286c6b"
+      "values_digest": "37ec052323ac8372b847abf35ed29d90ac561b6b7ef5ca0a44ebabeba45a0b49",
+      "rendered_digest": "6df4b7d3f0761f52838e37dbec9fcae5d80f273fc943cd1e837d2f0e7ef7d8a7",
+      "ast_digest": "1126cbb89f2d5c5efa2ad3928ef83b1a46ee5e1910fc6f94a386ecd72f108dda"
     },
     "sor": {
-      "values_digest": "9148268d2d1c49370ff2ce31e79a6f1da9ce3d2ecfa4c464b044c1cba6cbf9ea",
+      "values_digest": "2001997e05fa336eb6db7f7d5d519da14696af9698d691bd60385461f66e2760",
       "rendered_digest": "02a898e2267c33041b4ecc654d2530fd735b59755eb0bd7957d36a1054195922",
       "ast_digest": "fbcea049c6b7bc952b982891d14e75115a6a18724fae4757cc677b0b434a2d40"
     }
@@ -89,6 +126,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #503 review because committed .csdlc/prepared review request files are not metadata-safe for publication review-staleness reconciliation."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -196,6 +240,20 @@
       "actor": "codex:worker-6",
       "reason": "Refresh #503 execution truth after adding the V3-D local preparation CLI and focused CLI proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative V3-D local-preparation command contract slice with a real machine-readable CLI proof path.\",\"changes\":[\"Bootstrapped issue #503 local C-SDLC state from the live GitHub issue body, approved the design packet, repaired SPP affected areas to include exact issue-local files, advanced the issue to ready, and bound the execution worktree through csdlc-bind.\",\"Added the csdlc-v3 local command module scaffold for prepare-issue, bind-worktree, PVF planning, and doctor-style local findings while keeping V3-D explicitly non-authoritative.\",\"Added typed JSON parsing for V3-D local preparation requests and active prompt-template registry input so malformed contract inputs fail closed instead of being treated as prose.\",\"Added the `csdlc-v3-local` CLI, accepting `--request`, `--registry`, and `--registrations` paths and emitting the `csdlc.v3.local_preparation.v1` machine-readable read-only report.\",\"Added focused local command tests covering typed command contracts, registered worktree topology binding, active registry card denominator round-tripping, doctor outcome states, successful CLI output, and malformed typed-request CLI rejection.\",\"Replaced the test fixture's real FastWork absolute worktree path with a portable registered-worktree identity while preserving exact branch/worktree matching semantics.\",\"Kept Sprint 6 sequencing explicit: #503 is moving after Sprint 5 closeout, while #504 remote delivery, #570 docs readiness, #571 corrective proof, and #505 authority cutover remain downstream gates.\"],\"artifacts\":[\"csdlc-v3/Cargo.toml\",\"csdlc-v3/Cargo.lock\",\"csdlc-v3/src/lib.rs\",\"csdlc-v3/src/bin/csdlc-v3-local.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/local/mod.rs\",\"csdlc-v3/tests/local_commands.rs\",\".csdlc/issues/503\",\".csdlc/prepared/issues/503\",\".csdlc/evidence/503\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Verify formatting for the V3-D local preparation library and CLI.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:2dcb4aaa3:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"local_commands\"],\"purpose\":\"Run the focused V3-D local command and CLI proof, including successful machine-readable output and malformed typed-request rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:2dcb4aaa3:6-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across csdlc-v3 targets after adding the V3-D local preparation CLI.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:2dcb4aaa3:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace hygiene after adding the V3-D local preparation CLI.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:2dcb4aaa3:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec\",\"issue\",\"--issue\",\"503\"],\"purpose\":\"Verify typed C-SDLC issue state before recording fresh review.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:2dcb4aaa3:status pass, phase implemented, generation 8\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
