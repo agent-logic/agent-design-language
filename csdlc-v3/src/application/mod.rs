@@ -9,6 +9,42 @@ pub const FOUNDATION_PREDECESSORS: [u64; 4] = [164, 165, 166, 167];
 /// Operator target for getting a single issue into an executable state.
 pub const ISSUE_START_MINUTES_MAX: u64 = 3;
 
+/// Source-grounded behavior retained from a predecessor issue.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct RequirementProof {
+    pub issue: u64,
+    pub title: &'static str,
+    pub source_scope: &'static str,
+    pub foundation_behavior: &'static str,
+}
+
+pub const REQUIREMENT_PROOFS: [RequirementProof; 4] = [
+    RequirementProof {
+        issue: 164,
+        title: "[v0.92.1][V3-03] Build The Single-Binary Foundation",
+        source_scope: "root parser, dispatch, schemas, completion, generated help, output mode selection, typed top-level errors, and version provenance",
+        foundation_behavior: "read-only csdlc-v3-foundation command requires explicit --repo-root and emits stable machine-readable schema csdlc.v3.foundation.v1",
+    },
+    RequirementProof {
+        issue: 165,
+        title: "[v0.92.1][V3-04] Implement Application Context And Shared Services",
+        source_scope: "invocation-scoped dependency container, common I/O, configuration, typed errors, cancellation, observability, redaction, operation IDs, and test constructors",
+        foundation_behavior: "FoundationState::load accepts explicit RepositoryContext data and returns typed errors without hidden lifecycle services or ambient authority",
+    },
+    RequirementProof {
+        issue: 166,
+        title: "[v0.92.1][V3-05] Implement Repository Context And Read-Only V2 Import",
+        source_scope: "root discovery, canonical repository identity, issue selection precedence, symlink-safe paths, read-only v2 record/card parsing, unsupported-field reporting, and normalized read-only projections",
+        foundation_behavior: "RepositoryContext::discover canonicalizes an explicit root, verifies required v2/v3 contract files, and exposes normalized read-only projection paths",
+    },
+    RequirementProof {
+        issue: 167,
+        title: "[v0.92.1][V3-06] Implement Canonical State And Card Projections",
+        source_scope: "state.json, typed audit events, schema evolution, canonical serialization, card AST values, digest rules, projection manifests, and drift detection",
+        foundation_behavior: "FoundationState::projections replays a deterministic BTreeMap-backed projection set and renders byte-stable machine JSON",
+    },
+];
+
 /// Read-only C-SDLC v3 foundation state.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct FoundationState {
@@ -19,6 +55,7 @@ pub struct FoundationState {
     proportional_lifecycle_path: String,
     foundation_predecessors: Vec<u64>,
     issue_start_minutes_max: u64,
+    requirement_proofs: Vec<RequirementProof>,
 }
 
 impl FoundationState {
@@ -68,6 +105,7 @@ impl FoundationState {
                 .relative_display(context.proportional_lifecycle_path()),
             foundation_predecessors: FOUNDATION_PREDECESSORS.to_vec(),
             issue_start_minutes_max: ISSUE_START_MINUTES_MAX,
+            requirement_proofs: REQUIREMENT_PROOFS.to_vec(),
         })
     }
 
@@ -85,6 +123,10 @@ impl FoundationState {
 
     pub fn issue_start_minutes_max(&self) -> u64 {
         self.issue_start_minutes_max
+    }
+
+    pub fn requirement_proofs(&self) -> &[RequirementProof] {
+        &self.requirement_proofs
     }
 
     /// Return projections in deterministic key order.
@@ -107,6 +149,10 @@ impl FoundationState {
         values.insert(
             "proportional_lifecycle_path",
             self.proportional_lifecycle_path.clone(),
+        );
+        values.insert(
+            "requirement_proofs",
+            format_requirement_proofs(&self.requirement_proofs),
         );
         values.insert("repository_root", self.repository_root.clone());
         values
@@ -191,6 +237,20 @@ fn format_u64_array(values: &[u64]) -> String {
         .map(u64::to_string)
         .collect::<Vec<_>>()
         .join(",");
+    format!("[{body}]")
+}
+
+fn format_requirement_proofs(proofs: &[RequirementProof]) -> String {
+    let body = proofs
+        .iter()
+        .map(|proof| {
+            format!(
+                "{}:{}=>{}",
+                proof.issue, proof.source_scope, proof.foundation_behavior
+            )
+        })
+        .collect::<Vec<_>>()
+        .join("|");
     format!("[{body}]")
 }
 
