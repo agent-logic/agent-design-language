@@ -693,7 +693,13 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
     .expect("safe argv invocation");
     assert_eq!(
         safe_invocation.redacted_argv(),
-        ["status", "--worktree", "/repo", "--pathspec-from-file", "repos"]
+        [
+            "status",
+            "--worktree",
+            "/repo",
+            "--pathspec-from-file",
+            "repos"
+        ]
     );
     let mut adapter = FakeProcessAdapter::new(ProcessOutput {
         status: ProcessStatus::TimedOut,

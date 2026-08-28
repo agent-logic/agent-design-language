@@ -28,7 +28,8 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
 - merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62
 - review-fix commit 7cc2ef484845ec4bc103cac33d6a217c443bda9d
 - review-fix commit 5e9af448d6ec65027dd24dd61acceba28e729252
-- review evidence /Users/daniel/git/agent-design-language/.git/csdlc-v2/reviews/502-post-fix-review-detached-readonly.txt
+- review-fix commit 103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce
+- review evidence /Users/daniel/git/agent-design-language/.git/csdlc-v2/reviews/502-post-storage-fix-review-detached-readonly.txt
 - worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel
 - branch codex/502-v3-c-csdlc-v3-lifecycle-kernel
 - PR https://github.com/agent-logic/agent-design-language/pull/572
@@ -40,10 +41,11 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
 - Fixed exact-head review P1 by replacing the circular Finish prerequisite: Finish now requires LiveTerminalEvidence, while TerminalReceipt remains the Cleanup prerequisite.
 - Fixed exact-head review P1 by making recovery honor projections_repair_required for StateCommitted observations and reject projection-missing observations that lack the committed repair flag.
 - Fixed exact-head review P2 by replacing the 64-bit FNV-style state digest with BLAKE3-backed v3 digests for CAS and recovery-integrity checks.
-- Added regression coverage for terminal finish capability, projection-repair recovery classification, and 64-hex BLAKE3 digest shape.
+- Fixed exact-head review P1 by redacting option-assigned Authorization header argv values such as --header=Authorization: Bearer ... before invocation logging.
+- Added regression coverage for terminal finish capability, projection-repair recovery classification, 64-hex BLAKE3 digest shape, and option-assigned Authorization header redaction.
 - Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, terminal evidence, and projection invalidation semantics.
 - Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, BLAKE3 generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.
-- Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction, and shell-executable rejection including path-qualified shell names.
+- Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction including option-assigned Authorization headers, and shell-executable rejection including path-qualified shell names.
 - Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, terminal-finish, storage-integrity, and redaction regression tests.
 - Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.
 - Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.
@@ -57,11 +59,25 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "cargo",
       "test",
       "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "transactions",
+      "adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction"
+    ],
+    "purpose": "focused option-assigned Authorization header redaction regression after review P1",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:1-transaction-test-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
       "csdlc-v3/Cargo.toml"
     ],
-    "purpose": "full local C-SDLC v3 crate test suite after storage recovery and digest review fixes",
+    "purpose": "full local C-SDLC v3 crate test suite after option-assigned Authorization header redaction fix",
     "outcome": "passed",
-    "evidence_ref": "exact-head:5e9af448d6ec65027dd24dd61acceba28e729252:4-lib-11-foundation-17-transactions-passed"
+    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:4-lib-11-foundation-17-transactions-passed"
   },
   {
     "command": [
@@ -71,9 +87,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "csdlc-v3/Cargo.toml",
       "--check"
     ],
-    "purpose": "format check for the C-SDLC v3 crate after storage fixes",
+    "purpose": "format check for the C-SDLC v3 crate after option-assigned Authorization header redaction fix",
     "outcome": "passed",
-    "evidence_ref": "exact-head:5e9af448d6ec65027dd24dd61acceba28e729252:passed"
+    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed"
   },
   {
     "command": [
@@ -86,9 +102,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "-D",
       "warnings"
     ],
-    "purpose": "strict clippy for the C-SDLC v3 crate after storage fixes",
+    "purpose": "strict clippy for the C-SDLC v3 crate after option-assigned Authorization header redaction fix",
     "outcome": "passed",
-    "evidence_ref": "exact-head:5e9af448d6ec65027dd24dd61acceba28e729252:passed"
+    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed"
   },
   {
     "command": [
@@ -96,9 +112,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "diff",
       "--check"
     ],
-    "purpose": "diff hygiene after storage fixes",
+    "purpose": "diff hygiene after option-assigned Authorization header redaction fix",
     "outcome": "passed",
-    "evidence_ref": "exact-head:5e9af448d6ec65027dd24dd61acceba28e729252:passed"
+    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed"
   }
 ]
 

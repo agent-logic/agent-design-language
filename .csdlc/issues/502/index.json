@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "d485673a2640ba11b69be828f5677c7818cad36bebd6f4accc2e6f0f6839a8f5",
+  "generation": 20,
+  "digest": "c5d8f3443127d0a3836c662e41ec20ddc7551772edb05ddffa246ee5a91977f4",
   "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
   "review_assignment": {
@@ -54,34 +54,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "51b7f5d3a08b6db9336ac2b91a5b28757de7aff4ea3e73c3f1e4e78b0ee1ae85",
+      "values_digest": "d0f4e1f3e663785cf1808640315e658ad069223523db14a06ad4f595b97b8dc0",
       "rendered_digest": "586a7982b1e0f3092d591c32d3c122d93af9f28bab3131eaa3b67d7bb25b65dc",
       "ast_digest": "f6b8055e02a6433850689b71b3f9ec0371dc513f2be23f17e675ff4ee637b49c"
     },
     "stp": {
-      "values_digest": "06d192d04a5b3ba98af50aad3bc279541d348fe9d69768dead086ccbe05f4bb4",
+      "values_digest": "ad50150eac1e70162ddff0b5589a32a5409ee2e84a00de0358c63bb0ec7f329a",
       "rendered_digest": "b20c663d5fb080ca3aee3471f9f5bcc730ae6a3a95f78ed146eb4ef06fbecb3b",
       "ast_digest": "2d82914d8f9e739e95a46f29b9004c31158554791c6a63129b97f0ac9248d4f5"
     },
     "spp": {
-      "values_digest": "3bc5c21d922739ee4d6b19b97326c48a91c38a04788fd6eb742f4f037d3bc4c4",
+      "values_digest": "f9bb4ee7f6e01767d3ffc438c9b95e9f0841c4aa2bac11f304558e9beba4b8b6",
       "rendered_digest": "43bc5b0aebd2201594c013dfa4698f94bd4ba4c81eb3ddd0a73c74919cd26f4a",
       "ast_digest": "f00a8ff6c49ddde156a505009c2c29cfad9d9153d8d7db1fad3ee75fb9e0f8d5"
     },
     "vpp": {
-      "values_digest": "c1d41e846e9b6ed2ac093af539475bab9095091cbe0e33b873da96d4da17e2e7",
+      "values_digest": "e51de958e112f6db5966f3218470a619cbe4d1b0feefdfe23e89fa88e4084ba7",
       "rendered_digest": "68e4ac33848d009bdd0b54fccf2958ddb175a150b6cb70d68c3a4a21ca3374d9",
       "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
     },
     "srp": {
-      "values_digest": "2e8dbeaf00200d3a8e4e5082861b981d5b89ac9889c9c3ef911ab6792040d781",
+      "values_digest": "376f441924e9fdfbd4d337a0e54584a19759013e5401b19b8ed3c9ad82708a95",
       "rendered_digest": "5850a519db1556b3d6a0e470f62aaa2703c3e14ac3c558a7045868a8ad8fbac5",
       "ast_digest": "b5d388f1546a1ae61132d49cd99c8732a27ef8a0597071edbd25e073370da827"
     },
     "sor": {
-      "values_digest": "de72d7da8f1d6c4d9122184c566ce082f5a1074b6c4da7df88376b46ad938f2c",
-      "rendered_digest": "943cadf38c9fb78447b992313d976618a85e95a3c31feac16f537f58e4e466b1",
-      "ast_digest": "f7fac7bfbf8a489f2f23cd1c5cdd6e0eecedba02314530082b51903f5be69cb5"
+      "values_digest": "8460dd243829b17493eac0b79df91bbd57c916dcaa7508a269b9ae163fd05fb9",
+      "rendered_digest": "5ede1e83b8d8ba06ee3a6bf634d1e67abce595b3a0d1c4be6dc40130255cb553",
+      "ast_digest": "ac508b1bc7f4e13597e7037dbe8d1071b8c5593be5cce133b24f67d5435c4d6d"
     }
   },
   "transitions": [
@@ -317,6 +317,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "Record #502 option-assigned Authorization header redaction review fix plus post-fix validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 after #501 merged to main, preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover.\",\"changes\":[\"Restacked #502 onto origin/main at merged #501 commit 1972aa47bd7047b8594a03bf770fb92f7fb63d51 via merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62.\",\"Recovered stale #502 review/publication truth after the main restack so each changed substantive revision required fresh exact-head review before publication could be trusted.\",\"Fixed exact-head review P1 by replacing the circular Finish prerequisite: Finish now requires LiveTerminalEvidence, while TerminalReceipt remains the Cleanup prerequisite.\",\"Fixed exact-head review P1 by making recovery honor projections_repair_required for StateCommitted observations and reject projection-missing observations that lack the committed repair flag.\",\"Fixed exact-head review P2 by replacing the 64-bit FNV-style state digest with BLAKE3-backed v3 digests for CAS and recovery-integrity checks.\",\"Fixed exact-head review P1 by redacting option-assigned Authorization header argv values such as --header=Authorization: Bearer ... before invocation logging.\",\"Added regression coverage for terminal finish capability, projection-repair recovery classification, 64-hex BLAKE3 digest shape, and option-assigned Authorization header redaction.\",\"Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, terminal evidence, and projection invalidation semantics.\",\"Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, BLAKE3 generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.\",\"Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction including option-assigned Authorization headers, and shell-executable rejection including path-qualified shell names.\",\"Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, terminal-finish, storage-integrity, and redaction regression tests.\",\"Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.\",\"Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.\",\"Preserved dependency order by waiting for #501 to merge before moving #502's final PR base to main.\"],\"artifacts\":[\"csdlc-v3/AGENTS.md\",\"csdlc-v3/Cargo.toml\",\"csdlc-v3/Cargo.lock\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/lib.rs\",\"csdlc-v3/src/lifecycle/mod.rs\",\"csdlc-v3/src/storage/mod.rs\",\"csdlc-v3/tests/transactions.rs\",\"origin/main 1972aa47bd7047b8594a03bf770fb92f7fb63d51\",\"merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62\",\"review-fix commit 7cc2ef484845ec4bc103cac33d6a217c443bda9d\",\"review-fix commit 5e9af448d6ec65027dd24dd61acceba28e729252\",\"review-fix commit 103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce\",\"review evidence /Users/daniel/git/agent-design-language/.git/csdlc-v2/reviews/502-post-storage-fix-review-detached-readonly.txt\",\"worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel\",\"branch codex/502-v3-c-csdlc-v3-lifecycle-kernel\",\"PR https://github.com/agent-logic/agent-design-language/pull/572\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"transactions\",\"adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction\"],\"purpose\":\"focused option-assigned Authorization header redaction regression after review P1\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:1-transaction-test-passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"full local C-SDLC v3 crate test suite after option-assigned Authorization header redaction fix\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:4-lib-11-foundation-17-transactions-passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"format check for the C-SDLC v3 crate after option-assigned Authorization header redaction fix\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"strict clippy for the C-SDLC v3 crate after option-assigned Authorization header redaction fix\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"diff hygiene after option-assigned Authorization header redaction fix\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed\"}]}"
     }
   ]
 }
