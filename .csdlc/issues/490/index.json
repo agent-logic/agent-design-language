@@ -5,10 +5,22 @@
   "initialization_digest": "6c97bf7b191a264c863ce7ccd8e1099e7dd451da9929f0f07a9fcbb8d99893d9",
   "phase": "implemented",
   "generation": 4,
-  "digest": "74f0ae3b5f134e6ca54843cc9cee1bc79e0dd6de1368a83ff5e044d8ebf390f8",
+  "digest": "fac5fdefecba26265a5b79536f7400b4362ef8433ea12e8a3c33041b1de2f97c",
   "branch": "codex/490-gcp-a-hierarchy-cost-decision",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-490-gcp-hierarchy-cost-decision",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+    "assigned_by": "codex:issue-490-gcp-a-owner",
+    "revision": "git-blake3:e3e261bb3c92021a3e37c9904bbb0e7784b1839b:15ab83af58cd0b05598dcac1e12e381e701856fc3672246705e5671e87a1361c",
+    "scope": [
+      "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-a",
+      ".csdlc/prepared/issues/490/validate-gcp-a-decision.sh",
+      ".csdlc/prepared/issues/490/finalize-implementation.json",
+      ".csdlc/evidence/490",
+      ".csdlc/issues/490"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "a4587186eb18c16fd0e640e9f06ecddb316c70b22375055252d11a6b53805044"
     },
     "srp": {
-      "values_digest": "e8b3f777eb1ff70742281f545e353b4964b242e3153328b40cc343bf539c4963",
-      "rendered_digest": "7e6fb6747e6bf58ed74306201dc0e909abf32a6369b273aa18c7352cadb55654",
-      "ast_digest": "1a41252969c8f7740685ffb9b4724714a7365e9b14fc43a24c8306ef4f6c8d85"
+      "values_digest": "9f7413ff0a8e742f2080add217ebfb1615fbeeb653ac7c12fb0a6eecba438c29",
+      "rendered_digest": "50ceb69bdb36a0432871f517be3ed6458930e6199245ed58e8e269141fa17c52",
+      "ast_digest": "95528bfee5a00b3595780fbc05e3b069838e1603143b35e6a41e4ce5e9fa1cf7"
     },
     "sor": {
       "values_digest": "ae7d999ce6f9fdd1f62dda4dad75c8585201134cf1225b0d21e9241a0ae0989e",
@@ -126,6 +138,13 @@
       "actor": "codex:issue-490-gcp-a-owner",
       "reason": "recover after failed exact review so the owner can repair stale typed-doctor evidence and validator required-readback checks",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
