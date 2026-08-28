@@ -31,6 +31,7 @@ need_text() {
 need_file ".csdlc/prepared/issues/488/design.md"
 need_file ".csdlc/prepared/issues/488/diagram.mmd"
 need_file ".csdlc/prepared/issues/488/run-aws-e-readback.sh"
+need_file ".csdlc/evidence/488/aws-e-live-readback-summary.log"
 need_file "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
 need_dir "infra/aws"
 need_dir "docs/operations/cloud/aws"
@@ -73,6 +74,7 @@ if [[ -f "$repo/docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTE
   need_text "dependency_487_terminal=true" "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
   need_text "CloudFormation retirement remains #496" "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
   need_text "Runtime platform modules remain #489" "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
+  need_text "s3/adl-wp08-obsmem-community-archive-b05e1f4379b5c745-us-west-2" "docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md"
 fi
 
 if [[ -f "$repo/docs/milestones/v0.92.1/evidence/cloud/aws-e/aws-e-adoption-register-proof.md" ]]; then
@@ -84,5 +86,17 @@ if [[ -f "$repo/docs/milestones/v0.92.1/evidence/cloud/aws-e/aws-e-adoption-regi
   done
 fi
 
-echo "aws-e adoption register validation passed"
+for marker in \
+  "aws_e_readback_lane=inventory-readonly" \
+  "account_match=true" \
+  "adoption_register_reconciled=true" \
+  "cloud_mutation=false" \
+  "credential_material_retained=false" \
+  "redaction=names_and_arns_not_printed"; do
+  if ! grep -Fq "$marker" "$repo/.csdlc/evidence/488/aws-e-live-readback-summary.log"; then
+    echo "live readback summary missing marker: $marker" >&2
+    exit 1
+  fi
+done
 
+echo "aws-e adoption register validation passed"

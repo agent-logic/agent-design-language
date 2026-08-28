@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "255aa3452d9d3e93a2f84fec27e0fce419f3c9fd8f130d235558f1cad7c8667b",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "b03f1f65f6ff4d751d636e2271750174f44840e8026b2e899b85e7794983022a",
+  "generation": 11,
+  "digest": "7ef923147085ebbc7a0997319c40bb9ff96463c45cb4c9596e90715c9ec1d686",
   "branch": "codex/488-aws-resource-adoption-register",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-488-aws-resource-adoption-register",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "19d6670526a2fc05b4af4e45e1ef659cf22bd9d32424d498c59f083b78a9f970",
+      "values_digest": "a9b676ed0d91e3eb989184b351a35cdcc4506ba3b6c040edf5c5b3162fc73118",
       "rendered_digest": "10d92682f3d611267d93d5f1f197430f77f92288d9b3d3afdd12b87700acc10f",
       "ast_digest": "7e6d49a4ec57b8fa02ae1b0dc6f0bcf23159b0c091040b595f00a6d2918de56f"
     },
     "stp": {
-      "values_digest": "7631cc70007f785b43c72179235a844d014a6f7e827aa68dcefa73e4e7019a04",
+      "values_digest": "c8ccb0dbc63fcae0bfb805f6e0be267090913a5df7476f60b165c52f0bfbc16f",
       "rendered_digest": "c5b495eedad617f5fef87837c2bd284d956f0516215690923f3ae853eec7103b",
       "ast_digest": "feccd94b3ae8555af69107648f7fdc3d00568976ba62aef562012f30c77aae35"
     },
     "spp": {
-      "values_digest": "3d2acec26089342cba7c8e7dd5bd07fa9c6731f5cb9f24958602d8bc4ca73e76",
+      "values_digest": "7734eae15600485ecb346787bf4c699d6132f8e08662e7e469027236f8742c44",
       "rendered_digest": "7c526e645343c46b28ca0a3c25ee6db8679bc361271f480d192b227070c8e762",
       "ast_digest": "7434fb371ac50ff475ffc68dc8f212475891f6d7590fa89a0b48060c00e5b606"
     },
     "vpp": {
-      "values_digest": "3f53bc76344ec1feaec19c7a6ab7810c5841de53c01e3088a3f5432185271196",
+      "values_digest": "9ccb343c5516489428160a5164a84604ce19e5ad7d67308547930a10628af0bf",
       "rendered_digest": "e55dd9fcd301c5441d7eff466b1c5617ef4adeb3a7b5a0c58f3194d14931e41d",
       "ast_digest": "55bb098d58e1e5e29ef6ba6e35900dcaaa111f21fecab2b45cd9bdb32019590f"
     },
     "srp": {
-      "values_digest": "ef48bf0b870650f2adb0bcb0167c66d9e88e6980880f5caa1492ee0327d13ecd",
+      "values_digest": "f8717f679f460fb79094debf84973d88140a0350afba3c08428edcf3380abdae",
       "rendered_digest": "8b018259d7131933415839dbe93130c8f13ffb09ce27ba95109f5fabbeedcd75",
       "ast_digest": "efac038b0f88969f84d5b4377fde2d631158bb1d283dd85c8a5166cf7dfaa361"
     },
     "sor": {
-      "values_digest": "30abac8e75ebaf3f55be71252b1c7d9873c7e8953a64703311af654163a056f7",
-      "rendered_digest": "079197b5f926c0b9cb47a86ac20fcafd13a22aaec702a7bae2f28959365f7664",
-      "ast_digest": "445844f9f0e8dd96a192640f57c59d364ff8b87c415286c3079797c8460bcf17"
+      "values_digest": "6dee9e7aa5700758e76ec300d54390d8fc3b0f0aba80e54746c6a310a28adba0",
+      "rendered_digest": "9a1e8afb4c1a072457c4d4aee81760f4dd050ea300eeb0a5f745d750f8ed00ae",
+      "ast_digest": "c629fc4e956fe6c50afbccb9a1dfa71bbf69e3292832ccb5aeba44768bdd0108"
     }
   },
   "transitions": [
@@ -162,6 +162,13 @@
       "actor": "codex:/root",
       "reason": "Advance #488 after AWS-E adoption register implementation and focused validation records.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Record #488 live read-only AWS-E reconciliation after exact review found the inventory-readonly lane was a stub.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"AWS_PROFILE=agent-logic-admin\",\"bash\",\".csdlc/prepared/issues/488/run-aws-e-readback.sh\",\"--lane=inventory-readonly\",\"--repo=.\"],\"purpose\":\"Use the approved agent-logic-admin AWS profile for read-only account, region, S3, Route53, CloudFront, and tagged-resource reconciliation against the adoption register without printing names, ARNs, or credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/488/aws-e-live-readback-summary.log\"}}"
     }
   ]
 }

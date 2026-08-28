@@ -65,6 +65,18 @@ Implemented the AWS-E adoption register as a non-mutating authority register ove
     "purpose": "Prove the AWS-E inventory readback refuses an unapproved AWS profile without printing credential material.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/488/aws-e-wrong-profile.status"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "bash",
+      ".csdlc/prepared/issues/488/run-aws-e-readback.sh",
+      "--lane=inventory-readonly",
+      "--repo=."
+    ],
+    "purpose": "Use the approved agent-logic-admin AWS profile for read-only account, region, S3, Route53, CloudFront, and tagged-resource reconciliation against the adoption register without printing names, ARNs, or credential material.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/488/aws-e-live-readback-summary.log"
   }
 ]
 
