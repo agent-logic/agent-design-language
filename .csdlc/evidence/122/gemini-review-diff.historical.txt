@@ -1,0 +1,122 @@
+Historical note for #122:
+
+This file preserves the exact diff context that was sent to Gemini during an
+earlier #122 review/remediation pass. It is not an applicable patch against the
+current tree and is not used as executable validation evidence. Current review
+and validation truth is recorded in the typed SRP/SOR cards, the live AWS
+evidence, and the exact-head review assignment for the final revision.
+
+diff --git a/.csdlc/issues/122/cards/sor.md b/.csdlc/issues/122/cards/sor.md
+index 98e01fdb2..7784eeb44 100644
+--- a/.csdlc/issues/122/cards/sor.md
++++ b/.csdlc/issues/122/cards/sor.md
+@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
+
+ Card: sor
+
+-Status: pre_phase
++Status: ready
+
+ ## Summary
+
+diff --git a/docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md b/docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md
+index ae8c91122..627210a75 100644
+--- a/docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md
++++ b/docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md
+@@ -17,6 +17,11 @@ The first implementation creates three public edge surfaces:
+ - `wss.<csm>.<env>` for native WebSocket traffic through CloudFront to a
+   WSS-capable Runtime origin.
+
++Additional browser origins are supported through exact-origin allowlist values
++for operator/development workflows. The Terraform module rejects wildcard,
++pattern, path, and query-bearing origins before they can become API Gateway CORS
++configuration.
++
+ All AWS-managed public certificates come from ACM. CloudFront viewer
+ certificates are in `us-east-1`; any regional AWS listener certificates are
+ regional ACM certificates. Non-AWS hosts that terminate origin TLS directly need
+diff --git a/infra/aws/csm-public-edge/README.md b/infra/aws/csm-public-edge/README.md
+index 5dcbdcbc8..cbc209ec4 100644
+--- a/infra/aws/csm-public-edge/README.md
++++ b/infra/aws/csm-public-edge/README.md
+@@ -29,6 +29,23 @@ API Gateway HTTP API is not used for WSS. API Gateway WebSocket API is a later
+ adapter-mode option only after Runtime connection-id and `@connections`
+ semantics are designed and reviewed.
+
++## Operator-configurable origins
++
++`additional_allowed_origins` is intentionally supported for same-day operator
++workflows where the Observatory UI is served from a separate exact browser
++origin. Values must be exact origins only:
++
++- `https://host[:port]`
++- `http://localhost[:port]` for local development
++
++Wildcards, paths, query strings, and origin patterns fail Terraform variable
++validation before reaching API Gateway CORS.
++
++`websocket_path_pattern` controls the ordered CloudFront WSS behavior path, with
++`/v1/observatory/ws*` as the default. The WSS distribution still has a default
++WSS origin behavior so the dedicated `wss.*` hostname can be used without
++sharing the HTTP API distribution.
++
+ ## Validation
+
+ Static validation:
+diff --git a/infra/aws/csm-public-edge/main.tf b/infra/aws/csm-public-edge/main.tf
+index 7ebbab83d..c55503a5d 100644
+--- a/infra/aws/csm-public-edge/main.tf
++++ b/infra/aws/csm-public-edge/main.tf
+@@ -440,6 +440,17 @@ resource "aws_cloudfront_distribution" "wss" {
+     compress                 = false
+   }
+
++  ordered_cache_behavior {
++    path_pattern             = var.websocket_path_pattern
++    target_origin_id         = local.wss_origin_id
++    viewer_protocol_policy   = "https-only"
++    allowed_methods          = ["GET", "HEAD", "OPTIONS"]
++    cached_methods           = ["GET", "HEAD"]
++    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_disabled.id
++    origin_request_policy_id = var.wss_forward_viewer_host ? data.aws_cloudfront_origin_request_policy.all_viewer.id : aws_cloudfront_origin_request_policy.wss_without_host.id
++    compress                 = false
++  }
++
+   restrictions {
+     geo_restriction {
+       restriction_type = "none"
+diff --git a/infra/aws/csm-public-edge/variables.tf b/infra/aws/csm-public-edge/variables.tf
+index e7915e3e3..0eba3af89 100644
+--- a/infra/aws/csm-public-edge/variables.tf
++++ b/infra/aws/csm-public-edge/variables.tf
+@@ -100,12 +100,29 @@ variable "websocket_path_pattern" {
+   description = "CloudFront path pattern for public WSS traffic."
+   type        = string
+   default     = "/v1/observatory/ws*"
++
++  validation {
++    condition     = startswith(var.websocket_path_pattern, "/") && strcontains(var.websocket_path_pattern, "*")
++    error_message = "websocket_path_pattern must be a CloudFront path pattern such as /v1/observatory/ws*."
++  }
+ }
+
+ variable "additional_allowed_origins" {
+-  description = "Additional exact browser origins allowed for CORS/WSS beyond the Observatory hostname."
++  description = "Additional exact browser origins allowed for CORS/WSS beyond the Observatory hostname. Use exact scheme://host[:port] origins only; wildcards and paths are rejected."
+   type        = list(string)
+   default     = []
++
++  validation {
++    condition = alltrue([
++      for origin in var.additional_allowed_origins :
++      !strcontains(origin, "*")
++      && (
++        can(regex("^https://[A-Za-z0-9][A-Za-z0-9.-]*(:[0-9]{1,5})?$", origin))
++        || can(regex("^http://localhost(:[0-9]{1,5})?$", origin))
++      )
++    ])
++    error_message = "additional_allowed_origins must contain exact https://host[:port] origins, or http://localhost[:port] for local development; wildcards, paths, and patterns are not allowed."
++  }
+ }
+
+ variable "waf_rate_limit" {

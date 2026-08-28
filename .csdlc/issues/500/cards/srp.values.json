@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 500,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+    "slug": "v0-92-1-v3-a-c-sdlc-v3-contract-and-construction-decision",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/csdlc-v3/CONTRACT.md\ndocs/csdlc-v3/predecessor-coverage.json\ndocs/csdlc-v3/proportional-lifecycle.json\ncsdlc-v3/Cargo.toml\ncsdlc-v3/Cargo.lock\ncsdlc-v3/src/lib.rs\n.csdlc/prepared/issues/500\n.csdlc/evidence/500\n.csdlc/issues/500",
+      "review_revision": "git-blake3:c5182e209c7c0bc645440c1659b4f42c885595d3:2c83492ae76405f8b698f816f106bba02ab01dd266f83caa0186d07ad1b0aff8",
+      "reviewer": "fresh-session:e77d61f5-ab00-4989-8596-ad1b2327e172",
+      "review_prompts": [
+        "Does every retained requirement from #161 through #163 have exactly one traceable disposition?",
+        "Can any contract clause be read as granting v3 operational authority before V3-F?",
+        "Are construction and rollback decisions grounded in #162 measurements and #163 operator approval?",
+        "Does the minimal crate surface stay non-authoritative and inside V3-A?",
+        "Does the proportional-lifecycle matrix classify every checkpoint, projection, review, and transition as retained, collapsed, derived, or removed, with a concrete hazard named for every retained gate?",
+        "Does the default path actually eliminate duplicate authority, repeated generation/digest choreography, duplicate readiness review, and umbrella re-review of child proof while preserving one design gate, focused validation, one independent implementation review, and truthful closeout?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Focused V3-A static contract proof does not implement V3-B/V3-C runtime behavior or authority cutover."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+flowchart TD
+  R161["#161 product contract and retained invariants"] --> MAP["Exact predecessor coverage matrix"]
+  R162["#162 measured Rust construction slice"] --> MAP
+  R163["#163 platform commit and rollback decision"] --> MAP
+
+  MAP --> CONTRACT["Versioned C-SDLC v3 contract"]
+  MAP --> DECISIONS["Construction decision packet"]
+  MAP --> ROLLBACK["Rollback and fail-closed posture"]
+
+  V2["C-SDLC v2: sole operational authority"] --> BOUNDARY["Explicit coexistence boundary"]
+  CONTRACT --> BOUNDARY
+  DECISIONS --> BOUNDARY
+  ROLLBACK --> BOUNDARY
+
+  BOUNDARY --> REVIEW["Independent exact-head review"]
+  REVIEW --> ACCEPT["Accepted V3-A design input"]
+
+  ACCEPT -. "does not authorize" .-> NO_CUTOVER["No authority cutover or v2 retirement"]
+

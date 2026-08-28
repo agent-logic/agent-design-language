@@ -1,0 +1,21 @@
+{
+  "issue": 500,
+  "expected_generation": 3,
+  "expected_digest": "0f6854bf617752e017a1b773d402ec780c4e2ba75ace2484056c3dcd8a3a575f",
+  "actor": "codex:sprint-5-readiness",
+  "expected_design_path": ".csdlc/prepared/issues/500/design.md",
+  "expected_diagram_path": ".csdlc/prepared/issues/500/diagram.mmd",
+  "expected_design_digest": "4b504077ccfe28e72ea0aeb68c2536646221b7c4e495586fa454e763ab5a40fd",
+  "expected_diagram_digest": "9ff4af50a6468e9208cc8a8b39bc7bac3e7b8b3986ed2cf162d99d32b73a752f",
+  "new_design_path": ".csdlc/prepared/issues/500/design.recovered.md",
+  "new_diagram_path": ".csdlc/prepared/issues/500/diagram.recovered.mmd",
+  "prior_reviewer": "fresh-session:67217f40-9b42-4fc8-84bf-b0a816b49e56",
+  "canonical_reviewer": "fresh-session:67217f40-9b42-4fc8-84bf-b0a816b49e56",
+  "reviewer_session_uuid": "67217f40-9b42-4fc8-84bf-b0a816b49e56",
+  "reviewer_turn_uuid": "11f2459d-cb97-452c-a5b9-76f3919dbf76",
+  "spawned_task": "/root/sprint5_design_review",
+  "thread_source": "subagent",
+  "fork_turns": "none",
+  "reviewed_generation": 3,
+  "reviewed_digest": "afeeb1f2f07fe815ef6be4fdb91f8b427cb81a80ff4a81fa87cf888eea06d873"
+}

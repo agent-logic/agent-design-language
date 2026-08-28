@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 500,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-A] C-SDLC v3 contract and construction decision",
+    "slug": "v0-92-1-v3-a-c-sdlc-v3-contract-and-construction-decision",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one reviewed C-SDLC v3 contract and construction-decision packet.",
+      "required_outcome": "A reviewable versioned contract, exact predecessor-coverage matrix, construction decision, and rollback posture for requirements #161 through #163, while C-SDLC v2 remains sole operational authority.",
+      "declared_scope": [
+        "docs/csdlc-v3/**",
+        "csdlc-v3/Cargo.toml",
+        "csdlc-v3/src/lib.rs",
+        ".csdlc/issues/500/**",
+        ".csdlc/prepared/issues/500/**",
+        ".csdlc/evidence/500/**"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains the sole operational lifecycle authority throughout #500.",
+        "Issue completion is exactly acceptance of one v3 contract and construction decision.",
+        "No authority cutover, v2 retirement, or later V3 implementation is authorized."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not bind or execute during readiness preparation.",
+        "Do not modify C-SDLC v2 behavior or authority.",
+        "Do not touch other Sprint 5 issues or unrelated issue records."
+      ]
+    }
+  }
+}
