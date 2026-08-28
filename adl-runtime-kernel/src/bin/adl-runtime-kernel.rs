@@ -674,20 +674,21 @@ async fn main() -> ExitCode {
             let api_shutdown = tokio_util::sync::CancellationToken::new();
             let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
                 RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
-                    eprintln!(
-                        "adl_event schema=adl.runtime_v3.config_reload.v1 result=rejected reason=parse_invalid"
-                    );
+                    eprintln!("{}", config_reload_rejection_diagnostic("parse_invalid"));
                     ConfigReloadError::parse("runtime init rejected")
                 })
             });
             let reload_service = Arc::clone(&service);
             let reload_applier: ConfigApplier<RuntimeInitConfig> = Arc::new(move |next| {
-                reload_service.apply_runtime_init_reload(next).map_err(|error| {
-                    eprintln!(
-                        "adl_event schema=adl.runtime_v3.config_reload.v1 result=rejected reason=validation_invalid"
-                    );
-                    ConfigReloadError::validation(error)
-                })
+                reload_service
+                    .apply_runtime_init_reload(next)
+                    .map_err(|error| {
+                        eprintln!(
+                            "{}",
+                            config_reload_rejection_diagnostic("validation_invalid")
+                        );
+                        ConfigReloadError::validation(error)
+                    })
             });
             let config_reload = match start_config_reload_with_applier_and_shutdown(
                 init_path,
@@ -1359,6 +1360,10 @@ fn preserve_runtime_result_after_observability<T>(
     runtime_result
 }
 
+fn config_reload_rejection_diagnostic(reason: &'static str) -> String {
+    format!("adl_event schema=adl.runtime_v3.config_reload.v1 result=rejected reason={reason}")
+}
+
 /// Memory Palace birthday authority begins its own signed lineage at genesis.
 /// The live-continuity minimum is an anti-rollback floor enforced separately by
 /// `LiveContinuity`; treating that floor as a birthday generation greater than
@@ -1391,9 +1396,21 @@ async fn drain_private_api(
 #[cfg(test)]
 mod tests {
     use super::{
-        bind_control_listener, birthday_authority_generations,
+        bind_control_listener, birthday_authority_generations, config_reload_rejection_diagnostic,
         preserve_runtime_result_after_observability,
     };
+
+    #[test]
+    fn config_reload_diagnostics_are_bounded_and_redacted() {
+        for reason in ["parse_invalid", "validation_invalid"] {
+            let diagnostic = config_reload_rejection_diagnostic(reason);
+            assert_eq!(diagnostic, format!("adl_event schema=adl.runtime_v3.config_reload.v1 result=rejected reason={reason}"));
+            assert!(diagnostic.len() < 128);
+            assert!(!diagnostic.contains("token"));
+            assert!(!diagnostic.contains("private_key"));
+            assert!(!diagnostic.contains("operator-secret"));
+        }
+    }
 
     #[test]
     fn live_continuity_floor_does_not_rebase_birthday_authority_genesis() {

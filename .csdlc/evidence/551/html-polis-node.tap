@@ -1,6 +1,6 @@
-✔ polis identity projection accepts only feed-owned canonical values (1.560375ms)
-✔ HTML has no hard-coded production Polis fallback (2.628125ms)
-✔ v3 snapshot requires explicit Polis identity and rejects legacy schemas (2.003708ms)
+✔ polis identity projection accepts only feed-owned canonical values (1.640708ms)
+✔ HTML has no hard-coded production Polis fallback (2.860292ms)
+✔ v3 snapshot requires explicit Polis identity and rejects legacy schemas (1.078167ms)
 ℹ tests 3
 ℹ suites 0
 ℹ pass 3
@@ -8,4 +8,4 @@
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 84.458333
+ℹ duration_ms 90.329958

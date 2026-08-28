@@ -2333,6 +2333,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   lastPanopticonPacket = packet;
   const vm = buildPanopticonViewModel(snapshot, packet);
   setText("polis-display-name", snapshot.polisIdentity?.displayName || "Unavailable");
+  setText("polis-public-domain", snapshot.polisIdentity?.publicDomain || "Unavailable");
   const sourceLabel = vm.mode === "live" ? "Live Runtime API" : vm.mode === "published" ? "Published Runtime Evidence" : "Retained Runtime Evidence";
   const hasAuthoritativeLiveRuntimeFeed =
     vm.mode === "live" &&

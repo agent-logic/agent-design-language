@@ -49,9 +49,9 @@ Implemented a validated Runtime-owned Polis identity and endpoint projection who
       "bash",
       ".csdlc/prepared/issues/551/validate-runtime-polis.sh"
     ],
-    "purpose": "Prove exact nonzero configuration, full hot-reload control, v3 feed, and OpenAPI targets.",
+    "purpose": "Prove exact nonzero configuration, full hot-reload control, v3 feed, OpenAPI, and bounded redacted diagnostic targets.",
     "outcome": "passed",
-    "evidence_ref": "Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1."
+    "evidence_ref": "Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1, binary diagnostic 1/1."
   },
   {
     "command": [

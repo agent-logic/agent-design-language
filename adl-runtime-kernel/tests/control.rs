@@ -84,6 +84,16 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
         observed.observatory_public_origin,
         "https://observe.new.example.test"
     );
+    assert_eq!(
+        service.observatory_feed().control.public_base_url,
+        "https://new.example.test"
+    );
+    assert!(service
+        .observatory_origin_policy()
+        .contains("https://observe.new.example.test"));
+    assert!(!service
+        .observatory_origin_policy()
+        .contains("https://observatory.example.test"));
 
     let mut invalid = reload;
     invalid.polis.display_name = "Must Not Apply".to_owned();
@@ -93,6 +103,14 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
         "observatory_allowed_origins_must_be_approved_exact_origins"
     );
     assert_eq!(service.observatory_feed().polis_identity, observed);
+    assert_eq!(
+        service.observatory_feed().control.public_base_url,
+        "https://new.example.test"
+    );
+    assert!(service
+        .observatory_origin_policy()
+        .contains("https://observe.new.example.test"));
+    assert!(!service.observatory_origin_policy().contains("*"));
 }
 
 fn test_api_policy() -> ControlApiPolicy {

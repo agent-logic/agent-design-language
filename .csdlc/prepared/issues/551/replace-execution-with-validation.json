@@ -1,8 +1,8 @@
 {
   "issue": 551,
   "card": "sor",
-  "expected_generation": 24,
-  "expected_digest": "3bc38688cbc73c8ee3b2b5487c9e7e79293f16446fd146d8ce6732edcf76906d",
+  "expected_generation": 25,
+  "expected_digest": "75162ad29c9ae0bb9802f65f0d987f7fbeffb1fdc260f271833ecf7bdc97474d",
   "actor": "codex:/root",
   "reason": "Bind the completed implementation to the exact focused nonzero validation that ran locally.",
   "operation": {
@@ -22,7 +22,7 @@
       "demos/html-observatory/index.html", "demos/html-observatory/app.js", "demos/html-observatory/tests/polis_identity.test.mjs", ".csdlc/evidence/551/html-polis-node.tap"
     ],
     "validation": [
-      {"command":["bash",".csdlc/prepared/issues/551/validate-runtime-polis.sh"],"purpose":"Prove exact nonzero configuration, full hot-reload control, v3 feed, and OpenAPI targets.","outcome":"passed","evidence_ref":"Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1."},
+      {"command":["bash",".csdlc/prepared/issues/551/validate-runtime-polis.sh"],"purpose":"Prove exact nonzero configuration, full hot-reload control, v3 feed, OpenAPI, and bounded redacted diagnostic targets.","outcome":"passed","evidence_ref":"Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1, binary diagnostic 1/1."},
       {"command":["cargo","nextest","run","--locked","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","configuration","--test","control","--test","observatory","--test","openapi_contract","--no-tests=fail"],"purpose":"Prove the complete affected integration-test denominator remains green.","outcome":"passed","evidence_ref":"Local nextest run: 76/76 passed."},
       {"command":["cargo","nextest","run","--locked","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","guardian_soak","--no-tests=fail","-E","test(signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process)"],"purpose":"Prove the production schema-v3 guardian fixture remains green.","outcome":"passed","evidence_ref":"Local nextest run: 1/1 passed."},
       {"command":["bash",".csdlc/prepared/issues/551/validate-html-polis.sh"],"purpose":"Prove exact feed-owned HTML projection and reject a zero-test result.","outcome":"passed","evidence_ref":".csdlc/evidence/551/html-polis-node.tap; 3/3 passed."},
