@@ -12,19 +12,23 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and review-hardened the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on the stacked branch, including pure transition decisions, transactional state storage/recovery classification, typed adapter boundaries, crate-local AGENTS guidance, focused #168/#169/#170 transaction tests, fixes for independent pre-PR review findings, and cleanup that removes unrelated docs-authority changes from the net #502 diff.
+Implemented and restacked the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on top of the repaired #501 foundation branch while preserving v2 as current authority until explicit V3-F cutover.
 
 ## Artifacts
 
-- implementation commit b21a7944f8c0274b003af809299026492734cb42
-- lifecycle truth commit 8a23eacf77eea2066d9e96442a7eab3f8bde1227
-- review-fix commit 46ec429a5158f2d6b7c21df4ce0fdd3674178828
-- scope-cleanup commit ad1f446d5e13544e68bacad520a8822eb2005d84
+- csdlc-v3/AGENTS.md
+- csdlc-v3/src/adapters/mod.rs
+- csdlc-v3/src/lib.rs
+- csdlc-v3/src/lifecycle/mod.rs
+- csdlc-v3/src/storage/mod.rs
+- csdlc-v3/tests/transactions.rs
+- commit 12b3d74291487f730f8c4d8a427e46308876424a
 - worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel
 - branch codex/502-v3-c-csdlc-v3-lifecycle-kernel
 
 ## Execution
 
+- Restacked #502 on repaired #501 foundation head 9056f19245f93bc9efa3b55561671a8f002c6536 via merge commit 12b3d74291487f730f8c4d8a427e46308876424a.
 - Added csdlc-v3/src/lifecycle/mod.rs for capability-checked lifecycle transition decisions and projection invalidation semantics.
 - Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, commit-time generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, and content-bound record digests.
 - Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, redaction, and shell-executable rejection including path-qualified shells.
@@ -44,9 +48,9 @@ Implemented and review-hardened the non-authoritative C-SDLC v3 lifecycle-kernel
       "csdlc-v3/Cargo.toml",
       "--check"
     ],
-    "purpose": "format check for the C-SDLC v3 crate",
+    "purpose": "format check for the C-SDLC v3 crate after restacking #502 on repaired #501",
     "outcome": "passed",
-    "evidence_ref": "local command passed after review-fix rustfmt"
+    "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:passed"
   },
   {
     "command": [
@@ -59,7 +63,20 @@ Implemented and review-hardened the non-authoritative C-SDLC v3 lifecycle-kernel
     ],
     "purpose": "focused transaction test target for #168/#169/#170 retained behaviors and review-finding regressions",
     "outcome": "passed",
-    "evidence_ref": "10 tests passed in csdlc-v3/tests/transactions.rs"
+    "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:15-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "foundation"
+    ],
+    "purpose": "prove inherited #501 foundation behavior still passes on the #502 stacked branch",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:11-passed"
   },
   {
     "command": [
@@ -72,20 +89,9 @@ Implemented and review-hardened the non-authoritative C-SDLC v3 lifecycle-kernel
       "-D",
       "warnings"
     ],
-    "purpose": "strict clippy for the C-SDLC v3 crate",
+    "purpose": "strict clippy for the C-SDLC v3 crate after restack",
     "outcome": "passed",
-    "evidence_ref": "local command passed after review-fix commit 46ec429a5158f2d6b7c21df4ce0fdd3674178828"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml"
-    ],
-    "purpose": "full C-SDLC v3 crate test suite",
-    "outcome": "passed",
-    "evidence_ref": "4 lib tests, 8 foundation tests, and 10 transaction tests passed"
+    "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:passed"
   },
   {
     "command": [
@@ -93,34 +99,20 @@ Implemented and review-hardened the non-authoritative C-SDLC v3 lifecycle-kernel
       "diff",
       "--check"
     ],
-    "purpose": "diff hygiene",
+    "purpose": "diff hygiene after #502 restack",
     "outcome": "passed",
-    "evidence_ref": "local command passed before SOR update"
+    "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:passed"
   },
   {
     "command": [
       "csdlc-validate",
-      "--root",
-      ".",
       "issue",
       "--issue",
       "502"
     ],
-    "purpose": "typed C-SDLC issue validation",
+    "purpose": "typed C-SDLC issue validation after #502 restack",
     "outcome": "passed",
-    "evidence_ref": "status pass, phase implemented, generation 8 before scoped SOR correction"
-  },
-  {
-    "command": [
-      "csdlc-doctor",
-      "--repo",
-      ".",
-      "--issue",
-      "502"
-    ],
-    "purpose": "typed lifecycle doctor",
-    "outcome": "passed",
-    "evidence_ref": "status pass, phase implemented, generation 8 before scoped SOR correction"
+    "evidence_ref": "status pass, phase implemented, generation 9 at exact-head 12b3d74291487f730f8c4d8a427e46308876424a"
   }
 ]
 
