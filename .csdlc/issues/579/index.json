@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8fe41a4be3b42f614d852b4f001ffb1eccd6367f489c5928292297866d6f976f",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "2a3511fc55ea8652ec1db7ee01db712d7313615f0b5709ebd22e5317016521eb",
+  "generation": 17,
+  "digest": "36bbecfbb19b4764b66b79bb517ecd8e65cecb6a23a11cd213dc1217aa9a6bbf",
   "branch": "codex/579-aws-f-corrective-runtime-platform-edge-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-579-aws-f-corrective-runtime-platform-edge-proof-exec",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "29bf72cdf4fc97c27df3ac470ea0b3f125ccba266e888d268ef947cb9bb0d935",
+      "values_digest": "7e339ed559c9b8515b0252d09ac3c62525bb48c6f870d2d8018f5a34a6f9c505",
       "rendered_digest": "34255383575c3c3aea078b5ad1f33029f480c9c070bf17102d1ff5b52206557f",
       "ast_digest": "d79aba3cc3efacc1f54e46f636ef0d14448a7ab00e65460abe4a0e9561e31c2c"
     },
     "stp": {
-      "values_digest": "9ff804ea980fa0a48f1ff8477d781e5779d82ba77a736330ef90601be897f95e",
+      "values_digest": "43eb26decdeedece1f06286f86957354e738437085a743fab6c20020294602d5",
       "rendered_digest": "75a132bf25c11986913abfb12619819b2535b6e3eb8c12c10e4fdcdf883d54eb",
       "ast_digest": "5f1a9cde41042b937e046672f548508ffc1f06d64cfbdb24e849d19bdfd2e038"
     },
     "spp": {
-      "values_digest": "44b7707e06bf78ba40f8433ac154c8b569a4e728ce462b6ef7e383d2afc996e6",
+      "values_digest": "4c1d572e6f25e4999b0f00ba58278e300a0a1da394dea22343ee32f37406ba6d",
       "rendered_digest": "d13937b24c4616f64d06be246d23d06ec8a5b764975bfea7578c58585f458a00",
       "ast_digest": "78428b50426eac48c5cb6136de5e4ec205e626596139d1ca785a03471c0b370c"
     },
     "vpp": {
-      "values_digest": "f6405a97c3b5320961c1d5d4b2a588f752c802896c075840ffa464ec945f25fb",
+      "values_digest": "0f07c26bf7af454d6b11c9f4fcce28a1db87acbc9c081007935227265ca90f08",
       "rendered_digest": "43fb1ea1bff3e28dcb6bae9f9488ab0a31360bd9144ab1fea9a669906d0b2722",
       "ast_digest": "f99c7f95258d2e8800f7b35ca6c2a21cec687002417dfff2287ad67999f044bd"
     },
     "srp": {
-      "values_digest": "e41d9e4591bc76c14d057641b84df301b8bcda3a174323f0b272a2b5dd87cd23",
+      "values_digest": "e574ab5dd10453f4a79bdef50a65a59b7c118d19234a351f416bc3a46a0ccaa7",
       "rendered_digest": "47923253ba21229c9e358a99c51f487ef29ba0142720f6414f6a1c61b7f528f2",
       "ast_digest": "413abf1da275fc5f55970c2ddc8dd929db8a01b25c9bf10dee9eb5a31795efc8"
     },
     "sor": {
-      "values_digest": "b5644c423548d565f74cd4c977895f095027d1133385776671d9af0cf46c1726",
+      "values_digest": "fcc657771064bc798650f70deed7945a50b0ee5421fd9edd48451d058d66ba6b",
       "rendered_digest": "f803549816ff8dc0052719d1b45a8b7358421b62813923c52fc84fa28b0d05ac",
       "ast_digest": "770e0f72ba2079d59799a7743f50eacdc2b7a4586dd7e3d9565ba53ff2859e1b"
     }
@@ -218,6 +218,20 @@
       "actor": "codex:/root",
       "reason": "Record #579 post-merge all-lane corrective validation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=all\"],\"purpose\":\"Prove all #579 corrective lanes again after merging current origin/main into the bound worktree: Terraform/public-edge boundary, security-regression guard, proof truth, state-isolation guardrails, and local diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-merge local stdout: aws-f corrective validation passed: all; terraform -chdir=infra/aws/runtime fmt -check -recursive exited 0; git diff --check origin/main...HEAD exited 0; csdlc-validate issue 579 PASS\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover timed-out #579 review assignment for fresh-session:35526455-d130-4d0c-ab75-c62c7e163166; no verdict was accepted after bounded wait.",
+      "operation": "recover_review"
     }
   ]
 }
