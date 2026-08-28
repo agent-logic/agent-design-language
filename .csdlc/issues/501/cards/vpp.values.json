@@ -1,0 +1,140 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 501,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
+    "slug": "v0-92-1-v3-b-c-sdlc-v3-foundation",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute focused deterministic foundation tests, targeted repository-context and projection filters, strict clippy, and diff hygiene.",
+      "lanes": [
+        {
+          "lane": "foundation-unit",
+          "proof_role": "Prove deterministic foundation state creation and stable replay behavior.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "foundation"
+          ],
+          "parallel_group": "v3-b-focused",
+          "defer_reason": "Deferred until implementation creates the exact issue-owned harness csdlc-v3/tests/foundation.rs."
+        },
+        {
+          "lane": "repository-context",
+          "proof_role": "Prove repository context is explicit, canonicalized, and independent from hidden cwd authority.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "foundation",
+            "repository_context"
+          ],
+          "parallel_group": "v3-b-focused",
+          "defer_reason": "Deferred until implementation creates the exact issue-owned harness csdlc-v3/tests/foundation.rs."
+        },
+        {
+          "lane": "state-projection",
+          "proof_role": "Prove projection replay and serialization order are stable.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "foundation",
+            "projection"
+          ],
+          "parallel_group": "v3-b-focused",
+          "defer_reason": "Deferred until implementation creates the exact issue-owned harness csdlc-v3/tests/foundation.rs."
+        },
+        {
+          "lane": "strict-clippy",
+          "proof_role": "Reject Rust correctness and maintainability issues in the bounded V3-B crate surface.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "v3-b-focused",
+          "defer_reason": "Runs after implementation changes exist."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace and malformed diff defects in the bounded issue diff.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 400,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "v3-b-focused",
+          "defer_reason": "Runs after implementation changes exist."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on hidden repository context, nondeterministic replay, missing retained-requirement proof, lifecycle mutation, GitHub mutation, or any implied v3 authority cutover.",
+      "design_ref": ".csdlc/prepared/issues/501/design.md",
+      "design_digest": "f3ada52964f181e7364f9252bc8d5e81ea4d9a441bbe04e4dca639416ce13bc9",
+      "diagram_ref": ".csdlc/prepared/issues/501/diagram.mmd",
+      "diagram_digest": "0e0e94a115d09daa735596d02cf242e6234853b5d5cd815f124b9aabe0af3528"
+    }
+  }
+}

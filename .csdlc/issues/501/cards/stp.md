@@ -1,0 +1,57 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 501
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement only the V3-B foundation slice: repository context, deterministic state/projection surfaces, a read-only foundation command, and focused proof for requirements #164 through #167.
+
+## Deliverables
+
+- csdlc-v3/src/repository/mod.rs
+- csdlc-v3/src/application/mod.rs
+- csdlc-v3/src/bin/csdlc-v3-foundation.rs
+- csdlc-v3/tests/foundation.rs
+- Truthful validation and review evidence for #501
+
+## Acceptance
+
+1. AC-1: State and projections are deterministic.
+2. AC-2: Repository context is explicit and not hidden ambient process state.
+3. AC-3: Retained requirements #164 through #167 have focused behavioral proof.
+
+## Dependencies
+
+- V3-A: #500 must be merged and closed before #501 implementation begins.
+
+## Inputs
+
+- agent-logic/agent-design-language#501
+- agent-logic/agent-design-language#500
+- agent-logic/agent-design-language#164
+- agent-logic/agent-design-language#165
+- agent-logic/agent-design-language#166
+- agent-logic/agent-design-language#167
+- docs/csdlc-v3/CONTRACT.md
+- docs/csdlc-v3/predecessor-coverage.json
+- docs/csdlc-v3/proportional-lifecycle.json
+- docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-B
+- docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml
+- docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md
+
+## Non Goals
+
+- Lifecycle execution
+- GitHub mutation
+- Publication
+- v2 migration or retirement
+- V3-C lifecycle-kernel implementation
+- Repository-wide lifecycle refactoring

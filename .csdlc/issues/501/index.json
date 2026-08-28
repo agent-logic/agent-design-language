@@ -1,0 +1,380 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 501,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "fa47f9e1a7c307834334da4c81dfafe2d87aa0b8271f54e3640f9c7b107d53fd",
+  "phase": "published",
+  "generation": 19,
+  "digest": "d7b242abf1c020fc98e8175c8324180f3875dc0cf8628728cdc74107d7214698",
+  "branch": "codex/501-v3-b-csdlc-v3-foundation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation",
+  "review_assignment": {
+    "reviewer": "issue_501_import_fix_review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:c7439484b8b783fdc1d36e8480d8178e848dbdc8:49aaa4af3abb66686c9f5582e067415e387183509407077e948f96d88836cec3",
+    "scope": [
+      ".csdlc/issues/501/audit.jsonl",
+      ".csdlc/issues/501/cards/sip.md",
+      ".csdlc/issues/501/cards/sip.values.json",
+      ".csdlc/issues/501/cards/sor.md",
+      ".csdlc/issues/501/cards/sor.values.json",
+      ".csdlc/issues/501/cards/spp.md",
+      ".csdlc/issues/501/cards/spp.values.json",
+      ".csdlc/issues/501/cards/srp.md",
+      ".csdlc/issues/501/cards/srp.values.json",
+      ".csdlc/issues/501/cards/stp.md",
+      ".csdlc/issues/501/cards/stp.values.json",
+      ".csdlc/issues/501/cards/vpp.md",
+      ".csdlc/issues/501/cards/vpp.values.json",
+      ".csdlc/issues/501/index.json",
+      ".csdlc/prepared/issues/501/design.md",
+      ".csdlc/prepared/issues/501/diagram.mmd",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/src/application/mod.rs",
+      "csdlc-v3/src/bin/csdlc-v3-foundation.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/repository/mod.rs",
+      "csdlc-v3/tests/foundation.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "issue_501_import_fix_review",
+    "scope": [
+      ".csdlc/issues/501/audit.jsonl",
+      ".csdlc/issues/501/cards/sip.md",
+      ".csdlc/issues/501/cards/sip.values.json",
+      ".csdlc/issues/501/cards/sor.md",
+      ".csdlc/issues/501/cards/sor.values.json",
+      ".csdlc/issues/501/cards/spp.md",
+      ".csdlc/issues/501/cards/spp.values.json",
+      ".csdlc/issues/501/cards/srp.md",
+      ".csdlc/issues/501/cards/srp.values.json",
+      ".csdlc/issues/501/cards/stp.md",
+      ".csdlc/issues/501/cards/stp.values.json",
+      ".csdlc/issues/501/cards/vpp.md",
+      ".csdlc/issues/501/cards/vpp.values.json",
+      ".csdlc/issues/501/index.json",
+      ".csdlc/prepared/issues/501/design.md",
+      ".csdlc/prepared/issues/501/diagram.mmd",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/src/application/mod.rs",
+      "csdlc-v3/src/bin/csdlc-v3-foundation.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/repository/mod.rs",
+      "csdlc-v3/tests/foundation.rs"
+    ],
+    "reviewed_revision": "git-blake3:c7439484b8b783fdc1d36e8480d8178e848dbdc8:49aaa4af3abb66686c9f5582e067415e387183509407077e948f96d88836cec3",
+    "findings": [],
+    "residual_risks": [
+      "The v3 foundation importer remains read-only and non-authoritative; full v2 lifecycle enum/schema enforcement and authority cutover remain later v3 slices."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 501,
+    "pull_request": 568,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/568",
+    "base": "main",
+    "head": "codex/501-v3-b-csdlc-v3-foundation",
+    "revision": "git-blake3:31b459c419196d057debcb99187ee5e25e0d1fd4:88f3b1005ddeee79189d0a1f9ad6defb3e0e61c58ca51c275b4f5c0736e86aae",
+    "linkage_mode": "closing",
+    "draft": true,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/501/design.md",
+  "diagram_path": ".csdlc/prepared/issues/501/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:50150150-1501-4501-8501-501501501501",
+      "revision": "f3ada52964f181e7364f9252bc8d5e81ea4d9a441bbe04e4dca639416ce13bc9"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "58d80d2eb3df3dfa3ca8a74c1dbb0c1603e519ad7417cebcbe2eff097a75c6bb",
+      "rendered_digest": "b8660f4e6e0d079ae8cf6904876e9e4b8ae0e70e39511ab4ba7ab5f01e49ac0e",
+      "ast_digest": "0f09c92931040cbf6e052470e0b5a7c14f445971c53def3a2509c41272c8bd0f"
+    },
+    "stp": {
+      "values_digest": "f31d64a7d954871c5542ada316dff872c36f2ad51941869a4b25b52f28c3add3",
+      "rendered_digest": "692b12b09ccdd83269cd7cc1f26b01e2ebb97f78b19c4ed173001ed113d70a4a",
+      "ast_digest": "3a5825e3602aa17d4b35cf55a20edf71f272eb00d7cb2ed369cf855d747c7e1d"
+    },
+    "spp": {
+      "values_digest": "3290855dee495da60d2de2371321a8526c4a49df9ea32d3e90543d97b4141055",
+      "rendered_digest": "a1e98ad4dda0219acced2a5fe3a050a60929e6b8ffac2ddd1955cded5028d110",
+      "ast_digest": "73afe27f73b912170120681cd553950c602e4af38c4f3f3e282655463951477f"
+    },
+    "vpp": {
+      "values_digest": "bcfd33d02a392e6fee87e9ad567617df1eeaecd8f27b8600f99bce7ba5f8fa1e",
+      "rendered_digest": "d89e7ed8e040fbdb8811c1feca387f1b274ba0ddf4070ec24ed4ef26c085dd9a",
+      "ast_digest": "83595baa407f8f5f553792d3b3025ced1b826524b6522c605267ca8fec3f9442"
+    },
+    "srp": {
+      "values_digest": "7968b93ef776ce8cf687ef6bf44fec33efebbe424f9eedbcd0228954286e75a1",
+      "rendered_digest": "e5c6779602917d8be2f6fffbe6a3ef519e428fb54da96ecb1593a4c301978c72",
+      "ast_digest": "b7530ad1526feb6b426b4e7ffb37e9862c66612dff516b66ed9cc29e50f4df22"
+    },
+    "sor": {
+      "values_digest": "ee05a8f9a2e4a74a37f820382c860a6b0f64010e5528b81111cefa3ebc7bdf63",
+      "rendered_digest": "ce8dd2d18b2b7306d9eb3ec2ea485736bd0f682cdd3d2b289a83fd0ae54b4132",
+      "ast_digest": "8760c1e5b4e6d2cc55105bfe8aa4fe8f644277fe16af151ec737f2e7f5afbbe4"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance #501 to ready after typed validation and design approval passed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Advance #501 to implemented after V3-B foundation code and focused proof are present in the bound worktree."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #501 review/publication truth after review-fix commit 70bc42a24c23b58d943a2a30b84e471cb56fb9e9 changed the substantive PR head for #568."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "Repair initialized #501 decomposition so the future foundation harness is an exact issue-owned deferred validator target before binding.",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"v3-a-500\",\"relation\":\"dependency\",\"to\":\"v3-b-501\"},{\"from\":\"req-164\",\"relation\":\"retained-requirement\",\"to\":\"v3-b-501\"},{\"from\":\"req-165\",\"relation\":\"retained-requirement\",\"to\":\"v3-b-501\"},{\"from\":\"req-166\",\"relation\":\"retained-requirement\",\"to\":\"v3-b-501\"},{\"from\":\"req-167\",\"relation\":\"retained-requirement\",\"to\":\"v3-b-501\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":501,\"node_id\":\"v3-b-501\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"parent-foundation-slice\"},{\"in_scope\":true,\"issue\":500,\"node_id\":\"v3-a-500\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"merged-contract-dependency\"},{\"in_scope\":true,\"issue\":164,\"node_id\":\"req-164\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"retained-requirement-164\"},{\"in_scope\":true,\"issue\":165,\"node_id\":\"req-165\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"retained-requirement-165\"},{\"in_scope\":true,\"issue\":166,\"node_id\":\"req-166\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"retained-requirement-166\"},{\"in_scope\":true,\"issue\":167,\"node_id\":\"req-167\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"retained-requirement-167\"}],\"parent_integration_owner\":\"v3-b-501\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"f3ada52964f181e7364f9252bc8d5e81ea4d9a441bbe04e4dca639416ce13bc9\",\"byte_sha256\":\"fc156070c283c012cb88a9d712a118eae324eeab6b8b66a96d85d5ec8e3e7890\",\"path\":\".csdlc/prepared/issues/501/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"0e0e94a115d09daa735596d02cf242e6234853b5d5cd815f124b9aabe0af3528\",\"byte_sha256\":\"aa2cf6d10f4b2993109380fdbc1b27c0e88624798ca50c12349cd132484acd4b\",\"path\":\".csdlc/prepared/issues/501/diagram.mmd\"},\"recovery_scope\":[\"exact deferred foundation harness ownership\",\"design-time validation denominator\",\"issue-start simplification remains typed-v2 bounded\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:50150150-1501-4501-8501-501501501501",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"f3ada52964f181e7364f9252bc8d5e81ea4d9a441bbe04e4dca639416ce13bc9\",\"design_ref\":\".csdlc/prepared/issues/501/design.md\",\"diagram_digest\":\"0e0e94a115d09daa735596d02cf242e6234853b5d5cd815f124b9aabe0af3528\",\"diagram_ref\":\".csdlc/prepared/issues/501/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "Advance #501 to ready after typed validation and design approval passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "Record #501 implementation evidence before advancing from bound to implemented.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the non-authoritative V3-B foundation slice with explicit repository context, deterministic projection replay, a read-only machine-output command, and focused proof for retained requirements #164 through #167.\",\"changes\":[\"Added explicit RepositoryContext discovery and required-contract path checks.\",\"Added deterministic FoundationState projection replay with stable machine JSON output.\",\"Added read-only csdlc-v3-foundation CLI requiring --repo-root instead of ambient cwd authority.\",\"Added focused foundation tests for repository context, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.\",\"Fixed one strict-clippy finding in the existing V3-A test surface.\"],\"artifacts\":[\"csdlc-v3/src/repository/mod.rs\",\"csdlc-v3/src/application/mod.rs\",\"csdlc-v3/src/bin/csdlc-v3-foundation.rs\",\"csdlc-v3/tests/foundation.rs\",\"csdlc-v3/src/lib.rs\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "Advance #501 to implemented after V3-B foundation code and focused proof are present in the bound worktree.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "Record #501 V3-B foundation implementation and focused validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative V3-B foundation slice with explicit repository context, deterministic state/projection replay, a read-only machine-output command, and focused proof for retained requirements #164 through #167. C-SDLC v2 remains the sole operational authority.\",\"changes\":[\"Added explicit RepositoryContext discovery and required-contract path checks.\",\"Added deterministic FoundationState projection replay with stable machine JSON output.\",\"Added read-only csdlc-v3-foundation CLI requiring --repo-root instead of ambient cwd authority.\",\"Added focused foundation tests for repository context, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.\",\"Fixed one strict-clippy finding in the existing V3-A test surface.\"],\"artifacts\":[\"csdlc-v3/src/repository/mod.rs\",\"csdlc-v3/src/application/mod.rs\",\"csdlc-v3/src/bin/csdlc-v3-foundation.rs\",\"csdlc-v3/tests/foundation.rs\",\"csdlc-v3/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Verify Rust formatting for the V3-B crate surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"foundation\"],\"purpose\":\"Prove repository context, deterministic projection replay, retained requirements #164-#167, and three-minute issue-start projection.\",\"outcome\":\"passed\",\"evidence_ref\":\"4 tests passed locally, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject strict Rust warnings across library, binary, and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--bin\",\"csdlc-v3-foundation\",\"--\",\"--repo-root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation\"],\"purpose\":\"Smoke test the read-only foundation command and explicit repository-root argument.\",\"outcome\":\"passed\",\"evidence_ref\":\"machine JSON output schema csdlc.v3.foundation.v1, 2026-08-28, issue #501 worktree\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover after current-head review found stale lifecycle card truth; repairs will update SPP/SOR/SRP truth without code scope expansion.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "Normalize #501 plan truth after implementation and focused validation completed.",
+      "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Confirm #500 is merged and closed before implementation begins.\",\"id\":\"S1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Implement explicit repository context and deterministic repository adapters.\",\"id\":\"S2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"action\":\"Implement deterministic foundation state/projection replay and stable serialization.\",\"id\":\"S3\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Add a read-only foundation command that exposes machine-readable context and projection output without lifecycle authority.\",\"id\":\"S4\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Run focused foundation, repository-context, state-projection, strict-clippy, and diff-hygiene validation, then obtain independent review.\",\"id\":\"S5\",\"status\":\"completed\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Confirm #500 is merged and closed before implementation begins.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Implement explicit repository context and deterministic repository adapters.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"action\":\"Implement deterministic foundation state/projection replay and stable serialization.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Add a read-only foundation command that exposes machine-readable context and projection output without lifecycle authority.\",\"id\":\"S4\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Run focused foundation, repository-context, state-projection, strict-clippy, and diff-hygiene validation, then obtain independent review.\",\"id\":\"S5\",\"status\":\"pending\"}],\"recovery_generation\":8,\"recovery_sequence\":11}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "Remove stale post-implementation bind follow-up from #501 SOR.",
+      "operation": "{\"new_values\":[\"Proceed to typed review assignment and pre-PR independent review for #501; do not start #502 until #501 publication/finish boundary is satisfied.\"],\"operation\":\"correct_sor_follow_ups_after_recovery\",\"previous_values\":[\"Bind #501 in an issue worktree only after doctor passes.\"],\"recovery_generation\":8,\"recovery_sequence\":11}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "Record #501 V3-B foundation implementation and focused validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative V3-B foundation slice with explicit repository context, read-only v2 issue/card import, deterministic state/projection replay, a read-only machine-output command, and source-grounded focused proof for retained requirements #164 through #167. C-SDLC v2 remains the sole operational authority.\",\"changes\":[\"Added explicit RepositoryContext discovery and required-contract path checks.\",\"Added read-only import helpers for v2 issue records and lifecycle cards without granting v3 lifecycle authority.\",\"Added deterministic FoundationState projection replay with stable machine JSON output.\",\"Added read-only csdlc-v3-foundation CLI requiring --repo-root instead of ambient cwd authority.\",\"Added focused foundation tests for repository context, v2 issue/card import, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.\",\"Fixed one strict-clippy finding in the existing V3-A test surface.\"],\"artifacts\":[\"csdlc-v3/src/repository/mod.rs\",\"csdlc-v3/src/application/mod.rs\",\"csdlc-v3/src/bin/csdlc-v3-foundation.rs\",\"csdlc-v3/tests/foundation.rs\",\"csdlc-v3/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Verify Rust formatting for the V3-B crate surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"foundation\"],\"purpose\":\"Prove repository context, read-only v2 issue/card import, deterministic projection replay, retained requirements #164-#167, and three-minute issue-start projection.\",\"outcome\":\"passed\",\"evidence_ref\":\"8 tests passed locally, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject strict Rust warnings across library, binary, and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--bin\",\"csdlc-v3-foundation\",\"--\",\"--repo-root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation\"],\"purpose\":\"Smoke test the read-only foundation command and explicit repository-root argument.\",\"outcome\":\"passed\",\"evidence_ref\":\"machine JSON output schema csdlc.v3.foundation.v1, 2026-08-28, issue #501 worktree\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "Recover after status review found SOR pre_phase stale despite implementation evidence; next repair only advances SOR to ready.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "Advance #501 SOR from pre_phase to ready after implementation evidence and validation truth were recorded.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "Recover #501 review/publication truth after review-fix commit 70bc42a24c23b58d943a2a30b84e471cb56fb9e9 changed the substantive PR head for #568.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
