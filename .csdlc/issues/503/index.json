@@ -5,13 +5,13 @@
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
   "phase": "implemented",
   "generation": 4,
-  "digest": "5483d1429f09df0303cd58d40d99b0ed8e06dea84f551cfaa511538ee79ca12e",
+  "digest": "9e068e706c2051580222066f34ffb9bdc64e4415be438ac873f1e3d5dc0c0555",
   "branch": "codex/503-v3-d-local-preparation-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
   "review_assignment": {
     "reviewer": "fresh-session:issue-503-pre-pr-review",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:d0539acb11e6e7aab2ca8bf600577dc2c582c34b:3dc80bf405d9198d0ff17535eb4d115d7f8a05aaeadb1974695d37858eecaf10",
+    "revision": "git-blake3:6ecaa54bbb42cc4302658fae5dd87cd337e20da7:453684950a061ef8fbd006ea627304462638cbeb1add0e85333b43cc56f1b144",
     "scope": [
       "csdlc-v3/Cargo.toml",
       "csdlc-v3/Cargo.lock",
@@ -137,6 +137,13 @@
     },
     {
       "sequence": 7,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
       "generation": 4,
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",

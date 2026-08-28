@@ -2,7 +2,7 @@
   "schema": "csdlc.review_assignment_request.v1",
   "issue": 503,
   "expected_generation": 4,
-  "expected_digest": "b64b03844a3d6df86a6dd6a8b530e57bb35296aeb3d001111fa6e0428eaaad24",
+  "expected_digest": "5483d1429f09df0303cd58d40d99b0ed8e06dea84f551cfaa511538ee79ca12e",
   "reviewer": "fresh-session:issue-503-pre-pr-review",
   "assigned_by": "codex:worker-6",
   "scope": [
