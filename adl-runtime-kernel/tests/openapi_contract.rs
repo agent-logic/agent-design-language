@@ -158,11 +158,14 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
         ws["credentialRevocation"],
         "write_authority_removed_read_stream_continues"
     );
-    assert!(ws["serverFrames"]
-        .as_array()
-        .expect("serverFrames array")
-        .iter()
-        .any(|frame| frame["$ref"] == "#/components/schemas/ObservatoryFeed"));
+    assert_eq!(
+        ws["serverFrames"][0]["oneOf"],
+        serde_json::json!([
+            {"$ref": "#/components/schemas/ObservatoryFeedV1Compatibility"},
+            {"$ref": "#/components/schemas/ObservatoryFeedV2Compatibility"},
+            {"$ref": "#/components/schemas/ObservatoryFeed"}
+        ])
+    );
     assert_eq!(
         ws["signedTextControlAuthority"],
         "signed_control_command_only"

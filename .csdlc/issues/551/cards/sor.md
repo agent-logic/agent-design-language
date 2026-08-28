@@ -12,12 +12,13 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a validated Runtime-owned Polis identity and atomic presentation snapshot, then closed exact-head review gaps by requiring the advertised origin to be accepted and providing executable REST/WSS v1/v2/v3 negotiation with v2 compatibility default and HTML v3 opt-in.
+Implemented validated Runtime-owned Polis identity and atomic presentation hot reload, executable REST/WSS v1/v2/v3 negotiation, HTML v3 opt-in, and the final stale-test correction proving selector-free WSS clients receive historical v2.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/config.rs
 - adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/conversation_sessions_tests.rs
 - adl-runtime-kernel/tests/configuration.rs
 - adl-runtime-kernel/tests/control.rs
 - adl-runtime-kernel/tests/observatory.rs
@@ -33,13 +34,44 @@ Implemented a validated Runtime-owned Polis identity and atomic presentation sna
 
 - Require polis.observatory_public_origin to be an exact member of the combined configured allowed-origin set before startup or reload can publish it.
 - Serve historical v2 by default on REST and WSS, explicit historical v1 projections for schema=v1, and identity-bearing v3 projections for schema=v3; unsupported selectors fail with HTTP 400.
-- Bind historical v1/v2 top-level, control, and agent-population field denominators with exact-key assertions rather than unused constants or selective absence checks.
-- Make the HTML Observatory explicitly request v3 for both HTTPS and WSS while existing selector-free clients continue to receive v2.
-- Preserve the existing atomic full-parameter hot reload, last-known-good rejection, bounded diagnostics, and Unity deferral boundaries.
+- Bind historical v1/v2 top-level, control, and agent-population field denominators with exact-key assertions.
+- Make the HTML Observatory explicitly request v3 while selector-free clients continue to receive v2.
+- Correct the canonical WSS conversation test and OpenAPI contract assertion to prove the negotiated v2 default and exact v1/v2/v3 server-frame alternatives.
+- Preserve atomic full-parameter hot reload, last-known-good rejection, bounded diagnostics, and Unity deferral boundaries.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Reproduce and close the exact hosted Runtime failure while proving both initial and reconnected selector-free WSS feeds use v2.",
+    "outcome": "passed",
+    "evidence_ref": "Local exact test: 1/1 passed."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "openapi_contract",
+      "observatory_wss_documents_real_bidirectional_frame_boundary",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Prove the WSS OpenAPI contract binds the exact v1/v2/v3 negotiated server-frame alternatives.",
+    "outcome": "passed",
+    "evidence_ref": "Local exact test: 1/1 passed."
+  },
   {
     "command": [
       "bash",
@@ -74,20 +106,30 @@ Implemented a validated Runtime-owned Polis identity and atomic presentation sna
   {
     "command": [
       "cargo",
-      "nextest",
-      "run",
-      "--locked",
+      "test",
+      "--quiet",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml"
+    ],
+    "purpose": "Exercise the exact hosted Runtime command after the stale-fixture repair.",
+    "outcome": "failed",
+    "evidence_ref": "All #551-affected tests passed; one unrelated parity_b_live_kernel guardian lease timing test transiently failed, then its exact retry passed 1/1. Hosted CI remains the integration authority."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--test",
-      "guardian_soak",
-      "--no-tests=fail",
-      "-E",
-      "test(signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process)"
+      "parity_b_live_kernel",
+      "runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child",
+      "--",
+      "--exact"
     ],
-    "purpose": "Prove the production guardian explicitly negotiates the identity-bearing v3 projection.",
+    "purpose": "Classify the unrelated full-suite guardian failure as transient rather than a #551 regression.",
     "outcome": "passed",
-    "evidence_ref": "Local nextest run: 1/1 passed."
+    "evidence_ref": "Local exact retry: 1/1 passed."
   },
   {
     "command": [
@@ -124,11 +166,11 @@ Implemented a validated Runtime-owned Polis identity and atomic presentation sna
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
