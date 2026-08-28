@@ -63,6 +63,20 @@ Implemented the #487 AWS-D audit/security account-foundation baseline as local T
     "purpose": "Prove #487 R4 remediation for KMS service consumers, AWS Config audit-bucket delivery, Terraform profile enforcement, static readback profile gating, and diff hygiene without live AWS mutation.",
     "outcome": "passed",
     "evidence_ref": "Local output: Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; git diff --check pass."
+  },
+  {
+    "command": [
+      "terraform -chdir=infra/aws/account-foundation fmt",
+      "terraform -chdir=infra/aws/account-foundation init -backend=false",
+      "terraform -chdir=infra/aws/account-foundation validate",
+      "bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .",
+      "AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static",
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate issue --issue 487",
+      "git diff --check"
+    ],
+    "purpose": "Prove #487 R4/R5 remediation, Terraform formatting/validation, exact redacted readback contract, profile-gated static readback, lifecycle validation, and diff hygiene without live AWS mutation.",
+    "outcome": "passed",
+    "evidence_ref": "Local output: terraform fmt changed main.tf; init -backend=false installed pinned aws v5.100.0; Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; csdlc-validate issue pass; git diff --check pass."
   }
 ]
 

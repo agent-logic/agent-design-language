@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2084376119f2b0feaa352c733f56e2015901eaa5b371b1b3f7119df20402ccf0",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "954f9766f32a9caf1a3e265eaaa677a5da7aa5bdc07a237c1b4c91f784c49039",
+  "generation": 14,
+  "digest": "6ee678a3f3e86762c50610e297df34a890eed4a022039f43db8fcce465715351",
   "branch": "codex/487-aws-audit-security-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-487-aws-audit-security-baseline",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4a0e6e957ba24a88b5d30f83475d5510dacecf6675633a44da69eb565fd225c9",
+      "values_digest": "6db51b5c8a8195c8386a53e8d30007358a571be3f7f9a5bf15ae86630573b8cc",
       "rendered_digest": "4f86b2babb7b7a4000647d767bc71b6ff917bb3868610d2ae859947683aa3478",
       "ast_digest": "b5687b725030d021e3fe2f0adefa298e67ef7e7934e4b1138f012051a684ccd0"
     },
     "stp": {
-      "values_digest": "e0afbf2f71bb0f72e14b53082116b7df561d6f0278301fd92d234a3893dcd80b",
+      "values_digest": "be4ea70427724d7468939bdccccb8369dc68e968e4ea0ea44049fd8a0969b34e",
       "rendered_digest": "e0172a0a5e4f5098e7c9faa4d3d46c7615e8cd9fd6ceb16cca1d4f55d6487251",
       "ast_digest": "af6057e2df5071ef8b297cf63e7176608c3d9c61d04c0fe4fd785e75e74d59ef"
     },
     "spp": {
-      "values_digest": "f666d1075e54e6ccc93de58e07197a32ad26eba8eb077515c724c355f6650ffa",
+      "values_digest": "034e22a0263c2c50241e1b119a3168bca3a45ad5fffb041a73c37726fa8496dc",
       "rendered_digest": "49d5298b3280a955a1ce7c3e770a6bebd8eaafe601361bfb315f9689184a5cf7",
       "ast_digest": "a6bad5dbbdc3a6e527186967526c32da890633c9a6962be15f9464fb809b22d5"
     },
     "vpp": {
-      "values_digest": "987e7706d8ae8b650cfbaead7176654c8eaf2b9f8c392b8f9878ff77f5b85701",
+      "values_digest": "76d7686d046a20ac00d96b121a7138eaf9e48ec2630e44f663b7bfd5c72544e3",
       "rendered_digest": "9c8e992176a84beb4a6cddab0f11203867fa2d781cdc152fa55b5720e58d8b2b",
       "ast_digest": "c2b804273e7ff5caa02125c8c5bcf56e9f250d008bc9d66ce1a1bd51c80f36f8"
     },
     "srp": {
-      "values_digest": "5673dc01c31668e052c04e283eb600cf94833146ecd3a41aac0fa94182f19311",
+      "values_digest": "bb9a16abae0434419331c7ea2547f6763f48269c03d604d178f6c2a72a69d73e",
       "rendered_digest": "0e2af5437f8cde860ed27dfe448e685ea730a73790d1b1a6ce4229c38da11d66",
       "ast_digest": "e1c95981843f77542ac4d12c682616ec620ad882cd4f89ba612d6b1370c48a81"
     },
     "sor": {
-      "values_digest": "d17bfb726cdf8414c423c2f3de2c1a2618079441e22770f96942ea5ef94bae6a",
-      "rendered_digest": "e6e4af7b4031b01f5ed6b690bc8d531fda2e3861b485a81f6375e7a4ddf14b30",
-      "ast_digest": "7246928a200feb21d144034e8fd043028e3e23bdb648575ad1e39474a519da5e"
+      "values_digest": "75e6467256521dd2e304ed22e212d9f732db07e11ee28f6bd90e57b300bc56e1",
+      "rendered_digest": "7f3e71ae4e0ce32981b25b7d6bb175990eae80c4fed4a2fd20d0299f5c250c09",
+      "ast_digest": "17114bcde65d8f92192a9bfe77e4a3b6ca1ac53cc089fd970a369ec588e5addc"
     }
   },
   "transitions": [
@@ -183,6 +183,27 @@
       "actor": "codex:/root",
       "reason": "Record #487 R4 remediation validation after KMS, Config bucket policy, and Terraform profile guard fixes.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform -chdir=infra/aws/account-foundation fmt\",\"terraform -chdir=infra/aws/account-foundation validate\",\"bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .\",\"AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static\",\"git diff --check\"],\"purpose\":\"Prove #487 R4 remediation for KMS service consumers, AWS Config audit-bucket delivery, Terraform profile enforcement, static readback profile gating, and diff hygiene without live AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local output: Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; git diff --check pass.\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover stale #487 R5 exact-head review assignment because terraform fmt made a substantive main.tf formatting change after assignment; a new exact revision requires a fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record #487 post-recovery local validation after Terraform fmt and exact-readback remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform -chdir=infra/aws/account-foundation fmt\",\"terraform -chdir=infra/aws/account-foundation init -backend=false\",\"terraform -chdir=infra/aws/account-foundation validate\",\"bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .\",\"AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate issue --issue 487\",\"git diff --check\"],\"purpose\":\"Prove #487 R4/R5 remediation, Terraform formatting/validation, exact redacted readback contract, profile-gated static readback, lifecycle validation, and diff hygiene without live AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local output: terraform fmt changed main.tf; init -backend=false installed pinned aws v5.100.0; Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; csdlc-validate issue pass; git diff --check pass.\"}}"
     }
   ]
 }
