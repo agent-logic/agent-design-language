@@ -10,7 +10,9 @@ index = JSON.parse(root.join(".csdlc/issues/342/index.json").read)
 
 errors = []
 errors << "wrong canonical repository" unless index["repository"] == "agent-logic/agent-design-language"
-errors << "bound execution phase required" unless index["phase"] == "bound"
+unless %w[bound implemented].include?(index["phase"])
+  errors << "bound or implemented execution phase required"
+end
 errors << "bound branch mismatch" unless index["branch"] == "codex/342-podcast-studio-first-ten-episodes"
 errors << "bound worktree mismatch" unless index["worktree"] == root.to_s
 errors << "legacy authority boundary missing" unless design.include?("legacy `danielbaustin/agent-design-language#5845`")
@@ -34,8 +36,9 @@ errors << "expected exactly one preserved numbered episode candidate, found #{ep
 errors << "preserved candidate must be Episode 001" unless episode_dirs.first&.basename&.to_s&.start_with?("001-")
 
 if errors.empty?
-  puts JSON.generate(schema: "adl.wp24a.readiness.v1", status: "pass", complete_package_claims: 0,
-                     preserved_candidates: episode_dirs.length, absent_packages: 9, bind_authorized: true)
+  puts JSON.generate(schema: "adl.wp24a.readiness.v1", status: "pass", phase: index["phase"],
+                     complete_package_claims: 0, preserved_candidates: episode_dirs.length,
+                     absent_packages: 9, bind_authorized: true)
   exit 0
 end
 

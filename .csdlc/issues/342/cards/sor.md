@@ -124,7 +124,7 @@ Created a non-production first-ten source-package checkpoint for The Cognitive S
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

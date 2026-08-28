@@ -4,14 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f22f50785de3595fa31cdc85e96af67d56171c756d8d95f70e35e786ad312b9f",
   "phase": "implemented",
-  "generation": 20,
-  "digest": "dc404d52f8dcdea3f6279d77b3974b65780a5ed6328eab48488d31bb40c12b46",
+  "generation": 21,
+  "digest": "5d2d6134b11e82d46961efa0d57f987dd8b52e6ee5adc5d255f1afec788816d1",
   "branch": "codex/342-podcast-studio-first-ten-episodes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-342-podcast-studio-first-ten-episodes",
   "review_assignment": {
-    "reviewer": "codex-task:01a049d0-40ad-7b32-a59e-5c7ebe083ee7",
+    "reviewer": "codex-task:01a049d3-b6c6-7042-92f2-719766d4d19f",
     "assigned_by": "codex:/root/sprint8-podcast-lane",
-    "revision": "git-blake3:3f324fdd58402df4320b621a3971bb6684778ca2:280616425bbaacef03b0855fcd8a82464ed3230f1a7cc1cf7accc022b8bc2eff",
+    "revision": "git-blake3:b4cf1df7ba22278e1ad0aa0997b8ebbc72a00eab:ddfd4b692bf63e7e7fac16bbd87e489c17945da64a48105e95f5b8d9dfa63fc5",
     "scope": [
       "demos/podcast/episode-packages/**",
       ".csdlc/issues/342",
@@ -35,34 +35,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "db6cbb5aad7e6cf5cd035a7dcf78e4f6f63824f1adaa2daef70c04b63fa5766b",
+      "values_digest": "16c8e083a79795bb8695853772e3469eaf94d81240671ed343f22239c1dbbe43",
       "rendered_digest": "5328667aa3b17e469c4e356c01c9c602c10a712d6a391083d445c63904620910",
       "ast_digest": "6eaf7b8e3cb171db069ce3d7e5b2ba589bb054310e93b6066b0b170a41c98d19"
     },
     "stp": {
-      "values_digest": "f9ede486231a42ce2856925a569c37227f09729aaf1bbf82e8b607755eee3d99",
+      "values_digest": "a4673a075ece8597acd4495e2bb80752c3409d2294ad2d384238ace722314e91",
       "rendered_digest": "acb4546eeec9aa539f66cc016e39189ef9a85660e77e9b6f18539480b6d52b92",
       "ast_digest": "ed2d6b41b560d5723a0958ac88879aa36df82116433163a9d72aa7c2d94ceb23"
     },
     "spp": {
-      "values_digest": "b69de4d151e009bdaa682649176248a57351abdcb0dae4b1eb7c8c2759048515",
+      "values_digest": "463071a894ddcaf4750772cb1344fb09dd47fcffb23f9fb792d6a191555c3f84",
       "rendered_digest": "191480bd99aec1c23e210e976f5f42a848cfbd552f1781829934dbc1ef764e59",
       "ast_digest": "07819b7755ede28a214e3623d7362c71eb7a5e9e1a3448cc31fe0a7dadbc7391"
     },
     "vpp": {
-      "values_digest": "1072c07eb2d5bf7f2412b2c021dca9d77a3b127ff5636268e17d8576b6b39099",
+      "values_digest": "41dfbeabaf6ea4e9a4def08015bd8d4d7762d085b37e24778198677ed68918c5",
       "rendered_digest": "7b01988e3038715e3c0197ad18a7b2fec0b4eae7a735707af22f4d7bebe55c16",
       "ast_digest": "6b64408653e72de06986bd341bb63150557f388dfd8b5f10c133ccca2822220e"
     },
     "srp": {
-      "values_digest": "f4c2bef5f8f3a37f2de0acfe00dd3416283a07d46961edaae1a9325c6c34353b",
-      "rendered_digest": "9c1bdf37a8e171255b4470984e13a26e3524a6edd4c45452cad2eb5f9350b123",
-      "ast_digest": "91a95b449b26d6c33e3038309d19730c97ec2fccd4ff00c56bb4e27f11b76554"
+      "values_digest": "bf45762fdbd00749d034ecfba8f2eedd487b1fecef9619704a08ee233177a751",
+      "rendered_digest": "c478d7560707440fad6959384400d12f8533b1432f69b7ee2467351f416eaad5",
+      "ast_digest": "5a52acd31fa35440585e6432663cf45454725de0189e87258a6f79f3981c2999"
     },
     "sor": {
-      "values_digest": "b532d865f90eb1685bbe6f7f59ea5661d941cf07cc75162ccfc116cd55b741b3",
-      "rendered_digest": "f571aec66037d9ca27e78652688f7a45cc2ec9229954859c972c65107796f857",
-      "ast_digest": "e66eae08c2b15c5c4164cfdca74bcccecc6a4332a8dcc529c1d507e68fb70706"
+      "values_digest": "58f1611028fcdb53b4d60dbf0cb3e91712b2a6279dd076716e4fe5920cbc8323",
+      "rendered_digest": "11bc7272cde994c5618f78c56d1472b12c1421368b4131117fff1ad018c07799",
+      "ast_digest": "1c627b8aaefa060c0e7144c47437e13db4b85c2286e476adcd437925cefae3f4"
     }
   },
   "transitions": [
@@ -246,6 +246,20 @@
     {
       "sequence": 23,
       "generation": 20,
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "Recover the pre-activity review assignment after the fresh review task failed from a model usage-limit system error before inspecting files or producing review evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
       "actor": "codex:/root/sprint8-podcast-lane",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
