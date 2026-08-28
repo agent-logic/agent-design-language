@@ -12,7 +12,19 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/493/exact-diff-hygiene.log
+.csdlc/evidence/493/gcp-d-static-product.log
+.csdlc/evidence/493/terraform-fmt.log
+.csdlc/issues/493
+.csdlc/prepared/issues/493/design.md
+.csdlc/prepared/issues/493/diagram.mmd
+.csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh
+adl-runtime/tests/config_reload.rs
+adl-runtime/tests/guardian_cli.rs
+docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md
+docs/operations/cloud/gcp/platform-foundation/README.md
+docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh
+infra/gcp/platform
 
 ## Prompts
 
