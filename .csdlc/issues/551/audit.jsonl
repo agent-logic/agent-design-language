@@ -58,3 +58,7 @@
 {"sequence":58,"generation":49,"actor":"codex:/root","reason":"Recover the typed review projection so the independently passed metadata-only head can be bound before republication.","operation":"recover_review"}
 {"sequence":59,"generation":49,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":60,"generation":50,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":61,"generation":51,"actor":"codex:/root","reason":"Bind the final independently passed clean commit directly and leave subsequent owner-managed publication metadata as an uncommitted tail.","operation":"recover_review"}
+{"sequence":62,"generation":51,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":63,"generation":52,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":64,"generation":53,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

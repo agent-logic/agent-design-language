@@ -4,73 +4,71 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "reviewed",
-  "generation": 50,
-  "digest": "c45c510d008a99cb32df1f8120373e486c95cf62b00392e24c8ead91703e1754",
+  "phase": "published",
+  "generation": 53,
+  "digest": "2de6712b3d17d29773bae65bb42cce378f1637f33f701a81510d84090e0df6c0",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
   "review_assignment": {
-    "reviewer": "fresh-session:8f7bb69d-260b-4c67-a4b6-6c91df40c2ed",
+    "reviewer": "fresh-session:0be75823-7e07-43dc-aaa8-0d6c545831b4",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d",
+    "revision": "git-blake3:b79f38a5883b8dee48054bbe11207f194a559817:757f62bb76a0c8e1e846573569d1629442b1badd18267ff50acb2eaa71b66804",
     "scope": [
-      ".csdlc/issues/551/audit.jsonl",
-      ".csdlc/issues/551/index.json",
-      ".csdlc/issues/551/cards/sip.values.json",
-      ".csdlc/issues/551/cards/stp.values.json",
-      ".csdlc/issues/551/cards/spp.values.json",
-      ".csdlc/issues/551/cards/vpp.values.json",
-      ".csdlc/issues/551/cards/srp.md",
-      ".csdlc/issues/551/cards/srp.values.json",
-      ".csdlc/issues/551/cards/sor.values.json",
-      ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
-      ".csdlc/prepared/issues/551/record-r2-exact-review.json"
+      ".csdlc/prepared/issues/551/design.md",
+      ".csdlc/prepared/issues/551/diagram.mmd",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/551/html-polis-node.tap"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:8f7bb69d-260b-4c67-a4b6-6c91df40c2ed",
+    "reviewer": "fresh-session:0be75823-7e07-43dc-aaa8-0d6c545831b4",
     "scope": [
-      ".csdlc/issues/551/audit.jsonl",
-      ".csdlc/issues/551/index.json",
-      ".csdlc/issues/551/cards/sip.values.json",
-      ".csdlc/issues/551/cards/stp.values.json",
-      ".csdlc/issues/551/cards/spp.values.json",
-      ".csdlc/issues/551/cards/vpp.values.json",
-      ".csdlc/issues/551/cards/srp.md",
-      ".csdlc/issues/551/cards/srp.values.json",
-      ".csdlc/issues/551/cards/sor.values.json",
-      ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
-      ".csdlc/prepared/issues/551/record-r2-exact-review.json"
+      ".csdlc/prepared/issues/551/design.md",
+      ".csdlc/prepared/issues/551/diagram.mmd",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/551/html-polis-node.tap"
     ],
-    "reviewed_revision": "git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d",
+    "reviewed_revision": "git-blake3:b79f38a5883b8dee48054bbe11207f194a559817:757f62bb76a0c8e1e846573569d1629442b1badd18267ff50acb2eaa71b66804",
     "findings": [],
     "residual_risks": [
       "Hosted CI remains the final integration gate before merge.",
       "The exact-head review did not perform a live browser, external network, or deployed TLS exercise; local Runtime TLS/WSS and HTML proof remain the bounded pre-publication evidence."
     ],
     "completed": true,
-    "non_substantive_proof": {
-      "policy": "metadata_only_review_projection",
-      "from_revision": "git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0",
-      "to_revision": "git-blake3:7bf1277277e6b64c54840ff0336120d2545a5984:d65338c5630d1f3f383abf3fdbb35ac63a76016e503ff036ead8713d3647184d",
-      "from_commit": "dd01d24449fd8c84d8e5709808e1d19ae71948a9",
-      "to_commit": "7bf1277277e6b64c54840ff0336120d2545a5984",
-      "changed_paths": [
-        ".csdlc/issues/551/audit.jsonl",
-        ".csdlc/issues/551/cards/sip.values.json",
-        ".csdlc/issues/551/cards/sor.values.json",
-        ".csdlc/issues/551/cards/spp.values.json",
-        ".csdlc/issues/551/cards/srp.md",
-        ".csdlc/issues/551/cards/srp.values.json",
-        ".csdlc/issues/551/cards/stp.values.json",
-        ".csdlc/issues/551/cards/vpp.values.json",
-        ".csdlc/issues/551/index.json",
-        ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
-        ".csdlc/prepared/issues/551/record-r2-exact-review.json"
-      ]
-    }
+    "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 551,
+    "pull_request": 573,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/573",
+    "base": "main",
+    "head": "codex/551-runtime-polis-config-owned-name-domain",
+    "revision": "git-blake3:b79f38a5883b8dee48054bbe11207f194a559817:757f62bb76a0c8e1e846573569d1629442b1badd18267ff50acb2eaa71b66804",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -84,34 +82,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "21d4b7f13d9048552edd54d4628a20c3be8d5db9627f609a54d46bd4b623e791",
+      "values_digest": "969f570b69d0e3cb469ccb225adc2577f4762ee2f9cddc4f4c99da02a61eabc2",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "f7ad972edcc0ad8ce351b0702add46f649d1459ee67e0a1ce910b72cb6dad998",
+      "values_digest": "47f10539e191411278af20661d724d89d1aa704aba3e4425c128d752102edd5a",
       "rendered_digest": "cf2567f90e060a9e980fc89e374894bc5b09262a3186eff2160fc12880a8e510",
       "ast_digest": "78d816272741f7f118d456204abc7428a4655d5f8508ccb79db2de6c924845f2"
     },
     "spp": {
-      "values_digest": "311fcf1c639aa434b4124b264ee2cc2e6609276d1c991dc7bc36ac42b814cc23",
+      "values_digest": "61936f8f382451b50edbccea8f205ff0146033d6a4be82b129a1325181de5111",
       "rendered_digest": "a666f14982eff05ea1d3b5067be873e6a7ace7eea5db9285dcab59df12fe42cf",
       "ast_digest": "d31e118878c8ec5319038be004da30e0a9138905834b82409bd3198dacbe1846"
     },
     "vpp": {
-      "values_digest": "b35cc75e78ef6593075eb9224174c3753cf290118d52a72eb44563f399862b66",
+      "values_digest": "93f0898615bb4f88ace7aa77f1efd7692e32b68282fe7d2e3853b2bcf2898d79",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "4d76f206d48586581e5b5186acd7759335ed9bbda6637542c4f546397b68c894",
-      "rendered_digest": "975b332b373532e6d2189de05c20d9c665cf1fccdd6e5e2258b8b5f03ec83cd7",
-      "ast_digest": "264f0c098b56b0ec0c08abb13c7b63f97ef008dab5545ac7a64c39058365c36d"
+      "values_digest": "bc1d2e06f00086f4521d9498435d65e8f145e3de7a1d0f416c869b945c0d1edf",
+      "rendered_digest": "161b199315b9e2b61f0f9c3beb46a9431221942cdc5717c19dfceb60e572cc64",
+      "ast_digest": "5523523acf8de48ee7b8686742008317030cf9303626da03d4d4923b3724313a"
     },
     "sor": {
-      "values_digest": "67b97d647ee40a04fa728f8d4ba3ea4fb3e520c3ef4f387649e33882ebddd96b",
-      "rendered_digest": "aea583815c1751a5b8ae43735198afc60ec665618f467c992513847bbc251e00",
-      "ast_digest": "61171e488d027e16e2e297063791c51494dfa84529f49c4cbbc537208de5cd7b"
+      "values_digest": "fa05a56b7b3283f6d79c8fb84dc62874b0e0469ad3eb4315d90ca56629e21089",
+      "rendered_digest": "d1949ca3fc43b3d7d7cf8b5dfcbc59dc3c2ab520e14dbc87a2026c5c1f875803",
+      "ast_digest": "a0f4ada90e03093b9711fde1c7e883e67b80022d48601a0c83fd6a7d7daec21f"
     }
   },
   "transitions": [
@@ -254,6 +252,27 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 21,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Bind the final independently passed clean commit directly and leave subsequent owner-managed publication metadata as an uncommitted tail."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 23,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -676,6 +695,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 51,
+      "actor": "codex:/root",
+      "reason": "Bind the final independently passed clean commit directly and leave subsequent owner-managed publication metadata as an uncommitted tail.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 51,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 52,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 53,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
