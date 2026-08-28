@@ -5,24 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "711716d4ad01d96be990fae790e7ddfc21afa70e14aa1d99964656baa8e4d074",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "1349e6b84fa599b37c231b46b9ad606743ab08eaf13d2164c84c5ebf2b4f0b88",
+  "generation": 11,
+  "digest": "ea60016038ee2e20fb6240d00c8be11829aea28bacb8156d92f04f5d381337f5",
   "branch": "codex/489-aws-runtime-platform-modules",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-489-aws-runtime-platform-modules",
-  "review_assignment": {
-    "reviewer": "fresh-session:4fa94e42-a43c-4841-8393-56fbe7f6af23",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:9743e553f5c2b5158ce4231027af1efce4bfd650:94ddada4fc94b5961b9d6d29121ce8921638976da8699966db873fd575bf2605",
-    "scope": [
-      ".gitignore",
-      ".csdlc/issues/489",
-      ".csdlc/prepared/issues/489",
-      ".csdlc/evidence/489",
-      "infra/aws/runtime",
-      "docs/operations/cloud/aws/runtime-platform/README.md",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -38,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "da0c6d4a3a54373cc53c207f2682dfaadc83735c6884ab70049e8c589eae60db",
+      "values_digest": "e8919d6e55a1c2518738034f2a23b57c336b61e891c57541f0daea7ac30aa060",
       "rendered_digest": "ccdee50175cd6e8bcbd70bc33f38247323d6162c30a64fa14495fec9c07c2ec7",
       "ast_digest": "1ecfc3c22e3087ab5f8f6c2918f1fa1fc337a075b0938995ecf01b91565b72ed"
     },
     "stp": {
-      "values_digest": "e3f2c6dd4f02ce3d0bc4e8205181397b704d5195889f2034775d62919345c440",
+      "values_digest": "efbda85ac00d7dd8ed9ccdba712e4e418032620596ed96cbc7a048ffd9999783",
       "rendered_digest": "98bf94b30192987fcfbb7fcc8449147328f2c0dcb3e370ff91fc18bcd083bd17",
       "ast_digest": "4fcaf6929b544a263f872a8690e3d506a7cc7e3da82f1675aa7cc139c4ea07bf"
     },
     "spp": {
-      "values_digest": "bd52312cdb90a3266bfb9877e19d68d775a6224e92bf197c05ef636aeba236de",
+      "values_digest": "bfb880c7d0bd0f32ba63105da2f0d6664c6a4bf3420893a87da0b46431ba183f",
       "rendered_digest": "99c2c4f56bf8e6d8585da80b5b9417d64d684e467eba12e4cc539ddae5e7f748",
       "ast_digest": "db1b3fdc8fde323bfe9eba3cfc036545690b557de426dac61652e4259a4bb34a"
     },
     "vpp": {
-      "values_digest": "eac9fa12ece01ee816668cfb05229f8feef1d80a00fa1c590e644be48f09d691",
+      "values_digest": "fa0a83b0aa04b0f6b9d9336520b23b09e5284c41184562c3c9adbbcd8f9b893e",
       "rendered_digest": "737c61ff33db0c34bbddd515776bda97fd12aeeb48bf194013f72c98bf84b94b",
       "ast_digest": "fdf4667786ec4c029c14c73aee4cc6baef79c4f1f396e22468511c3bacc5e97f"
     },
     "srp": {
-      "values_digest": "ec5901e454cc4ccf7b571f5b4acb7b8d3d836465f6a6dd218daf97d84cafc7f3",
-      "rendered_digest": "ee351d55bda695718f72106efdb7f3e6ce1c6dc56f7d3a7eabfd7f0567ecaee3",
-      "ast_digest": "031a4d8548c89c8c8e429745f2c1a68ae4f38c71e90541d9d65add69ef2b5f5a"
+      "values_digest": "5d2e26b7c3547ab56ebdd22a5c3206b04636cca3eff0f0a75848102e99b7dde6",
+      "rendered_digest": "8d837061670a0deede26bfe3281d1f46428c3272301cebc8b15de8f017df6d1b",
+      "ast_digest": "35b729b671976968a4a4250087ea3229c853b41ce798d9f78cc87c25c84ec023"
     },
     "sor": {
-      "values_digest": "3cd792d2d77261e6223b4221b12455f54296516eb02b645fce1cb5ace49b9432",
+      "values_digest": "025a0a1b7249924e1b092adf77944daa22805ecc17eeb739b13507b2cf839818",
       "rendered_digest": "75e59712b160974a6452df2b9132bd1972fbd3fd5f77454b68ad4229a1d6f4ad",
       "ast_digest": "523ac5ab853fc1b899e6854f924250e2583d2b9f52345c5816cc5ab5cd1c3f11"
     }
@@ -210,6 +197,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #489 review assignment after fresh-session:4fa94e42-a43c-4841-8393-56fbe7f6af23 returned FAIL with one P2 proof-hygiene finding: committed Terraform validate evidence logs contain trailing blank lines, so git diff --check origin/main..HEAD fails while SOR records patch hygiene as passed. Clear assignment before bounded evidence repair and fresh review.",
+      "operation": "recover_review"
     }
   ]
 }
