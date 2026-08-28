@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".gitignore\n.csdlc/issues/489\n.csdlc/prepared/issues/489\n.csdlc/evidence/489\ninfra/aws/runtime\ndocs/operations/cloud/aws/runtime-platform/README.md\ndocs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
