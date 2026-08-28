@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 489,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-F] AWS Runtime platform modules",
+    "slug": "aws-runtime-platform-modules",
+    "version": "v0.92.1",
+    "generation": 10
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design keep #489 to private AWS Runtime platform modules without absorbing #122, #488, #496, #495, or production cutover work?",
+        "Are no-direct-public-ingress, edge/network/build/node state separation, disposable cleanup, cost/deadline, rollback, and observability specified with machine-checkable proof?",
+        "Does the live AWS readback plan avoid mutation and avoid printing or retaining credentials/sensitive values?",
+        "Are #122 public edge authority and #488 adoption-register authority consumed read-only rather than reclassified?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

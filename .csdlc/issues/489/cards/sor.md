@@ -1,0 +1,123 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 489
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented AWS-F Runtime platform Terraform roots and private Runtime node module with truthful static proof, no live AWS mutation, and committed cache-ignore hygiene.
+
+## Artifacts
+
+- .gitignore
+- infra/aws/runtime/alb-origin
+- infra/aws/runtime/private-node
+- infra/aws/runtime/modules/private-runtime-node
+- infra/aws/runtime/README.md
+- docs/operations/cloud/aws/runtime-platform/README.md
+- docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md
+- .csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh
+- .csdlc/evidence/489
+
+## Execution
+
+- Added issue-owned Terraform root infra/aws/runtime/alb-origin to create or reuse the replaceable Runtime ALB origin while keeping public edge ownership in #122.
+- Added issue-owned Terraform root infra/aws/runtime/private-node and module infra/aws/runtime/modules/private-runtime-node for a private EC2 Spot Runtime node with no public IPv4 address and Runtime ingress only from the ALB security group.
+- Updated AWS-F runbook and proof packet to describe the separate ALB/private-node lifecycle, saved-plan/live-proof gates, zero-residue teardown, and credential redaction boundaries.
+- Tightened the issue-owned validator so postbind proof requires real Terraform files, rejects public Runtime node IPs, rejects committed public ingress CIDR shortcuts, and runs Terraform formatting checks when Terraform is available.
+- Added .gitignore coverage for the new AWS-F Terraform roots so generated .terraform caches, state, tfvars, and tfplan files are not committed.
+- Kept live AWS apply, target-health, external request receipt, and zero-residue readbacks as explicit operator-authorized live-proof gates rather than claiming them from static validation.
+
+## Validation
+
+[
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh",
+      "--phase=postbind"
+    ],
+    "purpose": "Run the issue-owned AWS-F postbind validator covering Terraform roots, no-direct-public-ingress defaults, runbook/proof markers, and static readback posture.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/489/aws-f-runtime-platform-static.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/489/run-aws-f-readbacks.sh",
+      "--lane=static"
+    ],
+    "purpose": "Confirm the #489 readback lane is non-mutating, retains no credential material, and sends no production traffic.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/489/aws-f-readback-static.log"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/runtime/alb-origin",
+      "validate",
+      "-no-color"
+    ],
+    "purpose": "Validate the issue-owned AWS-F ALB origin Terraform root after backend-disabled init.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/489/aws-f-terraform-alb-origin-validate.log"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/runtime/private-node",
+      "validate",
+      "-no-color"
+    ],
+    "purpose": "Validate the issue-owned AWS-F private Runtime node Terraform root after backend-disabled init.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/489/aws-f-terraform-private-node-validate.log"
+  },
+  {
+    "command": [
+      "terraform",
+      "-chdir=infra/aws/runtime",
+      "fmt",
+      "-check",
+      "-recursive"
+    ],
+    "purpose": "Reject Terraform formatting drift under the issue-owned AWS-F runtime platform roots and module.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/489/aws-f-terraform-fmt.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and patch hygiene problems before review.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/489/aws-f-diff-check.log"
+  }
+]
+
+## Integration
+
+worktree_only
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

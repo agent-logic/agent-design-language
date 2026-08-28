@@ -1,0 +1,14 @@
+environment = "dev"
+csm_name    = "wuji"
+vpc_id      = "vpc-REPLACE"
+
+# Use a private subnet. This module never associates a public IPv4 address.
+private_subnet_id = "subnet-private-REPLACE"
+
+# Fill from infra/aws/runtime/alb-origin output.
+alb_security_group_id = "sg-REPLACE"
+
+instance_type = "t3.micro"
+runtime_port  = 20997
+key_name      = null
+user_data     = null

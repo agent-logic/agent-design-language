@@ -1,0 +1,56 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 489
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Issue #489 AWS-F only; produce private AWS Runtime platform modules and focused proof. Do not implement production cutover, public edge ownership, adoption-register changes, CloudFormation retirement, cross-cloud conversion, or Runtime behavior forks.
+
+## Deliverables
+
+- infra/aws/runtime Terraform root/module set
+- docs/operations/cloud/aws/runtime-platform operator runbook
+- docs/milestones/v0.92.1/evidence/cloud/aws-f proof packet
+- .csdlc/prepared/issues/489/validate-aws-f-runtime-platform.sh
+- .csdlc/prepared/issues/489/run-aws-f-readbacks.sh
+- typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth
+
+## Acceptance
+
+1. AC-1: Runtime hosts have no direct public ingress
+2. AC-2: Shared edge, private network, build, and node states remain separated
+3. AC-3: Existing issue #122 owns public Route53, ACM, CloudFront, API Gateway, WAF, WSS, and allowed-origin exposure
+4. AC-4: Disposable deployment and cleanup bind the exact modules
+5. AC-5: Fresh exact-head review has no actionable findings before publication
+
+## Dependencies
+
+- AWS-E #488 terminal/merged adoption register; observed merge a6b404cd6e74d7528745325036ceb1a85fd47bd2
+- issue #122 terminal/closed public edge authority
+
+## Inputs
+
+- docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-F
+- docs/operations/cloud/aws/adoption/AWS_RESOURCE_ADOPTION_REGISTER.md
+- infra/aws/csm-public-edge/
+- infra/aws/modules/csm-runtime-alb/
+- infra/aws/modules/csm-runtime-spot/
+- docs/milestones/v0.92.1/evidence/cloud/aws-e/
+
+## Non Goals
+
+- Production traffic or cutover
+- Public edge ownership
+- AWS resource adoption-register changes
+- CloudFormation retirement
+- Cross-cloud Terraform conversion
+- Runtime behavior fork
+- Credential disclosure
