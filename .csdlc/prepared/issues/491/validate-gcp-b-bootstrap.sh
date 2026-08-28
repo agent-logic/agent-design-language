@@ -30,10 +30,25 @@ need_text() {
 
 reject_text() {
   local needle="$1"
-  if grep -R -Fq --exclude='validate-gcp-b-bootstrap.sh' "$needle" "$repo/.csdlc/prepared/issues/491" "$repo/docs/operations/cloud/gcp/terraform-bootstrap" "$repo/docs/milestones/v0.92.1/evidence/cloud/gcp-b" 2>/dev/null; then
-    echo "forbidden retained secret marker '$needle'" >&2
-    exit 1
-  fi
+  local roots=(
+    "$repo/.csdlc/prepared/issues/491"
+    "$repo/.csdlc/issues/491"
+    "$repo/.csdlc/evidence/491"
+    "$repo/infra/gcp/bootstrap"
+    "$repo/docs/operations/cloud/gcp/terraform-bootstrap"
+    "$repo/docs/milestones/v0.92.1/evidence/cloud/gcp-b"
+  )
+  local file
+  for file in $(find "${roots[@]}" -type f 2>/dev/null); do
+    case "$file" in
+      */.csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh) continue ;;
+      */.terraform/*) continue ;;
+    esac
+    if grep -Fq "$needle" "$file"; then
+      echo "forbidden retained secret marker '$needle' in ${file#"$repo"/}" >&2
+      exit 1
+    fi
+  done
 }
 
 if [[ -f "$repo/.csdlc/prepared/issues/491/design.md" ]]; then
@@ -72,6 +87,10 @@ need_text ".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh" ".csdlc/issue
   need_text "enabled_service_count=" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
   need_text "storage_bucket_count=" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
   need_text "retained_output_redacted=true" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
+  need_text "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
+  need_text "GOOGLE_APPLICATION_CREDENTIALS" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
+  need_text "credential_source=approved_key_file" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
+  need_text "credential_binding_verified=true" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
   need_text "CLOUDSDK_CONFIG" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
   need_text "csdlc-v2/gcloud-config" ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh"
 

@@ -31,6 +31,24 @@ case "$lane" in
     fi
     ;;
   --lane=identity-readonly|identity-readonly)
+    if [[ ! -f "$key_file" ]]; then
+      echo "approved GCP_B_KEY_FILE is missing: $key_file" >&2
+      exit 1
+    fi
+
+    if [[ -n "${CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE:-}" && "$CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE" != "$key_file" ]]; then
+      echo "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE must match approved GCP_B_KEY_FILE" >&2
+      exit 1
+    fi
+
+    if [[ -n "${GOOGLE_APPLICATION_CREDENTIALS:-}" && "$GOOGLE_APPLICATION_CREDENTIALS" != "$key_file" ]]; then
+      echo "GOOGLE_APPLICATION_CREDENTIALS must match approved GCP_B_KEY_FILE" >&2
+      exit 1
+    fi
+
+    export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="$key_file"
+    export GOOGLE_APPLICATION_CREDENTIALS="$key_file"
+
     if [[ -z "${CLOUDSDK_CONFIG:-}" ]] && git_common_dir="$(git rev-parse --git-common-dir 2>/dev/null)"; then
       export CLOUDSDK_CONFIG="$git_common_dir/csdlc-v2/gcloud-config"
       mkdir -p "$CLOUDSDK_CONFIG"
@@ -46,14 +64,12 @@ case "$lane" in
     echo "project_readable=true"
     echo "project_lifecycle_state=$project_state"
     echo "service_account_readable=true"
+    echo "credential_source=approved_key_file"
+    echo "credential_binding_verified=true"
     echo "approved_key_backed_readback=true"
     echo "enabled_service_count=$enabled_service_count"
     echo "storage_bucket_count=$storage_bucket_count"
-    if [[ -f "$key_file" ]]; then
-      echo "key_file_present=true"
-    else
-      echo "key_file_present=false"
-    fi
+    echo "key_file_present=true"
     echo "retained_output_redacted=true"
     ;;
   *)
