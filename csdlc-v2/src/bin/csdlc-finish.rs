@@ -49,6 +49,9 @@ async fn main() {
 }
 
 async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
+    if cli.validate_cached_issue.is_none() {
+        csdlc_v2::verify_installed_owner_preflight(&cli.root)?;
+    }
     if let Some(command) = cli.command {
         return match command {
             Command::RecordlessCloseout { request } => {

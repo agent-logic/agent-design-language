@@ -16,7 +16,15 @@ pub struct SkillManifest {
     pub generation_selector: String,
     #[serde(default)]
     pub operational_binaries: Vec<String>,
+    pub operation_routes: Vec<OperationRoute>,
     pub skills: Vec<SkillRoute>,
+}
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct OperationRoute {
+    pub binary: String,
+    pub operation: String,
+    pub mutates_state: bool,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -146,6 +154,23 @@ pub fn owner_source_set_digest(repo: &Path) -> Result<String> {
                 "owner source path escapes the repository",
             ));
         }
+        let status = crate::git::run(
+            repo,
+            &[
+                "status",
+                "--porcelain=v1",
+                "--untracked-files=all",
+                "--",
+                raw,
+            ],
+        )?
+        .stdout;
+        if status.lines().any(|line| line.starts_with("?? ")) {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                format!("owner source entry contains untracked files: {raw}"),
+            ));
+        }
         let output = crate::git::run(repo, &["ls-files", "--stage", "--", raw])?.stdout;
         if output.trim().is_empty() {
             return Err(V2Error::new(
@@ -244,6 +269,31 @@ impl SkillManifest {
                 return Err(V2Error::new(
                     ErrorCode::InvalidManifest,
                     "all operational executables must be simple typed C-SDLC binary names",
+                ));
+            }
+        }
+        let installed = self.required_binaries();
+        let mut routes = BTreeSet::new();
+        for route in &self.operation_routes {
+            if !installed.contains(&route.binary)
+                || route.operation.is_empty()
+                || !routes.insert((route.binary.clone(), route.operation.clone()))
+            {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidManifest,
+                    "operation routes must be unique and bind installed owner binaries",
+                ));
+            }
+        }
+        for binary in &self.operational_binaries {
+            if !self
+                .operation_routes
+                .iter()
+                .any(|route| &route.binary == binary)
+            {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidManifest,
+                    "every operational binary must declare operation routes",
                 ));
             }
         }
@@ -644,6 +694,7 @@ fn install_binaries_with_revision(
             .map_err(|e| V2Error::new(ErrorCode::Io, e.to_string()))?,
     )
     .map_err(io_error)?;
+    verify_staged_install(&stage, &manifest, &receipt)?;
     let had_destination = destination.exists();
     if had_destination {
         fs::rename(destination, &backup).map_err(io_error)?;
@@ -769,6 +820,39 @@ fn verify_receipt_identity(
     Ok(())
 }
 
+fn verify_staged_install(
+    stage: &Path,
+    manifest: &SkillManifest,
+    receipt: &InstallReceipt,
+) -> Result<()> {
+    let expected = manifest.required_binaries();
+    let observed = receipt
+        .binaries
+        .iter()
+        .map(|entry| entry.name.clone())
+        .collect::<BTreeSet<_>>();
+    if observed != expected || observed.len() != receipt.binaries.len() {
+        return Err(stale_owner_error(
+            "staged executable denominator is incomplete",
+        ));
+    }
+    for entry in &receipt.binaries {
+        let binary = stage.join(&entry.name);
+        if !is_regular_file(&binary)
+            || !is_executable(&binary)
+            || fs::read(&binary)
+                .map(|bytes| blake3::hash(&bytes).to_hex().as_str() != entry.blake3)
+                .unwrap_or(true)
+        {
+            return Err(stale_owner_error(&format!(
+                "staged executable digest differs: {}",
+                entry.name
+            )));
+        }
+    }
+    Ok(())
+}
+
 fn content_provenance(prepared: &[(String, Vec<u8>, fs::Permissions)]) -> String {
     let mut hasher = blake3::Hasher::new();
     for (name, bytes, _) in prepared {
@@ -846,6 +930,14 @@ mod tests {
 
         fs::write(repo.path().join("csdlc-v2/src/lib.rs"), "owner drift\n").unwrap();
         assert_ne!(owner_source_set_digest(repo.path()).unwrap(), baseline);
+
+        fs::write(
+            repo.path().join("csdlc-v2/src/untracked_owner.rs"),
+            "untracked\n",
+        )
+        .unwrap();
+        let error = owner_source_set_digest(repo.path()).unwrap_err();
+        assert!(error.message.contains("contains untracked files"));
     }
 
     fn git(root: &Path, args: &[&str]) {

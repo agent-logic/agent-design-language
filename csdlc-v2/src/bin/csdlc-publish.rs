@@ -52,6 +52,9 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     if matches!(cli.command, Command::Schema) {
         return Ok(csdlc_v2::public_schema_bundle());
     }
+    if matches!(cli.command, Command::Publish { .. }) {
+        csdlc_v2::verify_installed_owner_preflight(&cli.root)?;
+    }
     let request_path = match &cli.command {
         Command::Publish { request } | Command::Status { request } => request,
         Command::Schema => unreachable!(),

@@ -326,6 +326,119 @@ fn installer_records_provenance_without_replacing_other_files() {
 }
 
 #[test]
+fn every_direct_mutating_owner_rejects_before_checkout_mutation_without_receipt() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
+    assert!(repo.join(".adl/worktree-policy.json").is_file());
+    let before = Command::new("git")
+        .current_dir(&repo)
+        .args(["status", "--porcelain=v1", "--untracked-files=all"])
+        .output()
+        .unwrap()
+        .stdout;
+    let output = tempfile::tempdir().unwrap();
+    let missing = output.path().join("missing.json");
+    let cases: Vec<(&str, Vec<String>)> = vec![
+        (
+            "csdlc-clean",
+            vec![
+                "cleanup".into(),
+                "--root".into(),
+                repo.display().to_string(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-finish",
+            vec![
+                "--root".into(),
+                repo.display().to_string(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-publish",
+            vec![
+                "--root".into(),
+                repo.display().to_string(),
+                "publish".into(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-shadow",
+            vec![
+                "--root".into(),
+                repo.display().to_string(),
+                "generate-view".into(),
+                "--issue".into(),
+                "563".into(),
+            ],
+        ),
+        (
+            "csdlc-soak",
+            vec![
+                "generate-samples".into(),
+                "--repo".into(),
+                repo.display().to_string(),
+                "--output".into(),
+                output.path().join("soak").display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-proof",
+            vec![
+                "--repo".into(),
+                repo.display().to_string(),
+                "--manifest".into(),
+                missing.display().to_string(),
+                "--output".into(),
+                output.path().join("proof.json").display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-cutover",
+            vec![
+                "--repo".into(),
+                repo.display().to_string(),
+                "--request".into(),
+                missing.display().to_string(),
+                "--output".into(),
+                output.path().join("cutover.json").display().to_string(),
+            ],
+        ),
+    ];
+    for (binary, args) in cases {
+        let result = Command::new(prebuilt_binaries().join(binary))
+            .args(args)
+            .output()
+            .unwrap();
+        assert!(!result.status.success(), "{binary} unexpectedly succeeded");
+        let combined = format!(
+            "{}{}",
+            String::from_utf8_lossy(&result.stdout),
+            String::from_utf8_lossy(&result.stderr)
+        );
+        assert!(
+            combined.contains("stale owner-binary provenance"),
+            "{binary}: {combined}"
+        );
+        let after = Command::new("git")
+            .current_dir(&repo)
+            .args(["status", "--porcelain=v1", "--untracked-files=all"])
+            .output()
+            .unwrap()
+            .stdout;
+        assert_eq!(
+            after, before,
+            "{binary} changed checkout state before rejection"
+        );
+    }
+}
+
+#[test]
 fn external_cargo_target_is_exact_existing_and_outside_checkout() {
     let repo = tempfile::tempdir().unwrap();
     let external = tempfile::tempdir().unwrap();
