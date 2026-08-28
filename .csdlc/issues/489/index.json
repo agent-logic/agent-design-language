@@ -6,10 +6,23 @@
   "initialization_digest": "711716d4ad01d96be990fae790e7ddfc21afa70e14aa1d99964656baa8e4d074",
   "phase": "implemented",
   "generation": 10,
-  "digest": "4f5984507af40ab285ce9d6ba172db52a24edcf8db7360420bf406e229fe020b",
+  "digest": "1349e6b84fa599b37c231b46b9ad606743ab08eaf13d2164c84c5ebf2b4f0b88",
   "branch": "codex/489-aws-runtime-platform-modules",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-489-aws-runtime-platform-modules",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:4fa94e42-a43c-4841-8393-56fbe7f6af23",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9743e553f5c2b5158ce4231027af1efce4bfd650:94ddada4fc94b5961b9d6d29121ce8921638976da8699966db873fd575bf2605",
+    "scope": [
+      ".gitignore",
+      ".csdlc/issues/489",
+      ".csdlc/prepared/issues/489",
+      ".csdlc/evidence/489",
+      "infra/aws/runtime",
+      "docs/operations/cloud/aws/runtime-platform/README.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +58,9 @@
       "ast_digest": "fdf4667786ec4c029c14c73aee4cc6baef79c4f1f396e22468511c3bacc5e97f"
     },
     "srp": {
-      "values_digest": "7520e9c8fcd48d2fc332485129db8d3339cb7bb71bf9ea700e73d77a9fac0746",
-      "rendered_digest": "8d837061670a0deede26bfe3281d1f46428c3272301cebc8b15de8f017df6d1b",
-      "ast_digest": "35b729b671976968a4a4250087ea3229c853b41ce798d9f78cc87c25c84ec023"
+      "values_digest": "ec5901e454cc4ccf7b571f5b4acb7b8d3d836465f6a6dd218daf97d84cafc7f3",
+      "rendered_digest": "ee351d55bda695718f72106efdb7f3e6ce1c6dc56f7d3a7eabfd7f0567ecaee3",
+      "ast_digest": "031a4d8548c89c8c8e429745f2c1a68ae4f38c71e90541d9d65add69ef2b5f5a"
     },
     "sor": {
       "values_digest": "3cd792d2d77261e6223b4221b12455f54296516eb02b645fce1cb5ace49b9432",
@@ -190,6 +203,13 @@
       "actor": "codex:/root",
       "reason": "Recover #489 review truth before replacing unpublished local branch history. Tip content was reviewed PASS, but an earlier unpublished commit briefly tracked generated Terraform provider cache under .terraform; publishing that history caused push/publication to hang. The branch has no remote PR/head. Preserve the reviewed tree as local backup, squash to a clean publishable head, rerun focused proof, and assign a fresh exact-head reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

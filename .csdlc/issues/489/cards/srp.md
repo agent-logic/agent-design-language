@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+.gitignore
+.csdlc/issues/489
+.csdlc/prepared/issues/489
+.csdlc/evidence/489
+infra/aws/runtime
+docs/operations/cloud/aws/runtime-platform/README.md
+docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md
 
 ## Prompts
 
