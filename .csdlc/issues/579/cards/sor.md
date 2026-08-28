@@ -105,6 +105,16 @@ Remediated #579 exact-review findings by removing the stale SRP review-gate from
     "purpose": "Prove all #579 corrective lanes after remediation: Terraform/public-edge boundary, security-regression guard, proof truth, state-isolation guardrails, and local diff hygiene.",
     "outcome": "passed",
     "evidence_ref": "local stdout: aws-f corrective validation passed: all"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
+      "--lane=all"
+    ],
+    "purpose": "Prove all #579 corrective lanes again after merging current origin/main into the bound worktree: Terraform/public-edge boundary, security-regression guard, proof truth, state-isolation guardrails, and local diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "post-merge local stdout: aws-f corrective validation passed: all; terraform -chdir=infra/aws/runtime fmt -check -recursive exited 0; git diff --check origin/main...HEAD exited 0; csdlc-validate issue 579 PASS"
   }
 ]
 

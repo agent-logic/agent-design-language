@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8fe41a4be3b42f614d852b4f001ffb1eccd6367f489c5928292297866d6f976f",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "387d32180715163bb1d0945e4f337ed099dc639282e7f1c92e0e2c7cd93cbbde",
+  "generation": 16,
+  "digest": "2a3511fc55ea8652ec1db7ee01db712d7313615f0b5709ebd22e5317016521eb",
   "branch": "codex/579-aws-f-corrective-runtime-platform-edge-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-579-aws-f-corrective-runtime-platform-edge-proof-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8666d84345ff1d202f331ffa5184911bbef4b44d95f0896fcf6119a2584fe9f1",
+      "values_digest": "29bf72cdf4fc97c27df3ac470ea0b3f125ccba266e888d268ef947cb9bb0d935",
       "rendered_digest": "34255383575c3c3aea078b5ad1f33029f480c9c070bf17102d1ff5b52206557f",
       "ast_digest": "d79aba3cc3efacc1f54e46f636ef0d14448a7ab00e65460abe4a0e9561e31c2c"
     },
     "stp": {
-      "values_digest": "3cefabd1df791318b49dbb2332c631e5b0df7ec5466b1a982c4136ae9cd52c38",
+      "values_digest": "9ff804ea980fa0a48f1ff8477d781e5779d82ba77a736330ef90601be897f95e",
       "rendered_digest": "75a132bf25c11986913abfb12619819b2535b6e3eb8c12c10e4fdcdf883d54eb",
       "ast_digest": "5f1a9cde41042b937e046672f548508ffc1f06d64cfbdb24e849d19bdfd2e038"
     },
     "spp": {
-      "values_digest": "cbddc7e2fb9825a499e3b2e13ccecf2c5405e075b54989bbbc1e9b5f53062cb9",
+      "values_digest": "44b7707e06bf78ba40f8433ac154c8b569a4e728ce462b6ef7e383d2afc996e6",
       "rendered_digest": "d13937b24c4616f64d06be246d23d06ec8a5b764975bfea7578c58585f458a00",
       "ast_digest": "78428b50426eac48c5cb6136de5e4ec205e626596139d1ca785a03471c0b370c"
     },
     "vpp": {
-      "values_digest": "71aa49d7748692cf1df00f93ceb07b3beb5319dd8c4895917092e30e1c4cd311",
+      "values_digest": "f6405a97c3b5320961c1d5d4b2a588f752c802896c075840ffa464ec945f25fb",
       "rendered_digest": "43fb1ea1bff3e28dcb6bae9f9488ab0a31360bd9144ab1fea9a669906d0b2722",
       "ast_digest": "f99c7f95258d2e8800f7b35ca6c2a21cec687002417dfff2287ad67999f044bd"
     },
     "srp": {
-      "values_digest": "d05e2faf53c83d9415f1a23bfcf625c69b07a8e43947397367f69c03be23419b",
+      "values_digest": "e41d9e4591bc76c14d057641b84df301b8bcda3a174323f0b272a2b5dd87cd23",
       "rendered_digest": "47923253ba21229c9e358a99c51f487ef29ba0142720f6414f6a1c61b7f528f2",
       "ast_digest": "413abf1da275fc5f55970c2ddc8dd929db8a01b25c9bf10dee9eb5a31795efc8"
     },
     "sor": {
-      "values_digest": "adce2d8a9dd8be19bcf2eb1287c1b3ae0a8f5eb7387173c8e92a5da4ffb89eea",
-      "rendered_digest": "d04922f2569c44c5610fc89140a76b0a3901195e40243de4d406e5468da28548",
-      "ast_digest": "1fbac355319d614226999f6af7e591dfeadef06dceac26fbe9e2a124c8f2e2f7"
+      "values_digest": "b5644c423548d565f74cd4c977895f095027d1133385776671d9af0cf46c1726",
+      "rendered_digest": "f803549816ff8dc0052719d1b45a8b7358421b62813923c52fc84fa28b0d05ac",
+      "ast_digest": "770e0f72ba2079d59799a7743f50eacdc2b7a4586dd7e3d9565ba53ff2859e1b"
     }
   },
   "transitions": [
@@ -211,6 +211,13 @@
       "actor": "codex:/root",
       "reason": "Recover interrupted #579 review assignment before current-main resync; no verdict was accepted and publication requires an exact current-base reviewed head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record #579 post-merge all-lane corrective validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=all\"],\"purpose\":\"Prove all #579 corrective lanes again after merging current origin/main into the bound worktree: Terraform/public-edge boundary, security-regression guard, proof truth, state-isolation guardrails, and local diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"post-merge local stdout: aws-f corrective validation passed: all; terraform -chdir=infra/aws/runtime fmt -check -recursive exited 0; git diff --check origin/main...HEAD exited 0; csdlc-validate issue 579 PASS\"}}"
     }
   ]
 }
