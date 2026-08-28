@@ -53,12 +53,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The v3 foundation importer remains read-only and non-authoritative; full v2 lifecycle enum/schema enforcement and authority cutover remain later v3 slices.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c7439484b8b783fdc1d36e8480d8178e848dbdc8:49aaa4af3abb66686c9f5582e067415e387183509407077e948f96d88836cec3")
 
-Reviewer: None
+Reviewer: Some("issue_501_import_fix_review")
 
-Result: pre_review
+Result: pass

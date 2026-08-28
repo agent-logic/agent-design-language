@@ -3,9 +3,9 @@
   "issue": 501,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "fa47f9e1a7c307834334da4c81dfafe2d87aa0b8271f54e3640f9c7b107d53fd",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "9c6c3a5b65015260e6fe5232b8d067118bfd3ac71d4847ef5d0c91f020e6b006",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "01f61bebf4a3c87bd3ffaeed211189a8db4acb6d728092eeaa550505a0b762f3",
   "branch": "codex/501-v3-b-csdlc-v3-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation",
   "review_assignment": {
@@ -38,7 +38,41 @@
       "csdlc-v3/tests/foundation.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "issue_501_import_fix_review",
+    "scope": [
+      ".csdlc/issues/501/audit.jsonl",
+      ".csdlc/issues/501/cards/sip.md",
+      ".csdlc/issues/501/cards/sip.values.json",
+      ".csdlc/issues/501/cards/sor.md",
+      ".csdlc/issues/501/cards/sor.values.json",
+      ".csdlc/issues/501/cards/spp.md",
+      ".csdlc/issues/501/cards/spp.values.json",
+      ".csdlc/issues/501/cards/srp.md",
+      ".csdlc/issues/501/cards/srp.values.json",
+      ".csdlc/issues/501/cards/stp.md",
+      ".csdlc/issues/501/cards/stp.values.json",
+      ".csdlc/issues/501/cards/vpp.md",
+      ".csdlc/issues/501/cards/vpp.values.json",
+      ".csdlc/issues/501/index.json",
+      ".csdlc/prepared/issues/501/design.md",
+      ".csdlc/prepared/issues/501/diagram.mmd",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/src/application/mod.rs",
+      "csdlc-v3/src/bin/csdlc-v3-foundation.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/repository/mod.rs",
+      "csdlc-v3/tests/foundation.rs"
+    ],
+    "reviewed_revision": "git-blake3:c7439484b8b783fdc1d36e8480d8178e848dbdc8:49aaa4af3abb66686c9f5582e067415e387183509407077e948f96d88836cec3",
+    "findings": [],
+    "residual_risks": [
+      "The v3 foundation importer remains read-only and non-authoritative; full v2 lifecycle enum/schema enforcement and authority cutover remain later v3 slices."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -53,32 +87,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c1b8759a8535f623b54335fb4e93c9363b9cf6a6139f173c3b52ea5b53221ad0",
+      "values_digest": "087d22e62573752a230357b34fb5f8bb5e7546c05698e079c2b18dffeaed0d11",
       "rendered_digest": "b8660f4e6e0d079ae8cf6904876e9e4b8ae0e70e39511ab4ba7ab5f01e49ac0e",
       "ast_digest": "0f09c92931040cbf6e052470e0b5a7c14f445971c53def3a2509c41272c8bd0f"
     },
     "stp": {
-      "values_digest": "4f85348bb92c304228ba9ecba66cdd25a192dee2f9dff071abb29ddd5245e6b9",
+      "values_digest": "f8732eed4782fa2da31b9009ff492da77b22736251022407597051876354ef52",
       "rendered_digest": "692b12b09ccdd83269cd7cc1f26b01e2ebb97f78b19c4ed173001ed113d70a4a",
       "ast_digest": "3a5825e3602aa17d4b35cf55a20edf71f272eb00d7cb2ed369cf855d747c7e1d"
     },
     "spp": {
-      "values_digest": "c3a10fec173f74f5a79feb2facb260c70273e722e124d62a98629066579576eb",
+      "values_digest": "06bca02e2de70e3ec89c32668db6052bb0ceeab83da75a500be2dacfa2ed31bc",
       "rendered_digest": "a1e98ad4dda0219acced2a5fe3a050a60929e6b8ffac2ddd1955cded5028d110",
       "ast_digest": "73afe27f73b912170120681cd553950c602e4af38c4f3f3e282655463951477f"
     },
     "vpp": {
-      "values_digest": "70e9f5a2d8eb9b4a4b3c73fad2b13f0bd6830691faefd7f2f0aed290dba9561c",
+      "values_digest": "52ddbd23575d285ab9aa46b5188c1529d26060d6e731827b3f8f1279900fc6de",
       "rendered_digest": "d89e7ed8e040fbdb8811c1feca387f1b274ba0ddf4070ec24ed4ef26c085dd9a",
       "ast_digest": "83595baa407f8f5f553792d3b3025ced1b826524b6522c605267ca8fec3f9442"
     },
     "srp": {
-      "values_digest": "44557468388e04d8870c86b4805189c749b2cc086ccdb92505afe659adc955f9",
-      "rendered_digest": "8c1baedb2763ce97abdbe1a606a26d1b41e888bb27a72e8d8f99b15aadd4ebef",
-      "ast_digest": "6309d9f9b954ea5ec19b9b18d1acbbb79d29954595ed8a36814227d66ec3cdc1"
+      "values_digest": "673a553608b181da7a9c92e7df7f210efc3cd667d37b97ac16c23b613d493d16",
+      "rendered_digest": "e5c6779602917d8be2f6fffbe6a3ef519e428fb54da96ecb1593a4c301978c72",
+      "ast_digest": "b7530ad1526feb6b426b4e7ffb37e9862c66612dff516b66ed9cc29e50f4df22"
     },
     "sor": {
-      "values_digest": "846f5cf5e78f42850936c3417db163cd9d2620d35d6d1b17c038d2849c4b3c92",
+      "values_digest": "dcec69ee6b0b519ca2d69e213c19ac0049a181b2b6537780c8d5ae9ecbb318d2",
       "rendered_digest": "154b95a72fa6ab5b2d629aef05ec28fab8f1e6fa832f5b2ded21e7667cb6a3cc",
       "ast_digest": "51fb803272b45340368ee503c95973324d2a34ed74c0cfc0b9c4ab933326bae9"
     }
@@ -125,6 +159,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #501 review/publication truth after review-fix commit 70bc42a24c23b58d943a2a30b84e471cb56fb9e9 changed the substantive PR head for #568."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -302,6 +343,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
