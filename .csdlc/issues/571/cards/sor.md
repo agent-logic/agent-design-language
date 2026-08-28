@@ -36,11 +36,11 @@ Implemented the V3-A corrective follow-up for #571 at commit 3a2482e59 by adding
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
