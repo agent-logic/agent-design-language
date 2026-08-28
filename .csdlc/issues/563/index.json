@@ -3,15 +3,15 @@
   "issue": 563,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "146e64ab29fdcf94e027ce529b589bdee497f39f8d10d7c2b5a68e5904366342",
-  "phase": "published",
-  "generation": 25,
-  "digest": "b16582f3d01b32b6c63acd17722ff0d3a25eb2ffe9565ad779ce93c3072124a5",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "9b8bdaaaf0432376f088befb109c8db098097fae829a012074ebf3a59ff55375",
   "branch": "codex/563-stale-owner-binary-primary-checkout-guard",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-563-stale-owner-binary-primary-checkout-guard",
   "review_assignment": {
-    "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
-    "assigned_by": "codex:563-execution",
-    "revision": "git-blake3:a7e667e0b28526ea324f31438b13e5624e39b269:e6805f6e0bc2a128728eb84d5787d4fcc59879980b2beaf10a90e8d0109db450",
+    "reviewer": "vertex:gemini-3.1-pro-preview",
+    "assigned_by": "codex:563-ci-janitor",
+    "revision": "git-blake3:09fd782985f4e5483f96ee8015ec54e59454332d:65f0c1290a292b2ef58b7d481d4fa28e8593b2be77e6780fd39492831a641b5a",
     "scope": [
       "csdlc-v2/operator/owner-source-set.json",
       "csdlc-v2/operator/skills.json",
@@ -19,12 +19,13 @@
       "csdlc-v2/src/store.rs",
       "csdlc-v2/src/lifecycle.rs",
       "csdlc-v2/src/bin",
+      "csdlc-v2/tests/gate2.rs",
       "csdlc-v2/tests/gate10a.rs",
       "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
+    "reviewer": "vertex:gemini-3.1-pro-preview",
     "scope": [
       "csdlc-v2/operator/owner-source-set.json",
       "csdlc-v2/operator/skills.json",
@@ -32,30 +33,20 @@
       "csdlc-v2/src/store.rs",
       "csdlc-v2/src/lifecycle.rs",
       "csdlc-v2/src/bin",
+      "csdlc-v2/tests/gate2.rs",
       "csdlc-v2/tests/gate10a.rs",
       "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs"
     ],
-    "reviewed_revision": "git-blake3:a7e667e0b28526ea324f31438b13e5624e39b269:e6805f6e0bc2a128728eb84d5787d4fcc59879980b2beaf10a90e8d0109db450",
+    "reviewed_revision": "git-blake3:09fd782985f4e5483f96ee8015ec54e59454332d:65f0c1290a292b2ef58b7d481d4fa28e8593b2be77e6780fd39492831a641b5a",
     "findings": [],
     "residual_risks": [
       "Hosted CI remains the final pre-merge integration gate.",
-      "The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests."
+      "The full local suite reached an unrelated shared-git derived-terminal cache mismatch for issue 298; a clean hosted checkout does not inherit that mutable cache."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 563,
-    "pull_request": 569,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/569",
-    "base": "main",
-    "head": "codex/563-stale-owner-binary-primary-checkout-guard",
-    "revision": "git-blake3:a7e667e0b28526ea324f31438b13e5624e39b269:e6805f6e0bc2a128728eb84d5787d4fcc59879980b2beaf10a90e8d0109db450",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -69,34 +60,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0ec28f3e69ba391a2755f07ee9c963e63d0d8955af570d04130ad50ca6aae9af",
+      "values_digest": "f5b2ccfe86d6c4c09b41bc5b3e1090e91a1b8c777b5ce2271d0099dcc78f8cee",
       "rendered_digest": "22792da655fe8b18c321a37e8c9d22ddc854be5ce33cb42812dd3e0a23f26ccf",
       "ast_digest": "fb55594659d4d81f00853fee5cfc2d89a134c8951d4558ecb9da67d81d9524a6"
     },
     "stp": {
-      "values_digest": "c72c5bdf33dc4b05dda63c3e9656a99596c26a72aa812ae329cbcdd8d410d492",
+      "values_digest": "f027c141244bbe9655cdbfb9dd5cab0684e50bc486e56bfdca9e1a9c6d6b5aec",
       "rendered_digest": "061a5b568a7f14274a7668f8ac705876d07d8496a7e700d4073acec1efa90daf",
       "ast_digest": "68fe760b8e36cf549e89bfbc6cc82a2dd838a00e428dd545493ba908b759d479"
     },
     "spp": {
-      "values_digest": "2d0a73afd00cb7466a227945c79679451dafb8e968aee107c6cd5c807310df82",
+      "values_digest": "c2c86c1f9457d83a9fea2e317209ec9b134472e0b23521e57a241d18d34bcf5f",
       "rendered_digest": "794181e919534014e093c7ce77e43600c618719edf3f9162e1269c3bf31c194e",
       "ast_digest": "dd37183ccffa7d2dbb00eb20d99d073d008f0e1d942ada6e17d5f6fd24460fcc"
     },
     "vpp": {
-      "values_digest": "e92eee4f071f444a3b611313a180b8803e09dea25ca3088161cac62c801b9ec7",
+      "values_digest": "c63818d284fcb9e68d202fff4f2c7db425e64caedce96f5b1666a51267db06b3",
       "rendered_digest": "e5afe23636589ac51d463c1c68116add49bf73ade75a17ede0bcac1e30af5dfa",
       "ast_digest": "d41ddd5c1bcc9dd7deeb8091592024f78b97f47e1e82f321b148567bfd95c95c"
     },
     "srp": {
-      "values_digest": "f79703ec0d8bbed8c7ddf9febf733cabd32e6919f025e54a1f5f840f03537cf9",
-      "rendered_digest": "1cfd5b948912c5d3bf90029225547a89b1e176608460d4d3b95782f9b82423fc",
-      "ast_digest": "9ee574f8283ba58ea17e4fac59840b9b9744c4136330fb7da1064a403d13b6af"
+      "values_digest": "040e1ed4fd98e1238e210a4daf137da4ba98e7e983a9bb69fc2a416d5c311eda",
+      "rendered_digest": "7c8398ae9a1c9bd3efd29f05cf3657dc71019e3ec1185b1de00d6dd2cfa53478",
+      "ast_digest": "4d593848882205de34fdcb4d4c44bd79e0f2672cc20c76b8da55de3f211ea947"
     },
     "sor": {
-      "values_digest": "ced0e30dc84b8a36b498e980f5e2cf7bd636f03eaeb8e97bc6d132c64124c44f",
-      "rendered_digest": "ec4e056a28a1999abf965007ddf76ac93a4fecf1cd63034ae48fad7b3946b7bd",
-      "ast_digest": "1e69a04d53015397ba739998bc7e9b7d90ba446aea9e93980d5c1630321fe15c"
+      "values_digest": "a4a23bbfaf496089e1cbccd2cb9e97649ee4746005051de52f12ef7d674d2445",
+      "rendered_digest": "13ec4c0bbeebdaafd1d47a6c85c96df5f753bdd5e2696f04a7d6d8995f346a6c",
+      "ast_digest": "7b45653971853d708a3adb753aaf095c0dbbe5ca663c3e8eec301c02664851b7"
     }
   },
   "transitions": [
@@ -190,6 +181,20 @@
       "to": "published",
       "actor": "codex:563-execution",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:563-ci-janitor",
+      "reason": "Recover stale review and publication truth after the substantive CI repair so exact-head Vertex Gemini 3.1 Pro review can be recorded before republication."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:563-ci-janitor",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -416,6 +421,27 @@
       "actor": "codex:563-execution",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:563-ci-janitor",
+      "reason": "Recover stale review and publication truth after the substantive CI repair so exact-head Vertex Gemini 3.1 Pro review can be recorded before republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 26,
+      "actor": "codex:563-ci-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "codex:563-ci-janitor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
