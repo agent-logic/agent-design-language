@@ -264,6 +264,38 @@ impl SkillManifest {
                 }
             }
         }
+        let observed_skills = self
+            .skills
+            .iter()
+            .map(|route| {
+                (
+                    route.binary.as_str(),
+                    route.subcommand.as_deref(),
+                    route.mutates_state,
+                )
+            })
+            .collect::<BTreeSet<_>>();
+        let expected_skills = [
+            ("csdlc-issue", Some("create"), true),
+            ("csdlc-bind", None, true),
+            ("csdlc-edit", Some("apply"), true),
+            ("csdlc-validate", None, true),
+            ("csdlc-review", None, true),
+            ("csdlc-publish", None, true),
+            ("csdlc-finish", None, true),
+            ("csdlc-clean", None, true),
+            ("csdlc-github", Some("run"), true),
+            ("csdlc-shepherd", None, false),
+            ("csdlc-doctor", None, false),
+        ]
+        .into_iter()
+        .collect::<BTreeSet<_>>();
+        if observed_skills != expected_skills {
+            return Err(V2Error::new(
+                ErrorCode::InvalidManifest,
+                "skill command classification differs from the canonical owner inventory",
+            ));
+        }
         for binary in &self.operational_binaries {
             if !binary.starts_with("csdlc-") || binary.contains('/') {
                 return Err(V2Error::new(
@@ -271,6 +303,52 @@ impl SkillManifest {
                     "all operational executables must be simple typed C-SDLC binary names",
                 ));
             }
+        }
+        let expected_routes = [
+            ("csdlc-clean", "cleanup", true),
+            ("csdlc-clean", "compatibility-index", true),
+            ("csdlc-clean", "materialize-terminal", true),
+            ("csdlc-clean", "validate-census", false),
+            ("csdlc-clean", "schema", false),
+            ("csdlc-finish", "finish", true),
+            ("csdlc-finish", "historical-finish", true),
+            ("csdlc-finish", "recordless-closeout", true),
+            ("csdlc-finish", "validate-cached-issue", false),
+            ("csdlc-publish", "publish", true),
+            ("csdlc-publish", "status", false),
+            ("csdlc-publish", "schema", false),
+            ("csdlc-github-issue", "issue-write", true),
+            ("csdlc-github-issue", "issue-read", false),
+            ("csdlc-github-pr", "state", false),
+            ("csdlc-pr-state", "state", false),
+            ("csdlc-shadow", "compare", false),
+            ("csdlc-shadow", "generate-view", true),
+            ("csdlc-shadow", "schema", false),
+            ("csdlc-soak", "generate-samples", true),
+            ("csdlc-soak", "decide-with-output", true),
+            ("csdlc-soak", "decide-without-output", false),
+            ("csdlc-soak", "schema", false),
+            ("csdlc-proof", "run", true),
+            ("csdlc-cutover", "run", true),
+        ]
+        .into_iter()
+        .collect::<BTreeSet<_>>();
+        let observed_routes = self
+            .operation_routes
+            .iter()
+            .map(|route| {
+                (
+                    route.binary.as_str(),
+                    route.operation.as_str(),
+                    route.mutates_state,
+                )
+            })
+            .collect::<BTreeSet<_>>();
+        if observed_routes != expected_routes {
+            return Err(V2Error::new(
+                ErrorCode::InvalidManifest,
+                "operation classification differs from the canonical command inventory",
+            ));
         }
         let installed = self.required_binaries();
         let mut routes = BTreeSet::new();
