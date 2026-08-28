@@ -139,7 +139,6 @@ pub fn decide(
         ) => allow(
             LifecycleState::Implemented,
             [
-                ProjectionInvalidation::Readiness,
                 ProjectionInvalidation::Review,
                 ProjectionInvalidation::Publication,
                 ProjectionInvalidation::Terminal,
@@ -280,56 +279,6 @@ fn required_capability(command: LifecycleCommand) -> Option<Capability> {
         LifecycleCommand::Cleanup => Some(Capability::TerminalReceipt),
         LifecycleCommand::AssignReview | LifecycleCommand::RecoverReview => None,
     }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub struct ReviewRecoveryProvenance {
-    pub actor: String,
-    pub reason: String,
-    pub stale_review_revision: String,
-}
-
-impl ReviewRecoveryProvenance {
-    pub fn new(
-        actor: impl Into<String>,
-        reason: impl Into<String>,
-        stale_review_revision: impl Into<String>,
-    ) -> Result<Self, ProvenanceError> {
-        let provenance = Self {
-            actor: actor.into(),
-            reason: reason.into(),
-            stale_review_revision: stale_review_revision.into(),
-        };
-        if provenance.actor.trim().is_empty()
-            || provenance.reason.trim().is_empty()
-            || provenance.stale_review_revision.trim().is_empty()
-        {
-            return Err(ProvenanceError::MissingRecoveryField);
-        }
-        Ok(provenance)
-    }
-
-    pub fn audit_provenance(&self) -> String {
-        format!(
-            "review_recovery actor={} reason={} stale_review_revision={}",
-            escape_provenance_field(&self.actor),
-            escape_provenance_field(&self.reason),
-            escape_provenance_field(&self.stale_review_revision)
-        )
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ProvenanceError {
-    MissingRecoveryField,
-}
-
-fn escape_provenance_field(value: &str) -> String {
-    value
-        .replace('\\', "\\\\")
-        .replace('\n', "\\n")
-        .replace('|', "\\|")
-        .replace(' ', "\\s")
 }
 
 impl fmt::Display for LifecycleState {

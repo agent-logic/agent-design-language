@@ -2,9 +2,6 @@ use crate::lifecycle::{
     decide, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
     TransitionOutcome,
 };
-use std::fs::{self, File, OpenOptions};
-use std::io::Write;
-use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct StateRecord {
@@ -80,8 +77,6 @@ pub enum StoreError {
     ProjectionRepairRequired,
     RejectedTransition,
     InvalidRecordDigest,
-    LockUnavailable,
-    Io(String),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -205,156 +200,6 @@ impl TransactionStore {
             }
         }
     }
-}
-
-pub struct DurableTransactionStore {
-    store: TransactionStore,
-    directory: PathBuf,
-    _lock: StoreLock,
-}
-
-impl DurableTransactionStore {
-    pub fn create(directory: impl AsRef<Path>, initial: StateRecord) -> Result<Self, StoreError> {
-        let directory = directory.as_ref().to_path_buf();
-        fs::create_dir_all(&directory).map_err(io_error)?;
-        let lock = StoreLock::acquire(&directory)?;
-        let store = TransactionStore::new(initial)?;
-        write_state_atomically(&directory, store.committed())?;
-        sync_directory(&directory)?;
-        Ok(Self {
-            store,
-            directory,
-            _lock: lock,
-        })
-    }
-
-    pub fn committed(&self) -> &StateRecord {
-        self.store.committed()
-    }
-
-    pub fn journal(&self) -> &[TransactionIntent] {
-        self.store.journal()
-    }
-
-    pub fn begin(
-        &self,
-        command: LifecycleCommand,
-        capabilities: &CapabilitySet,
-        expected_generation: u64,
-        expected_digest: impl Into<String>,
-        provenance: impl Into<String>,
-    ) -> Result<StagedTransaction, StoreError> {
-        self.store.begin(
-            command,
-            capabilities,
-            expected_generation,
-            expected_digest,
-            provenance,
-        )
-    }
-
-    pub fn commit(
-        &mut self,
-        transaction: StagedTransaction,
-        projection_write: ProjectionWrite,
-    ) -> Result<CommitResult, StoreError> {
-        append_intent(&self.directory, &transaction.intent)?;
-        let result = self.store.commit(transaction, projection_write)?;
-        write_state_atomically(&self.directory, self.store.committed())?;
-        sync_directory(&self.directory)?;
-        Ok(result)
-    }
-}
-
-struct StoreLock {
-    path: PathBuf,
-}
-
-impl StoreLock {
-    fn acquire(directory: &Path) -> Result<Self, StoreError> {
-        let path = directory.join("state.lock");
-        match OpenOptions::new().write(true).create_new(true).open(&path) {
-            Ok(mut lock) => {
-                writeln!(lock, "pid={}", std::process::id()).map_err(io_error)?;
-                lock.sync_all().map_err(io_error)?;
-                Ok(Self { path })
-            }
-            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
-                Err(StoreError::LockUnavailable)
-            }
-            Err(error) => Err(io_error(error)),
-        }
-    }
-}
-
-impl Drop for StoreLock {
-    fn drop(&mut self) {
-        let _ = fs::remove_file(&self.path);
-    }
-}
-
-fn append_intent(directory: &Path, intent: &TransactionIntent) -> Result<(), StoreError> {
-    let mut file = OpenOptions::new()
-        .create(true)
-        .append(true)
-        .open(directory.join("intents.jsonl"))
-        .map_err(io_error)?;
-    writeln!(file, "{}", intent_json(intent)).map_err(io_error)?;
-    file.sync_all().map_err(io_error)
-}
-
-fn write_state_atomically(directory: &Path, state: &StateRecord) -> Result<(), StoreError> {
-    let temp_path = directory.join("state.json.tmp");
-    let final_path = directory.join("state.json");
-    {
-        let mut file = File::create(&temp_path).map_err(io_error)?;
-        write!(file, "{}", state_json(state)).map_err(io_error)?;
-        file.sync_all().map_err(io_error)?;
-    }
-    fs::rename(&temp_path, &final_path).map_err(io_error)
-}
-
-fn sync_directory(directory: &Path) -> Result<(), StoreError> {
-    File::open(directory)
-        .and_then(|directory| directory.sync_all())
-        .map_err(io_error)
-}
-
-fn state_json(state: &StateRecord) -> serde_json::Value {
-    serde_json::json!({
-        "schema": "csdlc.v3.state_record.v1",
-        "generation": state.generation,
-        "digest": state.digest,
-        "state": state.state.to_string(),
-        "projections_repair_required": state.projections_repair_required,
-        "invalidated_projections": state.invalidated_projections.iter().map(|value| format!("{value:?}")).collect::<Vec<_>>(),
-        "audit": state.audit.iter().map(audit_json).collect::<Vec<_>>(),
-    })
-}
-
-fn audit_json(event: &AuditEvent) -> serde_json::Value {
-    serde_json::json!({
-        "generation": event.generation,
-        "command": format!("{:?}", event.command),
-        "from": event.from.to_string(),
-        "to": event.to.to_string(),
-        "invalidates": event.invalidates.iter().map(|value| format!("{value:?}")).collect::<Vec<_>>(),
-        "provenance": event.provenance,
-    })
-}
-
-fn intent_json(intent: &TransactionIntent) -> serde_json::Value {
-    serde_json::json!({
-        "schema": "csdlc.v3.transaction_intent.v1",
-        "expected_generation": intent.expected_generation,
-        "expected_digest": intent.expected_digest,
-        "command": format!("{:?}", intent.command),
-        "provenance": intent.provenance,
-    })
-}
-
-fn io_error(error: std::io::Error) -> StoreError {
-    StoreError::Io(error.to_string())
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
