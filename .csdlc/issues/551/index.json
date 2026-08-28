@@ -1,0 +1,109 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 551,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
+  "phase": "initialized",
+  "generation": 6,
+  "digest": "def65428d0cbafa72c5d150f3bcb69e8339b113039084457941c3c154b2556c3",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/551/design.md",
+  "diagram_path": ".csdlc/prepared/issues/551/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:1604b0a6-0aa3-45fe-a787-913293c3a462",
+      "revision": "b2c91d643963cd508d4ab398ca6d170640fad16af9ac2210c69293d12eefcf74"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "63cb1f44cc5120373f4113f13757be1938b56df554e91a4a32e5613027409a4e",
+      "rendered_digest": "fe982da8e6dae044aed95635c5a561f031c9059537ab280cbaca24cca93c6225",
+      "ast_digest": "043062c7e459ed1fa63f067b70a16da3e3cbfa928284234a71c15f69420df5fa"
+    },
+    "stp": {
+      "values_digest": "6ca4f246d1805ffc974fbccabc300ca731f60b566352378c15509b87ac5186df",
+      "rendered_digest": "e3b1cd0e8ec59f733422aa6917b2ce77a9badb31bcff6064d42a910112bb988c",
+      "ast_digest": "4962f1c73634f7be7ed9f8b8fea35d040ade5348698341a5ded7febe7edcf7a9"
+    },
+    "spp": {
+      "values_digest": "71ac2f6d3a65fc9f66f7566e67d1066862a5599a4ffa6c1066d80cf3625a84b8",
+      "rendered_digest": "d0bc46786b098d8f6a169db5a9a6f50d2998b1758784cf66ea1d205b00cd996a",
+      "ast_digest": "57d3ed6d2e91966ae70e8040b209c6b4995db9eb9af6ecbb275569fcf4ac2340"
+    },
+    "vpp": {
+      "values_digest": "65c0170aa0b344daced9ccfe457f77c8408d63a81880c8b7877f5d4843ba64ef",
+      "rendered_digest": "e0a6143f7d458acb2cfc6c5202ac31a21ea114e3ec904bd82f3fa841a5cb590a",
+      "ast_digest": "869f666f242c59e619d2010d11f57e071e4bd3f0a5187a1ac6caf5c5fb8b5420"
+    },
+    "srp": {
+      "values_digest": "d752af1b8297a639ec30756e0241d987f624184fd22a0b1c7b68cf6fc75895d9",
+      "rendered_digest": "bf5bfd549e6286c09254d6c2601acb7a64cb39579b9c353915e6f56a8db11422",
+      "ast_digest": "5fed2f4ca9e9bb72261beb2d7c0291cb7793414c55aae8f736a6c440d73aa9d4"
+    },
+    "sor": {
+      "values_digest": "13a280487cc750f174264c3423592310fb09438830e466b81ee8f7087259ae3e",
+      "rendered_digest": "efdf3d5ac92d2e8402c7a3ea2d997425bc44edbedd109fa2878ce5626edfdba6",
+      "ast_digest": "581d0c9a7e252d060b2aaf2ee1596c17a58008b82a684eacd27413757f61a4c8"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Replace semantic area labels with the exact safe repository-owned implementation and proof path denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/index.html\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/polis_identity.test.mjs\",\".csdlc/prepared/issues/551\",\".csdlc/evidence/551\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Close design-review findings for duplicate identity input, bounded reload diagnostics, explicit v3 compatibility, and nonzero proof.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/551/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/551/diagram.mmd\",\"new_design_digest\":\"b2c91d643963cd508d4ab398ca6d170640fad16af9ac2210c69293d12eefcf74\",\"new_diagram_digest\":\"83190a476d94924a172ff44fc87d5917f53751466c314f60ff6dbebfc2f8fce7\",\"old_design_digest\":\"ca65bf65afa3eb3202d6bd18540a01240aea294aeaded9d9e6152d1345547f51\",\"old_diagram_digest\":\"83190a476d94924a172ff44fc87d5917f53751466c314f60ff6dbebfc2f8fce7\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Startup rejects missing duplicated malformed or endpoint-inconsistent identity\",\"AC-2: Feed v3 exposes exact redacted configured identity and public endpoints while legacy v1 and v2 remain explicit compatibility-only contracts\",\"AC-3: HTML renders feed values without URL inference or deployment constants\",\"AC-4: Display-name-only reload is atomic and invalid or restart-gated edits retain last-known-good with bounded redacted diagnostics\",\"AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass\"]}}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Correct the OpenAPI contract path and include its existing exact contract-test authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/index.html\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/polis_identity.test.mjs\",\".csdlc/prepared/issues/551\",\".csdlc/evidence/551\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Replace zero-selectable filtered commands with explicit nonzero targets and add control OpenAPI diagnostics formatting and HTML denominator proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"polis-config\",\"proof_role\":\"Prove valid duplicate invalid mismatch diagnostics and reload-retention configuration behavior with a nonzero target.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--no-tests=fail\",\"-E\",\"test(polis_identity)\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"The named polis_identity cases are #551 implementation deliverables.\"},{\"lane\":\"polis-feed-control-openapi\",\"proof_role\":\"Run exact nonzero control Observatory and OpenAPI targets to prove v3 projection bounded reload diagnostics and explicit v1 v2 compatibility.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3500,\"argv\":[\"bash\",\".csdlc/prepared/issues/551/validate-runtime-polis.sh\"],\"parallel_group\":\"runtime\",\"defer_reason\":\"The issue-owned wrapper and named control Observatory and OpenAPI cases are #551 implementation deliverables.\"},{\"lane\":\"html-polis-identity\",\"proof_role\":\"Run the exact Node file and reject a zero-test TAP result while proving feed-owned HTML rendering.\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/551/validate-html-polis.sh\"],\"parallel_group\":\"html\",\"defer_reason\":\"The issue-owned wrapper and Node test file are #551 implementation deliverables.\"},{\"lane\":\"rust-format\",\"proof_role\":\"Prove Rust formatting for the exact workspace.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact branch diff hygiene.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Declare the exact issue-owned nonzero proof entrypoints rather than only their parent directory.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/index.html\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/polis_identity.test.mjs\",\".csdlc/prepared/issues/551/validate-runtime-polis.sh\",\".csdlc/prepared/issues/551/validate-html-polis.sh\",\".csdlc/evidence/551\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "fresh-session:1604b0a6-0aa3-45fe-a787-913293c3a462",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"b2c91d643963cd508d4ab398ca6d170640fad16af9ac2210c69293d12eefcf74\",\"design_ref\":\".csdlc/prepared/issues/551/design.md\",\"diagram_digest\":\"83190a476d94924a172ff44fc87d5917f53751466c314f60ff6dbebfc2f8fce7\",\"diagram_ref\":\".csdlc/prepared/issues/551/diagram.mmd\",\"operation\":\"approve_design\"}"
+    }
+  ]
+}

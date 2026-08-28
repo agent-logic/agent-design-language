@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 551,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
+    "slug": "runtime-polis-config-owned-name-domain",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #551 Runtime configuration, feed, reload, HTML, tests, evidence, and lifecycle paths only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is durable identity separate from presentation?",
+        "Are restart-gated fields rejected on reload?",
+        "Does HTML use only the feed identity?",
+        "Is Unity absent from the diff?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
