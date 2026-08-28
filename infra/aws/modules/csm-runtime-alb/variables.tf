@@ -18,26 +18,14 @@ variable "origin_fqdn" {
   type        = string
 }
 
-variable "hosted_zone_id" {
-  description = "Optional Route53 hosted zone id for origin_fqdn DNS and ACM validation."
-  type        = string
-  default     = null
-}
-
-variable "create_dns_record" {
-  description = "Create an alias record for origin_fqdn pointing at the ALB."
-  type        = bool
-  default     = true
-}
-
 variable "certificate_arn" {
-  description = "Regional ACM certificate ARN for origin_fqdn. Reuse one cert across ALB create/destroy cycles; set create_certificate=true only for an intentional first-time cert request."
+  description = "Regional ACM certificate ARN for origin_fqdn. AWS-F consumes an existing certificate; #122 owns public certificate issuance."
   type        = string
   default     = null
 }
 
 variable "reuse_existing_certificate" {
-  description = "When certificate_arn is null, look up an existing ISSUED ACM certificate for origin_fqdn before considering certificate creation."
+  description = "When certificate_arn is null, look up an existing ISSUED ACM certificate for origin_fqdn."
   type        = bool
   default     = true
 }
@@ -46,12 +34,6 @@ variable "certificate_lookup_domain" {
   description = "Optional ACM lookup domain. Defaults to origin_fqdn; set to a wildcard such as *.wuji.dev.csm.agent-logic.ai to reuse a wildcard certificate."
   type        = string
   default     = null
-}
-
-variable "create_certificate" {
-  description = "Request and DNS-validate one regional ACM certificate for origin_fqdn when certificate_arn is null. Requires hosted_zone_id. Keep false for normal ALB recycling."
-  type        = bool
-  default     = false
 }
 
 variable "runtime_port" {

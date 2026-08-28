@@ -24,16 +24,20 @@ or committed user-data files.
 ## Phase 1: ALB shell
 
 From `infra/aws/runtime/alb-origin`, provide VPC/subnet/certificate inputs and
-keep the Runtime origin closed unless explicit ingress is approved:
+keep the Runtime origin closed unless explicit ingress is approved. Public DNS,
+ACM issuance, CloudFront, WAF, WSS, and allowed-origin exposure are #122-owned;
+AWS-F only consumes an existing regional ACM certificate by ARN or lookup.
 
 ```hcl
 target_instance_id    = null
 allowed_ingress_cidrs = []
 ```
 
-Plan before apply:
+Initialize with an explicit remote-state backend key/workspace and then plan
+before apply:
 
 ```bash
+AWS_PROFILE=agent-logic-admin terraform init -backend-config=aws-f-runtime-alb-origin.backend.hcl
 AWS_PROFILE=agent-logic-admin terraform plan -out aws-f-runtime-alb.tfplan
 ```
 
@@ -50,9 +54,11 @@ private_subnet_id      = "subnet-private-from-vpc"
 alb_security_group_id  = "sg-from-alb-output"
 ```
 
-Plan before apply:
+Initialize with a distinct remote-state backend key/workspace and then plan
+before apply:
 
 ```bash
+AWS_PROFILE=agent-logic-admin terraform init -backend-config=aws-f-runtime-private-node.backend.hcl
 AWS_PROFILE=agent-logic-admin terraform plan -out aws-f-runtime-spot.tfplan
 ```
 
@@ -81,6 +87,7 @@ The proof must record:
 
 - exact Terraform root and module revisions;
 - exact saved-plan filenames or digests;
+- exact backend config file names or state keys, excluding credentials;
 - ALB target health result;
 - request URL and HTTP status;
 - instance identity marker or equivalent bounded receipt;
@@ -109,6 +116,7 @@ Before declaring zero residue, read back:
 
 - Production traffic or cutover.
 - Public edge redesign.
+- Route53 or ACM resource creation.
 - CloudFormation retirement.
 - Cross-cloud abstraction.
 - Direct public Runtime ingress.

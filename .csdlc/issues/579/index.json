@@ -1,0 +1,167 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 579,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "8fe41a4be3b42f614d852b4f001ffb1eccd6367f489c5928292297866d6f976f",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "68c68609edb9492454351afd6ae20ba4727d3ac0da8ba7dced7240e7e516070b",
+  "branch": "codex/579-aws-f-corrective-runtime-platform-edge-proof",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-579-aws-f-corrective-runtime-platform-edge-proof-exec",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/579/design.md",
+  "diagram_path": ".csdlc/prepared/issues/579/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:561c8704-65fe-4678-b996-c33aa0e39670",
+      "revision": "461d7a3e45316c5f894eac2f51f5e5e8d6579832407fe1de193a99c5f2c30f81"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "95a68bb0979d2127da70bab373e5fee483ee1979265f321190bd6ffd1a458067",
+      "rendered_digest": "34255383575c3c3aea078b5ad1f33029f480c9c070bf17102d1ff5b52206557f",
+      "ast_digest": "d79aba3cc3efacc1f54e46f636ef0d14448a7ab00e65460abe4a0e9561e31c2c"
+    },
+    "stp": {
+      "values_digest": "bb93be58e0921aa293f463899ccb46f5dd7a247b4b2c23379ef25c226c9f51ac",
+      "rendered_digest": "75a132bf25c11986913abfb12619819b2535b6e3eb8c12c10e4fdcdf883d54eb",
+      "ast_digest": "5f1a9cde41042b937e046672f548508ffc1f06d64cfbdb24e849d19bdfd2e038"
+    },
+    "spp": {
+      "values_digest": "2b2e60319706357f73cefa1d486bef24a8a378856b9f3352d59acd8e8ad2c619",
+      "rendered_digest": "d13937b24c4616f64d06be246d23d06ec8a5b764975bfea7578c58585f458a00",
+      "ast_digest": "78428b50426eac48c5cb6136de5e4ec205e626596139d1ca785a03471c0b370c"
+    },
+    "vpp": {
+      "values_digest": "420eb66ecec1d01e9056b98bb6dba87d4f81fa41aebc5cb6f3642865e788965a",
+      "rendered_digest": "8303dec45f64cf6e0d7e75731dabda6d612484bd6d8f986836cef8bfcd477661",
+      "ast_digest": "9210fc465385d6cf6c1cd3b6310bcef35fbf46870941484818131ff917810b57"
+    },
+    "srp": {
+      "values_digest": "5846c5e7d6f016a9c7392438e345d9dc5e519377f3a4571b5bffbcce872f7575",
+      "rendered_digest": "405c8aff1cfedb904ad41101e055d5ff8d9b6e98ad6780886ccbaf9e3ef165e2",
+      "ast_digest": "11ba3ed85fa29b94c175f3f957025d13962a75fdd9c757c2f8ff8a2392f4402f"
+    },
+    "sor": {
+      "values_digest": "037a54398634c679e0f4dd603dfb689a4893aac1f17563646846c45094365cf5",
+      "rendered_digest": "1dbda21317a1361981a90a61f716f4ae24291256ce91604d24be1b4ccec66142",
+      "ast_digest": "fb4f15ddb6dc94aae6f89b6cbf1a48782544d3831c21a7a1b625605ed9be6179"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #579 to ready/unbound after restored FastWork-only projection, design approval, issue-owned validator repair, and doctor/validate PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #579 to implemented after bounded corrective implementation and retained local validation proof"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/issue579_aws_f_corrective",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:561c8704-65fe-4678-b996-c33aa0e39670",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"461d7a3e45316c5f894eac2f51f5e5e8d6579832407fe1de193a99c5f2c30f81\",\"design_ref\":\".csdlc/prepared/issues/579/design.md\",\"diagram_digest\":\"baa407238c7793086702139955d9f0ecac07d1815121ba96b278f66e2a92e433\",\"diagram_ref\":\".csdlc/prepared/issues/579/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/issue579_aws_f_corrective",
+      "reason": "Install the issue-owned #579 validator target and replace non-governed exact-head review command with an issue-owned review-gate planning lane before ready/bind.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"579-terraform-static\",\"proof_role\":\"Focused Terraform formatting/static checks for touched AWS-F Terraform roots/modules without backend or cloud mutation, including no AWS-F Route53/ACM executable ownership.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=terraform-static\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-security-validator-regression\",\"proof_role\":\"Proves forbidden world-open Runtime ingress is rejected and egress-only blocks do not mask ingress.\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=security-validator-regression\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-proof-truth\",\"proof_role\":\"Checks AWS-F proof/runbook wording for public-edge ownership, local-vs-live proof truth, state isolation, cleanup, rollback, observability, artifact wiring, and Spot resilience boundaries.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1200,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=proof-truth\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-review-gate-planning\",\"proof_role\":\"Checks the #579 SRP requires fresh exact-head review before publication without claiming review execution as validation.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=review-gate-planning\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-diff-hygiene\",\"proof_role\":\"Rejects conflict artifacts and whitespace errors across the corrective diff.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"579-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/issue579_aws_f_corrective",
+      "reason": "Make the issue-owned validator an exact affected area so typed readiness can prove the governed shell target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/runtime\",\"docs/operations/cloud/aws/runtime-platform\",\"docs/milestones/v0.92.1/evidence/cloud/aws-f\",\".csdlc/prepared/issues/579\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\".csdlc/evidence/579\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Advance #579 to ready/unbound after restored FastWork-only projection, design approval, issue-owned validator repair, and doctor/validate PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record #579 corrective implementation execution",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired AWS-F runtime platform boundary after late review: removed executable ACM/Route53 public-edge ownership from AWS-F ALB surfaces, kept Runtime ingress default-closed, made remote-state isolation machine-visible, and tightened corrective validation/proof truth without running live AWS mutation.\",\"changes\":[\"Removed Route53 alias creation and ACM certificate creation/validation resources from infra/aws/modules/csm-runtime-alb and stopped passing those controls from the AWS-F alb-origin root.\",\"Kept ALB certificate consumption to explicit certificate_arn or existing ISSUED ACM lookup, preserving #122 ownership of public DNS/certificate/public-edge exposure.\",\"Added S3 backend declarations to AWS-F runtime root stacks so state isolation is not only advisory.\",\"Updated AWS-F runtime docs and retained proof packet to record static/non-mutating proof, #122 public-edge ownership, and the still-deferred live disposable deployment/zero-residue proof gate.\",\"Strengthened the #579 corrective validator to reject AWS-F ACM/Route53 resources and world-open committed Runtime ingress without relying on stale #489 validator paths.\"],\"artifacts\":[\"infra/aws/modules/csm-runtime-alb/main.tf\",\"infra/aws/modules/csm-runtime-alb/variables.tf\",\"infra/aws/runtime/alb-origin/main.tf\",\"infra/aws/runtime/alb-origin/variables.tf\",\"infra/aws/runtime/alb-origin/terraform.tfvars.example\",\"infra/aws/runtime/alb-origin/versions.tf\",\"infra/aws/runtime/private-node/versions.tf\",\"infra/aws/runtime/README.md\",\"docs/operations/cloud/aws/runtime-platform/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record #579 Terraform static validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=terraform-static\"],\"purpose\":\"Prove AWS-F Terraform surfaces are formatted, reject ACM/Route53 public-edge ownership, reject world-open committed Runtime ingress, require remote-state backend declarations, and preserve private-node ingress posture.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: aws-f corrective validation passed: terraform-static\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #579 security validator regression validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=security-validator-regression\"],\"purpose\":\"Prove the corrective validator no longer relies on stale #489 path logic or overescaped world-open ingress matching.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: aws-f corrective validation passed: security-validator-regression\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record #579 proof-truth validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=proof-truth\"],\"purpose\":\"Prove AWS-F docs/evidence bound static proof, #122 public-edge ownership, state isolation wording, and live-proof deferral truthfully.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: aws-f corrective validation passed: proof-truth\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #579 diff hygiene validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker errors in the #579 corrective diff.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command exited 0 with no output\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Advance #579 to implemented after bounded corrective implementation and retained local validation proof",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
