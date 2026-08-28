@@ -106,11 +106,11 @@ Implemented AWS-F Runtime platform Terraform roots and private Runtime node modu
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
