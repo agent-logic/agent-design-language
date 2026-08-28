@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 25
   },
   "status": "ready",
   "content": {
@@ -24,7 +24,7 @@
         "AC-1: Startup rejects missing duplicated malformed or endpoint-inconsistent identity",
         "AC-2: Feed v3 exposes exact redacted configured identity and public endpoints while legacy v1 and v2 remain explicit compatibility-only contracts",
         "AC-3: HTML renders feed values without URL inference or deployment constants",
-        "AC-4: Display-name-only reload is atomic and invalid or restart-gated edits retain last-known-good with bounded redacted diagnostics",
+        "AC-4: Every Polis parameter hot-loads atomically without Runtime restart, while invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic",
         "AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass"
       ],
       "dependencies": [

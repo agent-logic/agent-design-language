@@ -26,7 +26,7 @@ Exactly one Runtime-owned Polis identity projection and HTML consumer; Unity rem
 1. AC-1: Startup rejects missing duplicated malformed or endpoint-inconsistent identity
 2. AC-2: Feed v3 exposes exact redacted configured identity and public endpoints while legacy v1 and v2 remain explicit compatibility-only contracts
 3. AC-3: HTML renders feed values without URL inference or deployment constants
-4. AC-4: Display-name-only reload is atomic and invalid or restart-gated edits retain last-known-good with bounded redacted diagnostics
+4. AC-4: Every Polis parameter hot-loads atomically without Runtime restart, while invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic
 5. AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass
 
 ## Dependencies

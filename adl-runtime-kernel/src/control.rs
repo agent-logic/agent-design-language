@@ -50,7 +50,8 @@ use crate::{
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
 pub const CONTROL_RESPONSE_SCHEMA: &str = "adl.runtime.control_response.v1";
 pub const LEGACY_OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v1";
-pub const OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v2";
+pub const PREVIOUS_OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v2";
+pub const OBSERVATORY_FEED_SCHEMA: &str = "adl.runtime_v3.observatory_feed.v3";
 pub const MAX_SHUTDOWN_GRACE_MILLIS: u64 = 60_000;
 pub const API_DOCS_PATH: &str = "/v1/docs/";
 pub const OBSERVATORY_API_DOCS_PATH: &str = "/v1/observatory/docs/";
@@ -91,7 +92,7 @@ use feeds::ObservedWeather;
 pub use feeds::{
     AgentPopulationFeed, AgentSample, ObservatoryContinuityFeed, ObservatoryControlFeed,
     ObservatoryFeed, ObservatoryHealthFeed, ObservatoryProofFeed, ObservatoryWeatherFreshness,
-    RuntimeReadinessReport, RUNTIME_READINESS_SCHEMA,
+    PolisIdentityFeed, RuntimeReadinessReport, RUNTIME_READINESS_SCHEMA,
 };
 #[cfg(test)]
 use replay::ACIP_MAX_SEQUENCE_ADVANCE;
@@ -653,9 +654,9 @@ pub struct ControlService<C> {
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
     acip_write_bearer_digest: Mutex<Option<blake3::Hash>>,
     observatory_origin_policy: ObservatoryOriginPolicy,
+    runtime_presentation: Arc<RwLock<RuntimePresentationState>>,
     agent_population: AgentPopulationFeed,
     control_addr: Mutex<SocketAddr>,
-    public_base_url: Mutex<String>,
     canonical_ingress: Option<CanonicalIngress>,
     layer8_authority: Option<Arc<Layer8ConversationAuthority>>,
     layer8_signed_exchange: Option<Arc<Layer8SignedExchange>>,
@@ -718,11 +719,19 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             is_safe_identifier(&instance_id),
             "runtime instance id must be bounded"
         );
-        let observatory_origin_policy = ObservatoryOriginPolicy::new(observatory_allowed_origins)
+        let origins = validate_observatory_origins(observatory_allowed_origins, true)
             .expect("observatory origins must be approved exact origins");
         agent_population
             .sample
             .sort_by(|left, right| left.id.cmp(&right.id));
+        let polis_identity = PolisIdentityFeed::unavailable(&instance_id);
+        let runtime_presentation = Arc::new(RwLock::new(RuntimePresentationState {
+            public_base_url: "https://localhost".to_owned(),
+            polis_identity,
+            observatory_allowed_origins: Arc::new(origins),
+        }));
+        let observatory_origin_policy =
+            ObservatoryOriginPolicy::from_state(Arc::clone(&runtime_presentation));
         Self {
             instance_id,
             runtime_incarnation_id: uuid::Uuid::new_v4().to_string(),
@@ -745,9 +754,9 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             observatory_bearer_digest: Mutex::new(None),
             acip_write_bearer_digest: Mutex::new(None),
             observatory_origin_policy,
+            runtime_presentation,
             agent_population,
             control_addr: Mutex::new(SocketAddr::from(([127, 0, 0, 1], 0))),
-            public_base_url: Mutex::new("https://localhost".to_owned()),
             canonical_ingress: None,
             layer8_authority: None,
             layer8_signed_exchange: None,
@@ -777,6 +786,45 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         init: &crate::RuntimeInitConfig,
     ) -> Result<(), String> {
         self.replace_observatory_allowed_origins(init.observatory_allowed_origins())
+    }
+
+    pub fn with_polis_identity(self, init: &crate::RuntimeInitConfig) -> Self {
+        let mut active = self
+            .runtime_presentation
+            .write()
+            .expect("runtime presentation state poisoned");
+        active.public_base_url = init.api.public_base_url.clone();
+        active.polis_identity = PolisIdentityFeed {
+            polis_id: init.polis.id.clone(),
+            display_name: init.polis.display_name.clone(),
+            public_domain: init.polis.public_domain.clone(),
+            runtime_api_base: init.api.public_base_url.clone(),
+            observatory_public_origin: init.polis.observatory_public_origin.clone(),
+        };
+        drop(active);
+        self
+    }
+
+    pub fn apply_runtime_init_reload(&self, init: &crate::RuntimeInitConfig) -> Result<(), String> {
+        let next_identity = PolisIdentityFeed {
+            polis_id: init.polis.id.clone(),
+            display_name: init.polis.display_name.clone(),
+            public_domain: init.polis.public_domain.clone(),
+            runtime_api_base: init.api.public_base_url.clone(),
+            observatory_public_origin: init.polis.observatory_public_origin.clone(),
+        };
+        let next_origins = Arc::new(validate_observatory_origins(
+            init.observatory_allowed_origins(),
+            true,
+        )?);
+        let mut active = self
+            .runtime_presentation
+            .write()
+            .map_err(|_| "runtime presentation state unavailable".to_owned())?;
+        active.public_base_url = init.api.public_base_url.clone();
+        active.polis_identity = next_identity;
+        active.observatory_allowed_origins = next_origins;
+        Ok(())
     }
 
     #[cfg(test)]
@@ -1580,10 +1628,10 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         if !is_safe_https_base(public_base_url) {
             return Err(ControlError::InvalidBounds);
         }
-        *self
-            .public_base_url
-            .lock()
-            .expect("public base URL mutex poisoned") = public_base_url.to_owned();
+        self.runtime_presentation
+            .write()
+            .expect("runtime presentation state poisoned")
+            .public_base_url = public_base_url.to_owned();
         Ok(())
     }
 
@@ -1757,8 +1805,14 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 filter: None,
             },
         );
+        let runtime_presentation = self
+            .runtime_presentation
+            .read()
+            .expect("runtime presentation state poisoned")
+            .clone();
         ObservatoryFeed {
             schema: OBSERVATORY_FEED_SCHEMA.to_owned(),
+            polis_identity: runtime_presentation.polis_identity,
             runtime_instance_id: self.instance_id.clone(),
             runtime_incarnation_id: self.runtime_incarnation_id.clone(),
             runtime_process_id: std::process::id(),
@@ -1770,11 +1824,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                     .lock()
                     .expect("control address mutex poisoned")
                     .port(),
-                public_base_url: self
-                    .public_base_url
-                    .lock()
-                    .expect("public base URL mutex poisoned")
-                    .clone(),
+                public_base_url: runtime_presentation.public_base_url,
                 read_endpoint: "/v1/observatory".to_owned(),
                 websocket_endpoint: OBSERVATORY_WS_PATH.to_owned(),
                 websocket_full_duplex: true,
@@ -3201,33 +3251,47 @@ fn allowed_origin<C: LifecycleControl + 'static>(
 }
 
 #[derive(Clone, Debug)]
+struct RuntimePresentationState {
+    public_base_url: String,
+    polis_identity: PolisIdentityFeed,
+    observatory_allowed_origins: Arc<BTreeSet<String>>,
+}
+
+#[derive(Clone, Debug)]
 pub struct ObservatoryOriginPolicy {
-    origins: Arc<RwLock<Arc<BTreeSet<String>>>>,
+    state: Arc<RwLock<RuntimePresentationState>>,
 }
 
 impl ObservatoryOriginPolicy {
     pub fn new(origins: impl IntoIterator<Item = String>) -> Result<Self, String> {
-        Ok(Self {
-            origins: Arc::new(RwLock::new(Arc::new(validate_observatory_origins(
-                origins, true,
-            )?))),
-        })
+        let origins = Arc::new(validate_observatory_origins(origins, true)?);
+        Ok(Self::from_state(Arc::new(RwLock::new(
+            RuntimePresentationState {
+                public_base_url: "https://localhost".to_owned(),
+                polis_identity: PolisIdentityFeed::unavailable("local_runtime"),
+                observatory_allowed_origins: origins,
+            },
+        ))))
+    }
+
+    fn from_state(state: Arc<RwLock<RuntimePresentationState>>) -> Self {
+        Self { state }
     }
 
     pub fn replace(&self, origins: impl IntoIterator<Item = String>) -> Result<(), String> {
         let origins = Arc::new(validate_observatory_origins(origins, true)?);
         let mut active = self
-            .origins
+            .state
             .write()
             .map_err(|_| "observatory_origin_policy_unavailable".to_owned())?;
-        *active = origins;
+        active.observatory_allowed_origins = origins;
         Ok(())
     }
 
     pub fn contains(&self, origin: &str) -> bool {
-        self.origins
+        self.state
             .read()
-            .map(|origins| origins.contains(origin))
+            .map(|state| state.observatory_allowed_origins.contains(origin))
             .unwrap_or(false)
     }
 }

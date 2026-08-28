@@ -273,7 +273,7 @@
       "SignedControlCommand": {
         "type": "object",
         "additionalProperties": false,
-      "required": [
+        "required": [
           "schema",
           "runtime_instance_id",
           "command_id",
@@ -394,6 +394,7 @@
         "additionalProperties": false,
         "required": [
           "schema",
+          "polis_identity",
           "runtime_instance_id",
           "runtime_incarnation_id",
           "runtime_process_id",
@@ -409,7 +410,10 @@
         ],
         "properties": {
           "schema": {
-            "const": "adl.runtime_v3.observatory_feed.v2"
+            "const": "adl.runtime_v3.observatory_feed.v3"
+          },
+          "polis_identity": {
+            "$ref": "#/components/schemas/PolisIdentityFeed"
           },
           "runtime_instance_id": {
             "type": "string"
@@ -465,6 +469,18 @@
               "$ref": "#/components/schemas/BootstrapEvent"
             }
           }
+        }
+      },
+      "PolisIdentityFeed": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["polis_id", "display_name", "public_domain", "runtime_api_base", "observatory_public_origin"],
+        "properties": {
+          "polis_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+          "display_name": {"type": "string", "minLength": 1, "maxLength": 128},
+          "public_domain": {"type": "string", "minLength": 1, "maxLength": 253},
+          "runtime_api_base": {"type": "string", "format": "uri", "pattern": "^https://"},
+          "observatory_public_origin": {"type": "string", "format": "uri", "pattern": "^https://"}
         }
       },
       "ObservatoryControlFeed": {

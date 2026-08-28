@@ -960,7 +960,8 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         .expect("WSS Observatory connection closed")
         .expect("WSS Observatory frame failed");
     let feed = serde_json::from_str::<serde_json::Value>(feed.to_text().unwrap()).unwrap();
-    assert_eq!(feed["schema"], "adl.runtime_v3.observatory_feed.v2");
+    assert_eq!(feed["schema"], "adl.runtime_v3.observatory_feed.v3");
+    assert!(feed["polis_identity"].is_object());
     assert_eq!(feed["runtime_selection"], "runtime_v3_explicit_opt_in");
     assert_eq!(feed["control"]["websocket_full_duplex"], true);
     assert_eq!(

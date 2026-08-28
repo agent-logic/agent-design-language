@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 25
   },
   "status": "pre_phase",
   "content": {
@@ -17,8 +17,8 @@
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Is durable identity separate from presentation?",
-        "Are restart-gated fields rejected on reload?",
+        "Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?",
+        "Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?",
         "Does HTML use only the feed identity?",
         "Is Unity absent from the diff?"
       ],

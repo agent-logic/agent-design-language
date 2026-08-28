@@ -89,7 +89,7 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
   signed_command_endpoint: "/v1/control",
   observatory_docs_endpoint: "/v1/observatory/docs/"
 });
-const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
+const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v3";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
 const LARGE_POLIS_LIMITS = Object.freeze({
   maxVisibleAgents: 120,
@@ -1450,6 +1450,7 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) 
   if (feed.schema !== RUNTIME_V3_OBSERVATORY_SCHEMA) {
     throw new Error(`Unsupported Runtime v3 Observatory schema: ${feed.schema || "missing"}`);
   }
+  const polisIdentity = projectPolisIdentity(feed.polis_identity);
   const snapshot = feed.health?.snapshot || {};
   const weather = feed.weather || {};
   const weatherFreshness = feed.weather_freshness || {};
@@ -1459,6 +1460,7 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) 
   return {
     mode: "live",
     runtimeSelection: feed.runtime_selection || "runtime_v3_explicit_opt_in",
+    polisIdentity,
     fetchedAt: new Date().toISOString(),
     status: {
       schema: feed.schema,
@@ -1514,6 +1516,40 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) 
     proof: feed.proof,
     errors: {}
   };
+}
+
+function projectPolisIdentity(identity) {
+  const safeIdentifier = /^[A-Za-z0-9._:-]{1,128}$/;
+  const safeDomain = /^(?=.{1,253}$)[a-z0-9](?:[a-z0-9.-]*[a-z0-9])?$/;
+  const text = String(identity?.display_name || "");
+  let runtimeApi;
+  let observatoryOrigin;
+  try {
+    runtimeApi = new URL(String(identity?.runtime_api_base || ""));
+    observatoryOrigin = new URL(String(identity?.observatory_public_origin || ""));
+  } catch (_error) {
+    throw new Error("Runtime Observatory feed has invalid Polis identity URLs");
+  }
+  if (
+    !safeIdentifier.test(String(identity?.polis_id || ""))
+    || !safeDomain.test(String(identity?.public_domain || ""))
+    || !text.trim()
+    || text !== text.trim()
+    || text.length > 128
+    || runtimeApi.protocol !== "https:"
+    || runtimeApi.hostname !== identity.public_domain
+    || observatoryOrigin.protocol !== "https:"
+    || observatoryOrigin.origin !== String(identity.observatory_public_origin)
+  ) {
+    throw new Error("Runtime Observatory feed has invalid Polis identity");
+  }
+  return Object.freeze({
+    polisId: identity.polis_id,
+    displayName: text,
+    publicDomain: identity.public_domain,
+    runtimeApiBase: runtimeApi.toString().replace(/\/$/, ""),
+    observatoryPublicOrigin: observatoryOrigin.origin
+  });
 }
 
 function connectRuntimeV3ObservatoryWebSocket(
@@ -2296,6 +2332,7 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   lastPanopticonSnapshot = snapshot;
   lastPanopticonPacket = packet;
   const vm = buildPanopticonViewModel(snapshot, packet);
+  setText("polis-display-name", snapshot.polisIdentity?.displayName || "Unavailable");
   const sourceLabel = vm.mode === "live" ? "Live Runtime API" : vm.mode === "published" ? "Published Runtime Evidence" : "Retained Runtime Evidence";
   const hasAuthoritativeLiveRuntimeFeed =
     vm.mode === "live" &&
@@ -3702,6 +3739,7 @@ globalThis.AdlHtmlObservatory = {
   authenticateRuntimeRosterSuccessor,
   submitRuntimeV3SignedControlCommand,
   runtimeV3SnapshotFromFeed,
+  projectPolisIdentity,
   connectRuntimeV3ObservatoryWebSocket,
   authenticateRuntimeV3ObservatorySocket,
   conversationFrameTransition,

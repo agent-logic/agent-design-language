@@ -8,6 +8,26 @@ const OBSERVATORY_OPENAPI: &str =
 const CONTROL_RS: &str = include_str!("../src/control.rs");
 
 #[test]
+fn polis_identity_openapi_contract_is_required_and_redacted() {
+    let observatory = parse_openapi(OBSERVATORY_OPENAPI);
+    let feed = &observatory["components"]["schemas"]["ObservatoryFeed"];
+    assert_eq!(
+        feed["properties"]["schema"]["const"],
+        "adl.runtime_v3.observatory_feed.v3"
+    );
+    assert!(feed["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|value| value == "polis_identity"));
+    let identity = &observatory["components"]["schemas"]["PolisIdentityFeed"];
+    assert_eq!(identity["additionalProperties"], false);
+    for forbidden in ["token", "secret", "private_key", "certificate"] {
+        assert!(identity["properties"].get(forbidden).is_none());
+    }
+}
+
+#[test]
 fn runtime_and_observatory_openapi_contracts_are_valid_and_disjoint() {
     let runtime = parse_openapi(RUNTIME_OPENAPI);
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);

@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Add the required validated Polis init contract, project it through the Runtime feed, support display-name-only atomic reload, update HTML rendering, and retain focused review evidence.
+Add the required validated Polis init contract, project it through the Runtime feed, atomically hot-load every Polis parameter without restart, update HTML rendering, and retain focused review evidence.
 
 ## Plan
 
-Revision 4
+Revision 9
 
 ## Steps
 
@@ -28,7 +28,7 @@ Revision 4
       "AC-1",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -37,7 +37,7 @@ Revision 4
       "AC-2",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -45,7 +45,7 @@ Revision 4
     "acceptance_ids": [
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -57,21 +57,23 @@ Revision 4
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 
 ## Invariants
 
-- Continuity identity is never derived from display name
-- Only display name may hot reload
-- Identity projection is redacted
+- Every Polis parameter may hot-load without restarting the Runtime
+- A reload publishes one complete validated snapshot or no change
+- Invalid reloads preserve the complete last-known-good snapshot
+- Identity projection and diagnostics remain redacted
 - Unity remains deferred
 
 ## Risks
 
 - Feed schema compatibility drift
-- Reload accidentally admits restart-gated identity changes
+- A partial reload exposes mixed old and new Polis values
+- Runtime and HTML consumers do not converge on the newly loaded snapshot
 - HTML retains a hidden deployment fallback
 
 ## Estimates
@@ -86,18 +88,19 @@ Revision 4
 
 .csdlc/prepared/issues/551/design.md
 
-Digest: b2c91d643963cd508d4ab398ca6d170640fad16af9ac2210c69293d12eefcf74
+Digest: e502e926314c0472b3d8df68fa358bca8de7dc30cd72617e6278e14d69de0710
 
 ## Diagram
 
 .csdlc/prepared/issues/551/diagram.mmd
 
-Digest: 83190a476d94924a172ff44fc87d5917f53751466c314f60ff6dbebfc2f8fce7
+Digest: 87391f624101b24aa3024a1756fa2e7ba2e9fff3ca293424e36b2eb717a4d31e
 
 ## Stop Conditions
 
-- Continuity identity would change
-- Unity paths enter the diff
+- Continuity state would be mutated
+- A reload requires Runtime restart or exposes mixed Polis values
+- Unity or issue #84 paths enter the diff
 - External infrastructure mutation is required
 - Validation selects zero tests
 

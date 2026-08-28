@@ -11,17 +11,17 @@
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
     "goal": "Produce one validated Runtime-owned Polis identity projection rendered by the HTML Observatory.",
-    "required_outcome": "Runtime configuration, feed projection, display-name-only last-known-good reload, and HTML rendering pass without changing continuity identity or reactivating Unity.",
-    "declared_scope": ["adl-runtime-kernel/src/config.rs", "adl-runtime-kernel/src/control.rs", "adl-runtime-kernel/src/control/feeds.rs", "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs", "adl-runtime-kernel/tests/configuration.rs", "adl-runtime-kernel/tests/control.rs", "adl-runtime-kernel/tests/observatory.rs", "adl-runtime-kernel/tests/openapi_contract.rs", "docs/api/runtime-v3/v1/observatory.openapi.json", "demos/html-observatory/index.html", "demos/html-observatory/app.js", "demos/html-observatory/tests/polis_identity.test.mjs", ".csdlc/prepared/issues/551", ".csdlc/evidence/551", ".csdlc/issues/551"],
+    "required_outcome": "Runtime configuration, feed projection, atomic last-known-good hot reload of every Polis parameter, and HTML rendering pass without restarting the Runtime or reactivating Unity.",
+    "declared_scope": ["adl-runtime-kernel/src/config.rs", "adl-runtime-kernel/src/control.rs", "adl-runtime-kernel/src/control/feeds.rs", "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs", "adl-runtime-kernel/tests/configuration.rs", "adl-runtime-kernel/tests/control.rs", "adl-runtime-kernel/tests/observatory.rs", "adl-runtime-kernel/tests/openapi_contract.rs", "adl-runtime-kernel/tests/guardian_soak.rs", "adl-runtime-kernel/tests/support/runtime_init.rs", "docs/api/runtime-v3/v1/observatory.openapi.json", "infra/runtime-v3/runtime-init.toml", "demos/html-observatory/index.html", "demos/html-observatory/app.js", "demos/html-observatory/tests/polis_identity.test.mjs", ".csdlc/prepared/issues/551", ".csdlc/evidence/551", ".csdlc/issues/551"],
     "authority_boundary": ["Issue authority is agent-logic/agent-design-language#551", "Unity issue #84 is backlog and non-gating", "DNS TLS routing certificates and continuity-state mutation are outside authority"],
     "operator_constraints": ["Never write tracked issue work on main", "No external infrastructure or credential mutation", "No Unity paths"],
     "task_boundary": "Exactly one Runtime-owned Polis identity projection and HTML consumer; Unity remains deferred.",
     "deliverables": ["Validated Runtime init Polis identity contract", "Redacted Observatory feed identity projection", "HTML feed-owned identity rendering", "Focused exact-head evidence"],
-    "acceptance_criteria": ["AC-1: Startup rejects missing duplicated malformed or endpoint-inconsistent identity", "AC-2: Feed v3 exposes exact redacted configured identity and public endpoints while legacy v1 and v2 remain explicit compatibility-only contracts", "AC-3: HTML renders feed values without URL inference or deployment constants", "AC-4: Display-name-only reload is atomic and invalid or restart-gated edits retain last-known-good with bounded redacted diagnostics", "AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass"],
+    "acceptance_criteria": ["AC-1: Startup rejects missing duplicated malformed or endpoint-inconsistent identity", "AC-2: Feed v3 exposes exact redacted configured identity and public endpoints while legacy v1 and v2 remain explicit compatibility-only contracts", "AC-3: HTML renders feed values without URL inference or deployment constants", "AC-4: Every Polis parameter hot-loads atomically without Runtime restart, while invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic", "AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass"],
     "dependencies": ["#510 closed", "#550 closed"],
     "repo_inputs": ["agent-logic/agent-design-language#551", "adl-runtime-kernel/src/config.rs", "adl-runtime-kernel/src/control.rs", "demos/html-observatory/app.js"],
     "non_goals": ["Unity or issue #84 implementation", "DNS TLS certificate or ingress mutation", "Continuity identity mutation"],
-    "plan_summary": "Add the required validated Polis init contract, project it through the Runtime feed, support display-name-only atomic reload, update HTML rendering, and retain focused review evidence.",
+    "plan_summary": "Add the required validated Polis init contract, project it through the Runtime feed, atomically hot-load every Polis parameter without restart, update HTML rendering, and retain focused review evidence.",
     "steps": [
       {"id":"S1","action":"Implement and test the validated Runtime Polis identity configuration contract.","acceptance_ids":["AC-1","AC-4"],"status":"pending"},
       {"id":"S2","action":"Project the redacted identity through the Observatory feed and production startup/reload path.","acceptance_ids":["AC-2","AC-4"],"status":"pending"},
@@ -29,10 +29,10 @@
       {"id":"S4","action":"Run focused proof and obtain independent exact-head review before publication.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"}
     ],
     "affected_areas": ["Runtime init configuration", "Runtime Observatory feed", "Runtime config reload", "HTML Observatory"],
-    "invariants": ["Continuity identity is never derived from display name", "Only display name may hot reload", "Identity projection is redacted", "Unity remains deferred"],
-    "risks": ["Feed schema compatibility drift", "Reload accidentally admits restart-gated identity changes", "HTML retains a hidden deployment fallback"],
+    "invariants": ["Every Polis parameter may hot-load without restarting the Runtime", "A reload publishes one complete validated snapshot or no change", "Invalid reloads preserve the complete last-known-good snapshot", "Identity projection and diagnostics remain redacted", "Unity remains deferred"],
+    "risks": ["Feed schema compatibility drift", "A partial reload exposes mixed old and new Polis values", "Runtime and HTML consumers do not converge on the newly loaded snapshot", "HTML retains a hidden deployment fallback"],
     "planning_profile": "medium",
-    "stop_conditions": ["Continuity identity would change", "Unity paths enter the diff", "External infrastructure mutation is required", "Validation selects zero tests"],
+    "stop_conditions": ["Continuity state would be mutated", "A reload requires Runtime restart or exposes mixed Polis values", "Unity paths enter the diff", "External infrastructure mutation is required", "Validation selects zero tests"],
     "validation_lanes": [
       {"lane":"polis-config","proof_role":"Prove valid duplicate invalid mismatch diagnostics and reload-retention configuration behavior with a nonzero target.","acceptance_ids":["AC-1","AC-4"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":3500,"argv":["cargo","nextest","run","--locked","--manifest-path","adl-runtime-kernel/Cargo.toml","--test","configuration","--no-tests=fail","-E","test(polis_identity)"],"parallel_group":"runtime","defer_reason":"The named polis_identity cases are #551 implementation deliverables."},
       {"lane":"polis-feed-control","proof_role":"Prove exact redacted v3 projection reload diagnostics and explicit v1 v2 compatibility with nonzero targets.","acceptance_ids":["AC-2","AC-4"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":3500,"argv":["bash",".csdlc/prepared/issues/551/validate-runtime-polis.sh"],"parallel_group":"runtime","defer_reason":"The issue-owned wrapper and named control Observatory and OpenAPI cases are #551 implementation deliverables."},
@@ -41,7 +41,7 @@
       {"lane":"diff-hygiene","proof_role":"Prove exact branch diff hygiene.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":60,"budget_tokens":500,"argv":["git","diff","--check"],"parallel_group":"hygiene","defer_reason":null}
     ],
     "failure_policy": "Fail closed on scope drift, Unity activation, identity ambiguity, secret exposure, zero-test proof, or stale review.",
-    "review_prompts": ["Is durable identity separate from presentation?", "Are restart-gated fields rejected on reload?", "Does HTML use only the feed identity?", "Is Unity absent from the diff?"],
+    "review_prompts": ["Does a reload atomically replace every Polis parameter without Runtime restart?", "Do invalid reloads preserve the complete last-known-good snapshot?", "Does HTML use only the feed identity?", "Is Unity absent from the diff?"],
     "review_scope": "Exact #551 Runtime configuration, feed, reload, HTML, tests, evidence, and lifecycle paths only."
   }
 }

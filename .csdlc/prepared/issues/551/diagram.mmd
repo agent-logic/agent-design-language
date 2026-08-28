@@ -1,7 +1,8 @@
 flowchart LR
-  C[Validated Runtime init polis section] --> S[Atomic PolisIdentityFeed snapshot]
-  S --> F[Runtime Observatory feed]
+  C[Validated Runtime init Polis section] --> S[Atomic Runtime presentation snapshot]
+  R[Config reload] --> V[Validate complete next configuration]
+  V -->|valid ID name domain origin and API base| S
+  V -->|invalid| X[Reject and retain complete last known good]
+  S --> F[Runtime Observatory feed and origin policy]
   F --> H[HTML Observatory identity readout]
-  R[Config reload] -->|display name only| S
-  R -->|ID domain origin or API change| X[Reject and retain last known good]
   U[Unity issue 84 backlog] -. deferred and non-gating .-> H

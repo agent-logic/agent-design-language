@@ -16,7 +16,7 @@ Produce one validated Runtime-owned Polis identity projection rendered by the HT
 
 ## Required Outcome
 
-Runtime configuration, feed projection, display-name-only last-known-good reload, and HTML rendering pass without changing continuity identity or reactivating Unity.
+Runtime configuration, feed projection, atomic last-known-good hot reload of every Polis parameter, and HTML rendering pass without restarting the Runtime or reactivating Unity.
 
 ## Scope
 
@@ -27,7 +27,11 @@ Runtime configuration, feed projection, display-name-only last-known-good reload
 - adl-runtime-kernel/tests/configuration.rs
 - adl-runtime-kernel/tests/control.rs
 - adl-runtime-kernel/tests/observatory.rs
-- adl-runtime-kernel/docs/api/runtime-v3/v1/observatory.openapi.json
+- adl-runtime-kernel/tests/openapi_contract.rs
+- adl-runtime-kernel/tests/guardian_soak.rs
+- adl-runtime-kernel/tests/support/runtime_init.rs
+- docs/api/runtime-v3/v1/observatory.openapi.json
+- infra/runtime-v3/runtime-init.toml
 - demos/html-observatory/index.html
 - demos/html-observatory/app.js
 - demos/html-observatory/tests/polis_identity.test.mjs

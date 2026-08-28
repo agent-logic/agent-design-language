@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 25
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "polis-config",
-          "proof_role": "Prove valid duplicate invalid mismatch diagnostics and reload-retention configuration behavior with a nonzero target.",
+          "proof_role": "Prove valid duplicate invalid and endpoint-mismatch configuration behavior with a nonzero target.",
           "acceptance_ids": [
             "AC-1",
             "AC-4"
@@ -44,7 +44,7 @@
         },
         {
           "lane": "polis-feed-control-openapi",
-          "proof_role": "Run exact nonzero control Observatory and OpenAPI targets to prove v3 projection bounded reload diagnostics and explicit v1 v2 compatibility.",
+          "proof_role": "Run exact nonzero control Observatory and OpenAPI targets to prove v3 projection, full-parameter atomic hot reload without restart, bounded invalid-reload diagnostics, and explicit v1 v2 compatibility.",
           "acceptance_ids": [
             "AC-2",
             "AC-4"
@@ -120,9 +120,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on scope drift, Unity activation, identity ambiguity, secret exposure, zero-test proof, or stale review.",
       "design_ref": ".csdlc/prepared/issues/551/design.md",
-      "design_digest": "b2c91d643963cd508d4ab398ca6d170640fad16af9ac2210c69293d12eefcf74",
+      "design_digest": "e502e926314c0472b3d8df68fa358bca8de7dc30cd72617e6278e14d69de0710",
       "diagram_ref": ".csdlc/prepared/issues/551/diagram.mmd",
-      "diagram_digest": "83190a476d94924a172ff44fc87d5917f53751466c314f60ff6dbebfc2f8fce7"
+      "diagram_digest": "87391f624101b24aa3024a1756fa2e7ba2e9fff3ca293424e36b2eb717a4d31e"
     }
   }
 }

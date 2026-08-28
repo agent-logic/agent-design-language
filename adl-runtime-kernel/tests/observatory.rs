@@ -39,6 +39,23 @@ use tokio_tungstenite::{
 mod tls_support;
 use tls_support::TestPki;
 
+#[test]
+fn polis_identity_feed_is_required_in_v3_without_reinterpreting_legacy_schemas() {
+    let feed = service("test-observatory-token-00000000001")
+        .service
+        .observatory_feed();
+    assert_eq!(feed.schema, "adl.runtime_v3.observatory_feed.v3");
+    assert_eq!(feed.polis_identity.polis_id, "instance-ws");
+    assert_eq!(
+        adl_runtime_kernel::LEGACY_OBSERVATORY_FEED_SCHEMA,
+        "adl.runtime_v3.observatory_feed.v1"
+    );
+    assert_eq!(
+        adl_runtime_kernel::PREVIOUS_OBSERVATORY_FEED_SCHEMA,
+        "adl.runtime_v3.observatory_feed.v2"
+    );
+}
+
 const ACIP_WRITE_TOKEN: &str = "test-acip-write-token-000000000001";
 
 fn attention_input(source: &str, correlation: &str) -> AttentionRequestInput {

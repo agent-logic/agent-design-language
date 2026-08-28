@@ -225,6 +225,12 @@ private_key_path = "{}"
 trust_roots_path = "{}"
 server_name = "runtime-gateway.example.test"
 
+[polis]
+id = "polis-test"
+display_name = "Test Polis"
+public_domain = "runtime-gateway.example.test"
+observatory_public_origin = "https://observatory.example.test"
+
 [observatory]
 allowed_origins = ["https://localhost:8765", "https://observatory.example.test"]
 additional_allowed_origins = ["http://localhost:8000"]
@@ -236,6 +242,45 @@ additional_allowed_origins = ["http://localhost:8000"]
         toml_path(&trust_roots),
         explicit_runtime_sections_toml(state_root),
     )
+}
+
+#[test]
+fn polis_identity_validates_required_config_and_public_domain() {
+    let root = config_test_root();
+    let config =
+        adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
+            .unwrap();
+    assert_eq!(config.polis.id, "polis-test");
+    assert_eq!(config.polis.display_name, "Test Polis");
+    assert_eq!(config.polis.public_domain, "runtime-gateway.example.test");
+}
+
+#[test]
+fn polis_identity_rejects_missing_or_duplicate_config() {
+    let root = config_test_root();
+    let valid = valid_runtime_init_toml(root.path());
+    let missing = valid.replacen("[polis]", "[removed_polis]", 1);
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&missing).is_err());
+    let duplicated = format!("{valid}\n[polis]\nid = \"second\"\n");
+    assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&duplicated).is_err());
+}
+
+#[test]
+fn polis_identity_rejects_domain_and_origin_mismatch() {
+    let root = config_test_root();
+    let valid = valid_runtime_init_toml(root.path());
+    for invalid in [
+        valid.replace(
+            "public_domain = \"runtime-gateway.example.test\"",
+            "public_domain = \"other.example.test\"",
+        ),
+        valid.replace(
+            "observatory_public_origin = \"https://observatory.example.test\"",
+            "observatory_public_origin = \"https://observatory.example.test/path\"",
+        ),
+    ] {
+        assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid).is_err());
+    }
 }
 
 fn runtime_init_toml(body: &str) -> String {

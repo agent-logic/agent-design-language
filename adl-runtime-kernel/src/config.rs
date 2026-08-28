@@ -368,6 +368,7 @@ pub struct RuntimeInitConfig {
     pub binaries: RuntimeBinariesInitConfig,
     pub paths: RuntimePathsInitConfig,
     pub api: RuntimeApiInitConfig,
+    pub polis: PolisInitConfig,
     pub kernel: RuntimeKernelInitConfig,
     #[serde(default)]
     pub continuity_control: Option<crate::ContinuityControlInitConfig>,
@@ -451,6 +452,7 @@ impl RuntimeInitConfig {
                 public_host: public_host.to_owned(),
             });
         }
+        self.polis.validate(public_host)?;
         if self.api.bind_attempts == 0 || self.api.bind_attempts > 100 {
             return Err(RuntimeInitError::Policy(
                 "api.bind_attempts must be between 1 and 100".to_owned(),
@@ -1077,6 +1079,47 @@ pub struct ObservatoryInitConfig {
     pub allowed_origins: Vec<String>,
     #[serde(default)]
     pub additional_allowed_origins: Vec<String>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PolisInitConfig {
+    pub id: String,
+    pub display_name: String,
+    pub public_domain: String,
+    pub observatory_public_origin: String,
+}
+
+impl PolisInitConfig {
+    fn validate(&self, public_host: &str) -> Result<(), RuntimeInitError> {
+        if self.id.is_empty()
+            || self.id.len() > 128
+            || !self.id.bytes().all(|byte| {
+                byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b':' | b'_' | b'-')
+            })
+        {
+            return Err(RuntimeInitError::Policy(
+                "polis.id must be a bounded safe identifier".to_owned(),
+            ));
+        }
+        validate_non_empty_trimmed("polis.display_name", &self.display_name)?;
+        if self.display_name.len() > 128 || self.display_name.bytes().any(|b| b.is_ascii_control())
+        {
+            return Err(RuntimeInitError::Policy(
+                "polis.display_name must be at most 128 display characters".to_owned(),
+            ));
+        }
+        if self.public_domain != self.public_domain.to_ascii_lowercase()
+            || self.public_domain != public_host
+            || self.public_domain.len() > 253
+        {
+            return Err(RuntimeInitError::Policy(
+                "polis.public_domain must equal the canonical Runtime API and TLS host".to_owned(),
+            ));
+        }
+        validate_origin(&self.observatory_public_origin)?;
+        Ok(())
+    }
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]

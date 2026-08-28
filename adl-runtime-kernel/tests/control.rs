@@ -37,6 +37,63 @@ const TEST_BIND_HOST: &str = "127.0.0.1";
 #[path = "../../adl-runtime/tests/support/tls.rs"]
 mod tls_support;
 use tls_support::TestPki;
+#[path = "support/runtime_init.rs"]
+mod runtime_init_support;
+
+#[test]
+fn polis_identity_reload_atomically_updates_every_parameter() {
+    let evidence_root = std::path::Path::new("../.csdlc/evidence/551/control-tests");
+    std::fs::create_dir_all(evidence_root).unwrap();
+    let root = tempfile::tempdir_in(evidence_root.canonicalize().unwrap()).unwrap();
+    let state = root.path().join("state");
+    let config_path = runtime_init_support::write_for_state(
+        root.path(),
+        "127.0.0.1:20997".parse().unwrap(),
+        &state,
+    );
+    let init = adl_runtime_kernel::RuntimeInitConfig::from_path(config_path).unwrap();
+    let key = SigningKey::from_bytes(&[17; 32]);
+    let service = ControlService::new(
+        "instance-1",
+        RuntimeRecorder::new(16),
+        FakeLifecycle {
+            calls: Arc::new(AtomicUsize::new(0)),
+        },
+        authority(&key, [ControlCapability::Stop]),
+        8,
+    )
+    .with_polis_identity(&init);
+
+    let mut reload = init.clone();
+    reload.polis.id = "another-polis".to_owned();
+    reload.polis.display_name = "Renamed Polis".to_owned();
+    reload.polis.public_domain = "new.example.test".to_owned();
+    reload.polis.observatory_public_origin = "https://observe.new.example.test".to_owned();
+    reload.api.public_base_url = "https://new.example.test".to_owned();
+    reload.api.tls.server_name = "new.example.test".to_owned();
+    reload.observatory.allowed_origins = vec!["https://observe.new.example.test".to_owned()];
+    reload.observatory.additional_allowed_origins.clear();
+    service.apply_runtime_init_reload(&reload).unwrap();
+
+    let observed = service.observatory_feed().polis_identity;
+    assert_eq!(observed.polis_id, "another-polis");
+    assert_eq!(observed.display_name, "Renamed Polis");
+    assert_eq!(observed.public_domain, "new.example.test");
+    assert_eq!(observed.runtime_api_base, "https://new.example.test");
+    assert_eq!(
+        observed.observatory_public_origin,
+        "https://observe.new.example.test"
+    );
+
+    let mut invalid = reload;
+    invalid.polis.display_name = "Must Not Apply".to_owned();
+    invalid.observatory.allowed_origins = vec!["*".to_owned()];
+    assert_eq!(
+        service.apply_runtime_init_reload(&invalid).unwrap_err(),
+        "observatory_allowed_origins_must_be_approved_exact_origins"
+    );
+    assert_eq!(service.observatory_feed().polis_identity, observed);
+}
 
 fn test_api_policy() -> ControlApiPolicy {
     ControlApiPolicy::new(

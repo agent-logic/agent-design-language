@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/551/diagram.mmd
 [
   {
     "lane": "polis-config",
-    "proof_role": "Prove valid duplicate invalid mismatch diagnostics and reload-retention configuration behavior with a nonzero target.",
+    "proof_role": "Prove valid duplicate invalid and endpoint-mismatch configuration behavior with a nonzero target.",
     "acceptance_ids": [
       "AC-1",
       "AC-4"
@@ -52,7 +52,7 @@ Diagram: .csdlc/prepared/issues/551/diagram.mmd
   },
   {
     "lane": "polis-feed-control-openapi",
-    "proof_role": "Run exact nonzero control Observatory and OpenAPI targets to prove v3 projection bounded reload diagnostics and explicit v1 v2 compatibility.",
+    "proof_role": "Run exact nonzero control Observatory and OpenAPI targets to prove v3 projection, full-parameter atomic hot reload without restart, bounded invalid-reload diagnostics, and explicit v1 v2 compatibility.",
     "acceptance_ids": [
       "AC-2",
       "AC-4"

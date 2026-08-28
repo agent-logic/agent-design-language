@@ -1,0 +1,18 @@
+{
+  "issue": 551,
+  "card": "srp",
+  "expected_generation": 15,
+  "expected_digest": "fc1d9b1e561ef68a4719fc5e0e3238bce0e2a435a15468ab2635fb63726f8ecb",
+  "actor": "codex:/root",
+  "reason": "Replace the superseded restart-gated review question with the operator-authorized full hot-reload contract.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?",
+      "Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?",
+      "Does HTML use only the feed identity?",
+      "Is Unity absent from the diff?"
+    ]
+  }
+}

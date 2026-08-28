@@ -604,6 +604,7 @@ async fn main() -> ExitCode {
                 init.observatory_allowed_origins(),
                 AgentPopulationFeed::resident_shepherd(),
             )
+            .with_polis_identity(&init)
             .with_canonical_ingress(assembly.canonical_ingress.clone());
             if let Some((authority, exchange)) = layer8 {
                 service = service
@@ -672,14 +673,21 @@ async fn main() -> ExitCode {
             ));
             let api_shutdown = tokio_util::sync::CancellationToken::new();
             let reload_parser: ConfigParser<RuntimeInitConfig> = Arc::new(|raw| {
-                RuntimeInitConfig::from_toml_str(raw)
-                    .map_err(|error| ConfigReloadError::parse(error.to_string()))
+                RuntimeInitConfig::from_toml_str(raw).map_err(|_| {
+                    eprintln!(
+                        "adl_event schema=adl.runtime_v3.config_reload.v1 result=rejected reason=parse_invalid"
+                    );
+                    ConfigReloadError::parse("runtime init rejected")
+                })
             });
             let reload_service = Arc::clone(&service);
             let reload_applier: ConfigApplier<RuntimeInitConfig> = Arc::new(move |next| {
-                reload_service
-                    .replace_observatory_allowed_origins_from_runtime_init(next)
-                    .map_err(ConfigReloadError::validation)
+                reload_service.apply_runtime_init_reload(next).map_err(|error| {
+                    eprintln!(
+                        "adl_event schema=adl.runtime_v3.config_reload.v1 result=rejected reason=validation_invalid"
+                    );
+                    ConfigReloadError::validation(error)
+                })
             });
             let config_reload = match start_config_reload_with_applier_and_shutdown(
                 init_path,

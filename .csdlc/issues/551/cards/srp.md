@@ -16,8 +16,8 @@ Exact #551 Runtime configuration, feed, reload, HTML, tests, evidence, and lifec
 
 ## Prompts
 
-- Is durable identity separate from presentation?
-- Are restart-gated fields rejected on reload?
+- Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?
+- Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?
 - Does HTML use only the feed identity?
 - Is Unity absent from the diff?
 
