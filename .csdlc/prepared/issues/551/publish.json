@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 551,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 27,
+  "expected_digest": "8513158392c16c24efac1d0a8285b3a866f64a2e023bb54015b55d2bbf4f0768",
+  "actor": "codex:/root",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/551-runtime-polis-config-owned-name-domain",
+  "title": "[v0.92.1][runtime][observatory] Hot-load Polis identity and domain",
+  "body": "Closes #551\n\nAdds a required validated Runtime-owned Polis identity and public endpoint contract, projects it through Observatory feed schema v3, and renders the configured Polis name and domain in the HTML Observatory.\n\nEvery declared Polis parameter—ID, display name, public domain, Runtime API base, and Observatory public origin—hot-loads as one shared Runtime presentation snapshot without restarting the Runtime. Invalid reloads retain the complete last-known-good identity, API base, and origin policy and emit bounded redacted diagnostics. Legacy Observatory v1 and v2 compatibility constants remain explicit; Unity #84 remains deferred and non-gating.\n\nFocused proof passed: 76/76 affected Runtime integration tests, the Guardian schema test, exact nonzero configuration/control/feed/OpenAPI/diagnostic targets, 3/3 HTML tests, Rust formatting, and diff hygiene. Independent exact-head review passed with no findings.",
+  "draft": false,
+  "token_file": null
+}
