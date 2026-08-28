@@ -5,7 +5,6 @@ pub struct CommandInvocation {
     pub program: String,
     argv: Vec<String>,
     pub credential_scope: CredentialScope,
-    child_credential: Option<ChildCredential>,
 }
 
 impl CommandInvocation {
@@ -34,7 +33,6 @@ impl CommandInvocation {
             program,
             argv,
             credential_scope: CredentialScope::None,
-            child_credential: None,
         })
     }
 
@@ -47,35 +45,26 @@ impl CommandInvocation {
         Ok(self)
     }
 
-    pub fn with_resolved_child_credential(
-        mut self,
-        name: impl Into<String>,
-        resolver: &impl CredentialResolver,
-    ) -> Result<Self, AdapterError> {
-        let name = name.into();
-        if !is_safe_credential_name(&name) {
-            return Err(AdapterError::CredentialResolutionFailed);
-        }
-        let value = resolver.resolve(&name)?;
-        self.credential_scope = CredentialScope::ChildProcessOnly { name: name.clone() };
-        self.child_credential = Some(ChildCredential { name, value });
-        Ok(self)
-    }
-
     pub fn argv(&self) -> &[String] {
         &self.argv
     }
 
     pub fn child_credential_name(&self) -> Option<&str> {
-        self.child_credential
-            .as_ref()
-            .map(|credential| credential.name.as_str())
+        match &self.credential_scope {
+            CredentialScope::ChildProcessOnly { name } => Some(name.as_str()),
+            CredentialScope::None => None,
+        }
     }
 
-    pub fn child_credential_value_for_process(&self) -> Option<&str> {
-        self.child_credential
-            .as_ref()
-            .map(|credential| credential.value.as_str())
+    pub fn inject_child_credential_for_process(
+        &self,
+        resolver: &impl CredentialResolver,
+        injector: &mut impl ChildCredentialInjector,
+    ) -> Result<(), AdapterError> {
+        let Some(name) = self.child_credential_name() else {
+            return Ok(());
+        };
+        resolver.inject_child_credential(name, injector)
     }
 
     pub fn redacted_argv(&self) -> Vec<String> {
@@ -104,13 +93,6 @@ impl fmt::Debug for CommandInvocation {
             .field("program", &self.program)
             .field("argv", &self.redacted_argv())
             .field("credential_scope", &self.credential_scope)
-            .field(
-                "child_credential",
-                &self
-                    .child_credential
-                    .as_ref()
-                    .map(|credential| (&credential.name, "[REDACTED]")),
-            )
             .finish()
     }
 }
@@ -129,10 +111,18 @@ pub enum AdapterError {
 }
 
 pub trait CredentialResolver {
-    fn resolve(&self, name: &str) -> Result<String, AdapterError>;
+    fn inject_child_credential(
+        &self,
+        name: &str,
+        injector: &mut impl ChildCredentialInjector,
+    ) -> Result<(), AdapterError>;
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+pub trait ChildCredentialInjector {
+    fn inject_child_credential(&mut self, name: &str, value: &str);
+}
+
+#[derive(Clone, PartialEq, Eq)]
 pub struct StaticCredentialResolver {
     name: String,
     value: String,
@@ -148,19 +138,31 @@ impl StaticCredentialResolver {
 }
 
 impl CredentialResolver for StaticCredentialResolver {
-    fn resolve(&self, name: &str) -> Result<String, AdapterError> {
+    fn inject_child_credential(
+        &self,
+        name: &str,
+        injector: &mut impl ChildCredentialInjector,
+    ) -> Result<(), AdapterError> {
         if self.name == name {
-            Ok(self.value.clone())
+            if self.value.trim().is_empty() {
+                return Err(AdapterError::CredentialResolutionFailed);
+            }
+            injector.inject_child_credential(&self.name, &self.value);
+            Ok(())
         } else {
             Err(AdapterError::CredentialResolutionFailed)
         }
     }
 }
 
-#[derive(Clone, PartialEq, Eq)]
-struct ChildCredential {
-    name: String,
-    value: String,
+impl fmt::Debug for StaticCredentialResolver {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter
+            .debug_struct("StaticCredentialResolver")
+            .field("name", &self.name)
+            .field("value", &"[REDACTED]")
+            .finish()
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]

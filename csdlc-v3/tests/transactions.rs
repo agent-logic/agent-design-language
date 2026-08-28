@@ -1,6 +1,7 @@
 use csdlc_v3::adapters::{
-    CommandInvocation, CredentialScope, FakeGitAdapter, FakeProcessAdapter, GitAdapter,
-    ProcessAdapter, ProcessOutput, ProcessStatus, StaticCredentialResolver,
+    ChildCredentialInjector, CommandInvocation, CredentialScope, FakeGitAdapter,
+    FakeProcessAdapter, GitAdapter, ProcessAdapter, ProcessOutput, ProcessStatus,
+    StaticCredentialResolver,
 };
 use csdlc_v3::lifecycle::{
     decide, transition_matrix, Capability, CapabilitySet, LifecycleCommand, LifecycleState,
@@ -267,15 +268,25 @@ fn transaction_commits_preserve_projection_invalidations() {
         published.invalidated_projections,
         [ProjectionInvalidation::Publication]
     );
-    let recover = store
-        .begin(
+    assert_eq!(
+        store.begin(
             LifecycleCommand::RecoverReview,
             &full_capabilities(),
             published.generation,
-            published.digest,
+            published.digest.clone(),
             "review stale",
+        ),
+        Err(csdlc_v3::storage::StoreError::StructuredReviewRecoveryProvenanceRequired)
+    );
+    let recover = store
+        .begin_review_recovery(
+            &full_capabilities(),
+            published.generation,
+            published.digest,
+            ReviewRecoveryProvenance::new("worker-6", "review stale", "old-head")
+                .expect("structured review recovery provenance"),
         )
-        .expect("review recovery stages");
+        .expect("review recovery stages with structured provenance");
     let recovered = match store
         .commit(recover, ProjectionWrite::Success)
         .expect("review recovery commits")
@@ -332,7 +343,60 @@ fn durable_transaction_store_persists_intent_before_atomic_state_replacement() {
         assert!(state_json.contains(&committed.digest));
         assert!(!directory.join("state.json.tmp").exists());
     }
+    {
+        let reopened = DurableTransactionStore::open(&directory).expect("durable store reopens");
+        assert_eq!(reopened.committed().generation, 1);
+        assert_eq!(reopened.journal().len(), 1);
+        assert_eq!(
+            reopened.journal()[0].provenance,
+            "durable pre-network intent"
+        );
+    }
     assert!(!directory.join("state.lock").exists());
+    let _ = fs::remove_dir_all(&directory);
+}
+
+#[test]
+fn durable_transaction_store_rejects_stale_intent_before_journal_append() {
+    let directory = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
+        "target/csdlc-v3-durable-stale-intent-{}",
+        std::process::id()
+    ));
+    let _ = fs::remove_dir_all(&directory);
+    {
+        let initial = StateRecord::new(LifecycleState::Ready);
+        let mut store =
+            DurableTransactionStore::create(&directory, initial.clone()).expect("durable store");
+        let stale = store
+            .begin(
+                LifecycleCommand::Bind,
+                &full_capabilities(),
+                initial.generation,
+                initial.digest.clone(),
+                "must not persist when stale",
+            )
+            .expect("stale candidate staged before intervening commit");
+        let current = store
+            .begin(
+                LifecycleCommand::Bind,
+                &full_capabilities(),
+                initial.generation,
+                initial.digest,
+                "current intent",
+            )
+            .expect("current transaction stages");
+        store
+            .commit(current, ProjectionWrite::Success)
+            .expect("current commit succeeds");
+        assert!(matches!(
+            store.commit(stale, ProjectionWrite::Success),
+            Err(csdlc_v3::storage::StoreError::StaleWriter { .. })
+        ));
+        let intent_journal =
+            fs::read_to_string(directory.join("intents.jsonl")).expect("intent journal exists");
+        assert!(intent_journal.contains("current intent"));
+        assert!(!intent_journal.contains("must not persist when stale"));
+    }
     let _ = fs::remove_dir_all(&directory);
 }
 
@@ -641,8 +705,8 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
     let resolver = StaticCredentialResolver::new("ADL_GITHUB_TOKEN_FILE", "/safe/token/path");
     let invocation = CommandInvocation::new("git", ["fetch", "origin"])
         .expect("argv invocation")
-        .with_resolved_child_credential("ADL_GITHUB_TOKEN_FILE", &resolver)
-        .expect("child credential resolved");
+        .with_child_credential("ADL_GITHUB_TOKEN_FILE")
+        .expect("child credential scoped");
     assert_eq!(
         invocation.credential_scope,
         CredentialScope::ChildProcessOnly {
@@ -653,12 +717,14 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
         invocation.child_credential_name(),
         Some("ADL_GITHUB_TOKEN_FILE")
     );
-    assert_eq!(
-        invocation.child_credential_value_for_process(),
-        Some("/safe/token/path")
-    );
+    let mut injector = RecordingCredentialInjector::default();
+    invocation
+        .inject_child_credential_for_process(&resolver, &mut injector)
+        .expect("child credential injects only at process boundary");
+    assert_eq!(injector.names, vec!["ADL_GITHUB_TOKEN_FILE".to_owned()]);
     assert_eq!(invocation.redacted_argv(), ["fetch", "origin"]);
     assert!(!format!("{invocation:?}").contains("/safe/token/path"));
+    assert!(!format!("{resolver:?}").contains("/safe/token/path"));
     assert_eq!(
         CommandInvocation::new(
             "git",
@@ -725,6 +791,18 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
             .status,
         ProcessStatus::Cancelled
     );
+}
+
+#[derive(Default)]
+struct RecordingCredentialInjector {
+    names: Vec<String>,
+}
+
+impl ChildCredentialInjector for RecordingCredentialInjector {
+    fn inject_child_credential(&mut self, name: &str, value: &str) {
+        assert_eq!(value, "/safe/token/path");
+        self.names.push(name.to_owned());
+    }
 }
 
 #[test]

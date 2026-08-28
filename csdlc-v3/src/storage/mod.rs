@@ -1,6 +1,6 @@
 use crate::lifecycle::{
     decide, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
-    TransitionOutcome,
+    ReviewRecoveryProvenance, TransitionOutcome,
 };
 use std::fs::{self, File, OpenOptions};
 use std::io::Write;
@@ -82,6 +82,7 @@ pub enum StoreError {
     InvalidRecordDigest,
     LockUnavailable,
     Io(String),
+    StructuredReviewRecoveryProvenanceRequired,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -125,6 +126,42 @@ impl TransactionStore {
         expected_digest: impl Into<String>,
         provenance: impl Into<String>,
     ) -> Result<StagedTransaction, StoreError> {
+        if command == LifecycleCommand::RecoverReview {
+            return Err(StoreError::StructuredReviewRecoveryProvenanceRequired);
+        }
+        self.begin_with_provenance(
+            command,
+            capabilities,
+            expected_generation,
+            expected_digest,
+            provenance.into(),
+        )
+    }
+
+    pub fn begin_review_recovery(
+        &self,
+        capabilities: &CapabilitySet,
+        expected_generation: u64,
+        expected_digest: impl Into<String>,
+        provenance: ReviewRecoveryProvenance,
+    ) -> Result<StagedTransaction, StoreError> {
+        self.begin_with_provenance(
+            LifecycleCommand::RecoverReview,
+            capabilities,
+            expected_generation,
+            expected_digest,
+            provenance.audit_provenance(),
+        )
+    }
+
+    fn begin_with_provenance(
+        &self,
+        command: LifecycleCommand,
+        capabilities: &CapabilitySet,
+        expected_generation: u64,
+        expected_digest: impl Into<String>,
+        provenance: String,
+    ) -> Result<StagedTransaction, StoreError> {
         let expected_digest = expected_digest.into();
         if expected_generation != self.committed.generation
             || expected_digest != self.committed.digest
@@ -149,7 +186,7 @@ impl TransactionStore {
             from: self.committed.state,
             to,
             invalidates: invalidates.clone(),
-            provenance: provenance.into(),
+            provenance,
         });
         let mut next_state = StateRecord {
             generation: next_generation,
@@ -228,6 +265,19 @@ impl DurableTransactionStore {
         })
     }
 
+    pub fn open(directory: impl AsRef<Path>) -> Result<Self, StoreError> {
+        let directory = directory.as_ref().to_path_buf();
+        let lock = StoreLock::acquire(&directory)?;
+        let committed = read_state(&directory)?;
+        let journal = read_intents(&directory)?;
+        let store = TransactionStore { committed, journal };
+        Ok(Self {
+            store,
+            directory,
+            _lock: lock,
+        })
+    }
+
     pub fn committed(&self) -> &StateRecord {
         self.store.committed()
     }
@@ -253,16 +303,47 @@ impl DurableTransactionStore {
         )
     }
 
+    pub fn begin_review_recovery(
+        &self,
+        capabilities: &CapabilitySet,
+        expected_generation: u64,
+        expected_digest: impl Into<String>,
+        provenance: ReviewRecoveryProvenance,
+    ) -> Result<StagedTransaction, StoreError> {
+        self.store.begin_review_recovery(
+            capabilities,
+            expected_generation,
+            expected_digest,
+            provenance,
+        )
+    }
+
     pub fn commit(
         &mut self,
         transaction: StagedTransaction,
         projection_write: ProjectionWrite,
     ) -> Result<CommitResult, StoreError> {
+        self.ensure_current_intent(&transaction.intent)?;
         append_intent(&self.directory, &transaction.intent)?;
         let result = self.store.commit(transaction, projection_write)?;
         write_state_atomically(&self.directory, self.store.committed())?;
         sync_directory(&self.directory)?;
         Ok(result)
+    }
+
+    fn ensure_current_intent(&self, intent: &TransactionIntent) -> Result<(), StoreError> {
+        if intent.expected_generation != self.store.committed().generation
+            || intent.expected_digest != self.store.committed().digest
+        {
+            return Err(StoreError::StaleWriter {
+                expected_generation: intent.expected_generation,
+                actual_generation: self.store.committed().generation,
+            });
+        }
+        if self.store.committed().projections_repair_required {
+            return Err(StoreError::ProjectionRepairRequired);
+        }
+        Ok(())
     }
 }
 
@@ -312,6 +393,163 @@ fn write_state_atomically(directory: &Path, state: &StateRecord) -> Result<(), S
         file.sync_all().map_err(io_error)?;
     }
     fs::rename(&temp_path, &final_path).map_err(io_error)
+}
+
+fn read_state(directory: &Path) -> Result<StateRecord, StoreError> {
+    let bytes = fs::read(directory.join("state.json")).map_err(io_error)?;
+    let value: serde_json::Value =
+        serde_json::from_slice(&bytes).map_err(|error| StoreError::Io(error.to_string()))?;
+    let generation = value
+        .get("generation")
+        .and_then(serde_json::Value::as_u64)
+        .ok_or_else(|| StoreError::Io("state generation missing".into()))?;
+    let digest = value
+        .get("digest")
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| StoreError::Io("state digest missing".into()))?
+        .to_owned();
+    let state = parse_state(
+        value
+            .get("state")
+            .and_then(serde_json::Value::as_str)
+            .ok_or_else(|| StoreError::Io("state value missing".into()))?,
+    )?;
+    let projections_repair_required = value
+        .get("projections_repair_required")
+        .and_then(serde_json::Value::as_bool)
+        .ok_or_else(|| StoreError::Io("projection repair flag missing".into()))?;
+    let invalidated_projections = value
+        .get("invalidated_projections")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| StoreError::Io("invalidated projections missing".into()))?
+        .iter()
+        .map(|value| {
+            value
+                .as_str()
+                .ok_or_else(|| StoreError::Io("invalidated projection is not a string".into()))
+                .and_then(parse_invalidation)
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    let audit = value
+        .get("audit")
+        .and_then(serde_json::Value::as_array)
+        .ok_or_else(|| StoreError::Io("audit missing".into()))?
+        .iter()
+        .map(parse_audit_event)
+        .collect::<Result<Vec<_>, _>>()?;
+    let record = StateRecord {
+        generation,
+        digest,
+        state,
+        audit,
+        projections_repair_required,
+        invalidated_projections,
+    };
+    validate_state_record(&record).map_err(|reason| StoreError::Io(format!("{reason:?}")))?;
+    Ok(record)
+}
+
+fn read_intents(directory: &Path) -> Result<Vec<TransactionIntent>, StoreError> {
+    let path = directory.join("intents.jsonl");
+    if !path.exists() {
+        return Ok(Vec::new());
+    }
+    fs::read_to_string(path)
+        .map_err(io_error)?
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(parse_intent)
+        .collect()
+}
+
+fn parse_audit_event(value: &serde_json::Value) -> Result<AuditEvent, StoreError> {
+    Ok(AuditEvent {
+        generation: value
+            .get("generation")
+            .and_then(serde_json::Value::as_u64)
+            .ok_or_else(|| StoreError::Io("audit generation missing".into()))?,
+        command: parse_command(required_string(value, "command")?)?,
+        from: parse_state(required_string(value, "from")?)?,
+        to: parse_state(required_string(value, "to")?)?,
+        invalidates: value
+            .get("invalidates")
+            .and_then(serde_json::Value::as_array)
+            .ok_or_else(|| StoreError::Io("audit invalidations missing".into()))?
+            .iter()
+            .map(|value| {
+                value
+                    .as_str()
+                    .ok_or_else(|| StoreError::Io("audit invalidation is not a string".into()))
+                    .and_then(parse_invalidation)
+            })
+            .collect::<Result<Vec<_>, _>>()?,
+        provenance: required_string(value, "provenance")?.to_owned(),
+    })
+}
+
+fn parse_intent(line: &str) -> Result<TransactionIntent, StoreError> {
+    let value: serde_json::Value =
+        serde_json::from_str(line).map_err(|error| StoreError::Io(error.to_string()))?;
+    Ok(TransactionIntent {
+        expected_generation: value
+            .get("expected_generation")
+            .and_then(serde_json::Value::as_u64)
+            .ok_or_else(|| StoreError::Io("intent generation missing".into()))?,
+        expected_digest: required_string(&value, "expected_digest")?.to_owned(),
+        command: parse_command(required_string(&value, "command")?)?,
+        provenance: required_string(&value, "provenance")?.to_owned(),
+    })
+}
+
+fn required_string<'a>(value: &'a serde_json::Value, key: &str) -> Result<&'a str, StoreError> {
+    value
+        .get(key)
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| StoreError::Io(format!("{key} missing")))
+}
+
+fn parse_state(value: &str) -> Result<LifecycleState, StoreError> {
+    match value {
+        "initialized" => Ok(LifecycleState::Initialized),
+        "ready" => Ok(LifecycleState::Ready),
+        "bound" => Ok(LifecycleState::Bound),
+        "implemented" => Ok(LifecycleState::Implemented),
+        "reviewed" => Ok(LifecycleState::Reviewed),
+        "published" => Ok(LifecycleState::Published),
+        "merge_ready" => Ok(LifecycleState::MergeReady),
+        "merged" => Ok(LifecycleState::Merged),
+        "closed_out" => Ok(LifecycleState::ClosedOut),
+        _ => Err(StoreError::Io(format!("unknown lifecycle state {value}"))),
+    }
+}
+
+fn parse_command(value: &str) -> Result<LifecycleCommand, StoreError> {
+    match value {
+        "Bind" => Ok(LifecycleCommand::Bind),
+        "RecordImplementation" => Ok(LifecycleCommand::RecordImplementation),
+        "AssignReview" => Ok(LifecycleCommand::AssignReview),
+        "RecordReviewPass" => Ok(LifecycleCommand::RecordReviewPass),
+        "RecoverReview" => Ok(LifecycleCommand::RecoverReview),
+        "Publish" => Ok(LifecycleCommand::Publish),
+        "MarkMergeReady" => Ok(LifecycleCommand::MarkMergeReady),
+        "RecordMerge" => Ok(LifecycleCommand::RecordMerge),
+        "Finish" => Ok(LifecycleCommand::Finish),
+        "Cleanup" => Ok(LifecycleCommand::Cleanup),
+        _ => Err(StoreError::Io(format!("unknown lifecycle command {value}"))),
+    }
+}
+
+fn parse_invalidation(value: &str) -> Result<ProjectionInvalidation, StoreError> {
+    match value {
+        "Readiness" => Ok(ProjectionInvalidation::Readiness),
+        "Review" => Ok(ProjectionInvalidation::Review),
+        "Publication" => Ok(ProjectionInvalidation::Publication),
+        "Terminal" => Ok(ProjectionInvalidation::Terminal),
+        "CleanupEligibility" => Ok(ProjectionInvalidation::CleanupEligibility),
+        _ => Err(StoreError::Io(format!(
+            "unknown projection invalidation {value}"
+        ))),
+    }
 }
 
 fn sync_directory(directory: &Path) -> Result<(), StoreError> {
