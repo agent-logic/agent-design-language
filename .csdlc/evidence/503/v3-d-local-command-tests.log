@@ -1,0 +1,11 @@
+
+running 4 tests
+test topology_bind_requires_exact_registered_worktree ... ok
+test contract_commands_are_typed_and_non_authoritative ... ok
+test doctor_plan_preserves_distinct_outcome_states ... ok
+test card_roundtrip_uses_active_registry_denominator ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/local_commands.rs (csdlc-v3/target/debug/deps/local_commands-e7e6bba99dc5e062)
