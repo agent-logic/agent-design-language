@@ -296,6 +296,8 @@ fn adapter_invocations_are_argv_based_and_shell_strings_are_rejected() {
     assert!(CommandInvocation::new("/bin/sh", ["-c", "git status"]).is_err());
     assert!(CommandInvocation::new("./bash", ["-c", "git status"]).is_err());
     assert!(CommandInvocation::new("tools/pwsh", ["-c", "git status"]).is_err());
+    assert!(CommandInvocation::new("cmd.exe", ["/C", "git status"]).is_err());
+    assert!(CommandInvocation::new("tools/powershell.exe", ["git status"]).is_err());
     assert!(CommandInvocation::new("git", ["status", "$(cat secret)"]).is_err());
 }
 
@@ -313,7 +315,15 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
     assert_eq!(invocation.redacted_argv(), ["fetch", "[REDACTED]"]);
     let split_secret = CommandInvocation::new(
         "gh",
-        ["api", "--token", "abc123", "--password", "hunter2", "repos"],
+        [
+            "api",
+            "--token",
+            "abc123",
+            "--password",
+            "hunter2",
+            "--api-key=also-secret",
+            "repos",
+        ],
     )
     .expect("argv invocation");
     assert_eq!(
@@ -323,6 +333,7 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
             "--token",
             "[REDACTED]",
             "--password",
+            "[REDACTED]",
             "[REDACTED]",
             "repos"
         ]

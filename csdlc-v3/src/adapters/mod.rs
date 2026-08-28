@@ -143,8 +143,12 @@ impl GitAdapter for FakeGitAdapter {
 
 fn looks_like_shell(value: &str) -> bool {
     let program_name = value.rsplit(['/', '\\']).next().unwrap_or(value);
+    let program_name = program_name
+        .strip_suffix(".exe")
+        .unwrap_or(program_name)
+        .to_ascii_lowercase();
     if matches!(
-        program_name,
+        program_name.as_str(),
         "sh" | "bash" | "zsh" | "fish" | "cmd" | "powershell" | "pwsh"
     ) {
         return true;
@@ -155,7 +159,11 @@ fn looks_like_shell(value: &str) -> bool {
 }
 
 fn redact(value: &str) -> String {
-    if value.contains("token=") || value.contains("secret=") || value.contains("password=") {
+    if value.contains("token=")
+        || value.contains("secret=")
+        || value.contains("password=")
+        || is_inline_secret_assignment(value)
+    {
         "[REDACTED]".to_owned()
     } else {
         value.to_owned()
@@ -173,5 +181,15 @@ fn is_secret_flag(value: &str) -> bool {
             | "-token"
             | "-secret"
             | "-password"
+    )
+}
+
+fn is_inline_secret_assignment(value: &str) -> bool {
+    let Some((key, _)) = value.split_once('=') else {
+        return false;
+    };
+    matches!(
+        key.trim_start_matches('-').to_ascii_lowercase().as_str(),
+        "token" | "secret" | "password" | "api-key" | "access-token"
     )
 }
