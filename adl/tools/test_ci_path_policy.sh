@@ -281,6 +281,27 @@ assert profile["status"] == "ready_to_run"
 assert [item["lane_id"] for item in profile["run"]] == ["docs_diff_check"]
 PY
 
+  git checkout -q -b aws-runtime-platform-static "$base_sha"
+  mkdir -p infra/aws/modules/csm-runtime-alb infra/aws/runtime/alb-origin infra/aws/runtime/private-node docs/operations/cloud/aws/runtime-platform docs/milestones/v0.92.1/evidence/cloud/aws-f
+  printf 'resource "aws_vpc_security_group_ingress_rule" "runtime_https" {\n  cidr_ipv4 = "10.0.0.0/8"\n}\n' > infra/aws/modules/csm-runtime-alb/main.tf
+  printf 'data "aws_caller_identity" "current" {}\nlocals { valid = terraform.workspace == var.expected_terraform_workspace && data.aws_caller_identity.current.account_id == var.expected_aws_account_id }\n' > infra/aws/runtime/alb-origin/main.tf
+  printf 'data "aws_caller_identity" "current" {}\nlocals { valid = terraform.workspace == var.expected_terraform_workspace && data.aws_caller_identity.current.account_id == var.expected_aws_account_id }\n' > infra/aws/runtime/private-node/main.tf
+  printf 'aws runtime docs\n' > docs/operations/cloud/aws/runtime-platform/README.md
+  printf 'cloud_mutation=false\n' > docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md
+  git add infra/aws/modules/csm-runtime-alb/main.tf infra/aws/runtime/alb-origin/main.tf infra/aws/runtime/private-node/main.tf docs/operations/cloud/aws/runtime-platform/README.md docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md
+  git commit -q -m aws-runtime-platform-static
+  aws_runtime_platform_head="$(git rev-parse HEAD)"
+  aws_runtime_platform_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head "$aws_runtime_platform_head" --ref "refs/pull/1/merge")"
+  assert_has "$aws_runtime_platform_output" "rust_required=false"
+  assert_has "$aws_runtime_platform_output" "coverage_required=false"
+  assert_has "$aws_runtime_platform_output" "full_coverage_required=false"
+  assert_has "$aws_runtime_platform_output" "runtime_coverage_required=false"
+  assert_has "$aws_runtime_platform_output" "workspace_full_coverage_required=false"
+  assert_has "$aws_runtime_platform_output" "validation_profile_status=ready_to_run"
+  assert_has "$aws_runtime_platform_output" "validation_profile_escalation_required=false"
+  assert_has "$aws_runtime_platform_output" "validation_profile_run_lanes=aws_runtime_platform_static"
+  assert_has "$aws_runtime_platform_output" "validation_profile_primary_reason=aws_runtime_platform_surface_requires_static_terraform_and_public_edge_boundary_contracts"
+
   git checkout -q -b podcast-static-demo "$base_sha"
   mkdir -p demos/podcast/studio demos/_preview/podcast
   printf '<!doctype html><title>Podcast</title>\n' > demos/podcast/index.html

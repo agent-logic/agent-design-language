@@ -4,6 +4,26 @@ variable "aws_region" {
   default     = "us-west-2"
 }
 
+variable "expected_aws_account_id" {
+  description = "Expected Agent Logic AWS account id. Terraform checks fail closed when the active profile resolves to a different account."
+  type        = string
+
+  validation {
+    condition     = can(regex("^[0-9]{12}$", var.expected_aws_account_id))
+    error_message = "expected_aws_account_id must be a 12 digit AWS account id."
+  }
+}
+
+variable "expected_terraform_workspace" {
+  description = "Expected Terraform workspace for this root, used to keep ALB-origin state separate from private-node state."
+  type        = string
+
+  validation {
+    condition     = length(trimspace(var.expected_terraform_workspace)) > 0 && var.expected_terraform_workspace != "default"
+    error_message = "expected_terraform_workspace must be explicit and must not be default."
+  }
+}
+
 variable "environment" {
   description = "Deployment environment."
   type        = string
@@ -27,12 +47,6 @@ variable "origin_fqdn_override" {
   default     = null
 }
 
-variable "hosted_zone_id" {
-  description = "Route53 hosted zone id for the origin record and optional ACM DNS validation."
-  type        = string
-  default     = null
-}
-
 variable "vpc_id" {
   description = "VPC id."
   type        = string
@@ -44,13 +58,13 @@ variable "public_subnet_ids" {
 }
 
 variable "certificate_arn" {
-  description = "Regional ACM cert ARN. Reuse one cert across ALB create/destroy cycles."
+  description = "Regional ACM cert ARN. AWS-F consumes an existing cert; #122 owns public certificate issuance."
   type        = string
   default     = null
 }
 
 variable "reuse_existing_certificate" {
-  description = "When certificate_arn is null, look up an existing ISSUED regional ACM certificate before considering certificate creation."
+  description = "When certificate_arn is null, look up an existing ISSUED regional ACM certificate."
   type        = bool
   default     = true
 }
@@ -59,18 +73,6 @@ variable "certificate_lookup_domain" {
   description = "Optional regional ACM lookup domain. Defaults to origin FQDN; may be a wildcard."
   type        = string
   default     = null
-}
-
-variable "create_certificate" {
-  description = "Create one regional ACM certificate when certificate_arn is null. Requires hosted_zone_id."
-  type        = bool
-  default     = false
-}
-
-variable "create_dns_record" {
-  description = "Create Route53 alias for the origin FQDN."
-  type        = bool
-  default     = true
 }
 
 variable "runtime_port" {

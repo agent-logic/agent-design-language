@@ -1,0 +1,47 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 579
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Repair the escaped post-merge AWS-F findings from #489 / PR #577 without rewriting terminal #489 history.
+
+## Required Outcome
+
+One reviewed corrective patch that bounds AWS-F public-edge ownership, proof truth, security validation, state isolation, and Spot resilience claims.
+
+## Scope
+
+- Remove or bound AWS-F Route53/ACM executable public-exposure ownership in favor of #122
+- Repair AWS-F proof truth for deployment, saved-plan identity, artifact wiring, observability, cost/deadline controls, rollback, disposable deployment, and zero-residue cleanup
+- Fix the security validator false pass for prohibited world-open Runtime ingress
+- Make state isolation truth and enforcement explicit for backend, locking, account identity, workspace, and key isolation
+- Bound one-time Spot node target behavior as non-production-resilient unless a future issue owns replacement behavior
+
+## Authority
+
+- Issue #579 is corrective-only and does not rewrite terminal #489 state
+- Issue #122 owns public Route53, ACM, CloudFront, API Gateway, WAF, WSS, allowed-origin, and public exposure work
+- No paid AWS resource creation or live deployment proof is authorized without explicit operator approval
+- Local Terraform and validator proof may run without credentials or cloud mutation
+- Do not print, copy, commit, or expose credentials, tokens, account secrets, or sensitive cloud outputs
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use typed C-SDLC v2 lifecycle routes
+- Bind beneath /Volumes/FastWork/adl-worktrees before tracked implementation edits
+- Preserve primary main cleanliness and concurrent #492/#493/root staging
+- Do not use raw gh for lifecycle writes
+- Keep the corrective bounded to AWS-F runtime platform modules and proof surfaces

@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 579,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-F corrective] Repair runtime platform edge exposure and proof gaps",
+    "slug": "aws-f-corrective-runtime-platform-edge-proof",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-579-corrective-validator",
+          "proof_role": "Prove the #579 corrective scope, including AWS-F runtime-platform public-edge boundaries, closed ingress defaults, state isolation truth, proof/runbook truth, and delegation to the stable static validator.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
+            "--lane=all"
+          ],
+          "parallel_group": "579-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "579-diff-hygiene",
+          "proof_role": "Rejects conflict artifacts and whitespace errors across the corrective diff.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "579-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on public-edge ownership regression, validator false pass, overstated proof, advisory-only state isolation, production-resilience overclaim, credential disclosure, paid cloud mutation without approval, or terminal #489 mutation.",
+      "design_ref": ".csdlc/prepared/issues/579/design.md",
+      "design_digest": "461d7a3e45316c5f894eac2f51f5e5e8d6579832407fe1de193a99c5f2c30f81",
+      "diagram_ref": ".csdlc/prepared/issues/579/diagram.mmd",
+      "diagram_digest": "baa407238c7793086702139955d9f0ecac07d1815121ba96b278f66e2a92e433"
+    }
+  }
+}

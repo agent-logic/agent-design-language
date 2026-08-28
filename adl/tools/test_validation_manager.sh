@@ -65,6 +65,33 @@ assert recorded["status"] == "ready_to_run"
 assert recorded == stdout_profile
 PY
 
+aws_runtime_platform="$TMP/aws-runtime-platform.txt"
+cat >"$aws_runtime_platform" <<'EOF'
+M	infra/aws/modules/csm-runtime-alb/main.tf
+M	infra/aws/runtime/alb-origin/main.tf
+M	infra/aws/runtime/private-node/variables.tf
+M	docs/operations/cloud/aws/runtime-platform/README.md
+EOF
+bash "$SCRIPT" --changed-files "$aws_runtime_platform" --json >"$TMP/aws-runtime-platform.json"
+python3 - <<'PY' "$TMP/aws-runtime-platform.json"
+import json
+import sys
+
+profile = json.load(open(sys.argv[1]))
+assert profile["schema_version"] == "adl.validation_profile.v1", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["status"] == "ready_to_run", json.dumps(profile, indent=2, sort_keys=True)
+assert profile["pr_publication_sufficient"] is True, json.dumps(profile, indent=2, sort_keys=True)
+assert profile["diagnostics"] == [], json.dumps(profile, indent=2, sort_keys=True)
+assert profile["escalation"]["required"] is False, json.dumps(profile, indent=2, sort_keys=True)
+lanes = [item["lane_id"] for item in profile["run"]]
+assert lanes == ["aws_runtime_platform_static"], json.dumps(profile, indent=2, sort_keys=True)
+surfaces = {surface["lane_id"]: surface for surface in profile["behavior_surfaces"]}
+surface = surfaces["aws_runtime_platform_static"]
+assert surface["owner"] == "cloud", json.dumps(profile, indent=2, sort_keys=True)
+assert surface["proof_role"] == "terraform_static_contract", json.dumps(profile, indent=2, sort_keys=True)
+assert surface["resource_class"] == "small", json.dumps(profile, indent=2, sort_keys=True)
+PY
+
 podcast_static_demo="$TMP/podcast-static-demo.txt"
 cat >"$podcast_static_demo" <<'EOF'
 A	demos/podcast/index.html
