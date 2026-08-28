@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #493 GCP-D paths only: infra/gcp/platform, docs/operations/cloud/gcp/platform-foundation, docs/milestones/v0.92.1/evidence/cloud/gcp-d, .csdlc/prepared/issues/493, .csdlc/evidence/493, and narrow issue-owned validator/proof surfaces.
+
 
 ## Prompts
 

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][GCP-D] GCP private platform foundation",
     "slug": "gcp-private-platform-foundation",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #493 GCP-D paths only: infra/gcp/platform, docs/operations/cloud/gcp/platform-foundation, docs/milestones/v0.92.1/evidence/cloud/gcp-d, .csdlc/prepared/issues/493, .csdlc/evidence/493, and narrow issue-owned validator/proof surfaces.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

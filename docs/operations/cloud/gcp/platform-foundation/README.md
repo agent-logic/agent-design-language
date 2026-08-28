@@ -83,6 +83,16 @@ The cleanup proof must list and then destroy matching instances, disks,
 addresses, firewall overrides, service-account grants, storage objects, and
 state references. A successful proof ends with zero residue for every selector.
 
+Read the current residue set before and after destroy:
+
+```sh
+./docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh \
+  --project "$PROJECT_ID" \
+  --zone "$ZONE" \
+  --csm "$CSM_NAME" \
+  --env "$ENVIRONMENT"
+```
+
 Destroy the foundation only when no disposable workloads remain:
 
 ```sh

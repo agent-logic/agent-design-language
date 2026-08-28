@@ -12,41 +12,32 @@ Status: pre_phase
 
 ## Summary
 
-Implement the #493 GCP-D private platform foundation as static Terraform, operator runbook, retained proof packet, and issue-owned validation.
+Implemented the #493 GCP-D private platform foundation and repaired R5 review findings for enforced egress, workload IAM, and executable cleanup readback.
 
 ## Artifacts
 
 - infra/gcp/platform
 - docs/operations/cloud/gcp/platform-foundation/README.md
+- docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh
 - docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md
 - .csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh
 
 ## Execution
 
-- Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.
-- Added a concise operator runbook for configuring, planning, applying, and destroying the private platform foundation without committing credentials or state.
-- Added retained GCP-D proof truth and repaired the issue-owned validator so configured IAP CIDR policy remains parameterized while still machine-checked.
+- Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.
+- Added least-privilege workload storage/logging IAM for artifacts, models, continuity evidence, logs, and log writing.
+- Added a concise operator runbook and executable disposable-residue readback script for issue/ttl/csm/env cleanup selectors without claiming live GCP mutation.
 
 ## Validation
 
 [
   {
     "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Run exact-range diff hygiene before review/publication.",
-    "outcome": "passed",
-    "evidence_ref": "exact-diff-hygiene.log"
-  },
-  {
-    "command": [
       "bash",
       ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
       "--lane=all"
     ],
-    "purpose": "Run the issue-owned static validator for GCP-D.",
+    "purpose": "Run the issue-owned static validator for GCP-D including R5 remediation checks.",
     "outcome": "passed",
     "evidence_ref": "gcp-d-static-product.log"
   },
@@ -60,12 +51,22 @@ Implement the #493 GCP-D private platform foundation as static Terraform, operat
     "purpose": "Run Terraform fmt check for the GCP-D root.",
     "outcome": "passed",
     "evidence_ref": "terraform-fmt.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Run exact-range diff hygiene before review/publication.",
+    "outcome": "passed",
+    "evidence_ref": "exact-diff-hygiene.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -27,8 +27,9 @@ resource "google_compute_subnetwork" "private" {
 }
 
 resource "google_compute_firewall" "iap_operator_access" {
-  name    = "${var.network_name}-iap-operator-access"
-  network = google_compute_network.private.name
+  name     = "${var.network_name}-iap-operator-access"
+  network  = google_compute_network.private.name
+  priority = 1000
 
   allow {
     protocol = "tcp"
@@ -43,6 +44,7 @@ resource "google_compute_firewall" "explicit_private_egress" {
   name      = "${var.network_name}-explicit-private-egress"
   network   = google_compute_network.private.name
   direction = "EGRESS"
+  priority  = 1000
 
   allow {
     protocol = "tcp"
@@ -50,6 +52,20 @@ resource "google_compute_firewall" "explicit_private_egress" {
   }
 
   destination_ranges = var.allowed_private_egress_cidrs
+  target_tags        = ["csm-disposable"]
+}
+
+resource "google_compute_firewall" "deny_unapproved_egress" {
+  name      = "${var.network_name}-deny-unapproved-egress"
+  network   = google_compute_network.private.name
+  direction = "EGRESS"
+  priority  = 65534
+
+  deny {
+    protocol = "all"
+  }
+
+  destination_ranges = ["0.0.0.0/0", "::/0"]
   target_tags        = ["csm-disposable"]
 }
 
@@ -124,6 +140,36 @@ resource "google_storage_bucket" "logs" {
     enabled = true
   }
   labels = merge(local.required_labels, { owner = "logs" })
+}
+
+resource "google_storage_bucket_iam_member" "workload_artifacts_object_user" {
+  bucket = google_storage_bucket.artifacts.name
+  role   = "roles/storage.objectUser"
+  member = "serviceAccount:${google_service_account.workload.email}"
+}
+
+resource "google_storage_bucket_iam_member" "workload_models_object_viewer" {
+  bucket = google_storage_bucket.models.name
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.workload.email}"
+}
+
+resource "google_storage_bucket_iam_member" "workload_evidence_object_creator" {
+  bucket = google_storage_bucket.continuity_evidence.name
+  role   = "roles/storage.objectCreator"
+  member = "serviceAccount:${google_service_account.workload.email}"
+}
+
+resource "google_storage_bucket_iam_member" "workload_logs_object_creator" {
+  bucket = google_storage_bucket.logs.name
+  role   = "roles/storage.objectCreator"
+  member = "serviceAccount:${google_service_account.workload.email}"
+}
+
+resource "google_project_iam_member" "workload_log_writer" {
+  project = var.project_id
+  role    = "roles/logging.logWriter"
+  member  = "serviceAccount:${google_service_account.workload.email}"
 }
 
 resource "google_logging_metric" "disposable_without_deadline" {

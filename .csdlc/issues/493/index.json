@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1abd3eac653f9ea21c1b7f6ef530cfb261e6ae30d0bdf8d0ea56e4bc50324a10",
   "phase": "implemented",
-  "generation": 3,
-  "digest": "71081905ff1db835a4d22c8bfdd693c72c474a6d0428485543288f2736ea246e",
+  "generation": 5,
+  "digest": "6faad9560f2d85f4e32b24f8c1d8d85fe789edfae491033fc30fc2d63177ccef",
   "branch": "codex/493-gcp-private-platform-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-493-gcp-private-platform-foundation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ec14e897a63dda0dbc5e374d4ef140a0d12131a706e0b91898816434d112975d",
+      "values_digest": "dd91f86c00eee22ac341150f858c515fdb7040bc8c0c5d09ec5369eeb3f4feaa",
       "rendered_digest": "04d17631608d2c9962fc6267aaa78dce3ee8f1d9cb9031ac8ce900840b05de05",
       "ast_digest": "277dbb0c97a5f744aad274fbab36089e58d26620fde0345f68e643ccb0d04bc8"
     },
     "stp": {
-      "values_digest": "554ab2679a4ee058b0675d6106053b6ecfc3542ba2e475084d22fac78c8beed4",
+      "values_digest": "54d1e20762c580ff974e569f50de2e9b059159edf02ea8003aae013cb32512d0",
       "rendered_digest": "2238d8fef9e6f6694e3f5571844a62706856b151aee0be0a425092fba23821d3",
       "ast_digest": "dbccaba5231caf595e23c4d5463bc92e68ef4278e699633b1792dea295d4b081"
     },
     "spp": {
-      "values_digest": "f6949a55254ff5ce67722ab013346206468fdd8b63523bf031ccf7e9c28730fb",
+      "values_digest": "d3cf20c3fa185324aa2e2d0c30868469a7bae7830192296c6f112646f3f6dc85",
       "rendered_digest": "b699521e870e0876a065047f5205d33508b31da11a9c48f50d84eae2a3cb798f",
       "ast_digest": "e1cc44714823d95529a2ce8d0bc26fee7258b00a7757efe5bb69413f74698ee4"
     },
     "vpp": {
-      "values_digest": "29684a135807be0724f1542a975e00104b0b5bf58cae1710b259e1561538c9a3",
+      "values_digest": "491aa857c9d3d04fb4dc636a2b3205282caaf3d12e5e6ab71a228b5bb71f38cb",
       "rendered_digest": "f8b502bce8e948971aed60bd5262c90f5a6ab981aef4821ddbf4459cc44bd2bf",
       "ast_digest": "edaa58c4bf64a953dcc108c8ec2aba490c2b469178a8ce028134ae461419a84e"
     },
     "srp": {
-      "values_digest": "55dffc8e19c952dde31e5c6202933db9de1f1ae5a2bde73d9725ac1a5555cf57",
-      "rendered_digest": "ae63df472b5355c11566dcfbeec527cdefd8f6a7ad85ebb445051ea65439af09",
-      "ast_digest": "2362aedb67f0d5e1c059c3813f449d8fb6237fa67ecdf0b0b4f3c556925b2665"
+      "values_digest": "7ae42d92c9f76260b4ee4ffeb252c668fa0979dbfa923bda3c090b7211999259",
+      "rendered_digest": "8e2434a9fad2dfb404fc3f41a2a3456a06561becf3f846587951f6aac4920a1b",
+      "ast_digest": "9878811f58ab08600d6ef8774a15158da45ea7761a72e14af93fc441e607cf96"
     },
     "sor": {
-      "values_digest": "9b1baf54df523f75af560c857dfac6c7433d6cd4ce5b5d37abad51a0813dd9df",
-      "rendered_digest": "d11ce57e39a38e3534ac1038a485ccc8975ee94784af8897138173d3a91a83b3",
-      "ast_digest": "2243b093da3b27bd63444e213d4ce7ba6dc6c4a54e20808d6b520aa1bbc62cb9"
+      "values_digest": "89dc642a4144a156e82c6bf5bda4623119d218d88c957b0c8ffc50da54d78ca3",
+      "rendered_digest": "4005d11fac8557c47a7f86a3dcd821170c4d0515f69e281007176e4938f636cd",
+      "ast_digest": "d45f7d7d4a5bdde1c98208dfe46782c45edec8a3f3fdaa9329686d1b1f08b76d"
     }
   },
   "transitions": [
@@ -113,6 +113,27 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R5 exact review after FAIL findings: additive egress did not override implied allow, workload service account lacked least-privilege storage/logging IAM, and watchdog/readback cleanup contract lacked executable proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record #493 R5 remediation truth after focused proof rerun without changing lifecycle phase.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation and repaired R5 review findings for enforced egress, workload IAM, and executable cleanup readback.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Added least-privilege workload storage/logging IAM for artifacts, models, continuity evidence, logs, and log writing.\",\"Added a concise operator runbook and executable disposable-residue readback script for issue/ttl/csm/env cleanup selectors without claiming live GCP mutation.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including R5 remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-d-static-product.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-range diff hygiene before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-diff-hygiene.log\"}]}"
     }
   ]
 }
