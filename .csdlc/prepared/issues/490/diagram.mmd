@@ -1,0 +1,9 @@
+flowchart TD
+  A["Operator-approved gcloud login"] --> B["Read-only identity + project basis"]
+  B --> C["Billing / org / folder observations"]
+  C --> D["Region, quota, policy, IAM readbacks"]
+  D --> E["Decision register"]
+  E --> F["Hard cost ceiling + ownership choice"]
+  F --> G["Accepted GCP-A decision"]
+
+  D -. no mutation .-> H["No API enablement / project creation / apply"]

@@ -1,0 +1,24 @@
+{
+  "bindings": [
+    {
+      "members": [
+        "serviceAccount:1034406986020@cloudservices.gserviceaccount.com"
+      ],
+      "role": "roles/compute.instanceGroupManagerServiceAgent"
+    },
+    {
+      "members": [
+        "serviceAccount:service-1034406986020@compute-system.iam.gserviceaccount.com"
+      ],
+      "role": "roles/compute.serviceAgent"
+    },
+    {
+      "members": [
+        "user:daniel@agent-logic.ai"
+      ],
+      "role": "roles/owner"
+    }
+  ],
+  "etag": "BwZZznQ18VU=",
+  "version": 1
+}

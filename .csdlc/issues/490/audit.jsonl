@@ -1,0 +1,10 @@
+{"sequence":1,"generation":0,"actor":"codex:/root","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"fresh-session:c606607d-0cb9-40e3-b538-8f7f7768a2ae","reason":"approve completed issue design","operation":"{\"design_digest\":\"6f09347efe8e393f52fae5e358ab0e0b38bfa06770304c73aef78396cf069c94\",\"design_ref\":\".csdlc/prepared/issues/490/design.md\",\"diagram_digest\":\"c47f872b0b7cb0ce093fe929d1897a93703b3a52e7a1bf21da843d4ea9293927\",\"diagram_ref\":\".csdlc/prepared/issues/490/diagram.mmd\",\"operation\":\"approve_design\"}"}
+{"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":4,"generation":2,"actor":"codex:issue-490-gcp-a-owner","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":5,"generation":2,"actor":"codex:issue-490-gcp-a-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":6,"generation":3,"actor":"fresh-session:a71c67bf-43f1-43b0-84bd-a64b9df76e1a","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":7,"generation":4,"actor":"codex:issue-490-gcp-a-owner","reason":"recover after failed exact review so the owner can repair stale typed-doctor evidence and validator required-readback checks","operation":"recover_review"}
+{"sequence":8,"generation":4,"actor":"codex:issue-490-gcp-a-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":9,"generation":5,"actor":"fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":6,"actor":"codex:issue-490-gcp-a-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
