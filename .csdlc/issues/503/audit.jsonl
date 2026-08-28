@@ -16,3 +16,4 @@
 {"sequence":16,"generation":9,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":17,"generation":10,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":18,"generation":11,"actor":"codex:worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":19,"generation":12,"actor":"codex:worker-6","reason":"Recover #503 review/publication truth after refreshing over origin/main and applying a one-line guardian CLI fixture repair for the hosted Runtime polis host failure.","operation":"recover_review"}
