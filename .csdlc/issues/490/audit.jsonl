@@ -7,3 +7,4 @@
 {"sequence":7,"generation":4,"actor":"codex:issue-490-gcp-a-owner","reason":"recover after failed exact review so the owner can repair stale typed-doctor evidence and validator required-readback checks","operation":"recover_review"}
 {"sequence":8,"generation":4,"actor":"codex:issue-490-gcp-a-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":5,"actor":"fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":6,"actor":"codex:issue-490-gcp-a-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

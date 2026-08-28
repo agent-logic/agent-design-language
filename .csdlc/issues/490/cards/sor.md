@@ -59,11 +59,11 @@ Accepted the GCP-A hierarchy and cost decision from refreshed read-only GCP evid
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
