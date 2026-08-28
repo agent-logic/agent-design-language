@@ -102,7 +102,7 @@ Diagram: .csdlc/prepared/issues/491/diagram.recovered.mmd
   },
   {
     "lane": "gcp-b-identity-readback",
-    "proof_role": "After reviewed implementation and approved credential context, performs read-only GCP proof of host project, bootstrap service account, impersonation readiness, and local key metadata without printing key contents.",
+    "proof_role": "After reviewed implementation and approved credential context, performs read-only GCP proof of host project, bootstrap service-account readability, and local key metadata without printing key contents.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
     "slug": "gcp-terraform-bootstrap",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -94,7 +94,7 @@
         },
         {
           "lane": "gcp-b-identity-readback",
-          "proof_role": "After reviewed implementation and approved credential context, performs read-only GCP proof of host project, bootstrap service account, impersonation readiness, and local key metadata without printing key contents.",
+          "proof_role": "After reviewed implementation and approved credential context, performs read-only GCP proof of host project, bootstrap service-account readability, and local key metadata without printing key contents.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -117,9 +117,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed if state recovery fails, local key material would be retained or printed, reviewed plan identity drifts, impersonation cannot be proven, provider pins are absent, local bootstrap state remains unmanaged, or mutation would target a project other than cs-host-377d41e71a824f92802120.",
       "design_ref": ".csdlc/prepared/issues/491/design.recovered.md",
-      "design_digest": "d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452",
+      "design_digest": "b5290c0508af6c312534d0c4f3d6946e900af88f66d2622a4197494bcf363408",
       "diagram_ref": ".csdlc/prepared/issues/491/diagram.recovered.mmd",
-      "diagram_digest": "51310babdb0c0104d55cf637a987d8047da8bdffa06fd9480880ee6d97b3df1f"
+      "diagram_digest": "5a48aaeb0756a02a3cb49506a0afb4f3ae86c3afd29c634a8810ca64168befe8"
     }
   }
 }

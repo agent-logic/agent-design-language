@@ -30,22 +30,23 @@ case "$lane" in
       echo "key_file_present=false"
     fi
     ;;
-  --lane=identity-readonly|identity-readonly|--lane=impersonation-readonly|impersonation-readonly)
+  --lane=identity-readonly|identity-readonly)
     if [[ -z "${CLOUDSDK_CONFIG:-}" ]] && git_common_dir="$(git rev-parse --git-common-dir 2>/dev/null)"; then
       export CLOUDSDK_CONFIG="$git_common_dir/csdlc-v2/gcloud-config"
       mkdir -p "$CLOUDSDK_CONFIG"
     fi
 
-    gcloud iam service-accounts describe "$accepted_service_account" --project "$accepted_project" --format='value(email)' >/dev/null
-    project_state="$(gcloud projects describe "$accepted_project" --format='value(lifecycleState)')"
-    enabled_service_count="$(gcloud services list --enabled --project "$accepted_project" --format='value(config.name)' | wc -l | tr -d ' ')"
-    storage_bucket_count="$(gcloud storage buckets list --project "$accepted_project" --format='value(name)' | wc -l | tr -d ' ')"
+    gcloud iam service-accounts describe "$accepted_service_account" --project "$accepted_project" --quiet --format='value(email)' >/dev/null
+    project_state="$(gcloud projects describe "$accepted_project" --quiet --format='value(lifecycleState)')"
+    enabled_service_count="$(gcloud services list --enabled --project "$accepted_project" --quiet --format='value(config.name)' | wc -l | tr -d ' ')"
+    storage_bucket_count="$(gcloud storage buckets list --project "$accepted_project" --quiet --format='value(name)' | wc -l | tr -d ' ')"
 
     echo "gcp-b readback lane classified as identity-readonly: no GCP mutations performed"
     echo "project_id=$accepted_project"
     echo "project_readable=true"
     echo "project_lifecycle_state=$project_state"
     echo "service_account_readable=true"
+    echo "approved_key_backed_readback=true"
     echo "enabled_service_count=$enabled_service_count"
     echo "storage_bucket_count=$storage_bucket_count"
     if [[ -f "$key_file" ]]; then

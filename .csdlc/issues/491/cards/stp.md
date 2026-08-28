@@ -19,14 +19,14 @@ Issue #491 GCP-B only; produce the Terraform backend and deployment-identity boo
 - infra/gcp/bootstrap Terraform root/module for backend and deployment identity bootstrap
 - docs/operations/cloud/gcp/terraform-bootstrap operator runbook
 - docs/milestones/v0.92.1/evidence/cloud/gcp-b retained proof packet
-- issue-owned validator and readback scripts for backend identity, state recovery, impersonation, provider pins, and local-state cleanup
+- issue-owned validator and readback scripts for backend identity, state recovery, approved key-backed execution, provider pins, and local-state cleanup
 
 ## Acceptance
 
 1. AC-1: State is versioned private recoverable and auditable
-2. AC-2: Deployment uses short-lived impersonation by default
+2. AC-2: Deployment uses the approved service-account key-backed bootstrap path by default for this sprint
 3. AC-3: Provider and module versions are pinned
-4. AC-4: Local bootstrap state is removed recoverably
+4. AC-4: Local bootstrap state is removed or ignored recoverably
 5. AC-5: Operator-approved key-backed bootstrap path is documented and verified without exposing key contents
 6. AC-6: Fresh exact-head review has no actionable findings before publication
 

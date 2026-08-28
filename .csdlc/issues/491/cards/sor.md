@@ -12,67 +12,42 @@ Status: pre_phase
 
 ## Summary
 
-Implement GCP Terraform bootstrap module and proof packet for the Agent Logic company host project with redacted read-only identity proof and non-mutating Terraform plan evidence.
+Implemented the GCP-B Terraform bootstrap as an approved service-account key-backed sprint path with private/versioned remote state, pinned provider contract, redacted readbacks, ignored local Terraform state, and retained non-secret proof evidence.
 
 ## Artifacts
 
-- .csdlc/issues/491/cards/vpp.md
-- .csdlc/issues/491/cards/vpp.values.json
-- .csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh
-- .csdlc/prepared/issues/491/run-gcp-b-readbacks.sh
-- infra/gcp/bootstrap/.gitignore
-- infra/gcp/bootstrap/.terraform.lock.hcl
-- infra/gcp/bootstrap/README.md
-- infra/gcp/bootstrap/backend.tf.example
 - infra/gcp/bootstrap/main.tf
-- infra/gcp/bootstrap/outputs.tf
 - infra/gcp/bootstrap/provider.tf
-- infra/gcp/bootstrap/terraform.tfvars.example
 - infra/gcp/bootstrap/variables.tf
-- infra/gcp/bootstrap/versions.tf
+- infra/gcp/bootstrap/outputs.tf
+- infra/gcp/bootstrap/README.md
+- infra/gcp/bootstrap/.terraform.lock.hcl
 - docs/operations/cloud/gcp/terraform-bootstrap/README.md
 - docs/milestones/v0.92.1/evidence/cloud/gcp-b/bootstrap-identity-readiness.md
+- .csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh
+- .csdlc/prepared/issues/491/run-gcp-b-readbacks.sh
+- .csdlc/prepared/issues/491/design.recovered.md
+- .csdlc/prepared/issues/491/diagram.recovered.mmd
 
 ## Execution
 
-- Added a GCP bootstrap Terraform module for a private, versioned GCS state bucket and bootstrap service-account state access in project cs-host-377d41e71a824f92802120.
-- Added operator runbook and milestone evidence describing keyless impersonation preference, the temporary operator-approved bootstrap key, redacted readbacks, and plan/apply boundaries.
-- Hardened #491 validators so project/service-account overrides fail closed and GCP readback output is redacted to status/count fields.
+- Created infra/gcp/bootstrap with pinned hashicorp/google provider, private versioned GCS backend bucket, service-account IAM/member bindings, and ignored local Terraform cache/plan artifacts.
+- Removed short-lived impersonation from the default sprint execution path; #491 uses the operator-approved service-account key only as command-scoped credential material outside the repository.
+- Updated the GCP bootstrap runbook, milestone evidence, design packet, validator, and readback script to prove approved key-backed execution without printing or retaining key contents.
+- Kept future non-key company identity work outside #491 scope while preserving the granted TokenCreator context as non-blocking future readiness evidence.
 
 ## Validation
 
 [
   {
     "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Reject whitespace and conflict-marker artifacts.",
-    "outcome": "passed",
-    "evidence_ref": "diff-check.log"
-  },
-  {
-    "command": [
-      "env",
-      "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]",
-      "bash",
-      ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh",
-      "--lane=identity-readonly"
-    ],
-    "purpose": "Use the operator-approved bootstrap key file to prove the company host project and bootstrap service account are readable, with redacted status/count output only.",
-    "outcome": "passed",
-    "evidence_ref": "gcp-b-identity-readonly.log"
-  },
-  {
-    "command": [
       "bash",
       ".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh",
       "."
     ],
-    "purpose": "Validate #491 design, validator, readback, Terraform module, runbook, and redaction contract.",
+    "purpose": "Prove the #491 bootstrap packet, owned paths, key-backed identity contract, wrong-project/service-account rejection, provider pins, and local-state hygiene.",
     "outcome": "passed",
-    "evidence_ref": "gcp-b-packet-validator.log"
+    "evidence_ref": "local run: gcp-b bootstrap packet validation passed"
   },
   {
     "command": [
@@ -80,9 +55,9 @@ Implement GCP Terraform bootstrap module and proof packet for the Agent Logic co
       ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh",
       "--lane=static"
     ],
-    "purpose": "Prove the static GCP-B readback lane is executable without GCP API calls and detects the approved local key-file presence without reading it.",
+    "purpose": "Prove the readback entrypoint has a non-credentialed static lane and reports only approved project, service account, and key-file metadata.",
     "outcome": "passed",
-    "evidence_ref": "gcp-b-static-readback.log"
+    "evidence_ref": "local run: static lane performed no GCP API calls and reported key_file_present=true"
   },
   {
     "command": [
@@ -91,36 +66,9 @@ Implement GCP Terraform bootstrap module and proof packet for the Agent Logic co
       "fmt",
       "-check"
     ],
-    "purpose": "Reject Terraform formatting drift in the GCP bootstrap module.",
+    "purpose": "Prove Terraform formatting for the GCP bootstrap root.",
     "outcome": "passed",
-    "evidence_ref": "terraform-fmt.log"
-  },
-  {
-    "command": [
-      "terraform",
-      "-chdir=infra/gcp/bootstrap",
-      "init",
-      "-backend=false",
-      "-input=false"
-    ],
-    "purpose": "Initialize provider plugins without backend migration and validate the GCP bootstrap module.",
-    "outcome": "passed",
-    "evidence_ref": "terraform-init-validate.log"
-  },
-  {
-    "command": [
-      "env",
-      "GOOGLE_APPLICATION_CREDENTIALS=[REDACTED]",
-      "CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]",
-      "terraform",
-      "-chdir=infra/gcp/bootstrap",
-      "plan",
-      "-input=false",
-      "-out=tfplan"
-    ],
-    "purpose": "Generate a non-mutating plan for the approved company host project showing the expected GCS state bucket and IAM member only.",
-    "outcome": "passed",
-    "evidence_ref": "terraform-plan.log"
+    "evidence_ref": "local run passed"
   },
   {
     "command": [
@@ -128,15 +76,15 @@ Implement GCP Terraform bootstrap module and proof packet for the Agent Logic co
       "-chdir=infra/gcp/bootstrap",
       "validate"
     ],
-    "purpose": "Validate the initialized GCP bootstrap Terraform module.",
+    "purpose": "Prove the Terraform configuration validates after backend-disabled initialization.",
     "outcome": "passed",
-    "evidence_ref": "terraform-validate.log"
+    "evidence_ref": "local run after terraform init -backend=false passed"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

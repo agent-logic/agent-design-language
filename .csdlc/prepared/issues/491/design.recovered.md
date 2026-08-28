@@ -2,7 +2,7 @@
 
 ## Intent
 
-Issue #491 produces the recoverable GCP Terraform bootstrap for the approved company host project. It must create or normalize the Terraform remote-state backend and deployment identity while proving versioning, privacy, auditability, provider pins, impersonation, saved-plan review, break-glass posture, and recoverable removal of local bootstrap state.
+Issue #491 produces the recoverable GCP Terraform bootstrap for the approved company host project. It must create or normalize the Terraform remote-state backend and deployment identity while proving versioning, privacy, auditability, provider pins, approved service-account key execution, saved-plan review, break-glass posture, and recoverable removal of local bootstrap state.
 
 ## Company identity decision
 
@@ -10,11 +10,12 @@ Issue #491 produces the recoverable GCP Terraform bootstrap for the approved com
 
 - Project: `cs-host-377d41e71a824f92802120`
 - Service account: `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com`
-- Preferred execution: short-lived service-account impersonation from `daniel@agent-logic.ai` and later CI Workload Identity Federation.
+- Sprint execution: approved service-account key under `$HOME/keys`, used only as command-scoped source credentials.
+- Future execution: company-controlled non-key deployment identity such as Workload Identity Federation when available.
 
 The operator explicitly authorized creating a static key to avoid command-by-command prompts. Initial key creation was blocked by organization policy `constraints/iam.managed.disableServiceAccountKeyCreation`; after operator confirmation that they own the org policy, a narrow bootstrap window was opened, one JSON key was created at `/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json`, a read-only project-describe smoke check passed with that key, and service-account key creation policy was re-closed. The retained evidence records only path and metadata, never key contents.
 
-Preferred execution remains keyless impersonation through short-lived credentials; the static key is a local operator-approved break-glass/bootstrap credential for this sprint.
+The sprint bootstrap path intentionally uses the approved service-account key because short-lived impersonation is not reliable enough for this milestone. The key remains outside the repository, command-scoped, and never printed or retained.
 
 ## Scope
 
@@ -30,10 +31,10 @@ Owned surfaces:
 The implementation should provide:
 
 1. A pinned Terraform root/module for a private, versioned, auditable GCS backend.
-2. A keyless provider configuration using `impersonate_service_account`.
+2. A provider configuration that uses the approved command-scoped service-account key/ADC source and does not hard-code credential contents.
 3. Local-state bootstrap instructions that remove or quarantine local state after remote backend creation.
-4. Readback scripts proving backend bucket versioning, IAM, audit/log posture, service-account existence, impersonation readiness, and local key metadata without exposing key contents.
-5. A break-glass section that records how the local key was created, where it is expected, and how to rotate/revoke it or return to impersonation-only execution.
+4. Readback scripts proving backend bucket versioning, IAM, audit/log posture, service-account existence, approved key-backed project readability, and local key metadata without exposing key contents.
+5. A break-glass section that records how the local key was created, where it is expected, and how to rotate/revoke it or replace it with a future company-controlled non-key identity.
 
 ## Dependency gates
 
@@ -52,9 +53,9 @@ The implementation should provide:
 
 ## Validation model
 
-Pre-bind validation proves the design packet, keyless identity decision, operator-approved key path, owned paths, and issue-local validator/readback entrypoints.
+Pre-bind validation proves the design packet, approved service-account key decision, operator-approved key path, owned paths, and issue-local validator/readback entrypoints.
 
-Post-bind validation proves Terraform formatting/validation, provider pins, backend privacy/versioning, impersonation, saved-plan review, local-state cleanup, and redacted retained evidence.
+Post-bind validation proves Terraform formatting/validation, provider pins, backend privacy/versioning, approved key-backed readback, saved-plan review, local-state cleanup, and redacted retained evidence.
 
 Live GCP readbacks are allowed only when they do not print credentials and are scoped to the accepted host project and service account.
 

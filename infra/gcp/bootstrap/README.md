@@ -6,19 +6,13 @@ Target project: `cs-host-377d41e71a824f92802120`
 
 Bootstrap service account: `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com`
 
-Preferred execution uses short-lived impersonation:
+Sprint execution uses the approved service-account key as command-scoped source credentials:
 
 ```sh
-terraform init
-terraform plan \
-  -var='impersonate_service_account=tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com' \
-  -out=tfplan
-```
-
-For the operator-approved sprint bootstrap key, run a command with:
-
-```sh
+GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json terraform init -backend=false
 GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json terraform plan -out=tfplan
 ```
+
+Keep the key file outside the repository and never print or commit its contents.
 
 Do not commit `terraform.tfstate`, `tfplan`, `.terraform/`, credentials, or provider-generated local state. After the bucket exists, copy `backend.tf.example` to `backend.tf`, run `terraform init -migrate-state`, and quarantine/remove any local state after verifying migration.

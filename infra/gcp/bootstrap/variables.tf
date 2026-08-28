@@ -32,12 +32,6 @@ variable "bootstrap_service_account" {
   }
 }
 
-variable "impersonate_service_account" {
-  description = "Optional service account used by the Google provider for short-lived impersonation."
-  type        = string
-  default     = null
-}
-
 variable "labels" {
   description = "Labels applied to bootstrap resources."
   type        = map(string)

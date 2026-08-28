@@ -7,13 +7,13 @@
     "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
     "slug": "gcp-terraform-bootstrap",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #491 GCP-B paths only: infra/gcp/bootstrap, docs/operations/cloud/gcp/terraform-bootstrap, docs/milestones/v0.92.1/evidence/cloud/gcp-b, and issue-owned validators.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

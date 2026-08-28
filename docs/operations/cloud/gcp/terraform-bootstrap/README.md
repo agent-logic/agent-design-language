@@ -6,8 +6,9 @@ This runbook starts the recoverable Terraform backend for ADL in the company GCP
 
 - Project: `cs-host-377d41e71a824f92802120`
 - Bootstrap service account: `tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com`
-- Preferred auth: short-lived impersonation from `daniel@agent-logic.ai`
+- Default Terraform auth mode for this sprint: approved service-account key under `$HOME/keys`, passed only as command-scoped source credentials.
 - Operator-approved local key path: `/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json`
+- Future preferred auth: company-controlled non-key identity such as Workload Identity Federation once the provider path is ready.
 
 Never paste, print, commit, or retain the JSON key contents.
 

@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #491 GCP-B paths only: infra/gcp/bootstrap, docs/operations/cloud/gcp/terraform-bootstrap, docs/milestones/v0.92.1/evidence/cloud/gcp-b, and issue-owned validators.
+
 
 ## Prompts
 
