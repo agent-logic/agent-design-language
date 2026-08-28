@@ -15,3 +15,4 @@
 {"sequence":15,"generation":12,"actor":"codex:/root","reason":"Recover #488 R2 exact review after findings-first FAIL reported only P3 trailing whitespace in two in-scope Markdown files; preserve the finding and permit bounded hygiene repair plus fresh review assignment.","operation":"recover_review"}
 {"sequence":16,"generation":12,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":17,"generation":13,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":18,"generation":14,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
