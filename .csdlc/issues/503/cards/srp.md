@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime/tests/guardian_cli.rs
+.csdlc/issues/503
+.csdlc/prepared/issues/503
+csdlc-v3
 
 ## Prompts
 
@@ -33,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the final integration gate after the branch is pushed and PR #581 observes the refreshed head.
+- PR #581 must continue to expose `Closes #503` in the body.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d5e0a158d4d4acd85510f100e9477efcd5c5dcdf:360e08b6b6acb3c32395118e193a8c348f435e4bb3ca76da033d31b3b47ebff8")
 
-Reviewer: None
+Reviewer: Some("subagent:issue_503_ci_unblocker_review")
 
-Result: pre_review
+Result: pass

@@ -3,13 +3,39 @@
   "issue": 503,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "b0e6809f43b9ada38dc6923ad8c46457bda07271e2ea9eecfcaeed567b2a2530",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "873a6e534dc657241a0a6d38fdfee23eb8e48ed257665788540e86de23ece2d8",
   "branch": "codex/503-v3-d-local-preparation-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue_503_ci_unblocker_review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:d5e0a158d4d4acd85510f100e9477efcd5c5dcdf:360e08b6b6acb3c32395118e193a8c348f435e4bb3ca76da033d31b3b47ebff8",
+    "scope": [
+      "adl-runtime/tests/guardian_cli.rs",
+      ".csdlc/issues/503",
+      ".csdlc/prepared/issues/503",
+      "csdlc-v3"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue_503_ci_unblocker_review",
+    "scope": [
+      "adl-runtime/tests/guardian_cli.rs",
+      ".csdlc/issues/503",
+      ".csdlc/prepared/issues/503",
+      "csdlc-v3"
+    ],
+    "reviewed_revision": "git-blake3:d5e0a158d4d4acd85510f100e9477efcd5c5dcdf:360e08b6b6acb3c32395118e193a8c348f435e4bb3ca76da033d31b3b47ebff8",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate after the branch is pushed and PR #581 observes the refreshed head.",
+      "PR #581 must continue to expose `Closes #503` in the body."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a91989198cc0089da160de26b9d7b6f832fa3550fb46813cc6308348c252e54",
+      "values_digest": "14d410ab424de2674b6b4ea0f80ec68d0c144493992dec55ef752f9aee818eb6",
       "rendered_digest": "3958ca74dddd8aaf85763659195100ba365f4a8ced6634d25ff76d80c10c56bc",
       "ast_digest": "484ed7ec53f13cbb802f1c0e36dd66776df6966f92cc3414f77becf084a96013"
     },
     "stp": {
-      "values_digest": "f82e3fba039f815dad5e176832bace1d174cc3afb6850bd5a55dbf3a9a9ffea2",
+      "values_digest": "fd37137fb85942fbd326afb7a164c92c8ae704e5f8a1d48b7c9feb4001aac22c",
       "rendered_digest": "e5cedcf5f0a5a3962edb09d18a4d1e03898a5e3efcde1463d0ab34ff3ec555f4",
       "ast_digest": "f371d273d3a4f1bd857d25506b9d31d15115f0ff3afce7b2e1169b5f6c558c50"
     },
     "spp": {
-      "values_digest": "7324b6a28435acd6d31ddfd5629ae3849055794461a3865f51f488b853f698a1",
+      "values_digest": "b5e30b158d85e7c84cb1079e65c64effd3698840f69fa647add2e84bda85b0d7",
       "rendered_digest": "69f2e7ce598741f8e40b20c89d8646f2370ed13f95a69808c986fb06e4305408",
       "ast_digest": "c76595133e4cbf12128ffd1cf7f22617e64c6ac10b99aa71fbc094adbd483e3e"
     },
     "vpp": {
-      "values_digest": "77f2b8204014bbf6239d75f6f078f0a2a914a0eba3a49f0cc6fd87291594a6a9",
+      "values_digest": "7ba3560effc1d8c4d18d4a06bd8aab694d160f0f14d2d2a60c7299782e8a3f87",
       "rendered_digest": "01a8b90503cdae47ca5ff5fc15aec182ac7646a04b9c16e8f7d206953e5eb7dd",
       "ast_digest": "a479386f18161ee8a7429da309a23c8c510cae65f95ceedccacf75f5d4b9f50b"
     },
     "srp": {
-      "values_digest": "68c929d53faa7d919be27222c9b846c9744e59ef9d221c6088a5c0e01365bed4",
-      "rendered_digest": "16e7bc4a408b096fbae9011d0060c87c80fc33427d665b7703457d5611b84c97",
-      "ast_digest": "6690f288018ebf1a17746e20dea7cb9a423ba1a57bc45d070f8d68fc90286c6b"
+      "values_digest": "1a37f5e83b5ce5a226a7ec6a7595e1d358a5dcaa4b43870cb9ccc8552f660c15",
+      "rendered_digest": "840263090adcc48ed2d37144677b5a06881ced84c24f31e9d371e851c4eeb1d1",
+      "ast_digest": "e4fa38913f1c1a02b9f0ad556359f5868f9a39903688ad92e0b1b5e4ae96f0d4"
     },
     "sor": {
-      "values_digest": "5f1d7ff7afd4e0610adb78765a866eaf812673333a0f035a55444d68d9f58e86",
+      "values_digest": "2dce494bbfbc750ce134741fa717b5462e53d0eb0d4e48991d5fd74ca0239d76",
       "rendered_digest": "02a898e2267c33041b4ecc654d2530fd735b59755eb0bd7957d36a1054195922",
       "ast_digest": "fbcea049c6b7bc952b982891d14e75115a6a18724fae4757cc677b0b434a2d40"
     }
@@ -110,6 +136,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #503 review/publication truth after refreshing over origin/main and applying a one-line guardian CLI fixture repair for the hosted Runtime polis host failure."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue_503_ci_unblocker_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -245,6 +278,20 @@
       "actor": "codex:worker-6",
       "reason": "Recover #503 review/publication truth after refreshing over origin/main and applying a one-line guardian CLI fixture repair for the hosted Runtime polis host failure.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "subagent:issue_503_ci_unblocker_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
