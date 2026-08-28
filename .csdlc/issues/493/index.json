@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1abd3eac653f9ea21c1b7f6ef530cfb261e6ae30d0bdf8d0ea56e4bc50324a10",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "86b64ab2e7ddb2aa4f15e46c289dbdc790d0f556dcc01a997fd23b103b563846",
+  "generation": 9,
+  "digest": "2ddea3381e7a62871fb0204388c9e4b449659da1f492507004efa2b62a4a397e",
   "branch": "codex/493-gcp-private-platform-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-493-gcp-private-platform-foundation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9e384b93ca3353cce11ce861c35549bbdae65859d3c1b74bcc01c3987aeb0a85",
+      "values_digest": "6f980b737345fffabcad9cffd30ff0ed6274e6dd0097e49762beb25c2d7d25bd",
       "rendered_digest": "04d17631608d2c9962fc6267aaa78dce3ee8f1d9cb9031ac8ce900840b05de05",
       "ast_digest": "277dbb0c97a5f744aad274fbab36089e58d26620fde0345f68e643ccb0d04bc8"
     },
     "stp": {
-      "values_digest": "0e481ffb097a052806d3762a4c70df1b81525f11e6b47c109ca4a39fd1454258",
+      "values_digest": "f12f02fd295a8cec2150e8c4ba260539cea4627ed065de8a89786619826957ca",
       "rendered_digest": "2238d8fef9e6f6694e3f5571844a62706856b151aee0be0a425092fba23821d3",
       "ast_digest": "dbccaba5231caf595e23c4d5463bc92e68ef4278e699633b1792dea295d4b081"
     },
     "spp": {
-      "values_digest": "cdbf0316bece4d46928d22ef7cb6dab33dda8143f792cbcac1fe01f30e3450cd",
+      "values_digest": "b9c131d561a83fbfebcbf9058edcb0b4bbdd5d3ae29e1ae7f7ffb8976b41a8d0",
       "rendered_digest": "b699521e870e0876a065047f5205d33508b31da11a9c48f50d84eae2a3cb798f",
       "ast_digest": "e1cc44714823d95529a2ce8d0bc26fee7258b00a7757efe5bb69413f74698ee4"
     },
     "vpp": {
-      "values_digest": "8e87c7eec6d7b78fb5c54ccb59fca76c64d3461d6c0c6910e27851b0e88a9e67",
+      "values_digest": "b0875776ee5268e3f4ba37c05beb44d8244603d0119abcd035522ef025fddaf5",
       "rendered_digest": "f8b502bce8e948971aed60bd5262c90f5a6ab981aef4821ddbf4459cc44bd2bf",
       "ast_digest": "edaa58c4bf64a953dcc108c8ec2aba490c2b469178a8ce028134ae461419a84e"
     },
     "srp": {
-      "values_digest": "f4fa65a8b9199fceed6a54e35a401f3529961b88562aa870c0e8b4283105f81a",
+      "values_digest": "8a9bec864e7d482faf1f04eea18b506c7aa88c1ff3016cdb68502765b6664b20",
       "rendered_digest": "8e2434a9fad2dfb404fc3f41a2a3456a06561becf3f846587951f6aac4920a1b",
       "ast_digest": "9878811f58ab08600d6ef8774a15158da45ea7761a72e14af93fc441e607cf96"
     },
     "sor": {
-      "values_digest": "c150c45531b78536f7c69d1c0daf5c36fd7d439aaa359ff788d83ed77e42b200",
-      "rendered_digest": "6e93adb22be43f29d4c2ecb42855f51452c0dc13132ffdc55ea19412b0971861",
-      "ast_digest": "560797b9ecfdb9666845bf7280ba9680c0679bf69ba7f81b08eab2cdc08640ce"
+      "values_digest": "8461b86b7d286484212a1741e8e3c77863c745254506513ee910e706a20ee8b0",
+      "rendered_digest": "54080bba467a4aeafd0ab8d947381adc16070cedf08d2efcfd0c0634fec855bc",
+      "ast_digest": "38647ad5f9d77a1d9f8a6258244c51347a1ec5b9b3cd688b5d9a8c8c60128229"
     }
   },
   "transitions": [
@@ -155,6 +155,27 @@
       "actor": "codex:/root",
       "reason": "Record #493 R6 readback remediation truth after focused proof rerun.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, and complete disposable-residue readback.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Added least-privilege workload storage/logging IAM for artifacts, models, continuity evidence, logs, and log writing.\",\"Added a concise operator runbook and executable disposable-residue readback script covering compute, firewall, service-account/IAM, storage bucket/object, and Terraform state residue selectors without claiming live GCP mutation.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including R6 readback remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-d-static-product.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-range diff hygiene before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R7 exact review after FAIL finding that readback selectors did not match Terraform-created firewall/service-account resources and omitted bucket-level IAM policy readback.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #493 R7 selector/readback remediation truth after focused proof rerun.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, complete disposable-residue readback, and selector correspondence to Terraform-created resources.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.\",\"Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.\",\"Strengthened the issue-owned validator so selector correspondence and bucket-IAM readback are checked directly.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including R7 selector/readback remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-d-static-product.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-range diff hygiene before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-diff-hygiene.log\"}]}"
     }
   ]
 }

@@ -4,7 +4,7 @@ locals {
     env = var.environment
   })
 
-  workload_service_account_id = "csm-${var.environment}-workload"
+  workload_service_account_id = "${var.csm_name}-${var.environment}-workload"
   state_bucket_name           = "${var.project_id}-${var.environment}-${var.csm_name}-state"
   artifact_bucket_name        = "${var.project_id}-${var.environment}-${var.csm_name}-artifacts"
   model_bucket_name           = "${var.project_id}-${var.environment}-${var.csm_name}-models"
@@ -88,7 +88,7 @@ resource "google_project_iam_member" "operator_os_login" {
 
 resource "google_service_account" "workload" {
   account_id   = local.workload_service_account_id
-  display_name = "CSM ${var.environment} disposable workload service account"
+  display_name = "CSM ${var.csm_name} ${var.environment} disposable workload service account"
   description  = "Dedicated workload identity for #493 GCP-D disposable private workloads."
 }
 

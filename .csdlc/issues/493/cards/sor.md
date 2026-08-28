@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, and complete disposable-residue readback.
+Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, complete disposable-residue readback, and selector correspondence to Terraform-created resources.
 
 ## Artifacts
 
@@ -25,8 +25,9 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
 ## Execution
 
 - Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.
-- Added least-privilege workload storage/logging IAM for artifacts, models, continuity evidence, logs, and log writing.
-- Added a concise operator runbook and executable disposable-residue readback script covering compute, firewall, service-account/IAM, storage bucket/object, and Terraform state residue selectors without claiming live GCP mutation.
+- Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.
+- Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.
+- Strengthened the issue-owned validator so selector correspondence and bucket-IAM readback are checked directly.
 
 ## Validation
 
@@ -37,7 +38,7 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
       ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
       "--lane=all"
     ],
-    "purpose": "Run the issue-owned static validator for GCP-D including R6 readback remediation checks.",
+    "purpose": "Run the issue-owned static validator for GCP-D including R7 selector/readback remediation checks.",
     "outcome": "passed",
     "evidence_ref": "gcp-d-static-product.log"
   },

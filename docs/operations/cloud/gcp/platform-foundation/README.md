@@ -90,7 +90,8 @@ Read the current residue set before and after destroy:
   --project "$PROJECT_ID" \
   --zone "$ZONE" \
   --csm "$CSM_NAME" \
-  --env "$ENVIRONMENT"
+  --env "$ENVIRONMENT" \
+  --network-name "$NETWORK_NAME"
 ```
 
 Destroy the foundation only when no disposable workloads remain:
