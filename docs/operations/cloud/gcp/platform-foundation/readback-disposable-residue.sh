@@ -34,3 +34,21 @@ gcloud compute addresses list --project "$project" --filter "$filter"
 
 echo "firewall rules:"
 gcloud compute firewall-rules list --project "$project" --filter "$filter"
+
+echo "service accounts:"
+gcloud iam service-accounts list --project "$project" --filter "displayName~${csm} AND displayName~${environment}"
+
+echo "project IAM bindings mentioning issue 493 or disposable workload service account:"
+gcloud projects get-iam-policy "$project" --flatten "bindings[].members" --filter "bindings.members:serviceAccount:csm-${environment}-workload OR bindings.condition.expression:493"
+
+echo "storage buckets:"
+gcloud storage buckets list --project "$project" --filter "labels.issue=493 AND labels.csm=${csm} AND labels.env=${environment}"
+
+echo "storage objects:"
+for owner in state artifacts models continuity-evidence logs; do
+  bucket="gs://${project}-${environment}-${csm}-${owner}"
+  gcloud storage ls --recursive "$bucket/**" 2>/dev/null || true
+done
+
+echo "terraform state:"
+terraform -chdir=infra/gcp/platform state list 2>/dev/null || true

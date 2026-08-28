@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the #493 GCP-D private platform foundation and repaired R5 review findings for enforced egress, workload IAM, and executable cleanup readback.
+Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, and complete disposable-residue readback.
 
 ## Artifacts
 
@@ -26,7 +26,7 @@ Implemented the #493 GCP-D private platform foundation and repaired R5 review fi
 
 - Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.
 - Added least-privilege workload storage/logging IAM for artifacts, models, continuity evidence, logs, and log writing.
-- Added a concise operator runbook and executable disposable-residue readback script for issue/ttl/csm/env cleanup selectors without claiming live GCP mutation.
+- Added a concise operator runbook and executable disposable-residue readback script covering compute, firewall, service-account/IAM, storage bucket/object, and Terraform state residue selectors without claiming live GCP mutation.
 
 ## Validation
 
@@ -37,7 +37,7 @@ Implemented the #493 GCP-D private platform foundation and repaired R5 review fi
       ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
       "--lane=all"
     ],
-    "purpose": "Run the issue-owned static validator for GCP-D including R5 remediation checks.",
+    "purpose": "Run the issue-owned static validator for GCP-D including R6 readback remediation checks.",
     "outcome": "passed",
     "evidence_ref": "gcp-d-static-product.log"
   },
