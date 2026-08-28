@@ -5,6 +5,9 @@
 //! execution, GitHub mutation, worktree binding, finish, cleanup, or authority
 //! cutover APIs.
 
+pub mod application;
+pub mod repository;
+
 /// The predecessor issues retained by the V3-A contract.
 pub const PREDECESSOR_DENOMINATOR: [u64; 3] = [161, 162, 163];
 
@@ -118,7 +121,7 @@ mod tests {
         assert!(coverage.contains("\"denominator_source\""));
         for requirement in PREDECESSOR_REQUIREMENTS {
             assert!(coverage.contains(&format!("\"id\": \"{requirement}\"")));
-            assert!(coverage.contains(&format!("\"disposition\": \"retained\"")));
+            assert!(coverage.contains("\"disposition\": \"retained\""));
             assert!(coverage.contains("\"maps_to\""));
         }
         assert!(coverage.contains("\"source_acceptance\": \"AC-16\""));

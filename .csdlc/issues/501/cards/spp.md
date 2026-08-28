@@ -1,0 +1,118 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 501
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Confirm #500 terminal dependency, build explicit repository context and deterministic state/projection surfaces, add a read-only foundation command, then prove deterministic replay and retained requirements #164 through #167 with focused tests and strict clippy.
+
+## Plan
+
+Revision 2
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Confirm #500 is merged and closed before implementation begins.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Implement explicit repository context and deterministic repository adapters.",
+    "acceptance_ids": [
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement deterministic foundation state/projection replay and stable serialization.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Add a read-only foundation command that exposes machine-readable context and projection output without lifecycle authority.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Run focused foundation, repository-context, state-projection, strict-clippy, and diff-hygiene validation, then obtain independent review.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- C-SDLC v2 remains sole operational authority.
+- Repository context is passed explicitly as data.
+- Projection replay is deterministic across repeated loads.
+- The command surface is read-only and machine-readable.
+- Every retained requirement from #164 through #167 has at least one focused behavioral proof.
+
+## Risks
+
+- A foundation helper accidentally depends on ambient cwd or process state.
+- Projection serialization has nondeterministic ordering.
+- A command is mistaken for lifecycle authority.
+- The slice expands into V3-C transaction/lifecycle behavior.
+- Issue-start simplification bypasses typed v2 lifecycle authority instead of making readiness easier to inspect.
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/501/design.md
+
+Digest: f3ada52964f181e7364f9252bc8d5e81ea4d9a441bbe04e4dca639416ce13bc9
+
+## Diagram
+
+.csdlc/prepared/issues/501/diagram.mmd
+
+Digest: 0e0e94a115d09daa735596d02cf242e6234853b5d5cd815f124b9aabe0af3528
+
+## Stop Conditions
+
+- Hidden process state is required.
+- Projection replay diverges.
+- The implementation requires GitHub mutation or lifecycle execution.
+- The slice grants C-SDLC v3 operational authority.
+- Work expands into V3-C or later implementation.
+
+## Handoff
+
+Proceed only after doctor readiness.

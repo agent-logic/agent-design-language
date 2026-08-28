@@ -1,0 +1,8 @@
+flowchart LR
+  Issue["#501 source issue"] --> Context["RepositoryContext"]
+  Contract["V3-A contract"] --> Context
+  Context --> State["FoundationState"]
+  State --> Replay["deterministic projection replay"]
+  Replay --> Json["machine-readable read-only output"]
+  Json --> Tests["foundation tests"]
+  V2["C-SDLC v2 authority"] -. remains authority .-> Context
