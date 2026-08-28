@@ -64,10 +64,19 @@ fn application_context_reports_typed_missing_root_errors() {
 #[test]
 fn read_only_v2_import_loads_issue_record_and_cards() {
     let context = RepositoryContext::discover(repo_root()).expect("explicit repository context");
+    let issue_record: serde_json::Value =
+        serde_json::from_str(&context.issue_record_text(501).expect("issue record text"))
+            .expect("issue record json");
     let projection = IssueProjection::load(&context, 501).expect("read-only issue projection");
     assert_eq!(projection.issue, 501);
     assert_eq!(projection.schema, "csdlc.issue.index.v1");
-    assert_eq!(projection.phase, "published");
+    assert_eq!(
+        projection.phase,
+        issue_record
+            .get("phase")
+            .and_then(serde_json::Value::as_str)
+            .expect("issue record phase")
+    );
     assert!(projection.generation > 0);
     assert_eq!(projection.digest.len(), 64);
     assert_eq!(projection.card_count, 6);
