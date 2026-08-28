@@ -159,6 +159,14 @@ fn transaction_state_commit_is_atomic_and_projection_failure_requires_repair() {
     };
     assert_eq!(committed.state, LifecycleState::Bound);
     assert!(committed.projections_repair_required);
+    assert_eq!(
+        classify_recovery(RecoveryObservation::NoIntent {
+            state: committed.clone()
+        }),
+        RecoveryClassification::CorruptRecoveryInput {
+            reason: RecoveryRejectReason::RepairIntentMissing
+        }
+    );
     assert_eq!(committed.audit[0].provenance, "durable typed intent");
     assert_eq!(store.committed().digest, committed.digest);
     let blocked = store.begin(
@@ -171,6 +179,56 @@ fn transaction_state_commit_is_atomic_and_projection_failure_requires_repair() {
     assert_eq!(
         blocked,
         Err(csdlc_v3::storage::StoreError::ProjectionRepairRequired)
+    );
+}
+
+#[test]
+fn transaction_commits_preserve_projection_invalidations() {
+    let initial = StateRecord::new(LifecycleState::Reviewed);
+    let mut store = TransactionStore::new(initial.clone()).expect("valid initial digest");
+    let publish = store
+        .begin(
+            LifecycleCommand::Publish,
+            &full_capabilities(),
+            initial.generation,
+            initial.digest,
+            "publish linkage",
+        )
+        .expect("publish stages");
+    let published = match store
+        .commit(publish, ProjectionWrite::Success)
+        .expect("publish commits")
+    {
+        CommitResult::Committed(state) => state,
+        CommitResult::ProjectionRepairRequired(_) => panic!("unexpected projection repair"),
+    };
+    assert_eq!(
+        published.invalidated_projections,
+        [ProjectionInvalidation::Publication]
+    );
+    let recover = store
+        .begin(
+            LifecycleCommand::RecoverReview,
+            &full_capabilities(),
+            published.generation,
+            published.digest,
+            "review stale",
+        )
+        .expect("review recovery stages");
+    let recovered = match store
+        .commit(recover, ProjectionWrite::Success)
+        .expect("review recovery commits")
+    {
+        CommitResult::Committed(state) => state,
+        CommitResult::ProjectionRepairRequired(_) => panic!("unexpected projection repair"),
+    };
+    assert_eq!(
+        recovered.invalidated_projections,
+        [
+            ProjectionInvalidation::Review,
+            ProjectionInvalidation::Publication,
+            ProjectionInvalidation::Terminal
+        ]
     );
 }
 

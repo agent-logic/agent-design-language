@@ -1,5 +1,6 @@
 use crate::lifecycle::{
-    decide, CapabilitySet, LifecycleCommand, LifecycleState, TransitionOutcome,
+    decide, CapabilitySet, LifecycleCommand, LifecycleState, ProjectionInvalidation,
+    TransitionOutcome,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -9,6 +10,7 @@ pub struct StateRecord {
     pub state: LifecycleState,
     pub audit: Vec<AuditEvent>,
     pub projections_repair_required: bool,
+    pub invalidated_projections: Vec<ProjectionInvalidation>,
 }
 
 impl StateRecord {
@@ -19,6 +21,7 @@ impl StateRecord {
             state,
             audit: Vec::new(),
             projections_repair_required: false,
+            invalidated_projections: Vec::new(),
         };
         record.refresh_digest();
         record
@@ -30,6 +33,7 @@ impl StateRecord {
             self.state,
             &self.audit,
             self.projections_repair_required,
+            &self.invalidated_projections,
         );
     }
 }
@@ -40,6 +44,7 @@ pub struct AuditEvent {
     pub command: LifecycleCommand,
     pub from: LifecycleState,
     pub to: LifecycleState,
+    pub invalidates: Vec<ProjectionInvalidation>,
     pub provenance: String,
 }
 
@@ -88,6 +93,7 @@ impl TransactionStore {
                 initial.state,
                 &initial.audit,
                 initial.projections_repair_required,
+                &initial.invalidated_projections,
             )
         {
             return Err(StoreError::InvalidRecordDigest);
@@ -127,7 +133,7 @@ impl TransactionStore {
             return Err(StoreError::ProjectionRepairRequired);
         }
         let decision = decide(self.committed.state, command, capabilities);
-        let TransitionOutcome::Allowed { to, .. } = decision.outcome else {
+        let TransitionOutcome::Allowed { to, invalidates } = decision.outcome else {
             return Err(StoreError::RejectedTransition);
         };
         let mut next_audit = self.committed.audit.clone();
@@ -137,6 +143,7 @@ impl TransactionStore {
             command,
             from: self.committed.state,
             to,
+            invalidates: invalidates.clone(),
             provenance: provenance.into(),
         });
         let mut next_state = StateRecord {
@@ -145,6 +152,10 @@ impl TransactionStore {
             state: to,
             audit: next_audit,
             projections_repair_required: false,
+            invalidated_projections: merge_invalidations(
+                &self.committed.invalidated_projections,
+                &invalidates,
+            ),
         };
         next_state.refresh_digest();
         Ok(StagedTransaction {
@@ -240,6 +251,7 @@ pub enum RecoveryRepair {
 pub enum RecoveryRejectReason {
     InvalidStateDigest,
     IntentDoesNotMatchCommittedState,
+    RepairIntentMissing,
 }
 
 pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassification {
@@ -247,6 +259,11 @@ pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassifica
         RecoveryObservation::NoIntent { state } => {
             if let Err(reason) = validate_state_record(&state) {
                 return RecoveryClassification::CorruptRecoveryInput { reason };
+            }
+            if state.projections_repair_required {
+                return RecoveryClassification::CorruptRecoveryInput {
+                    reason: RecoveryRejectReason::RepairIntentMissing,
+                };
             }
             RecoveryClassification::NewState(state)
         }
@@ -304,11 +321,20 @@ fn validate_committed_recovery_input(
         return Err(RecoveryRejectReason::IntentDoesNotMatchCommittedState);
     };
     let prior_audit = &state.audit[..state.audit.len() - 1];
-    let prior_digest = digest_for(intent.expected_generation, event.from, prior_audit, false);
+    let prior_invalidations = invalidations_for_audit(prior_audit);
+    let prior_digest = digest_for(
+        intent.expected_generation,
+        event.from,
+        prior_audit,
+        false,
+        &prior_invalidations,
+    );
+    let expected_invalidations = merge_invalidations(&prior_invalidations, &event.invalidates);
     if state.generation != intent.expected_generation + 1
         || event.generation != state.generation
         || event.command != intent.command
         || event.to != state.state
+        || state.invalidated_projections != expected_invalidations
         || event.provenance != intent.provenance
         || intent.expected_digest != prior_digest
     {
@@ -323,6 +349,7 @@ fn validate_state_record(state: &StateRecord) -> Result<(), RecoveryRejectReason
         state.state,
         &state.audit,
         state.projections_repair_required,
+        &state.invalidated_projections,
     );
     if state.digest != expected_digest {
         return Err(RecoveryRejectReason::InvalidStateDigest);
@@ -335,20 +362,45 @@ fn digest_for(
     state: LifecycleState,
     audit: &[AuditEvent],
     projections_repair_required: bool,
+    invalidated_projections: &[ProjectionInvalidation],
 ) -> String {
     let mut canonical =
         format!("generation={generation};state={state};repair={projections_repair_required};");
     for event in audit {
         canonical.push_str(&format!(
-            "audit=g{}:{:?}:{}>{}:{};",
+            "audit=g{}:{:?}:{}>{}:{}:",
             event.generation,
             event.command,
             event.from,
             event.to,
-            escape_digest_field(&event.provenance)
+            escape_digest_field(&event.provenance),
         ));
+        for invalidation in &event.invalidates {
+            canonical.push_str(&format!("{invalidation:?},"));
+        }
+        canonical.push(';');
+    }
+    for invalidation in invalidated_projections {
+        canonical.push_str(&format!("invalidates={invalidation:?};"));
     }
     format!("v3:{:016x}", stable_hash64(canonical.as_bytes()))
+}
+
+fn merge_invalidations(
+    current: &[ProjectionInvalidation],
+    next: &[ProjectionInvalidation],
+) -> Vec<ProjectionInvalidation> {
+    let mut merged = current.to_vec();
+    merged.extend(next.iter().copied());
+    merged.sort();
+    merged.dedup();
+    merged
+}
+
+fn invalidations_for_audit(audit: &[AuditEvent]) -> Vec<ProjectionInvalidation> {
+    audit.iter().fold(Vec::new(), |merged, event| {
+        merge_invalidations(&merged, &event.invalidates)
+    })
 }
 
 fn stable_hash64(bytes: &[u8]) -> u64 {
