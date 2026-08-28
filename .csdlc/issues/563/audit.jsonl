@@ -26,3 +26,7 @@
 {"sequence":26,"generation":21,"actor":"codex:563-execution","reason":"Preserve the inherited substantive residual risk in the metadata-only review record before publication.","operation":"recover_review"}
 {"sequence":27,"generation":21,"actor":"codex:563-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":28,"generation":22,"actor":"codex:563-execution","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":29,"generation":23,"actor":"codex:563-execution","reason":"Rebind the unchanged substantive implementation to the current clean commit for publication while leaving typed projections uncommitted.","operation":"recover_review"}
+{"sequence":30,"generation":23,"actor":"codex:563-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":31,"generation":24,"actor":"codex:563-execution","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":32,"generation":25,"actor":"codex:563-execution","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

@@ -118,11 +118,11 @@ Implemented a deterministic installed-owner source-set receipt and shared fail-c
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

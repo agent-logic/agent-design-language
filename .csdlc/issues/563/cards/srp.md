@@ -12,11 +12,14 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/563
-.csdlc/prepared/issues/563/assign-metadata-reconciliation-review.json
-.csdlc/prepared/issues/563/record-metadata-reconciliation-review.json
-.csdlc/prepared/issues/563/recover-review-for-metadata-reconciliation.json
-.csdlc/prepared/issues/563/recover-review-for-residual-risk-repair.json
+csdlc-v2/operator/owner-source-set.json
+csdlc-v2/operator/skills.json
+csdlc-v2/src/operator.rs
+csdlc-v2/src/store.rs
+csdlc-v2/src/lifecycle.rs
+csdlc-v2/src/bin
+csdlc-v2/tests/gate10a.rs
+csdlc-v2/tests/primary_checkout_bootstrap_guard.rs
 
 ## Prompts
 
@@ -41,7 +44,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:2772844ca07061ceb6f30319b92f79f9ef155a30:9718a15061b8fe1effe7d59faf08f6436410059630d96dba5b04fbe7c94476d1")
+Revision: Some("git-blake3:a7e667e0b28526ea324f31438b13e5624e39b269:e6805f6e0bc2a128728eb84d5787d4fcc59879980b2beaf10a90e8d0109db450")
 
 Reviewer: Some("fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6")
 
