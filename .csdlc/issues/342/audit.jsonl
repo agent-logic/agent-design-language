@@ -27,3 +27,5 @@
 {"sequence":27,"generation":22,"actor":"codex:/root/sprint8-podcast-lane","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":28,"generation":23,"actor":"codex:/root/sprint8-podcast-lane","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":29,"generation":24,"actor":"codex:/root/sprint8-podcast-lane","reason":"Recover reviewed state after publication guard identified a metadata-tail review_stale condition; redo exact-head review with request packets kept outside the committed branch.","operation":"recover_review"}
+{"sequence":30,"generation":24,"actor":"codex:/root/sprint8-podcast-lane","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":31,"generation":25,"actor":"codex:/root/sprint8-podcast-lane","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

@@ -3,13 +3,40 @@
   "issue": 342,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f22f50785de3595fa31cdc85e96af67d56171c756d8d95f70e35e786ad312b9f",
-  "phase": "implemented",
-  "generation": 24,
-  "digest": "21d64c42cff1bb404f0a076825738aee757ba53cfddc26ed2290db5bb3384e5a",
+  "phase": "reviewed",
+  "generation": 25,
+  "digest": "82af970248d8d8b93088acc15aac0a41500ececa4a9395f014bcd9f175bf8834",
   "branch": "codex/342-podcast-studio-first-ten-episodes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-342-podcast-studio-first-ten-episodes",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:13e6db8b-6537-4016-a056-9296de03f276",
+    "assigned_by": "codex:/root/sprint8-podcast-lane",
+    "revision": "git-blake3:c67307ab839b5a2bfc6905e72c68e9a5cb3fa8c3:a1b6433d649a4016d679db960aa1ac4c6032ff1ae84d9632c6f9cd39320775a1",
+    "scope": [
+      "demos/podcast/episode-packages/**",
+      ".csdlc/issues/342",
+      ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+      ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
+      ".csdlc/prepared/issues/342/validate-readiness.rb"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:13e6db8b-6537-4016-a056-9296de03f276",
+    "scope": [
+      "demos/podcast/episode-packages/**",
+      ".csdlc/issues/342",
+      ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+      ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
+      ".csdlc/prepared/issues/342/validate-readiness.rb"
+    ],
+    "reviewed_revision": "git-blake3:c67307ab839b5a2bfc6905e72c68e9a5cb3fa8c3:a1b6433d649a4016d679db960aa1ac4c6032ff1ae84d9632c6f9cd39320775a1",
+    "findings": [],
+    "residual_risks": [
+      "#342 is intentionally a non-production source-package checkpoint; final audio, production RSS/hosting, directory runbooks, directory submissions, and final show-identity clearance remain owned by #261/#262/#263/#264."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0b9a7d830dbca507db5d0bbdd2417dcd8888e2ae85f32a0101e5f4fc7d61e577",
+      "values_digest": "439af3ebfeb0c0a1bd7b126eeac867a0d456b5764975dbc2cb78bee4d12bb719",
       "rendered_digest": "5328667aa3b17e469c4e356c01c9c602c10a712d6a391083d445c63904620910",
       "ast_digest": "6eaf7b8e3cb171db069ce3d7e5b2ba589bb054310e93b6066b0b170a41c98d19"
     },
     "stp": {
-      "values_digest": "6d21ca56fdc64de10b44387db19f4697e5638ad4f96fe368a495e63e71796f08",
+      "values_digest": "a3ae8271e76b8013655792b422fbc2f964aab8af2292c4d0ec5904d47a2e199f",
       "rendered_digest": "acb4546eeec9aa539f66cc016e39189ef9a85660e77e9b6f18539480b6d52b92",
       "ast_digest": "ed2d6b41b560d5723a0958ac88879aa36df82116433163a9d72aa7c2d94ceb23"
     },
     "spp": {
-      "values_digest": "2da871e6bb8e26aad9a592ff622086f5bc3c1efc20123ae7aa03eddb2f0d282d",
+      "values_digest": "9e6d1cd4443ac2777d0447287faa17c0ab711ebf262277eb9a9ef58ecb553d0b",
       "rendered_digest": "191480bd99aec1c23e210e976f5f42a848cfbd552f1781829934dbc1ef764e59",
       "ast_digest": "07819b7755ede28a214e3623d7362c71eb7a5e9e1a3448cc31fe0a7dadbc7391"
     },
     "vpp": {
-      "values_digest": "2fae9a774320769002f6f63ae522ab218af5956b30a30aa16e6b0222d5276f5d",
+      "values_digest": "870e0e031977df690389dacde9f811977912df8c9e5260cc1721877ffff66721",
       "rendered_digest": "7b01988e3038715e3c0197ad18a7b2fec0b4eae7a735707af22f4d7bebe55c16",
       "ast_digest": "6b64408653e72de06986bd341bb63150557f388dfd8b5f10c133ccca2822220e"
     },
     "srp": {
-      "values_digest": "3852f14bd68280ad716c610e10bce538cd0be44a134de980896fa30cbedebff6",
-      "rendered_digest": "f3981d397581a00015a75d6c9e78169872aa294aa4e98e1cf125af3d1d684772",
-      "ast_digest": "02b4ab1ca0e7a190cd8d6e5aa0474acb356d498c4bba7f5d5513c8e1120a23fa"
+      "values_digest": "4d54c61c07cd86019d9e79fa4e7b00593940915524c919366a9dda3d233e620d",
+      "rendered_digest": "bb272a00b6088dd3c03279d033ac1bf99f53795a5ef8f2e91274b84c52eea572",
+      "ast_digest": "4256c816ef8644fcecc29fb434dd1944308a7fae57cf5e3089622493624918c6"
     },
     "sor": {
-      "values_digest": "70111aa24c97ef549a34be47ec78934b59f02fe440338d2b1a2203430af54fae",
+      "values_digest": "f3f07c45bf93908abcdc810aea051a4d38132eaa3dc5f7b500d3045d70b2b6bc",
       "rendered_digest": "11bc7272cde994c5618f78c56d1472b12c1421368b4131117fff1ad018c07799",
       "ast_digest": "1c627b8aaefa060c0e7144c47437e13db4b85c2286e476adcd437925cefae3f4"
     }
@@ -89,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:/root/sprint8-podcast-lane",
       "reason": "Recover reviewed state after publication guard identified a metadata-tail review_stale condition; redo exact-head review with request packets kept outside the committed branch."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -294,6 +328,20 @@
       "actor": "codex:/root/sprint8-podcast-lane",
       "reason": "Recover reviewed state after publication guard identified a metadata-tail review_stale condition; redo exact-head review with request packets kept outside the committed branch.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
