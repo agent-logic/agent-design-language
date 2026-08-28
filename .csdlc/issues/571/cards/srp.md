@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-Exact V3-A corrective proof for predecessor owner/proof-lane mapping, construction decision evidence, retained lifecycle gate consistency, and exact-range diff hygiene.
+docs/csdlc-v3/CONTRACT.md
+docs/csdlc-v3/predecessor-coverage.json
+docs/csdlc-v3/proportional-lifecycle.json
+.csdlc/prepared/issues/500/validate-implementation.rb
+.csdlc/prepared/issues/571/validate-v3a-followup.rb
+.csdlc/issues/571
+.csdlc/prepared/issues/571
 
 ## Prompts
 
@@ -32,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Publication was not present during review, so the PR body closing keyword remains a publication-time check; the PR must include Closes #571.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b7771eb24811acc123a02f060f44428143a76396:78ec3804511f6ec4182e77adb23b547400639f37b5b85b360c98671d3a14c836")
 
-Reviewer: None
+Reviewer: Some("subagent:issue_571_pre_pr_review")
 
-Result: pre_review
+Result: pass

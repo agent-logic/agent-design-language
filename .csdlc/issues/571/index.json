@@ -4,13 +4,44 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0793b51a824a680a043de7acd87b9a37ba594e54bbf3b4c7e7feb2c075b1c887",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "d293c418a0296ccea82fd403e346ae7bd3d005d48ebc8c5f2bef0625565b5cb5",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "7d53ab5310f94b548357e7eff09ed905d3e1817e7412f524c634e7b879a0a4ac",
   "branch": "codex/571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue_571_pre_pr_review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:b7771eb24811acc123a02f060f44428143a76396:78ec3804511f6ec4182e77adb23b547400639f37b5b85b360c98671d3a14c836",
+    "scope": [
+      "docs/csdlc-v3/CONTRACT.md",
+      "docs/csdlc-v3/predecessor-coverage.json",
+      "docs/csdlc-v3/proportional-lifecycle.json",
+      ".csdlc/prepared/issues/500/validate-implementation.rb",
+      ".csdlc/prepared/issues/571/validate-v3a-followup.rb",
+      ".csdlc/issues/571",
+      ".csdlc/prepared/issues/571"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue_571_pre_pr_review",
+    "scope": [
+      "docs/csdlc-v3/CONTRACT.md",
+      "docs/csdlc-v3/predecessor-coverage.json",
+      "docs/csdlc-v3/proportional-lifecycle.json",
+      ".csdlc/prepared/issues/500/validate-implementation.rb",
+      ".csdlc/prepared/issues/571/validate-v3a-followup.rb",
+      ".csdlc/issues/571",
+      ".csdlc/prepared/issues/571"
+    ],
+    "reviewed_revision": "git-blake3:b7771eb24811acc123a02f060f44428143a76396:78ec3804511f6ec4182e77adb23b547400639f37b5b85b360c98671d3a14c836",
+    "findings": [],
+    "residual_risks": [
+      "Publication was not present during review, so the PR body closing keyword remains a publication-time check; the PR must include Closes #571."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "081a6be6f260cd4f5f2d51ca03199b93045b2c7c2a368dadc63adbbdef7a4c86",
+      "values_digest": "c9720fb37b4e558b5bec8d12cb1d2fdb00c4b03deebab517f0c23a16d79c46b2",
       "rendered_digest": "9ccb4f850e18797d99bbf2565d710059370fa06d871a15eac878584fbc67462e",
       "ast_digest": "d25d92fbdc91b85d6976761a6767c6ce12a057113fcced80ff4120776ab29b19"
     },
     "stp": {
-      "values_digest": "703fde919eeed2540fae1e4e56eff3c64181484ba1d2c3608b7a0de6dc1f7320",
+      "values_digest": "175a13a46b00a735da070902031f48e418a73c041fb9463ccd42ecb9ce5d10cc",
       "rendered_digest": "f2b75f46f193e43621bfbabae2e1b02dad5ec38886370df60a233ba2d9be20fa",
       "ast_digest": "086e291c7dfd8229dd82f4b88c395a90f5a08ba795c318c277c2ea2dbf9c1f01"
     },
     "spp": {
-      "values_digest": "0ad63065a6584a0fc63b2c73f83003b4b2705cd656eb323f8cc81e1fa32c6cc1",
+      "values_digest": "2a3d29d1fc0a099b41714d217bdf80ecb73ee41aad86167e70f15ab68b24430a",
       "rendered_digest": "60f4e090c005b59d77edf42ae4a6479ec724d6291e2c0269b7a03bf98b1e8d66",
       "ast_digest": "1294097b2388c2b051119d7715fa220a95faa65e53b43e2a91d88989b8985f18"
     },
     "vpp": {
-      "values_digest": "52f268c1ba3ab649981b92435ea93f4378602b5fffaa4fe4d222be948e7f6a2b",
+      "values_digest": "c49464619bdab5835518ce51b25eb30c3945d57d9d3e3ce40482166df37f7ab8",
       "rendered_digest": "94943fbe8b9b68185233d49888a89c962436e3598aeab713c846cb5e98f64d55",
       "ast_digest": "2f51f03d3dc5855f473f697364d9e2ed20013280af1a60a851b85ac879f9d736"
     },
     "srp": {
-      "values_digest": "096fa0cc2c9e73e35a38ca67451f4506043cd738531b74863db61daf1588318b",
-      "rendered_digest": "2c59079e4b12abd433631fed08814895354aef2f2050b97b6edb9024458902f7",
-      "ast_digest": "f486b7027390bd1409927696e7cc869175409998f52c1e8fe06da0afd42334ee"
+      "values_digest": "2ef92da211463f318606dcb50ee3fcedd925b8f09824c83ce8ef56866c08b93a",
+      "rendered_digest": "43dda7f08fc967d0b2f301378dd43f9da564f58cf72981987d7f3247860c0f53",
+      "ast_digest": "b16129abcc9648fe51ab0b4a8b4cd9888df48718c566ee2efc177ed20d1a1da3"
     },
     "sor": {
-      "values_digest": "2dc3e240b2b2134993faa4674628b407f7bb8311e03a2654dcc117f0801e8778",
+      "values_digest": "1534ff3b410afb6cd3dc064e4f39c435cd2f5eca522540735f13fc34724c9590",
       "rendered_digest": "b79af1108191fdd646e911f1597125eec0c8d5843d0e3bc39231e96ca71c4094",
       "ast_digest": "f154e4bcee6b5ff9cb5804460c3829c86e2406a9239a8046bac8a636fcaf5d1b"
     }
@@ -76,6 +107,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Advance #571 to implemented after typed SOR execution evidence was recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue_571_pre_pr_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -127,6 +165,20 @@
       "actor": "codex:worker-6",
       "reason": "Advance #571 to implemented after typed SOR execution evidence was recorded.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "subagent:issue_571_pre_pr_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
