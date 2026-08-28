@@ -6,6 +6,8 @@ require "set"
 
 ROOT = File.expand_path("../../../..", __dir__)
 
+class ValidationFailure < StandardError; end
+
 def read_json(path)
   JSON.parse(File.read(path))
 rescue JSON::ParserError => e
@@ -19,7 +21,7 @@ def require_file(path)
 end
 
 def assert(condition, message)
-  abort message unless condition
+  raise ValidationFailure, message unless condition
 end
 
 def blank?(value)
@@ -108,8 +110,9 @@ end
 
 def validate_diff_hygiene(path)
   text = File.read(path)
-  assert text.match?(/git\s+diff\s+--check\s+\S+\.\.\.\S+/) ||
-         text.match?(/git\s+diff\s+--check.*base.*head/im),
+  assert text.match?(/git["']?,\s*["']-C["']?,\s*root,\s*["']diff["']?,\s*["']--check["']?,\s*["']#\{diff_base\}\.\.\.#\{diff_head\}["']/m) ||
+         text.match?(/git\s+diff\s+--check\s+\S+\.\.\.\S+/) ||
+         text.match?(/diff_base.*diff_head.*diff.*--check.*\.\.\./im),
          "implementation validator must run git diff --check over an explicit base...head range"
 end
 

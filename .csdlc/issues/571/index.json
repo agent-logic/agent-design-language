@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 571,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0793b51a824a680a043de7acd87b9a37ba594e54bbf3b4c7e7feb2c075b1c887",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 3,
-  "digest": "e6e59bf21a4ef464447c24fe2d3d26b1f86095acefde1a36412fa7ff39d41b9d",
-  "branch": null,
-  "worktree": null,
+  "digest": "6cd56994a4f1de59b08f5a08086163d4d501421557ed5278590d99a45897024b",
+  "branch": "codex/571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:worker-6",
       "reason": "Advance #571 to ready/unbound after design approval and doctor advance_ready."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -91,6 +99,13 @@
       "actor": "codex:worker-6",
       "reason": "Advance #571 to ready/unbound after design approval and doctor advance_ready.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }

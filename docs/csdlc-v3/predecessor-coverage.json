@@ -12,6 +12,8 @@
           "id": "issue-161-ac-1-public-command-output-contracts",
           "source_acceptance": "AC-1",
           "disposition": "retained",
+          "owner_issue": 501,
+          "proof_lane": "v3-foundation-command-output-contracts",
           "maps_to": ["authority-and-compatibility"],
           "notes": "Every public command and output mode remains a versioned-contract requirement."
         },
@@ -19,6 +21,8 @@
           "id": "issue-161-ac-2-v2-invariant-owner-proof-map",
           "source_acceptance": "AC-2",
           "disposition": "retained",
+          "owner_issue": 571,
+          "proof_lane": "v3a-predecessor-owner-proof-lanes",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "Every retained v2 invariant must keep one owner issue and proof lane."
         },
@@ -26,6 +30,8 @@
           "id": "issue-161-ac-3-unweakened-review-github-topology-state-cleanup",
           "source_acceptance": "AC-3",
           "disposition": "retained",
+          "owner_issue": 505,
+          "proof_lane": "v3-cutover-retained-gate-parity",
           "maps_to": ["authority-and-compatibility", "rollback-and-fail-closed-behavior"],
           "notes": "Exact review, GitHub truth, topology ownership, atomic state, and cleanup boundaries cannot be weakened by later v3 construction."
         },
@@ -33,6 +39,8 @@
           "id": "issue-161-ac-4-explicit-reviewed-v2-drift",
           "source_acceptance": "AC-4",
           "disposition": "retained",
+          "owner_issue": 505,
+          "proof_lane": "v3-cutover-reviewed-drift-register",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "Unknown or intentionally changed v2 behavior stays explicit and reviewed."
         },
@@ -40,6 +48,8 @@
           "id": "issue-161-ac-5-importer-retention-window",
           "source_acceptance": "AC-5",
           "disposition": "retained",
+          "owner_issue": 501,
+          "proof_lane": "v3-foundation-read-only-importer-retention",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "Importer retention remains governed by v2-origin terminal state and rollback-window expiry."
         },
@@ -47,6 +57,8 @@
           "id": "issue-161-ac-6-in-process-filter-template-boundary",
           "source_acceptance": "AC-6",
           "disposition": "retained",
+          "owner_issue": 501,
+          "proof_lane": "v3-foundation-in-process-rendering-boundary",
           "maps_to": ["authority-and-compatibility"],
           "notes": "Output filtering and templating stay in-process and cannot shell out."
         },
@@ -54,6 +66,8 @@
           "id": "issue-161-ac-7-reviewer-independence-check",
           "source_acceptance": "AC-7",
           "disposition": "retained",
+          "owner_issue": 504,
+          "proof_lane": "v3-review-publication-independence",
           "maps_to": ["proportional-lifecycle-contract"],
           "notes": "Reviewer independence remains structurally checked where identity is bindable."
         },
@@ -61,6 +75,8 @@
           "id": "issue-161-ac-8-closing-vs-partof-publication",
           "source_acceptance": "AC-8",
           "disposition": "retained",
+          "owner_issue": 504,
+          "proof_lane": "v3-publication-linkage-mode",
           "maps_to": ["proportional-lifecycle-contract"],
           "notes": "Closing and non-closing publication remain disjoint typed modes; PartOf cannot close a parent."
         },
@@ -68,6 +84,8 @@
           "id": "issue-161-ac-9-authoritative-field-owner-matrix",
           "source_acceptance": "AC-9",
           "disposition": "retained",
+          "owner_issue": 503,
+          "proof_lane": "v3-local-preparation-field-owner-matrix",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "Every mutable authoritative field keeps exactly one matrix owner and typed operation path."
         },
@@ -75,6 +93,8 @@
           "id": "issue-161-ac-10-capability-matrix-derived-help-auth-tests",
           "source_acceptance": "AC-10",
           "disposition": "retained",
+          "owner_issue": 505,
+          "proof_lane": "v3-cutover-capability-derived-help-auth-tests",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "Command help, authorization, doctor findings, and tests remain mechanically checked against the capability matrix."
         },
@@ -82,6 +102,8 @@
           "id": "issue-161-ac-11-state-size-warning-block-audit",
           "source_acceptance": "AC-11",
           "disposition": "retained",
+          "owner_issue": 502,
+          "proof_lane": "v3-lifecycle-kernel-state-size-audit",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "State-size warning/block behavior and audit preservation remain retained invariants."
         },
@@ -89,6 +111,8 @@
           "id": "issue-161-ac-12-measured-largest-v2-bundle",
           "source_acceptance": "AC-12",
           "disposition": "retained",
+          "owner_issue": 503,
+          "proof_lane": "v3-local-preparation-largest-bundle-budget",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "The largest v2 bundle measurement and locked recomputation gate remain predecessor requirements."
         },
@@ -96,6 +120,8 @@
           "id": "issue-161-ac-13-architecture-review-on-impractical-state-size",
           "source_acceptance": "AC-13",
           "disposition": "retained",
+          "owner_issue": 502,
+          "proof_lane": "v3-lifecycle-kernel-state-size-fail-closed",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "If state-size constraints are impractical, v3 must stop for architecture review rather than weaken the factor."
         },
@@ -103,6 +129,8 @@
           "id": "issue-161-ac-14-v3-16-canary-sizing",
           "source_acceptance": "AC-14",
           "disposition": "retained",
+          "owner_issue": 505,
+          "proof_lane": "v3-cutover-canary-sizing-parity",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "The V3-16 review/recover/card-family canary sizing proof remains represented."
         },
@@ -110,6 +138,8 @@
           "id": "issue-161-ac-15-frozen-jq-subset",
           "source_acceptance": "AC-15",
           "disposition": "retained",
+          "owner_issue": 501,
+          "proof_lane": "v3-foundation-output-filter-subset",
           "maps_to": ["authority-and-compatibility"],
           "notes": "The frozen supported jq subset and unsupported-syntax typed error remain retained."
         },
@@ -117,6 +147,8 @@
           "id": "issue-161-ac-16-official-cli-source-baseline",
           "source_acceptance": "AC-16",
           "disposition": "retained",
+          "owner_issue": 570,
+          "proof_lane": "v3-docs-skill-cutover-source-baseline",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "The retained official CLI source baseline lane remains a start gate for later construction."
         }
@@ -131,6 +163,8 @@
           "id": "issue-162-ac-1-one-binary-one-library-four-layers",
           "source_acceptance": "AC-1",
           "disposition": "retained",
+          "owner_issue": 500,
+          "proof_lane": "v3a-construction-decision-evidence",
           "maps_to": ["construction-decision"],
           "notes": "The one-binary/one-library four-layer construction shape remains retained."
         },
@@ -138,6 +172,8 @@
           "id": "issue-162-ac-2-parse-without-repo-credentials-network-child-task",
           "source_acceptance": "AC-2",
           "disposition": "retained",
+          "owner_issue": 501,
+          "proof_lane": "v3-foundation-parse-isolation",
           "maps_to": ["construction-decision"],
           "notes": "Parsing must not initialize repository, credentials, network, or child task state."
         },
@@ -145,6 +181,8 @@
           "id": "issue-162-ac-3-fake-adapter-determinism",
           "source_acceptance": "AC-3",
           "disposition": "retained",
+          "owner_issue": 502,
+          "proof_lane": "v3-lifecycle-kernel-fake-adapter-determinism",
           "maps_to": ["construction-decision"],
           "notes": "Fake adapters retain deterministic unexpected-operation rejection."
         },
@@ -152,6 +190,8 @@
           "id": "issue-162-ac-4-github-operation-capability-classification",
           "source_acceptance": "AC-4",
           "disposition": "retained",
+          "owner_issue": 504,
+          "proof_lane": "v3-review-publication-github-capability-classification",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "Every required GitHub operation remains classified, with raw-request count triggering dependency re-evaluation."
         },
@@ -159,6 +199,8 @@
           "id": "issue-162-ac-5-end-to-end-recovery-journey",
           "source_acceptance": "AC-5",
           "disposition": "retained",
+          "owner_issue": 505,
+          "proof_lane": "v3-cutover-end-to-end-recovery-journey",
           "maps_to": ["proportional-lifecycle-contract"],
           "notes": "The exact-review, typed-recovery, field-correction, projection, audit, and fresh-review journey remains retained."
         },
@@ -166,6 +208,8 @@
           "id": "issue-162-ac-6-measurement-threshold-stop-go",
           "source_acceptance": "AC-6",
           "disposition": "retained",
+          "owner_issue": 571,
+          "proof_lane": "v3a-construction-decision-evidence",
           "maps_to": ["construction-decision"],
           "notes": "Measurements must satisfy thresholds or trigger architecture revision before V3-03."
         },
@@ -173,6 +217,8 @@
           "id": "issue-162-ac-7-decision-11-not-satisfied-by-recommendation",
           "source_acceptance": "AC-7",
           "disposition": "retained",
+          "owner_issue": 505,
+          "proof_lane": "v3-cutover-decision-11-terminal-gate",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "V3-02 recommendation alone cannot satisfy the later V3-08 Decision 11 dependency gate."
         }
@@ -187,6 +233,8 @@
           "id": "issue-163-ac-1-platform-commit-primitive-durability",
           "source_acceptance": "AC-1",
           "disposition": "retained",
+          "owner_issue": 502,
+          "proof_lane": "v3-lifecycle-kernel-durable-transaction-contract",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "Every supported platform keeps a measured commit primitive and durability contract requirement."
         },
@@ -194,6 +242,8 @@
           "id": "issue-163-ac-2-windows-proven-or-fail-closed-read-only",
           "source_acceptance": "AC-2",
           "disposition": "retained",
+          "owner_issue": 505,
+          "proof_lane": "v3-cutover-platform-posture-parity",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "Windows mutation remains equivalently proven or explicitly fail-closed read-only."
         },
@@ -201,6 +251,8 @@
           "id": "issue-163-ac-3-operator-decision-cites-v3-02-evidence",
           "source_acceptance": "AC-3",
           "disposition": "retained",
+          "owner_issue": 571,
+          "proof_lane": "v3a-construction-decision-evidence",
           "maps_to": ["construction-decision"],
           "notes": "Operator approval must cite exact V3-02 evidence and cannot be inferred from recommendation text."
         },
@@ -208,6 +260,8 @@
           "id": "issue-163-ac-4-v3-08-blocked-until-terminal",
           "source_acceptance": "AC-4",
           "disposition": "retained",
+          "owner_issue": 505,
+          "proof_lane": "v3-cutover-decision-11-terminal-gate",
           "maps_to": ["proportional-lifecycle-contract"],
           "notes": "V3-08 remains blocked until the Decision 11 issue is terminal."
         }

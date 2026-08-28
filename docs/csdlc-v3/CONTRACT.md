@@ -59,6 +59,21 @@ The default construction posture is boring and explicit: typed inputs,
 deterministic checks, no ambient repository authority, and no hidden process
 state.
 
+The measured #162 construction slice is promoted only as this minimal
+construction seed. It is not promoted as lifecycle authority. The promoted
+portion is the one-binary/one-library, four-layer Rust shape plus deterministic
+contract parsing that does not initialize repository, credential, network, or
+child-task state. Any #162 measurement that exceeds the recorded dependency,
+scope, or execution-threshold criteria remains a stop-and-revise condition for
+later v3 issues rather than implicit approval to widen the crate.
+
+Decision evidence is bound to #163 and Decision 11: v3 mutation authority may
+not proceed until the approved platform commit matrix, rollback posture, and
+Windows fail-closed/read-only policy are satisfied by the relevant owner issue.
+That means the V3-A crate can be used as construction evidence, but V3-F/#505
+must still make the explicit operator-reviewed promote-or-discard decision for
+live authority using #162 measurements and #163 approval evidence.
+
 ## Proportional lifecycle contract
 
 C-SDLC v3 must simplify the lifecycle itself, not merely automate the v2
