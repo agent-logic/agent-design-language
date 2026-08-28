@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-adl/tools/validate_v0917_html_observatory.py
+.csdlc/issues/551
+.csdlc/prepared/issues/551
 
 ## Prompts
 
@@ -36,7 +37,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:3c461d50f328fcfbf1050cf29c90f2bed15ce92e:66f2767a66fcf46e662aef30331f52eefeabee05503e8014fa17778bb5052a78")
+Revision: Some("git-blake3:9de9e110ee0ad1ace724cd1b140932ea7ba4bced:db065447bdb833e4c8ea5f07464ce2a933cb3354f4c2b5dcbd8ded73624414c1")
 
 Reviewer: Some("subagent:/root/review_551_ci_fixture")
 
