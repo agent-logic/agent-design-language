@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0793b51a824a680a043de7acd87b9a37ba594e54bbf3b4c7e7feb2c075b1c887",
-  "phase": "bound",
-  "generation": 3,
-  "digest": "6cd56994a4f1de59b08f5a08086163d4d501421557ed5278590d99a45897024b",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "d293c418a0296ccea82fd403e346ae7bd3d005d48ebc8c5f2bef0625565b5cb5",
   "branch": "codex/571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5d327f786c1c4aa930d8da2545a3789bfaf4fc2b673f7f456e494099434105f1",
+      "values_digest": "081a6be6f260cd4f5f2d51ca03199b93045b2c7c2a368dadc63adbbdef7a4c86",
       "rendered_digest": "9ccb4f850e18797d99bbf2565d710059370fa06d871a15eac878584fbc67462e",
       "ast_digest": "d25d92fbdc91b85d6976761a6767c6ce12a057113fcced80ff4120776ab29b19"
     },
     "stp": {
-      "values_digest": "d474f68c00e4f6e18498d680cb67a5708ad2dc0aca26873933e04544f9334664",
+      "values_digest": "703fde919eeed2540fae1e4e56eff3c64181484ba1d2c3608b7a0de6dc1f7320",
       "rendered_digest": "f2b75f46f193e43621bfbabae2e1b02dad5ec38886370df60a233ba2d9be20fa",
       "ast_digest": "086e291c7dfd8229dd82f4b88c395a90f5a08ba795c318c277c2ea2dbf9c1f01"
     },
     "spp": {
-      "values_digest": "7d588466352f5f9a20c8a4a78a775a32cd0ff3ff5b515eb91f5b60f3ce8976f7",
+      "values_digest": "0ad63065a6584a0fc63b2c73f83003b4b2705cd656eb323f8cc81e1fa32c6cc1",
       "rendered_digest": "60f4e090c005b59d77edf42ae4a6479ec724d6291e2c0269b7a03bf98b1e8d66",
       "ast_digest": "1294097b2388c2b051119d7715fa220a95faa65e53b43e2a91d88989b8985f18"
     },
     "vpp": {
-      "values_digest": "8f05ccd7eb6242488b6b5dc242fa5da80242d306889cdc5adc4f07aaa68bdb0f",
+      "values_digest": "52f268c1ba3ab649981b92435ea93f4378602b5fffaa4fe4d222be948e7f6a2b",
       "rendered_digest": "94943fbe8b9b68185233d49888a89c962436e3598aeab713c846cb5e98f64d55",
       "ast_digest": "2f51f03d3dc5855f473f697364d9e2ed20013280af1a60a851b85ac879f9d736"
     },
     "srp": {
-      "values_digest": "c0431d9f0898d2f18c44d98e743eee0d2a03e07692a3bce54a2fcef3807e7e29",
+      "values_digest": "096fa0cc2c9e73e35a38ca67451f4506043cd738531b74863db61daf1588318b",
       "rendered_digest": "2c59079e4b12abd433631fed08814895354aef2f2050b97b6edb9024458902f7",
       "ast_digest": "f486b7027390bd1409927696e7cc869175409998f52c1e8fe06da0afd42334ee"
     },
     "sor": {
-      "values_digest": "cdd87d5cffc94656e2cc42061f736334fab11fb0d636c494846ef27c70e74194",
-      "rendered_digest": "49e6e69078a00c5f79eade77a108bb35d8d2d114a0fffbf149397ed4fc8e3fce",
-      "ast_digest": "b0c7804311a30382f58a0727cd8bcc1dbdb67288bee2c0295128bdb6e6f17bdd"
+      "values_digest": "2dc3e240b2b2134993faa4674628b407f7bb8311e03a2654dcc117f0801e8778",
+      "rendered_digest": "b79af1108191fdd646e911f1597125eec0c8d5843d0e3bc39231e96ca71c4094",
+      "ast_digest": "f154e4bcee6b5ff9cb5804460c3829c86e2406a9239a8046bac8a636fcaf5d1b"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Advance #571 to implemented after typed SOR execution evidence was recorded."
     }
   ],
   "audit": [
@@ -106,6 +113,20 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "Record #571 corrective implementation evidence before advancing from bound to implemented.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the V3-A corrective follow-up for #571 at commit 3a2482e59 by adding predecessor owner/proof lanes, binding the construction decision to #162/#163/Decision 11 evidence, making retained lifecycle gates explicit in the default path, and replacing vacuous diff hygiene with an exact base/head range.\",\"changes\":[\"Added owner_issue and proof_lane to every retained #161-#163 predecessor requirement row in docs/csdlc-v3/predecessor-coverage.json.\",\"Updated docs/csdlc-v3/CONTRACT.md with measured #162 construction-slice promotion boundaries, threshold/criteria language, and #163 / Decision 11 binding.\",\"Updated docs/csdlc-v3/proportional-lifecycle.json so default_path explicitly requires retained design_review, bind, implementation_review, publication, finish, and cleanup gates.\",\"Updated .csdlc/prepared/issues/500/validate-implementation.rb so diff hygiene runs git diff --check over an explicit base...head range.\",\"Added and validated .csdlc/prepared/issues/571/validate-v3a-followup.rb as the fail-closed corrective proof lane.\"],\"artifacts\":[\"commit 3a2482e59\",\"ruby .csdlc/prepared/issues/571/validate-v3a-followup.rb — PASS\",\"ADL_PR_BASE=origin/main ADL_PR_HEAD=HEAD ruby .csdlc/prepared/issues/500/validate-implementation.rb — PASS\",\"git diff --check origin/main...HEAD — PASS\",\"csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-571-v3-a-followup-predecessor-proof-lifecycle-gates-exec issue --issue 571 — PASS before implementation phase advance\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "Advance #571 to implemented after typed SOR execution evidence was recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
