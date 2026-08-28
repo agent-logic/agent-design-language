@@ -124,11 +124,11 @@ Created a non-production first-ten source-package checkpoint for The Cognitive S
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
