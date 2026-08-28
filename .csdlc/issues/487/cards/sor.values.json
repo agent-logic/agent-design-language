@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
     "slug": "aws-audit-security-baseline",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
@@ -34,7 +34,21 @@
         ".csdlc/prepared/issues/487/validate-aws-d-baseline.sh",
         ".csdlc/issues/487"
       ],
-      "actual_validation": [],
+      "actual_validation": [
+        {
+          "command": [
+            "terraform -chdir=infra/aws/account-foundation fmt -check",
+            "terraform -chdir=infra/aws/account-foundation validate",
+            "bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .",
+            "AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static",
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate issue --issue 487",
+            "git diff --check"
+          ],
+          "purpose": "Prove the #487 account-foundation Terraform root, issue-owned validator, profile-gated static readback, lifecycle card shape, and diff hygiene without live AWS mutation.",
+          "outcome": "passed",
+          "evidence_ref": "Local output: Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; csdlc-validate issue pass; git diff --check pass."
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

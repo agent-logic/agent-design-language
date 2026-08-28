@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2084376119f2b0feaa352c733f56e2015901eaa5b371b1b3f7119df20402ccf0",
   "phase": "bound",
-  "generation": 7,
-  "digest": "6c25217c7db136a3245c2ca0dc4e6b5e1e718274287b660ab6dd3c7b72f039da",
+  "generation": 8,
+  "digest": "8cb5a6b585961b648045db9ee29337afa6930faa57a4f9926c7512a7fb2bd490",
   "branch": "codex/487-aws-audit-security-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-487-aws-audit-security-baseline",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e5dc0607ebd7d2f09a13305edee5139dc586bb6479ebe40e05052fad06ff1643",
+      "values_digest": "7437330a842edb66c38f48034222ab244b4a6f7c7d9c74ace26189dde78bd22c",
       "rendered_digest": "4f86b2babb7b7a4000647d767bc71b6ff917bb3868610d2ae859947683aa3478",
       "ast_digest": "b5687b725030d021e3fe2f0adefa298e67ef7e7934e4b1138f012051a684ccd0"
     },
     "stp": {
-      "values_digest": "3e335d24daf033f170264b929b9980d371cb1c7982c9a361eec1acaa8f56beff",
+      "values_digest": "905e47e6c375ddcad9b283c5a21f54a68491efe538023cc7e0c8cb267d22d7ff",
       "rendered_digest": "e0172a0a5e4f5098e7c9faa4d3d46c7615e8cd9fd6ceb16cca1d4f55d6487251",
       "ast_digest": "af6057e2df5071ef8b297cf63e7176608c3d9c61d04c0fe4fd785e75e74d59ef"
     },
     "spp": {
-      "values_digest": "d0c7f44d4d4903d3017c25e614f02986f0ca395fd894eae45894ef74fc174409",
+      "values_digest": "50039b908aa236070629030d78b07f2b4995b929fb06f086a77a5f7e0b818052",
       "rendered_digest": "49d5298b3280a955a1ce7c3e770a6bebd8eaafe601361bfb315f9689184a5cf7",
       "ast_digest": "a6bad5dbbdc3a6e527186967526c32da890633c9a6962be15f9464fb809b22d5"
     },
     "vpp": {
-      "values_digest": "8b3339f7e826a6c36ace1c156c281b26a33ea1e52ade814af85ac879520a967d",
+      "values_digest": "dbe327fe79d89d4d3be3c714ce6132eefbfa249305482987813f7ba98c549fd0",
       "rendered_digest": "9c8e992176a84beb4a6cddab0f11203867fa2d781cdc152fa55b5720e58d8b2b",
       "ast_digest": "c2b804273e7ff5caa02125c8c5bcf56e9f250d008bc9d66ce1a1bd51c80f36f8"
     },
     "srp": {
-      "values_digest": "f7576e7108d8f471e330f3b7cd92d5c0ff01355b8c19140a257f57bb8f00a929",
+      "values_digest": "45ced1c5b714baebba007f2c422aeec7cd5882d3e4368541189fdb96bcec5d3e",
       "rendered_digest": "4d8aedb12c8cf10558382379659e7b33ea43a66b6cbbafa488037ea9977288b5",
       "ast_digest": "cb90734df23a33ec9a812ac2b6f651394cd339629368e78645d6d673d9442d4d"
     },
     "sor": {
-      "values_digest": "8c4365895747f8724771b5757a3d3594bfe64f12554f0541d07c07dec0ea382a",
-      "rendered_digest": "59c18368afd785c37412f6e7c920a53b36d376ff6e0aa76f7e336c278f9b06c0",
-      "ast_digest": "eda179848a63dfa009eb058803288b34e152197cb566640cdb4abe245a6f50f9"
+      "values_digest": "c9ba030582de6e39268e098cb7be9c7f9d1b36c54c6adee86f95b90ec6ecfe44",
+      "rendered_digest": "d6582c2d6b2ee93e6a5959a8eaaf1eb46ffed37aee266a217c71f41ed5a7950d",
+      "ast_digest": "d1c41ce424743c2efe7ead8462449a65469a5b557678094a1477419ef4b99f64"
     }
   },
   "transitions": [
@@ -134,6 +134,13 @@
       "actor": "codex:/root",
       "reason": "Record #487 AWS-D account-foundation local implementation proof before exact-head review",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the #487 AWS-D audit/security account-foundation baseline as local Terraform, runbook, and readback proof surfaces. Local validation is complete; live AWS apply/readback remains explicitly gated on operator-approved cloud mutation/readback authority with AWS_PROFILE=agent-logic-admin.\",\"changes\":[\"Added the account-foundation Terraform root for CloudTrail account activity, encrypted audit S3 retention, AWS Config recorder/delivery, IAM Access Analyzer, SNS findings topic, and EventBridge routing.\",\"Pinned the account-foundation AWS provider to the repo-proven 5.100 provider line instead of floating to an unvalidated 6.x plugin.\",\"Restored the reviewed #487 issue-owned preparation validator into the bound worktree.\",\"Added the AWS-D audit/security operations runbook and redacted readback script.\",\"Verified the readback script fails closed unless AWS_PROFILE=agent-logic-admin and performs no AWS calls in static mode.\"],\"artifacts\":[\"infra/aws/account-foundation/main.tf\",\"infra/aws/account-foundation/variables.tf\",\"infra/aws/account-foundation/outputs.tf\",\"infra/aws/account-foundation/versions.tf\",\"infra/aws/account-foundation/.terraform.lock.hcl\",\"infra/aws/account-foundation/terraform.tfvars.example\",\"infra/aws/account-foundation/README.md\",\"docs/operations/cloud/aws/audit-security/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\",\".csdlc/issues/487\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record #487 local static implementation validation before exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform -chdir=infra/aws/account-foundation fmt -check\",\"terraform -chdir=infra/aws/account-foundation validate\",\"bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .\",\"AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate issue --issue 487\",\"git diff --check\"],\"purpose\":\"Prove the #487 account-foundation Terraform root, issue-owned validator, profile-gated static readback, lifecycle card shape, and diff hygiene without live AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local output: Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; csdlc-validate issue pass; git diff --check pass.\"}}"
     }
   ]
 }
