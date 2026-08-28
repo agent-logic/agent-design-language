@@ -31,3 +31,7 @@
 {"sequence":31,"generation":28,"actor":"codex:/root","reason":"The reviewed publication request and typed review metadata advanced exact HEAD without changing product, design, tests, or evidence; recover so a metadata-only review can bind the publication head.","operation":"recover_review"}
 {"sequence":32,"generation":28,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":33,"generation":29,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":34,"generation":30,"actor":"codex:/root","reason":"Recover the metadata projection so the fresh exact-head reviewer can bind current committed HEAD before publication.","operation":"recover_review"}
+{"sequence":35,"generation":30,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":36,"generation":31,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":37,"generation":32,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

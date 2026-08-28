@@ -7,15 +7,15 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 29
+    "generation": 32
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ninfra/runtime-v3/runtime-init.toml\ndemos/html-observatory/index.html\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/polis_identity.test.mjs\n.csdlc/prepared/issues/551\n.csdlc/evidence/551\n.csdlc/issues/551",
-      "review_revision": "git-blake3:4d02f41a13438cb4a1253e7ea779c47481ea32cf:4d682ee6ae22caccda080b86e19ebbea7f52c305d5ef5fca1004c077680e579c",
-      "reviewer": "fresh-session:1fa7b2f0-4c59-4343-ae7b-afdce3064aa9",
+      "review_revision": "git-blake3:4bca700fd57370926e21874a6c8eeb47a3ea15a3:de3fd81b597ca0d9df83f6e40e4e929d22138bfe4084f92f89d7e5de69bcc20e",
+      "reviewer": "fresh-session:c7bd5e7f-878a-427e-8cd2-266522f83ee5",
       "review_prompts": [
         "Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?",
         "Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?",

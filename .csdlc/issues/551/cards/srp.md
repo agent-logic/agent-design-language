@@ -53,8 +53,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:4d02f41a13438cb4a1253e7ea779c47481ea32cf:4d682ee6ae22caccda080b86e19ebbea7f52c305d5ef5fca1004c077680e579c")
+Revision: Some("git-blake3:4bca700fd57370926e21874a6c8eeb47a3ea15a3:de3fd81b597ca0d9df83f6e40e4e929d22138bfe4084f92f89d7e5de69bcc20e")
 
-Reviewer: Some("fresh-session:1fa7b2f0-4c59-4343-ae7b-afdce3064aa9")
+Reviewer: Some("fresh-session:c7bd5e7f-878a-427e-8cd2-266522f83ee5")
 
 Result: pass
