@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 490,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-A] GCP hierarchy and cost decision",
+    "slug": "gcp-hierarchy-cost-decision",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md\ndocs/milestones/v0.92.1/evidence/cloud/gcp-a\n.csdlc/prepared/issues/490/validate-gcp-a-decision.sh\n.csdlc/prepared/issues/490/finalize-implementation.json\n.csdlc/evidence/490\n.csdlc/issues/490",
+      "review_revision": "git-blake3:e3e261bb3c92021a3e37c9904bbb0e7784b1839b:15ab83af58cd0b05598dcac1e12e381e701856fc3672246705e5671e87a1361c",
+      "reviewer": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+      "review_prompts": [
+        "Is the organization/folder/project/billing/region decision explicit or blocked with evidence?",
+        "Are POC and long-term ownership distinct?",
+        "Is the first workload cost ceiling hard and reviewable?",
+        "Does the register avoid treating quota as capacity?",
+        "Does retained evidence avoid credentials and mutation commands?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

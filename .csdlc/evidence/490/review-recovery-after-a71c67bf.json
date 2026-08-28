@@ -1,0 +1,7 @@
+{
+  "issue": 490,
+  "expected_generation": 3,
+  "expected_digest": "a01de6f3faf61f9b575c3f6eba21558b75d5400a61066b1ac7f826609ec39b6c",
+  "actor": "codex:issue-490-gcp-a-owner",
+  "reason": "recover after failed exact review so the owner can repair stale typed-doctor evidence and validator required-readback checks"
+}

@@ -1,0 +1,11 @@
+{
+  "createTime": "2026-08-04T03:28:10.946Z",
+  "lifecycleState": "ACTIVE",
+  "name": "ADL Google Drive Mirror",
+  "parent": {
+    "id": "321515087273",
+    "type": "organization"
+  },
+  "projectId": "adl-drive-mirror-2026",
+  "projectNumber": "389384019510"
+}
