@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "6b1cd5a5adec4a31323058094fb42bcc0470716fa66632e130c717b78372fc83",
+  "generation": 6,
+  "digest": "251f09fb0202d86bcacf0069fbac76a171f0f80676767cd911e9277ae07b61f4",
   "branch": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-570-v3-g-docs-skill-cutover-readiness-exec",
   "review_assignment": null,
@@ -19,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/570/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:4f87bcf6-2072-4b6d-be5e-c98df822ba28",
-      "revision": "6d16159528dc46d571cf48ac0c13642f6f226ee824df8c826dcfdef62bcfab61"
+      "reviewer": "fresh-session:f333f40e-74b9-4c9b-97cc-93ec09fa7a4f",
+      "revision": "d58a5d78a45a00ec04a199fa45d92b1946280982ea8a5e725583013860eae28e"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "cbb34e6f68cf0fc5be25d8739259cc4d47619570aebf8824bd7a87484533835a",
+      "values_digest": "62c6c415901bd7adc82f72c3060480227c80ca91c32169f841fee3d315e4094a",
       "rendered_digest": "a0f1df29d26efffed38f38ce76e54ef72b3cd61cd9b241a64a5fadf2ec0c47c0",
       "ast_digest": "a8c869961fed96df668604afb6d345f5cd78825095d561726245bb830be0eabd"
     },
     "stp": {
-      "values_digest": "de8d62d2cc302c30f5d5dc44519324cbfd6093c21ab1d49bc358fedaa3181d0d",
+      "values_digest": "1f82581a7a46c391f1dbd184575476266e910b7e7e7a5c29ee35ed28abef64f9",
       "rendered_digest": "78b657196e5f4dd108a92b646c4577b6fc27825d5a621c2f854bd76ba888b968",
       "ast_digest": "99c410d85adc5562f0ecb8c8c15e6da3579ccf3ee4d0ec07929946c85d1dd522"
     },
     "spp": {
-      "values_digest": "51f088022a2a6c1023a992e36a696d841f9128b980f48270caaf174e2e13e81e",
-      "rendered_digest": "c5aac2dd646a3a319e014babdbe16eb4a64f4543a12f72ad4bf597bb6cb65505",
-      "ast_digest": "011e6931b07bfd6e607ad6a0066aab1a8e5c41ab258b743e11ce36fa672fcd6f"
+      "values_digest": "fa88cad9cca6ff7bf9c05e0b96204f5cdbc55fe94718acd28eaeb6a2bdc34d21",
+      "rendered_digest": "c250fd9ac553a4733e8093e4b2b750710b4ea2fb3d0a6d1321d41553e13520b7",
+      "ast_digest": "9c27b9c89b0142a75c195f07b1de413dff533b464f784fb14d107cf09fdab6fa"
     },
     "vpp": {
-      "values_digest": "50b2a6ed037c7fb67b9a518e5a69662862772622ef1e482c0787e8f351205190",
+      "values_digest": "3b2b3a3309efab6cf06428f065516531b838b2a186418d2d07f7716326a5b45c",
       "rendered_digest": "2fd6ab6cb6f8732ad50836a77cc927def7cec3c26946e8e98c91bbb830389e51",
       "ast_digest": "24a7e5bd76d1175940f4b16035da5e2e3dbb727dba6b895cf8489e9a5ae883c5"
     },
     "srp": {
-      "values_digest": "660147e4d16a63374c9bba6c705c4b29eca411261f283910d296674198d5cfb0",
+      "values_digest": "9478ea5c44dd19e8e76a65cd65aad6975d2191ee1f674d509d2e826e7758f1f3",
       "rendered_digest": "fc3fbdd3e426c07adf043ddd07175389c90406fa0c70b984f7faca0d2daa53a1",
       "ast_digest": "046079c8c3963451ae76193453d5f840744ba566ac96bf38c1b751a9acce8a65"
     },
     "sor": {
-      "values_digest": "eb584df8ecb254b1c5ca1362abdc0ea82fabe4751b6ce3d3a3d7b39b9eea8a84",
+      "values_digest": "8cfb2f349beda2df732d87fcf71be6ddfb7abeda6fc10217f23760cc8fd8d0be",
       "rendered_digest": "92649c85b46479b912e520d79493416bece0eee1888d4c16badf343798173ba3",
       "ast_digest": "05825c00cf7363de3996da3538f2577208d93fdda30bd80fccbe1de52ddaf86c"
     }
@@ -127,6 +127,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "fresh-session:f333f40e-74b9-4c9b-97cc-93ec09fa7a4f",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"d58a5d78a45a00ec04a199fa45d92b1946280982ea8a5e725583013860eae28e\",\"design_ref\":\".csdlc/prepared/issues/570/design.md\",\"diagram_digest\":\"da800d63ccb9bf01b74e33d6ac4eea0f6bfc4b1b137d81d0ea92f47e6a1f368d\",\"diagram_ref\":\".csdlc/prepared/issues/570/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
