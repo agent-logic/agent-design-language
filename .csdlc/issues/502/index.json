@@ -5,10 +5,40 @@
   "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
   "phase": "implemented",
   "generation": 27,
-  "digest": "142bef526a105c2dd5cd4b8d75e9a9a9ac737dd94e7c94f3d01c9c4226fb04d1",
+  "digest": "e6a7db67d3b378c0a29d4f343f001464c2bfad322b77be77842efa91d5b940b9",
   "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "issue_502_post_fourth_reapply_review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:e6c02d676aa5311926199484f8b2a3c2c40edac3:af21cc3bc0b2d83346e259987dddb11e71aad40e91bc006859838c3de1f0c24b",
+    "scope": [
+      ".csdlc/issues/502/audit.jsonl",
+      ".csdlc/issues/502/cards/sip.md",
+      ".csdlc/issues/502/cards/sip.values.json",
+      ".csdlc/issues/502/cards/sor.md",
+      ".csdlc/issues/502/cards/sor.values.json",
+      ".csdlc/issues/502/cards/spp.md",
+      ".csdlc/issues/502/cards/spp.values.json",
+      ".csdlc/issues/502/cards/srp.md",
+      ".csdlc/issues/502/cards/srp.values.json",
+      ".csdlc/issues/502/cards/stp.md",
+      ".csdlc/issues/502/cards/stp.values.json",
+      ".csdlc/issues/502/cards/vpp.md",
+      ".csdlc/issues/502/cards/vpp.values.json",
+      ".csdlc/issues/502/index.json",
+      ".csdlc/prepared/issues/502/design.md",
+      ".csdlc/prepared/issues/502/diagram.mmd",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/lifecycle/mod.rs",
+      "csdlc-v3/src/storage/mod.rs",
+      "csdlc-v3/tests/transactions.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +74,9 @@
       "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
     },
     "srp": {
-      "values_digest": "fe110dd04c4248d50e382c2d7b839def0dc3667a77a07dfe5112ff66d16d9933",
-      "rendered_digest": "8fe3a21835c004cbce35be573b975cce35b447b2feaad59e21b6c94c6d77f49b",
-      "ast_digest": "b9affded4f71fb3aa6956e354b86177fba2b64016c62a12aa220f6b3904d6ca1"
+      "values_digest": "12e24934da754b2f874db7037673998c56879dc263ab35a70468216eac28fedc",
+      "rendered_digest": "5850a519db1556b3d6a0e470f62aaa2703c3e14ac3c558a7045868a8ad8fbac5",
+      "ast_digest": "b5d388f1546a1ae61132d49cd99c8732a27ef8a0597071edbd25e073370da827"
     },
     "sor": {
       "values_digest": "977630a900899e165e66e4dd978bdbe9c055d7a469b4d30e626bf0a0b29ea4d4",
@@ -364,6 +394,13 @@
       "actor": "codex:worker-6",
       "reason": "Recover #502 stale review assignment after the fourth rogue remediation revert and SOR refresh changed the review target. Fresh exact-head review must bind to the pushed post-fourth-revert head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 27,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
