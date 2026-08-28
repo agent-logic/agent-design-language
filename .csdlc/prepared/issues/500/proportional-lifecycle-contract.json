@@ -1,0 +1,69 @@
+{
+  "issue": 500,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "c3e4857fa816cb26cfcde33ab78e5d8acbfde73f997529c2c72a453aed753132",
+  "actor": "codex:sprint-5-readiness",
+  "reason": "Make removal of unnecessary checkpoints, reviews, projections, and lifecycle ceremony an explicit V3-A contract.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "AC-1: The v3 authority boundary and compatibility posture are explicit.",
+      "AC-2: Requirements 161 through 163 are mapped exactly.",
+      "AC-3: Construction and rollback decisions are reviewable.",
+      "AC-4: V3 defines a proportional default lifecycle that removes checkpoints, projections, reviews, and transitions that do not mitigate a named risk; a routine three-issue sprint can be prepared and made ready in minutes with one meaningful design gate, focused validation, one independent implementation review, and truthful closeout."
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Inventory retained requirements from #161 through #163 and classify every existing v2 checkpoint, review, projection, and state transition as retain, collapse, derive, or remove based on the concrete risk it mitigates.",
+        "acceptance_ids": ["AC-2", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Write the versioned v3 contract with explicit v2 coexistence, compatibility, and proportional-lifecycle boundaries.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Record construction, rollback, and simplified operator-flow decisions and the minimal non-authoritative crate boundary.",
+        "acceptance_ids": ["AC-1", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run the issue-owned focused validation entrypoint and obtain one independent exact-head implementation review.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      }
+    ],
+    "validation_lanes": [
+      {
+        "lane": "v3-a-design-readiness",
+        "proof_role": "Prove the bounded V3-A design, retained authority boundary, exact predecessor scope, and declared issue-owned validation entrypoints are ready before execution.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 800,
+        "argv": ["ruby", ".csdlc/prepared/issues/500/validate-design-readiness.rb"],
+        "parallel_group": "issue-local",
+        "defer_reason": null
+      },
+      {
+        "lane": "v3-a-focused-implementation",
+        "proof_role": "After implementation, prove contract shape, exact predecessor coverage, authority and rollback boundaries, proportional lifecycle rules, and bounded diff hygiene through one focused entrypoint.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 600,
+        "budget_tokens": 4000,
+        "argv": ["ruby", ".csdlc/prepared/issues/500/validate-implementation.rb"],
+        "parallel_group": "issue-local",
+        "defer_reason": "Runs after the V3-A contract, proportional-lifecycle decision, and minimal crate boundary exist; readiness must not manufacture implementation proof."
+      }
+    ]
+  }
+}

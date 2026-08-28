@@ -1,0 +1,18 @@
+
+running 4 tests
+test tests::contract_schema ... ok
+test tests::proportional_lifecycle ... ok
+test tests::predecessor_coverage ... ok
+test tests::architecture_boundary ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+{"schema":"adl.v0921.v3a_implementation.v1","outcome":"passed","issue":500}
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.00s
+     Running unittests src/lib.rs (csdlc-v3/target/debug/deps/csdlc_v3-49844bd9e762e9b4)
+   Doc-tests csdlc_v3
