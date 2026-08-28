@@ -1,0 +1,71 @@
+{
+  "issue": 551,
+  "card": "sor",
+  "expected_generation": 46,
+  "expected_digest": "bbc44cf6f7ae825883da224219ff1d68fefb0373172856640fef1e50b1b3e974",
+  "actor": "codex:/root",
+  "reason": "Record the bounded origin-consistency and executable schema-compatibility remediation with the exact focused proof rerun after review",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented a validated Runtime-owned Polis identity and atomic presentation snapshot, then closed exact-head review gaps by requiring the advertised origin to be accepted and providing executable REST/WSS v1/v2/v3 negotiation with v2 compatibility default and HTML v3 opt-in.",
+    "changes": [
+      "Require polis.observatory_public_origin to be an exact member of the combined configured allowed-origin set before startup or reload can publish it.",
+      "Serve historical v2 by default on REST and WSS, explicit historical v1 projections for schema=v1, and identity-bearing v3 projections for schema=v3; unsupported selectors fail with HTTP 400.",
+      "Bind historical v1/v2 top-level, control, and agent-population field denominators with exact-key assertions rather than unused constants or selective absence checks.",
+      "Make the HTML Observatory explicitly request v3 for both HTTPS and WSS while existing selector-free clients continue to receive v2.",
+      "Preserve the existing atomic full-parameter hot reload, last-known-good rejection, bounded diagnostics, and Unity deferral boundaries."
+    ],
+    "artifacts": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/551/html-polis-node.tap"
+    ],
+    "validation": [
+      {
+        "command": ["bash", ".csdlc/prepared/issues/551/validate-runtime-polis.sh"],
+        "purpose": "Prove exact nonzero configuration, full hot-reload control, negotiated REST/WSS compatibility, v3 feed, OpenAPI, and bounded diagnostic targets.",
+        "outcome": "passed",
+        "evidence_ref": "Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1, binary diagnostic 1/1."
+      },
+      {
+        "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "configuration", "--test", "control", "--test", "observatory", "--test", "openapi_contract", "--no-tests=fail"],
+        "purpose": "Prove the complete affected Runtime integration denominator including exact v1/v2/v3 REST and WSS behavior.",
+        "outcome": "passed",
+        "evidence_ref": "Local nextest run: 76/76 passed."
+      },
+      {
+        "command": ["cargo", "nextest", "run", "--locked", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--test", "guardian_soak", "--no-tests=fail", "-E", "test(signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process)"],
+        "purpose": "Prove the production guardian explicitly negotiates the identity-bearing v3 projection.",
+        "outcome": "passed",
+        "evidence_ref": "Local nextest run: 1/1 passed."
+      },
+      {
+        "command": ["bash", ".csdlc/prepared/issues/551/validate-html-polis.sh"],
+        "purpose": "Prove HTML v3 opt-in and exact feed-owned identity rendering while rejecting zero tests.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/551/html-polis-node.tap; 3/3 passed."
+      },
+      {
+        "command": ["cargo", "fmt", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--check"],
+        "purpose": "Prove Rust formatting.",
+        "outcome": "passed",
+        "evidence_ref": "Local command exited zero."
+      },
+      {
+        "command": ["git", "diff", "--check"],
+        "purpose": "Prove diff hygiene.",
+        "outcome": "passed",
+        "evidence_ref": "Local command exited zero."
+      }
+    ]
+  }
+}

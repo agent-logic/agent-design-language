@@ -1,0 +1,18 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 13,
+  "expected_digest": "2fb113b5611976c0897644e0a20d29fc77a0e269829a98be68ff15d062ac0491",
+  "actor": "codex:/root",
+  "reason": "Replace obsolete restart-gate risk with full-snapshot atomicity and consumer convergence risks.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "risks",
+    "values": [
+      "Feed schema compatibility drift",
+      "A partial reload exposes mixed old and new Polis values",
+      "Runtime and HTML consumers do not converge on the newly loaded snapshot",
+      "HTML retains a hidden deployment fallback"
+    ]
+  }
+}

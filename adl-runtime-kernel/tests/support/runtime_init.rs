@@ -302,6 +302,11 @@ configuration_exit_codes = [64]
 readiness_timeout_millis = 10000
 readiness_poll_millis = 10
 shutdown_wait_millis = 50000
+[polis]
+id = "polis-test"
+display_name = "Test Polis"
+public_domain = "localhost"
+observatory_public_origin = "https://localhost:8765"
 [observatory]
 allowed_origins = ["https://localhost:8765"]
 [observability_pipeline]

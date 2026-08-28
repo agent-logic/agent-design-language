@@ -1,0 +1,7 @@
+{
+  "issue": 551,
+  "base_branch": "codex/551-bootstrap-base",
+  "branch": "codex/551-runtime-polis-config-owned-name-domain",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
+  "code_repository": "agent-logic/agent-design-language"
+}

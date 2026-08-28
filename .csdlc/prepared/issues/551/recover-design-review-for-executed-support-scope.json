@@ -1,0 +1,12 @@
+{
+  "issue": 551,
+  "expected_generation": 6,
+  "expected_digest": "0ba5e2ccb708e5e2618c2c87fa7e60cd102640185d02131f0aa1c54b1f52b1c9",
+  "expected_phase": "bound",
+  "previous_reviewer": "fresh-session:1604b0a6-0aa3-45fe-a787-913293c3a462",
+  "previous_revision": "b2c91d643963cd508d4ab398ca6d170640fad16af9ac2210c69293d12eefcf74",
+  "false_reviewer": "fresh-session:1604b0a6-0aa3-45fe-a787-913293c3a462",
+  "actor": "codex:/root",
+  "reason": "The required production init template and tightly coupled Runtime fixture and guardian v3 assertion were discovered during implementation and must be added to exact design scope.",
+  "disposition": "Invalidate the narrower approval, refresh authored bindings through typed SPP edit, and require fresh independent design review before publication."
+}

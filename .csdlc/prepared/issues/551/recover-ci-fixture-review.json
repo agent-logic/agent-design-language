@@ -1,0 +1,7 @@
+{
+  "issue": 551,
+  "expected_generation": 32,
+  "expected_digest": "3c5cfe80e0441ee7a509f95c6d6b2ef2fa09584868286ab69d4eb4f4088c713f",
+  "actor": "codex:/root",
+  "reason": "Required CI exposed a stale Runtime v3 Observatory proof fixture after publication; recover review so the bounded fixture repair can receive exact-head review and republication."
+}

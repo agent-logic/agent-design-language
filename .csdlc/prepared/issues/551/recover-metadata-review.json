@@ -1,0 +1,7 @@
+{
+  "issue":551,
+  "expected_generation":27,
+  "expected_digest":"8513158392c16c24efac1d0a8285b3a866f64a2e023bb54015b55d2bbf4f0768",
+  "actor":"codex:/root",
+  "reason":"The reviewed publication request and typed review metadata advanced exact HEAD without changing product, design, tests, or evidence; recover so a metadata-only review can bind the publication head."
+}

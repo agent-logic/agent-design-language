@@ -1,0 +1,20 @@
+{
+  "issue": 551,
+  "card": "srp",
+  "expected_generation": 44,
+  "expected_digest": "48feb5f0cf0893456c8adb0e59bed61a475a016c0805ba9405678341b531179d",
+  "actor": "codex:/root",
+  "reason": "Direct exact-head review at the two repaired behavioral gaps instead of the superseded constants-only compatibility claim",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "review_prompts",
+    "values": [
+      "Does validation reject an advertised Observatory origin that the combined CORS and WSS policy would not accept?",
+      "Do REST and WSS default to the existing v2 contract, explicitly project v1 and v3, and reject unsupported schema selectors?",
+      "Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?",
+      "Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?",
+      "Does HTML explicitly request v3 and render only feed-owned identity values?",
+      "Is Unity absent from the diff?"
+    ]
+  }
+}

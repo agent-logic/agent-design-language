@@ -1,0 +1,28 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "657d2fc2224b3de64a78c19e69d9b7a02755636392d59903104c24f85e87a451",
+  "actor": "codex:/root",
+  "reason": "Replace semantic area labels with the exact safe repository-owned implementation and proof path denominator.",
+  "fail_after_backup": false,
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551",
+      ".csdlc/evidence/551"
+    ]
+  }
+}

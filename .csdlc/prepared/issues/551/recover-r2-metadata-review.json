@@ -1,0 +1,7 @@
+{
+  "issue": 551,
+  "expected_generation": 48,
+  "expected_digest": "fff53d2c695db0fe9604ee43b216ea224e3ebfc0b0d775e65af84df5255fd38e",
+  "actor": "codex:/root",
+  "reason": "Recover the typed review projection so the independently passed metadata-only head can be bound before republication."
+}
