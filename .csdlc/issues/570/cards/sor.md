@@ -89,7 +89,7 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Documentation and skill-guidance alignment for current v2 authority, v3 construction-only status, clean replacement target, three-minute prepared issue start guidance, stale-route removal, and local-only installed PR skill status.
+
 
 ## Prompts
 

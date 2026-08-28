@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-G] C-SDLC v3 docs and skill cutover readiness",
     "slug": "v0-92-1-v3-g-c-sdlc-v3-docs-and-skill-cutover-readiness",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Documentation and skill-guidance alignment for current v2 authority, v3 construction-only status, clean replacement target, three-minute prepared issue start guidance, stale-route removal, and local-only installed PR skill status.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

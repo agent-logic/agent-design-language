@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "251f09fb0202d86bcacf0069fbac76a171f0f80676767cd911e9277ae07b61f4",
+  "generation": 7,
+  "digest": "62bb39b63a49114f41de02e562fc0853a3fb7cd47974788a82fb7545291a8266",
   "branch": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-570-v3-g-docs-skill-cutover-readiness-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "62c6c415901bd7adc82f72c3060480227c80ca91c32169f841fee3d315e4094a",
+      "values_digest": "c5507d31d34fb74f75067ecc677a265cbfec94de86e612cf2bcdc0623fb8af70",
       "rendered_digest": "a0f1df29d26efffed38f38ce76e54ef72b3cd61cd9b241a64a5fadf2ec0c47c0",
       "ast_digest": "a8c869961fed96df668604afb6d345f5cd78825095d561726245bb830be0eabd"
     },
     "stp": {
-      "values_digest": "1f82581a7a46c391f1dbd184575476266e910b7e7e7a5c29ee35ed28abef64f9",
+      "values_digest": "d9e5fdea38a6236e98c153ffee79af1a620a76441c90eeac47815cd38aee2595",
       "rendered_digest": "78b657196e5f4dd108a92b646c4577b6fc27825d5a621c2f854bd76ba888b968",
       "ast_digest": "99c410d85adc5562f0ecb8c8c15e6da3579ccf3ee4d0ec07929946c85d1dd522"
     },
     "spp": {
-      "values_digest": "fa88cad9cca6ff7bf9c05e0b96204f5cdbc55fe94718acd28eaeb6a2bdc34d21",
+      "values_digest": "e05558ae55c65ef39db4434d777338c16cbc2edbc0e3ce8310872f1e5a08b144",
       "rendered_digest": "c250fd9ac553a4733e8093e4b2b750710b4ea2fb3d0a6d1321d41553e13520b7",
       "ast_digest": "9c27b9c89b0142a75c195f07b1de413dff533b464f784fb14d107cf09fdab6fa"
     },
     "vpp": {
-      "values_digest": "3b2b3a3309efab6cf06428f065516531b838b2a186418d2d07f7716326a5b45c",
+      "values_digest": "db4f0ca8dc626650b4b8ebe268d9bf5a049648d002255d66721819ea6bd6739a",
       "rendered_digest": "2fd6ab6cb6f8732ad50836a77cc927def7cec3c26946e8e98c91bbb830389e51",
       "ast_digest": "24a7e5bd76d1175940f4b16035da5e2e3dbb727dba6b895cf8489e9a5ae883c5"
     },
     "srp": {
-      "values_digest": "9478ea5c44dd19e8e76a65cd65aad6975d2191ee1f674d509d2e826e7758f1f3",
-      "rendered_digest": "fc3fbdd3e426c07adf043ddd07175389c90406fa0c70b984f7faca0d2daa53a1",
-      "ast_digest": "046079c8c3963451ae76193453d5f840744ba566ac96bf38c1b751a9acce8a65"
+      "values_digest": "287e10198f84c3e3b0f815551ff5bdc4765cd3f6078262b0242ef43399d37fb7",
+      "rendered_digest": "52b999a47c7895de7b5c42826b75d3b1d8df5e1fcb30424afec407c883d59ffc",
+      "ast_digest": "ef55d8449d7c0898af93df2cb6c0d6641384900683ce30133405f040ae81d117"
     },
     "sor": {
-      "values_digest": "8cfb2f349beda2df732d87fcf71be6ddfb7abeda6fc10217f23760cc8fd8d0be",
-      "rendered_digest": "92649c85b46479b912e520d79493416bece0eee1888d4c16badf343798173ba3",
-      "ast_digest": "05825c00cf7363de3996da3538f2577208d93fdda30bd80fccbe1de52ddaf86c"
+      "values_digest": "5f64a014ee9aae0d1ce51d588b82634522642026e9c30a0b14dcc581793fd164",
+      "rendered_digest": "1a062e7b5a73ca65f07ea19cd8339534f76787f8062eac77cdaaa77ad99a2a63",
+      "ast_digest": "72175bb5a3162b21b38cd71f0e224cc65f6c26f708d2a9a68613c260272970b5"
     }
   },
   "transitions": [
@@ -134,6 +134,20 @@
       "actor": "fresh-session:f333f40e-74b9-4c9b-97cc-93ec09fa7a4f",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"d58a5d78a45a00ec04a199fa45d92b1946280982ea8a5e725583013860eae28e\",\"design_ref\":\".csdlc/prepared/issues/570/design.md\",\"diagram_digest\":\"da800d63ccb9bf01b74e33d6ac4eea0f6bfc4b1b137d81d0ea92f47e6a1f368d\",\"diagram_ref\":\".csdlc/prepared/issues/570/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "Recover the assigned review after formal exact-head review found P2 fail-closed validator gaps in contradictory v3 authority detection for skill guidance.",
+      "operation": "recover_review"
     }
   ]
 }

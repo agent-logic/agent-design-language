@@ -1,7 +1,9 @@
 # C-SDLC v2 agent contract
 
 - This workspace is clean-room and independent of ADL Runtime and incumbent C-SDLC implementation crates, schemas, tests, and fixtures.
-- Use only the typed Rust owners and the eleven thin contracts under `operator/skills/` for v2 lifecycle work until explicit V3-F/#505 cutover changes live authority.
+- C-SDLC v2 remains the live lifecycle authority until explicit V3-F/#505
+  cutover.
+- Use only the typed Rust owners and the eleven thin contracts under `operator/skills/` for v2 lifecycle work until that cutover changes live authority.
 - Cards are generated projections. Never edit Markdown/state directly; use `csdlc-edit` and markdown.rs AST validation.
 - Read current authority only from `operator/generation-selector.json`. Gate 10C cutover is complete and Gate 10D2 records exact parity approval and final v1 sunset; historical coexistence and rollback proofs remain immutable evidence.
 - Treat `csdlc-v3/**` as construction and cutover-readiness evidence only before V3-F/#505. It cannot mutate lifecycle state, publish, finish, clean, or retire v2 before that cutover.
