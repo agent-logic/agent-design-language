@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 570,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
+  "phase": "ready",
+  "generation": 4,
+  "digest": "380377ef9b0faa7b40949706c0c5980837933c2487d3bb97e62e68758b6f315f",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/570/design.md",
+  "diagram_path": ".csdlc/prepared/issues/570/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4f87bcf6-2072-4b6d-be5e-c98df822ba28",
+      "revision": "6d16159528dc46d571cf48ac0c13642f6f226ee824df8c826dcfdef62bcfab61"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b1f8b5c4477348547ca8c781415fa4b640acd1ed320709402acba1fb1467377e",
+      "rendered_digest": "a0f1df29d26efffed38f38ce76e54ef72b3cd61cd9b241a64a5fadf2ec0c47c0",
+      "ast_digest": "a8c869961fed96df668604afb6d345f5cd78825095d561726245bb830be0eabd"
+    },
+    "stp": {
+      "values_digest": "8ef186816720d326a80a51a7318981671ae0b7f11d2761f7416c9f1fa1e8d554",
+      "rendered_digest": "78b657196e5f4dd108a92b646c4577b6fc27825d5a621c2f854bd76ba888b968",
+      "ast_digest": "99c410d85adc5562f0ecb8c8c15e6da3579ccf3ee4d0ec07929946c85d1dd522"
+    },
+    "spp": {
+      "values_digest": "4e19befc10994a72dbf2fdddee00a0887946fcc38118b32204ae6213e72dcbca",
+      "rendered_digest": "c5aac2dd646a3a319e014babdbe16eb4a64f4543a12f72ad4bf597bb6cb65505",
+      "ast_digest": "011e6931b07bfd6e607ad6a0066aab1a8e5c41ab258b743e11ce36fa672fcd6f"
+    },
+    "vpp": {
+      "values_digest": "35a9e20433ff8cddab1538100ee763e7ed67dd31d97e8a28f5981a37d42c367a",
+      "rendered_digest": "2fd6ab6cb6f8732ad50836a77cc927def7cec3c26946e8e98c91bbb830389e51",
+      "ast_digest": "24a7e5bd76d1175940f4b16035da5e2e3dbb727dba6b895cf8489e9a5ae883c5"
+    },
+    "srp": {
+      "values_digest": "6b59a9398e23903d65d6cb7a38d150635548e4103432563c85925041fc5ba9e1",
+      "rendered_digest": "fc3fbdd3e426c07adf043ddd07175389c90406fa0c70b984f7faca0d2daa53a1",
+      "ast_digest": "046079c8c3963451ae76193453d5f840744ba566ac96bf38c1b751a9acce8a65"
+    },
+    "sor": {
+      "values_digest": "e67ad7a75f32c0e0393a6a7184accc88db72c41ba6565f25f3fd9092666507b4",
+      "rendered_digest": "53abe35cb6f53f2893bb43e310bcecdf9bf463d5b7a73c3147d3378d50c08094",
+      "ast_digest": "959746ee691f983c17b01d8c1bf703c46a96513c7820cce4f259ef2a81945b10"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance #570 to ready after typed bootstrap, governed issue-owned validator lanes, design approval, doctor PASS, and csdlc-validate PASS."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "Own the issue-local documentation and skill-guidance validator scripts so #570 has executable governed PVF lanes before design approval.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"AGENTS.md\",\"docs/onboarding.md\",\"csdlc-v2/AGENTS.md\",\"csdlc-v2/operator/SKILLS.md\",\"csdlc-v2/operator/skills\",\"csdlc-v3/README.md\",\"csdlc-v3/AGENTS.md\",\".csdlc/prepared/issues/570/validate-docs-routes.sh\",\".csdlc/prepared/issues/570/validate-skill-guidance.sh\",\".csdlc/prepared/issues/570/validate-authority-boundary.sh\",\".csdlc/issues/570\",\".csdlc/prepared/issues/570\",\".csdlc/evidence/570\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Route #570 proof through executable issue-owned validators plus diff hygiene; keep independent authority review as lifecycle review instead of a fake command lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"docs-stale-route-scan\",\"proof_role\":\"Prove updated docs do not present adl_pr_cycle, pr.sh, pr ready, pr preflight, raw GitHub fallback, or premature v3 authority as current workflow routes.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/570/validate-docs-routes.sh\"],\"parallel_group\":\"v3-g-docs\",\"defer_reason\":\"Runs after documentation changes are made.\"},{\"lane\":\"skill-guidance-scan\",\"proof_role\":\"Prove v2 operator and installed PR skill guidance records until-cutover v2 authority and v3 construction non-authority.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/570/validate-skill-guidance.sh\"],\"parallel_group\":\"v3-g-docs\",\"defer_reason\":\"Runs after skill guidance checks and updates are made.\"},{\"lane\":\"authority-boundary-scan\",\"proof_role\":\"Prove changed docs and skill guidance preserve the v2-live/v3-construction boundary and clean replacement truth before V3-F.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/570/validate-authority-boundary.sh\"],\"parallel_group\":\"v3-g-docs\",\"defer_reason\":\"Runs after documentation and skill guidance changes are made.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and malformed diff defects in the bounded #570 diff.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":300,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"v3-g-final\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:4f87bcf6-2072-4b6d-be5e-c98df822ba28",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"6d16159528dc46d571cf48ac0c13642f6f226ee824df8c826dcfdef62bcfab61\",\"design_ref\":\".csdlc/prepared/issues/570/design.md\",\"diagram_digest\":\"da800d63ccb9bf01b74e33d6ac4eea0f6bfc4b1b137d81d0ea92f47e6a1f368d\",\"diagram_ref\":\".csdlc/prepared/issues/570/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "Advance #570 to ready after typed bootstrap, governed issue-owned validator lanes, design approval, doctor PASS, and csdlc-validate PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}
