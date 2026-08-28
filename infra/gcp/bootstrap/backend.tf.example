@@ -1,0 +1,6 @@
+terraform {
+  backend "gcs" {
+    bucket = "adl-tf-state-cs-host-377d41e71a824f92802120"
+    prefix = "bootstrap"
+  }
+}

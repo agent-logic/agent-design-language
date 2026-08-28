@@ -1,0 +1,419 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 491,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "526cf0df8c21bda077e6d86d72235e2018344c6406e4eb56eb652c5cf8a7a799",
+  "phase": "published",
+  "generation": 31,
+  "digest": "7096d925ef07c6402ac9c2702d782305b7227a987598b34e339de8c42a8309d8",
+  "branch": "codex/491-gcp-terraform-bootstrap",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-491-gcp-terraform-bootstrap",
+  "review_assignment": {
+    "reviewer": "fresh-session:491d0000-0000-4000-8000-000000000006",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:48afa5a782cc7759804e3880c16aad8687b59274:4dc079e0a7d363f72180a4d48cf042b1c7c4284fbfb7832d7858a93b4ad83595",
+    "scope": [
+      ".csdlc/issues/491",
+      ".csdlc/prepared/issues/491",
+      ".csdlc/evidence/491",
+      "infra/gcp/bootstrap",
+      "docs/operations/cloud/gcp/terraform-bootstrap",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-b"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:491d0000-0000-4000-8000-000000000006",
+    "scope": [
+      ".csdlc/issues/491",
+      ".csdlc/prepared/issues/491",
+      ".csdlc/evidence/491",
+      "infra/gcp/bootstrap",
+      "docs/operations/cloud/gcp/terraform-bootstrap",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-b"
+    ],
+    "reviewed_revision": "git-blake3:48afa5a782cc7759804e3880c16aad8687b59274:4dc079e0a7d363f72180a4d48cf042b1c7c4284fbfb7832d7858a93b4ad83595",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not rerun credentialed GCP readback or Terraform validation; review inspected retained evidence and scoped repository state.",
+      "Cloud state may drift after retained readback evidence.",
+      "Current HEAD b49e0b6ef2f1c7877aad56416c84b09952685c7a is assignment metadata only relative to reviewed implementation revision 48afa5a782cc7759804e3880c16aad8687b59274."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 491,
+    "pull_request": 575,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/575",
+    "base": "main",
+    "head": "codex/491-gcp-terraform-bootstrap",
+    "revision": "git-blake3:4348ce2fbf045d3b18e761615355d1ba9a79214f:49a3fee3bec7c65d42e18b9803ef64bf252c231a1ede9788b06a953955c0498b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/491/design.recovered.md",
+  "diagram_path": ".csdlc/prepared/issues/491/diagram.recovered.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:b621f89f-c15b-4ea4-b286-b02e56d8ff32",
+      "revision": "b5290c0508af6c312534d0c4f3d6946e900af88f66d2622a4197494bcf363408"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f7a94fbccc78df74dfded5eb907cfc006624f7c5b7eb7c6638bae42ca816ccc6",
+      "rendered_digest": "1854eb54495c7244b8b124fe000359cdb0f2eb28ff4bed6f7ee5932bfc0b4aba",
+      "ast_digest": "f56230fd0f500473c054431c1d56e47d741efffe41cb1d77bbb6ef5d0ce81e5d"
+    },
+    "stp": {
+      "values_digest": "3a382ea2a9aadace64a58522b256ea5e5810f004c1d803075ba96b8b9082f5e8",
+      "rendered_digest": "43834979b108f7a1e5ba1de66aeebf890dcd910867a1349316b95e22e28d8061",
+      "ast_digest": "79eda83487ce176f0e734d3650d158210b985c60399e7ec276d4226ff5c96ad2"
+    },
+    "spp": {
+      "values_digest": "685f21e8458741d5b0109ee3a70bc91e7da95fa15cc1a6fa57f417bc77a97087",
+      "rendered_digest": "b2521fd07588f1ac2849ad05d813258ad624e8844f70bdd51e4eb49939d4e11b",
+      "ast_digest": "1c053c47e372d1f69468119b1c435f55bc8aced3ba9c8f28f8a36822100500b3"
+    },
+    "vpp": {
+      "values_digest": "208939e767ea08919f421528ec5f96450a588f0366e2846ff05625c01dc24b1c",
+      "rendered_digest": "399c87267a346dc2680c8a62beb34f912c6611dfe172a26e01a7a595df591951",
+      "ast_digest": "1412aa1c914a4a04a76032eb973d74f1f6495d37ad81cb2f48a77cf25fd4cf26"
+    },
+    "srp": {
+      "values_digest": "21a76a17e83830507629ea5382f34ab48bca83b905f4fdd6f3487d1a877cf582",
+      "rendered_digest": "7e4c5d18817eddff73e2012b6ff50f4dbd7eb05b4d8be95568fc0a5009dbca95",
+      "ast_digest": "07d569393324e16dac2b7f4acf7198240e0815536bbd0f775dd6561355ccdc2e"
+    },
+    "sor": {
+      "values_digest": "68a20d3fa340c6999a6a2d1bcf07d661c5f981ac2baa9d01ab39fb1ded9369a2",
+      "rendered_digest": "1b91c12fe3a9fb87fc3cf9c2b78188537cc6259fda526445d37d98f43828fbf3",
+      "ast_digest": "08eb4651b3ea6fdc31f243fc7a7313e10e8849eceebd626e4d278d3ba70ab5d1"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:b621f89f-c15b-4ea4-b286-b02e56d8ff32",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452\",\"design_ref\":\".csdlc/prepared/issues/491/design.md\",\"diagram_digest\":\"51310babdb0c0104d55cf637a987d8047da8bdffa06fd9480880ee6d97b3df1f\",\"diagram_ref\":\".csdlc/prepared/issues/491/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "recover initialized design envelope and require fresh approval",
+      "operation": "{\"approval_disposition\":\"invalidated_pending_reapproval\",\"fork_turns\":\"none\",\"new_design_digest\":\"d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452\",\"new_design_path\":\".csdlc/prepared/issues/491/design.recovered.md\",\"new_diagram_digest\":\"51310babdb0c0104d55cf637a987d8047da8bdffa06fd9480880ee6d97b3df1f\",\"new_diagram_path\":\".csdlc/prepared/issues/491/diagram.recovered.mmd\",\"new_reviewer\":\"fresh-session:b621f89f-c15b-4ea4-b286-b02e56d8ff32\",\"old_design_digest\":\"d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452\",\"old_design_path\":\".csdlc/prepared/issues/491/design.md\",\"old_design_review\":{\"approved\":{\"reviewer\":\"fresh-session:b621f89f-c15b-4ea4-b286-b02e56d8ff32\",\"revision\":\"d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452\"}},\"old_diagram_digest\":\"51310babdb0c0104d55cf637a987d8047da8bdffa06fd9480880ee6d97b3df1f\",\"old_diagram_path\":\".csdlc/prepared/issues/491/diagram.mmd\",\"old_reviewer\":\"fresh-session:b621f89f-c15b-4ea4-b286-b02e56d8ff32\",\"operation\":\"recover_initialized_design_envelope\",\"post_generation\":2,\"post_state_digest\":\"60d6d24420f92940f1b7501e7c2fbae31b6b29efe89a1999b8b63fbd35d85fc9\",\"pre_state_digest\":\"cb679be601bfc0279c42569e991276baf22b12be89dbb3e551b977cf88dd0259\",\"reviewed_digest\":\"d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452\",\"reviewed_generation\":1,\"reviewer_session_uuid\":\"b621f89f-c15b-4ea4-b286-b02e56d8ff32\",\"reviewer_turn_uuid\":\"44f6b304-11d0-4d03-9afe-ee466d3bba6f\",\"spawned_task\":\"/root/issue491_design_review_r4\",\"thread_source\":\"subagent\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:b621f89f-c15b-4ea4-b286-b02e56d8ff32",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452\",\"design_ref\":\".csdlc/prepared/issues/491/design.recovered.md\",\"diagram_digest\":\"51310babdb0c0104d55cf637a987d8047da8bdffa06fd9480880ee6d97b3df1f\",\"diagram_ref\":\".csdlc/prepared/issues/491/diagram.recovered.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Repair #491 initialized readiness by making pre-bind validation executable through issue-owned local validators and deferring post-bind Terraform/live GCP/exact-head implementation proof until the issue is bound and implemented.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-gcp-bootstrap-packet\",\"proof_role\":\"Proves #491 design packet readiness, #490 dependency gate, accepted host project and service-account identity, local key path truth without secret contents, wrong-project/service-account fail-closed checks, owned-path boundaries, and lifecycle distinction between pre-bind packet proof and future Terraform implementation proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-gcp-static-readback\",\"proof_role\":\"Proves the GCP-B readback entrypoint has a static non-credentialed mode and reports only approved project/service-account/key-path metadata.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=static\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #491 has issue-owned executable packet validators before design approval; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"gcp-b-terraform-static-contract\",\"proof_role\":\"After bind, verifies #491 Terraform backend/deployment-identity implementation, provider pins, saved-plan review, local-state cleanup, and redacted retained evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #491 is bound and the implementation creates the complete Terraform bootstrap surfaces under infra/gcp/bootstrap.\"},{\"lane\":\"gcp-b-identity-readback\",\"proof_role\":\"After reviewed implementation and approved credential context, performs read-only GCP proof of host project, bootstrap service account, impersonation readiness, and local key metadata without printing key contents.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=identity-readonly\"],\"parallel_group\":\"gcp-readonly\",\"defer_reason\":\"Deferred until #491 is bound, the reviewed Terraform bootstrap surfaces exist, and the operator-approved GCP credential context is selected without exposing credential contents.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Make #491 validator/readback scripts explicit affected areas so VPP lanes select concrete governed issue-owned targets during initialized readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/gcp/bootstrap\",\"docs/operations/cloud/gcp/terraform-bootstrap\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b\",\".csdlc/prepared/issues/491\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #491 R1 failed exact-head review after preserving impersonation-default and impersonation-readback findings so bounded implementation/lifecycle repair can proceed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Refresh #491 authored design and diagram bindings after operator-confirmed key-backed bootstrap remediation replaced the failed impersonation requirement.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/491/design.recovered.md\",\"diagram_ref\":\".csdlc/prepared/issues/491/diagram.recovered.mmd\",\"new_design_digest\":\"b5290c0508af6c312534d0c4f3d6946e900af88f66d2622a4197494bcf363408\",\"new_diagram_digest\":\"5a48aaeb0756a02a3cb49506a0afb4f3ae86c3afd29c634a8810ca64168befe8\",\"old_design_digest\":\"d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452\",\"old_diagram_digest\":\"51310babdb0c0104d55cf637a987d8047da8bdffa06fd9480880ee6d97b3df1f\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:b621f89f-c15b-4ea4-b286-b02e56d8ff32\",\"revision\":\"d8612146dc6fb5d24236862dae8fb16ba26836230b16e6d99324f841969a0452\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":8,\"recovery_sequence\":11}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Align #491 acceptance and deliverables with the operator-confirmed approved service-account key bootstrap path instead of short-lived impersonation.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: State is versioned private recoverable and auditable\",\"AC-2: Deployment uses the approved service-account key-backed bootstrap path by default for this sprint\",\"AC-3: Provider and module versions are pinned\",\"AC-4: Local bootstrap state is removed or ignored recoverably\",\"AC-5: Operator-approved key-backed bootstrap path is documented and verified without exposing key contents\",\"AC-6: Fresh exact-head review has no actionable findings before publication\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Align #491 validation lanes and failure policy with the approved key-backed bootstrap route.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-gcp-bootstrap-packet\",\"proof_role\":\"Proves #491 design packet readiness, #490 dependency gate, accepted host project and service-account identity, local key path truth without secret contents, wrong-project/service-account fail-closed checks, owned-path boundaries, and lifecycle distinction between pre-bind packet proof and future Terraform implementation proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-gcp-static-readback\",\"proof_role\":\"Proves the GCP-B readback entrypoint has a static non-credentialed mode and reports only approved project/service-account/key-path metadata.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=static\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #491 has issue-owned executable packet validators before design approval; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"gcp-b-terraform-static-contract\",\"proof_role\":\"After bind, verifies #491 Terraform backend/deployment-identity implementation, provider pins, saved-plan review, local-state cleanup, and redacted retained evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #491 is bound and the implementation creates the complete Terraform bootstrap surfaces under infra/gcp/bootstrap.\"},{\"lane\":\"gcp-b-identity-readback\",\"proof_role\":\"After reviewed implementation and approved credential context, performs read-only GCP proof of host project, bootstrap service-account readability, and local key metadata without printing key contents.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=identity-readonly\"],\"parallel_group\":\"gcp-readonly\",\"defer_reason\":\"Deferred until #491 is bound, the reviewed Terraform bootstrap surfaces exist, and the operator-approved GCP credential context is selected without exposing credential contents.\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "fresh-session:b621f89f-c15b-4ea4-b286-b02e56d8ff32",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"b5290c0508af6c312534d0c4f3d6946e900af88f66d2622a4197494bcf363408\",\"design_ref\":\".csdlc/prepared/issues/491/design.recovered.md\",\"diagram_digest\":\"5a48aaeb0756a02a3cb49506a0afb4f3ae86c3afd29c634a8810ca64168befe8\",\"diagram_ref\":\".csdlc/prepared/issues/491/diagram.recovered.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record #491 key-backed GCP bootstrap implementation proof after operator rejected short-lived impersonation as a sprint dependency.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP-B Terraform bootstrap as an approved service-account key-backed sprint path with private/versioned remote state, pinned provider contract, redacted readbacks, ignored local Terraform state, and retained non-secret proof evidence.\",\"changes\":[\"Created infra/gcp/bootstrap with pinned hashicorp/google provider, private versioned GCS backend bucket, service-account IAM/member bindings, and ignored local Terraform cache/plan artifacts.\",\"Removed short-lived impersonation from the default sprint execution path; #491 uses the operator-approved service-account key only as command-scoped credential material outside the repository.\",\"Updated the GCP bootstrap runbook, milestone evidence, design packet, validator, and readback script to prove approved key-backed execution without printing or retaining key contents.\",\"Kept future non-key company identity work outside #491 scope while preserving the granted TokenCreator context as non-blocking future readiness evidence.\"],\"artifacts\":[\"infra/gcp/bootstrap/main.tf\",\"infra/gcp/bootstrap/provider.tf\",\"infra/gcp/bootstrap/variables.tf\",\"infra/gcp/bootstrap/outputs.tf\",\"infra/gcp/bootstrap/README.md\",\"infra/gcp/bootstrap/.terraform.lock.hcl\",\"docs/operations/cloud/gcp/terraform-bootstrap/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b/bootstrap-identity-readiness.md\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\".csdlc/prepared/issues/491/design.recovered.md\",\".csdlc/prepared/issues/491/diagram.recovered.mmd\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\",\".\"],\"purpose\":\"Prove the #491 bootstrap packet, owned paths, key-backed identity contract, wrong-project/service-account rejection, provider pins, and local-state hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run: gcp-b bootstrap packet validation passed\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the readback entrypoint has a non-credentialed static lane and reports only approved project, service account, and key-file metadata.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run: static lane performed no GCP API calls and reported key_file_present=true\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/bootstrap\",\"fmt\",\"-check\"],\"purpose\":\"Prove Terraform formatting for the GCP bootstrap root.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run passed\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/bootstrap\",\"validate\"],\"purpose\":\"Prove the Terraform configuration validates after backend-disabled initialization.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run after terraform init -backend=false passed\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Remove obsolete impersonation wording from #491 deliverables after operator-approved key-backed sprint route.",
+      "operation": "{\"new_values\":[\"infra/gcp/bootstrap Terraform root/module for backend and deployment identity bootstrap\",\"docs/operations/cloud/gcp/terraform-bootstrap operator runbook\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b retained proof packet\",\"issue-owned validator and readback scripts for backend identity, state recovery, approved key-backed execution, provider pins, and local-state cleanup\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"infra/gcp/bootstrap Terraform root/module for backend and deployment identity bootstrap\",\"docs/operations/cloud/gcp/terraform-bootstrap operator runbook\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b retained proof packet\",\"issue-owned validator and readback scripts for backend identity, state recovery, impersonation, provider pins, and local-state cleanup\"],\"recovery_generation\":8,\"recovery_sequence\":11}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Recover #491 R2 failed exact-head review after preserving VPP impersonation fail-closed and SIP/SPP stale impersonation preference findings for typed card-truth repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Repair #491 post-review SIP declared scope so current sprint truth is key-backed bootstrap rather than short-lived impersonation.",
+      "operation": "{\"new_values\":[\"GCP host-project Terraform backend bootstrap\",\"GCS remote-state privacy, versioning, auditability, and recovery\",\"Company-controlled Terraform bootstrap service account\",\"Operator-approved local static key bootstrap path for this sprint execution\",\"Provider pinning, saved-plan review, and local-state cleanup\",\"Future non-key identity hardening is outside #491 and must not block the sprint bootstrap\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"GCP host-project Terraform backend bootstrap\",\"GCS remote-state privacy, versioning, auditability, and recovery\",\"Company-controlled Terraform bootstrap service account\",\"Short-lived impersonation as preferred execution\",\"Operator-approved local static key bootstrap path\",\"Provider pinning, saved-plan review, and local-state cleanup\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Repair #491 SIP authority boundary so it does not retain stale short-lived impersonation as current authority after the operator-approved key-backed route.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Use company GCP project cs-host-377d41e71a824f92802120\",\"Use bootstrap service account tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com\",\"Use the operator-approved static key only from /Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json for #491 sprint bootstrap commands\",\"Never print, copy, commit, or retain service-account private-key contents, token contents, ADC database contents, or refresh tokens\",\"GCP mutation is limited to the accepted host project and bootstrap resources\",\"Future non-key identity work is out of scope for #491 and must not block this sprint bootstrap\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Repair #491 SPP invariants so current implementation truth is key-backed sprint bootstrap rather than impersonation-preferred execution.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Terraform bootstrap targets only cs-host-377d41e71a824f92802120\",\"Sprint execution uses the approved service-account key as command-scoped source credentials\",\"The local static key stays outside the repository under /Users/daniel/keys\",\"Retained evidence never includes credentials, token material, or service-account private-key JSON\",\"Provider pins and saved-plan review are explicit before apply\",\"Local bootstrap state is removed, ignored, or quarantined recoverably after backend migration\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Recover #491 R3 failed exact-head review after preserving the remaining VPP stale impersonation failure-policy finding and SRP stale impersonation review-prompt finding.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Repair #491 VPP failure policy so it no longer requires short-lived impersonation proof after the operator-approved key-backed sprint route.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"failure_policy\",\"value\":\"Fail closed if state recovery fails, local key material would be retained or printed, reviewed plan identity drifts, approved key-backed readback cannot be proven, provider pins are absent, local bootstrap state remains unmanaged, or mutation would target a project other than cs-host-377d41e71a824f92802120.\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Repair #491 SRP review prompts so review asks about approved key-backed execution instead of impersonation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the implementation keep #491 to GCP Terraform bootstrap scope without absorbing runtime deployment, GPU, AWS, or later GCP security/runtime work?\",\"Are remote-state privacy, versioning, auditability, recovery, provider pins, saved-plan review, approved key-backed execution, and local-state cleanup specified with machine-checkable proof?\",\"Does the static-key bootstrap truth avoid retaining or exposing credential material while preserving the operator-approved key path?\",\"Does the validation plan distinguish local static proof from live GCP readback and fail closed on wrong project or credential leakage?\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Recover #491 R4 failed exact-head review after preserving the actionable approved-key credential-binding and retained-secret scan findings; implementation will repair those findings before a new fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Record #491 R4 remediation proof: approved-key credential binding and expanded retained-secret scan now pass focused local and read-only GCP validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated #491 review findings by binding GCP readbacks to the approved service-account key path and expanding retained-secret scanning across all #491 product, lifecycle, prepared, and evidence surfaces while excluding ignored Terraform provider/cache artifacts.\",\"changes\":[\"The identity-readonly lane now requires the approved GCP_B_KEY_FILE to exist, rejects conflicting CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE and GOOGLE_APPLICATION_CREDENTIALS, exports both variables to the approved key path for the command-scoped readback, and reports credential_source=approved_key_file plus credential_binding_verified=true.\",\"The #491 validator now requires the credential-binding markers in the readback script and scans infra/gcp/bootstrap, .csdlc/issues/491, .csdlc/evidence/491, prepared artifacts, runbook docs, and milestone evidence for retained credential markers.\",\"The scan explicitly skips only the validator's own denylist and ignored Terraform provider/cache artifacts under .terraform so downloaded provider binaries do not create false retained-source failures.\"],\"artifacts\":[\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\",\"infra/gcp/bootstrap\",\"docs/operations/cloud/gcp/terraform-bootstrap\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b\"],\"validation\":[{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"issue\",\"--issue\",\"491\"],\"purpose\":\"Validate #491 typed issue/card truth after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"generation 25, status pass, findings []\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch-integrity defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"exit 0 with no output\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\",\".\"],\"purpose\":\"Prove the #491 bootstrap packet, owned paths, key-backed identity contract, wrong-project/service-account rejection, provider pins, local-state hygiene, and expanded retained-secret scan.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-b bootstrap packet validation passed\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the readback entrypoint has a non-credentialed static lane and reports only approved project, service account, and key-file metadata.\",\"outcome\":\"passed\",\"evidence_ref\":\"static lane performed no GCP API calls and reported key_file_present=true\"},{\"command\":[\"GCP_B_KEY_FILE=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json\",\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=identity-readonly\"],\"purpose\":\"Perform approved-key-backed read-only GCP proof for the accepted company project and bootstrap service account without printing key contents.\",\"outcome\":\"passed\",\"evidence_ref\":\"project_lifecycle_state=ACTIVE; service_account_readable=true; credential_source=approved_key_file; credential_binding_verified=true; approved_key_backed_readback=true; retained_output_redacted=true\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/bootstrap\",\"fmt\",\"-check\"],\"purpose\":\"Prove Terraform formatting for the GCP bootstrap root.\",\"outcome\":\"passed\",\"evidence_ref\":\"exit 0 with no output\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/bootstrap\",\"validate\"],\"purpose\":\"Prove the Terraform configuration validates.\",\"outcome\":\"passed\",\"evidence_ref\":\"Success! The configuration is valid.\"}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Recover #491 pending review assignment before review activity because the existing reviewer identity is not a canonical fresh-session UUID. Preserve exact assignment truth and reassign a canonical fresh no-context reviewer against unchanged immutable HEAD ca26d298331a19b9cc3bc5e9f8b35f5635b7cd4e.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover #491 R5 failed exact-head review after preserving stale identity-readonly evidence finding; implementation will rerun and retain the approved-key readback markers before fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

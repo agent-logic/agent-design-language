@@ -1,0 +1,5 @@
+gcp-b readback lane classified as static: no GCP API calls performed
+project=cs-host-377d41e71a824f92802120
+service_account=tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com
+key_file_expected=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json
+key_file_present=true

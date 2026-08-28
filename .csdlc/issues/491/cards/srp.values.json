@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 491,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+    "slug": "gcp-terraform-bootstrap",
+    "version": "v0.92.1",
+    "generation": 31
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/491\n.csdlc/prepared/issues/491\n.csdlc/evidence/491\ninfra/gcp/bootstrap\ndocs/operations/cloud/gcp/terraform-bootstrap\ndocs/milestones/v0.92.1/evidence/cloud/gcp-b",
+      "review_revision": "git-blake3:48afa5a782cc7759804e3880c16aad8687b59274:4dc079e0a7d363f72180a4d48cf042b1c7c4284fbfb7832d7858a93b4ad83595",
+      "reviewer": "fresh-session:491d0000-0000-4000-8000-000000000006",
+      "review_prompts": [
+        "Does the implementation keep #491 to GCP Terraform bootstrap scope without absorbing runtime deployment, GPU, AWS, or later GCP security/runtime work?",
+        "Are remote-state privacy, versioning, auditability, recovery, provider pins, saved-plan review, approved key-backed execution, and local-state cleanup specified with machine-checkable proof?",
+        "Does the static-key bootstrap truth avoid retaining or exposing credential material while preserving the operator-approved key path?",
+        "Does the validation plan distinguish local static proof from live GCP readback and fail closed on wrong project or credential leakage?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Reviewer did not rerun credentialed GCP readback or Terraform validation; review inspected retained evidence and scoped repository state.",
+        "Cloud state may drift after retained readback evidence.",
+        "Current HEAD b49e0b6ef2f1c7877aad56416c84b09952685c7a is assignment metadata only relative to reviewed implementation revision 48afa5a782cc7759804e3880c16aad8687b59274."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
