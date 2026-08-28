@@ -28,6 +28,8 @@ Status: draft
 .csdlc/issues/501/index.json
 .csdlc/prepared/issues/501/design.md
 .csdlc/prepared/issues/501/diagram.mmd
+csdlc-v3/Cargo.lock
+csdlc-v3/Cargo.toml
 csdlc-v3/src/application/mod.rs
 csdlc-v3/src/bin/csdlc-v3-foundation.rs
 csdlc-v3/src/lib.rs
@@ -51,13 +53,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- C-SDLC v3 remains non-authoritative; typed C-SDLC v2 remains the operational lifecycle authority.
-- Issue #502 lifecycle kernel work has not been started and remains sequentially blocked on #501 publication/finish.
+- The v3 foundation importer remains read-only and non-authoritative; full v2 lifecycle enum/schema enforcement and authority cutover remain later v3 slices.
 
 ## Review Result
 
-Revision: Some("git-blake3:7b7c8dd6f7c98ba2f1dcc9c00fab520074e4135a:9aed3fab194f6395b444be2827a6e62ed0c3405aa6da726b7f68b0147e1e3c83")
+Revision: Some("git-blake3:c7439484b8b783fdc1d36e8480d8178e848dbdc8:49aaa4af3abb66686c9f5582e067415e387183509407077e948f96d88836cec3")
 
-Reviewer: Some("issue_501_current_review")
+Reviewer: Some("issue_501_import_fix_review")
 
 Result: pass

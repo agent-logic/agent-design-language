@@ -62,20 +62,52 @@ impl RepositoryContext {
     }
 
     pub fn issue_record_text(&self, issue: u64) -> Result<String, RepositoryContextError> {
-        let path = self.root.join(format!(".csdlc/issues/{issue}/index.json"));
+        let path = self.issue_record_path(issue);
         self.read_required_text(path, "v2 issue record")
     }
 
     pub fn card_text(&self, issue: u64, card: &str) -> Result<String, RepositoryContextError> {
+        let path = self.card_path(issue, card)?;
+        self.read_required_text(path, "v2 issue card")
+    }
+
+    pub fn card_values_text(
+        &self,
+        issue: u64,
+        card: &str,
+    ) -> Result<String, RepositoryContextError> {
+        let path = self.card_values_path(issue, card)?;
+        self.read_required_text(path, "v2 issue card values")
+    }
+
+    pub fn issue_record_path(&self, issue: u64) -> PathBuf {
+        self.root.join(format!(".csdlc/issues/{issue}/index.json"))
+    }
+
+    pub fn card_path(&self, issue: u64, card: &str) -> Result<PathBuf, RepositoryContextError> {
         if !matches!(card, "sip" | "stp" | "spp" | "vpp" | "srp" | "sor") {
             return Err(RepositoryContextError::UnsupportedCard {
                 card: card.to_owned(),
             });
         }
-        let path = self
+        Ok(self
             .root
-            .join(format!(".csdlc/issues/{issue}/cards/{card}.md"));
-        self.read_required_text(path, "v2 issue card")
+            .join(format!(".csdlc/issues/{issue}/cards/{card}.md")))
+    }
+
+    pub fn card_values_path(
+        &self,
+        issue: u64,
+        card: &str,
+    ) -> Result<PathBuf, RepositoryContextError> {
+        if !matches!(card, "sip" | "stp" | "spp" | "vpp" | "srp" | "sor") {
+            return Err(RepositoryContextError::UnsupportedCard {
+                card: card.to_owned(),
+            });
+        }
+        Ok(self
+            .root
+            .join(format!(".csdlc/issues/{issue}/cards/{card}.values.json")))
     }
 
     pub fn relative_display(&self, path: &Path) -> String {
@@ -86,17 +118,32 @@ impl RepositoryContext {
     }
 
     fn require_file(&self, path: &Path, label: &'static str) -> Result<(), RepositoryContextError> {
-        let metadata =
-            path.metadata()
-                .map_err(|source| RepositoryContextError::RequiredFileUnavailable {
-                    label,
-                    path: path.to_path_buf(),
-                    source,
-                })?;
+        let canonical = path.canonicalize().map_err(|source| {
+            RepositoryContextError::RequiredFileUnavailable {
+                label,
+                path: path.to_path_buf(),
+                source,
+            }
+        })?;
+        if !canonical.starts_with(&self.root) {
+            return Err(RepositoryContextError::PathEscapesRoot {
+                label,
+                path: path.to_path_buf(),
+                canonical,
+                root: self.root.clone(),
+            });
+        }
+        let metadata = fs::metadata(&canonical).map_err(|source| {
+            RepositoryContextError::RequiredFileUnavailable {
+                label,
+                path: canonical.clone(),
+                source,
+            }
+        })?;
         if !metadata.is_file() {
             return Err(RepositoryContextError::RequiredPathNotFile {
                 label,
-                path: path.to_path_buf(),
+                path: canonical,
             });
         }
         Ok(())
@@ -108,10 +155,17 @@ impl RepositoryContext {
         label: &'static str,
     ) -> Result<String, RepositoryContextError> {
         self.require_file(&path, label)?;
-        fs::read_to_string(&path).map_err(|source| {
+        let canonical = path.canonicalize().map_err(|source| {
             RepositoryContextError::RequiredFileUnavailable {
                 label,
-                path,
+                path: path.clone(),
+                source,
+            }
+        })?;
+        fs::read_to_string(&canonical).map_err(|source| {
+            RepositoryContextError::RequiredFileUnavailable {
+                label,
+                path: canonical,
                 source,
             }
         })
@@ -135,6 +189,12 @@ pub enum RepositoryContextError {
     RequiredPathNotFile {
         label: &'static str,
         path: PathBuf,
+    },
+    PathEscapesRoot {
+        label: &'static str,
+        path: PathBuf,
+        canonical: PathBuf,
+        root: PathBuf,
     },
     UnsupportedCard {
         card: String,
@@ -174,6 +234,18 @@ impl fmt::Display for RepositoryContextError {
                     path.display()
                 )
             }
+            Self::PathEscapesRoot {
+                label,
+                path,
+                canonical,
+                root,
+            } => write!(
+                formatter,
+                "required {label} path {} resolves outside repository root {} as {}",
+                path.display(),
+                root.display(),
+                canonical.display()
+            ),
             Self::UnsupportedCard { card } => write!(formatter, "unsupported card {card:?}"),
         }
     }

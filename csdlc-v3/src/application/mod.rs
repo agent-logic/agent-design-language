@@ -1,4 +1,5 @@
 use crate::repository::RepositoryContext;
+use serde_json::Value;
 use std::collections::BTreeMap;
 use std::fmt;
 use std::fs;
@@ -189,7 +190,10 @@ impl FoundationState {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct IssueProjection {
     pub issue: u64,
-    pub record_contains_phase: bool,
+    pub schema: String,
+    pub phase: String,
+    pub generation: u64,
+    pub digest: String,
     pub card_count: usize,
     pub cards: Vec<Projection>,
 }
@@ -199,16 +203,39 @@ impl IssueProjection {
         let record = context
             .issue_record_text(issue)
             .map_err(FoundationError::Repository)?;
+        let record = parse_json(&record, "v2 issue record")?;
+        validate_issue_record(&record, issue)?;
+        let schema = required_string(&record, "schema", "v2 issue record")?.to_owned();
+        let phase = required_string(&record, "phase", "v2 issue record")?.to_owned();
+        let digest = required_string(&record, "digest", "v2 issue record")?.to_owned();
+        let generation = required_u64(&record, "generation", "v2 issue record")?;
         let mut cards = BTreeMap::new();
         for card in ["sip", "stp", "spp", "vpp", "srp", "sor"] {
-            let text = context
+            require_card_projection(&record, card)?;
+            let markdown = context
                 .card_text(issue, card)
                 .map_err(FoundationError::Repository)?;
-            cards.insert(card.to_owned(), text.len().to_string());
+            let values_text = context
+                .card_values_text(issue, card)
+                .map_err(FoundationError::Repository)?;
+            let values = parse_json(&values_text, "v2 issue card values")?;
+            validate_card_values(&values, issue, card)?;
+            cards.insert(
+                card.to_owned(),
+                format!(
+                    "kind={card};status={};markdown_bytes={};values_digest={}",
+                    required_string(&values, "status", "v2 issue card values")?,
+                    markdown.len(),
+                    required_string(&record["cards"][card], "values_digest", "v2 issue record")?
+                ),
+            );
         }
         Ok(Self {
             issue,
-            record_contains_phase: record.contains("\"phase\""),
+            schema,
+            phase,
+            generation,
+            digest,
             card_count: cards.len(),
             cards: cards
                 .into_iter()
@@ -234,6 +261,14 @@ pub enum FoundationError {
         label: &'static str,
         needle: &'static str,
     },
+    InvalidJson {
+        label: &'static str,
+        message: String,
+    },
+    InvalidProjection {
+        label: &'static str,
+        message: String,
+    },
     Repository(crate::repository::RepositoryContextError),
 }
 
@@ -245,6 +280,12 @@ impl fmt::Display for FoundationError {
             }
             Self::MissingRequiredText { label, needle } => {
                 write!(formatter, "{label} is missing required text {needle:?}")
+            }
+            Self::InvalidJson { label, message } => {
+                write!(formatter, "{label} JSON is invalid: {message}")
+            }
+            Self::InvalidProjection { label, message } => {
+                write!(formatter, "{label} projection is invalid: {message}")
             }
             Self::Repository(source) => write!(formatter, "{source}"),
         }
@@ -302,4 +343,164 @@ fn escape_json(value: &str) -> String {
         }
     }
     escaped
+}
+
+fn parse_json(text: &str, label: &'static str) -> Result<Value, FoundationError> {
+    serde_json::from_str(text).map_err(|source| FoundationError::InvalidJson {
+        label,
+        message: source.to_string(),
+    })
+}
+
+fn validate_issue_record(record: &Value, issue: u64) -> Result<(), FoundationError> {
+    let object = record
+        .as_object()
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: "record must be a JSON object".to_owned(),
+        })?;
+    const ALLOWED: &[&str] = &[
+        "audit",
+        "branch",
+        "cards",
+        "design_path",
+        "design_review",
+        "diagram_path",
+        "digest",
+        "generation",
+        "initialization_digest",
+        "issue",
+        "migration",
+        "phase",
+        "publication",
+        "readiness",
+        "repository",
+        "review",
+        "review_assignment",
+        "schema",
+        "terminal",
+        "transitions",
+        "worktree",
+    ];
+    for key in object.keys() {
+        if !ALLOWED.contains(&key.as_str()) {
+            return Err(FoundationError::InvalidProjection {
+                label: "v2 issue record",
+                message: format!("unsupported field {key:?}"),
+            });
+        }
+    }
+    if required_string(record, "schema", "v2 issue record")? != "csdlc.issue.index.v1" {
+        return Err(FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: "unsupported schema".to_owned(),
+        });
+    }
+    let actual_issue = required_u64(record, "issue", "v2 issue record")?;
+    if actual_issue != issue {
+        return Err(FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: format!("issue identity {actual_issue} does not match requested {issue}"),
+        });
+    }
+    required_string(record, "phase", "v2 issue record")?;
+    required_string(record, "digest", "v2 issue record")?;
+    required_u64(record, "generation", "v2 issue record")?;
+    record
+        .get("cards")
+        .and_then(Value::as_object)
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: "cards must be a JSON object".to_owned(),
+        })?;
+    Ok(())
+}
+
+fn validate_card_values(values: &Value, issue: u64, card: &str) -> Result<(), FoundationError> {
+    let identity = values
+        .get("identity")
+        .and_then(Value::as_object)
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue card values",
+            message: "missing identity object".to_owned(),
+        })?;
+    let actual_issue = identity
+        .get("issue")
+        .and_then(Value::as_u64)
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue card values",
+            message: "missing numeric identity.issue".to_owned(),
+        })?;
+    if actual_issue != issue {
+        return Err(FoundationError::InvalidProjection {
+            label: "v2 issue card values",
+            message: format!("card issue identity {actual_issue} does not match requested {issue}"),
+        });
+    }
+    let content = values
+        .get("content")
+        .and_then(Value::as_object)
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue card values",
+            message: "missing content object".to_owned(),
+        })?;
+    let actual_card = content
+        .get("card_kind")
+        .and_then(Value::as_str)
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue card values",
+            message: "missing content.card_kind".to_owned(),
+        })?;
+    if actual_card != card {
+        return Err(FoundationError::InvalidProjection {
+            label: "v2 issue card values",
+            message: format!("card kind {actual_card:?} does not match requested {card:?}"),
+        });
+    }
+    required_string(values, "status", "v2 issue card values")?;
+    Ok(())
+}
+
+fn require_card_projection(record: &Value, card: &str) -> Result<(), FoundationError> {
+    let projection = record
+        .get("cards")
+        .and_then(|cards| cards.get(card))
+        .and_then(Value::as_object)
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: format!("missing {card} card projection"),
+        })?;
+    for key in ["values_digest", "rendered_digest", "ast_digest"] {
+        if !projection.get(key).is_some_and(Value::is_string) {
+            return Err(FoundationError::InvalidProjection {
+                label: "v2 issue record",
+                message: format!("{card} projection missing {key}"),
+            });
+        }
+    }
+    Ok(())
+}
+
+fn required_string<'a>(
+    value: &'a Value,
+    key: &str,
+    label: &'static str,
+) -> Result<&'a str, FoundationError> {
+    value
+        .get(key)
+        .and_then(Value::as_str)
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label,
+            message: format!("missing string field {key:?}"),
+        })
+}
+
+fn required_u64(value: &Value, key: &str, label: &'static str) -> Result<u64, FoundationError> {
+    value
+        .get(key)
+        .and_then(Value::as_u64)
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label,
+            message: format!("missing numeric field {key:?}"),
+        })
 }
