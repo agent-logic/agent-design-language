@@ -8,19 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-csdlc-v3/Cargo.toml
-csdlc-v3/Cargo.lock
-csdlc-v3/src/lib.rs
-csdlc-v3/src/commands/mod.rs
-csdlc-v3/src/commands/local/mod.rs
-csdlc-v3/tests/local_commands.rs
-.csdlc/issues/503
-.csdlc/prepared/issues/503
-.csdlc/evidence/503
+
 
 ## Prompts
 

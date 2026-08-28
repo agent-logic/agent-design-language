@@ -103,7 +103,7 @@ Started Sprint 6 issue #503 in a typed bound execution worktree and implemented 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

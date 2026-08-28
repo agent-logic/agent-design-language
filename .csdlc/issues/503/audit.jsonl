@@ -7,3 +7,4 @@
 {"sequence":7,"generation":4,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":8,"generation":4,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":4,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":10,"generation":5,"actor":"codex:worker-6","reason":"Clear the stale #503 review assignment before replacing a machine-local absolute worktree path in the local-command test fixture.","operation":"recover_review"}

@@ -4,26 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "124bc2c5e80d560335faf079248b98adb16886c1d78ecbf8957fb2edec4992e1",
+  "generation": 5,
+  "digest": "b4d1cb7fe6a704780bcf8771b1fd240385e2f1b6a7e217a1ed8a67dc10a3357a",
   "branch": "codex/503-v3-d-local-preparation-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
-  "review_assignment": {
-    "reviewer": "fresh-session:issue-503-pre-pr-review",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:f136d8d0b59ccd2a6750cd85ecd1116a11ced402:a0b42abe991e36c9c891754e93ac54e6d7ba6033c69973a54fab00320077d710",
-    "scope": [
-      "csdlc-v3/Cargo.toml",
-      "csdlc-v3/Cargo.lock",
-      "csdlc-v3/src/lib.rs",
-      "csdlc-v3/src/commands/mod.rs",
-      "csdlc-v3/src/commands/local/mod.rs",
-      "csdlc-v3/tests/local_commands.rs",
-      ".csdlc/issues/503",
-      ".csdlc/prepared/issues/503",
-      ".csdlc/evidence/503"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -39,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "170990276aa840f19f1445f1d938f04dd862e70a1e1ee788750b5d0999967331",
+      "values_digest": "d8b47650cc2c9e9765c9c072aeb9bb5cb1a8fc2ebde6be1c75a3eaa978450888",
       "rendered_digest": "3958ca74dddd8aaf85763659195100ba365f4a8ced6634d25ff76d80c10c56bc",
       "ast_digest": "484ed7ec53f13cbb802f1c0e36dd66776df6966f92cc3414f77becf084a96013"
     },
     "stp": {
-      "values_digest": "54b72db4c7ce8065cc9b328f55fa9e4b335afe75a6b6abf4fabd8e700fdf23d3",
+      "values_digest": "c78f625bd2d3152effb5dd01a0abeaa676057c62344267b8ed4dd1a2108beac8",
       "rendered_digest": "e5cedcf5f0a5a3962edb09d18a4d1e03898a5e3efcde1463d0ab34ff3ec555f4",
       "ast_digest": "f371d273d3a4f1bd857d25506b9d31d15115f0ff3afce7b2e1169b5f6c558c50"
     },
     "spp": {
-      "values_digest": "5692b4c8a80a4fe82ffbe82dde66f75fc681e3270a2e45544981abe2ac10ebfa",
+      "values_digest": "affa23b6c4c4aaf5143a0e0a66c34d332f72df7b720aca0ba878091101cd2cb8",
       "rendered_digest": "69f2e7ce598741f8e40b20c89d8646f2370ed13f95a69808c986fb06e4305408",
       "ast_digest": "c76595133e4cbf12128ffd1cf7f22617e64c6ac10b99aa71fbc094adbd483e3e"
     },
     "vpp": {
-      "values_digest": "86aa9954add2fb4157b87435c276bbcc8d4fcae162088c7320642e2172a38113",
+      "values_digest": "3f439188eb46412f3404b3820ba51612e4d3a2322f3f11c339216d2f52f31e81",
       "rendered_digest": "01a8b90503cdae47ca5ff5fc15aec182ac7646a04b9c16e8f7d206953e5eb7dd",
       "ast_digest": "a479386f18161ee8a7429da309a23c8c510cae65f95ceedccacf75f5d4b9f50b"
     },
     "srp": {
-      "values_digest": "87efa0439d5e65429b3df352aa988777a5bdf2207605d5b00f3c52948ac2552f",
-      "rendered_digest": "fe675da665db062bb228ac64e9d3a7e099034078f0f1b14c2a81590ddab79fd7",
-      "ast_digest": "33967405acf51266ebb1248f1bd6d3abe8ba4c01542cadaa5ecd3b3b050d6649"
+      "values_digest": "6be08d10def71643d0f67fa041ce0a26440c6aa31f63387294dcaa53e15998f8",
+      "rendered_digest": "16e7bc4a408b096fbae9011d0060c87c80fc33427d665b7703457d5611b84c97",
+      "ast_digest": "6690f288018ebf1a17746e20dea7cb9a423ba1a57bc45d070f8d68fc90286c6b"
     },
     "sor": {
-      "values_digest": "50e0dc1128ba061877538570cb6fc6c83d5f671a992df147435659242c01b40e",
-      "rendered_digest": "bb74ec4ad25e5441f16de7cfaf90fe3547cd438e52593bb118422859dcbd0622",
-      "ast_digest": "b0ad9f2f0752961e749b2bf3f85da31ae60bddb96ae8af0e4db2fb885f44980d"
+      "values_digest": "c1baaccc80922ab072d3e263f4bae42a158292db8c9d0a74852795ef5f492768",
+      "rendered_digest": "de966f3c930950546b07f39a23393dd72a10a241b3f3d81770ccfd879ca9fc9f",
+      "ast_digest": "48652edcf5197219227ab69993a9536951c0dde79ca8fc51238258a254443858"
     }
   },
   "transitions": [
@@ -155,6 +140,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "Clear the stale #503 review assignment before replacing a machine-local absolute worktree path in the local-command test fixture.",
+      "operation": "recover_review"
     }
   ]
 }
