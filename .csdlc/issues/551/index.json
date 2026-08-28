@@ -4,13 +4,67 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "f0ef888fbea0a26a7f2459784af7460d76c10ca9238c8a74d1a5fc9de8bf668f",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "8513158392c16c24efac1d0a8285b3a866f64a2e023bb54015b55d2bbf4f0768",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:abfe76c4-cf6d-4302-8b0f-ff98f7da7191",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:151bf977d7c33357ba8f7f957a23ef12fec36b01:c0c87d8a0650b822a2afdbfaee100de79d097021ba552f999af003f4bed06412",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551",
+      ".csdlc/evidence/551",
+      ".csdlc/issues/551"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:abfe76c4-cf6d-4302-8b0f-ff98f7da7191",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551",
+      ".csdlc/evidence/551",
+      ".csdlc/issues/551"
+    ],
+    "reviewed_revision": "git-blake3:151bf977d7c33357ba8f7f957a23ef12fec36b01:c0c87d8a0650b822a2afdbfaee100de79d097021ba552f999af003f4bed06412",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1bf6ca3bd9a76c7a93cb6417e4270f28c08a97ebd494fce44a23b47ec85a0aaa",
+      "values_digest": "ca1034d912b9b58c1fd2c50a4e4270a7931e2e26c41392db44310d716dc044d5",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "f467c6fad2fbdaeb463534c6f8050024fdf3a1d1fbdb6a1f5f41883dc2ca16e0",
+      "values_digest": "822ae3f76b5a11704e0097fd3be31083d927d792524c1a7bbddeeeeb8cbad560",
       "rendered_digest": "f3edeacea97ff8c487d7faf65e61e843116a08bc1eddbc0e301d443e18748110",
       "ast_digest": "ffe8936d8753a323affd8530293c14b6c895422798ae71ceb1f061f3320e1add"
     },
     "spp": {
-      "values_digest": "4e0a727e44f907afacfa9639f9662b9ba0fb327fbf0a11448de48803da401667",
+      "values_digest": "abe6cb48fff6569fb66ab59956f05139023bc6ebe582e97b1b8e7ec48222e559",
       "rendered_digest": "76c8f20ba37a7f1b5c4bccdb77697c30543bd8d7e464db18d4b2c77fae794b4a",
       "ast_digest": "d79774bb4afaec91e566a8801eece1309dd8dbf68fc0e758027afcc34e465b49"
     },
     "vpp": {
-      "values_digest": "fcd929f3b470ba249d4bef2c99441a94035ad40445102d1d240d578e9c623f90",
+      "values_digest": "ffa4ef9ebe13e10a61641aae42d9158fb18ce285121f8f24940a3df5eeaa9c95",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "82f314ebf946b1f68ad3495f66e9e41fbed780f9af380e0f236161baea63feb9",
-      "rendered_digest": "67d89104284096e941aadc316e80589fc9ab6cdaec5bce8cac085dd4f1fd415f",
-      "ast_digest": "9aed672e92795d43ec399f37d5701c7431a82e9c18afa996be2e4c6caaff64dc"
+      "values_digest": "5662d7add11cea98081f47e559cd62420b43bccbcf8b524cee3803d2513f0a7c",
+      "rendered_digest": "8b5a5dc5353f880f253cd1f8a33604d769dca5b2cb997c75d9d29822b4bf63a9",
+      "ast_digest": "dd856bf05701a983998f5a86568ce02e46714068a3aec668795dda41aceb64d3"
     },
     "sor": {
-      "values_digest": "f82b380ea0c71c534da3455347189e980b426bb712ca0e5614328437739fa28f",
+      "values_digest": "87a5b7eb7f2d494ca7704f1d9001bc226bc9c29c4df8d9f9f24cd64c22417eff",
       "rendered_digest": "f7ee5534452e36acbf0305e99509ac716769249ce373bcd0fd89cd007edeb13d",
       "ast_digest": "237653b842b01aef6bd4047e7401ebc06dcc9a7e795d5594d78c93206708aa5b"
     }
@@ -76,6 +130,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "The full Polis hot-reload implementation and focused local proof are complete; exact-head review is next."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -274,6 +335,20 @@
       "actor": "codex:/root",
       "reason": "Bind the completed implementation to the exact focused nonzero validation that ran locally.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a validated Runtime-owned Polis identity and endpoint projection whose complete presentation snapshot hot-loads atomically without Runtime restart, with feed-owned HTML rendering and last-known-good rejection behavior.\",\"changes\":[\"Added the required validated Polis identity section and production configuration values.\",\"Advanced the Runtime Observatory feed to v3 with an explicit redacted Polis identity object while preserving v1 and v2 compatibility constants.\",\"Unified Polis identity, Runtime API base, and Observatory origin policy under one RuntimePresentationState lock so every declared parameter hot-loads as one snapshot without restart.\",\"Rejected invalid reloads before publication and retained the complete last-known-good snapshot with bounded redacted diagnostics.\",\"Replaced the HTML deployment-name constant with feed-owned rendering and exact nonzero Node tests.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"adl-runtime-kernel/tests/support/runtime_init.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"infra/runtime-v3/runtime-init.toml\",\"demos/html-observatory/index.html\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/polis_identity.test.mjs\",\".csdlc/evidence/551/html-polis-node.tap\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/551/validate-runtime-polis.sh\"],\"purpose\":\"Prove exact nonzero configuration, full hot-reload control, v3 feed, OpenAPI, and bounded redacted diagnostic targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1, binary diagnostic 1/1.\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--test\",\"control\",\"--test\",\"observatory\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"purpose\":\"Prove the complete affected integration-test denominator remains green.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local nextest run: 76/76 passed.\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"guardian_soak\",\"--no-tests=fail\",\"-E\",\"test(signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process)\"],\"purpose\":\"Prove the production schema-v3 guardian fixture remains green.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local nextest run: 1/1 passed.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/551/validate-html-polis.sh\"],\"purpose\":\"Prove exact feed-owned HTML projection and reject a zero-test result.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/551/html-polis-node.tap; 3/3 passed.\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"}]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
