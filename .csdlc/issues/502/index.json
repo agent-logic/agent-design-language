@@ -3,9 +3,9 @@
   "issue": 502,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "f175d1acc52984503480310f5e52444a9c8852954f5502e147ea1480c38698a1",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "f9a88c954763ff2ed9b3f49ba760186912ca6bb84a9627d9051e9ddb75fe7324",
   "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
   "review_assignment": {
@@ -37,7 +37,41 @@
       "csdlc-v3/tests/transactions.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "issue_502_restacked_review",
+    "scope": [
+      ".csdlc/issues/502/audit.jsonl",
+      ".csdlc/issues/502/cards/sip.md",
+      ".csdlc/issues/502/cards/sip.values.json",
+      ".csdlc/issues/502/cards/sor.md",
+      ".csdlc/issues/502/cards/sor.values.json",
+      ".csdlc/issues/502/cards/spp.md",
+      ".csdlc/issues/502/cards/spp.values.json",
+      ".csdlc/issues/502/cards/srp.md",
+      ".csdlc/issues/502/cards/srp.values.json",
+      ".csdlc/issues/502/cards/stp.md",
+      ".csdlc/issues/502/cards/stp.values.json",
+      ".csdlc/issues/502/cards/vpp.md",
+      ".csdlc/issues/502/cards/vpp.values.json",
+      ".csdlc/issues/502/index.json",
+      ".csdlc/prepared/issues/502/design.md",
+      ".csdlc/prepared/issues/502/diagram.mmd",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/src/adapters/mod.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/lifecycle/mod.rs",
+      "csdlc-v3/src/storage/mod.rs",
+      "csdlc-v3/tests/transactions.rs"
+    ],
+    "reviewed_revision": "git-blake3:cde476b136e746172b7ac8a8c6cbdc8237e64f2d:01c2d20cabd1dbff7a028c1cff7e6b148fd49d41bfabf312010dc0df99b54c02",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 lifecycle-kernel code remains construction-only; typed C-SDLC v2 remains the live lifecycle and GitHub authority until explicit V3-F cutover.",
+      "Issue #502 is stacked on #501 and must not be merged before #501 is accepted."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +86,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce581dd5d2c803c3815026d03a759036d041f2ffb4adc5421e13790648357316",
+      "values_digest": "c6866b228a9783ad8a04787df9093ceab6025ef29d620b8a584d53501f131f4b",
       "rendered_digest": "586a7982b1e0f3092d591c32d3c122d93af9f28bab3131eaa3b67d7bb25b65dc",
       "ast_digest": "f6b8055e02a6433850689b71b3f9ec0371dc513f2be23f17e675ff4ee637b49c"
     },
     "stp": {
-      "values_digest": "f5a1c454978995595ef2af32ae967c29c815e91241abd1cbc9f0ca120160014d",
+      "values_digest": "67af1f9d53298d7ff80a26ea705fd987109795df2d11f1fbe52aecd54656497e",
       "rendered_digest": "b20c663d5fb080ca3aee3471f9f5bcc730ae6a3a95f78ed146eb4ef06fbecb3b",
       "ast_digest": "2d82914d8f9e739e95a46f29b9004c31158554791c6a63129b97f0ac9248d4f5"
     },
     "spp": {
-      "values_digest": "85c5ed83b220f105f7f6a4eb8b0432cdc4e6d36ea8ee37d4ca55fe0c6701ecea",
+      "values_digest": "102279a2fc1d34284729106c6caf9c33ba4272fefa3989cb9b5674900d0475b5",
       "rendered_digest": "43bc5b0aebd2201594c013dfa4698f94bd4ba4c81eb3ddd0a73c74919cd26f4a",
       "ast_digest": "f00a8ff6c49ddde156a505009c2c29cfad9d9153d8d7db1fad3ee75fb9e0f8d5"
     },
     "vpp": {
-      "values_digest": "7ada143685b60a9cb07fdf3dbd81b5ab020eedae9c9f1880ef5833651a391217",
+      "values_digest": "8c62b09656521911dd85f134e7c557146460cbd7dff4915ac34967439a9dc298",
       "rendered_digest": "68e4ac33848d009bdd0b54fccf2958ddb175a150b6cb70d68c3a4a21ca3374d9",
       "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
     },
     "srp": {
-      "values_digest": "ceb20bda8e20f59adea525feef136deb4df5e480c093f61aa0c6d7b0adbcf868",
-      "rendered_digest": "7878bb3b8bbc6af7467d5236dfcf453ad3f375876a4f6478828d5062bf2031ac",
-      "ast_digest": "3519c3b1570a1fd1b2aa4e0fadf00a40d69745479f543ddd6649eeac51074daa"
+      "values_digest": "b12755e39f04927b86d0b3a7e6afa4c991af011ee7896f0d6104e62a78a84663",
+      "rendered_digest": "5d1f3efd7cac3930cf49e6b7ab4823bc231fdd30b1c9aee92c17ac62b3cf64c6",
+      "ast_digest": "13398d948a1d15e8a438d041ff1eb0c054da0e7661c402a69a1d9db48b9b6a7b"
     },
     "sor": {
-      "values_digest": "24172212cde8c46e7b94801b8f4ad13381c719bc4c3799048ce5d6454cde30ab",
+      "values_digest": "2232064ba4978669a8b062b571c119b7e3dcc9237d481d692c0f7f2f0709ff96",
       "rendered_digest": "fe493d0d89225022d5d909af9bb026d1f3f5028c6b896ad29e624fab6a9dd678",
       "ast_digest": "d982912e61369472e59ddf497233801a063e831a9f3725d7286c971ebf33781c"
     }
@@ -103,6 +137,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Record #502 implementation at commit b21a7944f8c0274b003af809299026492734cb42 after focused local validation passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -203,6 +244,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

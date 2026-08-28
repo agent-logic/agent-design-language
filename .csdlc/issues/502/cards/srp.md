@@ -54,12 +54,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 lifecycle-kernel code remains construction-only; typed C-SDLC v2 remains the live lifecycle and GitHub authority until explicit V3-F cutover.
+- Issue #502 is stacked on #501 and must not be merged before #501 is accepted.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:cde476b136e746172b7ac8a8c6cbdc8237e64f2d:01c2d20cabd1dbff7a028c1cff7e6b148fd49d41bfabf312010dc0df99b54c02")
 
-Reviewer: None
+Reviewer: Some("issue_502_restacked_review")
 
-Result: pre_review
+Result: pass
