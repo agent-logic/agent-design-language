@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/504/diagram.mmd
 [
   {
     "lane": "prebind-v3-e-preparation",
-    "proof_role": "Prove the initialized #504 preparation packet preserves the #503 terminal dependency, V3-E acceptance denominator, v2 authority boundary, v3 construction-only boundary, and future visible `Closes #504` publication linkage requirement.",
+    "proof_role": "Prove the ready/unbound #504 preparation packet preserves the #503 terminal dependency, V3-E acceptance denominator, v2 authority boundary, v3 construction-only boundary, and future visible `Closes #504` publication linkage requirement.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

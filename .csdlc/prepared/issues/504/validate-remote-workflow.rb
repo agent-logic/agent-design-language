@@ -28,7 +28,8 @@ packet_text = [stp, sip, spp_markdown].join("\n")
 
 assert(issue["issue"] == 504, "wrong issue")
 assert(issue["repository"] == "agent-logic/agent-design-language", "wrong repository")
-assert(issue["phase"] == "initialized", "pre-bind validator expects initialized #504")
+assert(["initialized", "ready"].include?(issue["phase"]), "pre-bind validator expects initialized or ready #504")
+assert(issue["worktree"].nil?, "pre-bind validator requires #504 to remain unbound")
 
 required = [
   "Review binds exact immutable scope",
@@ -46,7 +47,7 @@ assert(packet_text.include?("C-SDLC v2 remains") || packet_text.include?("C-SDLC
 assert(packet_text.include?("construction-only") || packet_text.include?("non-authoritative"), "missing v3 non-authority boundary")
 
 lanes = vpp.dig("content", "values", "lanes")
-assert(lanes.is_a?(Array) && lanes.length == 1, "initialized #504 should expose exactly one executable pre-bind lane")
+assert(lanes.is_a?(Array) && lanes.length == 1, "pre-bind #504 should expose exactly one executable preparation lane")
 lane = lanes.first
 assert(lane["lane"] == "prebind-v3-e-preparation", "unexpected pre-bind lane")
 assert(lane["argv"] == ["ruby", ".csdlc/prepared/issues/504/validate-remote-workflow.rb"], "pre-bind lane must target this validator")
@@ -70,7 +71,8 @@ puts JSON.generate(
       "v2_authority_boundary",
       "v3_non_authority_boundary",
       "future_closing_linkage",
-      "single_executable_prebind_lane"
+      "single_executable_prebind_lane",
+      "unbound_ready_gate"
     ]
   }
 )
