@@ -5,13 +5,13 @@
   "initialization_digest": "fa47f9e1a7c307834334da4c81dfafe2d87aa0b8271f54e3640f9c7b107d53fd",
   "phase": "implemented",
   "generation": 17,
-  "digest": "a47f3c89fabb848705a7a6d67c4399b532f7ddab1f135151b9ac57ceee81f0f0",
+  "digest": "9c6c3a5b65015260e6fe5232b8d067118bfd3ac71d4847ef5d0c91f020e6b006",
   "branch": "codex/501-v3-b-csdlc-v3-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation",
   "review_assignment": {
     "reviewer": "issue_501_import_fix_review",
     "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:12570f51ef528a44c4acc1fb425eaa19131426d3:60789de2513bcd179313a8f0ba5f21a80bbae0a9c80fd0a39fea32e63ceb5030",
+    "revision": "git-blake3:c7439484b8b783fdc1d36e8480d8178e848dbdc8:49aaa4af3abb66686c9f5582e067415e387183509407077e948f96d88836cec3",
     "scope": [
       ".csdlc/issues/501/audit.jsonl",
       ".csdlc/issues/501/cards/sip.md",
@@ -291,6 +291,13 @@
     },
     {
       "sequence": 24,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
       "generation": 17,
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
