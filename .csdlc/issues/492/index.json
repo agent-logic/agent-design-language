@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "83d63e54f3cdc384cac8900f173f9dd32c7dfa99dfe03ea52cfb8182f80585d6",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "ad4b1994a26169992ed5202d9cc13e15fbdf8d81f180fe7ec470d491c15a9fde",
+  "generation": 10,
+  "digest": "37b50875beae2f77012f08647bcd75c4c9d757156f9aec9f06ec01ea9d3a09af",
   "branch": "codex/492-gcp-organization-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-492-gcp-organization-billing-baseline",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fbfdea3db24707edd3aff9775d487146db1f485cd555cc43f5ea12475336504c",
+      "values_digest": "4d5079adf67f6bf578e3b0230299badf62e848a584bc8354bffe93b3bc170cd5",
       "rendered_digest": "5d67f2df6a2d06c754e61dc02054c704cee61d4b0bb86ed585c1138deac2840e",
       "ast_digest": "9b154555fd9fb4cd979c18d7ae464026d7b849411eb54f2e1cfcaeeebf1c0459"
     },
     "stp": {
-      "values_digest": "70fc85296369df589d5bf2c42e5c4fe009fbaceac7d8bc828272ac57b7f58a86",
+      "values_digest": "0f798823ed6fde068372048f8dbb81aae2f395f2e99733b8f4786e62035cba10",
       "rendered_digest": "c5059d565fdd1c1ef59cfcd64bb123045bcda95f57a7826f6aa92d3ea07ead71",
       "ast_digest": "42ace8e180dccfa768d89751950c2e11a45214925986bcb2605f532c165604e5"
     },
     "spp": {
-      "values_digest": "c3384a312f58e5c5e7ee2e529b04af9a84d1f2cbca233975c1ad487f13bceb6f",
+      "values_digest": "aa8835b82ddb18d2a3edb7a762575e57211f4d99003d7bd1da71a773ffe55e6f",
       "rendered_digest": "d70cb965b50c327a1bff8198a2d5cb6339e13e330acf95e4dbb4b0256ba2f16a",
       "ast_digest": "65d3f76b5386f22e3bdc33c9dee103e48d5cd61f4c7a2fac461c75015d12d054"
     },
     "vpp": {
-      "values_digest": "65d807f81b1623623e95c26686c29ae6d34c16637a6db2522ef250fd2bc25b36",
+      "values_digest": "7a202c858af0c015ea12d7f599e5be21b6ddb4382794d1f25e07b8be0d9194b8",
       "rendered_digest": "07a3d9c8a35f716f226d6c8215e093c5f1262e154dc392542882e1f8e3c145a3",
       "ast_digest": "2a0c8c6d229d8485b064b2031aa1215458143d2659193a0ce4b44ef35d17feb0"
     },
     "srp": {
-      "values_digest": "6a04c685e35ec7de657a34dd0281c1ef1b4c929dda19eb01054b63b788e4dd5e",
+      "values_digest": "1f9a1508d0209967570b6a1cf262087765708f2e506688e1a7fdf1603985ffd9",
       "rendered_digest": "b3eabf128220b607a192297a7533e6b613760058be0735f56c3b279d44cfbf9c",
       "ast_digest": "0c2abb21b2a33a2c5865120802039cf40d7f3ef01716899d55be9f0c91da334c"
     },
     "sor": {
-      "values_digest": "39d192e5bf18443a276fc2da73946653499e128910ceb4028dbba19939711e7f",
-      "rendered_digest": "5f878870372c81024bcf48e4d76761fcf914a12338b54effc815e5cb3943c7e5",
-      "ast_digest": "3781e68890719b89eb5fbc6e2b4ca10afb7609077854953a4cb91f061080c4ee"
+      "values_digest": "0775fc56198e213911a7d43e7e89fb05a8c7673e5d0ac347e192bef7e490875e",
+      "rendered_digest": "cc3776aaae4ec13999e08b7d2303b190449c59e6f6080c8bf98a948fb8908155",
+      "ast_digest": "5a122a34f04879b28e7cd87ae6faab71032585d0b1fe0373f619bf76727a89fd"
     }
   },
   "transitions": [
@@ -155,6 +155,27 @@
       "actor": "fresh-session:73e19b0d-51cd-4f4d-9653-d611cb19ba22",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"design_ref\":\".csdlc/prepared/issues/492/design.md\",\"diagram_digest\":\"c70b6d9c2931b2d0221bfc8c5854819cb0a4eed7742faa4742b4e2443bad8223\",\"diagram_ref\":\".csdlc/prepared/issues/492/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover #492 exact review assignment after fresh-session:997e767b-4f71-491e-a33b-8ba8fb49e52c returned FAIL with two P2 findings: corporate group ownership was only viewer/securityReviewer, and claimed budget/export/label/scoped-policy readbacks were not actually proven. Clear assignment before bounded Terraform/readback/proof repair and a different fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record #492 R2 remediation for corporate ownership and readback truth before a different fresh exact review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene, then remediated R2 review findings by expressing real corporate owner administration and truthful pre-apply budget/export/label readback status.\",\"changes\":[\"Changed the host-project corporate group binding from viewer/securityReviewer-only to an explicit configurable role set requiring roles/owner.\",\"Added a labeled BigQuery billing-export dataset target to make export observability a concrete Terraform surface instead of a docs-only claim.\",\"Extended the readback script and retained evidence to report corporate-owner, budget, and billing-export dataset live status truthfully as true when applied/authorized or not_applied_or_not_authorized before apply.\"],\"artifacts\":[\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\".csdlc/prepared/issues/492/diagram.mmd\",\"infra/gcp/organization/.gitignore\",\"infra/gcp/organization/.terraform.lock.hcl\",\"infra/gcp/organization/README.md\",\"infra/gcp/organization/main.tf\",\"infra/gcp/organization/outputs.tf\",\"infra/gcp/organization/provider.tf\",\"infra/gcp/organization/variables.tf\",\"infra/gcp/organization/versions.tf\",\"docs/operations/cloud/gcp/organization-billing/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-inventory-readonly.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"purpose\":\"Validate #492 GCP-C surfaces, ownership role wiring, billing-export dataset wiring, and readback script coverage without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-organization-static-r2-remediation.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention and declares applied/live readback expectations.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-readback-static.log\"},{\"command\":[\"env\",\"CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]\",\"CLOUDSDK_CORE_PROJECT=cs-host-377d41e71a824f92802120\",\"GCP_C_BILLING_ACCOUNT_ID=01FA88-CC4968-ADF817\",\"GCP_C_CORPORATE_MEMBER=group:gcp-admins@agent-logic.ai\",\"GCP_C_BILLING_EXPORT_DATASET_ID=adl_gcp_c_billing_export\",\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"purpose\":\"Use the operator-approved command-scoped GCP key to prove project and billing readability and truthfully report unapplied owner/budget/export status without retaining credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-inventory-readonly.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"fmt\",\"-check\"],\"purpose\":\"Reject Terraform formatting drift in the GCP-C organization root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt-r2-remediation.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"validate\"],\"purpose\":\"Validate the initialized GCP-C Terraform root after ownership/readback remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-validate-r2-remediation.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject working-tree whitespace and conflict-marker artifacts before committing the new immutable R2 remediation head.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-check-r2-remediation.log\"}]}"
     }
   ]
 }

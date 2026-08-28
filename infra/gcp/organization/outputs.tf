@@ -28,6 +28,16 @@ output "corporate_owner_group" {
   value       = var.corporate_owner_group
 }
 
+output "corporate_owner_project_roles" {
+  description = "Project roles granted to the corporate owner group."
+  value       = var.corporate_owner_project_roles
+}
+
+output "billing_export_dataset_id" {
+  description = "BigQuery dataset id reserved for billing export."
+  value       = google_bigquery_dataset.billing_export.dataset_id
+}
+
 output "required_labels" {
   description = "Required labels for #492-managed resources."
   value       = local.required_labels

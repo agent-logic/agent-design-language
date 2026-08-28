@@ -4,8 +4,8 @@ Issue #492 turns the #490/#491 GCP decisions into an operational baseline for or
 
 ## What this starts
 
-- corporate group ownership on the accepted host project.
-- billing export and budget observability for the accepted billing account and host project.
+- corporate group ownership on the accepted host project through `roles/owner`.
+- a host-project billing budget and a BigQuery dataset target for billing export.
 - Cost-attribution labels for #492-managed resources.
 - A redacted readback path for project, billing, optional folder, and optional organization-policy checks.
 
@@ -28,6 +28,8 @@ Defaults are intentionally pinned to the accepted #490 denominator:
 - Billing account: `billingAccounts/01FA88-CC4968-ADF817`
 - Region: `us-west2`
 - Corporate owner group: `gcp-admins@agent-logic.ai`
+- Corporate owner role: `roles/owner`
+- Billing export dataset: `adl_gcp_c_billing_export`
 
 Change these only by updating issue truth and reviewing the plan.
 
@@ -52,10 +54,15 @@ The live read-only lane requires an already-approved GCP context and must not pr
 
 ```sh
 CLOUDSDK_CORE_PROJECT=cs-host-377d41e71a824f92802120 \
+GCP_C_BILLING_ACCOUNT_ID=01FA88-CC4968-ADF817 \
+GCP_C_CORPORATE_MEMBER=group:gcp-admins@agent-logic.ai \
+GCP_C_BILLING_EXPORT_DATASET_ID=adl_gcp_c_billing_export \
 GCP_C_FOLDER_ID=929563862525 \
 GCP_C_ORGANIZATION_ID=321515087273 \
 bash .csdlc/prepared/issues/492/run-gcp-c-readbacks.sh --lane=inventory-readonly
 ```
+
+Before Terraform apply, budget and export-dataset readbacks may report `not_applied_or_not_authorized`; that is a truthful pre-apply state, not a passing live deployment claim.
 
 ## Apply
 

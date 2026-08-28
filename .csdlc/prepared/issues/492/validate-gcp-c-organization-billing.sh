@@ -70,6 +70,9 @@ require_text "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml" 
 require_text ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh" "--lane=*)"
 require_text ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh" "gcloud_quiet projects describe"
 require_text ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh" "gcloud_quiet billing projects describe"
+require_text ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh" "gcloud projects get-iam-policy"
+require_text ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh" "gcloud billing budgets list"
+require_text ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh" "bq --project_id"
 require_text ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh" "names_ids_and_credential_material_not_printed"
 
 STATIC_OUTPUT="$(bash "$ROOT/.csdlc/prepared/issues/492/run-gcp-c-readbacks.sh" --lane=static)"
@@ -91,6 +94,8 @@ case "$PHASE" in
     require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md" "cloud_mutation=false"
     require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md" "credential_material_retained=false"
     require_text "infra/gcp/organization/README.md" "GCP-C"
+    require_text "infra/gcp/organization/variables.tf" "roles/owner"
+    require_text "infra/gcp/organization/main.tf" "google_bigquery_dataset"
     ;;
   *)
     echo "unknown #492 validation phase: $PHASE" >&2

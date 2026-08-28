@@ -48,6 +48,21 @@ variable "corporate_owner_group" {
   default     = "gcp-admins@agent-logic.ai"
 }
 
+variable "corporate_owner_project_roles" {
+  description = "Project roles granted to the corporate owner group for baseline administration and review."
+  type        = list(string)
+  default = [
+    "roles/owner",
+    "roles/viewer",
+    "roles/iam.securityReviewer",
+  ]
+
+  validation {
+    condition     = contains(var.corporate_owner_project_roles, "roles/owner")
+    error_message = "GCP-C requires the corporate group to receive project ownership/admin authority."
+  }
+}
+
 variable "region" {
   description = "Accepted primary region for first workload planning."
   type        = string
@@ -58,6 +73,12 @@ variable "monthly_budget_amount_usd" {
   description = "Notification budget amount for the host-project baseline."
   type        = number
   default     = 20
+}
+
+variable "billing_export_dataset_id" {
+  description = "BigQuery dataset id reserved as the Cloud Billing export landing target."
+  type        = string
+  default     = "adl_gcp_c_billing_export"
 }
 
 variable "labels" {
