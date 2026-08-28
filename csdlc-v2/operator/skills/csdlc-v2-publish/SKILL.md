@@ -16,3 +16,11 @@ The selected Git remote's complete effective fetch and push URL sets, the PR
 base and head repositories, the branch, and every matching open PR page must
 all resolve unambiguously to `code_repository` before publication can mutate
 remote state. Omitting `code_repository` preserves the same-repository path.
+
+## C-SDLC v3 transition boundary
+
+C-SDLC v3 is construction evidence only until an explicit operator-reviewed
+V3-F cutover changes root authority. Continue using this v2 publication route
+for live PR creation and ready reconciliation. V3 publication or adapter
+construction surfaces must not publish, relink, or mark PR readiness before
+cutover.

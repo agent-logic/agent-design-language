@@ -28,3 +28,10 @@ merged canonical PR with an open preserved issue remains nonterminal.
 
 Run cleanup separately. Historical terminal records and retained receipts are
 read-only compatibility evidence; finish never rewrites them.
+
+## C-SDLC v3 transition boundary
+
+C-SDLC v3 is construction evidence only until an explicit operator-reviewed
+V3-F cutover changes root authority. Continue using this v2 finish route for
+live terminal delivery and derived terminal envelopes; v3 transaction or
+receipt models do not authorize merge, issue closure, finish, or cleanup.

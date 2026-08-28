@@ -32,3 +32,10 @@ independence evidence. If reviewed work becomes stale before publication, use
 typed `recover` to return it to `implemented`, preserving the audit trail before
 re-review. Keep each one-shot request at the Git-common path
 `.git/csdlc-v2/requests/<issue>.json` and overwrite it.
+
+## C-SDLC v3 transition boundary
+
+C-SDLC v3 is construction evidence only until an explicit operator-reviewed
+V3-F cutover changes root authority. Continue using this v2 review route for
+current exact-head review assignment, recovery, and result authority. V3 review
+models may only support later cutover evidence before V3-F.

@@ -44,3 +44,10 @@ fall back to raw GitHub tooling.
 Use the shared GitHub token resolver through `token_file`,
 `ADL_GITHUB_TOKEN_FILE`, `ADL_GITHUB_TOKEN`, `GITHUB_TOKEN`, `GH_TOKEN`, or the
 operator-approved default token file. Never print or persist token contents.
+
+## C-SDLC v3 transition boundary
+
+C-SDLC v3 is construction evidence only until an explicit operator-reviewed
+V3-F cutover changes root authority. Continue using these v2 GitHub owner
+routes for live issue and PR observation/mutation. V3 adapter models must not
+call GitHub or justify raw GitHub fallback before cutover.

@@ -15,3 +15,10 @@ schema::tests` or `cargo test --manifest-path csdlc-v2/Cargo.toml --test
 gate2`. A bare `cargo test --manifest-path ...` is a truthful broad lane; a
 trailing free substring such as `cargo test ... schema` is not a named target
 and is rejected because it can fan out into unrelated integration binaries.
+
+## C-SDLC v3 transition boundary
+
+C-SDLC v3 is construction evidence only until an explicit operator-reviewed
+V3-F cutover changes root authority. Continue using this v2 validation route
+for live implementation evidence and atomic phase advancement. V3 tests prove
+v3 construction behavior only; they do not advance current v2 lifecycle state.

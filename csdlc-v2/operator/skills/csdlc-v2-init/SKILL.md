@@ -44,3 +44,10 @@ The operation refuses terminal records, conflicting target namespaces, stale
 source truth, and dirty topology. Published or merge-ready records have
 publication/readiness cleared so `csdlc-publish` must relink the PR to the
 canonical target issue before `csdlc-finish`.
+
+## C-SDLC v3 transition boundary
+
+C-SDLC v3 is construction evidence only until an explicit operator-reviewed
+V3-F cutover changes root authority. Continue using this v2 initialization and
+identity-migration route for live issue records; v3 contract/foundation data
+cannot create, migrate, or repair operational lifecycle state.
