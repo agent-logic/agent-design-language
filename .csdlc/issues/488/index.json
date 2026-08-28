@@ -4,13 +4,43 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "255aa3452d9d3e93a2f84fec27e0fce419f3c9fd8f130d235558f1cad7c8667b",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "61e098c9cbc40b346401f13488340b7421e9aa5beb93a8e42e0a90323907b74e",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "fcd0f10538775f620b0655de55cfa7759798e8e47f006dbcb587daff1a7db31f",
   "branch": "codex/488-aws-resource-adoption-register",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-488-aws-resource-adoption-register",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b2d4e572-12de-40dd-97a4-61c3e9b18887",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:5cf661679a50cb58dde806c01336c0351e8e1f3f:f89fefe0a4c06952cd3ac653b925c710a53b64b9830c8edff182ce2b72712c83",
+    "scope": [
+      ".csdlc/issues/488",
+      ".csdlc/prepared/issues/488",
+      ".csdlc/evidence/488",
+      "docs/operations/cloud/aws/adoption",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-e"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:b2d4e572-12de-40dd-97a4-61c3e9b18887",
+    "scope": [
+      ".csdlc/issues/488",
+      ".csdlc/prepared/issues/488",
+      ".csdlc/evidence/488",
+      "docs/operations/cloud/aws/adoption",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-e"
+    ],
+    "reviewed_revision": "git-blake3:5cf661679a50cb58dde806c01336c0351e8e1f3f:f89fefe0a4c06952cd3ac653b925c710a53b64b9830c8edff182ce2b72712c83",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer confirmed the prior P1 inventory-readonly stub finding is resolved by the live AWS readback script and evidence contract.",
+      "Reviewer confirmed the prior P3 trailing-whitespace finding is resolved in the adoption register and AWS-E proof document.",
+      "Reviewer inspected exact head and targeted proof; live AWS was not rerun by the reviewer to avoid rewriting retained evidence, so future cloud drift remains a normal operational risk.",
+      "GitHub CI remains the hosted integration gate after typed publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "86c86d46df7062079032e4e5d445449456b6add7df54fe58d2527a799866bf2f",
+      "values_digest": "2fbfafc6e9ecc9dd6ff1ce4525ead62af9b389ba35dc4d3b14daf9fce3944630",
       "rendered_digest": "10d92682f3d611267d93d5f1f197430f77f92288d9b3d3afdd12b87700acc10f",
       "ast_digest": "7e6d49a4ec57b8fa02ae1b0dc6f0bcf23159b0c091040b595f00a6d2918de56f"
     },
     "stp": {
-      "values_digest": "b20a43d0ea1f98f14f2e503e67f8c714f6db8c49a101daae77df14ea1868e15c",
+      "values_digest": "e91da464a16f2f8c3da587269a6285a363083e2ee7e311a2b45fd985bcfc4482",
       "rendered_digest": "c5b495eedad617f5fef87837c2bd284d956f0516215690923f3ae853eec7103b",
       "ast_digest": "feccd94b3ae8555af69107648f7fdc3d00568976ba62aef562012f30c77aae35"
     },
     "spp": {
-      "values_digest": "4fa91a1d53c10838c1d3ca78792a7955213de6c5f3ab41414fe58de3ac380a5d",
+      "values_digest": "5b637f6ba0e1d0b8de557580759513dcadd2c32ce05c0776a63809e5530aeeff",
       "rendered_digest": "7c526e645343c46b28ca0a3c25ee6db8679bc361271f480d192b227070c8e762",
       "ast_digest": "7434fb371ac50ff475ffc68dc8f212475891f6d7590fa89a0b48060c00e5b606"
     },
     "vpp": {
-      "values_digest": "2faf07749aebe01c55602c3accf8790180348ef6dc83415bd4f983de496fbf91",
+      "values_digest": "0e05528e3fab66a849cdcc2e556e938d197f4ec95584131849e6fa24120b46c3",
       "rendered_digest": "e55dd9fcd301c5441d7eff466b1c5617ef4adeb3a7b5a0c58f3194d14931e41d",
       "ast_digest": "55bb098d58e1e5e29ef6ba6e35900dcaaa111f21fecab2b45cd9bdb32019590f"
     },
     "srp": {
-      "values_digest": "c7a0e23afa39f6be48b3a14edc025743d18f6b6bddedb31a7607dc9ab75d6d35",
-      "rendered_digest": "f44cdab9a48da46cd4c38f0a15d81df77a781a5174a5783347f014fe2b0f55d7",
-      "ast_digest": "a542b70ec2a658d09a913871e27ccdffbee11ff71ab9be6329bc272ef3c13ee7"
+      "values_digest": "252ea70ae239d2d776ae63021e12768ecb2ed46bd20a4608b39fc7292e6e940c",
+      "rendered_digest": "30bc1945c56b3e19f5b3072996da001979b7764c043b2a4d217a2692bd9e0c7a",
+      "ast_digest": "26f02a959efb8f57da55f49bafa74bba94591262ee53a6f479676279fe3eb8c2"
     },
     "sor": {
-      "values_digest": "eb3b630d7dc1f13c75a5118ab1280c30d9a0a6dc376e36490626d790cdb98d42",
+      "values_digest": "fbff837225ba2f9769add23db9c1547997fce3f778a5f02d25d0f2c86debd7c5",
       "rendered_digest": "54f30a5b294bab51a14c176d68fd08b18ea036c557551923324f56570ea99c1a",
       "ast_digest": "56accdd2c5abd5e208b58ecfebf3906df0a9b74275c5a01cfa1ebf81ca4a523a"
     }
@@ -76,6 +106,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Advance #488 after AWS-E adoption register implementation and focused validation records."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -183,6 +220,20 @@
       "actor": "codex:/root",
       "reason": "Recover #488 R2 exact review after findings-first FAIL reported only P3 trailing whitespace in two in-scope Markdown files; preserve the finding and permit bounded hygiene repair plus fresh review assignment.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
