@@ -7,15 +7,15 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 47
+    "generation": 48
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/551/design.md\n.csdlc/prepared/issues/551/diagram.mmd\n.csdlc/issues/551/cards/stp.values.json\n.csdlc/issues/551/cards/spp.values.json\n.csdlc/issues/551/cards/srp.values.json\n.csdlc/issues/551/cards/sor.values.json\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ndemos/html-observatory/app.js\ndemos/html-observatory/runtime-v3.config.json\nadl/tools/validate_v0917_html_observatory.py\n.csdlc/evidence/551/html-polis-node.tap",
+      "review_revision": "git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0",
+      "reviewer": "fresh-session:032c6dee-997d-4868-a0b2-ee0135d580f9",
       "review_prompts": [
         "Does validation reject an advertised Observatory origin that the combined CORS and WSS policy would not accept?",
         "Do REST and WSS default to the existing v2 contract, explicitly project v1 and v3, and reject unsupported schema selectors?",
@@ -25,8 +25,11 @@
         "Is Unity absent from the diff?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI remains the final integration gate before merge.",
+        "The exact-head review did not perform a live browser, external network, or deployed TLS exercise; local Runtime TLS/WSS and HTML proof remain the bounded pre-publication evidence."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -4,13 +4,67 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "implemented",
-  "generation": 47,
-  "digest": "00d9edce172af39ab8c9aba16cca7a88ba17b831fae39f47ac8fc0d2a85489c7",
+  "phase": "reviewed",
+  "generation": 48,
+  "digest": "fff53d2c695db0fe9604ee43b216ea224e3ebfc0b0d775e65af84df5255fd38e",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:032c6dee-997d-4868-a0b2-ee0135d580f9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0",
+    "scope": [
+      ".csdlc/prepared/issues/551/design.md",
+      ".csdlc/prepared/issues/551/diagram.mmd",
+      ".csdlc/issues/551/cards/stp.values.json",
+      ".csdlc/issues/551/cards/spp.values.json",
+      ".csdlc/issues/551/cards/srp.values.json",
+      ".csdlc/issues/551/cards/sor.values.json",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/551/html-polis-node.tap"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:032c6dee-997d-4868-a0b2-ee0135d580f9",
+    "scope": [
+      ".csdlc/prepared/issues/551/design.md",
+      ".csdlc/prepared/issues/551/diagram.mmd",
+      ".csdlc/issues/551/cards/stp.values.json",
+      ".csdlc/issues/551/cards/spp.values.json",
+      ".csdlc/issues/551/cards/srp.values.json",
+      ".csdlc/issues/551/cards/sor.values.json",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/runtime-v3.config.json",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/551/html-polis-node.tap"
+    ],
+    "reviewed_revision": "git-blake3:dd01d24449fd8c84d8e5709808e1d19ae71948a9:439946158816b2e824ff00eaccc8366256fe8d7c4042ac6ee795b28990ac96e0",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "The exact-head review did not perform a live browser, external network, or deployed TLS exercise; local Runtime TLS/WSS and HTML proof remain the bounded pre-publication evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +79,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "17d17c4e50de244d181467b65eb69658eb2a1de26eba8b55044561e83e680069",
+      "values_digest": "ea1a8eb9205aecd254279721dbf6f054e3151b749439032a916dc14512c5d421",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "fa7df3e605e1ee7a4de1583a750e2065a8317ddd4d052e9a6f066a11d0a5b8f1",
+      "values_digest": "455d010ed8aa540249fde0e875ae4c48e7fe728eb3c368103507d37bdcfb9b9a",
       "rendered_digest": "cf2567f90e060a9e980fc89e374894bc5b09262a3186eff2160fc12880a8e510",
       "ast_digest": "78d816272741f7f118d456204abc7428a4655d5f8508ccb79db2de6c924845f2"
     },
     "spp": {
-      "values_digest": "6ae5d180191be3414577cafd356e6ca05282a651bc8377b975f02cbc90568c52",
+      "values_digest": "b3ab1b7c6098be13b012a8a8a238b5e14c355d1ea19e40ec492c81c96999acc0",
       "rendered_digest": "a666f14982eff05ea1d3b5067be873e6a7ace7eea5db9285dcab59df12fe42cf",
       "ast_digest": "d31e118878c8ec5319038be004da30e0a9138905834b82409bd3198dacbe1846"
     },
     "vpp": {
-      "values_digest": "257650765df747ddf2798d8c7223862f221550a3c8384c1608c8b441970218c4",
+      "values_digest": "70e01539c1c30f4884e0623c68326d359695aab442d26faf870223a40855ca06",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "ba7b15b9ba575177e2f849e7ca577097886a205cdfab0ad56e32aba53dd568fb",
-      "rendered_digest": "631aedd49d88337d90557b7d331e4913c8e5f87db6c3437e3d2361a555189b4c",
-      "ast_digest": "77876e85ae6575aa52a6831b318d66e317bfd5a9b5133337f097d54f091f713b"
+      "values_digest": "c7af2069f233d86e0d8904b01d97bb6971d78eeb7dfe4d0ffbce85ea92716429",
+      "rendered_digest": "d2b32a867680c699e0f6887434ee20688d0c778d3014c8b1b1c31ee7e4a0a0f4",
+      "ast_digest": "6d27f5c978cbcf67c001a8037013f2b6ecef6d32b3e8d493f18a2d20d7f8f889"
     },
     "sor": {
-      "values_digest": "05153b3770cc79c358bc34bf53c6648f0bf27f8ca010583a4294c366fd991af5",
+      "values_digest": "73fb3ecf2a80ac685c94bdd4a51ca6bdbc878d29e5ef53cdae6045fa1771fce5",
       "rendered_digest": "aea583815c1751a5b8ae43735198afc60ec665618f467c992513847bbc251e00",
       "ast_digest": "61171e488d027e16e2e297063791c51494dfa84529f49c4cbbc537208de5cd7b"
     }
@@ -174,6 +228,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Exact-head review found an allowed-origin consistency gap and constants-only v1/v2 compatibility; recover publication for bounded implementation and card correction."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -561,6 +622,20 @@
       "actor": "codex:/root",
       "reason": "Record the bounded origin-consistency and executable schema-compatibility remediation with the exact focused proof rerun after review",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a validated Runtime-owned Polis identity and atomic presentation snapshot, then closed exact-head review gaps by requiring the advertised origin to be accepted and providing executable REST/WSS v1/v2/v3 negotiation with v2 compatibility default and HTML v3 opt-in.\",\"changes\":[\"Require polis.observatory_public_origin to be an exact member of the combined configured allowed-origin set before startup or reload can publish it.\",\"Serve historical v2 by default on REST and WSS, explicit historical v1 projections for schema=v1, and identity-bearing v3 projections for schema=v3; unsupported selectors fail with HTTP 400.\",\"Bind historical v1/v2 top-level, control, and agent-population field denominators with exact-key assertions rather than unused constants or selective absence checks.\",\"Make the HTML Observatory explicitly request v3 for both HTTPS and WSS while existing selector-free clients continue to receive v2.\",\"Preserve the existing atomic full-parameter hot reload, last-known-good rejection, bounded diagnostics, and Unity deferral boundaries.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"adl/tools/validate_v0917_html_observatory.py\",\".csdlc/evidence/551/html-polis-node.tap\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/551/validate-runtime-polis.sh\"],\"purpose\":\"Prove exact nonzero configuration, full hot-reload control, negotiated REST/WSS compatibility, v3 feed, OpenAPI, and bounded diagnostic targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1, binary diagnostic 1/1.\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--test\",\"control\",\"--test\",\"observatory\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"purpose\":\"Prove the complete affected Runtime integration denominator including exact v1/v2/v3 REST and WSS behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local nextest run: 76/76 passed.\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"guardian_soak\",\"--no-tests=fail\",\"-E\",\"test(signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process)\"],\"purpose\":\"Prove the production guardian explicitly negotiates the identity-bearing v3 projection.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local nextest run: 1/1 passed.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/551/validate-html-polis.sh\"],\"purpose\":\"Prove HTML v3 opt-in and exact feed-owned identity rendering while rejecting zero tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/551/html-polis-node.tap; 3/3 passed.\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"}]}"
+    },
+    {
+      "sequence": 56,
+      "generation": 47,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 48,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
