@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene, then remediated R2 review findings by expressing real corporate owner administration and truthful pre-apply budget/export/label readback status.
+Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene and ownership/readback truth, then remediated the R3 review finding by making the budget readback report not_applied_or_not_authorized instead of failing when an authorized budget list returns no matching budget before apply.
 
 ## Artifacts
 
@@ -33,9 +33,9 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
 
 ## Execution
 
-- Changed the host-project corporate group binding from viewer/securityReviewer-only to an explicit configurable role set requiring roles/owner.
-- Added a labeled BigQuery billing-export dataset target to make export observability a concrete Terraform surface instead of a docs-only claim.
-- Extended the readback script and retained evidence to report corporate-owner, budget, and billing-export dataset live status truthfully as true when applied/authorized or not_applied_or_not_authorized before apply.
+- Kept corporate owner administration as an explicit configurable role set requiring roles/owner.
+- Kept the labeled BigQuery billing-export dataset target and truthful pre-apply owner/budget/export readback status.
+- Changed the inventory-readonly budget check to capture the filtered budget list once and treat empty authorized output as not_applied_or_not_authorized while preserving exact mismatch detection for non-empty unexpected values.
 
 ## Validation
 
@@ -48,7 +48,7 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
     ],
     "purpose": "Validate #492 GCP-C surfaces, ownership role wiring, billing-export dataset wiring, and readback script coverage without cloud mutation.",
     "outcome": "passed",
-    "evidence_ref": "gcp-c-organization-static-r2-remediation.log"
+    "evidence_ref": "gcp-c-organization-static-r3-budget-readback-repair.log"
   },
   {
     "command": [
@@ -58,7 +58,7 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
     ],
     "purpose": "Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention and declares applied/live readback expectations.",
     "outcome": "passed",
-    "evidence_ref": "gcp-c-readback-static.log"
+    "evidence_ref": "gcp-c-readback-static-r3-budget-readback-repair.log"
   },
   {
     "command": [
@@ -72,9 +72,9 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
       ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh",
       "--lane=inventory-readonly"
     ],
-    "purpose": "Use the operator-approved command-scoped GCP key to prove project and billing readability and truthfully report unapplied owner/budget/export status without retaining credential material.",
+    "purpose": "Use the operator-approved command-scoped GCP key to prove project and billing readability and prove authorized empty budget/export readbacks report not_applied_or_not_authorized without retaining credential material.",
     "outcome": "passed",
-    "evidence_ref": "gcp-c-inventory-readonly.log"
+    "evidence_ref": "gcp-c-inventory-readonly-r3-budget-readback-repair.log"
   },
   {
     "command": [
@@ -85,7 +85,7 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
     ],
     "purpose": "Reject Terraform formatting drift in the GCP-C organization root.",
     "outcome": "passed",
-    "evidence_ref": "terraform-fmt-r2-remediation.log"
+    "evidence_ref": "terraform-fmt-r3-budget-readback-repair.log"
   },
   {
     "command": [
@@ -93,9 +93,9 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
       "-chdir=infra/gcp/organization",
       "validate"
     ],
-    "purpose": "Validate the initialized GCP-C Terraform root after ownership/readback remediation.",
+    "purpose": "Validate the initialized GCP-C Terraform root after budget-readback remediation.",
     "outcome": "passed",
-    "evidence_ref": "terraform-validate-r2-remediation.log"
+    "evidence_ref": "terraform-validate-r3-budget-readback-repair.log"
   },
   {
     "command": [
@@ -103,9 +103,9 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
       "diff",
       "--check"
     ],
-    "purpose": "Reject working-tree whitespace and conflict-marker artifacts before committing the new immutable R2 remediation head.",
+    "purpose": "Reject working-tree whitespace and conflict-marker artifacts before committing the new immutable R3 remediation head.",
     "outcome": "passed",
-    "evidence_ref": "diff-check-r2-remediation.log"
+    "evidence_ref": "diff-check-r3-budget-readback-repair.log"
   }
 ]
 

@@ -83,16 +83,16 @@ case "$LANE" in
     else
       CORPORATE_OWNER_ROLE_READABLE="not_applied_or_not_authorized"
     fi
-    if gcloud billing budgets list --billing-account="$EXPECTED_BILLING_ACCOUNT" \
+    if BUDGET_DISPLAY_NAME="$(gcloud billing budgets list --billing-account="$EXPECTED_BILLING_ACCOUNT" \
       --filter="displayName=${EXPECTED_BUDGET_DISPLAY_NAME}" \
       --format='value(displayName)' \
-      --quiet >/dev/null 2>&1; then
-      BUDGET_DISPLAY_NAME="$(gcloud billing budgets list --billing-account="$EXPECTED_BILLING_ACCOUNT" \
-        --filter="displayName=${EXPECTED_BUDGET_DISPLAY_NAME}" \
-        --format='value(displayName)' \
-        --quiet)"
-      expect_quiet_value "$BUDGET_DISPLAY_NAME" "$EXPECTED_BUDGET_DISPLAY_NAME" "budget display name"
-      BUDGET_READABLE="true"
+      --quiet 2>/dev/null)"; then
+      if [ -n "$BUDGET_DISPLAY_NAME" ]; then
+        expect_quiet_value "$BUDGET_DISPLAY_NAME" "$EXPECTED_BUDGET_DISPLAY_NAME" "budget display name"
+        BUDGET_READABLE="true"
+      else
+        BUDGET_READABLE="not_applied_or_not_authorized"
+      fi
     else
       BUDGET_READABLE="not_applied_or_not_authorized"
     fi
