@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Added a season-arc artifact that frames The Cognitive Stack as a public demonstration of multi-AI reasoning, governed authority, reviewable work, and Agent Logic product ideas.
+Created a non-production first-ten source-package checkpoint for The Cognitive Stack under demos/podcast/episode-packages/**. The checkpoint defines the ten-episode denominator, season arc, per-episode source-package records, and a non-production feed fragment, while claiming no final audio, production RSS, hosting, directory submission, mailbox verification, or public launch.
 
 ## Artifacts
 
@@ -32,6 +32,23 @@ Added a season-arc artifact that frames The Cognitive Stack as a public demonstr
 - .csdlc/prepared/issues/342/validate-episode-packages.rb
 - .csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb
 - demos/podcast/episode-packages/season-arc.md
+- demos/podcast/episode-packages/README.md
+- demos/podcast/episode-packages/package-index.json
+- demos/podcast/episode-packages/feed-fragment.xml
+- demos/podcast/episode-packages/season-arc.md
+- demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json
+- demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json
+- demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json
+- demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json
+- demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json
+- demos/podcast/episode-packages/006-the-new-creative-room/package.json
+- demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json
+- demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json
+- demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json
+- demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json
+- .csdlc/prepared/issues/342/validate-episode-packages.rb
+- .csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb
+- .csdlc/prepared/issues/342/validate-readiness.rb
 
 ## Execution
 
@@ -40,6 +57,11 @@ Added a season-arc artifact that frames The Cognitive Stack as a public demonstr
 - Added ten per-episode package.json records with premise, AI panel, listener takeaway, promotional hooks, and final audio status pending.
 - Replaced placeholder #342 package and integrated validators with checkpoint validators that pass only the source-package/non-production state and report terminal_ready=false.
 - Added demos/podcast/episode-packages/season-arc.md with audience promise, tone, episode spine, product throughline, and checkpoint non-claims.
+- Added demos/podcast/episode-packages/package-index.json with the exact ten-episode denominator and downstream #262 handoff marked not ready.
+- Added demos/podcast/episode-packages/feed-fragment.xml as a non-production #342 parity fragment only.
+- Added ten per-episode package.json records with premise, AI panel, listener takeaway, promotional hooks, and final audio status pending.
+- Added demos/podcast/episode-packages/season-arc.md with audience promise, tone, episode spine, product throughline, and checkpoint non-claims.
+- Added focused validators for the source-package checkpoint and non-production integrated feed fragment.
 
 ## Validation
 
@@ -70,6 +92,33 @@ Added a season-arc artifact that frames The Cognitive Stack as a public demonstr
     "purpose": "Validate the non-production feed fragment denominator and prove it contains no production URL or publication claim.",
     "outcome": "passed",
     "evidence_ref": "local terminal transcript 2026-08-28: adl.wp24a.integrated_podcast_validation.v1 pass, episode_fragments=10, production_feed_claimed=false, terminal_ready=false."
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/342/validate-episode-packages.rb"
+    ],
+    "purpose": "Prove the ten-episode source-package denominator and non-production state.",
+    "outcome": "passed",
+    "evidence_ref": "episode-package-contract.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb"
+    ],
+    "purpose": "Prove #342's handoff fragment remains non-production and does not consume #262 authority.",
+    "outcome": "passed",
+    "evidence_ref": "integrated-podcast-proof.log"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/342/validate-readiness.rb"
+    ],
+    "purpose": "Confirm the bound issue context is safe before finalizing the checkpoint.",
+    "outcome": "passed",
+    "evidence_ref": "wp24a-bound-readiness.log"
   }
 ]
 

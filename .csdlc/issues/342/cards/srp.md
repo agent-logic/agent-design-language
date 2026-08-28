@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Canonical identity and dependency graph; exact package denominator; episode package completeness; audio and manifest integrity; rights, consent, provenance, and redaction; collision boundaries with #19/#261/#262; absence of publication claims.
+demos/podcast/episode-packages/**
+.csdlc/issues/342
+.csdlc/prepared/issues/342/validate-episode-packages.rb
+.csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb
+.csdlc/prepared/issues/342/validate-readiness.rb
 
 ## Prompts
 

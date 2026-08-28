@@ -3,12 +3,23 @@
   "issue": 342,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f22f50785de3595fa31cdc85e96af67d56171c756d8d95f70e35e786ad312b9f",
-  "phase": "bound",
-  "generation": 19,
-  "digest": "2c9d712bc095601eb67ed04cee1663cc013330a6cd5edf36565cfb2b244d8681",
+  "phase": "implemented",
+  "generation": 20,
+  "digest": "dc404d52f8dcdea3f6279d77b3974b65780a5ed6328eab48488d31bb40c12b46",
   "branch": "codex/342-podcast-studio-first-ten-episodes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-342-podcast-studio-first-ten-episodes",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex-task:01a049d0-40ad-7b32-a59e-5c7ebe083ee7",
+    "assigned_by": "codex:/root/sprint8-podcast-lane",
+    "revision": "git-blake3:3f324fdd58402df4320b621a3971bb6684778ca2:280616425bbaacef03b0855fcd8a82464ed3230f1a7cc1cf7accc022b8bc2eff",
+    "scope": [
+      "demos/podcast/episode-packages/**",
+      ".csdlc/issues/342",
+      ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+      ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
+      ".csdlc/prepared/issues/342/validate-readiness.rb"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -24,34 +35,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f258cc1ff3c60a67162f2b8576a949fda76c135b7c1b3d06c609178a6142f1ec",
+      "values_digest": "db6cbb5aad7e6cf5cd035a7dcf78e4f6f63824f1adaa2daef70c04b63fa5766b",
       "rendered_digest": "5328667aa3b17e469c4e356c01c9c602c10a712d6a391083d445c63904620910",
       "ast_digest": "6eaf7b8e3cb171db069ce3d7e5b2ba589bb054310e93b6066b0b170a41c98d19"
     },
     "stp": {
-      "values_digest": "c25ce8ba1aa7af6a68ce7bc828814dd10d334f9885a7c6043c44136d12d29043",
+      "values_digest": "f9ede486231a42ce2856925a569c37227f09729aaf1bbf82e8b607755eee3d99",
       "rendered_digest": "acb4546eeec9aa539f66cc016e39189ef9a85660e77e9b6f18539480b6d52b92",
       "ast_digest": "ed2d6b41b560d5723a0958ac88879aa36df82116433163a9d72aa7c2d94ceb23"
     },
     "spp": {
-      "values_digest": "db69f4eeeec0986222cfc593c87e79ee3f82ca4c23b1f6bf73084c4a61de279d",
+      "values_digest": "b69de4d151e009bdaa682649176248a57351abdcb0dae4b1eb7c8c2759048515",
       "rendered_digest": "191480bd99aec1c23e210e976f5f42a848cfbd552f1781829934dbc1ef764e59",
       "ast_digest": "07819b7755ede28a214e3623d7362c71eb7a5e9e1a3448cc31fe0a7dadbc7391"
     },
     "vpp": {
-      "values_digest": "37e7b423ec9876dfee0d1eae2ca2f175c67c31dd2250f03ec18af674737575ca",
+      "values_digest": "1072c07eb2d5bf7f2412b2c021dca9d77a3b127ff5636268e17d8576b6b39099",
       "rendered_digest": "7b01988e3038715e3c0197ad18a7b2fec0b4eae7a735707af22f4d7bebe55c16",
       "ast_digest": "6b64408653e72de06986bd341bb63150557f388dfd8b5f10c133ccca2822220e"
     },
     "srp": {
-      "values_digest": "f05244636e080a231542ce9766348e6b587474edc3188c910803e5c831d88b09",
-      "rendered_digest": "97b3254e4ffc459d498e4063419f2e8cc0e9c3963abddfcb60f6eb082bfb67a7",
-      "ast_digest": "093c21d7c810b8b09d372a1623848b5feb221a07fdf4542ecbcefd97d9d714bb"
+      "values_digest": "f4c2bef5f8f3a37f2de0acfe00dd3416283a07d46961edaae1a9325c6c34353b",
+      "rendered_digest": "9c1bdf37a8e171255b4470984e13a26e3524a6edd4c45452cad2eb5f9350b123",
+      "ast_digest": "91a95b449b26d6c33e3038309d19730c97ec2fccd4ff00c56bb4e27f11b76554"
     },
     "sor": {
-      "values_digest": "31bbf0a85068342bc33e563bb055332b2cc27c01ef295ce9278e038c78bb2191",
-      "rendered_digest": "f7f9ebc54dfade419668c3fdb3627730fbea22665613192697342391d8639cf6",
-      "ast_digest": "ca653cc1b90825422f0f63e92ac816dd9c4a8c31f76981d6c26525399ebcc52f"
+      "values_digest": "b532d865f90eb1685bbe6f7f59ea5661d941cf07cc75162ccfc116cd55b741b3",
+      "rendered_digest": "f571aec66037d9ca27e78652688f7a45cc2ec9229954859c972c65107796f857",
+      "ast_digest": "e66eae08c2b15c5c4164cfdca74bcccecc6a4332a8dcc529c1d507e68fb70706"
     }
   },
   "transitions": [
@@ -68,6 +79,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -217,6 +235,20 @@
       "actor": "Codex / Sprint 8 podcast lane",
       "reason": "Record the podcast season-arc positioning artifact for The Cognitive Stack.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added a season-arc artifact that frames The Cognitive Stack as a public demonstration of multi-AI reasoning, governed authority, reviewable work, and Agent Logic product ideas.\",\"changes\":[\"Added demos/podcast/episode-packages/season-arc.md with audience promise, tone, episode spine, product throughline, and checkpoint non-claims.\"],\"artifacts\":[\"demos/podcast/episode-packages/season-arc.md\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
