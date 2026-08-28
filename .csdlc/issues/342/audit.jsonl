@@ -23,3 +23,6 @@
 {"sequence":23,"generation":20,"actor":"codex:/root/sprint8-podcast-lane","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":21,"actor":"codex:/root/sprint8-podcast-lane","reason":"Recover the pre-activity review assignment after the fresh review task failed from a model usage-limit system error before inspecting files or producing review evidence.","operation":"recover_review"}
 {"sequence":25,"generation":21,"actor":"codex:/root/sprint8-podcast-lane","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":26,"generation":22,"actor":"codex:/root/sprint8-podcast-lane","reason":"Recover the review assignment that became stale after committing the validator phase repair and typed review-readiness tail at dd1554ec1.","operation":"recover_review"}
+{"sequence":27,"generation":22,"actor":"codex:/root/sprint8-podcast-lane","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":28,"generation":23,"actor":"codex:/root/sprint8-podcast-lane","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

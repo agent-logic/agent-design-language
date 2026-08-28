@@ -1,0 +1,7 @@
+{
+  "issue": 342,
+  "expected_generation": 21,
+  "expected_digest": "5d2d6134b11e82d46961efa0d57f987dd8b52e6ee5adc5d255f1afec788816d1",
+  "actor": "codex:/root/sprint8-podcast-lane",
+  "reason": "Recover the review assignment that became stale after committing the validator phase repair and typed review-readiness tail at dd1554ec1."
+}
