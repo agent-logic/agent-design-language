@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 504,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+    "slug": "v3-e-remote-delivery-workflow",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one end-to-end C-SDLC v3 remote delivery workflow.",
+      "required_outcome": "One end-to-end remote delivery workflow from an accepted PVF result to safe terminal cleanup.",
+      "declared_scope": [
+        "C-SDLC v3 remote delivery command model",
+        "Exact immutable review binding",
+        "Explicit publication modes",
+        "Terminal finish truth derived from reviewed publication state",
+        "Safe cleanup transition after terminal truth",
+        "Positive and refusal proof for predecessor requirements #174 through #178"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains the live lifecycle authority until explicit V3-F/#505 cutover",
+        "C-SDLC v3 remote delivery remains construction-only in this issue",
+        "No v3 command may mutate GitHub, finish, clean, or independently grant authority before V3-F",
+        "Review, publication, finish, and cleanup must remain distinct typed gates",
+        "Implementation is blocked until #503 is terminal, reconciled, and ancestral"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes for all current issue state",
+        "Bind beneath /Volumes/FastWork/adl-worktrees before tracked implementation edits",
+        "Keep the PR body visibly linked with `Closes #504` at publication",
+        "Stop if #503 is not terminal and ancestral when implementation would begin",
+        "Do not use raw GitHub lifecycle writes except under audited break-glass authority"
+      ]
+    }
+  }
+}

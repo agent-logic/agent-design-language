@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 504,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+    "slug": "v3-e-remote-delivery-workflow",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #504 V3-E construction-only remote delivery workflow: csdlc-v3/src/commands/remote, csdlc-v3/src/review, csdlc-v3/src/publication, csdlc-v3/tests/remote_commands, and issue-owned lifecycle/evidence.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does review bind exact immutable scope without self-authorizing publication or terminal transitions?",
+        "Are publication modes explicit, including visible closing linkage for #504?",
+        "Does finish derive terminal truth from governed publication state rather than caller assertion?",
+        "Is cleanup separately gated after terminal truth?",
+        "Do requirements #174 through #178 have behavioral positive and refusal proof?",
+        "Does every v3 surface remain construction-only before V3-F/#505?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

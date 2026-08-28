@@ -1,0 +1,90 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 504,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e0ab52f41b32f4c8fee5899510e2daa1004ed5bb8349ea1afc6137449524b86a",
+  "phase": "initialized",
+  "generation": 4,
+  "digest": "575eaad89ba0cd8885d22b3f37c5f57399f1fa34f9fe39ff5e04550fb0b14a20",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/504/design.md",
+  "diagram_path": ".csdlc/prepared/issues/504/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "3f28a595ee151b9e206ccb8a38e3de019f5c6b20a1d1dc5789cd303af51aa8e9",
+      "rendered_digest": "045795469a2177f1cdf55f4b53ec53acc84e7f540c8a631562535823ddbe66e3",
+      "ast_digest": "48ee89ff29f611eb584004ccdd0f55d0e2254bedcb44fdf4bde15720ac2d2aae"
+    },
+    "stp": {
+      "values_digest": "1e47ecfb7acd8a9a94c1df10c82bfa2647e117a30841e3e7f80f0de86e4a6f4e",
+      "rendered_digest": "45588a30e0087598da490a38a8ac4fa73943b376b7c4917e0a1cf9030da00a3d",
+      "ast_digest": "b4d809790a68270384edcc1baad364ded4c51aca8cfaf21f4807f610cbf98d08"
+    },
+    "spp": {
+      "values_digest": "aa7c7c64ecc270594dc2a43d8a5dd33800e9161e074ce1c9a0a3b2920e6bddf2",
+      "rendered_digest": "543acffbafda95f10469d638b4b302fc7e54e57c70260eacf65178199084e296",
+      "ast_digest": "fd27d703e69854690dd0c51d7654b825b517518ef94d2dd4202a2743a53f95be"
+    },
+    "vpp": {
+      "values_digest": "b2d8545a1154bd88109796b63a7762e3609644c3231d11a1d19f467641f4efce",
+      "rendered_digest": "8476e1b083720d520f16220d193aea4dac84b7349e68ec91d097961760f578a0",
+      "ast_digest": "7aa0bad92b7b3938abe426ee33d49ec6da5c16dca4eeea65fa15a44c71579216"
+    },
+    "srp": {
+      "values_digest": "cf4039945a1bdce5eb449badc7868a91f3500dce712156856e80e262a0b84070",
+      "rendered_digest": "4438bda905f7a72573b3ea3668d47b38809654fe74bbdbbb4a312121f0132dc6",
+      "ast_digest": "3ea112a20d3e3d1844835fbe76cef162ac72450e36e47014c8b9f4dea23cffeb"
+    },
+    "sor": {
+      "values_digest": "73648c4fba7dfb571aed3ed3c8961e2d6a435d2def13191f0458e552fc04d6fe",
+      "rendered_digest": "200a185830219233d18b338c8f51834987115b828d9fba1034974768aa17fb16",
+      "ast_digest": "8cbddf5d7d6c8b68363d563c2fc78a5d92579041e4f378bd98e69978d12eda0f"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "Repair #504 initialized readiness by using one available issue-owned pre-bind validator and deferring Rust remote-command proof until #503 is terminal and #504 implementation creates those targets.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-v3-e-preparation\",\"proof_role\":\"Prove the initialized #504 preparation packet preserves the #503 terminal dependency, V3-E acceptance denominator, v2 authority boundary, v3 construction-only boundary, and future visible `Closes #504` publication linkage requirement.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\"],\"parallel_group\":\"504-prebind-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Repair #504 initialized readiness by limiting current deliverables to existing issue-owned preparation artifacts while leaving future csdlc-v3 remote workflow implementation paths in the post-#503 plan.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Initialized #504 C-SDLC card bundle for V3-E remote-delivery workflow preparation.\",\"Issue-owned pre-bind validator at .csdlc/prepared/issues/504/validate-remote-workflow.rb.\",\"Design and diagram packet under .csdlc/prepared/issues/504 preserving the #503 terminal dependency and V3-F/#505 authority boundary.\",\"Post-#503 handoff plan naming the future csdlc-v3 remote command, review, publication, finish, cleanup, and remote-command test surfaces.\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "Make the #504 initialized validator target an exact issue-owned deliverable so csdlc-validate can credit the pre-bind denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Initialized #504 C-SDLC card bundle for V3-E remote-delivery workflow preparation.\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\",\"Design and diagram packet under .csdlc/prepared/issues/504 preserving the #503 terminal dependency and V3-F/#505 authority boundary.\",\"Post-#503 handoff plan naming the future csdlc-v3 remote command, review, publication, finish, cleanup, and remote-command test surfaces.\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "Make the #504 pre-bind validator an exact issue-owned affected area for initialized readiness validation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/commands/remote\",\"csdlc-v3/src/review\",\"csdlc-v3/src/publication\",\"csdlc-v3/tests/remote_commands\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\",\".csdlc/prepared/issues/504\",\".csdlc/evidence/504\"]}"
+    }
+  ]
+}
