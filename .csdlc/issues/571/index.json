@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 571,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0793b51a824a680a043de7acd87b9a37ba594e54bbf3b4c7e7feb2c075b1c887",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "e6e59bf21a4ef464447c24fe2d3d26b1f86095acefde1a36412fa7ff39d41b9d",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/571/design.md",
+  "diagram_path": ".csdlc/prepared/issues/571/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:b45bd0ec-d703-4cb9-b4f4-4b56204bf794",
+      "revision": "89eebc366bd63a107647844064770c0ff3959678152d48ae5ae1f1999e1faedc"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5d327f786c1c4aa930d8da2545a3789bfaf4fc2b673f7f456e494099434105f1",
+      "rendered_digest": "9ccb4f850e18797d99bbf2565d710059370fa06d871a15eac878584fbc67462e",
+      "ast_digest": "d25d92fbdc91b85d6976761a6767c6ce12a057113fcced80ff4120776ab29b19"
+    },
+    "stp": {
+      "values_digest": "d474f68c00e4f6e18498d680cb67a5708ad2dc0aca26873933e04544f9334664",
+      "rendered_digest": "f2b75f46f193e43621bfbabae2e1b02dad5ec38886370df60a233ba2d9be20fa",
+      "ast_digest": "086e291c7dfd8229dd82f4b88c395a90f5a08ba795c318c277c2ea2dbf9c1f01"
+    },
+    "spp": {
+      "values_digest": "7d588466352f5f9a20c8a4a78a775a32cd0ff3ff5b515eb91f5b60f3ce8976f7",
+      "rendered_digest": "60f4e090c005b59d77edf42ae4a6479ec724d6291e2c0269b7a03bf98b1e8d66",
+      "ast_digest": "1294097b2388c2b051119d7715fa220a95faa65e53b43e2a91d88989b8985f18"
+    },
+    "vpp": {
+      "values_digest": "8f05ccd7eb6242488b6b5dc242fa5da80242d306889cdc5adc4f07aaa68bdb0f",
+      "rendered_digest": "94943fbe8b9b68185233d49888a89c962436e3598aeab713c846cb5e98f64d55",
+      "ast_digest": "2f51f03d3dc5855f473f697364d9e2ed20013280af1a60a851b85ac879f9d736"
+    },
+    "srp": {
+      "values_digest": "c0431d9f0898d2f18c44d98e743eee0d2a03e07692a3bce54a2fcef3807e7e29",
+      "rendered_digest": "2c59079e4b12abd433631fed08814895354aef2f2050b97b6edb9024458902f7",
+      "ast_digest": "f486b7027390bd1409927696e7cc869175409998f52c1e8fe06da0afd42334ee"
+    },
+    "sor": {
+      "values_digest": "cdd87d5cffc94656e2cc42061f736334fab11fb0d636c494846ef27c70e74194",
+      "rendered_digest": "49e6e69078a00c5f79eade77a108bb35d8d2d114a0fffbf149397ed4fc8e3fce",
+      "ast_digest": "b0c7804311a30382f58a0727cd8bcc1dbdb67288bee2c0295128bdb6e6f17bdd"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance #571 to ready/unbound after design approval and doctor advance_ready."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6",
+      "reason": "Declare the exact #571 issue-local validator path so initialized readiness has an executable governed proof denominator before design approval.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/csdlc-v3/CONTRACT.md\",\"docs/csdlc-v3/predecessor-coverage.json\",\"docs/csdlc-v3/proportional-lifecycle.json\",\".csdlc/prepared/issues/500/validate-implementation.rb\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\",\".csdlc/issues/571\",\".csdlc/prepared/issues/571\",\".csdlc/evidence/571\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:b45bd0ec-d703-4cb9-b4f4-4b56204bf794",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"89eebc366bd63a107647844064770c0ff3959678152d48ae5ae1f1999e1faedc\",\"design_ref\":\".csdlc/prepared/issues/571/design.md\",\"diagram_digest\":\"58270926aafc5ea40bc80387ba1c54a28f0ba35bb149e5db094c4d0082d48d7c\",\"diagram_ref\":\".csdlc/prepared/issues/571/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "Advance #571 to ready/unbound after design approval and doctor advance_ready.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

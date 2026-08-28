@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 571,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-A follow-up] Correct C-SDLC v3 predecessor proof and lifecycle gates",
+    "slug": "v0-92-1-v3-a-follow-up-correct-c-sdlc-v3-predecessor-proof-and-lifecycle-gates",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Pre-execution output record.",
+      "actual_changes": [],
+      "artifacts": [],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 571,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-A follow-up] Correct C-SDLC v3 predecessor proof and lifecycle gates",
+    "slug": "v0-92-1-v3-a-follow-up-correct-c-sdlc-v3-predecessor-proof-and-lifecycle-gates",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact V3-A corrective proof for predecessor owner/proof-lane mapping, construction decision evidence, retained lifecycle gate consistency, and exact-range diff hygiene.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every retained #161-#163 predecessor row have exactly useful owner issue and proof-lane data?",
+        "Does CONTRACT.md bind the V3-A construction decision to measured #162 evidence and #163/Decision 11 approval evidence?",
+        "Can the default lifecycle path still omit retained bind, publication, finish, or cleanup gates?",
+        "Does diff hygiene validation use an exact PR base/head range?",
+        "Does the patch preserve v2 live authority until V3-F/#505 and avoid widening into later v3 slices?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
