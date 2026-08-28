@@ -33,3 +33,4 @@
 {"sequence":33,"generation":26,"actor":"codex:563-ci-janitor","reason":"Recover stale review and publication truth after the substantive CI repair so exact-head Vertex Gemini 3.1 Pro review can be recorded before republication.","operation":"recover_review"}
 {"sequence":34,"generation":26,"actor":"codex:563-ci-janitor","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":35,"generation":27,"actor":"codex:563-ci-janitor","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":36,"generation":28,"actor":"codex:563-ci-janitor","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
