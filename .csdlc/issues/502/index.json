@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "a5bb1eb00eb66de78b78e90fa439c27680e26735bf5cd4fb53bbc5fa65170c85",
+  "generation": 8,
+  "digest": "4b93b469d8d48bd56dbd2899db3339dd2efee08cc1dd82b63d67ce02b5ceeb78",
   "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d39f2fb06950a6d57200aea19f850c108f00b07d258e2f2998893c9c3b91eaee",
+      "values_digest": "4f9fef8a925a11b54269452ef827fa0e073e6522fd4d3b6a1fb4e14eb5fef0ae",
       "rendered_digest": "586a7982b1e0f3092d591c32d3c122d93af9f28bab3131eaa3b67d7bb25b65dc",
       "ast_digest": "f6b8055e02a6433850689b71b3f9ec0371dc513f2be23f17e675ff4ee637b49c"
     },
     "stp": {
-      "values_digest": "fb4bce1dc17e7ddca0ebd41aa23256d1aefc4493a794daaf1497891d67d3b569",
+      "values_digest": "5af932e5b692a51e79bff94618c2a7a5ffc499a5a181cf1b678537270b386da9",
       "rendered_digest": "b20c663d5fb080ca3aee3471f9f5bcc730ae6a3a95f78ed146eb4ef06fbecb3b",
       "ast_digest": "2d82914d8f9e739e95a46f29b9004c31158554791c6a63129b97f0ac9248d4f5"
     },
     "spp": {
-      "values_digest": "d05a2178223cba8718bc33f9ecce5abbe22740ce82191db678ce19ce4312877e",
+      "values_digest": "6db639a048ab0444f5a011d13006ca81695531378b88f114cb06e4c2b19e372b",
       "rendered_digest": "43bc5b0aebd2201594c013dfa4698f94bd4ba4c81eb3ddd0a73c74919cd26f4a",
       "ast_digest": "f00a8ff6c49ddde156a505009c2c29cfad9d9153d8d7db1fad3ee75fb9e0f8d5"
     },
     "vpp": {
-      "values_digest": "c5098d29eeebf476dfdfb8ed9cfab88ca694ee0db9b6cee5000f2d78cc8aee46",
+      "values_digest": "8a2e83a9973963629f8a76597251a7e0a08013deb6c4f0c9131fad834c0b7c96",
       "rendered_digest": "68e4ac33848d009bdd0b54fccf2958ddb175a150b6cb70d68c3a4a21ca3374d9",
       "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
     },
     "srp": {
-      "values_digest": "43ae14dfbb5ceb71cac0694f807e3a615ab325e33535310e76d5848717b06476",
+      "values_digest": "e42d93098abad51105f74e01b5246288034998590b8203569c94c483d2704094",
       "rendered_digest": "c0a5f24eca8192b6aa051e61c572ac160c9941526435bc2c21f4102a8ff824a3",
       "ast_digest": "2f0cb9846491ce392d6fba9d581a1985cbdf782be0549ac44e05a156da6c8999"
     },
     "sor": {
-      "values_digest": "9e9a893e5dd53a82d57b61fb3e7c34771f10318f1dd0006d763edb6e634494c7",
-      "rendered_digest": "4289e892a1df0d06267d828b6f051aeda0baabc20363c97f10dec8a109963318",
-      "ast_digest": "ac33c093347cff0fe3bf65496ea374d156c749c77327d8db82ae79ccd6d499ec"
+      "values_digest": "a050b4a08ede29e162f7318d640f7ffe537fdd7d93413eb5b7c8b0906e5e7709",
+      "rendered_digest": "85c33d78045b86696f80409483373c1d77aae8bb4b72a3437788dde944668449",
+      "ast_digest": "8e558fb560f4a93890f62119d450e502ccd795cef100a189b3ee7d8894f844fe"
     }
   },
   "transitions": [
@@ -140,6 +140,13 @@
       "actor": "codex:worker-6",
       "reason": "Record #502 implementation and local validation evidence before pre-PR review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on the stacked branch, including pure transition decisions, transactional state storage/recovery classification, typed adapter boundaries, crate-local AGENTS guidance, and focused #168/#169/#170 transaction tests.\",\"changes\":[\"Added csdlc-v3/src/lifecycle/mod.rs for capability-checked lifecycle transition decisions and projection invalidation semantics.\",\"Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, generation/digest CAS checks, recovery classification, and audit-provenance preservation.\",\"Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, and redaction.\",\"Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, and adapter tests.\",\"Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.\",\"Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.\"],\"artifacts\":[\"commit b21a7944f8c0274b003af809299026492734cb42\",\"worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel\",\"branch codex/502-v3-c-csdlc-v3-lifecycle-kernel\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"format check for the C-SDLC v3 crate\",\"outcome\":\"passed\",\"evidence_ref\":\"local command passed in #502 worktree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"transactions\"],\"purpose\":\"full focused transaction test target for #168/#169/#170 retained behaviors\",\"outcome\":\"passed\",\"evidence_ref\":\"9 tests passed in csdlc-v3/tests/transactions.rs\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"strict clippy for the C-SDLC v3 crate\",\"outcome\":\"passed\",\"evidence_ref\":\"local command passed in #502 worktree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"diff hygiene\",\"outcome\":\"passed\",\"evidence_ref\":\"local command passed in #502 worktree\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"502\"],\"purpose\":\"typed C-SDLC issue validation\",\"outcome\":\"passed\",\"evidence_ref\":\"status pass, phase implemented, generation 6 after implementation truth update\"},{\"command\":[\"csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"502\"],\"purpose\":\"typed lifecycle doctor after bind and implementation\",\"outcome\":\"passed\",\"evidence_ref\":\"status pass, phase implemented, generation 6 after implementation truth update\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #502 execution and validation truth after exact-head v3 lifecycle-kernel hardening.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 and documented the clean v3 replacement boundary while preserving v2 as current authority until explicit V3-F cutover.\",\"changes\":[\"Added csdlc-v3/src/lifecycle/mod.rs for capability-checked lifecycle transition decisions and projection invalidation semantics.\",\"Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, generation/digest CAS checks, recovery classification, audit-provenance preservation, post-state projection-repair blocking, commit-time CAS rechecks, and content-bound stable digests.\",\"Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, redaction, and shell-name rejection for direct and path-qualified shell executables.\",\"Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-time CAS, repair-blocking, and digest-content tests.\",\"Added and expanded csdlc-v3/AGENTS.md plus csdlc-v3/README.md to preserve the v2-authority boundary and three-minute issue-start expectation for future v3 work.\",\"Updated root AGENTS.md, docs/onboarding.md, csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and v2 operator skills to describe v3 as the planned clean replacement line while keeping all live lifecycle authority on v2 until V3-F.\",\"Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.\"],\"artifacts\":[\"commit b21a7944f8c0274b003af809299026492734cb42\",\"commit 0b283b7824eaaf6f0a94e78047f9e3431ccf1acb\",\"commit 1e38f3fc8a7eeb50becdb6080e6df3cad8867d0a\",\"commit 46ec429a5158f2d6b7c21df4ce0fdd3674178828\",\"worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel\",\"branch codex/502-v3-c-csdlc-v3-lifecycle-kernel\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"format check for the C-SDLC v3 crate\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"full local test coverage for the C-SDLC v3 crate, including foundation and transaction tests\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:22-passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"transactions\"],\"purpose\":\"focused transaction test target for #168/#169/#170 retained behaviors\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:10-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"strict clippy for the C-SDLC v3 crate\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"0360f148907f83763fd436e9785b8a4c2141a6dd..HEAD\"],\"purpose\":\"diff hygiene from the #501 stacked base through the current #502 head\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"502\"],\"purpose\":\"typed C-SDLC issue validation after implementation and documentation boundary updates\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:status pass, phase implemented, generation 7\"}]}"
     }
   ]
 }

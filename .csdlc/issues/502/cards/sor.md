@@ -12,21 +12,25 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on the stacked branch, including pure transition decisions, transactional state storage/recovery classification, typed adapter boundaries, crate-local AGENTS guidance, and focused #168/#169/#170 transaction tests.
+Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 and documented the clean v3 replacement boundary while preserving v2 as current authority until explicit V3-F cutover.
 
 ## Artifacts
 
 - commit b21a7944f8c0274b003af809299026492734cb42
+- commit 0b283b7824eaaf6f0a94e78047f9e3431ccf1acb
+- commit 1e38f3fc8a7eeb50becdb6080e6df3cad8867d0a
+- commit 46ec429a5158f2d6b7c21df4ce0fdd3674178828
 - worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel
 - branch codex/502-v3-c-csdlc-v3-lifecycle-kernel
 
 ## Execution
 
 - Added csdlc-v3/src/lifecycle/mod.rs for capability-checked lifecycle transition decisions and projection invalidation semantics.
-- Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, generation/digest CAS checks, recovery classification, and audit-provenance preservation.
-- Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, and redaction.
-- Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, and adapter tests.
-- Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.
+- Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, generation/digest CAS checks, recovery classification, audit-provenance preservation, post-state projection-repair blocking, commit-time CAS rechecks, and content-bound stable digests.
+- Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, redaction, and shell-name rejection for direct and path-qualified shell executables.
+- Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-time CAS, repair-blocking, and digest-content tests.
+- Added and expanded csdlc-v3/AGENTS.md plus csdlc-v3/README.md to preserve the v2-authority boundary and three-minute issue-start expectation for future v3 work.
+- Updated root AGENTS.md, docs/onboarding.md, csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and v2 operator skills to describe v3 as the planned clean replacement line while keeping all live lifecycle authority on v2 until V3-F.
 - Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.
 
 ## Validation
@@ -42,7 +46,18 @@ Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on t
     ],
     "purpose": "format check for the C-SDLC v3 crate",
     "outcome": "passed",
-    "evidence_ref": "local command passed in #502 worktree"
+    "evidence_ref": "exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "full local test coverage for the C-SDLC v3 crate, including foundation and transaction tests",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:22-passed"
   },
   {
     "command": [
@@ -53,9 +68,9 @@ Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on t
       "--test",
       "transactions"
     ],
-    "purpose": "full focused transaction test target for #168/#169/#170 retained behaviors",
+    "purpose": "focused transaction test target for #168/#169/#170 retained behaviors",
     "outcome": "passed",
-    "evidence_ref": "9 tests passed in csdlc-v3/tests/transactions.rs"
+    "evidence_ref": "exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:10-passed"
   },
   {
     "command": [
@@ -70,17 +85,18 @@ Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on t
     ],
     "purpose": "strict clippy for the C-SDLC v3 crate",
     "outcome": "passed",
-    "evidence_ref": "local command passed in #502 worktree"
+    "evidence_ref": "exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:passed"
   },
   {
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "0360f148907f83763fd436e9785b8a4c2141a6dd..HEAD"
     ],
-    "purpose": "diff hygiene",
+    "purpose": "diff hygiene from the #501 stacked base through the current #502 head",
     "outcome": "passed",
-    "evidence_ref": "local command passed in #502 worktree"
+    "evidence_ref": "exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:passed"
   },
   {
     "command": [
@@ -91,21 +107,9 @@ Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on t
       "--issue",
       "502"
     ],
-    "purpose": "typed C-SDLC issue validation",
+    "purpose": "typed C-SDLC issue validation after implementation and documentation boundary updates",
     "outcome": "passed",
-    "evidence_ref": "status pass, phase implemented, generation 6 after implementation truth update"
-  },
-  {
-    "command": [
-      "csdlc-doctor",
-      "--repo",
-      ".",
-      "--issue",
-      "502"
-    ],
-    "purpose": "typed lifecycle doctor after bind and implementation",
-    "outcome": "passed",
-    "evidence_ref": "status pass, phase implemented, generation 6 after implementation truth update"
+    "evidence_ref": "exact-head:46ec429a5158f2d6b7c21df4ce0fdd3674178828:status pass, phase implemented, generation 7"
   }
 ]
 
