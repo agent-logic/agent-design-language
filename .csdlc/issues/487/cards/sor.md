@@ -82,11 +82,11 @@ Implemented the #487 AWS-D audit/security account-foundation baseline as local T
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
