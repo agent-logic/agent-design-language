@@ -12,30 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/502/audit.jsonl
-.csdlc/issues/502/cards/sip.md
-.csdlc/issues/502/cards/sip.values.json
-.csdlc/issues/502/cards/sor.md
-.csdlc/issues/502/cards/sor.values.json
-.csdlc/issues/502/cards/spp.md
-.csdlc/issues/502/cards/spp.values.json
-.csdlc/issues/502/cards/srp.md
-.csdlc/issues/502/cards/srp.values.json
-.csdlc/issues/502/cards/stp.md
-.csdlc/issues/502/cards/stp.values.json
-.csdlc/issues/502/cards/vpp.md
-.csdlc/issues/502/cards/vpp.values.json
-.csdlc/issues/502/index.json
-.csdlc/prepared/issues/502/design.md
-.csdlc/prepared/issues/502/diagram.mmd
-csdlc-v3/AGENTS.md
-csdlc-v3/Cargo.toml
-csdlc-v3/Cargo.lock
-csdlc-v3/src/adapters/mod.rs
-csdlc-v3/src/lib.rs
-csdlc-v3/src/lifecycle/mod.rs
-csdlc-v3/src/storage/mod.rs
-csdlc-v3/tests/transactions.rs
+
 
 ## Prompts
 
