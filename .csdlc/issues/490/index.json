@@ -3,9 +3,9 @@
   "issue": 490,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6c97bf7b191a264c863ce7ccd8e1099e7dd451da9929f0f07a9fcbb8d99893d9",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "fac5fdefecba26265a5b79536f7400b4362ef8433ea12e8a3c33041b1de2f97c",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "3517a1ddd55ad4f4fd1078f43f28d4dbcb0d0eee2ab5359a08a3fd7a8abd5ac5",
   "branch": "codex/490-gcp-a-hierarchy-cost-decision",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-490-gcp-hierarchy-cost-decision",
   "review_assignment": {
@@ -21,7 +21,22 @@
       ".csdlc/issues/490"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+    "scope": [
+      "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-a",
+      ".csdlc/prepared/issues/490/validate-gcp-a-decision.sh",
+      ".csdlc/prepared/issues/490/finalize-implementation.json",
+      ".csdlc/evidence/490",
+      ".csdlc/issues/490"
+    ],
+    "reviewed_revision": "git-blake3:e3e261bb3c92021a3e37c9904bbb0e7784b1839b:15ab83af58cd0b05598dcac1e12e381e701856fc3672246705e5671e87a1361c",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "570b8384c1398d24deedd5036ef5dae4cd82ec376377309b0781d9a41e97f853",
+      "values_digest": "2a2bb5f82987a3ce0003f5e604449f98eee669e5f03747f6743bc18d3ece4f66",
       "rendered_digest": "aef145a50f6d6f05fc02a6daf1af2a458d024ffdd180d24b19ebbba0692f034a",
       "ast_digest": "234cad093314663d98dd2fe9ebe2a5bd3c832e063f28a721b5be1fd1d042a550"
     },
     "stp": {
-      "values_digest": "7cbfbd556dcdaf9086b853df2ff4616f3bb40774a8e31f9afe0a8a7e8dff6b30",
+      "values_digest": "28ae64f91646527c77fe67f70b2dc2dc100659ddff637966ca997ba7056e241a",
       "rendered_digest": "1a03b83121353db223fffe198bff39f6818ff8c61bacc9bf0790d1f0ad320c8e",
       "ast_digest": "02a45f1e02e480b1fb038a3a2b6ff4a6d87e5b30467a0c7d151a71df64281e43"
     },
     "spp": {
-      "values_digest": "70eef02b8db294718b54b95db43a9d1b2a098e1c2fd59028ac12bebf024eb54e",
+      "values_digest": "22388d05672e95ca32633232d49baa3f2d82e25cc90384364682a2eab22dbb36",
       "rendered_digest": "3fe80017e2641b6205962592b2ad8f6762dfa34741c9a8298ad825837a789bad",
       "ast_digest": "00743935a78869f305d52141f81a310038d1392f5c6c62adcc2a6ae522124be8"
     },
     "vpp": {
-      "values_digest": "eb3317b324c8dd265ebb6cc6a7c09dfbc5ec57f95caf90d1662807d5a87cc375",
+      "values_digest": "804e25e630358d42cc737d1df5df720fa714230a8700db01a4dfe9d97f2ab9c8",
       "rendered_digest": "914785e16c248a32b274ffc21491448f09f74bdc19f222c09a0b29946c75fcf4",
       "ast_digest": "a4587186eb18c16fd0e640e9f06ecddb316c70b22375055252d11a6b53805044"
     },
     "srp": {
-      "values_digest": "9f7413ff0a8e742f2080add217ebfb1615fbeeb653ac7c12fb0a6eecba438c29",
-      "rendered_digest": "50ceb69bdb36a0432871f517be3ed6458930e6199245ed58e8e269141fa17c52",
-      "ast_digest": "95528bfee5a00b3595780fbc05e3b069838e1603143b35e6a41e4ce5e9fa1cf7"
+      "values_digest": "75dd59df3a772cbe81423e9fbc3abae1cfada07fddc3fccf5da0e681a3b89521",
+      "rendered_digest": "25fee19d69e6c90e257439d73822bd311fafd229482b0fb231cc3bf2f56a03e9",
+      "ast_digest": "b23278f11fa72427e91c0880be5e30f5d6ff28e08f0a576de0806e9d51407762"
     },
     "sor": {
-      "values_digest": "ae7d999ce6f9fdd1f62dda4dad75c8585201134cf1225b0d21e9241a0ae0989e",
+      "values_digest": "bb1a237810584e501589e78724ac175e6a9c5f58eb62c74354a7c7eb9f35a8b4",
       "rendered_digest": "71980ebf22cf31cfe563ae5058402b5b613a973b2833cae42875218075276e0e",
       "ast_digest": "5b0602caccbd4b94e416a8b55f434d5d845bb3c591a18279eef6d6e918b4763c"
     }
@@ -87,6 +102,13 @@
       "to": "implemented",
       "actor": "codex:issue-490-gcp-a-owner",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -145,6 +167,13 @@
       "actor": "codex:issue-490-gcp-a-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
