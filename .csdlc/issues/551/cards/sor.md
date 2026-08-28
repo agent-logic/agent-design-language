@@ -128,11 +128,11 @@ Implemented a validated Runtime-owned Polis identity and endpoint projection who
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

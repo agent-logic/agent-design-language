@@ -37,7 +37,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:9de9e110ee0ad1ace724cd1b140932ea7ba4bced:db065447bdb833e4c8ea5f07464ce2a933cb3354f4c2b5dcbd8ded73624414c1")
+Revision: Some("git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc")
 
 Reviewer: Some("subagent:/root/review_551_ci_fixture")
 

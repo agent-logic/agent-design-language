@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "reviewed",
-  "generation": 36,
-  "digest": "df9fcdaef00ffa5823d283bd2b0c47a07658ff234e0e926e87e58760afe23be2",
+  "phase": "published",
+  "generation": 39,
+  "digest": "e7b7baf39ace522f3bbc2f2eaa3ea13520b4c450456c96132076a224c9f9aaee",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
   "review_assignment": {
     "reviewer": "subagent:/root/review_551_ci_fixture",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:9de9e110ee0ad1ace724cd1b140932ea7ba4bced:db065447bdb833e4c8ea5f07464ce2a933cb3354f4c2b5dcbd8ded73624414c1",
+    "revision": "git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc",
     "scope": [
       ".csdlc/issues/551",
       ".csdlc/prepared/issues/551"
@@ -24,7 +24,7 @@
       ".csdlc/issues/551",
       ".csdlc/prepared/issues/551"
     ],
-    "reviewed_revision": "git-blake3:9de9e110ee0ad1ace724cd1b140932ea7ba4bced:db065447bdb833e4c8ea5f07464ce2a933cb3354f4c2b5dcbd8ded73624414c1",
+    "reviewed_revision": "git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc",
     "findings": [],
     "residual_risks": [
       "Hosted CI remains the final integration gate before merge.",
@@ -33,7 +33,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 551,
+    "pull_request": 573,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/573",
+    "base": "main",
+    "head": "codex/551-runtime-polis-config-owned-name-domain",
+    "revision": "git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -47,34 +58,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cdc8a730bf78b176ae12c3ccf0b1b4d0d2b1870be55377f5a78b0299ae9ba605",
+      "values_digest": "060e6da1d33e2646f6806eeaa8fb6cf31335b6bef31ffcb92749eac32b16730f",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "078531d01fe4d48a92f76f4c6d5e5727170e8967addecc7860eb0a4e9fa811f9",
+      "values_digest": "fb605968cb728d1fe821772ba843860a2d01a0ded81bd540321b4575f0172f4d",
       "rendered_digest": "f3edeacea97ff8c487d7faf65e61e843116a08bc1eddbc0e301d443e18748110",
       "ast_digest": "ffe8936d8753a323affd8530293c14b6c895422798ae71ceb1f061f3320e1add"
     },
     "spp": {
-      "values_digest": "a72f23901d0cccb9eb2c6d74eb1c7be8e349156c40314b8da827ca8429a19b21",
+      "values_digest": "fff53e9bac26a3ba862df636e61517dca75a4461a9dbc01452d3bbe1d43441dd",
       "rendered_digest": "76c8f20ba37a7f1b5c4bccdb77697c30543bd8d7e464db18d4b2c77fae794b4a",
       "ast_digest": "d79774bb4afaec91e566a8801eece1309dd8dbf68fc0e758027afcc34e465b49"
     },
     "vpp": {
-      "values_digest": "70e4441cedf6e90625309f68a04555613aa107a075501fb27a5e2b64afc970d3",
+      "values_digest": "f3df7b2e38b2f3c834d77d65861d802c3be3490b52d5c29535b8079b8f1db67c",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "da6acf85d2185e51ab40df73685c150b12c015cf67fc3c84bb2162d71f2e3771",
-      "rendered_digest": "79c6db1bff8b3783aa4caf75f494ca8be1368829632a8dadc88d9c9846bf7b30",
-      "ast_digest": "5b0e8bb3539d0f70cb7d24adf20a231f0fd245d78c82e106f5f30fea74fb68b0"
+      "values_digest": "28c5b371e8a511ba0f96048191620a497f3eea1c10a2cf30ed348db121d94abe",
+      "rendered_digest": "d7a1d41bc34288fe21aaf7e9cd8f89339d135d85f53d5c7db5a957cf854f3a79",
+      "ast_digest": "f48dad50a7cc2110f0832702612897b9ec5dbdff4c3148d64012a185a35ac108"
     },
     "sor": {
-      "values_digest": "0e82bd1e0aa03462b6c7676cbd239c24acf52a845c254b903a3cca429bedfdeb",
-      "rendered_digest": "463c36c08afbe9e79fcc6cc3616c14c7ffb899f5c2d6853370a4bdc21d05e349",
-      "ast_digest": "a9ca407074e802f328010d1e3b457484f56017e83bb99cac6455322e73e5ff8e"
+      "values_digest": "82b2dd8fecd6e2a8ad488075588fcd778743e7d856f6b83fee19e116fd24dd14",
+      "rendered_digest": "fba89c41db27b88cdcc19ff54ac30664418699c7a32e429a75376091e3406dbd",
+      "ast_digest": "ad750498fcb505cdc6eae416c67676b984773abcdb5004eb6ec799ac97c7f606"
     }
   },
   "transitions": [
@@ -168,6 +179,27 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the final reviewed metadata head and record its exact revision immediately before republication without an intervening commit."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -471,6 +503,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 37,
+      "actor": "codex:/root",
+      "reason": "Recover the final reviewed metadata head and record its exact revision immediately before republication without an intervening commit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 37,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 38,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 39,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

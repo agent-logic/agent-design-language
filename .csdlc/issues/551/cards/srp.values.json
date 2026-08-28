@@ -7,14 +7,14 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 36
+    "generation": 39
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/551\n.csdlc/prepared/issues/551",
-      "review_revision": "git-blake3:9de9e110ee0ad1ace724cd1b140932ea7ba4bced:db065447bdb833e4c8ea5f07464ce2a933cb3354f4c2b5dcbd8ded73624414c1",
+      "review_revision": "git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc",
       "reviewer": "subagent:/root/review_551_ci_fixture",
       "review_prompts": [
         "Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?",
