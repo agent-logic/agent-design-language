@@ -13,6 +13,8 @@ or provider stacks depend on durable account evidence.
 - Optional AWS Config recorder/delivery channel, enabled by default.
 - Optional IAM Access Analyzer, enabled by default.
 - An SNS topic plus EventBridge route for access-analyzer findings.
+- KMS and S3 bucket policies that explicitly authorize CloudTrail, AWS Config,
+  SNS, and EventBridge service use for the resources they consume.
 
 ## Required operator settings
 
@@ -20,6 +22,7 @@ Set these values in Terraform variables rather than editing resources:
 
 - `environment`
 - `name_prefix`
+- `aws_profile`
 - `finding_owner`
 - `finding_destination`
 - `log_retention_days`
@@ -27,9 +30,11 @@ Set these values in Terraform variables rather than editing resources:
 - `enable_config_recorder`
 - `enable_access_analyzer`
 
-The default owner is `agent-logic-cloud-ops`; the default destination is
-`security-ops-sns-topic`. Change them for production routing before apply if
-the operational destination differs.
+The Terraform provider reads `aws_profile`; its validation only permits
+`agent-logic-admin` for this root. The default owner is
+`agent-logic-cloud-ops`; the default destination is `security-ops-sns-topic`.
+Change the owner/destination for production routing before apply if the
+operational destination differs.
 
 ## Apply discipline
 
@@ -56,4 +61,3 @@ Live readback proof, when authorized:
 AWS_PROFILE=agent-logic-admin \
   bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=aws-readonly
 ```
-

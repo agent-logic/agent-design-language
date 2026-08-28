@@ -9,6 +9,8 @@ Logic business AWS account. It is intentionally small and account-scoped:
 - IAM Access Analyzer for account trust-edge visibility.
 - SNS/EventBridge routing for enabled security findings.
 - Explicit `finding_owner` and `finding_destination` tags/outputs.
+- Terraform provider execution pinned to the approved `agent-logic-admin`
+  business profile.
 
 The root is designed to consume the Terraform backend established by #486. This
 issue does not create public-edge, runtime workload, GCP, GPU, Unity, or
@@ -22,6 +24,11 @@ terraform -chdir=infra/aws/account-foundation init -backend=false
 terraform -chdir=infra/aws/account-foundation validate
 bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .
 ```
+
+The Terraform provider is configured with `profile = var.aws_profile`, and the
+variable validation permits only `agent-logic-admin` for this root. Override the
+profile only by changing reviewed Terraform input truth, not by relying on an
+ambient personal/default credential chain.
 
 ## Live readback
 

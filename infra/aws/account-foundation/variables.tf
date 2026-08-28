@@ -10,6 +10,17 @@ variable "name_prefix" {
   default     = "agent-logic"
 }
 
+variable "aws_profile" {
+  description = "Approved business AWS profile used by Terraform plan/apply for this account-foundation root."
+  type        = string
+  default     = "agent-logic-admin"
+
+  validation {
+    condition     = var.aws_profile == "agent-logic-admin"
+    error_message = "aws_profile must be agent-logic-admin for ADL AWS-D account-foundation operations."
+  }
+}
+
 variable "finding_owner" {
   description = "Stable owner for enabled audit/security findings."
   type        = string
@@ -50,4 +61,3 @@ variable "enable_access_analyzer" {
   type        = bool
   default     = true
 }
-

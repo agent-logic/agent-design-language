@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
     "slug": "aws-audit-security-baseline",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #487 AWS-D paths only: infra/aws/account-foundation audit/security surfaces, docs/operations/cloud/aws/audit-security, docs/milestones/v0.92.1/evidence/cloud/aws-d, and issue-owned validators.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

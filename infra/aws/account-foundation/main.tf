@@ -2,6 +2,79 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 data "aws_partition" "current" {}
 
+data "aws_iam_policy_document" "audit_kms" {
+  statement {
+    sid = "EnableAccountKmsAdministration"
+    principals {
+      type        = "AWS"
+      identifiers = ["arn:${data.aws_partition.current.partition}:iam::${data.aws_caller_identity.current.account_id}:root"]
+    }
+    actions   = ["kms:*"]
+    resources = ["*"]
+  }
+
+  statement {
+    sid = "AllowCloudTrailAuditEncryption"
+    principals {
+      type        = "Service"
+      identifiers = ["cloudtrail.amazonaws.com"]
+    }
+    actions = [
+      "kms:DescribeKey",
+      "kms:GenerateDataKey*"
+    ]
+    resources = ["*"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id]
+    }
+
+    condition {
+      test     = "StringLike"
+      variable = "kms:EncryptionContext:aws:cloudtrail:arn"
+      values   = ["arn:${data.aws_partition.current.partition}:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/*"]
+    }
+  }
+
+  statement {
+    sid = "AllowConfigAuditBucketEncryption"
+    principals {
+      type        = "Service"
+      identifiers = ["config.amazonaws.com"]
+    }
+    actions = [
+      "kms:DescribeKey",
+      "kms:GenerateDataKey*"
+    ]
+    resources = ["*"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "aws:SourceAccount"
+      values   = [data.aws_caller_identity.current.account_id]
+    }
+  }
+
+  statement {
+    sid = "AllowFindingRouteEncryption"
+    principals {
+      type = "Service"
+      identifiers = [
+        "events.amazonaws.com",
+        "sns.amazonaws.com"
+      ]
+    }
+    actions = [
+      "kms:Decrypt",
+      "kms:DescribeKey",
+      "kms:GenerateDataKey*"
+    ]
+    resources = ["*"]
+  }
+}
+
 locals {
   normalized_prefix   = lower(replace(var.name_prefix, "_", "-"))
   resource_prefix     = "${local.normalized_prefix}-${var.environment}"
@@ -23,6 +96,7 @@ resource "aws_kms_key" "audit" {
   description             = "KMS key for ADL account-foundation audit and security evidence"
   deletion_window_in_days = 30
   enable_key_rotation     = true
+  policy                  = data.aws_iam_policy_document.audit_kms.json
 
   tags = merge(local.common_tags, {
     Name = "${local.resource_prefix}-audit-kms"
@@ -103,6 +177,14 @@ resource "aws_s3_bucket_policy" "audit_logs" {
         Principal = { Service = "cloudtrail.amazonaws.com" }
         Action    = "s3:GetBucketAcl"
         Resource  = aws_s3_bucket.audit_logs.arn
+        Condition = {
+          StringEquals = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+          ArnLike = {
+            "aws:SourceArn" = "arn:${data.aws_partition.current.partition}:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/*"
+          }
+        }
       },
       {
         Sid       = "CloudTrailWrite"
@@ -112,7 +194,45 @@ resource "aws_s3_bucket_policy" "audit_logs" {
         Resource  = "${aws_s3_bucket.audit_logs.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/*"
         Condition = {
           StringEquals = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
             "s3:x-amz-acl" = "bucket-owner-full-control"
+          }
+          ArnLike = {
+            "aws:SourceArn" = "arn:${data.aws_partition.current.partition}:cloudtrail:*:${data.aws_caller_identity.current.account_id}:trail/*"
+          }
+        }
+      },
+      {
+        Sid       = "ConfigAclAndLocationCheck"
+        Effect    = "Allow"
+        Principal = { Service = "config.amazonaws.com" }
+        Action = [
+          "s3:GetBucketAcl",
+          "s3:GetBucketLocation"
+        ]
+        Resource = aws_s3_bucket.audit_logs.arn
+        Condition = {
+          StringEquals = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+          }
+          ArnLike = {
+            "aws:SourceArn" = "arn:${data.aws_partition.current.partition}:config:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
+          }
+        }
+      },
+      {
+        Sid       = "ConfigWrite"
+        Effect    = "Allow"
+        Principal = { Service = "config.amazonaws.com" }
+        Action    = "s3:PutObject"
+        Resource  = "${aws_s3_bucket.audit_logs.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/Config/*"
+        Condition = {
+          StringEquals = {
+            "aws:SourceAccount" = data.aws_caller_identity.current.account_id
+            "s3:x-amz-acl"      = "bucket-owner-full-control"
+          }
+          ArnLike = {
+            "aws:SourceArn" = "arn:${data.aws_partition.current.partition}:config:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*"
           }
         }
       }

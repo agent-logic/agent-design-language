@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #487 AWS-D paths only: infra/aws/account-foundation audit/security surfaces, docs/operations/cloud/aws/audit-security, docs/milestones/v0.92.1/evidence/cloud/aws-d, and issue-owned validators.
+
 
 ## Prompts
 

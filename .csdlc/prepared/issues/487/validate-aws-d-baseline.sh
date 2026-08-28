@@ -26,7 +26,15 @@ required_patterns=(
   'resource "aws_config_configuration_recorder"'
   'resource "aws_accessanalyzer_analyzer"'
   'resource "aws_kms_key"'
+  'data "aws_iam_policy_document" "audit_kms"'
+  'cloudtrail.amazonaws.com'
+  'config.amazonaws.com'
+  'aws:SourceAccount'
+  'aws:SourceArn'
+  'kms:EncryptionContext:aws:cloudtrail:arn'
+  'events.amazonaws.com'
   'resource "aws_sns_topic"'
+  'resource "aws_cloudwatch_event_target"'
   'resource "aws_s3_bucket_lifecycle_configuration"'
   'finding_owner'
   'finding_destination'
@@ -38,6 +46,38 @@ for pattern in "${required_patterns[@]}"; do
     exit 1
   fi
 done
+
+readback_script="docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh"
+readback_patterns=(
+  'trail_name='
+  'config_recorder_name='
+  'config_channel_name='
+  'access_analyzer_name='
+  'findings_topic_name='
+  'event_rule_name='
+  'get-bucket-encryption'
+  'get-bucket-lifecycle-configuration'
+  'list-tags-for-resource'
+  'list-targets-by-rule'
+  'redaction=names_and_arns_not_printed'
+)
+
+for pattern in "${readback_patterns[@]}"; do
+  if ! grep -Eq "$pattern" "$readback_script"; then
+    echo "missing exact readback contract: $pattern" >&2
+    exit 1
+  fi
+done
+
+if ! grep -Eq 'profile[[:space:]]*=[[:space:]]*var\.aws_profile' infra/aws/account-foundation/versions.tf; then
+  echo "missing Terraform provider profile guard: profile = var.aws_profile" >&2
+  exit 1
+fi
+
+if ! grep -Eq 'var\.aws_profile == "agent-logic-admin"' infra/aws/account-foundation/variables.tf; then
+  echo "missing Terraform aws_profile validation for agent-logic-admin" >&2
+  exit 1
+fi
 
 if grep -RInE '(AKIA[0-9A-Z]{16}|aws_secret_access_key|private_key|client_secret|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY)' \
   infra/aws/account-foundation \
