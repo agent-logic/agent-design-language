@@ -258,25 +258,24 @@ pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassifica
                 repair: RecoveryRepair::RegenerateProjections,
             }
         }
-        RecoveryObservation::StateCommitted { state, intent }
+        RecoveryObservation::StateCommitted { state, intent } => {
+            if let Err(reason) = validate_committed_recovery_input(&state, &intent) {
+                return RecoveryClassification::CorruptRecoveryInput { reason };
+            }
             if matches!(
                 intent.command,
                 LifecycleCommand::Publish
                     | LifecycleCommand::RecordMerge
                     | LifecycleCommand::Finish
-            ) =>
-        {
-            if let Err(reason) = validate_committed_recovery_input(&state, &intent) {
-                return RecoveryClassification::CorruptRecoveryInput { reason };
+            ) {
+                RecoveryClassification::RepairRequired {
+                    state,
+                    intent,
+                    repair: RecoveryRepair::ExactReadbackBeforeRemoteResume,
+                }
+            } else {
+                RecoveryClassification::NewState(state)
             }
-            RecoveryClassification::RepairRequired {
-                state,
-                intent,
-                repair: RecoveryRepair::ExactReadbackBeforeRemoteResume,
-            }
-        }
-        RecoveryObservation::StateCommitted { state, .. } => {
-            RecoveryClassification::NewState(state)
         }
     }
 }
@@ -297,10 +296,14 @@ fn validate_committed_recovery_input(
     let Some(event) = state.audit.last() else {
         return Err(RecoveryRejectReason::IntentDoesNotMatchCommittedState);
     };
+    let prior_audit = &state.audit[..state.audit.len() - 1];
+    let prior_digest = digest_for(intent.expected_generation, event.from, prior_audit, false);
     if state.generation != intent.expected_generation + 1
         || event.generation != state.generation
         || event.command != intent.command
+        || event.to != state.state
         || event.provenance != intent.provenance
+        || intent.expected_digest != prior_digest
     {
         return Err(RecoveryRejectReason::IntentDoesNotMatchCommittedState);
     }

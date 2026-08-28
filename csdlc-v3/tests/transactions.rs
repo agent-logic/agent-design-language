@@ -244,11 +244,45 @@ fn recovery_rejects_committed_state_intent_mismatches() {
     };
     assert_eq!(
         classify_recovery(RecoveryObservation::StateCommitted {
-            state: committed,
+            state: committed.clone(),
             intent: mismatched_intent
         }),
         RecoveryClassification::CorruptRecoveryInput {
             reason: RecoveryRejectReason::IntentDoesNotMatchCommittedState
+        }
+    );
+
+    let intent = TransactionIntent {
+        expected_generation: 0,
+        expected_digest: "v3:wrong-prior-digest".to_owned(),
+        command: LifecycleCommand::Bind,
+        provenance: "matched provenance".to_owned(),
+    };
+    assert_eq!(
+        classify_recovery(RecoveryObservation::StateCommitted {
+            state: committed.clone(),
+            intent
+        }),
+        RecoveryClassification::CorruptRecoveryInput {
+            reason: RecoveryRejectReason::IntentDoesNotMatchCommittedState
+        }
+    );
+
+    let mut corrupt_state = committed;
+    corrupt_state.digest = "v3:wrong-state-digest".to_owned();
+    let valid_intent = TransactionIntent {
+        expected_generation: 0,
+        expected_digest: StateRecord::new(LifecycleState::Ready).digest,
+        command: LifecycleCommand::Bind,
+        provenance: "matched provenance".to_owned(),
+    };
+    assert_eq!(
+        classify_recovery(RecoveryObservation::StateCommitted {
+            state: corrupt_state,
+            intent: valid_intent
+        }),
+        RecoveryClassification::CorruptRecoveryInput {
+            reason: RecoveryRejectReason::InvalidStateDigest
         }
     );
 }
