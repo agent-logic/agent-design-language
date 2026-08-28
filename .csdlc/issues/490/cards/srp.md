@@ -8,16 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md
-docs/milestones/v0.92.1/evidence/cloud/gcp-a
-.csdlc/prepared/issues/490/validate-gcp-a-decision.sh
-.csdlc/prepared/issues/490/finalize-implementation.json
-.csdlc/evidence/490
-.csdlc/issues/490
+
 
 ## Prompts
 

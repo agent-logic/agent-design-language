@@ -59,7 +59,7 @@ Accepted the GCP-A hierarchy and cost decision from refreshed read-only GCP evid
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
