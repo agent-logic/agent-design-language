@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2084376119f2b0feaa352c733f56e2015901eaa5b371b1b3f7119df20402ccf0",
-  "phase": "bound",
-  "generation": 8,
-  "digest": "8cb5a6b585961b648045db9ee29337afa6930faa57a4f9926c7512a7fb2bd490",
+  "phase": "implemented",
+  "generation": 9,
+  "digest": "8a253f0c4729a3d04844ce6ffae2a5e3989a0c9bc5a9b9886a9340b7bf01bcc8",
   "branch": "codex/487-aws-audit-security-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-487-aws-audit-security-baseline",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7437330a842edb66c38f48034222ab244b4a6f7c7d9c74ace26189dde78bd22c",
+      "values_digest": "357f8dd072fa49352d58e4441d9661279dfb959ac9a293060cfca8af6fb7945d",
       "rendered_digest": "4f86b2babb7b7a4000647d767bc71b6ff917bb3868610d2ae859947683aa3478",
       "ast_digest": "b5687b725030d021e3fe2f0adefa298e67ef7e7934e4b1138f012051a684ccd0"
     },
     "stp": {
-      "values_digest": "905e47e6c375ddcad9b283c5a21f54a68491efe538023cc7e0c8cb267d22d7ff",
+      "values_digest": "643dd8ebe6c36bab5355792000c0e5b15af01f606ce432d378f6bb130f1c8d21",
       "rendered_digest": "e0172a0a5e4f5098e7c9faa4d3d46c7615e8cd9fd6ceb16cca1d4f55d6487251",
       "ast_digest": "af6057e2df5071ef8b297cf63e7176608c3d9c61d04c0fe4fd785e75e74d59ef"
     },
     "spp": {
-      "values_digest": "50039b908aa236070629030d78b07f2b4995b929fb06f086a77a5f7e0b818052",
+      "values_digest": "6cba118a622891a14b008b29bb7a945cad8e30fd335e94995d9f926aeef84122",
       "rendered_digest": "49d5298b3280a955a1ce7c3e770a6bebd8eaafe601361bfb315f9689184a5cf7",
       "ast_digest": "a6bad5dbbdc3a6e527186967526c32da890633c9a6962be15f9464fb809b22d5"
     },
     "vpp": {
-      "values_digest": "dbe327fe79d89d4d3be3c714ce6132eefbfa249305482987813f7ba98c549fd0",
+      "values_digest": "fab27aa07a883354ac5ebb1952f1e3204960a5977e72918c04553722e8702723",
       "rendered_digest": "9c8e992176a84beb4a6cddab0f11203867fa2d781cdc152fa55b5720e58d8b2b",
       "ast_digest": "c2b804273e7ff5caa02125c8c5bcf56e9f250d008bc9d66ce1a1bd51c80f36f8"
     },
     "srp": {
-      "values_digest": "45ced1c5b714baebba007f2c422aeec7cd5882d3e4368541189fdb96bcec5d3e",
+      "values_digest": "379b70f79f307977d95d808d5db992113a658380ed708e8f86a8fb063d28063d",
       "rendered_digest": "4d8aedb12c8cf10558382379659e7b33ea43a66b6cbbafa488037ea9977288b5",
       "ast_digest": "cb90734df23a33ec9a812ac2b6f651394cd339629368e78645d6d673d9442d4d"
     },
     "sor": {
-      "values_digest": "c9ba030582de6e39268e098cb7be9c7f9d1b36c54c6adee86f95b90ec6ecfe44",
+      "values_digest": "6c5aafcae498d68d47deea75453f30e3a353583edcf752b9fe77da62439794e2",
       "rendered_digest": "d6582c2d6b2ee93e6a5959a8eaaf1eb46ffed37aee266a217c71f41ed5a7950d",
       "ast_digest": "d1c41ce424743c2efe7ead8462449a65469a5b557678094a1477419ef4b99f64"
     }
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #487 to implemented after local account-foundation proof and SOR execution record"
     }
   ],
   "audit": [
@@ -141,6 +148,13 @@
       "actor": "codex:/root",
       "reason": "Record #487 local static implementation validation before exact-head review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform -chdir=infra/aws/account-foundation fmt -check\",\"terraform -chdir=infra/aws/account-foundation validate\",\"bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .\",\"AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate issue --issue 487\",\"git diff --check\"],\"purpose\":\"Prove the #487 account-foundation Terraform root, issue-owned validator, profile-gated static readback, lifecycle card shape, and diff hygiene without live AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local output: Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; csdlc-validate issue pass; git diff --check pass.\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Advance #487 to implemented after local account-foundation proof and SOR execution record",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
