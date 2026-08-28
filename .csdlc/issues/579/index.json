@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8fe41a4be3b42f614d852b4f001ffb1eccd6367f489c5928292297866d6f976f",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "68c68609edb9492454351afd6ae20ba4727d3ac0da8ba7dced7240e7e516070b",
+  "generation": 14,
+  "digest": "5559ad5dd8c230dfabea26066eb037fec3d5414506bc6f59af92ec2b1d7780ee",
   "branch": "codex/579-aws-f-corrective-runtime-platform-edge-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-579-aws-f-corrective-runtime-platform-edge-proof-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "95a68bb0979d2127da70bab373e5fee483ee1979265f321190bd6ffd1a458067",
+      "values_digest": "7fb0b64dcc44c8e163638d6af03c1c85c7b6bf1a1b2cce0659a965222a81be64",
       "rendered_digest": "34255383575c3c3aea078b5ad1f33029f480c9c070bf17102d1ff5b52206557f",
       "ast_digest": "d79aba3cc3efacc1f54e46f636ef0d14448a7ab00e65460abe4a0e9561e31c2c"
     },
     "stp": {
-      "values_digest": "bb93be58e0921aa293f463899ccb46f5dd7a247b4b2c23379ef25c226c9f51ac",
+      "values_digest": "559eaf2cd41bdf3443b5c2e4452a242dc8e2f76f62c8ca071fc15430d392b8d5",
       "rendered_digest": "75a132bf25c11986913abfb12619819b2535b6e3eb8c12c10e4fdcdf883d54eb",
       "ast_digest": "5f1a9cde41042b937e046672f548508ffc1f06d64cfbdb24e849d19bdfd2e038"
     },
     "spp": {
-      "values_digest": "2b2e60319706357f73cefa1d486bef24a8a378856b9f3352d59acd8e8ad2c619",
+      "values_digest": "0165817a3bf812fbaaa75dcd76cdb352a5ad1e465a1c6fc5d8ef2388db85968f",
       "rendered_digest": "d13937b24c4616f64d06be246d23d06ec8a5b764975bfea7578c58585f458a00",
       "ast_digest": "78428b50426eac48c5cb6136de5e4ec205e626596139d1ca785a03471c0b370c"
     },
     "vpp": {
-      "values_digest": "420eb66ecec1d01e9056b98bb6dba87d4f81fa41aebc5cb6f3642865e788965a",
-      "rendered_digest": "8303dec45f64cf6e0d7e75731dabda6d612484bd6d8f986836cef8bfcd477661",
-      "ast_digest": "9210fc465385d6cf6c1cd3b6310bcef35fbf46870941484818131ff917810b57"
+      "values_digest": "3e8fbf640846a6b7a9ada063bead4192259013687225fe2111ad708b1b946840",
+      "rendered_digest": "43fb1ea1bff3e28dcb6bae9f9488ab0a31360bd9144ab1fea9a669906d0b2722",
+      "ast_digest": "f99c7f95258d2e8800f7b35ca6c2a21cec687002417dfff2287ad67999f044bd"
     },
     "srp": {
-      "values_digest": "5846c5e7d6f016a9c7392438e345d9dc5e519377f3a4571b5bffbcce872f7575",
-      "rendered_digest": "405c8aff1cfedb904ad41101e055d5ff8d9b6e98ad6780886ccbaf9e3ef165e2",
-      "ast_digest": "11ba3ed85fa29b94c175f3f957025d13962a75fdd9c757c2f8ff8a2392f4402f"
+      "values_digest": "296902f686f0628c70bec3cddaae786e8f05f81ac23cd064ca35d468f71d1c38",
+      "rendered_digest": "47923253ba21229c9e358a99c51f487ef29ba0142720f6414f6a1c61b7f528f2",
+      "ast_digest": "413abf1da275fc5f55970c2ddc8dd929db8a01b25c9bf10dee9eb5a31795efc8"
     },
     "sor": {
-      "values_digest": "037a54398634c679e0f4dd603dfb689a4893aac1f17563646846c45094365cf5",
-      "rendered_digest": "1dbda21317a1361981a90a61f716f4ae24291256ce91604d24be1b4ccec66142",
-      "ast_digest": "fb4f15ddb6dc94aae6f89b6cbf1a48782544d3831c21a7a1b625605ed9be6179"
+      "values_digest": "0787ab5c2ba3f1655e2c506ebb73a670aece2f48bb5fa74473336b0c54a9e5a7",
+      "rendered_digest": "d04922f2569c44c5610fc89140a76b0a3901195e40243de4d406e5468da28548",
+      "ast_digest": "1fbac355319d614226999f6af7e591dfeadef06dceac26fbe9e2a124c8f2e2f7"
     }
   },
   "transitions": [
@@ -162,6 +162,41 @@
       "actor": "codex:/root",
       "reason": "Advance #579 to implemented after bounded corrective implementation and retained local validation proof",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #579 exact-review assignment after fresh-session:0e51c4a2-3482-4a0f-9b0e-80cfbc03bf93 returned FAIL on review-gate lane truth and state-isolation enforcement; prepare bounded remediation and a new review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Repair #579 VPP after exact review: keep executable proof lanes only and remove stale pre-review SRP text probe from required validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"579-terraform-static\",\"proof_role\":\"Focused Terraform formatting/static checks for touched AWS-F Terraform roots/modules without backend or cloud mutation, including no AWS-F Route53/ACM executable ownership, no committed public Runtime ingress, and account/workspace/state backend guardrails.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=terraform-static\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-security-validator-regression\",\"proof_role\":\"Proves forbidden world-open Runtime ingress is rejected and egress-only blocks do not mask ingress.\",\"acceptance_ids\":[\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=security-validator-regression\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-proof-truth\",\"proof_role\":\"Checks AWS-F proof/runbook wording for public-edge ownership, local-vs-live proof truth, state isolation, cleanup, rollback, observability, artifact wiring, and Spot resilience boundaries.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1200,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=proof-truth\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-diff-hygiene\",\"proof_role\":\"Rejects conflict artifacts and whitespace errors across the corrective diff.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"579-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record #579 remediation for exact-review findings from fresh-session:0e51c4a2-3482-4a0f-9b0e-80cfbc03bf93",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Remediated #579 exact-review findings by removing the stale SRP review-gate from executable validation and adding concrete account, workspace, backend-key, locking, and encryption guardrails to the AWS-F runtime roots.\",\"changes\":[\"Removed the stale review-gate lane from VPP and from the all-lane validator aggregation so pre-review validation no longer requires post-review SRP truth.\",\"Added AWS caller identity checks and explicit Terraform workspace checks to the ALB-origin and private-node roots.\",\"Added committed backend config examples with distinct S3 state keys, DynamoDB locking, and encryption for each AWS-F root.\",\"Updated runtime README, runbook, and proof packet to document account/workspace/state-key evidence required for live proof.\"],\"artifacts\":[\"infra/aws/runtime/alb-origin/main.tf\",\"infra/aws/runtime/alb-origin/variables.tf\",\"infra/aws/runtime/alb-origin/terraform.tfvars.example\",\"infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example\",\"infra/aws/runtime/private-node/main.tf\",\"infra/aws/runtime/private-node/variables.tf\",\"infra/aws/runtime/private-node/terraform.tfvars.example\",\"infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example\",\"infra/aws/runtime/README.md\",\"docs/operations/cloud/aws/runtime-platform/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\".csdlc/issues/579/cards/vpp.md\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record #579 all-lane corrective validation after review remediation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=all\"],\"purpose\":\"Prove all #579 corrective lanes after remediation: Terraform/public-edge boundary, security-regression guard, proof truth, state-isolation guardrails, and local diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: aws-f corrective validation passed: all\"}}"
     }
   ]
 }

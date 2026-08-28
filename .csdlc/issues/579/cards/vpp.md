@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/579/diagram.mmd
 [
   {
     "lane": "579-terraform-static",
-    "proof_role": "Focused Terraform formatting/static checks for touched AWS-F Terraform roots/modules without backend or cloud mutation, including no AWS-F Route53/ACM executable ownership.",
+    "proof_role": "Focused Terraform formatting/static checks for touched AWS-F Terraform roots/modules without backend or cloud mutation, including no AWS-F Route53/ACM executable ownership, no committed public Runtime ingress, and account/workspace/state backend guardrails.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -83,24 +83,6 @@ Diagram: .csdlc/prepared/issues/579/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "579-review-gate-planning",
-    "proof_role": "Checks the #579 SRP requires fresh exact-head review before publication without claiming review execution as validation.",
-    "acceptance_ids": [
-      "AC-6"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 60,
-    "budget_tokens": 500,
-    "argv": [
-      "bash",
-      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
-      "--lane=review-gate-planning"
-    ],
-    "parallel_group": "579-local",
-    "defer_reason": null
-  },
-  {
     "lane": "579-diff-hygiene",
     "proof_role": "Rejects conflict artifacts and whitespace errors across the corrective diff.",
     "acceptance_ids": [
@@ -135,7 +117,6 @@ Tokens: 25000
 - `bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=terraform-static`
 - `bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=security-validator-regression`
 - `bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=proof-truth`
-- `bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=review-gate-planning`
 - `git diff --check`
 
 ## Failure Semantics

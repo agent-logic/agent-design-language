@@ -1,3 +1,19 @@
+data "aws_caller_identity" "current" {}
+
+check "aws_account_identity" {
+  assert {
+    condition     = data.aws_caller_identity.current.account_id == var.expected_aws_account_id
+    error_message = "AWS-F alb-origin must run in the expected Agent Logic AWS account."
+  }
+}
+
+check "terraform_workspace" {
+  assert {
+    condition     = terraform.workspace == var.expected_terraform_workspace
+    error_message = "AWS-F alb-origin must run in the expected Terraform workspace."
+  }
+}
+
 module "runtime_alb" {
   source = "../../modules/csm-runtime-alb"
 

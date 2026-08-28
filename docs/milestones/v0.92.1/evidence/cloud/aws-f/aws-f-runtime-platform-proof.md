@@ -36,8 +36,9 @@ git diff --check
 
 The corrective validator checks Terraform-owned paths, rejects AWS-F Route53 or
 ACM resource ownership, rejects direct public Runtime ingress in committed
-ingress rules/examples, requires S3 backend declarations on both Runtime roots,
-and rejects the old public-node shortcut by requiring
+ingress rules/examples, requires S3 backend declarations plus committed backend
+config examples with distinct state keys, locking, and encryption, checks
+Terraform account/workspace guardrails, and rejects the old public-node shortcut by requiring
 `associate_public_ip_address = false` inside the issue-owned private Runtime
 node module.
 

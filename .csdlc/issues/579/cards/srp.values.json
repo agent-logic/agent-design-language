@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS-F corrective] Repair runtime platform edge exposure and proof gaps",
     "slug": "aws-f-corrective-runtime-platform-edge-proof",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #579 AWS-F corrective paths only: infra/aws/runtime, docs/operations/cloud/aws/runtime-platform, docs/milestones/v0.92.1/evidence/cloud/aws-f, .csdlc/prepared/issues/579, .csdlc/evidence/579, and narrow issue-owned validators/readbacks.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

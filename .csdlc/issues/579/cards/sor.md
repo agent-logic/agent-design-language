@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired AWS-F runtime platform boundary after late review: removed executable ACM/Route53 public-edge ownership from AWS-F ALB surfaces, kept Runtime ingress default-closed, made remote-state isolation machine-visible, and tightened corrective validation/proof truth without running live AWS mutation.
+Remediated #579 exact-review findings by removing the stale SRP review-gate from executable validation and adding concrete account, workspace, backend-key, locking, and encryption guardrails to the AWS-F runtime roots.
 
 ## Artifacts
 
@@ -27,6 +27,19 @@ Repaired AWS-F runtime platform boundary after late review: removed executable A
 - docs/operations/cloud/aws/runtime-platform/README.md
 - docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md
 - .csdlc/prepared/issues/579/validate-aws-f-corrective.sh
+- infra/aws/runtime/alb-origin/main.tf
+- infra/aws/runtime/alb-origin/variables.tf
+- infra/aws/runtime/alb-origin/terraform.tfvars.example
+- infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example
+- infra/aws/runtime/private-node/main.tf
+- infra/aws/runtime/private-node/variables.tf
+- infra/aws/runtime/private-node/terraform.tfvars.example
+- infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example
+- infra/aws/runtime/README.md
+- docs/operations/cloud/aws/runtime-platform/README.md
+- docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md
+- .csdlc/prepared/issues/579/validate-aws-f-corrective.sh
+- .csdlc/issues/579/cards/vpp.md
 
 ## Execution
 
@@ -35,6 +48,10 @@ Repaired AWS-F runtime platform boundary after late review: removed executable A
 - Added S3 backend declarations to AWS-F runtime root stacks so state isolation is not only advisory.
 - Updated AWS-F runtime docs and retained proof packet to record static/non-mutating proof, #122 public-edge ownership, and the still-deferred live disposable deployment/zero-residue proof gate.
 - Strengthened the #579 corrective validator to reject AWS-F ACM/Route53 resources and world-open committed Runtime ingress without relying on stale #489 validator paths.
+- Removed the stale review-gate lane from VPP and from the all-lane validator aggregation so pre-review validation no longer requires post-review SRP truth.
+- Added AWS caller identity checks and explicit Terraform workspace checks to the ALB-origin and private-node roots.
+- Added committed backend config examples with distinct S3 state keys, DynamoDB locking, and encryption for each AWS-F root.
+- Updated runtime README, runbook, and proof packet to document account/workspace/state-key evidence required for live proof.
 
 ## Validation
 
@@ -78,12 +95,22 @@ Repaired AWS-F runtime platform boundary after late review: removed executable A
     "purpose": "Reject whitespace and conflict-marker errors in the #579 corrective diff.",
     "outcome": "passed",
     "evidence_ref": "local command exited 0 with no output"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
+      "--lane=all"
+    ],
+    "purpose": "Prove all #579 corrective lanes after remediation: Terraform/public-edge boundary, security-regression guard, proof truth, state-isolation guardrails, and local diff hygiene.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout: aws-f corrective validation passed: all"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #579 AWS-F corrective paths only: infra/aws/runtime, docs/operations/cloud/aws/runtime-platform, docs/milestones/v0.92.1/evidence/cloud/aws-f, .csdlc/prepared/issues/579, .csdlc/evidence/579, and narrow issue-owned validators/readbacks.
+
 
 ## Prompts
 

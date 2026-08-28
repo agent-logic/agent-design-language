@@ -65,10 +65,17 @@ must not leave `0.0.0.0/0` Runtime ingress in the committed examples.
 
 Both root stacks declare an S3 backend so normal use must provide backend
 configuration with locking and account-owned state instead of silently falling
-back to local state. Use separate state keys for the two root stacks:
+back to local state. Each root also checks the active AWS account and Terraform
+workspace before planning/applying. Use separate backend config files,
+workspaces, and state keys for the two root stacks:
 
 - `aws-f-runtime-alb-origin.tfstate`
 - `aws-f-runtime-private-node.tfstate`
+
+The committed backend examples are:
+
+- `infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example`
+- `infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example`
 
 Do not store public-edge state in this AWS-F namespace. The public edge remains
 under #122.

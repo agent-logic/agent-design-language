@@ -29,6 +29,8 @@ ACM issuance, CloudFront, WAF, WSS, and allowed-origin exposure are #122-owned;
 AWS-F only consumes an existing regional ACM certificate by ARN or lookup.
 
 ```hcl
+expected_aws_account_id      = "123456789012"
+expected_terraform_workspace = "aws-f-runtime-alb-origin-dev"
 target_instance_id    = null
 allowed_ingress_cidrs = []
 ```
@@ -50,6 +52,8 @@ From `infra/aws/runtime/private-node`, set the ALB security group from the ALB
 output and use a private subnet:
 
 ```hcl
+expected_aws_account_id      = "123456789012"
+expected_terraform_workspace = "aws-f-runtime-private-node-dev"
 private_subnet_id      = "subnet-private-from-vpc"
 alb_security_group_id  = "sg-from-alb-output"
 ```
@@ -88,6 +92,7 @@ The proof must record:
 - exact Terraform root and module revisions;
 - exact saved-plan filenames or digests;
 - exact backend config file names or state keys, excluding credentials;
+- exact Terraform workspace names and verified AWS account id;
 - ALB target health result;
 - request URL and HTTP status;
 - instance identity marker or equivalent bounded receipt;

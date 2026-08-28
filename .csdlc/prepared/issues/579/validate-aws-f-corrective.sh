@@ -90,7 +90,23 @@ reject_world_open_ingress() {
 require_backend_isolation() {
   require_text "infra/aws/runtime/alb-origin/versions.tf" 'backend "s3" {}'
   require_text "infra/aws/runtime/private-node/versions.tf" 'backend "s3" {}'
-  require_text "infra/aws/runtime/README.md" "separate state keys"
+  require_path "infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example"
+  require_path "infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example"
+  require_text "infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example" 'key            = "v0.92.1/aws-f/runtime/alb-origin/dev.tfstate"'
+  require_text "infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example" 'key            = "v0.92.1/aws-f/runtime/private-node/dev.tfstate"'
+  require_text "infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example" "dynamodb_table"
+  require_text "infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example" "dynamodb_table"
+  require_text "infra/aws/runtime/alb-origin/aws-f-runtime-alb-origin.backend.hcl.example" "encrypt        = true"
+  require_text "infra/aws/runtime/private-node/aws-f-runtime-private-node.backend.hcl.example" "encrypt        = true"
+  require_text "infra/aws/runtime/alb-origin/main.tf" 'data "aws_caller_identity" "current"'
+  require_text "infra/aws/runtime/private-node/main.tf" 'data "aws_caller_identity" "current"'
+  require_text "infra/aws/runtime/alb-origin/main.tf" "terraform.workspace == var.expected_terraform_workspace"
+  require_text "infra/aws/runtime/private-node/main.tf" "terraform.workspace == var.expected_terraform_workspace"
+  require_text "infra/aws/runtime/alb-origin/main.tf" "data.aws_caller_identity.current.account_id == var.expected_aws_account_id"
+  require_text "infra/aws/runtime/private-node/main.tf" "data.aws_caller_identity.current.account_id == var.expected_aws_account_id"
+  require_text "infra/aws/runtime/alb-origin/terraform.tfvars.example" 'expected_terraform_workspace = "aws-f-runtime-alb-origin-dev"'
+  require_text "infra/aws/runtime/private-node/terraform.tfvars.example" 'expected_terraform_workspace = "aws-f-runtime-private-node-dev"'
+  require_text "infra/aws/runtime/README.md" "state keys"
   require_text "docs/operations/cloud/aws/runtime-platform/README.md" "backend config file names or state keys"
 }
 
@@ -144,7 +160,9 @@ validate_proof_truth() {
 
 validate_review_gate() {
   validate_design_packet
-  require_text ".csdlc/issues/579/cards/srp.md" "exact-head"
+  require_text ".csdlc/issues/579/cards/srp.md" "Review method"
+  require_text ".csdlc/issues/579/cards/srp.md" "fresh"
+  require_text ".csdlc/issues/579/cards/srp.md" "before publication"
   require_text ".csdlc/issues/579/cards/srp.md" "AWS-F"
 }
 
@@ -153,7 +171,6 @@ case "$LANE" in
     validate_terraform_static
     validate_security_validator_regression
     validate_proof_truth
-    validate_review_gate
     ;;
   terraform-static)
     validate_terraform_static
