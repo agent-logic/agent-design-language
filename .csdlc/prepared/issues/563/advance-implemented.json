@@ -1,0 +1,1 @@
+{"issue":563,"card":"sor","expected_generation":11,"expected_digest":"314e4880c4e74cb95cb4199fb37621206f5a009a29d5b571452b7907cd770026","actor":"codex:563-execution","reason":"Bounded implementation and focused validation are complete; advance to implemented for exact-head review.","operation":{"operation":"advance_phase","phase":"implemented"}}
