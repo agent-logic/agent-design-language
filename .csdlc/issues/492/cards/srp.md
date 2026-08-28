@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #492 GCP-C paths only: infra/gcp/organization, docs/operations/cloud/gcp/organization-billing, docs/milestones/v0.92.1/evidence/cloud/gcp-c, .csdlc/prepared/issues/492, .csdlc/evidence/492, and narrow issue-owned validators/readbacks.
+
 
 ## Prompts
 

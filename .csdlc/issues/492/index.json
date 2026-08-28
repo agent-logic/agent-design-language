@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "83d63e54f3cdc384cac8900f173f9dd32c7dfa99dfe03ea52cfb8182f80585d6",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "9a8b7e0eb9ad047023fc5e60adbefc01f21e704806fd8960f875174d9c57aa23",
+  "generation": 8,
+  "digest": "ad4b1994a26169992ed5202d9cc13e15fbdf8d81f180fe7ec470d491c15a9fde",
   "branch": "codex/492-gcp-organization-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-492-gcp-organization-billing-baseline",
   "review_assignment": null,
@@ -19,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/492/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:77f70d2a-63d9-4d9b-a8cc-e2e42a5b45cd",
+      "reviewer": "fresh-session:73e19b0d-51cd-4f4d-9653-d611cb19ba22",
       "revision": "0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e47aadfd4176959bcf3a64d4fc9a1d0b0575413ffe3f407c35ef91d59c421038",
+      "values_digest": "fbfdea3db24707edd3aff9775d487146db1f485cd555cc43f5ea12475336504c",
       "rendered_digest": "5d67f2df6a2d06c754e61dc02054c704cee61d4b0bb86ed585c1138deac2840e",
       "ast_digest": "9b154555fd9fb4cd979c18d7ae464026d7b849411eb54f2e1cfcaeeebf1c0459"
     },
     "stp": {
-      "values_digest": "4035ad4682d4e84903e4cb0c44ad45e929e3b948002ee9fcd93011483186f9ea",
+      "values_digest": "70fc85296369df589d5bf2c42e5c4fe009fbaceac7d8bc828272ac57b7f58a86",
       "rendered_digest": "c5059d565fdd1c1ef59cfcd64bb123045bcda95f57a7826f6aa92d3ea07ead71",
       "ast_digest": "42ace8e180dccfa768d89751950c2e11a45214925986bcb2605f532c165604e5"
     },
     "spp": {
-      "values_digest": "75a60ec7e1984cb2fcaa158e9d6e79b787b6ca764ebb60ea454bac9fb798094d",
-      "rendered_digest": "574e4c0c35f606ac7d1538fa8756fa706a8e8a24b5bc737d13f1713535783db4",
-      "ast_digest": "8b5549ace900c962ba0f52b6c0d73ce217861590151a3b8dc1e9826e5aa2b267"
+      "values_digest": "c3384a312f58e5c5e7ee2e529b04af9a84d1f2cbca233975c1ad487f13bceb6f",
+      "rendered_digest": "d70cb965b50c327a1bff8198a2d5cb6339e13e330acf95e4dbb4b0256ba2f16a",
+      "ast_digest": "65d3f76b5386f22e3bdc33c9dee103e48d5cd61f4c7a2fac461c75015d12d054"
     },
     "vpp": {
-      "values_digest": "07cb86ccfb5f78847dc679f8b0fa7a5dab1bb8ac83a2e1c569377a3f414d888a",
+      "values_digest": "65d807f81b1623623e95c26686c29ae6d34c16637a6db2522ef250fd2bc25b36",
       "rendered_digest": "07a3d9c8a35f716f226d6c8215e093c5f1262e154dc392542882e1f8e3c145a3",
       "ast_digest": "2a0c8c6d229d8485b064b2031aa1215458143d2659193a0ce4b44ef35d17feb0"
     },
     "srp": {
-      "values_digest": "e6b3be57d6ab0c1e4ac232eb8045b1cd748cf186579dd0afe873b7ba0a699469",
-      "rendered_digest": "482c2c4961716349e53743560cca9a07db7f0065f4a3ddce245cf71f306bd19d",
-      "ast_digest": "c8e7eabe88fae724c1df1aefa2b455b57435a35a484b62eb5b00e89fbd0ea774"
+      "values_digest": "6a04c685e35ec7de657a34dd0281c1ef1b4c929dda19eb01054b63b788e4dd5e",
+      "rendered_digest": "b3eabf128220b607a192297a7533e6b613760058be0735f56c3b279d44cfbf9c",
+      "ast_digest": "0c2abb21b2a33a2c5865120802039cf40d7f3ef01716899d55be9f0c91da334c"
     },
     "sor": {
-      "values_digest": "a6cb3348c3404955b168e545f8bc87575aa091692e5a7d1cce77b9c3c2e700d6",
-      "rendered_digest": "a2afeefb61079e9beaf455a9b9654ccc263f01fe4a434ffcad67a9d36f081e69",
-      "ast_digest": "4f4c3ccf015b9a0471089f7dc95b60eb8d7afe942513741131181eda21bd25be"
+      "values_digest": "39d192e5bf18443a276fc2da73946653499e128910ceb4028dbba19939711e7f",
+      "rendered_digest": "5f878870372c81024bcf48e4d76761fcf914a12338b54effc815e5cb3943c7e5",
+      "ast_digest": "3781e68890719b89eb5fbc6e2b4ca10afb7609077854953a4cb91f061080c4ee"
     }
   },
   "transitions": [
@@ -120,6 +120,41 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Recover #492 exact review assignment after fresh-session:5fe8bf21-9e5c-4d48-a891-7db409ff90b8 returned FAIL with one P2 proof-truth finding: git diff --check origin/main...HEAD fails on .csdlc/prepared/issues/492/diagram.mmd blank line at EOF while SOR records diff hygiene as passed. Clear assignment before bounded artifact repair, proof rerun, finalize, and a different fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Refresh the authored design/diagram digests after the exact review recovery removed the prepared diagram EOF blank line.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/492/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/492/diagram.mmd\",\"new_design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"new_diagram_digest\":\"c70b6d9c2931b2d0221bfc8c5854819cb0a4eed7742faa4742b4e2443bad8223\",\"old_design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"old_diagram_digest\":\"02186bba0cc8f159d0c225a176c563e45fe26d7b22b103d57d870d6f675626fd\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:77f70d2a-63d9-4d9b-a8cc-e2e42a5b45cd\",\"revision\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":5,\"recovery_sequence\":8}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record the exact #492 post-review recovery proof after refreshing authored diagram truth for the EOF blank-line repair.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP-C organization and billing baseline, then repaired the exact review finding by removing the prepared Mermaid diagram EOF blank line, refreshing authored diagram truth, and rerunning focused post-recovery proof.\",\"changes\":[\"Added infra/gcp/organization with pinned accepted organization, foundation folder, host project, billing account, corporate owner group, budget guardrail, labels, outputs, Terraform formatting, and state/cache ignores.\",\"Added the GCP organization/billing runbook and retained GCP-C evidence covering validation, command-scoped credentials, read-only inventory proof, apply boundary, and unchanged POC non-goal.\",\"Removed the trailing blank line from .csdlc/prepared/issues/492/diagram.mmd after exact review found committed diff hygiene failed at the prepared diagram.\"],\"artifacts\":[\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\".csdlc/prepared/issues/492/diagram.mmd\",\"infra/gcp/organization/.gitignore\",\"infra/gcp/organization/.terraform.lock.hcl\",\"infra/gcp/organization/README.md\",\"infra/gcp/organization/main.tf\",\"infra/gcp/organization/outputs.tf\",\"infra/gcp/organization/provider.tf\",\"infra/gcp/organization/variables.tf\",\"infra/gcp/organization/versions.tf\",\"docs/operations/cloud/gcp/organization-billing/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-inventory-readonly.log\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject working-tree whitespace and conflict-marker artifacts after the diagram EOF repair before committing the new immutable head.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-check-post-review-repair.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"purpose\":\"Validate the implemented #492 GCP-C surfaces without cloud mutation after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-organization-static-post-review-repair.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"validate\"],\"purpose\":\"Validate the initialized GCP-C Terraform root after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-validate-post-review-repair.log\"},{\"command\":[\"env\",\"CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]\",\"CLOUDSDK_CORE_PROJECT=cs-host-377d41e71a824f92802120\",\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"purpose\":\"Use the operator-approved command-scoped GCP key to prove the accepted host project and billing project are readable without retaining credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-project-billing-readonly.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-readback-static.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"fmt\",\"-check\"],\"purpose\":\"Reject Terraform formatting drift in the GCP-C organization root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "fresh-session:73e19b0d-51cd-4f4d-9653-d611cb19ba22",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"design_ref\":\".csdlc/prepared/issues/492/design.md\",\"diagram_digest\":\"c70b6d9c2931b2d0221bfc8c5854819cb0a4eed7742faa4742b4e2443bad8223\",\"diagram_ref\":\".csdlc/prepared/issues/492/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
