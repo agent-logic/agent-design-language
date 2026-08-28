@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "99d1c30e2c4f8383b2665c30ac94c399ddfd2118036feab45c5c274451537fe2",
+  "generation": 22,
+  "digest": "57e3a8acc5c9e9aad3f3dd6cd40b358bc1c8220184f589726b62aa8a42468c58",
   "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
   "review_assignment": {
@@ -54,34 +54,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a19938d3423d5f4e1990368f2c292b72f6a7055dc387b137c2a7d95a611b0bac",
+      "values_digest": "ecbf75286a9038847e3fc4f35bdb8c03c5379b65d30163dc242636009d1c9f0f",
       "rendered_digest": "586a7982b1e0f3092d591c32d3c122d93af9f28bab3131eaa3b67d7bb25b65dc",
       "ast_digest": "f6b8055e02a6433850689b71b3f9ec0371dc513f2be23f17e675ff4ee637b49c"
     },
     "stp": {
-      "values_digest": "9cf083f70b5f3ae3e3b7ada1b9930f1cfdc77d3177833d111df2a8c1198b3785",
+      "values_digest": "df7c0601e81e28b6d0e5af0d653a68bb04a80d447f046321fcc69ea1b38c0080",
       "rendered_digest": "b20c663d5fb080ca3aee3471f9f5bcc730ae6a3a95f78ed146eb4ef06fbecb3b",
       "ast_digest": "2d82914d8f9e739e95a46f29b9004c31158554791c6a63129b97f0ac9248d4f5"
     },
     "spp": {
-      "values_digest": "138a88d7d3668703a33b296ef83ea76e74405fd9a420dfa7915dd00198bc5331",
+      "values_digest": "e54c830a307c774429d8136d38bc52fe690948a7b1ddf62148f7ca6278e989ce",
       "rendered_digest": "43bc5b0aebd2201594c013dfa4698f94bd4ba4c81eb3ddd0a73c74919cd26f4a",
       "ast_digest": "f00a8ff6c49ddde156a505009c2c29cfad9d9153d8d7db1fad3ee75fb9e0f8d5"
     },
     "vpp": {
-      "values_digest": "fef11b1e9029d043b6144597881759d751a1c331c79aabf130ed4c6f1683794c",
+      "values_digest": "62fcbbc488170c53d9fca116223a038bfdb5b9378843367b55ada9b0370cca3c",
       "rendered_digest": "68e4ac33848d009bdd0b54fccf2958ddb175a150b6cb70d68c3a4a21ca3374d9",
       "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
     },
     "srp": {
-      "values_digest": "fbbd4a1c505de4ec40663142b8e5ae8f374aeb52d215630657f9ab3c5ab3094e",
+      "values_digest": "d1888d0bf8a2cb721204a943d26c0ab37cbe794eeffbb477438a28c321b0c965",
       "rendered_digest": "5850a519db1556b3d6a0e470f62aaa2703c3e14ac3c558a7045868a8ad8fbac5",
       "ast_digest": "b5d388f1546a1ae61132d49cd99c8732a27ef8a0597071edbd25e073370da827"
     },
     "sor": {
-      "values_digest": "692c44bc3b9f0d13eb18d5d039e821e8049e6f71efff663dab03cb8cb33ff263",
-      "rendered_digest": "5ede1e83b8d8ba06ee3a6bf634d1e67abce595b3a0d1c4be6dc40130255cb553",
-      "ast_digest": "ac508b1bc7f4e13597e7037dbe8d1071b8c5593be5cce133b24f67d5435c4d6d"
+      "values_digest": "dbc746d13e02fb1f0e69e999e7f4e08fe7eac13cc6f449485ee4a235774528f6",
+      "rendered_digest": "9363163365df8b7544d168d2bac461993b02b68bc984ae1a9b4de503744d7d6c",
+      "ast_digest": "0d0a4f540e7d156fa46fff1069456b4fc96530f52bff6dabd16ff164e03e0370"
     }
   },
   "transitions": [
@@ -338,6 +338,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:worker-6",
+      "reason": "Record #502 auth-header review fix, explicit revert of unrelated remediation drift, and post-revert validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 after #501 merged to main, preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover and explicitly reverting unrelated remediation drift.\",\"changes\":[\"Restacked #502 onto origin/main at merged #501 commit 1972aa47bd7047b8594a03bf770fb92f7fb63d51 via merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62.\",\"Recovered stale #502 review/publication truth after the main restack so each changed substantive revision required fresh exact-head review before publication could be trusted.\",\"Fixed exact-head review P1 by replacing the circular Finish prerequisite: Finish now requires LiveTerminalEvidence, while TerminalReceipt remains the Cleanup prerequisite.\",\"Fixed exact-head review P1 by making recovery honor projections_repair_required for StateCommitted observations and reject projection-missing observations that lack the committed repair flag.\",\"Fixed exact-head review P2 by replacing the 64-bit FNV-style state digest with BLAKE3-backed v3 digests for CAS and recovery-integrity checks.\",\"Fixed exact-head review P1 by redacting option-assigned Authorization header argv values such as --header=Authorization: Bearer ... before invocation logging.\",\"Explicitly reverted rogue remediation commit 2c20b2a3e3cf8c8d04031348b619edadd85567af, removing unrelated durable store, credential resolver, review-recovery provenance, and additional transaction-test changes from the net #502 branch.\",\"Added regression coverage for terminal finish capability, projection-repair recovery classification, 64-hex BLAKE3 digest shape, and option-assigned Authorization header redaction.\",\"Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, terminal evidence, and projection invalidation semantics.\",\"Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, BLAKE3 generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.\",\"Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction including option-assigned Authorization headers, and shell-executable rejection including path-qualified shell names.\",\"Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, terminal-finish, storage-integrity, and redaction regression tests.\",\"Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.\",\"Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.\",\"Preserved dependency order by waiting for #501 to merge before moving #502's final PR base to main.\"],\"artifacts\":[\"csdlc-v3/AGENTS.md\",\"csdlc-v3/Cargo.toml\",\"csdlc-v3/Cargo.lock\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/lib.rs\",\"csdlc-v3/src/lifecycle/mod.rs\",\"csdlc-v3/src/storage/mod.rs\",\"csdlc-v3/tests/transactions.rs\",\"origin/main 1972aa47bd7047b8594a03bf770fb92f7fb63d51\",\"merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62\",\"review-fix commit 7cc2ef484845ec4bc103cac33d6a217c443bda9d\",\"review-fix commit 5e9af448d6ec65027dd24dd61acceba28e729252\",\"review-fix commit 103bc0eadc44f3152ad0fa4dde37059d6107c6f3\",\"reverted rogue commit 2c20b2a3e3cf8c8d04031348b619edadd85567af via c647268131daaf3b9f20776eed0b1aceb5ff4c13\",\"review evidence /Users/daniel/git/agent-design-language/.git/csdlc-v2/reviews/502-post-storage-fix-review-detached-readonly.txt\",\"worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel\",\"branch codex/502-v3-c-csdlc-v3-lifecycle-kernel\",\"PR https://github.com/agent-logic/agent-design-language/pull/572\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"transactions\",\"adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction\"],\"purpose\":\"focused option-assigned Authorization header redaction regression after review P1\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:103bc0eadc44f3152ad0fa4dde37059d6107c6f3:1-transaction-test-passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"full local C-SDLC v3 crate test suite after reverting unrelated remediation drift\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:c647268131daaf3b9f20776eed0b1aceb5ff4c13:4-lib-11-foundation-17-transactions-passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"format check for the C-SDLC v3 crate after reverting unrelated remediation drift\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:c647268131daaf3b9f20776eed0b1aceb5ff4c13:passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"strict clippy for the C-SDLC v3 crate after reverting unrelated remediation drift\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:c647268131daaf3b9f20776eed0b1aceb5ff4c13:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"diff hygiene after reverting unrelated remediation drift\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:c647268131daaf3b9f20776eed0b1aceb5ff4c13:passed\"}]}"
     }
   ]
 }

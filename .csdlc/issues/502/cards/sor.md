@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 after #501 merged to main, preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover.
+Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 after #501 merged to main, preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover and explicitly reverting unrelated remediation drift.
 
 ## Artifacts
 
@@ -28,7 +28,8 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
 - merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62
 - review-fix commit 7cc2ef484845ec4bc103cac33d6a217c443bda9d
 - review-fix commit 5e9af448d6ec65027dd24dd61acceba28e729252
-- review-fix commit 103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce
+- review-fix commit 103bc0eadc44f3152ad0fa4dde37059d6107c6f3
+- reverted rogue commit 2c20b2a3e3cf8c8d04031348b619edadd85567af via c647268131daaf3b9f20776eed0b1aceb5ff4c13
 - review evidence /Users/daniel/git/agent-design-language/.git/csdlc-v2/reviews/502-post-storage-fix-review-detached-readonly.txt
 - worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel
 - branch codex/502-v3-c-csdlc-v3-lifecycle-kernel
@@ -42,6 +43,7 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
 - Fixed exact-head review P1 by making recovery honor projections_repair_required for StateCommitted observations and reject projection-missing observations that lack the committed repair flag.
 - Fixed exact-head review P2 by replacing the 64-bit FNV-style state digest with BLAKE3-backed v3 digests for CAS and recovery-integrity checks.
 - Fixed exact-head review P1 by redacting option-assigned Authorization header argv values such as --header=Authorization: Bearer ... before invocation logging.
+- Explicitly reverted rogue remediation commit 2c20b2a3e3cf8c8d04031348b619edadd85567af, removing unrelated durable store, credential resolver, review-recovery provenance, and additional transaction-test changes from the net #502 branch.
 - Added regression coverage for terminal finish capability, projection-repair recovery classification, 64-hex BLAKE3 digest shape, and option-assigned Authorization header redaction.
 - Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, terminal evidence, and projection invalidation semantics.
 - Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, BLAKE3 generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.
@@ -66,7 +68,7 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
     ],
     "purpose": "focused option-assigned Authorization header redaction regression after review P1",
     "outcome": "passed",
-    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:1-transaction-test-passed"
+    "evidence_ref": "exact-head:103bc0eadc44f3152ad0fa4dde37059d6107c6f3:1-transaction-test-passed"
   },
   {
     "command": [
@@ -75,9 +77,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "--manifest-path",
       "csdlc-v3/Cargo.toml"
     ],
-    "purpose": "full local C-SDLC v3 crate test suite after option-assigned Authorization header redaction fix",
+    "purpose": "full local C-SDLC v3 crate test suite after reverting unrelated remediation drift",
     "outcome": "passed",
-    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:4-lib-11-foundation-17-transactions-passed"
+    "evidence_ref": "exact-head:c647268131daaf3b9f20776eed0b1aceb5ff4c13:4-lib-11-foundation-17-transactions-passed"
   },
   {
     "command": [
@@ -87,9 +89,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "csdlc-v3/Cargo.toml",
       "--check"
     ],
-    "purpose": "format check for the C-SDLC v3 crate after option-assigned Authorization header redaction fix",
+    "purpose": "format check for the C-SDLC v3 crate after reverting unrelated remediation drift",
     "outcome": "passed",
-    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed"
+    "evidence_ref": "exact-head:c647268131daaf3b9f20776eed0b1aceb5ff4c13:passed"
   },
   {
     "command": [
@@ -102,9 +104,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "-D",
       "warnings"
     ],
-    "purpose": "strict clippy for the C-SDLC v3 crate after option-assigned Authorization header redaction fix",
+    "purpose": "strict clippy for the C-SDLC v3 crate after reverting unrelated remediation drift",
     "outcome": "passed",
-    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed"
+    "evidence_ref": "exact-head:c647268131daaf3b9f20776eed0b1aceb5ff4c13:passed"
   },
   {
     "command": [
@@ -112,9 +114,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "diff",
       "--check"
     ],
-    "purpose": "diff hygiene after option-assigned Authorization header redaction fix",
+    "purpose": "diff hygiene after reverting unrelated remediation drift",
     "outcome": "passed",
-    "evidence_ref": "exact-head:103bc0ead2fb8f65ba10f9bbec34b64a2ea987ce:passed"
+    "evidence_ref": "exact-head:c647268131daaf3b9f20776eed0b1aceb5ff4c13:passed"
   }
 ]
 
