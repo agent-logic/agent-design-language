@@ -16,7 +16,7 @@ Confirm #502 terminal dependency, bootstrap and bind #503, then implement a non-
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 

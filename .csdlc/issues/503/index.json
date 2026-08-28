@@ -3,9 +3,9 @@
   "issue": 503,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
-  "phase": "initialized",
-  "generation": 1,
-  "digest": "3a0ccff0340f5c98aef7ea5023c96845dae581749a0d4d4d493ecbff736d012b",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "2217e53dc4b4e91fec44c588b0b540745ab5568278050af7274a8a166057dc56",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "35350b1f3ad2b2e0ca774ce741f36afe5aff331f335cba18edd49c3909168821",
+      "values_digest": "e258a6606022b28948213d5d1146e6fc9c550918660423d4e85b11a2422a43c7",
       "rendered_digest": "3958ca74dddd8aaf85763659195100ba365f4a8ced6634d25ff76d80c10c56bc",
       "ast_digest": "484ed7ec53f13cbb802f1c0e36dd66776df6966f92cc3414f77becf084a96013"
     },
     "stp": {
-      "values_digest": "42d2c26cefcb06b246b3b7d8ccbaf8819dc3c229f96c7d91345669c661de9c13",
+      "values_digest": "432ee55a82a08937fb5ed62d093ebd3ea9acb6a88895e179082f28d00a92318d",
       "rendered_digest": "e5cedcf5f0a5a3962edb09d18a4d1e03898a5e3efcde1463d0ab34ff3ec555f4",
       "ast_digest": "f371d273d3a4f1bd857d25506b9d31d15115f0ff3afce7b2e1169b5f6c558c50"
     },
     "spp": {
-      "values_digest": "bff9cc1871a30e5e4630b6dc7c23c5f29550a1fc72a2b391d119c0afb49a1ce8",
-      "rendered_digest": "4d6af1147b5dcbb7161f7a9fdfb29b7df09bb6396903e4445f9535030153b128",
-      "ast_digest": "db3f43ae9ff55f103f4710b69a6a7e378d7597869ddddd5dee96ff4f7623f6cd"
+      "values_digest": "82fef82845cd7293fd18e53438abcce8fc2433ccfbf33adeb7ebdc4ba5c1ab84",
+      "rendered_digest": "69f2e7ce598741f8e40b20c89d8646f2370ed13f95a69808c986fb06e4305408",
+      "ast_digest": "c76595133e4cbf12128ffd1cf7f22617e64c6ac10b99aa71fbc094adbd483e3e"
     },
     "vpp": {
-      "values_digest": "7d15fea633de6ff7f20624b54664de9aac870b41c50dbea203001cb9bd1eb599",
+      "values_digest": "d257775909fc3a07cb265cfd907b393206097f4b6a0ec0bc51bfb0911a667281",
       "rendered_digest": "01a8b90503cdae47ca5ff5fc15aec182ac7646a04b9c16e8f7d206953e5eb7dd",
       "ast_digest": "a479386f18161ee8a7429da309a23c8c510cae65f95ceedccacf75f5d4b9f50b"
     },
     "srp": {
-      "values_digest": "63f5befd71a042a08de8126caf54cb5a40e95be634be1e5269619794b21af824",
+      "values_digest": "b69890b5d29a53944a2207ac7ee0f9e487e9e1301a4a2ed8ab59ab4f215ea972",
       "rendered_digest": "492ae9eabdd9220225d100cd38059634796eebd9a8d2c491a54b74472e7b0bfe",
       "ast_digest": "f4b828208ae1ec091c2362919fe5f2621a0e6da7589458fd6c59f23607276a01"
     },
     "sor": {
-      "values_digest": "240f4262d313d723d906e5af32bc6ed4d8e09060d7ff2af78707650b99bf7063",
+      "values_digest": "e7c9bf372284e5480caff830ecff70231445203555d21ca35475b9704b35cb66",
       "rendered_digest": "b790869fa1de3244d1c7061c9a4e043cba8aa9f58120f3c1b57dd9ffbe01ff2f",
       "ast_digest": "b8c70869a4c125a96fc81d7298ce2f6aff177e12790a42a3068b034e79349449"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6",
+      "reason": "Advance #503 to ready after typed bootstrap, design approval, exact issue-owned validation denominator repair, and csdlc-validate PASS."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -69,6 +77,20 @@
       "actor": "fresh-session:50350350-3503-4503-8503-503503503503",
       "reason": "approve completed issue design",
       "operation": "{\"design_digest\":\"f06f261a4beba106cdf8bdcde4007e4bb32e05f2c4bf6f071528f3922544d9d8\",\"design_ref\":\".csdlc/prepared/issues/503/design.md\",\"diagram_digest\":\"f93d4b7764daad0bd5a65214a1930583103578ea271b56575b70b43ebda623cb\",\"diagram_ref\":\".csdlc/prepared/issues/503/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-6",
+      "reason": "Declare exact V3-D issue-owned Rust files so readiness credits the local-command validation denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v3/src/lib.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/local/mod.rs\",\"csdlc-v3/tests/local_commands.rs\",\"docs/templates/prompts\",\".csdlc/issues/503\",\".csdlc/prepared/issues/503\",\".csdlc/evidence/503\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "Advance #503 to ready after typed bootstrap, design approval, exact issue-owned validation denominator repair, and csdlc-validate PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
