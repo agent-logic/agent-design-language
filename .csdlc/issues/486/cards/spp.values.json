@@ -1,0 +1,102 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 486,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+    "slug": "aws-terraform-bootstrap",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Bootstrap #486, approve design, bind a FastWork worktree, implement the dedicated AWS Terraform backend/deployment-role bootstrap, run focused Terraform and readback validation, obtain exact-head review, publish, and finish when green.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and approve the AWS-C Terraform bootstrap design.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement the dedicated backend, lock, provider-pin, and deployment-role bootstrap surfaces.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused Terraform/static/readback validation and record retained evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain fresh exact-head review and publish with closing linkage.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "infra/aws/bootstrap",
+        "docs/operations/cloud/aws/terraform-bootstrap",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-c",
+        ".csdlc/prepared/issues/486",
+        ".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh"
+      ],
+      "invariants": [
+        "Existing website/DDNS/public-edge/workload states remain separately owned",
+        "Terraform backend resources are recoverable and have explicit names",
+        "No retained evidence contains credentials or token material",
+        "Quota or account access is not treated as workload deployment approval"
+      ],
+      "risks": [
+        "Terraform backend bootstrap can accidentally overlap with existing state resources",
+        "AWS plan/apply drift could invalidate saved plan review",
+        "Deployment role policy can become too broad if future-scope permissions are pulled into this issue"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "An existing backend owner is unknown",
+        "State recovery fails",
+        "A reviewed plan differs at apply",
+        "AWS account identity is not the approved Agent Logic business account",
+        "Credential material would be retained"
+      ],
+      "replan_triggers": [
+        "AWS-B #485 terminal evidence is invalidated",
+        "Existing Terraform backend ownership is discovered",
+        "The reviewed plan differs from the apply candidate",
+        "Operator changes the target AWS account or identity boundary"
+      ],
+      "design_ref": ".csdlc/prepared/issues/486/design.md",
+      "design_digest": "5431aea2b69bbca8e990b877455ede18628b6726d7fa983e9da500cc98edaa3e",
+      "diagram_ref": ".csdlc/prepared/issues/486/diagram.mmd",
+      "diagram_digest": "ed3c82681f657aeaa419c35dd4fd77259d665b01061b2acf586e0f441995a72c"
+    }
+  }
+}

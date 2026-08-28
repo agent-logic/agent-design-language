@@ -1,0 +1,139 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 486,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "dccbcb792550a70657a41153e958ae7f448cf851553ea1c649b052e727709a54",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "ffd52292d34265567708a5c74b40e51c00c5b29587c1b9fb62fb79925ef7346c",
+  "branch": "codex/486-aws-terraform-bootstrap",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-486-aws-terraform-bootstrap",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/486/design.md",
+  "diagram_path": ".csdlc/prepared/issues/486/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:7cc258e0-cbc1-4100-9b73-e64b327ee26c",
+      "revision": "5431aea2b69bbca8e990b877455ede18628b6726d7fa983e9da500cc98edaa3e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "94dcf7138636fa20b697dda5f4dc06967965b814bba5dba92e0b4bbedbe366df",
+      "rendered_digest": "b8f9d9c4188e84d4ac9a918f90c0f9b34e75c7124c56cef1b5af40cc6c652cde",
+      "ast_digest": "a542f5add94da4e4ae4f27d2f6acb376880d58be77393f1db52c888a8bf9b141"
+    },
+    "stp": {
+      "values_digest": "10f71d15bf325deb2ebc94c937c486976056ecfcd4fd267c1f4e600e09515e6b",
+      "rendered_digest": "7123bdf50ab66e7a7e2c51fdfc96404133171ecab4c77ec8e3b236c6116f35ec",
+      "ast_digest": "04367f9a83ff4a7966b8d98fae2a8719ee00a9927afe5ca8258fee179ea6708e"
+    },
+    "spp": {
+      "values_digest": "612f4aaaab9878dae958f23c1be568b07717de97b7f16fcbd0c029f9fc3f19ec",
+      "rendered_digest": "0bc03aa28a1a675b53a5435d089caadb7095cc7c4126fe05977ab0bed5c05ac7",
+      "ast_digest": "c8dc103f6f6c4bbf740d9001b463b83cad3a727f63a994bfe990db409403a844"
+    },
+    "vpp": {
+      "values_digest": "048c00a0ebe6cd3d33497106df9e5656a3ed9578df6cb26de6d3bcd1b28e2222",
+      "rendered_digest": "12fb3f89914fd9871a7fe166b72956cc35692b1e608ffa61f2cd608d76bae41d",
+      "ast_digest": "eec7405d5ca6abf3f75188c7ff81b3a8e25e6e859d64211eef39735b95586bb4"
+    },
+    "srp": {
+      "values_digest": "20a0f22ced92948335c688c202e4554149834e35a466a09592d254acb7d1b8fe",
+      "rendered_digest": "937348c7cca8107fb071eb3505884ea07b760c5f1477a58f28e8b86fe35aea0a",
+      "ast_digest": "f5a877a6ca2e66c86fb9cf86116616cda447be57f6770dc664536185079869bb"
+    },
+    "sor": {
+      "values_digest": "de74710a3b6535009dc2586195e65e8c2836e2b3ddd881f6f658b93cf8a223de",
+      "rendered_digest": "e6dd345d45dfe451ff04dbe44509fd9c94200aa88a998bd14f560c5adaa708a4",
+      "ast_digest": "dc2cb72781fb4b87faf69d126f7b2b7b1c497d7d249332d4c1a2cec5764f4ecc"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Recover #486 initialized pre-bind card truth after design review found VPP lanes referencing post-bind implementation artifacts before the FastWork worktree exists.",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"aws-b-terminal-prerequisite\",\"relation\":\"unlocks\",\"to\":\"aws-c-bootstrap-owner\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":485,\"node_id\":\"aws-b-terminal-prerequisite\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terminal-access-billing-prerequisite\"},{\"in_scope\":true,\"issue\":486,\"node_id\":\"aws-c-bootstrap-owner\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terraform-bootstrap-owner\"}],\"parent_integration_owner\":\"aws-c-bootstrap-owner\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"5431aea2b69bbca8e990b877455ede18628b6726d7fa983e9da500cc98edaa3e\",\"byte_sha256\":\"abb15ff66367e18881072e8a28f60b967681065b1ee7813c63d06c5eb6ae6547\",\"path\":\".csdlc/prepared/issues/486/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"ed3c82681f657aeaa419c35dd4fd77259d665b01061b2acf586e0f441995a72c\",\"byte_sha256\":\"b4d7eec0c0dfef61105ee61e99c89cc4b993c0567ede67616bfe5a0cf7b4c217\",\"path\":\".csdlc/prepared/issues/486/diagram.mmd\"},\"recovery_scope\":[\"pre-bind VPP executable denominator repair\",\"preserve authored AWS-C design and diagram artifacts\",\"record AWS-B #485 terminal dependency evidence without binding or implementation edits\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Make initialized #486 validation lanes governed by exact issue-owned validator paths before design review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/bootstrap\",\"docs/operations/cloud/aws/terraform-bootstrap\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c\",\".csdlc/prepared/issues/486\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Make #486 validator deliverables exact so initialized deferred lanes are governed and fail closed.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"infra/aws/bootstrap Terraform bootstrap root/module\",\"docs/operations/cloud/aws/terraform-bootstrap operator runbook\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c retained proof\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Select only governed #486 initialized validation lanes before design review and defer post-bind Terraform/AWS proof until implementation paths exist.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-bootstrap-packet\",\"proof_role\":\"Proves #486 design packet readiness, #485 terminal dependency evidence, and lifecycle distinction between pre-bind packet proof and future implementation-owned Terraform/readback paths.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"terraform-bootstrap-static\",\"proof_role\":\"After bind, proves Terraform formatting, provider pins, backend-free initialization, and validate proof for the bootstrap root.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\",\"--lane\",\"terraform-static\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #486 is bound and the implementation creates infra/aws/bootstrap plus the issue-owned readback/validation script.\"},{\"lane\":\"aws-bootstrap-readback\",\"proof_role\":\"After reviewed live apply, proves backend identity, lock/versioning, recovery rehearsal, provider pins, and state isolation through read-only AWS readbacks.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\",\"--lane\",\"aws-readback\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"Deferred until #486 is bound, the bootstrap resources exist or the reviewed plan proves they are intentionally absent, and live AWS read-only proof is safe to run with the approved agent-logic-admin profile.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "fresh-session:7cc258e0-cbc1-4100-9b73-e64b327ee26c",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"5431aea2b69bbca8e990b877455ede18628b6726d7fa983e9da500cc98edaa3e\",\"design_ref\":\".csdlc/prepared/issues/486/design.md\",\"diagram_digest\":\"ed3c82681f657aeaa419c35dd4fd77259d665b01061b2acf586e0f441995a72c\",\"diagram_ref\":\".csdlc/prepared/issues/486/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

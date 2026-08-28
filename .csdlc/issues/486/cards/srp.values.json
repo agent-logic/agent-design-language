@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 486,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+    "slug": "aws-terraform-bootstrap",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #486 AWS-C Terraform bootstrap paths only: infra/aws/bootstrap, docs/operations/cloud/aws/terraform-bootstrap, docs/milestones/v0.92.1/evidence/cloud/aws-c, and issue-owned validators.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the bootstrap avoid copying or dual-owning existing website, DDNS, public-edge, or workload state?",
+        "Are backend encryption, versioning, locking, recovery, and provider pins proven?",
+        "Is the deployment role boundary least-privilege for this bootstrap scope?",
+        "Does retained evidence avoid credentials and avoid overclaiming Runtime deployment or CloudFormation retirement?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Pre-bind readiness does not prove Terraform apply/readback until the issue is bound and implementation-owned paths exist."
+      ],
+      "review_result": "pre_review"
+    }
+  }
+}
