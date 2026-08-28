@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
     "slug": "v0-92-1-v3-b-c-sdlc-v3-foundation",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 14
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Confirm #500 terminal dependency, build explicit repository context and deterministic state/projection surfaces, add a read-only foundation command, then prove deterministic replay and retained requirements #164 through #167 with focused tests and strict clippy.",
       "steps": [
         {
@@ -24,7 +24,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
           "acceptance_ids": [
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
             "AC-1",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -50,7 +50,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -60,7 +60,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

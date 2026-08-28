@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "fa47f9e1a7c307834334da4c81dfafe2d87aa0b8271f54e3640f9c7b107d53fd",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "30281c34a4381068e4ab7ef90ce6ac2c1ee055855868d9def541a68504edf367",
+  "generation": 14,
+  "digest": "91238bbac9d0cfc2e9a6e5bfdc8095f12e40ae88ce9c6bd4e4cec744a87eb4a7",
   "branch": "codex/501-v3-b-csdlc-v3-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a088fbd99d6f7298e3576f6f7d4e7a5bf8d4c0190c4fa0a1ad9c1b075f8542d",
+      "values_digest": "b5636bbe0a3acd4449f8c3886e2932ce4654f8d3d7737f63d0a1f72639eb75b8",
       "rendered_digest": "b8660f4e6e0d079ae8cf6904876e9e4b8ae0e70e39511ab4ba7ab5f01e49ac0e",
       "ast_digest": "0f09c92931040cbf6e052470e0b5a7c14f445971c53def3a2509c41272c8bd0f"
     },
     "stp": {
-      "values_digest": "65b85f0169c52e9bb7d786369f10c45805da048bf8fa93ba0d550aba13aea81b",
+      "values_digest": "51f5d84f1def72f0a323939b3d6713f9b965d0032438a0d374a4a6a58370a28f",
       "rendered_digest": "692b12b09ccdd83269cd7cc1f26b01e2ebb97f78b19c4ed173001ed113d70a4a",
       "ast_digest": "3a5825e3602aa17d4b35cf55a20edf71f272eb00d7cb2ed369cf855d747c7e1d"
     },
     "spp": {
-      "values_digest": "65e253733f90a742af29a87b58891aabaf33139ea66edeb71a6a31aa3cb5874c",
-      "rendered_digest": "7d4453307d98705399949518c6158553dfc7aeb43151d9761e11d91de1a80dca",
-      "ast_digest": "22c7a8d9a20737bd365ff9e2832f7e9556ac983236d95ff3da24071969d6adab"
+      "values_digest": "5ec1fd7bb35ce60ac670c26b4a3763508d274dcf1cc6328bdf9763a9a95ada7b",
+      "rendered_digest": "a1e98ad4dda0219acced2a5fe3a050a60929e6b8ffac2ddd1955cded5028d110",
+      "ast_digest": "73afe27f73b912170120681cd553950c602e4af38c4f3f3e282655463951477f"
     },
     "vpp": {
-      "values_digest": "1960f61ec10df9c1dd33646947074655b5360c7bc66274f80db71d9702a051cd",
+      "values_digest": "9067ed4ad3a0c56c043654770b048098e4a73c7ffdc68f7647ee2ce5c362a6d0",
       "rendered_digest": "d89e7ed8e040fbdb8811c1feca387f1b274ba0ddf4070ec24ed4ef26c085dd9a",
       "ast_digest": "83595baa407f8f5f553792d3b3025ced1b826524b6522c605267ca8fec3f9442"
     },
     "srp": {
-      "values_digest": "9bb4cd79b18628090aea5182f30e30c9f79d92dd7a81c2c58b386a08281cdd87",
-      "rendered_digest": "ae5a15614a9018523b279b7e219f087ee11dc4b440b5ff797b76f25479f7eda5",
-      "ast_digest": "b959ce4226a2df933f1537a5f39ba6b3e9a7143248a902f80aabfab59ee59a54"
+      "values_digest": "763ab4a24efc12e2d05718eb03fe708c8af2e32f187f06285627c4b3fdee376d",
+      "rendered_digest": "7e9d7189f4f7365bdc67f8a6a505a0e0bd6fc0118a0b4f052e0cb6b560441a44",
+      "ast_digest": "53dfe8bd3e068c3331c7d17aba7ea8e45c6df87d3ffae8fb46da8e710fdb5272"
     },
     "sor": {
-      "values_digest": "dd52c601ad2b06e2c8f926adb165feaf2e343fc57dd936678f746f342c35bf30",
-      "rendered_digest": "437a0236bbcf0cd70b24519d5d90fe888d07ef54088b381ed1c36c85090f4e9c",
-      "ast_digest": "5884a957db392396a798905855a8745910ebff08db2928428aba9e5c10454398"
+      "values_digest": "d5ec322605bc4ef992f2fc3a01fca1551a4cb4cfd6d1073d79bb6202c96208a0",
+      "rendered_digest": "154b95a72fa6ab5b2d629aef05ec28fab8f1e6fa832f5b2ded21e7667cb6a3cc",
+      "ast_digest": "51fb803272b45340368ee503c95973324d2a34ed74c0cfc0b9c4ab933326bae9"
     }
   },
   "transitions": [
@@ -133,6 +133,76 @@
       "actor": "codex:worker-6",
       "reason": "Record #501 V3-B foundation implementation and focused validation.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative V3-B foundation slice with explicit repository context, deterministic state/projection replay, a read-only machine-output command, and focused proof for retained requirements #164 through #167. C-SDLC v2 remains the sole operational authority.\",\"changes\":[\"Added explicit RepositoryContext discovery and required-contract path checks.\",\"Added deterministic FoundationState projection replay with stable machine JSON output.\",\"Added read-only csdlc-v3-foundation CLI requiring --repo-root instead of ambient cwd authority.\",\"Added focused foundation tests for repository context, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.\",\"Fixed one strict-clippy finding in the existing V3-A test surface.\"],\"artifacts\":[\"csdlc-v3/src/repository/mod.rs\",\"csdlc-v3/src/application/mod.rs\",\"csdlc-v3/src/bin/csdlc-v3-foundation.rs\",\"csdlc-v3/tests/foundation.rs\",\"csdlc-v3/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Verify Rust formatting for the V3-B crate surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"foundation\"],\"purpose\":\"Prove repository context, deterministic projection replay, retained requirements #164-#167, and three-minute issue-start projection.\",\"outcome\":\"passed\",\"evidence_ref\":\"4 tests passed locally, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject strict Rust warnings across library, binary, and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--bin\",\"csdlc-v3-foundation\",\"--\",\"--repo-root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation\"],\"purpose\":\"Smoke test the read-only foundation command and explicit repository-root argument.\",\"outcome\":\"passed\",\"evidence_ref\":\"machine JSON output schema csdlc.v3.foundation.v1, 2026-08-28, issue #501 worktree\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "Recover after current-head review found stale lifecycle card truth; repairs will update SPP/SOR/SRP truth without code scope expansion.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "Normalize #501 plan truth after implementation and focused validation completed.",
+      "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Confirm #500 is merged and closed before implementation begins.\",\"id\":\"S1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Implement explicit repository context and deterministic repository adapters.\",\"id\":\"S2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"action\":\"Implement deterministic foundation state/projection replay and stable serialization.\",\"id\":\"S3\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Add a read-only foundation command that exposes machine-readable context and projection output without lifecycle authority.\",\"id\":\"S4\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Run focused foundation, repository-context, state-projection, strict-clippy, and diff-hygiene validation, then obtain independent review.\",\"id\":\"S5\",\"status\":\"completed\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Confirm #500 is merged and closed before implementation begins.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Implement explicit repository context and deterministic repository adapters.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"action\":\"Implement deterministic foundation state/projection replay and stable serialization.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"action\":\"Add a read-only foundation command that exposes machine-readable context and projection output without lifecycle authority.\",\"id\":\"S4\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Run focused foundation, repository-context, state-projection, strict-clippy, and diff-hygiene validation, then obtain independent review.\",\"id\":\"S5\",\"status\":\"pending\"}],\"recovery_generation\":8,\"recovery_sequence\":11}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "Remove stale post-implementation bind follow-up from #501 SOR.",
+      "operation": "{\"new_values\":[\"Proceed to typed review assignment and pre-PR independent review for #501; do not start #502 until #501 publication/finish boundary is satisfied.\"],\"operation\":\"correct_sor_follow_ups_after_recovery\",\"previous_values\":[\"Bind #501 in an issue worktree only after doctor passes.\"],\"recovery_generation\":8,\"recovery_sequence\":11}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "Record #501 V3-B foundation implementation and focused validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative V3-B foundation slice with explicit repository context, read-only v2 issue/card import, deterministic state/projection replay, a read-only machine-output command, and source-grounded focused proof for retained requirements #164 through #167. C-SDLC v2 remains the sole operational authority.\",\"changes\":[\"Added explicit RepositoryContext discovery and required-contract path checks.\",\"Added read-only import helpers for v2 issue records and lifecycle cards without granting v3 lifecycle authority.\",\"Added deterministic FoundationState projection replay with stable machine JSON output.\",\"Added read-only csdlc-v3-foundation CLI requiring --repo-root instead of ambient cwd authority.\",\"Added focused foundation tests for repository context, v2 issue/card import, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.\",\"Fixed one strict-clippy finding in the existing V3-A test surface.\"],\"artifacts\":[\"csdlc-v3/src/repository/mod.rs\",\"csdlc-v3/src/application/mod.rs\",\"csdlc-v3/src/bin/csdlc-v3-foundation.rs\",\"csdlc-v3/tests/foundation.rs\",\"csdlc-v3/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"Verify Rust formatting for the V3-B crate surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"foundation\"],\"purpose\":\"Prove repository context, read-only v2 issue/card import, deterministic projection replay, retained requirements #164-#167, and three-minute issue-start projection.\",\"outcome\":\"passed\",\"evidence_ref\":\"8 tests passed locally, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject strict Rust warnings across library, binary, and test targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, 2026-08-28, issue #501 worktree\"},{\"command\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--bin\",\"csdlc-v3-foundation\",\"--\",\"--repo-root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation\"],\"purpose\":\"Smoke test the read-only foundation command and explicit repository-root argument.\",\"outcome\":\"passed\",\"evidence_ref\":\"machine JSON output schema csdlc.v3.foundation.v1, 2026-08-28, issue #501 worktree\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "Recover after status review found SOR pre_phase stale despite implementation evidence; next repair only advances SOR to ready.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "Advance #501 SOR from pre_phase to ready after implementation evidence and validation truth were recorded.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
     }
   ]
 }

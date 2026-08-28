@@ -7,18 +7,19 @@
     "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
     "slug": "v0-92-1-v3-b-c-sdlc-v3-foundation",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "ready",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented the non-authoritative V3-B foundation slice with explicit repository context, deterministic state/projection replay, a read-only machine-output command, and focused proof for retained requirements #164 through #167. C-SDLC v2 remains the sole operational authority.",
+      "summary": "Implemented the non-authoritative V3-B foundation slice with explicit repository context, read-only v2 issue/card import, deterministic state/projection replay, a read-only machine-output command, and source-grounded focused proof for retained requirements #164 through #167. C-SDLC v2 remains the sole operational authority.",
       "actual_changes": [
         "Added explicit RepositoryContext discovery and required-contract path checks.",
+        "Added read-only import helpers for v2 issue records and lifecycle cards without granting v3 lifecycle authority.",
         "Added deterministic FoundationState projection replay with stable machine JSON output.",
         "Added read-only csdlc-v3-foundation CLI requiring --repo-root instead of ambient cwd authority.",
-        "Added focused foundation tests for repository context, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.",
+        "Added focused foundation tests for repository context, v2 issue/card import, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.",
         "Fixed one strict-clippy finding in the existing V3-A test surface."
       ],
       "artifacts": [
@@ -50,9 +51,9 @@
             "--test",
             "foundation"
           ],
-          "purpose": "Prove repository context, deterministic projection replay, retained requirements #164-#167, and three-minute issue-start projection.",
+          "purpose": "Prove repository context, read-only v2 issue/card import, deterministic projection replay, retained requirements #164-#167, and three-minute issue-start projection.",
           "outcome": "passed",
-          "evidence_ref": "4 tests passed locally, 2026-08-28, issue #501 worktree"
+          "evidence_ref": "8 tests passed locally, 2026-08-28, issue #501 worktree"
         },
         {
           "command": [
@@ -96,12 +97,12 @@
           "evidence_ref": "machine JSON output schema csdlc.v3.foundation.v1, 2026-08-28, issue #501 worktree"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": [
-        "Bind #501 in an issue worktree only after doctor passes."
+        "Proceed to typed review assignment and pre-PR independent review for #501; do not start #502 until #501 publication/finish boundary is satisfied."
       ]
     }
   }

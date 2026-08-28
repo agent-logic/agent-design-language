@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-V3-B repository context, deterministic foundation state/projection surfaces, read-only foundation command, focused tests, and issue-local evidence only.
+
 
 ## Prompts
 
@@ -31,7 +31,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The future implementation harness is intentionally absent during initialized readiness and must be created before validation can pass.
+- none
 
 ## Review Result
 

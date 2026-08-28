@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: ready
 
 ## Summary
 
-Implemented the non-authoritative V3-B foundation slice with explicit repository context, deterministic state/projection replay, a read-only machine-output command, and focused proof for retained requirements #164 through #167. C-SDLC v2 remains the sole operational authority.
+Implemented the non-authoritative V3-B foundation slice with explicit repository context, read-only v2 issue/card import, deterministic state/projection replay, a read-only machine-output command, and source-grounded focused proof for retained requirements #164 through #167. C-SDLC v2 remains the sole operational authority.
 
 ## Artifacts
 
@@ -25,9 +25,10 @@ Implemented the non-authoritative V3-B foundation slice with explicit repository
 ## Execution
 
 - Added explicit RepositoryContext discovery and required-contract path checks.
+- Added read-only import helpers for v2 issue records and lifecycle cards without granting v3 lifecycle authority.
 - Added deterministic FoundationState projection replay with stable machine JSON output.
 - Added read-only csdlc-v3-foundation CLI requiring --repo-root instead of ambient cwd authority.
-- Added focused foundation tests for repository context, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.
+- Added focused foundation tests for repository context, v2 issue/card import, deterministic projection replay, retained requirements #164-#167, and the three-minute issue-start readiness projection.
 - Fixed one strict-clippy finding in the existing V3-A test surface.
 
 ## Validation
@@ -54,9 +55,9 @@ Implemented the non-authoritative V3-B foundation slice with explicit repository
       "--test",
       "foundation"
     ],
-    "purpose": "Prove repository context, deterministic projection replay, retained requirements #164-#167, and three-minute issue-start projection.",
+    "purpose": "Prove repository context, read-only v2 issue/card import, deterministic projection replay, retained requirements #164-#167, and three-minute issue-start projection.",
     "outcome": "passed",
-    "evidence_ref": "4 tests passed locally, 2026-08-28, issue #501 worktree"
+    "evidence_ref": "8 tests passed locally, 2026-08-28, issue #501 worktree"
   },
   {
     "command": [
@@ -103,7 +104,7 @@ Implemented the non-authoritative V3-B foundation slice with explicit repository
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
@@ -117,4 +118,4 @@ not_started
 
 ## Follow Ups
 
-- Bind #501 in an issue worktree only after doctor passes.
+- Proceed to typed review assignment and pre-PR independent review for #501; do not start #502 until #501 publication/finish boundary is satisfied.

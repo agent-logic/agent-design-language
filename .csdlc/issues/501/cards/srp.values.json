@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
     "slug": "v0-92-1-v3-b-c-sdlc-v3-foundation",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "V3-B repository context, deterministic foundation state/projection surfaces, read-only foundation command, focused tests, and issue-local evidence only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
@@ -23,9 +23,7 @@
         "Can any command or API surface be misread as C-SDLC v3 operational authority before cutover?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The future implementation harness is intentionally absent during initialized readiness and must be created before validation can pass."
-      ],
+      "residual_risk": [],
       "review_result": "pre_review"
     }
   }
