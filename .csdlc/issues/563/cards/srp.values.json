@@ -7,13 +7,13 @@
     "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
     "slug": "stale-owner-binary-primary-checkout-guard",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 17
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #563 worktree revision across C-SDLC owner mutation entrypoints, provenance/install contracts, primary-checkout guard, focused fixtures, policy docs, and validation evidence.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

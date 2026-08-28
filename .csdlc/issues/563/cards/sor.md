@@ -38,6 +38,8 @@ Implemented a deterministic installed-owner source-set receipt and shared fail-c
 - Added shared pre-mutation verification before Store locks, binding locks, bootstrap mutation, and GitHub issue writes.
 - Added explicit operation-level mutation classifications and direct preflight gates for clean, finish, publish, shadow generation, soak output, proof, and cutover.
 - Rejected untracked files under canonical owner-source directories and verified every staged executable/digest before atomic directory exchange.
+- Simplified invocation freshness to one bounded Git status query plus one index-object census; no production byte-by-byte checkout scan occurs.
+- Centralized direct operation mutability decisions in the exact manifest inventory, including generic and issue-specific GitHub owners.
 - Preserved read-only GitHub PR state and schedule classification without mutation gating.
 - Added focused tests for clean installation, stale and partial generations, atomic replacement, primary-checkout rejection, and unrelated-commit stability.
 
@@ -116,7 +118,7 @@ Implemented a deterministic installed-owner source-set receipt and shared fail-c
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

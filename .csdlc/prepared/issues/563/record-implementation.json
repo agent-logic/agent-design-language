@@ -1,8 +1,8 @@
 {
   "issue": 563,
   "card": "sor",
-  "expected_generation": 13,
-  "expected_digest": "d0de01186d310b7d8a3098c39ccd627df56e62c3754617d327fd6a66240912a7",
+  "expected_generation": 16,
+  "expected_digest": "517c498a8dd958297130474c5973e8765048bd1d1a3b5d922364f6f1fa062c24",
   "claim_id": "claim-563-stale-owner-preflight",
   "actor": "codex:563-execution",
   "reason": "Record the bounded stale-owner preflight implementation and focused proof before independent exact-head review.",
@@ -15,6 +15,8 @@
       "Added shared pre-mutation verification before Store locks, binding locks, bootstrap mutation, and GitHub issue writes.",
       "Added explicit operation-level mutation classifications and direct preflight gates for clean, finish, publish, shadow generation, soak output, proof, and cutover.",
       "Rejected untracked files under canonical owner-source directories and verified every staged executable/digest before atomic directory exchange.",
+      "Simplified invocation freshness to one bounded Git status query plus one index-object census; no production byte-by-byte checkout scan occurs.",
+      "Centralized direct operation mutability decisions in the exact manifest inventory, including generic and issue-specific GitHub owners.",
       "Preserved read-only GitHub PR state and schedule classification without mutation gating.",
       "Added focused tests for clean installation, stale and partial generations, atomic replacement, primary-checkout rejection, and unrelated-commit stability."
     ],

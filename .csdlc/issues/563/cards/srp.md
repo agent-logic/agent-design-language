@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #563 worktree revision across C-SDLC owner mutation entrypoints, provenance/install contracts, primary-checkout guard, focused fixtures, policy docs, and validation evidence.
+
 
 ## Prompts
 

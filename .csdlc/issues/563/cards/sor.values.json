@@ -7,7 +7,7 @@
     "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
     "slug": "stale-owner-binary-primary-checkout-guard",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
@@ -20,6 +20,8 @@
         "Added shared pre-mutation verification before Store locks, binding locks, bootstrap mutation, and GitHub issue writes.",
         "Added explicit operation-level mutation classifications and direct preflight gates for clean, finish, publish, shadow generation, soak output, proof, and cutover.",
         "Rejected untracked files under canonical owner-source directories and verified every staged executable/digest before atomic directory exchange.",
+        "Simplified invocation freshness to one bounded Git status query plus one index-object census; no production byte-by-byte checkout scan occurs.",
+        "Centralized direct operation mutability decisions in the exact manifest inventory, including generic and issue-specific GitHub owners.",
         "Preserved read-only GitHub PR state and schedule classification without mutation gating.",
         "Added focused tests for clean installation, stale and partial generations, atomic replacement, primary-checkout rejection, and unrelated-commit stability."
       ],
@@ -109,7 +111,7 @@
           "evidence_ref": "candidate diff hygiene passed"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
