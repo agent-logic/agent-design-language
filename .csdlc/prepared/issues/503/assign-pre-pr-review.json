@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 503,
+  "expected_generation": 4,
+  "expected_digest": "b64b03844a3d6df86a6dd6a8b530e57bb35296aeb3d001111fa6e0428eaaad24",
+  "reviewer": "fresh-session:issue-503-pre-pr-review",
+  "assigned_by": "codex:worker-6",
+  "scope": [
+    "csdlc-v3/Cargo.toml",
+    "csdlc-v3/Cargo.lock",
+    "csdlc-v3/src/lib.rs",
+    "csdlc-v3/src/commands/mod.rs",
+    "csdlc-v3/src/commands/local/mod.rs",
+    "csdlc-v3/tests/local_commands.rs",
+    ".csdlc/issues/503",
+    ".csdlc/prepared/issues/503",
+    ".csdlc/evidence/503"
+  ]
+}

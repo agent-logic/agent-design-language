@@ -21,9 +21,9 @@ fn request() -> LocalPreparationRequest {
         issue: 503,
         title: "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow".into(),
         repository: "agent-logic/agent-design-language".into(),
-        branch: "codex/503-v3-d-c-sdlc-v3-local-preparation-workflow".into(),
+        branch: "codex/503-v3-d-local-preparation-workflow-exec".into(),
         worktree:
-            "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-csdlc-v3-local-preparation-workflow"
+            "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec"
                 .into(),
         registry_version: "1.0.3".into(),
         commands: vec![
@@ -47,9 +47,9 @@ fn registry() -> PromptRegistry {
 
 fn registrations() -> Vec<WorktreeRegistration> {
     vec![WorktreeRegistration {
-        branch: "codex/503-v3-d-c-sdlc-v3-local-preparation-workflow".into(),
+        branch: "codex/503-v3-d-local-preparation-workflow-exec".into(),
         worktree:
-            "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-csdlc-v3-local-preparation-workflow"
+            "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec"
                 .into(),
         primary: false,
     }]

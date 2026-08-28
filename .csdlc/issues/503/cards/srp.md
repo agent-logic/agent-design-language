@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-V3-D local command contracts, registered-topology bind model, active-registry card rendering path, doctor/PVF planning proof, focused local-command tests, and issue-local evidence only.
+csdlc-v3/Cargo.toml
+csdlc-v3/Cargo.lock
+csdlc-v3/src/lib.rs
+csdlc-v3/src/commands/mod.rs
+csdlc-v3/src/commands/local/mod.rs
+csdlc-v3/tests/local_commands.rs
+.csdlc/issues/503
+.csdlc/prepared/issues/503
+.csdlc/evidence/503
 
 ## Prompts
 

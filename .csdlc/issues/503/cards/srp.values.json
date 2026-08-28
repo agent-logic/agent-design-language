@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "V3-D local command contracts, registered-topology bind model, active-registry card rendering path, doctor/PVF planning proof, focused local-command tests, and issue-local evidence only.",
+      "review_scope": "csdlc-v3/Cargo.toml\ncsdlc-v3/Cargo.lock\ncsdlc-v3/src/lib.rs\ncsdlc-v3/src/commands/mod.rs\ncsdlc-v3/src/commands/local/mod.rs\ncsdlc-v3/tests/local_commands.rs\n.csdlc/issues/503\n.csdlc/prepared/issues/503\n.csdlc/evidence/503",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -5,10 +5,25 @@
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
   "phase": "implemented",
   "generation": 4,
-  "digest": "b64b03844a3d6df86a6dd6a8b530e57bb35296aeb3d001111fa6e0428eaaad24",
+  "digest": "5483d1429f09df0303cd58d40d99b0ed8e06dea84f551cfaa511538ee79ca12e",
   "branch": "codex/503-v3-d-local-preparation-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:issue-503-pre-pr-review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:d0539acb11e6e7aab2ca8bf600577dc2c582c34b:3dc80bf405d9198d0ff17535eb4d115d7f8a05aaeadb1974695d37858eecaf10",
+    "scope": [
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/commands/mod.rs",
+      "csdlc-v3/src/commands/local/mod.rs",
+      "csdlc-v3/tests/local_commands.rs",
+      ".csdlc/issues/503",
+      ".csdlc/prepared/issues/503",
+      ".csdlc/evidence/503"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "a479386f18161ee8a7429da309a23c8c510cae65f95ceedccacf75f5d4b9f50b"
     },
     "srp": {
-      "values_digest": "9fb3057afa7079b1f03e24c5b6ac88565e1fd0e2b470649896d3ef84e5983090",
-      "rendered_digest": "492ae9eabdd9220225d100cd38059634796eebd9a8d2c491a54b74472e7b0bfe",
-      "ast_digest": "f4b828208ae1ec091c2362919fe5f2621a0e6da7589458fd6c59f23607276a01"
+      "values_digest": "87efa0439d5e65429b3df352aa988777a5bdf2207605d5b00f3c52948ac2552f",
+      "rendered_digest": "fe675da665db062bb228ac64e9d3a7e099034078f0f1b14c2a81590ddab79fd7",
+      "ast_digest": "33967405acf51266ebb1248f1bd6d3abe8ba4c01542cadaa5ecd3b3b050d6649"
     },
     "sor": {
       "values_digest": "50e0dc1128ba061877538570cb6fc6c83d5f671a992df147435659242c01b40e",
@@ -119,6 +134,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
