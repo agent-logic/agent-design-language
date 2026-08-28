@@ -4,103 +4,34 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "published",
-  "generation": 32,
-  "digest": "3c5cfe80e0441ee7a509f95c6d6b2ef2fa09584868286ab69d4eb4f4088c713f",
+  "phase": "reviewed",
+  "generation": 34,
+  "digest": "35071a80d630d2109a64216c757c44b16df63444877590468cd3bb3a759e2356",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
   "review_assignment": {
-    "reviewer": "fresh-session:c7bd5e7f-878a-427e-8cd2-266522f83ee5",
+    "reviewer": "subagent:/root/review_551_ci_fixture",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:4bca700fd57370926e21874a6c8eeb47a3ea15a3:de3fd81b597ca0d9df83f6e40e4e929d22138bfe4084f92f89d7e5de69bcc20e",
+    "revision": "git-blake3:3c461d50f328fcfbf1050cf29c90f2bed15ce92e:66f2767a66fcf46e662aef30331f52eefeabee05503e8014fa17778bb5052a78",
     "scope": [
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "infra/runtime-v3/runtime-init.toml",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/polis_identity.test.mjs",
-      ".csdlc/prepared/issues/551",
-      ".csdlc/evidence/551",
-      ".csdlc/issues/551"
+      "adl/tools/validate_v0917_html_observatory.py"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:c7bd5e7f-878a-427e-8cd2-266522f83ee5",
+    "reviewer": "subagent:/root/review_551_ci_fixture",
     "scope": [
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "infra/runtime-v3/runtime-init.toml",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/polis_identity.test.mjs",
-      ".csdlc/prepared/issues/551",
-      ".csdlc/evidence/551",
-      ".csdlc/issues/551"
+      "adl/tools/validate_v0917_html_observatory.py"
     ],
-    "reviewed_revision": "git-blake3:4bca700fd57370926e21874a6c8eeb47a3ea15a3:de3fd81b597ca0d9df83f6e40e4e929d22138bfe4084f92f89d7e5de69bcc20e",
+    "reviewed_revision": "git-blake3:3c461d50f328fcfbf1050cf29c90f2bed15ce92e:66f2767a66fcf46e662aef30331f52eefeabee05503e8014fa17778bb5052a78",
     "findings": [],
     "residual_risks": [
       "Hosted CI remains the final integration gate before merge.",
       "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
     ],
     "completed": true,
-    "non_substantive_proof": {
-      "policy": "metadata_only_review_projection",
-      "from_revision": "git-blake3:151bf977d7c33357ba8f7f957a23ef12fec36b01:c0c87d8a0650b822a2afdbfaee100de79d097021ba552f999af003f4bed06412",
-      "to_revision": "git-blake3:4bca700fd57370926e21874a6c8eeb47a3ea15a3:de3fd81b597ca0d9df83f6e40e4e929d22138bfe4084f92f89d7e5de69bcc20e",
-      "from_commit": "151bf977d7c33357ba8f7f957a23ef12fec36b01",
-      "to_commit": "4bca700fd57370926e21874a6c8eeb47a3ea15a3",
-      "changed_paths": [
-        ".csdlc/issues/551/audit.jsonl",
-        ".csdlc/issues/551/cards/sip.values.json",
-        ".csdlc/issues/551/cards/sor.md",
-        ".csdlc/issues/551/cards/sor.values.json",
-        ".csdlc/issues/551/cards/spp.values.json",
-        ".csdlc/issues/551/cards/srp.md",
-        ".csdlc/issues/551/cards/srp.values.json",
-        ".csdlc/issues/551/cards/stp.values.json",
-        ".csdlc/issues/551/cards/vpp.values.json",
-        ".csdlc/issues/551/index.json",
-        ".csdlc/prepared/issues/551/assign-exact-head-review.json",
-        ".csdlc/prepared/issues/551/assign-metadata-review.json",
-        ".csdlc/prepared/issues/551/publish.json",
-        ".csdlc/prepared/issues/551/record-exact-head-review.json",
-        ".csdlc/prepared/issues/551/record-metadata-review.json",
-        ".csdlc/prepared/issues/551/recover-metadata-review.json"
-      ]
-    }
+    "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 551,
-    "pull_request": 573,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/573",
-    "base": "main",
-    "head": "codex/551-runtime-polis-config-owned-name-domain",
-    "revision": "git-blake3:4bca700fd57370926e21874a6c8eeb47a3ea15a3:de3fd81b597ca0d9df83f6e40e4e929d22138bfe4084f92f89d7e5de69bcc20e",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -114,34 +45,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3f6ee747b0c0d9189c3d94a3b5e9a99f9057120e816fbfe170ed4c674d674007",
+      "values_digest": "e29252f2ea7cd51c67dbbc193af2afbe6405485b1132d34c6000cdacac6ea8ed",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "bb6217510a687925ceec1dec7e42be806d03e7c217bbf1147649f5e30aaeef4d",
+      "values_digest": "74cd56fc5af6c2910fd1195e84295e8852b3129e050fe82705b0fa98e2d91c4d",
       "rendered_digest": "f3edeacea97ff8c487d7faf65e61e843116a08bc1eddbc0e301d443e18748110",
       "ast_digest": "ffe8936d8753a323affd8530293c14b6c895422798ae71ceb1f061f3320e1add"
     },
     "spp": {
-      "values_digest": "8028a110ab62b42d72e1f13d0c84868679848cf5dc46351b456a309ae9a9e24b",
+      "values_digest": "bde1c8ae4adab878469b91f32ef8506194ea9870f3d7014f22be3eebb0f0f714",
       "rendered_digest": "76c8f20ba37a7f1b5c4bccdb77697c30543bd8d7e464db18d4b2c77fae794b4a",
       "ast_digest": "d79774bb4afaec91e566a8801eece1309dd8dbf68fc0e758027afcc34e465b49"
     },
     "vpp": {
-      "values_digest": "d188ad03a9272a1d82f32ae59060d3b15c077ae0f9f04e7ec42bb2d4a22514c9",
+      "values_digest": "cae3d3d11fbd648211c4017e3c01a3bede6aa582d205e7968685c04edffc51d9",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "41eb382ca731606949860cb094db2aeb3174d33a661a323e2d11f8a773f1e62e",
-      "rendered_digest": "3fd635d034f03a95b602358d480cab3b6f330e8573c8eaacb4ad540f509988f7",
-      "ast_digest": "e842b97954bad9f9f9448b111e53612a31451989f0c4c22b433a5175f8f765b7"
+      "values_digest": "797837323f8d9c2ea2ad503766842aac8027b1f75ccca4b15fc1070427d1672a",
+      "rendered_digest": "26cac74a54b0e0785909a9e3365e8dd1676361bcbcb46b9987ccffbc8f84c19e",
+      "ast_digest": "d55748a8f9222a876e51adb6ea5bd0237b6a90f0114bbaf81c165b1fd968f576"
     },
     "sor": {
-      "values_digest": "b1e56b09041ddccb11be58c51f66162c96f7c7daaa959e67e76a7ac02714bc90",
-      "rendered_digest": "fba89c41db27b88cdcc19ff54ac30664418699c7a32e429a75376091e3406dbd",
-      "ast_digest": "ad750498fcb505cdc6eae416c67676b984773abcdb5004eb6ec799ac97c7f606"
+      "values_digest": "f2ba9d74cf996ae668e51a867c944597a2cf5e28774f3b140ea7dc20f50d5757",
+      "rendered_digest": "463c36c08afbe9e79fcc6cc3616c14c7ffb899f5c2d6853370a4bdc21d05e349",
+      "ast_digest": "a9ca407074e802f328010d1e3b457484f56017e83bb99cac6455322e73e5ff8e"
     }
   },
   "transitions": [
@@ -207,6 +138,20 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Required CI exposed a stale Runtime v3 Observatory proof fixture after publication; recover review so the bounded fixture repair can receive exact-head review and republication."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -468,6 +413,27 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 38,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Required CI exposed a stale Runtime v3 Observatory proof fixture after publication; recover review so the bounded fixture repair can receive exact-head review and republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 34,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

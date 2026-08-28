@@ -35,3 +35,6 @@
 {"sequence":35,"generation":30,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":36,"generation":31,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":37,"generation":32,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":38,"generation":33,"actor":"codex:/root","reason":"Required CI exposed a stale Runtime v3 Observatory proof fixture after publication; recover review so the bounded fixture repair can receive exact-head review and republication.","operation":"recover_review"}
+{"sequence":39,"generation":33,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":40,"generation":34,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
