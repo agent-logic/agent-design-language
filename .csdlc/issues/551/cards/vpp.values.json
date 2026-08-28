@@ -7,7 +7,7 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 39
+    "generation": 47
   },
   "status": "ready",
   "content": {
@@ -120,9 +120,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on scope drift, Unity activation, identity ambiguity, secret exposure, zero-test proof, or stale review.",
       "design_ref": ".csdlc/prepared/issues/551/design.md",
-      "design_digest": "e502e926314c0472b3d8df68fa358bca8de7dc30cd72617e6278e14d69de0710",
+      "design_digest": "f6eeb4c1e7d54dd46a4e16725b9f392370196892a74e0c70a0b5930764eb356d",
       "diagram_ref": ".csdlc/prepared/issues/551/diagram.mmd",
-      "diagram_digest": "87391f624101b24aa3024a1756fa2e7ba2e9fff3ca293424e36b2eb717a4d31e"
+      "diagram_digest": "047aed23fe007d7e8670c3a585c6a376f038cfabf1616980469bc1dde0654450"
     }
   }
 }

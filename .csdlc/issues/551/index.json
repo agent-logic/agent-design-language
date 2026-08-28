@@ -4,47 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "published",
-  "generation": 39,
-  "digest": "e7b7baf39ace522f3bbc2f2eaa3ea13520b4c450456c96132076a224c9f9aaee",
+  "phase": "implemented",
+  "generation": 47,
+  "digest": "00d9edce172af39ab8c9aba16cca7a88ba17b831fae39f47ac8fc0d2a85489c7",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
-  "review_assignment": {
-    "reviewer": "subagent:/root/review_551_ci_fixture",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc",
-    "scope": [
-      ".csdlc/issues/551",
-      ".csdlc/prepared/issues/551"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/review_551_ci_fixture",
-    "scope": [
-      ".csdlc/issues/551",
-      ".csdlc/prepared/issues/551"
-    ],
-    "reviewed_revision": "git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc",
-    "findings": [],
-    "residual_risks": [
-      "Hosted CI remains the final integration gate before merge.",
-      "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 551,
-    "pull_request": 573,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/573",
-    "base": "main",
-    "head": "codex/551-runtime-polis-config-owned-name-domain",
-    "revision": "git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -52,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/551/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:d609345e-3915-4901-ad5f-1281b76c1566",
-      "revision": "e502e926314c0472b3d8df68fa358bca8de7dc30cd72617e6278e14d69de0710"
+      "reviewer": "fresh-session:1a42d244-c101-4720-b86e-02148c67b1a7",
+      "revision": "f6eeb4c1e7d54dd46a4e16725b9f392370196892a74e0c70a0b5930764eb356d"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "060e6da1d33e2646f6806eeaa8fb6cf31335b6bef31ffcb92749eac32b16730f",
+      "values_digest": "17d17c4e50de244d181467b65eb69658eb2a1de26eba8b55044561e83e680069",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "fb605968cb728d1fe821772ba843860a2d01a0ded81bd540321b4575f0172f4d",
-      "rendered_digest": "f3edeacea97ff8c487d7faf65e61e843116a08bc1eddbc0e301d443e18748110",
-      "ast_digest": "ffe8936d8753a323affd8530293c14b6c895422798ae71ceb1f061f3320e1add"
+      "values_digest": "fa7df3e605e1ee7a4de1583a750e2065a8317ddd4d052e9a6f066a11d0a5b8f1",
+      "rendered_digest": "cf2567f90e060a9e980fc89e374894bc5b09262a3186eff2160fc12880a8e510",
+      "ast_digest": "78d816272741f7f118d456204abc7428a4655d5f8508ccb79db2de6c924845f2"
     },
     "spp": {
-      "values_digest": "fff53e9bac26a3ba862df636e61517dca75a4461a9dbc01452d3bbe1d43441dd",
-      "rendered_digest": "76c8f20ba37a7f1b5c4bccdb77697c30543bd8d7e464db18d4b2c77fae794b4a",
-      "ast_digest": "d79774bb4afaec91e566a8801eece1309dd8dbf68fc0e758027afcc34e465b49"
+      "values_digest": "6ae5d180191be3414577cafd356e6ca05282a651bc8377b975f02cbc90568c52",
+      "rendered_digest": "a666f14982eff05ea1d3b5067be873e6a7ace7eea5db9285dcab59df12fe42cf",
+      "ast_digest": "d31e118878c8ec5319038be004da30e0a9138905834b82409bd3198dacbe1846"
     },
     "vpp": {
-      "values_digest": "f3df7b2e38b2f3c834d77d65861d802c3be3490b52d5c29535b8079b8f1db67c",
+      "values_digest": "257650765df747ddf2798d8c7223862f221550a3c8384c1608c8b441970218c4",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "28c5b371e8a511ba0f96048191620a497f3eea1c10a2cf30ed348db121d94abe",
-      "rendered_digest": "d7a1d41bc34288fe21aaf7e9cd8f89339d135d85f53d5c7db5a957cf854f3a79",
-      "ast_digest": "f48dad50a7cc2110f0832702612897b9ec5dbdff4c3148d64012a185a35ac108"
+      "values_digest": "ba7b15b9ba575177e2f849e7ca577097886a205cdfab0ad56e32aba53dd568fb",
+      "rendered_digest": "631aedd49d88337d90557b7d331e4913c8e5f87db6c3437e3d2361a555189b4c",
+      "ast_digest": "77876e85ae6575aa52a6831b318d66e317bfd5a9b5133337f097d54f091f713b"
     },
     "sor": {
-      "values_digest": "82b2dd8fecd6e2a8ad488075588fcd778743e7d856f6b83fee19e116fd24dd14",
-      "rendered_digest": "fba89c41db27b88cdcc19ff54ac30664418699c7a32e429a75376091e3406dbd",
-      "ast_digest": "ad750498fcb505cdc6eae416c67676b984773abcdb5004eb6ec799ac97c7f606"
+      "values_digest": "05153b3770cc79c358bc34bf53c6648f0bf27f8ca010583a4294c366fd991af5",
+      "rendered_digest": "aea583815c1751a5b8ae43735198afc60ec665618f467c992513847bbc251e00",
+      "ast_digest": "61171e488d027e16e2e297063791c51494dfa84529f49c4cbbc537208de5cd7b"
     }
   },
   "transitions": [
@@ -200,6 +167,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Exact-head review found an allowed-origin consistency gap and constants-only v1/v2 compatibility; recover publication for bounded implementation and card correction."
     }
   ],
   "audit": [
@@ -531,6 +505,62 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 48,
+      "generation": 40,
+      "actor": "codex:/root",
+      "reason": "Exact-head review found an allowed-origin consistency gap and constants-only v1/v2 compatibility; recover publication for bounded implementation and card correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 41,
+      "actor": "codex:/root",
+      "reason": "{\"disposition\":\"Replace the false compatibility claim with explicit REST/WSS negotiation and require the advertised Observatory origin to be accepted.\",\"false_reviewer\":\"fresh-session:d609345e-3915-4901-ad5f-1281b76c1566\",\"previous_approval\":{\"reviewer\":\"fresh-session:d609345e-3915-4901-ad5f-1281b76c1566\",\"revision\":\"e502e926314c0472b3d8df68fa358bca8de7dc30cd72617e6278e14d69de0710\"},\"reason\":\"Exact-head review proved the approved design falsely described v1/v2 compatibility as an existing path and omitted allowed-origin membership.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 42,
+      "actor": "codex:/root",
+      "reason": "Refresh the authored design identity after incorporating the exact-head origin-consistency and schema-compatibility review findings",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/551/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/551/diagram.mmd\",\"new_design_digest\":\"f6eeb4c1e7d54dd46a4e16725b9f392370196892a74e0c70a0b5930764eb356d\",\"new_diagram_digest\":\"047aed23fe007d7e8670c3a585c6a376f038cfabf1616980469bc1dde0654450\",\"old_design_digest\":\"e502e926314c0472b3d8df68fa358bca8de7dc30cd72617e6278e14d69de0710\",\"old_diagram_digest\":\"87391f624101b24aa3024a1756fa2e7ba2e9fff3ca293424e36b2eb717a4d31e\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":40,\"recovery_sequence\":48}"
+    },
+    {
+      "sequence": 51,
+      "generation": 43,
+      "actor": "codex:/root",
+      "reason": "Bind the advertised-origin consistency rule and executable v1/v2/v3 REST and WSS compatibility contract found missing in exact-head review",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Startup and reload reject missing duplicated malformed or endpoint-inconsistent identity, including an advertised Observatory origin absent from the combined allowed-origin set\",\"AC-2: REST and WSS default to the existing v2 feed, explicitly negotiate v1 and v3 projections, reject unsupported schema selectors, and expose configured Polis identity only in v3\",\"AC-3: HTML explicitly requests v3 and renders feed values without URL inference or deployment constants\",\"AC-4: Every Polis parameter hot-loads atomically without Runtime restart, while invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic\",\"AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass\"]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 44,
+      "actor": "codex:/root",
+      "reason": "Bind the repaired origin and executable schema-negotiation contracts as operative implementation invariants",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"The advertised Observatory public origin is an exact member of the combined allowed-origin set\",\"REST and WSS default to v2 and explicitly negotiate v1 or v3 without inventing compatibility from constants\",\"Every Polis parameter may hot-load without restarting the Runtime\",\"A reload publishes one complete validated snapshot or no change\",\"Invalid reloads preserve the complete last-known-good snapshot\",\"Identity projection and diagnostics remain redacted\",\"Unity remains deferred\"]}"
+    },
+    {
+      "sequence": 53,
+      "generation": 45,
+      "actor": "codex:/root",
+      "reason": "Direct exact-head review at the two repaired behavioral gaps instead of the superseded constants-only compatibility claim",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does validation reject an advertised Observatory origin that the combined CORS and WSS policy would not accept?\",\"Do REST and WSS default to the existing v2 contract, explicitly project v1 and v3, and reject unsupported schema selectors?\",\"Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?\",\"Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?\",\"Does HTML explicitly request v3 and render only feed-owned identity values?\",\"Is Unity absent from the diff?\"]}"
+    },
+    {
+      "sequence": 54,
+      "generation": 46,
+      "actor": "fresh-session:1a42d244-c101-4720-b86e-02148c67b1a7",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"f6eeb4c1e7d54dd46a4e16725b9f392370196892a74e0c70a0b5930764eb356d\",\"design_ref\":\".csdlc/prepared/issues/551/design.md\",\"diagram_digest\":\"047aed23fe007d7e8670c3a585c6a376f038cfabf1616980469bc1dde0654450\",\"diagram_ref\":\".csdlc/prepared/issues/551/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 55,
+      "generation": 47,
+      "actor": "codex:/root",
+      "reason": "Record the bounded origin-consistency and executable schema-compatibility remediation with the exact focused proof rerun after review",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a validated Runtime-owned Polis identity and atomic presentation snapshot, then closed exact-head review gaps by requiring the advertised origin to be accepted and providing executable REST/WSS v1/v2/v3 negotiation with v2 compatibility default and HTML v3 opt-in.\",\"changes\":[\"Require polis.observatory_public_origin to be an exact member of the combined configured allowed-origin set before startup or reload can publish it.\",\"Serve historical v2 by default on REST and WSS, explicit historical v1 projections for schema=v1, and identity-bearing v3 projections for schema=v3; unsupported selectors fail with HTTP 400.\",\"Bind historical v1/v2 top-level, control, and agent-population field denominators with exact-key assertions rather than unused constants or selective absence checks.\",\"Make the HTML Observatory explicitly request v3 for both HTTPS and WSS while existing selector-free clients continue to receive v2.\",\"Preserve the existing atomic full-parameter hot reload, last-known-good rejection, bounded diagnostics, and Unity deferral boundaries.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"adl/tools/validate_v0917_html_observatory.py\",\".csdlc/evidence/551/html-polis-node.tap\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/551/validate-runtime-polis.sh\"],\"purpose\":\"Prove exact nonzero configuration, full hot-reload control, negotiated REST/WSS compatibility, v3 feed, OpenAPI, and bounded diagnostic targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1, binary diagnostic 1/1.\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--test\",\"control\",\"--test\",\"observatory\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"purpose\":\"Prove the complete affected Runtime integration denominator including exact v1/v2/v3 REST and WSS behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local nextest run: 76/76 passed.\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"guardian_soak\",\"--no-tests=fail\",\"-E\",\"test(signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_process)\"],\"purpose\":\"Prove the production guardian explicitly negotiates the identity-bearing v3 projection.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local nextest run: 1/1 passed.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/551/validate-html-polis.sh\"],\"purpose\":\"Prove HTML v3 opt-in and exact feed-owned identity rendering while rejecting zero tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/551/html-polis-node.tap; 3/3 passed.\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"}]}"
     }
   ]
 }

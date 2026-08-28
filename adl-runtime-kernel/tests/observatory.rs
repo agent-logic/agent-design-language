@@ -609,9 +609,13 @@ async fn websocket_server(
 }
 
 fn request(address: std::net::SocketAddr, origin: &str) -> Request<()> {
-    let mut request = format!("wss://localhost:{}{}", address.port(), OBSERVATORY_WS_PATH)
-        .into_client_request()
-        .unwrap();
+    let mut request = format!(
+        "wss://localhost:{}{}?schema=v3",
+        address.port(),
+        OBSERVATORY_WS_PATH
+    )
+    .into_client_request()
+    .unwrap();
     request
         .headers_mut()
         .insert("Origin", HeaderValue::from_str(origin).unwrap());
@@ -782,9 +786,48 @@ async fn observatory_websocket_allows_public_reads_and_requires_login_for_writes
         connect_async_tls_with_config(native_request, None, false, Some(connector.clone()))
             .await
             .unwrap();
-    let native_feed = next_json_with_schema(&mut native_socket, OBSERVATORY_FEED_SCHEMA).await;
+    let native_feed = next_json_with_schema(
+        &mut native_socket,
+        adl_runtime_kernel::PREVIOUS_OBSERVATORY_FEED_SCHEMA,
+    )
+    .await;
     assert_eq!(native_feed["runtime_instance_id"], "instance-ws");
+    assert!(native_feed.get("polis_identity").is_none());
     native_socket.close(None).await.unwrap();
+
+    let legacy_request = format!(
+        "wss://localhost:{}{}?schema=v1",
+        address.port(),
+        OBSERVATORY_WS_PATH
+    )
+    .into_client_request()
+    .unwrap();
+    let (mut legacy_socket, _) =
+        connect_async_tls_with_config(legacy_request, None, false, Some(connector.clone()))
+            .await
+            .unwrap();
+    let legacy_feed = next_json_with_schema(
+        &mut legacy_socket,
+        adl_runtime_kernel::LEGACY_OBSERVATORY_FEED_SCHEMA,
+    )
+    .await;
+    assert!(legacy_feed.get("polis_identity").is_none());
+    assert!(legacy_feed.get("runtime_incarnation_id").is_none());
+    assert!(legacy_feed["control"].get("websocket_endpoint").is_none());
+    legacy_socket.close(None).await.unwrap();
+
+    let unsupported_request = format!(
+        "wss://localhost:{}{}?schema=v4",
+        address.port(),
+        OBSERVATORY_WS_PATH
+    )
+    .into_client_request()
+    .unwrap();
+    let unsupported =
+        connect_async_tls_with_config(unsupported_request, None, false, Some(connector.clone()))
+            .await
+            .unwrap_err();
+    assert!(unsupported.to_string().contains("400"));
 
     let mut socket = connect_public(address, connector).await;
     let command = SignedControlCommand::sign(

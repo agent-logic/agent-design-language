@@ -83,9 +83,9 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
   api_base: `https://${RUNTIME_V3_DEFAULT_TRUSTED_HOST}:20997`,
   trusted_hosts: [RUNTIME_V3_DEFAULT_TRUSTED_HOST],
   health_endpoint: "/v1/health",
-  observatory_endpoint: "/v1/observatory",
+  observatory_endpoint: "/v1/observatory?schema=v3",
   readiness_endpoint: "/v1/ready",
-  observatory_websocket_endpoint: "/v1/observatory/ws",
+  observatory_websocket_endpoint: "/v1/observatory/ws?schema=v3",
   signed_command_endpoint: "/v1/control",
   observatory_docs_endpoint: "/v1/observatory/docs/"
 });

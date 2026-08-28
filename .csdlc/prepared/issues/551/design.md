@@ -18,7 +18,7 @@ Add one validated Runtime-owned Polis identity projection and render it in the H
 - `id`: bounded durable Polis identifier using the existing safe-identifier grammar.
 - `display_name`: trimmed, nonempty, bounded operator-facing text.
 - `public_domain`: canonical lowercase DNS name equal to the host in `api.public_base_url` and `api.tls.server_name`.
-- `observatory_public_origin`: exact HTTPS origin with no path, query, fragment, credentials, or wildcard.
+- `observatory_public_origin`: exact HTTPS origin with no path, query, fragment, credentials, or wildcard, and an exact member of the combined configured Observatory allowed-origin set.
 
 Startup validation fails closed for missing, duplicated, malformed, or inconsistent values. Duplicate `polis` sections or duplicate identity keys are rejected rather than resolved by last-value-wins parsing. The configuration and diagnostics never contain private keys, tokens, certificate bytes, or machine-local paths.
 
@@ -30,7 +30,7 @@ The #510 reload applier validates the complete next `RuntimeInitConfig`, constru
 
 ## Observatory contract
 
-The current Observatory feed advances from schema v2 to v3 and adds one required `polis_identity` object. It exposes only:
+The Observatory feed adds schema v3 with one required `polis_identity` object. Compatibility is an executable negotiation contract on both REST and WebSocket surfaces: an omitted `schema` query preserves the existing v2 projection, `schema=v1` returns the historical v1 projection, and `schema=v3` opts into the new identity-bearing projection. Unsupported selectors fail closed. It exposes only:
 
 - `polis_id`
 - `display_name`
@@ -38,11 +38,11 @@ The current Observatory feed advances from schema v2 to v3 and adds one required
 - `runtime_api_base`
 - `observatory_public_origin`
 
-The OpenAPI projection and focused Runtime tests bind the exact shape and redaction boundary. The existing legacy v1 and current v2 constants remain accepted only by their existing compatibility paths; neither is reinterpreted as v3 and neither synthesizes `polis_identity`. New production output is v3 only.
+The OpenAPI contract documents the selector, default, stable schema identities, and v3 identity shape. Focused REST and WSS tests bind negotiation behavior, and exact-key assertions bind the historical v1 and v2 top-level, control, and agent-population field denominators. The compatibility OpenAPI entries remain intentionally permissive descriptions of historical payloads rather than pretending to be complete generated-client schemas. The v1 and v2 projections retain their historical schema strings and never synthesize `polis_identity`. The HTML client explicitly requests v3 for both HTTPS and WSS, while existing clients that omit the selector continue receiving v2.
 
 ## HTML consumer
 
-The HTML Observatory replaces the hard-coded `prod-polis` readout with a stable DOM target populated from `feed.polis_identity`. A small pure projection helper validates the feed values and fails closed to an unavailable presentation; it does not infer identity from `window.location`, query parameters, DNS lookup, localhost, or fallback deployment constants.
+The HTML Observatory explicitly negotiates v3, then replaces the hard-coded `prod-polis` readout with a stable DOM target populated from `feed.polis_identity`. A small pure projection helper validates the feed values and fails closed to an unavailable presentation; it does not infer identity from `window.location`, query parameters, DNS lookup, localhost, or fallback deployment constants.
 
 ## Exact owned paths
 

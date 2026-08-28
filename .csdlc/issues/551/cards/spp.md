@@ -16,7 +16,7 @@ Add the required validated Polis init contract, project it through the Runtime f
 
 ## Plan
 
-Revision 9
+Revision 10
 
 ## Steps
 
@@ -63,6 +63,8 @@ Revision 9
 
 ## Invariants
 
+- The advertised Observatory public origin is an exact member of the combined allowed-origin set
+- REST and WSS default to v2 and explicitly negotiate v1 or v3 without inventing compatibility from constants
 - Every Polis parameter may hot-load without restarting the Runtime
 - A reload publishes one complete validated snapshot or no change
 - Invalid reloads preserve the complete last-known-good snapshot
@@ -88,13 +90,13 @@ Revision 9
 
 .csdlc/prepared/issues/551/design.md
 
-Digest: e502e926314c0472b3d8df68fa358bca8de7dc30cd72617e6278e14d69de0710
+Digest: f6eeb4c1e7d54dd46a4e16725b9f392370196892a74e0c70a0b5930764eb356d
 
 ## Diagram
 
 .csdlc/prepared/issues/551/diagram.mmd
 
-Digest: 87391f624101b24aa3024a1756fa2e7ba2e9fff3ca293424e36b2eb717a4d31e
+Digest: 047aed23fe007d7e8670c3a585c6a376f038cfabf1616980469bc1dde0654450
 
 ## Stop Conditions
 

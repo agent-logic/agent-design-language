@@ -86,10 +86,23 @@
         "operationId": "readObservatorySnapshot",
         "tags": ["observatory"],
         "summary": "Read the current Runtime v3 Observatory snapshot",
+        "parameters": [
+          {
+            "name": "schema",
+            "in": "query",
+            "required": false,
+            "description": "Select the exact feed projection. Omission preserves the existing v2 contract; v3 opts into Polis identity.",
+            "schema": {
+              "type": "string",
+              "enum": ["v1", "v2", "v3"],
+              "default": "v2"
+            }
+          }
+        ],
         "security": [],
         "responses": {
           "200": {
-            "description": "Current Runtime v3 Observatory snapshot.",
+            "description": "Negotiated Observatory snapshot; defaults to the existing v2 projection.",
             "headers": {
               "Cache-Control": {
                 "schema": {
@@ -100,7 +113,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ObservatoryFeed"
+                  "oneOf": [
+                    {"$ref": "#/components/schemas/ObservatoryFeedV1Compatibility"},
+                    {"$ref": "#/components/schemas/ObservatoryFeedV2Compatibility"},
+                    {"$ref": "#/components/schemas/ObservatoryFeed"}
+                  ]
                 }
               }
             }
@@ -129,6 +146,19 @@
         "operationId": "openObservatoryWebSocket",
         "tags": ["observatory"],
         "summary": "Open a public-read, authenticated-write Observatory WSS session",
+        "parameters": [
+          {
+            "name": "schema",
+            "in": "query",
+            "required": false,
+            "description": "Select the exact public feed frame projection. Omission preserves v2; v3 opts into Polis identity.",
+            "schema": {
+              "type": "string",
+              "enum": ["v1", "v2", "v3"],
+              "default": "v2"
+            }
+          }
+        ],
         "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands, bounded conversation intents or cancellations, or bounded ACIP Protobuf binary envelopes. Conversation acceptance and terminal outcomes are Runtime-authoritative and correlated by conversation, turn, recipient, and correlation identifiers.",
         "security": [],
         "responses": {
@@ -388,6 +418,22 @@
           "result": { "const": "shutdown" },
           "exit": { "enum": ["clean", "failed"] }
         }
+      },
+      "ObservatoryFeedV1Compatibility": {
+        "type": "object",
+        "required": ["schema"],
+        "properties": {
+          "schema": {"const": "adl.runtime_v3.observatory_feed.v1"}
+        },
+        "additionalProperties": true
+      },
+      "ObservatoryFeedV2Compatibility": {
+        "type": "object",
+        "required": ["schema"],
+        "properties": {
+          "schema": {"const": "adl.runtime_v3.observatory_feed.v2"}
+        },
+        "additionalProperties": true
       },
       "ObservatoryFeed": {
         "type": "object",

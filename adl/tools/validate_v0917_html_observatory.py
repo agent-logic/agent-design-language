@@ -33,7 +33,7 @@ CSM_READY_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_49
 CSM_METRICS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json"
 CSM_EVENTS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
 RUNTIME_V3_CONFIG_REF = "./runtime-v3.config.json"
-RUNTIME_V3_OBSERVATORY_ENDPOINT = "https://wuji.dev.csm.agent-logic.ai:20997/v1/observatory"
+RUNTIME_V3_OBSERVATORY_ENDPOINT = "https://wuji.dev.csm.agent-logic.ai:20997/v1/observatory?schema=v3"
 
 
 def fail(message: str) -> None:
@@ -228,7 +228,7 @@ def run_js_view_model(
           ["http://localhost:49210/ready", retainedFiles.get(retainedRefs.readyRef)],
           ["http://localhost:49210/metrics", retainedFiles.get(retainedRefs.metricsRef)],
           ["http://localhost:49210/events", retainedFiles.get(retainedRefs.eventsRef)],
-          ["https://wuji.dev.csm.agent-logic.ai:20997/v1/observatory", runtimeV3Feed],
+          ["https://wuji.dev.csm.agent-logic.ai:20997/v1/observatory?schema=v3", runtimeV3Feed],
           ["https://wuji.dev.csm.agent-logic.ai:20997/v1/health", runtimeV3Health],
           ["https://wuji.dev.csm.agent-logic.ai:20997/v1/ready", runtimeV3Readiness]
         ]);
@@ -852,12 +852,12 @@ def main() -> int:
       fail("Runtime v3 Observatory config must declare the trusted public HTTPS API base")
     if runtime_v3_config.get("health_endpoint") != "/v1/health":
       fail("Runtime v3 Observatory config must declare /v1/health")
-    if runtime_v3_config.get("observatory_endpoint") != "/v1/observatory":
-      fail("Runtime v3 Observatory config must declare /v1/observatory")
+    if runtime_v3_config.get("observatory_endpoint") != "/v1/observatory?schema=v3":
+      fail("Runtime v3 Observatory config must explicitly negotiate feed schema v3")
     if runtime_v3_config.get("readiness_endpoint") != "/v1/ready":
       fail("Runtime v3 Observatory config must declare /v1/ready")
-    if runtime_v3_config.get("observatory_websocket_endpoint") != "/v1/observatory/ws":
-      fail("Runtime v3 Observatory config must declare /v1/observatory/ws")
+    if runtime_v3_config.get("observatory_websocket_endpoint") != "/v1/observatory/ws?schema=v3":
+      fail("Runtime v3 Observatory config must explicitly negotiate WebSocket schema v3")
     if runtime_v3_config.get("signed_command_endpoint") != "/v1/control":
       fail("Runtime v3 Observatory config must declare /v1/control for signed commands")
     assert_contains("JS Runtime v3 observatory schema", js, 'RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v3"')
@@ -1127,7 +1127,7 @@ def main() -> int:
     if async_race.get("wssStopWebsocketStatus") != "stopped":
       fail(f"late WSS completion overwrote stopped WebSocket status: {async_race!r}")
     trusted_wss = smoke["trustedWss"]
-    if trusted_wss.get("endpoint") != "wss://wuji.dev.csm.agent-logic.ai:20997/v1/observatory/ws":
+    if trusted_wss.get("endpoint") != "wss://wuji.dev.csm.agent-logic.ai:20997/v1/observatory/ws?schema=v3":
       fail(f"trusted WSS endpoint was not the configured public Runtime host: {trusted_wss!r}")
     if trusted_wss.get("authFrameSent") is not True:
       fail(f"operator token was not sent after trusted localhost WSS open: {trusted_wss!r}")

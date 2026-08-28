@@ -70,6 +70,24 @@ pub const OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_intent.v1";
 pub const OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_result.v1";
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum ObservatoryFeedVersion {
+    V1,
+    V2,
+    V3,
+}
+
+impl ObservatoryFeedVersion {
+    fn parse(value: Option<&str>) -> Result<Self, ()> {
+        match value {
+            None | Some("") | Some("v2") | Some(PREVIOUS_OBSERVATORY_FEED_SCHEMA) => Ok(Self::V2),
+            Some("v1") | Some(LEGACY_OBSERVATORY_FEED_SCHEMA) => Ok(Self::V1),
+            Some("v3") | Some(OBSERVATORY_FEED_SCHEMA) => Ok(Self::V3),
+            Some(_) => Err(()),
+        }
+    }
+}
 pub const OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_cancel.v1";
 pub const OBSERVATORY_WS_GOVERNED_ROOM_INTENT_SCHEMA: &str =
@@ -1860,6 +1878,87 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }
     }
 
+    fn observatory_feed_projection(&self, version: ObservatoryFeedVersion) -> serde_json::Value {
+        let mut value = serde_json::to_value(self.observatory_feed())
+            .expect("Observatory feed must remain serializable");
+        let Some(feed) = value.as_object_mut() else {
+            unreachable!("Observatory feed must serialize as an object");
+        };
+        match version {
+            ObservatoryFeedVersion::V3 => value,
+            ObservatoryFeedVersion::V2 => {
+                feed.insert(
+                    "schema".to_owned(),
+                    serde_json::Value::String(PREVIOUS_OBSERVATORY_FEED_SCHEMA.to_owned()),
+                );
+                feed.remove("polis_identity");
+                value
+            }
+            ObservatoryFeedVersion::V1 => {
+                feed.insert(
+                    "schema".to_owned(),
+                    serde_json::Value::String(LEGACY_OBSERVATORY_FEED_SCHEMA.to_owned()),
+                );
+                for field in [
+                    "polis_identity",
+                    "runtime_incarnation_id",
+                    "runtime_process_id",
+                    "weather_freshness",
+                    "ingress",
+                ] {
+                    feed.remove(field);
+                }
+                if let Some(control) = feed
+                    .get_mut("control")
+                    .and_then(serde_json::Value::as_object_mut)
+                {
+                    for field in [
+                        "public_base_url",
+                        "websocket_endpoint",
+                        "websocket_full_duplex",
+                        "websocket_acip_binary_schema",
+                        "bearer_token_required_for_read",
+                        "login_required_for_mutation",
+                    ] {
+                        control.remove(field);
+                    }
+                }
+                if let Some(agents) = feed
+                    .get_mut("agents")
+                    .and_then(serde_json::Value::as_object_mut)
+                {
+                    for field in [
+                        "schema",
+                        "revision",
+                        "scope",
+                        "has_more",
+                        "next_page_token",
+                        "event_cursor",
+                        "population_complete",
+                    ] {
+                        agents.remove(field);
+                    }
+                    if let Some(sample) = agents
+                        .get_mut("sample")
+                        .and_then(serde_json::Value::as_array_mut)
+                    {
+                        for agent in sample {
+                            if let Some(agent) = agent.as_object_mut() {
+                                agent.retain(|field, _| {
+                                    matches!(
+                                        field.as_str(),
+                                        "id" | "label" | "role" | "state" | "detail"
+                                    )
+                                });
+                            }
+                        }
+                    }
+                }
+                value
+            }
+        }
+    }
+
     pub fn readiness_report(&self) -> RuntimeReadinessReport {
         let feed = self.observatory_feed();
         let weather_freshness = feed.weather_freshness.clone();
@@ -2383,13 +2482,27 @@ async fn acip_ws_session<C: LifecycleControl + 'static>(
 
 async fn observatory_feed_handler<C: LifecycleControl + 'static>(
     State(service): State<Arc<ControlService<C>>>,
+    Query(query): Query<ObservatoryFeedQuery>,
     headers: HeaderMap,
 ) -> Response {
     let allowed_origin = allowed_origin(&service, &headers);
     if headers.contains_key(header::ORIGIN) && allowed_origin.is_none() {
         return StatusCode::FORBIDDEN.into_response();
     }
-    observatory_json(StatusCode::OK, service.observatory_feed(), allowed_origin)
+    let Ok(version) = ObservatoryFeedVersion::parse(query.schema.as_deref()) else {
+        return StatusCode::BAD_REQUEST.into_response();
+    };
+    observatory_json(
+        StatusCode::OK,
+        service.observatory_feed_projection(version),
+        allowed_origin,
+    )
+}
+
+#[derive(Deserialize, Default)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryFeedQuery {
+    schema: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -2458,15 +2571,19 @@ async fn agent_detail_handler<C: LifecycleControl + 'static>(
 async fn observatory_ws_handler<C: LifecycleControl + 'static>(
     ws: WebSocketUpgrade,
     State(service): State<Arc<ControlService<C>>>,
+    Query(query): Query<ObservatoryFeedQuery>,
     headers: HeaderMap,
 ) -> Response {
     if headers.contains_key(header::ORIGIN) && allowed_origin(&service, &headers).is_none() {
         return StatusCode::FORBIDDEN.into_response();
     }
+    let Ok(version) = ObservatoryFeedVersion::parse(query.schema.as_deref()) else {
+        return StatusCode::BAD_REQUEST.into_response();
+    };
     let api_policy = service.api_policy();
     ws.max_frame_size(api_policy.websocket_max_frame_bytes)
         .max_message_size(api_policy.websocket_max_frame_bytes)
-        .on_upgrade(move |socket| observatory_ws_session(socket, service))
+        .on_upgrade(move |socket| observatory_ws_session(socket, service, version))
 }
 
 #[derive(Deserialize)]
@@ -2710,6 +2827,7 @@ struct ObservatoryWsControlResult {
 async fn observatory_ws_session<C: LifecycleControl + 'static>(
     mut socket: WebSocket,
     service: Arc<ControlService<C>>,
+    version: ObservatoryFeedVersion,
 ) {
     let api_policy = service.api_policy();
     let mut bearer_token: Option<String> = None;
@@ -2721,7 +2839,8 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
         );
     let mut refresh = tokio::time::interval(api_policy.websocket_refresh);
     refresh.tick().await;
-    let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed()) else {
+    let Ok(initial_feed) = serde_json::to_string(&service.observatory_feed_projection(version))
+    else {
         return;
     };
     if socket
@@ -2799,7 +2918,7 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                         break;
                     }
                 }
-                let Ok(payload) = serde_json::to_string(&service.observatory_feed()) else {
+                let Ok(payload) = serde_json::to_string(&service.observatory_feed_projection(version)) else {
                     break;
                 };
                 if socket.send(Message::Text(payload.into())).await.is_err() {

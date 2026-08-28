@@ -916,7 +916,7 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         .connect(ServerName::try_from("localhost").unwrap(), stream)
         .await
         .unwrap();
-    stream.write_all(b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer guardian-observatory-token-00000001\r\nConnection: close\r\n\r\n").await.unwrap();
+    stream.write_all(b"GET /v1/observatory?schema=v3 HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer guardian-observatory-token-00000001\r\nConnection: close\r\n\r\n").await.unwrap();
     let mut observatory_response = Vec::new();
     stream.read_to_end(&mut observatory_response).await.unwrap();
     let observatory_response = String::from_utf8(observatory_response).unwrap();
@@ -929,7 +929,10 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         submit["outcome"]["work_result"]["result_hash"]
     );
 
-    let websocket_request = format!("wss://localhost:{}/v1/observatory/ws", address.port());
+    let websocket_request = format!(
+        "wss://localhost:{}/v1/observatory/ws?schema=v3",
+        address.port()
+    );
     let mut websocket_request = websocket_request.into_client_request().unwrap();
     websocket_request
         .headers_mut()

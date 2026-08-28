@@ -278,6 +278,10 @@ fn polis_identity_rejects_domain_and_origin_mismatch() {
             "observatory_public_origin = \"https://observatory.example.test\"",
             "observatory_public_origin = \"https://observatory.example.test/path\"",
         ),
+        valid.replace(
+            "observatory_public_origin = \"https://observatory.example.test\"",
+            "observatory_public_origin = \"https://unadvertised.example.test\"",
+        ),
     ] {
         assert!(adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&invalid).is_err());
     }

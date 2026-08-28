@@ -7,27 +7,26 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 39
+    "generation": 47
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/551\n.csdlc/prepared/issues/551",
-      "review_revision": "git-blake3:8f71d16fd2bbcb3aaa28906aeefe9e1f4b942aa0:cd1bb15ad718032b8f8f758e8deabb9adc573c0039b27c3cc3e546b65e28decc",
-      "reviewer": "subagent:/root/review_551_ci_fixture",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
+        "Does validation reject an advertised Observatory origin that the combined CORS and WSS policy would not accept?",
+        "Do REST and WSS default to the existing v2 contract, explicitly project v1 and v3, and reject unsupported schema selectors?",
         "Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?",
         "Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?",
-        "Does HTML use only the feed identity?",
+        "Does HTML explicitly request v3 and render only feed-owned identity values?",
         "Is Unity absent from the diff?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted CI remains the final integration gate before merge.",
-        "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -1,0 +1,7 @@
+{
+  "issue": 551,
+  "expected_generation": 39,
+  "expected_digest": "e7b7baf39ace522f3bbc2f2eaa3ea13520b4c450456c96132076a224c9f9aaee",
+  "actor": "codex:/root",
+  "reason": "Exact-head review found an allowed-origin consistency gap and constants-only v1/v2 compatibility; recover publication for bounded implementation and card correction."
+}

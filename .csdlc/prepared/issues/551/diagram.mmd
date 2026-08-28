@@ -1,8 +1,14 @@
 flowchart LR
-  C[Validated Runtime init Polis section] --> S[Atomic Runtime presentation snapshot]
-  R[Config reload] --> V[Validate complete next configuration]
-  V -->|valid ID name domain origin and API base| S
+  C[Runtime init Polis section] --> V[Validate complete next configuration]
+  R[Config reload] --> V
+  A[Combined allowed origins] --> V
+  V -->|identity valid and advertised origin accepted| S[Atomic Runtime presentation snapshot]
   V -->|invalid| X[Reject and retain complete last known good]
-  S --> F[Runtime Observatory feed and origin policy]
-  F --> H[HTML Observatory identity readout]
+  S --> P[Shared feed and origin policy]
+  P --> N{REST or WSS schema selector}
+  N -->|omitted or v2| V2[Historical v2 projection]
+  N -->|v1| V1[Historical v1 projection]
+  N -->|v3| V3[Identity-bearing v3 projection]
+  N -->|unsupported| B[400 reject]
+  V3 --> H[HTML Observatory identity readout]
   U[Unity issue 84 backlog] -. deferred and non-gating .-> H

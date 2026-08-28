@@ -1207,17 +1207,100 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     .await;
     assert!(public_response.starts_with("HTTP/1.1 200 OK"));
     assert!(public_response.contains("cache-control: no-store"));
+    assert!(public_response.contains(adl_runtime_kernel::PREVIOUS_OBSERVATORY_FEED_SCHEMA));
+    assert!(!public_response.contains("\"polis_identity\""));
+    let v2: serde_json::Value = serde_json::from_str(
+        public_response
+            .split_once("\r\n\r\n")
+            .expect("v2 response body")
+            .1,
+    )
+    .unwrap();
+    let mut v2_keys = v2
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<Vec<_>>();
+    v2_keys.sort_unstable();
+    assert_eq!(
+        v2_keys,
+        [
+            "agents",
+            "continuity",
+            "control",
+            "default_runtime_changed",
+            "events",
+            "health",
+            "ingress",
+            "proof",
+            "runtime_incarnation_id",
+            "runtime_instance_id",
+            "runtime_process_id",
+            "runtime_selection",
+            "schema",
+            "weather",
+            "weather_freshness",
+        ]
+    );
+    let mut v2_control_keys = v2["control"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<Vec<_>>();
+    v2_control_keys.sort_unstable();
+    assert_eq!(
+        v2_control_keys,
+        [
+            "bearer_token_required_for_read",
+            "browser_mutation_authority",
+            "login_required_for_mutation",
+            "port",
+            "public_base_url",
+            "read_endpoint",
+            "signed_command_endpoint",
+            "signed_commands_required_for_mutation",
+            "websocket_acip_binary_schema",
+            "websocket_endpoint",
+            "websocket_full_duplex",
+        ]
+    );
+    let mut v2_agent_keys = v2["agents"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<Vec<_>>();
+    v2_agent_keys.sort_unstable();
+    assert_eq!(
+        v2_agent_keys,
+        [
+            "event_cursor",
+            "has_more",
+            "next_page_token",
+            "population_complete",
+            "rendered_sample_count",
+            "revision",
+            "sample",
+            "schema",
+            "scope",
+            "total_count",
+        ]
+    );
     let response = https_request(
         &client,
         address,
-        b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nOrigin: https://localhost:8765\r\nAuthorization: Bearer test-observatory-token-0000000001\r\nConnection: close\r\n\r\n",
+        b"GET /v1/observatory?schema=v3 HTTP/1.1\r\nHost: localhost\r\nOrigin: https://localhost:8765\r\nAuthorization: Bearer test-observatory-token-0000000001\r\nConnection: close\r\n\r\n",
     )
     .await;
     assert!(response.starts_with("HTTP/1.1 200 OK"));
     assert!(response.contains("cache-control: no-store"));
     assert!(!response.contains(adl_runtime_kernel::LEGACY_OBSERVATORY_FEED_SCHEMA));
+    assert!(!response.contains(adl_runtime_kernel::PREVIOUS_OBSERVATORY_FEED_SCHEMA));
     assert!(response.contains("access-control-allow-origin: https://localhost:8765"));
     assert!(response.contains(adl_runtime_kernel::OBSERVATORY_FEED_SCHEMA));
+    assert!(response.contains("\"polis_identity\""));
     assert!(response.contains("\"runtime_selection\":\"runtime_v3_explicit_opt_in\""));
     assert!(response.contains("\"signed_commands_required_for_mutation\":true"));
     assert!(response.contains("\"bearer_token_required_for_read\":false"));
@@ -1233,6 +1316,81 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     assert!(response.contains("\"population_complete\":false"));
     assert!(!response.contains("\"id\":\"agent-0001\""));
     assert!(response.contains("\"stale\":false"));
+
+    let legacy = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory?schema=v1 HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(legacy.starts_with("HTTP/1.1 200 OK"));
+    assert!(legacy.contains(adl_runtime_kernel::LEGACY_OBSERVATORY_FEED_SCHEMA));
+    assert!(!legacy.contains("\"polis_identity\""));
+    assert!(!legacy.contains("\"runtime_incarnation_id\""));
+    assert!(!legacy.contains("\"weather_freshness\""));
+    assert!(!legacy.contains("\"websocket_endpoint\""));
+    assert!(!legacy.contains("\"population_complete\""));
+    let v1: serde_json::Value =
+        serde_json::from_str(legacy.split_once("\r\n\r\n").expect("v1 response body").1).unwrap();
+    let mut v1_keys = v1
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<Vec<_>>();
+    v1_keys.sort_unstable();
+    assert_eq!(
+        v1_keys,
+        [
+            "agents",
+            "continuity",
+            "control",
+            "default_runtime_changed",
+            "events",
+            "health",
+            "proof",
+            "runtime_instance_id",
+            "runtime_selection",
+            "schema",
+            "weather",
+        ]
+    );
+    let mut v1_control_keys = v1["control"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<Vec<_>>();
+    v1_control_keys.sort_unstable();
+    assert_eq!(
+        v1_control_keys,
+        [
+            "browser_mutation_authority",
+            "port",
+            "read_endpoint",
+            "signed_command_endpoint",
+            "signed_commands_required_for_mutation",
+        ]
+    );
+    let mut v1_agent_keys = v1["agents"]
+        .as_object()
+        .unwrap()
+        .keys()
+        .map(String::as_str)
+        .collect::<Vec<_>>();
+    v1_agent_keys.sort_unstable();
+    assert_eq!(
+        v1_agent_keys,
+        ["rendered_sample_count", "sample", "total_count"]
+    );
+
+    let unsupported = https_request(
+        &client,
+        address,
+        b"GET /v1/observatory?schema=v4 HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n",
+    )
+    .await;
+    assert!(unsupported.starts_with("HTTP/1.1 400 Bad Request"));
 
     service.set_weather_report_at(weather, 0);
     let stale = https_request(

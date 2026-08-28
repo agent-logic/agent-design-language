@@ -25,6 +25,25 @@ fn polis_identity_openapi_contract_is_required_and_redacted() {
     for forbidden in ["token", "secret", "private_key", "certificate"] {
         assert!(identity["properties"].get(forbidden).is_none());
     }
+    for path in ["/v1/observatory", "/v1/observatory/ws"] {
+        let parameter = &observatory["paths"][path]["get"]["parameters"][0];
+        assert_eq!(parameter["name"], "schema");
+        assert_eq!(parameter["schema"]["default"], "v2");
+        assert_eq!(
+            parameter["schema"]["enum"],
+            serde_json::json!(["v1", "v2", "v3"])
+        );
+    }
+    assert_eq!(
+        observatory["components"]["schemas"]["ObservatoryFeedV1Compatibility"]["properties"]
+            ["schema"]["const"],
+        "adl.runtime_v3.observatory_feed.v1"
+    );
+    assert_eq!(
+        observatory["components"]["schemas"]["ObservatoryFeedV2Compatibility"]["properties"]
+            ["schema"]["const"],
+        "adl.runtime_v3.observatory_feed.v2"
+    );
 }
 
 #[test]

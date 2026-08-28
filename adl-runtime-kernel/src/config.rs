@@ -587,6 +587,18 @@ impl RuntimeInitConfig {
             &self.observatory.allowed_origins,
             &self.observatory.additional_allowed_origins,
         )?;
+        if !self
+            .observatory
+            .allowed_origins
+            .iter()
+            .chain(self.observatory.additional_allowed_origins.iter())
+            .any(|origin| origin == &self.polis.observatory_public_origin)
+        {
+            return Err(RuntimeInitError::Policy(
+                "polis.observatory_public_origin must be present in the Observatory allowed-origin set"
+                    .to_owned(),
+            ));
+        }
         self.observability_pipeline.validate()?;
         self.weather
             .validate()
