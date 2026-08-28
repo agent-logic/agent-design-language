@@ -7,10 +7,14 @@
 
 use std::collections::BTreeSet;
 
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+
 const REQUIRED_CARD_KINDS: [&str; 6] = ["sip", "stp", "spp", "vpp", "srp", "sor"];
 
 /// Typed local commands constructed by V3-D.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum LocalCommand {
     PrepareIssue,
     BindWorktree,
@@ -19,7 +23,7 @@ pub enum LocalCommand {
 }
 
 /// Local preparation request accepted by the construction-only workflow.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LocalPreparationRequest {
     pub issue: u64,
     pub title: String,
@@ -31,7 +35,7 @@ pub struct LocalPreparationRequest {
 }
 
 /// Exact Git worktree registration observed by a caller-owned adapter.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct WorktreeRegistration {
     pub branch: String,
     pub worktree: String,
@@ -39,14 +43,14 @@ pub struct WorktreeRegistration {
 }
 
 /// Prompt registry observation used by the card-rendering plan.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PromptRegistry {
     pub version: String,
     pub card_kinds: BTreeSet<String>,
 }
 
 /// The planned render set for an issue.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CardRenderPlan {
     pub registry_version: String,
     pub issue: u64,
@@ -54,7 +58,7 @@ pub struct CardRenderPlan {
 }
 
 /// Bind authorization is separate from command construction.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct BindAuthorization {
     pub issue: u64,
     pub branch: String,
@@ -62,7 +66,8 @@ pub struct BindAuthorization {
 }
 
 /// Distinct doctor/PVF planning states.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum PlanStatus {
     Ready,
     Blocked,
@@ -73,7 +78,7 @@ pub enum PlanStatus {
 }
 
 /// One explicit doctor/PVF finding.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DoctorFinding {
     pub status: PlanStatus,
     pub code: String,
@@ -81,13 +86,77 @@ pub struct DoctorFinding {
 }
 
 /// Non-authoritative local preparation result.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LocalPreparationPlan {
     pub issue: u64,
     pub commands: Vec<LocalCommand>,
     pub cards: CardRenderPlan,
     pub bind: BindAuthorization,
     pub findings: Vec<DoctorFinding>,
+}
+
+impl LocalPreparationRequest {
+    /// Parse a typed local-preparation request from JSON bytes.
+    pub fn from_json(bytes: &[u8]) -> Result<Self, Vec<DoctorFinding>> {
+        serde_json::from_slice(bytes).map_err(|error| {
+            vec![finding(
+                PlanStatus::Failed,
+                "typed_contract_invalid_json",
+                &error.to_string(),
+            )]
+        })
+    }
+}
+
+impl PromptRegistry {
+    /// Read the active prompt-template registry shape from `current.json`.
+    pub fn from_current_json(bytes: &[u8]) -> Result<Self, Vec<DoctorFinding>> {
+        let value: Value = serde_json::from_slice(bytes).map_err(|error| {
+            vec![finding(
+                PlanStatus::Failed,
+                "registry_invalid_json",
+                &error.to_string(),
+            )]
+        })?;
+        let schema = value.get("schema").and_then(Value::as_str);
+        let status = value.get("status").and_then(Value::as_str);
+        let version = value
+            .get("semver")
+            .and_then(Value::as_str)
+            .or_else(|| {
+                value
+                    .get("csdlc_prompt_template_set")
+                    .and_then(Value::as_str)
+            })
+            .ok_or_else(|| {
+                vec![finding(
+                    PlanStatus::Blocked,
+                    "registry_version_missing",
+                    "active registry must declare semver",
+                )]
+            })?;
+        if schema != Some("adl.csdlc.prompt_template_registry.v1") || status != Some("active") {
+            return Err(vec![finding(
+                PlanStatus::Blocked,
+                "registry_not_active",
+                "prompt registry must be active and use the expected schema",
+            )]);
+        }
+        let templates = value
+            .get("templates")
+            .and_then(Value::as_object)
+            .ok_or_else(|| {
+                vec![finding(
+                    PlanStatus::Blocked,
+                    "registry_templates_missing",
+                    "active registry must declare templates",
+                )]
+            })?;
+        Ok(Self {
+            version: version.into(),
+            card_kinds: templates.keys().cloned().collect(),
+        })
+    }
 }
 
 /// Validate that the caller supplied a typed local preparation contract.

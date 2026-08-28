@@ -6,6 +6,15 @@ use csdlc_v3::commands::local::{
     WorktreeRegistration,
 };
 use csdlc_v3::{is_v3d_local_preparation_predecessor, LOCAL_PREPARATION_PREDECESSORS};
+use std::fs;
+use std::path::PathBuf;
+
+fn repo_root() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("manifest has repository parent")
+        .to_path_buf()
+}
 
 fn request() -> LocalPreparationRequest {
     LocalPreparationRequest {
@@ -16,7 +25,7 @@ fn request() -> LocalPreparationRequest {
         worktree:
             "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-csdlc-v3-local-preparation-workflow"
                 .into(),
-        registry_version: "1.0.0".into(),
+        registry_version: "1.0.3".into(),
         commands: vec![
             LocalCommand::PrepareIssue,
             LocalCommand::BindWorktree,
@@ -28,7 +37,7 @@ fn request() -> LocalPreparationRequest {
 
 fn registry() -> PromptRegistry {
     PromptRegistry {
-        version: "1.0.0".into(),
+        version: "1.0.3".into(),
         card_kinds: ["sip", "stp", "spp", "vpp", "srp", "sor"]
             .into_iter()
             .map(str::to_string)
@@ -48,7 +57,8 @@ fn registrations() -> Vec<WorktreeRegistration> {
 
 #[test]
 fn contract_commands_are_typed_and_non_authoritative() {
-    let request = request();
+    let json = serde_json::to_vec(&request()).expect("request serializes");
+    let request = LocalPreparationRequest::from_json(&json).expect("typed request parses");
     validate_contract(&request).expect("valid typed local command contract");
     for command in request.commands {
         assert!(!grants_operational_authority(command));
@@ -82,16 +92,21 @@ fn topology_bind_requires_exact_registered_worktree() {
 
 #[test]
 fn card_roundtrip_uses_active_registry_denominator() {
-    let plan = plan_cards(503, "1.0.0", &registry()).expect("complete active registry");
-    assert_eq!(plan.registry_version, "1.0.0");
+    let bytes = fs::read(repo_root().join("docs/templates/prompts/current.json"))
+        .expect("current prompt registry");
+    let active = PromptRegistry::from_current_json(&bytes).expect("active registry parses");
+    assert_eq!(active, registry());
+
+    let plan = plan_cards(503, "1.0.3", &active).expect("complete active registry");
+    assert_eq!(plan.registry_version, "1.0.3");
     assert_eq!(plan.card_kinds, ["sip", "stp", "spp", "vpp", "srp", "sor"]);
 
     let incomplete = PromptRegistry {
-        version: "1.0.0".into(),
+        version: "1.0.3".into(),
         card_kinds: ["sip", "stp"].into_iter().map(str::to_string).collect(),
     };
     let findings =
-        plan_cards(503, "1.0.0", &incomplete).expect_err("missing card kinds block rendering");
+        plan_cards(503, "1.0.3", &incomplete).expect_err("missing card kinds block rendering");
     assert!(findings
         .iter()
         .all(|finding| finding.status == PlanStatus::Blocked));
