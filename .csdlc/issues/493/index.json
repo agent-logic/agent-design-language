@@ -4,58 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1abd3eac653f9ea21c1b7f6ef530cfb261e6ae30d0bdf8d0ea56e4bc50324a10",
-  "phase": "published",
-  "generation": 16,
-  "digest": "9d50dc77b4f087da62435088384ea1bd421a2bb8a27938f9978b8a03f190eb0f",
+  "phase": "implemented",
+  "generation": 18,
+  "digest": "98204dadb3f6e92aff44cf1821957fc9556643755f7f054a9b864f504ffe7cfa",
   "branch": "codex/493-gcp-private-platform-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-493-gcp-private-platform-foundation",
-  "review_assignment": {
-    "reviewer": "fresh-session:f9f482f0-f6e8-42a6-ae73-9abc80e21167",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:30086bd7398ec75fd99d2b54775cfcf770dbe6d9:231e4dacfafd6b6a08663b8cbf4796a98f15021835023ba082500b299f3ee32b",
-    "scope": [
-      ".csdlc/issues/493",
-      ".csdlc/prepared/issues/493",
-      ".csdlc/evidence/493",
-      "infra/gcp/platform",
-      "docs/operations/cloud/gcp/platform-foundation/README.md",
-      "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh",
-      "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:f9f482f0-f6e8-42a6-ae73-9abc80e21167",
-    "scope": [
-      ".csdlc/issues/493",
-      ".csdlc/prepared/issues/493",
-      ".csdlc/evidence/493",
-      "infra/gcp/platform",
-      "docs/operations/cloud/gcp/platform-foundation/README.md",
-      "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh",
-      "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md"
-    ],
-    "reviewed_revision": "git-blake3:30086bd7398ec75fd99d2b54775cfcf770dbe6d9:231e4dacfafd6b6a08663b8cbf4796a98f15021835023ba082500b299f3ee32b",
-    "findings": [],
-    "residual_risks": [
-      "No live GCP apply/destroy/readback proof was performed for #493; this issue remains bounded to static local product proof unless explicit cloud mutation is separately authorized.",
-      "No credential, cloud, GitHub, or lifecycle mutation was performed by the reviewer.",
-      "Terraform provider initialization and live plan validation were not part of the review; local proof covered the issue-owned static validator, shell syntax checks, and scoped diff hygiene."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 493,
-    "pull_request": 587,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/587",
-    "base": "main",
-    "head": "codex/493-gcp-private-platform-foundation",
-    "revision": "git-blake3:8d2ec2ef7342a96a742216939dae4a4f4ffc259a:f5fe64a50d0ee01fc225b3cc785915847ab4605e01d4745fe15adb63ec93954b",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -69,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f388679883ba999a7bfca2078a48489cea883bce57ce6bc704b4da0d23f2c665",
+      "values_digest": "47657b5faafa5c725a62e99f9606bd06834e857f75cf498c18c3e748d3138c9e",
       "rendered_digest": "04d17631608d2c9962fc6267aaa78dce3ee8f1d9cb9031ac8ce900840b05de05",
       "ast_digest": "277dbb0c97a5f744aad274fbab36089e58d26620fde0345f68e643ccb0d04bc8"
     },
     "stp": {
-      "values_digest": "fd53d95322b17bcf530b58ab2ae0527d7d6dc0d3e6858e2621c3f6903ca3b592",
+      "values_digest": "c610ec839fc813f25b1b3ae6d71e28daed887ecb027d38fd05b5df58608afb03",
       "rendered_digest": "2238d8fef9e6f6694e3f5571844a62706856b151aee0be0a425092fba23821d3",
       "ast_digest": "dbccaba5231caf595e23c4d5463bc92e68ef4278e699633b1792dea295d4b081"
     },
     "spp": {
-      "values_digest": "4b828830443bed4fd2c4cddecc8f79ca48a6d0e3c23bc50d304a5b7770bcd870",
+      "values_digest": "d5af37d9fa246849da04220ae28ed4df8c26d4d6f2a038713ad9093503f0f73b",
       "rendered_digest": "b699521e870e0876a065047f5205d33508b31da11a9c48f50d84eae2a3cb798f",
       "ast_digest": "e1cc44714823d95529a2ce8d0bc26fee7258b00a7757efe5bb69413f74698ee4"
     },
     "vpp": {
-      "values_digest": "258aada3ebb720d70becd392055fd7686c03ef5f7ddb8388f0cf5b596509949e",
+      "values_digest": "fff96717c54f28808f8ace30f1f52d6520d8ab08a27edb0ea8a343909e568ade",
       "rendered_digest": "f8b502bce8e948971aed60bd5262c90f5a6ab981aef4821ddbf4459cc44bd2bf",
       "ast_digest": "edaa58c4bf64a953dcc108c8ec2aba490c2b469178a8ce028134ae461419a84e"
     },
     "srp": {
-      "values_digest": "61656c5052268755ee0a29528958f6c4eb770753f22723c8d6de60067e521dc6",
-      "rendered_digest": "acfc306cbafb0f9cc78dd386fc977fcd02d5ce9f58ddd97a98da2380872c096d",
-      "ast_digest": "841a3ba29f94da3b406c2abf90a22c1fac37da766893f0863ad6580893ad86bb"
+      "values_digest": "335de652c87e2dedf20036dea74a376bb83afbc1fdad4e786858240aace1e0ad",
+      "rendered_digest": "8e2434a9fad2dfb404fc3f41a2a3456a06561becf3f846587951f6aac4920a1b",
+      "ast_digest": "9878811f58ab08600d6ef8774a15158da45ea7761a72e14af93fc441e607cf96"
     },
     "sor": {
-      "values_digest": "976b83e4e2331d3865e47e0cd4f62361c51fb9bccf38b95b369defd83a507817",
-      "rendered_digest": "badb5e955b3383b3771bfe84464a02382d73ced8901837c55f49cc4f47d2cb93",
-      "ast_digest": "c6be743811f7c5dfa3d71fcfa6d46c45deef368e2e182a23ac30ed23b58625a3"
+      "values_digest": "6e7d62735c331e95712ca195b4cf0f5f73c4dce3e42281fb42942bbd9614162b",
+      "rendered_digest": "5bed503b02acc94f14c7152b994f6a3efc5f0f11afc2c2d9933063e4c53290da",
+      "ast_digest": "85fa64fbae77777fb71ecd2c380d24c4cecfb6bb7641d7cb667c8274f5002704"
     }
   },
   "transitions": [
@@ -134,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #493 after PR #587 CI runtime coverage failed on inherited Runtime test defects. Publication/review truth must be refreshed before committing CI remediation and requesting a new exact-head review."
     }
   ],
   "audit": [
@@ -311,6 +274,20 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover #493 after PR #587 CI runtime coverage failed on inherited Runtime test defects. Publication/review truth must be refreshed before committing CI remediation and requesting a new exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Refresh #493 SOR after recovering from PR #587 runtime coverage failures and applying bounded CI remediation for inherited runtime tests.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation, repaired exact-review findings, and applied bounded CI remediation for two inherited runtime coverage failures that blocked PR #587 without changing #493 product scope.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.\",\"Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.\",\"Strengthened the issue-owned validator with block-level checks tying each Terraform bucket IAM member to the exact Terraform-created bucket and serviceAccount:${google_service_account.workload.email} member, plus matching readback bucket-IAM policy inspection.\",\"Remediated PR #587 runtime coverage failure adl-runtime::config_reload::concurrent_readers_observe_complete_configurations by asserting shutdown and at least one complete reload instead of a brittle exact debounce/coalescing count.\",\"Remediated PR #587 runtime coverage failure adl-runtime::guardian_cli::guardian_cli_reports_successful_portable_child_as_json by aligning the fixture polis public domain with the canonical localhost Runtime API/TLS host.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"adl-runtime/tests/config_reload.rs\",\"adl-runtime/tests/guardian_cli.rs\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including bucket-IAM member-target remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: gcp-d platform foundation validation passed: all\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: exit 0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run worktree diff hygiene after CI remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: exit 0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"config_reload\",\"concurrent_readers_observe_complete_configurations\",\"--\",\"--exact\"],\"purpose\":\"Reproduce and prove the fixed runtime coverage reload regression from PR #587.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: 1 passed; 0 failed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"guardian_cli_reports_successful_portable_child_as_json\",\"--\",\"--exact\"],\"purpose\":\"Reproduce and prove the fixed runtime coverage guardian fixture regression from PR #587.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: 1 passed; 0 failed\"}]}"
     }
   ]
 }

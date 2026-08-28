@@ -7,15 +7,15 @@
     "title": "[v0.92.1][GCP-D] GCP private platform foundation",
     "slug": "gcp-private-platform-foundation",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/493\n.csdlc/prepared/issues/493\n.csdlc/evidence/493\ninfra/gcp/platform\ndocs/operations/cloud/gcp/platform-foundation/README.md\ndocs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\ndocs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md",
-      "review_revision": "git-blake3:30086bd7398ec75fd99d2b54775cfcf770dbe6d9:231e4dacfafd6b6a08663b8cbf4796a98f15021835023ba082500b299f3ee32b",
-      "reviewer": "fresh-session:f9f482f0-f6e8-42a6-ae73-9abc80e21167",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the design keep #493 to GCP-D private platform foundation without absorbing GCP-E, XCL-01, Observatory, Unity, production traffic, or AWS work?",
         "Are private network, IAP/OS Login operator access, identity separation, storage ownership, telemetry/watchdog, and cleanup selectors specified with machine-checkable proof?",
@@ -23,12 +23,8 @@
         "Are dependency and #492 terminal-cache boundaries truthful rather than hidden acceptance of broad GCP drift?"
       ],
       "findings": [],
-      "residual_risk": [
-        "No live GCP apply/destroy/readback proof was performed for #493; this issue remains bounded to static local product proof unless explicit cloud mutation is separately authorized.",
-        "No credential, cloud, GitHub, or lifecycle mutation was performed by the reviewer.",
-        "Terraform provider initialization and live plan validation were not part of the review; local proof covered the issue-owned static validator, shell syntax checks, and scoped diff hygiene."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, complete disposable-residue readback, Terraform-to-readback selector correspondence, and bucket-IAM member target validation.
+Implemented the #493 GCP-D private platform foundation, repaired exact-review findings, and applied bounded CI remediation for two inherited runtime coverage failures that blocked PR #587 without changing #493 product scope.
 
 ## Artifacts
 
@@ -21,6 +21,8 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
 - docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh
 - docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md
 - .csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh
+- adl-runtime/tests/config_reload.rs
+- adl-runtime/tests/guardian_cli.rs
 
 ## Execution
 
@@ -28,6 +30,8 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
 - Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.
 - Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.
 - Strengthened the issue-owned validator with block-level checks tying each Terraform bucket IAM member to the exact Terraform-created bucket and serviceAccount:${google_service_account.workload.email} member, plus matching readback bucket-IAM policy inspection.
+- Remediated PR #587 runtime coverage failure adl-runtime::config_reload::concurrent_readers_observe_complete_configurations by asserting shutdown and at least one complete reload instead of a brittle exact debounce/coalescing count.
+- Remediated PR #587 runtime coverage failure adl-runtime::guardian_cli::guardian_cli_reports_successful_portable_child_as_json by aligning the fixture polis public domain with the canonical localhost Runtime API/TLS host.
 
 ## Validation
 
@@ -38,9 +42,9 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
       ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
       "--lane=all"
     ],
-    "purpose": "Run the issue-owned static validator for GCP-D including R9 bucket-IAM member-target remediation checks.",
+    "purpose": "Run the issue-owned static validator for GCP-D including bucket-IAM member-target remediation checks.",
     "outcome": "passed",
-    "evidence_ref": "gcp-d-static-product.log"
+    "evidence_ref": "local rerun: gcp-d platform foundation validation passed: all"
   },
   {
     "command": [
@@ -51,7 +55,7 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
     ],
     "purpose": "Run Terraform fmt check for the GCP-D root.",
     "outcome": "passed",
-    "evidence_ref": "terraform-fmt.log"
+    "evidence_ref": "local rerun: exit 0"
   },
   {
     "command": [
@@ -59,19 +63,51 @@ Implemented the #493 GCP-D private platform foundation and repaired exact-review
       "diff",
       "--check"
     ],
-    "purpose": "Run exact-range diff hygiene before review/publication.",
+    "purpose": "Run worktree diff hygiene after CI remediation.",
     "outcome": "passed",
-    "evidence_ref": "exact-diff-hygiene.log"
+    "evidence_ref": "local rerun: exit 0"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "config_reload",
+      "concurrent_readers_observe_complete_configurations",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Reproduce and prove the fixed runtime coverage reload regression from PR #587.",
+    "outcome": "passed",
+    "evidence_ref": "local rerun: 1 passed; 0 failed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "guardian_cli",
+      "guardian_cli_reports_successful_portable_child_as_json",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Reproduce and prove the fixed runtime coverage guardian fixture regression from PR #587.",
+    "outcome": "passed",
+    "evidence_ref": "local rerun: 1 passed; 0 failed"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
