@@ -12,15 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v3/Cargo.toml
-csdlc-v3/Cargo.lock
-csdlc-v3/src/lib.rs
-csdlc-v3/src/commands/mod.rs
-csdlc-v3/src/commands/local/mod.rs
-csdlc-v3/tests/local_commands.rs
-.csdlc/issues/503
-.csdlc/prepared/issues/503
-.csdlc/evidence/503
+
 
 ## Prompts
 
@@ -41,14 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Hosted CI remains the final integration gate before merge.
-- Issue #504 remote delivery, #570 docs/skills readiness, #571 V3-A corrective proof, and #505 authority cutover remain separate downstream gates.
-- The later publication step must visibly include `Closes #503`; no v3 command is authorized to publish, finish, clean, mutate GitHub, or replace v2 authority before V3-F.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:57cf571dcbd72608aa98e65879548f2b1807fb41:38d223198ce70769d5994a7aeb79b53cbaa62b8fe6b4fbed878cc7f463a38d52")
+Revision: None
 
-Reviewer: Some("fresh-session:issue-503-exact-head-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review
