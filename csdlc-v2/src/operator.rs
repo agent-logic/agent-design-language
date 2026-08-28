@@ -1,7 +1,7 @@
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::{select_generation, Generation, GenerationSelector};
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -60,6 +60,8 @@ pub struct InstallReceipt {
     pub schema: String,
     pub destination: PathBuf,
     pub source_revision: String,
+    pub source_set_schema: String,
+    pub source_set_digest: String,
     pub binaries: Vec<InstalledBinary>,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -67,6 +69,131 @@ pub struct InstallReceipt {
 pub struct InstalledBinary {
     pub name: String,
     pub blake3: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct OwnerSourceSet {
+    schema: String,
+    entries: Vec<PathBuf>,
+}
+
+const OWNER_SOURCE_SET: &str = include_str!("../operator/owner-source-set.json");
+
+pub fn verify_installed_owner_preflight(repo: &Path) -> Result<()> {
+    if !is_regular_file(&repo.join(".adl/worktree-policy.json")) {
+        return Ok(());
+    }
+    let executable = std::env::current_exe().map_err(io_error)?;
+    let Some(name) = executable.file_name().and_then(|value| value.to_str()) else {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "owner executable identity is unavailable",
+        ));
+    };
+    let manifest = SkillManifest::load()?;
+    if !manifest.required_binaries().contains(name) {
+        return Ok(());
+    }
+    let bin_dir = executable.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ValidationFailed,
+            "owner executable directory is unavailable",
+        )
+    })?;
+    let receipt_path = bin_dir.join("install-receipt.json");
+    if !is_regular_file(&receipt_path) {
+        return Err(stale_owner_error("installed receipt is missing"));
+    }
+    let receipt: InstallReceipt =
+        serde_json::from_slice(&fs::read(&receipt_path).map_err(io_error)?)
+            .map_err(|_| stale_owner_error("installed receipt is malformed"))?;
+    verify_receipt_identity(repo, bin_dir, &manifest, &receipt)
+}
+
+fn stale_owner_error(detail: &str) -> V2Error {
+    V2Error::new(
+        ErrorCode::ValidationFailed,
+        format!("stale owner-binary provenance: {detail}; run csdlc-install resolve, then reinstall the selected generation"),
+    )
+}
+
+pub fn owner_source_set_digest(repo: &Path) -> Result<String> {
+    let source_set: OwnerSourceSet = serde_json::from_str(OWNER_SOURCE_SET).map_err(|error| {
+        V2Error::new(
+            ErrorCode::InvalidManifest,
+            format!("invalid owner source set: {error}"),
+        )
+    })?;
+    if source_set.schema != "csdlc.owner_source_set.v1" || source_set.entries.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidManifest,
+            "owner source set identity is invalid",
+        ));
+    }
+    let mut files = BTreeMap::<Vec<u8>, (PathBuf, String)>::new();
+    for entry in source_set.entries {
+        let raw = entry.to_str().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidManifest, "owner source path is not UTF-8")
+        })?;
+        if entry.is_absolute()
+            || entry
+                .components()
+                .any(|part| matches!(part, std::path::Component::ParentDir))
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidManifest,
+                "owner source path escapes the repository",
+            ));
+        }
+        let output = crate::git::run(repo, &["ls-files", "--stage", "--", raw])?.stdout;
+        if output.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                format!("owner source entry is unavailable: {raw}"),
+            ));
+        }
+        for line in output.lines() {
+            let (metadata, path) = line.split_once('\t').ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    "owner source Git row is malformed",
+                )
+            })?;
+            let mode = metadata.split_whitespace().next().unwrap_or_default();
+            if mode != "100644" && mode != "100755" {
+                return Err(V2Error::new(
+                    ErrorCode::ValidationFailed,
+                    format!("owner source is not a tracked regular file: {path}"),
+                ));
+            }
+            let relative = PathBuf::from(path);
+            if files
+                .insert(path.as_bytes().to_vec(), (relative, mode.to_string()))
+                .is_some()
+            {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidManifest,
+                    "owner source set contains duplicate files",
+                ));
+            }
+        }
+    }
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(b"csdlc.owner_source_set.v1\0");
+    for (_, (path, mode)) in files {
+        let bytes = fs::read(repo.join(&path)).map_err(io_error)?;
+        let path = path.to_str().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidManifest, "owner source path is not UTF-8")
+        })?;
+        hasher.update(&(path.len() as u64).to_be_bytes());
+        hasher.update(path.as_bytes());
+        hasher.update(&(mode.len() as u64).to_be_bytes());
+        hasher.update(mode.as_bytes());
+        hasher.update(&(bytes.len() as u64).to_be_bytes());
+        hasher.update(&bytes);
+    }
+    Ok(hasher.finalize().to_hex().to_string())
 }
 
 impl SkillManifest {
@@ -321,7 +448,7 @@ pub fn resolve_operator_generation(
 }
 
 pub fn install_binaries(source: &Path, destination: &Path) -> Result<InstallReceipt> {
-    install_binaries_with_revision(source, destination, None)
+    install_binaries_with_revision(source, destination, None, None)
 }
 
 pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<InstallReceipt> {
@@ -373,10 +500,12 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
             "C-SDLC owner source revision changed or became dirty during the build",
         ));
     }
+    let source_set_digest = owner_source_set_digest(repo)?;
     install_binaries_with_revision(
         &target.join("debug"),
         destination,
         Some(format!("git:{}", after.stdout)),
+        Some(source_set_digest),
     )
 }
 
@@ -441,6 +570,7 @@ fn install_binaries_with_revision(
     source: &Path,
     destination: &Path,
     trusted_revision: Option<String>,
+    trusted_source_set_digest: Option<String>,
 ) -> Result<InstallReceipt> {
     let manifest = SkillManifest::load()?;
     if destination.file_name().and_then(|value| value.to_str()) != Some("csdlc-v2") {
@@ -475,9 +605,11 @@ fn install_binaries_with_revision(
         .collect();
     let source_revision = trusted_revision.unwrap_or_else(|| content_provenance(&prepared));
     let mut receipt = InstallReceipt {
-        schema: "csdlc.install_receipt.v1".into(),
+        schema: "csdlc.install_receipt.v2".into(),
         destination: destination.to_path_buf(),
         source_revision,
+        source_set_schema: "csdlc.owner_source_set.v1".into(),
+        source_set_digest: trusted_source_set_digest.unwrap_or_else(|| "content-only".into()),
         binaries,
     };
     let parent = destination.parent().ok_or_else(|| {
@@ -555,25 +687,13 @@ fn verify_install_receipt(
         ));
     }
     let receipt: InstallReceipt = serde_json::from_slice(&fs::read(&path).map_err(io_error)?)?;
-    if receipt.schema != "csdlc.install_receipt.v1" || receipt.destination != bin_dir {
+    if receipt.schema != "csdlc.install_receipt.v2" || receipt.destination != bin_dir {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "install receipt schema or destination does not match the verified generation directory",
         ));
     }
-    let current_revision = crate::git::run(repo, &["rev-parse", "HEAD"])
-        .map(|revision| format!("git:{}", revision.stdout))
-        .ok();
-    if current_revision.as_deref() != Some(receipt.source_revision.as_str()) {
-        return Err(V2Error::new(
-            ErrorCode::ValidationFailed,
-            format!(
-                "stale owner-binary provenance: installed {} but repository is {}",
-                receipt.source_revision,
-                current_revision.as_deref().unwrap_or("unavailable")
-            ),
-        ));
-    }
+    verify_receipt_identity(repo, bin_dir, manifest, &receipt)?;
     let expected = manifest.required_binaries();
     let observed = receipt
         .binaries
@@ -599,6 +719,54 @@ fn verify_install_receipt(
         }
     }
     Ok(failures)
+}
+
+fn verify_receipt_identity(
+    repo: &Path,
+    bin_dir: &Path,
+    manifest: &SkillManifest,
+    receipt: &InstallReceipt,
+) -> Result<()> {
+    if receipt.schema != "csdlc.install_receipt.v2"
+        || receipt.destination != bin_dir
+        || receipt.source_set_schema != "csdlc.owner_source_set.v1"
+    {
+        return Err(stale_owner_error("installed receipt identity is invalid"));
+    }
+    let current = owner_source_set_digest(repo)
+        .map_err(|_| stale_owner_error("current owner source identity is unavailable"))?;
+    if receipt.source_set_digest != current {
+        return Err(stale_owner_error(&format!(
+            "installed source set {} differs from current {}",
+            receipt.source_set_digest, current
+        )));
+    }
+    let expected = manifest.required_binaries();
+    let observed = receipt
+        .binaries
+        .iter()
+        .map(|entry| entry.name.clone())
+        .collect::<BTreeSet<_>>();
+    if observed != expected || observed.len() != receipt.binaries.len() {
+        return Err(stale_owner_error(
+            "installed executable denominator is incomplete",
+        ));
+    }
+    for entry in &receipt.binaries {
+        let binary = bin_dir.join(&entry.name);
+        if !is_regular_file(&binary)
+            || !is_executable(&binary)
+            || fs::read(&binary)
+                .map(|bytes| blake3::hash(&bytes).to_hex().as_str() != entry.blake3)
+                .unwrap_or(true)
+        {
+            return Err(stale_owner_error(&format!(
+                "installed executable digest differs: {}",
+                entry.name
+            )));
+        }
+    }
+    Ok(())
 }
 
 fn content_provenance(prepared: &[(String, Vec<u8>, fs::Permissions)]) -> String {
@@ -633,13 +801,59 @@ fn io_error(error: std::io::Error) -> V2Error {
 
 #[cfg(test)]
 mod tests {
-    use super::resolve_operator_generation;
+    use super::{owner_source_set_digest, resolve_operator_generation};
     use crate::Generation;
+    use std::{fs, path::Path};
 
     #[test]
     fn v1_override_is_rejected_after_sunset() {
         let error = resolve_operator_generation(std::path::Path::new("."), 1, Some(Generation::V1))
             .expect_err("sunset must reject explicit v1");
         assert!(error.message.contains("v1 sunset"));
+    }
+
+    #[test]
+    fn owner_source_digest_ignores_unrelated_commits_and_detects_owner_drift() {
+        let repo = tempfile::tempdir().unwrap();
+        git(repo.path(), &["init", "-b", "main"]);
+        git(
+            repo.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
+        for path in [
+            "csdlc-v2/Cargo.toml",
+            "csdlc-v2/Cargo.lock",
+            "csdlc-v2/src/lib.rs",
+            "csdlc-v2/operator/skills.json",
+            "adl-resilience/Cargo.toml",
+            "adl-resilience/src/lib.rs",
+            "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+            "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+        ] {
+            let path = repo.path().join(path);
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(&path, format!("fixture:{path:?}\n")).unwrap();
+        }
+        git(repo.path(), &["add", "."]);
+        git(repo.path(), &["commit", "-m", "owner sources"]);
+        let baseline = owner_source_set_digest(repo.path()).unwrap();
+
+        fs::write(repo.path().join("README.md"), "unrelated\n").unwrap();
+        git(repo.path(), &["add", "README.md"]);
+        git(repo.path(), &["commit", "-m", "unrelated docs"]);
+        assert_eq!(owner_source_set_digest(repo.path()).unwrap(), baseline);
+
+        fs::write(repo.path().join("csdlc-v2/src/lib.rs"), "owner drift\n").unwrap();
+        assert_ne!(owner_source_set_digest(repo.path()).unwrap(), baseline);
+    }
+
+    fn git(root: &Path, args: &[&str]) {
+        let status = std::process::Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .status()
+            .unwrap();
+        assert!(status.success(), "git {args:?}");
     }
 }

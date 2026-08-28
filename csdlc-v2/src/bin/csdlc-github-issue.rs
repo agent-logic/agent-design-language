@@ -2,8 +2,8 @@ use std::{fs, path::PathBuf};
 
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    execute_github_action, public_schema_bundle, write_json_stdout, ErrorCode, GithubAction,
-    GithubActionRequest, V2Error,
+    execute_github_action, public_schema_bundle, verify_installed_owner_preflight,
+    write_json_stdout, ErrorCode, GithubAction, GithubActionRequest, V2Error,
 };
 
 #[derive(Parser)]
@@ -64,6 +64,9 @@ async fn run(path: &PathBuf) -> csdlc_v2::Result<serde_json::Value> {
             ErrorCode::InvalidInput,
             "csdlc-github-issue only accepts issue actions; use csdlc-github-pr for PR state",
         ));
+    }
+    if !matches!(request.action, GithubAction::IssueRead) {
+        verify_installed_owner_preflight(&std::env::current_dir()?)?;
     }
     serde_json::to_value(execute_github_action(&request).await?).map_err(Into::into)
 }

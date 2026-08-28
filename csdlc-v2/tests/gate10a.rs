@@ -951,5 +951,9 @@ fn stamp_current_revision(repo: &std::path::Path, bins: &std::path::Path) {
     let mut receipt: serde_json::Value =
         serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
     receipt["source_revision"] = serde_json::Value::String(format!("git:{}", revision.trim()));
+    receipt["source_set_schema"] = serde_json::Value::String("csdlc.owner_source_set.v1".into());
+    receipt["source_set_digest"] = serde_json::Value::String(
+        csdlc_v2::owner_source_set_digest(repo).expect("current owner source digest"),
+    );
     fs::write(receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
 }

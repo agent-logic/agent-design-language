@@ -1,0 +1,13 @@
+{
+  "schema": "csdlc.owner_source_set.v1",
+  "entries": [
+    "csdlc-v2/Cargo.toml",
+    "csdlc-v2/Cargo.lock",
+    "csdlc-v2/src",
+    "csdlc-v2/operator",
+    "adl-resilience/Cargo.toml",
+    "adl-resilience/src",
+    "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+    "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json"
+  ]
+}
