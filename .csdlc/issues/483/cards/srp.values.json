@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 483,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-B] Corporate account custody register",
+    "slug": "v0-92-1-corp-b-corporate-account-custody-register",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/483\n.csdlc/prepared/issues/483",
+      "review_revision": "git-blake3:5be9f0207682f2654550d48e6852016218a80f31:89cd2296a4f7bd3764f93b178f330031f3850de8d8803ed564c4268a89aa2334",
+      "reviewer": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
+      "review_prompts": [
+        "Does the register cover every CORP-A critical-service class without overclaiming live custody completion?",
+        "Are the five completed domain registration transfers factual and limited to registration ownership, not DNS hosted-zone transfer?",
+        "Are v-dev.ai and all v-*.ai backlog domains unscheduled and non-gating?",
+        "Are remaining actions concise and assigned to later owners?",
+        "Are credentials, PII, payment data, tax data, private instruments, and recovery materials excluded?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

@@ -1,0 +1,411 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 499,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "893c488a403db6ee28efbc8a41379fe8191f2a33bd0a22e07c26103410cd64e0",
+  "phase": "published",
+  "generation": 19,
+  "digest": "248869e63805701bae9f5c5940c9233000335af89850dc9af0f33b0abd16b9c9",
+  "branch": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-499-resilience-owner-boundary-refactoring",
+  "review_assignment": {
+    "reviewer": "/root/review_499_final",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:3a9aa6db62eb966a3bd070e06a544f5cdc7b1626:02395d894ffd9889c2b2cbae2fe89c987f6818db8b6d9d585871f80529342a66",
+    "scope": [
+      "adl/src/resilience/tests.rs",
+      ".csdlc/issues/499 lifecycle metadata",
+      "focused per-file coverage proof for PR #547"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_499_final",
+    "scope": [
+      "adl/src/resilience/tests.rs",
+      ".csdlc/issues/499 lifecycle metadata",
+      "focused per-file coverage proof for PR #547"
+    ],
+    "reviewed_revision": "git-blake3:3a9aa6db62eb966a3bd070e06a544f5cdc7b1626:02395d894ffd9889c2b2cbae2fe89c987f6818db8b6d9d585871f80529342a66",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the authoritative integration and changed-source coverage proof after the PR head is updated."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 499,
+    "pull_request": 547,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/547",
+    "base": "main",
+    "head": "codex/499-v0-92-1-rust-01-resilience-owner-boundary-refactoring",
+    "revision": "git-blake3:7dfd5c9dced14191cd1e17fdee49cecf79773657:c2d46e5712f8efe8e9cff96308d26961bac55227b1aac5e2da30b6e162f8aabf",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/499/design.md",
+  "diagram_path": ".csdlc/prepared/issues/499/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "revision": "13d76e45f18eadaa35845d36f0d8a8e34a4ef27675d7d2720f5a3c22d5b3f62a"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e259c1aa73a8718d5e80aeee219d949496659418a4569d6202f04b94c5df03ec",
+      "rendered_digest": "d1baf5af8289dae4ed771203e980b494de6918c83588ddad7ce553df0cb6126d",
+      "ast_digest": "9c4075ccabbcd57f711f3dfe15cb8dd1c9d066ff5cceb031bee600d254fe7c0a"
+    },
+    "stp": {
+      "values_digest": "ee87d6f573cddc613e4ecce9c5a501c555a2286a5fa66e94e870039e24dd7c5a",
+      "rendered_digest": "2bc1124ec3c640c68530fb8289d84c07ae83eb6fb162575e1a80cc2a612020bd",
+      "ast_digest": "9519a6c725a963f026bc168371395a1bf63c5984a03dc2bb3a59c1157db37c76"
+    },
+    "spp": {
+      "values_digest": "0c02cdc1f5e6007d750d9dd7acf3308e4a1a6620741b9e76fae1d15389f8ee74",
+      "rendered_digest": "edfbc9dc36e811cad6ff645370e59af295ef36d476c4b0d1e6169d8e4f90af22",
+      "ast_digest": "d1192aca0dd165f492a22bb66b597c99be9cc27d3ad28303dcd2c7d3271ceb82"
+    },
+    "vpp": {
+      "values_digest": "32252c9a84373a9d87d8d8571ceab1edb8c23e817eeeecd87abe9e308ec0b8f2",
+      "rendered_digest": "1bebf28c40f26c1aa41619023f3555ed7cd2480e4a05fbf3ba18fdc99f3a44be",
+      "ast_digest": "cc1652489c2b027f36722c6741823278a4ff623a27be3d2a3415db43fe6677df"
+    },
+    "srp": {
+      "values_digest": "cd321f94d675d133be88907aa6560d481fff6916325d938f537416734dcc15e4",
+      "rendered_digest": "3402c1fab069c5c57c0c6406645508916579b91e14de84dcad76500ec38651e8",
+      "ast_digest": "c186655e8c21de0eda6b7ad9a90c59f56890187e90ca8b8f22e79de1d306d3a7"
+    },
+    "sor": {
+      "values_digest": "26203efef5d9843574c6b2287b3ab21614ff6953346f6c2fa73b4b4e77496f62",
+      "rendered_digest": "0f5b9a95dd570658ffc1fc0012661dc5012adefad92050ee40c0a8e590149070",
+      "ast_digest": "b927e78804a769a1dfb5032f66bc127f6fe286aef39cd9c65a41ca8d9ef2695b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Advance issue #499 from bound to implemented after the bounded resilience owner-boundary refactor and focused validation passed."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Recover review evidence after the non-substantive C-SDLC review-record commit so publication can verify a clean current head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Recover review evidence after the non-substantive C-SDLC review-record commit so publication can verify a clean current head."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 10,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "Recover stale review/publication truth after integrating the merged Sprint 1 coverage repair, before recording the independent exact-head API review."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:sprint-1-conductor",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 13,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-499-takeover",
+      "reason": "Recover stale review/publication truth after integrating current origin/main containing the shared coverage repair and dependent Sprint 1 merges, before recording fresh exact-head review for PR #547."
+    },
+    {
+      "sequence": 14,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-499-takeover",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 15,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-499-takeover",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 16,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale published review after the focused resilience coverage test commit for PR #547."
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 18,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/v0921-sprint1-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:019ff3cb-8fa9-7530-a2c6-05b786234a19",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"13d76e45f18eadaa35845d36f0d8a8e34a4ef27675d7d2720f5a3c22d5b3f62a\",\"design_ref\":\".csdlc/prepared/issues/499/design.md\",\"diagram_digest\":\"38c362aef42ad49d59732236139c96a15952738ff2c24c22745632eb34ef310a\",\"diagram_ref\":\".csdlc/prepared/issues/499/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Record bounded RUST-01 execution evidence for issue #499 before implemented phase advance.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Refactored adl/src/resilience.rs into an owner-boundary facade plus focused resilience submodules without changing public resilience API, retry, timeout, cancellation, tracing, fault, rate-limit, bulkhead, circuit-breaker, or fallback behavior.\",\"changes\":[\"Reduced adl/src/resilience.rs from the 5278-line monolith to a 64-line facade that declares resilience submodules and re-exports the preserved public surface.\",\"Moved runtime health/correlation, fault records, policy/manifest, retry, timeout, circuit-breaker, rate-limit, bulkhead, fallback, schema smoke, and existing tests into adl/src/resilience/*.rs.\",\"Converted the six issue-local RUST-01 prepared validators from planned-proof placeholders into executable API, behavior, validation-impact, and fmt/clippy proof scripts.\"],\"artifacts\":[\"adl/src/resilience.rs\",\"adl/src/resilience/runtime.rs\",\"adl/src/resilience/fault.rs\",\"adl/src/resilience/policy.rs\",\"adl/src/resilience/retry.rs\",\"adl/src/resilience/timeout.rs\",\"adl/src/resilience/circuit_breaker.rs\",\"adl/src/resilience/rate_limit.rs\",\"adl/src/resilience/bulkhead.rs\",\"adl/src/resilience/fallback.rs\",\"adl/src/resilience/schema.rs\",\"adl/src/resilience/tests.rs\",\".csdlc/prepared/issues/499/validate-api-parity.rb\",\".csdlc/prepared/issues/499/validate-validation-impact.rb\",\".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb\",\".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb\",\".csdlc/prepared/issues/499/validate-fault-and-trace.rb\",\".csdlc/prepared/issues/499/validate-fmt-clippy.rb\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Advance issue #499 from bound to implemented after the bounded resilience owner-boundary refactor and focused validation passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Record bounded RUST-01 execution and focused validation proof for issue #499 after implemented phase advance.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Refactored adl/src/resilience.rs into an owner-boundary facade plus focused resilience submodules without changing public resilience API, retry, timeout, cancellation, tracing, fault, rate-limit, bulkhead, circuit-breaker, or fallback behavior.\",\"changes\":[\"Reduced adl/src/resilience.rs from the 5278-line monolith to a 64-line facade that declares resilience submodules and re-exports the preserved public surface.\",\"Moved runtime health/correlation, fault records, policy/manifest, retry, timeout, circuit-breaker, rate-limit, bulkhead, fallback, schema smoke, and existing tests into adl/src/resilience/*.rs.\",\"Converted the six issue-local RUST-01 prepared validators from planned-proof placeholders into executable API, behavior, validation-impact, and fmt/clippy proof scripts.\"],\"artifacts\":[\"adl/src/resilience.rs\",\"adl/src/resilience/runtime.rs\",\"adl/src/resilience/fault.rs\",\"adl/src/resilience/policy.rs\",\"adl/src/resilience/retry.rs\",\"adl/src/resilience/timeout.rs\",\"adl/src/resilience/circuit_breaker.rs\",\"adl/src/resilience/rate_limit.rs\",\"adl/src/resilience/bulkhead.rs\",\"adl/src/resilience/fallback.rs\",\"adl/src/resilience/schema.rs\",\"adl/src/resilience/tests.rs\",\".csdlc/prepared/issues/499/validate-api-parity.rb\",\".csdlc/prepared/issues/499/validate-validation-impact.rb\",\".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb\",\".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb\",\".csdlc/prepared/issues/499/validate-fault-and-trace.rb\",\".csdlc/prepared/issues/499/validate-fmt-clippy.rb\"],\"validation\":[{\"command\":[\".csdlc/prepared/issues/499/validate-api-parity.rb\"],\"purpose\":\"Verify the public resilience top-level declarations and inherent public methods remain declared and facade-exported after the module split.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 api parity passed: 83 public resilience declarations and 9 public inherent methods preserved\"},{\"command\":[\".csdlc/prepared/issues/499/validate-validation-impact.rb\"],\"purpose\":\"Verify the old resilience facade is no longer on the large-module rationale watchlist and extracted modules exist.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 validation-impact passed: adl/src/resilience.rs 64 lines; 11 extracted modules\"},{\"command\":[\".csdlc/prepared/issues/499/validate-resilience-positive-negative.rb\"],\"purpose\":\"Verify positive and negative resilience behavior across retry, timeout, circuit-breaker, rate-limit, bulkhead, fallback, fault, and schema coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: 50 resilience tests passed, 0 failed\"},{\"command\":[\".csdlc/prepared/issues/499/validate-retry-timeout-cancellation.rb\"],\"purpose\":\"Verify retry, timeout, cancellation, and bounded ID behavior after extraction.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 retry/timeout/cancellation proof passed\"},{\"command\":[\".csdlc/prepared/issues/499/validate-fault-and-trace.rb\"],\"purpose\":\"Verify fault classification, redaction, schema references, and trace-adjacent schema smoke after extraction.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 fault/trace proof passed\"},{\"command\":[\".csdlc/prepared/issues/499/validate-fmt-clippy.rb\"],\"purpose\":\"Verify rustfmt and clippy -D warnings on the library surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal: RUST-01 fmt/clippy proof passed\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Recover review evidence after the non-substantive C-SDLC review-record commit so publication can verify a clean current head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "Recover review evidence after the non-substantive C-SDLC review-record commit so publication can verify a clean current head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:sprint-1-issue-499-worker",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "Recover stale review/publication truth after integrating the merged Sprint 1 coverage repair, before recording the independent exact-head API review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:sprint-1-conductor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:issue-499-takeover",
+      "reason": "Recover stale review/publication truth after integrating current origin/main containing the shared coverage repair and dependent Sprint 1 merges, before recording fresh exact-head review for PR #547.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:issue-499-takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:issue-499-takeover",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:issue-499-takeover",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover stale published review after the focused resilience coverage test commit for PR #547.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

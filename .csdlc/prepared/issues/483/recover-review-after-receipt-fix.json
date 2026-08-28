@@ -1,0 +1,9 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 483,
+  "expected_generation": 3,
+  "expected_digest": "8d8ac99988c81f30525fda11dbe13622e3fb539651ed69ec9a34f2dd4b386490",
+  "claim_id": "claim-483-corp-b-custody-register",
+  "actor": "codex:issue-483-corp-b-execution",
+  "reason": "The exact review found four receipt timestamp mismatches; recover assignment truth after the bounded repair for final exact-head review."
+}

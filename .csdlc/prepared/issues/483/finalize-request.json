@@ -1,0 +1,50 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 483,
+  "expected_generation": 2,
+  "expected_digest": "8fcab79f0f342c367937146b338b4b92bfb4fe405b402fa3f5680f21b8bf9426",
+  "claim_id": "claim-483-corp-b-custody-register",
+  "actor": "codex:issue-483-corp-b-execution",
+  "summary": "Produced the read-only corporate account custody register and complete follow-up action list without external service mutations.",
+  "changes": [
+    "Added a 14-row custody register covering every CORP-A critical asset class exactly once.",
+    "Recorded the five completed internal Route53 registration transfers without claiming hosted-zone or DNS migration.",
+    "Recorded explicit owners and next actions for every remaining custody gap.",
+    "Kept every v-*.ai domain, including v-dev.ai, unscheduled and non-gating."
+  ],
+  "artifacts": [
+    "docs/operations/corporate/account-custody/corporate-custody-register.md",
+    "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
+    ".csdlc/prepared/issues/483/validate-custody-register.rb"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "corp-b-custody-register",
+          "proof_role": "Prove exact CORP-A denominator coverage, redaction posture, domain receipt truth, complete follow-up actions, and non-gating v-*.ai backlog status.",
+          "purpose": "Run the focused read-only custody-register validator.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 512, "tokens": 1000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "corp-b-docs",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/483/validate-custody-register.rb"],
+          "evidence": {"max_log_bytes": 120000, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {"requested_lanes": ["corp-b-custody-register"], "allow_network": false, "available_credentials": []},
+    "budget": {"max_parallel": 1, "cpu_units": 1, "memory_mib": 512, "tokens": 1000},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-483-corp-b-corporate-account-custody-register",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-483-corp-b-corporate-account-custody-register/.csdlc/evidence/483",
+    "cancellation_file": null
+  }
+}

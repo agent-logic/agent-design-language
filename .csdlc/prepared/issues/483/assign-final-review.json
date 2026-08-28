@@ -1,0 +1,15 @@
+{
+  "issue": 483,
+  "expected_generation": 4,
+  "expected_digest": "0eaecfec10de6e487d0da1780eff4679e25c42a73d52105b94856563d63ac6bf",
+  "claim_id": "claim-483-corp-b-custody-register",
+  "reviewer": "fresh-session:b4261fee-be25-4d35-b653-0ec3bb214f02",
+  "assigned_by": "codex:issue-483-corp-b-execution",
+  "scope": [
+    "docs/operations/corporate/account-custody",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-b",
+    ".csdlc/prepared/issues/483/validate-custody-register.rb",
+    ".csdlc/issues/483",
+    ".csdlc/evidence/483"
+  ]
+}

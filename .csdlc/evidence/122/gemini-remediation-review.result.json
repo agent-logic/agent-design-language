@@ -1,0 +1,38 @@
+{
+  "schema_version": "provider_communication.v1",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "runtime_surface": "hosted_api",
+    "provider_model_id": "gemini-2.5-flash",
+    "credential_ref": "env:GOOGLE_API_KEY",
+    "source_registry": "repo-native-adl-provider-adapter"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-2.5-flash",
+    "provider_model_id": "gemini-2.5-flash",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "2026-08-26T00:00:00Z"
+  },
+  "attempts": [
+    {
+      "attempt_index": 1,
+      "started_at": "unix:1787763097",
+      "duration_ms": 21670,
+      "status": "ok",
+      "retryable": false,
+      "http_status": 200,
+      "raw_response_excerpt": "[redacted provider text len=2627]"
+    }
+  ],
+  "final_status": "ok",
+  "duration_ms": 21674,
+  "request_id": "issue-122-gemini-remediation-review",
+  "output_text": "**Verdict: PASS**\n\n**Findings:**\n\n*   **P3 Fixed:** `sor.md` status updated from `pre_phase` to `ready`.\n    *   `diff --git a/.csdlc/issues/122/cards/sor.md` (lines 8-9)\n*   **P3 Fixed:** `websocket_path_pattern` is now correctly used in the `aws_cloudfront_distribution.wss` resource as an `ordered_cache_behavior` path pattern.\n    *   `infra/aws/csm-public-edge/main.tf` (line 442)\n    *   The variable also includes validation to ensure it's a valid CloudFront path pattern (starts with `/` and contains `*`).\n    *   `infra/aws/csm-public-edge/variables.tf` (lines 106-109)\n*   **P2 Fixed:** `additional_allowed_origins` now includes robust Terraform variable validation. This validation successfully rejects wildcards (`*`), broad patterns, paths, and query strings, enforcing that only exact `https://host[:port]` or `http://localhost[:port]` origins are accepted.\n    *   `infra/aws/csm-public-edge/variables.tf` (lines 115-128)\n\n**Explicit Statement on `additional_exact_allowed_origins`:**\n\nYes, supporting additional exact allowed origins remains fully supported and usable. The implementation provides clear documentation in `README.md` and `CSM_PUBLIC_EDGE_TERRAFORM.md` and enforces strict validation in `variables.tf`. This design successfully balances the need for operator/development workflows (allowing specific additional origins) with security requirements (rejecting unsafe wildcards or broad patterns for CORS/WSS). The provided smoke evidence confirms the validation works as intended.\n\n**Residual Risks/Limitations:**\n\n*   **Minor Regex Permissiveness for `https://` Origins:** The regular expression used for `https://` origins in `additional_allowed_origins` (`^[A-Za-z0-9][A-Za-z0-9.-]*(:[0-9]{1,5})?$`) is slightly more permissive than a fully strict FQDN validation (e.g., it technically allows hyphens at the start/end of labels or consecutive hyphens in the hostname, which are invalid in DNS). However, it effectively prevents wildcards, paths, and query strings as required, and actual hostname resolution/certificate validation by AWS and browsers would catch truly malformed FQDNs. This is a minor point and does not constitute a P0-P3 finding given the primary goal of rejecting patterns.\n*   **`websocket_path_pattern` Wildcard Requirement:** The validation for `websocket_path_pattern` explicitly requires the path pattern to contain a wildcard (`*`). This aligns with common CloudFront path pattern usage but means that an operator cannot specify a purely exact path for a WSS behavior via this variable. This is a design choice consistent with the term \"path pattern\" and not a defect.",
+  "output_text_excerpt": "[redacted provider text len=2627]",
+  "artifact_ref": ".csdlc/evidence/122/gemini-remediation-review.result.json",
+  "trace_ref": "provider_adapter.circuit_breaker"
+}

@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 483,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-B] Corporate account custody register",
+    "slug": "v0-92-1-corp-b-corporate-account-custody-register",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "483-custody-register",
+          "proof_role": "Validate denominator coverage, domain receipt ingestion, follow-up ownership, and redaction.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1200,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/483/validate-custody-register.rb"
+          ],
+          "parallel_group": "483-local",
+          "defer_reason": "Runs after register artifacts are written."
+        },
+        {
+          "lane": "483-diff-hygiene",
+          "proof_role": "Reject whitespace and conflict artifacts in the #483 docs-only diff.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "main...HEAD",
+            "--check"
+          ],
+          "parallel_group": "483-local",
+          "defer_reason": "Runs after register artifacts are written."
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing denominator rows, overclaimed custody completion, missing later owner, credential-like material, stale domain receipt evidence, or exact-head review findings.",
+      "design_ref": ".csdlc/prepared/issues/483/design.md",
+      "design_digest": "42a96e269c8502c070599bb4204a7774672065e435e83852c35b5682220b9d3b",
+      "diagram_ref": ".csdlc/prepared/issues/483/diagram.mmd",
+      "diagram_digest": "2c9ec19c6c0f743bf503f146842feebefcf541165b176d9736786e12bbbc223c"
+    }
+  }
+}

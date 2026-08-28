@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 483,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-B] Corporate account custody register",
+    "slug": "v0-92-1-corp-b-corporate-account-custody-register",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the #483 read-only corporate custody register and action list within owned documentation/evidence paths.",
+      "deliverables": [
+        "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+        "docs/operations/corporate/account-custody/corporate-custody-register.md",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
+        ".csdlc/prepared/issues/483/validate-custody-register.rb"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The register covers every critical-service class derived from CORP-A and records accepted, follow-up-required, or out-of-scope disposition truthfully.",
+        "AC-2: The five completed domain registration transfers are recorded factually without claiming hosted-zone or DNS migration.",
+        "AC-3: Remaining service moves and custody gaps have a concise later owner and action list.",
+        "AC-4: Repository artifacts contain no credentials, PII, payment data, tax data, private instruments, or recovery material.",
+        "AC-5: The PR explicitly records the narrowed read-only boundary and does not overclaim live recovery or break-glass exercises."
+      ],
+      "dependencies": [
+        "#482 CORP-A merged into main",
+        "local nonsecret domain-transfer receipts under .git/csdlc-v2/domain-transfers"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#483",
+        "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+        "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+        ".git/csdlc-v2/domain-transfers/*.json"
+      ],
+      "non_goals": [
+        "No live domain transfer",
+        "No hosted-zone or DNS move",
+        "No account, admin, billing, MFA, recovery, vault, break-glass, secret, or infrastructure mutation",
+        "No scheduling of v-*.ai backlog domains",
+        "No CORP-C operational-control transfer"
+      ]
+    }
+  }
+}

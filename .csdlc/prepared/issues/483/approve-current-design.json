@@ -1,0 +1,7 @@
+{
+  "issue": 483,
+  "expected_generation": 1,
+  "expected_digest": "70e654ee4aad6319fe50bdd6715a538d41f6916f8b4ba81d8521f1ce0ea7f26b",
+  "claim_id": "claim-483-corp-b-custody-register",
+  "reviewer": "fresh-session:c55af37d-db88-49eb-8154-91f462d484ca"
+}

@@ -1,0 +1,217 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 122,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
+    "slug": "deferred-public-observatory-exposure",
+    "version": "post-v0.92",
+    "generation": 72
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csm-public-edge-static",
+          "proof_role": "Validate the permanent public-edge stack and disposable runtime-origin stacks are formatted, provider-initializable, syntactically valid, native-WSS-capable, exact-origin guarded, host-only for WSS origins unless CloudFront origin_path is implemented, and free of committed state or plan artifacts; permanent edge resources remain non-compute.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2500,
+          "argv": [
+            "bash",
+            "adl/tools/validate_csm_public_edge_static.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "terraform-public-edge-validate",
+          "proof_role": "Focused Terraform validate for infra/aws/csm-public-edge.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-public-edge",
+            "validate"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "terraform-runtime-spot-validate",
+          "proof_role": "Focused Terraform validate for the disposable Spot Runtime-origin stack.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-runtime-spot",
+            "validate"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "terraform-runtime-alb-validate",
+          "proof_role": "Focused Terraform validate for the disposable ALB Runtime-origin stack, including lookup-first reusable ACM certificate contract.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-runtime-alb",
+            "validate"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csm-public-edge-additional-origins-smoke",
+          "proof_role": "Retain evidence that exact additional allowed origins are accepted and wildcard origins fail closed before API Gateway CORS configuration.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-public-edge",
+            "console"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Executed manually as a console smoke with exact -var inputs; retained in .csdlc/evidence/122/additional-origins-validation.md because terraform console is interactive."
+        },
+        {
+          "lane": "csm-public-edge-live-apply-gated",
+          "proof_role": "Operator-authorized live proof of DNS, ACM, HTTPS, API origin behavior, exact origin/CORS policy, business-account ownership, and permanent-edge absence of compute resources. This lane does not by itself claim a successful WebSocket handshake; WSS handshake proof requires the separate approved Runtime probe.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 10000,
+          "argv": [
+            "bash",
+            "adl/tools/validate_csm_public_edge_live.sh"
+          ],
+          "parallel_group": "live",
+          "defer_reason": "Live AWS apply was separately operator-authorized for #122 and is recorded in SOR/evidence; the bundled live validator proves HTTPS/CORS/API reachability only. WSS handshake proof remains gated on an approved Runtime WebSocket probe and target endpoint."
+        },
+        {
+          "lane": "csm-runtime-origin-smoke-live",
+          "proof_role": "Operator-authorized disposable AWS origin proof creates a small Spot EC2 host and HTTPS ALB, verifies an external request reaches the instance, then destroys all disposable origin resources.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 10000,
+          "argv": [
+            "curl",
+            "-sS",
+            "--max-time",
+            "20",
+            "-D",
+            "-",
+            "https://origin-smoke.wuji.dev.csm.agent-logic.ai/v1/health"
+          ],
+          "parallel_group": "live",
+          "defer_reason": "Executed once as bounded live evidence and torn down; future reruns remain gated because they create billable disposable AWS resources."
+        },
+        {
+          "lane": "csm-runtime-origin-teardown-empty-state",
+          "proof_role": "Verify disposable Spot/ALB stacks are destroyed and their Terraform states contain zero resources while reusable ACM certificate remains outside disposable state.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "terraform",
+            "-chdir=infra/aws/csm-runtime-alb",
+            "show",
+            "-json"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue-diff-hygiene",
+          "proof_role": "Reject malformed whitespace and patch artifacts across #122 Terraform, documentation, validation, evidence, and lifecycle surfaces.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on an open serial gate, absent operator authorization, wrong account, forbidden compute, revision drift, invalid browser trust, permissive origin or authentication policy, unbounded traffic, disclosure, ownership ambiguity, incomplete rollback or cleanup, failed proof, or unresolved exact-head finding.",
+      "design_ref": ".csdlc/prepared/issues/122/design.md",
+      "design_digest": "879b89709fc741dabfefcb2931f3ced6af18cc087eaf6bdf4e7ba0b954144652",
+      "diagram_ref": ".csdlc/prepared/issues/122/diagram.mmd",
+      "diagram_digest": "370d81d6f8cf0522a0521130f9dd9fd41a41ff14c7a22ef9ac47c4195d532e53"
+    }
+  }
+}

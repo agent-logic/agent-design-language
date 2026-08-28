@@ -1,0 +1,12 @@
+{
+  "actor": "codex:sprint-1-issue-499-worker",
+  "card": "sor",
+  "expected_digest": "d9f7a6c1e1446df7f97cdd3f701a56345c0332eb3b0c5a799e85916d7ffe2022",
+  "expected_generation": 2,
+  "issue": 499,
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  },
+  "reason": "Advance issue #499 from bound to implemented after the bounded resilience owner-boundary refactor and focused validation passed."
+}

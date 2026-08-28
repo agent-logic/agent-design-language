@@ -1,0 +1,13 @@
+{
+  "assigned_by": "codex:sprint-1-issue-499-worker",
+  "expected_digest": "2e37b3b86c731b0143a7fd8856d07ec48557279e16a2e70a78440bf423fb1007",
+  "expected_generation": 6,
+  "issue": 499,
+  "reviewer": "gpt-5.5-subagent:01a03f3a-27bc-76a1-9478-a60c489aaa7b",
+  "scope": [
+    "adl/src/resilience.rs",
+    "adl/src/resilience/*.rs",
+    ".csdlc/prepared/issues/499/validate-*.rb",
+    "publication hygiene for extracted modules and validators"
+  ]
+}
