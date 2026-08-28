@@ -7,22 +7,23 @@
     "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
     "slug": "v0-92-1-v3-c-c-sdlc-v3-lifecycle-kernel",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented and restacked the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 on top of the repaired #501 foundation branch while preserving v2 as current authority until explicit V3-F cutover.",
+      "summary": "Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502, then restacked it onto origin/main after #501 merged, while preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover.",
       "actual_changes": [
-        "Restacked #502 on repaired #501 foundation head 9056f19245f93bc9efa3b55561671a8f002c6536 via merge commit 12b3d74291487f730f8c4d8a427e46308876424a.",
-        "Added csdlc-v3/src/lifecycle/mod.rs for capability-checked lifecycle transition decisions and projection invalidation semantics.",
-        "Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, commit-time generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, and content-bound record digests.",
-        "Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, redaction, and shell-executable rejection including path-qualified shells.",
-        "Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, and digest-binding tests.",
+        "Restacked #502 onto origin/main at merged #501 commit 1972aa47bd7047b8594a03bf770fb92f7fb63d51 via merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62.",
+        "Recovered stale #502 review/publication truth after the main restack so the post-restack revision must receive fresh exact-head review before publication is trusted.",
+        "Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, and projection invalidation semantics.",
+        "Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, commit-time generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.",
+        "Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction, and shell-executable rejection including path-qualified shell names.",
+        "Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, and redaction regression tests.",
         "Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.",
         "Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.",
-        "Dropped unrelated docs-authority commits from the net #502 branch diff while preserving the explicit csdlc-v3/AGENTS.md deliverable."
+        "Preserved dependency order by waiting for #501 to merge before moving #502's final PR base to main."
       ],
       "artifacts": [
         "csdlc-v3/AGENTS.md",
@@ -31,9 +32,12 @@
         "csdlc-v3/src/lifecycle/mod.rs",
         "csdlc-v3/src/storage/mod.rs",
         "csdlc-v3/tests/transactions.rs",
-        "commit 12b3d74291487f730f8c4d8a427e46308876424a",
+        "origin/main 1972aa47bd7047b8594a03bf770fb92f7fb63d51",
+        "merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62",
+        "review-recovery commit 41c2481b15b1276ef95da2965d74d313f481b5e1",
         "worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
-        "branch codex/502-v3-c-csdlc-v3-lifecycle-kernel"
+        "branch codex/502-v3-c-csdlc-v3-lifecycle-kernel",
+        "PR https://github.com/agent-logic/agent-design-language/pull/572"
       ],
       "actual_validation": [
         {
@@ -44,35 +48,20 @@
             "csdlc-v3/Cargo.toml",
             "--check"
           ],
-          "purpose": "format check for the C-SDLC v3 crate after restacking #502 on repaired #501",
+          "purpose": "format check for the C-SDLC v3 crate after restacking #502 on merged #501 main",
           "outcome": "passed",
-          "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:passed"
+          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed"
         },
         {
           "command": [
             "cargo",
             "test",
             "--manifest-path",
-            "csdlc-v3/Cargo.toml",
-            "--test",
-            "transactions"
+            "csdlc-v3/Cargo.toml"
           ],
-          "purpose": "focused transaction test target for #168/#169/#170 retained behaviors and review-finding regressions",
+          "purpose": "full local C-SDLC v3 crate test suite after restacking #502 on merged #501 main",
           "outcome": "passed",
-          "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:15-passed"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--manifest-path",
-            "csdlc-v3/Cargo.toml",
-            "--test",
-            "foundation"
-          ],
-          "purpose": "prove inherited #501 foundation behavior still passes on the #502 stacked branch",
-          "outcome": "passed",
-          "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:11-passed"
+          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:4-lib-11-foundation-15-transactions-passed"
         },
         {
           "command": [
@@ -85,9 +74,9 @@
             "-D",
             "warnings"
           ],
-          "purpose": "strict clippy for the C-SDLC v3 crate after restack",
+          "purpose": "strict clippy for the C-SDLC v3 crate after main restack",
           "outcome": "passed",
-          "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:passed"
+          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed"
         },
         {
           "command": [
@@ -95,20 +84,31 @@
             "diff",
             "--check"
           ],
-          "purpose": "diff hygiene after #502 restack",
+          "purpose": "diff hygiene after main restack",
           "outcome": "passed",
-          "evidence_ref": "exact-head:12b3d74291487f730f8c4d8a427e46308876424a:passed"
+          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed"
         },
         {
           "command": [
             "csdlc-validate",
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
             "issue",
             "--issue",
             "502"
           ],
-          "purpose": "typed C-SDLC issue validation after #502 restack",
+          "purpose": "typed C-SDLC issue validation after main restack before review recovery",
+          "outcome": "blocked",
+          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:review_publication_dead_end requiring recover_review"
+        },
+        {
+          "command": [
+            "csdlc-review",
+            "recover"
+          ],
+          "purpose": "recover stale review/publication truth caused by the #501 main merge and #502 restack",
           "outcome": "passed",
-          "evidence_ref": "status pass, phase implemented, generation 9 at exact-head 12b3d74291487f730f8c4d8a427e46308876424a"
+          "evidence_ref": "generation 13 after recover_review; review_assignment/review/publication cleared before fresh review"
         }
       ],
       "integration_state": "worktree_only",
