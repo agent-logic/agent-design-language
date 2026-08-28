@@ -1,6 +1,6 @@
 # ADL Agent Guidelines
 
-## Current C-SDLC authority and v3 construction boundary
+## Final C-SDLC v2 authority (Gate 10D2)
 
 The v1 C-SDLC command wrappers, `pr.sh` lifecycle wrappers, prompt-template
 wrappers, and `csdlc-import` binary are sunset. For C-SDLC work, the sole
@@ -11,18 +11,6 @@ coexistence inventory explicitly records `v1_sunset`; historical Gate 10A-C
 records remain immutable evidence and are not an instruction to retain deleted
 binaries. Issue ownership is derived from the bound Git branch and worktree;
 claims, leases, heartbeats, and protected-path ledgers are not lifecycle authority.
-
-C-SDLC v3 is under staged construction for milestone v0.92.1 and is the
-planned clean replacement line, but it is not current operational authority.
-V3-A through V3-E may build contract, foundation, lifecycle-kernel,
-local-command, and remote-delivery surfaces only inside their declared issue
-scopes. C-SDLC v2 remains the sole authority for issue lifecycle state,
-worktree binding, GitHub writes, review, publication, finish, cleanup, and
-recovery until an explicit operator-reviewed V3-F cutover proves parity/import,
-rollback, publication, finish, cleanup, documentation, and operator-start
-ergonomics. The destination is a simpler v3 route that can get a prepared issue
-moving in three minutes or less, followed by coordinated retirement of active
-v2 surfaces while preserving historical v2 evidence.
 
 This file is the repository-local operating contract for coding agents working
 in ADL.
@@ -52,8 +40,7 @@ These are the four behavioral principles at the center of this file.
 
 These rules are mandatory for ADL issue work.
 
-1. Use the typed v2 C-SDLC route for C-SDLC issues and lifecycle stages until
-   an explicit V3-F cutover changes this file.
+1. Use the typed v2 C-SDLC route for C-SDLC issues and lifecycle stages.
    - `workflow-conductor` and repo-native `pr.sh` are historical v1 routes and
      are not valid C-SDLC v2 lifecycle commands.
    - GitHub operations should use the shared token resolver. When an explicit
@@ -194,17 +181,12 @@ These rules are mandatory for ADL issue work.
 
 ## Repository-Specific Working Style
 
-### C-SDLC v2 authority and v3 transition boundary
+### C-SDLC v2 coexistence (Gate 10A)
 
 - Generation authority is `csdlc-v2/operator/generation-selector.json`. Gate 10A-C records are historical; Gate 10D2 is the current final `v1_sunset` authority.
 - Explicit v2 work routes through the eleven typed contracts under `csdlc-v2/operator/skills/`; those skills delegate to Rust binaries and never mutate Markdown/state directly.
 - Resolve every current lifecycle route through `csdlc-install resolve`, which reads that selector as the sole authority. Install v2 only into the dedicated `.adl/bin/csdlc-v2/` generation directory; the final verifier also fails if forbidden v1 paths reappear.
 - Historical rollback and recovery proofs remain immutable evidence. The exact D2 approval authorizes the completed v1 command-surface sunset; retained session ownership remains a shared invariant.
-- `csdlc-v3/**` is a non-authoritative construction surface until V3-F. Do
-  not route bind, validate, review, publish, finish, GitHub mutation, cleanup,
-  or recovery through v3 while V3-A through V3-E are still construction work.
-  Treat v3 projections, transaction models, adapters, and tests as evidence
-  for later cutover review, not as permission to bypass v2.
 
 - ADL is deterministic by design. Do not introduce hidden state, undeclared
   side effects, or review-hostile magic.
@@ -268,8 +250,7 @@ These rules are mandatory for ADL issue work.
 For a normal tracked issue:
 
 1. read the source issue prompt and current task bundle
-2. route through the typed v2 C-SDLC skill and binary for C-SDLC issues while
-   v3 remains pre-cutover construction
+2. route through the typed v2 C-SDLC skill and binary for C-SDLC issues
 3. confirm the primary checkout is clean on `main`, inspect active worktrees,
    and preserve any session handoff or collision evidence before binding work
 4. confirm all six C-SDLC cards exist and came from the active prompt-template

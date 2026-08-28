@@ -22,10 +22,3 @@ state, receipts, or derived terminal evidence.
 
 Do not make merge, finish, issue closure, or derived terminal truth depend on
 successful worktree removal.
-
-## C-SDLC v3 transition boundary
-
-C-SDLC v3 is construction evidence only until an explicit operator-reviewed
-V3-F cutover changes root authority. Continue using this v2 cleanup route for
-live registered worktree classification or removal; v3 cleanup models and
-rollback tests do not authorize deletion or retirement of v2 surfaces.
