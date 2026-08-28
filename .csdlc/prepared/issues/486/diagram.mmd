@@ -1,0 +1,11 @@
+flowchart TD
+  A[#485 AWS-B accepted access/billing baseline] --> B[#486 AWS-C bootstrap]
+  B --> C[S3 state bucket: encrypted + versioned]
+  B --> D[DynamoDB lock table]
+  B --> E[Deployment role boundary]
+  B --> F[Provider pins]
+  B --> G[State-isolation register]
+  G --> H[Website/DDNS/public-edge/workload states remain separate]
+  C --> I[Recovery rehearsal]
+  D --> I
+  I --> J[Reviewable Terraform bootstrap PR]

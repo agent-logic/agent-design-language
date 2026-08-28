@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 486,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+    "slug": "aws-terraform-bootstrap",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/486\n.csdlc/prepared/issues/486\ninfra/aws/bootstrap\ndocs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md\ndocs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md\ndocs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh",
+      "review_revision": "git-blake3:150b9e1bae67eb18521fd273c4005f0beb3c6a19:cf87a71fc6eb89ba98c4ed16e8aa81c3e9ab165c752173da5661b5bc81168d38",
+      "reviewer": "fresh-session:d4e0a850-acec-4d66-a4f0-a49e67203aac",
+      "review_prompts": [
+        "Does the bootstrap avoid copying or dual-owning existing website, DDNS, public-edge, or workload state?",
+        "Are backend encryption, versioning, locking, recovery, and provider pins proven?",
+        "Is the deployment role boundary least-privilege for this bootstrap scope?",
+        "Does retained evidence avoid credentials and avoid overclaiming Runtime deployment or CloudFormation retirement?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Reviewer did not run the AWS readback lane, inspect credentials, perform cloud mutations, apply Terraform, publish, merge, or update lifecycle/GitHub state.",
+        "Live AWS apply/readback remains gated on explicit operator approval with the approved agent-logic-admin profile."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

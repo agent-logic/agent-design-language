@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 486,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
+    "slug": "aws-terraform-bootstrap",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #486 AWS-C only; implement Terraform bootstrap, evidence, and runbook after bind. Do not perform website state migration, Runtime deployment, CloudFormation retirement, or unrelated AWS hardening.",
+      "deliverables": [
+        "infra/aws/bootstrap Terraform bootstrap root/module",
+        "docs/operations/cloud/aws/terraform-bootstrap operator runbook",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-c retained proof",
+        ".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Existing website and DDNS states are inventoried first",
+        "AC-2: The new backend is encrypted, versioned, locked, and recoverable",
+        "AC-3: Deployment identity is least privilege for account-foundation bootstrap work",
+        "AC-4: No existing state is copied or dual-owned",
+        "AC-5: Provider pins and saved-plan review are explicit",
+        "AC-6: Fresh exact-head review has no actionable findings before publication"
+      ],
+      "dependencies": [
+        "AWS-B #485 terminal access and billing baseline"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-C",
+        "docs/operations/cloud/aws/access-billing/AWS_ACCESS_BILLING_BASELINE.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-b/",
+        "infra/aws/",
+        "docs/operations/cloud/aws/"
+      ],
+      "non_goals": [
+        "Website state migration",
+        "Runtime deployment",
+        "CloudFormation retirement",
+        "Importing existing state",
+        "Paid workload launch"
+      ]
+    }
+  }
+}
