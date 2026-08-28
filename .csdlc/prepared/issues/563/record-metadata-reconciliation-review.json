@@ -21,7 +21,8 @@
     "reviewed_revision": "git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70",
     "findings": [],
     "residual_risks": [
-      "Hosted CI remains the final pre-merge integration gate."
+      "Hosted CI remains the final pre-merge integration gate.",
+      "The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests."
     ],
     "completed": true,
     "non_substantive_proof": {

@@ -7,14 +7,14 @@
     "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
     "slug": "stale-owner-binary-primary-checkout-guard",
     "version": "v0.92.1",
-    "generation": 20
+    "generation": 22
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/563/audit.jsonl\n.csdlc/issues/563/cards/sip.values.json\n.csdlc/issues/563/cards/sor.values.json\n.csdlc/issues/563/cards/spp.values.json\n.csdlc/issues/563/cards/srp.md\n.csdlc/issues/563/cards/srp.values.json\n.csdlc/issues/563/cards/stp.values.json\n.csdlc/issues/563/cards/vpp.values.json\n.csdlc/issues/563/index.json\n.csdlc/prepared/issues/563/assign-simplified-final-review.json\n.csdlc/prepared/issues/563/record-simplified-final-review.json",
-      "review_revision": "git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70",
+      "review_scope": ".csdlc/issues/563\n.csdlc/prepared/issues/563/assign-metadata-reconciliation-review.json\n.csdlc/prepared/issues/563/record-metadata-reconciliation-review.json\n.csdlc/prepared/issues/563/recover-review-for-metadata-reconciliation.json\n.csdlc/prepared/issues/563/recover-review-for-residual-risk-repair.json",
+      "review_revision": "git-blake3:2772844ca07061ceb6f30319b92f79f9ef155a30:9718a15061b8fe1effe7d59faf08f6436410059630d96dba5b04fbe7c94476d1",
       "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
       "review_prompts": [
         "Does every repository-mutating installed owner reach one shared read-only gate before locks or filesystem writes?",
@@ -25,7 +25,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Hosted CI remains the final pre-merge integration gate."
+        "Hosted CI remains the final pre-merge integration gate.",
+        "The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests."
       ],
       "review_result": "pass"
     }

@@ -12,17 +12,11 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/563/audit.jsonl
-.csdlc/issues/563/cards/sip.values.json
-.csdlc/issues/563/cards/sor.values.json
-.csdlc/issues/563/cards/spp.values.json
-.csdlc/issues/563/cards/srp.md
-.csdlc/issues/563/cards/srp.values.json
-.csdlc/issues/563/cards/stp.values.json
-.csdlc/issues/563/cards/vpp.values.json
-.csdlc/issues/563/index.json
-.csdlc/prepared/issues/563/assign-simplified-final-review.json
-.csdlc/prepared/issues/563/record-simplified-final-review.json
+.csdlc/issues/563
+.csdlc/prepared/issues/563/assign-metadata-reconciliation-review.json
+.csdlc/prepared/issues/563/record-metadata-reconciliation-review.json
+.csdlc/prepared/issues/563/recover-review-for-metadata-reconciliation.json
+.csdlc/prepared/issues/563/recover-review-for-residual-risk-repair.json
 
 ## Prompts
 
@@ -43,10 +37,11 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - Hosted CI remains the final pre-merge integration gate.
+- The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests.
 
 ## Review Result
 
-Revision: Some("git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70")
+Revision: Some("git-blake3:2772844ca07061ceb6f30319b92f79f9ef155a30:9718a15061b8fe1effe7d59faf08f6436410059630d96dba5b04fbe7c94476d1")
 
 Reviewer: Some("fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6")
 

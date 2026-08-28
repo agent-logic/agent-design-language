@@ -4,69 +4,39 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "146e64ab29fdcf94e027ce529b589bdee497f39f8d10d7c2b5a68e5904366342",
   "phase": "reviewed",
-  "generation": 20,
-  "digest": "097e46b3cf66b94d74622397d9fbb25d93f3ee36e863040dec3e29bedee1ac5c",
+  "generation": 22,
+  "digest": "20bdd807194d6b6357be72a9387f0ffdd233b77122e86ae7c5074307bcd36036",
   "branch": "codex/563-stale-owner-binary-primary-checkout-guard",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-563-stale-owner-binary-primary-checkout-guard",
   "review_assignment": {
     "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
     "assigned_by": "codex:563-execution",
-    "revision": "git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70",
+    "revision": "git-blake3:2772844ca07061ceb6f30319b92f79f9ef155a30:9718a15061b8fe1effe7d59faf08f6436410059630d96dba5b04fbe7c94476d1",
     "scope": [
-      ".csdlc/issues/563/audit.jsonl",
-      ".csdlc/issues/563/cards/sip.values.json",
-      ".csdlc/issues/563/cards/sor.values.json",
-      ".csdlc/issues/563/cards/spp.values.json",
-      ".csdlc/issues/563/cards/srp.md",
-      ".csdlc/issues/563/cards/srp.values.json",
-      ".csdlc/issues/563/cards/stp.values.json",
-      ".csdlc/issues/563/cards/vpp.values.json",
-      ".csdlc/issues/563/index.json",
-      ".csdlc/prepared/issues/563/assign-simplified-final-review.json",
-      ".csdlc/prepared/issues/563/record-simplified-final-review.json"
+      ".csdlc/issues/563",
+      ".csdlc/prepared/issues/563/assign-metadata-reconciliation-review.json",
+      ".csdlc/prepared/issues/563/record-metadata-reconciliation-review.json",
+      ".csdlc/prepared/issues/563/recover-review-for-metadata-reconciliation.json",
+      ".csdlc/prepared/issues/563/recover-review-for-residual-risk-repair.json"
     ]
   },
   "review": {
     "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
     "scope": [
-      ".csdlc/issues/563/audit.jsonl",
-      ".csdlc/issues/563/cards/sip.values.json",
-      ".csdlc/issues/563/cards/sor.values.json",
-      ".csdlc/issues/563/cards/spp.values.json",
-      ".csdlc/issues/563/cards/srp.md",
-      ".csdlc/issues/563/cards/srp.values.json",
-      ".csdlc/issues/563/cards/stp.values.json",
-      ".csdlc/issues/563/cards/vpp.values.json",
-      ".csdlc/issues/563/index.json",
-      ".csdlc/prepared/issues/563/assign-simplified-final-review.json",
-      ".csdlc/prepared/issues/563/record-simplified-final-review.json"
+      ".csdlc/issues/563",
+      ".csdlc/prepared/issues/563/assign-metadata-reconciliation-review.json",
+      ".csdlc/prepared/issues/563/record-metadata-reconciliation-review.json",
+      ".csdlc/prepared/issues/563/recover-review-for-metadata-reconciliation.json",
+      ".csdlc/prepared/issues/563/recover-review-for-residual-risk-repair.json"
     ],
-    "reviewed_revision": "git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70",
+    "reviewed_revision": "git-blake3:2772844ca07061ceb6f30319b92f79f9ef155a30:9718a15061b8fe1effe7d59faf08f6436410059630d96dba5b04fbe7c94476d1",
     "findings": [],
     "residual_risks": [
-      "Hosted CI remains the final pre-merge integration gate."
+      "Hosted CI remains the final pre-merge integration gate.",
+      "The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests."
     ],
     "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:8248c0578cba18793d9a31ad02676485c24057e5:b895660cf27b8f75b090f6c13ffcc2edfa8d8050d6b8862d20e64e9bcedc805c",
-      "to_revision": "git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70",
-      "from_commit": "8248c0578cba18793d9a31ad02676485c24057e5",
-      "to_commit": "8af0fc73f55ba855ab892464cc24831ad5aabb7d",
-      "changed_paths": [
-        ".csdlc/issues/563/audit.jsonl",
-        ".csdlc/issues/563/cards/sip.values.json",
-        ".csdlc/issues/563/cards/sor.values.json",
-        ".csdlc/issues/563/cards/spp.values.json",
-        ".csdlc/issues/563/cards/srp.md",
-        ".csdlc/issues/563/cards/srp.values.json",
-        ".csdlc/issues/563/cards/stp.values.json",
-        ".csdlc/issues/563/cards/vpp.values.json",
-        ".csdlc/issues/563/index.json",
-        ".csdlc/prepared/issues/563/assign-simplified-final-review.json",
-        ".csdlc/prepared/issues/563/record-simplified-final-review.json"
-      ]
-    }
+    "non_substantive_proof": null
   },
   "publication": null,
   "readiness": null,
@@ -82,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9a756f38114c92c493acbcd4524eb03f2b38ac6986f50474d4ff608cbcbea252",
+      "values_digest": "e752ae8b939389dd6e122df31b5f6ec2559bd4d8994a53dde33f75319abcedd3",
       "rendered_digest": "22792da655fe8b18c321a37e8c9d22ddc854be5ce33cb42812dd3e0a23f26ccf",
       "ast_digest": "fb55594659d4d81f00853fee5cfc2d89a134c8951d4558ecb9da67d81d9524a6"
     },
     "stp": {
-      "values_digest": "e225f2faca15c51355bfe81a9026d9841855d886d4368a02077b24205dea5709",
+      "values_digest": "2ce2e71479a630229d128a88bf26010904363fb3bcdae20d91c46b83e0bb630b",
       "rendered_digest": "061a5b568a7f14274a7668f8ac705876d07d8496a7e700d4073acec1efa90daf",
       "ast_digest": "68fe760b8e36cf549e89bfbc6cc82a2dd838a00e428dd545493ba908b759d479"
     },
     "spp": {
-      "values_digest": "3b616c5f83b225a4f303f67722da0add74687565541fd4ea521d98a1d559183f",
+      "values_digest": "48df03658c62bf3e3c2ca86c5ba15f029ea4048d904801f8da81fb6c83737521",
       "rendered_digest": "794181e919534014e093c7ce77e43600c618719edf3f9162e1269c3bf31c194e",
       "ast_digest": "dd37183ccffa7d2dbb00eb20d99d073d008f0e1d942ada6e17d5f6fd24460fcc"
     },
     "vpp": {
-      "values_digest": "6c5db1970def0d641b1f50f4dc132cc9c0861fae07667fd9a509529f260a2a3e",
+      "values_digest": "d00aa9394788540af874cd98cf442363de1b90bf74cd9e915b0a794c9b32a3a1",
       "rendered_digest": "e5afe23636589ac51d463c1c68116add49bf73ade75a17ede0bcac1e30af5dfa",
       "ast_digest": "d41ddd5c1bcc9dd7deeb8091592024f78b97f47e1e82f321b148567bfd95c95c"
     },
     "srp": {
-      "values_digest": "25239c2923190bd8b2745c121e4869728a5b12fa7dbd17e919aaee1609dd7adf",
-      "rendered_digest": "85187cdfde941572e02be558af182e66446a838d47618f2dd5303020741a2e76",
-      "ast_digest": "4fe3c60966b4568a557a3a9dae3cfd58e700f26fedae859bfb5ff02f470d9979"
+      "values_digest": "5fad8cf5e07c9c6ee20759f17862e7dd77a8c6b7b2f469d7a3d26f4a0264e4ae",
+      "rendered_digest": "599e230dac6358de61c5dddb036bf2056f5354224adf6e5ef5bca085be9c30f9",
+      "ast_digest": "08647df0b37195da48cfea835f4a343691ed60a91c45639565e59b9a2d68d9a8"
     },
     "sor": {
-      "values_digest": "11a75c797164442145073aff63a9efa68c6ca7038d21a0d9ca35bf7ea17a3b4f",
+      "values_digest": "9add99b12f08a34029491d24d3f6d2a54696e2ca2ebfdad400f942619d20cf3c",
       "rendered_digest": "13ec4c0bbeebdaafd1d47a6c85c96df5f753bdd5e2696f04a7d6d8995f346a6c",
       "ast_digest": "7b45653971853d708a3adb753aaf095c0dbbe5ca663c3e8eec301c02664851b7"
     }
@@ -164,6 +134,20 @@
     },
     {
       "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:563-execution",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:563-execution",
+      "reason": "Preserve the inherited substantive residual risk in the metadata-only review record before publication."
+    },
+    {
+      "sequence": 10,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:563-execution",
@@ -342,6 +326,27 @@
     {
       "sequence": 25,
       "generation": 20,
+      "actor": "codex:563-execution",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:563-execution",
+      "reason": "Preserve the inherited substantive residual risk in the metadata-only review record before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:563-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 22,
       "actor": "codex:563-execution",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
