@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbb8590c7960fd91ecf2bcef6389f14ba34cfda22ce2e5313165a51790e18f1c",
   "phase": "bound",
-  "generation": 2,
-  "digest": "142bfe7a90fcc56bd0d4f5f6922799dd2fccab9a44e04a0a1d3bb4c5d2da8dd6",
+  "generation": 8,
+  "digest": "e9ec7f97fe78ee8062b8f411204d4db04667bf4be1d448e0c333144608d5bc1c",
   "branch": "codex/536-v0921-sprint8-readiness",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-536-sprint8-readiness",
   "review_assignment": null,
@@ -19,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/536/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
-      "revision": "27f8d89faf66327516da64350213f1dc942768ca4f18c5284af514f385a6ec08"
+      "reviewer": "fresh-session:a5ec631e-35d1-4bf8-94aa-aaba32fddcb2",
+      "revision": "59ac3fa2ba8d6bc8a2ab110577d928b452fe262db310c98fe2c6d80ae29e2ab9"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "3a795dacc8a256d22a349ca84e254fddee2adb0d022356a8b1a830b5cdbf5e58",
+      "values_digest": "b3fab84a33c35d9a65d2c6da38479a6724048e1e3bee97a7364bf76327d55c91",
       "rendered_digest": "0e2207f04fe876255036954c6c91611ea7bff2077b6236a6b5d2de9cd449920e",
       "ast_digest": "bdfb00fb17251d62c09fa28b0f3d09cbb12ecdaa18e7a4eb43a35f2baaca4b29"
     },
     "stp": {
-      "values_digest": "4d06563f32d1fccea5e6857b135cc858e9748be9d9916c25fe67ef094efc6e29",
-      "rendered_digest": "30ce21c04eb1c1fb967e528b1ebf7138aa170f390b42f386dccf6077d4f2c89c",
-      "ast_digest": "976480c842f6709ef6e63257ffe04154d0db746372be135a47357ccb5bf71b91"
+      "values_digest": "f79bcab7ae221a3c00430a3e34970bf70716a2cbcca93a9361839ac112d2751d",
+      "rendered_digest": "4decde414ec19ccf001b87458d387fc2c7a167ab4ce9b1952aba2fda7f53f103",
+      "ast_digest": "fb73e44d91fff3eaab076c8eb8b0d086303facb5eb9f94b286dd0711795d98e6"
     },
     "spp": {
-      "values_digest": "8b4d057fbdc55a36711ff72f8441ecfef67c29e307dd85ee6af71da784944ba8",
-      "rendered_digest": "3b80d347d1b5775039bce81a7c40a2d556c13aa6f02b3ffb9f01c88fd635820c",
-      "ast_digest": "ff4f437c1f7cd9117a0ef880fb8c2dab6e5e296f89ac9d8d5997de898d83d1db"
+      "values_digest": "15228a571aed98bf848f8397b0eed023a15662e5ea2f15b15e8e4a2c4a133e34",
+      "rendered_digest": "62880b300a8ee5f64454141084b7daa3735a38a67b1dcafb35bcf8f9477a93d2",
+      "ast_digest": "5483931b2007df127b47e4f8b4cb1f547db55e08672f07a0e8e7c426cefaa1a7"
     },
     "vpp": {
-      "values_digest": "b3ba40f2661afcf44a612c89ce139429d9343b19c3e62f12b5887b413657536f",
+      "values_digest": "940032d46b40e020d0a00e52d7058b134deff5b38d299aa348440e93e0ce026f",
       "rendered_digest": "62ea9a4054eaed6d23d478b76e21acf6dc8409c33312bde64126a1e1f66b2453",
       "ast_digest": "43ed48049618f0924f2d365526a246885fa31bb9932826295a4b3f2134c074ce"
     },
     "srp": {
-      "values_digest": "2bd70b5b799b2a6ae92fc3d8aebeeb207b4e394562075c69a6411e048d9f9ea5",
+      "values_digest": "244c7ed92daea9c011148c434e5957c6394e81e593b4f63fa9acea96d9c3bf71",
       "rendered_digest": "5979ff30b96e42f0dd583718a236f88cb6ff15087c798664b4f6f3d380701603",
       "ast_digest": "67f48f121a3f884ad8441d84a27261acfda9b809e6db98e259551503eb557d2f"
     },
     "sor": {
-      "values_digest": "db5fde142acc71b30370bdafc25c9ca630e12f2c577e9695a3ca6cb621dc09cf",
+      "values_digest": "1810a78ade80a40dc68de29ccb34310996baa590e4672617b00fe78c9e55adbd",
       "rendered_digest": "35b4bb0d8f241ad7e79e7901dc218dc9c8e843d16d6669612b06d252a7721ce8",
       "ast_digest": "3f717976e4a27fbd6dc432694ed4fa6b640a492c85303b4bc5b264fdf58ec431"
     }
@@ -99,6 +99,48 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "fresh-session:a5ec631e-35d1-4bf8-94aa-aaba32fddcb2",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"59ac3fa2ba8d6bc8a2ab110577d928b452fe262db310c98fe2c6d80ae29e2ab9\",\"design_ref\":\".csdlc/prepared/issues/536/design.md\",\"diagram_digest\":\"8079306bf86fe585ac4b92901f08f9bc24ed7a3c84303f5eafa3f2c06664bb1a\",\"diagram_ref\":\".csdlc/prepared/issues/536/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Correct Sprint 8 dependency truth so issue 84 remains independent backlog and does not gate issue 512.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-member active roster; retain #84 as independent backlog without starting or absorbing its work.\",\"operation\":\"replan\",\"previous_value\":\"Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-member active roster; retain #84 as a backlog dependency without starting or absorbing its work.\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Correct Sprint 8 acceptance truth for issue 512 and independent backlog issue 84.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The Sprint Execution Packet records exact active membership #51, #261, #262, #263, #264, #342, #511, and #512 plus the independent backlog disposition for #84 and dependency order.\",\"AC-2: Podcast and Observatory parallel lanes, their serial gates, collision boundaries, and operator-controlled actions are explicit.\",\"AC-3: Every child has a complete typed six-card bundle and issue-specific design-time plan before implementation handoff.\",\"AC-4: Every child handoff requires a bound FastWork worktree, current readiness, and issue-bound session goal before implementation.\",\"AC-5: #512 depends on reviewed terminal #511 only and is not gated by backlog #84; #264 remains blocked until explicit provider-specific operator authorization.\",\"AC-6: The umbrella closes only after current members have reviewed terminal outcomes or explicit operator-approved dispositions and one integrated sprint review has no unresolved actionable findings.\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Remove the false issue 84 to issue 512 dependency while preserving all actual Sprint 8 gates.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#261 before #342 and #262\",\"#342 before #262\",\"#262 before #263\",\"#263 and explicit operator authorization before #264\",\"#511 before #512; #84 remains independent backlog\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Describe issue 84 truthfully as independent backlog in Sprint 8 inputs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"docs/milestones/v0.92.1/SPRINT_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/templates/sprints/1.0.0/sprint_execution_packet.md\",\"GitHub issues #51, #261, #262, #263, #264, #342, #511, and #512 plus independent backlog issue #84\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:sprint8-readiness",
+      "reason": "Replace the false issue 84 gate risk with the actual issue 511 dependency risk.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"Podcast publication work could cross child ownership boundaries\",\"Observatory implementation could begin before reviewed terminal #511\",\"Provider submission could occur without explicit operator authorization\",\"The umbrella could overstate completion while a child is nonterminal\",\"Observatory implementation could invent Runtime fields or use non-authentic routes\"]}"
     }
   ]
 }

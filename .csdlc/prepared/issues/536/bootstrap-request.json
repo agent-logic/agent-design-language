@@ -41,7 +41,7 @@
       "AC-2: Podcast and Observatory parallel lanes, their serial gates, collision boundaries, and operator-controlled actions are explicit.",
       "AC-3: Every child has a complete typed six-card bundle and issue-specific design-time plan before implementation handoff.",
       "AC-4: Every child handoff requires a bound FastWork worktree, current readiness, and issue-bound session goal before implementation.",
-      "AC-5: #512 remains deferred until backlog #84 is explicitly reactivated and terminal; #264 remains blocked until explicit provider-specific operator authorization.",
+      "AC-5: #512 depends on terminal #511 only and is not gated by backlog #84; #264 remains blocked until explicit provider-specific operator authorization.",
       "AC-6: The umbrella closes only after current members have reviewed terminal outcomes or explicit operator-approved dispositions and one integrated sprint review has no unresolved actionable findings."
     ],
     "dependencies": [
@@ -49,7 +49,7 @@
       "#342 before #262",
       "#262 before #263",
       "#263 and explicit operator authorization before #264",
-      "#511 and a reactivated terminal #84 before #512"
+      "#511 before #512; #84 remains independent backlog"
     ],
     "repo_inputs": [
       "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
@@ -57,7 +57,7 @@
       "docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md",
       "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
       "docs/templates/sprints/1.0.0/sprint_execution_packet.md",
-      "GitHub issues #51, #261, #262, #263, #264, #342, #511, and #512 plus backlog dependency #84"
+      "GitHub issues #51, #261, #262, #263, #264, #342, #511, and #512 plus independent backlog issue #84"
     ],
     "non_goals": [
       "Implementing child code, documents, media, hosting, or provider actions",
@@ -102,7 +102,7 @@
     ],
     "risks": [
       "Podcast publication work could cross child ownership boundaries",
-      "Observatory implementation could begin while Unity authority #84 remains in the backlog",
+      "Observatory implementation could begin before its actual dependency #511 is terminal",
       "Provider submission could occur without explicit operator authorization",
       "The umbrella could overstate completion while a child is nonterminal",
       "Observatory implementation could invent Runtime fields or use non-authentic routes"

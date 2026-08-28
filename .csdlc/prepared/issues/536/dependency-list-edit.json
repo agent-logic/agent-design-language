@@ -1,0 +1,19 @@
+{
+  "issue": 536,
+  "card": "stp",
+  "expected_generation": 5,
+  "expected_digest": "00998c9c882d58ba38c2da7515378fe0282637b2670988811fcffa566d64c8a4",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Remove the false issue 84 to issue 512 dependency while preserving all actual Sprint 8 gates.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "dependencies",
+    "values": [
+      "#261 before #342 and #262",
+      "#342 before #262",
+      "#262 before #263",
+      "#263 and explicit operator authorization before #264",
+      "#511 before #512; #84 remains independent backlog"
+    ]
+  }
+}

@@ -14,8 +14,8 @@ implementation, proof, review, publication, or closeout authority.
   explicit future operator authorization before any provider action in `#264`.
 - Permit Observatory experience design `#511` independently.
 - Move Unity integration `#84` to the backlog under explicit operator direction.
-- Keep Observatory implementation `#512` prepared but deferred until both
-  `#511` and a later reactivated `#84` are reviewed, merged, and terminal.
+- Keep Observatory implementation `#512` prepared until `#511` is reviewed and
+  terminal. Backlog `#84` is independent and does not gate `#512`.
 - Close coordination parent `#51` only after its children have truthful terminal
   outcomes, including an operator-accepted blocked disposition for `#264` when
   no submission authorization is granted.

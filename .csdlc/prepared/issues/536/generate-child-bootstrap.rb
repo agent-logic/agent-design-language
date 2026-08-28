@@ -144,13 +144,13 @@ SPECS = {
   512 => {
     title: "Authentic Runtime Observatory redesign implementation",
     slug: "observatory-redesign-implementation",
-    goal: "Implement the accepted #511 Observatory design against authentic Runtime projections after reviewed Unity authority #84 is terminal.",
+    goal: "Implement the accepted #511 Observatory design against authentic Runtime projections.",
     outcome: "The HTML Observatory implements the accepted contracts with exact browser, accessibility, redaction, recovery, and authentic Runtime-route proof.",
     scope: ["demos/html-observatory/app.js", "demos/html-observatory/styles.css", "adl/tools/validate_layer8_authority_observatory_ui.sh", "docs/milestones/v0.92.1/evidence/observatory/obs-b"],
-    dependencies: ["Terminal #511", "Reviewed merged terminal #84", "Sprint 8 umbrella #536"],
+    dependencies: ["Terminal #511", "Sprint 8 umbrella #536"],
     criteria: [
       "AC-1: Every accepted #511 view, state, hierarchy, and interaction contract is implemented.",
-      "AC-2: Final proof consumes reviewed merged #84 authority and source-grounded Runtime projections.",
+      "AC-2: Final proof consumes accepted #511 contracts and source-grounded Runtime projections; backlog issue #84 is independent and is not a gate.",
       "AC-3: Exact browser, keyboard, screen-reader, redaction, degraded, recovery, and revoked cases pass.",
       "AC-4: No mock substitutes for the required authentic Runtime route.",
       "AC-5: Exact-head review has no unresolved actionable findings."

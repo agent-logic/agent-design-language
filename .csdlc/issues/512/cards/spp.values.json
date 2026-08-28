@@ -7,13 +7,13 @@
     "title": "Authentic Runtime Observatory redesign implementation",
     "slug": "observatory-redesign-implementation",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Validate dependencies, implement the smallest owned result, run focused proof, obtain one exact-head review, publish, shepherd, finish, and clean up.",
       "steps": [
         {
@@ -77,9 +77,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/512/design.md",
-      "design_digest": "a431b7ceaad708f00cb9e5b9357319202af9e5201397b7e9e64aa5bb9b8448f4",
+      "design_digest": "a415d52f13e2f803158cbd10348f6a8483ef648ff9d6afaafebd7c2f304d71c8",
       "diagram_ref": ".csdlc/prepared/issues/512/diagram.mmd",
-      "diagram_digest": "64cea4146caba55d888a81af764f8cc8aa2837392546c97711acea3e6c354bb8"
+      "diagram_digest": "a48e5d868965b35d821e4c005bffa0effeceeb1c22e593ece18834b36821403d"
     }
   }
 }

@@ -18,7 +18,7 @@ The original execution lanes remain, with cloud move-in, cross-cloud Terraform c
 6. **Sprint 5 — C-SDLC v3 foundation (#533):** V3-A, V3-B, V3-C.
 7. **Sprint 6 — C-SDLC v3 delivery and cutover (#534):** V3-D, V3-E, V3-F.
 8. **Sprint 7 — distributed Runtime qualification (#535):** DRT-A, #345, DRT-B, DRT-C, then DRT-D after GCP-E and XCL-01; every paid proof remains operator-gated.
-9. **Sprint 8 — product lanes (#536):** existing podcast #51/#261-#264/#342 and Observatory OBS-A are active here. Unity authority #84 is in the backlog by operator direction, and OBS-B/#512 remains prepared but deferred until #84 is explicitly reactivated and terminal. #345 remains owned by Sprint 7.
+9. **Sprint 8 — product lanes (#536):** existing podcast #51/#261-#264/#342 and Observatory #511/#512 are active here. OBS-B/#512 follows OBS-A/#511 only. Unity integration #84 is independent backlog by operator direction and does not gate #512. #345 remains owned by Sprint 7.
 10. **Sprint 9 — provider comparison and convergence (#537):** PROV-B follows PROV-A; INT-01 waits for every root named by the issue wave, then TAIL-01, TAIL-02, TAIL-03. #188 informs convergence and quality admission.
 11. **Sprint 10 — review and remediation (#538):** TAIL-04, TAIL-05, TAIL-06, strictly serial.
 12. **Sprint 11 — handoff and release (#539):** TAIL-07 carries #190 successor intent, TAIL-08, TAIL-09, then TAIL-10 carries #189 ceremony intent.

@@ -7,7 +7,7 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 8
   },
   "status": "ready",
   "content": {
@@ -42,9 +42,9 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed on missing child readiness, ownership overlap, unmet serial gates, operator-authority gaps, or unsupported completion claims.",
       "design_ref": ".csdlc/prepared/issues/536/design.md",
-      "design_digest": "27f8d89faf66327516da64350213f1dc942768ca4f18c5284af514f385a6ec08",
+      "design_digest": "59ac3fa2ba8d6bc8a2ab110577d928b452fe262db310c98fe2c6d80ae29e2ab9",
       "diagram_ref": ".csdlc/prepared/issues/536/diagram.mmd",
-      "diagram_digest": "400ffee5b512618f66560d43aee895d92b81b8f95f6fc92c4bf7eb6df8517bbc"
+      "diagram_digest": "8079306bf86fe585ac4b92901f08f9bc24ed7a3c84303f5eafa3f2c06664bb1a"
     }
   }
 }

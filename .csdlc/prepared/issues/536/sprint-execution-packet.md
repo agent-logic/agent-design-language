@@ -7,7 +7,7 @@
 - Mode: `hybrid`
 - Membership version: `5`
 - Active members: `#51`, `#261`, `#262`, `#263`, `#264`, `#342`, `#511`, `#512`
-- Backlog dependency: `#84`; it is not active Sprint 8 work.
+- Independent backlog: `#84`; it is not active Sprint 8 work and does not gate `#512`.
 - Machine-readable authority: `.csdlc/prepared/issues/536/sprint-execution-packet.yaml`
 
 ## Goal And Boundary
@@ -22,14 +22,14 @@ worktree, session goal, proof, review, PR, finish, and cleanup.
 
 The active child wave is `#261`, `#342`, `#262`, `#263`, `#264`, `#511`,
 `#512`, and coordination closeout `#51`. Backlog `#84` is excluded from the
-active denominator; it remains an explicit dependency of deferred `#512`.
+active denominator and is independent of `#512`.
 
 ## Recommended Execution Order
 
 Open `#261` and `#511` independently. Advance the podcast chain through
 `#342`, `#262`, and `#263`; run `#264` only with provider-specific operator
-authorization. Keep `#512` deferred until `#511` and a reactivated `#84` are
-terminal, then reconcile the podcast lane in `#51`.
+authorization. Start `#512` after `#511` is reviewed and terminal, then
+reconcile the podcast lane in `#51`.
 
 ## Safe Parallel Lanes
 
@@ -39,14 +39,14 @@ terminal, then reconcile the podcast lane in `#51`.
 | Observatory design | `#511` | ready after typed child setup | Umbrella readiness | Reviewed experience-design contract |
 
 `#261` and `#511` are the only initial execution lanes. They have distinct
-write sets. `#512` remains prepared but deferred while its Unity dependency
-`#84` is in the backlog.
+write sets. `#512` remains prepared until its actual dependency `#511` is
+reviewed and terminal; `#84` remains independent backlog.
 
 ## Serial Gates
 
 1. `#261 -> #342 -> #262 -> #263`.
 2. `#264` additionally requires explicit provider-specific operator authorization.
-3. `#511` and a later reactivated, terminal `#84` are both required before `#512`.
+3. `#511` is required before `#512`; `#84` is not a gate.
 4. `#51` reconciles the podcast children after their terminal outcomes; a
    blocked `#264` counts only with an explicit operator-accepted disposition.
 5. `#536` closes only after all current members and the integrated sprint review.
@@ -55,7 +55,7 @@ write sets. `#512` remains prepared but deferred while its Unity dependency
 
 - `#261` and `#511` are safe opening candidates with distinct write sets.
 - `#264` is blocked on serial prerequisites and external authorization.
-- `#512` is blocked on `#511` and backlog `#84`; preparation is not authority
+- `#512` is blocked on `#511` only; preparation is not authority
   to start implementation.
 
 ## Operator Work
@@ -85,8 +85,8 @@ child's lifecycle authority.
 ## Watcher Plan
 
 Watch `#264` for a provider authorization after `#263` is terminal. Watch
-`#512` for both terminal `#511` and explicit reactivation plus terminal proof
-for `#84`. Other children advance only through the serial gates above.
+`#512` for terminal `#511`. Track `#84` independently in the backlog. Other
+children advance only through the serial gates above.
 
 ## Parallelism Outcome Plan
 
@@ -112,7 +112,7 @@ deferred disposition. It must not imply that backlog `#84` ran in Sprint 8.
 
 - Any child lacks an issue-specific six-card bundle.
 - Any write-set ownership collision is unresolved.
-- `#512` is started while `#84` remains in the backlog or nonterminal.
+- `#512` is started before `#511` is reviewed and terminal.
 - `#264` is started without explicit provider-specific authorization.
 - A mock substitutes for an authentic Runtime route required by acceptance.
 - Any retained evidence would expose private account or credential material.

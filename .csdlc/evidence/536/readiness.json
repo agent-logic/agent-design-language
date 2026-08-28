@@ -8,11 +8,10 @@
   "reviewer": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
   "packet_sha256": "0c3d299fcccc3f49abf1d29a4ef5c726ca9cfd4834d2fbb6a89151777b3eb768",
   "known_blockers": [
-    {"issue": 84, "blocks": [512], "disposition": "backlog_dependency"},
     {"issue": 264, "blocks": [264], "disposition": "provider_specific_operator_authorization_required"}
   ],
   "non_blocking_findings": [
-    {"severity": "P3", "issue": 84, "finding": "The future Unity live validator is absent and must be supplied before issue 84 or dependent issue 512 may execute."}
+    {"severity": "P3", "issue": 84, "finding": "The future Unity live validator is absent and must be supplied before independent backlog issue 84 executes; it does not block issue 512."}
   ],
   "validation": [
     "typed v2 child card readiness: passed for all eight active children",

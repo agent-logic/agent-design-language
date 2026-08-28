@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Execute the smallest proving validation DAG.
+Not run; issue remains initialized.
 
 ## Lane Inputs
 
@@ -38,7 +38,6 @@ Diagram: .csdlc/prepared/issues/512/diagram.mmd
     "budget_seconds": 1800,
     "budget_tokens": 8000,
     "argv": [
-      "bash",
       "adl/tools/validate_layer8_authority_observatory_ui.sh"
     ],
     "parallel_group": "sprint8-issue-512",
@@ -76,7 +75,7 @@ Tokens: 50000
 
 ## Commands
 
-- `bash adl/tools/validate_layer8_authority_observatory_ui.sh`
+- `adl/tools/validate_layer8_authority_observatory_ui.sh`
 - `git diff --check`
 
 ## Failure Semantics

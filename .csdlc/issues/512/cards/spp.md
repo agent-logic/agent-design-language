@@ -16,7 +16,7 @@ Validate dependencies, implement the smallest owned result, run focused proof, o
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -77,13 +77,13 @@ Revision 2
 
 .csdlc/prepared/issues/512/design.md
 
-Digest: a431b7ceaad708f00cb9e5b9357319202af9e5201397b7e9e64aa5bb9b8448f4
+Digest: a415d52f13e2f803158cbd10348f6a8483ef648ff9d6afaafebd7c2f304d71c8
 
 ## Diagram
 
 .csdlc/prepared/issues/512/diagram.mmd
 
-Digest: 64cea4146caba55d888a81af764f8cc8aa2837392546c97711acea3e6c354bb8
+Digest: a48e5d868965b35d821e4c005bffa0effeceeb1c22e593ece18834b36821403d
 
 ## Stop Conditions
 

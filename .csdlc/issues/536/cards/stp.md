@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-member active roster; retain #84 as a backlog dependency without starting or absorbing its work.
+Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-member active roster; retain #84 as independent backlog without starting or absorbing its work.
 
 ## Deliverables
 
@@ -23,11 +23,11 @@ Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-m
 
 ## Acceptance
 
-1. AC-1: The Sprint Execution Packet records exact active membership #51, #261, #262, #263, #264, #342, #511, and #512 plus the backlog disposition for #84 and dependency order.
+1. AC-1: The Sprint Execution Packet records exact active membership #51, #261, #262, #263, #264, #342, #511, and #512 plus the independent backlog disposition for #84 and dependency order.
 2. AC-2: Podcast and Observatory parallel lanes, their serial gates, collision boundaries, and operator-controlled actions are explicit.
 3. AC-3: Every child has a complete typed six-card bundle and issue-specific design-time plan before implementation handoff.
 4. AC-4: Every child handoff requires a bound FastWork worktree, current readiness, and issue-bound session goal before implementation.
-5. AC-5: #512 remains deferred until backlog #84 is explicitly reactivated and terminal; #264 remains blocked until explicit provider-specific operator authorization.
+5. AC-5: #512 depends on reviewed terminal #511 only and is not gated by backlog #84; #264 remains blocked until explicit provider-specific operator authorization.
 6. AC-6: The umbrella closes only after current members have reviewed terminal outcomes or explicit operator-approved dispositions and one integrated sprint review has no unresolved actionable findings.
 
 ## Dependencies
@@ -36,7 +36,7 @@ Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-m
 - #342 before #262
 - #262 before #263
 - #263 and explicit operator authorization before #264
-- #511 and a reactivated terminal #84 before #512
+- #511 before #512; #84 remains independent backlog
 
 ## Inputs
 
@@ -45,7 +45,7 @@ Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-m
 - docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md
 - docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
 - docs/templates/sprints/1.0.0/sprint_execution_packet.md
-- GitHub issues #51, #261, #262, #263, #264, #342, #511, and #512 plus backlog dependency #84
+- GitHub issues #51, #261, #262, #263, #264, #342, #511, and #512 plus independent backlog issue #84
 
 ## Non Goals
 

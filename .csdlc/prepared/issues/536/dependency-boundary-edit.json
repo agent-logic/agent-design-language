@@ -1,0 +1,13 @@
+{
+  "issue": 536,
+  "card": "stp",
+  "expected_generation": 3,
+  "expected_digest": "780418613c2cce641aad23b3226b46a0f60816698955c458bf3e98349a1a6939",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Correct Sprint 8 dependency truth so issue 84 remains independent backlog and does not gate issue 512.",
+  "operation": {
+    "operation": "replan",
+    "field": "task_boundary",
+    "value": "Prepare and coordinate only Sprint 8 umbrella #536 and its exact current eight-member active roster; retain #84 as independent backlog without starting or absorbing its work."
+  }
+}

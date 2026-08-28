@@ -16,7 +16,7 @@ Initialize the exact child batch, validate design-time cards, then hand dependen
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -63,7 +63,7 @@ Revision 2
 ## Risks
 
 - Podcast publication work could cross child ownership boundaries
-- Observatory implementation could begin while Unity authority #84 remains in the backlog
+- Observatory implementation could begin before reviewed terminal #511
 - Provider submission could occur without explicit operator authorization
 - The umbrella could overstate completion while a child is nonterminal
 - Observatory implementation could invent Runtime fields or use non-authentic routes
@@ -80,13 +80,13 @@ Revision 2
 
 .csdlc/prepared/issues/536/design.md
 
-Digest: 27f8d89faf66327516da64350213f1dc942768ca4f18c5284af514f385a6ec08
+Digest: 59ac3fa2ba8d6bc8a2ab110577d928b452fe262db310c98fe2c6d80ae29e2ab9
 
 ## Diagram
 
 .csdlc/prepared/issues/536/diagram.mmd
 
-Digest: 400ffee5b512618f66560d43aee895d92b81b8f95f6fc92c4bf7eb6df8517bbc
+Digest: 8079306bf86fe585ac4b92901f08f9bc24ed7a3c84303f5eafa3f2c06664bb1a
 
 ## Stop Conditions
 

@@ -7,13 +7,13 @@
     "title": "Authentic Runtime Observatory redesign implementation",
     "slug": "observatory-redesign-implementation",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
+      "summary": "Initialized dependency correction; no implementation or validation claim.",
       "actual_changes": [],
       "artifacts": [],
       "actual_validation": [],

@@ -1,12 +1,65 @@
 {
   "issue": 512,
-  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 4,
+  "expected_digest": "5f4c7ad0af3a57418e030155b5888e7e8ea54b16a1daf09a4893b518c6f0b1b4",
   "actor": "codex:sprint8-readiness",
-  "design_path": ".csdlc/prepared/issues/512/design.md",
-  "diagram_path": ".csdlc/prepared/issues/512/diagram.mmd",
-  "design_reviewer": "pending-independent-review",
-  "design_approved": false,
-  "initial": {
+  "reason": "Recover initialized decomposition after operator-corrected dependency truth; issue 84 is independent backlog and not a gate for issue 512.",
+  "request_root": ".",
+  "recovery_scope": [
+    "Correct issue 512 dependency graph only",
+    "Preserve reviewed authored design and diagram",
+    "Remove issue 84 as a dependency while retaining issue 511 and Sprint 8 umbrella 536"
+  ],
+  "preserved_design": {
+    "path": ".csdlc/prepared/issues/512/design.md",
+    "authored_digest": "a415d52f13e2f803158cbd10348f6a8483ef648ff9d6afaafebd7c2f304d71c8",
+    "byte_sha256": "35104895a1df8cfc1e8693ca047099ad1789deb6039aa6388050ec63add6a73d"
+  },
+  "preserved_diagram": {
+    "path": ".csdlc/prepared/issues/512/diagram.mmd",
+    "authored_digest": "a48e5d868965b35d821e4c005bffa0effeceeb1c22e593ece18834b36821403d",
+    "byte_sha256": "775f5961a438b00e1fea5bc9877adb83ae12d838565b8b19d9c9cdf9215a1c10"
+  },
+  "graph": {
+    "parent_integration_owner": "issue_512",
+    "forbidden_cross_child_trust_redefinition": false,
+    "nodes": [
+      {
+        "node_id": "design_511",
+        "issue": 511,
+        "repository": "agent-logic/agent-design-language",
+        "role": "terminal_observatory_design",
+        "in_scope": true
+      },
+      {
+        "node_id": "issue_512",
+        "issue": 512,
+        "repository": "agent-logic/agent-design-language",
+        "role": "observatory_implementation",
+        "in_scope": true
+      },
+      {
+        "node_id": "umbrella_536",
+        "issue": 536,
+        "repository": "agent-logic/agent-design-language",
+        "role": "sprint_coordination",
+        "in_scope": true
+      }
+    ],
+    "edges": [
+      {
+        "from": "design_511",
+        "relation": "terminal_dependency",
+        "to": "issue_512"
+      },
+      {
+        "from": "umbrella_536",
+        "relation": "coordination_owner",
+        "to": "issue_512"
+      }
+    ]
+  },
+  "replacements": {
     "title": "Authentic Runtime Observatory redesign implementation",
     "slug": "observatory-redesign-implementation",
     "version": "v0.92.1",
@@ -28,6 +81,7 @@
       "Do not retain credentials, verification codes, recovery material, TLS private keys, or private account data",
       "Do not widen into another Sprint 8 child's ownership"
     ],
+    "initial_assumptions": [],
     "task_boundary": "Deliver only issue #512: Authentic Runtime Observatory redesign implementation.",
     "deliverables": [
       "The HTML Observatory implements the accepted contracts with exact browser, accessibility, redaction, recovery, and authentic Runtime-route proof.",
@@ -60,7 +114,13 @@
       "Runtime API redesign"
     ],
     "plan_summary": "Validate dependencies, implement the smallest owned result, run focused proof, obtain one exact-head review, publish, shepherd, finish, and clean up.",
-    "steps": [
+    "affected_areas": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      "docs/milestones/v0.92.1/evidence/observatory/obs-b"
+    ],
+    "plan_steps": [
       {
         "id": "dependency-gate",
         "action": "Verify all issue-specific dependencies and operator gates",
@@ -90,12 +150,6 @@
         "status": "pending"
       }
     ],
-    "affected_areas": [
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_layer8_authority_observatory_ui.sh",
-      "docs/milestones/v0.92.1/evidence/observatory/obs-b"
-    ],
     "invariants": [
       "No ownership widening",
       "No action before dependencies",
@@ -108,7 +162,6 @@
       "A child could cross another issue's write boundary",
       "Evidence could overclaim external or Runtime state"
     ],
-    "planning_profile": "large",
     "stop_conditions": [
       "Any dependency is nonterminal or ambiguous",
       "Any owned-path collision",
@@ -116,6 +169,7 @@
       "Any secret or private material would enter evidence",
       "Any unresolved actionable review finding"
     ],
+    "replan_triggers": [],
     "validation_lanes": [
       {
         "lane": "issue-512-focused",
@@ -162,6 +216,12 @@
       "Does it preserve sibling ownership, operator authority, privacy, and rollback?",
       "Are all proof claims exact-revision and non-overstated?"
     ],
-    "review_scope": "Review issue #512 design, implementation, focused proof, negative cases, ownership boundary, privacy, and terminal truth."
+    "review_scope": "Review issue #512 design, implementation, focused proof, negative cases, ownership boundary, privacy, and terminal truth.",
+    "validation_summary": "Not run; issue remains initialized.",
+    "sor_summary": "Initialized dependency correction; no implementation or validation claim.",
+    "residual_risk": [],
+    "sor_artifacts": [],
+    "sor_follow_ups": [],
+    "sor_validation": []
   }
 }

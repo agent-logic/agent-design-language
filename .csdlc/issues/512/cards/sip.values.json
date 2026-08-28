@@ -7,13 +7,13 @@
     "title": "Authentic Runtime Observatory redesign implementation",
     "slug": "observatory-redesign-implementation",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 6
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
-      "goal": "Implement the accepted #511 Observatory design against authentic Runtime projections after reviewed Unity authority #84 is terminal.",
+      "goal": "Implement the accepted #511 Observatory design against authentic Runtime projections.",
       "required_outcome": "The HTML Observatory implements the accepted contracts with exact browser, accessibility, redaction, recovery, and authentic Runtime-route proof.",
       "declared_scope": [
         "demos/html-observatory/app.js",

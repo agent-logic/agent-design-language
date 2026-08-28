@@ -1,0 +1,8 @@
+{
+  "action": "issue_update",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 512,
+  "body": "## Outcome\n\nProduce one implemented Observatory redesign backed by authentic Runtime projections.\n\n## Primary deliverable\n\nOne implemented Observatory redesign consuming authentic Runtime projections.\n\n## Verification result\n\nExact browser, accessibility, redaction, recovery, and authentic Runtime-route checks pass.\n\n## Unit boundary\n\nIssue completion is exactly one implemented Observatory redesign; browser and authority cases are proof inputs.\n\n## Dependencies\n\n- OBS-A: #511\n- Sprint 8 coordination: #536\n\nIssue #84 is independent backlog work and is not a dependency or execution gate for #512.\n\n## Acceptance criteria\n\n- [ ] OBS-A contracts are implemented\n- [ ] Runtime projections are source-grounded\n- [ ] Accessibility and recovery cases pass\n- [ ] No mock substitutes for the required Runtime route\n\n## Owned paths\n\n- `demos/html-observatory/app.js`\n- `demos/html-observatory/styles.css`\n- `adl/tools/validate_layer8_authority_observatory_ui.sh`\n- `docs/milestones/v0.92.1/evidence/observatory/obs-b/**`\n\n## PVF lanes\n\n- `authentic-runtime-route`\n- `exact-browser-cases`\n- `accessibility`\n- `redaction`\n- `recovery`\n\n## Stop conditions\n\n- Issue #511 is not reviewed and terminal\n- A mock substitutes for the required Runtime route\n\n## Non-goals\n\n- TLS 1.2 implementation owned by issue #251\n- Public exposure owned by issue #122\n- Unity integration owned by independent backlog issue #84\n\n<!-- csdlc-github-operation:v0921-sprint8:512-remove-84-gate-v1 -->\n",
+  "operation_key": "v0921-sprint8:512-remove-84-gate-v1",
+  "token_file": null
+}

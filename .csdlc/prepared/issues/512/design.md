@@ -2,7 +2,7 @@
 
 ## Goal
 
-Implement the accepted #511 Observatory design against authentic Runtime projections after reviewed Unity authority #84 is terminal.
+Implement the accepted #511 Observatory design against authentic Runtime projections.
 
 ## Required Outcome
 
@@ -18,7 +18,6 @@ The HTML Observatory implements the accepted contracts with exact browser, acces
 ## Dependencies
 
 - Terminal #511
-- Reviewed merged terminal #84
 - Sprint 8 umbrella #536
 
 ## Safety Boundary

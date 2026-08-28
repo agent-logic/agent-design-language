@@ -1,0 +1,19 @@
+{
+  "issue": 536,
+  "card": "stp",
+  "expected_generation": 4,
+  "expected_digest": "e0267188b574fe58a41b9fb702e8f9df2d8db357cc47e2362c2cbb38098e65ec",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Correct Sprint 8 acceptance truth for issue 512 and independent backlog issue 84.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: The Sprint Execution Packet records exact active membership #51, #261, #262, #263, #264, #342, #511, and #512 plus the independent backlog disposition for #84 and dependency order.",
+      "AC-2: Podcast and Observatory parallel lanes, their serial gates, collision boundaries, and operator-controlled actions are explicit.",
+      "AC-3: Every child has a complete typed six-card bundle and issue-specific design-time plan before implementation handoff.",
+      "AC-4: Every child handoff requires a bound FastWork worktree, current readiness, and issue-bound session goal before implementation.",
+      "AC-5: #512 depends on reviewed terminal #511 only and is not gated by backlog #84; #264 remains blocked until explicit provider-specific operator authorization.",
+      "AC-6: The umbrella closes only after current members have reviewed terminal outcomes or explicit operator-approved dispositions and one integrated sprint review has no unresolved actionable findings."
+    ]
+  }
+}

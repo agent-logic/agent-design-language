@@ -262,8 +262,7 @@ work_packages:
         issue: null
         creation_owner: WP-01
         title: Observatory redesign implementation
-        depends_on: [OBS-A, issue-84]
-        disposition: deferred_until_backlog_issue_84_is_reactivated
+        depends_on: [OBS-A]
         evidence_inputs: [issue-340, issue-256]
   - id: INT-01
     lane: integration

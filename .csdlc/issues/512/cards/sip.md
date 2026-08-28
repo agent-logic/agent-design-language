@@ -12,7 +12,7 @@ Status: ready
 
 ## Goal
 
-Implement the accepted #511 Observatory design against authentic Runtime projections after reviewed Unity authority #84 is terminal.
+Implement the accepted #511 Observatory design against authentic Runtime projections.
 
 ## Required Outcome
 

@@ -1,0 +1,19 @@
+{
+  "issue": 536,
+  "card": "spp",
+  "expected_generation": 7,
+  "expected_digest": "0d7b2ef167290bb5f7896c9058fed7380c479f64b2b08786fb78e6390ba8614c",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Replace the false issue 84 gate risk with the actual issue 511 dependency risk.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "risks",
+    "values": [
+      "Podcast publication work could cross child ownership boundaries",
+      "Observatory implementation could begin before reviewed terminal #511",
+      "Provider submission could occur without explicit operator authorization",
+      "The umbrella could overstate completion while a child is nonterminal",
+      "Observatory implementation could invent Runtime fields or use non-authentic routes"
+    ]
+  }
+}

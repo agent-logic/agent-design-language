@@ -319,10 +319,10 @@ issue_specifications:
     primary_deliverable: One implemented Observatory redesign consuming authentic Runtime projections.
     verification_result: Exact browser, accessibility, redaction, recovery, and authentic Runtime-route checks pass.
     unit_boundary: Issue completion is exactly one implemented Observatory redesign; browser and authority cases are proof inputs.
-    acceptance_criteria: [OBS-A contracts are implemented, Final proof consumes reviewed merged issue 84 authority, Runtime projections are source-grounded, Accessibility and recovery cases pass]
+    acceptance_criteria: [OBS-A contracts are implemented, Runtime projections are source-grounded, Accessibility and recovery cases pass, Backlog issue 84 remains independent and does not gate OBS-B]
     owned_paths: [demos/html-observatory/app.js, demos/html-observatory/styles.css, adl/tools/validate_layer8_authority_observatory_ui.sh, docs/milestones/v0.92.1/evidence/observatory/obs-b/**]
     pvf_lanes: [authentic-runtime-route, exact-browser-cases, accessibility, redaction, recovery]
-    stop_conditions: [Issue 84 is not reviewed and merged for final proof, A mock substitutes for the required Runtime route]
+    stop_conditions: [Issue 511 is not reviewed and terminal, A mock substitutes for the required Runtime route]
     non_goals: [TLS 1.2 implementation owned by issue 251, Public exposure owned by issue 122]
   - id: INT-01
     objective: Produce one immutable release-tail admission record for the converged milestone candidate.

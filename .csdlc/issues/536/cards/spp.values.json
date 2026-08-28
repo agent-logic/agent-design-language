@@ -7,13 +7,13 @@
     "title": "Sprint 8 Product lanes",
     "slug": "sprint8-product-lanes",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 8
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Initialize the exact child batch, validate design-time cards, then hand dependency-safe lanes to separate issue sessions and retain integrated closeout truth.",
       "steps": [
         {
@@ -62,7 +62,7 @@
       ],
       "risks": [
         "Podcast publication work could cross child ownership boundaries",
-        "Observatory implementation could begin while Unity authority #84 remains in the backlog",
+        "Observatory implementation could begin before reviewed terminal #511",
         "Provider submission could occur without explicit operator authorization",
         "The umbrella could overstate completion while a child is nonterminal",
         "Observatory implementation could invent Runtime fields or use non-authentic routes"
@@ -81,9 +81,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/536/design.md",
-      "design_digest": "27f8d89faf66327516da64350213f1dc942768ca4f18c5284af514f385a6ec08",
+      "design_digest": "59ac3fa2ba8d6bc8a2ab110577d928b452fe262db310c98fe2c6d80ae29e2ab9",
       "diagram_ref": ".csdlc/prepared/issues/536/diagram.mmd",
-      "diagram_digest": "400ffee5b512618f66560d43aee895d92b81b8f95f6fc92c4bf7eb6df8517bbc"
+      "diagram_digest": "8079306bf86fe585ac4b92901f08f9bc24ed7a3c84303f5eafa3f2c06664bb1a"
     }
   }
 }

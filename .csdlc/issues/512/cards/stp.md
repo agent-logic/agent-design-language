@@ -23,7 +23,7 @@ Deliver only issue #512: Authentic Runtime Observatory redesign implementation.
 ## Acceptance
 
 1. AC-1: Every accepted #511 view, state, hierarchy, and interaction contract is implemented.
-2. AC-2: Final proof consumes reviewed merged #84 authority and source-grounded Runtime projections.
+2. AC-2: Final proof consumes the accepted #511 contracts and source-grounded Runtime projections; backlog issue #84 is independent and is not a gate.
 3. AC-3: Exact browser, keyboard, screen-reader, redaction, degraded, recovery, and revoked cases pass.
 4. AC-4: No mock substitutes for the required authentic Runtime route.
 5. AC-5: Exact-head review has no unresolved actionable findings.
@@ -31,7 +31,6 @@ Deliver only issue #512: Authentic Runtime Observatory redesign implementation.
 ## Dependencies
 
 - Terminal #511
-- Reviewed merged terminal #84
 - Sprint 8 umbrella #536
 
 ## Inputs

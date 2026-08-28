@@ -1,0 +1,20 @@
+{
+  "issue": 536,
+  "card": "stp",
+  "expected_generation": 6,
+  "expected_digest": "f958f85bd1fd88b91e93dc8588ac20e2e2e7edf6b6705edfd58600eb9ef1fc30",
+  "actor": "codex:sprint8-readiness",
+  "reason": "Describe issue 84 truthfully as independent backlog in Sprint 8 inputs.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+      "docs/templates/sprints/1.0.0/sprint_execution_packet.md",
+      "GitHub issues #51, #261, #262, #263, #264, #342, #511, and #512 plus independent backlog issue #84"
+    ]
+  }
+}

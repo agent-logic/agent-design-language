@@ -18,7 +18,7 @@ serial_gates:
   - issues 261 and 342 before issue 262
   - issue 262 before issue 263
   - issue 263 plus explicit provider-specific operator authorization before issue 264
-  - issues 511 and 84 before issue 512
+  - issue 511 before issue 512; issue 84 is independent backlog and is not a gate
   - issues 261, 342, 262, 263, and 264 before issue 51 closeout, unless the operator explicitly accepts a blocked disposition for issue 264
   - all eight active members before issue 536 integrated review and closeout
 candidate_parallel_lanes:
@@ -39,11 +39,11 @@ candidate_parallel_lanes:
     issues: [512]
     expected_write_sets: [HTML Observatory redesign surfaces declared by issue 512]
     expected_pvf_lanes: [runtime-contract, information-architecture, accessibility, live-observatory]
-    dependency_gates: [issue 511 reviewed terminal, backlog issue 84 reactivated and reviewed terminal]
-    collision_risks: [issue 512 must not absorb backlog Unity integration scope]
+    dependency_gates: [issue 511 reviewed terminal]
+    collision_risks: [issue 512 must not absorb independent backlog issue 84 scope]
     watcher: issue 512 dependency watcher
     subagent: none during implementation; one bounded review before publication
-    coordination: Keep issue 512 prepared but do not bind implementation until issue 84 is explicitly reactivated and terminal.
+    coordination: Keep issue 512 prepared and bind implementation only after issue 511 is reviewed and terminal.
   - lane: podcast-submission
     classification: blocked_until_dependency
     issues: [264]
@@ -63,7 +63,7 @@ watcher_policy: Every active or waiting child has an issue-local watcher; waitin
 pvf_notes:
   issue_local_proof: Each child owns its focused deterministic or native proof and records deferred hosted or provider proof truthfully.
   parallel_validation_lanes: Independent child proof may run concurrently only when write sets and external resources do not overlap.
-  serial_validation_gates: Production feed proof follows episode packages; directory proof follows feed; OBS-B remains deferred behind OBS-A and backlog Unity authority.
+  serial_validation_gates: Production feed proof follows episode packages; directory proof follows feed; OBS-B follows OBS-A only, while issue 84 remains independent backlog.
   reusable_proof_criteria: Reuse only exact-digest, exact-revision, redacted evidence named as a read-only dependency by the consuming child.
   fail_closed_rule: Missing targets, zero-test filters, stale evidence, dependency drift, operator-authority gaps, or mock substitution block the affected child.
 review_policy:
@@ -77,10 +77,10 @@ operator_actions:
   - authorize each provider submission separately in issue 264
   - authorize any paid or externally mutating action in its owning child
 known_external_gate:
-  issue: 84
-  observed_state: backlog
-  blocks: [512]
+  issue: 264
+  observed_state: awaiting_explicit_provider_authorization
+  blocks: [264]
   observed_at: "2026-08-27"
-planned_parallelism_summary: Start issues 261 and 511 in separate sessions. Keep issue 512 prepared but deferred until backlog issue 84 is explicitly reactivated and terminal. Advance each later child only through its serial gates.
+planned_parallelism_summary: Start issues 261 and 511 in separate sessions. Start issue 512 after issue 511 is reviewed and terminal; issue 84 remains independent backlog. Advance each later child only through its serial gates.
 actual_parallelism_summary_placeholder: not_started
 prediction_miss_rule: Record any unexpected write-set, proof, dependency, or external-resource collision and reclassify the affected lane before further execution.

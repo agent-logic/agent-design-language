@@ -29,10 +29,11 @@ serial = packet.fetch("serial_gates").join("\n")
 abort "missing podcast identity gate" unless serial.include?("261 before issue 342")
 abort "missing episode package gate" unless serial.include?("261 and 342 before issue 262")
 abort "missing provider authorization gate" unless serial.include?("explicit provider-specific operator authorization")
-abort "missing Observatory convergence gate" unless serial.include?("511 and 84 before issue 512")
+abort "missing Observatory convergence gate" unless serial.include?("issue 511 before issue 512")
+abort "issue 84 must not gate issue 512" if serial.match?(/84.*before issue 512/)
 
 blocked = packet.fetch("candidate_parallel_lanes").select { |lane| lane.fetch("classification") == "blocked_until_dependency" }
-abort "issue 512 must be blocked on backlog issue 84" unless blocked.any? { |lane| lane.fetch("issues") == [512] && lane.fetch("dependency_gates").join(" ").include?("backlog issue 84") }
+abort "issue 512 must be blocked only on issue 511" unless blocked.any? { |lane| lane.fetch("issues") == [512] && lane.fetch("dependency_gates") == ["issue 511 reviewed terminal"] }
 abort "issue 264 must be blocked" unless blocked.any? { |lane| lane.fetch("issues") == [264] && lane.fetch("dependency_gates").join(" ").include?("operator authorization") }
 
 scope = packet.fetch("safe_parallel_lanes").flat_map { |lane| lane.fetch("issues") }
@@ -46,7 +47,6 @@ puts JSON.generate({
   ordered_issue_numbers: expected,
   packet_sha256: Digest::SHA256.file(packet_path).hexdigest,
   known_blockers: [
-    { issue: 84, blocks: [512], disposition: "backlog_dependency" },
     { issue: 264, blocks: [264], disposition: "operator_authorization_required" }
   ]
 })
