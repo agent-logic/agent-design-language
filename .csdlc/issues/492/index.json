@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 492,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "83d63e54f3cdc384cac8900f173f9dd32c7dfa99dfe03ea52cfb8182f80585d6",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "9a8b7e0eb9ad047023fc5e60adbefc01f21e704806fd8960f875174d9c57aa23",
+  "branch": "codex/492-gcp-organization-billing-baseline",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-492-gcp-organization-billing-baseline",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/492/design.md",
+  "diagram_path": ".csdlc/prepared/issues/492/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:77f70d2a-63d9-4d9b-a8cc-e2e42a5b45cd",
+      "revision": "0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e47aadfd4176959bcf3a64d4fc9a1d0b0575413ffe3f407c35ef91d59c421038",
+      "rendered_digest": "5d67f2df6a2d06c754e61dc02054c704cee61d4b0bb86ed585c1138deac2840e",
+      "ast_digest": "9b154555fd9fb4cd979c18d7ae464026d7b849411eb54f2e1cfcaeeebf1c0459"
+    },
+    "stp": {
+      "values_digest": "4035ad4682d4e84903e4cb0c44ad45e929e3b948002ee9fcd93011483186f9ea",
+      "rendered_digest": "c5059d565fdd1c1ef59cfcd64bb123045bcda95f57a7826f6aa92d3ea07ead71",
+      "ast_digest": "42ace8e180dccfa768d89751950c2e11a45214925986bcb2605f532c165604e5"
+    },
+    "spp": {
+      "values_digest": "75a60ec7e1984cb2fcaa158e9d6e79b787b6ca764ebb60ea454bac9fb798094d",
+      "rendered_digest": "574e4c0c35f606ac7d1538fa8756fa706a8e8a24b5bc737d13f1713535783db4",
+      "ast_digest": "8b5549ace900c962ba0f52b6c0d73ce217861590151a3b8dc1e9826e5aa2b267"
+    },
+    "vpp": {
+      "values_digest": "07cb86ccfb5f78847dc679f8b0fa7a5dab1bb8ac83a2e1c569377a3f414d888a",
+      "rendered_digest": "07a3d9c8a35f716f226d6c8215e093c5f1262e154dc392542882e1f8e3c145a3",
+      "ast_digest": "2a0c8c6d229d8485b064b2031aa1215458143d2659193a0ce4b44ef35d17feb0"
+    },
+    "srp": {
+      "values_digest": "e6b3be57d6ab0c1e4ac232eb8045b1cd748cf186579dd0afe873b7ba0a699469",
+      "rendered_digest": "482c2c4961716349e53743560cca9a07db7f0065f4a3ddce245cf71f306bd19d",
+      "ast_digest": "c8e7eabe88fae724c1df1aefa2b455b57435a35a484b62eb5b00e89fbd0ea774"
+    },
+    "sor": {
+      "values_digest": "a6cb3348c3404955b168e545f8bc87575aa091692e5a7d1cce77b9c3c2e700d6",
+      "rendered_digest": "a2afeefb61079e9beaf455a9b9654ccc263f01fe4a434ffcad67a9d36f081e69",
+      "ast_digest": "4f4c3ccf015b9a0471089f7dc95b60eb8d7afe942513741131181eda21bd25be"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #492 to ready/unbound after typed rebootstrap, VPP prebind repair, fresh design review PASS, typed design approval, and doctor/validate readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Align #492 initialized readiness with executable pre-bind proof after rebootstrap: exact-head implementation review is required after bind/implementation, not as an initialized validation lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-gcp-org-billing-packet\",\"proof_role\":\"Proves #492 design packet readiness, #491 terminal dependency gate, owned-path boundaries, scoped-policy and corporate-ownership invariants, unchanged POC boundary, and lifecycle distinction between pre-bind packet proof and future implementation/live readback proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-gcp-org-readback-static\",\"proof_role\":\"Proves the GCP-C readback entrypoint has a static non-credentialed mode and reports cloud-mutation and credential-retention posture without requiring GCP credentials.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #492 has issue-owned executable packet validators before design approval; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"gcp-c-organization-static\",\"proof_role\":\"After bind, verifies implemented organization/billing Terraform, runbook, proof packet, scoped-policy invariant, corporate group ownership, labels, budgets/export, and unchanged POC boundaries.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #492 is bound and implementation creates the complete organization/billing baseline and evidence surfaces.\"},{\"lane\":\"gcp-c-readback\",\"proof_role\":\"After reviewed implementation and approved GCP context, reconciles live GCP organization/billing readbacks against the baseline with redacted retained evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"parallel_group\":\"gcp-readonly\",\"defer_reason\":\"Deferred until #492 is bound, reviewed baseline exists, and approved GCP read-only context is selected without exposing credential contents.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:77f70d2a-63d9-4d9b-a8cc-e2e42a5b45cd",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"design_ref\":\".csdlc/prepared/issues/492/design.md\",\"diagram_digest\":\"02186bba0cc8f159d0c225a176c563e45fe26d7b22b103d57d870d6f675626fd\",\"diagram_ref\":\".csdlc/prepared/issues/492/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Advance #492 to ready/unbound after typed rebootstrap, VPP prebind repair, fresh design review PASS, typed design approval, and doctor/validate readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

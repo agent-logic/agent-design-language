@@ -1,0 +1,8 @@
+gcp_c_readback_lane=inventory-readonly
+project_describe_readable=true
+billing_project_readable=true
+folder_describe_readable=not_configured
+organization_policy_readable=not_configured
+cloud_mutation=false
+credential_material_retained=false
+redaction=names_ids_and_credential_material_not_printed

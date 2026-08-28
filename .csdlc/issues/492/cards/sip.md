@@ -1,0 +1,48 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 492
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Produce one operational GCP organization and billing baseline.
+
+## Required Outcome
+
+One operational organization and billing baseline for the approved folder and project denominator.
+
+## Scope
+
+- GCP organization, folder, project, and billing-account denominator for the Agent Logic baseline
+- Corporate group ownership and cost attribution for new managed projects
+- Scoped organization-policy impact review that does not silently affect unrelated POC resources
+- Billing export, budget, label, and ownership readbacks
+- Terraform organization/billing baseline surfaces that consume #491 bootstrap state without re-owning #491
+
+## Authority
+
+- Use the approved company GCP account context and project denominator only
+- Do not read, print, copy, retain, or commit credential material
+- Do not create static service-account keys as part of this issue
+- Do not mutate unrelated POC resources unless a reviewed exception is explicitly admitted
+- Do not implement #493 private platform, #494 GPU readiness, #495 cross-cloud conversion, or production activation
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use typed C-SDLC v2 lifecycle routes
+- Bind beneath /Volumes/FastWork/adl-worktrees before tracked implementation edits
+- Use standard runners only for hosted CI
+- Preserve primary main cleanliness
+- Avoid paid/cloud mutation unless the issue-specific proof explicitly authorizes it
+- Keep #492 scoped to GCP-C organization and billing baseline truth

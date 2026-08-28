@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 492,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-C] GCP organization and billing baseline",
+    "slug": "gcp-organization-billing-baseline",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #492 GCP-C paths only: infra/gcp/organization, docs/operations/cloud/gcp/organization-billing, docs/milestones/v0.92.1/evidence/cloud/gcp-c, .csdlc/prepared/issues/492, .csdlc/evidence/492, and narrow issue-owned validators/readbacks.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design keep #492 to GCP organization/billing baseline truth without absorbing #493, #494, #495, or production activation work?",
+        "Are corporate group ownership, scoped policy impact, billing export/budget/label observability, and unchanged POC boundaries specified with machine-checkable proof?",
+        "Does the live GCP readback plan avoid mutation and avoid printing or retaining credentials/sensitive values?",
+        "Are dependency and Terraform bootstrap boundaries truthful rather than hidden acceptance of broad GCP drift?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
