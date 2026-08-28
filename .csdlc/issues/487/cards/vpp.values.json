@@ -1,0 +1,109 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 487,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+    "slug": "aws-audit-security-baseline",
+    "version": "v0.92.1",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "prebind-audit-security-packet",
+          "proof_role": "Proves #487 design packet readiness, #486 dependency gate, owned-path boundaries, redaction posture, and lifecycle distinction between pre-bind packet proof and future implementation-owned Terraform/readback paths.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/487/validate-aws-d-baseline.sh"
+          ],
+          "parallel_group": "prebind-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "prebind-review-readiness",
+          "proof_role": "Proves #487 has an issue-owned executable packet validator before design review; this does not claim final implementation exact-head review.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/487/validate-aws-d-baseline.sh"
+          ],
+          "parallel_group": "prebind-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "aws-d-static-contract",
+          "proof_role": "After bind, verifies #487 account-foundation Terraform, runbook, retention, encryption, alert routing, and redaction static contract.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/487/validate-aws-d-baseline.sh"
+          ],
+          "parallel_group": "postbind-local",
+          "defer_reason": "Deferred until #487 is bound and the implementation creates the complete account-foundation audit/security surfaces."
+        },
+        {
+          "lane": "aws-d-readback",
+          "proof_role": "After reviewed live apply or approved readback context, proves CloudTrail, configuration, detection, access-analysis, retention, encryption, alert, and redaction posture.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 2500,
+          "argv": [
+            "bash",
+            "docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh",
+            "--lane=aws-readonly"
+          ],
+          "parallel_group": "aws-readonly",
+          "defer_reason": "Deferred until #486 is terminal, #487 is bound, account-foundation controls exist or a reviewed plan proves intentional absence, and live AWS read-only proof is safe with the approved agent-logic-admin profile."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed if audit gaps remain unexplained, findings lack ownership, retention/encryption/cost posture is implicit, retained proof would expose secrets, or #486 is not terminal and current before binding.",
+      "design_ref": ".csdlc/prepared/issues/487/design.md",
+      "design_digest": "4c5997596cbdef6333c5e42fecd935b6698ee0c810f0b96af70c2586b75e76f0",
+      "diagram_ref": ".csdlc/prepared/issues/487/diagram.mmd",
+      "diagram_digest": "c01e4f717001a00c40f7904ac7d82a4b71c51676ce72ad9fb56f242609d1f02f"
+    }
+  }
+}

@@ -1,0 +1,284 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 487,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "2084376119f2b0feaa352c733f56e2015901eaa5b371b1b3f7119df20402ccf0",
+  "phase": "published",
+  "generation": 16,
+  "digest": "029d669de798f761165e080b9091978ed7461de5f6ac1aec0ace85c8e4af6d76",
+  "branch": "codex/487-aws-audit-security-baseline",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-487-aws-audit-security-baseline",
+  "review_assignment": {
+    "reviewer": "fresh-session:487d0000-0000-4000-8000-000000000006",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:7eb5db939995ee9f191f4149b706dd50e8a89f9f:bdebfa5b11f8491bc75bab53321e71af7b045ae15cbc63515c7f71d19dad55be",
+    "scope": [
+      ".csdlc/issues/487",
+      ".csdlc/prepared/issues/487",
+      "infra/aws/account-foundation",
+      "docs/operations/cloud/aws/audit-security",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:487d0000-0000-4000-8000-000000000006",
+    "scope": [
+      ".csdlc/issues/487",
+      ".csdlc/prepared/issues/487",
+      "infra/aws/account-foundation",
+      "docs/operations/cloud/aws/audit-security",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-d"
+    ],
+    "reviewed_revision": "git-blake3:7eb5db939995ee9f191f4149b706dd50e8a89f9f:bdebfa5b11f8491bc75bab53321e71af7b045ae15cbc63515c7f71d19dad55be",
+    "findings": [],
+    "residual_risks": [
+      "Review did not perform live AWS calls, read credentials, apply Terraform, publish, or merge.",
+      "Reviewer verified the Git SHA directly but could not independently recompute the supplied BLAKE3 suffix.",
+      "Reviewer confirmed committed proof records and source semantics; its own local proof reruns were limited by read-only sandbox restrictions."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 487,
+    "pull_request": 574,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/574",
+    "base": "main",
+    "head": "codex/487-aws-audit-security-baseline",
+    "revision": "git-blake3:3e21b1257ac5b6bb5a9169f7fc99bfc31e521adf:9d5eefe2cd495ce5ccfad6f11e884c7e3e9d802c04834bf06777498d729e0183",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/487/design.md",
+  "diagram_path": ".csdlc/prepared/issues/487/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:487d0000-0000-4000-8000-000000000003",
+      "revision": "4c5997596cbdef6333c5e42fecd935b6698ee0c810f0b96af70c2586b75e76f0"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b75607bddd6f8d2e11a1817cbbe728b233645a76d2dc4e5ca044a3a812ffe8cd",
+      "rendered_digest": "4f86b2babb7b7a4000647d767bc71b6ff917bb3868610d2ae859947683aa3478",
+      "ast_digest": "b5687b725030d021e3fe2f0adefa298e67ef7e7934e4b1138f012051a684ccd0"
+    },
+    "stp": {
+      "values_digest": "524f0efd4b161bd64881ef4f7b26c0cfcca67eb7f2e5df81b303734aa59b8a3e",
+      "rendered_digest": "e0172a0a5e4f5098e7c9faa4d3d46c7615e8cd9fd6ceb16cca1d4f55d6487251",
+      "ast_digest": "af6057e2df5071ef8b297cf63e7176608c3d9c61d04c0fe4fd785e75e74d59ef"
+    },
+    "spp": {
+      "values_digest": "4005eaf6fc39927ed95a92b6f5f2f6b5db25429b06ae3874af56d8f979644509",
+      "rendered_digest": "49d5298b3280a955a1ce7c3e770a6bebd8eaafe601361bfb315f9689184a5cf7",
+      "ast_digest": "a6bad5dbbdc3a6e527186967526c32da890633c9a6962be15f9464fb809b22d5"
+    },
+    "vpp": {
+      "values_digest": "89f71930cab70116b2bac220491da3a9d742cf14b7b0781f2c6c2087e2ce19fc",
+      "rendered_digest": "9c8e992176a84beb4a6cddab0f11203867fa2d781cdc152fa55b5720e58d8b2b",
+      "ast_digest": "c2b804273e7ff5caa02125c8c5bcf56e9f250d008bc9d66ce1a1bd51c80f36f8"
+    },
+    "srp": {
+      "values_digest": "116455ee4975979fd04cc05dc5557767137dbf7e893e4639a2dcd4edee00d48f",
+      "rendered_digest": "3ef53b30582075329e2979297fecde8de46d7aa333eb6ff3cc3607d36f3ace81",
+      "ast_digest": "7e315de1648b45593254001746947f6c9339a894d8cc34eddb261437514ae6ea"
+    },
+    "sor": {
+      "values_digest": "d396d88c2cdc8dd4327a745a8e9b2d5755cca1a61f4fc7a8d0b4d590c0ae739d",
+      "rendered_digest": "00c824ba3bef1a46529a5d0475a8bf8e7a596217f6f1d3eacc1826cacc503230",
+      "ast_digest": "fb8468e8731cf1108197fcdd1758f3f1aab544e9c1a0daa5313d7376e0046cba"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #487 to implemented after local account-foundation proof and SOR execution record"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #487 initialized readiness by making the pre-bind validation lane executable and deferring Terraform/live AWS readbacks until #486 is terminal, #487 is bound, and implementation-owned paths exist.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-audit-security-packet\",\"proof_role\":\"Proves #487 design packet readiness, #486 dependency gate, owned-path boundaries, redaction posture, and lifecycle distinction between pre-bind packet proof and future implementation-owned Terraform/readback paths.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"aws-d-static-contract\",\"proof_role\":\"After bind, verifies #487 account-foundation Terraform, runbook, retention, encryption, alert routing, and redaction static contract.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #487 is bound and the implementation creates the complete account-foundation audit/security surfaces.\"},{\"lane\":\"aws-d-readback\",\"proof_role\":\"After reviewed live apply or approved readback context, proves CloudTrail, configuration, detection, access-analysis, retention, encryption, alert, and redaction posture.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\",\"--lane=aws-readonly\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"Deferred until #486 is terminal, #487 is bound, account-foundation controls exist or a reviewed plan proves intentional absence, and live AWS read-only proof is safe with the approved agent-logic-admin profile.\"},{\"lane\":\"exact-head-review\",\"proof_role\":\"Fresh exact-head review proving no actionable P0-P3 findings before publication.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"csdlc-review\",\"record\"],\"parallel_group\":\"review\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Make initialized #487 validation lanes governed by exact issue-owned validator and readback paths before design review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/account-foundation\",\"docs/operations/cloud/aws/audit-security\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d\",\".csdlc/prepared/issues/487\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Make #487 validator deliverables exact so initialized validation lanes are governed and fail closed.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"infra/aws/account-foundation audit/security Terraform surfaces\",\"docs/operations/cloud/aws/audit-security operator runbook\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d retained proof\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Defer exact-head implementation review until #487 is bound and implemented; initialized readiness only needs executable pre-bind packet validation plus design review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-audit-security-packet\",\"proof_role\":\"Proves #487 design packet readiness, #486 dependency gate, owned-path boundaries, redaction posture, and lifecycle distinction between pre-bind packet proof and future implementation-owned Terraform/readback paths.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"aws-d-static-contract\",\"proof_role\":\"After bind, verifies #487 account-foundation Terraform, runbook, retention, encryption, alert routing, and redaction static contract.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #487 is bound and the implementation creates the complete account-foundation audit/security surfaces.\"},{\"lane\":\"aws-d-readback\",\"proof_role\":\"After reviewed live apply or approved readback context, proves CloudTrail, configuration, detection, access-analysis, retention, encryption, alert, and redaction posture.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\",\"--lane=aws-readonly\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"Deferred until #486 is terminal, #487 is bound, account-foundation controls exist or a reviewed plan proves intentional absence, and live AWS read-only proof is safe with the approved agent-logic-admin profile.\"},{\"lane\":\"exact-head-review\",\"proof_role\":\"Fresh exact-head review proving no actionable P0-P3 findings before publication.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"csdlc-review\",\"record\"],\"parallel_group\":\"review\",\"defer_reason\":\"Deferred until #487 is bound, implementation is complete, and an immutable exact implementation head exists.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Make #487 initialized AC-6 review readiness executable through the issue-owned validator; final exact-head implementation review remains a later lifecycle gate after bind and implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-audit-security-packet\",\"proof_role\":\"Proves #487 design packet readiness, #486 dependency gate, owned-path boundaries, redaction posture, and lifecycle distinction between pre-bind packet proof and future implementation-owned Terraform/readback paths.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #487 has an issue-owned executable packet validator before design review; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"aws-d-static-contract\",\"proof_role\":\"After bind, verifies #487 account-foundation Terraform, runbook, retention, encryption, alert routing, and redaction static contract.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #487 is bound and the implementation creates the complete account-foundation audit/security surfaces.\"},{\"lane\":\"aws-d-readback\",\"proof_role\":\"After reviewed live apply or approved readback context, proves CloudTrail, configuration, detection, access-analysis, retention, encryption, alert, and redaction posture.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\",\"--lane=aws-readonly\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"Deferred until #486 is terminal, #487 is bound, account-foundation controls exist or a reviewed plan proves intentional absence, and live AWS read-only proof is safe with the approved agent-logic-admin profile.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "fresh-session:487d0000-0000-4000-8000-000000000003",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"4c5997596cbdef6333c5e42fecd935b6698ee0c810f0b96af70c2586b75e76f0\",\"design_ref\":\".csdlc/prepared/issues/487/design.md\",\"diagram_digest\":\"c01e4f717001a00c40f7904ac7d82a4b71c51676ce72ad9fb56f242609d1f02f\",\"diagram_ref\":\".csdlc/prepared/issues/487/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #487 AWS-D account-foundation local implementation proof before exact-head review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the #487 AWS-D audit/security account-foundation baseline as local Terraform, runbook, and readback proof surfaces. Local validation is complete; live AWS apply/readback remains explicitly gated on operator-approved cloud mutation/readback authority with AWS_PROFILE=agent-logic-admin.\",\"changes\":[\"Added the account-foundation Terraform root for CloudTrail account activity, encrypted audit S3 retention, AWS Config recorder/delivery, IAM Access Analyzer, SNS findings topic, and EventBridge routing.\",\"Pinned the account-foundation AWS provider to the repo-proven 5.100 provider line instead of floating to an unvalidated 6.x plugin.\",\"Restored the reviewed #487 issue-owned preparation validator into the bound worktree.\",\"Added the AWS-D audit/security operations runbook and redacted readback script.\",\"Verified the readback script fails closed unless AWS_PROFILE=agent-logic-admin and performs no AWS calls in static mode.\"],\"artifacts\":[\"infra/aws/account-foundation/main.tf\",\"infra/aws/account-foundation/variables.tf\",\"infra/aws/account-foundation/outputs.tf\",\"infra/aws/account-foundation/versions.tf\",\"infra/aws/account-foundation/.terraform.lock.hcl\",\"infra/aws/account-foundation/terraform.tfvars.example\",\"infra/aws/account-foundation/README.md\",\"docs/operations/cloud/aws/audit-security/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh\",\".csdlc/prepared/issues/487/validate-aws-d-baseline.sh\",\".csdlc/issues/487\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record #487 local static implementation validation before exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform -chdir=infra/aws/account-foundation fmt -check\",\"terraform -chdir=infra/aws/account-foundation validate\",\"bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .\",\"AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate issue --issue 487\",\"git diff --check\"],\"purpose\":\"Prove the #487 account-foundation Terraform root, issue-owned validator, profile-gated static readback, lifecycle card shape, and diff hygiene without live AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local output: Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; csdlc-validate issue pass; git diff --check pass.\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Advance #487 to implemented after local account-foundation proof and SOR execution record",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #487 R4 failed exact-head review after preserving KMS service policy, AWS Config bucket policy, and Terraform profile guard findings for remediation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record #487 R4 remediation validation after KMS, Config bucket policy, and Terraform profile guard fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform -chdir=infra/aws/account-foundation fmt\",\"terraform -chdir=infra/aws/account-foundation validate\",\"bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .\",\"AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static\",\"git diff --check\"],\"purpose\":\"Prove #487 R4 remediation for KMS service consumers, AWS Config audit-bucket delivery, Terraform profile enforcement, static readback profile gating, and diff hygiene without live AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local output: Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; git diff --check pass.\"}}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover stale #487 R5 exact-head review assignment because terraform fmt made a substantive main.tf formatting change after assignment; a new exact revision requires a fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record #487 post-recovery local validation after Terraform fmt and exact-readback remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"terraform -chdir=infra/aws/account-foundation fmt\",\"terraform -chdir=infra/aws/account-foundation init -backend=false\",\"terraform -chdir=infra/aws/account-foundation validate\",\"bash .csdlc/prepared/issues/487/validate-aws-d-baseline.sh .\",\"AWS_PROFILE=agent-logic-admin bash docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh --lane=static\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate issue --issue 487\",\"git diff --check\"],\"purpose\":\"Prove #487 R4/R5 remediation, Terraform formatting/validation, exact redacted readback contract, profile-gated static readback, lifecycle validation, and diff hygiene without live AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local output: terraform fmt changed main.tf; init -backend=false installed pinned aws v5.100.0; Terraform validate success; aws-d static contract validation passed; static readback cloud_calls=disabled; csdlc-validate issue pass; git diff --check pass.\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
