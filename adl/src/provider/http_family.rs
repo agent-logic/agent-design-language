@@ -14,8 +14,9 @@ use std::time::Duration;
 mod config;
 
 use config::{
-    auth_env_for, cfg_u64_strict, ollama_generate_endpoint, validate_http_credential_endpoint,
-    validate_vendor_credential_endpoint, vendor_endpoint, HttpAuth,
+    auth_env_for, cfg_bool_opt, cfg_f64_strict, cfg_u64_strict, ollama_generate_endpoint,
+    validate_http_credential_endpoint, validate_vendor_credential_endpoint, vendor_endpoint,
+    HttpAuth,
 };
 pub(crate) use config::{cfg_u64, timeout_secs};
 
@@ -1059,6 +1060,10 @@ pub struct ZAiProvider {
     auth_env: String,
     model: String,
     max_tokens: u64,
+    reasoning_effort: Option<String>,
+    clear_thinking: Option<bool>,
+    temperature: Option<f64>,
+    top_p: Option<f64>,
     timeout_secs: Option<u64>,
 }
 
@@ -1078,13 +1083,83 @@ impl ZAiProvider {
             "ZAI_API_KEY",
             &["open.bigmodel.cn", "api.z.ai"],
         )?;
+        let max_tokens = match cfg_u64_strict(&spec.config, "max_tokens", "z_ai")? {
+            Some(value) => value,
+            None => cfg_u64_strict(&spec.config, "max_output_tokens", "z_ai")?.unwrap_or(220),
+        };
+        if target.provider_model_id == "glm-5.3-flash" && max_tokens > 131_072 {
+            return Err(invalid_config(
+                "z_ai",
+                "config.max_tokens/max_output_tokens must be no greater than 131072 for glm-5.3-flash",
+            ));
+        }
+        let reasoning_effort = match spec.config.get("reasoning_effort") {
+            Some(Value::String(value)) => {
+                let trimmed = value.trim();
+                if trimmed.is_empty() {
+                    return Err(invalid_config(
+                        "z_ai",
+                        "config.reasoning_effort must not be empty when provided",
+                    ));
+                }
+                Some(trimmed.to_string())
+            }
+            Some(_) => {
+                return Err(invalid_config(
+                    "z_ai",
+                    "config.reasoning_effort must be a string when provided",
+                ));
+            }
+            None => None,
+        };
+        if target.provider_model_id == "glm-5.3-flash" {
+            if let Some(value) = reasoning_effort.as_deref() {
+                if !matches!(value, "low" | "high" | "max") {
+                    return Err(invalid_config(
+                        "z_ai",
+                        "config.reasoning_effort must be one of low, high, max for glm-5.3-flash",
+                    ));
+                }
+            }
+        }
+        let clear_thinking = cfg_bool_opt(&spec.config, "clear_thinking", "z_ai")?;
+        let temperature = cfg_f64_strict(&spec.config, "temperature", "z_ai")?;
+        if let Some(value) = temperature {
+            let max = if target.provider_model_id == "glm-5.3-flash" {
+                1.0
+            } else {
+                2.0
+            };
+            if value < 0.0 || value > max {
+                return Err(invalid_config(
+                    "z_ai",
+                    format!("config.temperature must be in [0, {max}]"),
+                ));
+            }
+        }
+        let top_p = cfg_f64_strict(&spec.config, "top_p", "z_ai")?;
+        if let Some(value) = top_p {
+            let min = if target.provider_model_id == "glm-5.3-flash" {
+                0.01
+            } else {
+                0.0
+            };
+            if value < min || value > 1.0 {
+                return Err(invalid_config(
+                    "z_ai",
+                    format!("config.top_p must be in [{min}, 1]"),
+                ));
+            }
+        }
         Ok(Self {
             endpoint,
             auth_env,
             model: target.provider_model_id.clone(),
-            max_tokens: cfg_u64(&spec.config, "max_tokens")
-                .or_else(|| cfg_u64(&spec.config, "max_output_tokens"))
-                .unwrap_or(220),
+            max_tokens,
+            reasoning_effort,
+            clear_thinking,
+            temperature,
+            top_p,
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
         })
     }
@@ -1106,16 +1181,30 @@ impl Provider for ZAiProvider {
             .build()
             .context("failed to build Z.ai client")
             .map_err(|err| runtime_error("z_ai", err.to_string()))?;
+        let mut body = serde_json::json!({
+            "model": self.model,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": self.max_tokens,
+            "stream": false,
+        });
+        if let Some(reasoning_effort) = &self.reasoning_effort {
+            body["reasoning_effort"] = serde_json::json!(reasoning_effort);
+        }
+        if let Some(clear_thinking) = self.clear_thinking {
+            body["thinking"] =
+                serde_json::json!({ "type": "enabled", "clear_thinking": clear_thinking });
+        }
+        if let Some(temperature) = self.temperature {
+            body["temperature"] = serde_json::json!(temperature);
+        }
+        if let Some(top_p) = self.top_p {
+            body["top_p"] = serde_json::json!(top_p);
+        }
         let req = client
             .post(&self.endpoint)
             .header("Content-Type", "application/json")
             .bearer_auth(token)
-            .json(&serde_json::json!({
-                "model": self.model,
-                "messages": [{"role": "user", "content": prompt}],
-                "max_tokens": self.max_tokens,
-                "stream": false,
-            }));
+            .json(&body);
         let (json, http_status) = provider_http_json("z_ai", req)?;
         let output = extract_deepseek_output_text(&json).ok_or_else(|| {
             runtime_error_non_retryable("z_ai", "response missing message content")

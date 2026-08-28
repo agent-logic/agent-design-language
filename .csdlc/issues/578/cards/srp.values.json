@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 578,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
+    "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #578 provider-profile onboarding, Z.ai GLM-5.3-Flash request parameters, docs/evidence, tests, and reviewer-selection proof only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does `z_ai:glm-5.3-flash` use the existing #514 profile machinery rather than ad hoc model routing?",
+        "Are GLM-5.3-Flash parameters source-grounded and validated before network dispatch?",
+        "Do focused tests prove exact profile/request behavior and redaction without credentials?",
+        "Can reviewer selection name the new profile deterministically, and is live proof truthfully credential-gated?",
+        "Did the patch avoid #446/#455 scope?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

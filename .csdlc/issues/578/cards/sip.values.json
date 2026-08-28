@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 578,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
+    "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Onboard Z.ai GLM-5.3-Flash as a deterministic first-class ADL provider profile and prove it can be selected for reviewer-style inference.",
+      "required_outcome": "A source-grounded GLM-5.3-Flash profile, request-parameter path, focused tests, docs, and reviewer-selection proof exist without touching unrelated issue lanes.",
+      "declared_scope": [
+        "adl/src/provider/profiles.rs",
+        "adl/src/provider/http_family.rs",
+        "adl/src/provider/mod.rs",
+        "adl/tests/provider_tests/profiles.rs",
+        "adl/tests/provider_tests/http_family.rs",
+        "docs/provider/inference-profiles.md",
+        "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+        ".csdlc/prepared/issues/578"
+      ],
+      "authority_boundary": [
+        "Issue #578 owns only GLM-5.3-Flash provider-profile onboarding and reviewer-selection proof.",
+        "#514 is a completed dependency and provides profile machinery, not permission to rewrite unrelated provider architecture.",
+        "#446 and #455 are explicitly out of scope and must not be touched.",
+        "Live provider calls require configured credentials and truthful opt-in validation records."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Keep this to one quick provider-onboarding issue.",
+        "Use direct Z.ai as the first deterministic target.",
+        "Capture lifecycle/tooling regressions instead of bypassing typed v2 with raw GitHub writes.",
+        "Do not print, copy, or persist credentials."
+      ]
+    }
+  }
+}

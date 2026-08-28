@@ -1,0 +1,60 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 578,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
+    "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented a general direct Z.ai GLM-5.3-Flash provider profile with bounded runtime overrides and reviewer-agent selection proof.",
+      "actual_changes": [
+        "Added `z_ai:glm-5.3-flash` as a first-class provider profile resolving to `hosted:adl-z-ai:glm-5.3-flash` and provider model id `glm-5.3-flash`.",
+        "Updated the canonical Z.ai direct chat-completions endpoint to `https://api.z.ai/api/paas/v4/chat/completions`.",
+        "Materialized GLM-5.3-Flash defaults for `reasoning_effort=max`, `clear_thinking=false`, `temperature=1.0`, `top_p=0.95`, and bounded output tokens.",
+        "Added runtime adapter support for GLM-5.3-Flash request parameters and fail-closed validation for invalid overrides before network dispatch.",
+        "Added reviewer-selection and HTTP request-materialization tests.",
+        "Documented the direct profile, source rationale, provider-variant boundaries, and the bind/prepared-helper materialization tooling issue."
+      ],
+      "artifacts": [
+        "adl/src/provider/profiles.rs",
+        "adl/src/provider/http_family.rs",
+        "adl/src/provider/http_family/config.rs",
+        "adl/tests/provider_tests/profiles.rs",
+        "adl/tests/provider_tests/http_family.rs",
+        "docs/provider/inference-profiles.md",
+        "docs/tooling/PROVIDER_SETUP.md",
+        "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+        ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+        ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo fmt --manifest-path adl/Cargo.toml --check",
+            "cargo test --manifest-path adl/Cargo.toml --test provider_tests profiles::z_ai_glm_5_3_flash_profile_expands_for_reviewer_agent_selection",
+            "cargo test --manifest-path adl/Cargo.toml --test provider_tests http_family::zai_glm_5_3_flash_request_materializes_profile_defaults_and_runtime_overrides",
+            "cargo test --manifest-path adl/Cargo.toml --test provider_tests z_ai_glm_5_3_flash",
+            "cargo test --manifest-path adl/Cargo.toml --test provider_tests zai_glm_5_3_flash",
+            "bash .csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+            "cargo test --manifest-path adl/Cargo.toml --test provider_tests"
+          ],
+          "purpose": "Prove the general Z.ai GLM-5.3-Flash profile expands deterministically, can be selected by a reviewer agent, materializes documented request parameters, rejects invalid runtime overrides before dispatch, and preserves the existing provider test target.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
