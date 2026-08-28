@@ -95,13 +95,10 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
         .observatory_origin_policy()
         .contains("https://observatory.example.test"));
 
-    let mut invalid = reload;
+    let mut invalid = reload.clone();
     invalid.polis.display_name = "Must Not Apply".to_owned();
     invalid.observatory.allowed_origins = vec!["*".to_owned()];
-    assert_eq!(
-        service.apply_runtime_init_reload(&invalid).unwrap_err(),
-        "observatory_allowed_origins_must_be_approved_exact_origins"
-    );
+    assert!(service.apply_runtime_init_reload(&invalid).is_err());
     assert_eq!(service.observatory_feed().polis_identity, observed);
     assert_eq!(
         service.observatory_feed().control.public_base_url,
@@ -111,6 +108,18 @@ fn polis_identity_reload_atomically_updates_every_parameter() {
         .observatory_origin_policy()
         .contains("https://observe.new.example.test"));
     assert!(!service.observatory_origin_policy().contains("*"));
+
+    let mut inconsistent = reload;
+    inconsistent.polis.display_name = "Must Still Not Apply".to_owned();
+    inconsistent.observatory.allowed_origins = vec!["https://different.example.test".to_owned()];
+    assert!(service.apply_runtime_init_reload(&inconsistent).is_err());
+    assert_eq!(service.observatory_feed().polis_identity, observed);
+    assert!(service
+        .observatory_origin_policy()
+        .contains("https://observe.new.example.test"));
+    assert!(!service
+        .observatory_origin_policy()
+        .contains("https://different.example.test"));
 }
 
 fn test_api_policy() -> ControlApiPolicy {

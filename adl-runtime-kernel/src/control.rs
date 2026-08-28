@@ -824,6 +824,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 
     pub fn apply_runtime_init_reload(&self, init: &crate::RuntimeInitConfig) -> Result<(), String> {
+        init.validate().map_err(|error| error.to_string())?;
         let next_identity = PolisIdentityFeed {
             polis_id: init.polis.id.clone(),
             display_name: init.polis.display_name.clone(),

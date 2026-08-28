@@ -33,7 +33,20 @@ fn polis_identity_openapi_contract_is_required_and_redacted() {
             parameter["schema"]["enum"],
             serde_json::json!(["v1", "v2", "v3"])
         );
+        assert_eq!(
+            observatory["paths"][path]["get"]["responses"]["400"]["$ref"],
+            "#/components/responses/UnsupportedObservatorySchema"
+        );
     }
+    assert_eq!(
+        observatory["paths"]["/v1/observatory/ws"]["get"]["x-adl-websocket"]["serverFrames"][0]
+            ["oneOf"],
+        serde_json::json!([
+            {"$ref": "#/components/schemas/ObservatoryFeedV1Compatibility"},
+            {"$ref": "#/components/schemas/ObservatoryFeedV2Compatibility"},
+            {"$ref": "#/components/schemas/ObservatoryFeed"}
+        ])
+    );
     assert_eq!(
         observatory["components"]["schemas"]["ObservatoryFeedV1Compatibility"]["properties"]
             ["schema"]["const"],

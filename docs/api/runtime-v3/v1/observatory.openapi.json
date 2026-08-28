@@ -122,6 +122,9 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/UnsupportedObservatorySchema"
+          },
           "403": {
             "$ref": "#/components/responses/OriginForbidden"
           }
@@ -165,6 +168,9 @@
           "101": {
             "description": "WebSocket upgrade accepted after origin validation. Public feed frames begin immediately; frame-level login is required only for writes."
           },
+          "400": {
+            "$ref": "#/components/responses/UnsupportedObservatorySchema"
+          },
           "403": {
             "$ref": "#/components/responses/OriginForbidden"
           }
@@ -204,7 +210,12 @@
           ],
           "serverFrames": [
             {
-              "$ref": "#/components/schemas/ObservatoryFeed"
+              "oneOf": [
+                {"$ref": "#/components/schemas/ObservatoryFeedV1Compatibility"},
+                {"$ref": "#/components/schemas/ObservatoryFeedV2Compatibility"},
+                {"$ref": "#/components/schemas/ObservatoryFeed"}
+              ],
+              "purpose": "negotiated_public_feed"
             },
             {
               "$ref": "#/components/schemas/ObservatoryWsControlResult"
@@ -226,6 +237,9 @@
     "responses": {
       "OriginForbidden": {
         "description": "Origin is absent for WSS or not present in configured observatory.allowed_origins."
+      },
+      "UnsupportedObservatorySchema": {
+        "description": "The schema query is not one of v1, v2, or v3."
       }
     },
     "schemas": {
