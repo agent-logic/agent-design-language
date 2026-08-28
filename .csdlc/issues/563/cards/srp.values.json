@@ -7,15 +7,15 @@
     "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
     "slug": "stale-owner-binary-primary-checkout-guard",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 20
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/operator/owner-source-set.json\ncsdlc-v2/operator/skills.json\ncsdlc-v2/src/operator.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/lifecycle.rs\ncsdlc-v2/src/bin\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/primary_checkout_bootstrap_guard.rs\n.csdlc/issues/563\n.csdlc/prepared/issues/563",
-      "review_revision": "git-blake3:8248c0578cba18793d9a31ad02676485c24057e5:b895660cf27b8f75b090f6c13ffcc2edfa8d8050d6b8862d20e64e9bcedc805c",
-      "reviewer": "fresh-session:c82f0fa1-fc70-4ae2-9d08-2c0be680907b",
+      "review_scope": ".csdlc/issues/563/audit.jsonl\n.csdlc/issues/563/cards/sip.values.json\n.csdlc/issues/563/cards/sor.values.json\n.csdlc/issues/563/cards/spp.values.json\n.csdlc/issues/563/cards/srp.md\n.csdlc/issues/563/cards/srp.values.json\n.csdlc/issues/563/cards/stp.values.json\n.csdlc/issues/563/cards/vpp.values.json\n.csdlc/issues/563/index.json\n.csdlc/prepared/issues/563/assign-simplified-final-review.json\n.csdlc/prepared/issues/563/record-simplified-final-review.json",
+      "review_revision": "git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70",
+      "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
       "review_prompts": [
         "Does every repository-mutating installed owner reach one shared read-only gate before locks or filesystem writes?",
         "Does owner-source freshness avoid whole-repository HEAD false positives while detecting actual C-SDLC drift?",
@@ -25,8 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Hosted CI remains the final pre-merge integration gate.",
-        "The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests."
+        "Hosted CI remains the final pre-merge integration gate."
       ],
       "review_result": "pass"
     }

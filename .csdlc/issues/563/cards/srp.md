@@ -12,16 +12,17 @@ Status: draft
 
 ## Scope
 
-csdlc-v2/operator/owner-source-set.json
-csdlc-v2/operator/skills.json
-csdlc-v2/src/operator.rs
-csdlc-v2/src/store.rs
-csdlc-v2/src/lifecycle.rs
-csdlc-v2/src/bin
-csdlc-v2/tests/gate10a.rs
-csdlc-v2/tests/primary_checkout_bootstrap_guard.rs
-.csdlc/issues/563
-.csdlc/prepared/issues/563
+.csdlc/issues/563/audit.jsonl
+.csdlc/issues/563/cards/sip.values.json
+.csdlc/issues/563/cards/sor.values.json
+.csdlc/issues/563/cards/spp.values.json
+.csdlc/issues/563/cards/srp.md
+.csdlc/issues/563/cards/srp.values.json
+.csdlc/issues/563/cards/stp.values.json
+.csdlc/issues/563/cards/vpp.values.json
+.csdlc/issues/563/index.json
+.csdlc/prepared/issues/563/assign-simplified-final-review.json
+.csdlc/prepared/issues/563/record-simplified-final-review.json
 
 ## Prompts
 
@@ -42,12 +43,11 @@ Every actionable finding requires a terminal disposition.
 ## Residual Risk
 
 - Hosted CI remains the final pre-merge integration gate.
-- The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests.
 
 ## Review Result
 
-Revision: Some("git-blake3:8248c0578cba18793d9a31ad02676485c24057e5:b895660cf27b8f75b090f6c13ffcc2edfa8d8050d6b8862d20e64e9bcedc805c")
+Revision: Some("git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70")
 
-Reviewer: Some("fresh-session:c82f0fa1-fc70-4ae2-9d08-2c0be680907b")
+Reviewer: Some("fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6")
 
 Result: pass
