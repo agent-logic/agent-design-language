@@ -166,11 +166,11 @@ Implemented validated Runtime-owned Polis identity and atomic presentation hot r
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

@@ -4,14 +4,51 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "implemented",
-  "generation": 55,
-  "digest": "9e5700bc256389b37cf489a1f7cd7dd54248ae0f8addf7259cd6b878c387b992",
+  "phase": "published",
+  "generation": 57,
+  "digest": "90a1dbaf70f417fa332bc4809e79712d5520a7eefca3840873f0480d60d8ac22",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:019ff6cf-7d5a-7d4c-8a4e-1b91e7109af7",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1e72566c2b37d5bc8f402802ada7f116db7a6c91:635df04606bc3a8e25f67204cf5574b19e23fb0abfd6fb5529c8be9e6526b895",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      ".csdlc/issues/551/cards/sor.md",
+      ".csdlc/issues/551/cards/sor.values.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:019ff6cf-7d5a-7d4c-8a4e-1b91e7109af7",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      ".csdlc/issues/551/cards/sor.md",
+      ".csdlc/issues/551/cards/sor.values.json"
+    ],
+    "reviewed_revision": "git-blake3:1e72566c2b37d5bc8f402802ada7f116db7a6c91:635df04606bc3a8e25f67204cf5574b19e23fb0abfd6fb5529c8be9e6526b895",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "No live browser, external network, or deployed TLS exercise was performed; the repair is test-only and preserves the previously reviewed production behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 551,
+    "pull_request": 573,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/573",
+    "base": "main",
+    "head": "codex/551-runtime-polis-config-owned-name-domain",
+    "revision": "git-blake3:1e72566c2b37d5bc8f402802ada7f116db7a6c91:635df04606bc3a8e25f67204cf5574b19e23fb0abfd6fb5529c8be9e6526b895",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +62,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "17928889c8c9271fb0551f1bf6874321246c6d47d2ccf5036d69c66adb590b4a",
+      "values_digest": "615f6db9e0eafe6968867ab1dd92ccac77806c51ebb1f6b496835a9a468d6899",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "a9cec5abe7dfcff2659a27c5151d3899174fac6cdb07df7edd782cf593d8370e",
+      "values_digest": "b4d4d2214dc3b151f0485d950711b623dcd801c501ab67ce05d2e296fe92c38f",
       "rendered_digest": "cf2567f90e060a9e980fc89e374894bc5b09262a3186eff2160fc12880a8e510",
       "ast_digest": "78d816272741f7f118d456204abc7428a4655d5f8508ccb79db2de6c924845f2"
     },
     "spp": {
-      "values_digest": "0e9521e2994078429b5139b432514e419df4b783a9ce00a07817d7a27728f7b9",
+      "values_digest": "44954726f5341062e800930119013dac6371924a6f85f7625e65e7606bda2402",
       "rendered_digest": "a666f14982eff05ea1d3b5067be873e6a7ace7eea5db9285dcab59df12fe42cf",
       "ast_digest": "d31e118878c8ec5319038be004da30e0a9138905834b82409bd3198dacbe1846"
     },
     "vpp": {
-      "values_digest": "4498493b943ac4e6b9ae6d51b1747b28d44d5dd582489190a2db2c080a98213d",
+      "values_digest": "cc157d38a05ca5df5452608be291d77ec1aaebb27fdaca3f366c12c6d8631241",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "0c4b10beb4b107794ae51b1fb64026a0339ba80925424eaaf44e0a688522bbce",
-      "rendered_digest": "631aedd49d88337d90557b7d331e4913c8e5f87db6c3437e3d2361a555189b4c",
-      "ast_digest": "77876e85ae6575aa52a6831b318d66e317bfd5a9b5133337f097d54f091f713b"
+      "values_digest": "a26a7f0f9fc5419b2c8ac6c3efb7cd935d3352ccc4526c54dba69bf921a97e18",
+      "rendered_digest": "850bc55efd4b67678289652251f690caf0ea52f5d7409189d3877cc60b13aa94",
+      "ast_digest": "0c4b97cbba1385a3ea2f3b4eb16697f01b1177c4cb04f52b0e9dea0c7d50ab0d"
     },
     "sor": {
-      "values_digest": "944c2e18e5c4b6038f92ea46ac6a8bb370dd0b29bff2e171019f7c39aaa3e83b",
-      "rendered_digest": "51ab182a34f10c8b73b6fee1b3a72930b2c174d8a90efdb4154d1908d455b1cd",
-      "ast_digest": "36469f7c0805aa8344b8d361e5ef77423253cbd1d3b446b261a2f4fec3eef448"
+      "values_digest": "350bda8c3169bcdbc808e0e76033038909e806e524348e58dc234ed84866a2b8",
+      "rendered_digest": "841645e07fa77b8e23074b9acb4d538fe7272a4d856dcd2deae08891f0cddb71",
+      "ast_digest": "c462735524ee7954617c8758610647cda52d9fa82ed3c27bd4b72e3cdb76a572"
     }
   },
   "transitions": [
@@ -223,6 +260,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover the published review after hosted CI exposed one stale implicit-v3 WSS test expectation; apply the bounded explicit schema=v3 fixture repair, re-review, and republish."
+    },
+    {
+      "sequence": 25,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 26,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -687,6 +738,27 @@
       "actor": "codex:/root",
       "reason": "Record the bounded hosted-CI fixture repair and its exact local proof without changing production behavior.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented validated Runtime-owned Polis identity and atomic presentation hot reload, executable REST/WSS v1/v2/v3 negotiation, HTML v3 opt-in, and the final stale-test correction proving selector-free WSS clients receive historical v2.\",\"changes\":[\"Require polis.observatory_public_origin to be an exact member of the combined configured allowed-origin set before startup or reload can publish it.\",\"Serve historical v2 by default on REST and WSS, explicit historical v1 projections for schema=v1, and identity-bearing v3 projections for schema=v3; unsupported selectors fail with HTTP 400.\",\"Bind historical v1/v2 top-level, control, and agent-population field denominators with exact-key assertions.\",\"Make the HTML Observatory explicitly request v3 while selector-free clients continue to receive v2.\",\"Correct the canonical WSS conversation test and OpenAPI contract assertion to prove the negotiated v2 default and exact v1/v2/v3 server-frame alternatives.\",\"Preserve atomic full-parameter hot reload, last-known-good rejection, bounded diagnostics, and Unity deferral boundaries.\"],\"artifacts\":[\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/conversation_sessions_tests.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"adl-runtime-kernel/tests/guardian_soak.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/runtime-v3.config.json\",\"adl/tools/validate_v0917_html_observatory.py\",\".csdlc/evidence/551/html-polis-node.tap\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"conversation_sessions_tests::authenticated_selected_agent_conversation_uses_canonical_wss_ingress\",\"--\",\"--exact\"],\"purpose\":\"Reproduce and close the exact hosted Runtime failure while proving both initial and reconnected selector-free WSS feeds use v2.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local exact test: 1/1 passed.\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\",\"observatory_wss_documents_real_bidirectional_frame_boundary\",\"--\",\"--exact\"],\"purpose\":\"Prove the WSS OpenAPI contract binds the exact v1/v2/v3 negotiated server-frame alternatives.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local exact test: 1/1 passed.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/551/validate-runtime-polis.sh\"],\"purpose\":\"Prove exact nonzero configuration, full hot-reload control, negotiated REST/WSS compatibility, v3 feed, OpenAPI, and bounded diagnostic targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local focused run: configuration 3/3, control 1/1, observatory 1/1, openapi_contract 1/1, binary diagnostic 1/1.\"},{\"command\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"--test\",\"control\",\"--test\",\"observatory\",\"--test\",\"openapi_contract\",\"--no-tests=fail\"],\"purpose\":\"Prove the complete affected Runtime integration denominator including exact v1/v2/v3 REST and WSS behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local nextest run: 76/76 passed.\"},{\"command\":[\"cargo\",\"test\",\"--quiet\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"purpose\":\"Exercise the exact hosted Runtime command after the stale-fixture repair.\",\"outcome\":\"failed\",\"evidence_ref\":\"All #551-affected tests passed; one unrelated parity_b_live_kernel guardian lease timing test transiently failed, then its exact retry passed 1/1. Hosted CI remains the integration authority.\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"parity_b_live_kernel\",\"runtime_guardian::tests::clean_shutdown_terminates_descendant_spawned_by_successful_child\",\"--\",\"--exact\"],\"purpose\":\"Classify the unrelated full-suite guardian failure as transient rather than a #551 regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local exact retry: 1/1 passed.\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/551/validate-html-polis.sh\"],\"purpose\":\"Prove HTML v3 opt-in and exact feed-owned identity rendering while rejecting zero tests.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/551/html-polis-node.tap; 3/3 passed.\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local command exited zero.\"}]}"
+    },
+    {
+      "sequence": 67,
+      "generation": 55,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 56,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 57,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

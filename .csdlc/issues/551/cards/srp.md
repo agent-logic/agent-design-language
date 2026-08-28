@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/conversation_sessions_tests.rs
+adl-runtime-kernel/tests/openapi_contract.rs
+.csdlc/issues/551/cards/sor.md
+.csdlc/issues/551/cards/sor.values.json
 
 ## Prompts
 
@@ -33,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the final integration gate before merge.
+- No live browser, external network, or deployed TLS exercise was performed; the repair is test-only and preserves the previously reviewed production behavior.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1e72566c2b37d5bc8f402802ada7f116db7a6c91:635df04606bc3a8e25f67204cf5574b19e23fb0abfd6fb5529c8be9e6526b895")
 
-Reviewer: None
+Reviewer: Some("fresh-session:019ff6cf-7d5a-7d4c-8a4e-1b91e7109af7")
 
-Result: pre_review
+Result: pass
