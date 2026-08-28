@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
     "slug": "aws-audit-security-baseline",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/487\n.csdlc/prepared/issues/487\ninfra/aws/account-foundation\ndocs/operations/cloud/aws/audit-security\ndocs/milestones/v0.92.1/evidence/cloud/aws-d",
+      "review_revision": "git-blake3:7eb5db939995ee9f191f4149b706dd50e8a89f9f:bdebfa5b11f8491bc75bab53321e71af7b045ae15cbc63515c7f71d19dad55be",
+      "reviewer": "fresh-session:487d0000-0000-4000-8000-000000000006",
       "review_prompts": [
         "Does the design keep #487 to AWS audit/security baseline scope without absorbing AWS-E/F/G or #486 backend ownership?",
         "Are CloudTrail/configuration/detection/access-analysis/alert/retention/encryption controls specified with owner and destination truth?",
@@ -23,8 +23,12 @@
         "Does the validation plan prevent credentials and unnecessary sensitive values from entering retained evidence?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review did not perform live AWS calls, read credentials, apply Terraform, publish, or merge.",
+        "Reviewer verified the Git SHA directly but could not independently recompute the supplied BLAKE3 suffix.",
+        "Reviewer confirmed committed proof records and source semantics; its own local proof reruns were limited by read-only sandbox restrictions."
+      ],
+      "review_result": "pass"
     }
   }
 }
