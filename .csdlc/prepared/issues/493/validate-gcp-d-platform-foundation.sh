@@ -95,6 +95,35 @@ validate_static_product() {
   require_text "infra/gcp/platform/terraform.tfvars.example" "environment"
 }
 
+validate_selector_correspondence() {
+  require_text "infra/gcp/platform/main.tf" 'workload_service_account_id = "${var.csm_name}-${var.environment}-workload"'
+  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'workload_service_account="${csm}-${environment}-workload@${project}.iam.gserviceaccount.com"'
+  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'email:${workload_service_account}'
+  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'serviceAccount:${workload_service_account}'
+
+  require_text "infra/gcp/platform/main.tf" 'network                  = google_compute_network.private.id'
+  require_text "infra/gcp/platform/main.tf" 'network  = google_compute_network.private.name'
+  require_text "infra/gcp/platform/main.tf" 'network   = google_compute_network.private.name'
+  require_text "infra/gcp/platform/main.tf" 'target_tags   = ["csm-disposable"]'
+  require_text "infra/gcp/platform/main.tf" 'target_tags        = ["csm-disposable"]'
+  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'network:${network_name} AND targetTags:csm-disposable'
+  require_text "docs/operations/cloud/gcp/platform-foundation/README.md" '--network-name "$NETWORK_NAME"'
+
+  require_text "infra/gcp/platform/main.tf" 'state_bucket_name           = "${var.project_id}-${var.environment}-${var.csm_name}-state"'
+  require_text "infra/gcp/platform/main.tf" 'artifact_bucket_name        = "${var.project_id}-${var.environment}-${var.csm_name}-artifacts"'
+  require_text "infra/gcp/platform/main.tf" 'model_bucket_name           = "${var.project_id}-${var.environment}-${var.csm_name}-models"'
+  require_text "infra/gcp/platform/main.tf" 'evidence_bucket_name        = "${var.project_id}-${var.environment}-${var.csm_name}-continuity-evidence"'
+  require_text "infra/gcp/platform/main.tf" 'log_bucket_name             = "${var.project_id}-${var.environment}-${var.csm_name}-logs"'
+  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'for owner in state artifacts models continuity-evidence logs; do'
+  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'bucket="gs://${project}-${environment}-${csm}-${owner}"'
+
+  require_text "infra/gcp/platform/main.tf" "bucket = google_storage_bucket.artifacts.name"
+  require_text "infra/gcp/platform/main.tf" "bucket = google_storage_bucket.models.name"
+  require_text "infra/gcp/platform/main.tf" "bucket = google_storage_bucket.continuity_evidence.name"
+  require_text "infra/gcp/platform/main.tf" "bucket = google_storage_bucket.logs.name"
+  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'gcloud storage buckets get-iam-policy "$bucket"'
+}
+
 validate_docs() {
   require_text "docs/operations/cloud/gcp/platform-foundation/README.md" "terraform plan"
   require_text "docs/operations/cloud/gcp/platform-foundation/README.md" "terraform apply"
@@ -132,6 +161,7 @@ case "$lane" in
     validate_dependency
     if test -d infra/gcp/platform; then
       validate_static_product
+      validate_selector_correspondence
       validate_docs
     fi
     ;;
