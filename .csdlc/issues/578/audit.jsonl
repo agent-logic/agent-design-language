@@ -6,3 +6,11 @@
 {"sequence":6,"generation":4,"actor":"codex:root","reason":"The bounded GLM-5.3-Flash provider profile implementation and focused validation are complete.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":7,"generation":4,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":8,"generation":5,"actor":"fresh-session:b8205d48-4329-489e-9298-4449cf0552d8","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":9,"generation":6,"actor":"codex:root","reason":"The publication request was added as reviewed metadata after the prior exact review; recover to implemented so final review can bind to the current publication head without changing product code.","operation":"recover_review"}
+{"sequence":10,"generation":6,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":7,"actor":"codex:root","reason":"The committed publication request was removed so publication can use a local invocation request after exact-head review; recover stale assignment before final current-head review.","operation":"recover_review"}
+{"sequence":12,"generation":7,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":13,"generation":8,"actor":"codex:root","reason":"The final review found a source-truth documentation issue that is now fixed in a new commit; recover stale assignment before final exact-head re-review.","operation":"recover_review"}
+{"sequence":14,"generation":8,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":15,"generation":9,"actor":"fresh-session:3ffdceb7-b37e-4c1d-90f6-bb074321da2d","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":16,"generation":10,"actor":"codex:root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

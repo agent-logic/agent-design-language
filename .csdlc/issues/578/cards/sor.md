@@ -57,11 +57,11 @@ Implemented a general direct Z.ai GLM-5.3-Flash provider profile with bounded ru
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

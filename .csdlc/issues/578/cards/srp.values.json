@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 5
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl/src/provider/profiles.rs\nadl/src/provider/http_family.rs\nadl/src/provider/http_family/config.rs\nadl/tests/provider_tests/profiles.rs\nadl/tests/provider_tests/http_family.rs\ndocs/provider/inference-profiles.md\ndocs/tooling/PROVIDER_SETUP.md\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\n.csdlc/prepared/issues/578/reviewer-selection-smoke.sh\n.csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md",
-      "review_revision": "git-blake3:55cf30e99e3c240ceef6f140013ad7feab3135c1:cf0f9bfc8b13973bd5a07cd12304a1f8990368a02e97fa4cd236a23744764965",
-      "reviewer": "fresh-session:b8205d48-4329-489e-9298-4449cf0552d8",
+      "review_revision": "git-blake3:baa19909b0c1213cb70d9a3c0611eef9b7290555:2a718cbb3a03f82518db862e45b9a9a4df429e1cbbd45ed51d9b8b3205db62bd",
+      "reviewer": "fresh-session:3ffdceb7-b37e-4c1d-90f6-bb074321da2d",
       "review_prompts": [
         "Does `z_ai:glm-5.3-flash` use the existing #514 profile machinery rather than ad hoc model routing?",
         "Are GLM-5.3-Flash parameters source-grounded and validated before network dispatch?",
