@@ -43,12 +43,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live GCP, AWS, paid, Terraform init/plan/apply/destroy, or cloud readback proof was run for this issue.
+- PR #587 CI must be renewed after publication to prove the runtime coverage remediation on GitHub standard runners.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0e197b3c08f6dbab60eeae3b6c5d9be6597f57d7:f55099a9e8d76e13f225a8ea33a27a86789e061b34c24f1572e811983ae9667c")
 
-Reviewer: None
+Reviewer: Some("fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc")
 
-Result: pre_review
+Result: pass

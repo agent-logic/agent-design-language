@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1abd3eac653f9ea21c1b7f6ef530cfb261e6ae30d0bdf8d0ea56e4bc50324a10",
-  "phase": "implemented",
-  "generation": 20,
-  "digest": "e6bca018bf00875cbf0343861d65d84d308de039dd12df22aea13011ae01a92a",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "44dd7506fc9014d3f224c6ebf359f8c8958b40bf674a5419f0a8678cd9ed8dda",
   "branch": "codex/493-gcp-private-platform-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-493-gcp-private-platform-foundation",
   "review_assignment": {
@@ -29,7 +29,32 @@
       "infra/gcp/platform"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc",
+    "scope": [
+      ".csdlc/evidence/493/exact-diff-hygiene.log",
+      ".csdlc/evidence/493/gcp-d-static-product.log",
+      ".csdlc/evidence/493/terraform-fmt.log",
+      ".csdlc/issues/493",
+      ".csdlc/prepared/issues/493/design.md",
+      ".csdlc/prepared/issues/493/diagram.mmd",
+      ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
+      "adl-runtime/tests/config_reload.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md",
+      "docs/operations/cloud/gcp/platform-foundation/README.md",
+      "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh",
+      "infra/gcp/platform"
+    ],
+    "reviewed_revision": "git-blake3:0e197b3c08f6dbab60eeae3b6c5d9be6597f57d7:f55099a9e8d76e13f225a8ea33a27a86789e061b34c24f1572e811983ae9667c",
+    "findings": [],
+    "residual_risks": [
+      "No live GCP, AWS, paid, Terraform init/plan/apply/destroy, or cloud readback proof was run for this issue.",
+      "PR #587 CI must be renewed after publication to prove the runtime coverage remediation on GitHub standard runners."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eff395465a8a2f689bff77be4128679f701d8236e9a30f27a686a946670857c1",
+      "values_digest": "88983f9751e3225443d632d003f4ebaf3ab65f70a6df9e4dd7e5247472903af4",
       "rendered_digest": "04d17631608d2c9962fc6267aaa78dce3ee8f1d9cb9031ac8ce900840b05de05",
       "ast_digest": "277dbb0c97a5f744aad274fbab36089e58d26620fde0345f68e643ccb0d04bc8"
     },
     "stp": {
-      "values_digest": "d898fc0df16e7b01c19c5ed3ba053f3a2800088262582b7b2387054d4138b6c2",
+      "values_digest": "3d1e6f1fd6eb1a43f819946ddb3cb78279028eafb16bc47b1642f233807b7a90",
       "rendered_digest": "2238d8fef9e6f6694e3f5571844a62706856b151aee0be0a425092fba23821d3",
       "ast_digest": "dbccaba5231caf595e23c4d5463bc92e68ef4278e699633b1792dea295d4b081"
     },
     "spp": {
-      "values_digest": "e73f23c49823c5a8152beceadb16bbfc20bfa60aebf79e720b93f952763a88a6",
+      "values_digest": "e5a13256e49463696d81ff6d1001ca0db116062a3b32356e1ee2f37492ed3833",
       "rendered_digest": "b699521e870e0876a065047f5205d33508b31da11a9c48f50d84eae2a3cb798f",
       "ast_digest": "e1cc44714823d95529a2ce8d0bc26fee7258b00a7757efe5bb69413f74698ee4"
     },
     "vpp": {
-      "values_digest": "727578941d46e4db64bcb40632d2bdcf74f7d49be5f6ae1120dc9e71ac6a0092",
+      "values_digest": "ed1f2c67091e38d0869f0626a5837c5a1f16ba3ec6f1e9541dfe579d4ffecc55",
       "rendered_digest": "f8b502bce8e948971aed60bd5262c90f5a6ab981aef4821ddbf4459cc44bd2bf",
       "ast_digest": "edaa58c4bf64a953dcc108c8ec2aba490c2b469178a8ce028134ae461419a84e"
     },
     "srp": {
-      "values_digest": "1134622b39ad849b2828dee76b518eb0e5415b7875b9ee85f2d9ff89565dfa4e",
-      "rendered_digest": "3c4d24476499272ccb23d60adc1332648f4616837631b01541d9dd1800a9c0b5",
-      "ast_digest": "a0cb1261e426b49744355e5330c8050dc6c7cb3095e22296b4d66d1c7fd2792a"
+      "values_digest": "bd17a14f0e1f5b9596929b7c57dbbaf4333e94e5ad57f3bddc1f65338df21130",
+      "rendered_digest": "be57139c87c7fb3db3bd2df2f6351fcee9dfc4210c7cba4153f6d4fa00b79487",
+      "ast_digest": "08be3b0e8ac3e0ee9d6efd77863327ddcd9241d45bd33e87fbde509d0f3f35a0"
     },
     "sor": {
-      "values_digest": "7b9aa9574fc1c33ac1229fe4276d21887e18910279a0cee4ae409f9304c79ca7",
+      "values_digest": "578407196f546242c649e0792d57ae46ca7f51d49f00a6346f0b88268dd279fc",
       "rendered_digest": "24d55724e268b6d64e63c8a88256c99cdfc3e2e474dce7e68fd99442cbe80f00",
       "ast_digest": "aafb103065f23031da5ff710003cd4961175218abb1a2dedaacbadb9933dd3f7"
     }
@@ -116,6 +141,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #493 after PR #587 CI runtime coverage failed on inherited Runtime test defects. Publication/review truth must be refreshed before committing CI remediation and requesting a new exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -335,6 +367,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 21,
+      "actor": "fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
