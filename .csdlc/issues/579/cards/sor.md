@@ -132,11 +132,11 @@ Remediated #579 exact-review findings by removing the stale SRP review-gate from
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

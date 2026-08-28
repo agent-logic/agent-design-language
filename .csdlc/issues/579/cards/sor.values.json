@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS-F corrective] Repair runtime platform edge exposure and proof gaps",
     "slug": "aws-f-corrective-runtime-platform-edge-proof",
     "version": "v0.92.1",
-    "generation": 24
+    "generation": 27
   },
   "status": "pre_phase",
   "content": {
@@ -125,8 +125,8 @@
           "evidence_ref": "local stdout: aws runtime platform static validation passed: all; aws-f corrective validation passed: all; PASS test_validation_manager; PASS: ci_path_policy PR-fast/full-coverage contract; git diff --check exited 0"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

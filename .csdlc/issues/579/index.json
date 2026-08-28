@@ -4,14 +4,63 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8fe41a4be3b42f614d852b4f001ffb1eccd6367f489c5928292297866d6f976f",
-  "phase": "implemented",
-  "generation": 24,
-  "digest": "d3278583750cc6b9af22b924dde14424eaebe74ad700902268181eab2c682061",
+  "phase": "published",
+  "generation": 27,
+  "digest": "897b2eb4825d5caadafcf42f02b3353847a459ccc80bd0e3d79f51532bee4d03",
   "branch": "codex/579-aws-f-corrective-runtime-platform-edge-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-579-aws-f-corrective-runtime-platform-edge-proof-exec",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:7bdf9090-b7cd-4804-931c-188a20996230",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:54e76de846ac75ae11d8b3f47faee486f6365ad4:307885dc2ada652a208ca354b283d40f2933b54c3aeee49831ee22761ee65780",
+    "scope": [
+      ".csdlc/issues/579",
+      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/validate_aws_runtime_platform_static.sh",
+      "adl/tools/test_validation_manager.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "infra/aws/modules/csm-runtime-alb",
+      "infra/aws/runtime",
+      "docs/operations/cloud/aws/runtime-platform/README.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:7bdf9090-b7cd-4804-931c-188a20996230",
+    "scope": [
+      ".csdlc/issues/579",
+      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
+      "adl/config/validation_lane_selector.v0.91.6.json",
+      "adl/tools/validate_aws_runtime_platform_static.sh",
+      "adl/tools/test_validation_manager.sh",
+      "adl/tools/test_ci_path_policy.sh",
+      "infra/aws/modules/csm-runtime-alb",
+      "infra/aws/runtime",
+      "docs/operations/cloud/aws/runtime-platform/README.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md"
+    ],
+    "reviewed_revision": "git-blake3:54e76de846ac75ae11d8b3f47faee486f6365ad4:307885dc2ada652a208ca354b283d40f2933b54c3aeee49831ee22761ee65780",
+    "findings": [],
+    "residual_risks": [
+      "No live AWS proof was run or claimed; #579 remains a static/local corrective validation and path-policy repair.",
+      "Review verified PR #583 head matched the exact reviewed commit and that runtime/workspace coverage is skipped for the AWS runtime-platform static lane."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 579,
+    "pull_request": 583,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/583",
+    "base": "main",
+    "head": "codex/579-aws-f-corrective-runtime-platform-edge-proof",
+    "revision": "git-blake3:54e76de846ac75ae11d8b3f47faee486f6365ad4:307885dc2ada652a208ca354b283d40f2933b54c3aeee49831ee22761ee65780",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +74,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a5a8f1e71306b33944872cb732248552cd057165c58748e6751fb01d76226cdf",
+      "values_digest": "dce1bcd2ffd6658e984717acb3677d9f144855757d76cfde3e504f82b57d8dcd",
       "rendered_digest": "34255383575c3c3aea078b5ad1f33029f480c9c070bf17102d1ff5b52206557f",
       "ast_digest": "d79aba3cc3efacc1f54e46f636ef0d14448a7ab00e65460abe4a0e9561e31c2c"
     },
     "stp": {
-      "values_digest": "bb3813ef4e8ed6470276a9e290132f84a8a2050d5814e4d89fd12f132e1c68a1",
+      "values_digest": "a57a2e1db743348b8609894650ee263ea3846b88aa9e8f47110622609970e7e5",
       "rendered_digest": "75a132bf25c11986913abfb12619819b2535b6e3eb8c12c10e4fdcdf883d54eb",
       "ast_digest": "5f1a9cde41042b937e046672f548508ffc1f06d64cfbdb24e849d19bdfd2e038"
     },
     "spp": {
-      "values_digest": "f57f97fbc02ef019777b9813fd1a3f3042c71fdf405cd5a70ac70fa1e9d29675",
+      "values_digest": "da1e814f3f1b0efbbb813c3b30d5afa9ec8f531d236cb8d9739ba0df84073dd8",
       "rendered_digest": "d13937b24c4616f64d06be246d23d06ec8a5b764975bfea7578c58585f458a00",
       "ast_digest": "78428b50426eac48c5cb6136de5e4ec205e626596139d1ca785a03471c0b370c"
     },
     "vpp": {
-      "values_digest": "129d37cf7e7794176d36ef86403825255589cda80a0bd9b3afda0905f167ca8c",
+      "values_digest": "3c7f3767f3aa940a22a85e7fd11c70268b293450ee67361cc416b2cdd160fde8",
       "rendered_digest": "4935104808e2511060d9ff88bfcb96677ccc1dbc65b243c0d0a30042ce016ab9",
       "ast_digest": "639c13390f23a68c379aaa9fba5f048792afca03b57d88542742f536d3d76b03"
     },
     "srp": {
-      "values_digest": "c29b59220924b7ac2033c5eb82407eb049d7b8c18784c1ffc5f85f41b3f80c47",
-      "rendered_digest": "47923253ba21229c9e358a99c51f487ef29ba0142720f6414f6a1c61b7f528f2",
-      "ast_digest": "413abf1da275fc5f55970c2ddc8dd929db8a01b25c9bf10dee9eb5a31795efc8"
+      "values_digest": "0e071ec581612fa2c69a4f513984581412739de6115c37161e5bd7671b671110",
+      "rendered_digest": "91c9a11ebc24414bf2680702e6d10f0bb91ed46beee8f37aaf49717c1cd1ef0a",
+      "ast_digest": "d72a44afabaa51069db20dc6063b0ced83fd802d0803b1d528c63232e74981c1"
     },
     "sor": {
-      "values_digest": "bbe96a287abb2bb528de66803dee4f714c776dfb332a2111a5303a9a5e900e4e",
-      "rendered_digest": "6678bca6ebf28e9d1e24eba63d75cec929f82b2d8e4433ac4b938ed1c65b203e",
-      "ast_digest": "50806c966e3127ff2e8f87002f0ccf5592573c06e07e399cd50a497497c5cb61"
+      "values_digest": "9b56d4d974e09f9453700635f04ea462db0478425f22012afb81564a9f473594",
+      "rendered_digest": "3869fef77ab6b6d2ef50c40860a384ca287d009091f7e9b33c2ec1799ec49b87",
+      "ast_digest": "04a00ae95def1170454db0a3b85cc73f001f9484e0035fe82a1ee742fb10eb74"
     }
   },
   "transitions": [
@@ -97,6 +146,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "PR #583 CI failed because AWS-F Terraform paths were unmapped by the validation lane selector, forcing fail-closed authoritative runtime/workspace coverage for a non-runtime infra/docs change; recover to implemented before bounded CI-routing repair."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:7bdf9090-b7cd-4804-931c-188a20996230",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -316,6 +379,41 @@
       "actor": "codex:/root",
       "reason": "Keep #579 VPP validation lanes governed by issue-owned executable targets while SOR records the detailed CI selector regression evidence.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-579-corrective-validator\",\"proof_role\":\"Prove the #579 corrective scope, including AWS-F runtime-platform public-edge boundaries, closed ingress defaults, state isolation truth, proof/runbook truth, and delegation to the stable static validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=all\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-diff-hygiene\",\"proof_role\":\"Rejects conflict artifacts and whitespace errors across the corrective diff.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"579-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Recover #579 R6 review after FAIL finding that PR #583 still pointed at old e8129bbf while the reviewed local fix was 54e76de; branch has now been pushed to the reviewed/fixed head and needs a fresh exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "fresh-session:7bdf9090-b7cd-4804-931c-188a20996230",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
