@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/operator/owner-source-set.json
+csdlc-v2/operator/skills.json
+csdlc-v2/src/operator.rs
+csdlc-v2/src/store.rs
+csdlc-v2/src/lifecycle.rs
+csdlc-v2/src/bin
+csdlc-v2/tests/gate10a.rs
+csdlc-v2/tests/primary_checkout_bootstrap_guard.rs
+.csdlc/issues/563
+.csdlc/prepared/issues/563
 
 ## Prompts
 
@@ -32,12 +41,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the final pre-merge integration gate.
+- The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8248c0578cba18793d9a31ad02676485c24057e5:b895660cf27b8f75b090f6c13ffcc2edfa8d8050d6b8862d20e64e9bcedc805c")
 
-Reviewer: None
+Reviewer: Some("fresh-session:c82f0fa1-fc70-4ae2-9d08-2c0be680907b")
 
-Result: pre_review
+Result: pass
