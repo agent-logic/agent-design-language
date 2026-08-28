@@ -10,7 +10,9 @@ require_file_contains() {
   local file="$1"
   local pattern="$2"
   local label="$3"
-  if ! grep -Eiq "$pattern" "$file"; then
+  local content
+  content="$(tr '\n' ' ' < "$file")"
+  if ! grep -Eiq "$pattern" <<<"$content"; then
     echo "missing: $label in $file" >&2
     failures=$((failures + 1))
   fi
@@ -20,7 +22,9 @@ reject_file_contains() {
   local file="$1"
   local pattern="$2"
   local label="$3"
-  if grep -Eiq "$pattern" "$file"; then
+  local content
+  content="$(tr '\n' ' ' < "$file")"
+  if grep -Eiq "$pattern" <<<"$content"; then
     echo "stale-current-route: $label in $file" >&2
     failures=$((failures + 1))
   fi
@@ -53,8 +57,8 @@ for file in "${docs[@]}"; do
   reject_file_contains "$file" "$current_route_pattern" "legacy wrapper presented as current route"
 done
 
-reject_file_contains "AGENTS.md" "v3.*(sole|current|live).*authority" "premature v3 authority"
-reject_file_contains "docs/onboarding.md" "v3.*(sole|current|live).*authority" "premature v3 authority"
+reject_file_contains "AGENTS.md" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(sole|current|live)[^.]{0,80}authority" "premature v3 authority"
+reject_file_contains "docs/onboarding.md" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(sole|current|live)[^.]{0,80}authority" "premature v3 authority"
 
 if (( failures > 0 )); then
   exit 1

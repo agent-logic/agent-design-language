@@ -15,7 +15,9 @@ require_file_contains() {
     failures=$((failures + 1))
     return
   fi
-  if ! grep -Eiq "$pattern" "$file"; then
+  local content
+  content="$(tr '\n' ' ' < "$file")"
+  if ! grep -Eiq "$pattern" <<<"$content"; then
     echo "missing: $label in $file" >&2
     failures=$((failures + 1))
   fi

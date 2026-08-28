@@ -5,6 +5,10 @@ description: Safely classify or remove one exact issue worktree, and inspect leg
 
 # C-SDLC v2 Clean
 
+C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
+cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
+evidence and must not mutate lifecycle state, clean worktrees, or retire v2.
+
 Use `csdlc-install resolve` to locate the active `csdlc-clean` binary.
 
 For worktree cleanup, pass the versioned typed cleanup request to `cleanup`.

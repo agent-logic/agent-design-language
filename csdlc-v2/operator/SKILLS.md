@@ -5,6 +5,11 @@ binary/subcommand, collect typed input, and display typed output. They never
 edit Markdown, mutate canonical state directly, invoke shell/Python lifecycle
 logic, or infer success from prose.
 
+These v2 skills remain the live C-SDLC authority only until explicit
+operator-reviewed V3-F/#505 cutover. Before that cutover, `csdlc-v3/**` is
+non-authoritative construction and cutover-readiness evidence; it must not bind,
+publish, finish, clean, mutate GitHub, or retire v2.
+
 The tracked `generation-selector.json` is the sole default authority. Gate 10C
 cutover is complete; Gate 10D2 records exact parity approval and the reviewed
 final `v1_sunset` inventory. Install only into `.adl/bin/csdlc-v2/`, never

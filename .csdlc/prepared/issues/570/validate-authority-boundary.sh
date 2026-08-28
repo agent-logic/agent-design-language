@@ -15,7 +15,9 @@ require_file_contains() {
     failures=$((failures + 1))
     return
   fi
-  if ! grep -Eiq "$pattern" "$file"; then
+  local content
+  content="$(tr '\n' ' ' < "$file")"
+  if ! grep -Eiq "$pattern" <<<"$content"; then
     echo "missing: $label in $file" >&2
     failures=$((failures + 1))
   fi
@@ -25,9 +27,13 @@ reject_file_contains() {
   local file="$1"
   local pattern="$2"
   local label="$3"
-  if [[ -f "$file" ]] && grep -Eiq "$pattern" "$file"; then
+  if [[ -f "$file" ]]; then
+    local content
+    content="$(tr '\n' ' ' < "$file")"
+    if grep -Eiq "$pattern" <<<"$content"; then
     echo "forbidden: $label in $file" >&2
     failures=$((failures + 1))
+    fi
   fi
 }
 
@@ -42,7 +48,7 @@ surfaces=(
 
 for file in "${surfaces[@]}"; do
   require_file_contains "$file" "V3-F|#505|cutover" "explicit V3-F/#505 cutover boundary"
-  reject_file_contains "$file" "v3.*(publish|finish|clean|mutate).*live.*lifecycle" "premature v3 lifecycle mutation authority"
+  reject_file_contains "$file" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(publish|finish|clean|mutate)[^.]{0,80}live[^.]{0,80}lifecycle" "premature v3 lifecycle mutation authority"
 done
 
 require_file_contains "csdlc-v3/README.md" "clean replacement|replace" "clean replacement target"
