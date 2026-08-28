@@ -168,6 +168,8 @@ fn redact(value: &str) -> String {
         || lower.contains("password=")
         || lower.contains("api-key=")
         || lower.contains("api_key=")
+        || lower.contains("credential=")
+        || lower.contains("authorization=")
     {
         "[REDACTED]".to_owned()
     } else {
@@ -176,28 +178,18 @@ fn redact(value: &str) -> String {
 }
 
 fn is_secret_flag(value: &str) -> bool {
-    let value = value.to_ascii_lowercase();
-    matches!(
-        value.as_str(),
-        "--token"
-            | "--secret"
-            | "--password"
-            | "--api-key"
-            | "--access-token"
-            | "-token"
-            | "-secret"
-            | "-password"
-    )
+    if value.contains('=') || !value.starts_with('-') {
+        return false;
+    }
+    let key = value.trim_start_matches('-').to_ascii_lowercase();
+    is_sensitive_key(&key)
 }
 
 fn is_inline_secret_assignment(value: &str) -> bool {
     let Some((key, _)) = value.split_once('=') else {
         return false;
     };
-    matches!(
-        key.trim_start_matches('-').to_ascii_lowercase().as_str(),
-        "token" | "secret" | "password" | "api-key" | "api_key" | "access-token"
-    )
+    is_sensitive_key(&key.trim_start_matches('-').to_ascii_lowercase())
 }
 
 fn is_authorization_header(lowercase_value: &str) -> bool {
@@ -212,5 +204,19 @@ fn contains_url_userinfo(value: &str) -> bool {
     let Some((userinfo, _host)) = authority.rsplit_once('@') else {
         return false;
     };
-    userinfo.contains(':')
+    !userinfo.is_empty()
+}
+
+fn is_sensitive_key(key: &str) -> bool {
+    [
+        "token",
+        "secret",
+        "password",
+        "key",
+        "credential",
+        "authorization",
+        "auth",
+    ]
+    .iter()
+    .any(|needle| key.contains(needle))
 }

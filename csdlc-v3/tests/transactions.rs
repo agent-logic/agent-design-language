@@ -422,6 +422,9 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
             "TOKEN=upper-secret",
             "Authorization: Bearer secret",
             "https://user:token@example.test/path",
+            "--client-secret",
+            "separate-secret",
+            "https://access-token@example.test/path",
             "repos",
         ],
     )
@@ -436,6 +439,9 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
             "[REDACTED]",
             "[REDACTED]",
             "[REDACTED]",
+            "[REDACTED]",
+            "[REDACTED]",
+            "--client-secret",
             "[REDACTED]",
             "[REDACTED]",
             "repos"
