@@ -284,6 +284,11 @@ pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassifica
             if let Err(reason) = validate_committed_recovery_input(&state, &intent) {
                 return RecoveryClassification::CorruptRecoveryInput { reason };
             }
+            if !state.projections_repair_required {
+                return RecoveryClassification::CorruptRecoveryInput {
+                    reason: RecoveryRejectReason::RepairIntentMissing,
+                };
+            }
             RecoveryClassification::RepairRequired {
                 state,
                 intent,
@@ -293,6 +298,13 @@ pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassifica
         RecoveryObservation::StateCommitted { state, intent } => {
             if let Err(reason) = validate_committed_recovery_input(&state, &intent) {
                 return RecoveryClassification::CorruptRecoveryInput { reason };
+            }
+            if state.projections_repair_required {
+                return RecoveryClassification::RepairRequired {
+                    state,
+                    intent,
+                    repair: RecoveryRepair::RegenerateProjections,
+                };
             }
             if matches!(
                 intent.command,
@@ -383,7 +395,7 @@ fn digest_for(
     for invalidation in invalidated_projections {
         canonical.push_str(&format!("invalidates={invalidation:?};"));
     }
-    format!("v3:{:016x}", stable_hash64(canonical.as_bytes()))
+    format!("v3:{}", blake3::hash(canonical.as_bytes()).to_hex())
 }
 
 fn merge_invalidations(
@@ -401,15 +413,6 @@ fn invalidations_for_audit(audit: &[AuditEvent]) -> Vec<ProjectionInvalidation> 
     audit.iter().fold(Vec::new(), |merged, event| {
         merge_invalidations(&merged, &event.invalidates)
     })
-}
-
-fn stable_hash64(bytes: &[u8]) -> u64 {
-    let mut hash = 0xcbf2_9ce4_8422_2325_u64;
-    for byte in bytes {
-        hash ^= u64::from(*byte);
-        hash = hash.wrapping_mul(0x0000_0100_0000_01b3);
-    }
-    hash
 }
 
 fn escape_digest_field(value: &str) -> String {

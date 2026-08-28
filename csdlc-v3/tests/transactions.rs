@@ -319,6 +319,67 @@ fn recovery_classifies_interrupted_writes_without_losing_provenance() {
 }
 
 #[test]
+fn recovery_honors_projection_repair_flag_from_committed_state() {
+    let prior = StateRecord::new(LifecycleState::Ready);
+    let mut clean_store = TransactionStore::new(prior.clone()).expect("valid initial digest");
+    let clean_transaction = clean_store
+        .begin(
+            LifecycleCommand::Bind,
+            &full_capabilities(),
+            prior.generation,
+            prior.digest.clone(),
+            "clean projection write",
+        )
+        .expect("bind transaction stages");
+    let clean_committed = match clean_store
+        .commit(clean_transaction, ProjectionWrite::Success)
+        .expect("clean projection commit succeeds")
+    {
+        CommitResult::Committed(state) => state,
+        CommitResult::ProjectionRepairRequired(_) => panic!("unexpected projection repair"),
+    };
+    assert_eq!(
+        classify_recovery(RecoveryObservation::StateCommittedProjectionMissing {
+            state: clean_committed,
+            intent: clean_store.journal()[0].clone()
+        }),
+        RecoveryClassification::CorruptRecoveryInput {
+            reason: RecoveryRejectReason::RepairIntentMissing
+        }
+    );
+
+    let prior = StateRecord::new(LifecycleState::Ready);
+    let mut repair_store = TransactionStore::new(prior.clone()).expect("valid initial digest");
+    let repair_transaction = repair_store
+        .begin(
+            LifecycleCommand::Bind,
+            &full_capabilities(),
+            prior.generation,
+            prior.digest,
+            "projection write failed",
+        )
+        .expect("bind transaction stages");
+    let repair_committed = match repair_store
+        .commit(repair_transaction, ProjectionWrite::FailAfterStateCommit)
+        .expect("state commit survives projection failure")
+    {
+        CommitResult::ProjectionRepairRequired(state) => state,
+        CommitResult::Committed(_) => panic!("expected projection repair"),
+    };
+    assert_eq!(
+        classify_recovery(RecoveryObservation::StateCommitted {
+            state: repair_committed.clone(),
+            intent: repair_store.journal()[0].clone()
+        }),
+        RecoveryClassification::RepairRequired {
+            state: repair_committed,
+            intent: repair_store.journal()[0].clone(),
+            repair: RecoveryRepair::RegenerateProjections
+        }
+    );
+}
+
+#[test]
 fn recovery_rejects_no_commit_records_with_invalid_integrity() {
     let mut corrupt = StateRecord::new(LifecycleState::Ready);
     corrupt.digest = "v3:wrong-digest".to_owned();
@@ -418,6 +479,13 @@ fn recovery_rejects_committed_state_intent_mismatches() {
 #[test]
 fn transaction_commit_rechecks_cas_and_digest_binds_contents() {
     let initial = StateRecord::new(LifecycleState::Ready);
+    assert_eq!(initial.digest.len(), "v3:".len() + 64);
+    assert!(initial
+        .digest
+        .strip_prefix("v3:")
+        .expect("v3 digest prefix")
+        .chars()
+        .all(|character| character.is_ascii_hexdigit()));
     let mut store = TransactionStore::new(initial.clone()).expect("valid initial digest");
     let first = store
         .begin(
