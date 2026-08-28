@@ -1,0 +1,20 @@
+{
+  "issue": 551,
+  "expected_generation": 35,
+  "expected_digest": "ea1e4c119d4d3d3e8bb8e6d402ecbfe01771d4004ffe76cf4c3ac967689987ed",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "subagent:/root/review_551_ci_fixture",
+    "scope": [
+      ".csdlc/issues/551",
+      ".csdlc/prepared/issues/551"
+    ],
+    "reviewed_revision": "git-blake3:9de9e110ee0ad1ace724cd1b140932ea7ba4bced:db065447bdb833e4c8ea5f07464ce2a933cb3354f4c2b5dcbd8ded73624414c1",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
+    ],
+    "completed": true
+  }
+}

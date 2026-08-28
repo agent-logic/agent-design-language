@@ -1,0 +1,19 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 12,
+  "expected_digest": "28d90ae036d9bacb9dc60cb4a5c61a3faa4958db40f70aa0017cfa32213fc850",
+  "actor": "codex:/root",
+  "reason": "Bind full hot reload and last-known-good atomicity as operative invariants.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Every Polis parameter may hot-load without restarting the Runtime",
+      "A reload publishes one complete validated snapshot or no change",
+      "Invalid reloads preserve the complete last-known-good snapshot",
+      "Identity projection and diagnostics remain redacted",
+      "Unity remains deferred"
+    ]
+  }
+}

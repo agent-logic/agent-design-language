@@ -33,7 +33,7 @@ CSM_READY_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_49
 CSM_METRICS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/metrics.json"
 CSM_EVENTS_REF = "../../../docs/milestones/v0.91.7/review/runtime/csm_liveness_4976/published/api/events.json"
 RUNTIME_V3_CONFIG_REF = "./runtime-v3.config.json"
-RUNTIME_V3_OBSERVATORY_ENDPOINT = "https://runtime.dev.agent-logic.ai:20997/v1/observatory"
+RUNTIME_V3_OBSERVATORY_ENDPOINT = "https://wuji.dev.csm.agent-logic.ai:20997/v1/observatory?schema=v3"
 
 
 def fail(message: str) -> None:
@@ -103,7 +103,14 @@ def run_js_view_model(
           [retainedRefs.eventsRef, fs.readFileSync(retainedRefs.eventsRef, "utf8")]
         ]);
         const runtimeV3Feed = JSON.stringify({{
-          schema: "adl.runtime_v3.observatory_feed.v2",
+          schema: "adl.runtime_v3.observatory_feed.v3",
+          polis_identity: {{
+            polis_id: "wuji-dev",
+            display_name: "Wuji",
+            public_domain: "wuji.dev.csm.agent-logic.ai",
+            runtime_api_base: "https://wuji.dev.csm.agent-logic.ai:20997",
+            observatory_public_origin: "https://wuji.dev.csm.agent-logic.ai"
+          }},
           runtime_instance_id: "runtime-v3-test",
           default_runtime_changed: false,
           runtime_selection: "runtime_v3_explicit_opt_in",
@@ -221,9 +228,9 @@ def run_js_view_model(
           ["http://localhost:49210/ready", retainedFiles.get(retainedRefs.readyRef)],
           ["http://localhost:49210/metrics", retainedFiles.get(retainedRefs.metricsRef)],
           ["http://localhost:49210/events", retainedFiles.get(retainedRefs.eventsRef)],
-          ["https://runtime.dev.agent-logic.ai:20997/v1/observatory", runtimeV3Feed],
-          ["https://runtime.dev.agent-logic.ai:20997/v1/health", runtimeV3Health],
-          ["https://runtime.dev.agent-logic.ai:20997/v1/ready", runtimeV3Readiness]
+          ["https://wuji.dev.csm.agent-logic.ai:20997/v1/observatory?schema=v3", runtimeV3Feed],
+          ["https://wuji.dev.csm.agent-logic.ai:20997/v1/health", runtimeV3Health],
+          ["https://wuji.dev.csm.agent-logic.ai:20997/v1/ready", runtimeV3Readiness]
         ]);
         const textWrites = [];
         const datasetWrites = [];
@@ -468,8 +475,8 @@ def run_js_view_model(
         const retainedFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(retainedSnapshot, packet);
         const liveSnapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("http://localhost:49210");
         const liveFetchPanopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(liveSnapshot, packet);
-        mockLocation.search = "?runtime=v3&runtimeApiBase=https://runtime.dev.agent-logic.ai:20997";
-        const runtimeV3Snapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("https://runtime.dev.agent-logic.ai:20997");
+        mockLocation.search = "?runtime=v3&runtimeApiBase=https://wuji.dev.csm.agent-logic.ai:20997";
+        const runtimeV3Snapshot = await context.AdlHtmlObservatory.fetchRuntimeSnapshot("https://wuji.dev.csm.agent-logic.ai:20997");
         const runtimeV3Panopticon = context.AdlHtmlObservatory.buildPanopticonViewModel(runtimeV3Snapshot, packet);
         mockLocation.search = "?csmApiBase=http://localhost:49210";
         context.AdlHtmlObservatory.bindLivePanopticon(packet);
@@ -493,8 +500,8 @@ def run_js_view_model(
           connectionState: observatoryElement["data-live-connection"]
         }};
         fetchMode = "immediate";
-        mockLocation.search = "?runtime=v3&runtimeApiBase=https://runtime.dev.agent-logic.ai:20997";
-        elements.get("dashboard-live-api-base").value = "https://runtime.dev.agent-logic.ai:20997";
+        mockLocation.search = "?runtime=v3&runtimeApiBase=https://wuji.dev.csm.agent-logic.ai:20997";
+        elements.get("dashboard-live-api-base").value = "https://wuji.dev.csm.agent-logic.ai:20997";
         elements.get("operator-write-token").value = "operator-write-token-5757";
         await elements.get("dashboard-connect-live").onclick();
         const socket = MockWebSocket.instances[MockWebSocket.instances.length - 1];
@@ -516,7 +523,7 @@ def run_js_view_model(
         let rejectedUntrustedWss = false;
         try {{
           context.AdlHtmlObservatory.connectRuntimeV3ObservatoryWebSocket(
-            "https://example.com?runtimeApiBase=https://runtime.dev.agent-logic.ai:20997",
+            "https://example.com?runtimeApiBase=https://wuji.dev.csm.agent-logic.ai:20997",
             () => {{}},
             () => {{}}
           );
@@ -552,11 +559,11 @@ def run_js_view_model(
           operatorEnvelope,
           loopbackPolicy: {{
             localhostHttp: context.AdlHtmlObservatory.isLoopbackApiBase("http://localhost:49210"),
-            runtimeTrustedLocalhost: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997"),
+            runtimeTrustedLocalhost: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://wuji.dev.csm.agent-logic.ai:20997"),
             runtimeRemoteHttps: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://runtime-gateway-host"),
             runtimeWrongPort: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://localhost:8765"),
             runtimeUrlCredentials: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://operator:token@runtime.dev.agent-logic.ai:20997"),
-            runtimeUrlQuery: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997?runtimeApiBase=https://example.com"),
+            runtimeUrlQuery: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://wuji.dev.csm.agent-logic.ai:20997?runtimeApiBase=https://example.com"),
             runtimePath: context.AdlHtmlObservatory.isRuntimeV3ApiBase("https://runtime.dev.agent-logic.ai:20997/collect"),
             runtimeHttp: context.AdlHtmlObservatory.isRuntimeV3ApiBase("http://runtime.dev.agent-logic.ai:20997"),
             remoteHttp: context.AdlHtmlObservatory.isLoopbackApiBase("https://example.com"),
@@ -841,21 +848,21 @@ def main() -> int:
     assert_contains("JS Runtime v3 config fallback", js, f'root?.dataset.runtimeV3ConfigRef || "{RUNTIME_V3_CONFIG_REF}"')
     if runtime_v3_config.get("schema") != "adl.html_observatory.runtime_v3_config.v1":
       fail("Runtime v3 Observatory config schema mismatch")
-    if runtime_v3_config.get("api_base") != "https://runtime.dev.agent-logic.ai:20997":
+    if runtime_v3_config.get("api_base") != "https://wuji.dev.csm.agent-logic.ai:20997":
       fail("Runtime v3 Observatory config must declare the trusted public HTTPS API base")
     if runtime_v3_config.get("health_endpoint") != "/v1/health":
       fail("Runtime v3 Observatory config must declare /v1/health")
-    if runtime_v3_config.get("observatory_endpoint") != "/v1/observatory":
-      fail("Runtime v3 Observatory config must declare /v1/observatory")
+    if runtime_v3_config.get("observatory_endpoint") != "/v1/observatory?schema=v3":
+      fail("Runtime v3 Observatory config must explicitly negotiate feed schema v3")
     if runtime_v3_config.get("readiness_endpoint") != "/v1/ready":
       fail("Runtime v3 Observatory config must declare /v1/ready")
-    if runtime_v3_config.get("observatory_websocket_endpoint") != "/v1/observatory/ws":
-      fail("Runtime v3 Observatory config must declare /v1/observatory/ws")
+    if runtime_v3_config.get("observatory_websocket_endpoint") != "/v1/observatory/ws?schema=v3":
+      fail("Runtime v3 Observatory config must explicitly negotiate WebSocket schema v3")
     if runtime_v3_config.get("signed_command_endpoint") != "/v1/control":
       fail("Runtime v3 Observatory config must declare /v1/control for signed commands")
-    assert_contains("JS Runtime v3 observatory schema", js, 'RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2"')
+    assert_contains("JS Runtime v3 observatory schema", js, 'RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v3"')
     assert_contains("JS trusted Runtime v3 origin normalizer", js, "normalizeTrustedRuntimeV3ApiBase")
-    assert_contains("JS trusted Runtime v3 public host", js, "parsed.hostname === RUNTIME_V3_TRUSTED_HOST")
+    assert_contains("JS trusted Runtime v3 public host", js, "allowedHosts.includes(parsed.hostname.toLowerCase())")
     assert_contains("JS trusted Runtime v3 HTTPS", js, 'parsed.protocol !== "https:"')
     assert_contains("JS trusted Runtime v3 root path", js, 'parsed.pathname !== "/"')
     assert_contains("JS shared live generation guard", js, "isCurrentLiveGeneration")
@@ -1120,7 +1127,7 @@ def main() -> int:
     if async_race.get("wssStopWebsocketStatus") != "stopped":
       fail(f"late WSS completion overwrote stopped WebSocket status: {async_race!r}")
     trusted_wss = smoke["trustedWss"]
-    if trusted_wss.get("endpoint") != "wss://runtime.dev.agent-logic.ai:20997/v1/observatory/ws":
+    if trusted_wss.get("endpoint") != "wss://wuji.dev.csm.agent-logic.ai:20997/v1/observatory/ws?schema=v3":
       fail(f"trusted WSS endpoint was not the configured public Runtime host: {trusted_wss!r}")
     if trusted_wss.get("authFrameSent") is not True:
       fail(f"operator token was not sent after trusted localhost WSS open: {trusted_wss!r}")

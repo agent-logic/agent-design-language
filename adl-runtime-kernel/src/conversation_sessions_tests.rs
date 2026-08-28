@@ -13,10 +13,10 @@ use crate::{
     AgentSample, AuthorityMode, CanonicalIngress, ComponentId, ComponentRegistry, ControlApiPolicy,
     ControlAuthority, ControlService, ExecutorError, FailureClass, Kernel, KernelExit,
     LifecycleControl, OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory,
-    RunningState, RuntimeRecorder, OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA,
+    RunningState, RuntimeRecorder, OBSERVATORY_WS_AUTH_SCHEMA,
     OBSERVATORY_WS_CONTROL_RESULT_SCHEMA, OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA,
     OBSERVATORY_WS_CONVERSATION_INTENT_SCHEMA, OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA,
-    OBSERVATORY_WS_PATH,
+    OBSERVATORY_WS_PATH, PREVIOUS_OBSERVATORY_FEED_SCHEMA,
 };
 use async_trait::async_trait;
 use futures::{SinkExt, StreamExt};
@@ -310,7 +310,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
         .unwrap();
     let feed: serde_json::Value =
         serde_json::from_str(socket.next().await.unwrap().unwrap().to_text().unwrap()).unwrap();
-    assert_eq!(feed["schema"], OBSERVATORY_FEED_SCHEMA);
+    assert_eq!(feed["schema"], PREVIOUS_OBSERVATORY_FEED_SCHEMA);
 
     socket
         .send(Message::Text(
@@ -752,7 +752,7 @@ async fn authenticated_selected_agent_conversation_uses_canonical_wss_ingress() 
     )
     .await
     .unwrap();
-    let _ = next_frame_with_schema(&mut socket, OBSERVATORY_FEED_SCHEMA).await;
+    let _ = next_frame_with_schema(&mut socket, PREVIOUS_OBSERVATORY_FEED_SCHEMA).await;
     socket
         .send(Message::Text(
             serde_json::json!({

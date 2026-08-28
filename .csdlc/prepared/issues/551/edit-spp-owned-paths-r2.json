@@ -1,0 +1,28 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 2,
+  "expected_digest": "cafb71743f12c34c26f8abaca56bbfec9246bf01e2cf4ceb7f730b13fea2c249",
+  "actor": "codex:/root",
+  "reason": "Correct the OpenAPI contract path and include its existing exact contract-test authority.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551",
+      ".csdlc/evidence/551"
+    ]
+  }
+}

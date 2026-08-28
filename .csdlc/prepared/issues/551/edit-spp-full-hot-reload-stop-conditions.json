@@ -1,0 +1,19 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 17,
+  "expected_digest": "1f6cd8c3f22dd3d996e6207d4837791947dc8247ecb46f19ed4d84c5a020cf05",
+  "actor": "codex:/root",
+  "reason": "Replace obsolete continuity-identity stop wording with the full hot-reload atomicity boundary.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "Continuity state would be mutated",
+      "A reload requires Runtime restart or exposes mixed Polis values",
+      "Unity or issue #84 paths enter the diff",
+      "External infrastructure mutation is required",
+      "Validation selects zero tests"
+    ]
+  }
+}

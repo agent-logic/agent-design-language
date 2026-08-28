@@ -86,10 +86,23 @@
         "operationId": "readObservatorySnapshot",
         "tags": ["observatory"],
         "summary": "Read the current Runtime v3 Observatory snapshot",
+        "parameters": [
+          {
+            "name": "schema",
+            "in": "query",
+            "required": false,
+            "description": "Select the exact feed projection. Omission preserves the existing v2 contract; v3 opts into Polis identity.",
+            "schema": {
+              "type": "string",
+              "enum": ["v1", "v2", "v3"],
+              "default": "v2"
+            }
+          }
+        ],
         "security": [],
         "responses": {
           "200": {
-            "description": "Current Runtime v3 Observatory snapshot.",
+            "description": "Negotiated Observatory snapshot; defaults to the existing v2 projection.",
             "headers": {
               "Cache-Control": {
                 "schema": {
@@ -100,10 +113,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ObservatoryFeed"
+                  "oneOf": [
+                    {"$ref": "#/components/schemas/ObservatoryFeedV1Compatibility"},
+                    {"$ref": "#/components/schemas/ObservatoryFeedV2Compatibility"},
+                    {"$ref": "#/components/schemas/ObservatoryFeed"}
+                  ]
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/UnsupportedObservatorySchema"
           },
           "403": {
             "$ref": "#/components/responses/OriginForbidden"
@@ -129,11 +149,27 @@
         "operationId": "openObservatoryWebSocket",
         "tags": ["observatory"],
         "summary": "Open a public-read, authenticated-write Observatory WSS session",
+        "parameters": [
+          {
+            "name": "schema",
+            "in": "query",
+            "required": false,
+            "description": "Select the exact public feed frame projection. Omission preserves v2; v3 opts into Polis identity.",
+            "schema": {
+              "type": "string",
+              "enum": ["v1", "v2", "v3"],
+              "default": "v2"
+            }
+          }
+        ],
         "description": "Upgrades to WebSocket after origin validation and immediately emits public ObservatoryFeed frames. A client may log in at any time with an ObservatoryWsAuth text frame. Only an authenticated session may submit signed text commands, bounded conversation intents or cancellations, or bounded ACIP Protobuf binary envelopes. Conversation acceptance and terminal outcomes are Runtime-authoritative and correlated by conversation, turn, recipient, and correlation identifiers.",
         "security": [],
         "responses": {
           "101": {
             "description": "WebSocket upgrade accepted after origin validation. Public feed frames begin immediately; frame-level login is required only for writes."
+          },
+          "400": {
+            "$ref": "#/components/responses/UnsupportedObservatorySchema"
           },
           "403": {
             "$ref": "#/components/responses/OriginForbidden"
@@ -174,7 +210,12 @@
           ],
           "serverFrames": [
             {
-              "$ref": "#/components/schemas/ObservatoryFeed"
+              "oneOf": [
+                {"$ref": "#/components/schemas/ObservatoryFeedV1Compatibility"},
+                {"$ref": "#/components/schemas/ObservatoryFeedV2Compatibility"},
+                {"$ref": "#/components/schemas/ObservatoryFeed"}
+              ],
+              "purpose": "negotiated_public_feed"
             },
             {
               "$ref": "#/components/schemas/ObservatoryWsControlResult"
@@ -196,6 +237,9 @@
     "responses": {
       "OriginForbidden": {
         "description": "Origin is absent for WSS or not present in configured observatory.allowed_origins."
+      },
+      "UnsupportedObservatorySchema": {
+        "description": "The schema query is not one of v1, v2, or v3."
       }
     },
     "schemas": {
@@ -273,7 +317,7 @@
       "SignedControlCommand": {
         "type": "object",
         "additionalProperties": false,
-      "required": [
+        "required": [
           "schema",
           "runtime_instance_id",
           "command_id",
@@ -389,11 +433,28 @@
           "exit": { "enum": ["clean", "failed"] }
         }
       },
+      "ObservatoryFeedV1Compatibility": {
+        "type": "object",
+        "required": ["schema"],
+        "properties": {
+          "schema": {"const": "adl.runtime_v3.observatory_feed.v1"}
+        },
+        "additionalProperties": true
+      },
+      "ObservatoryFeedV2Compatibility": {
+        "type": "object",
+        "required": ["schema"],
+        "properties": {
+          "schema": {"const": "adl.runtime_v3.observatory_feed.v2"}
+        },
+        "additionalProperties": true
+      },
       "ObservatoryFeed": {
         "type": "object",
         "additionalProperties": false,
         "required": [
           "schema",
+          "polis_identity",
           "runtime_instance_id",
           "runtime_incarnation_id",
           "runtime_process_id",
@@ -409,7 +470,10 @@
         ],
         "properties": {
           "schema": {
-            "const": "adl.runtime_v3.observatory_feed.v2"
+            "const": "adl.runtime_v3.observatory_feed.v3"
+          },
+          "polis_identity": {
+            "$ref": "#/components/schemas/PolisIdentityFeed"
           },
           "runtime_instance_id": {
             "type": "string"
@@ -465,6 +529,18 @@
               "$ref": "#/components/schemas/BootstrapEvent"
             }
           }
+        }
+      },
+      "PolisIdentityFeed": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["polis_id", "display_name", "public_domain", "runtime_api_base", "observatory_public_origin"],
+        "properties": {
+          "polis_id": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9._:-]+$"},
+          "display_name": {"type": "string", "minLength": 1, "maxLength": 128},
+          "public_domain": {"type": "string", "minLength": 1, "maxLength": 253},
+          "runtime_api_base": {"type": "string", "format": "uri", "pattern": "^https://"},
+          "observatory_public_origin": {"type": "string", "format": "uri", "pattern": "^https://"}
         }
       },
       "ObservatoryControlFeed": {

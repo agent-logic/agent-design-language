@@ -916,7 +916,7 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         .connect(ServerName::try_from("localhost").unwrap(), stream)
         .await
         .unwrap();
-    stream.write_all(b"GET /v1/observatory HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer guardian-observatory-token-00000001\r\nConnection: close\r\n\r\n").await.unwrap();
+    stream.write_all(b"GET /v1/observatory?schema=v3 HTTP/1.1\r\nHost: localhost\r\nAuthorization: Bearer guardian-observatory-token-00000001\r\nConnection: close\r\n\r\n").await.unwrap();
     let mut observatory_response = Vec::new();
     stream.read_to_end(&mut observatory_response).await.unwrap();
     let observatory_response = String::from_utf8(observatory_response).unwrap();
@@ -929,7 +929,10 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         submit["outcome"]["work_result"]["result_hash"]
     );
 
-    let websocket_request = format!("wss://localhost:{}/v1/observatory/ws", address.port());
+    let websocket_request = format!(
+        "wss://localhost:{}/v1/observatory/ws?schema=v3",
+        address.port()
+    );
     let mut websocket_request = websocket_request.into_client_request().unwrap();
     websocket_request
         .headers_mut()
@@ -960,7 +963,8 @@ async fn signed_https_wss_shutdown_checkpoints_and_forgery_cannot_stop_the_proce
         .expect("WSS Observatory connection closed")
         .expect("WSS Observatory frame failed");
     let feed = serde_json::from_str::<serde_json::Value>(feed.to_text().unwrap()).unwrap();
-    assert_eq!(feed["schema"], "adl.runtime_v3.observatory_feed.v2");
+    assert_eq!(feed["schema"], "adl.runtime_v3.observatory_feed.v3");
+    assert!(feed["polis_identity"].is_object());
     assert_eq!(feed["runtime_selection"], "runtime_v3_explicit_opt_in");
     assert_eq!(feed["control"]["websocket_full_duplex"], true);
     assert_eq!(

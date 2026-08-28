@@ -1,0 +1,334 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 492,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "83d63e54f3cdc384cac8900f173f9dd32c7dfa99dfe03ea52cfb8182f80585d6",
+  "phase": "published",
+  "generation": 18,
+  "digest": "e03c162e5b275ea97a83b1843f90fdfda747b6671cb5571c3cd34e67e5c2e38c",
+  "branch": "codex/492-gcp-organization-billing-baseline",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-492-gcp-organization-billing-baseline",
+  "review_assignment": {
+    "reviewer": "fresh-session:57c82245-1842-476e-80fb-17ad6e26a117",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1b13a2f12be9f09c698e90cbb39560c4d95da5a9:44dcf4893ce24d8027e9b639d4c7b6eeb6bfc14d9f72aa60a92791d6ba8f6749",
+    "scope": [
+      ".csdlc/issues/492",
+      ".csdlc/prepared/issues/492",
+      ".csdlc/evidence/492",
+      "infra/gcp/organization",
+      "docs/operations/cloud/gcp/organization-billing",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-c"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:57c82245-1842-476e-80fb-17ad6e26a117",
+    "scope": [
+      ".csdlc/issues/492",
+      ".csdlc/prepared/issues/492",
+      ".csdlc/evidence/492",
+      "infra/gcp/organization",
+      "docs/operations/cloud/gcp/organization-billing",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-c"
+    ],
+    "reviewed_revision": "git-blake3:1b13a2f12be9f09c698e90cbb39560c4d95da5a9:44dcf4893ce24d8027e9b639d4c7b6eeb6bfc14d9f72aa60a92791d6ba8f6749",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not run live gcloud or inspect credential files; implementation session retained command-scoped live read-only inventory runs proving project and billing readability and repaired authorized-empty budget status without credential retention.",
+      "#492 establishes the GCP-C organization/billing baseline and does not implement #493 private platform infrastructure, GPU qualification, production traffic, or shared-VPC expansion."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 492,
+    "pull_request": 580,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/580",
+    "base": "main",
+    "head": "codex/492-gcp-organization-billing-baseline",
+    "revision": "git-blake3:12b124bba365f3e2693689419ada8ee6518f0958:32bccd60c8dd539203e3816dde42784aa5b9e680569490faa59e7d9fab62ffb2",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/492/design.md",
+  "diagram_path": ".csdlc/prepared/issues/492/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:73e19b0d-51cd-4f4d-9653-d611cb19ba22",
+      "revision": "0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "56a4e04354dbe5faf7e9ccb2d39fe4e2fbcd44efa3215f269f3f64f1e533dacd",
+      "rendered_digest": "5d67f2df6a2d06c754e61dc02054c704cee61d4b0bb86ed585c1138deac2840e",
+      "ast_digest": "9b154555fd9fb4cd979c18d7ae464026d7b849411eb54f2e1cfcaeeebf1c0459"
+    },
+    "stp": {
+      "values_digest": "2e925276f68ed58d793d697b3dcf356ce55ea840085cd55c418787c1e10587d2",
+      "rendered_digest": "c5059d565fdd1c1ef59cfcd64bb123045bcda95f57a7826f6aa92d3ea07ead71",
+      "ast_digest": "42ace8e180dccfa768d89751950c2e11a45214925986bcb2605f532c165604e5"
+    },
+    "spp": {
+      "values_digest": "5b17a677be9b5650429b487f2c71931c8925f7ca2673863ca962cefbf6a47b6f",
+      "rendered_digest": "d70cb965b50c327a1bff8198a2d5cb6339e13e330acf95e4dbb4b0256ba2f16a",
+      "ast_digest": "65d3f76b5386f22e3bdc33c9dee103e48d5cd61f4c7a2fac461c75015d12d054"
+    },
+    "vpp": {
+      "values_digest": "88dd24a9423671fe00c6f6e373a034cb057238b8eb0650598db748c765f2ff42",
+      "rendered_digest": "07a3d9c8a35f716f226d6c8215e093c5f1262e154dc392542882e1f8e3c145a3",
+      "ast_digest": "2a0c8c6d229d8485b064b2031aa1215458143d2659193a0ce4b44ef35d17feb0"
+    },
+    "srp": {
+      "values_digest": "0d120e9dd7c4dacc6b60416082e0a0e64992f2939e75e167671eec3cfdb6069d",
+      "rendered_digest": "18bfb7c79d30f9d73e75510f322bb26cac34e72b7a57a09cb7a955c22db033fc",
+      "ast_digest": "e60e01ef0d78616d6328259aa8da78eb584a230a5a66877b843330b810819e3f"
+    },
+    "sor": {
+      "values_digest": "aefdae99840b055fc7b93aa11a0c5e46b13dccf762c5d1d826ae8bb5a4667d7f",
+      "rendered_digest": "e886a0824d10ad997544d18f2bc0af949341d4823fbb0b6e4437eab98216c04b",
+      "ast_digest": "961498fe7f5b85da3261256ffcb870731f4c2ca3ced40b9fae3dae5e389c93ed"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #492 to ready/unbound after typed rebootstrap, VPP prebind repair, fresh design review PASS, typed design approval, and doctor/validate readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:72a30d5a-f469-4782-b413-c234b644cb58",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #492 reviewed state before refreshing the branch onto current origin/main. Fresh-session:72a30d5a-f469-4782-b413-c234b644cb58 returned PASS at e26283d1, but publication gate found origin/main 69ba35e066d1389a9f194659acb066a7dca82a40 was not ancestral to the review-metadata head. Clear review before a no-overlap base merge, proof rerun, and a different fresh exact review."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:57c82245-1842-476e-80fb-17ad6e26a117",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Align #492 initialized readiness with executable pre-bind proof after rebootstrap: exact-head implementation review is required after bind/implementation, not as an initialized validation lane.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-gcp-org-billing-packet\",\"proof_role\":\"Proves #492 design packet readiness, #491 terminal dependency gate, owned-path boundaries, scoped-policy and corporate-ownership invariants, unchanged POC boundary, and lifecycle distinction between pre-bind packet proof and future implementation/live readback proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-gcp-org-readback-static\",\"proof_role\":\"Proves the GCP-C readback entrypoint has a static non-credentialed mode and reports cloud-mutation and credential-retention posture without requiring GCP credentials.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #492 has issue-owned executable packet validators before design approval; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"gcp-c-organization-static\",\"proof_role\":\"After bind, verifies implemented organization/billing Terraform, runbook, proof packet, scoped-policy invariant, corporate group ownership, labels, budgets/export, and unchanged POC boundaries.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #492 is bound and implementation creates the complete organization/billing baseline and evidence surfaces.\"},{\"lane\":\"gcp-c-readback\",\"proof_role\":\"After reviewed implementation and approved GCP context, reconciles live GCP organization/billing readbacks against the baseline with redacted retained evidence.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"parallel_group\":\"gcp-readonly\",\"defer_reason\":\"Deferred until #492 is bound, reviewed baseline exists, and approved GCP read-only context is selected without exposing credential contents.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:77f70d2a-63d9-4d9b-a8cc-e2e42a5b45cd",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"design_ref\":\".csdlc/prepared/issues/492/design.md\",\"diagram_digest\":\"02186bba0cc8f159d0c225a176c563e45fe26d7b22b103d57d870d6f675626fd\",\"diagram_ref\":\".csdlc/prepared/issues/492/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Advance #492 to ready/unbound after typed rebootstrap, VPP prebind repair, fresh design review PASS, typed design approval, and doctor/validate readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Recover #492 exact review assignment after fresh-session:5fe8bf21-9e5c-4d48-a891-7db409ff90b8 returned FAIL with one P2 proof-truth finding: git diff --check origin/main...HEAD fails on .csdlc/prepared/issues/492/diagram.mmd blank line at EOF while SOR records diff hygiene as passed. Clear assignment before bounded artifact repair, proof rerun, finalize, and a different fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Refresh the authored design/diagram digests after the exact review recovery removed the prepared diagram EOF blank line.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/492/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/492/diagram.mmd\",\"new_design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"new_diagram_digest\":\"c70b6d9c2931b2d0221bfc8c5854819cb0a4eed7742faa4742b4e2443bad8223\",\"old_design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"old_diagram_digest\":\"02186bba0cc8f159d0c225a176c563e45fe26d7b22b103d57d870d6f675626fd\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:77f70d2a-63d9-4d9b-a8cc-e2e42a5b45cd\",\"revision\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":5,\"recovery_sequence\":8}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record the exact #492 post-review recovery proof after refreshing authored diagram truth for the EOF blank-line repair.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP-C organization and billing baseline, then repaired the exact review finding by removing the prepared Mermaid diagram EOF blank line, refreshing authored diagram truth, and rerunning focused post-recovery proof.\",\"changes\":[\"Added infra/gcp/organization with pinned accepted organization, foundation folder, host project, billing account, corporate owner group, budget guardrail, labels, outputs, Terraform formatting, and state/cache ignores.\",\"Added the GCP organization/billing runbook and retained GCP-C evidence covering validation, command-scoped credentials, read-only inventory proof, apply boundary, and unchanged POC non-goal.\",\"Removed the trailing blank line from .csdlc/prepared/issues/492/diagram.mmd after exact review found committed diff hygiene failed at the prepared diagram.\"],\"artifacts\":[\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\".csdlc/prepared/issues/492/diagram.mmd\",\"infra/gcp/organization/.gitignore\",\"infra/gcp/organization/.terraform.lock.hcl\",\"infra/gcp/organization/README.md\",\"infra/gcp/organization/main.tf\",\"infra/gcp/organization/outputs.tf\",\"infra/gcp/organization/provider.tf\",\"infra/gcp/organization/variables.tf\",\"infra/gcp/organization/versions.tf\",\"docs/operations/cloud/gcp/organization-billing/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-inventory-readonly.log\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject working-tree whitespace and conflict-marker artifacts after the diagram EOF repair before committing the new immutable head.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-check-post-review-repair.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"purpose\":\"Validate the implemented #492 GCP-C surfaces without cloud mutation after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-organization-static-post-review-repair.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"validate\"],\"purpose\":\"Validate the initialized GCP-C Terraform root after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-validate-post-review-repair.log\"},{\"command\":[\"env\",\"CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]\",\"CLOUDSDK_CORE_PROJECT=cs-host-377d41e71a824f92802120\",\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"purpose\":\"Use the operator-approved command-scoped GCP key to prove the accepted host project and billing project are readable without retaining credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-project-billing-readonly.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-readback-static.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"fmt\",\"-check\"],\"purpose\":\"Reject Terraform formatting drift in the GCP-C organization root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "fresh-session:73e19b0d-51cd-4f4d-9653-d611cb19ba22",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"0ae400153a8c50d2cda0b76dc94d9a94081574448c0013bb1b423410b1168673\",\"design_ref\":\".csdlc/prepared/issues/492/design.md\",\"diagram_digest\":\"c70b6d9c2931b2d0221bfc8c5854819cb0a4eed7742faa4742b4e2443bad8223\",\"diagram_ref\":\".csdlc/prepared/issues/492/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover #492 exact review assignment after fresh-session:997e767b-4f71-491e-a33b-8ba8fb49e52c returned FAIL with two P2 findings: corporate group ownership was only viewer/securityReviewer, and claimed budget/export/label/scoped-policy readbacks were not actually proven. Clear assignment before bounded Terraform/readback/proof repair and a different fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record #492 R2 remediation for corporate ownership and readback truth before a different fresh exact review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene, then remediated R2 review findings by expressing real corporate owner administration and truthful pre-apply budget/export/label readback status.\",\"changes\":[\"Changed the host-project corporate group binding from viewer/securityReviewer-only to an explicit configurable role set requiring roles/owner.\",\"Added a labeled BigQuery billing-export dataset target to make export observability a concrete Terraform surface instead of a docs-only claim.\",\"Extended the readback script and retained evidence to report corporate-owner, budget, and billing-export dataset live status truthfully as true when applied/authorized or not_applied_or_not_authorized before apply.\"],\"artifacts\":[\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\".csdlc/prepared/issues/492/diagram.mmd\",\"infra/gcp/organization/.gitignore\",\"infra/gcp/organization/.terraform.lock.hcl\",\"infra/gcp/organization/README.md\",\"infra/gcp/organization/main.tf\",\"infra/gcp/organization/outputs.tf\",\"infra/gcp/organization/provider.tf\",\"infra/gcp/organization/variables.tf\",\"infra/gcp/organization/versions.tf\",\"docs/operations/cloud/gcp/organization-billing/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-inventory-readonly.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"purpose\":\"Validate #492 GCP-C surfaces, ownership role wiring, billing-export dataset wiring, and readback script coverage without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-organization-static-r2-remediation.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention and declares applied/live readback expectations.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-readback-static.log\"},{\"command\":[\"env\",\"CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]\",\"CLOUDSDK_CORE_PROJECT=cs-host-377d41e71a824f92802120\",\"GCP_C_BILLING_ACCOUNT_ID=01FA88-CC4968-ADF817\",\"GCP_C_CORPORATE_MEMBER=group:gcp-admins@agent-logic.ai\",\"GCP_C_BILLING_EXPORT_DATASET_ID=adl_gcp_c_billing_export\",\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"purpose\":\"Use the operator-approved command-scoped GCP key to prove project and billing readability and truthfully report unapplied owner/budget/export status without retaining credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-inventory-readonly.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"fmt\",\"-check\"],\"purpose\":\"Reject Terraform formatting drift in the GCP-C organization root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt-r2-remediation.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"validate\"],\"purpose\":\"Validate the initialized GCP-C Terraform root after ownership/readback remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-validate-r2-remediation.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject working-tree whitespace and conflict-marker artifacts before committing the new immutable R2 remediation head.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-check-r2-remediation.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #492 exact review assignment after fresh-session:25aa16a8-f7d2-4f6a-a1ef-f5d57ff1aa31 returned FAIL with one P2 finding: the budget readback path can fail on an authorized empty budget list instead of truthfully reporting not_applied_or_not_authorized. Clear assignment before bounded readback-script repair and a different fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record #492 R3 remediation for the authorized-empty budget readback path before a different fresh exact review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene and ownership/readback truth, then remediated the R3 review finding by making the budget readback report not_applied_or_not_authorized instead of failing when an authorized budget list returns no matching budget before apply.\",\"changes\":[\"Kept corporate owner administration as an explicit configurable role set requiring roles/owner.\",\"Kept the labeled BigQuery billing-export dataset target and truthful pre-apply owner/budget/export readback status.\",\"Changed the inventory-readonly budget check to capture the filtered budget list once and treat empty authorized output as not_applied_or_not_authorized while preserving exact mismatch detection for non-empty unexpected values.\"],\"artifacts\":[\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\".csdlc/prepared/issues/492/diagram.mmd\",\"infra/gcp/organization/.gitignore\",\"infra/gcp/organization/.terraform.lock.hcl\",\"infra/gcp/organization/README.md\",\"infra/gcp/organization/main.tf\",\"infra/gcp/organization/outputs.tf\",\"infra/gcp/organization/provider.tf\",\"infra/gcp/organization/variables.tf\",\"infra/gcp/organization/versions.tf\",\"docs/operations/cloud/gcp/organization-billing/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-inventory-readonly.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"purpose\":\"Validate #492 GCP-C surfaces, ownership role wiring, billing-export dataset wiring, and readback script coverage without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-organization-static-r3-budget-readback-repair.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention and declares applied/live readback expectations.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-readback-static-r3-budget-readback-repair.log\"},{\"command\":[\"env\",\"CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]\",\"CLOUDSDK_CORE_PROJECT=cs-host-377d41e71a824f92802120\",\"GCP_C_BILLING_ACCOUNT_ID=01FA88-CC4968-ADF817\",\"GCP_C_CORPORATE_MEMBER=group:gcp-admins@agent-logic.ai\",\"GCP_C_BILLING_EXPORT_DATASET_ID=adl_gcp_c_billing_export\",\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"purpose\":\"Use the operator-approved command-scoped GCP key to prove project and billing readability and prove authorized empty budget/export readbacks report not_applied_or_not_authorized without retaining credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-inventory-readonly-r3-budget-readback-repair.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"fmt\",\"-check\"],\"purpose\":\"Reject Terraform formatting drift in the GCP-C organization root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt-r3-budget-readback-repair.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"validate\"],\"purpose\":\"Validate the initialized GCP-C Terraform root after budget-readback remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-validate-r3-budget-readback-repair.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject working-tree whitespace and conflict-marker artifacts before committing the new immutable R3 remediation head.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-check-r3-budget-readback-repair.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "fresh-session:72a30d5a-f469-4782-b413-c234b644cb58",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover #492 reviewed state before refreshing the branch onto current origin/main. Fresh-session:72a30d5a-f469-4782-b413-c234b644cb58 returned PASS at e26283d1, but publication gate found origin/main 69ba35e066d1389a9f194659acb066a7dca82a40 was not ancestral to the review-metadata head. Clear review before a no-overlap base merge, proof rerun, and a different fresh exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record #492 current-main base refresh and post-merge proof before a new exact review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene, ownership/readback truth, and authorized-empty budget readback behavior, then refreshed the branch onto current origin/main without conflicts or non-#492 diff expansion.\",\"changes\":[\"Kept corporate owner administration as an explicit configurable role set requiring roles/owner.\",\"Kept the labeled BigQuery billing-export dataset target and truthful pre-apply owner/budget/export readback status.\",\"Changed the inventory-readonly budget check to capture the filtered budget list once and treat empty authorized output as not_applied_or_not_authorized while preserving exact mismatch detection for non-empty unexpected values.\",\"Merged origin/main 69ba35e066d1389a9f194659acb066a7dca82a40 into the #492 worktree with no conflicts; active branch diff remains restricted to #492-owned paths.\"],\"artifacts\":[\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\".csdlc/prepared/issues/492/diagram.mmd\",\"infra/gcp/organization/.gitignore\",\"infra/gcp/organization/.terraform.lock.hcl\",\"infra/gcp/organization/README.md\",\"infra/gcp/organization/main.tf\",\"infra/gcp/organization/outputs.tf\",\"infra/gcp/organization/provider.tf\",\"infra/gcp/organization/variables.tf\",\"infra/gcp/organization/versions.tf\",\"docs/operations/cloud/gcp/organization-billing/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-inventory-readonly.log\"],\"validation\":[{\"command\":[\"git\",\"merge-base\",\"--is-ancestor\",\"origin/main\",\"HEAD\"],\"purpose\":\"Verify current origin/main is ancestral to #492 after base refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\"base-ancestry-post-merge.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"purpose\":\"Validate #492 GCP-C surfaces, ownership role wiring, billing-export dataset wiring, and readback script coverage without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-organization-static-base-refresh.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention and declares applied/live readback expectations.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-readback-static-base-refresh.log\"},{\"command\":[\"env\",\"CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]\",\"CLOUDSDK_CORE_PROJECT=cs-host-377d41e71a824f92802120\",\"GCP_C_BILLING_ACCOUNT_ID=01FA88-CC4968-ADF817\",\"GCP_C_CORPORATE_MEMBER=group:gcp-admins@agent-logic.ai\",\"GCP_C_BILLING_EXPORT_DATASET_ID=adl_gcp_c_billing_export\",\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"purpose\":\"Use the operator-approved command-scoped GCP key to prove project and billing readability and the repaired authorized-empty budget status after base refresh without retaining credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-inventory-readonly-base-refresh.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"fmt\",\"-check\"],\"purpose\":\"Reject Terraform formatting drift in the GCP-C organization root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt-base-refresh.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"validate\"],\"purpose\":\"Validate the initialized GCP-C Terraform root after base refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-validate-base-refresh.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject branch-diff whitespace and conflict-marker artifacts after base refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-check-base-refresh.log\"}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Recover #492 review assignment after fresh-session:c1e73ed7-4a46-4397-b812-b06a74d6c800 produced no PASS/FAIL verdict after bounded wait and was interrupted. Preserve no-result truth before assigning a different fresh no-context reviewer against unchanged immutable head ab6edc0cc21a35e173d97830132d9d12645daa86.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "fresh-session:57c82245-1842-476e-80fb-17ad6e26a117",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

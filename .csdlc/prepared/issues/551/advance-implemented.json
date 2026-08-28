@@ -1,0 +1,9 @@
+{
+  "issue":551,
+  "card":"sor",
+  "expected_generation":23,
+  "expected_digest":"945e081600d7a04a57bb1c2dacfe0e973f3db55a6484afd1da4e973271098568",
+  "actor":"codex:/root",
+  "reason":"The full Polis hot-reload implementation and focused local proof are complete; exact-head review is next.",
+  "operation":{"operation":"advance_phase","phase":"implemented"}
+}
