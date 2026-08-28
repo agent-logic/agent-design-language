@@ -1,0 +1,4 @@
+aws_e_readback_lane=static
+cloud_mutation=false
+credential_material_retained=false
+redaction=credential_material_not_printed

@@ -1,0 +1,11 @@
+aws_e_readback_lane=inventory-readonly
+account_match=true
+enabled_region_count=17
+s3_bucket_count=11
+route53_zone_count=1
+cloudfront_distribution_count=6
+us_west_2_tagged_resource_count=58
+adoption_register_reconciled=true
+cloud_mutation=false
+credential_material_retained=false
+redaction=names_and_arns_not_printed

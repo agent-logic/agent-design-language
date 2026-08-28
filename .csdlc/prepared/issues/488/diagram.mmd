@@ -1,0 +1,17 @@
+flowchart TD
+    A["#487 AWS-D terminal audit/security baseline"] --> B["#488 AWS-E adoption register"]
+    B --> C["Durable resource denominator"]
+    C --> D["One management authority per resource"]
+    D --> E{"Disposition"}
+    E --> F["retain"]
+    E --> G["import"]
+    E --> H["replace"]
+    E --> I["retire-later"]
+    E --> J["ephemeral"]
+    E --> K["frozen-unknown"]
+    B --> L["Cleanup gate: non-use + retention recovery + deletion authority"]
+    B --> M["Redacted read-only AWS evidence"]
+    B -. "consumed by" .-> N["#489 AWS-F Runtime platform modules"]
+    B -. "consumed by" .-> O["#495 XCL-01 cross-cloud conversion"]
+    N --> P["#496 AWS-G CloudFormation retirement decision"]
+    O --> P
