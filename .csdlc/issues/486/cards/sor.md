@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: ready
 
 ## Summary
 
@@ -89,5 +89,5 @@ not_started
 
 ## Follow Ups
 
-- Run the pre-bind validator and obtain fresh design review before bind.
-- Bind to a FastWork worktree before creating infra/aws/bootstrap.
+- Publish the reviewed #486 PR after fresh exact-head PASS and required typed publication guard.
+- Run live AWS apply/readback only after explicit operator approval for mutation with the approved agent-logic-admin profile.

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "dccbcb792550a70657a41153e958ae7f448cf851553ea1c649b052e727709a54",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "653fccdc52a693e8603c80d3aa7bf51defe56a537ae31ee81d0a20f8b8be531d",
+  "generation": 12,
+  "digest": "4c836cd1dac2269c273a29a5a668bdbc8bfc4e697448715d52ee83071e243f99",
   "branch": "codex/486-aws-terraform-bootstrap",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-486-aws-terraform-bootstrap",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8ccfc80f0f6632d688dc5ab974e2b614434bfcbe39c49e6b1c77b83e84f27cb4",
+      "values_digest": "31da2d32a19d432f2ec5f809de3e5fd9006c5c2030776c7d79a23cdfb1d9e6eb",
       "rendered_digest": "b8f9d9c4188e84d4ac9a918f90c0f9b34e75c7124c56cef1b5af40cc6c652cde",
       "ast_digest": "a542f5add94da4e4ae4f27d2f6acb376880d58be77393f1db52c888a8bf9b141"
     },
     "stp": {
-      "values_digest": "ce98583cb24962993a3679b1c28aaeaacdd7dab8f5064710cf53607c705df30a",
+      "values_digest": "16650a532a1b85b28ee4771be5b344c20b2c406461dd6b91b80ac7f1b2eb48d9",
       "rendered_digest": "7123bdf50ab66e7a7e2c51fdfc96404133171ecab4c77ec8e3b236c6116f35ec",
       "ast_digest": "04367f9a83ff4a7966b8d98fae2a8719ee00a9927afe5ca8258fee179ea6708e"
     },
     "spp": {
-      "values_digest": "d25001b7aba74a2aeaedf4c38d24723628f3d9ac662f114a52610099c38d9adb",
+      "values_digest": "2d199b1a5efbb3fb19edb6bbe91f385cb930493a06311ebfcd2957558c3ccd7e",
       "rendered_digest": "0bc03aa28a1a675b53a5435d089caadb7095cc7c4126fe05977ab0bed5c05ac7",
       "ast_digest": "c8dc103f6f6c4bbf740d9001b463b83cad3a727f63a994bfe990db409403a844"
     },
     "vpp": {
-      "values_digest": "62ff8d5d0f432a7185c8fb57ca2d4efe166d466f1f218db0bd8ae9267d08061e",
+      "values_digest": "9ed530ceabfd8b4bda8f8f1b5a733c01b6ba4d66e8242f7c6f0641e9364c15ff",
       "rendered_digest": "12fb3f89914fd9871a7fe166b72956cc35692b1e608ffa61f2cd608d76bae41d",
       "ast_digest": "eec7405d5ca6abf3f75188c7ff81b3a8e25e6e859d64211eef39735b95586bb4"
     },
     "srp": {
-      "values_digest": "19b83f984dddc02548cf0a41d4d48a8d701d6115633415ca5d1db54a85512855",
+      "values_digest": "47f1fac4244d770ff68d7261a73bc61531a92a9347d5ef53a811917b16ee5f36",
       "rendered_digest": "94d5334d92f028179f2cbabb039c4de30baaccdfda2fec7fbeeeac41ac0824f5",
       "ast_digest": "2224ef707707829eaf83cb4fca84c09c3b7d5b4abe678feed3af4d1b2e6d9aee"
     },
     "sor": {
-      "values_digest": "7e2b550707ffda307267f6bec4f47505c5e1618a8c47c9984f3b81c075209043",
-      "rendered_digest": "a180f62bd083011a6d1205ef0219c6d6d45f25da239f25007c0df2083b84f6e6",
-      "ast_digest": "9943e5c23160846cc66087c97db59809aa4834737e4a84477e256c513f2b7973"
+      "values_digest": "c1f6f6210e8ce692092267ceb3922f09c4329f34737d0e01dcd4d016c63277b5",
+      "rendered_digest": "b598941bed1268485366c69b3c62203ee04c8572ccebe09bcfaab622ed844dfd",
+      "ast_digest": "48ffe6be21c64c221efbae87f6dbfd5c3415d3c13c1ed6b4c3561d1f29a3e1e0"
     }
   },
   "transitions": [
@@ -155,6 +155,41 @@
       "actor": "codex:/root",
       "reason": "Recover #486 R1 failed exact-head review after preserving findings: missing retained state-isolation register and stale SOR lifecycle truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover #486 R2 failed exact-head review after preserving finding 486-R2-P1-STALE-SOR-LIFECYCLE-TRUTH so typed post-review SOR lifecycle truth repair can proceed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Resolve recorded #486 R2 finding 486-R2-P1-STALE-SOR-LIFECYCLE-TRUTH by replacing stale pre-bind follow-ups with publication/live-AWS gates after the issue is bound and implemented.",
+      "operation": "{\"new_values\":[\"Publish the reviewed #486 PR after fresh exact-head PASS and required typed publication guard.\",\"Run live AWS apply/readback only after explicit operator approval for mutation with the approved agent-logic-admin profile.\"],\"operation\":\"replace_sor_follow_ups_after_recovery\",\"previous_values\":[\"Run the pre-bind validator and obtain fresh design review before bind.\",\"Bind to a FastWork worktree before creating infra/aws/bootstrap.\"],\"recovery_generation\":10,\"recovery_sequence\":14}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Resolve recorded #486 R2 stale lifecycle finding by marking the implemented SOR ready for fresh review and publication gating; terminal closeout remains pending publication/merge.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
     }
   ]
 }

@@ -7,9 +7,9 @@
     "title": "[v0.92.1][AWS-C] AWS Terraform bootstrap",
     "slug": "aws-terraform-bootstrap",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "ready",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -73,8 +73,8 @@
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": [
-        "Run the pre-bind validator and obtain fresh design review before bind.",
-        "Bind to a FastWork worktree before creating infra/aws/bootstrap."
+        "Publish the reviewed #486 PR after fresh exact-head PASS and required typed publication guard.",
+        "Run live AWS apply/readback only after explicit operator approval for mutation with the approved agent-logic-admin profile."
       ]
     }
   }
