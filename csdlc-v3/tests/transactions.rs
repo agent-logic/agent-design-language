@@ -21,6 +21,7 @@ fn full_capabilities() -> CapabilitySet {
         Capability::PublicationLinkage,
         Capability::MergeReadinessEvidence,
         Capability::LiveMergeEvidence,
+        Capability::LiveTerminalEvidence,
         Capability::TerminalReceipt,
     ])
 }
@@ -103,6 +104,49 @@ fn transition_merge_ready_requires_current_readiness_evidence() {
         decision.outcome,
         TransitionOutcome::Rejected {
             reason: RejectReason::MissingCapability(Capability::MergeReadinessEvidence)
+        }
+    );
+}
+
+#[test]
+fn transition_finish_requires_live_terminal_evidence_not_existing_receipt() {
+    let receipt_only = decide(
+        LifecycleState::Merged,
+        LifecycleCommand::Finish,
+        &CapabilitySet::new([Capability::TerminalReceipt]),
+    );
+    assert_eq!(
+        receipt_only.outcome,
+        TransitionOutcome::Rejected {
+            reason: RejectReason::MissingCapability(Capability::LiveTerminalEvidence)
+        }
+    );
+
+    let live_terminal_evidence = decide(
+        LifecycleState::Merged,
+        LifecycleCommand::Finish,
+        &CapabilitySet::new([Capability::LiveTerminalEvidence]),
+    );
+    assert_eq!(
+        live_terminal_evidence.outcome,
+        TransitionOutcome::Allowed {
+            to: LifecycleState::ClosedOut,
+            invalidates: vec![
+                ProjectionInvalidation::Terminal,
+                ProjectionInvalidation::CleanupEligibility
+            ]
+        }
+    );
+
+    let cleanup_without_receipt = decide(
+        LifecycleState::ClosedOut,
+        LifecycleCommand::Cleanup,
+        &CapabilitySet::new([Capability::LiveTerminalEvidence]),
+    );
+    assert_eq!(
+        cleanup_without_receipt.outcome,
+        TransitionOutcome::Rejected {
+            reason: RejectReason::TerminalReceiptRequired
         }
     );
 }

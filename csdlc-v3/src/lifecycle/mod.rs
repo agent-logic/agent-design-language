@@ -35,6 +35,7 @@ pub enum Capability {
     PublicationLinkage,
     MergeReadinessEvidence,
     LiveMergeEvidence,
+    LiveTerminalEvidence,
     TerminalReceipt,
 }
 
@@ -172,7 +173,7 @@ pub fn decide(
             )
         }
         (LifecycleState::Merged, LifecycleCommand::Finish)
-            if capabilities.contains(Capability::TerminalReceipt) =>
+            if capabilities.contains(Capability::LiveTerminalEvidence) =>
         {
             allow(
                 LifecycleState::ClosedOut,
@@ -217,6 +218,7 @@ pub fn transition_matrix() -> Vec<TransitionDecision> {
         Capability::PublicationLinkage,
         Capability::MergeReadinessEvidence,
         Capability::LiveMergeEvidence,
+        Capability::LiveTerminalEvidence,
         Capability::TerminalReceipt,
     ]);
     let states = [
@@ -273,7 +275,8 @@ fn required_capability(command: LifecycleCommand) -> Option<Capability> {
         LifecycleCommand::Publish => Some(Capability::PublicationLinkage),
         LifecycleCommand::MarkMergeReady => Some(Capability::MergeReadinessEvidence),
         LifecycleCommand::RecordMerge => Some(Capability::LiveMergeEvidence),
-        LifecycleCommand::Finish | LifecycleCommand::Cleanup => Some(Capability::TerminalReceipt),
+        LifecycleCommand::Finish => Some(Capability::LiveTerminalEvidence),
+        LifecycleCommand::Cleanup => Some(Capability::TerminalReceipt),
         LifecycleCommand::AssignReview | LifecycleCommand::RecoverReview => None,
     }
 }
