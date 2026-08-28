@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "6e54687bf5f895c7d6a65ab3f87f319d5c608c366de4ed8b7e62cf6d53ea8746",
+  "generation": 1,
+  "digest": "3a0ccff0340f5c98aef7ea5023c96845dae581749a0d4d4d493ecbff736d012b",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/503/design.md",
   "diagram_path": ".csdlc/prepared/issues/503/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:50350350-3503-4503-8503-503503503503",
+      "revision": "f06f261a4beba106cdf8bdcde4007e4bb32e05f2c4bf6f071528f3922544d9d8"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "d2cb4c7fd236fd6bafb7c7f0acf2f19423b00d09e1b8513a60f8f2c4178af906",
+      "values_digest": "35350b1f3ad2b2e0ca774ce741f36afe5aff331f335cba18edd49c3909168821",
       "rendered_digest": "3958ca74dddd8aaf85763659195100ba365f4a8ced6634d25ff76d80c10c56bc",
       "ast_digest": "484ed7ec53f13cbb802f1c0e36dd66776df6966f92cc3414f77becf084a96013"
     },
     "stp": {
-      "values_digest": "80d467011af5eed0931985c8a4f6c69bc1333dd7f7e0858138dbf1dbf0fd2b72",
+      "values_digest": "42d2c26cefcb06b246b3b7d8ccbaf8819dc3c229f96c7d91345669c661de9c13",
       "rendered_digest": "e5cedcf5f0a5a3962edb09d18a4d1e03898a5e3efcde1463d0ab34ff3ec555f4",
       "ast_digest": "f371d273d3a4f1bd857d25506b9d31d15115f0ff3afce7b2e1169b5f6c558c50"
     },
     "spp": {
-      "values_digest": "9aa1aa377c6e54a7393ce557c545e512ad1f51c8d0fdbf0cc5e40939b3c13912",
+      "values_digest": "bff9cc1871a30e5e4630b6dc7c23c5f29550a1fc72a2b391d119c0afb49a1ce8",
       "rendered_digest": "4d6af1147b5dcbb7161f7a9fdfb29b7df09bb6396903e4445f9535030153b128",
       "ast_digest": "db3f43ae9ff55f103f4710b69a6a7e378d7597869ddddd5dee96ff4f7623f6cd"
     },
     "vpp": {
-      "values_digest": "3d19f6826f341d6e0d0b2316dbbbf102badd74d77245cd7bca023ea0dee17e59",
+      "values_digest": "7d15fea633de6ff7f20624b54664de9aac870b41c50dbea203001cb9bd1eb599",
       "rendered_digest": "01a8b90503cdae47ca5ff5fc15aec182ac7646a04b9c16e8f7d206953e5eb7dd",
       "ast_digest": "a479386f18161ee8a7429da309a23c8c510cae65f95ceedccacf75f5d4b9f50b"
     },
     "srp": {
-      "values_digest": "e36ec3f8d551fbc407c39260bd101cc392b79beab8b2765da96c6e2546646418",
+      "values_digest": "63f5befd71a042a08de8126caf54cb5a40e95be634be1e5269619794b21af824",
       "rendered_digest": "492ae9eabdd9220225d100cd38059634796eebd9a8d2c491a54b74472e7b0bfe",
       "ast_digest": "f4b828208ae1ec091c2362919fe5f2621a0e6da7589458fd6c59f23607276a01"
     },
     "sor": {
-      "values_digest": "597c071767eea312a6125d7627e90dd9ece5cadf5f645393e70ce5c2f9a0dff1",
+      "values_digest": "240f4262d313d723d906e5af32bc6ed4d8e09060d7ff2af78707650b99bf7063",
       "rendered_digest": "b790869fa1de3244d1c7061c9a4e043cba8aa9f58120f3c1b57dd9ffbe01ff2f",
       "ast_digest": "b8c70869a4c125a96fc81d7298ce2f6aff177e12790a42a3068b034e79349449"
     }
@@ -57,6 +62,13 @@
       "actor": "codex:worker-6",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:50350350-3503-4503-8503-503503503503",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"f06f261a4beba106cdf8bdcde4007e4bb32e05f2c4bf6f071528f3922544d9d8\",\"design_ref\":\".csdlc/prepared/issues/503/design.md\",\"diagram_digest\":\"f93d4b7764daad0bd5a65214a1930583103578ea271b56575b70b43ebda623cb\",\"diagram_ref\":\".csdlc/prepared/issues/503/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
