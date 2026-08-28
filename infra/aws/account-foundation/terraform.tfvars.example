@@ -1,0 +1,6 @@
+environment         = "dev"
+name_prefix         = "agent-logic"
+finding_owner       = "agent-logic-cloud-ops"
+finding_destination = "security-ops-sns-topic"
+log_retention_days  = 365
+

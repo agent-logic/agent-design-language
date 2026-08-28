@@ -1,0 +1,14 @@
+flowchart TD
+  A["#486 AWS-C terminal bootstrap"] --> B["#487 AWS-D account-foundation baseline"]
+  B --> C["CloudTrail / activity visibility"]
+  B --> D["Config / configuration posture"]
+  B --> E["Detection findings owner + destination"]
+  B --> F["Access Analyzer trust-edge readback"]
+  B --> G["Retention / encryption / cost guardrails"]
+  B --> H["Redacted retained evidence"]
+  C --> I["Reviewed plan + readbacks"]
+  D --> I
+  E --> I
+  F --> I
+  G --> I
+  H --> I

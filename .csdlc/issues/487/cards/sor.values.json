@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 487,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+    "slug": "aws-audit-security-baseline",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented the #487 AWS-D audit/security account-foundation baseline as local Terraform, runbook, and readback proof surfaces. Local validation is complete; live AWS apply/readback remains explicitly gated on operator-approved cloud mutation/readback authority with AWS_PROFILE=agent-logic-admin.",
+      "actual_changes": [
+        "Added the account-foundation Terraform root for CloudTrail account activity, encrypted audit S3 retention, AWS Config recorder/delivery, IAM Access Analyzer, SNS findings topic, and EventBridge routing.",
+        "Pinned the account-foundation AWS provider to the repo-proven 5.100 provider line instead of floating to an unvalidated 6.x plugin.",
+        "Restored the reviewed #487 issue-owned preparation validator into the bound worktree.",
+        "Added the AWS-D audit/security operations runbook and redacted readback script.",
+        "Verified the readback script fails closed unless AWS_PROFILE=agent-logic-admin and performs no AWS calls in static mode."
+      ],
+      "artifacts": [
+        "infra/aws/account-foundation/main.tf",
+        "infra/aws/account-foundation/variables.tf",
+        "infra/aws/account-foundation/outputs.tf",
+        "infra/aws/account-foundation/versions.tf",
+        "infra/aws/account-foundation/.terraform.lock.hcl",
+        "infra/aws/account-foundation/terraform.tfvars.example",
+        "infra/aws/account-foundation/README.md",
+        "docs/operations/cloud/aws/audit-security/README.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh",
+        ".csdlc/prepared/issues/487/validate-aws-d-baseline.sh",
+        ".csdlc/issues/487"
+      ],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

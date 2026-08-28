@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 487,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+    "slug": "aws-audit-security-baseline",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #487 AWS-D paths only: infra/aws/account-foundation audit/security surfaces, docs/operations/cloud/aws/audit-security, docs/milestones/v0.92.1/evidence/cloud/aws-d, and issue-owned validators.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design keep #487 to AWS audit/security baseline scope without absorbing AWS-E/F/G or #486 backend ownership?",
+        "Are CloudTrail/configuration/detection/access-analysis/alert/retention/encryption controls specified with owner and destination truth?",
+        "Are cost and regional-scope risks explicit enough to prevent uncontrolled logging spend?",
+        "Does the validation plan prevent credentials and unnecessary sensitive values from entering retained evidence?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

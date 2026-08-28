@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 487,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-D] AWS audit and security baseline",
+    "slug": "aws-audit-security-baseline",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #487 AWS-D only; produce the audit/security baseline and proof. Do not perform multi-account rollout, application security redesign, website/DDNS/public-edge/runtime workload changes, GCP work, or speculative cleanup.",
+      "deliverables": [
+        "infra/aws/account-foundation audit/security Terraform surfaces",
+        "docs/operations/cloud/aws/audit-security operator runbook",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-d retained proof",
+        ".csdlc/prepared/issues/487/validate-aws-d-baseline.sh",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-d/run-audit-security-readbacks.sh"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Account changes are durably observable",
+        "AC-2: Security findings have an owner and destination",
+        "AC-3: Retention and encryption are explicit",
+        "AC-4: Sensitive values are excluded from retained proof",
+        "AC-5: Logging cost and regional scope are explicit",
+        "AC-6: Fresh exact-head review has no actionable findings before publication"
+      ],
+      "dependencies": [
+        "AWS-C #486 terminal Terraform bootstrap backend and deployment-role prerequisite"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#AWS-D",
+        "infra/aws/account-foundation/README.md",
+        "infra/aws/bootstrap/",
+        "docs/operations/cloud/aws/terraform-bootstrap/",
+        "docs/operations/cloud/aws/access-billing/"
+      ],
+      "non_goals": [
+        "Multi-account rollout",
+        "Application security redesign",
+        "AWS resource adoption register",
+        "Runtime platform module set",
+        "Website, DDNS, public-edge, or workload deployment",
+        "GCP work",
+        "Speculative cleanup"
+      ]
+    }
+  }
+}
