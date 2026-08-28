@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
     "slug": "podcast-studio-first-ten-episodes",
     "version": "v0.92.1",
-    "generation": 27
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "demos/podcast/episode-packages/**\n.csdlc/issues/342\n.csdlc/prepared/issues/342/validate-episode-packages.rb\n.csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\n.csdlc/prepared/issues/342/validate-readiness.rb",
+      "review_revision": "git-blake3:176b7b4e4250766562c3e911eb28fb02bd15bf7e:43adb9b706a45322f01ef6e21c24cf575af49c1bd4765c41963aa86f53411867",
+      "reviewer": "fresh-session:9da12f78-4e7d-4ef1-8cc3-f2918f274ff0",
       "review_prompts": [
         "Does the design preserve canonical #342 identity and legacy evidence without importing legacy lifecycle authority?",
         "Is the denominator honestly one preserved candidate package at most, nine absent, with all ten required?",
@@ -23,8 +23,10 @@
         "Do validation and stop gates prevent partial package, rights, redaction, playback, or publication overclaims?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "#342 remains a non-production source-package checkpoint; final audio, production RSS/hosting, directory runbooks, directory submissions, and final show-identity clearance remain owned by #261/#262/#263/#264."
+      ],
+      "review_result": "pass"
     }
   }
 }
