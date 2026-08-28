@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene and ownership/readback truth, then remediated the R3 review finding by making the budget readback report not_applied_or_not_authorized instead of failing when an authorized budget list returns no matching budget before apply.
+Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene, ownership/readback truth, and authorized-empty budget readback behavior, then refreshed the branch onto current origin/main without conflicts or non-#492 diff expansion.
 
 ## Artifacts
 
@@ -36,10 +36,23 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
 - Kept corporate owner administration as an explicit configurable role set requiring roles/owner.
 - Kept the labeled BigQuery billing-export dataset target and truthful pre-apply owner/budget/export readback status.
 - Changed the inventory-readonly budget check to capture the filtered budget list once and treat empty authorized output as not_applied_or_not_authorized while preserving exact mismatch detection for non-empty unexpected values.
+- Merged origin/main 69ba35e066d1389a9f194659acb066a7dca82a40 into the #492 worktree with no conflicts; active branch diff remains restricted to #492-owned paths.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "git",
+      "merge-base",
+      "--is-ancestor",
+      "origin/main",
+      "HEAD"
+    ],
+    "purpose": "Verify current origin/main is ancestral to #492 after base refresh.",
+    "outcome": "passed",
+    "evidence_ref": "base-ancestry-post-merge.log"
+  },
   {
     "command": [
       "bash",
@@ -48,7 +61,7 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
     ],
     "purpose": "Validate #492 GCP-C surfaces, ownership role wiring, billing-export dataset wiring, and readback script coverage without cloud mutation.",
     "outcome": "passed",
-    "evidence_ref": "gcp-c-organization-static-r3-budget-readback-repair.log"
+    "evidence_ref": "gcp-c-organization-static-base-refresh.log"
   },
   {
     "command": [
@@ -58,7 +71,7 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
     ],
     "purpose": "Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention and declares applied/live readback expectations.",
     "outcome": "passed",
-    "evidence_ref": "gcp-c-readback-static-r3-budget-readback-repair.log"
+    "evidence_ref": "gcp-c-readback-static-base-refresh.log"
   },
   {
     "command": [
@@ -72,9 +85,9 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
       ".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh",
       "--lane=inventory-readonly"
     ],
-    "purpose": "Use the operator-approved command-scoped GCP key to prove project and billing readability and prove authorized empty budget/export readbacks report not_applied_or_not_authorized without retaining credential material.",
+    "purpose": "Use the operator-approved command-scoped GCP key to prove project and billing readability and the repaired authorized-empty budget status after base refresh without retaining credential material.",
     "outcome": "passed",
-    "evidence_ref": "gcp-c-inventory-readonly-r3-budget-readback-repair.log"
+    "evidence_ref": "gcp-c-inventory-readonly-base-refresh.log"
   },
   {
     "command": [
@@ -85,7 +98,7 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
     ],
     "purpose": "Reject Terraform formatting drift in the GCP-C organization root.",
     "outcome": "passed",
-    "evidence_ref": "terraform-fmt-r3-budget-readback-repair.log"
+    "evidence_ref": "terraform-fmt-base-refresh.log"
   },
   {
     "command": [
@@ -93,19 +106,20 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
       "-chdir=infra/gcp/organization",
       "validate"
     ],
-    "purpose": "Validate the initialized GCP-C Terraform root after budget-readback remediation.",
+    "purpose": "Validate the initialized GCP-C Terraform root after base refresh.",
     "outcome": "passed",
-    "evidence_ref": "terraform-validate-r3-budget-readback-repair.log"
+    "evidence_ref": "terraform-validate-base-refresh.log"
   },
   {
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...HEAD"
     ],
-    "purpose": "Reject working-tree whitespace and conflict-marker artifacts before committing the new immutable R3 remediation head.",
+    "purpose": "Reject branch-diff whitespace and conflict-marker artifacts after base refresh.",
     "outcome": "passed",
-    "evidence_ref": "diff-check-r3-budget-readback-repair.log"
+    "evidence_ref": "diff-check-base-refresh.log"
   }
 ]
 

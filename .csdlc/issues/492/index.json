@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "83d63e54f3cdc384cac8900f173f9dd32c7dfa99dfe03ea52cfb8182f80585d6",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "c10dd1506f8cf523f9476869232967a24002a5e401015346d12419c4751e6e8a",
+  "generation": 15,
+  "digest": "098b7bc5dc6971563e7f4172c4cdf4f8074e855fa48daa3a6af6b5be78b87956",
   "branch": "codex/492-gcp-organization-billing-baseline",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-492-gcp-organization-billing-baseline",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8f1f16191866e3f4f9dae4a262825469f8ed08484d1eea75691a5e865f841591",
+      "values_digest": "6f97a8ed423c6addd2995398a7580a8e0b3a9a1bee53839c21f359322c525538",
       "rendered_digest": "5d67f2df6a2d06c754e61dc02054c704cee61d4b0bb86ed585c1138deac2840e",
       "ast_digest": "9b154555fd9fb4cd979c18d7ae464026d7b849411eb54f2e1cfcaeeebf1c0459"
     },
     "stp": {
-      "values_digest": "90aa9dba2fb9d8b3316d3b005f2634e73cbc8955530dd074717c27f117093706",
+      "values_digest": "4c9ff9178286559252e71d752ca93cfd1d224d4c3d427da835480de313ab8d75",
       "rendered_digest": "c5059d565fdd1c1ef59cfcd64bb123045bcda95f57a7826f6aa92d3ea07ead71",
       "ast_digest": "42ace8e180dccfa768d89751950c2e11a45214925986bcb2605f532c165604e5"
     },
     "spp": {
-      "values_digest": "99c1d64ad1f0c9d46bb3d7d6ca906afb9bdb4648472f57c00f7d1487059d8897",
+      "values_digest": "0814d530c3b8ace2fe7d6b7070aec3539ea36ae2f0dfe38de1a39a5bee38fadf",
       "rendered_digest": "d70cb965b50c327a1bff8198a2d5cb6339e13e330acf95e4dbb4b0256ba2f16a",
       "ast_digest": "65d3f76b5386f22e3bdc33c9dee103e48d5cd61f4c7a2fac461c75015d12d054"
     },
     "vpp": {
-      "values_digest": "688e86cd2e79101fd49cb932c4339dc902f2a66499a1f5df024a86601f74418c",
+      "values_digest": "38f8ba7aba9a20e31428f527be32e027172ee115d10a99af614b386eb3290921",
       "rendered_digest": "07a3d9c8a35f716f226d6c8215e093c5f1262e154dc392542882e1f8e3c145a3",
       "ast_digest": "2a0c8c6d229d8485b064b2031aa1215458143d2659193a0ce4b44ef35d17feb0"
     },
     "srp": {
-      "values_digest": "d54f9d89c9c4a0a356f07d84ad08444c24cd098c9171b482d8cf192d841ddd03",
+      "values_digest": "cfbf531df4d72545d1dfb3d4232f4fdec4a7b80e8ed2afe0e1e0ec31df43f70a",
       "rendered_digest": "b3eabf128220b607a192297a7533e6b613760058be0735f56c3b279d44cfbf9c",
       "ast_digest": "0c2abb21b2a33a2c5865120802039cf40d7f3ef01716899d55be9f0c91da334c"
     },
     "sor": {
-      "values_digest": "1a091b6534de42ea437ee236149c95819d9b1d679d21c33851f48a11531cedf5",
-      "rendered_digest": "3b7475f0b520f1465cf9581f3f51d107a8a017669113a514c3e25439db4810f5",
-      "ast_digest": "914117330eba699362f12c15b0a185672aeefe10f2862205779129b652bf9d7f"
+      "values_digest": "0b0e7b9b08557be254162bc952ef62d2bd9808ef8fd8d9d399b3cfa44afd62a1",
+      "rendered_digest": "23104a953a012da1e2207cf75c667967e8d1463a3674dd4193ecf19f28e342bf",
+      "ast_digest": "aa518111af4f614bcc6f1a4a19db5ef7002e3ceebe1b97174d26822616656623"
     }
   },
   "transitions": [
@@ -232,6 +232,13 @@
       "actor": "codex:/root",
       "reason": "Recover #492 reviewed state before refreshing the branch onto current origin/main. Fresh-session:72a30d5a-f469-4782-b413-c234b644cb58 returned PASS at e26283d1, but publication gate found origin/main 69ba35e066d1389a9f194659acb066a7dca82a40 was not ancestral to the review-metadata head. Clear review before a no-overlap base merge, proof rerun, and a different fresh exact review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record #492 current-main base refresh and post-merge proof before a new exact review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the GCP-C organization and billing baseline, repaired diagram diff hygiene, ownership/readback truth, and authorized-empty budget readback behavior, then refreshed the branch onto current origin/main without conflicts or non-#492 diff expansion.\",\"changes\":[\"Kept corporate owner administration as an explicit configurable role set requiring roles/owner.\",\"Kept the labeled BigQuery billing-export dataset target and truthful pre-apply owner/budget/export readback status.\",\"Changed the inventory-readonly budget check to capture the filtered budget list once and treat empty authorized output as not_applied_or_not_authorized while preserving exact mismatch detection for non-empty unexpected values.\",\"Merged origin/main 69ba35e066d1389a9f194659acb066a7dca82a40 into the #492 worktree with no conflicts; active branch diff remains restricted to #492-owned paths.\"],\"artifacts\":[\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\".csdlc/prepared/issues/492/diagram.mmd\",\"infra/gcp/organization/.gitignore\",\"infra/gcp/organization/.terraform.lock.hcl\",\"infra/gcp/organization/README.md\",\"infra/gcp/organization/main.tf\",\"infra/gcp/organization/outputs.tf\",\"infra/gcp/organization/provider.tf\",\"infra/gcp/organization/variables.tf\",\"infra/gcp/organization/versions.tf\",\"docs/operations/cloud/gcp/organization-billing/README.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-organization-billing-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-c/gcp-c-inventory-readonly.log\"],\"validation\":[{\"command\":[\"git\",\"merge-base\",\"--is-ancestor\",\"origin/main\",\"HEAD\"],\"purpose\":\"Verify current origin/main is ancestral to #492 after base refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\"base-ancestry-post-merge.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh\",\"--phase=postbind\"],\"purpose\":\"Validate #492 GCP-C surfaces, ownership role wiring, billing-export dataset wiring, and readback script coverage without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-organization-static-base-refresh.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the #492 readback entrypoint has a static lane with no cloud mutation or credential retention and declares applied/live readback expectations.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-readback-static-base-refresh.log\"},{\"command\":[\"env\",\"CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=[REDACTED]\",\"CLOUDSDK_CORE_PROJECT=cs-host-377d41e71a824f92802120\",\"GCP_C_BILLING_ACCOUNT_ID=01FA88-CC4968-ADF817\",\"GCP_C_CORPORATE_MEMBER=group:gcp-admins@agent-logic.ai\",\"GCP_C_BILLING_EXPORT_DATASET_ID=adl_gcp_c_billing_export\",\"bash\",\".csdlc/prepared/issues/492/run-gcp-c-readbacks.sh\",\"--lane=inventory-readonly\"],\"purpose\":\"Use the operator-approved command-scoped GCP key to prove project and billing readability and the repaired authorized-empty budget status after base refresh without retaining credential material.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-c-inventory-readonly-base-refresh.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"fmt\",\"-check\"],\"purpose\":\"Reject Terraform formatting drift in the GCP-C organization root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt-base-refresh.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/organization\",\"validate\"],\"purpose\":\"Validate the initialized GCP-C Terraform root after base refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-validate-base-refresh.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject branch-diff whitespace and conflict-marker artifacts after base refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-check-base-refresh.log\"}]}"
     }
   ]
 }
