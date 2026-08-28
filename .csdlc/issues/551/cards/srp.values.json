@@ -7,15 +7,15 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 27
+    "generation": 28
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ninfra/runtime-v3/runtime-init.toml\ndemos/html-observatory/index.html\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/polis_identity.test.mjs\n.csdlc/prepared/issues/551\n.csdlc/evidence/551\n.csdlc/issues/551",
-      "review_revision": "git-blake3:151bf977d7c33357ba8f7f957a23ef12fec36b01:c0c87d8a0650b822a2afdbfaee100de79d097021ba552f999af003f4bed06412",
-      "reviewer": "fresh-session:abfe76c4-cf6d-4302-8b0f-ff98f7da7191",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?",
         "Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?",
@@ -23,11 +23,8 @@
         "Is Unity absent from the diff?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted CI remains the final integration gate before merge.",
-        "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

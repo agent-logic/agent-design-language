@@ -128,7 +128,7 @@ Implemented a validated Runtime-owned Polis identity and endpoint projection who
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

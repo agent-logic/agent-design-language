@@ -4,67 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "reviewed",
-  "generation": 27,
-  "digest": "8513158392c16c24efac1d0a8285b3a866f64a2e023bb54015b55d2bbf4f0768",
+  "phase": "implemented",
+  "generation": 28,
+  "digest": "45e779b00eb6c9d24d942d8c07372947b13c3791a2cf85f663f352273f055516",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
-  "review_assignment": {
-    "reviewer": "fresh-session:abfe76c4-cf6d-4302-8b0f-ff98f7da7191",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:151bf977d7c33357ba8f7f957a23ef12fec36b01:c0c87d8a0650b822a2afdbfaee100de79d097021ba552f999af003f4bed06412",
-    "scope": [
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "infra/runtime-v3/runtime-init.toml",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/polis_identity.test.mjs",
-      ".csdlc/prepared/issues/551",
-      ".csdlc/evidence/551",
-      ".csdlc/issues/551"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:abfe76c4-cf6d-4302-8b0f-ff98f7da7191",
-    "scope": [
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "adl-runtime-kernel/tests/openapi_contract.rs",
-      "adl-runtime-kernel/tests/guardian_soak.rs",
-      "adl-runtime-kernel/tests/support/runtime_init.rs",
-      "docs/api/runtime-v3/v1/observatory.openapi.json",
-      "infra/runtime-v3/runtime-init.toml",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/polis_identity.test.mjs",
-      ".csdlc/prepared/issues/551",
-      ".csdlc/evidence/551",
-      ".csdlc/issues/551"
-    ],
-    "reviewed_revision": "git-blake3:151bf977d7c33357ba8f7f957a23ef12fec36b01:c0c87d8a0650b822a2afdbfaee100de79d097021ba552f999af003f4bed06412",
-    "findings": [],
-    "residual_risks": [
-      "Hosted CI remains the final integration gate before merge.",
-      "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -79,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ca1034d912b9b58c1fd2c50a4e4270a7931e2e26c41392db44310d716dc044d5",
+      "values_digest": "fb018683aecc9325f22b1f723d39f332f434b7486d37ad858ea63143bc0e8b2e",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "822ae3f76b5a11704e0097fd3be31083d927d792524c1a7bbddeeeeb8cbad560",
+      "values_digest": "3f371e19490fc8e06f6e7177f562af203d24d585bd06ad0d97d73959eb4e2f0a",
       "rendered_digest": "f3edeacea97ff8c487d7faf65e61e843116a08bc1eddbc0e301d443e18748110",
       "ast_digest": "ffe8936d8753a323affd8530293c14b6c895422798ae71ceb1f061f3320e1add"
     },
     "spp": {
-      "values_digest": "abe6cb48fff6569fb66ab59956f05139023bc6ebe582e97b1b8e7ec48222e559",
+      "values_digest": "224f1f3a8ceac61400e1f90ffba5b8d42b2fb586bf6f5177b94ed7b6bd862390",
       "rendered_digest": "76c8f20ba37a7f1b5c4bccdb77697c30543bd8d7e464db18d4b2c77fae794b4a",
       "ast_digest": "d79774bb4afaec91e566a8801eece1309dd8dbf68fc0e758027afcc34e465b49"
     },
     "vpp": {
-      "values_digest": "ffa4ef9ebe13e10a61641aae42d9158fb18ce285121f8f24940a3df5eeaa9c95",
+      "values_digest": "7df33e3ec07f2e91eb20add280f85c7dade0b1b298acdd67d324f81e3ab7ff61",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "5662d7add11cea98081f47e559cd62420b43bccbcf8b524cee3803d2513f0a7c",
-      "rendered_digest": "8b5a5dc5353f880f253cd1f8a33604d769dca5b2cb997c75d9d29822b4bf63a9",
-      "ast_digest": "dd856bf05701a983998f5a86568ce02e46714068a3aec668795dda41aceb64d3"
+      "values_digest": "bbdf95ec4af92148318c15cb59495517833a8015b6099d7c21df65ef996fdab7",
+      "rendered_digest": "656bb2bd409c0f5311072f133634cc909c5f8f34098c97580a8bc7c557360b57",
+      "ast_digest": "1d72157806e87f00ca56fc714327c2dc99c38c2d7d560c0ab0b3fbb4322bd0be"
     },
     "sor": {
-      "values_digest": "87a5b7eb7f2d494ca7704f1d9001bc226bc9c29c4df8d9f9f24cd64c22417eff",
-      "rendered_digest": "f7ee5534452e36acbf0305e99509ac716769249ce373bcd0fd89cd007edeb13d",
-      "ast_digest": "237653b842b01aef6bd4047e7401ebc06dcc9a7e795d5594d78c93206708aa5b"
+      "values_digest": "95d97f967e6c7bcd21c848171d43155b106a30e46b013f80fa3c8211d3a74ee0",
+      "rendered_digest": "463c36c08afbe9e79fcc6cc3616c14c7ffb899f5c2d6853370a4bdc21d05e349",
+      "ast_digest": "a9ca407074e802f328010d1e3b457484f56017e83bb99cac6455322e73e5ff8e"
     }
   },
   "transitions": [
@@ -137,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "The reviewed publication request and typed review metadata advanced exact HEAD without changing product, design, tests, or evidence; recover so a metadata-only review can bind the publication head."
     }
   ],
   "audit": [
@@ -349,6 +302,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "The reviewed publication request and typed review metadata advanced exact HEAD without changing product, design, tests, or evidence; recover so a metadata-only review can bind the publication head.",
+      "operation": "recover_review"
     }
   ]
 }
