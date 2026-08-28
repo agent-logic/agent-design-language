@@ -1,0 +1,222 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 342,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f22f50785de3595fa31cdc85e96af67d56171c756d8d95f70e35e786ad312b9f",
+  "phase": "bound",
+  "generation": 19,
+  "digest": "2c9d712bc095601eb67ed04cee1663cc013330a6cd5edf36565cfb2b244d8681",
+  "branch": "codex/342-podcast-studio-first-ten-episodes",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-342-podcast-studio-first-ten-episodes",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/342/design.md",
+  "diagram_path": ".csdlc/prepared/issues/342/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:6c10bd55-f20a-4a11-935e-79f90c225e5d",
+      "revision": "afd2da027811ef9cb66d4bd2d00ac1226ee165788516e0bd6ed199fefd1d3960"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f258cc1ff3c60a67162f2b8576a949fda76c135b7c1b3d06c609178a6142f1ec",
+      "rendered_digest": "5328667aa3b17e469c4e356c01c9c602c10a712d6a391083d445c63904620910",
+      "ast_digest": "6eaf7b8e3cb171db069ce3d7e5b2ba589bb054310e93b6066b0b170a41c98d19"
+    },
+    "stp": {
+      "values_digest": "c25ce8ba1aa7af6a68ce7bc828814dd10d334f9885a7c6043c44136d12d29043",
+      "rendered_digest": "acb4546eeec9aa539f66cc016e39189ef9a85660e77e9b6f18539480b6d52b92",
+      "ast_digest": "ed2d6b41b560d5723a0958ac88879aa36df82116433163a9d72aa7c2d94ceb23"
+    },
+    "spp": {
+      "values_digest": "db69f4eeeec0986222cfc593c87e79ee3f82ca4c23b1f6bf73084c4a61de279d",
+      "rendered_digest": "191480bd99aec1c23e210e976f5f42a848cfbd552f1781829934dbc1ef764e59",
+      "ast_digest": "07819b7755ede28a214e3623d7362c71eb7a5e9e1a3448cc31fe0a7dadbc7391"
+    },
+    "vpp": {
+      "values_digest": "37e7b423ec9876dfee0d1eae2ca2f175c67c31dd2250f03ec18af674737575ca",
+      "rendered_digest": "7b01988e3038715e3c0197ad18a7b2fec0b4eae7a735707af22f4d7bebe55c16",
+      "ast_digest": "6b64408653e72de06986bd341bb63150557f388dfd8b5f10c133ccca2822220e"
+    },
+    "srp": {
+      "values_digest": "f05244636e080a231542ce9766348e6b587474edc3188c910803e5c831d88b09",
+      "rendered_digest": "97b3254e4ffc459d498e4063419f2e8cc0e9c3963abddfcb60f6eb082bfb67a7",
+      "ast_digest": "093c21d7c810b8b09d372a1623848b5feb221a07fdf4542ecbcefd97d9d714bb"
+    },
+    "sor": {
+      "values_digest": "31bbf0a85068342bc33e563bb055332b2cc27c01ef295ce9278e038c78bb2191",
+      "rendered_digest": "f7f9ebc54dfade419668c3fdb3627730fbea22665613192697342391d8639cf6",
+      "ast_digest": "ca653cc1b90825422f0f63e92ac816dd9c4a8c31f76981d6c26525399ebcc52f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Advance #342 to ready/unbound after distinct R3 design review PASS and doctor advance_ready with no findings."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Replace unavailable future implementation targets with one issue-owned preparation validator that proves current identity, graph, collision gates, and honest incomplete denominator before design review.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp24a-preparation-readiness\",\"proof_role\":\"Prove canonical identity, current dependency boundaries, pre-bind collision gates, unbound lifecycle truth, and the honest one-preserved-candidate/nine-absent package denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-readiness.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":\"This lane proves preparation truth only. Product acceptance remains wholly deferred until a separately authorized bind and implementation.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Make the issue-owned readiness validator an executable current preparation lane; product acceptance remains explicitly unclaimed in the proof role and lifecycle state.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp24a-preparation-readiness\",\"proof_role\":\"Prove preparation only: canonical identity, current dependency boundaries, pre-bind collision gates, unbound lifecycle truth, and the honest one-preserved-candidate/nine-absent denominator. This does not prove any product acceptance criterion complete.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-readiness.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Declare the exact issue-owned readiness validator path so doctor can prove the preparation denominator without broad product ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/podcast/episodes\",\"demos/podcast/audio\",\"demos/podcast/feed.xml\",\"adl/tools/generate_podcast_launch_packet.py\",\"adl/tools/validate_podcast_launch_packet.py\",\"adl/tools/test_podcast_launch_packet.sh\",\".csdlc/issues/342\",\".csdlc/evidence/342\",\".csdlc/prepared/issues/342/design.md\",\".csdlc/prepared/issues/342/diagram.mmd\",\".csdlc/prepared/issues/342/validate-readiness.rb\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Declare exact future product validator deliverables so AC-1 through AC-6 can remain explicitly deferred and cannot be satisfied by preparation-only proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Ten complete episode directories\",\"Ten final MP3 and archive-audio artifacts with manifests\",\"Validated local feed and enclosure parity records\",\"Audio, redaction, rights, guest, metadata, listen-check, and package QA\",\"Exact-head editorial/audio reviews\",\"Integrated ten-package proof and handoff to #262\",\".csdlc/prepared/issues/342/validate-episode-packages.rb\",\".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Remediate fresh design-review P1 by separating preparation-readiness proof from every product acceptance criterion and explicitly deferring AC-1 through AC-6 to future issue-owned validators.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/342/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/342/diagram.mmd\",\"new_design_digest\":\"afd2da027811ef9cb66d4bd2d00ac1226ee165788516e0bd6ed199fefd1d3960\",\"new_diagram_digest\":\"0e14c559d412ef7519ec4b50fcb5f271c27352e82a1dfa9342b6e2a264ce84e1\",\"old_design_digest\":\"afd2da027811ef9cb66d4bd2d00ac1226ee165788516e0bd6ed199fefd1d3960\",\"old_diagram_digest\":\"0e14c559d412ef7519ec4b50fcb5f271c27352e82a1dfa9342b6e2a264ce84e1\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: All ten episodes contain complete source packet, script, transcript, show notes, metadata, artwork, audio, manifests, enclosure, redaction, QA, and review artifacts.\",\"AC-2: Audio digests, bytes, duration, sample rate, channels, loudness, peak, ID3/artwork, listen check, and archive records are internally consistent.\",\"AC-3: Local feed/enclosure parity rejects local or preview URLs, drafts, unstable GUIDs, missing bytes, and MIME, duration, or digest mismatch without publishing.\",\"AC-4: Guest consent, source rights, credentials, synthetic-voice provenance, and redaction remain truthful and privacy-safe.\",\"AC-5: Exact-head editorial/audio review and integrated ten-package validation have no unresolved actionable findings, and #342 performs no deployment, production route/storage mutation, directory submission, mailbox verification, or public-launch action.\",\"AC-6: Before bind, preparation proves canonical #342 identity, current #51/#261/#262/#19 dependency boundaries, exact collision gates, initialized/unbound lifecycle truth, and the honest zero-complete, one-preserved-candidate, nine-absent package denominator without claiming AC-1 through AC-5.\"]}}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Remediate fresh design-review P1 by mapping preparation-only proof solely to readiness AC-6 and explicitly deferring product AC-1 through AC-5 to future issue-owned validators.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp24a-preparation-readiness\",\"proof_role\":\"Prove AC-6 preparation only: canonical identity, current dependency boundaries, pre-bind collision gates, initialized/unbound lifecycle truth, and the honest zero-complete/one-candidate/nine-absent denominator. This lane cannot satisfy AC-1 through AC-5.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-readiness.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"episode-package-contract\",\"proof_role\":\"After authorized bind and implementation, prove AC-1, AC-2, and AC-4 across the exact ten-package denominator; no preparation result satisfies this lane.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-episode-packages.rb\"],\"parallel_group\":\"product\",\"defer_reason\":\"The issue-owned ten-package validator and Episodes 002 through 010 are created only after separately authorized typed execution binding; current preparation claims zero complete product packages.\"},{\"lane\":\"integrated-podcast-proof\",\"proof_role\":\"After all ten packages exist, prove AC-3, AC-5, and AC-6 through integrated local parity, exact-head review evidence, and publication-negative assertions; no preparation result satisfies this lane.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\"],\"parallel_group\":\"product\",\"defer_reason\":\"The issue-owned integrated validator is created only after separately authorized typed execution binding and cannot run until the complete ten-package denominator and exact-head review inputs exist.\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Declare the exact issue-owned readiness validator path so doctor can prove the preparation denominator without broad product ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/podcast/episodes\",\"demos/podcast/audio\",\"demos/podcast/feed.xml\",\"adl/tools/generate_podcast_launch_packet.py\",\"adl/tools/validate_podcast_launch_packet.py\",\"adl/tools/test_podcast_launch_packet.sh\",\".csdlc/issues/342\",\".csdlc/evidence/342\",\".csdlc/prepared/issues/342/design.md\",\".csdlc/prepared/issues/342/diagram.mmd\",\".csdlc/prepared/issues/342/validate-readiness.rb\",\".csdlc/prepared/issues/342/validate-episode-packages.rb\",\".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Remediate fresh design-review P1 by mapping preparation-only proof solely to readiness AC-6 and explicitly deferring product AC-1 through AC-5 to future issue-owned validators.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp24a-preparation-readiness\",\"proof_role\":\"Prove AC-6 preparation only: canonical identity, current dependency boundaries, pre-bind collision gates, initialized/unbound lifecycle truth, and the honest zero-complete/one-candidate/nine-absent denominator. This lane cannot satisfy AC-1 through AC-5.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-readiness.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"episode-package-contract\",\"proof_role\":\"After authorized bind and implementation, prove AC-1, AC-2, and AC-4 across the exact ten-package denominator; no preparation result satisfies this lane.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-episode-packages.rb\"],\"parallel_group\":\"product\",\"defer_reason\":\"The issue-owned ten-package validator and Episodes 002 through 010 are created only after separately authorized typed execution binding; current preparation claims zero complete product packages.\"},{\"lane\":\"integrated-podcast-proof\",\"proof_role\":\"After all ten packages exist, prove AC-3, AC-5, and AC-6 through integrated local parity, exact-head review evidence, and publication-negative assertions; no preparation result satisfies this lane.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\"],\"parallel_group\":\"product\",\"defer_reason\":\"The issue-owned integrated validator is created only after separately authorized typed execution binding and cannot run until the complete ten-package denominator and exact-head review inputs exist.\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Remediate fresh design-review P1 by mapping preparation-only proof solely to readiness AC-6 and explicitly deferring product AC-1 through AC-5 to future issue-owned validators.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp24a-preparation-readiness\",\"proof_role\":\"Prove AC-6 preparation only: canonical identity, current dependency boundaries, pre-bind collision gates, initialized/unbound lifecycle truth, and the honest zero-complete/one-candidate/nine-absent denominator. This lane cannot satisfy AC-1 through AC-5.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-readiness.rb\"],\"parallel_group\":\"preparation\",\"defer_reason\":null},{\"lane\":\"episode-package-contract\",\"proof_role\":\"After authorized bind and implementation, prove AC-1, AC-2, and AC-4 across the exact ten-package denominator; no preparation result satisfies this lane.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-episode-packages.rb\"],\"parallel_group\":\"product\",\"defer_reason\":\"The issue-owned ten-package validator and Episodes 002 through 010 are created only after separately authorized typed execution binding; current preparation claims zero complete product packages.\"},{\"lane\":\"integrated-podcast-proof\",\"proof_role\":\"After all ten packages exist, prove AC-3 and AC-5 through integrated local parity, exact-head review evidence, and publication-negative assertions; no preparation result satisfies this lane.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\"],\"parallel_group\":\"product\",\"defer_reason\":\"The issue-owned integrated validator is created only after separately authorized typed execution binding and cannot run until the complete ten-package denominator and exact-head review inputs exist.\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Remediate R2 P2 by mapping preparation-only AC-6 exclusively to pre-bind S1 and preserving a unique exact product acceptance denominator across S2 through S4.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/342/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/342/diagram.mmd\",\"new_design_digest\":\"afd2da027811ef9cb66d4bd2d00ac1226ee165788516e0bd6ed199fefd1d3960\",\"new_diagram_digest\":\"0e14c559d412ef7519ec4b50fcb5f271c27352e82a1dfa9342b6e2a264ce84e1\",\"old_design_digest\":\"afd2da027811ef9cb66d4bd2d00ac1226ee165788516e0bd6ed199fefd1d3960\",\"old_diagram_digest\":\"0e14c559d412ef7519ec4b50fcb5f271c27352e82a1dfa9342b6e2a264ce84e1\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Approve current identity, dependency graph, denominator, and exact #261/#262 path allocation before bind.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\"],\"action\":\"Revalidate preserved Episode 001 and produce complete Episodes 002-010 in package-complete checkpoints.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\"],\"action\":\"Run integrated package, audio, manifest, feed/enclosure-parity, rights, redaction, and negative validation.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Obtain exact-head editorial/audio review and prepare the non-publication handoff to #262.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "fresh-session:6c10bd55-f20a-4a11-935e-79f90c225e5d",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:/root/issue_342_readiness_reconcile",
+      "reason": "Advance #342 to ready/unbound after distinct R3 design review PASS and doctor advance_ready with no findings.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Reconcile #342 generated card identity version with the live Sprint 8 v0.92.1 issue while preserving the approved unbound episode-package preparation packet.",
+      "operation": "{\"operation\":\"update_identity_version\",\"version\":\"v0.92.1\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Record bound #342 readiness validation after typed bind materialized the execution worktree and issue-owned validator targets.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/342/validate-readiness.rb\"],\"purpose\":\"Prove #342 bound worktree identity, current dependency boundaries, zero-complete/one-preserved/nine-absent package denominator, and no deployment/publication claim before product execution.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal transcript 2026-08-28: adl.wp24a.readiness.v1 pass, complete_package_claims=0, preserved_candidates=1, absent_packages=9, bind_authorized=true.\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Reconcile #342 affected areas with live exact ownership allocation: current execution owns only non-production episode package artifacts under demos/podcast/episode-packages plus issue-local lifecycle and validators.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/podcast/episode-packages\",\"demos/podcast/episode-packages/feed-fragment.xml\",\".csdlc/issues/342\",\".csdlc/evidence/342\",\".csdlc/prepared/issues/342/design.md\",\".csdlc/prepared/issues/342/diagram.mmd\",\".csdlc/prepared/issues/342/validate-readiness.rb\",\".csdlc/prepared/issues/342/validate-episode-packages.rb\",\".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Record the first #342 execution checkpoint for The Cognitive Stack under the live non-production episode-packages ownership boundary.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Created a non-production first-ten source-package checkpoint for The Cognitive Stack under demos/podcast/episode-packages/**. This checkpoint defines all ten episode package records and a non-production feed fragment, but claims zero final audio packages and no production RSS, hosting, directory submission, mailbox verification, or public launch.\",\"changes\":[\"Added demos/podcast/episode-packages/package-index.json with the exact ten-episode denominator and downstream #262 handoff marked not ready.\",\"Added demos/podcast/episode-packages/feed-fragment.xml as a non-production #342 parity fragment only.\",\"Added ten per-episode package.json records with premise, AI panel, listener takeaway, promotional hooks, and final audio status pending.\",\"Replaced placeholder #342 package and integrated validators with checkpoint validators that pass only the source-package/non-production state and report terminal_ready=false.\"],\"artifacts\":[\"demos/podcast/episode-packages/README.md\",\"demos/podcast/episode-packages/package-index.json\",\"demos/podcast/episode-packages/feed-fragment.xml\",\"demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json\",\"demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json\",\"demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json\",\"demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json\",\"demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json\",\"demos/podcast/episode-packages/006-the-new-creative-room/package.json\",\"demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json\",\"demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json\",\"demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json\",\"demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json\",\".csdlc/prepared/issues/342/validate-episode-packages.rb\",\".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Record #342 source-package checkpoint validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/342/validate-episode-packages.rb\"],\"purpose\":\"Validate all ten The Cognitive Stack source-package records under demos/podcast/episode-packages/** and prove final audio/publication remain unclaimed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal transcript 2026-08-28: adl.wp24a.episode_packages_validation.v1 pass, source_packages=10, final_audio_packages=0, terminal_ready=false.\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Record #342 non-production feed-fragment validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb\"],\"purpose\":\"Validate the non-production feed fragment denominator and prove it contains no production URL or publication claim.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal transcript 2026-08-28: adl.wp24a.integrated_podcast_validation.v1 pass, episode_fragments=10, production_feed_claimed=false, terminal_ready=false.\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Record the podcast season-arc positioning artifact for The Cognitive Stack.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Added a season-arc artifact that frames The Cognitive Stack as a public demonstration of multi-AI reasoning, governed authority, reviewable work, and Agent Logic product ideas.\",\"changes\":[\"Added demos/podcast/episode-packages/season-arc.md with audience promise, tone, episode spine, product throughline, and checkpoint non-claims.\"],\"artifacts\":[\"demos/podcast/episode-packages/season-arc.md\"]}"
+    }
+  ]
+}

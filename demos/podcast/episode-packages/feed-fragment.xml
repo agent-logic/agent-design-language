@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Non-production #342 handoff fragment only. #262 owns production RSS/feed publication. -->
+<podcast-package-fragment show="The Cognitive Stack" issue="342" status="source-package-checkpoint" publication-claimed="false">
+  <episode slug="001-meet-the-ai-coworkers" title="Meet the AI Coworkers" audio-status="pending-final-package-proof"/>
+  <episode slug="002-can-an-ai-be-a-good-teammate" title="Can an AI Be a Good Teammate?" audio-status="pending-final-package-proof"/>
+  <episode slug="003-the-promise-and-weirdness-of-talking-to-machines" title="The Promise and Weirdness of Talking to Machines" audio-status="pending-final-package-proof"/>
+  <episode slug="004-what-should-we-let-ai-do-for-us" title="What Should We Let AI Do for Us?" audio-status="pending-final-package-proof"/>
+  <episode slug="005-can-ai-help-us-think-better" title="Can AI Help Us Think Better?" audio-status="pending-final-package-proof"/>
+  <episode slug="006-the-new-creative-room" title="The New Creative Room" audio-status="pending-final-package-proof"/>
+  <episode slug="007-trust-receipts-and-proof" title="Trust, Receipts, and Proof" audio-status="pending-final-package-proof"/>
+  <episode slug="008-local-ai-vs-cloud-ai" title="Local AI vs Cloud AI" audio-status="pending-final-package-proof"/>
+  <episode slug="009-when-ai-gets-stuck" title="When AI Gets Stuck" audio-status="pending-final-package-proof"/>
+  <episode slug="010-what-does-a-weekly-ai-studio-look-like" title="What Does a Weekly AI Studio Look Like?" audio-status="pending-final-package-proof"/>
+</podcast-package-fragment>

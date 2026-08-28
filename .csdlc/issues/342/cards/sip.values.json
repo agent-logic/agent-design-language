@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 342,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
+    "slug": "podcast-studio-first-ten-episodes",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Recover WP-24A under canonical current-repository authority and prepare ten complete review-ready episode packages without deployment, publication, or directory submission.",
+      "required_outcome": "Ten complete episode packages and integrated proof are locally review-ready, with terminal package inputs handed to #262 and no external publication claim.",
+      "declared_scope": [
+        "demos/podcast/episodes/001-meet-the-ai-coworkers through 010-what-does-a-weekly-ai-studio-look-like",
+        "demos/podcast/audio episode-package artifacts",
+        "episode-local artwork, manifests, enclosure records, redaction, QA, and review",
+        "local feed/enclosure parity inputs only",
+        ".csdlc/issues/342",
+        ".csdlc/evidence/342",
+        ".csdlc/prepared/issues/342"
+      ],
+      "authority_boundary": [
+        "agent-logic/agent-design-language#342 is current issue authority; legacy #5845 is evidence only",
+        "#261 owns final show identity, artwork rights, metadata, and mailbox readiness",
+        "#262 owns production hosting, feed/enclosure publication, route/storage mutation, and live playback proof",
+        "#19 retained preview deployment evidence is read-only",
+        "No episode checkpoint may claim more complete packages than it contains"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not bind until exact #261/#262 path allocation and collision census are approved",
+        "Do not deploy, publish, submit, announce, mutate provider state, or store credentials",
+        "Preserve all legacy #5845 and #19 lifecycle/evidence artifacts",
+        "Use a FastWork bound worktree for any future product edits",
+        "Require fresh design review before ready"
+      ]
+    }
+  }
+}

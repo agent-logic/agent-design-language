@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 342,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
+    "slug": "podcast-studio-first-ten-episodes",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Canonical identity and dependency graph; exact package denominator; episode package completeness; audio and manifest integrity; rights, consent, provenance, and redaction; collision boundaries with #19/#261/#262; absence of publication claims.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design preserve canonical #342 identity and legacy evidence without importing legacy lifecycle authority?",
+        "Is the denominator honestly one preserved candidate package at most, nine absent, with all ten required?",
+        "Are #261 identity/artwork and #262 hosting/publication boundaries exact enough to prevent collisions before bind?",
+        "Do validation and stop gates prevent partial package, rights, redaction, playback, or publication overclaims?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
