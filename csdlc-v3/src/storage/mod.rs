@@ -244,8 +244,23 @@ pub enum RecoveryRejectReason {
 
 pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassification {
     match observation {
-        RecoveryObservation::NoIntent { state } => RecoveryClassification::NewState(state),
-        RecoveryObservation::IntentWithoutCommit { prior, .. } => {
+        RecoveryObservation::NoIntent { state } => {
+            if let Err(reason) = validate_state_record(&state) {
+                return RecoveryClassification::CorruptRecoveryInput { reason };
+            }
+            RecoveryClassification::NewState(state)
+        }
+        RecoveryObservation::IntentWithoutCommit { prior, intent } => {
+            if let Err(reason) = validate_state_record(&prior) {
+                return RecoveryClassification::CorruptRecoveryInput { reason };
+            }
+            if prior.generation != intent.expected_generation
+                || prior.digest != intent.expected_digest
+            {
+                return RecoveryClassification::CorruptRecoveryInput {
+                    reason: RecoveryRejectReason::IntentDoesNotMatchCommittedState,
+                };
+            }
             RecoveryClassification::PriorState(prior)
         }
         RecoveryObservation::StateCommittedProjectionMissing { state, intent } => {
@@ -284,15 +299,7 @@ fn validate_committed_recovery_input(
     state: &StateRecord,
     intent: &TransactionIntent,
 ) -> Result<(), RecoveryRejectReason> {
-    let expected_digest = digest_for(
-        state.generation,
-        state.state,
-        &state.audit,
-        state.projections_repair_required,
-    );
-    if state.digest != expected_digest {
-        return Err(RecoveryRejectReason::InvalidStateDigest);
-    }
+    validate_state_record(state)?;
     let Some(event) = state.audit.last() else {
         return Err(RecoveryRejectReason::IntentDoesNotMatchCommittedState);
     };
@@ -306,6 +313,19 @@ fn validate_committed_recovery_input(
         || intent.expected_digest != prior_digest
     {
         return Err(RecoveryRejectReason::IntentDoesNotMatchCommittedState);
+    }
+    Ok(())
+}
+
+fn validate_state_record(state: &StateRecord) -> Result<(), RecoveryRejectReason> {
+    let expected_digest = digest_for(
+        state.generation,
+        state.state,
+        &state.audit,
+        state.projections_repair_required,
+    );
+    if state.digest != expected_digest {
+        return Err(RecoveryRejectReason::InvalidStateDigest);
     }
     Ok(())
 }

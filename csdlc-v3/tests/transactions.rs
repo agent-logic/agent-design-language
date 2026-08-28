@@ -217,6 +217,32 @@ fn recovery_classifies_interrupted_writes_without_losing_provenance() {
 }
 
 #[test]
+fn recovery_rejects_no_commit_records_with_invalid_integrity() {
+    let mut corrupt = StateRecord::new(LifecycleState::Ready);
+    corrupt.digest = "v3:wrong-digest".to_owned();
+    assert_eq!(
+        classify_recovery(RecoveryObservation::NoIntent { state: corrupt }),
+        RecoveryClassification::CorruptRecoveryInput {
+            reason: RecoveryRejectReason::InvalidStateDigest
+        }
+    );
+
+    let prior = StateRecord::new(LifecycleState::Ready);
+    let intent = TransactionIntent {
+        expected_generation: prior.generation,
+        expected_digest: "v3:wrong-prior-digest".to_owned(),
+        command: LifecycleCommand::Bind,
+        provenance: "uncommitted intent".to_owned(),
+    };
+    assert_eq!(
+        classify_recovery(RecoveryObservation::IntentWithoutCommit { prior, intent }),
+        RecoveryClassification::CorruptRecoveryInput {
+            reason: RecoveryRejectReason::IntentDoesNotMatchCommittedState
+        }
+    );
+}
+
+#[test]
 fn recovery_rejects_committed_state_intent_mismatches() {
     let prior = StateRecord::new(LifecycleState::Ready);
     let mut store = TransactionStore::new(prior.clone()).expect("valid initial digest");
