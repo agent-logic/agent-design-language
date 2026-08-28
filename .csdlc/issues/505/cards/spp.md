@@ -1,0 +1,118 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 505
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+After #504 terminal closeout, bind #505 and implement a non-authoritative v3 authority-transition decision record that measures parity, exercises canary rollback, records observation evidence, and requires explicit operator approval before cutover or v2 retirement.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Bootstrap #505 and prepare the V3-F design, diagram, and dependency gate.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "After #504 is terminal and ancestral, bind the #505 execution worktree.",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Map requirements #179 and #180 to explicit proof lanes and parity evidence.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Implement and prove migration canary, rollback, and observation-window evidence.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Record explicit operator disposition and publish with visible `Closes #505` linkage only after approval.",
+    "acceptance_ids": [
+      "AC-4"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- C-SDLC v2 remains sole operational authority until explicit approved cutover.
+- Requirements #179 and #180 each name one owner issue and proof lane.
+- Parity measurement must be machine-readable and evidence-bound.
+- Canary rollback must be exercised before any cutover approval claim.
+- Observation evidence records non-claims and residual risks.
+- Cutover and v2 retirement require explicit operator approval.
+
+## Risks
+
+- The decision packet could imply authority transition from incomplete evidence.
+- Parity could be claimed without a stable denominator.
+- Rollback could be described without being exercised.
+- Operator approval could be inferred rather than explicitly recorded.
+- The implementation could silently retire v2 or update live guidance before approval.
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/505/design.md
+
+Digest: 8a1fccb205c7ed4511fccc1b027bcecaedc257f65197fe7dfc8a9ec35d643d8a
+
+## Diagram
+
+.csdlc/prepared/issues/505/diagram.mmd
+
+Digest: 72b7875592231b8ecf51ff326181c7b4b93ab5dd13080ff8a9353c70d8ad67ff
+
+## Stop Conditions
+
+- #504 is not terminal, reconciled, and ancestral when implementation would begin.
+- Parity is incomplete or lacks a machine-readable denominator.
+- Rollback fails or is not exercised.
+- Operator cutover approval is absent.
+- The slice silently retires v2 or claims unsupported platform parity.
+
+## Handoff
+
+Proceed only after doctor readiness.

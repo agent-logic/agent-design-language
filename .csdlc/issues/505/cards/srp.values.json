@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 505,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+    "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "V3-F authority-transition decision preparation, requirements #179/#180 mapping, parity matrix plan, canary rollback plan, observation evidence plan, operator approval gate, and issue-local evidence only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
+        "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
+        "Verify requirements #179 and #180 are named in the acceptance denominator and future proof plan.",
+        "Verify the future PR body requirement visibly uses `Closes #505`."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

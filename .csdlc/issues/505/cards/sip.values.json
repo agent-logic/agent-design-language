@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 505,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+    "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one operator-reviewed C-SDLC v3 authority-transition decision.",
+      "required_outcome": "A non-authoritative C-SDLC v3 authority-transition decision packet that binds requirements #179 and #180, measured parity, migration canary rollback, observation evidence, and explicit operator disposition.",
+      "declared_scope": [
+        "csdlc-v3/tests/parity/**",
+        "docs/tooling/csdlc-v3/**",
+        "docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/**",
+        ".csdlc/issues/505/**",
+        ".csdlc/prepared/issues/505/**",
+        ".csdlc/evidence/505/**"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains the sole operational lifecycle authority until #505 records explicit operator approval and the proven transition.",
+        "Issue completion is exactly one authority-transition decision; parity, canary, rollback, and observation are evidence inputs and do not close independently.",
+        "The #505 slice must not silently retire v2, claim unsupported platform parity, or treat planned evidence as live authority."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not execute #505 until #504 is terminal through merged/closed issue and typed closeout truth.",
+        "Keep #505 ordered after V3-E issue #504.",
+        "Cutover and retirement require explicit operator approval.",
+        "Preserve explicit GitHub closing-linkage visibility in any later PR body, normally `Closes #505`."
+      ]
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 505,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
+    "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare only the V3-F authority-transition decision: requirements #179 and #180 mapping, v2-v3 parity, migration canary, rollback, observation window, and explicit operator disposition.",
+      "deliverables": [
+        "Initialized #505 C-SDLC card bundle for V3-F authority-transition decision preparation.",
+        ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb",
+        "Design and diagram packet under .csdlc/prepared/issues/505 preserving the #504 terminal dependency, v2-live authority boundary, no-silent-retirement rule, and operator approval gate.",
+        "Post-#504 handoff plan naming future parity, migration-canary, rollback, observation-window, and approval evidence surfaces."
+      ],
+      "acceptance_criteria": [
+        "AC-1: Requirements #179 and #180 are mapped.",
+        "AC-2: v2-v3 parity is measured.",
+        "AC-3: Canary rollback is exercised.",
+        "AC-4: Cutover and retirement require operator approval."
+      ],
+      "dependencies": [
+        "V3-E: #504 must be closed by merged PR and typed terminal closeout before #505 execution starts."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#505",
+        "agent-logic/agent-design-language#504",
+        "agent-logic/agent-design-language#179",
+        "agent-logic/agent-design-language#180",
+        "docs/csdlc-v3/CONTRACT.md",
+        "docs/csdlc-v3/predecessor-coverage.json",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-F",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md"
+      ],
+      "non_goals": [
+        "Silent v2 retirement",
+        "Unsupported-platform claims",
+        "Authority cutover without operator approval",
+        "Executing publication, finish, or cleanup through v3 before approval",
+        "Broad repository cleanup"
+      ]
+    }
+  }
+}
