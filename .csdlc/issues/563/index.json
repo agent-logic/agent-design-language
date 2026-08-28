@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "146e64ab29fdcf94e027ce529b589bdee497f39f8d10d7c2b5a68e5904366342",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "d0de01186d310b7d8a3098c39ccd627df56e62c3754617d327fd6a66240912a7",
+  "generation": 14,
+  "digest": "ae3ea3ed0abc04e2c6b5cd410bb4438124b383c91efdff05433aae3383259484",
   "branch": "codex/563-stale-owner-binary-primary-checkout-guard",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-563-stale-owner-binary-primary-checkout-guard",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d704a896a5655b4c801fbee3a18b4076cffbdc91f5d64c5b587ba4b580ed16ad",
+      "values_digest": "27aa95a7c52eedf69f415b116e198c6c8feafcae5cee60a65fd2c824534afe78",
       "rendered_digest": "22792da655fe8b18c321a37e8c9d22ddc854be5ce33cb42812dd3e0a23f26ccf",
       "ast_digest": "fb55594659d4d81f00853fee5cfc2d89a134c8951d4558ecb9da67d81d9524a6"
     },
     "stp": {
-      "values_digest": "4bad7b98e536d120b7ae26710aa7427b2d6bdb0cc396445288d2111ddbe3c2d5",
+      "values_digest": "91b142976a58bfda5569a7a6887ad0efe78849d10df9e13b8e970faada216d4d",
       "rendered_digest": "061a5b568a7f14274a7668f8ac705876d07d8496a7e700d4073acec1efa90daf",
       "ast_digest": "68fe760b8e36cf549e89bfbc6cc82a2dd838a00e428dd545493ba908b759d479"
     },
     "spp": {
-      "values_digest": "8c3acfe4eae0b40b9cbe8240f11a32e7a649c505727cdafb1c31d998f146d15e",
+      "values_digest": "ebcaef43e64306a033adb5703b3300824b2fcfa49fd165281efefcf8f67f9b2e",
       "rendered_digest": "794181e919534014e093c7ce77e43600c618719edf3f9162e1269c3bf31c194e",
       "ast_digest": "dd37183ccffa7d2dbb00eb20d99d073d008f0e1d942ada6e17d5f6fd24460fcc"
     },
     "vpp": {
-      "values_digest": "ad0558f1a34a21783fad59e7801cb576e40dc7221a0eba394282bd515e98182c",
+      "values_digest": "71aa570820dcce4be268de23cb6d2c58d79851b4ce6d124663a0994357bcef3c",
       "rendered_digest": "e5afe23636589ac51d463c1c68116add49bf73ade75a17ede0bcac1e30af5dfa",
       "ast_digest": "d41ddd5c1bcc9dd7deeb8091592024f78b97f47e1e82f321b148567bfd95c95c"
     },
     "srp": {
-      "values_digest": "0aced5a46c3775ceac865e29618333e71c88d2dddaf0770a2b4cb0203c17c4fb",
+      "values_digest": "cb8ea079cc85b6d5252a2ff320c83f0991b9031d1e3923d78ed4a475f157a76a",
       "rendered_digest": "ea660e8648bedf0b2651d0d5c2fef06a850b2a62a59ff8d2cac83869e87639c2",
       "ast_digest": "de79e8eec66d91095cdcf07623f63d4307acbbe3934c0cd0799c34bf2cb57379"
     },
     "sor": {
-      "values_digest": "f57f245ec0e30ae759eaad1d571804048765e5ec639d490d0af93f9b8d06516d",
-      "rendered_digest": "8a0f54fc4c8552e5678962e0d4ec317c79777ef1f169e95515bcf53a433a5631",
-      "ast_digest": "113234a3516fbe8064871d752b27bc5366a973718f45bd7d500ecd5a8ec22bbf"
+      "values_digest": "c750ea73c9aee6337ecb32b41350dca77b5acfafc1edb5aba339861c7a556d85",
+      "rendered_digest": "f723b35b33f1d7daf8346367bd65d15dd1ffd30fef68e40774d563395f85440c",
+      "ast_digest": "cbd29073e8b77161810229f42d908f75ee6231913fe7205f2f2d36be5dc4cde8"
     }
   },
   "transitions": [
@@ -182,6 +182,13 @@
       "actor": "codex:563-execution",
       "reason": "Record the bounded stale-owner preflight implementation and focused proof before independent exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a deterministic installed-owner source-set receipt and shared fail-closed pre-mutation verification so stale, incomplete, or tampered C-SDLC owner generations cannot mutate an ADL checkout. Read-only owner routes remain read-only and unrelated repository commits do not invalidate a current generation.\",\"changes\":[\"Added the canonical tracked owner-source-set manifest and deterministic BLAKE3 source digest.\",\"Upgraded atomic install receipts to bind the complete installed executable denominator, executable digests, source-set schema, and source-set digest.\",\"Added shared pre-mutation verification before Store locks, binding locks, bootstrap mutation, and GitHub issue writes.\",\"Preserved read-only GitHub PR state and schedule classification without mutation gating.\",\"Added focused tests for clean installation, stale and partial generations, atomic replacement, primary-checkout rejection, and unrelated-commit stability.\"],\"artifacts\":[\"csdlc-v2/operator/owner-source-set.json\",\"csdlc-v2/src/operator.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/bin/csdlc-github-issue.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/primary_checkout_bootstrap_guard.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove exact installation, stale/incomplete generation rejection, atomic replacement, and coexistence invariants across 20 focused tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"20/20 gate10a tests passed at cfb7f11\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"primary_checkout_bootstrap_guard\"],\"purpose\":\"Prove primary-checkout mutation remains rejected without checkout drift.\",\"outcome\":\"passed\",\"evidence_ref\":\"4/4 primary checkout guard tests passed at cfb7f11\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"operator::tests::owner_source_digest_ignores_unrelated_commits_and_detects_owner_drift\",\"--\",\"--exact\"],\"purpose\":\"Prove unrelated commits preserve freshness while owner-source drift invalidates the receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\"1/1 focused source-set test passed at cfb7f11\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused format check passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace damage in the bounded candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"candidate diff hygiene passed\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:563-execution",
+      "reason": "Record the bounded stale-owner preflight implementation and focused proof before independent exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a deterministic installed-owner source-set receipt and shared fail-closed pre-mutation verification across the complete direct mutating-owner denominator so stale, incomplete, tampered, or source-drifted C-SDLC owner generations cannot mutate an ADL checkout. Read-only routes remain read-only and unrelated repository commits do not invalidate a current generation.\",\"changes\":[\"Added the canonical tracked owner-source-set manifest and deterministic BLAKE3 source digest.\",\"Upgraded atomic install receipts to bind the complete installed executable denominator, executable digests, source-set schema, and source-set digest.\",\"Added shared pre-mutation verification before Store locks, binding locks, bootstrap mutation, and GitHub issue writes.\",\"Added explicit operation-level mutation classifications and direct preflight gates for clean, finish, publish, shadow generation, soak output, proof, and cutover.\",\"Rejected untracked files under canonical owner-source directories and verified every staged executable/digest before atomic directory exchange.\",\"Preserved read-only GitHub PR state and schedule classification without mutation gating.\",\"Added focused tests for clean installation, stale and partial generations, atomic replacement, primary-checkout rejection, and unrelated-commit stability.\"],\"artifacts\":[\"csdlc-v2/operator/owner-source-set.json\",\"csdlc-v2/src/operator.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/src/bin/csdlc-clean.rs\",\"csdlc-v2/src/bin/csdlc-finish.rs\",\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/bin/csdlc-shadow.rs\",\"csdlc-v2/src/bin/csdlc-soak.rs\",\"csdlc-v2/src/bin/csdlc-proof.rs\",\"csdlc-v2/src/bin/csdlc-cutover.rs\",\"csdlc-v2/src/bin/csdlc-github-issue.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/primary_checkout_bootstrap_guard.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove the complete direct mutator gate, exact no-checkout-mutation rejection, operation classification, exact installation, untracked/stale/incomplete generation rejection, verified atomic replacement, and coexistence invariants.\",\"outcome\":\"passed\",\"evidence_ref\":\"21/21 gate10a tests passed after the direct-owner remediation\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"primary_checkout_bootstrap_guard\"],\"purpose\":\"Prove primary-checkout mutation remains rejected without checkout drift.\",\"outcome\":\"passed\",\"evidence_ref\":\"4/4 primary checkout guard tests passed at cfb7f11\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"operator::tests::owner_source_digest_ignores_unrelated_commits_and_detects_owner_drift\",\"--\",\"--exact\"],\"purpose\":\"Prove unrelated commits preserve freshness while owner-source drift invalidates the receipt.\",\"outcome\":\"passed\",\"evidence_ref\":\"1/1 focused source-set test passed at cfb7f11\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused format check passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace damage in the bounded candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"candidate diff hygiene passed\"}]}"
     }
   ]
 }

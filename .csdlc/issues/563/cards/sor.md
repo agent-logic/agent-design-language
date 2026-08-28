@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a deterministic installed-owner source-set receipt and shared fail-closed pre-mutation verification so stale, incomplete, or tampered C-SDLC owner generations cannot mutate an ADL checkout. Read-only owner routes remain read-only and unrelated repository commits do not invalidate a current generation.
+Implemented a deterministic installed-owner source-set receipt and shared fail-closed pre-mutation verification across the complete direct mutating-owner denominator so stale, incomplete, tampered, or source-drifted C-SDLC owner generations cannot mutate an ADL checkout. Read-only routes remain read-only and unrelated repository commits do not invalidate a current generation.
 
 ## Artifacts
 
@@ -20,6 +20,13 @@ Implemented a deterministic installed-owner source-set receipt and shared fail-c
 - csdlc-v2/src/operator.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/src/lifecycle.rs
+- csdlc-v2/src/bin/csdlc-clean.rs
+- csdlc-v2/src/bin/csdlc-finish.rs
+- csdlc-v2/src/bin/csdlc-publish.rs
+- csdlc-v2/src/bin/csdlc-shadow.rs
+- csdlc-v2/src/bin/csdlc-soak.rs
+- csdlc-v2/src/bin/csdlc-proof.rs
+- csdlc-v2/src/bin/csdlc-cutover.rs
 - csdlc-v2/src/bin/csdlc-github-issue.rs
 - csdlc-v2/tests/gate10a.rs
 - csdlc-v2/tests/primary_checkout_bootstrap_guard.rs
@@ -29,6 +36,8 @@ Implemented a deterministic installed-owner source-set receipt and shared fail-c
 - Added the canonical tracked owner-source-set manifest and deterministic BLAKE3 source digest.
 - Upgraded atomic install receipts to bind the complete installed executable denominator, executable digests, source-set schema, and source-set digest.
 - Added shared pre-mutation verification before Store locks, binding locks, bootstrap mutation, and GitHub issue writes.
+- Added explicit operation-level mutation classifications and direct preflight gates for clean, finish, publish, shadow generation, soak output, proof, and cutover.
+- Rejected untracked files under canonical owner-source directories and verified every staged executable/digest before atomic directory exchange.
 - Preserved read-only GitHub PR state and schedule classification without mutation gating.
 - Added focused tests for clean installation, stale and partial generations, atomic replacement, primary-checkout rejection, and unrelated-commit stability.
 
@@ -45,9 +54,9 @@ Implemented a deterministic installed-owner source-set receipt and shared fail-c
       "--test",
       "gate10a"
     ],
-    "purpose": "Prove exact installation, stale/incomplete generation rejection, atomic replacement, and coexistence invariants across 20 focused tests.",
+    "purpose": "Prove the complete direct mutator gate, exact no-checkout-mutation rejection, operation classification, exact installation, untracked/stale/incomplete generation rejection, verified atomic replacement, and coexistence invariants.",
     "outcome": "passed",
-    "evidence_ref": "20/20 gate10a tests passed at cfb7f11"
+    "evidence_ref": "21/21 gate10a tests passed after the direct-owner remediation"
   },
   {
     "command": [
