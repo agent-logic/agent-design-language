@@ -54,7 +54,9 @@ for file in "${surfaces[@]}"; do
   require_file_contains "$file" "V3-F|#505|cutover" "explicit V3-F/#505 cutover boundary"
   reject_file_contains "$file" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(publish|finish|clean|mutate)[^.]{0,80}live[^.]{0,80}lifecycle" "premature v3 lifecycle mutation authority"
   reject_file_contains "$file" "v3[^.]{0,80}(may|can|should)[^.]{0,80}(publish|finish|clean|mutate|bind)[^.]{0,80}(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)" "pre-cutover v3 lifecycle authority"
+  reject_file_contains "$file" "(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)[^.]{0,80}v3[^.]{0,80}(may|can|should)[^.]{0,80}(publish|finish|clean|mutate|bind|advance|validate)" "pre-cutover v3 lifecycle authority with leading cutover clause"
   reject_file_contains "$file" "v3[^.]{0,80}(replaces|supersedes|retires)[^.]{0,80}v2[^.]{0,80}(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)" "pre-cutover v3 replacement authority"
+  reject_file_contains "$file" "(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)[^.]{0,80}v3[^.]{0,80}(replaces|supersedes|retires)[^.]{0,80}v2" "pre-cutover v3 replacement authority with leading cutover clause"
 done
 
 require_file_contains "csdlc-v3/README.md" "clean replacement|replace" "clean replacement target"

@@ -58,7 +58,9 @@ for file in "${v2_skill_files[@]}"; do
   reject_file_contains "$file" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(the )?(current|live|sole|final)[^.]{0,80}(lifecycle )?authority" "plain premature v3 authority claim"
   reject_file_contains "$file" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(publish|finish|clean|mutate)[^.]{0,80}live[^.]{0,80}lifecycle" "premature v3 lifecycle mutation authority"
   reject_file_contains "$file" "v3[^.]{0,80}(may|can|should)[^.]{0,80}(publish|finish|clean|mutate|bind)[^.]{0,80}(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)" "pre-cutover v3 lifecycle authority"
+  reject_file_contains "$file" "(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)[^.]{0,80}v3[^.]{0,80}(may|can|should)[^.]{0,80}(publish|finish|clean|mutate|bind|advance|validate)" "pre-cutover v3 lifecycle authority with leading cutover clause"
   reject_file_contains "$file" "v3[^.]{0,80}(replaces|supersedes|retires)[^.]{0,80}v2[^.]{0,80}(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)" "pre-cutover v3 replacement authority"
+  reject_file_contains "$file" "(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)[^.]{0,80}v3[^.]{0,80}(replaces|supersedes|retires)[^.]{0,80}v2" "pre-cutover v3 replacement authority with leading cutover clause"
 done
 
 installed_pr_skills=(
@@ -75,7 +77,9 @@ for file in "${installed_pr_skills[@]}"; do
   reject_file_contains "$file" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(the )?(current|live|sole|final)[^.]{0,80}(lifecycle )?authority" "installed skill plain premature v3 authority claim"
   reject_file_contains "$file" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(publish|finish|clean|mutate)[^.]{0,80}live[^.]{0,80}lifecycle" "installed skill premature v3 lifecycle mutation authority"
   reject_file_contains "$file" "v3[^.]{0,80}(may|can|should)[^.]{0,80}(publish|finish|clean|mutate|bind)[^.]{0,80}(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)" "installed skill pre-cutover v3 lifecycle authority"
+  reject_file_contains "$file" "(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)[^.]{0,80}v3[^.]{0,80}(may|can|should)[^.]{0,80}(publish|finish|clean|mutate|bind|advance|validate)" "installed skill pre-cutover v3 lifecycle authority with leading cutover clause"
   reject_file_contains "$file" "v3[^.]{0,80}(replaces|supersedes|retires)[^.]{0,80}v2[^.]{0,80}(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)" "installed skill pre-cutover v3 replacement authority"
+  reject_file_contains "$file" "(before|prior to|ahead of)[^.]{0,80}(V3-F|#505|cutover)[^.]{0,80}v3[^.]{0,80}(replaces|supersedes|retires)[^.]{0,80}v2" "installed skill pre-cutover v3 replacement authority with leading cutover clause"
 done
 
 if (( failures > 0 )); then
