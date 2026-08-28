@@ -6,6 +6,7 @@ use csdlc_v2::cleanup::{
     build_legacy_terminal_index, execute_cleanup, materialize_terminal, validate_terminal_census,
     CleanupRequest, LegacyTerminalIndexRequest, TerminalMaterializeRequest,
 };
+use csdlc_v2::verify_installed_owner_operation;
 
 #[derive(Parser)]
 #[command(
@@ -48,16 +49,19 @@ enum Command {
 fn main() {
     let args = Args::parse();
     let result = match args.command {
-        Command::Cleanup { root, request } => read::<CleanupRequest>(&request)
+        Command::Cleanup { root, request } => verify_installed_owner_operation(&root, "cleanup")
+            .and_then(|_| read::<CleanupRequest>(&request))
             .and_then(|request| execute_cleanup(&root, &request))
             .and_then(json_value),
         Command::CompatibilityIndex { root, request } => {
-            read::<LegacyTerminalIndexRequest>(&request)
+            verify_installed_owner_operation(&root, "compatibility-index")
+                .and_then(|_| read::<LegacyTerminalIndexRequest>(&request))
                 .and_then(|request| build_legacy_terminal_index(&root, &request))
                 .and_then(json_value)
         }
         Command::MaterializeTerminal { root, request } => {
-            read::<TerminalMaterializeRequest>(&request)
+            verify_installed_owner_operation(&root, "materialize-terminal")
+                .and_then(|_| read::<TerminalMaterializeRequest>(&request))
                 .and_then(|request| materialize_terminal(&root, &request))
                 .and_then(json_value)
         }

@@ -14,6 +14,7 @@ use csdlc_v2::{
 fn command(root: &Path, program: &str, args: &[&str]) -> Output {
     Command::new(program)
         .current_dir(root)
+        .env("ADL_CSDLC_TEST_ALLOW_UNINSTALLED_OWNER_BINARY", "1")
         .args(args)
         .output()
         .unwrap_or_else(|error| panic!("run {program}: {error}"))

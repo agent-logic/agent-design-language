@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 563,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+    "slug": "stale-owner-binary-primary-checkout-guard",
+    "version": "v0.92.1",
+    "generation": 28
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/operator/owner-source-set.json\ncsdlc-v2/operator/skills.json\ncsdlc-v2/src/operator.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/lifecycle.rs\ncsdlc-v2/src/bin\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+      "review_revision": "git-blake3:09fd782985f4e5483f96ee8015ec54e59454332d:65f0c1290a292b2ef58b7d481d4fa28e8593b2be77e6780fd39492831a641b5a",
+      "reviewer": "vertex:gemini-3.1-pro-preview",
+      "review_prompts": [
+        "Does every repository-mutating installed owner reach one shared read-only gate before locks or filesystem writes?",
+        "Does owner-source freshness avoid whole-repository HEAD false positives while detecting actual C-SDLC drift?",
+        "Can any partial or mixed installation become selected?",
+        "Are primary, linked, isolated, and pre-existing-residue cases proven with exact before/after state?",
+        "Are diagnostics portable, actionable, and free of credential or host-path disclosure?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Hosted CI remains the final pre-merge integration gate.",
+        "The full local suite reached an unrelated shared-git derived-terminal cache mismatch for issue 298; a clean hosted checkout does not inherit that mutable cache."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

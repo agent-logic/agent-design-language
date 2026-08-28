@@ -1,0 +1,128 @@
+{
+  "issue": 563,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root",
+  "design_path": ".csdlc/prepared/issues/563/design.md",
+  "diagram_path": ".csdlc/prepared/issues/563/diagram.mmd",
+  "design_reviewer": "pending",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][C-SDLC] Fail closed on stale owner binaries before primary-checkout mutation",
+    "slug": "stale-owner-binary-primary-checkout-guard",
+    "version": "v0.92.1",
+    "goal": "Prevent stale or incomplete installed C-SDLC owner generations from mutating repository state, while independently preserving the primary-checkout bootstrap prohibition.",
+    "required_outcome": "Every installed mutating C-SDLC v2 owner proves complete current owner-source provenance before mutation; rejected invocations leave the checkout unchanged; current bootstrap succeeds only in an allowed isolated FastWork checkout.",
+    "declared_scope": [
+      "csdlc-v2 source, owner binaries, installer, and focused tests",
+      "C-SDLC installation and primary-checkout policy documentation",
+      ".csdlc/prepared/issues/563 and bounded evidence"
+    ],
+    "authority_boundary": [
+      "Issue authority is agent-logic/agent-design-language#563",
+      "Current source authority includes the primary-checkout guard merged by #548",
+      "Freshness is bound to the declared C-SDLC owner-source set, not unrelated repository HEAD changes",
+      "Existing primary-checkout residue belongs to other sessions unless separately proven"
+    ],
+    "operator_constraints": [
+      "Never create or edit issue artifacts in the primary checkout",
+      "Use only the isolated FastWork issue worktree",
+      "Do not delete or rewrite pre-existing residue",
+      "Do not expose token paths, credentials, or machine-local paths",
+      "Do not reintroduce v1 lifecycle wrappers"
+    ],
+    "task_boundary": "Implement one shared pre-mutation installed-owner provenance gate, atomic generation verification, and focused primary-checkout safety proof.",
+    "deliverables": [
+      "Shared installed-owner provenance preflight",
+      "Complete-generation atomic install verification",
+      "Independent primary-checkout bootstrap guard coverage",
+      "Before/after no-mutation negative fixtures",
+      "Focused owner/install validation evidence and exact-head review"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Every installed owner capable of repository mutation invokes the shared provenance gate before its first mutation",
+      "AC-2: Stale, missing, malformed, partial, or digest-mismatched installations fail closed with no target-checkout change",
+      "AC-3: A current owner still rejects bootstrap on primary main and succeeds in an allowed isolated FastWork checkout",
+      "AC-4: Freshness detects owner-source drift without treating unrelated repository commits as stale",
+      "AC-5: Installation publishes only a complete verified generation and receipt atomically",
+      "AC-6: Existing residue is reported without deletion and diagnostics are portable and credential-free",
+      "AC-7: Focused tests, owner validation, install/resolve contracts, diff hygiene, and exact-head review pass"
+    ],
+    "dependencies": [
+      "#548 primary-checkout bootstrap guard merged into current main"
+    ],
+    "repo_inputs": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/bin",
+      "csdlc-v2/operator/generation-selector.json",
+      "csdlc-v2/src/bin/csdlc-install.rs",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/owner-source-set.json",
+      "csdlc-v2/Cargo.lock",
+      "adl-resilience/Cargo.toml",
+      "adl-resilience/src",
+      "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+      "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md"
+    ],
+    "non_goals": [
+      "Deleting existing primary-checkout residue",
+      "Changing issue lifecycle semantics",
+      "Making closeout or cleanup an execution dependency",
+      "Reviving v1 wrappers",
+      "Broad repository refactoring"
+    ],
+    "plan_summary": "Bind #563 only in its isolated FastWork worktree, centralize read-only installed-generation/source-set verification ahead of every owner mutation, preserve the independent primary guard, prove atomic install and exact no-mutation failures, then obtain exact-head review.",
+    "steps": [
+      {"id":"S1","action":"Freeze the installed-owner and owner-source denominators and current mutation entrypoints","acceptance_ids":["AC-1","AC-4"],"status":"pending"},
+      {"id":"S2","action":"Implement shared pre-mutation provenance and complete-generation verification","acceptance_ids":["AC-1","AC-2","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S3","action":"Prove primary, linked, isolated, partial-generation, and preserved-residue cases","acceptance_ids":["AC-2","AC-3","AC-4","AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Run focused validation and obtain independent exact-head review","acceptance_ids":["AC-7"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "csdlc-v2/src",
+      "csdlc-v2/tests",
+      "csdlc-v2/operator",
+      "csdlc-v2/src/bin/csdlc-install.rs",
+      "csdlc-v2/operator/owner-source-set.json",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      ".csdlc/prepared/issues/563"
+    ],
+    "invariants": [
+      "No installed owner mutation precedes provenance verification",
+      "Rejected invocations leave the complete target checkout unchanged",
+      "Primary main remains inspection-only",
+      "Unrelated repository commits do not invalidate an otherwise current owner generation",
+      "Existing residue is never deleted implicitly",
+      "Only complete verified generations become operational"
+    ],
+    "risks": [
+      "Whole-HEAD comparison would create false stale failures after unrelated commits",
+      "A missed mutation entrypoint would preserve the bypass",
+      "Receipt verification after lock creation would already dirty the checkout",
+      "Non-atomic installation could expose mixed binary generations"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Any required fix needs tracked work on main",
+      "The owner mutation denominator cannot be enumerated deterministically",
+      "A test observes checkout drift after rejection",
+      "The solution requires deleting unowned residue",
+      "Focused validation or independent review finds an unresolved safety gap"
+    ],
+    "validation_lanes": [
+      {"lane":"csdlc-owner-focused","proof_role":"Prove shared owner provenance and pre-mutation behavior","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-6"],"deterministic":true,"resource_profile":"medium","budget_seconds":900,"budget_tokens":5000,"argv":["bash","adl/tools/run_owner_validation_lane.sh","csdlc"],"parallel_group":"owner","defer_reason":null},
+      {"lane":"install-resolve-contract","proof_role":"Prove complete atomic generation and install/resolve receipt behavior","acceptance_ids":["AC-2","AC-4","AC-5"],"deterministic":true,"resource_profile":"medium","budget_seconds":900,"budget_tokens":4000,"argv":["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--lib","operator"],"parallel_group":"owner","defer_reason":null},
+      {"lane":"diff-hygiene","proof_role":"Verify exact patch and whitespace hygiene","acceptance_ids":["AC-7"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["git","diff","--check"],"parallel_group":"local-control","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on missing provenance, incomplete owner denominator, any mutation before verification, target checkout drift, mixed generation publication, unsafe residue handling, failing focused proof, or unresolved review finding.",
+    "review_prompts": [
+      "Does every repository-mutating installed owner reach one shared read-only gate before locks or filesystem writes?",
+      "Does owner-source freshness avoid whole-repository HEAD false positives while detecting actual C-SDLC drift?",
+      "Can any partial or mixed installation become selected?",
+      "Are primary, linked, isolated, and pre-existing-residue cases proven with exact before/after state?",
+      "Are diagnostics portable, actionable, and free of credential or host-path disclosure?"
+    ],
+    "review_scope": "Exact #563 worktree revision across C-SDLC owner mutation entrypoints, provenance/install contracts, primary-checkout guard, focused fixtures, policy docs, and validation evidence."
+  }
+}

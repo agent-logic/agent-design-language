@@ -1,0 +1,27 @@
+{
+  "issue": 563,
+  "card": "stp",
+  "expected_generation": 4,
+  "expected_digest": "f854482e2efbb65a497d8539621a10508ff0d967ea5811a88b35ed702899865a",
+  "actor": "codex:/root",
+  "reason": "Replace the unrelated ADL installer with the exact C-SDLC source and install authorities",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "repo_inputs",
+    "values": [
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/bin",
+      "csdlc-v2/src/bin/csdlc-install.rs",
+      "csdlc-v2/operator/generation-selector.json",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/owner-source-set.json",
+      "csdlc-v2/Cargo.lock",
+      "adl-resilience/Cargo.toml",
+      "adl-resilience/src",
+      "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+      "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md"
+    ]
+  }
+}

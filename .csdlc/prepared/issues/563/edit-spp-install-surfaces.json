@@ -1,0 +1,21 @@
+{
+  "issue": 563,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "547c2bc5073bcf3789b202eab1da4c239ef2c335c856734b9ca798672fad693d",
+  "actor": "codex:/root",
+  "reason": "Name the actual C-SDLC install and owner-source authority surfaces",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src",
+      "csdlc-v2/src/bin/csdlc-install.rs",
+      "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+      "csdlc-v2/operator",
+      "csdlc-v2/operator/owner-source-set.json",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      ".csdlc/prepared/issues/563"
+    ]
+  }
+}

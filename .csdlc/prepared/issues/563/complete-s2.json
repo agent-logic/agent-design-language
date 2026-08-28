@@ -1,0 +1,1 @@
+{"issue":563,"card":"spp","expected_generation":7,"expected_digest":"fc4e5b8b26cfa13be9d6b8184a749c732f0dd51efe34e7a1612689dc004d5d5a","actor":"codex:563-execution","reason":"Shared pre-mutation provenance and complete-generation verification are implemented.","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"}}

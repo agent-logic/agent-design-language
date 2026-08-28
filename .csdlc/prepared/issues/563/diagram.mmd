@@ -1,0 +1,11 @@
+flowchart TD
+    A[Installed mutating owner invocation] --> B[Read-only provenance preflight]
+    B --> C{Receipt, generation, binaries and owner-source set current?}
+    C -- No --> D[Fail closed with safe reinstall route]
+    D --> E[Checkout remains byte-identical]
+    C -- Yes --> F{Bootstrap on primary checkout?}
+    F -- Yes --> G[Independent primary-checkout rejection]
+    G --> E
+    F -- No --> H[Typed owner operation in isolated FastWork worktree]
+    I[Atomic complete-generation installer] --> B
+    J[Existing residue] --> K[Report only; never delete]

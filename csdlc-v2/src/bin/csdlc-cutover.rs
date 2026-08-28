@@ -15,8 +15,8 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let result = fs::read(&args.request)
-        .map_err(Into::into)
+    let result = csdlc_v2::verify_installed_owner_operation(&args.repo, "run")
+        .and_then(|_| fs::read(&args.request).map_err(Into::into))
         .and_then(|bytes| serde_json::from_slice::<CutoverRequest>(&bytes).map_err(Into::into))
         .and_then(|request| run_cutover(&args.repo, &request))
         .and_then(|evidence| {

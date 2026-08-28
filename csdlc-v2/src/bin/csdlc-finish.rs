@@ -49,6 +49,16 @@ async fn main() {
 }
 
 async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
+    if cli.validate_cached_issue.is_none() {
+        let operation = if cli.command.is_some() {
+            "recordless-closeout"
+        } else if cli.historical_request.is_some() {
+            "historical-finish"
+        } else {
+            "finish"
+        };
+        csdlc_v2::verify_installed_owner_operation(&cli.root, operation)?;
+    }
     if let Some(command) = cli.command {
         return match command {
             Command::RecordlessCloseout { request } => {

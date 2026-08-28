@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 563,
+  "expected_generation": 21,
+  "expected_digest": "7e1cf8a56995ec7e154f5980db8d910ee6e1aaeab605667732ff75f432799171",
+  "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
+  "assigned_by": "codex:563-execution",
+  "scope": [
+    ".csdlc/issues/563",
+    ".csdlc/prepared/issues/563/assign-metadata-reconciliation-review.json",
+    ".csdlc/prepared/issues/563/record-metadata-reconciliation-review.json",
+    ".csdlc/prepared/issues/563/recover-review-for-metadata-reconciliation.json",
+    ".csdlc/prepared/issues/563/recover-review-for-residual-risk-repair.json"
+  ]
+}

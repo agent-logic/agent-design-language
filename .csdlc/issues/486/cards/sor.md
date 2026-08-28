@@ -1,0 +1,93 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 486
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: ready
+
+## Summary
+
+Implemented the AWS-C Terraform bootstrap root, operator runbook, retained state-isolation register, and issue-owned validation/readback script for a recoverable Agent Logic account-foundation backend.
+
+## Artifacts
+
+- .csdlc/prepared/issues/486/design.md
+- .csdlc/prepared/issues/486/diagram.mmd
+- .csdlc/prepared/issues/486/aws-b-terminal-receipt.md
+- .csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh
+- infra/aws/bootstrap
+- docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md
+- docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh
+- docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md
+- .csdlc/issues/486
+- .csdlc/prepared/issues/486
+
+## Execution
+
+- Added infra/aws/bootstrap with provider pins, encrypted/versioned S3 state bucket, DynamoDB lock table, and scoped Terraform deployment role/backend-access policy.
+- Added an AWS Terraform bootstrap runbook that documents static proof, saved-plan review, apply, readback, backend handoff values, and state-isolation boundaries.
+- Added a retained AWS-C state-isolation register proving existing website, DDNS, public-edge, Runtime, and workload state are not imported, copied, referenced, or dual-owned by the bootstrap root.
+- Added the AWS-C issue-owned readback/validation script with terraform-static and aws-readback lanes plus register checks.
+- Validated the lifecycle packet, Terraform formatting, Terraform init -backend=false, Terraform validate, and diff hygiene.
+
+## Validation
+
+[
+  {
+    "command": [
+      "/usr/bin/env",
+      "bash",
+      ".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh"
+    ],
+    "purpose": "Run the issue-owned #486 validator, including retained state-isolation register checks.",
+    "outcome": "passed",
+    "evidence_ref": "aws-c-bootstrap-packet.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Run git diff --check.",
+    "outcome": "passed",
+    "evidence_ref": "diff-hygiene.log"
+  },
+  {
+    "command": [
+      "/usr/bin/env",
+      "bash",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh",
+      "--lane",
+      "terraform-static"
+    ],
+    "purpose": "Run the AWS-C terraform-static lane.",
+    "outcome": "passed",
+    "evidence_ref": "terraform-bootstrap-static.log"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- Publish the reviewed #486 PR after fresh exact-head PASS and required typed publication guard.
+- Run live AWS apply/readback only after explicit operator approval for mutation with the approved agent-logic-admin profile.

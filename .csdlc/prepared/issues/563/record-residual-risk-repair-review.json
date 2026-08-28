@@ -1,0 +1,24 @@
+{
+  "issue": 563,
+  "expected_generation": 21,
+  "expected_digest": "54e1704c441d412d490f265e60086c2da66f1d4e6e69e5df531197c2e34940ee",
+  "actor": "codex:563-execution",
+  "evidence": {
+    "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
+    "scope": [
+      ".csdlc/issues/563",
+      ".csdlc/prepared/issues/563/assign-metadata-reconciliation-review.json",
+      ".csdlc/prepared/issues/563/record-metadata-reconciliation-review.json",
+      ".csdlc/prepared/issues/563/recover-review-for-metadata-reconciliation.json",
+      ".csdlc/prepared/issues/563/recover-review-for-residual-risk-repair.json"
+    ],
+    "reviewed_revision": "git-blake3:2772844ca07061ceb6f30319b92f79f9ef155a30:9718a15061b8fe1effe7d59faf08f6436410059630d96dba5b04fbe7c94476d1",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final pre-merge integration gate.",
+      "The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

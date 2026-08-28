@@ -1,0 +1,7 @@
+{
+  "issue": 563,
+  "expected_generation": 18,
+  "expected_digest": "c2200837aa828b2096348ac0752dd9427e44f9509d4334dc4c906422c1669123",
+  "actor": "codex:563-execution",
+  "reason": "Recover the substantive PASS solely to record the independently reviewed metadata-only tail at the current exact HEAD before publication."
+}

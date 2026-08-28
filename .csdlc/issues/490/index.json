@@ -1,0 +1,204 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 490,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6c97bf7b191a264c863ce7ccd8e1099e7dd451da9929f0f07a9fcbb8d99893d9",
+  "phase": "published",
+  "generation": 6,
+  "digest": "04cdcccc116650f821d42cbba0e2d899673ae1a7435d01756e2bf1bae42e28b5",
+  "branch": "codex/490-gcp-a-hierarchy-cost-decision",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-490-gcp-hierarchy-cost-decision",
+  "review_assignment": {
+    "reviewer": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+    "assigned_by": "codex:issue-490-gcp-a-owner",
+    "revision": "git-blake3:e3e261bb3c92021a3e37c9904bbb0e7784b1839b:15ab83af58cd0b05598dcac1e12e381e701856fc3672246705e5671e87a1361c",
+    "scope": [
+      "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-a",
+      ".csdlc/prepared/issues/490/validate-gcp-a-decision.sh",
+      ".csdlc/prepared/issues/490/finalize-implementation.json",
+      ".csdlc/evidence/490",
+      ".csdlc/issues/490"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+    "scope": [
+      "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-a",
+      ".csdlc/prepared/issues/490/validate-gcp-a-decision.sh",
+      ".csdlc/prepared/issues/490/finalize-implementation.json",
+      ".csdlc/evidence/490",
+      ".csdlc/issues/490"
+    ],
+    "reviewed_revision": "git-blake3:e3e261bb3c92021a3e37c9904bbb0e7784b1839b:15ab83af58cd0b05598dcac1e12e381e701856fc3672246705e5671e87a1361c",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 490,
+    "pull_request": 566,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/566",
+    "base": "main",
+    "head": "codex/490-gcp-a-hierarchy-cost-decision",
+    "revision": "git-blake3:2d228b7ec7c934e3dea1ba4c029b13387d032934:45a46cc039a67098f3e35c2968fddf5d249a6a0ec9d37234e4eb2ba90db08be0",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/490/design.md",
+  "diagram_path": ".csdlc/prepared/issues/490/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:c606607d-0cb9-40e3-b538-8f7f7768a2ae",
+      "revision": "6f09347efe8e393f52fae5e358ab0e0b38bfa06770304c73aef78396cf069c94"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a288d66667878694f4f5042ad3ed47f53e20dcd19cc172363197b2a8c521e02c",
+      "rendered_digest": "aef145a50f6d6f05fc02a6daf1af2a458d024ffdd180d24b19ebbba0692f034a",
+      "ast_digest": "234cad093314663d98dd2fe9ebe2a5bd3c832e063f28a721b5be1fd1d042a550"
+    },
+    "stp": {
+      "values_digest": "326fb68883d8f8f1d2ec928c7168c9a2847706975ed9203f26c90c0176017db6",
+      "rendered_digest": "1a03b83121353db223fffe198bff39f6818ff8c61bacc9bf0790d1f0ad320c8e",
+      "ast_digest": "02a45f1e02e480b1fb038a3a2b6ff4a6d87e5b30467a0c7d151a71df64281e43"
+    },
+    "spp": {
+      "values_digest": "e37cae3842fe19227e763ca5b605b1274f9a7a22265d0566f8ed35527e97ba20",
+      "rendered_digest": "3fe80017e2641b6205962592b2ad8f6762dfa34741c9a8298ad825837a789bad",
+      "ast_digest": "00743935a78869f305d52141f81a310038d1392f5c6c62adcc2a6ae522124be8"
+    },
+    "vpp": {
+      "values_digest": "0432b0c660680292cf1c3735453ac0b7b1c4ad881058ef2996a592f044484b00",
+      "rendered_digest": "914785e16c248a32b274ffc21491448f09f74bdc19f222c09a0b29946c75fcf4",
+      "ast_digest": "a4587186eb18c16fd0e640e9f06ecddb316c70b22375055252d11a6b53805044"
+    },
+    "srp": {
+      "values_digest": "54e16199dc5b4b80a3d2d78d5d4a3ea23d81196dc59c6afc88615f5ab48543be",
+      "rendered_digest": "25fee19d69e6c90e257439d73822bd311fafd229482b0fb231cc3bf2f56a03e9",
+      "ast_digest": "b23278f11fa72427e91c0880be5e30f5d6ff28e08f0a576de0806e9d51407762"
+    },
+    "sor": {
+      "values_digest": "1d8bfef572350cffaad1953e1416e28d108e124956b646c2928d4bae9a010ca3",
+      "rendered_digest": "cee831e3d5a354f96d71209728368f679f9883e2dd57066fd9c4bd5ed2cac110",
+      "ast_digest": "c210e49ea7a1ebb58f05df9448e73aa99e6a69adc377a83eb99d5ad02b5987dd"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:c606607d-0cb9-40e3-b538-8f7f7768a2ae",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"6f09347efe8e393f52fae5e358ab0e0b38bfa06770304c73aef78396cf069c94\",\"design_ref\":\".csdlc/prepared/issues/490/design.md\",\"diagram_digest\":\"c47f872b0b7cb0ce093fe929d1897a93703b3a52e7a1bf21da843d4ea9293927\",\"diagram_ref\":\".csdlc/prepared/issues/490/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "fresh-session:a71c67bf-43f1-43b0-84bd-a64b9df76e1a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "recover after failed exact review so the owner can repair stale typed-doctor evidence and validator required-readback checks",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "fresh-session:c44cc3bd-6ab1-4abf-a67a-3f852e256114",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

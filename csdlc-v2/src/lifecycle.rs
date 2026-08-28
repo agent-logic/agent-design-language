@@ -251,6 +251,7 @@ fn unsafe_checkout(context: impl Into<String>) -> V2Error {
 }
 
 fn reject_primary_checkout_bootstrap(root: &Path, repository: &str) -> Result<()> {
+    crate::operator::verify_installed_owner_preflight(root)?;
     if !requires_worktree_policy(repository) {
         return Ok(());
     }

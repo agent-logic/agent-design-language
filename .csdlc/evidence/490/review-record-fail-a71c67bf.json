@@ -1,0 +1,33 @@
+{
+  "issue": 490,
+  "expected_generation": 2,
+  "expected_digest": "dbf99fc2cd5bc39fa11b3db0b3bfe3b1f177557357fbce36951ec4595bafd0ac",
+  "actor": "fresh-session:a71c67bf-43f1-43b0-84bd-a64b9df76e1a",
+  "evidence": {
+    "reviewer": "fresh-session:a71c67bf-43f1-43b0-84bd-a64b9df76e1a",
+    "scope": [
+      "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-a",
+      ".csdlc/prepared/issues/490/validate-gcp-a-decision.sh",
+      ".csdlc/prepared/issues/490/finalize-implementation.json",
+      ".csdlc/evidence/490",
+      ".csdlc/issues/490"
+    ],
+    "reviewed_revision": "git-blake3:b7f9f3974d19c9c0d469e0c3e371d1a9c5131c38:c1929e3b0c69256c078a360aa4b70309fbceb6e388f070ee98fbdd7c990ce04c",
+    "findings": [
+      {
+        "id": "GCP-A-REVIEW-P1-STP-DOCTOR",
+        "severity": "p1",
+        "summary": "Stale retained typed-doctor evidence shows phase bound/generation 1 while SOR/finalize claim implemented proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

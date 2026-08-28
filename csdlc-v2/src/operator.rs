@@ -1,7 +1,7 @@
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::{select_generation, Generation, GenerationSelector};
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -16,7 +16,15 @@ pub struct SkillManifest {
     pub generation_selector: String,
     #[serde(default)]
     pub operational_binaries: Vec<String>,
+    pub operation_routes: Vec<OperationRoute>,
     pub skills: Vec<SkillRoute>,
+}
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct OperationRoute {
+    pub binary: String,
+    pub operation: String,
+    pub mutates_state: bool,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(deny_unknown_fields)]
@@ -60,6 +68,8 @@ pub struct InstallReceipt {
     pub schema: String,
     pub destination: PathBuf,
     pub source_revision: String,
+    pub source_set_schema: String,
+    pub source_set_digest: String,
     pub binaries: Vec<InstalledBinary>,
 }
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
@@ -67,6 +77,217 @@ pub struct InstallReceipt {
 pub struct InstalledBinary {
     pub name: String,
     pub blake3: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct OwnerSourceSet {
+    schema: String,
+    entries: Vec<PathBuf>,
+}
+
+const OWNER_SOURCE_SET: &str = include_str!("../operator/owner-source-set.json");
+
+pub fn verify_installed_owner_preflight(repo: &Path) -> Result<()> {
+    #[cfg(debug_assertions)]
+    if std::env::var_os("ADL_CSDLC_TEST_ALLOW_UNINSTALLED_OWNER_BINARY").as_deref()
+        == Some(std::ffi::OsStr::new("1"))
+        && executable_is_in_cargo_debug_profile_directory()?
+    {
+        return Ok(());
+    }
+    if !is_regular_file(&repo.join(".adl/worktree-policy.json")) {
+        return Ok(());
+    }
+    let executable = std::env::current_exe().map_err(io_error)?;
+    let Some(name) = executable.file_name().and_then(|value| value.to_str()) else {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "owner executable identity is unavailable",
+        ));
+    };
+    let manifest = SkillManifest::load()?;
+    if !manifest.required_binaries().contains(name) {
+        return Ok(());
+    }
+    let bin_dir = executable.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ValidationFailed,
+            "owner executable directory is unavailable",
+        )
+    })?;
+    let receipt_path = bin_dir.join("install-receipt.json");
+    if !is_regular_file(&receipt_path) {
+        return Err(stale_owner_error("installed receipt is missing"));
+    }
+    let receipt: InstallReceipt =
+        serde_json::from_slice(&fs::read(&receipt_path).map_err(io_error)?)
+            .map_err(|_| stale_owner_error("installed receipt is malformed"))?;
+    verify_receipt_identity(repo, bin_dir, &manifest, &receipt)
+}
+
+#[cfg(debug_assertions)]
+fn executable_is_in_cargo_debug_profile_directory() -> Result<bool> {
+    let executable = std::env::current_exe().map_err(io_error)?;
+    let executable = fs::canonicalize(executable).map_err(io_error)?;
+    let Some(profile_directory) = executable.parent() else {
+        return Ok(false);
+    };
+    Ok(
+        profile_directory.file_name() == Some(std::ffi::OsStr::new("debug"))
+            && profile_directory.join("deps").is_dir()
+            && profile_directory.join(".fingerprint").is_dir()
+            && profile_directory.join("build").is_dir(),
+    )
+}
+
+pub fn verify_installed_owner_operation(repo: &Path, operation: &str) -> Result<()> {
+    let executable = std::env::current_exe().map_err(io_error)?;
+    let name = executable
+        .file_name()
+        .and_then(|value| value.to_str())
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ValidationFailed,
+                "owner executable identity is unavailable",
+            )
+        })?;
+    let manifest = SkillManifest::load()?;
+    let routes = manifest
+        .operation_routes
+        .iter()
+        .filter(|route| route.binary == name)
+        .collect::<Vec<_>>();
+    if routes.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidManifest,
+            format!("owner operation classification is unavailable: {name}/{operation}"),
+        ));
+    }
+    let route = routes
+        .into_iter()
+        .find(|route| route.operation == operation)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::InvalidManifest,
+                format!("owner operation is unclassified: {name}/{operation}"),
+            )
+        })?;
+    if route.mutates_state {
+        verify_installed_owner_preflight(repo)?;
+    }
+    Ok(())
+}
+
+fn stale_owner_error(detail: &str) -> V2Error {
+    V2Error::new(
+        ErrorCode::ValidationFailed,
+        format!("stale owner-binary provenance: {detail}; run csdlc-install resolve, then reinstall the selected generation"),
+    )
+}
+
+pub fn owner_source_set_digest(repo: &Path) -> Result<String> {
+    let source_set: OwnerSourceSet = serde_json::from_str(OWNER_SOURCE_SET).map_err(|error| {
+        V2Error::new(
+            ErrorCode::InvalidManifest,
+            format!("invalid owner source set: {error}"),
+        )
+    })?;
+    if source_set.schema != "csdlc.owner_source_set.v1" || source_set.entries.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidManifest,
+            "owner source set identity is invalid",
+        ));
+    }
+    let mut entries = Vec::new();
+    for entry in source_set.entries {
+        let raw = entry.to_str().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidManifest, "owner source path is not UTF-8")
+        })?;
+        if entry.is_absolute()
+            || entry
+                .components()
+                .any(|part| matches!(part, std::path::Component::ParentDir))
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidManifest,
+                "owner source path escapes the repository",
+            ));
+        }
+        entries.push(raw.to_string());
+    }
+    let mut status_args = vec!["status", "--porcelain=v1", "--untracked-files=all", "--"];
+    status_args.extend(entries.iter().map(String::as_str));
+    if !crate::git::run(repo, &status_args)?
+        .stdout
+        .trim()
+        .is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "owner source set contains modified, deleted, or untracked files",
+        ));
+    }
+    let mut ls_args = vec!["ls-files", "--stage", "--"];
+    ls_args.extend(entries.iter().map(String::as_str));
+    let output = crate::git::run(repo, &ls_args)?.stdout;
+    let mut files = BTreeMap::<Vec<u8>, (PathBuf, String, String)>::new();
+    for line in output.lines() {
+        let (metadata, path) = line.split_once('\t').ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "owner source Git row is malformed",
+            )
+        })?;
+        let mut fields = metadata.split_whitespace();
+        let mode = fields.next().unwrap_or_default();
+        let object = fields.next().unwrap_or_default();
+        let stage = fields.next().unwrap_or_default();
+        if (mode != "100644" && mode != "100755") || object.len() < 40 || stage != "0" {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                format!("owner source is not a tracked regular stage-zero file: {path}"),
+            ));
+        }
+        if files
+            .insert(
+                path.as_bytes().to_vec(),
+                (PathBuf::from(path), mode.to_string(), object.to_string()),
+            )
+            .is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidManifest,
+                "owner source set contains duplicate files",
+            ));
+        }
+    }
+    for entry in &entries {
+        let prefix = format!("{entry}/");
+        if !files.values().any(|(path, _, _)| {
+            let path = path.to_string_lossy();
+            path == entry.as_str() || path.starts_with(&prefix)
+        }) {
+            return Err(V2Error::new(
+                ErrorCode::ValidationFailed,
+                format!("owner source entry is unavailable: {entry}"),
+            ));
+        }
+    }
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(b"csdlc.owner_source_set.v1\0");
+    for (_, (path, mode, object)) in files {
+        let path = path.to_str().ok_or_else(|| {
+            V2Error::new(ErrorCode::InvalidManifest, "owner source path is not UTF-8")
+        })?;
+        hasher.update(&(path.len() as u64).to_be_bytes());
+        hasher.update(path.as_bytes());
+        hasher.update(&(mode.len() as u64).to_be_bytes());
+        hasher.update(mode.as_bytes());
+        hasher.update(&(object.len() as u64).to_be_bytes());
+        hasher.update(object.as_bytes());
+    }
+    Ok(hasher.finalize().to_hex().to_string())
 }
 
 impl SkillManifest {
@@ -112,11 +333,118 @@ impl SkillManifest {
                 }
             }
         }
+        let observed_skills = self
+            .skills
+            .iter()
+            .map(|route| {
+                (
+                    route.binary.as_str(),
+                    route.subcommand.as_deref(),
+                    route.mutates_state,
+                )
+            })
+            .collect::<BTreeSet<_>>();
+        let expected_skills = [
+            ("csdlc-issue", Some("create"), true),
+            ("csdlc-bind", None, true),
+            ("csdlc-edit", Some("apply"), true),
+            ("csdlc-validate", None, true),
+            ("csdlc-review", None, true),
+            ("csdlc-publish", None, true),
+            ("csdlc-finish", None, true),
+            ("csdlc-clean", None, true),
+            ("csdlc-github", Some("run"), true),
+            ("csdlc-shepherd", None, false),
+            ("csdlc-doctor", None, false),
+        ]
+        .into_iter()
+        .collect::<BTreeSet<_>>();
+        if observed_skills != expected_skills {
+            return Err(V2Error::new(
+                ErrorCode::InvalidManifest,
+                "skill command classification differs from the canonical owner inventory",
+            ));
+        }
         for binary in &self.operational_binaries {
             if !binary.starts_with("csdlc-") || binary.contains('/') {
                 return Err(V2Error::new(
                     ErrorCode::InvalidManifest,
                     "all operational executables must be simple typed C-SDLC binary names",
+                ));
+            }
+        }
+        let expected_routes = [
+            ("csdlc-github", "run-write", true),
+            ("csdlc-github", "run-read", false),
+            ("csdlc-github", "runner-preflight", false),
+            ("csdlc-github", "schema", false),
+            ("csdlc-clean", "cleanup", true),
+            ("csdlc-clean", "compatibility-index", true),
+            ("csdlc-clean", "materialize-terminal", true),
+            ("csdlc-clean", "validate-census", false),
+            ("csdlc-clean", "schema", false),
+            ("csdlc-finish", "finish", true),
+            ("csdlc-finish", "historical-finish", true),
+            ("csdlc-finish", "recordless-closeout", true),
+            ("csdlc-finish", "validate-cached-issue", false),
+            ("csdlc-publish", "publish", true),
+            ("csdlc-publish", "status", false),
+            ("csdlc-publish", "schema", false),
+            ("csdlc-github-issue", "issue-write", true),
+            ("csdlc-github-issue", "issue-read", false),
+            ("csdlc-github-pr", "state", false),
+            ("csdlc-pr-state", "state", false),
+            ("csdlc-shadow", "compare", false),
+            ("csdlc-shadow", "generate-view", true),
+            ("csdlc-shadow", "schema", false),
+            ("csdlc-soak", "generate-samples", true),
+            ("csdlc-soak", "decide-with-output", true),
+            ("csdlc-soak", "decide-without-output", false),
+            ("csdlc-soak", "schema", false),
+            ("csdlc-proof", "run", true),
+            ("csdlc-cutover", "run", true),
+        ]
+        .into_iter()
+        .collect::<BTreeSet<_>>();
+        let observed_routes = self
+            .operation_routes
+            .iter()
+            .map(|route| {
+                (
+                    route.binary.as_str(),
+                    route.operation.as_str(),
+                    route.mutates_state,
+                )
+            })
+            .collect::<BTreeSet<_>>();
+        if observed_routes != expected_routes {
+            return Err(V2Error::new(
+                ErrorCode::InvalidManifest,
+                "operation classification differs from the canonical command inventory",
+            ));
+        }
+        let installed = self.required_binaries();
+        let mut routes = BTreeSet::new();
+        for route in &self.operation_routes {
+            if !installed.contains(&route.binary)
+                || route.operation.is_empty()
+                || !routes.insert((route.binary.clone(), route.operation.clone()))
+            {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidManifest,
+                    "operation routes must be unique and bind installed owner binaries",
+                ));
+            }
+        }
+        for binary in &self.operational_binaries {
+            if !self
+                .operation_routes
+                .iter()
+                .any(|route| &route.binary == binary)
+            {
+                return Err(V2Error::new(
+                    ErrorCode::InvalidManifest,
+                    "every operational binary must declare operation routes",
                 ));
             }
         }
@@ -321,7 +649,7 @@ pub fn resolve_operator_generation(
 }
 
 pub fn install_binaries(source: &Path, destination: &Path) -> Result<InstallReceipt> {
-    install_binaries_with_revision(source, destination, None)
+    install_binaries_with_revision(source, destination, None, None)
 }
 
 pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<InstallReceipt> {
@@ -373,10 +701,12 @@ pub fn build_and_install_binaries(repo: &Path, destination: &Path) -> Result<Ins
             "C-SDLC owner source revision changed or became dirty during the build",
         ));
     }
+    let source_set_digest = owner_source_set_digest(repo)?;
     install_binaries_with_revision(
         &target.join("debug"),
         destination,
         Some(format!("git:{}", after.stdout)),
+        Some(source_set_digest),
     )
 }
 
@@ -441,6 +771,7 @@ fn install_binaries_with_revision(
     source: &Path,
     destination: &Path,
     trusted_revision: Option<String>,
+    trusted_source_set_digest: Option<String>,
 ) -> Result<InstallReceipt> {
     let manifest = SkillManifest::load()?;
     if destination.file_name().and_then(|value| value.to_str()) != Some("csdlc-v2") {
@@ -475,9 +806,11 @@ fn install_binaries_with_revision(
         .collect();
     let source_revision = trusted_revision.unwrap_or_else(|| content_provenance(&prepared));
     let mut receipt = InstallReceipt {
-        schema: "csdlc.install_receipt.v1".into(),
+        schema: "csdlc.install_receipt.v2".into(),
         destination: destination.to_path_buf(),
         source_revision,
+        source_set_schema: "csdlc.owner_source_set.v1".into(),
+        source_set_digest: trusted_source_set_digest.unwrap_or_else(|| "content-only".into()),
         binaries,
     };
     let parent = destination.parent().ok_or_else(|| {
@@ -512,6 +845,7 @@ fn install_binaries_with_revision(
             .map_err(|e| V2Error::new(ErrorCode::Io, e.to_string()))?,
     )
     .map_err(io_error)?;
+    verify_staged_install(&stage, &manifest, &receipt)?;
     let had_destination = destination.exists();
     if had_destination {
         fs::rename(destination, &backup).map_err(io_error)?;
@@ -555,25 +889,13 @@ fn verify_install_receipt(
         ));
     }
     let receipt: InstallReceipt = serde_json::from_slice(&fs::read(&path).map_err(io_error)?)?;
-    if receipt.schema != "csdlc.install_receipt.v1" || receipt.destination != bin_dir {
+    if receipt.schema != "csdlc.install_receipt.v2" || receipt.destination != bin_dir {
         return Err(V2Error::new(
             ErrorCode::ValidationFailed,
             "install receipt schema or destination does not match the verified generation directory",
         ));
     }
-    let current_revision = crate::git::run(repo, &["rev-parse", "HEAD"])
-        .map(|revision| format!("git:{}", revision.stdout))
-        .ok();
-    if current_revision.as_deref() != Some(receipt.source_revision.as_str()) {
-        return Err(V2Error::new(
-            ErrorCode::ValidationFailed,
-            format!(
-                "stale owner-binary provenance: installed {} but repository is {}",
-                receipt.source_revision,
-                current_revision.as_deref().unwrap_or("unavailable")
-            ),
-        ));
-    }
+    verify_receipt_identity(repo, bin_dir, manifest, &receipt)?;
     let expected = manifest.required_binaries();
     let observed = receipt
         .binaries
@@ -599,6 +921,87 @@ fn verify_install_receipt(
         }
     }
     Ok(failures)
+}
+
+fn verify_receipt_identity(
+    repo: &Path,
+    bin_dir: &Path,
+    manifest: &SkillManifest,
+    receipt: &InstallReceipt,
+) -> Result<()> {
+    if receipt.schema != "csdlc.install_receipt.v2"
+        || receipt.destination != bin_dir
+        || receipt.source_set_schema != "csdlc.owner_source_set.v1"
+    {
+        return Err(stale_owner_error("installed receipt identity is invalid"));
+    }
+    let current = owner_source_set_digest(repo)
+        .map_err(|_| stale_owner_error("current owner source identity is unavailable"))?;
+    if receipt.source_set_digest != current {
+        return Err(stale_owner_error(&format!(
+            "installed source set {} differs from current {}",
+            receipt.source_set_digest, current
+        )));
+    }
+    let expected = manifest.required_binaries();
+    let observed = receipt
+        .binaries
+        .iter()
+        .map(|entry| entry.name.clone())
+        .collect::<BTreeSet<_>>();
+    if observed != expected || observed.len() != receipt.binaries.len() {
+        return Err(stale_owner_error(
+            "installed executable denominator is incomplete",
+        ));
+    }
+    for entry in &receipt.binaries {
+        let binary = bin_dir.join(&entry.name);
+        if !is_regular_file(&binary)
+            || !is_executable(&binary)
+            || fs::read(&binary)
+                .map(|bytes| blake3::hash(&bytes).to_hex().as_str() != entry.blake3)
+                .unwrap_or(true)
+        {
+            return Err(stale_owner_error(&format!(
+                "installed executable digest differs: {}",
+                entry.name
+            )));
+        }
+    }
+    Ok(())
+}
+
+fn verify_staged_install(
+    stage: &Path,
+    manifest: &SkillManifest,
+    receipt: &InstallReceipt,
+) -> Result<()> {
+    let expected = manifest.required_binaries();
+    let observed = receipt
+        .binaries
+        .iter()
+        .map(|entry| entry.name.clone())
+        .collect::<BTreeSet<_>>();
+    if observed != expected || observed.len() != receipt.binaries.len() {
+        return Err(stale_owner_error(
+            "staged executable denominator is incomplete",
+        ));
+    }
+    for entry in &receipt.binaries {
+        let binary = stage.join(&entry.name);
+        if !is_regular_file(&binary)
+            || !is_executable(&binary)
+            || fs::read(&binary)
+                .map(|bytes| blake3::hash(&bytes).to_hex().as_str() != entry.blake3)
+                .unwrap_or(true)
+        {
+            return Err(stale_owner_error(&format!(
+                "staged executable digest differs: {}",
+                entry.name
+            )));
+        }
+    }
+    Ok(())
 }
 
 fn content_provenance(prepared: &[(String, Vec<u8>, fs::Permissions)]) -> String {
@@ -633,13 +1036,69 @@ fn io_error(error: std::io::Error) -> V2Error {
 
 #[cfg(test)]
 mod tests {
-    use super::resolve_operator_generation;
+    use super::{owner_source_set_digest, resolve_operator_generation};
     use crate::Generation;
+    use std::{fs, path::Path};
 
     #[test]
     fn v1_override_is_rejected_after_sunset() {
         let error = resolve_operator_generation(std::path::Path::new("."), 1, Some(Generation::V1))
             .expect_err("sunset must reject explicit v1");
         assert!(error.message.contains("v1 sunset"));
+    }
+
+    #[test]
+    fn owner_source_digest_ignores_unrelated_commits_and_detects_owner_drift() {
+        let repo = tempfile::tempdir().unwrap();
+        git(repo.path(), &["init", "-b", "main"]);
+        git(
+            repo.path(),
+            &["config", "user.email", "test@example.invalid"],
+        );
+        git(repo.path(), &["config", "user.name", "C-SDLC Test"]);
+        for path in [
+            "csdlc-v2/Cargo.toml",
+            "csdlc-v2/Cargo.lock",
+            "csdlc-v2/src/lib.rs",
+            "csdlc-v2/operator/skills.json",
+            "adl-resilience/Cargo.toml",
+            "adl-resilience/src/lib.rs",
+            "docs/architecture/csdlc-v2/gate10b/PRE_SWITCH_EVIDENCE.json",
+            "docs/architecture/csdlc-v2/gate10c/CUTOVER_EVIDENCE.json",
+        ] {
+            let path = repo.path().join(path);
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(&path, format!("fixture:{path:?}\n")).unwrap();
+        }
+        git(repo.path(), &["add", "."]);
+        git(repo.path(), &["commit", "-m", "owner sources"]);
+        let baseline = owner_source_set_digest(repo.path()).unwrap();
+
+        fs::write(repo.path().join("README.md"), "unrelated\n").unwrap();
+        git(repo.path(), &["add", "README.md"]);
+        git(repo.path(), &["commit", "-m", "unrelated docs"]);
+        assert_eq!(owner_source_set_digest(repo.path()).unwrap(), baseline);
+
+        fs::write(repo.path().join("csdlc-v2/src/lib.rs"), "owner drift\n").unwrap();
+        let error = owner_source_set_digest(repo.path()).unwrap_err();
+        assert!(error.message.contains("modified, deleted, or untracked"));
+        git(repo.path(), &["checkout", "--", "csdlc-v2/src/lib.rs"]);
+
+        fs::write(
+            repo.path().join("csdlc-v2/src/untracked_owner.rs"),
+            "untracked\n",
+        )
+        .unwrap();
+        let error = owner_source_set_digest(repo.path()).unwrap_err();
+        assert!(error.message.contains("modified, deleted, or untracked"));
+    }
+
+    fn git(root: &Path, args: &[&str]) {
+        let status = std::process::Command::new("git")
+            .args(args)
+            .current_dir(root)
+            .status()
+            .unwrap();
+        assert!(status.success(), "git {args:?}");
     }
 }

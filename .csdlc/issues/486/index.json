@@ -1,0 +1,271 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 486,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "dccbcb792550a70657a41153e958ae7f448cf851553ea1c649b052e727709a54",
+  "phase": "published",
+  "generation": 14,
+  "digest": "98393727c7ff51074f2e07e355e075f99977c719298f3585e4c7504be486e9cc",
+  "branch": "codex/486-aws-terraform-bootstrap",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-486-aws-terraform-bootstrap",
+  "review_assignment": {
+    "reviewer": "fresh-session:d4e0a850-acec-4d66-a4f0-a49e67203aac",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:150b9e1bae67eb18521fd273c4005f0beb3c6a19:cf87a71fc6eb89ba98c4ed16e8aa81c3e9ab165c752173da5661b5bc81168d38",
+    "scope": [
+      ".csdlc/issues/486",
+      ".csdlc/prepared/issues/486",
+      "infra/aws/bootstrap",
+      "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:d4e0a850-acec-4d66-a4f0-a49e67203aac",
+    "scope": [
+      ".csdlc/issues/486",
+      ".csdlc/prepared/issues/486",
+      "infra/aws/bootstrap",
+      "docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh"
+    ],
+    "reviewed_revision": "git-blake3:150b9e1bae67eb18521fd273c4005f0beb3c6a19:cf87a71fc6eb89ba98c4ed16e8aa81c3e9ab165c752173da5661b5bc81168d38",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not run the AWS readback lane, inspect credentials, perform cloud mutations, apply Terraform, publish, merge, or update lifecycle/GitHub state.",
+      "Live AWS apply/readback remains gated on explicit operator approval with the approved agent-logic-admin profile."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 486,
+    "pull_request": 567,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/567",
+    "base": "main",
+    "head": "codex/486-aws-terraform-bootstrap",
+    "revision": "git-blake3:41b48c37e2af2bc34d6c489e7b6a1d9451fdc703:f27105a6731f3a315ecc2d49ff096bbe6dd3893cd5dbf2cda69d697f6e78324b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/486/design.md",
+  "diagram_path": ".csdlc/prepared/issues/486/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:7cc258e0-cbc1-4100-9b73-e64b327ee26c",
+      "revision": "5431aea2b69bbca8e990b877455ede18628b6726d7fa983e9da500cc98edaa3e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a0dfb2c53606a63ac6e5fe66ce7bf17fd5c644de7a9fab809657d0ee77c2768f",
+      "rendered_digest": "b8f9d9c4188e84d4ac9a918f90c0f9b34e75c7124c56cef1b5af40cc6c652cde",
+      "ast_digest": "a542f5add94da4e4ae4f27d2f6acb376880d58be77393f1db52c888a8bf9b141"
+    },
+    "stp": {
+      "values_digest": "b6f90458a843d0a47bd03bb4f01bd4a66437d3f76bcd76d810160966941034df",
+      "rendered_digest": "7123bdf50ab66e7a7e2c51fdfc96404133171ecab4c77ec8e3b236c6116f35ec",
+      "ast_digest": "04367f9a83ff4a7966b8d98fae2a8719ee00a9927afe5ca8258fee179ea6708e"
+    },
+    "spp": {
+      "values_digest": "49c0e7e888585b3f8c2b4e9c9ea4c94370aa0755bbff5ce03260ad92a9c7f6ce",
+      "rendered_digest": "0bc03aa28a1a675b53a5435d089caadb7095cc7c4126fe05977ab0bed5c05ac7",
+      "ast_digest": "c8dc103f6f6c4bbf740d9001b463b83cad3a727f63a994bfe990db409403a844"
+    },
+    "vpp": {
+      "values_digest": "f2b1232fc9457532d98453a046cf278c3a1cff3fd7710603bb47e87aec0cc236",
+      "rendered_digest": "12fb3f89914fd9871a7fe166b72956cc35692b1e608ffa61f2cd608d76bae41d",
+      "ast_digest": "eec7405d5ca6abf3f75188c7ff81b3a8e25e6e859d64211eef39735b95586bb4"
+    },
+    "srp": {
+      "values_digest": "63c10f643c77d51ccdc48c1a94eef7e0a3f9541e843b4601971517a39514ac61",
+      "rendered_digest": "a847dfeb16f7336cefae0576eb4e34b74a5fbf5b540a3c84ea65b477436a67bd",
+      "ast_digest": "f5d5a8bdf7f580feb0426bfc98714c446855f432be84f5cc0564d6c668381a84"
+    },
+    "sor": {
+      "values_digest": "15ea88c9f56d0068ba054ccdc3a981461c87a4dbe0427f7b39e5c0f3c8071857",
+      "rendered_digest": "c06fbd8b43e60c836b11c1d83cdc39a84a3ce10ffea53769743dee3a543894a8",
+      "ast_digest": "ab59bc1c9f8e0d69bb84e4e6e78d5f22e8878e9091799c2340187b5d8cb25338"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Recover #486 initialized pre-bind card truth after design review found VPP lanes referencing post-bind implementation artifacts before the FastWork worktree exists.",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"aws-b-terminal-prerequisite\",\"relation\":\"unlocks\",\"to\":\"aws-c-bootstrap-owner\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":485,\"node_id\":\"aws-b-terminal-prerequisite\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terminal-access-billing-prerequisite\"},{\"in_scope\":true,\"issue\":486,\"node_id\":\"aws-c-bootstrap-owner\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terraform-bootstrap-owner\"}],\"parent_integration_owner\":\"aws-c-bootstrap-owner\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"5431aea2b69bbca8e990b877455ede18628b6726d7fa983e9da500cc98edaa3e\",\"byte_sha256\":\"abb15ff66367e18881072e8a28f60b967681065b1ee7813c63d06c5eb6ae6547\",\"path\":\".csdlc/prepared/issues/486/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"ed3c82681f657aeaa419c35dd4fd77259d665b01061b2acf586e0f441995a72c\",\"byte_sha256\":\"b4d7eec0c0dfef61105ee61e99c89cc4b993c0567ede67616bfe5a0cf7b4c217\",\"path\":\".csdlc/prepared/issues/486/diagram.mmd\"},\"recovery_scope\":[\"pre-bind VPP executable denominator repair\",\"preserve authored AWS-C design and diagram artifacts\",\"record AWS-B #485 terminal dependency evidence without binding or implementation edits\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Make initialized #486 validation lanes governed by exact issue-owned validator paths before design review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/aws/bootstrap\",\"docs/operations/cloud/aws/terraform-bootstrap\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c\",\".csdlc/prepared/issues/486\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Make #486 validator deliverables exact so initialized deferred lanes are governed and fail closed.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"infra/aws/bootstrap Terraform bootstrap root/module\",\"docs/operations/cloud/aws/terraform-bootstrap operator runbook\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c retained proof\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Select only governed #486 initialized validation lanes before design review and defer post-bind Terraform/AWS proof until implementation paths exist.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-bootstrap-packet\",\"proof_role\":\"Proves #486 design packet readiness, #485 terminal dependency evidence, and lifecycle distinction between pre-bind packet proof and future implementation-owned Terraform/readback paths.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"terraform-bootstrap-static\",\"proof_role\":\"After bind, proves Terraform formatting, provider pins, backend-free initialization, and validate proof for the bootstrap root.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\",\"--lane\",\"terraform-static\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #486 is bound and the implementation creates infra/aws/bootstrap plus the issue-owned readback/validation script.\"},{\"lane\":\"aws-bootstrap-readback\",\"proof_role\":\"After reviewed live apply, proves backend identity, lock/versioning, recovery rehearsal, provider pins, and state isolation through read-only AWS readbacks.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\",\"--lane\",\"aws-readback\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"Deferred until #486 is bound, the bootstrap resources exist or the reviewed plan proves they are intentionally absent, and live AWS read-only proof is safe to run with the approved agent-logic-admin profile.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "fresh-session:7cc258e0-cbc1-4100-9b73-e64b327ee26c",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"5431aea2b69bbca8e990b877455ede18628b6726d7fa983e9da500cc98edaa3e\",\"design_ref\":\".csdlc/prepared/issues/486/design.md\",\"diagram_digest\":\"ed3c82681f657aeaa419c35dd4fd77259d665b01061b2acf586e0f441995a72c\",\"diagram_ref\":\".csdlc/prepared/issues/486/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Repair #486 R1 review findings by recording the retained state-isolation register and replacing stale SOR execution truth before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the AWS-C Terraform bootstrap root, operator runbook, retained state-isolation register, and issue-owned validation/readback script for a recoverable Agent Logic account-foundation backend.\",\"changes\":[\"Added infra/aws/bootstrap with provider pins, encrypted/versioned S3 state bucket, DynamoDB lock table, and scoped Terraform deployment role/backend-access policy.\",\"Added an AWS Terraform bootstrap runbook that documents static proof, saved-plan review, apply, readback, backend handoff values, and state-isolation boundaries.\",\"Added a retained AWS-C state-isolation register proving existing website, DDNS, public-edge, Runtime, and workload state are not imported, copied, referenced, or dual-owned by the bootstrap root.\",\"Added the AWS-C issue-owned readback/validation script with terraform-static and aws-readback lanes plus register checks.\",\"Validated the lifecycle packet, Terraform formatting, Terraform init -backend=false, Terraform validate, and diff hygiene.\"],\"artifacts\":[\".csdlc/prepared/issues/486/design.md\",\".csdlc/prepared/issues/486/diagram.mmd\",\".csdlc/prepared/issues/486/aws-b-terminal-receipt.md\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\",\"infra/aws/bootstrap\",\"docs/operations/cloud/aws/terraform-bootstrap/AWS_TERRAFORM_BOOTSTRAP_RUNBOOK.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/state-isolation-register.md\",\".csdlc/issues/486\",\".csdlc/prepared/issues/486\"],\"validation\":[{\"command\":[\"/usr/bin/env\",\"bash\",\".csdlc/prepared/issues/486/validate-aws-c-bootstrap.sh\"],\"purpose\":\"Run the issue-owned #486 validator, including retained state-isolation register checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"aws-c-bootstrap-packet.log\"},{\"command\":[\"/usr/bin/env\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Run git diff --check.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"/usr/bin/env\",\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-c/run-terraform-bootstrap-readbacks.sh\",\"--lane\",\"terraform-static\"],\"purpose\":\"Run the AWS-C terraform-static lane.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-bootstrap-static.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #486 R1 failed exact-head review after preserving findings: missing retained state-isolation register and stale SOR lifecycle truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover #486 R2 failed exact-head review after preserving finding 486-R2-P1-STALE-SOR-LIFECYCLE-TRUTH so typed post-review SOR lifecycle truth repair can proceed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Resolve recorded #486 R2 finding 486-R2-P1-STALE-SOR-LIFECYCLE-TRUTH by replacing stale pre-bind follow-ups with publication/live-AWS gates after the issue is bound and implemented.",
+      "operation": "{\"new_values\":[\"Publish the reviewed #486 PR after fresh exact-head PASS and required typed publication guard.\",\"Run live AWS apply/readback only after explicit operator approval for mutation with the approved agent-logic-admin profile.\"],\"operation\":\"replace_sor_follow_ups_after_recovery\",\"previous_values\":[\"Run the pre-bind validator and obtain fresh design review before bind.\",\"Bind to a FastWork worktree before creating infra/aws/bootstrap.\"],\"recovery_generation\":10,\"recovery_sequence\":14}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Resolve recorded #486 R2 stale lifecycle finding by marking the implemented SOR ready for fresh review and publication gating; terminal closeout remains pending publication/merge.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
