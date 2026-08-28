@@ -53,7 +53,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         return Ok(csdlc_v2::public_schema_bundle());
     }
     if matches!(cli.command, Command::Publish { .. }) {
-        csdlc_v2::verify_installed_owner_preflight(&cli.root)?;
+        csdlc_v2::verify_installed_owner_operation(&cli.root, "publish")?;
     }
     let request_path = match &cli.command {
         Command::Publish { request } | Command::Status { request } => request,

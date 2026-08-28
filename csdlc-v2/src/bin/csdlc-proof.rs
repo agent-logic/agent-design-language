@@ -15,7 +15,7 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let result = csdlc_v2::verify_installed_owner_preflight(&args.repo)
+    let result = csdlc_v2::verify_installed_owner_operation(&args.repo, "run")
         .and_then(|_| fs::read(&args.manifest).map_err(Into::into))
         .and_then(|bytes| serde_json::from_slice::<ProofManifest>(&bytes).map_err(Into::into))
         .and_then(|manifest| run_pre_switch_proof(&args.repo, &manifest))

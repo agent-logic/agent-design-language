@@ -3,7 +3,7 @@ use std::{fs, path::PathBuf};
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
     execute_github_action, inspect_runner_eligibility, public_schema_bundle,
-    verify_installed_owner_preflight, GithubAction, GithubActionRequest, RunnerPreflightRequest,
+    verify_installed_owner_operation, GithubAction, GithubActionRequest, RunnerPreflightRequest,
 };
 
 #[derive(Parser)]
@@ -68,11 +68,14 @@ async fn runner_preflight(path: &PathBuf) -> csdlc_v2::Result<csdlc_v2::RunnerPr
 
 async fn run(path: &PathBuf) -> csdlc_v2::Result<serde_json::Value> {
     let request: GithubActionRequest = serde_json::from_slice(&fs::read(path)?)?;
-    if !matches!(
+    let operation = if matches!(
         request.action,
         GithubAction::IssueRead | GithubAction::PrState
     ) {
-        verify_installed_owner_preflight(&std::env::current_dir()?)?;
-    }
+        "run-read"
+    } else {
+        "run-write"
+    };
+    verify_installed_owner_operation(&std::env::current_dir()?, operation)?;
     serde_json::to_value(execute_github_action(&request).await?).map_err(Into::into)
 }

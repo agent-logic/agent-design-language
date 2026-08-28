@@ -119,6 +119,44 @@ pub fn verify_installed_owner_preflight(repo: &Path) -> Result<()> {
     verify_receipt_identity(repo, bin_dir, &manifest, &receipt)
 }
 
+pub fn verify_installed_owner_operation(repo: &Path, operation: &str) -> Result<()> {
+    let executable = std::env::current_exe().map_err(io_error)?;
+    let name = executable
+        .file_name()
+        .and_then(|value| value.to_str())
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ValidationFailed,
+                "owner executable identity is unavailable",
+            )
+        })?;
+    let manifest = SkillManifest::load()?;
+    let routes = manifest
+        .operation_routes
+        .iter()
+        .filter(|route| route.binary == name)
+        .collect::<Vec<_>>();
+    if routes.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidManifest,
+            format!("owner operation classification is unavailable: {name}/{operation}"),
+        ));
+    }
+    let route = routes
+        .into_iter()
+        .find(|route| route.operation == operation)
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::InvalidManifest,
+                format!("owner operation is unclassified: {name}/{operation}"),
+            )
+        })?;
+    if route.mutates_state {
+        verify_installed_owner_preflight(repo)?;
+    }
+    Ok(())
+}
+
 fn stale_owner_error(detail: &str) -> V2Error {
     V2Error::new(
         ErrorCode::ValidationFailed,
@@ -139,7 +177,7 @@ pub fn owner_source_set_digest(repo: &Path) -> Result<String> {
             "owner source set identity is invalid",
         ));
     }
-    let mut files = BTreeMap::<Vec<u8>, (PathBuf, String)>::new();
+    let mut entries = Vec::new();
     for entry in source_set.entries {
         let raw = entry.to_str().ok_or_else(|| {
             V2Error::new(ErrorCode::InvalidManifest, "owner source path is not UTF-8")
@@ -154,60 +192,69 @@ pub fn owner_source_set_digest(repo: &Path) -> Result<String> {
                 "owner source path escapes the repository",
             ));
         }
-        let status = crate::git::run(
-            repo,
-            &[
-                "status",
-                "--porcelain=v1",
-                "--untracked-files=all",
-                "--",
-                raw,
-            ],
-        )?
-        .stdout;
-        if status.lines().any(|line| line.starts_with("?? ")) {
+        entries.push(raw.to_string());
+    }
+    let mut status_args = vec!["status", "--porcelain=v1", "--untracked-files=all", "--"];
+    status_args.extend(entries.iter().map(String::as_str));
+    if !crate::git::run(repo, &status_args)?
+        .stdout
+        .trim()
+        .is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ValidationFailed,
+            "owner source set contains modified, deleted, or untracked files",
+        ));
+    }
+    let mut ls_args = vec!["ls-files", "--stage", "--"];
+    ls_args.extend(entries.iter().map(String::as_str));
+    let output = crate::git::run(repo, &ls_args)?.stdout;
+    let mut files = BTreeMap::<Vec<u8>, (PathBuf, String, String)>::new();
+    for line in output.lines() {
+        let (metadata, path) = line.split_once('\t').ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::CorruptRecord,
+                "owner source Git row is malformed",
+            )
+        })?;
+        let mut fields = metadata.split_whitespace();
+        let mode = fields.next().unwrap_or_default();
+        let object = fields.next().unwrap_or_default();
+        let stage = fields.next().unwrap_or_default();
+        if (mode != "100644" && mode != "100755") || object.len() < 40 || stage != "0" {
             return Err(V2Error::new(
                 ErrorCode::ValidationFailed,
-                format!("owner source entry contains untracked files: {raw}"),
+                format!("owner source is not a tracked regular stage-zero file: {path}"),
             ));
         }
-        let output = crate::git::run(repo, &["ls-files", "--stage", "--", raw])?.stdout;
-        if output.trim().is_empty() {
+        if files
+            .insert(
+                path.as_bytes().to_vec(),
+                (PathBuf::from(path), mode.to_string(), object.to_string()),
+            )
+            .is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidManifest,
+                "owner source set contains duplicate files",
+            ));
+        }
+    }
+    for entry in &entries {
+        let prefix = format!("{entry}/");
+        if !files.values().any(|(path, _, _)| {
+            let path = path.to_string_lossy();
+            path == entry.as_str() || path.starts_with(&prefix)
+        }) {
             return Err(V2Error::new(
                 ErrorCode::ValidationFailed,
-                format!("owner source entry is unavailable: {raw}"),
+                format!("owner source entry is unavailable: {entry}"),
             ));
-        }
-        for line in output.lines() {
-            let (metadata, path) = line.split_once('\t').ok_or_else(|| {
-                V2Error::new(
-                    ErrorCode::CorruptRecord,
-                    "owner source Git row is malformed",
-                )
-            })?;
-            let mode = metadata.split_whitespace().next().unwrap_or_default();
-            if mode != "100644" && mode != "100755" {
-                return Err(V2Error::new(
-                    ErrorCode::ValidationFailed,
-                    format!("owner source is not a tracked regular file: {path}"),
-                ));
-            }
-            let relative = PathBuf::from(path);
-            if files
-                .insert(path.as_bytes().to_vec(), (relative, mode.to_string()))
-                .is_some()
-            {
-                return Err(V2Error::new(
-                    ErrorCode::InvalidManifest,
-                    "owner source set contains duplicate files",
-                ));
-            }
         }
     }
     let mut hasher = blake3::Hasher::new();
     hasher.update(b"csdlc.owner_source_set.v1\0");
-    for (_, (path, mode)) in files {
-        let bytes = fs::read(repo.join(&path)).map_err(io_error)?;
+    for (_, (path, mode, object)) in files {
         let path = path.to_str().ok_or_else(|| {
             V2Error::new(ErrorCode::InvalidManifest, "owner source path is not UTF-8")
         })?;
@@ -215,8 +262,8 @@ pub fn owner_source_set_digest(repo: &Path) -> Result<String> {
         hasher.update(path.as_bytes());
         hasher.update(&(mode.len() as u64).to_be_bytes());
         hasher.update(mode.as_bytes());
-        hasher.update(&(bytes.len() as u64).to_be_bytes());
-        hasher.update(&bytes);
+        hasher.update(&(object.len() as u64).to_be_bytes());
+        hasher.update(object.as_bytes());
     }
     Ok(hasher.finalize().to_hex().to_string())
 }
@@ -305,6 +352,10 @@ impl SkillManifest {
             }
         }
         let expected_routes = [
+            ("csdlc-github", "run-write", true),
+            ("csdlc-github", "run-read", false),
+            ("csdlc-github", "runner-preflight", false),
+            ("csdlc-github", "schema", false),
             ("csdlc-clean", "cleanup", true),
             ("csdlc-clean", "compatibility-index", true),
             ("csdlc-clean", "materialize-terminal", true),
@@ -1007,7 +1058,9 @@ mod tests {
         assert_eq!(owner_source_set_digest(repo.path()).unwrap(), baseline);
 
         fs::write(repo.path().join("csdlc-v2/src/lib.rs"), "owner drift\n").unwrap();
-        assert_ne!(owner_source_set_digest(repo.path()).unwrap(), baseline);
+        let error = owner_source_set_digest(repo.path()).unwrap_err();
+        assert!(error.message.contains("modified, deleted, or untracked"));
+        git(repo.path(), &["checkout", "--", "csdlc-v2/src/lib.rs"]);
 
         fs::write(
             repo.path().join("csdlc-v2/src/untracked_owner.rs"),
@@ -1015,7 +1068,7 @@ mod tests {
         )
         .unwrap();
         let error = owner_source_set_digest(repo.path()).unwrap_err();
-        assert!(error.message.contains("contains untracked files"));
+        assert!(error.message.contains("modified, deleted, or untracked"));
     }
 
     fn git(root: &Path, args: &[&str]) {

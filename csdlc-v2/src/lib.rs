@@ -93,8 +93,8 @@ pub use model::{
 };
 pub use operator::{
     build_and_install_binaries, install_binaries, owner_source_set_digest,
-    resolve_operator_generation, verify_coexistence, verify_installed_owner_preflight,
-    CoexistenceInventory, InstallReceipt, SkillManifest,
+    resolve_operator_generation, verify_coexistence, verify_installed_owner_operation,
+    verify_installed_owner_preflight, CoexistenceInventory, InstallReceipt, SkillManifest,
 };
 pub use output::write_json_stdout;
 pub use projection_cleanup::{

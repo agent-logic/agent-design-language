@@ -32,7 +32,7 @@ enum Command {
 fn main() {
     let result: csdlc_v2::Result<serde_json::Value> = match Cli::parse().command {
         Command::GenerateSamples { repo, output } => {
-            csdlc_v2::verify_installed_owner_preflight(&repo)
+            csdlc_v2::verify_installed_owner_operation(&repo, "generate-samples")
                 .and_then(|_| generate_sample_packets(&repo, &output))
                 .and_then(|packets| serde_json::to_value(packets).map_err(Into::into))
         }
@@ -42,7 +42,7 @@ fn main() {
             output,
         } => (|| {
             if output.is_some() {
-                csdlc_v2::verify_installed_owner_preflight(&repo)?;
+                csdlc_v2::verify_installed_owner_operation(&repo, "decide-with-output")?;
             }
             fs::read(evidence)
                 .map_err(Into::into)
