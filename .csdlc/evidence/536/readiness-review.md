@@ -1,8 +1,8 @@
 # Sprint 8 Readiness Review
 
 - Result: PASS
-- Reviewed revision: `bc5f8208b0b9f9755ae38906e53ee7db96ef526a`
-- Reviewer: `fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd`
+- Reviewed revision: `34ffd44e95880cf0a67affcf60338db7da912605`
+- Reviewer: `fresh-session:a5ec631e-35d1-4bf8-94aa-aaba32fddcb2`
 - Active membership: `#261`, `#342`, `#262`, `#263`, `#264`, `#511`, `#512`, `#51`
 - Backlog: `#84`
 

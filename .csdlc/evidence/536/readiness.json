@@ -4,9 +4,9 @@
   "sprint_issue": 536,
   "membership_version": 5,
   "ordered_issue_numbers": [261, 342, 262, 263, 264, 511, 512, 51],
-  "reviewed_revision": "bc5f8208b0b9f9755ae38906e53ee7db96ef526a",
-  "reviewer": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
-  "packet_sha256": "0c3d299fcccc3f49abf1d29a4ef5c726ca9cfd4834d2fbb6a89151777b3eb768",
+  "reviewed_revision": "34ffd44e95880cf0a67affcf60338db7da912605",
+  "reviewer": "fresh-session:a5ec631e-35d1-4bf8-94aa-aaba32fddcb2",
+  "packet_sha256": "4d1826497e3844393a2e561955cac337f839692da8bcfc1c851f674c568e8033",
   "known_blockers": [
     {"issue": 264, "blocks": [264], "disposition": "provider_specific_operator_authorization_required"}
   ],
