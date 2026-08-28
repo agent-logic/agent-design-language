@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 503,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+    "slug": "v0-92-1-v3-d-c-sdlc-v3-local-preparation-workflow",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one end-to-end C-SDLC v3 local preparation workflow.",
+      "required_outcome": "A non-authoritative C-SDLC v3 local preparation workflow from issue input to a doctor-validated PVF plan, with typed contracts, topology binding, active-registry card rendering, and CLI proof for retained requirements #171 through #173.",
+      "declared_scope": [
+        "csdlc-v3/src/commands/local/**",
+        "csdlc-v3/tests/local_commands/**",
+        "docs/templates/prompts/**",
+        ".csdlc/issues/503/**",
+        ".csdlc/prepared/issues/503/**",
+        ".csdlc/evidence/503/**"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains the sole operational lifecycle authority throughout #503.",
+        "Issue completion is exactly one local preparation workflow; individual commands are internal steps and cannot close independently.",
+        "The #503 slice is non-authoritative and must not perform PVF execution, live GitHub mutation, publication, finish, cleanup, v2 migration, or authority cutover."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Start #503 only after Sprint 5 leaves #501 and #502 merged/closed out or explicitly dispositioned.",
+        "Keep #503 ordered after V3-C issue #502 and before V3-E issue #504.",
+        "Keep v3 construction-only; do not treat C-SDLC v3 as live lifecycle authority before V3-F issue #505.",
+        "Keep issue-start mechanics simple enough that prepared issue inspection, binding, and first useful work can happen in three minutes or less without bypassing typed v2 authority."
+      ]
+    }
+  }
+}
