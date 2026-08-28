@@ -89,6 +89,12 @@ struct OwnerSourceSet {
 const OWNER_SOURCE_SET: &str = include_str!("../operator/owner-source-set.json");
 
 pub fn verify_installed_owner_preflight(repo: &Path) -> Result<()> {
+    #[cfg(debug_assertions)]
+    if std::env::var_os("ADL_CSDLC_TEST_ALLOW_UNINSTALLED_OWNER_BINARY").as_deref()
+        == Some(std::ffi::OsStr::new("1"))
+    {
+        return Ok(());
+    }
     if !is_regular_file(&repo.join(".adl/worktree-policy.json")) {
         return Ok(());
     }
