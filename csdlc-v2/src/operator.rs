@@ -92,6 +92,7 @@ pub fn verify_installed_owner_preflight(repo: &Path) -> Result<()> {
     #[cfg(debug_assertions)]
     if std::env::var_os("ADL_CSDLC_TEST_ALLOW_UNINSTALLED_OWNER_BINARY").as_deref()
         == Some(std::ffi::OsStr::new("1"))
+        && executable_is_in_cargo_debug_profile_directory()?
     {
         return Ok(());
     }
@@ -123,6 +124,21 @@ pub fn verify_installed_owner_preflight(repo: &Path) -> Result<()> {
         serde_json::from_slice(&fs::read(&receipt_path).map_err(io_error)?)
             .map_err(|_| stale_owner_error("installed receipt is malformed"))?;
     verify_receipt_identity(repo, bin_dir, &manifest, &receipt)
+}
+
+#[cfg(debug_assertions)]
+fn executable_is_in_cargo_debug_profile_directory() -> Result<bool> {
+    let executable = std::env::current_exe().map_err(io_error)?;
+    let executable = fs::canonicalize(executable).map_err(io_error)?;
+    let Some(profile_directory) = executable.parent() else {
+        return Ok(false);
+    };
+    Ok(
+        profile_directory.file_name() == Some(std::ffi::OsStr::new("debug"))
+            && profile_directory.join("deps").is_dir()
+            && profile_directory.join(".fingerprint").is_dir()
+            && profile_directory.join("build").is_dir(),
+    )
 }
 
 pub fn verify_installed_owner_operation(repo: &Path, operation: &str) -> Result<()> {

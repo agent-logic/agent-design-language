@@ -358,6 +358,34 @@ fn every_direct_mutating_owner_rejects_before_checkout_mutation_without_receipt(
     )
     .unwrap();
     let before = checkout_manifest(repo);
+    let installed = tempfile::tempdir().unwrap();
+    let installed_directory = installed.path().join("csdlc-v2");
+    fs::create_dir(&installed_directory).unwrap();
+    let installed_clean = installed_directory.join("csdlc-clean");
+    fs::copy(prebuilt_binaries().join("csdlc-clean"), &installed_clean).unwrap();
+    let installed_result = Command::new(&installed_clean)
+        .current_dir(repo)
+        .env("ADL_CSDLC_TEST_ALLOW_UNINSTALLED_OWNER_BINARY", "1")
+        .args([
+            "cleanup",
+            "--root",
+            &repo.display().to_string(),
+            "--request",
+            &missing.display().to_string(),
+        ])
+        .output()
+        .unwrap();
+    assert!(!installed_result.status.success());
+    let installed_combined = format!(
+        "{}{}",
+        String::from_utf8_lossy(&installed_result.stdout),
+        String::from_utf8_lossy(&installed_result.stderr)
+    );
+    assert!(
+        installed_combined.contains("stale owner-binary provenance"),
+        "installed debug owner accepted the test-only bypass: {installed_combined}"
+    );
+    assert_eq!(checkout_manifest(repo), before);
     let cases: Vec<(&str, Vec<String>)> = vec![
         (
             "csdlc-clean",
