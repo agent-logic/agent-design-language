@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "526cf0df8c21bda077e6d86d72235e2018344c6406e4eb56eb652c5cf8a7a799",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "f2e1b64910db597b672136554a7d98b0cdc7074c7e31df79cf7abf4f82b17679",
+  "generation": 19,
+  "digest": "f78336abef9096aaa9b3125540150ced3e28312ce31caad928a2aa51737db16d",
   "branch": "codex/491-gcp-terraform-bootstrap",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-491-gcp-terraform-bootstrap",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1f0cfb1bb0692b0e9d39efc5fc54a585d3530a0bf1b1fd903edc5ceadc0846a5",
-      "rendered_digest": "0e57e3653944339e0ed6e8a6eec151ab13ec7e8b9218d1fb79fdb85dbef619d4",
-      "ast_digest": "2881c168e1db70bd46a84028c77c41f81570304afe870033b1f71f610de83aa6"
+      "values_digest": "5e3a2d08504868da30a5d0b4a8d0157372936ed877e572bfd634cd7e0a4dbb40",
+      "rendered_digest": "1854eb54495c7244b8b124fe000359cdb0f2eb28ff4bed6f7ee5932bfc0b4aba",
+      "ast_digest": "f56230fd0f500473c054431c1d56e47d741efffe41cb1d77bbb6ef5d0ce81e5d"
     },
     "stp": {
-      "values_digest": "6e4ff2a0f70b9960f067ff31db096d75b8741d66ea60d48423e52e1d25dde9d8",
+      "values_digest": "d7f39a90d4d920c255739464938e4e4c46be59f5e5404095831a379756554a45",
       "rendered_digest": "43834979b108f7a1e5ba1de66aeebf890dcd910867a1349316b95e22e28d8061",
       "ast_digest": "79eda83487ce176f0e734d3650d158210b985c60399e7ec276d4226ff5c96ad2"
     },
     "spp": {
-      "values_digest": "5ea84f772a23b7aa87a0cbafb8cd9dc8fc8ab0ecfff68892ed3b4206333a8e0e",
-      "rendered_digest": "49e3c03b32418b8cce9503dc731e0077010cfbf8b205c5952cb2f19ad6eaf819",
-      "ast_digest": "d522a6a733f82e4a6f93867391062ba6659eea5f081416367bd51273d87b58d5"
+      "values_digest": "851baa00cd53c643b8fbc650783d21aa67c973cbeed9882515685d14f8d11181",
+      "rendered_digest": "b2521fd07588f1ac2849ad05d813258ad624e8844f70bdd51e4eb49939d4e11b",
+      "ast_digest": "1c053c47e372d1f69468119b1c435f55bc8aced3ba9c8f28f8a36822100500b3"
     },
     "vpp": {
-      "values_digest": "bc2c6c6d350d798ae3718696dd2df2bf0cfa22790a1c37d0b22e396f6c503c70",
+      "values_digest": "d175f882f81b7798fad08f21300442259f30fd8bfedb4070bb741176e0166bac",
       "rendered_digest": "da1a9daf31bf745d03bcef76fc7a31f25242fb96aa496e4dc37b08c6c25f4ecc",
       "ast_digest": "7c93f105723557e6fac12c4f9b9b5e59b3a22baab7fed41d7e0fd36e243eb3a7"
     },
     "srp": {
-      "values_digest": "14a9615d90c085cb195b68e3a625e8f912b025dbc52bfb396812f5be2c021e02",
+      "values_digest": "0bf1e2f891b0a8a92ee72a59d3774127d18b92be380e9e0e6a68ab74dabc42ec",
       "rendered_digest": "e6f9392ca802dc616f47a59d935de5cf32186456d0a29e0a8a4dcb6f64264301",
       "ast_digest": "afe1d8a9f2b226a74829daf0ab1f9575ae35bea76565668058b30feab9b9e1e2"
     },
     "sor": {
-      "values_digest": "1328ab972d1db8db85f194b78a3a5bc3f0bbef31e36eff2636b96fc38e619d62",
+      "values_digest": "4a1e01a345d500ca93c14ab8711468b230277cb348fb941a0a4c41d752fe0d08",
       "rendered_digest": "a096a98443c319fa8454216ec17fa9a7b2ca2b26af4ae1c7f21b73df2b7904a4",
       "ast_digest": "a3c328e7331b0a6cfc5bc195fe6a03eea02f479f36081984873ecdbf685c41b6"
     }
@@ -197,6 +197,48 @@
       "actor": "codex:/root",
       "reason": "Remove obsolete impersonation wording from #491 deliverables after operator-approved key-backed sprint route.",
       "operation": "{\"new_values\":[\"infra/gcp/bootstrap Terraform root/module for backend and deployment identity bootstrap\",\"docs/operations/cloud/gcp/terraform-bootstrap operator runbook\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b retained proof packet\",\"issue-owned validator and readback scripts for backend identity, state recovery, approved key-backed execution, provider pins, and local-state cleanup\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"infra/gcp/bootstrap Terraform root/module for backend and deployment identity bootstrap\",\"docs/operations/cloud/gcp/terraform-bootstrap operator runbook\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b retained proof packet\",\"issue-owned validator and readback scripts for backend identity, state recovery, impersonation, provider pins, and local-state cleanup\"],\"recovery_generation\":8,\"recovery_sequence\":11}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Recover #491 R2 failed exact-head review after preserving VPP impersonation fail-closed and SIP/SPP stale impersonation preference findings for typed card-truth repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Repair #491 post-review SIP declared scope so current sprint truth is key-backed bootstrap rather than short-lived impersonation.",
+      "operation": "{\"new_values\":[\"GCP host-project Terraform backend bootstrap\",\"GCS remote-state privacy, versioning, auditability, and recovery\",\"Company-controlled Terraform bootstrap service account\",\"Operator-approved local static key bootstrap path for this sprint execution\",\"Provider pinning, saved-plan review, and local-state cleanup\",\"Future non-key identity hardening is outside #491 and must not block the sprint bootstrap\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"GCP host-project Terraform backend bootstrap\",\"GCS remote-state privacy, versioning, auditability, and recovery\",\"Company-controlled Terraform bootstrap service account\",\"Short-lived impersonation as preferred execution\",\"Operator-approved local static key bootstrap path\",\"Provider pinning, saved-plan review, and local-state cleanup\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Repair #491 SIP authority boundary so it does not retain stale short-lived impersonation as current authority after the operator-approved key-backed route.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Use company GCP project cs-host-377d41e71a824f92802120\",\"Use bootstrap service account tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com\",\"Use the operator-approved static key only from /Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json for #491 sprint bootstrap commands\",\"Never print, copy, commit, or retain service-account private-key contents, token contents, ADC database contents, or refresh tokens\",\"GCP mutation is limited to the accepted host project and bootstrap resources\",\"Future non-key identity work is out of scope for #491 and must not block this sprint bootstrap\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Repair #491 SPP invariants so current implementation truth is key-backed sprint bootstrap rather than impersonation-preferred execution.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Terraform bootstrap targets only cs-host-377d41e71a824f92802120\",\"Sprint execution uses the approved service-account key as command-scoped source credentials\",\"The local static key stays outside the repository under /Users/daniel/keys\",\"Retained evidence never includes credentials, token material, or service-account private-key JSON\",\"Provider pins and saved-plan review are explicit before apply\",\"Local bootstrap state is removed, ignored, or quarantined recoverably after backend migration\"]}"
     }
   ]
 }

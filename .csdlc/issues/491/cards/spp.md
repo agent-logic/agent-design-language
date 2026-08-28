@@ -16,7 +16,7 @@ Bootstrap #491, obtain design approval, bind a FastWork worktree after #490 term
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -67,11 +67,11 @@ Revision 2
 ## Invariants
 
 - Terraform bootstrap targets only cs-host-377d41e71a824f92802120
-- Steady-state execution prefers impersonation over static keys
+- Sprint execution uses the approved service-account key as command-scoped source credentials
 - The local static key stays outside the repository under /Users/daniel/keys
 - Retained evidence never includes credentials, token material, or service-account private-key JSON
 - Provider pins and saved-plan review are explicit before apply
-- Local bootstrap state is removed or quarantined recoverably after backend migration
+- Local bootstrap state is removed, ignored, or quarantined recoverably after backend migration
 
 ## Risks
 

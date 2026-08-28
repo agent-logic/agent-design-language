@@ -23,18 +23,18 @@ One recoverable GCP state project backend and deployment-identity bootstrap.
 - GCP host-project Terraform backend bootstrap
 - GCS remote-state privacy, versioning, auditability, and recovery
 - Company-controlled Terraform bootstrap service account
-- Short-lived impersonation as preferred execution
-- Operator-approved local static key bootstrap path
+- Operator-approved local static key bootstrap path for this sprint execution
 - Provider pinning, saved-plan review, and local-state cleanup
+- Future non-key identity hardening is outside #491 and must not block the sprint bootstrap
 
 ## Authority
 
 - Use company GCP project cs-host-377d41e71a824f92802120
 - Use bootstrap service account tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com
-- Prefer short-lived service-account impersonation for steady-state Terraform execution
-- Use the operator-approved static key only from /Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json when a key-backed bootstrap command is explicitly selected
+- Use the operator-approved static key only from /Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json for #491 sprint bootstrap commands
 - Never print, copy, commit, or retain service-account private-key contents, token contents, ADC database contents, or refresh tokens
 - GCP mutation is limited to the accepted host project and bootstrap resources
+- Future non-key identity work is out of scope for #491 and must not block this sprint bootstrap
 
 ## Assumptions
 
