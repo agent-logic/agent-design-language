@@ -23,6 +23,15 @@ through the typed contracts in `csdlc-v2/operator/skills/`. The old
 `adl_pr_cycle`, `pr.sh`, prompt-template wrapper, and five-command compatibility
 routes are historical surfaces, not current lifecycle authority.
 
+C-SDLC v3 work under `csdlc-v3/` is the next replacement line, not current
+authority. Treat `csdlc-v3/README.md` and `csdlc-v3/AGENTS.md` as construction
+guidance for v3 packages only: v3 code may model lifecycle behavior and reduce
+operator friction, but it must not perform lifecycle writes, GitHub writes,
+publication, finish, cleanup, or v2 retirement until an explicit V3-F cutover
+issue proves and approves that switch. The intended destination is a clean v3
+replacement of active v2 surfaces, while historical v2 evidence remains
+preserved.
+
 Canonical issue state lives under `.csdlc/issues/<issue>/`, with typed request
 material normally prepared under `.csdlc/prepared/issues/<issue>/` or
 Git-common invocation paths when the request is transient. Generated cards are
@@ -66,4 +75,6 @@ instead of full local validation. CI remains required before merge.
 
 1. `README.md`
 2. `adl/tools/README.md`
-3. `.adl/reports/INDEX.md`
+3. `csdlc-v2/AGENTS.md`
+4. `csdlc-v3/README.md`
+5. `.adl/reports/INDEX.md`

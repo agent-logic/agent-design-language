@@ -9,6 +9,10 @@ that.
 
 - `csdlc-v3/**` may model lifecycle decisions, transaction storage, recovery,
   adapters, projections, and validation fixtures.
+- The current V3-C slice may contain pure lifecycle transition decisions,
+  deterministic transaction storage/recovery classification, typed adapter
+  boundaries, and focused transaction tests for retained requirements #168
+  through #170. Those surfaces are construction evidence only.
 - `csdlc-v3/**` must not bind worktrees, mutate issue state, publish pull
   requests, finish issues, clean worktrees, retire v2, call GitHub, call v2
   owner binaries, or claim operational authority.
@@ -40,3 +44,6 @@ removes real operator friction while preserving the v2 authority boundary.
 Do not change root C-SDLC authority from v2 to v3 in this directory. A clean v3
 replacement requires a later explicit cutover issue with parity/import,
 rollback, publication, finish, cleanup, documentation, and operator-start proof.
+Until that V3-F decision lands, root `AGENTS.md`, onboarding, v2 operator
+skills, and installed PR skills must point to v3 as non-authoritative
+construction evidence rather than as an executable operator path.
