@@ -125,11 +125,11 @@ Implemented the GCP-C organization and billing baseline, repaired diagram diff h
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
