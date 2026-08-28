@@ -225,12 +225,21 @@ pub enum RecoveryClassification {
         intent: TransactionIntent,
         repair: RecoveryRepair,
     },
+    CorruptRecoveryInput {
+        reason: RecoveryRejectReason,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum RecoveryRepair {
     RegenerateProjections,
     ExactReadbackBeforeRemoteResume,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RecoveryRejectReason {
+    InvalidStateDigest,
+    IntentDoesNotMatchCommittedState,
 }
 
 pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassification {
@@ -240,6 +249,9 @@ pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassifica
             RecoveryClassification::PriorState(prior)
         }
         RecoveryObservation::StateCommittedProjectionMissing { state, intent } => {
+            if let Err(reason) = validate_committed_recovery_input(&state, &intent) {
+                return RecoveryClassification::CorruptRecoveryInput { reason };
+            }
             RecoveryClassification::RepairRequired {
                 state,
                 intent,
@@ -254,6 +266,9 @@ pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassifica
                     | LifecycleCommand::Finish
             ) =>
         {
+            if let Err(reason) = validate_committed_recovery_input(&state, &intent) {
+                return RecoveryClassification::CorruptRecoveryInput { reason };
+            }
             RecoveryClassification::RepairRequired {
                 state,
                 intent,
@@ -264,6 +279,32 @@ pub fn classify_recovery(observation: RecoveryObservation) -> RecoveryClassifica
             RecoveryClassification::NewState(state)
         }
     }
+}
+
+fn validate_committed_recovery_input(
+    state: &StateRecord,
+    intent: &TransactionIntent,
+) -> Result<(), RecoveryRejectReason> {
+    let expected_digest = digest_for(
+        state.generation,
+        state.state,
+        &state.audit,
+        state.projections_repair_required,
+    );
+    if state.digest != expected_digest {
+        return Err(RecoveryRejectReason::InvalidStateDigest);
+    }
+    let Some(event) = state.audit.last() else {
+        return Err(RecoveryRejectReason::IntentDoesNotMatchCommittedState);
+    };
+    if state.generation != intent.expected_generation + 1
+        || event.generation != state.generation
+        || event.command != intent.command
+        || event.provenance != intent.provenance
+    {
+        return Err(RecoveryRejectReason::IntentDoesNotMatchCommittedState);
+    }
+    Ok(())
 }
 
 fn digest_for(

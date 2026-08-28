@@ -159,10 +159,15 @@ fn looks_like_shell(value: &str) -> bool {
 }
 
 fn redact(value: &str) -> String {
-    if value.contains("token=")
-        || value.contains("secret=")
-        || value.contains("password=")
-        || is_inline_secret_assignment(value)
+    let lower = value.to_ascii_lowercase();
+    if is_inline_secret_assignment(value)
+        || is_authorization_header(&lower)
+        || contains_url_userinfo(value)
+        || lower.contains("token=")
+        || lower.contains("secret=")
+        || lower.contains("password=")
+        || lower.contains("api-key=")
+        || lower.contains("api_key=")
     {
         "[REDACTED]".to_owned()
     } else {
@@ -171,8 +176,9 @@ fn redact(value: &str) -> String {
 }
 
 fn is_secret_flag(value: &str) -> bool {
+    let value = value.to_ascii_lowercase();
     matches!(
-        value,
+        value.as_str(),
         "--token"
             | "--secret"
             | "--password"
@@ -190,6 +196,21 @@ fn is_inline_secret_assignment(value: &str) -> bool {
     };
     matches!(
         key.trim_start_matches('-').to_ascii_lowercase().as_str(),
-        "token" | "secret" | "password" | "api-key" | "access-token"
+        "token" | "secret" | "password" | "api-key" | "api_key" | "access-token"
     )
+}
+
+fn is_authorization_header(lowercase_value: &str) -> bool {
+    lowercase_value.starts_with("authorization:")
+}
+
+fn contains_url_userinfo(value: &str) -> bool {
+    let Some((_, after_scheme)) = value.split_once("://") else {
+        return false;
+    };
+    let authority = after_scheme.split('/').next().unwrap_or(after_scheme);
+    let Some((userinfo, _host)) = authority.rsplit_once('@') else {
+        return false;
+    };
+    userinfo.contains(':')
 }

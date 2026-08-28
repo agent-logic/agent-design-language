@@ -8,7 +8,7 @@ use csdlc_v3::lifecycle::{
 };
 use csdlc_v3::storage::{
     classify_recovery, CommitResult, ProjectionWrite, RecoveryClassification, RecoveryObservation,
-    RecoveryRepair, StateRecord, TransactionStore,
+    RecoveryRejectReason, RecoveryRepair, StateRecord, TransactionIntent, TransactionStore,
 };
 use csdlc_v3::LIFECYCLE_KERNEL_PREDECESSORS;
 use std::collections::BTreeSet;
@@ -217,6 +217,43 @@ fn recovery_classifies_interrupted_writes_without_losing_provenance() {
 }
 
 #[test]
+fn recovery_rejects_committed_state_intent_mismatches() {
+    let prior = StateRecord::new(LifecycleState::Ready);
+    let mut store = TransactionStore::new(prior.clone()).expect("valid initial digest");
+    let transaction = store
+        .begin(
+            LifecycleCommand::Bind,
+            &full_capabilities(),
+            prior.generation,
+            prior.digest.clone(),
+            "matched provenance",
+        )
+        .expect("bind transaction stages");
+    let committed = match store
+        .commit(transaction, ProjectionWrite::Success)
+        .expect("state commit succeeds")
+    {
+        CommitResult::Committed(state) => state,
+        CommitResult::ProjectionRepairRequired(_) => panic!("unexpected projection repair"),
+    };
+    let mismatched_intent = TransactionIntent {
+        expected_generation: 99,
+        expected_digest: prior.digest,
+        command: LifecycleCommand::Publish,
+        provenance: "different operation".to_owned(),
+    };
+    assert_eq!(
+        classify_recovery(RecoveryObservation::StateCommitted {
+            state: committed,
+            intent: mismatched_intent
+        }),
+        RecoveryClassification::CorruptRecoveryInput {
+            reason: RecoveryRejectReason::IntentDoesNotMatchCommittedState
+        }
+    );
+}
+
+#[test]
 fn transaction_commit_rechecks_cas_and_digest_binds_contents() {
     let initial = StateRecord::new(LifecycleState::Ready);
     let mut store = TransactionStore::new(initial.clone()).expect("valid initial digest");
@@ -322,6 +359,9 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
             "--password",
             "hunter2",
             "--api-key=also-secret",
+            "TOKEN=upper-secret",
+            "Authorization: Bearer secret",
+            "https://user:token@example.test/path",
             "repos",
         ],
     )
@@ -333,6 +373,9 @@ fn adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction() {
             "--token",
             "[REDACTED]",
             "--password",
+            "[REDACTED]",
+            "[REDACTED]",
+            "[REDACTED]",
             "[REDACTED]",
             "[REDACTED]",
             "repos"
