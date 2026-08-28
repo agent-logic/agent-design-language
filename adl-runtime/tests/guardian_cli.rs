@@ -278,6 +278,7 @@ fn complete_args(kernel: &str, root: &std::path::Path) -> (Vec<String>, Continui
     init.api.tls.private_key_path = api_private_key;
     init.api.tls.trust_roots_path = api_roots;
     init.api.tls.server_name = "localhost".to_owned();
+    init.polis.public_domain = "localhost".to_owned();
     init.continuity_control = Some(continuity.clone());
     init.credentials.control_public_key_path = control_key;
     init.credentials.operation_public_key_path = operation_key;
