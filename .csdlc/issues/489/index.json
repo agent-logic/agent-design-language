@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "711716d4ad01d96be990fae790e7ddfc21afa70e14aa1d99964656baa8e4d074",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "4cfe304f3522b10f01f7363dd3fc1e83929151a91b54d183ffef72933ac2b69d",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "5243a4350ee414c337000432114500879366a0db94fe642a05b0eda19d0460de",
   "branch": "codex/489-aws-runtime-platform-modules",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-489-aws-runtime-platform-modules",
   "review_assignment": {
@@ -23,7 +23,26 @@
       "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:2d46c7d9-3e7b-4892-97c2-ff8941aa41e5",
+    "scope": [
+      ".gitignore",
+      ".csdlc/issues/489",
+      ".csdlc/prepared/issues/489",
+      ".csdlc/evidence/489",
+      "infra/aws/runtime",
+      "docs/operations/cloud/aws/runtime-platform/README.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md"
+    ],
+    "reviewed_revision": "git-blake3:cd3819e661ad0625e2bcda5cedf04cdfa362dc57:04873ca361130cec80538e7c5dcbe43e47339cf0781ee45132c94965e0fbf1d8",
+    "findings": [],
+    "residual_risks": [
+      "Review did not perform live AWS readbacks, Terraform apply/plan against AWS, or GitHub publication.",
+      "Live disposable deployment, ALB target-health, external request receipt, and zero-residue teardown remain operator-authorized live-proof gates; #489 records static Terraform/runtime-platform readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e8919d6e55a1c2518738034f2a23b57c336b61e891c57541f0daea7ac30aa060",
+      "values_digest": "7bf203ca02afd48cfa41f00b16f5ebfc22c9f3f4ef111bdc28d7fb5ba6de02c1",
       "rendered_digest": "ccdee50175cd6e8bcbd70bc33f38247323d6162c30a64fa14495fec9c07c2ec7",
       "ast_digest": "1ecfc3c22e3087ab5f8f6c2918f1fa1fc337a075b0938995ecf01b91565b72ed"
     },
     "stp": {
-      "values_digest": "efbda85ac00d7dd8ed9ccdba712e4e418032620596ed96cbc7a048ffd9999783",
+      "values_digest": "d0a47d0e1b9eb1e9e77ef10292a5cf3ccbb73dbfd1ec5a5ac86639857826f82b",
       "rendered_digest": "98bf94b30192987fcfbb7fcc8449147328f2c0dcb3e370ff91fc18bcd083bd17",
       "ast_digest": "4fcaf6929b544a263f872a8690e3d506a7cc7e3da82f1675aa7cc139c4ea07bf"
     },
     "spp": {
-      "values_digest": "bfb880c7d0bd0f32ba63105da2f0d6664c6a4bf3420893a87da0b46431ba183f",
+      "values_digest": "d06db7f4b709d9d0e6b95be77de1aa19a734fcbcb6c03e44ab3a120f2e5370f6",
       "rendered_digest": "99c2c4f56bf8e6d8585da80b5b9417d64d684e467eba12e4cc539ddae5e7f748",
       "ast_digest": "db1b3fdc8fde323bfe9eba3cfc036545690b557de426dac61652e4259a4bb34a"
     },
     "vpp": {
-      "values_digest": "fa0a83b0aa04b0f6b9d9336520b23b09e5284c41184562c3c9adbbcd8f9b893e",
+      "values_digest": "c984660d62202006fbfc303295d659f9db85749a71efeb7dc113e19def0416e3",
       "rendered_digest": "737c61ff33db0c34bbddd515776bda97fd12aeeb48bf194013f72c98bf84b94b",
       "ast_digest": "fdf4667786ec4c029c14c73aee4cc6baef79c4f1f396e22468511c3bacc5e97f"
     },
     "srp": {
-      "values_digest": "3a0b424721fd52ec416f87d8699a81e7c72a5fb59f4fafb0c4585278b3b61e64",
-      "rendered_digest": "ee351d55bda695718f72106efdb7f3e6ce1c6dc56f7d3a7eabfd7f0567ecaee3",
-      "ast_digest": "031a4d8548c89c8c8e429745f2c1a68ae4f38c71e90541d9d65add69ef2b5f5a"
+      "values_digest": "1e889c266666cc01358338bd1c233985eaa6746a7b49ea1b1fbd1b66023b4753",
+      "rendered_digest": "627bd2da317a1cbbe731f3eb324a190e9f458c5ba4c52d374cdc17d812a2d2de",
+      "ast_digest": "cd2b499cd54cbb8a603497d8d8a02075818af911496eecc2694b84f863cf9886"
     },
     "sor": {
-      "values_digest": "025a0a1b7249924e1b092adf77944daa22805ecc17eeb739b13507b2cf839818",
+      "values_digest": "8933fa565f9b4d6f4107fe85b358ce408ba9deca2cc350a74095c298f503fe47",
       "rendered_digest": "75e59712b160974a6452df2b9132bd1972fbd3fd5f77454b68ad4229a1d6f4ad",
       "ast_digest": "523ac5ab853fc1b899e6854f924250e2583d2b9f52345c5816cc5ab5cd1c3f11"
     }
@@ -103,6 +122,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #489 review truth before replacing unpublished local branch history. Tip content was reviewed PASS, but an earlier unpublished commit briefly tracked generated Terraform provider cache under .terraform; publishing that history caused push/publication to hang. The branch has no remote PR/head. Preserve the reviewed tree as local backup, squash to a clean publishable head, rerun focused proof, and assign a fresh exact-head reviewer."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:2d46c7d9-3e7b-4892-97c2-ff8941aa41e5",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -224,6 +250,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "fresh-session:2d46c7d9-3e7b-4892-97c2-ff8941aa41e5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
