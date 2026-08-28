@@ -3,11 +3,11 @@
   "issue": 503,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8b5a4df7ceaded9c846e520412fee68987d0a3c932d5672f34e98a0a8b417850",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 3,
-  "digest": "2217e53dc4b4e91fec44c588b0b540745ab5568278050af7274a8a166057dc56",
-  "branch": null,
-  "worktree": null,
+  "digest": "d52bded1b71b8bf19719d75928eb30e1a38b4eab39b53c24fa7a5c48dcd657ff",
+  "branch": "codex/503-v3-d-local-preparation-workflow-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +61,13 @@
       "to": "ready",
       "actor": "codex:worker-6",
       "reason": "Advance #503 to ready after typed bootstrap, design approval, exact issue-owned validation denominator repair, and csdlc-validate PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -91,6 +98,13 @@
       "actor": "codex:worker-6",
       "reason": "Advance #503 to ready after typed bootstrap, design approval, exact issue-owned validation denominator repair, and csdlc-validate PASS.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
