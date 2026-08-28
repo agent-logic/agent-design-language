@@ -33,6 +33,7 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
 - reverted rogue reapply f4fc808b776839b79f68ac13a685348682a0bc9d via 1794353b9c341a595fa560dc5241c01cb4e01542
 - reverted rogue reapply 72357df0a6ec1f4a8ef6acf577f6cf73b67bd375 via c48450f57435a194c57cdbf19749fb4836ff44b8
 - reverted rogue local reapply b41dafb8d382dd550f066d422866e070dd611bd7 via 116a0f1e0fe1917275909c244bce10a17d546b88
+- reverted rogue remote reapply b28f3bf76e32adf929a88a5150d93f177027a3a2c via e6c02d67617471bab18f9c2e1ef27d790710eb83
 - worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel
 - branch codex/502-v3-c-csdlc-v3-lifecycle-kernel
 - PR https://github.com/agent-logic/agent-design-language/pull/572
@@ -49,6 +50,7 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
 - Explicitly reverted rogue reapply commit f4fc808b776839b79f68ac13a685348682a0bc9d via 1794353b9c341a595fa560dc5241c01cb4e01542.
 - Explicitly reverted rogue reapply commit 72357df0a6ec1f4a8ef6acf577f6cf73b67bd375 via c48450f57435a194c57cdbf19749fb4836ff44b8.
 - Explicitly reverted rogue local reapply commit b41dafb8d382dd550f066d422866e070dd611bd7 via 116a0f1e0fe1917275909c244bce10a17d546b88.
+- Explicitly reverted rogue remote reapply commit b28f3bf76e32adf929a88a5150d93f177027a3a2c via e6c02d67617471bab18f9c2e1ef27d790710eb83.
 - Confirmed the net source diff after 103bc0eadc44f3152ad0fa4dde37059d6107c6f3 is empty, so the unrelated durable store, credential resolver, review-recovery provenance, and extra transaction-test changes are neutralized from the branch.
 - Added regression coverage for terminal finish capability, projection-repair recovery classification, 64-hex BLAKE3 digest shape, and option-assigned Authorization header redaction.
 - Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, terminal evidence, and projection invalidation semantics.
@@ -83,9 +85,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "--manifest-path",
       "csdlc-v3/Cargo.toml"
     ],
-    "purpose": "full local C-SDLC v3 crate test suite after reverting four unrelated remediation drift commits",
+    "purpose": "full local C-SDLC v3 crate test suite after reverting five unrelated remediation drift commits",
     "outcome": "passed",
-    "evidence_ref": "exact-head:116a0f1e0fe1917275909c244bce10a17d546b88:4-lib-11-foundation-17-transactions-passed"
+    "evidence_ref": "exact-head:e6c02d67617471bab18f9c2e1ef27d790710eb83:4-lib-11-foundation-17-transactions-passed"
   },
   {
     "command": [
@@ -95,9 +97,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "csdlc-v3/Cargo.toml",
       "--check"
     ],
-    "purpose": "format check for the C-SDLC v3 crate after reverting four unrelated remediation drift commits",
+    "purpose": "format check for the C-SDLC v3 crate after reverting five unrelated remediation drift commits",
     "outcome": "passed",
-    "evidence_ref": "exact-head:116a0f1e0fe1917275909c244bce10a17d546b88:passed"
+    "evidence_ref": "exact-head:e6c02d67617471bab18f9c2e1ef27d790710eb83:passed"
   },
   {
     "command": [
@@ -110,9 +112,9 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "-D",
       "warnings"
     ],
-    "purpose": "strict clippy for the C-SDLC v3 crate after reverting four unrelated remediation drift commits",
+    "purpose": "strict clippy for the C-SDLC v3 crate after reverting five unrelated remediation drift commits",
     "outcome": "passed",
-    "evidence_ref": "exact-head:116a0f1e0fe1917275909c244bce10a17d546b88:passed"
+    "evidence_ref": "exact-head:e6c02d67617471bab18f9c2e1ef27d790710eb83:passed"
   },
   {
     "command": [
@@ -120,19 +122,19 @@ Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 life
       "diff",
       "--check"
     ],
-    "purpose": "diff hygiene after reverting four unrelated remediation drift commits",
+    "purpose": "diff hygiene after reverting five unrelated remediation drift commits",
     "outcome": "passed",
-    "evidence_ref": "exact-head:116a0f1e0fe1917275909c244bce10a17d546b88:passed"
+    "evidence_ref": "exact-head:e6c02d67617471bab18f9c2e1ef27d790710eb83:passed"
   }
 ]
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

@@ -12,22 +12,6 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/502/audit.jsonl
-.csdlc/issues/502/cards/sip.md
-.csdlc/issues/502/cards/sip.values.json
-.csdlc/issues/502/cards/sor.md
-.csdlc/issues/502/cards/sor.values.json
-.csdlc/issues/502/cards/spp.md
-.csdlc/issues/502/cards/spp.values.json
-.csdlc/issues/502/cards/srp.md
-.csdlc/issues/502/cards/srp.values.json
-.csdlc/issues/502/cards/stp.md
-.csdlc/issues/502/cards/stp.values.json
-.csdlc/issues/502/cards/vpp.md
-.csdlc/issues/502/cards/vpp.values.json
-.csdlc/issues/502/index.json
-.csdlc/prepared/issues/502/design.md
-.csdlc/prepared/issues/502/diagram.mmd
 csdlc-v3/AGENTS.md
 csdlc-v3/Cargo.toml
 csdlc-v3/Cargo.lock
@@ -36,6 +20,7 @@ csdlc-v3/src/lib.rs
 csdlc-v3/src/lifecycle/mod.rs
 csdlc-v3/src/storage/mod.rs
 csdlc-v3/tests/transactions.rs
+csdlc-v3/tests/foundation.rs
 
 ## Prompts
 
@@ -48,7 +33,18 @@ csdlc-v3/tests/transactions.rs
 
 ## Findings
 
-[]
+[
+  {
+    "id": "pr-body-refresh",
+    "severity": "p3",
+    "summary": "PR #572 body still cites older review/validation truth and keeps Closes #502 at the bottom; route through typed publication refresh.",
+    "actionable": true,
+    "in_scope": false,
+    "disposition": "out_of_scope",
+    "fix_revision": null,
+    "route": "typed csdlc-publish refresh before publication is considered current"
+  }
+]
 
 ## Dispositions
 
@@ -56,12 +52,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains construction-only; typed C-SDLC v2 remains live lifecycle and GitHub authority until explicit V3-F cutover.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5d05309d3ad48deedfa86f43edef5fe84a3dad13:fcec36c2a16ad1204cc04eb9f4563271e650986231b0aa26bb6ef532eda1e5f7")
 
-Reviewer: None
+Reviewer: Some("issue_502_5d_review")
 
-Result: pre_review
+Result: pass
