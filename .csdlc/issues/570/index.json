@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 570,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 4,
-  "digest": "380377ef9b0faa7b40949706c0c5980837933c2487d3bb97e62e68758b6f315f",
-  "branch": null,
-  "worktree": null,
+  "digest": "59d51c9fea93d8c22c788f730fe6d20dc6059a4121712276f6226399cebd2318",
+  "branch": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-570-v3-g-docs-skill-cutover-readiness-exec",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:worker-6",
       "reason": "Advance #570 to ready after typed bootstrap, governed issue-owned validator lanes, design approval, doctor PASS, and csdlc-validate PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -98,6 +106,13 @@
       "actor": "codex:worker-6",
       "reason": "Advance #570 to ready after typed bootstrap, governed issue-owned validator lanes, design approval, doctor PASS, and csdlc-validate PASS.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
