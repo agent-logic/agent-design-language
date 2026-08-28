@@ -1,0 +1,104 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 537,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "329b98f86befb39e963d193f7214df11412e543849aaa3003b931561446257fc",
+  "phase": "bound",
+  "generation": 2,
+  "digest": "a545b8819a45305c39007d867bd704bb2c1bcb6d2913aac8c21c881e7993ab00",
+  "branch": "codex/537-v0921-sprint9-readiness",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-537-sprint9-readiness",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/537/design.md",
+  "diagram_path": ".csdlc/prepared/issues/537/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:1333f39d-11bc-4aa9-a159-12632faf4a2c",
+      "revision": "b68c06cfc5bcae5f0c82ee7083266943b05d3261d7b59731597af35af082ebe6"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "05543b234cd79db3eab52c5f4d4a129e52c41df61aa6d60d98d8337098c81f5b",
+      "rendered_digest": "118b6ec78105c477eaebe21a0d9ab77cce12c1a862413849f71dd10eb28176eb",
+      "ast_digest": "a3da931552c1138f3eaa8d713f2237af2995342227302c38fc9b3e4f52b2d660"
+    },
+    "stp": {
+      "values_digest": "7f2b19850aa1c01c0ac2af57287b4c20f44c2a689a4b60ce19e384ddf80fa990",
+      "rendered_digest": "37984909affc01ee73e7616772c50506576ccbdae46b7d54d099997574e324ec",
+      "ast_digest": "3d6a023cda35e8c8709ac7baf53d1821da51e7ef87b97278d33c7bc840807063"
+    },
+    "spp": {
+      "values_digest": "41ccce3be8f3708bc39635a44d812dafb260e9580fca21efec6de2b0e1dd18be",
+      "rendered_digest": "ed8a6b5850fd5c1a57b20d6b65d107f680a2b7c1340b420e03f15306d5aba45a",
+      "ast_digest": "d7837d695edbe294b5ca4d88d182a8b8448800bb4c9f5189aaeb918dafd4cee9"
+    },
+    "vpp": {
+      "values_digest": "1952c8d1f19d89774775fb94adc9c8e88d0ba1c3e90bd709385df9966355a0b2",
+      "rendered_digest": "afb763c7415cf2ea9d1649649b8ef088d4b3e83c0b93c8b961b22176b2f53e3e",
+      "ast_digest": "633599059aa5df13b8e37504652918124d4d251e6b94b8ce47dab679b3537239"
+    },
+    "srp": {
+      "values_digest": "edd85649f76e825cf1068c98ee8d742a664070e8c4f457c30ec3131890cd571c",
+      "rendered_digest": "a9844b9583b9e3be445362959b792988f33026e9a4629098f4ff6348b308fee6",
+      "ast_digest": "db32298211d246e08ea07d41198105efed1c687640a6b259ed934889f42474af"
+    },
+    "sor": {
+      "values_digest": "5111c40eaa651add17435fdd04062df7e176def9ebc0e81a173319bc505226ca",
+      "rendered_digest": "78a4bdcbe8aed81500e8dd31d811fd84f0335b0ea2a8ec7f2df26146209aa66d",
+      "ast_digest": "60d18b702d8c6a072d0fd5704a6f814a5f9ae93f1eef096076bfa7fae5deb4d7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint9-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:1333f39d-11bc-4aa9-a159-12632faf4a2c",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"b68c06cfc5bcae5f0c82ee7083266943b05d3261d7b59731597af35af082ebe6\",\"design_ref\":\".csdlc/prepared/issues/537/design.md\",\"diagram_digest\":\"b1953fb23e32752d0e599d0d26bb54862289061c94aaa49110ef02a4e74568ee\",\"diagram_ref\":\".csdlc/prepared/issues/537/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/sprint9-readiness",
+      "reason": "Declare the issue-owned Sprint 9 readiness validator as an exact planned validation denominator before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/537\",\".csdlc/prepared/issues/537\",\".csdlc/prepared/issues/537/validate-sprint-readiness.rb\",\".csdlc/evidence/537\",\"docs/milestones/v0.92.1/SPRINT_v0.92.1.md\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Documentation review and external-review handoff",
+    "slug": "documentation-external-review-handoff",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #518: Documentation review and external-review handoff.",
+      "deliverables": [
+        "The canonical document denominator, links, claims, residual risks, and handoff instructions agree for the exact quality-gated candidate.",
+        "Issue-specific retained validation evidence",
+        "Independent exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: All canonical v0.92.1 documents agree on scope, status, and non-claims.",
+        "AC-2: Links and release claims resolve to exact source-grounded evidence.",
+        "AC-3: Residual risks, skipped surfaces, operator actions, and external-review limits are explicit.",
+        "AC-4: The handoff is context-free, redacted, and exact-revision bound.",
+        "AC-5: Exact-head review has no unresolved actionable findings."
+      ],
+      "dependencies": [
+        "Terminal reviewed and ancestral TAIL-01 issue #517",
+        "Sprint 9 umbrella #537"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/evidence/release/tail-02",
+        ".csdlc/prepared/issues/518/validate-doc-review-handoff.rb",
+        "docs/milestones/v0.92.1",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/537/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Product implementation",
+        "Publication",
+        "Merge, tag, or release mutation"
+      ]
+    }
+  }
+}

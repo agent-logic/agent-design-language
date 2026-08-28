@@ -1,0 +1,8 @@
+flowchart LR
+  P0["#514 provider profiles"] --> P1["#515 shadow execution"]
+  R["All named reviewed-green ancestral roots"] --> I["#516 release-tail admission"]
+  P1 --> I
+  I --> Q["#517 quality gate"]
+  Q --> D["#518 documentation review"]
+  D --> C["#519 publication candidate"]
+  C --> S["#537 integrated sprint review and closeout"]

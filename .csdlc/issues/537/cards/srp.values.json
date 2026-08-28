@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 537,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Sprint 9 Provider comparison and convergence",
+    "slug": "sprint9-provider-convergence",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review the exact sprint record, design, diagram, Sprint Execution Packet, child membership and cards, predecessor gates, milestone-root denominator, release-tail fail-closed policy, activity log, and closeout rule.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet preserve the exact five-child denominator and sequential dependency truth?",
+        "Does #516 enumerate every milestone root and require reviewed-green ancestral authority?",
+        "Do quality, docs, and publication-candidate stages reject skipped, stale, ambiguous, or non-proving evidence?",
+        "Can the umbrella close only after all five current members have truthful terminal state?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

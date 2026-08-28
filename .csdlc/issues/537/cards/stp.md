@@ -1,0 +1,56 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 537
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Prepare and coordinate only Sprint 9 umbrella #537 and its exact five-child roster #515, #516, #517, #518, and #519.
+
+## Deliverables
+
+- Issue-specific six-card sprint record
+- Sprint Execution Packet with exact membership, sequential gates, review path, and activity log
+- Sprint-wide child readiness report
+- Integrated sprint review and truthful umbrella closeout record
+
+## Acceptance
+
+1. AC-1: The Sprint Execution Packet records exact membership #515, #516, #517, #518, and #519 in dependency order.
+2. AC-2: #515 waits for terminal #514; #516 waits for every named milestone root including #515; #517 waits for #516; #518 waits for #517; #519 waits for #518.
+3. AC-3: Every child has a complete typed six-card bundle and issue-specific design-time plan before implementation handoff.
+4. AC-4: Every child handoff requires a bound FastWork worktree, current readiness, and issue-bound session goal before implementation.
+5. AC-5: Admission, quality, documentation, and publication-candidate checks fail closed on missing, stale, skipped, non-proving, or non-ancestral evidence.
+6. AC-6: The umbrella closes only after all five children have reviewed terminal outcomes and one integrated sprint review has no unresolved actionable findings.
+
+## Dependencies
+
+- #514 before #515
+- All #516 named milestone roots including #515 before #516
+- #516 before #517
+- #517 before #518
+- #518 before #519
+
+## Inputs
+
+- docs/milestones/v0.92.1/SPRINT_v0.92.1.md
+- docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml
+- docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md
+- docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
+- docs/templates/sprints/1.0.0/sprint_execution_packet.md
+- GitHub issues #514, #515, #516, #517, #518, #519, and umbrella #537
+
+## Non Goals
+
+- Implementing child code or documents
+- Replacing child C-SDLC records
+- Provider benchmark marketing claims or production cutover
+- Merging, tagging, releasing, or publishing the milestone
+- Claiming completion for blocked or nonterminal roots

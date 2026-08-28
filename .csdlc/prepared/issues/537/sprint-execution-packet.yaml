@@ -1,0 +1,78 @@
+sprint_issue: 537
+version: v0.92.1
+slug: provider-comparison-and-convergence
+execution_mode: sequential
+ordered_issue_numbers: [515, 516, 517, 518, 519]
+current_membership_version: 4
+safe_parallel_lanes: []
+serial_gates:
+  - issue 514 before issue 515
+  - all named issue 516 roots before issue 516: issues 498, 496, 494, 495, 499, 505, 508, 509, 51, 510, 512, 513, and 515
+  - issue 516 before issue 517
+  - issue 517 before issue 518
+  - issue 518 before issue 519
+  - all five active members before issue 537 integrated review and closeout
+candidate_parallel_lanes:
+  - lane: provider-shadow
+    classification: blocked_until_dependency
+    issues: [515]
+    expected_write_sets: [adl/src/provider, provider PROV-B evidence]
+    expected_pvf_lanes: [shadow-isolation, deterministic-comparison, fallback, redaction]
+    dependency_gates: [issue 514 live merged and ancestral; typed terminal reconciliation still required]
+    collision_risks: [shared provider code and Runtime authority boundary]
+    watcher: issue 514 terminal-state watcher
+    subagent: one bounded exact-head review before publication
+    coordination: Bind issue 515 only after typed terminal authority for issue 514 is current.
+  - lane: release-tail-admission
+    classification: blocked_until_dependency
+    issues: [516]
+    expected_write_sets: [integration evidence, v0.92.1 demo matrix]
+    expected_pvf_lanes: [merged-authority-census, ancestry, artifact-index, collision-check]
+    dependency_gates: [all 13 named roots terminal reviewed merged and ancestral]
+    collision_risks: [root identity substitution, stale evidence, cross-lane documentation overlap]
+    watcher: exact root-denominator watcher
+    subagent: one bounded exact-head review before publication
+    coordination: Do not admit the candidate while any named root is open, stale, ambiguous, or non-ancestral.
+  - lane: release-tail
+    classification: blocked_until_dependency
+    issues: [517, 518, 519]
+    expected_write_sets: [quality-gate evidence, documentation handoff, publication-candidate packet]
+    expected_pvf_lanes: [quality-denominator, canonical-doc-inventory, publication-linkage]
+    dependency_gates: [issue 516 then issue 517 then issue 518 reviewed terminal]
+    collision_risks: [candidate revision drift, claim drift, publication overreach]
+    watcher: one issue-local watcher for the next serial gate
+    subagent: one bounded exact-head review per child before publication
+    coordination: Advance exactly one release-tail child at a time.
+review_path: .csdlc/evidence/537/sprint-review.md
+activity_log_path: .csdlc/evidence/537/activity.jsonl
+state_path: .csdlc/evidence/537/sprint-state.json
+readiness_path: .csdlc/evidence/537/readiness.json
+child_goal_rule: Each child session reads AGENTS.md, validates current dependency truth, binds its exact FastWork worktree with typed csdlc-bind, and creates an issue-bound goal naming Sprint 9, the child issue, and the bounded objective before implementation.
+watcher_policy: Waiting on a predecessor, review, CI, merge, or typed terminal reconciliation is monitored rather than treated as completion.
+pvf_notes:
+  issue_local_proof: Each child owns its focused proof and exact-revision evidence.
+  parallel_validation_lanes: Independent read-only validation may run concurrently, but implementation ordering remains sequential.
+  serial_validation_gates: Provider shadow follows #514; admission follows all 13 roots; quality, docs, and publication-candidate work then advance one at a time.
+  reusable_proof_criteria: Reuse only exact-digest, exact-revision, redacted evidence named as a read-only input by the consuming child.
+  fail_closed_rule: Missing targets, zero-test filters, stale evidence, dependency drift, ambiguous identity, or non-proving results block the affected child.
+review_policy:
+  child_review: one bounded exact-head review before each child publication
+  sprint_review: one integrated review after all current members are terminal
+  follow_up_policy: post_sprint_follow_on unless explicitly marked must_land_before_sprint_close
+closeout_rule: Close issue 537 only after exact membership reconciliation, integrated review, ancestral reviewed-green terminal outcomes for all five children, and typed umbrella finish.
+operator_actions: []
+known_external_gate:
+  issue: 515
+  observed_state: issue 514 is live merged and ancestral but lacks a local derived-terminal cache in this checkout
+  blocks: [515]
+  observed_at: "2026-08-27"
+planned_parallelism_summary: No implementation lanes run in parallel; prepare all bundles now, then execute 515, 516, 517, 518, and 519 through their serial gates.
+actual_parallelism_summary_placeholder: not_started
+prediction_miss_rule: Record any unexpected write-set, proof, dependency, or authority collision and reclassify the affected lane before further execution.
+non_goals:
+  - execute any Sprint 9 child implementation
+  - open or merge a Sprint 9 pull request
+  - merge a publication candidate
+  - create a tag
+  - create a release
+  - perform external publication

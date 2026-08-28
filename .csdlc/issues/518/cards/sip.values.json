@@ -1,0 +1,35 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 518,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Documentation review and external-review handoff",
+    "slug": "documentation-external-review-handoff",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one exact-revision documentation review and context-free external-review handoff packet.",
+      "required_outcome": "The canonical document denominator, links, claims, residual risks, and handoff instructions agree for the exact quality-gated candidate.",
+      "declared_scope": [
+        "docs/milestones/v0.92.1/evidence/release/tail-02",
+        ".csdlc/prepared/issues/518/validate-doc-review-handoff.rb"
+      ],
+      "authority_boundary": [
+        "Issue 518 owns only its declared result and paths; Sprint 9 umbrella #537 coordinates but cannot implement or approve this child."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle only",
+        "Use a dedicated FastWork issue worktree and issue-bound session goal",
+        "Run one bounded exact-head review before publication",
+        "Fail closed on stale, skipped, zero-denominator, non-ancestral, or non-proving evidence",
+        "Do not widen into another Sprint 9 child's ownership"
+      ]
+    }
+  }
+}

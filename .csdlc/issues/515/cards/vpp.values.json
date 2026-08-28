@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 515,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Local-model shadow execution",
+    "slug": "local-model-shadow-execution",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-515-focused",
+          "proof_role": "Shadow isolation, deterministic comparison, authoritative fallback, redaction, and negative mutation checks",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1800,
+          "budget_tokens": 8000,
+          "argv": [
+            ".csdlc/prepared/issues/515/validate-provider-shadow.rb"
+          ],
+          "parallel_group": "sprint9-issue-515",
+          "defer_reason": "Deferred until this child is bound, every declared predecessor passes, and the issue-owned validator is implemented; missing target, zero denominator, or failure blocks publication."
+        },
+        {
+          "lane": "issue-515-diff-hygiene",
+          "proof_role": "Reject malformed tracked changes before exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "sprint9-hygiene",
+          "defer_reason": "Run after the issue has a bounded candidate diff."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on dependency, ownership, authority, privacy, validation, exact-revision, or review drift; preserve evidence and route separate defects without widening this issue.",
+      "design_ref": ".csdlc/prepared/issues/515/design.md",
+      "design_digest": "539bd6fbf2fffb0fb19b489cb597a72bdcbd3bc26472a07300cea9dd0c10e6c2",
+      "diagram_ref": ".csdlc/prepared/issues/515/diagram.mmd",
+      "diagram_digest": "62dd8b9b7dfba9b51b70c72721ea7c2072d38f7b7e14b92720b32c6052e08c67"
+    }
+  }
+}

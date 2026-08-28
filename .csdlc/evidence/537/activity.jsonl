@@ -1,0 +1,5 @@
+{"schema":"adl.sprint.activity.v1","sprint_issue":537,"event":"preparation_started","date":"2026-08-27","membership_version":4,"issues":[515,516,517,518,519]}
+{"schema":"adl.sprint.activity.v1","sprint_issue":537,"event":"child_bundles_initialized","date":"2026-08-27","issues":[515,516,517,518,519],"execution_started":false}
+{"schema":"adl.sprint.activity.v1","sprint_issue":537,"event":"serial_gate_observed","date":"2026-08-27","issue":515,"predecessor":514,"live_merged":true,"ancestral":true,"typed_terminal_cache_present":false,"disposition":"blocked_pending_reconciliation"}
+{"schema":"adl.sprint.activity.v1","sprint_issue":537,"event":"child_design_review_completed","date":"2026-08-27","issues":[515,516,517,518,519],"reviewer":"fresh-session:6ca8211e-a5af-45d2-850e-5cafc1a9c102","result":"pass","findings":0}
+{"schema":"adl.sprint.activity.v1","sprint_issue":537,"event":"typed_readiness_validated","date":"2026-08-27","issues":[515,516,517,518,519,537],"result":"pass","child_execution_started":false}

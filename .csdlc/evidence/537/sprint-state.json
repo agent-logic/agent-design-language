@@ -1,0 +1,11 @@
+{
+  "schema": "adl.sprint9.state.v1",
+  "sprint_issue": 537,
+  "phase": "prepared",
+  "current_lane": 515,
+  "current_lane_state": "blocked_pending_typed_predecessor_reconciliation",
+  "completed_children": [],
+  "blocked_children": [515, 516, 517, 518, 519],
+  "next_action": "reconcile typed terminal authority for issue 514, then run a fresh issue 515 readiness check",
+  "child_execution_started": false
+}

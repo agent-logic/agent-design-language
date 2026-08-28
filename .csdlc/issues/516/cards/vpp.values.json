@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 516,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Release-tail admission",
+    "slug": "release-tail-admission",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-516-focused",
+          "proof_role": "Exact merged-authority census, ancestry, artifact index, collision denial, and immutable admission decision",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            ".csdlc/prepared/issues/516/validate-release-tail-admission.rb"
+          ],
+          "parallel_group": "sprint9-issue-516",
+          "defer_reason": "Deferred until this child is bound, every declared predecessor passes, and the issue-owned validator is implemented; missing target, zero denominator, or failure blocks publication."
+        },
+        {
+          "lane": "issue-516-diff-hygiene",
+          "proof_role": "Reject malformed tracked changes before exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "sprint9-hygiene",
+          "defer_reason": "Run after the issue has a bounded candidate diff."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on dependency, ownership, authority, privacy, validation, exact-revision, or review drift; preserve evidence and route separate defects without widening this issue.",
+      "design_ref": ".csdlc/prepared/issues/516/design.md",
+      "design_digest": "eb11d4473d4e8f17270ab1b3c7c3009d894dc9ca3f3491dd8601291fc04294ea",
+      "diagram_ref": ".csdlc/prepared/issues/516/diagram.mmd",
+      "diagram_digest": "b17628d28cc9a213a14a19ec34b52a3c1ec6575d67e971837d89a5f822515540"
+    }
+  }
+}

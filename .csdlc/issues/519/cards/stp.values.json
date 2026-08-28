@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 519,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Publication finalization",
+    "slug": "publication-candidate-finalization",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #519: Publication finalization.",
+      "deliverables": [
+        "The packet binds the exact reviewed candidate, correct closing relationships, publication linkage, and redacted artifacts while leaving merge, tag, release, and external publication untouched.",
+        "Issue-specific retained validation evidence",
+        "Independent exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The publication-candidate packet records the exact reviewed revision and artifact denominator.",
+        "AC-2: Issue and pull-request linkage, including closing relationships, is correct and unambiguous.",
+        "AC-3: Publication artifacts are redacted and contain no private paths, credentials, or unsupported claims.",
+        "AC-4: Stale review, ambiguous linkage, missing artifacts, or digest mismatch denies candidate readiness.",
+        "AC-5: Exact-head review has no unresolved actionable findings."
+      ],
+      "dependencies": [
+        "Terminal reviewed and ancestral TAIL-02 issue #518",
+        "Sprint 9 umbrella #537"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/evidence/release/tail-03",
+        ".csdlc/prepared/issues/519/validate-publication-candidate.rb",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/537/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Merge",
+        "Tag",
+        "Release",
+        "External publication",
+        "Release ceremony"
+      ]
+    }
+  }
+}

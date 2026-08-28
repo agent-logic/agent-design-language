@@ -1,0 +1,163 @@
+{
+  "issue": 517,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:sprint9-readiness",
+  "design_path": ".csdlc/prepared/issues/517/design.md",
+  "diagram_path": ".csdlc/prepared/issues/517/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "Quality gate",
+    "slug": "release-tail-quality-gate",
+    "version": "v0.92.1",
+    "goal": "Produce one quality-gate decision for the exact candidate admitted by #516.",
+    "required_outcome": "Every required proving lane passes for the exact candidate and the gate reports zero unowned exceptions.",
+    "declared_scope": [
+      "docs/milestones/v0.92.1/evidence/release/tail-01",
+      "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+      ".csdlc/prepared/issues/517/validate-quality-gate.rb"
+    ],
+    "authority_boundary": [
+      "Issue 517 owns only its declared result and paths; Sprint 9 umbrella #537 coordinates but cannot implement or approve this child."
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 lifecycle only",
+      "Use a dedicated FastWork issue worktree and issue-bound session goal",
+      "Run one bounded exact-head review before publication",
+      "Fail closed on stale, skipped, zero-denominator, non-ancestral, or non-proving evidence",
+      "Do not widen into another Sprint 9 child's ownership"
+    ],
+    "task_boundary": "Deliver only issue #517: Quality gate.",
+    "deliverables": [
+      "Every required proving lane passes for the exact candidate and the gate reports zero unowned exceptions.",
+      "Issue-specific retained validation evidence",
+      "Independent exact-head review and truthful terminal record"
+    ],
+    "acceptance_criteria": [
+      "AC-1: The exact required quality denominator is complete for the admitted candidate.",
+      "AC-2: Every required proving lane passes with a nonzero exact denominator.",
+      "AC-3: Skipped, missing, stale, filtered-to-zero, non-proving, or ambiguous results deny the gate.",
+      "AC-4: The decision reports zero unowned exceptions.",
+      "AC-5: Exact-head review has no unresolved actionable findings."
+    ],
+    "dependencies": [
+      "Terminal reviewed and ancestral INT-01 issue #516",
+      "Sprint 9 umbrella #537"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.92.1/evidence/release/tail-01",
+      "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+      ".csdlc/prepared/issues/517/validate-quality-gate.rb",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      ".csdlc/prepared/issues/537/sprint-execution-packet.yaml"
+    ],
+    "non_goals": [
+      "Documentation repair",
+      "Release ceremony",
+      "Implementing failed-lane fixes"
+    ],
+    "plan_summary": "Verify the predecessor gate, implement the smallest owned result, run focused proof, obtain one exact-head review, publish, shepherd, finish, and clean up.",
+    "steps": [
+      {
+        "id": "dependency-gate",
+        "action": "Verify every declared predecessor and authority gate",
+        "acceptance_ids": [
+          "AC-1"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "implement",
+        "action": "Implement the bounded owned result",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "validate-review",
+        "action": "Run focused proof and one independent exact-head review",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "docs/milestones/v0.92.1/evidence/release/tail-01",
+      "docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md",
+      ".csdlc/prepared/issues/517/validate-quality-gate.rb"
+    ],
+    "invariants": [
+      "No ownership widening",
+      "No action before dependencies",
+      "No authority substitution",
+      "Review precedes publication",
+      "Failure preserves prior valid state and evidence"
+    ],
+    "risks": [
+      "Dependency truth could drift",
+      "A child could cross another issue's write boundary",
+      "Evidence could overclaim exact candidate or terminal state"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Any predecessor is nonterminal or ambiguous",
+      "Any owned-path collision",
+      "Any missing or zero proof target",
+      "Any unsupported completion claim",
+      "Any unresolved actionable review finding"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "issue-517-focused",
+        "proof_role": "Quality denominator, zero-test shield, exact-scope result, exception ownership, and fail-closed decision",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 300,
+        "budget_tokens": 3000,
+        "argv": [
+          ".csdlc/prepared/issues/517/validate-quality-gate.rb"
+        ],
+        "parallel_group": "sprint9-issue-517",
+        "defer_reason": "Deferred until this child is bound, every declared predecessor passes, and the issue-owned validator is implemented; missing target, zero denominator, or failure blocks publication."
+      },
+      {
+        "lane": "issue-517-diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before exact-head review.",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "sprint9-hygiene",
+        "defer_reason": "Run after the issue has a bounded candidate diff."
+      }
+    ],
+    "failure_policy": "Fail closed on dependency, ownership, authority, privacy, validation, exact-revision, or review drift; preserve evidence and route separate defects without widening this issue.",
+    "review_prompts": [
+      "Does the candidate satisfy every acceptance criterion on its real owned path?",
+      "Does it preserve predecessor authority, sibling ownership, and non-goals?",
+      "Are proof and lifecycle claims exact-revision and non-overstated?"
+    ],
+    "review_scope": "Review issue #517 design, implementation, focused proof, negative cases, ownership, exact-revision identity, and terminal truth."
+  }
+}

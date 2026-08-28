@@ -1,0 +1,83 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 519,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Publication finalization",
+    "slug": "publication-candidate-finalization",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Verify the predecessor gate, implement the smallest owned result, run focused proof, obtain one exact-head review, publish, shepherd, finish, and clean up.",
+      "steps": [
+        {
+          "id": "dependency-gate",
+          "action": "Verify every declared predecessor and authority gate",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "implement",
+          "action": "Implement the bounded owned result",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "validate-review",
+          "action": "Run focused proof and one independent exact-head review",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1/evidence/release/tail-03",
+        ".csdlc/prepared/issues/519/validate-publication-candidate.rb"
+      ],
+      "invariants": [
+        "No ownership widening",
+        "No action before dependencies",
+        "No authority substitution",
+        "Review precedes publication",
+        "Failure preserves prior valid state and evidence"
+      ],
+      "risks": [
+        "Dependency truth could drift",
+        "A child could cross another issue's write boundary",
+        "Evidence could overclaim exact candidate or terminal state"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Any predecessor is nonterminal or ambiguous",
+        "Any owned-path collision",
+        "Any missing or zero proof target",
+        "Any unsupported completion claim",
+        "Any unresolved actionable review finding"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/519/design.md",
+      "design_digest": "a29ac977d54e7297ff812b830d12c9eff7d14099fd8a0e35d40fddb793ad2787",
+      "diagram_ref": ".csdlc/prepared/issues/519/diagram.mmd",
+      "diagram_digest": "3e641bf72d472059a4fabd4a59d2ef9ec2d5c6811b7992aa5eb3672f2caec852"
+    }
+  }
+}

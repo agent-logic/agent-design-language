@@ -1,0 +1,163 @@
+{
+  "issue": 515,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:sprint9-readiness",
+  "design_path": ".csdlc/prepared/issues/515/design.md",
+  "diagram_path": ".csdlc/prepared/issues/515/diagram.mmd",
+  "design_reviewer": "pending-independent-review",
+  "design_approved": false,
+  "initial": {
+    "title": "Local-model shadow execution",
+    "slug": "local-model-shadow-execution",
+    "version": "v0.92.1",
+    "goal": "Produce one bounded local-model shadow-execution and comparison path that cannot acquire authority.",
+    "required_outcome": "Shadow execution is distinguishable, deterministic, redacted, and unable to mutate or replace the authoritative provider result.",
+    "declared_scope": [
+      "adl/src/provider",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b",
+      ".csdlc/prepared/issues/515/validate-provider-shadow.rb"
+    ],
+    "authority_boundary": [
+      "Issue 515 owns only its declared result and paths; Sprint 9 umbrella #537 coordinates but cannot implement or approve this child."
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 lifecycle only",
+      "Use a dedicated FastWork issue worktree and issue-bound session goal",
+      "Run one bounded exact-head review before publication",
+      "Fail closed on stale, skipped, zero-denominator, non-ancestral, or non-proving evidence",
+      "Do not widen into another Sprint 9 child's ownership"
+    ],
+    "task_boundary": "Deliver only issue #515: Local-model shadow execution.",
+    "deliverables": [
+      "Shadow execution is distinguishable, deterministic, redacted, and unable to mutate or replace the authoritative provider result.",
+      "Issue-specific retained validation evidence",
+      "Independent exact-head review and truthful terminal record"
+    ],
+    "acceptance_criteria": [
+      "AC-1: Shadow and authoritative provider paths are unambiguously distinguishable.",
+      "AC-2: Inputs and comparison rules are exact and deterministic.",
+      "AC-3: Shadow failures cannot mutate or replace the authoritative result.",
+      "AC-4: Retained comparison evidence is redacted and source-revision bound.",
+      "AC-5: Exact-head review has no unresolved actionable findings."
+    ],
+    "dependencies": [
+      "Terminal reviewed and ancestral PROV-A issue #514",
+      "Sprint 9 umbrella #537"
+    ],
+    "repo_inputs": [
+      "adl/src/provider",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b",
+      ".csdlc/prepared/issues/515/validate-provider-shadow.rb",
+      "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+      ".csdlc/prepared/issues/537/sprint-execution-packet.yaml"
+    ],
+    "non_goals": [
+      "Provider benchmark marketing claims",
+      "Production provider cutover",
+      "Changing provider authority"
+    ],
+    "plan_summary": "Verify the predecessor gate, implement the smallest owned result, run focused proof, obtain one exact-head review, publish, shepherd, finish, and clean up.",
+    "steps": [
+      {
+        "id": "dependency-gate",
+        "action": "Verify every declared predecessor and authority gate",
+        "acceptance_ids": [
+          "AC-1"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "implement",
+        "action": "Implement the bounded owned result",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "validate-review",
+        "action": "Run focused proof and one independent exact-head review",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      "adl/src/provider",
+      "docs/milestones/v0.92.1/evidence/provider/prov-b",
+      ".csdlc/prepared/issues/515/validate-provider-shadow.rb"
+    ],
+    "invariants": [
+      "No ownership widening",
+      "No action before dependencies",
+      "No authority substitution",
+      "Review precedes publication",
+      "Failure preserves prior valid state and evidence"
+    ],
+    "risks": [
+      "Dependency truth could drift",
+      "A child could cross another issue's write boundary",
+      "Evidence could overclaim exact candidate or terminal state"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "Any predecessor is nonterminal or ambiguous",
+      "Any owned-path collision",
+      "Any missing or zero proof target",
+      "Any unsupported completion claim",
+      "Any unresolved actionable review finding"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "issue-515-focused",
+        "proof_role": "Shadow isolation, deterministic comparison, authoritative fallback, redaction, and negative mutation checks",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "large",
+        "budget_seconds": 1800,
+        "budget_tokens": 8000,
+        "argv": [
+          ".csdlc/prepared/issues/515/validate-provider-shadow.rb"
+        ],
+        "parallel_group": "sprint9-issue-515",
+        "defer_reason": "Deferred until this child is bound, every declared predecessor passes, and the issue-owned validator is implemented; missing target, zero denominator, or failure blocks publication."
+      },
+      {
+        "lane": "issue-515-diff-hygiene",
+        "proof_role": "Reject malformed tracked changes before exact-head review.",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 200,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "sprint9-hygiene",
+        "defer_reason": "Run after the issue has a bounded candidate diff."
+      }
+    ],
+    "failure_policy": "Fail closed on dependency, ownership, authority, privacy, validation, exact-revision, or review drift; preserve evidence and route separate defects without widening this issue.",
+    "review_prompts": [
+      "Does the candidate satisfy every acceptance criterion on its real owned path?",
+      "Does it preserve predecessor authority, sibling ownership, and non-goals?",
+      "Are proof and lifecycle claims exact-revision and non-overstated?"
+    ],
+    "review_scope": "Review issue #515 design, implementation, focused proof, negative cases, ownership, exact-revision identity, and terminal truth."
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 537,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Sprint 9 Provider comparison and convergence",
+    "slug": "sprint9-provider-convergence",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Initialize the five-child batch, validate design-time cards, then hand each child to a separate issue session only after its exact predecessor gates pass and retain integrated closeout truth.",
+      "steps": [
+        {
+          "id": "readiness",
+          "action": "Initialize and validate the Sprint Execution Packet and all child design-time card bundles",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "coordinate",
+          "action": "Route child sessions sequentially according to declared dependency gates",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "review-close",
+          "action": "Review integrated outcomes and close the umbrella only after terminal child truth",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/issues/537",
+        ".csdlc/prepared/issues/537",
+        ".csdlc/prepared/issues/537/validate-sprint-readiness.rb",
+        ".csdlc/evidence/537",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "invariants": [
+        "Child issues retain all implementation and proof authority",
+        "No child starts before declared dependencies",
+        "No umbrella closeout substitutes for child closeout",
+        "Release-tail evidence remains exact-revision, redacted, and fail-closed",
+        "Preparation performs no publication or release mutation"
+      ],
+      "risks": [
+        "#515 could begin before terminal #514",
+        "#516 could admit an incomplete or non-ancestral milestone root",
+        "Quality or documentation checks could accept skipped or stale evidence",
+        "Publication-candidate preparation could be confused with merge, tag, or release authority",
+        "The umbrella could overstate completion while a child is nonterminal"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Any missing or generic child design-time card bundle",
+        "Any required predecessor or milestone root is nonterminal or ambiguous",
+        "Any evidence denominator is incomplete, stale, skipped, or non-ancestral",
+        "Any request to merge, tag, release, or publish during preparation",
+        "Any attempt to use the umbrella to implement child work"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/537/design.md",
+      "design_digest": "b68c06cfc5bcae5f0c82ee7083266943b05d3261d7b59731597af35af082ebe6",
+      "diagram_ref": ".csdlc/prepared/issues/537/diagram.mmd",
+      "diagram_digest": "b1953fb23e32752d0e599d0d26bb54862289061c94aaa49110ef02a4e74568ee"
+    }
+  }
+}

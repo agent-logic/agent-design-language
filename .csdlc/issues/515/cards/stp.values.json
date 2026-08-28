@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 515,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Local-model shadow execution",
+    "slug": "local-model-shadow-execution",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #515: Local-model shadow execution.",
+      "deliverables": [
+        "Shadow execution is distinguishable, deterministic, redacted, and unable to mutate or replace the authoritative provider result.",
+        "Issue-specific retained validation evidence",
+        "Independent exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Shadow and authoritative provider paths are unambiguously distinguishable.",
+        "AC-2: Inputs and comparison rules are exact and deterministic.",
+        "AC-3: Shadow failures cannot mutate or replace the authoritative result.",
+        "AC-4: Retained comparison evidence is redacted and source-revision bound.",
+        "AC-5: Exact-head review has no unresolved actionable findings."
+      ],
+      "dependencies": [
+        "Terminal reviewed and ancestral PROV-A issue #514",
+        "Sprint 9 umbrella #537"
+      ],
+      "repo_inputs": [
+        "adl/src/provider",
+        "docs/milestones/v0.92.1/evidence/provider/prov-b",
+        ".csdlc/prepared/issues/515/validate-provider-shadow.rb",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/537/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Provider benchmark marketing claims",
+        "Production provider cutover",
+        "Changing provider authority"
+      ]
+    }
+  }
+}

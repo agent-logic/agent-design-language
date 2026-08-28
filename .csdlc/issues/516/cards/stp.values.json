@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 516,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Release-tail admission",
+    "slug": "release-tail-admission",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Deliver only issue #516: Release-tail admission.",
+      "deliverables": [
+        "The admission record indexes every exact reviewed-green ancestral root, its artifacts, and a zero-unresolved-collision result.",
+        "Issue-specific retained validation evidence",
+        "Independent exact-head review and truthful terminal record"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The exact 13-root denominator is reviewed, merged, terminal, and ancestral to the candidate.",
+        "AC-2: Exact revisions and retained artifacts are indexed without substituting successor or sibling authority.",
+        "AC-3: Cross-lane path, contract, claim, and evidence collisions are resolved by their owners.",
+        "AC-4: Missing, stale, skipped, non-proving, or ambiguous roots deny admission.",
+        "AC-5: Exact-head review has no unresolved actionable findings."
+      ],
+      "dependencies": [
+        "Terminal #498",
+        "Terminal #496",
+        "Terminal #494",
+        "Terminal #495",
+        "Terminal #499",
+        "Terminal #505",
+        "Terminal #508",
+        "Terminal #509",
+        "Terminal #51",
+        "Terminal #510",
+        "Terminal #512",
+        "Terminal #513",
+        "Terminal #515",
+        "Sprint 9 umbrella #537"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/evidence/integration",
+        "docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md",
+        ".csdlc/prepared/issues/516/validate-release-tail-admission.rb",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        ".csdlc/prepared/issues/537/sprint-execution-packet.yaml"
+      ],
+      "non_goals": [
+        "Implementing child fixes",
+        "Release approval",
+        "Tagging, releasing, or publishing"
+      ]
+    }
+  }
+}

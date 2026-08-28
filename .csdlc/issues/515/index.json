@@ -1,0 +1,74 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 515,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "25ca2b41359ee753e6209501a66f2749ea65687184428faf742facb6f2f1eba2",
+  "phase": "initialized",
+  "generation": 1,
+  "digest": "803f20a7e522235d8e63c2b805fd8c97bb5023d2d29680bccc4f5f562ca42247",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/515/design.md",
+  "diagram_path": ".csdlc/prepared/issues/515/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:6ca8211e-a5af-45d2-850e-5cafc1a9c102",
+      "revision": "539bd6fbf2fffb0fb19b489cb597a72bdcbd3bc26472a07300cea9dd0c10e6c2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "13ced235b20f71e7750f3697acafa88fff32d0ae9279f71667c82ab378e6ad30",
+      "rendered_digest": "9175b9de08fc436da947cc38cd1d16627450aaaa54971c5cff2f3d152cca6b2d",
+      "ast_digest": "426452bcefbca253a2c6ee08068b4ed65363452d52efa4efef14fbb4cf3a51cd"
+    },
+    "stp": {
+      "values_digest": "33d52ce491f670445fb1fbc7635be30deeba805eed0add93d6229e82647de44c",
+      "rendered_digest": "219ed645a3ceecfcbbf717069658c6f54a5906b872a4a2b54ca37ea9884d60f3",
+      "ast_digest": "d47d249a757c4d0084ce33b0f8be3554a4002d35c9dac9515151abc2b9dca420"
+    },
+    "spp": {
+      "values_digest": "561a5c408e80213b749bf29f58bc726747569a8428cad7b2a17310f0fa837171",
+      "rendered_digest": "9a8f81ed2c8cb81dc79e4df2e21a458d046c75d4a6e807287eccde92b843f045",
+      "ast_digest": "85c210789e44fbe2ade506dd64220f53899ff21e215a2b5678cfebf56e29a612"
+    },
+    "vpp": {
+      "values_digest": "acfae7146630c4e025b2c0bfd95614c9a34cdc1cb4d42de2ba59605d1d5b2f08",
+      "rendered_digest": "2eec9cc8039c974f3e0895b9780e19523074ac21aa36eb9f76b4807fe5570cfb",
+      "ast_digest": "aaa577b9f26dd966caa15366295d2e2e8290a4d5c3b5f423ecad668de26b0ee0"
+    },
+    "srp": {
+      "values_digest": "f574509533ef771659cb0a875fe7b8a36d113bbc11944d66496ab43eff8553d7",
+      "rendered_digest": "288698bb3bbae81d41f07517ad0cb7d22cf34813807ec6761a00e9d91215c741",
+      "ast_digest": "5da1090572da0f4fb0c351d3c0dd4d9d60fa29b8b0ae0c0e99ac988346a2b988"
+    },
+    "sor": {
+      "values_digest": "9d47e7aab30d651126b58fac48d853e0f2e086192c24e5044127c54e8060616b",
+      "rendered_digest": "04355974dc1c41160a7b7987cd5186eca7686438faa89bd6cb0b8d94617d443d",
+      "ast_digest": "93fa362052d5fbb41bc2ea28fbe6548c2e077958ac2ba3e53ba025ef2404e6f4"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint9-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:6ca8211e-a5af-45d2-850e-5cafc1a9c102",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"539bd6fbf2fffb0fb19b489cb597a72bdcbd3bc26472a07300cea9dd0c10e6c2\",\"design_ref\":\".csdlc/prepared/issues/515/design.md\",\"diagram_digest\":\"62dd8b9b7dfba9b51b70c72721ea7c2072d38f7b7e14b92720b32c6052e08c67\",\"diagram_ref\":\".csdlc/prepared/issues/515/diagram.mmd\",\"operation\":\"approve_design\"}"
+    }
+  ]
+}

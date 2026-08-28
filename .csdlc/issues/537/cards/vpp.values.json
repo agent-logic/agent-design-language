@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 537,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Sprint 9 Provider comparison and convergence",
+    "slug": "sprint9-provider-convergence",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "sprint9-readiness",
+          "proof_role": "Exact membership, dependency graph, child card readiness, release-tail fail-closed rules, and coordination-only authority",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/537/validate-sprint-readiness.rb"
+          ],
+          "parallel_group": "sprint9-docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing child readiness, unmet predecessor gates, incomplete root admission, stale or non-proving evidence, or unsupported completion claims.",
+      "design_ref": ".csdlc/prepared/issues/537/design.md",
+      "design_digest": "b68c06cfc5bcae5f0c82ee7083266943b05d3261d7b59731597af35af082ebe6",
+      "diagram_ref": ".csdlc/prepared/issues/537/diagram.mmd",
+      "diagram_digest": "b1953fb23e32752d0e599d0d26bb54862289061c94aaa49110ef02a4e74568ee"
+    }
+  }
+}
