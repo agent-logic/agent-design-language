@@ -36,12 +36,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer did not rerun credentialed GCP readback or Terraform validation; review inspected retained evidence and scoped repository state.
+- Cloud state may drift after retained readback evidence.
+- Current HEAD b49e0b6ef2f1c7877aad56416c84b09952685c7a is assignment metadata only relative to reviewed implementation revision 48afa5a782cc7759804e3880c16aad8687b59274.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:48afa5a782cc7759804e3880c16aad8687b59274:4dc079e0a7d363f72180a4d48cf042b1c7c4284fbfb7832d7858a93b4ad83595")
 
-Reviewer: None
+Reviewer: Some("fresh-session:491d0000-0000-4000-8000-000000000006")
 
-Result: pre_review
+Result: pass
