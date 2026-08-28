@@ -3,9 +3,9 @@
   "issue": 342,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "f22f50785de3595fa31cdc85e96af67d56171c756d8d95f70e35e786ad312b9f",
-  "phase": "reviewed",
-  "generation": 25,
-  "digest": "82af970248d8d8b93088acc15aac0a41500ececa4a9395f014bcd9f175bf8834",
+  "phase": "published",
+  "generation": 26,
+  "digest": "11dd9e2adac7bb2de72c92007240158af2be845ab00fb8e7aea1071308db4063",
   "branch": "codex/342-podcast-studio-first-ten-episodes",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-342-podcast-studio-first-ten-episodes",
   "review_assignment": {
@@ -37,7 +37,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 342,
+    "pull_request": 586,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/586",
+    "base": "main",
+    "head": "codex/342-podcast-studio-first-ten-episodes",
+    "revision": "git-blake3:eb775a3f941efd5ca4ede47b147b59fee1e39853:24e34baa97be92198b25e3762b1ec3a89e88a8ab37b7dadc74dc495fe32228e4",
+    "linkage_mode": "closing",
+    "draft": true,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -51,34 +62,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "439af3ebfeb0c0a1bd7b126eeac867a0d456b5764975dbc2cb78bee4d12bb719",
+      "values_digest": "abaf276b899770e6e8585cd1a7b975fd9c8c63840c8cc7f3ff456e1cecbd8674",
       "rendered_digest": "5328667aa3b17e469c4e356c01c9c602c10a712d6a391083d445c63904620910",
       "ast_digest": "6eaf7b8e3cb171db069ce3d7e5b2ba589bb054310e93b6066b0b170a41c98d19"
     },
     "stp": {
-      "values_digest": "a3ae8271e76b8013655792b422fbc2f964aab8af2292c4d0ec5904d47a2e199f",
+      "values_digest": "c1fd48a6433b6b0150aa95b684b5b86d513c144a95e5c5c0c782d4206901269d",
       "rendered_digest": "acb4546eeec9aa539f66cc016e39189ef9a85660e77e9b6f18539480b6d52b92",
       "ast_digest": "ed2d6b41b560d5723a0958ac88879aa36df82116433163a9d72aa7c2d94ceb23"
     },
     "spp": {
-      "values_digest": "9e6d1cd4443ac2777d0447287faa17c0ab711ebf262277eb9a9ef58ecb553d0b",
+      "values_digest": "6a5bcf1a0b65562fda85f025f8b3033434ceac99a9e98336ce632b7c7c5b8e38",
       "rendered_digest": "191480bd99aec1c23e210e976f5f42a848cfbd552f1781829934dbc1ef764e59",
       "ast_digest": "07819b7755ede28a214e3623d7362c71eb7a5e9e1a3448cc31fe0a7dadbc7391"
     },
     "vpp": {
-      "values_digest": "870e0e031977df690389dacde9f811977912df8c9e5260cc1721877ffff66721",
+      "values_digest": "6b2d5ca5b8ce8eebad3469969296b01810a6ff39631c16fa3ef521bd656c3785",
       "rendered_digest": "7b01988e3038715e3c0197ad18a7b2fec0b4eae7a735707af22f4d7bebe55c16",
       "ast_digest": "6b64408653e72de06986bd341bb63150557f388dfd8b5f10c133ccca2822220e"
     },
     "srp": {
-      "values_digest": "4d54c61c07cd86019d9e79fa4e7b00593940915524c919366a9dda3d233e620d",
+      "values_digest": "2077f23366cd501e712f52993f64cc161afa6295889a7498fbe5725f8234ca04",
       "rendered_digest": "bb272a00b6088dd3c03279d033ac1bf99f53795a5ef8f2e91274b84c52eea572",
       "ast_digest": "4256c816ef8644fcecc29fb434dd1944308a7fae57cf5e3089622493624918c6"
     },
     "sor": {
-      "values_digest": "f3f07c45bf93908abcdc810aea051a4d38132eaa3dc5f7b500d3045d70b2b6bc",
-      "rendered_digest": "11bc7272cde994c5618f78c56d1472b12c1421368b4131117fff1ad018c07799",
-      "ast_digest": "1c627b8aaefa060c0e7144c47437e13db4b85c2286e476adcd437925cefae3f4"
+      "values_digest": "5fbc5a55b6bddb829ad63793c35c434b0ed3b19aac884904476ef8fd880e1a4e",
+      "rendered_digest": "a5511a687c4a4087590f492bdaf94d0289b1def22b4a91e658313c24b9d93ff1",
+      "ast_digest": "d24574485e5868a2d616b52a284b5bd37d047de60fb216572b23d93b4a2c2f00"
     }
   },
   "transitions": [
@@ -123,6 +134,13 @@
       "to": "reviewed",
       "actor": "codex:/root/sprint8-podcast-lane",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -342,6 +360,13 @@
       "actor": "codex:/root/sprint8-podcast-lane",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 26,
+      "actor": "codex:/root/sprint8-podcast-lane",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
