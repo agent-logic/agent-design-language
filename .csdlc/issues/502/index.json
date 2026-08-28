@@ -4,39 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "5ce913b93e6b1afe09edeb170edf6de4a3ee7da7a8457b4372f40f71a4f96afd",
+  "generation": 15,
+  "digest": "c6c246d431b61fa57d8081eef7a09344b20b00ae631ee5040207769e439d5960",
   "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
-  "review_assignment": {
-    "reviewer": "issue_502_main_restack_review",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:41c2481b15b1276ef95da2965d74d313f481b5e1:90638bb9c80a36c213afa1b374f965dd18e99f77ca4a1e749aea77569a0d20b1",
-    "scope": [
-      ".csdlc/issues/502/audit.jsonl",
-      ".csdlc/issues/502/cards/sip.md",
-      ".csdlc/issues/502/cards/sip.values.json",
-      ".csdlc/issues/502/cards/sor.md",
-      ".csdlc/issues/502/cards/sor.values.json",
-      ".csdlc/issues/502/cards/spp.md",
-      ".csdlc/issues/502/cards/spp.values.json",
-      ".csdlc/issues/502/cards/srp.md",
-      ".csdlc/issues/502/cards/srp.values.json",
-      ".csdlc/issues/502/cards/stp.md",
-      ".csdlc/issues/502/cards/stp.values.json",
-      ".csdlc/issues/502/cards/vpp.md",
-      ".csdlc/issues/502/cards/vpp.values.json",
-      ".csdlc/issues/502/index.json",
-      ".csdlc/prepared/issues/502/design.md",
-      ".csdlc/prepared/issues/502/diagram.mmd",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v3/src/adapters/mod.rs",
-      "csdlc-v3/src/lib.rs",
-      "csdlc-v3/src/lifecycle/mod.rs",
-      "csdlc-v3/src/storage/mod.rs",
-      "csdlc-v3/tests/transactions.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -52,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ef89da34ee54130a6166a93268fa99353800c06e83426ca233f7967ca0896f97",
+      "values_digest": "c33c4c84cba123a6e0ace7a288190436b7f5688b10765685c63c022eb85d6b27",
       "rendered_digest": "586a7982b1e0f3092d591c32d3c122d93af9f28bab3131eaa3b67d7bb25b65dc",
       "ast_digest": "f6b8055e02a6433850689b71b3f9ec0371dc513f2be23f17e675ff4ee637b49c"
     },
     "stp": {
-      "values_digest": "5ec3609604f99e56b390e398603a6a0b8523cd640ec18e1f12103a19208261ca",
+      "values_digest": "c19effe32192fb24625e119fcc1559fac71a85127bb75f3293412cf0ed8ee28b",
       "rendered_digest": "b20c663d5fb080ca3aee3471f9f5bcc730ae6a3a95f78ed146eb4ef06fbecb3b",
       "ast_digest": "2d82914d8f9e739e95a46f29b9004c31158554791c6a63129b97f0ac9248d4f5"
     },
     "spp": {
-      "values_digest": "cede85f94de3b9e842179ecd775f42cd2a495d376d2f2c51b4e00e1ca0c632bf",
+      "values_digest": "7b2539356861dcc8d076aec10d2716eae6434c3d04d6f77d04df88f4ae11b99d",
       "rendered_digest": "43bc5b0aebd2201594c013dfa4698f94bd4ba4c81eb3ddd0a73c74919cd26f4a",
       "ast_digest": "f00a8ff6c49ddde156a505009c2c29cfad9d9153d8d7db1fad3ee75fb9e0f8d5"
     },
     "vpp": {
-      "values_digest": "092a530c2a96b12f22c70d167b47c9bdcc08dd1d1402dc8447901f2bad233e4a",
+      "values_digest": "e30770ae2cea9e5116f33a8b591916160ef9af736248e83385a956f428eeffb3",
       "rendered_digest": "68e4ac33848d009bdd0b54fccf2958ddb175a150b6cb70d68c3a4a21ca3374d9",
       "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
     },
     "srp": {
-      "values_digest": "207e0c22a4ea7a600b7c3c9d40510cfd6e1c6921ea660020293109747d050476",
-      "rendered_digest": "3d73304b3e4be484bf261d0d3fd9ad19a239ecf50546018ba45d4dc3adf9fe94",
-      "ast_digest": "46a1cf12e3782587723060f443ce9a89c4fc8b0234b7b17382010fce024c969b"
+      "values_digest": "bff9e99810ea491be8d75880458780daa56b6e8836f220b28fc1da26b784fa32",
+      "rendered_digest": "8fe3a21835c004cbce35be573b975cce35b447b2feaad59e21b6c94c6d77f49b",
+      "ast_digest": "b9affded4f71fb3aa6956e354b86177fba2b64016c62a12aa220f6b3904d6ca1"
     },
     "sor": {
-      "values_digest": "ef9ba5b7da184560c3e64e9940f811320cdfe824287d234550020decdb01ddba",
+      "values_digest": "2d83283edae803426b943b1516d9b6ff70d2eccb2627fabd26915d9a4341ba37",
       "rendered_digest": "81d60063cbd76f12f39e81f7b326b7107773cf158c407ebdd94c5d752ca3febd",
       "ast_digest": "ef6477d8822da7177a0718400fa730f2fe04fc93634fcd8f6ccb1e67ec9b2e66"
     }
@@ -259,6 +231,13 @@
       "actor": "codex:worker-6",
       "reason": "Refresh #502 SOR after #501 merged to main and #502 was restacked onto origin/main before fresh exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502, then restacked it onto origin/main after #501 merged, while preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover.\",\"changes\":[\"Restacked #502 onto origin/main at merged #501 commit 1972aa47bd7047b8594a03bf770fb92f7fb63d51 via merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62.\",\"Recovered stale #502 review/publication truth after the main restack so the post-restack revision must receive fresh exact-head review before publication is trusted.\",\"Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, and projection invalidation semantics.\",\"Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, commit-time generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.\",\"Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction, and shell-executable rejection including path-qualified shell names.\",\"Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, and redaction regression tests.\",\"Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.\",\"Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.\",\"Preserved dependency order by waiting for #501 to merge before moving #502's final PR base to main.\"],\"artifacts\":[\"csdlc-v3/AGENTS.md\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/lib.rs\",\"csdlc-v3/src/lifecycle/mod.rs\",\"csdlc-v3/src/storage/mod.rs\",\"csdlc-v3/tests/transactions.rs\",\"origin/main 1972aa47bd7047b8594a03bf770fb92f7fb63d51\",\"merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62\",\"review-recovery commit 41c2481b15b1276ef95da2965d74d313f481b5e1\",\"worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel\",\"branch codex/502-v3-c-csdlc-v3-lifecycle-kernel\",\"PR https://github.com/agent-logic/agent-design-language/pull/572\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"format check for the C-SDLC v3 crate after restacking #502 on merged #501 main\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"full local C-SDLC v3 crate test suite after restacking #502 on merged #501 main\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:4-lib-11-foundation-15-transactions-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"strict clippy for the C-SDLC v3 crate after main restack\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"diff hygiene after main restack\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel\",\"issue\",\"--issue\",\"502\"],\"purpose\":\"typed C-SDLC issue validation after main restack before review recovery\",\"outcome\":\"blocked\",\"evidence_ref\":\"exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:review_publication_dead_end requiring recover_review\"},{\"command\":[\"csdlc-review\",\"recover\"],\"purpose\":\"recover stale review/publication truth caused by the #501 main merge and #502 restack\",\"outcome\":\"passed\",\"evidence_ref\":\"generation 13 after recover_review; review_assignment/review/publication cleared before fresh review\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "Recover #502 stale review assignment after the typed SOR truth repair for the post-#501 main restack changed lifecycle generation. Fresh exact-head review must be assigned to the clean post-SOR commit.",
+      "operation": "recover_review"
     }
   ]
 }
