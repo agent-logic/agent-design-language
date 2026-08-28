@@ -12,13 +12,14 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the first non-authoritative V3-D local-preparation command contract slice, then corrected the local-command proof fixture to avoid machine-local absolute path assumptions.
+Implemented the non-authoritative V3-D local-preparation command contract slice with a real machine-readable CLI proof path.
 
 ## Artifacts
 
 - csdlc-v3/Cargo.toml
 - csdlc-v3/Cargo.lock
 - csdlc-v3/src/lib.rs
+- csdlc-v3/src/bin/csdlc-v3-local.rs
 - csdlc-v3/src/commands/mod.rs
 - csdlc-v3/src/commands/local/mod.rs
 - csdlc-v3/tests/local_commands.rs
@@ -28,12 +29,13 @@ Implemented the first non-authoritative V3-D local-preparation command contract 
 
 ## Execution
 
-- Bootstrapped issue #503 local C-SDLC state from the live GitHub issue body, approved the design packet, repaired SPP affected areas to include the exact issue-local files, advanced the issue to ready, and bound the execution worktree through csdlc-bind.
+- Bootstrapped issue #503 local C-SDLC state from the live GitHub issue body, approved the design packet, repaired SPP affected areas to include exact issue-local files, advanced the issue to ready, and bound the execution worktree through csdlc-bind.
 - Added the csdlc-v3 local command module scaffold for prepare-issue, bind-worktree, PVF planning, and doctor-style local findings while keeping V3-D explicitly non-authoritative.
-- Added typed JSON parsing for the V3-D local preparation request and active prompt-template registry so malformed contract inputs fail closed instead of being treated as prose.
-- Added focused local command tests covering typed command contracts, registered worktree topology binding, active registry card denominator round-tripping, and distinct doctor outcome states.
+- Added typed JSON parsing for V3-D local preparation requests and active prompt-template registry input so malformed contract inputs fail closed instead of being treated as prose.
+- Added the `csdlc-v3-local` CLI, accepting `--request`, `--registry`, and `--registrations` paths and emitting the `csdlc.v3.local_preparation.v1` machine-readable read-only report.
+- Added focused local command tests covering typed command contracts, registered worktree topology binding, active registry card denominator round-tripping, doctor outcome states, successful CLI output, and malformed typed-request CLI rejection.
 - Replaced the test fixture's real FastWork absolute worktree path with a portable registered-worktree identity while preserving exact branch/worktree matching semantics.
-- Kept Sprint 6 sequencing explicit: #503 is moving after Sprint 5 closeout, while remote delivery, docs readiness, the #571 corrective gate, and authority cutover remain downstream gates.
+- Kept Sprint 6 sequencing explicit: #503 is moving after Sprint 5 closeout, while #504 remote delivery, #570 docs readiness, #571 corrective proof, and #505 authority cutover remain downstream gates.
 
 ## Validation
 
@@ -46,9 +48,9 @@ Implemented the first non-authoritative V3-D local-preparation command contract 
       "csdlc-v3/Cargo.toml",
       "--check"
     ],
-    "purpose": "Verify formatting for the V3-D Rust contract slice after the portable fixture correction.",
+    "purpose": "Verify formatting for the V3-D local preparation library and CLI.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:42493325a:passed"
+    "evidence_ref": "exact-head:2dcb4aaa3:passed"
   },
   {
     "command": [
@@ -59,9 +61,9 @@ Implemented the first non-authoritative V3-D local-preparation command contract 
       "--test",
       "local_commands"
     ],
-    "purpose": "Run the focused V3-D local command contract, topology, card registry, and doctor outcome tests after the portable fixture correction.",
+    "purpose": "Run the focused V3-D local command and CLI proof, including successful machine-readable output and malformed typed-request rejection.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:42493325a:4-passed"
+    "evidence_ref": "exact-head:2dcb4aaa3:6-passed"
   },
   {
     "command": [
@@ -74,9 +76,9 @@ Implemented the first non-authoritative V3-D local-preparation command contract 
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings across csdlc-v3 targets after the portable fixture correction.",
+    "purpose": "Reject warnings across csdlc-v3 targets after adding the V3-D local preparation CLI.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:42493325a:passed"
+    "evidence_ref": "exact-head:2dcb4aaa3:passed"
   },
   {
     "command": [
@@ -84,9 +86,9 @@ Implemented the first non-authoritative V3-D local-preparation command contract 
       "diff",
       "--check"
     ],
-    "purpose": "Verify diff whitespace hygiene for the V3-D portable fixture correction.",
+    "purpose": "Verify diff whitespace hygiene after adding the V3-D local preparation CLI.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:42493325a:passed"
+    "evidence_ref": "exact-head:2dcb4aaa3:passed"
   },
   {
     "command": [
@@ -97,9 +99,9 @@ Implemented the first non-authoritative V3-D local-preparation command contract 
       "--issue",
       "503"
     ],
-    "purpose": "Verify typed C-SDLC issue state after review recovery and the portable fixture correction.",
+    "purpose": "Verify typed C-SDLC issue state before recording fresh review.",
     "outcome": "passed",
-    "evidence_ref": "exact-head:42493325a:status pass, phase implemented, generation 5"
+    "evidence_ref": "exact-head:2dcb4aaa3:status pass, phase implemented, generation 8"
   }
 ]
 
