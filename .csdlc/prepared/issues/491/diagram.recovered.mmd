@@ -1,0 +1,10 @@
+flowchart TD
+  A["#490 GCP-A terminal decision"] --> B["#491 GCP-B Terraform bootstrap"]
+  B --> C["Host project cs-host-377d41e71a824f92802120"]
+  B --> D["tf-bootstrap service account"]
+  D --> E["Keyless impersonation"]
+  D -. "operator-approved bootstrap key" .-> F["Local JSON key outside repo"]
+  B --> G["Private versioned GCS backend"]
+  B --> H["Provider pins + saved plan"]
+  B --> I["Local state cleanup"]
+  B --> J["Redacted readbacks"]

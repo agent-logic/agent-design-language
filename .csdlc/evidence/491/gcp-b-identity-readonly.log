@@ -1,0 +1,9 @@
+gcp-b readback lane classified as identity-readonly: no GCP mutations performed
+project_id=cs-host-377d41e71a824f92802120
+project_readable=true
+project_lifecycle_state=ACTIVE
+service_account_readable=true
+enabled_service_count=46
+storage_bucket_count=0
+key_file_present=true
+retained_output_redacted=true

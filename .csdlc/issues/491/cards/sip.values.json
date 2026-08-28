@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 491,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
+    "slug": "gcp-terraform-bootstrap",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one recoverable GCP Terraform bootstrap.",
+      "required_outcome": "One recoverable GCP state project backend and deployment-identity bootstrap.",
+      "declared_scope": [
+        "GCP host-project Terraform backend bootstrap",
+        "GCS remote-state privacy, versioning, auditability, and recovery",
+        "Company-controlled Terraform bootstrap service account",
+        "Short-lived impersonation as preferred execution",
+        "Operator-approved local static key bootstrap path",
+        "Provider pinning, saved-plan review, and local-state cleanup"
+      ],
+      "authority_boundary": [
+        "Use company GCP project cs-host-377d41e71a824f92802120",
+        "Use bootstrap service account tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com",
+        "Prefer short-lived service-account impersonation for steady-state Terraform execution",
+        "Use the operator-approved static key only from /Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json when a key-backed bootstrap command is explicitly selected",
+        "Never print, copy, commit, or retain service-account private-key contents, token contents, ADC database contents, or refresh tokens",
+        "GCP mutation is limited to the accepted host project and bootstrap resources"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes",
+        "Bind beneath /Volumes/FastWork/adl-worktrees before tracked implementation edits",
+        "Use standard runners only for hosted CI",
+        "Record the key creation and org-policy window truthfully without retaining secrets",
+        "Do not absorb GCP-C runtime, GCP-D security, GPU, AWS, or public-edge work"
+      ]
+    }
+  }
+}

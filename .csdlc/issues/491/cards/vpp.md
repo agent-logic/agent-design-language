@@ -1,0 +1,149 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 491
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/491/design.recovered.md
+
+Diagram: .csdlc/prepared/issues/491/diagram.recovered.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "prebind-gcp-bootstrap-packet",
+    "proof_role": "Proves #491 design packet readiness, #490 dependency gate, accepted host project and service-account identity, local key path truth without secret contents, wrong-project/service-account fail-closed checks, owned-path boundaries, and lifecycle distinction between pre-bind packet proof and future Terraform implementation proof.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1500,
+    "argv": [
+      "bash",
+      ".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh"
+    ],
+    "parallel_group": "prebind-local",
+    "defer_reason": null
+  },
+  {
+    "lane": "prebind-gcp-static-readback",
+    "proof_role": "Proves the GCP-B readback entrypoint has a static non-credentialed mode and reports only approved project/service-account/key-path metadata.",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "bash",
+      ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh",
+      "--lane=static"
+    ],
+    "parallel_group": "prebind-local",
+    "defer_reason": null
+  },
+  {
+    "lane": "prebind-review-readiness",
+    "proof_role": "Proves #491 has issue-owned executable packet validators before design approval; this does not claim final implementation exact-head review.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "bash",
+      ".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh"
+    ],
+    "parallel_group": "prebind-local",
+    "defer_reason": null
+  },
+  {
+    "lane": "gcp-b-terraform-static-contract",
+    "proof_role": "After bind, verifies #491 Terraform backend/deployment-identity implementation, provider pins, saved-plan review, local-state cleanup, and redacted retained evidence.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 2000,
+    "argv": [
+      "bash",
+      ".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh"
+    ],
+    "parallel_group": "postbind-local",
+    "defer_reason": "Deferred until #491 is bound and the implementation creates the complete Terraform bootstrap surfaces under infra/gcp/bootstrap."
+  },
+  {
+    "lane": "gcp-b-identity-readback",
+    "proof_role": "After reviewed implementation and approved credential context, performs read-only GCP proof of host project, bootstrap service account, impersonation readiness, and local key metadata without printing key contents.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-5"
+    ],
+    "deterministic": false,
+    "resource_profile": "small",
+    "budget_seconds": 600,
+    "budget_tokens": 2500,
+    "argv": [
+      "bash",
+      ".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh",
+      "--lane=identity-readonly"
+    ],
+    "parallel_group": "gcp-readonly",
+    "defer_reason": "Deferred until #491 is bound, the reviewed Terraform bootstrap surfaces exist, and the operator-approved GCP credential context is selected without exposing credential contents."
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 3600
+
+Tokens: 25000
+
+## Commands
+
+- `bash .csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh`
+- `bash .csdlc/prepared/issues/491/run-gcp-b-readbacks.sh --lane=static`
+- `bash .csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh`
+- `bash .csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh`
+- `bash .csdlc/prepared/issues/491/run-gcp-b-readbacks.sh --lane=identity-readonly`
+
+## Failure Semantics
+
+Fail closed if state recovery fails, local key material would be retained or printed, reviewed plan identity drifts, impersonation cannot be proven, provider pins are absent, local bootstrap state remains unmanaged, or mutation would target a project other than cs-host-377d41e71a824f92802120.
+
+## Handoff
+
+Retain typed evidence before convergence.

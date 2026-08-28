@@ -1,0 +1,7 @@
+project_id                = "cs-host-377d41e71a824f92802120"
+region                    = "us-central1"
+state_bucket_name         = "adl-tf-state-cs-host-377d41e71a824f92802120"
+bootstrap_service_account = "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
+
+# Preferred steady-state:
+# impersonate_service_account = "tf-bootstrap@cs-host-377d41e71a824f92802120.iam.gserviceaccount.com"
