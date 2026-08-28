@@ -24,12 +24,14 @@ Diagram: .csdlc/prepared/issues/579/diagram.mmd
 
 [
   {
-    "lane": "579-terraform-static",
-    "proof_role": "Focused Terraform formatting/static checks for touched AWS-F Terraform roots/modules without backend or cloud mutation, including no AWS-F Route53/ACM executable ownership, no committed public Runtime ingress, and account/workspace/state backend guardrails.",
+    "lane": "issue-579-corrective-validator",
+    "proof_role": "Prove the #579 corrective scope, including AWS-F runtime-platform public-edge boundaries, closed ingress defaults, state isolation truth, proof/runbook truth, and delegation to the stable static validator.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
-      "AC-4"
+      "AC-3",
+      "AC-4",
+      "AC-5"
     ],
     "deterministic": true,
     "resource_profile": "small",
@@ -38,46 +40,7 @@ Diagram: .csdlc/prepared/issues/579/diagram.mmd
     "argv": [
       "bash",
       ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
-      "--lane=terraform-static"
-    ],
-    "parallel_group": "579-local",
-    "defer_reason": null
-  },
-  {
-    "lane": "579-security-validator-regression",
-    "proof_role": "Proves forbidden world-open Runtime ingress is rejected and egress-only blocks do not mask ingress.",
-    "acceptance_ids": [
-      "AC-3"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1000,
-    "argv": [
-      "bash",
-      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
-      "--lane=security-validator-regression"
-    ],
-    "parallel_group": "579-local",
-    "defer_reason": null
-  },
-  {
-    "lane": "579-proof-truth",
-    "proof_role": "Checks AWS-F proof/runbook wording for public-edge ownership, local-vs-live proof truth, state isolation, cleanup, rollback, observability, artifact wiring, and Spot resilience boundaries.",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-4",
-      "AC-5"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 180,
-    "budget_tokens": 1200,
-    "argv": [
-      "bash",
-      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
-      "--lane=proof-truth"
+      "--lane=all"
     ],
     "parallel_group": "579-local",
     "defer_reason": null
@@ -114,9 +77,7 @@ Tokens: 25000
 
 ## Commands
 
-- `bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=terraform-static`
-- `bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=security-validator-regression`
-- `bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=proof-truth`
+- `bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=all`
 - `git diff --check`
 
 ## Failure Semantics

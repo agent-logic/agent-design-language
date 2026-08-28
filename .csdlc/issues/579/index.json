@@ -4,61 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8fe41a4be3b42f614d852b4f001ffb1eccd6367f489c5928292297866d6f976f",
-  "phase": "published",
-  "generation": 20,
-  "digest": "058cc54809b79bce9dafce38fe10e8c20bf4e67bbc212fc61271d48efea00b79",
+  "phase": "implemented",
+  "generation": 24,
+  "digest": "d3278583750cc6b9af22b924dde14424eaebe74ad700902268181eab2c682061",
   "branch": "codex/579-aws-f-corrective-runtime-platform-edge-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-579-aws-f-corrective-runtime-platform-edge-proof-exec",
-  "review_assignment": {
-    "reviewer": "fresh-session:10d98e20-b267-406f-9f64-bf6348d497d1",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:ed94d768ba9533f9d8315108a604f2f96ac1001d:f003a5319bb138ed2135e1676648e9ed0a9b4ea955a29bf05a2448ee7cffd5b6",
-    "scope": [
-      "infra/aws/modules/csm-runtime-alb/main.tf",
-      "infra/aws/modules/csm-runtime-alb/variables.tf",
-      "infra/aws/runtime/alb-origin",
-      "infra/aws/runtime/private-node",
-      "infra/aws/runtime/README.md",
-      "docs/operations/cloud/aws/runtime-platform/README.md",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md",
-      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
-      ".csdlc/issues/579"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:10d98e20-b267-406f-9f64-bf6348d497d1",
-    "scope": [
-      "infra/aws/modules/csm-runtime-alb/main.tf",
-      "infra/aws/modules/csm-runtime-alb/variables.tf",
-      "infra/aws/runtime/alb-origin",
-      "infra/aws/runtime/private-node",
-      "infra/aws/runtime/README.md",
-      "docs/operations/cloud/aws/runtime-platform/README.md",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md",
-      ".csdlc/prepared/issues/579/validate-aws-f-corrective.sh",
-      ".csdlc/issues/579"
-    ],
-    "reviewed_revision": "git-blake3:ed94d768ba9533f9d8315108a604f2f96ac1001d:f003a5319bb138ed2135e1676648e9ed0a9b4ea955a29bf05a2448ee7cffd5b6",
-    "findings": [],
-    "residual_risks": [
-      "No AWS, paid, live deployment, or remote-state operation was performed in review.",
-      "Reviewer could not independently run csdlc-validate from PATH; implementation session ran /Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate successfully before assignment."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 579,
-    "pull_request": 583,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/583",
-    "base": "main",
-    "head": "codex/579-aws-f-corrective-runtime-platform-edge-proof",
-    "revision": "git-blake3:7e90000da0686e403e38f2f296cbea75488b5da1:d25db02785d82fe359398dd79d98c270a439f80f0a4c92d990394f6d0a805925",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -72,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c7bb332cdd85d8b1c44b43989f981f9d573248046ea736215d9c59950a10be7f",
+      "values_digest": "a5a8f1e71306b33944872cb732248552cd057165c58748e6751fb01d76226cdf",
       "rendered_digest": "34255383575c3c3aea078b5ad1f33029f480c9c070bf17102d1ff5b52206557f",
       "ast_digest": "d79aba3cc3efacc1f54e46f636ef0d14448a7ab00e65460abe4a0e9561e31c2c"
     },
     "stp": {
-      "values_digest": "32820e6a71923d2c74244bad8c9355af9ce28a155bf67b3407bfef46845b6388",
+      "values_digest": "bb3813ef4e8ed6470276a9e290132f84a8a2050d5814e4d89fd12f132e1c68a1",
       "rendered_digest": "75a132bf25c11986913abfb12619819b2535b6e3eb8c12c10e4fdcdf883d54eb",
       "ast_digest": "5f1a9cde41042b937e046672f548508ffc1f06d64cfbdb24e849d19bdfd2e038"
     },
     "spp": {
-      "values_digest": "ed1a23be86f5f29d26888c08f757656f8b9a48179b28a513278ae5fd4215731b",
+      "values_digest": "f57f97fbc02ef019777b9813fd1a3f3042c71fdf405cd5a70ac70fa1e9d29675",
       "rendered_digest": "d13937b24c4616f64d06be246d23d06ec8a5b764975bfea7578c58585f458a00",
       "ast_digest": "78428b50426eac48c5cb6136de5e4ec205e626596139d1ca785a03471c0b370c"
     },
     "vpp": {
-      "values_digest": "0d17fdb333a5f7320c41e854ec97950e07661cbed59eba72a803db2daa0660fb",
-      "rendered_digest": "43fb1ea1bff3e28dcb6bae9f9488ab0a31360bd9144ab1fea9a669906d0b2722",
-      "ast_digest": "f99c7f95258d2e8800f7b35ca6c2a21cec687002417dfff2287ad67999f044bd"
+      "values_digest": "129d37cf7e7794176d36ef86403825255589cda80a0bd9b3afda0905f167ca8c",
+      "rendered_digest": "4935104808e2511060d9ff88bfcb96677ccc1dbc65b243c0d0a30042ce016ab9",
+      "ast_digest": "639c13390f23a68c379aaa9fba5f048792afca03b57d88542742f536d3d76b03"
     },
     "srp": {
-      "values_digest": "937a27de4075405c7f30cde4a7911804ec5692f1056dfbb5e8eac7500e4ce9d0",
-      "rendered_digest": "8c3b735850318d131d5a52edec5980c83db758b4e78f81cfb49c314ffd814520",
-      "ast_digest": "9a4dbf9c9b1e74b101d35939f832e04b9bf13b6accfcea83be9647c678b29a15"
+      "values_digest": "c29b59220924b7ac2033c5eb82407eb049d7b8c18784c1ffc5f85f41b3f80c47",
+      "rendered_digest": "47923253ba21229c9e358a99c51f487ef29ba0142720f6414f6a1c61b7f528f2",
+      "ast_digest": "413abf1da275fc5f55970c2ddc8dd929db8a01b25c9bf10dee9eb5a31795efc8"
     },
     "sor": {
-      "values_digest": "b926561a276b42378fc6571c842185b83fd1aee93d6f32445110c878fabb0f4e",
-      "rendered_digest": "62a5eeaa8bb0b388d0e86a598662fca9e46568079cd185389f5ee8c43d7424e0",
-      "ast_digest": "fb1d127c22e442c7f96d6fd87f172649e8f1ba65a9d9c07ed53a1490c6413dcb"
+      "values_digest": "bbe96a287abb2bb528de66803dee4f714c776dfb332a2111a5303a9a5e900e4e",
+      "rendered_digest": "6678bca6ebf28e9d1e24eba63d75cec929f82b2d8e4433ac4b938ed1c65b203e",
+      "ast_digest": "50806c966e3127ff2e8f87002f0ccf5592573c06e07e399cd50a497497c5cb61"
     }
   },
   "transitions": [
@@ -137,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "PR #583 CI failed because AWS-F Terraform paths were unmapped by the validation lane selector, forcing fail-closed authoritative runtime/workspace coverage for a non-runtime infra/docs change; recover to implemented before bounded CI-routing repair."
     }
   ],
   "audit": [
@@ -328,6 +288,34 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "PR #583 CI failed because AWS-F Terraform paths were unmapped by the validation lane selector, forcing fail-closed authoritative runtime/workspace coverage for a non-runtime infra/docs change; recover to implemented before bounded CI-routing repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Record #579 post-publication CI repair validation plan: AWS runtime-platform paths must use a focused cloud static lane and must not trigger unrelated runtime/workspace coverage.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"aws-runtime-platform-static\",\"proof_role\":\"Prove AWS-F runtime-platform Terraform/docs/security boundaries select the focused cloud static lane and avoid unrelated runtime/workspace coverage escalation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"adl/tools/validate_aws_runtime_platform_static.sh\",\"--lane=all\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"issue-579-corrective-validator\",\"proof_role\":\"Prove the issue-owned #579 validator delegates to the stable AWS runtime-platform validator and preserves corrective scope.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=all\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"validation-manager-aws-runtime-platform-regression\",\"proof_role\":\"Prove the validation manager maps AWS runtime-platform paths to aws_runtime_platform_static without unmapped escalation.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_validation_manager.sh\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"ci-path-policy-aws-runtime-platform-regression\",\"proof_role\":\"Prove PR path policy does not request runtime or workspace coverage for AWS runtime-platform static-only changes.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_ci_path_policy.sh\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-diff-hygiene\",\"proof_role\":\"Rejects conflict artifacts and whitespace errors across the corrective diff.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"579-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Record #579 CI-routing remediation validation after PR #583 failed from unmapped AWS runtime-platform paths forcing unrelated coverage.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash adl/tools/validate_aws_runtime_platform_static.sh --lane=all\",\"bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=all\",\"bash adl/tools/test_validation_manager.sh\",\"bash adl/tools/test_ci_path_policy.sh\",\"git diff --check\"],\"purpose\":\"Prove #579 post-publication CI repair: AWS runtime-platform Terraform/docs paths now select aws_runtime_platform_static, no longer emit unmapped-change escalation, and no longer request runtime/workspace coverage for static cloud-infra changes.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: aws runtime platform static validation passed: all; aws-f corrective validation passed: all; PASS test_validation_manager; PASS: ci_path_policy PR-fast/full-coverage contract; git diff --check exited 0\"}}"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Keep #579 VPP validation lanes governed by issue-owned executable targets while SOR records the detailed CI selector regression evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-579-corrective-validator\",\"proof_role\":\"Prove the #579 corrective scope, including AWS-F runtime-platform public-edge boundaries, closed ingress defaults, state isolation truth, proof/runbook truth, and delegation to the stable static validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/579/validate-aws-f-corrective.sh\",\"--lane=all\"],\"parallel_group\":\"579-local\",\"defer_reason\":null},{\"lane\":\"579-diff-hygiene\",\"proof_role\":\"Rejects conflict artifacts and whitespace errors across the corrective diff.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"579-local\",\"defer_reason\":null}]}"
     }
   ]
 }

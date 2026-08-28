@@ -115,16 +115,28 @@ Remediated #579 exact-review findings by removing the stale SRP review-gate from
     "purpose": "Prove all #579 corrective lanes again after merging current origin/main into the bound worktree: Terraform/public-edge boundary, security-regression guard, proof truth, state-isolation guardrails, and local diff hygiene.",
     "outcome": "passed",
     "evidence_ref": "post-merge local stdout: aws-f corrective validation passed: all; terraform -chdir=infra/aws/runtime fmt -check -recursive exited 0; git diff --check origin/main...HEAD exited 0; csdlc-validate issue 579 PASS"
+  },
+  {
+    "command": [
+      "bash adl/tools/validate_aws_runtime_platform_static.sh --lane=all",
+      "bash .csdlc/prepared/issues/579/validate-aws-f-corrective.sh --lane=all",
+      "bash adl/tools/test_validation_manager.sh",
+      "bash adl/tools/test_ci_path_policy.sh",
+      "git diff --check"
+    ],
+    "purpose": "Prove #579 post-publication CI repair: AWS runtime-platform Terraform/docs paths now select aws_runtime_platform_static, no longer emit unmapped-change escalation, and no longer request runtime/workspace coverage for static cloud-infra changes.",
+    "outcome": "passed",
+    "evidence_ref": "local stdout: aws runtime platform static validation passed: all; aws-f corrective validation passed: all; PASS test_validation_manager; PASS: ci_path_policy PR-fast/full-coverage contract; git diff --check exited 0"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
