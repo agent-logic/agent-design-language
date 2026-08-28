@@ -33,3 +33,5 @@
 {"sequence":33,"generation":26,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":34,"generation":27,"actor":"codex:/root","reason":"Recover #491 pending review assignment before review activity because the existing reviewer identity is not a canonical fresh-session UUID. Preserve exact assignment truth and reassign a canonical fresh no-context reviewer against unchanged immutable HEAD ca26d298331a19b9cc3bc5e9f8b35f5635b7cd4e.","operation":"recover_review"}
 {"sequence":35,"generation":27,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":36,"generation":28,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":37,"generation":29,"actor":"codex:/root","reason":"Recover #491 R5 failed exact-head review after preserving stale identity-readonly evidence finding; implementation will rerun and retain the approved-key readback markers before fresh review.","operation":"recover_review"}

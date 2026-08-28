@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/491
-.csdlc/prepared/issues/491
-.csdlc/evidence/491
-infra/gcp/bootstrap
-docs/operations/cloud/gcp/terraform-bootstrap
-docs/milestones/v0.92.1/evidence/cloud/gcp-b
+
 
 ## Prompts
 
