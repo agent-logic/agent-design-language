@@ -103,11 +103,11 @@ Implemented the #493 GCP-D private platform foundation, repaired exact-review fi
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
