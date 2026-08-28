@@ -7,15 +7,15 @@
     "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
     "slug": "runtime-polis-config-owned-name-domain",
     "version": "v0.92.1",
-    "generation": 28
+    "generation": 29
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/control.rs\nadl-runtime-kernel/tests/observatory.rs\nadl-runtime-kernel/tests/openapi_contract.rs\nadl-runtime-kernel/tests/guardian_soak.rs\nadl-runtime-kernel/tests/support/runtime_init.rs\ndocs/api/runtime-v3/v1/observatory.openapi.json\ninfra/runtime-v3/runtime-init.toml\ndemos/html-observatory/index.html\ndemos/html-observatory/app.js\ndemos/html-observatory/tests/polis_identity.test.mjs\n.csdlc/prepared/issues/551\n.csdlc/evidence/551\n.csdlc/issues/551",
+      "review_revision": "git-blake3:4d02f41a13438cb4a1253e7ea779c47481ea32cf:4d682ee6ae22caccda080b86e19ebbea7f52c305d5ef5fca1004c077680e579c",
+      "reviewer": "fresh-session:1fa7b2f0-4c59-4343-ae7b-afdce3064aa9",
       "review_prompts": [
         "Does one validated reload atomically replace every Polis parameter and Runtime presentation consumer without restart?",
         "Do invalid reloads preserve the complete last-known-good snapshot with bounded redacted diagnostics?",
@@ -23,8 +23,11 @@
         "Is Unity absent from the diff?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI remains the final integration gate before merge.",
+        "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
+      ],
+      "review_result": "pass"
     }
   }
 }

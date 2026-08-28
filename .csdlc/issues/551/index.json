@@ -4,13 +4,89 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8c962f6d645b6f54f8940644d353e8ed364038fbeba2c9c8d7e4e47531be09be",
-  "phase": "implemented",
-  "generation": 28,
-  "digest": "45e779b00eb6c9d24d942d8c07372947b13c3791a2cf85f663f352273f055516",
+  "phase": "reviewed",
+  "generation": 29,
+  "digest": "c227fc00cfa7930d7f49f8e3b4f41d63afe43a2435084737f86280e45001d45c",
   "branch": "codex/551-runtime-polis-config-owned-name-domain",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-551-runtime-polis-config-owned-name-domain",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:1fa7b2f0-4c59-4343-ae7b-afdce3064aa9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4d02f41a13438cb4a1253e7ea779c47481ea32cf:4d682ee6ae22caccda080b86e19ebbea7f52c305d5ef5fca1004c077680e579c",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551",
+      ".csdlc/evidence/551",
+      ".csdlc/issues/551"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:1fa7b2f0-4c59-4343-ae7b-afdce3064aa9",
+    "scope": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551",
+      ".csdlc/evidence/551",
+      ".csdlc/issues/551"
+    ],
+    "reviewed_revision": "git-blake3:4d02f41a13438cb4a1253e7ea779c47481ea32cf:4d682ee6ae22caccda080b86e19ebbea7f52c305d5ef5fca1004c077680e579c",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "metadata_only_review_projection",
+      "from_revision": "git-blake3:151bf977d7c33357ba8f7f957a23ef12fec36b01:c0c87d8a0650b822a2afdbfaee100de79d097021ba552f999af003f4bed06412",
+      "to_revision": "git-blake3:4d02f41a13438cb4a1253e7ea779c47481ea32cf:4d682ee6ae22caccda080b86e19ebbea7f52c305d5ef5fca1004c077680e579c",
+      "from_commit": "151bf977d7c33357ba8f7f957a23ef12fec36b01",
+      "to_commit": "4d02f41a13438cb4a1253e7ea779c47481ea32cf",
+      "changed_paths": [
+        ".csdlc/issues/551/audit.jsonl",
+        ".csdlc/issues/551/cards/sip.values.json",
+        ".csdlc/issues/551/cards/sor.md",
+        ".csdlc/issues/551/cards/sor.values.json",
+        ".csdlc/issues/551/cards/spp.values.json",
+        ".csdlc/issues/551/cards/srp.md",
+        ".csdlc/issues/551/cards/srp.values.json",
+        ".csdlc/issues/551/cards/stp.values.json",
+        ".csdlc/issues/551/cards/vpp.values.json",
+        ".csdlc/issues/551/index.json",
+        ".csdlc/prepared/issues/551/assign-exact-head-review.json",
+        ".csdlc/prepared/issues/551/publish.json",
+        ".csdlc/prepared/issues/551/record-exact-head-review.json",
+        ".csdlc/prepared/issues/551/recover-metadata-review.json"
+      ]
+    }
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +101,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fb018683aecc9325f22b1f723d39f332f434b7486d37ad858ea63143bc0e8b2e",
+      "values_digest": "eb7966093f08cfd92b33af6efeb20b8db9259a551ba4501eb027ffebb106cde6",
       "rendered_digest": "82f6b9aada643feaa8b607fd6a37c9eb59fabc256fa1c8315662e82175a699be",
       "ast_digest": "3493ed21ef29a39135ac700b91953347e08540b943e49fd286173ddcf2ca692e"
     },
     "stp": {
-      "values_digest": "3f371e19490fc8e06f6e7177f562af203d24d585bd06ad0d97d73959eb4e2f0a",
+      "values_digest": "3828ca4c1c79a9ab3a437efbec05a606ceb9bb80b025f5e60341b74d73b2472c",
       "rendered_digest": "f3edeacea97ff8c487d7faf65e61e843116a08bc1eddbc0e301d443e18748110",
       "ast_digest": "ffe8936d8753a323affd8530293c14b6c895422798ae71ceb1f061f3320e1add"
     },
     "spp": {
-      "values_digest": "224f1f3a8ceac61400e1f90ffba5b8d42b2fb586bf6f5177b94ed7b6bd862390",
+      "values_digest": "841130206de7e314ffc4227434d516c05479a8c57b4e24da6d00aa871ffbbd4d",
       "rendered_digest": "76c8f20ba37a7f1b5c4bccdb77697c30543bd8d7e464db18d4b2c77fae794b4a",
       "ast_digest": "d79774bb4afaec91e566a8801eece1309dd8dbf68fc0e758027afcc34e465b49"
     },
     "vpp": {
-      "values_digest": "7df33e3ec07f2e91eb20add280f85c7dade0b1b298acdd67d324f81e3ab7ff61",
+      "values_digest": "a4470cc3c42162bd3876a70c495237763ae68d2b0693527d2c3e889cb6259380",
       "rendered_digest": "43513cdf5303425c1eaa92d695936d8298e1727555af21462a199eb85c6d7df0",
       "ast_digest": "fccf768b236ee4f8d0125fd85819172e819694770c4344b8226f88c39a720594"
     },
     "srp": {
-      "values_digest": "bbdf95ec4af92148318c15cb59495517833a8015b6099d7c21df65ef996fdab7",
-      "rendered_digest": "656bb2bd409c0f5311072f133634cc909c5f8f34098c97580a8bc7c557360b57",
-      "ast_digest": "1d72157806e87f00ca56fc714327c2dc99c38c2d7d560c0ab0b3fbb4322bd0be"
+      "values_digest": "35ed4ed7502b50c9448eaf8c28fd1ece41d5f1dac12361410730a7de8e8c94ff",
+      "rendered_digest": "aafbd851c4b11ea3d9095a950790ff646691df380ec8f3eafb45435695730acc",
+      "ast_digest": "41f91be4f036d524fa59303371f929f86763ecb61da3fb683ec0772eb448be16"
     },
     "sor": {
-      "values_digest": "95d97f967e6c7bcd21c848171d43155b106a30e46b013f80fa3c8211d3a74ee0",
+      "values_digest": "0f5692e98733b29f0a03ef7505c6fd7de50b52312839c9f095aa304c236ae249",
       "rendered_digest": "463c36c08afbe9e79fcc6cc3616c14c7ffb899f5c2d6853370a4bdc21d05e349",
       "ast_digest": "a9ca407074e802f328010d1e3b457484f56017e83bb99cac6455322e73e5ff8e"
     }
@@ -90,6 +166,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "The reviewed publication request and typed review metadata advanced exact HEAD without changing product, design, tests, or evidence; recover so a metadata-only review can bind the publication head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -309,6 +392,20 @@
       "actor": "codex:/root",
       "reason": "The reviewed publication request and typed review metadata advanced exact HEAD without changing product, design, tests, or evidence; recover so a metadata-only review can bind the publication head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

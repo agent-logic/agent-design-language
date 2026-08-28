@@ -29,3 +29,5 @@
 {"sequence":29,"generation":26,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":27,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":31,"generation":28,"actor":"codex:/root","reason":"The reviewed publication request and typed review metadata advanced exact HEAD without changing product, design, tests, or evidence; recover so a metadata-only review can bind the publication head.","operation":"recover_review"}
+{"sequence":32,"generation":28,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":33,"generation":29,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
