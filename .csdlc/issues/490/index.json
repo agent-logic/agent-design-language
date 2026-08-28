@@ -5,10 +5,22 @@
   "initialization_digest": "6c97bf7b191a264c863ce7ccd8e1099e7dd451da9929f0f07a9fcbb8d99893d9",
   "phase": "implemented",
   "generation": 2,
-  "digest": "a4027afd80b4d79c4b1e130b1680dee2fe7da7569c4b6746689ef7098e911ff9",
+  "digest": "dbf99fc2cd5bc39fa11b3db0b3bfe3b1f177557357fbce36951ec4595bafd0ac",
   "branch": "codex/490-gcp-a-hierarchy-cost-decision",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-490-gcp-hierarchy-cost-decision",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a71c67bf-43f1-43b0-84bd-a64b9df76e1a",
+    "assigned_by": "codex:issue-490-gcp-a-owner",
+    "revision": "git-blake3:b7f9f3974d19c9c0d469e0c3e371d1a9c5131c38:c1929e3b0c69256c078a360aa4b70309fbceb6e388f070ee98fbdd7c990ce04c",
+    "scope": [
+      "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-a",
+      ".csdlc/prepared/issues/490/validate-gcp-a-decision.sh",
+      ".csdlc/prepared/issues/490/finalize-implementation.json",
+      ".csdlc/evidence/490",
+      ".csdlc/issues/490"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "a4587186eb18c16fd0e640e9f06ecddb316c70b22375055252d11a6b53805044"
     },
     "srp": {
-      "values_digest": "c89579c827d0b0d20c31bfbdf0677433db980ef8219f400ae997e2c0aeb91a0e",
-      "rendered_digest": "24ec631e159adcaf12f83d978684cb4d09d07d35b1ac4761b7d3cb7b61106f82",
-      "ast_digest": "9b8cb360173df64275f9e7e33dc58ff2a3f678b5ccdea3a53c69efa3bc92917c"
+      "values_digest": "4d5d1c6a1b56c4352bb9cd4c6f9d84cf00001871f7518009942e1812bf1dff53",
+      "rendered_digest": "ab7242e02efa29d17767bda0017d3f5b2329172da4bdd3bee963d3e1403033a5",
+      "ast_digest": "fdd6f9102eda7839e99d1c4be04a62105bdc630f7c93191f7a6e5a6469e8bc1b"
     },
     "sor": {
       "values_digest": "dc9583a60a21943b4d39cc429fd04be1b16d55e96e837e55194bebd04fd307f1",
@@ -105,6 +117,13 @@
       "actor": "codex:issue-490-gcp-a-owner",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-490-gcp-a-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

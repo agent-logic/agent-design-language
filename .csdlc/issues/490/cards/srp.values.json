@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #490 docs, evidence, lifecycle truth, decision denominator, redaction proof, and exact branch range.",
+      "review_scope": "docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md\ndocs/milestones/v0.92.1/evidence/cloud/gcp-a\n.csdlc/prepared/issues/490/validate-gcp-a-decision.sh\n.csdlc/prepared/issues/490/finalize-implementation.json\n.csdlc/evidence/490\n.csdlc/issues/490",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
