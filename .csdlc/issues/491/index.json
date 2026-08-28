@@ -5,11 +5,23 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "526cf0df8c21bda077e6d86d72235e2018344c6406e4eb56eb652c5cf8a7a799",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "9821705d0e48a0b5c463bf8be742858c2732db7904804ab9a97f4e0c6889591d",
+  "generation": 27,
+  "digest": "63b16c8ceebe3a5dc6796d187b6344c51c75ac6a83c77f1dcc018419b292039a",
   "branch": "codex/491-gcp-terraform-bootstrap",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-491-gcp-terraform-bootstrap",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:491d0000-0000-4000-8000-000000000005",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ca26d298331a19b9cc3bc5e9f8b35f5635b7cd4e:9af88c3640e277e45df9ab5e7ee91797fef8d17c1f3a76ffe54e0ee5c5af4367",
+    "scope": [
+      ".csdlc/issues/491",
+      ".csdlc/prepared/issues/491",
+      ".csdlc/evidence/491",
+      "infra/gcp/bootstrap",
+      "docs/operations/cloud/gcp/terraform-bootstrap",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-b"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -25,32 +37,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9fc26bfa9895c80adc6515946508ea5420cf03aa1651adecdabd1593a8adf0bd",
+      "values_digest": "227619c80bffb3e2f28262360bfec6f1a93b6b3afb13fb6ddf20de386859fc58",
       "rendered_digest": "1854eb54495c7244b8b124fe000359cdb0f2eb28ff4bed6f7ee5932bfc0b4aba",
       "ast_digest": "f56230fd0f500473c054431c1d56e47d741efffe41cb1d77bbb6ef5d0ce81e5d"
     },
     "stp": {
-      "values_digest": "00b55a3d94fa6a523b8fc6da17ba87aac09fc77a711ae21376c820db4a9bd55e",
+      "values_digest": "f76f82e54498d194bc0c3e4b6217d2d4fa881df31c5a2b1c3b6ddf87373b35ed",
       "rendered_digest": "43834979b108f7a1e5ba1de66aeebf890dcd910867a1349316b95e22e28d8061",
       "ast_digest": "79eda83487ce176f0e734d3650d158210b985c60399e7ec276d4226ff5c96ad2"
     },
     "spp": {
-      "values_digest": "e2b80ad2187d6a21e5b9b886ec71c59afc3dd8ae3e38be8f7fa1e5aab09a4482",
+      "values_digest": "45e372f46a72f4d3dceb6831a88789ade1c9f45e2bb486ca57263d33871a9a9e",
       "rendered_digest": "b2521fd07588f1ac2849ad05d813258ad624e8844f70bdd51e4eb49939d4e11b",
       "ast_digest": "1c053c47e372d1f69468119b1c435f55bc8aced3ba9c8f28f8a36822100500b3"
     },
     "vpp": {
-      "values_digest": "913d1a044a178a82e1b5b16d542702714ffa27e9a452072debd63dc4959b06e8",
+      "values_digest": "45397327f986b41d77b3e1a9dd7c7a545038b0b281e745532ab3bc83481e0a26",
       "rendered_digest": "399c87267a346dc2680c8a62beb34f912c6611dfe172a26e01a7a595df591951",
       "ast_digest": "1412aa1c914a4a04a76032eb973d74f1f6495d37ad81cb2f48a77cf25fd4cf26"
     },
     "srp": {
-      "values_digest": "5eab790c7b9786abc8ba0d2641be235bce198dbf04c21861bf054a38c15bb8ec",
-      "rendered_digest": "2c6e5083f47cf2946457ef4a750c9d0657b9c613c4525331c6edcb6a20eaa96e",
-      "ast_digest": "8db7cd95ec7af10697701bfbef7bb67b2a3eefd6adb81ad7a4c21e3d2cdff408"
+      "values_digest": "83508b6bea3c4994019319735436b84d8ee99a7909bca62fa3b9bf3554579e0d",
+      "rendered_digest": "a4d1e99f5dbd64e490a9217be3773ca289b7d229fe7474af7a740706913f9d1e",
+      "ast_digest": "6df9465322fc168bbb2d04ccf207f1b51c4ea5369ddbd85d5f1f3ec08ba86eae"
     },
     "sor": {
-      "values_digest": "3f58b0d7412a748c4183ae73a97f527df624a729f56f141a287ef65e60561947",
+      "values_digest": "56cde74420e256e2062d62a2cc73cadaa26935f66c36cfba5156244fa0be71f5",
       "rendered_digest": "09ea452e7637d441f9fdd0eb40c66c0376a23fc157b8e60667bec28da2ee2e9a",
       "ast_digest": "75c384eb9c9a42acbc0ebd76c2fc6ec8329c53ebcfbe864bf9ffd3d104ddac08"
     }
@@ -302,6 +314,27 @@
       "actor": "codex:/root",
       "reason": "Record #491 R4 remediation proof: approved-key credential binding and expanded retained-secret scan now pass focused local and read-only GCP validation.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated #491 review findings by binding GCP readbacks to the approved service-account key path and expanding retained-secret scanning across all #491 product, lifecycle, prepared, and evidence surfaces while excluding ignored Terraform provider/cache artifacts.\",\"changes\":[\"The identity-readonly lane now requires the approved GCP_B_KEY_FILE to exist, rejects conflicting CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE and GOOGLE_APPLICATION_CREDENTIALS, exports both variables to the approved key path for the command-scoped readback, and reports credential_source=approved_key_file plus credential_binding_verified=true.\",\"The #491 validator now requires the credential-binding markers in the readback script and scans infra/gcp/bootstrap, .csdlc/issues/491, .csdlc/evidence/491, prepared artifacts, runbook docs, and milestone evidence for retained credential markers.\",\"The scan explicitly skips only the validator's own denylist and ignored Terraform provider/cache artifacts under .terraform so downloaded provider binaries do not create false retained-source failures.\"],\"artifacts\":[\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\",\"infra/gcp/bootstrap\",\"docs/operations/cloud/gcp/terraform-bootstrap\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-b\"],\"validation\":[{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"issue\",\"--issue\",\"491\"],\"purpose\":\"Validate #491 typed issue/card truth after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"generation 25, status pass, findings []\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch-integrity defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"exit 0 with no output\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/491/validate-gcp-b-bootstrap.sh\",\".\"],\"purpose\":\"Prove the #491 bootstrap packet, owned paths, key-backed identity contract, wrong-project/service-account rejection, provider pins, local-state hygiene, and expanded retained-secret scan.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-b bootstrap packet validation passed\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=static\"],\"purpose\":\"Prove the readback entrypoint has a non-credentialed static lane and reports only approved project, service account, and key-file metadata.\",\"outcome\":\"passed\",\"evidence_ref\":\"static lane performed no GCP API calls and reported key_file_present=true\"},{\"command\":[\"GCP_B_KEY_FILE=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json\",\"bash\",\".csdlc/prepared/issues/491/run-gcp-b-readbacks.sh\",\"--lane=identity-readonly\"],\"purpose\":\"Perform approved-key-backed read-only GCP proof for the accepted company project and bootstrap service account without printing key contents.\",\"outcome\":\"passed\",\"evidence_ref\":\"project_lifecycle_state=ACTIVE; service_account_readable=true; credential_source=approved_key_file; credential_binding_verified=true; approved_key_backed_readback=true; retained_output_redacted=true\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/bootstrap\",\"fmt\",\"-check\"],\"purpose\":\"Prove Terraform formatting for the GCP bootstrap root.\",\"outcome\":\"passed\",\"evidence_ref\":\"exit 0 with no output\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/bootstrap\",\"validate\"],\"purpose\":\"Prove the Terraform configuration validates.\",\"outcome\":\"passed\",\"evidence_ref\":\"Success! The configuration is valid.\"}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Recover #491 pending review assignment before review activity because the existing reviewer identity is not a canonical fresh-session UUID. Preserve exact assignment truth and reassign a canonical fresh no-context reviewer against unchanged immutable HEAD ca26d298331a19b9cc3bc5e9f8b35f5635b7cd4e.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
