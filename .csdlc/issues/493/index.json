@@ -5,30 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1abd3eac653f9ea21c1b7f6ef530cfb261e6ae30d0bdf8d0ea56e4bc50324a10",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "7c0073fbdc84756513c42f19d5f84cfc5008243c3f66993f3ab5734ba90a72af",
+  "generation": 20,
+  "digest": "6cd0d9b761322df017fa69edb13738125b756976222adc12fd45331e02463e85",
   "branch": "codex/493-gcp-private-platform-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-493-gcp-private-platform-foundation",
-  "review_assignment": {
-    "reviewer": "fresh-session:b2193f67-f8dc-49d8-a8cb-2725b1d851af",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:fca582284989b14669621304d4ccc3016571c09d:0970fb0ef864108fcad28b7f0ad8c2bad314ed71cfbfc7d829657d771960652d",
-    "scope": [
-      ".csdlc/evidence/493/exact-diff-hygiene.log",
-      ".csdlc/evidence/493/gcp-d-static-product.log",
-      ".csdlc/evidence/493/terraform-fmt.log",
-      ".csdlc/issues/493",
-      ".csdlc/prepared/issues/493/design.md",
-      ".csdlc/prepared/issues/493/diagram.mmd",
-      ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
-      "adl-runtime/tests/config_reload.rs",
-      "adl-runtime/tests/guardian_cli.rs",
-      "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md",
-      "docs/operations/cloud/gcp/platform-foundation/README.md",
-      "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh",
-      "infra/gcp/platform"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "47657b5faafa5c725a62e99f9606bd06834e857f75cf498c18c3e748d3138c9e",
+      "values_digest": "eff395465a8a2f689bff77be4128679f701d8236e9a30f27a686a946670857c1",
       "rendered_digest": "04d17631608d2c9962fc6267aaa78dce3ee8f1d9cb9031ac8ce900840b05de05",
       "ast_digest": "277dbb0c97a5f744aad274fbab36089e58d26620fde0345f68e643ccb0d04bc8"
     },
     "stp": {
-      "values_digest": "c610ec839fc813f25b1b3ae6d71e28daed887ecb027d38fd05b5df58608afb03",
+      "values_digest": "d898fc0df16e7b01c19c5ed3ba053f3a2800088262582b7b2387054d4138b6c2",
       "rendered_digest": "2238d8fef9e6f6694e3f5571844a62706856b151aee0be0a425092fba23821d3",
       "ast_digest": "dbccaba5231caf595e23c4d5463bc92e68ef4278e699633b1792dea295d4b081"
     },
     "spp": {
-      "values_digest": "d5af37d9fa246849da04220ae28ed4df8c26d4d6f2a038713ad9093503f0f73b",
+      "values_digest": "e73f23c49823c5a8152beceadb16bbfc20bfa60aebf79e720b93f952763a88a6",
       "rendered_digest": "b699521e870e0876a065047f5205d33508b31da11a9c48f50d84eae2a3cb798f",
       "ast_digest": "e1cc44714823d95529a2ce8d0bc26fee7258b00a7757efe5bb69413f74698ee4"
     },
     "vpp": {
-      "values_digest": "fff96717c54f28808f8ace30f1f52d6520d8ab08a27edb0ea8a343909e568ade",
+      "values_digest": "727578941d46e4db64bcb40632d2bdcf74f7d49be5f6ae1120dc9e71ac6a0092",
       "rendered_digest": "f8b502bce8e948971aed60bd5262c90f5a6ab981aef4821ddbf4459cc44bd2bf",
       "ast_digest": "edaa58c4bf64a953dcc108c8ec2aba490c2b469178a8ce028134ae461419a84e"
     },
     "srp": {
-      "values_digest": "8334e6765bc43ff4ee1c219a243d8b63f9b42638ad55b1153a27305c105b7ba6",
-      "rendered_digest": "3c4d24476499272ccb23d60adc1332648f4616837631b01541d9dd1800a9c0b5",
-      "ast_digest": "a0cb1261e426b49744355e5330c8050dc6c7cb3095e22296b4d66d1c7fd2792a"
+      "values_digest": "b9a205e5fca17559505ef8c40b2695ac8f1eff0d4cb3b8d59437d64cea486099",
+      "rendered_digest": "8e2434a9fad2dfb404fc3f41a2a3456a06561becf3f846587951f6aac4920a1b",
+      "ast_digest": "9878811f58ab08600d6ef8774a15158da45ea7761a72e14af93fc441e607cf96"
     },
     "sor": {
-      "values_digest": "6e7d62735c331e95712ca195b4cf0f5f73c4dce3e42281fb42942bbd9614162b",
-      "rendered_digest": "5bed503b02acc94f14c7152b994f6a3efc5f0f11afc2c2d9933063e4c53290da",
-      "ast_digest": "85fa64fbae77777fb71ecd2c380d24c4cecfb6bb7641d7cb667c8274f5002704"
+      "values_digest": "7b9aa9574fc1c33ac1229fe4276d21887e18910279a0cee4ae409f9304c79ca7",
+      "rendered_digest": "24d55724e268b6d64e63c8a88256c99cdfc3e2e474dce7e68fd99442cbe80f00",
+      "ast_digest": "aafb103065f23031da5ff710003cd4961175218abb1a2dedaacbadb9933dd3f7"
     }
   },
   "transitions": [
@@ -314,6 +295,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R12 exact review after P2 finding: readback-disposable-residue.sh listed GCP Storage objects without --all-versions even though Terraform enables bucket versioning, so noncurrent residue could be missed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Record #493 R12 review remediation for versioned GCP Storage bucket cleanup readback.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation, repaired exact-review findings, applied bounded CI remediation for two inherited runtime coverage failures that blocked PR #587, and fixed versioned-bucket cleanup readback to include noncurrent object versions.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.\",\"Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects across all versions, and Terraform state without claiming live GCP mutation.\",\"Strengthened the issue-owned validator with block-level checks tying each Terraform bucket IAM member to the exact Terraform-created bucket and serviceAccount:${google_service_account.workload.email} member, plus matching readback bucket-IAM policy inspection and all-version storage-object readback.\",\"Remediated PR #587 runtime coverage failure adl-runtime::config_reload::concurrent_readers_observe_complete_configurations by asserting shutdown and at least one complete reload instead of a brittle exact debounce/coalescing count.\",\"Remediated PR #587 runtime coverage failure adl-runtime::guardian_cli::guardian_cli_reports_successful_portable_child_as_json by aligning the fixture polis public domain with the canonical localhost Runtime API/TLS host.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"adl-runtime/tests/config_reload.rs\",\"adl-runtime/tests/guardian_cli.rs\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including versioned-bucket all-version readback remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: gcp-d platform foundation validation passed: all\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: exit 0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run worktree diff hygiene after R12 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: exit 0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"config_reload\",\"concurrent_readers_observe_complete_configurations\",\"--\",\"--exact\"],\"purpose\":\"Reprove the fixed runtime coverage reload regression from PR #587.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: 1 passed; 0 failed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"guardian_cli_reports_successful_portable_child_as_json\",\"--\",\"--exact\"],\"purpose\":\"Reprove the fixed runtime coverage guardian fixture regression from PR #587.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: 1 passed; 0 failed\"}]}"
     }
   ]
 }

@@ -15,7 +15,8 @@ The issue-owned validator checks the designed and implemented surfaces for:
 - separate human and workload identities;
 - separate state, artifact, model, continuity evidence, and log storage owners;
 - logging metric/watchdog support;
-- deterministic labels and zero-residue cleanup selectors.
+- deterministic labels and zero-residue cleanup selectors, including
+  noncurrent-object readback for versioned buckets.
 
 Command:
 

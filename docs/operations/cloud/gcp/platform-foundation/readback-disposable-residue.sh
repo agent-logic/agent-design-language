@@ -51,7 +51,7 @@ echo "storage bucket IAM policies and objects:"
 for owner in state artifacts models continuity-evidence logs; do
   bucket="gs://${project}-${environment}-${csm}-${owner}"
   gcloud storage buckets get-iam-policy "$bucket" 2>/dev/null || true
-  gcloud storage ls --recursive "$bucket/**" 2>/dev/null || true
+  gcloud storage ls --recursive --all-versions "$bucket/**" 2>/dev/null || true
 done
 
 echo "terraform state:"

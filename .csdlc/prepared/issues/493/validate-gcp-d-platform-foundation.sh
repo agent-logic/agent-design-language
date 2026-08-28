@@ -169,7 +169,7 @@ validate_docs() {
   require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" 'serviceAccount:${workload_service_account}'
   require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" "gcloud storage buckets list"
   require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" "gcloud storage buckets get-iam-policy"
-  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" "gcloud storage ls --recursive"
+  require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" "gcloud storage ls --recursive --all-versions"
   require_text "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh" "terraform -chdir=infra/gcp/platform state list"
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md" "cloud_mutation=false"
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md" "live_disposable_cleanup_proof=false"

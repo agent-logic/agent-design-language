@@ -80,8 +80,9 @@ read back every object before destroy:
 - `deadline=<timestamp>`
 
 The cleanup proof must list and then destroy matching instances, disks,
-addresses, firewall overrides, service-account grants, storage objects, and
-state references. A successful proof ends with zero residue for every selector.
+addresses, firewall overrides, service-account grants, storage objects including
+noncurrent object versions, and state references. A successful proof ends with
+zero residue for every selector.
 
 Read the current residue set before and after destroy:
 
