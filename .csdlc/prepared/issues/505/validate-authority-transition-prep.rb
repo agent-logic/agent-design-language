@@ -29,7 +29,7 @@ packet_text = [stp, sip, design, diagram].join("\n")
 
 assert(issue["issue"] == 505, "wrong issue")
 assert(issue["repository"] == "agent-logic/agent-design-language", "wrong repository")
-assert(issue["phase"] == "initialized", "pre-bind validator expects initialized #505")
+assert(["initialized", "ready"].include?(issue["phase"]), "pre-bind validator expects initialized or ready #505")
 assert(issue["branch"].nil? && issue["worktree"].nil?, "pre-bind #505 must remain unbound")
 
 [
@@ -50,7 +50,7 @@ assert(diagram.include?("Rollback exercise"), "missing rollback diagram node")
 assert(diagram.include?("Observation evidence"), "missing observation diagram node")
 
 lanes = vpp.dig("content", "values", "lanes")
-assert(lanes.is_a?(Array) && lanes.length == 1, "initialized #505 should expose exactly one executable pre-bind lane")
+assert(lanes.is_a?(Array) && lanes.length == 1, "pre-bind #505 should expose exactly one executable preparation lane")
 lane = lanes.first
 assert(lane["lane"] == "prebind-v3-f-preparation", "unexpected pre-bind lane")
 assert(lane["argv"] == ["ruby", ".csdlc/prepared/issues/505/validate-authority-transition-prep.rb"], "pre-bind lane must target this validator")
@@ -75,7 +75,8 @@ puts JSON.generate(
       "no_silent_v2_retirement",
       "operator_approval_gate",
       "future_closing_linkage",
-      "single_executable_prebind_lane"
+      "single_executable_prebind_lane",
+      "unbound_ready_gate"
     ]
   }
 )

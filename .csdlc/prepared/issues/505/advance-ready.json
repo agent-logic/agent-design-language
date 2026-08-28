@@ -1,0 +1,13 @@
+{
+  "issue": 505,
+  "card": "sip",
+  "expected_generation": 1,
+  "expected_digest": "6f0e3a1168210fa6b6d83c86fb62c39530eac129b85e6ca69fe2b326edf36b61",
+  "claim_id": "claim-505-v3-f-authority-transition-decision",
+  "actor": "codex:worker-6",
+  "reason": "Advance #505 to ready/unbound after design approval, doctor readiness, preparation validator proof, and explicit #504 terminal dependency. Stop before bind or implementation while #504 remains open.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}
