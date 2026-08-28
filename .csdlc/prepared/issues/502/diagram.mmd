@@ -1,0 +1,13 @@
+flowchart LR
+  Issue["#502 source issue"] --> Kernel["LifecycleKernel"]
+  V3B["#501 foundation"] --> Kernel
+  Req168["#168 transition matrix"] --> Kernel
+  Req169["#169 transaction store/recovery"] --> Store["TransactionStore"]
+  Req170["#170 typed adapters"] --> Adapters["Git/Process adapter traits"]
+  Kernel --> Txn["capability-checked transaction"]
+  Store --> Txn
+  Txn --> Commit["atomic state commit"]
+  Txn --> Recovery["recovery replay"]
+  Adapters --> Kernel
+  Recovery --> Audit["provenance-preserving audit"]
+  V2["C-SDLC v2 authority"] -. remains sole authority .-> Kernel

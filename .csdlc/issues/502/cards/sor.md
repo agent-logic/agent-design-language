@@ -1,0 +1,147 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 502
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 after #501 merged to main, preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover and explicitly reverting unrelated remediation drift.
+
+## Artifacts
+
+- csdlc-v3/AGENTS.md
+- csdlc-v3/Cargo.toml
+- csdlc-v3/Cargo.lock
+- csdlc-v3/src/adapters/mod.rs
+- csdlc-v3/src/lib.rs
+- csdlc-v3/src/lifecycle/mod.rs
+- csdlc-v3/src/storage/mod.rs
+- csdlc-v3/tests/transactions.rs
+- origin/main 1972aa47bd7047b8594a03bf770fb92f7fb63d51
+- merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62
+- review-fix commit 7cc2ef484845ec4bc103cac33d6a217c443bda9d
+- review-fix commit 5e9af448d6ec65027dd24dd61acceba28e729252
+- review-fix commit 103bc0eadc44f3152ad0fa4dde37059d6107c6f3
+- reverted rogue commit 2c20b2a3e3cf8c8d04031348b619edadd85567af via c647268131daaf3b9f20776eed0b1aceb5ff4c13
+- reverted rogue reapply f4fc808b776839b79f68ac13a685348682a0bc9d via 1794353b9c341a595fa560dc5241c01cb4e01542
+- reverted rogue reapply 72357df0a6ec1f4a8ef6acf577f6cf73b67bd375 via c48450f57435a194c57cdbf19749fb4836ff44b8
+- reverted rogue local reapply b41dafb8d382dd550f066d422866e070dd611bd7 via 116a0f1e0fe1917275909c244bce10a17d546b88
+- reverted rogue remote reapply b28f3bf76e32adf929a88a5150d93f177027a3a2c via e6c02d67617471bab18f9c2e1ef27d790710eb83
+- worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel
+- branch codex/502-v3-c-csdlc-v3-lifecycle-kernel
+- PR https://github.com/agent-logic/agent-design-language/pull/572
+
+## Execution
+
+- Restacked #502 onto origin/main at merged #501 commit 1972aa47bd7047b8594a03bf770fb92f7fb63d51 via merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62.
+- Recovered stale #502 review/publication truth after the main restack so each changed substantive revision required fresh exact-head review before publication could be trusted.
+- Fixed exact-head review P1 by replacing the circular Finish prerequisite: Finish now requires LiveTerminalEvidence, while TerminalReceipt remains the Cleanup prerequisite.
+- Fixed exact-head review P1 by making recovery honor projections_repair_required for StateCommitted observations and reject projection-missing observations that lack the committed repair flag.
+- Fixed exact-head review P2 by replacing the 64-bit FNV-style state digest with BLAKE3-backed v3 digests for CAS and recovery-integrity checks.
+- Fixed exact-head review P1 by redacting option-assigned Authorization header argv values such as --header=Authorization: Bearer ... before invocation logging.
+- Explicitly reverted rogue remediation commit 2c20b2a3e3cf8c8d04031348b619edadd85567af via c647268131daaf3b9f20776eed0b1aceb5ff4c13.
+- Explicitly reverted rogue reapply commit f4fc808b776839b79f68ac13a685348682a0bc9d via 1794353b9c341a595fa560dc5241c01cb4e01542.
+- Explicitly reverted rogue reapply commit 72357df0a6ec1f4a8ef6acf577f6cf73b67bd375 via c48450f57435a194c57cdbf19749fb4836ff44b8.
+- Explicitly reverted rogue local reapply commit b41dafb8d382dd550f066d422866e070dd611bd7 via 116a0f1e0fe1917275909c244bce10a17d546b88.
+- Explicitly reverted rogue remote reapply commit b28f3bf76e32adf929a88a5150d93f177027a3a2c via e6c02d67617471bab18f9c2e1ef27d790710eb83.
+- Confirmed the net source diff after 103bc0eadc44f3152ad0fa4dde37059d6107c6f3 is empty, so the unrelated durable store, credential resolver, review-recovery provenance, and extra transaction-test changes are neutralized from the branch.
+- Added regression coverage for terminal finish capability, projection-repair recovery classification, 64-hex BLAKE3 digest shape, and option-assigned Authorization header redaction.
+- Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, terminal evidence, and projection invalidation semantics.
+- Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, BLAKE3 generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.
+- Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction including option-assigned Authorization headers, and shell-executable rejection including path-qualified shell names.
+- Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, terminal-finish, storage-integrity, and redaction regression tests.
+- Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.
+- Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.
+- Preserved dependency order by waiting for #501 to merge before moving #502's final PR base to main.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "transactions",
+      "adapter_outcomes_preserve_status_output_timeout_cancel_and_redaction"
+    ],
+    "purpose": "focused option-assigned Authorization header redaction regression after review P1",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:103bc0eadc44f3152ad0fa4dde37059d6107c6f3:1-transaction-test-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "full local C-SDLC v3 crate test suite after reverting five unrelated remediation drift commits",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:e6c02d67617471bab18f9c2e1ef27d790710eb83:4-lib-11-foundation-17-transactions-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "format check for the C-SDLC v3 crate after reverting five unrelated remediation drift commits",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:e6c02d67617471bab18f9c2e1ef27d790710eb83:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "strict clippy for the C-SDLC v3 crate after reverting five unrelated remediation drift commits",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:e6c02d67617471bab18f9c2e1ef27d790710eb83:passed"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "diff hygiene after reverting five unrelated remediation drift commits",
+    "outcome": "passed",
+    "evidence_ref": "exact-head:e6c02d67617471bab18f9c2e1ef27d790710eb83:passed"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: draft
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

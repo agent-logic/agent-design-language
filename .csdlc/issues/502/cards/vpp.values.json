@@ -1,0 +1,165 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 502,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
+    "slug": "v0-92-1-v3-c-c-sdlc-v3-lifecycle-kernel",
+    "version": "v0.92.1",
+    "generation": 31
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG for transition, transaction, recovery, adapter, clippy, diff, and documentation-scope proof.",
+      "lanes": [
+        {
+          "lane": "transition-matrix",
+          "proof_role": "Prove command/state pairs have explicit capability-checked allowed or rejected outcomes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "transactions",
+            "transition"
+          ],
+          "parallel_group": "v3-c-focused",
+          "defer_reason": "Runs after csdlc-v3/tests/transactions.rs is implemented for #502."
+        },
+        {
+          "lane": "transaction-failure",
+          "proof_role": "Prove stale CAS, interruption, and projection-failure cases fail closed without partial authority.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "transactions",
+            "transaction"
+          ],
+          "parallel_group": "v3-c-focused",
+          "defer_reason": "Runs after csdlc-v3/tests/transactions.rs is implemented for #502."
+        },
+        {
+          "lane": "recovery-replay",
+          "proof_role": "Prove recovery replay preserves audit provenance and classifies interrupted writes deterministically.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "transactions",
+            "recovery"
+          ],
+          "parallel_group": "v3-c-focused",
+          "defer_reason": "Runs after csdlc-v3/tests/transactions.rs is implemented for #502."
+        },
+        {
+          "lane": "adapter-boundary",
+          "proof_role": "Prove typed Git/process adapter outcomes preserve argv, output, error, timeout, cancellation, and redaction boundaries.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "transactions",
+            "adapter"
+          ],
+          "parallel_group": "v3-c-focused",
+          "defer_reason": "Runs after csdlc-v3/tests/transactions.rs is implemented for #502."
+        },
+        {
+          "lane": "strict-clippy",
+          "proof_role": "Reject Rust correctness and maintainability issues in the bounded V3-C crate surface.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "v3-c-focused",
+          "defer_reason": "Runs after implementation changes exist."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace and malformed diff defects in the bounded issue diff.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 400,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "v3-c-focused",
+          "defer_reason": "Runs after implementation changes exist."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on partial authority, provenance loss, stale generation/digest writers, branch-name-only authorization, shell-string adapters, credential leakage, live GitHub/lifecycle mutation, or any implied v3 authority cutover.",
+      "design_ref": ".csdlc/prepared/issues/502/design.md",
+      "design_digest": "df99b55e3349870fa305781b1f093b4b17ccb52d4d497a591183392c22ad149f",
+      "diagram_ref": ".csdlc/prepared/issues/502/diagram.mmd",
+      "diagram_digest": "a69cf80de8610e1435636d445889d2b93d0385a417ea45824038d526d065fd21"
+    }
+  }
+}

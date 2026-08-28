@@ -10,4 +10,5 @@ name = "csdlc_v3"
 path = "src/lib.rs"
 
 [dependencies]
+blake3 = "1"
 serde_json = "1"
