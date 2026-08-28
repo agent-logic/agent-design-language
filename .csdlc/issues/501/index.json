@@ -5,10 +5,39 @@
   "initialization_digest": "fa47f9e1a7c307834334da4c81dfafe2d87aa0b8271f54e3640f9c7b107d53fd",
   "phase": "implemented",
   "generation": 17,
-  "digest": "7b957741e1fc78ddb30aedee4b4335ce8f5468d73c5a987ca924bdee1e0b29e7",
+  "digest": "a47f3c89fabb848705a7a6d67c4399b532f7ddab1f135151b9ac57ceee81f0f0",
   "branch": "codex/501-v3-b-csdlc-v3-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "issue_501_import_fix_review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:12570f51ef528a44c4acc1fb425eaa19131426d3:60789de2513bcd179313a8f0ba5f21a80bbae0a9c80fd0a39fea32e63ceb5030",
+    "scope": [
+      ".csdlc/issues/501/audit.jsonl",
+      ".csdlc/issues/501/cards/sip.md",
+      ".csdlc/issues/501/cards/sip.values.json",
+      ".csdlc/issues/501/cards/sor.md",
+      ".csdlc/issues/501/cards/sor.values.json",
+      ".csdlc/issues/501/cards/spp.md",
+      ".csdlc/issues/501/cards/spp.values.json",
+      ".csdlc/issues/501/cards/srp.md",
+      ".csdlc/issues/501/cards/srp.values.json",
+      ".csdlc/issues/501/cards/stp.md",
+      ".csdlc/issues/501/cards/stp.values.json",
+      ".csdlc/issues/501/cards/vpp.md",
+      ".csdlc/issues/501/cards/vpp.values.json",
+      ".csdlc/issues/501/index.json",
+      ".csdlc/prepared/issues/501/design.md",
+      ".csdlc/prepared/issues/501/diagram.mmd",
+      "csdlc-v3/Cargo.lock",
+      "csdlc-v3/Cargo.toml",
+      "csdlc-v3/src/application/mod.rs",
+      "csdlc-v3/src/bin/csdlc-v3-foundation.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/repository/mod.rs",
+      "csdlc-v3/tests/foundation.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +73,9 @@
       "ast_digest": "83595baa407f8f5f553792d3b3025ced1b826524b6522c605267ca8fec3f9442"
     },
     "srp": {
-      "values_digest": "d43d99bb3615b28954e188e23debb866a5ce11261d416f63539991c587415b0b",
-      "rendered_digest": "7e9d7189f4f7365bdc67f8a6a505a0e0bd6fc0118a0b4f052e0cb6b560441a44",
-      "ast_digest": "53dfe8bd3e068c3331c7d17aba7ea8e45c6df87d3ffae8fb46da8e710fdb5272"
+      "values_digest": "44557468388e04d8870c86b4805189c749b2cc086ccdb92505afe659adc955f9",
+      "rendered_digest": "8c1baedb2763ce97abdbe1a606a26d1b41e888bb27a72e8d8f99b15aadd4ebef",
+      "ast_digest": "6309d9f9b954ea5ec19b9b18d1acbbb79d29954595ed8a36814227d66ec3cdc1"
     },
     "sor": {
       "values_digest": "846f5cf5e78f42850936c3417db163cd9d2620d35d6d1b17c038d2849c4b3c92",
@@ -259,6 +288,13 @@
       "actor": "codex:worker-6",
       "reason": "Recover #501 review/publication truth after review-fix commit 70bc42a24c23b58d943a2a30b84e471cb56fb9e9 changed the substantive PR head for #568.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
