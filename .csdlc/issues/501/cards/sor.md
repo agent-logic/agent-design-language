@@ -104,11 +104,11 @@ Implemented the non-authoritative V3-B foundation slice with explicit repository
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 

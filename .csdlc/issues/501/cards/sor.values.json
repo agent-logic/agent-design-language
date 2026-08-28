@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
     "slug": "v0-92-1-v3-b-c-sdlc-v3-foundation",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 19
   },
   "status": "ready",
   "content": {
@@ -97,8 +97,8 @@
           "evidence_ref": "machine JSON output schema csdlc.v3.foundation.v1, 2026-08-28, issue #501 worktree"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": [
