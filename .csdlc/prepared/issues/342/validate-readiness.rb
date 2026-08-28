@@ -10,8 +10,8 @@ index = JSON.parse(root.join(".csdlc/issues/342/index.json").read)
 
 errors = []
 errors << "wrong canonical repository" unless index["repository"] == "agent-logic/agent-design-language"
-unless %w[bound implemented].include?(index["phase"])
-  errors << "bound or implemented execution phase required"
+unless %w[bound implemented reviewed published].include?(index["phase"])
+  errors << "bound, implemented, reviewed, or published execution phase required"
 end
 errors << "bound branch mismatch" unless index["branch"] == "codex/342-podcast-studio-first-ten-episodes"
 errors << "bound worktree mismatch" unless index["worktree"] == root.to_s
