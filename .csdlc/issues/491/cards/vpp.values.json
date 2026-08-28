@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-B] GCP Terraform bootstrap",
     "slug": "gcp-terraform-bootstrap",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 23
   },
   "status": "ready",
   "content": {
@@ -115,7 +115,7 @@
       ],
       "planned_validation_seconds": 3600,
       "planned_validation_tokens": 25000,
-      "failure_policy": "Fail closed if state recovery fails, local key material would be retained or printed, reviewed plan identity drifts, impersonation cannot be proven, provider pins are absent, local bootstrap state remains unmanaged, or mutation would target a project other than cs-host-377d41e71a824f92802120.",
+      "failure_policy": "Fail closed if state recovery fails, local key material would be retained or printed, reviewed plan identity drifts, approved key-backed readback cannot be proven, provider pins are absent, local bootstrap state remains unmanaged, or mutation would target a project other than cs-host-377d41e71a824f92802120.",
       "design_ref": ".csdlc/prepared/issues/491/design.recovered.md",
       "design_digest": "b5290c0508af6c312534d0c4f3d6946e900af88f66d2622a4197494bcf363408",
       "diagram_ref": ".csdlc/prepared/issues/491/diagram.recovered.mmd",

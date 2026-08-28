@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "526cf0df8c21bda077e6d86d72235e2018344c6406e4eb56eb652c5cf8a7a799",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "f78336abef9096aaa9b3125540150ced3e28312ce31caad928a2aa51737db16d",
+  "generation": 23,
+  "digest": "ba3ad3e12faf60f88dfd6c4d841e016c694cc70ebc975dfe540df70761c4613b",
   "branch": "codex/491-gcp-terraform-bootstrap",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-491-gcp-terraform-bootstrap",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5e3a2d08504868da30a5d0b4a8d0157372936ed877e572bfd634cd7e0a4dbb40",
+      "values_digest": "faa98ddc79c42558930f49d3e5bd00aca2254ea02686bb8c5ae023e07f4f4c8d",
       "rendered_digest": "1854eb54495c7244b8b124fe000359cdb0f2eb28ff4bed6f7ee5932bfc0b4aba",
       "ast_digest": "f56230fd0f500473c054431c1d56e47d741efffe41cb1d77bbb6ef5d0ce81e5d"
     },
     "stp": {
-      "values_digest": "d7f39a90d4d920c255739464938e4e4c46be59f5e5404095831a379756554a45",
+      "values_digest": "99ed85889f8a1f9af62c240612ac62435d700531d21e0815d6af3501a4de2297",
       "rendered_digest": "43834979b108f7a1e5ba1de66aeebf890dcd910867a1349316b95e22e28d8061",
       "ast_digest": "79eda83487ce176f0e734d3650d158210b985c60399e7ec276d4226ff5c96ad2"
     },
     "spp": {
-      "values_digest": "851baa00cd53c643b8fbc650783d21aa67c973cbeed9882515685d14f8d11181",
+      "values_digest": "f474508cab110edcff80721860b7ec384a484afa1bc6782111454bec7fe6d265",
       "rendered_digest": "b2521fd07588f1ac2849ad05d813258ad624e8844f70bdd51e4eb49939d4e11b",
       "ast_digest": "1c053c47e372d1f69468119b1c435f55bc8aced3ba9c8f28f8a36822100500b3"
     },
     "vpp": {
-      "values_digest": "d175f882f81b7798fad08f21300442259f30fd8bfedb4070bb741176e0166bac",
-      "rendered_digest": "da1a9daf31bf745d03bcef76fc7a31f25242fb96aa496e4dc37b08c6c25f4ecc",
-      "ast_digest": "7c93f105723557e6fac12c4f9b9b5e59b3a22baab7fed41d7e0fd36e243eb3a7"
+      "values_digest": "83e6815ea180b7d4ec17f8131d3c85780e87eecb9a7f9476eda8452f7bcd97f9",
+      "rendered_digest": "399c87267a346dc2680c8a62beb34f912c6611dfe172a26e01a7a595df591951",
+      "ast_digest": "1412aa1c914a4a04a76032eb973d74f1f6495d37ad81cb2f48a77cf25fd4cf26"
     },
     "srp": {
-      "values_digest": "0bf1e2f891b0a8a92ee72a59d3774127d18b92be380e9e0e6a68ab74dabc42ec",
-      "rendered_digest": "e6f9392ca802dc616f47a59d935de5cf32186456d0a29e0a8a4dcb6f64264301",
-      "ast_digest": "afe1d8a9f2b226a74829daf0ab1f9575ae35bea76565668058b30feab9b9e1e2"
+      "values_digest": "e2f4b3ef8fe643b793ca74144ab91ce1129a03e213e14908f5ead19bc0225d7e",
+      "rendered_digest": "2c6e5083f47cf2946457ef4a750c9d0657b9c613c4525331c6edcb6a20eaa96e",
+      "ast_digest": "8db7cd95ec7af10697701bfbef7bb67b2a3eefd6adb81ad7a4c21e3d2cdff408"
     },
     "sor": {
-      "values_digest": "4a1e01a345d500ca93c14ab8711468b230277cb348fb941a0a4c41d752fe0d08",
+      "values_digest": "605d6ddffd3b8fe4a836d41e0229ef1c2dea0cdccbd991e333e24615de51328f",
       "rendered_digest": "a096a98443c319fa8454216ec17fa9a7b2ca2b26af4ae1c7f21b73df2b7904a4",
       "ast_digest": "a3c328e7331b0a6cfc5bc195fe6a03eea02f479f36081984873ecdbf685c41b6"
     }
@@ -239,6 +239,41 @@
       "actor": "codex:/root",
       "reason": "Repair #491 SPP invariants so current implementation truth is key-backed sprint bootstrap rather than impersonation-preferred execution.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Terraform bootstrap targets only cs-host-377d41e71a824f92802120\",\"Sprint execution uses the approved service-account key as command-scoped source credentials\",\"The local static key stays outside the repository under /Users/daniel/keys\",\"Retained evidence never includes credentials, token material, or service-account private-key JSON\",\"Provider pins and saved-plan review are explicit before apply\",\"Local bootstrap state is removed, ignored, or quarantined recoverably after backend migration\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Recover #491 R3 failed exact-head review after preserving the remaining VPP stale impersonation failure-policy finding and SRP stale impersonation review-prompt finding.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Repair #491 VPP failure policy so it no longer requires short-lived impersonation proof after the operator-approved key-backed sprint route.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"failure_policy\",\"value\":\"Fail closed if state recovery fails, local key material would be retained or printed, reviewed plan identity drifts, approved key-backed readback cannot be proven, provider pins are absent, local bootstrap state remains unmanaged, or mutation would target a project other than cs-host-377d41e71a824f92802120.\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Repair #491 SRP review prompts so review asks about approved key-backed execution instead of impersonation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Does the implementation keep #491 to GCP Terraform bootstrap scope without absorbing runtime deployment, GPU, AWS, or later GCP security/runtime work?\",\"Are remote-state privacy, versioning, auditability, recovery, provider pins, saved-plan review, approved key-backed execution, and local-state cleanup specified with machine-checkable proof?\",\"Does the static-key bootstrap truth avoid retaining or exposing credential material while preserving the operator-approved key path?\",\"Does the validation plan distinguish local static proof from live GCP readback and fail closed on wrong project or credential leakage?\"]}"
     }
   ]
 }

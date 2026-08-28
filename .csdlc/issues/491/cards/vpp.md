@@ -142,7 +142,7 @@ Tokens: 25000
 
 ## Failure Semantics
 
-Fail closed if state recovery fails, local key material would be retained or printed, reviewed plan identity drifts, impersonation cannot be proven, provider pins are absent, local bootstrap state remains unmanaged, or mutation would target a project other than cs-host-377d41e71a824f92802120.
+Fail closed if state recovery fails, local key material would be retained or printed, reviewed plan identity drifts, approved key-backed readback cannot be proven, provider pins are absent, local bootstrap state remains unmanaged, or mutation would target a project other than cs-host-377d41e71a824f92802120.
 
 ## Handoff
 
