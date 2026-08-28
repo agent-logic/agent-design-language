@@ -1,0 +1,1 @@
+{"issue":563,"expected_generation":15,"expected_digest":"549fe0ea0500c5d6f666ece027d858d7e918bbca557b23833d457f4708c7ed4e","actor":"codex:563-execution","reason":"Recover the prior PASS because the operator-requested Gemini simplification review led to a cheaper two-query source identity and manifest-driven operation classification after the reviewed revision."}

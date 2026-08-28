@@ -1,0 +1,7 @@
+{
+  "issue": 563,
+  "expected_generation": 20,
+  "expected_digest": "097e46b3cf66b94d74622397d9fbb25d93f3ee36e863040dec3e29bedee1ac5c",
+  "actor": "codex:563-execution",
+  "reason": "Preserve the inherited substantive residual risk in the metadata-only review record before publication."
+}

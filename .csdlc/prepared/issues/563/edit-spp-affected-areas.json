@@ -1,0 +1,20 @@
+{
+  "issue": 563,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "f44febd2c262d97a81dbebcbe4830b08a4436ab7ddc36cb4cea661c2ac79be27",
+  "actor": "codex:/root",
+  "reason": "Bind the execution plan to the exact existing primary-checkout integration test denominator",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "csdlc-v2/src",
+      "csdlc-v2/tests/primary_checkout_bootstrap_guard.rs",
+      "csdlc-v2/operator",
+      "adl/tools/install_owner_binaries.sh",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      ".csdlc/prepared/issues/563"
+    ]
+  }
+}

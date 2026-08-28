@@ -42,6 +42,7 @@ fn main() {
             ))?)
         })(),
         Command::GenerateView { issue } => (|| {
+            csdlc_v2::verify_installed_owner_operation(&cli.root, "generate-view")?;
             let view = generate_compatibility_view(&store, issue)?;
             let output = csdlc_v2::write_compatibility_view_atomic(&store, issue, &view)?;
             Ok(

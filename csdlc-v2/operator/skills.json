@@ -1,12 +1,247 @@
-{"schema":"csdlc.operator_skills.v1","generation":"v2","generation_selector":"csdlc-v2/operator/generation-selector.json","operational_binaries":["csdlc-clean","csdlc-finish","csdlc-github-issue","csdlc-github-pr","csdlc-pr-state","csdlc-shadow","csdlc-soak","csdlc-proof","csdlc-cutover"],"skills":[
-{"name":"csdlc-v2-init","binary":"csdlc-issue","subcommand":"create","mutates_state":true,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-bind","binary":"csdlc-bind","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-card-editor","binary":"csdlc-edit","subcommand":"apply","mutates_state":true,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-validate","binary":"csdlc-validate","subcommand":null,"mutates_state":true,"auxiliary_binaries":["csdlc-schedule"]},
-{"name":"csdlc-v2-review","binary":"csdlc-review","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-publish","binary":"csdlc-publish","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-finish","binary":"csdlc-finish","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-clean","binary":"csdlc-clean","subcommand":null,"mutates_state":true,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-github","binary":"csdlc-github","subcommand":"run","mutates_state":true,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-shepherd","binary":"csdlc-shepherd","subcommand":null,"mutates_state":false,"auxiliary_binaries":[]},
-{"name":"csdlc-v2-doctor","binary":"csdlc-doctor","subcommand":null,"mutates_state":false,"auxiliary_binaries":["csdlc-eligibility","csdlc-install"]}]}
+{
+  "schema": "csdlc.operator_skills.v1",
+  "generation": "v2",
+  "generation_selector": "csdlc-v2/operator/generation-selector.json",
+  "operational_binaries": [
+    "csdlc-clean",
+    "csdlc-finish",
+    "csdlc-github-issue",
+    "csdlc-github-pr",
+    "csdlc-pr-state",
+    "csdlc-shadow",
+    "csdlc-soak",
+    "csdlc-proof",
+    "csdlc-cutover"
+  ],
+  "operation_routes": [
+    {
+      "binary": "csdlc-github",
+      "operation": "run-write",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-github",
+      "operation": "run-read",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-github",
+      "operation": "runner-preflight",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-github",
+      "operation": "schema",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-clean",
+      "operation": "cleanup",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-clean",
+      "operation": "compatibility-index",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-clean",
+      "operation": "materialize-terminal",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-clean",
+      "operation": "validate-census",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-clean",
+      "operation": "schema",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-finish",
+      "operation": "finish",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-finish",
+      "operation": "historical-finish",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-finish",
+      "operation": "recordless-closeout",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-finish",
+      "operation": "validate-cached-issue",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-publish",
+      "operation": "publish",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-publish",
+      "operation": "status",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-publish",
+      "operation": "schema",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-github-issue",
+      "operation": "issue-write",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-github-issue",
+      "operation": "issue-read",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-github-pr",
+      "operation": "state",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-pr-state",
+      "operation": "state",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-shadow",
+      "operation": "compare",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-shadow",
+      "operation": "generate-view",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-shadow",
+      "operation": "schema",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-soak",
+      "operation": "generate-samples",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-soak",
+      "operation": "decide-with-output",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-soak",
+      "operation": "decide-without-output",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-soak",
+      "operation": "schema",
+      "mutates_state": false
+    },
+    {
+      "binary": "csdlc-proof",
+      "operation": "run",
+      "mutates_state": true
+    },
+    {
+      "binary": "csdlc-cutover",
+      "operation": "run",
+      "mutates_state": true
+    }
+  ],
+  "skills": [
+    {
+      "name": "csdlc-v2-init",
+      "binary": "csdlc-issue",
+      "subcommand": "create",
+      "mutates_state": true,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-bind",
+      "binary": "csdlc-bind",
+      "subcommand": null,
+      "mutates_state": true,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-card-editor",
+      "binary": "csdlc-edit",
+      "subcommand": "apply",
+      "mutates_state": true,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-validate",
+      "binary": "csdlc-validate",
+      "subcommand": null,
+      "mutates_state": true,
+      "auxiliary_binaries": [
+        "csdlc-schedule"
+      ]
+    },
+    {
+      "name": "csdlc-v2-review",
+      "binary": "csdlc-review",
+      "subcommand": null,
+      "mutates_state": true,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-publish",
+      "binary": "csdlc-publish",
+      "subcommand": null,
+      "mutates_state": true,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-finish",
+      "binary": "csdlc-finish",
+      "subcommand": null,
+      "mutates_state": true,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-clean",
+      "binary": "csdlc-clean",
+      "subcommand": null,
+      "mutates_state": true,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-github",
+      "binary": "csdlc-github",
+      "subcommand": "run",
+      "mutates_state": true,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-shepherd",
+      "binary": "csdlc-shepherd",
+      "subcommand": null,
+      "mutates_state": false,
+      "auxiliary_binaries": []
+    },
+    {
+      "name": "csdlc-v2-doctor",
+      "binary": "csdlc-doctor",
+      "subcommand": null,
+      "mutates_state": false,
+      "auxiliary_binaries": [
+        "csdlc-eligibility",
+        "csdlc-install"
+      ]
+    }
+  ]
+}

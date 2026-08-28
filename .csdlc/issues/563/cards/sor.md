@@ -1,0 +1,135 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 563
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implemented a deterministic installed-owner source-set receipt and shared fail-closed pre-mutation verification across the complete direct mutating-owner denominator so stale, incomplete, tampered, or source-drifted C-SDLC owner generations cannot mutate an ADL checkout. Read-only routes remain read-only and unrelated repository commits do not invalidate a current generation.
+
+## Artifacts
+
+- csdlc-v2/operator/owner-source-set.json
+- csdlc-v2/src/operator.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/src/lifecycle.rs
+- csdlc-v2/src/bin/csdlc-clean.rs
+- csdlc-v2/src/bin/csdlc-finish.rs
+- csdlc-v2/src/bin/csdlc-publish.rs
+- csdlc-v2/src/bin/csdlc-shadow.rs
+- csdlc-v2/src/bin/csdlc-soak.rs
+- csdlc-v2/src/bin/csdlc-proof.rs
+- csdlc-v2/src/bin/csdlc-cutover.rs
+- csdlc-v2/src/bin/csdlc-github-issue.rs
+- csdlc-v2/tests/gate10a.rs
+- csdlc-v2/tests/primary_checkout_bootstrap_guard.rs
+
+## Execution
+
+- Added the canonical tracked owner-source-set manifest and deterministic BLAKE3 source digest.
+- Upgraded atomic install receipts to bind the complete installed executable denominator, executable digests, source-set schema, and source-set digest.
+- Added shared pre-mutation verification before Store locks, binding locks, bootstrap mutation, and GitHub issue writes.
+- Added explicit operation-level mutation classifications and direct preflight gates for clean, finish, publish, shadow generation, soak output, proof, and cutover.
+- Rejected untracked files under canonical owner-source directories and verified every staged executable/digest before atomic directory exchange.
+- Simplified invocation freshness to one bounded Git status query plus one index-object census; no production byte-by-byte checkout scan occurs.
+- Centralized direct operation mutability decisions in the exact manifest inventory, including generic and issue-specific GitHub owners.
+- Preserved read-only GitHub PR state and schedule classification without mutation gating.
+- Added focused tests for clean installation, stale and partial generations, atomic replacement, primary-checkout rejection, and unrelated-commit stability.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate10a"
+    ],
+    "purpose": "Prove the complete direct mutator gate, exact no-checkout-mutation rejection, operation classification, exact installation, untracked/stale/incomplete generation rejection, verified atomic replacement, and coexistence invariants.",
+    "outcome": "passed",
+    "evidence_ref": "21/21 gate10a tests passed after the direct-owner remediation"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "primary_checkout_bootstrap_guard"
+    ],
+    "purpose": "Prove primary-checkout mutation remains rejected without checkout drift.",
+    "outcome": "passed",
+    "evidence_ref": "4/4 primary checkout guard tests passed at cfb7f11"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib",
+      "operator::tests::owner_source_digest_ignores_unrelated_commits_and_detects_owner_drift",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Prove unrelated commits preserve freshness while owner-source drift invalidates the receipt.",
+    "outcome": "passed",
+    "evidence_ref": "1/1 focused source-set test passed at cfb7f11"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--",
+      "--check"
+    ],
+    "purpose": "Verify Rust formatting.",
+    "outcome": "passed",
+    "evidence_ref": "focused format check passed"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject whitespace damage in the bounded candidate.",
+    "outcome": "passed",
+    "evidence_ref": "candidate diff hygiene passed"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none

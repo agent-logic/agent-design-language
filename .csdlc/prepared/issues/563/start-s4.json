@@ -1,0 +1,1 @@
+{"issue":563,"card":"spp","expected_generation":9,"expected_digest":"98846f6ebb139c43acdb2ccc466f7f9f13cb2265153273b20823cd4fdafb2798","actor":"codex:563-execution","reason":"Focused validation is complete and independent exact-head review is beginning.","operation":{"operation":"update_plan_step","step_id":"S4","status":"in_progress"}}

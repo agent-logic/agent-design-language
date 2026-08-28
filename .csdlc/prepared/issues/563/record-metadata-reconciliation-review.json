@@ -1,0 +1,49 @@
+{
+  "issue": 563,
+  "expected_generation": 19,
+  "expected_digest": "e28399649de8f0259173992f6384911a90026e691939a62b042228d5fe3c97e8",
+  "actor": "codex:563-execution",
+  "evidence": {
+    "reviewer": "fresh-session:d831dd0b-3c3b-4726-b58e-f5242b1364f6",
+    "scope": [
+      ".csdlc/issues/563/audit.jsonl",
+      ".csdlc/issues/563/cards/sip.values.json",
+      ".csdlc/issues/563/cards/sor.values.json",
+      ".csdlc/issues/563/cards/spp.values.json",
+      ".csdlc/issues/563/cards/srp.md",
+      ".csdlc/issues/563/cards/srp.values.json",
+      ".csdlc/issues/563/cards/stp.values.json",
+      ".csdlc/issues/563/cards/vpp.values.json",
+      ".csdlc/issues/563/index.json",
+      ".csdlc/prepared/issues/563/assign-simplified-final-review.json",
+      ".csdlc/prepared/issues/563/record-simplified-final-review.json"
+    ],
+    "reviewed_revision": "git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final pre-merge integration gate.",
+      "The exhaustive preservation proof runs only in a tiny synthetic fixture; production freshness uses two bounded Git queries and installed executable digests."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:8248c0578cba18793d9a31ad02676485c24057e5:b895660cf27b8f75b090f6c13ffcc2edfa8d8050d6b8862d20e64e9bcedc805c",
+      "to_revision": "git-blake3:8af0fc73f55ba855ab892464cc24831ad5aabb7d:42c2e6023d8364f99a2560efc81c90966125b503c8424d8e5217fd7b6be8de70",
+      "from_commit": "8248c0578cba18793d9a31ad02676485c24057e5",
+      "to_commit": "8af0fc73f55ba855ab892464cc24831ad5aabb7d",
+      "changed_paths": [
+        ".csdlc/issues/563/audit.jsonl",
+        ".csdlc/issues/563/cards/sip.values.json",
+        ".csdlc/issues/563/cards/sor.values.json",
+        ".csdlc/issues/563/cards/spp.values.json",
+        ".csdlc/issues/563/cards/srp.md",
+        ".csdlc/issues/563/cards/srp.values.json",
+        ".csdlc/issues/563/cards/stp.values.json",
+        ".csdlc/issues/563/cards/vpp.values.json",
+        ".csdlc/issues/563/index.json",
+        ".csdlc/prepared/issues/563/assign-simplified-final-review.json",
+        ".csdlc/prepared/issues/563/record-simplified-final-review.json"
+      ]
+    }
+  }
+}

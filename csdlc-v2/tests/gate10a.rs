@@ -326,6 +326,289 @@ fn installer_records_provenance_without_replacing_other_files() {
 }
 
 #[test]
+fn every_direct_mutating_owner_rejects_before_checkout_mutation_without_receipt() {
+    let checkout = tempfile::tempdir().unwrap();
+    let repo = checkout.path();
+    fs::create_dir_all(repo.join(".adl")).unwrap();
+    fs::write(repo.join(".adl/worktree-policy.json"), "{}\n").unwrap();
+    fs::write(repo.join("tracked.txt"), "before\n").unwrap();
+    git(repo, &["init", "-b", "main"]);
+    git(repo, &["config", "user.email", "test@example.invalid"]);
+    git(repo, &["config", "user.name", "C-SDLC Test"]);
+    git(repo, &["add", "."]);
+    git(repo, &["commit", "-m", "fixture"]);
+    fs::write(repo.join("tracked.txt"), "pre-existing dirty bytes\n").unwrap();
+    fs::write(repo.join("untracked.txt"), "owned by another session\n").unwrap();
+    #[cfg(unix)]
+    std::os::unix::fs::symlink("tracked.txt", repo.join("residue-link")).unwrap();
+    let output = repo.join("outputs");
+    fs::create_dir(&output).unwrap();
+    let missing = output.join("missing.json");
+    let github_request = output.join("github-write.json");
+    fs::write(
+        &github_request,
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "repository":"agent-logic/agent-design-language","action":"issue_update",
+            "operation_key":"fixture","token_file":null,"issue":563,"pull_request":null,
+            "title":"fixture","body":null,"labels":[],"assignees":[],"milestone":null,
+            "state":null,"comment_body":null,"required_checks":[],"require_review":false,
+            "linked_issue":null
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    let before = checkout_manifest(repo);
+    let installed = tempfile::tempdir().unwrap();
+    let installed_directory = installed.path().join("csdlc-v2");
+    fs::create_dir(&installed_directory).unwrap();
+    let installed_clean = installed_directory.join("csdlc-clean");
+    fs::copy(prebuilt_binaries().join("csdlc-clean"), &installed_clean).unwrap();
+    let installed_result = Command::new(&installed_clean)
+        .current_dir(repo)
+        .env("ADL_CSDLC_TEST_ALLOW_UNINSTALLED_OWNER_BINARY", "1")
+        .args([
+            "cleanup",
+            "--root",
+            &repo.display().to_string(),
+            "--request",
+            &missing.display().to_string(),
+        ])
+        .output()
+        .unwrap();
+    assert!(!installed_result.status.success());
+    let installed_combined = format!(
+        "{}{}",
+        String::from_utf8_lossy(&installed_result.stdout),
+        String::from_utf8_lossy(&installed_result.stderr)
+    );
+    assert!(
+        installed_combined.contains("stale owner-binary provenance"),
+        "installed debug owner accepted the test-only bypass: {installed_combined}"
+    );
+    assert_eq!(checkout_manifest(repo), before);
+    let cases: Vec<(&str, Vec<String>)> = vec![
+        (
+            "csdlc-clean",
+            vec![
+                "cleanup".into(),
+                "--root".into(),
+                repo.display().to_string(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-clean",
+            vec![
+                "compatibility-index".into(),
+                "--root".into(),
+                repo.display().to_string(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-clean",
+            vec![
+                "materialize-terminal".into(),
+                "--root".into(),
+                repo.display().to_string(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-finish",
+            vec![
+                "--root".into(),
+                repo.display().to_string(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-finish",
+            vec![
+                "--root".into(),
+                repo.display().to_string(),
+                "--historical-request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-finish",
+            vec![
+                "--root".into(),
+                repo.display().to_string(),
+                "recordless-closeout".into(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-publish",
+            vec![
+                "--root".into(),
+                repo.display().to_string(),
+                "publish".into(),
+                "--request".into(),
+                missing.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-shadow",
+            vec![
+                "--root".into(),
+                repo.display().to_string(),
+                "generate-view".into(),
+                "--issue".into(),
+                "563".into(),
+            ],
+        ),
+        (
+            "csdlc-soak",
+            vec![
+                "generate-samples".into(),
+                "--repo".into(),
+                repo.display().to_string(),
+                "--output".into(),
+                output.join("soak").display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-soak",
+            vec![
+                "decide".into(),
+                "--repo".into(),
+                repo.display().to_string(),
+                "--evidence".into(),
+                missing.display().to_string(),
+                "--output".into(),
+                output.join("decision.json").display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-proof",
+            vec![
+                "--repo".into(),
+                repo.display().to_string(),
+                "--manifest".into(),
+                missing.display().to_string(),
+                "--output".into(),
+                output.join("proof.json").display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-cutover",
+            vec![
+                "--repo".into(),
+                repo.display().to_string(),
+                "--request".into(),
+                missing.display().to_string(),
+                "--output".into(),
+                output.join("cutover.json").display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-github-issue",
+            vec![
+                "run".into(),
+                "--request".into(),
+                github_request.display().to_string(),
+            ],
+        ),
+        (
+            "csdlc-github",
+            vec![
+                "run".into(),
+                "--request".into(),
+                github_request.display().to_string(),
+            ],
+        ),
+    ];
+    for (binary, args) in cases {
+        let result = Command::new(prebuilt_binaries().join(binary))
+            .current_dir(repo)
+            .args(args)
+            .output()
+            .unwrap();
+        assert!(!result.status.success(), "{binary} unexpectedly succeeded");
+        let combined = format!(
+            "{}{}",
+            String::from_utf8_lossy(&result.stdout),
+            String::from_utf8_lossy(&result.stderr)
+        );
+        assert!(
+            combined.contains("stale owner-binary provenance"),
+            "{binary}: {combined}"
+        );
+        let after = checkout_manifest(repo);
+        assert_eq!(
+            after, before,
+            "{binary} changed checkout state before rejection"
+        );
+    }
+}
+
+fn checkout_manifest(root: &std::path::Path) -> Vec<String> {
+    fn visit(root: &std::path::Path, path: &std::path::Path, rows: &mut Vec<String>) {
+        let mut entries = fs::read_dir(path)
+            .unwrap()
+            .map(|entry| entry.unwrap())
+            .collect::<Vec<_>>();
+        entries.sort_by_key(|entry| entry.file_name());
+        for entry in entries {
+            if entry.path() == root.join(".git") {
+                continue;
+            }
+            let path = entry.path();
+            let relative = path.strip_prefix(root).unwrap().to_string_lossy();
+            let metadata = fs::symlink_metadata(&path).unwrap();
+            #[cfg(unix)]
+            let mode = {
+                use std::os::unix::fs::PermissionsExt;
+                metadata.permissions().mode()
+            };
+            #[cfg(not(unix))]
+            let mode = 0u32;
+            if metadata.file_type().is_symlink() {
+                rows.push(format!(
+                    "{relative}\tsymlink\t{mode:o}\t{}",
+                    fs::read_link(&path).unwrap().display()
+                ));
+            } else if metadata.is_dir() {
+                rows.push(format!("{relative}\tdir\t{mode:o}"));
+                visit(root, &path, rows);
+            } else {
+                let digest = blake3::hash(&fs::read(&path).unwrap()).to_hex();
+                rows.push(format!("{relative}\tfile\t{mode:o}\t{digest}"));
+            }
+        }
+    }
+    let mut rows = Vec::new();
+    visit(root, root, &mut rows);
+    let status = Command::new("git")
+        .current_dir(root)
+        .args(["status", "--porcelain=v1", "--untracked-files=all"])
+        .output()
+        .unwrap();
+    let head = Command::new("git")
+        .current_dir(root)
+        .args(["rev-parse", "HEAD"])
+        .output()
+        .unwrap();
+    rows.push(format!(
+        "GIT-STATUS\t{}",
+        String::from_utf8_lossy(&status.stdout)
+    ));
+    rows.push(format!(
+        "GIT-HEAD\t{}",
+        String::from_utf8_lossy(&head.stdout).trim()
+    ));
+    rows
+}
+
+#[test]
 fn external_cargo_target_is_exact_existing_and_outside_checkout() {
     let repo = tempfile::tempdir().unwrap();
     let external = tempfile::tempdir().unwrap();
@@ -951,5 +1234,9 @@ fn stamp_current_revision(repo: &std::path::Path, bins: &std::path::Path) {
     let mut receipt: serde_json::Value =
         serde_json::from_slice(&fs::read(&receipt_path).unwrap()).unwrap();
     receipt["source_revision"] = serde_json::Value::String(format!("git:{}", revision.trim()));
+    receipt["source_set_schema"] = serde_json::Value::String("csdlc.owner_source_set.v1".into());
+    receipt["source_set_digest"] = serde_json::Value::String(
+        csdlc_v2::owner_source_set_digest(repo).expect("current owner source digest"),
+    );
     fs::write(receipt_path, serde_json::to_vec_pretty(&receipt).unwrap()).unwrap();
 }

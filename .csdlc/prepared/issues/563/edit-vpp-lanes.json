@@ -1,0 +1,49 @@
+{
+  "issue": 563,
+  "card": "vpp",
+  "expected_generation": 1,
+  "expected_digest": "5323e3e62795490dad82e1919a8049ecd8a27df785f67f5e5231f2b3f03dfbb8",
+  "actor": "codex:/root",
+  "reason": "Replace the broad wrapper with exact governed integration and owner-library proof lanes",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "primary-checkout-owner-integration",
+        "proof_role": "Prove current, stale, partial, primary, linked, isolated, and preserved-residue owner behavior",
+        "acceptance_ids": ["AC-1","AC-2","AC-3","AC-4","AC-5","AC-6"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 5000,
+        "argv": ["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--test","primary_checkout_bootstrap_guard"],
+        "parallel_group": "owner",
+        "defer_reason": null
+      },
+      {
+        "lane": "install-resolve-contract",
+        "proof_role": "Prove complete atomic generation and install/resolve receipt behavior",
+        "acceptance_ids": ["AC-2","AC-4","AC-5"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 900,
+        "budget_tokens": 4000,
+        "argv": ["cargo","test","--locked","--manifest-path","csdlc-v2/Cargo.toml","--lib","operator"],
+        "parallel_group": "owner",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Verify exact patch and whitespace hygiene",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1000,
+        "argv": ["git","diff","--check"],
+        "parallel_group": "local-control",
+        "defer_reason": null
+      }
+    ]
+  }
+}

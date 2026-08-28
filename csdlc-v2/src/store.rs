@@ -79,6 +79,7 @@ impl Store {
     }
 
     pub(crate) fn lock(&self, issue: u64) -> Result<File> {
+        crate::operator::verify_installed_owner_preflight(&self.root)?;
         let relative = PathBuf::from(format!(".csdlc/locks/{issue}.lock"));
         require_canonical_parent_beneath(&self.root, &relative)?;
         let dir = self.root.join(".csdlc/locks");
@@ -102,6 +103,7 @@ impl Store {
     }
 
     pub(crate) fn binding_lock(&self) -> Result<File> {
+        crate::operator::verify_installed_owner_preflight(&self.root)?;
         let common = crate::git::run(
             &self.root,
             &["rev-parse", "--path-format=absolute", "--git-common-dir"],
