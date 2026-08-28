@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6aa2982fcb7a3261d6e8fa360d3490526a1203f94e58ecbee44ce242eb1124d6",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "73a6114dee60c35c787118a7e7861112e66835b1c271a20a4c2ee8f17cb7b5d1",
+  "generation": 16,
+  "digest": "ab8b8645f9fd44db0527b212fad797bc0500f664b2291f18447f69d5d68e4dce",
   "branch": "codex/502-v3-c-csdlc-v3-lifecycle-kernel",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
   "review_assignment": {
@@ -52,34 +52,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c33c4c84cba123a6e0ace7a288190436b7f5688b10765685c63c022eb85d6b27",
+      "values_digest": "305522c8df7ab79e5091b8a166c2ce496d9864bb51490d33898adf2633e3c234",
       "rendered_digest": "586a7982b1e0f3092d591c32d3c122d93af9f28bab3131eaa3b67d7bb25b65dc",
       "ast_digest": "f6b8055e02a6433850689b71b3f9ec0371dc513f2be23f17e675ff4ee637b49c"
     },
     "stp": {
-      "values_digest": "c19effe32192fb24625e119fcc1559fac71a85127bb75f3293412cf0ed8ee28b",
+      "values_digest": "33a0bbc462d074b7786e3901815d6e876cbe6ce0acece5bfab8d5112bdbf426b",
       "rendered_digest": "b20c663d5fb080ca3aee3471f9f5bcc730ae6a3a95f78ed146eb4ef06fbecb3b",
       "ast_digest": "2d82914d8f9e739e95a46f29b9004c31158554791c6a63129b97f0ac9248d4f5"
     },
     "spp": {
-      "values_digest": "7b2539356861dcc8d076aec10d2716eae6434c3d04d6f77d04df88f4ae11b99d",
+      "values_digest": "b58ac741cced2275e4686a27d50d67f473e29bec5a96130347fe9f45fbf2ee73",
       "rendered_digest": "43bc5b0aebd2201594c013dfa4698f94bd4ba4c81eb3ddd0a73c74919cd26f4a",
       "ast_digest": "f00a8ff6c49ddde156a505009c2c29cfad9d9153d8d7db1fad3ee75fb9e0f8d5"
     },
     "vpp": {
-      "values_digest": "e30770ae2cea9e5116f33a8b591916160ef9af736248e83385a956f428eeffb3",
+      "values_digest": "c933c1ceec8af5e3345eacdd28d4ad094e43c7cb9f2ff3ba943230fa800bd084",
       "rendered_digest": "68e4ac33848d009bdd0b54fccf2958ddb175a150b6cb70d68c3a4a21ca3374d9",
       "ast_digest": "55b1e7a3f212b7ff50a9b065abc79f1c061c67a6d926e064a7796cc6de615414"
     },
     "srp": {
-      "values_digest": "ff04c02aceb8879e73e0da4e7e07489be5e4ebc92e87e4eb815805bf630e2b7e",
+      "values_digest": "854d1dbd47e463b226a8f7367d9bb3cbbe820fec43dc720d4db90313e4a60b95",
       "rendered_digest": "3d73304b3e4be484bf261d0d3fd9ad19a239ecf50546018ba45d4dc3adf9fe94",
       "ast_digest": "46a1cf12e3782587723060f443ce9a89c4fc8b0234b7b17382010fce024c969b"
     },
     "sor": {
-      "values_digest": "2d83283edae803426b943b1516d9b6ff70d2eccb2627fabd26915d9a4341ba37",
-      "rendered_digest": "81d60063cbd76f12f39e81f7b326b7107773cf158c407ebdd94c5d752ca3febd",
-      "ast_digest": "ef6477d8822da7177a0718400fa730f2fe04fc93634fcd8f6ccb1e67ec9b2e66"
+      "values_digest": "3e2d481108214bafb9a3867927437d95de450e5e7a5500140b33b7eb2d4beb83",
+      "rendered_digest": "65e51c357338d24e5d1e6c4c73244f13ae89dd1a2c455cf82a73eea96bd37d9f",
+      "ast_digest": "5c589e2238772f8f26e96149d4bcc4aee45bd12ec808228ab4a42cd730e44356"
     }
   },
   "transitions": [
@@ -273,6 +273,13 @@
       "actor": "codex:worker-6",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:worker-6",
+      "reason": "Record #502 exact-head review P1 fix for non-circular Finish capability and post-fix validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 after #501 merged to main, preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover.\",\"changes\":[\"Restacked #502 onto origin/main at merged #501 commit 1972aa47bd7047b8594a03bf770fb92f7fb63d51 via merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62.\",\"Recovered stale #502 review/publication truth after the main restack so the post-restack revision required fresh exact-head review before publication could be trusted.\",\"Fixed exact-head review P1 by replacing the circular Finish prerequisite: Finish now requires LiveTerminalEvidence, while TerminalReceipt remains the Cleanup prerequisite.\",\"Added regression coverage proving Finish rejects a pre-existing receipt-only capability, accepts live terminal evidence, and Cleanup still requires a terminal receipt.\",\"Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, terminal evidence, and projection invalidation semantics.\",\"Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, commit-time generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.\",\"Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction, and shell-executable rejection including path-qualified shell names.\",\"Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, terminal-finish, and redaction regression tests.\",\"Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.\",\"Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.\",\"Preserved dependency order by waiting for #501 to merge before moving #502's final PR base to main.\"],\"artifacts\":[\"csdlc-v3/AGENTS.md\",\"csdlc-v3/src/adapters/mod.rs\",\"csdlc-v3/src/lib.rs\",\"csdlc-v3/src/lifecycle/mod.rs\",\"csdlc-v3/src/storage/mod.rs\",\"csdlc-v3/tests/transactions.rs\",\"origin/main 1972aa47bd7047b8594a03bf770fb92f7fb63d51\",\"merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62\",\"review-fix commit 7cc2ef484845ec4bc103cac33d6a217c443bda9d\",\"review evidence /Users/daniel/git/agent-design-language/.git/csdlc-v2/reviews/502-main-restack-review-detached-readonly.txt\",\"worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel\",\"branch codex/502-v3-c-csdlc-v3-lifecycle-kernel\",\"PR https://github.com/agent-logic/agent-design-language/pull/572\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--check\"],\"purpose\":\"format check for the C-SDLC v3 crate after terminal-finish review fix\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7cc2ef484845ec4bc103cac33d6a217c443bda9d:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"full local C-SDLC v3 crate test suite after terminal-finish review fix\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7cc2ef484845ec4bc103cac33d6a217c443bda9d:4-lib-11-foundation-16-transactions-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"strict clippy for the C-SDLC v3 crate after terminal-finish review fix\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7cc2ef484845ec4bc103cac33d6a217c443bda9d:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"diff hygiene after terminal-finish review fix\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-head:7cc2ef484845ec4bc103cac33d6a217c443bda9d:passed\"}]}"
     }
   ]
 }

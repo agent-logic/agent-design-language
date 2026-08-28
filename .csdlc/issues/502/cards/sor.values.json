@@ -7,20 +7,22 @@
     "title": "[v0.92.1][V3-C] C-SDLC v3 lifecycle kernel",
     "slug": "v0-92-1-v3-c-c-sdlc-v3-lifecycle-kernel",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502, then restacked it onto origin/main after #501 merged, while preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover.",
+      "summary": "Implemented, restacked, reviewed, and fixed the non-authoritative C-SDLC v3 lifecycle-kernel slice for #502 after #501 merged to main, preserving typed C-SDLC v2 as current lifecycle authority until explicit V3-F cutover.",
       "actual_changes": [
         "Restacked #502 onto origin/main at merged #501 commit 1972aa47bd7047b8594a03bf770fb92f7fb63d51 via merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62.",
-        "Recovered stale #502 review/publication truth after the main restack so the post-restack revision must receive fresh exact-head review before publication is trusted.",
-        "Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, and projection invalidation semantics.",
+        "Recovered stale #502 review/publication truth after the main restack so the post-restack revision required fresh exact-head review before publication could be trusted.",
+        "Fixed exact-head review P1 by replacing the circular Finish prerequisite: Finish now requires LiveTerminalEvidence, while TerminalReceipt remains the Cleanup prerequisite.",
+        "Added regression coverage proving Finish rejects a pre-existing receipt-only capability, accepts live terminal evidence, and Cleanup still requires a terminal receipt.",
+        "Added csdlc-v3/src/lifecycle/mod.rs for explicit capability-checked lifecycle transition decisions, merge-readiness evidence, terminal evidence, and projection invalidation semantics.",
         "Added csdlc-v3/src/storage/mod.rs for deterministic transaction staging, commit-time generation/digest CAS checks, projection-repair fail-closed behavior, recovery classification, audit-provenance preservation, content-bound record digests, and invalidation preservation.",
         "Added csdlc-v3/src/adapters/mod.rs for argv-only process/Git adapter boundaries, typed status/stdout/stderr outcomes, cancellation/timeout modeling, child credential scope, conservative credential redaction, and shell-executable rejection including path-qualified shell names.",
-        "Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, and redaction regression tests.",
+        "Added csdlc-v3/tests/transactions.rs covering retained requirements #168, #169, and #170 with transition, transaction, recovery, adapter, commit-CAS, repair-pending, digest-binding, invalidation, merge-readiness, terminal-finish, and redaction regression tests.",
         "Added csdlc-v3/AGENTS.md to preserve the v2-authority boundary and three-minute issue-start expectation for future work in the crate.",
         "Updated csdlc-v3/src/lib.rs with V3-C module exports and the explicit [168, 169, 170] lifecycle-kernel predecessor denominator.",
         "Preserved dependency order by waiting for #501 to merge before moving #502's final PR base to main."
@@ -34,7 +36,8 @@
         "csdlc-v3/tests/transactions.rs",
         "origin/main 1972aa47bd7047b8594a03bf770fb92f7fb63d51",
         "merge commit 83ee7d8ff189f44b7c4d4c6e82cb410272b97e62",
-        "review-recovery commit 41c2481b15b1276ef95da2965d74d313f481b5e1",
+        "review-fix commit 7cc2ef484845ec4bc103cac33d6a217c443bda9d",
+        "review evidence /Users/daniel/git/agent-design-language/.git/csdlc-v2/reviews/502-main-restack-review-detached-readonly.txt",
         "worktree /Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
         "branch codex/502-v3-c-csdlc-v3-lifecycle-kernel",
         "PR https://github.com/agent-logic/agent-design-language/pull/572"
@@ -48,9 +51,9 @@
             "csdlc-v3/Cargo.toml",
             "--check"
           ],
-          "purpose": "format check for the C-SDLC v3 crate after restacking #502 on merged #501 main",
+          "purpose": "format check for the C-SDLC v3 crate after terminal-finish review fix",
           "outcome": "passed",
-          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed"
+          "evidence_ref": "exact-head:7cc2ef484845ec4bc103cac33d6a217c443bda9d:passed"
         },
         {
           "command": [
@@ -59,9 +62,9 @@
             "--manifest-path",
             "csdlc-v3/Cargo.toml"
           ],
-          "purpose": "full local C-SDLC v3 crate test suite after restacking #502 on merged #501 main",
+          "purpose": "full local C-SDLC v3 crate test suite after terminal-finish review fix",
           "outcome": "passed",
-          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:4-lib-11-foundation-15-transactions-passed"
+          "evidence_ref": "exact-head:7cc2ef484845ec4bc103cac33d6a217c443bda9d:4-lib-11-foundation-16-transactions-passed"
         },
         {
           "command": [
@@ -74,9 +77,9 @@
             "-D",
             "warnings"
           ],
-          "purpose": "strict clippy for the C-SDLC v3 crate after main restack",
+          "purpose": "strict clippy for the C-SDLC v3 crate after terminal-finish review fix",
           "outcome": "passed",
-          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed"
+          "evidence_ref": "exact-head:7cc2ef484845ec4bc103cac33d6a217c443bda9d:passed"
         },
         {
           "command": [
@@ -84,31 +87,9 @@
             "diff",
             "--check"
           ],
-          "purpose": "diff hygiene after main restack",
+          "purpose": "diff hygiene after terminal-finish review fix",
           "outcome": "passed",
-          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:passed"
-        },
-        {
-          "command": [
-            "csdlc-validate",
-            "--root",
-            "/Volumes/FastWork/adl-worktrees/adl-issue-502-v3-c-csdlc-v3-lifecycle-kernel",
-            "issue",
-            "--issue",
-            "502"
-          ],
-          "purpose": "typed C-SDLC issue validation after main restack before review recovery",
-          "outcome": "blocked",
-          "evidence_ref": "exact-head:83ee7d8ff189f44b7c4d4c6e82cb410272b97e62:review_publication_dead_end requiring recover_review"
-        },
-        {
-          "command": [
-            "csdlc-review",
-            "recover"
-          ],
-          "purpose": "recover stale review/publication truth caused by the #501 main merge and #502 restack",
-          "outcome": "passed",
-          "evidence_ref": "generation 13 after recover_review; review_assignment/review/publication cleared before fresh review"
+          "evidence_ref": "exact-head:7cc2ef484845ec4bc103cac33d6a217c443bda9d:passed"
         }
       ],
       "integration_state": "worktree_only",
