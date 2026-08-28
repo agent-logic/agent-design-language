@@ -12,7 +12,16 @@ Status: pre_phase
 
 ## Scope
 
-Issue #578 provider-profile onboarding, Z.ai GLM-5.3-Flash request parameters, docs/evidence, tests, and reviewer-selection proof only.
+adl/src/provider/profiles.rs
+adl/src/provider/http_family.rs
+adl/src/provider/http_family/config.rs
+adl/tests/provider_tests/profiles.rs
+adl/tests/provider_tests/http_family.rs
+docs/provider/inference-profiles.md
+docs/tooling/PROVIDER_SETUP.md
+docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md
+.csdlc/prepared/issues/578/reviewer-selection-smoke.sh
+.csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md
 
 ## Prompts
 
@@ -32,12 +41,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live Z.ai dispatch remains credential-gated and was not claimed because no operator-approved live Z.ai credential was used.
+- OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:55cf30e99e3c240ceef6f140013ad7feab3135c1:cf0f9bfc8b13973bd5a07cd12304a1f8990368a02e97fa4cd236a23744764965")
 
-Reviewer: None
+Reviewer: Some("fresh-session:b8205d48-4329-489e-9298-4449cf0552d8")
 
-Result: pre_review
+Result: pass

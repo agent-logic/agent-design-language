@@ -4,13 +4,51 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
-  "phase": "implemented",
-  "generation": 4,
-  "digest": "340c5d15a4ebce1ce4064b197cc1809a6ee2b287a02edb7a6830ef439198cc72",
+  "phase": "reviewed",
+  "generation": 5,
+  "digest": "90faa820def38092f331072ec7b23b7511a09086e269e9a6df8ac27dfefd51bc",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b8205d48-4329-489e-9298-4449cf0552d8",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:55cf30e99e3c240ceef6f140013ad7feab3135c1:cf0f9bfc8b13973bd5a07cd12304a1f8990368a02e97fa4cd236a23744764965",
+    "scope": [
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/tests/provider_tests/profiles.rs",
+      "adl/tests/provider_tests/http_family.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+      ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+      ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:b8205d48-4329-489e-9298-4449cf0552d8",
+    "scope": [
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/tests/provider_tests/profiles.rs",
+      "adl/tests/provider_tests/http_family.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+      ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+      ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
+    ],
+    "reviewed_revision": "git-blake3:55cf30e99e3c240ceef6f140013ad7feab3135c1:cf0f9bfc8b13973bd5a07cd12304a1f8990368a02e97fa4cd236a23744764965",
+    "findings": [],
+    "residual_risks": [
+      "Live Z.ai dispatch remains credential-gated and was not claimed because no operator-approved live Z.ai credential was used.",
+      "OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "95687ee9a69c4f34c02e54ace954e6e2885133fb013f024c2b0bd7017ea1a6f5",
+      "values_digest": "975a519348c47d4cc80c09ab2a74b406e92593c80ec60a2509d095362d1aa768",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "e1acb65ba6ee02b862f0862236ae75ab2363f1fc8930d4e2546ab223f6add5f3",
+      "values_digest": "2499e885e88b71872da01fff66bd07512701320068f3266f22bb366339c86113",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "abae8eabcee2e8fa64c34edbd97b795c35d234407ba8a7a8d0b57931e9f7576f",
+      "values_digest": "e7a5416038159a25baf0f2d38b85e63764806ae1cf4e7a74d8ed0f4243e721c6",
       "rendered_digest": "6d7f4116285b862dcdf00e96174502f8d517bd24b6223155e06e2b7f2141c0bc",
       "ast_digest": "7256508d231339fa26e20251939b3735270f4f6b6d4ae1d207f471484442b3c8"
     },
     "vpp": {
-      "values_digest": "55057d3eab055cbd9211fc47322177fd785bfab1f9aa54364d319ffbce4013d8",
+      "values_digest": "8b8160a9629e51503d14082e5064f9954a0f2048c24604f178e40a7ace13c141",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "ed44712183475908cf287b6941cb3d4bbe3c1249a77c76b4e32dc94acb714f47",
-      "rendered_digest": "a4453f6604878e1b2b50fb2998adb15b13ee03071759a0a1329a0d0445d9416e",
-      "ast_digest": "1caf37c70fac578e304628e7cea82464631c0bf4aba54f8aee71e3e47e681f08"
+      "values_digest": "93a91b34c964115028d48ebd3884a97ad7ff77b39a29d9d63d9f724bbcf38d2d",
+      "rendered_digest": "10ca0c66c159d38e743a74516346cfd2820cfbe7f34a0dccf2017d7ae6529529",
+      "ast_digest": "38703b25fe0afe09cf2e4cefc20a3fb0865740be6280f6d69f0a92d6fc018304"
     },
     "sor": {
-      "values_digest": "31f9a4ac40519d2f0275e22fc0f364fe89afc67c9c46d28166483d122c919b55",
+      "values_digest": "0bae88a72790c6de03089deda4b55075ccbfb2e7c8164453107b1d828202207b",
       "rendered_digest": "cf5eca9453c8b4b0fc7c193c2869a160f928e987f6b5001b3506300f5f0dbdd3",
       "ast_digest": "57a3ca79c70584117298118d037ab8603d06c2213dd524fdf82752feb668acac"
     }
@@ -76,6 +114,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "The bounded GLM-5.3-Flash provider profile implementation and focused validation are complete."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:b8205d48-4329-489e-9298-4449cf0552d8",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -120,6 +165,20 @@
       "actor": "codex:root",
       "reason": "The bounded GLM-5.3-Flash provider profile implementation and focused validation are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "fresh-session:b8205d48-4329-489e-9298-4449cf0552d8",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
