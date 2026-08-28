@@ -1,0 +1,13 @@
+{
+  "issue": 551,
+  "card": "sip",
+  "expected_generation": 9,
+  "expected_digest": "e45a650424e0e493b42fef83d9d1ba18bfc931eedd11adfc9c987669bd17c08f",
+  "actor": "codex:/root",
+  "reason": "Apply the operator decision that every Polis parameter hot-loads atomically without Runtime restart.",
+  "operation": {
+    "operation": "replan",
+    "field": "required_outcome",
+    "value": "Runtime configuration, feed projection, atomic last-known-good hot reload of every Polis parameter, and HTML rendering pass without restarting the Runtime or reactivating Unity."
+  }
+}

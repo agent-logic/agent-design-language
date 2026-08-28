@@ -1,0 +1,11 @@
+{
+  "issue": 551,
+  "expected_generation": 35,
+  "expected_digest": "799916c7991b766bd95c06e0f0d49687b270851501fa75785144c166c9ef0444",
+  "reviewer": "subagent:/root/review_551_ci_fixture",
+  "assigned_by": "codex:/root",
+  "scope": [
+    ".csdlc/issues/551",
+    ".csdlc/prepared/issues/551"
+  ]
+}

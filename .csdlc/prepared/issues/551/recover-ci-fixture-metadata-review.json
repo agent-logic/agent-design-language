@@ -1,0 +1,7 @@
+{
+  "issue": 551,
+  "expected_generation": 34,
+  "expected_digest": "35071a80d630d2109a64216c757c44b16df63444877590468cd3bb3a759e2356",
+  "actor": "codex:/root",
+  "reason": "Recover the exact lifecycle-only projection so the reviewed CI fixture repair can be republished from current metadata truth."
+}

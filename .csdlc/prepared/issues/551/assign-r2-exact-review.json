@@ -1,0 +1,27 @@
+{
+  "issue": 551,
+  "expected_generation": 47,
+  "expected_digest": "00d9edce172af39ab8c9aba16cca7a88ba17b831fae39f47ac8fc0d2a85489c7",
+  "reviewer": "fresh-session:032c6dee-997d-4868-a0b2-ee0135d580f9",
+  "assigned_by": "codex:/root",
+  "scope": [
+    ".csdlc/prepared/issues/551/design.md",
+    ".csdlc/prepared/issues/551/diagram.mmd",
+    ".csdlc/issues/551/cards/stp.values.json",
+    ".csdlc/issues/551/cards/spp.values.json",
+    ".csdlc/issues/551/cards/srp.values.json",
+    ".csdlc/issues/551/cards/sor.values.json",
+    "adl-runtime-kernel/src/config.rs",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/tests/configuration.rs",
+    "adl-runtime-kernel/tests/control.rs",
+    "adl-runtime-kernel/tests/guardian_soak.rs",
+    "adl-runtime-kernel/tests/observatory.rs",
+    "adl-runtime-kernel/tests/openapi_contract.rs",
+    "docs/api/runtime-v3/v1/observatory.openapi.json",
+    "demos/html-observatory/app.js",
+    "demos/html-observatory/runtime-v3.config.json",
+    "adl/tools/validate_v0917_html_observatory.py",
+    ".csdlc/evidence/551/html-polis-node.tap"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "issue": 551,
+  "expected_generation": 33,
+  "expected_digest": "d34134e52be5df5965acffd4f4e6c9a674941801f3d61518cb6a198d2539c722",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "subagent:/root/review_551_ci_fixture",
+    "scope": [
+      "adl/tools/validate_v0917_html_observatory.py"
+    ],
+    "reviewed_revision": "git-blake3:3c461d50f328fcfbf1050cf29c90f2bed15ce92e:66f2767a66fcf46e662aef30331f52eefeabee05503e8014fa17778bb5052a78",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
+    ],
+    "completed": true
+  }
+}

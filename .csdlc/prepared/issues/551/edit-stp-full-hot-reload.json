@@ -1,0 +1,18 @@
+{
+  "issue": 551,
+  "card": "stp",
+  "expected_generation": 10,
+  "expected_digest": "912450cf79902a91c277ab4690f60b14b7ea6511c328cfda4e9f396f7c02fce6",
+  "actor": "codex:/root",
+  "reason": "Replace the former restart-gated acceptance boundary with atomic full-parameter hot reload required by the operator.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: Startup rejects missing duplicated malformed or endpoint-inconsistent identity",
+      "AC-2: Feed v3 exposes exact redacted configured identity and public endpoints while legacy v1 and v2 remain explicit compatibility-only contracts",
+      "AC-3: HTML renders feed values without URL inference or deployment constants",
+      "AC-4: Every Polis parameter hot-loads atomically without Runtime restart, while invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic",
+      "AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass"
+    ]
+  }
+}
