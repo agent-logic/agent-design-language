@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/501/audit.jsonl\n.csdlc/issues/501/cards/sip.md\n.csdlc/issues/501/cards/sip.values.json\n.csdlc/issues/501/cards/sor.md\n.csdlc/issues/501/cards/sor.values.json\n.csdlc/issues/501/cards/spp.md\n.csdlc/issues/501/cards/spp.values.json\n.csdlc/issues/501/cards/srp.md\n.csdlc/issues/501/cards/srp.values.json\n.csdlc/issues/501/cards/stp.md\n.csdlc/issues/501/cards/stp.values.json\n.csdlc/issues/501/cards/vpp.md\n.csdlc/issues/501/cards/vpp.values.json\n.csdlc/issues/501/index.json\n.csdlc/prepared/issues/501/design.md\n.csdlc/prepared/issues/501/diagram.mmd\ncsdlc-v3/src/application/mod.rs\ncsdlc-v3/src/bin/csdlc-v3-foundation.rs\ncsdlc-v3/src/lib.rs\ncsdlc-v3/src/repository/mod.rs\ncsdlc-v3/tests/foundation.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

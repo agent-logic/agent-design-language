@@ -5,10 +5,37 @@
   "initialization_digest": "fa47f9e1a7c307834334da4c81dfafe2d87aa0b8271f54e3640f9c7b107d53fd",
   "phase": "implemented",
   "generation": 14,
-  "digest": "91238bbac9d0cfc2e9a6e5bfdc8095f12e40ae88ce9c6bd4e4cec744a87eb4a7",
+  "digest": "2c025d2243438a1915a94e3a1a1d0c86351bc47c982e051d1359d6ef06a546e8",
   "branch": "codex/501-v3-b-csdlc-v3-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-501-v3-b-csdlc-v3-foundation",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "issue_501_current_review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:4f79392bd1b7b509ada4279bb6c49afc2e70b253:404a632c60dd7f83154dcc0748bed240ff7ab7828049299fde5ffe207860f08b",
+    "scope": [
+      ".csdlc/issues/501/audit.jsonl",
+      ".csdlc/issues/501/cards/sip.md",
+      ".csdlc/issues/501/cards/sip.values.json",
+      ".csdlc/issues/501/cards/sor.md",
+      ".csdlc/issues/501/cards/sor.values.json",
+      ".csdlc/issues/501/cards/spp.md",
+      ".csdlc/issues/501/cards/spp.values.json",
+      ".csdlc/issues/501/cards/srp.md",
+      ".csdlc/issues/501/cards/srp.values.json",
+      ".csdlc/issues/501/cards/stp.md",
+      ".csdlc/issues/501/cards/stp.values.json",
+      ".csdlc/issues/501/cards/vpp.md",
+      ".csdlc/issues/501/cards/vpp.values.json",
+      ".csdlc/issues/501/index.json",
+      ".csdlc/prepared/issues/501/design.md",
+      ".csdlc/prepared/issues/501/diagram.mmd",
+      "csdlc-v3/src/application/mod.rs",
+      "csdlc-v3/src/bin/csdlc-v3-foundation.rs",
+      "csdlc-v3/src/lib.rs",
+      "csdlc-v3/src/repository/mod.rs",
+      "csdlc-v3/tests/foundation.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +71,9 @@
       "ast_digest": "83595baa407f8f5f553792d3b3025ced1b826524b6522c605267ca8fec3f9442"
     },
     "srp": {
-      "values_digest": "763ab4a24efc12e2d05718eb03fe708c8af2e32f187f06285627c4b3fdee376d",
-      "rendered_digest": "7e9d7189f4f7365bdc67f8a6a505a0e0bd6fc0118a0b4f052e0cb6b560441a44",
-      "ast_digest": "53dfe8bd3e068c3331c7d17aba7ea8e45c6df87d3ffae8fb46da8e710fdb5272"
+      "values_digest": "69b03dfd16aa20a49c2d9882d03652490a963b4072949802d09ce83d62e4da86",
+      "rendered_digest": "40b5e8d90eac672ea964a0daf077ea4e2f785f7cc985fbf35661bd880e013561",
+      "ast_digest": "3def47abb434b08fcd19077347246685202b882621ba8efe85d264a6c319437c"
     },
     "sor": {
       "values_digest": "d5ec322605bc4ef992f2fc3a01fca1551a4cb4cfd6d1073d79bb6202c96208a0",
@@ -203,6 +230,13 @@
       "actor": "codex:worker-6",
       "reason": "Advance #501 SOR from pre_phase to ready after implementation evidence and validation truth were recorded.",
       "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
