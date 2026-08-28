@@ -162,6 +162,7 @@ fn redact(value: &str) -> String {
     let lower = value.to_ascii_lowercase();
     if is_inline_secret_assignment(value)
         || is_authorization_header(&lower)
+        || is_option_assigned_authorization_header(&lower)
         || contains_url_userinfo(value)
         || lower.contains("token=")
         || lower.contains("secret=")
@@ -194,6 +195,13 @@ fn is_inline_secret_assignment(value: &str) -> bool {
 
 fn is_authorization_header(lowercase_value: &str) -> bool {
     lowercase_value.starts_with("authorization:")
+}
+
+fn is_option_assigned_authorization_header(lowercase_value: &str) -> bool {
+    let Some((_, assigned_value)) = lowercase_value.split_once('=') else {
+        return false;
+    };
+    is_authorization_header(assigned_value.trim_start())
 }
 
 fn contains_url_userinfo(value: &str) -> bool {
