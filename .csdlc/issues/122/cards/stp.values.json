@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 122,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Observatory] Deploy public exposure with Route53 and ACM",
+    "slug": "deferred-public-observatory-exposure",
+    "version": "post-v0.92",
+    "generation": 72
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement and validate the reviewed #122 CSM public edge plus the operator-authorized disposable AWS Runtime-origin smoke surfaces: permanent CloudFront/WAF/S3/API/WSS edge stays non-ephemeral; Spot EC2 and ALB origin resources are disposable proof infrastructure that must be created, externally proven, and destroyed without becoming permanent scope.",
+      "deliverables": [
+        "infra/aws/csm-public-edge/versions.tf",
+        "infra/aws/csm-public-edge/variables.tf",
+        "infra/aws/csm-public-edge/locals.tf",
+        "infra/aws/csm-public-edge/main.tf",
+        "infra/aws/csm-public-edge/outputs.tf",
+        "infra/aws/csm-public-edge/terraform.tfvars.example",
+        "infra/aws/csm-public-edge/.terraform.lock.hcl",
+        "infra/aws/csm-public-edge/README.md",
+        "infra/aws/csm-runtime-spot/versions.tf",
+        "infra/aws/csm-runtime-spot/variables.tf",
+        "infra/aws/csm-runtime-spot/locals.tf",
+        "infra/aws/csm-runtime-spot/main.tf",
+        "infra/aws/csm-runtime-spot/outputs.tf",
+        "infra/aws/csm-runtime-spot/terraform.tfvars.example",
+        "infra/aws/csm-runtime-spot/.terraform.lock.hcl",
+        "infra/aws/csm-runtime-spot/README.md",
+        "infra/aws/csm-runtime-alb/versions.tf",
+        "infra/aws/csm-runtime-alb/variables.tf",
+        "infra/aws/csm-runtime-alb/locals.tf",
+        "infra/aws/csm-runtime-alb/main.tf",
+        "infra/aws/csm-runtime-alb/outputs.tf",
+        "infra/aws/csm-runtime-alb/terraform.tfvars.example",
+        "infra/aws/csm-runtime-alb/.terraform.lock.hcl",
+        "infra/aws/csm-runtime-alb/README.md",
+        "infra/aws/modules/csm-runtime-spot/main.tf",
+        "infra/aws/modules/csm-runtime-spot/variables.tf",
+        "infra/aws/modules/csm-runtime-spot/outputs.tf",
+        "infra/aws/modules/csm-runtime-alb/main.tf",
+        "infra/aws/modules/csm-runtime-alb/variables.tf",
+        "infra/aws/modules/csm-runtime-alb/outputs.tf",
+        "adl/tools/validate_csm_public_edge_static.sh",
+        "adl/tools/validate_csm_public_edge_live.sh",
+        "docs/milestones/post-v0.92/features/CSM_PUBLIC_EDGE_TERRAFORM.md",
+        "docs/milestones/post-v0.92/runbooks/CSM_PUBLIC_EDGE_AND_RUNTIME_ORIGIN_RUNBOOK.md",
+        ".csdlc/prepared/issues/122/terraform-execution-plan.md",
+        ".csdlc/evidence/122/additional-origins-validation.md",
+        ".csdlc/evidence/122/gemini-remediation-review.result.json",
+        ".csdlc/evidence/122/gemini-remediation-review.log",
+        ".csdlc/evidence/122/gemini-review-diff.historical.txt",
+        ".csdlc/evidence/122/live-aws-edge-apply-2026-08-26.md"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Distributed Runtime integration is terminal, merged, ancestral, and independently reviewed before execution",
+        "AC-2: A separate operator authorization exists and the approved business profile resolves to the Agent Logic business account",
+        "AC-3: Both canonical hostnames resolve to issue-owned resources with valid ACM chains and ordinary platform trust",
+        "AC-4: The Observatory and Runtime gateway expose one matching exact revision with no private state or secret material",
+        "AC-5: CORS, CSP, WSS origins, authentication, signed Layer 8 writes, rate limits, redaction, and health reporting fail closed",
+        "AC-6: Deployment and rollback are bounded, idempotent, ownership-verifiable, and leave no orphaned issue-owned resources",
+        "AC-7: Permanent #122 edge resources remain non-compute; operator-authorized Spot EC2 and ALB origin resources are disposable smoke-proof infrastructure only and must be destroyed without becoming permanent scope",
+        "AC-8: Exact-head security and operations review has no unresolved actionable findings",
+        "AC-9: #122 remains non-gating for #83 and #111-#117"
+      ],
+      "dependencies": [
+        "Hard serial gate: distributed Runtime terminal through merged, ancestral, independently reviewed proof",
+        "Separate operator authorization for bounded AWS work",
+        "Approved Agent Logic business profile verified at execution time",
+        "#83 local implementation and independent validation are inputs, not work gated by #122",
+        "#110 supplies product direction; #111-#117 may supply contracts but are not gated by #122"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#83",
+        "agent-logic/agent-design-language#110",
+        "agent-logic/agent-design-language#111",
+        "agent-logic/agent-design-language#112",
+        "agent-logic/agent-design-language#113",
+        "agent-logic/agent-design-language#114",
+        "agent-logic/agent-design-language#115",
+        "agent-logic/agent-design-language#116",
+        "agent-logic/agent-design-language#117"
+      ],
+      "non_goals": [
+        "Any gate on #83 or #111-#117",
+        "Production marketing launch, merge, or closeout without separate lifecycle authority",
+        "Making Spot EC2, ALB, NAT, GPU, CodeBuild, Kubernetes, containers, or Runtime compute part of the permanent public edge",
+        "Creating disposable Spot EC2 or ALB resources without operator authorization, live proof purpose, and teardown evidence",
+        "Router, DNS parent-zone ownership transfer, Caddy, local Let's Encrypt automation, or certificate issuance outside the Terraform-owned ACM lookup/reuse contract",
+        "Weakening Runtime authorization or exposing private state, secrets, raw provider payloads, or internal topology"
+      ]
+    }
+  }
+}

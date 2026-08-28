@@ -1,0 +1,14 @@
+flowchart LR
+    G["Gate: distributed Runtime terminal"] --> A["Separate operator AWS authorization"]
+    A --> B["Verify Agent Logic business profile"]
+    B --> P["Issue #122 bounded deployment plan"]
+    P --> S["S3 and CloudFront Observatory"]
+    P --> R["Approved non-EC2 Runtime ingress"]
+    D["Route53 and ACM"] --> S
+    D --> R
+    S --> O["observatory.dev.agent-logic.ai"]
+    R --> W["runtime.dev.agent-logic.ai HTTPS and WSS"]
+    O --> C["Exact revision, browser trust, CSP, and redaction proof"]
+    W --> C
+    F["Wrong account, missing gate, EC2, Spot, CodeBuild, or policy drift"] --> X["Fail closed: no public exposure"]
+    N["#83 and #111-#117 continue independently"] --> Y["Not gated by #122"]

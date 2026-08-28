@@ -1,0 +1,29 @@
+environment              = "dev"
+csm_name                 = "wuji"
+zone_name                = "csm.agent-logic.ai"
+create_hosted_zone       = true
+observatory_asset_source = "demos/html-observatory"
+
+# Optional: reuse a pre-issued us-east-1 ACM wildcard for this CSM, such as
+# *.wuji.dev.csm.agent-logic.ai. Leave null to let Terraform request exact SANs.
+edge_acm_certificate_arn = null
+
+# Supply real values through an uncommitted *.auto.tfvars file or secure variable
+# source. Never commit the approved Agent Logic AWS account id.
+approved_aws_account_id = "000000000000"
+
+runtime_origin_mode = "external_https"
+runtime_origin_url  = "https://wuji.dev.csm.agent-logic.ai"
+origin_cname_target = "wuji.agent-logic.ai"
+
+wss_origin_mode      = "external_wss"
+wss_origin_https_url = "https://wuji.dev.csm.agent-logic.ai"
+wss_origin_hostname  = "wuji.dev.csm.agent-logic.ai"
+
+additional_allowed_origins = [
+  # Exact browser origins only. Wildcards, paths, and patterns are rejected.
+  # "https://observatory-operator.example.com",
+  # "http://localhost:5173"
+]
+wss_forwarded_query_strings = []
+wss_forwarded_cookies = []
