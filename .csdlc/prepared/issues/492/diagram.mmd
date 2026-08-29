@@ -1,0 +1,10 @@
+flowchart TD
+  GCPA["#490 GCP-A\nhierarchy/cost decision"] --> GCPC["#492 GCP-C\norganization + billing baseline"]
+  GCPB["#491 GCP-B\nTerraform bootstrap"] --> GCPC
+  GCPC --> ORG["organization/folder/project denominator"]
+  GCPC --> BILLING["billing link\nbudget/export/labels"]
+  GCPC --> IAM["corporate group ownership"]
+  GCPC --> POLICY["scoped policy impact review"]
+  GCPC --> EVIDENCE["retained GCP-C proof packet"]
+  GCPC -.unlocks.-> GCPD["#493 GCP-D\nprivate platform foundation"]
+  GCPC -.input.-> XCL["#495 cross-cloud conversion"]

@@ -348,6 +348,7 @@ pub struct ObservatoryProofFeed {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct ObservatoryFeed {
     pub schema: String,
+    pub polis_identity: PolisIdentityFeed,
     pub runtime_instance_id: String,
     pub runtime_incarnation_id: String,
     pub runtime_process_id: u32,
@@ -362,4 +363,25 @@ pub struct ObservatoryFeed {
     pub agents: AgentPopulationFeed,
     pub proof: ObservatoryProofFeed,
     pub events: Vec<BootstrapEvent>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct PolisIdentityFeed {
+    pub polis_id: String,
+    pub display_name: String,
+    pub public_domain: String,
+    pub runtime_api_base: String,
+    pub observatory_public_origin: String,
+}
+
+impl PolisIdentityFeed {
+    pub(crate) fn unavailable(instance_id: &str) -> Self {
+        Self {
+            polis_id: instance_id.to_owned(),
+            display_name: "Unavailable".to_owned(),
+            public_domain: "localhost".to_owned(),
+            runtime_api_base: "https://localhost".to_owned(),
+            observatory_public_origin: "https://localhost".to_owned(),
+        }
+    }
 }

@@ -1,0 +1,10 @@
+{
+  "issue": 551,
+  "expected_generation": 33,
+  "expected_digest": "439f530a13b3738c069abda4c7cb1dc0777407dd90215377a000cce41bb4dfb1",
+  "reviewer": "subagent:/root/review_551_ci_fixture",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "adl/tools/validate_v0917_html_observatory.py"
+  ]
+}

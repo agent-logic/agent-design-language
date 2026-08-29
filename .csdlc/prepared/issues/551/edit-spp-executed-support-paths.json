@@ -1,0 +1,32 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 7,
+  "expected_digest": "df30c18f45b9f0128edbd4dd7d8e5418dd9feb5d15fab643dab1024b087df4ba",
+  "actor": "codex:/root",
+  "reason": "Include the production init template and tightly coupled Runtime fixture and guardian schema test required by the implemented required config and feed v3 contract.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "adl-runtime-kernel/tests/guardian_soak.rs",
+      "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "infra/runtime-v3/runtime-init.toml",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551/validate-runtime-polis.sh",
+      ".csdlc/prepared/issues/551/validate-html-polis.sh",
+      ".csdlc/evidence/551"
+    ]
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "issue":551,
+  "expected_generation":28,
+  "expected_digest":"d751f8c4449be8c92cb1516f13a44d335447256ffded9dc4c9fcc70defa869b3",
+  "actor":"codex:/root",
+  "evidence":{
+    "reviewer":"fresh-session:1fa7b2f0-4c59-4343-ae7b-afdce3064aa9",
+    "scope":[
+      "adl-runtime-kernel/src/config.rs", "adl-runtime-kernel/src/control.rs", "adl-runtime-kernel/src/control/feeds.rs", "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs", "adl-runtime-kernel/tests/control.rs", "adl-runtime-kernel/tests/observatory.rs", "adl-runtime-kernel/tests/openapi_contract.rs", "adl-runtime-kernel/tests/guardian_soak.rs", "adl-runtime-kernel/tests/support/runtime_init.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json", "infra/runtime-v3/runtime-init.toml",
+      "demos/html-observatory/index.html", "demos/html-observatory/app.js", "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551", ".csdlc/evidence/551", ".csdlc/issues/551"
+    ],
+    "reviewed_revision":"git-blake3:4d02f41a13438cb4a1253e7ea779c47481ea32cf:4d682ee6ae22caccda080b86e19ebbea7f52c305d5ef5fca1004c077680e579c",
+    "findings":[],
+    "residual_risks":[
+      "Hosted CI remains the final integration gate before merge.",
+      "Hot reload changes Runtime presentation and origin policy but does not mutate external DNS, certificates, or ingress infrastructure."
+    ],
+    "completed":true,
+    "non_substantive_proof":{
+      "policy":"metadata_only_review_projection",
+      "from_commit":"151bf977d7c33357ba8f7f957a23ef12fec36b01",
+      "to_commit":"4d02f41a13438cb4a1253e7ea779c47481ea32cf",
+      "from_revision":"git-blake3:151bf977d7c33357ba8f7f957a23ef12fec36b01:c0c87d8a0650b822a2afdbfaee100de79d097021ba552f999af003f4bed06412",
+      "to_revision":"git-blake3:4d02f41a13438cb4a1253e7ea779c47481ea32cf:4d682ee6ae22caccda080b86e19ebbea7f52c305d5ef5fca1004c077680e579c",
+      "changed_paths":[
+        ".csdlc/issues/551/audit.jsonl", ".csdlc/issues/551/cards/sip.values.json", ".csdlc/issues/551/cards/sor.md", ".csdlc/issues/551/cards/sor.values.json", ".csdlc/issues/551/cards/spp.values.json", ".csdlc/issues/551/cards/srp.md", ".csdlc/issues/551/cards/srp.values.json", ".csdlc/issues/551/cards/stp.values.json", ".csdlc/issues/551/cards/vpp.values.json", ".csdlc/issues/551/index.json",
+        ".csdlc/prepared/issues/551/assign-exact-head-review.json", ".csdlc/prepared/issues/551/publish.json", ".csdlc/prepared/issues/551/record-exact-head-review.json", ".csdlc/prepared/issues/551/recover-metadata-review.json"
+      ]
+    }
+  }
+}

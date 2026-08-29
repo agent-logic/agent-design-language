@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 551,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime][observatory] Make Polis name and domain config-owned and visible",
+    "slug": "runtime-polis-config-owned-name-domain",
+    "version": "v0.92.1",
+    "generation": 57
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Exactly one Runtime-owned Polis identity projection and HTML consumer; Unity remains deferred.",
+      "deliverables": [
+        "Validated Runtime init Polis identity contract",
+        "Redacted Observatory feed identity projection",
+        "HTML feed-owned identity rendering",
+        "Focused exact-head evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Startup and reload reject missing duplicated malformed or endpoint-inconsistent identity, including an advertised Observatory origin absent from the combined allowed-origin set",
+        "AC-2: REST and WSS default to the existing v2 feed, explicitly negotiate v1 and v3 projections, reject unsupported schema selectors, and expose configured Polis identity only in v3",
+        "AC-3: HTML explicitly requests v3 and renders feed values without URL inference or deployment constants",
+        "AC-4: Every Polis parameter hot-loads atomically without Runtime restart, while invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic",
+        "AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass"
+      ],
+      "dependencies": [
+        "#510 closed",
+        "#550 closed"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#551",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "demos/html-observatory/app.js"
+      ],
+      "non_goals": [
+        "Unity or issue #84 implementation",
+        "DNS TLS certificate or ingress mutation",
+        "Continuity identity mutation"
+      ]
+    }
+  }
+}

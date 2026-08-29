@@ -725,6 +725,33 @@
       "reason": "review_owner_surface_requires_review_owner_lane"
     },
     {
+      "id": "aws_runtime_platform_static",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "cloud",
+      "proof_role": "terraform_static_contract",
+      "requirement_ids": [
+        "aws_runtime_platform_static"
+      ],
+      "path_selectors": [
+        "infra/aws/modules/csm-runtime-alb/**",
+        "infra/aws/runtime/**",
+        "docs/operations/cloud/aws/runtime-platform/**",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-f/**",
+        "adl/tools/validate_aws_runtime_platform_static.sh"
+      ],
+      "path_hints": [
+        "infra/aws/modules/csm-runtime-alb/**",
+        "infra/aws/runtime/**",
+        "docs/operations/cloud/aws/runtime-platform/**",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-f/**",
+        "adl/tools/validate_aws_runtime_platform_static.sh"
+      ],
+      "command": "bash adl/tools/validate_aws_runtime_platform_static.sh --lane=all",
+      "run_command": "bash adl/tools/validate_aws_runtime_platform_static.sh --lane=all",
+      "reason": "aws_runtime_platform_surface_requires_static_terraform_and_public_edge_boundary_contracts"
+    },
+    {
       "id": "wp08_local_polis_ssm_proof",
       "lane_class": "runtime_integration",
       "default_surface": "runtime",

@@ -1,0 +1,20 @@
+{
+  "issue": 551,
+  "expected_generation": 49,
+  "expected_digest": "8633c449703841bddf94f99ee28da2367bae7fa1731e5e27aec3202ab6c9a7a6",
+  "reviewer": "fresh-session:8f7bb69d-260b-4c67-a4b6-6c91df40c2ed",
+  "assigned_by": "codex:/root",
+  "scope": [
+    ".csdlc/issues/551/audit.jsonl",
+    ".csdlc/issues/551/index.json",
+    ".csdlc/issues/551/cards/sip.values.json",
+    ".csdlc/issues/551/cards/stp.values.json",
+    ".csdlc/issues/551/cards/spp.values.json",
+    ".csdlc/issues/551/cards/vpp.values.json",
+    ".csdlc/issues/551/cards/srp.md",
+    ".csdlc/issues/551/cards/srp.values.json",
+    ".csdlc/issues/551/cards/sor.values.json",
+    ".csdlc/prepared/issues/551/assign-r2-exact-review.json",
+    ".csdlc/prepared/issues/551/record-r2-exact-review.json"
+  ]
+}

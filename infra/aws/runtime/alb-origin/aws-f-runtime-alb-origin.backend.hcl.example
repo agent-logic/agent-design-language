@@ -1,0 +1,5 @@
+bucket         = "agent-logic-terraform-state"
+key            = "v0.92.1/aws-f/runtime/alb-origin/dev.tfstate"
+region         = "us-west-2"
+dynamodb_table = "agent-logic-terraform-locks"
+encrypt        = true

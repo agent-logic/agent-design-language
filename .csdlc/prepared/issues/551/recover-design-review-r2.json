@@ -1,0 +1,12 @@
+{
+  "issue": 551,
+  "expected_phase": "implemented",
+  "expected_generation": 40,
+  "expected_digest": "3ff5a1f70ed6bc33b0adc9aa6e4466b59b45238b21d737a527bee373ec6dc95d",
+  "previous_reviewer": "fresh-session:d609345e-3915-4901-ad5f-1281b76c1566",
+  "previous_revision": "e502e926314c0472b3d8df68fa358bca8de7dc30cd72617e6278e14d69de0710",
+  "false_reviewer": "fresh-session:d609345e-3915-4901-ad5f-1281b76c1566",
+  "actor": "codex:/root",
+  "reason": "Exact-head review proved the approved design falsely described v1/v2 compatibility as an existing path and omitted allowed-origin membership.",
+  "disposition": "Replace the false compatibility claim with explicit REST/WSS negotiation and require the advertised Observatory origin to be accepted."
+}

@@ -1,0 +1,18 @@
+{
+  "issue": 551,
+  "card": "stp",
+  "expected_generation": 42,
+  "expected_digest": "d132c7702ba9e816caddf03462fd2c818169bb08e9d62161b85e16917f12fee9",
+  "actor": "codex:/root",
+  "reason": "Bind the advertised-origin consistency rule and executable v1/v2/v3 REST and WSS compatibility contract found missing in exact-head review",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: Startup and reload reject missing duplicated malformed or endpoint-inconsistent identity, including an advertised Observatory origin absent from the combined allowed-origin set",
+      "AC-2: REST and WSS default to the existing v2 feed, explicitly negotiate v1 and v3 projections, reject unsupported schema selectors, and expose configured Polis identity only in v3",
+      "AC-3: HTML explicitly requests v3 and renders feed values without URL inference or deployment constants",
+      "AC-4: Every Polis parameter hot-loads atomically without Runtime restart, while invalid edits retain the complete last-known-good snapshot with a bounded redacted diagnostic",
+      "AC-5: Exact nonzero tests formatting diff hygiene and exact-head review pass"
+    ]
+  }
+}

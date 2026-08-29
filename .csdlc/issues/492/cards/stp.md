@@ -1,0 +1,56 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 492
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Issue #492 GCP-C only; produce the organization and billing baseline plus focused proof. Do not implement GCP-D platform foundation, GCP-E GPU readiness, XCL-01 conversion, production traffic, or AWS changes.
+
+## Deliverables
+
+- infra/gcp/organization Terraform root/module for organization and billing baseline
+- docs/operations/cloud/gcp/organization-billing operator runbook
+- docs/milestones/v0.92.1/evidence/cloud/gcp-c retained proof packet
+- .csdlc/prepared/issues/492/validate-gcp-c-organization-billing.sh
+- .csdlc/prepared/issues/492/run-gcp-c-readbacks.sh
+- typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth
+
+## Acceptance
+
+1. AC-1: Every new managed project has corporate group ownership and cost attribution
+2. AC-2: Policies are scoped and impact-reviewed before any broad effect
+3. AC-3: Billing export, budgets, labels, and ownership are observable
+4. AC-4: Existing POC resources remain unchanged unless explicitly admitted
+5. AC-5: Fresh exact-head review has no actionable findings before publication
+
+## Dependencies
+
+- GCP-A #490 terminal hierarchy and cost decision
+- GCP-B #491 terminal/merged Terraform bootstrap; observed merge 75ee9e6b2888a81b355d1fb496b488329a4c7d30
+
+## Inputs
+
+- docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-C
+- docs/operations/cloud/gcp/decisions/GCP_HIERARCHY_COST_DECISION.md
+- docs/operations/cloud/gcp/terraform-bootstrap/
+- infra/gcp/bootstrap/
+- docs/milestones/v0.92.1/evidence/cloud/gcp-a/
+- docs/milestones/v0.92.1/evidence/cloud/gcp-b/
+
+## Non Goals
+
+- Production activation
+- GPU launch
+- AWS organization changes
+- GCP private platform foundation
+- Cross-cloud Runtime Terraform conversion
+- Static service-account-key creation
+- Credential disclosure

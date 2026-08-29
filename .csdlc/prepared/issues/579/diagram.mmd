@@ -1,0 +1,9 @@
+flowchart TD
+  FAIL["late review FAIL\n#489 / PR #577"] --> C579["#579 AWS-F corrective"]
+  EDGE["#122 public edge authority\nRoute53 / ACM / public exposure"] -->|read-only outputs only| C579
+  C579 --> R1["remove executable public DNS/cert ownership\nfrom AWS-F"]
+  C579 --> R2["repair proof truth\nstatic vs live AWS"]
+  C579 --> R3["structural ingress validator regression\nreject world-open ingress"]
+  C579 --> R4["enforce state isolation\nbackend / lock / account / workspace / key"]
+  C579 --> R5["bound Spot one-time node behavior\nnon-production resilient"]
+  C579 -.blocked without approval.-> PAID["paid disposable AWS proof"]

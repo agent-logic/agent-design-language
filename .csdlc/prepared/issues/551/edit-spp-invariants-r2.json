@@ -1,0 +1,21 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 43,
+  "expected_digest": "4eec0997798526ecf3214453d8723e870f034bd567efdf6ae61e6d819086bceb",
+  "actor": "codex:/root",
+  "reason": "Bind the repaired origin and executable schema-negotiation contracts as operative implementation invariants",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "The advertised Observatory public origin is an exact member of the combined allowed-origin set",
+      "REST and WSS default to v2 and explicitly negotiate v1 or v3 without inventing compatibility from constants",
+      "Every Polis parameter may hot-load without restarting the Runtime",
+      "A reload publishes one complete validated snapshot or no change",
+      "Invalid reloads preserve the complete last-known-good snapshot",
+      "Identity projection and diagnostics remain redacted",
+      "Unity remains deferred"
+    ]
+  }
+}

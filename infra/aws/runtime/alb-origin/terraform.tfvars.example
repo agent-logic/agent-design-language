@@ -1,18 +1,19 @@
 environment    = "dev"
 csm_name       = "wuji"
 zone_name      = "csm.agent-logic.ai"
-hosted_zone_id = "Z_REPLACE"
+
+expected_aws_account_id      = "123456789012"
+expected_terraform_workspace = "aws-f-runtime-alb-origin-dev"
 
 vpc_id            = "vpc-REPLACE"
 public_subnet_ids = ["subnet-REPLACE-A", "subnet-REPLACE-B"]
 
-# Normal path: leave certificate_arn null and reuse_existing_certificate true.
+# AWS-F does not create public DNS or ACM resources. #122 owns that public edge.
+# Normal path: leave certificate_arn null and reuse_existing_certificate true so
 # Terraform looks up an existing ISSUED regional ACM cert for the origin FQDN.
 certificate_arn            = null
 reuse_existing_certificate = true
 certificate_lookup_domain  = null
-create_certificate         = false
-create_dns_record          = true
 
 runtime_port       = 20997
 target_instance_id = null

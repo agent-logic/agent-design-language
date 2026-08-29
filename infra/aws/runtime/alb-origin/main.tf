@@ -1,3 +1,19 @@
+data "aws_caller_identity" "current" {}
+
+check "aws_account_identity" {
+  assert {
+    condition     = data.aws_caller_identity.current.account_id == var.expected_aws_account_id
+    error_message = "AWS-F alb-origin must run in the expected Agent Logic AWS account."
+  }
+}
+
+check "terraform_workspace" {
+  assert {
+    condition     = terraform.workspace == var.expected_terraform_workspace
+    error_message = "AWS-F alb-origin must run in the expected Terraform workspace."
+  }
+}
+
 module "runtime_alb" {
   source = "../../modules/csm-runtime-alb"
 
@@ -5,12 +21,9 @@ module "runtime_alb" {
   vpc_id                     = var.vpc_id
   subnet_ids                 = var.public_subnet_ids
   origin_fqdn                = local.origin_fqdn
-  hosted_zone_id             = var.hosted_zone_id
-  create_dns_record          = var.create_dns_record
   certificate_arn            = var.certificate_arn
   reuse_existing_certificate = var.reuse_existing_certificate
   certificate_lookup_domain  = var.certificate_lookup_domain
-  create_certificate         = var.create_certificate
   runtime_port               = var.runtime_port
   target_instance_id         = var.target_instance_id
   health_check_path          = var.health_check_path

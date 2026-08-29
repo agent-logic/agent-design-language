@@ -8,6 +8,58 @@ const OBSERVATORY_OPENAPI: &str =
 const CONTROL_RS: &str = include_str!("../src/control.rs");
 
 #[test]
+fn polis_identity_openapi_contract_is_required_and_redacted() {
+    let observatory = parse_openapi(OBSERVATORY_OPENAPI);
+    let feed = &observatory["components"]["schemas"]["ObservatoryFeed"];
+    assert_eq!(
+        feed["properties"]["schema"]["const"],
+        "adl.runtime_v3.observatory_feed.v3"
+    );
+    assert!(feed["required"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|value| value == "polis_identity"));
+    let identity = &observatory["components"]["schemas"]["PolisIdentityFeed"];
+    assert_eq!(identity["additionalProperties"], false);
+    for forbidden in ["token", "secret", "private_key", "certificate"] {
+        assert!(identity["properties"].get(forbidden).is_none());
+    }
+    for path in ["/v1/observatory", "/v1/observatory/ws"] {
+        let parameter = &observatory["paths"][path]["get"]["parameters"][0];
+        assert_eq!(parameter["name"], "schema");
+        assert_eq!(parameter["schema"]["default"], "v2");
+        assert_eq!(
+            parameter["schema"]["enum"],
+            serde_json::json!(["v1", "v2", "v3"])
+        );
+        assert_eq!(
+            observatory["paths"][path]["get"]["responses"]["400"]["$ref"],
+            "#/components/responses/UnsupportedObservatorySchema"
+        );
+    }
+    assert_eq!(
+        observatory["paths"]["/v1/observatory/ws"]["get"]["x-adl-websocket"]["serverFrames"][0]
+            ["oneOf"],
+        serde_json::json!([
+            {"$ref": "#/components/schemas/ObservatoryFeedV1Compatibility"},
+            {"$ref": "#/components/schemas/ObservatoryFeedV2Compatibility"},
+            {"$ref": "#/components/schemas/ObservatoryFeed"}
+        ])
+    );
+    assert_eq!(
+        observatory["components"]["schemas"]["ObservatoryFeedV1Compatibility"]["properties"]
+            ["schema"]["const"],
+        "adl.runtime_v3.observatory_feed.v1"
+    );
+    assert_eq!(
+        observatory["components"]["schemas"]["ObservatoryFeedV2Compatibility"]["properties"]
+            ["schema"]["const"],
+        "adl.runtime_v3.observatory_feed.v2"
+    );
+}
+
+#[test]
 fn runtime_and_observatory_openapi_contracts_are_valid_and_disjoint() {
     let runtime = parse_openapi(RUNTIME_OPENAPI);
     let observatory = parse_openapi(OBSERVATORY_OPENAPI);
@@ -106,11 +158,14 @@ fn observatory_wss_documents_real_bidirectional_frame_boundary() {
         ws["credentialRevocation"],
         "write_authority_removed_read_stream_continues"
     );
-    assert!(ws["serverFrames"]
-        .as_array()
-        .expect("serverFrames array")
-        .iter()
-        .any(|frame| frame["$ref"] == "#/components/schemas/ObservatoryFeed"));
+    assert_eq!(
+        ws["serverFrames"][0]["oneOf"],
+        serde_json::json!([
+            {"$ref": "#/components/schemas/ObservatoryFeedV1Compatibility"},
+            {"$ref": "#/components/schemas/ObservatoryFeedV2Compatibility"},
+            {"$ref": "#/components/schemas/ObservatoryFeed"}
+        ])
+    );
     assert_eq!(
         ws["signedTextControlAuthority"],
         "signed_control_command_only"

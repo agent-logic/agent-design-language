@@ -1,0 +1,14 @@
+gcp_c_readback_lane=inventory-readonly
+project_describe_readable=true
+billing_project_readable=true
+folder_describe_readable=not_configured
+organization_policy_readable=not_configured
+cloud_mutation=false
+credential_material_retained=false
+redaction=names_ids_and_credential_material_not_printed
+WARNING: Could not setup log file in /Users/daniel/.config/gcloud/logs, (PermissionError: [Errno 1] Operation not permitted: '/Users/daniel/.config/gcloud/logs/2026.08.28/10.09.18.996146.log'.
+The configuration directory may not be writable. To learn more, see https://cloud.google.com/sdk/docs/configurations#creating_a_configuration
+WARNING: Could not setup log file in /Users/daniel/.config/gcloud/logs, (PermissionError: [Errno 1] Operation not permitted: '/Users/daniel/.config/gcloud/logs/2026.08.28/10.09.19.408562.log'.
+The configuration directory may not be writable. To learn more, see https://cloud.google.com/sdk/docs/configurations#creating_a_configuration
+WARNING: Could not setup log file in /Users/daniel/.config/gcloud/logs, (PermissionError: [Errno 1] Operation not permitted: '/Users/daniel/.config/gcloud/logs/2026.08.28/10.09.20.239352.log'.
+The configuration directory may not be writable. To learn more, see https://cloud.google.com/sdk/docs/configurations#creating_a_configuration

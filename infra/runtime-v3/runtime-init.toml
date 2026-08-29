@@ -25,6 +25,12 @@ private_key_path = "/var/lib/adl/runtime-v3/tls/private-key.pem"
 trust_roots_path = "/var/lib/adl/runtime-v3/tls/trust-roots.pem"
 server_name = "runtime.dev.agent-logic.ai"
 
+[polis]
+id = "agent-logic-dev"
+display_name = "Agent Logic Development Polis"
+public_domain = "runtime.dev.agent-logic.ai"
+observatory_public_origin = "https://observatory.dev.agent-logic.ai"
+
 [observatory]
 allowed_origins = [
   "https://observatory.dev.agent-logic.ai",

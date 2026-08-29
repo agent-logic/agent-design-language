@@ -1,0 +1,11 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 41,
+  "expected_digest": "ca1b11ee8d33ceaf0d4c9cc0b1be552fa0d717c1c1e4daf420d6534498924e46",
+  "actor": "codex:/root",
+  "reason": "Refresh the authored design identity after incorporating the exact-head origin-consistency and schema-compatibility review findings",
+  "operation": {
+    "operation": "refresh_authored_design_after_recovery"
+  }
+}

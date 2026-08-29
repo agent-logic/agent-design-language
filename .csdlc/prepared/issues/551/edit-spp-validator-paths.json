@@ -1,0 +1,29 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "3d6eaa82a5187099b9e3c6a5f10b92472093fcc4f08ad9ff9fc6a5226b95cf7f",
+  "actor": "codex:/root",
+  "reason": "Declare the exact issue-owned nonzero proof entrypoints rather than only their parent directory.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/polis_identity.test.mjs",
+      ".csdlc/prepared/issues/551/validate-runtime-polis.sh",
+      ".csdlc/prepared/issues/551/validate-html-polis.sh",
+      ".csdlc/evidence/551"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "issue": 551,
+  "card": "spp",
+  "expected_generation": 11,
+  "expected_digest": "67098d07631ccfda82c910ef80092694f78cf37a4a95b5d253b00ec63d6d9569",
+  "actor": "codex:/root",
+  "reason": "Replan #551 around full atomic Polis hot reload without Runtime restart.",
+  "operation": {
+    "operation": "replan",
+    "field": "plan_summary",
+    "value": "Add the required validated Polis init contract, project it through the Runtime feed, atomically hot-load every Polis parameter without restart, update HTML rendering, and retain focused review evidence."
+  }
+}

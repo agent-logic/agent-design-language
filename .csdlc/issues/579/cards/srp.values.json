@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 579,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS-F corrective] Repair runtime platform edge exposure and proof gaps",
+    "slug": "aws-f-corrective-runtime-platform-edge-proof",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/579\n.csdlc/prepared/issues/579/validate-aws-f-corrective.sh\nadl/config/validation_lane_selector.v0.91.6.json\nadl/tools/validate_aws_runtime_platform_static.sh\nadl/tools/test_validation_manager.sh\nadl/tools/test_ci_path_policy.sh\ninfra/aws/modules/csm-runtime-alb\ninfra/aws/runtime\ndocs/operations/cloud/aws/runtime-platform/README.md\ndocs/milestones/v0.92.1/evidence/cloud/aws-f/aws-f-runtime-platform-proof.md",
+      "review_revision": "git-blake3:54e76de846ac75ae11d8b3f47faee486f6365ad4:307885dc2ada652a208ca354b283d40f2933b54c3aeee49831ee22761ee65780",
+      "reviewer": "fresh-session:7bdf9090-b7cd-4804-931c-188a20996230",
+      "review_prompts": [
+        "Does the corrective remove AWS-F public Route53/ACM ownership and leave public exposure to #122?",
+        "Are local/static proof, deferred live AWS proof, deployment, cleanup, rollback, observability, artifact wiring, and cost/deadline claims truthful?",
+        "Does the validator structurally reject forbidden world-open Runtime ingress and avoid egress false exclusions?",
+        "Are backend, locking, account identity, workspace, and key isolation enforced or fail-closed?",
+        "Is one-time Spot instance target behavior bounded as non-production-resilient?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "No live AWS proof was run or claimed; #579 remains a static/local corrective validation and path-policy repair.",
+        "Review verified PR #583 head matched the exact reviewed commit and that runtime/workspace coverage is skipped for the AWS runtime-platform static lane."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
