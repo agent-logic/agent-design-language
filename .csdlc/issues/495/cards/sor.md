@@ -12,19 +12,58 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implement XCL-01 cross-cloud Runtime Terraform conversion with a portable denominator contract, explicit AWS/GCP Terraform surfaces, static proof, and paid/live proof gating.
 
 ## Artifacts
 
-- none
+- infra/runtime-portable/README.md
+- infra/runtime-portable/runtime-workload-contract.v1.json
+- infra/aws/runtime/xcl-01/README.md
+- infra/aws/runtime/xcl-01/main.tf
+- infra/aws/runtime/xcl-01/variables.tf
+- infra/aws/runtime/xcl-01/outputs.tf
+- infra/aws/runtime/xcl-01/versions.tf
+- infra/gcp/workloads/xcl-01/README.md
+- infra/gcp/workloads/xcl-01/main.tf
+- infra/gcp/workloads/xcl-01/variables.tf
+- infra/gcp/workloads/xcl-01/outputs.tf
+- infra/gcp/workloads/xcl-01/versions.tf
+- docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md
+- docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh
 
 ## Execution
 
-- none
+- Added the provider-neutral Runtime workload contract for the admitted #194/#268 denominator.
+- Added AWS Terraform conversion surfaces that preserve private network, SSM endpoint, S3 gateway, cleanup, rollback, and Runtime host shape semantics without retiring CloudFormation.
+- Added GCP Terraform conversion surfaces that expose service-account, firewall, private-access, disk, startup-script, label, and readiness-marker differences explicitly.
+- Added the retained XCL-01 proof packet and governed static validator with no credential or paid cloud execution.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "terraform",
+      "fmt",
+      "-check",
+      "infra/aws/runtime/xcl-01",
+      "infra/gcp/workloads/xcl-01"
+    ],
+    "purpose": "Run Terraform formatting check.",
+    "outcome": "passed",
+    "evidence_ref": "terraform-fmt.log"
+  },
+  {
+    "command": [
+      "bash",
+      "docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh",
+      "--lane=all"
+    ],
+    "purpose": "Run the issue-owned governed XCL-01 validator.",
+    "outcome": "passed",
+    "evidence_ref": "xcl-01-governed-validator.log"
+  }
+]
 
 ## Integration
 
