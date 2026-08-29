@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/src/provider/profiles.rs
-adl/src/provider/http_family.rs
-adl/src/provider/http_family/config.rs
-adl/tests/provider_tests/profiles.rs
-adl/tests/provider_tests/http_family.rs
-docs/provider/inference-profiles.md
-docs/tooling/PROVIDER_SETUP.md
-docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md
-.csdlc/prepared/issues/578/reviewer-selection-smoke.sh
-.csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md
+
 
 ## Prompts
 
@@ -41,14 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live Z.ai dispatch remains credential-gated and was not claimed because no operator-approved live Z.ai credential was used.
-- OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.
-- Fresh review did not rerun full test suites; it performed scoped diff and consistency review after the origin/main refresh.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5")
+Revision: None
 
-Reviewer: Some("fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad")
+Reviewer: None
 
-Result: pass
+Result: pre_review

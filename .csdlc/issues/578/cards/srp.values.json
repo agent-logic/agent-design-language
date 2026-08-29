@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider/profiles.rs\nadl/src/provider/http_family.rs\nadl/src/provider/http_family/config.rs\nadl/tests/provider_tests/profiles.rs\nadl/tests/provider_tests/http_family.rs\ndocs/provider/inference-profiles.md\ndocs/tooling/PROVIDER_SETUP.md\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\n.csdlc/prepared/issues/578/reviewer-selection-smoke.sh\n.csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md",
-      "review_revision": "git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5",
-      "reviewer": "fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does `z_ai:glm-5.3-flash` use the existing #514 profile machinery rather than ad hoc model routing?",
         "Are GLM-5.3-Flash parameters source-grounded and validated before network dispatch?",
@@ -24,12 +24,8 @@
         "Did the patch avoid #446/#455 scope?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Live Z.ai dispatch remains credential-gated and was not claimed because no operator-approved live Z.ai credential was used.",
-        "OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.",
-        "Fresh review did not rerun full test suites; it performed scoped diff and consistency review after the origin/main refresh."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

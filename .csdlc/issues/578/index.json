@@ -4,64 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
-  "phase": "published",
-  "generation": 13,
-  "digest": "85c2c346f8e16e9e433a6ebcfa0f8d46801cd48b15bfa65bfd070ab22bc370c3",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "c3c5c07220136a1431b177a7b0a87945e41b925991b7f551f5a45cc846746299",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
-  "review_assignment": {
-    "reviewer": "fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad",
-    "assigned_by": "codex:root",
-    "revision": "git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5",
-    "scope": [
-      "adl/src/provider/profiles.rs",
-      "adl/src/provider/http_family.rs",
-      "adl/src/provider/http_family/config.rs",
-      "adl/tests/provider_tests/profiles.rs",
-      "adl/tests/provider_tests/http_family.rs",
-      "docs/provider/inference-profiles.md",
-      "docs/tooling/PROVIDER_SETUP.md",
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
-      ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
-      ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad",
-    "scope": [
-      "adl/src/provider/profiles.rs",
-      "adl/src/provider/http_family.rs",
-      "adl/src/provider/http_family/config.rs",
-      "adl/tests/provider_tests/profiles.rs",
-      "adl/tests/provider_tests/http_family.rs",
-      "docs/provider/inference-profiles.md",
-      "docs/tooling/PROVIDER_SETUP.md",
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
-      ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
-      ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
-    ],
-    "reviewed_revision": "git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5",
-    "findings": [],
-    "residual_risks": [
-      "Live Z.ai dispatch remains credential-gated and was not claimed because no operator-approved live Z.ai credential was used.",
-      "OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.",
-      "Fresh review did not rerun full test suites; it performed scoped diff and consistency review after the origin/main refresh."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 578,
-    "pull_request": 582,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/582",
-    "base": "main",
-    "head": "codex/578-glm-5-3-flash-provider-profile",
-    "revision": "git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "da1934531badf3ed52902ab46f41664c6d3da81e4d500d15117656ff24d31801",
+      "values_digest": "53bcda143f8e1c642149be020b7a3e40593bcd23433f8d148116acae00416660",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "ffa7c5cfacb9d4e1f8509278a8590439fb921145d336bf89ff434c5fce7fb650",
+      "values_digest": "09ddeccaf8e4d417054b61f3a2f695afb04061092864950e0ea7a8292e1dc3bc",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "2f69d343abe5c68bf337f5cc49575043b8d7e5fa78dfdba52cbfbd7ab63da9e9",
+      "values_digest": "ceff256bcdefc3ddec25093a6e68e3c60c2c52f79603dfc20564ddc33556c669",
       "rendered_digest": "6d7f4116285b862dcdf00e96174502f8d517bd24b6223155e06e2b7f2141c0bc",
       "ast_digest": "7256508d231339fa26e20251939b3735270f4f6b6d4ae1d207f471484442b3c8"
     },
     "vpp": {
-      "values_digest": "9a17926c7765de2d76461dd53fd1e6c7b348a419c53d63430e742fb478643153",
+      "values_digest": "ea0103a4f977d404ed702bd3668970464597c97a2c309825b425f81d222c13c7",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "3266755195b7866b321dedb1a3f04f6cafca33f64bbf511b18dea32ba6e993cf",
-      "rendered_digest": "5da660a45b38e94a90d002a1803ce6334257b949776a79ca28773b42a5149560",
-      "ast_digest": "89285c8161ed00469f41096ef326f8c38ed5e08ccb9509b1c974b96cb112804d"
+      "values_digest": "05a0cd6972cfb7a227a344aed84c53a165dfbe665bc9a0244387db35d81836d9",
+      "rendered_digest": "1359cc8a5c15fa8b18dd71821bd973a499db698e104834595fca3954dd411940",
+      "ast_digest": "00a30d8a0a7c0f0df09113d27b4710e50e2aef19e2ae89786f1af07f74080aa2"
     },
     "sor": {
-      "values_digest": "7e8afed5aa70c252bfa1e937b673f0e8304f6390d2ec9bc0d54ac685a9bca4aa",
-      "rendered_digest": "8c451ec83d3ad65da40f3edcdd0830a92f3b1de1a548d22dae466b105b3f1689",
-      "ast_digest": "38bf052d06236f96a07950f1a4604e9092d65c42a7b1615ab44a84b6d4fe132c"
+      "values_digest": "5a0b56e323036dfa52fc49c22b45e002be3ddfdffa1d6c0673c81f3c6d91dcdd",
+      "rendered_digest": "e9d9cb599459134c0909e71dcb33eafff25956d2391efeb518fd3f19cb439398",
+      "ast_digest": "064d683d8838f46250a6672c27240fa6edc47b74c30efdefb70d7c2645344df0"
     }
   },
   "transitions": [
@@ -175,6 +125,13 @@
       "to": "published",
       "actor": "codex:root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "Recover #578 from stale published review after repairing GLM-5.3-Flash endpoint preservation and runtime adapter callability."
     }
   ],
   "audit": [
@@ -324,6 +281,20 @@
       "actor": "codex:root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "Recover #578 from stale published review after repairing GLM-5.3-Flash endpoint preservation and runtime adapter callability.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "Replace #578 execution truth after repairing the GLM-5.3-Flash endpoint preservation and runtime adapter call path.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a general direct Z.ai GLM-5.3-Flash provider profile, preserved existing Z.ai GLM-5 endpoints, and wired the runtime adapter so reviewer trials can pass bounded GLM-5.3-Flash parameters into the hosted request path.\",\"changes\":[\"Added `z_ai:glm-5.3-flash` as a first-class provider profile resolving to `hosted:adl-z-ai:glm-5.3-flash` and provider model id `glm-5.3-flash`.\",\"Scoped the new `https://api.z.ai/api/paas/v4/chat/completions` endpoint to GLM-5.3-Flash while preserving the established `https://open.bigmodel.cn/api/paas/v4/chat/completions` endpoint for existing `z_ai:glm-5` and `z_ai:glm-5-current` profiles.\",\"Materialized GLM-5.3-Flash defaults for `reasoning_effort=max`, `clear_thinking=false`, `temperature=1.0`, `top_p=0.95`, and bounded output tokens.\",\"Added runtime adapter request fields for reasoning effort, thinking cleanup, temperature, and top-p, with fail-closed validation for invalid GLM-5.3-Flash overrides before network dispatch.\",\"Added a credential-gated reviewer viability smoke script that uses `reasoning_effort=low`, `clear_thinking=true`, low token budget, and a 45-second timeout for fast reviewer trials.\",\"Documented the direct profile, source rationale, provider-variant boundaries, preserved legacy endpoint behavior, and the bind/prepared-helper materialization tooling issue.\"],\"artifacts\":[\"adl/src/provider/profiles.rs\",\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/config.rs\",\"adl/src/provider_adapter.rs\",\"adl/src/provider_communication.rs\",\"adl/src/agent_comms.rs\",\"adl/src/agent_comms/dispatch/coding.inc\",\"adl/tests/provider_tests/profiles.rs\",\"adl/tests/provider_tests/http_family.rs\",\"docs/provider/inference-profiles.md\",\"docs/tooling/PROVIDER_SETUP.md\",\"docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\",\".csdlc/prepared/issues/578/reviewer-selection-smoke.sh\",\".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\",\".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md\"],\"validation\":[{\"command\":[\"cargo fmt --manifest-path adl/Cargo.toml --check\"],\"purpose\":\"Verify Rust formatting for the touched provider and adapter code.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\"cargo test --manifest-path adl/Cargo.toml provider_communication::tests::request_validation_rejects_empty_and_zero_policy_fields\"],\"purpose\":\"Prove provider request validation rejects invalid GLM-5.3-Flash token, reasoning, temperature, and top-p overrides.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\"cargo test --manifest-path adl/Cargo.toml provider_adapter::tests::zai_glm_5_3_flash_adapter_request_uses_documented_defaults_and_fast_overrides\"],\"purpose\":\"Prove adapter materialization emits documented GLM-5.3-Flash defaults, accepts fast reviewer overrides, and keeps legacy GLM-5 on the established endpoint.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\"cargo test --manifest-path adl/Cargo.toml --test provider_tests z_ai_glm_5_3_flash\",\"cargo test --manifest-path adl/Cargo.toml --test provider_tests expand_provider_profiles_accepts_zai_glm5_profile\"],\"purpose\":\"Prove the new profile expands for reviewer selection and existing Z.ai GLM-5 profile expansion preserves its endpoint.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\"],\"purpose\":\"Exercise the reviewer-viability smoke harness; live provider dispatch remains credential-gated.\",\"outcome\":\"deferred\",\"evidence_ref\":\"skipped with `ZAI_API_KEY not set`; no live Z.ai request was performed\"},{\"command\":[\"git diff --check origin/main...HEAD\",\"git diff --check\"],\"purpose\":\"Verify whitespace hygiene for the exact PR diff and uncommitted lifecycle delta.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"}]}"
     }
   ]
 }
