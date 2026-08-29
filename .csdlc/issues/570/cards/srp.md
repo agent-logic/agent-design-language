@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-AGENTS.md
-docs/onboarding.md
-csdlc-v3/README.md
-csdlc-v3/AGENTS.md
-csdlc-v2/AGENTS.md
-csdlc-v2/operator/SKILLS.md
-csdlc-v2/operator/skills
-.csdlc/issues/570
-.csdlc/prepared/issues/570
-.csdlc/evidence/570
+
 
 ## Prompts
 
@@ -41,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Publication was not present during review, so the PR body closing keyword remains a publication-time check; the PR must include Closes #570.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:88a7e2f86589020ef6f753377941c96a908da94c:372c1ad4a0a6b8709ffd240c1245bd5e626c1ac1a27b441a092e12ca2f7905db")
+Revision: None
 
-Reviewer: Some("subagent:issue_570_final_review_3")
+Reviewer: None
 
-Result: pass
+Result: pre_review

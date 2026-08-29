@@ -4,62 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
-  "phase": "published",
-  "generation": 10,
-  "digest": "7155902b8c51823c3b66296c11869570b4affd8a73abaabd65d2a88f64edfaf4",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "bc8f7c2ec6f53adec3fb87492bb3711f5ee90878170e0f89d33e1d678e7aaf3a",
   "branch": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-570-v3-g-docs-skill-cutover-readiness-exec",
-  "review_assignment": {
-    "reviewer": "subagent:issue_570_final_review_3",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:88a7e2f86589020ef6f753377941c96a908da94c:372c1ad4a0a6b8709ffd240c1245bd5e626c1ac1a27b441a092e12ca2f7905db",
-    "scope": [
-      "AGENTS.md",
-      "docs/onboarding.md",
-      "csdlc-v3/README.md",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/operator/SKILLS.md",
-      "csdlc-v2/operator/skills",
-      ".csdlc/issues/570",
-      ".csdlc/prepared/issues/570",
-      ".csdlc/evidence/570"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue_570_final_review_3",
-    "scope": [
-      "AGENTS.md",
-      "docs/onboarding.md",
-      "csdlc-v3/README.md",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/operator/SKILLS.md",
-      "csdlc-v2/operator/skills",
-      ".csdlc/issues/570",
-      ".csdlc/prepared/issues/570",
-      ".csdlc/evidence/570"
-    ],
-    "reviewed_revision": "git-blake3:88a7e2f86589020ef6f753377941c96a908da94c:372c1ad4a0a6b8709ffd240c1245bd5e626c1ac1a27b441a092e12ca2f7905db",
-    "findings": [],
-    "residual_risks": [
-      "Publication was not present during review, so the PR body closing keyword remains a publication-time check; the PR must include Closes #570."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 570,
-    "pull_request": 584,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/584",
-    "base": "main",
-    "head": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
-    "revision": "git-blake3:88a7e2f86589020ef6f753377941c96a908da94c:372c1ad4a0a6b8709ffd240c1245bd5e626c1ac1a27b441a092e12ca2f7905db",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "43aaabaeaba6b3924151580f350ccf06bb94f52d59e873a883f3977d9cd883c0",
+      "values_digest": "7d73275516448bf1920e70f4fe0df60e8d13a2dd0fd7ab6d592a8a6c7fb46bf6",
       "rendered_digest": "a0f1df29d26efffed38f38ce76e54ef72b3cd61cd9b241a64a5fadf2ec0c47c0",
       "ast_digest": "a8c869961fed96df668604afb6d345f5cd78825095d561726245bb830be0eabd"
     },
     "stp": {
-      "values_digest": "2193928f334eb4474d6547558350e1c9bbac601bbac7385d80645918384c5b3d",
+      "values_digest": "5b9a063df305a6d8ab1e235ad60da90da028e153ffe8e82102d8ae7563c661e1",
       "rendered_digest": "78b657196e5f4dd108a92b646c4577b6fc27825d5a621c2f854bd76ba888b968",
       "ast_digest": "99c410d85adc5562f0ecb8c8c15e6da3579ccf3ee4d0ec07929946c85d1dd522"
     },
     "spp": {
-      "values_digest": "a9f945d761feb3e844ef74716003e0163c6c1da4db801e1e5a26706df33c866a",
+      "values_digest": "12d3182efe9abb3f6ac45b0d089d11195ef90c44874ad0d49fac4542765febc3",
       "rendered_digest": "c250fd9ac553a4733e8093e4b2b750710b4ea2fb3d0a6d1321d41553e13520b7",
       "ast_digest": "9c27b9c89b0142a75c195f07b1de413dff533b464f784fb14d107cf09fdab6fa"
     },
     "vpp": {
-      "values_digest": "fd8b3ebcae0ec04ceacc67922155291ffcd3d6319cab9d0b3705b90e8c3eecf9",
+      "values_digest": "11b5283fee899ae1f14b759b26bd4124fec0f60324dccc37161f745aec0a94ed",
       "rendered_digest": "2fd6ab6cb6f8732ad50836a77cc927def7cec3c26946e8e98c91bbb830389e51",
       "ast_digest": "24a7e5bd76d1175940f4b16035da5e2e3dbb727dba6b895cf8489e9a5ae883c5"
     },
     "srp": {
-      "values_digest": "7817f886e2575eefabbfb937fe908c689d938ae413d2d7c25ae59896ac25919c",
-      "rendered_digest": "f164a1cfacfee47efa5302b0f113b0930b880df4c2fdd0d258b8f9629bb6bb3c",
-      "ast_digest": "6ad12efacbebd8a4daa5a2344ff847a1e29e7281fbd258bae806ae4dea86fd27"
+      "values_digest": "e2cdfd6c348bda75e98915b4fede8890d91bc6f9accc7770e606eb95be69b381",
+      "rendered_digest": "52b999a47c7895de7b5c42826b75d3b1d8df5e1fcb30424afec407c883d59ffc",
+      "ast_digest": "ef55d8449d7c0898af93df2cb6c0d6641384900683ce30133405f040ae81d117"
     },
     "sor": {
-      "values_digest": "79a109c8f6a9613ca21a8dd12817b6196f64bf584ef9e1be40036eda5a058d8d",
-      "rendered_digest": "25b42a9de5fdbca10b69d95c61e1979e3c9b4dc5093b4ab3b0d09bf5b60c303d",
-      "ast_digest": "f8e383ae86e7e8760f5048673243782a80b620897c1f410d31a6babd5386cd43"
+      "values_digest": "6a8ed952d995875cedd02eabfdb33f787f9a2efa93b3c6c246d12f5bd208c929",
+      "rendered_digest": "12ca3dfa7474897c580ecef6c0b42a898d177e0b20ed465279680e1d694b7f66",
+      "ast_digest": "c5014d82c970206230145167ebf2ec1846cf67c7058758dfac2b12db15785727"
     }
   },
   "transitions": [
@@ -138,6 +90,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #570 after PR #584 exact-head review found stale-route and SOR-truth defects requiring bounded remediation before republication."
     }
   ],
   "audit": [
@@ -245,6 +204,27 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "Recover #570 after PR #584 exact-head review found stale-route and SOR-truth defects requiring bounded remediation before republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "Repair stale SOR card status after publication review: the SOR records execution, validation, PR-open integration, and publication-ready truth, so pre_phase is no longer truthful.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "Record bounded PR #584 review remediation evidence after recovering stale publication truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Align C-SDLC v3 documentation and skill guidance for cutover readiness while preserving C-SDLC v2 as the live lifecycle authority until V3-F/#505, including PR #584 stale-route remediation.\",\"changes\":[\"Updated root AGENTS.md and docs/onboarding.md to make the until-V3-F/#505 v2 authority boundary explicit and add the three-minute prepared-v3 issue start target.\",\"Expanded csdlc-v3/README.md with current V3-A/B/C/D state, the #571 corrective gate, the clean replacement target, pre-#505 non-goals, and focused proof commands.\",\"Updated csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and every checked-in v2 operator skill with until-cutover v2 authority and v3 construction non-authority guidance.\",\"Converted tracked docs/tooling/adl_pr_cycle_skill.md from executable compatibility procedure to historical-only blocked guidance that routes current work to typed C-SDLC v2 owner skills.\",\"Updated docs/architecture/ADL_ARCHITECTURE.md so the legacy pr init/pr ready/pr run/pr finish/pr janitor/pr closeout flow is historical orientation only, not the current default lifecycle.\",\"Expanded the docs route validator to include architecture guidance and tracked adl_pr_cycle guidance, and made stale-route rejection line-aware so historical/prohibited mentions do not false-fail.\",\"Expanded the skill-guidance validator to include adl_pr_cycle, removed machine-specific hard-coded skill paths, and made installed-skill checks use CODEX_SKILLS_ROOT or HOME as local operator evidence.\",\"Checked installed operator guidance and applied matching local-only wording to /Users/daniel/.codex/skills/pr-janitor/SKILL.md and /Users/daniel/.codex/skills/adl_pr_cycle/SKILL.md; these paths are outside the repository and are not part of the commit.\",\"Recovered stale published review truth after PR #584 exact-head findings, repaired the SOR status from pre_phase to ready through typed csdlc-edit, and retained the recovery requests as issue-local evidence.\"],\"artifacts\":[\"AGENTS.md\",\"docs/onboarding.md\",\"docs/architecture/ADL_ARCHITECTURE.md\",\"docs/tooling/adl_pr_cycle_skill.md\",\"csdlc-v3/README.md\",\"csdlc-v2/AGENTS.md\",\"csdlc-v2/operator/SKILLS.md\",\"csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\",\".csdlc/prepared/issues/570/validate-authority-boundary.sh\",\".csdlc/prepared/issues/570/validate-docs-routes.sh\",\".csdlc/prepared/issues/570/validate-skill-guidance.sh\",\".csdlc/prepared/issues/570/recover-review-after-pr584-findings.json\",\".csdlc/prepared/issues/570/repair-sor-status-ready.json\",\".csdlc/prepared/issues/570/replace-sor-execution-after-pr584-findings.json\",\"/Users/daniel/.codex/skills/pr-janitor/SKILL.md\",\"/Users/daniel/.codex/skills/adl_pr_cycle/SKILL.md\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/570/validate-authority-boundary.sh\"],\"purpose\":\"Run the issue-owned authority-boundary scan.\",\"outcome\":\"passed\",\"evidence_ref\":\"authority-boundary-scan.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/570/validate-docs-routes.sh\"],\"purpose\":\"Run the expanded docs route scan including architecture and tracked adl_pr_cycle guidance.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs-stale-route-scan-pr584-remediation.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/570/validate-skill-guidance.sh\"],\"purpose\":\"Run the expanded skill guidance scan including installed adl_pr_cycle when local skills are present.\",\"outcome\":\"passed\",\"evidence_ref\":\"skill-guidance-scan-pr584-remediation.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Run exact-range diff hygiene against the PR base.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene-exact-range-pr584-remediation.log\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"570\"],\"purpose\":\"Run typed C-SDLC validation after review recovery and SOR repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-validate-pr584-remediation.log\"}]}"
     }
   ]
 }

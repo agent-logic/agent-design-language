@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-G] C-SDLC v3 docs and skill cutover readiness",
     "slug": "v0-92-1-v3-g-c-sdlc-v3-docs-and-skill-cutover-readiness",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 13
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "AGENTS.md\ndocs/onboarding.md\ncsdlc-v3/README.md\ncsdlc-v3/AGENTS.md\ncsdlc-v2/AGENTS.md\ncsdlc-v2/operator/SKILLS.md\ncsdlc-v2/operator/skills\n.csdlc/issues/570\n.csdlc/prepared/issues/570\n.csdlc/evidence/570",
-      "review_revision": "git-blake3:88a7e2f86589020ef6f753377941c96a908da94c:372c1ad4a0a6b8709ffd240c1245bd5e626c1ac1a27b441a092e12ca2f7905db",
-      "reviewer": "subagent:issue_570_final_review_3",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Do the changed docs and skills consistently preserve v2 as live authority until explicit V3-F/#505 cutover?",
         "Do any updated surfaces accidentally claim v3 can mutate lifecycle state before cutover?",
@@ -24,10 +24,8 @@
         "Are local-only installed PR skill checks or updates disclosed truthfully?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Publication was not present during review, so the PR body closing keyword remains a publication-time check; the PR must include Closes #570."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -1,0 +1,13 @@
+{
+  "issue": 570,
+  "card": "sor",
+  "expected_generation": 11,
+  "expected_digest": "82394f4bd5ed21ccedd3eb36cd6436e4bec316dfe111743ba38c9552c7d1f8d0",
+  "claim_id": "claim-570-v3-g-docs-skill-cutover-readiness",
+  "actor": "codex:worker-6",
+  "reason": "Repair stale SOR card status after publication review: the SOR records execution, validation, PR-open integration, and publication-ready truth, so pre_phase is no longer truthful.",
+  "operation": {
+    "operation": "advance_status",
+    "status": "ready"
+  }
+}
