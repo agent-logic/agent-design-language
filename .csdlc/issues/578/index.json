@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
   "phase": "published",
-  "generation": 10,
-  "digest": "a5d83523015c0295e5b6b6fc8c390d901becc3c4224bfa40d7a0c41ffe8e6056",
+  "generation": 13,
+  "digest": "85c2c346f8e16e9e433a6ebcfa0f8d46801cd48b15bfa65bfd070ab22bc370c3",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
   "review_assignment": {
-    "reviewer": "fresh-session:3ffdceb7-b37e-4c1d-90f6-bb074321da2d",
+    "reviewer": "fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad",
     "assigned_by": "codex:root",
-    "revision": "git-blake3:baa19909b0c1213cb70d9a3c0611eef9b7290555:2a718cbb3a03f82518db862e45b9a9a4df429e1cbbd45ed51d9b8b3205db62bd",
+    "revision": "git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5",
     "scope": [
       "adl/src/provider/profiles.rs",
       "adl/src/provider/http_family.rs",
@@ -27,7 +27,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:3ffdceb7-b37e-4c1d-90f6-bb074321da2d",
+    "reviewer": "fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad",
     "scope": [
       "adl/src/provider/profiles.rs",
       "adl/src/provider/http_family.rs",
@@ -40,11 +40,12 @@
       ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
       ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
     ],
-    "reviewed_revision": "git-blake3:baa19909b0c1213cb70d9a3c0611eef9b7290555:2a718cbb3a03f82518db862e45b9a9a4df429e1cbbd45ed51d9b8b3205db62bd",
+    "reviewed_revision": "git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5",
     "findings": [],
     "residual_risks": [
       "Live Z.ai dispatch remains credential-gated and was not claimed because no operator-approved live Z.ai credential was used.",
-      "OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578."
+      "OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.",
+      "Fresh review did not rerun full test suites; it performed scoped diff and consistency review after the origin/main refresh."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -56,7 +57,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/582",
     "base": "main",
     "head": "codex/578-glm-5-3-flash-provider-profile",
-    "revision": "git-blake3:baa19909b0c1213cb70d9a3c0611eef9b7290555:2a718cbb3a03f82518db862e45b9a9a4df429e1cbbd45ed51d9b8b3205db62bd",
+    "revision": "git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -74,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5c0170ff68b307d88d3442416e20be9d0fe83e58160682f960707e6c9ec0e11a",
+      "values_digest": "da1934531badf3ed52902ab46f41664c6d3da81e4d500d15117656ff24d31801",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "168ccd4308ab1d7ab8d4c29dc86ffeba132c4154856b3779f72cda180e63e08f",
+      "values_digest": "ffa7c5cfacb9d4e1f8509278a8590439fb921145d336bf89ff434c5fce7fb650",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "f1aad2c231b7bcaf371008e2fdad9c80309f34d30866126ebe43ed324891d3f3",
+      "values_digest": "2f69d343abe5c68bf337f5cc49575043b8d7e5fa78dfdba52cbfbd7ab63da9e9",
       "rendered_digest": "6d7f4116285b862dcdf00e96174502f8d517bd24b6223155e06e2b7f2141c0bc",
       "ast_digest": "7256508d231339fa26e20251939b3735270f4f6b6d4ae1d207f471484442b3c8"
     },
     "vpp": {
-      "values_digest": "f4eb67445e896be47fa7c281dae4dd62353fc0e740e4bc8ed7588327b7ffd90a",
+      "values_digest": "9a17926c7765de2d76461dd53fd1e6c7b348a419c53d63430e742fb478643153",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "4873506476981d2365b14d44c6d7e7f0f321831f27feaba05e4e5c8ca68d1d81",
-      "rendered_digest": "e20d40f072bfe3990eee34bc8b4da28972be5f7adee79521ad65e3a935f53b00",
-      "ast_digest": "5a586affa1822a87b96d1a0d93c9cfbc4851b8a9d1d72610a9e5fc523e0fd968"
+      "values_digest": "3266755195b7866b321dedb1a3f04f6cafca33f64bbf511b18dea32ba6e993cf",
+      "rendered_digest": "5da660a45b38e94a90d002a1803ce6334257b949776a79ca28773b42a5149560",
+      "ast_digest": "89285c8161ed00469f41096ef326f8c38ed5e08ccb9509b1c974b96cb112804d"
     },
     "sor": {
-      "values_digest": "4445222f4fcf451ba8b7e8ebc6883c5b82803de6927f4b71d252680a072ceb8a",
+      "values_digest": "7e8afed5aa70c252bfa1e937b673f0e8304f6390d2ec9bc0d54ac685a9bca4aa",
       "rendered_digest": "8c451ec83d3ad65da40f3edcdd0830a92f3b1de1a548d22dae466b105b3f1689",
       "ast_digest": "38bf052d06236f96a07950f1a4604e9092d65c42a7b1615ab44a84b6d4fe132c"
     }
@@ -149,6 +150,27 @@
     },
     {
       "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "Refresh #578 after merging current origin/main so PR #582 includes the base-side Runtime guardian_cli fixture remediation for the previously failing coverage lane. The #578 substantive diff against current origin/main remains provider-profile, tests, docs, and issue-578 lifecycle artifacts only."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:root",
@@ -264,6 +286,41 @@
     {
       "sequence": 16,
       "generation": 10,
+      "actor": "codex:root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "Refresh #578 after merging current origin/main so PR #582 includes the base-side Runtime guardian_cli fixture remediation for the previously failing coverage lane. The #578 substantive diff against current origin/main remains provider-profile, tests, docs, and issue-578 lifecycle artifacts only.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
       "actor": "codex:root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"

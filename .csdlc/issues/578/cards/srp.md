@@ -43,11 +43,12 @@ Every actionable finding requires a terminal disposition.
 
 - Live Z.ai dispatch remains credential-gated and was not claimed because no operator-approved live Z.ai credential was used.
 - OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.
+- Fresh review did not rerun full test suites; it performed scoped diff and consistency review after the origin/main refresh.
 
 ## Review Result
 
-Revision: Some("git-blake3:baa19909b0c1213cb70d9a3c0611eef9b7290555:2a718cbb3a03f82518db862e45b9a9a4df429e1cbbd45ed51d9b8b3205db62bd")
+Revision: Some("git-blake3:6287746c4bd708d030afcfa479ed02f0f42c65d2:ab005233aa83f89e8506665777a65178f339400d938d7d3340289c764c9bc2e5")
 
-Reviewer: Some("fresh-session:3ffdceb7-b37e-4c1d-90f6-bb074321da2d")
+Reviewer: Some("fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad")
 
 Result: pass

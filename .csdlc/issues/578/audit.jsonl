@@ -14,3 +14,8 @@
 {"sequence":14,"generation":8,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":15,"generation":9,"actor":"fresh-session:3ffdceb7-b37e-4c1d-90f6-bb074321da2d","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":16,"generation":10,"actor":"codex:root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":17,"generation":11,"actor":"codex:root","reason":"Refresh #578 after merging current origin/main so PR #582 includes the base-side Runtime guardian_cli fixture remediation for the previously failing coverage lane. The #578 substantive diff against current origin/main remains provider-profile, tests, docs, and issue-578 lifecycle artifacts only.","operation":"recover_review"}
+{"sequence":18,"generation":11,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":19,"generation":11,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":20,"generation":12,"actor":"fresh-session:8d328546-79dd-465f-bca0-fdf54af9b7ad","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":21,"generation":13,"actor":"codex:root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
