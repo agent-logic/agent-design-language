@@ -20,6 +20,9 @@ pub const PREDECESSOR_DENOMINATOR: [u64; 3] = [161, 162, 163];
 /// The predecessor issues retained by the V3-C lifecycle-kernel slice.
 pub const LIFECYCLE_KERNEL_PREDECESSORS: [u64; 3] = [168, 169, 170];
 
+/// The predecessor issues retained by the V3-D local-preparation slice.
+pub const LOCAL_PREPARATION_PREDECESSORS: [u64; 3] = [171, 172, 173];
+
 /// The predecessor issues retained by the V3-E remote-delivery workflow.
 pub const REMOTE_DELIVERY_PREDECESSORS: [u64; 5] = [174, 175, 176, 177, 178];
 
@@ -81,6 +84,11 @@ pub fn is_v3a_predecessor(issue: u64) -> bool {
 /// Returns true only for the explicit retained V3-C predecessor denominator.
 pub fn is_v3c_lifecycle_predecessor(issue: u64) -> bool {
     LIFECYCLE_KERNEL_PREDECESSORS.contains(&issue)
+}
+
+/// Returns true only for the explicit retained V3-D predecessor denominator.
+pub fn is_v3d_local_preparation_predecessor(issue: u64) -> bool {
+    LOCAL_PREPARATION_PREDECESSORS.contains(&issue)
 }
 
 /// Returns true only for the explicit retained V3-E predecessor denominator.

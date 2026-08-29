@@ -1,0 +1,404 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 493,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1abd3eac653f9ea21c1b7f6ef530cfb261e6ae30d0bdf8d0ea56e4bc50324a10",
+  "phase": "published",
+  "generation": 22,
+  "digest": "dcb15e4f8b0a28f8359abb6479fd6cd1b074bcf07160e4dd66da72e21927a9c5",
+  "branch": "codex/493-gcp-private-platform-foundation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-493-gcp-private-platform-foundation",
+  "review_assignment": {
+    "reviewer": "fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:0e197b3c08f6dbab60eeae3b6c5d9be6597f57d7:f55099a9e8d76e13f225a8ea33a27a86789e061b34c24f1572e811983ae9667c",
+    "scope": [
+      ".csdlc/evidence/493/exact-diff-hygiene.log",
+      ".csdlc/evidence/493/gcp-d-static-product.log",
+      ".csdlc/evidence/493/terraform-fmt.log",
+      ".csdlc/issues/493",
+      ".csdlc/prepared/issues/493/design.md",
+      ".csdlc/prepared/issues/493/diagram.mmd",
+      ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
+      "adl-runtime/tests/config_reload.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md",
+      "docs/operations/cloud/gcp/platform-foundation/README.md",
+      "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh",
+      "infra/gcp/platform"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc",
+    "scope": [
+      ".csdlc/evidence/493/exact-diff-hygiene.log",
+      ".csdlc/evidence/493/gcp-d-static-product.log",
+      ".csdlc/evidence/493/terraform-fmt.log",
+      ".csdlc/issues/493",
+      ".csdlc/prepared/issues/493/design.md",
+      ".csdlc/prepared/issues/493/diagram.mmd",
+      ".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh",
+      "adl-runtime/tests/config_reload.rs",
+      "adl-runtime/tests/guardian_cli.rs",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md",
+      "docs/operations/cloud/gcp/platform-foundation/README.md",
+      "docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh",
+      "infra/gcp/platform"
+    ],
+    "reviewed_revision": "git-blake3:0e197b3c08f6dbab60eeae3b6c5d9be6597f57d7:f55099a9e8d76e13f225a8ea33a27a86789e061b34c24f1572e811983ae9667c",
+    "findings": [],
+    "residual_risks": [
+      "No live GCP, AWS, paid, Terraform init/plan/apply/destroy, or cloud readback proof was run for this issue.",
+      "PR #587 CI must be renewed after publication to prove the runtime coverage remediation on GitHub standard runners."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 493,
+    "pull_request": 587,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/587",
+    "base": "main",
+    "head": "codex/493-gcp-private-platform-foundation",
+    "revision": "git-blake3:045aa7c9208ef5fe81373478866fd81dc66395d3:80ee28958691e60e52832103af059dc5e3ef05c16ce5f5589196a2ee4e29b18a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/493/design.md",
+  "diagram_path": ".csdlc/prepared/issues/493/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4d9b1fd3-9447-489d-9bd5-6b285253956c",
+      "revision": "b407bc4d9dec406148b8d63f040f34cc4b84bacdb8ee347a2f6c938b78962103"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2eca96fec57de02cb5d2cfcb9ff4fdf7d2de1813e99fdc37938252d2d1f3e9e6",
+      "rendered_digest": "04d17631608d2c9962fc6267aaa78dce3ee8f1d9cb9031ac8ce900840b05de05",
+      "ast_digest": "277dbb0c97a5f744aad274fbab36089e58d26620fde0345f68e643ccb0d04bc8"
+    },
+    "stp": {
+      "values_digest": "d6022b6d404a0132de136df727b90d05f0dbe7168102a96988d68068f0d7afcc",
+      "rendered_digest": "2238d8fef9e6f6694e3f5571844a62706856b151aee0be0a425092fba23821d3",
+      "ast_digest": "dbccaba5231caf595e23c4d5463bc92e68ef4278e699633b1792dea295d4b081"
+    },
+    "spp": {
+      "values_digest": "3fa267086a694a09276639f11d720e44bfbdcc73ff2f69bd4448fd8ac1a5b505",
+      "rendered_digest": "b699521e870e0876a065047f5205d33508b31da11a9c48f50d84eae2a3cb798f",
+      "ast_digest": "e1cc44714823d95529a2ce8d0bc26fee7258b00a7757efe5bb69413f74698ee4"
+    },
+    "vpp": {
+      "values_digest": "8e7a0d15f4e30d4fd17feccbb8cda6b551885d7ae2c39d85f2e61a4951181acc",
+      "rendered_digest": "f8b502bce8e948971aed60bd5262c90f5a6ab981aef4821ddbf4459cc44bd2bf",
+      "ast_digest": "edaa58c4bf64a953dcc108c8ec2aba490c2b469178a8ce028134ae461419a84e"
+    },
+    "srp": {
+      "values_digest": "92ae227362a07098960baff435a49c0f5af525f1480dffd0981af67ec4113196",
+      "rendered_digest": "be57139c87c7fb3db3bd2df2f6351fcee9dfc4210c7cba4153f6d4fa00b79487",
+      "ast_digest": "08be3b0e8ac3e0ee9d6efd77863327ddcd9241d45bd33e87fbde509d0f3f35a0"
+    },
+    "sor": {
+      "values_digest": "e19d1711fac73e4aa85d1249fb29b8c8f6a9e92c5bde88e15d63855f27261630",
+      "rendered_digest": "74c81e62acc48daa9793eed6c464d6a8a6391d96df0f40e170ea2c424e4f94b2",
+      "ast_digest": "b1d3860ebf0da2ac915c0a3dc06c4364d3d9187e68669875e1047328cc19ea15"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:f9f482f0-f6e8-42a6-ae73-9abc80e21167",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #493 after PR #587 CI runtime coverage failed on inherited Runtime test defects. Publication/review truth must be refreshed before committing CI remediation and requesting a new exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #493 initialized VPP readiness so prebind doctor validates only executable prebind lanes; postbind/live/review lanes are planned after bind and must not block design approval.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-gcp-d-platform-packet\",\"proof_role\":\"Proves #493 design packet readiness, #492 terminal dependency gate, owned-path boundaries, private-network posture, identity separation, storage-boundary invariants, and cleanup proof plan.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"prebind-review-readiness\",\"proof_role\":\"Proves #493 has an issue-owned executable validator and review scope before design approval; this does not claim final implementation exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=packet\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:4d9b1fd3-9447-489d-9bd5-6b285253956c",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"b407bc4d9dec406148b8d63f040f34cc4b84bacdb8ee347a2f6c938b78962103\",\"design_ref\":\".csdlc/prepared/issues/493/design.md\",\"diagram_digest\":\"c45538f51fb071826d23c7467a96b353c344c647abc1a3e8c031c0399a118a4d\",\"diagram_ref\":\".csdlc/prepared/issues/493/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R5 exact review after FAIL findings: additive egress did not override implied allow, workload service account lacked least-privilege storage/logging IAM, and watchdog/readback cleanup contract lacked executable proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record #493 R5 remediation truth after focused proof rerun without changing lifecycle phase.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation and repaired R5 review findings for enforced egress, workload IAM, and executable cleanup readback.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Added least-privilege workload storage/logging IAM for artifacts, models, continuity evidence, logs, and log writing.\",\"Added a concise operator runbook and executable disposable-residue readback script for issue/ttl/csm/env cleanup selectors without claiming live GCP mutation.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including R5 remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-d-static-product.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-range diff hygiene before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R6 exact review after FAIL finding that disposable-residue readback covered compute residue but omitted IAM/service-account, storage object, and Terraform state residue.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #493 R6 readback remediation truth after focused proof rerun.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, and complete disposable-residue readback.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Added least-privilege workload storage/logging IAM for artifacts, models, continuity evidence, logs, and log writing.\",\"Added a concise operator runbook and executable disposable-residue readback script covering compute, firewall, service-account/IAM, storage bucket/object, and Terraform state residue selectors without claiming live GCP mutation.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including R6 readback remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-d-static-product.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-range diff hygiene before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R7 exact review after FAIL finding that readback selectors did not match Terraform-created firewall/service-account resources and omitted bucket-level IAM policy readback.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #493 R7 selector/readback remediation truth after focused proof rerun.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, complete disposable-residue readback, and selector correspondence to Terraform-created resources.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.\",\"Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.\",\"Strengthened the issue-owned validator so selector correspondence and bucket-IAM readback are checked directly.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including R7 selector/readback remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-d-static-product.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-range diff hygiene before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R8 exact review after FAIL finding that selector/readback validation still proved command presence rather than Terraform-to-readback correspondence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Record #493 R8 validator-correspondence remediation truth after focused proof rerun.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, complete disposable-residue readback, and validator-proven Terraform-to-readback selector correspondence.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.\",\"Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.\",\"Strengthened the issue-owned validator with a selector-correspondence section that ties Terraform service-account IDs, network/tag firewall selectors, bucket local naming, bucket IAM member targets, and readback bucket/IAM loops to the same naming contract.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including R8 selector-correspondence remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-d-static-product.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-range diff hygiene before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R9 exact review after FAIL finding that bucket IAM member-target correspondence to google_service_account.workload.email was not proven.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record #493 R9 bucket-IAM member-target validator remediation truth after focused proof rerun.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation and repaired exact-review findings for enforced egress, workload IAM, complete disposable-residue readback, Terraform-to-readback selector correspondence, and bucket-IAM member target validation.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.\",\"Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.\",\"Strengthened the issue-owned validator with block-level checks tying each Terraform bucket IAM member to the exact Terraform-created bucket and serviceAccount:${google_service_account.workload.email} member, plus matching readback bucket-IAM policy inspection.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including R9 bucket-IAM member-target remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"gcp-d-static-product.log\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"terraform-fmt.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run exact-range diff hygiene before review/publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R10 exact review assignment after reviewer exceeded bounded interval and was interrupted without a verdict.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 15,
+      "actor": "fresh-session:f9f482f0-f6e8-42a6-ae73-9abc80e21167",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover #493 after PR #587 CI runtime coverage failed on inherited Runtime test defects. Publication/review truth must be refreshed before committing CI remediation and requesting a new exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Refresh #493 SOR after recovering from PR #587 runtime coverage failures and applying bounded CI remediation for inherited runtime tests.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation, repaired exact-review findings, and applied bounded CI remediation for two inherited runtime coverage failures that blocked PR #587 without changing #493 product scope.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.\",\"Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects, and Terraform state without claiming live GCP mutation.\",\"Strengthened the issue-owned validator with block-level checks tying each Terraform bucket IAM member to the exact Terraform-created bucket and serviceAccount:${google_service_account.workload.email} member, plus matching readback bucket-IAM policy inspection.\",\"Remediated PR #587 runtime coverage failure adl-runtime::config_reload::concurrent_readers_observe_complete_configurations by asserting shutdown and at least one complete reload instead of a brittle exact debounce/coalescing count.\",\"Remediated PR #587 runtime coverage failure adl-runtime::guardian_cli::guardian_cli_reports_successful_portable_child_as_json by aligning the fixture polis public domain with the canonical localhost Runtime API/TLS host.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"adl-runtime/tests/config_reload.rs\",\"adl-runtime/tests/guardian_cli.rs\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including bucket-IAM member-target remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: gcp-d platform foundation validation passed: all\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: exit 0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run worktree diff hygiene after CI remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: exit 0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"config_reload\",\"concurrent_readers_observe_complete_configurations\",\"--\",\"--exact\"],\"purpose\":\"Reproduce and prove the fixed runtime coverage reload regression from PR #587.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: 1 passed; 0 failed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"guardian_cli_reports_successful_portable_child_as_json\",\"--\",\"--exact\"],\"purpose\":\"Reproduce and prove the fixed runtime coverage guardian fixture regression from PR #587.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: 1 passed; 0 failed\"}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover #493 R12 exact review after P2 finding: readback-disposable-residue.sh listed GCP Storage objects without --all-versions even though Terraform enables bucket versioning, so noncurrent residue could be missed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Record #493 R12 review remediation for versioned GCP Storage bucket cleanup readback.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the #493 GCP-D private platform foundation, repaired exact-review findings, applied bounded CI remediation for two inherited runtime coverage failures that blocked PR #587, and fixed versioned-bucket cleanup readback to include noncurrent object versions.\",\"changes\":[\"Added a GCP platform Terraform root with private custom-mode VPC, private subnet, IAP-only operator access, OS Login posture, explicit private egress with deny-unapproved-egress fallback, dedicated workload service account, separate storage-owner buckets, logging metric, and required labels.\",\"Bound the workload service-account ID and display name to csm/environment selectors so readback can identify the Terraform-created identity exactly.\",\"Made disposable-residue readback select firewall rules by the configured network and target tag, service accounts by exact email, project IAM by exact service-account member, bucket IAM policies per bucket, storage objects across all versions, and Terraform state without claiming live GCP mutation.\",\"Strengthened the issue-owned validator with block-level checks tying each Terraform bucket IAM member to the exact Terraform-created bucket and serviceAccount:${google_service_account.workload.email} member, plus matching readback bucket-IAM policy inspection and all-version storage-object readback.\",\"Remediated PR #587 runtime coverage failure adl-runtime::config_reload::concurrent_readers_observe_complete_configurations by asserting shutdown and at least one complete reload instead of a brittle exact debounce/coalescing count.\",\"Remediated PR #587 runtime coverage failure adl-runtime::guardian_cli::guardian_cli_reports_successful_portable_child_as_json by aligning the fixture polis public domain with the canonical localhost Runtime API/TLS host.\"],\"artifacts\":[\"infra/gcp/platform\",\"docs/operations/cloud/gcp/platform-foundation/README.md\",\"docs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\",\"docs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"adl-runtime/tests/config_reload.rs\",\"adl-runtime/tests/guardian_cli.rs\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned static validator for GCP-D including versioned-bucket all-version readback remediation checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: gcp-d platform foundation validation passed: all\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/platform\",\"fmt\",\"-check\"],\"purpose\":\"Run Terraform fmt check for the GCP-D root.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: exit 0\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run worktree diff hygiene after R12 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: exit 0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"config_reload\",\"concurrent_readers_observe_complete_configurations\",\"--\",\"--exact\"],\"purpose\":\"Reprove the fixed runtime coverage reload regression from PR #587.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: 1 passed; 0 failed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"guardian_cli\",\"guardian_cli_reports_successful_portable_child_as_json\",\"--\",\"--exact\"],\"purpose\":\"Reprove the fixed runtime coverage guardian fixture regression from PR #587.\",\"outcome\":\"passed\",\"evidence_ref\":\"local rerun: 1 passed; 0 failed\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 21,
+      "actor": "fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

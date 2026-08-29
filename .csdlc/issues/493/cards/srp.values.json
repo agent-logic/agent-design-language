@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 493,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-D] GCP private platform foundation",
+    "slug": "gcp-private-platform-foundation",
+    "version": "v0.92.1",
+    "generation": 22
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/493/exact-diff-hygiene.log\n.csdlc/evidence/493/gcp-d-static-product.log\n.csdlc/evidence/493/terraform-fmt.log\n.csdlc/issues/493\n.csdlc/prepared/issues/493/design.md\n.csdlc/prepared/issues/493/diagram.mmd\n.csdlc/prepared/issues/493/validate-gcp-d-platform-foundation.sh\nadl-runtime/tests/config_reload.rs\nadl-runtime/tests/guardian_cli.rs\ndocs/milestones/v0.92.1/evidence/cloud/gcp-d/gcp-d-platform-foundation-proof.md\ndocs/operations/cloud/gcp/platform-foundation/README.md\ndocs/operations/cloud/gcp/platform-foundation/readback-disposable-residue.sh\ninfra/gcp/platform",
+      "review_revision": "git-blake3:0e197b3c08f6dbab60eeae3b6c5d9be6597f57d7:f55099a9e8d76e13f225a8ea33a27a86789e061b34c24f1572e811983ae9667c",
+      "reviewer": "fresh-session:30e8dbac-f7d1-4b75-9fe5-ebccdadb50bc",
+      "review_prompts": [
+        "Does the design keep #493 to GCP-D private platform foundation without absorbing GCP-E, XCL-01, Observatory, Unity, production traffic, or AWS work?",
+        "Are private network, IAP/OS Login operator access, identity separation, storage ownership, telemetry/watchdog, and cleanup selectors specified with machine-checkable proof?",
+        "Does the live GCP proof plan avoid credential disclosure and require explicit authorization before mutation?",
+        "Are dependency and #492 terminal-cache boundaries truthful rather than hidden acceptance of broad GCP drift?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "No live GCP, AWS, paid, Terraform init/plan/apply/destroy, or cloud readback proof was run for this issue.",
+        "PR #587 CI must be renewed after publication to prove the runtime coverage remediation on GitHub standard runners."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

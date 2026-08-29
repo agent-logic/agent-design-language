@@ -1,0 +1,10 @@
+project_id  = "cs-poc-cha8mmii0xk0iaw5vpf8mxf"
+region      = "us-west2"
+environment = "dev"
+csm_name    = "axioma"
+
+network_name = "axioma-dev-csm-private"
+subnet_name  = "axioma-dev-csm-private-us-west2"
+subnet_cidr  = "10.42.0.0/24"
+
+operator_group_email = "gcp-admins@agent-logic.ai"
