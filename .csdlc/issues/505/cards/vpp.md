@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/505/diagram.mmd
 [
   {
     "lane": "prebind-v3-f-preparation",
-    "proof_role": "Prove the initialized #505 preparation packet preserves the #504 terminal dependency, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.",
+    "proof_role": "Prove the initialized #505 preparation packet preserves the #504 terminal dependency, the #570/#571 cutover-readiness gates, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
   "phase": "ready",
-  "generation": 2,
-  "digest": "8ca157097a8b3e8e20d152a93048f55eebd5408e8bed7697ab0d7613c532d078",
+  "generation": 5,
+  "digest": "574b370f8a52847cf499f207803020961b86338a76fb6a2bffe1e0d861b0d38c",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "656b1abb5e0c5dd876f9817f6b58e6a4a4a7988851d6fb490a6b1d28b9697311",
+      "values_digest": "641dfa6137368a5e003ba976e831922d87afaeab987bff928b1f60d3b7949332",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "394ee04777f9ade60f0e1813dc9644e041d645fcb2b1daf08cca59a24cb247d3",
-      "rendered_digest": "ed464e80fae2c77f731e562a4814abff4a170b3ba7b0e424801a5a3968f56f62",
-      "ast_digest": "104e7ce68e64b0ab048c0e3e8b529be65bde619fce5e4e9cdffaf69c2c2faa45"
+      "values_digest": "b3ea7c02821613484524526c132b561348b775cfa4178ce5ecf534b4f623ae03",
+      "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
+      "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "745a63314562beb7e2340ba1857eda221d11a9cbfec5d94dba14264f750f42f9",
-      "rendered_digest": "e40494a7d57dc63f1a39ac687316b68f45397a88a4f31526de171b120513ac67",
-      "ast_digest": "d77d0bf03a0b6be30f9abd19532db8eec0a02acb57a4f06fa0f01b4170012114"
+      "values_digest": "fc0eebb427b5232a7ef73ea07f872f0b9362c622a4a7ccc5304de44157f7d31b",
+      "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
+      "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "e7c52374f13bbe59758a40cefdde40d54c242b3ac828cac260315e7690c71430",
-      "rendered_digest": "9eace33b0f169493594caf92327a45c652b87994af955230ee89c191081dea6c",
-      "ast_digest": "725fa66a9efaea3ad4c2214dd8efe42a6e891cb5a4a5a8cf94bca31581d6b11e"
+      "values_digest": "bc088fb1f8be9c49cef65e0366990595d2ab2b8ef8b871a9972c86374b155ce2",
+      "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
+      "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "b021884913c349d43505d854762b841cdf82eadcffa62b5224b5328dce3695db",
+      "values_digest": "4962fa919422497408a3a66cfe69bd04aaa3aebf08ac3bc8a683d61f698e40d1",
       "rendered_digest": "692a261aac92c89f01dde68a3909b98414cef502f3fa2c2620f9731710b4b28b",
       "ast_digest": "88f2fae14925519c38944fb30f70e75a6b98b8ce8ccdd7db3413c7c0c30ae6f6"
     },
     "sor": {
-      "values_digest": "c16ccb5d4a97e495ca853f703a895126efcd4796e5224975f664ba66177996bc",
+      "values_digest": "106de4bc83c113693537d9245a51323ec1d7c415df98801ea5ca179d44d23b31",
       "rendered_digest": "b93bfc7f1af73c56f7b86d819a2f2c86ed5edf98bac04a69a3c19ffd0f94e811",
       "ast_digest": "147ecc9337ae5623cefa67b9e8458579579123a6dade2629222b1ad23b9ddcf6"
     }
@@ -84,6 +84,27 @@
       "actor": "codex:worker-6",
       "reason": "Advance #505 to ready/unbound after design approval, doctor readiness, preparation validator proof, and explicit #504 terminal dependency. Stop before bind or implementation while #504 remains open.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-6",
+      "reason": "Make the Sprint 6 #570/#571 cutover-readiness gates explicit before #505 execution can start.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"V3-E: #504 must be closed by merged PR and typed terminal closeout before #505 execution starts.\",\"V3-G: #570 docs/skill cutover-readiness PR must be merged and the issue closed before #505 execution starts.\",\"V3-A follow-up: #571 predecessor-proof/lifecycle-gate corrective PR must be merged and the issue closed before #505 execution starts.\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:worker-6",
+      "reason": "Make #570/#571 open or unmerged gate state an explicit #505 execution stop condition.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#504 is not terminal, reconciled, and ancestral when implementation would begin.\",\"#570 is not closed by its merged docs/skill cutover-readiness PR when #505 execution would begin.\",\"#571 is not closed by its merged predecessor-proof/lifecycle-gate corrective PR when #505 execution would begin.\",\"Parity is incomplete or lacks a machine-readable denominator.\",\"Rollback fails or is not exercised.\",\"Operator cutover approval is absent.\",\"The slice silently retires v2 or claims unsupported platform parity.\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:worker-6",
+      "reason": "Make the #505 prebind validation lane prove the explicit #570/#571 Sprint 6 gate denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-v3-f-preparation\",\"proof_role\":\"Prove the initialized #505 preparation packet preserves the #504 terminal dependency, the #570/#571 cutover-readiness gates, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"parallel_group\":\"505-prebind-local\",\"defer_reason\":null}]}"
     }
   ]
 }

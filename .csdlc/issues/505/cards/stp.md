@@ -31,6 +31,8 @@ Prepare only the V3-F authority-transition decision: requirements #179 and #180 
 ## Dependencies
 
 - V3-E: #504 must be closed by merged PR and typed terminal closeout before #505 execution starts.
+- V3-G: #570 docs/skill cutover-readiness PR must be merged and the issue closed before #505 execution starts.
+- V3-A follow-up: #571 predecessor-proof/lifecycle-gate corrective PR must be merged and the issue closed before #505 execution starts.
 
 ## Inputs
 

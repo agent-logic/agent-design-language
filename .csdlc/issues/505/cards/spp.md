@@ -16,7 +16,7 @@ After #504 terminal closeout, bind #505 and implement a non-authoritative v3 aut
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -108,6 +108,8 @@ Digest: 72b7875592231b8ecf51ff326181c7b4b93ab5dd13080ff8a9353c70d8ad67ff
 ## Stop Conditions
 
 - #504 is not terminal, reconciled, and ancestral when implementation would begin.
+- #570 is not closed by its merged docs/skill cutover-readiness PR when #505 execution would begin.
+- #571 is not closed by its merged predecessor-proof/lifecycle-gate corrective PR when #505 execution would begin.
 - Parity is incomplete or lacks a machine-readable denominator.
 - Rollback fails or is not exercised.
 - Operator cutover approval is absent.

@@ -39,9 +39,14 @@ assert(issue["branch"].nil? && issue["worktree"].nil?, "pre-bind #505 must remai
   "Cutover and retirement require operator approval"
 ].each { |text| assert(stp.include?(text), "missing acceptance text: #{text}") }
 
-deps = spp.dig("content", "values", "steps").to_s + stp + design
+deps = spp.dig("content", "values", "steps").to_s +
+       spp.dig("content", "values", "stop_conditions").to_s +
+       stp +
+       design
 assert(deps.include?("#504"), "missing #504 dependency")
 assert(deps.include?("terminal") && deps.include?("ancestral"), "missing terminal/ancestral dependency language")
+assert(deps.include?("#570") && deps.include?("#571"), "missing #570/#571 cutover-readiness gates")
+assert(deps.include?("merged") && deps.include?("closed"), "missing merged/closed gate language")
 assert(packet_text.include?("Closes #505"), "missing visible future closing-linkage requirement")
 assert(packet_text.include?("C-SDLC v2 remains") || packet_text.include?("v2 remains"), "missing v2 live-authority boundary")
 assert(packet_text.include?("operator approval"), "missing explicit operator approval gate")
@@ -71,6 +76,7 @@ puts JSON.generate(
     checked: [
       "acceptance_denominator",
       "504_terminal_dependency",
+      "570_571_cutover_readiness_gates",
       "v2_live_authority_boundary",
       "no_silent_v2_retirement",
       "operator_approval_gate",

@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "prebind-v3-f-preparation",
-          "proof_role": "Prove the initialized #505 preparation packet preserves the #504 terminal dependency, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.",
+          "proof_role": "Prove the initialized #505 preparation packet preserves the #504 terminal dependency, the #570/#571 cutover-readiness gates, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",

@@ -1,0 +1,23 @@
+{
+  "issue": 505,
+  "card": "spp",
+  "expected_generation": 3,
+  "expected_digest": "1ebb651b379c246b7d923624f5f485a42e6dcd48f036db80e126f4aefb7f2374",
+  "claim_id": "claim-505-add-sprint6-cutover-gates-spp",
+  "actor": "codex:worker-6",
+  "reason": "Make #570/#571 open or unmerged gate state an explicit #505 execution stop condition.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "stop_conditions",
+    "values": [
+      "#504 is not terminal, reconciled, and ancestral when implementation would begin.",
+      "#570 is not closed by its merged docs/skill cutover-readiness PR when #505 execution would begin.",
+      "#571 is not closed by its merged predecessor-proof/lifecycle-gate corrective PR when #505 execution would begin.",
+      "Parity is incomplete or lacks a machine-readable denominator.",
+      "Rollback fails or is not exercised.",
+      "Operator cutover approval is absent.",
+      "The slice silently retires v2 or claims unsupported platform parity."
+    ]
+  },
+  "fail_after_backup": false
+}

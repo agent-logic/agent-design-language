@@ -7,13 +7,13 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 2
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "After #504 terminal closeout, bind #505 and implement a non-authoritative v3 authority-transition decision record that measures parity, exercises canary rollback, records observation evidence, and requires explicit operator approval before cutover or v2 retirement.",
       "steps": [
         {
@@ -92,6 +92,8 @@
       },
       "stop_conditions": [
         "#504 is not terminal, reconciled, and ancestral when implementation would begin.",
+        "#570 is not closed by its merged docs/skill cutover-readiness PR when #505 execution would begin.",
+        "#571 is not closed by its merged predecessor-proof/lifecycle-gate corrective PR when #505 execution would begin.",
         "Parity is incomplete or lacks a machine-readable denominator.",
         "Rollback fails or is not exercised.",
         "Operator cutover approval is absent.",
