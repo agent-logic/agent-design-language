@@ -1073,7 +1073,12 @@ impl ZAiProvider {
         spec: &adl::ProviderSpec,
         target: &ProviderInvocationTargetV1,
     ) -> Result<Self> {
-        let endpoint = vendor_endpoint(spec, target, Z_AI_CHAT_COMPLETIONS_ENDPOINT, "z_ai")?;
+        let default_endpoint = if target.provider_model_id == "glm-5.3-flash" {
+            Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT
+        } else {
+            Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT
+        };
+        let endpoint = vendor_endpoint(spec, target, default_endpoint, "z_ai")?;
         let auth_env = auth_env_for(spec, "ZAI_API_KEY")?;
         validate_vendor_credential_endpoint(
             spec,

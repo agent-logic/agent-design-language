@@ -59,7 +59,7 @@ pub struct ProviderAttemptPolicyV1 {
     pub retry_backoff_ms: Option<u64>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct ProviderInvocationRequestV1 {
     pub route: ProviderRouteV1,
@@ -77,6 +77,14 @@ pub struct ProviderInvocationRequestV1 {
     pub max_output_tokens: Option<u64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub context_window_tokens: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reasoning_effort: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub clear_thinking: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temperature: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub top_p: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub local_keep_alive: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -215,7 +223,7 @@ pub enum ReviewFindingSeverityV1 {
     Info,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct ReviewProviderV1 {
     pub schema_version: String,
@@ -225,7 +233,7 @@ pub struct ReviewProviderV1 {
     pub authority_boundary: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct ReviewProviderRequestV1 {
     pub schema_version: String,
@@ -279,7 +287,7 @@ pub struct ReviewProviderResultV1 {
     pub malformed_output_reason: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq)]
 #[serde(deny_unknown_fields)]
 pub struct ReviewRunRecordV1 {
     pub schema_version: String,
@@ -640,6 +648,60 @@ pub fn validate_provider_request(request: &ProviderInvocationRequestV1) -> Resul
     }
     if request.max_output_tokens == Some(0) {
         return Err(anyhow!("max_output_tokens must be greater than zero"));
+    }
+    if request.route.provider.eq_ignore_ascii_case("z_ai")
+        && request.route.provider_model_id == "glm-5.3-flash"
+        && request
+            .max_output_tokens
+            .is_some_and(|value| value > 131_072)
+    {
+        return Err(anyhow!(
+            "max_output_tokens must be no greater than 131072 for glm-5.3-flash"
+        ));
+    }
+    if let Some(value) = request.reasoning_effort.as_deref() {
+        let trimmed = value.trim();
+        if trimmed.is_empty() {
+            return Err(anyhow!("reasoning_effort must not be empty when provided"));
+        }
+        if request.route.provider.eq_ignore_ascii_case("z_ai")
+            && request.route.provider_model_id == "glm-5.3-flash"
+            && !matches!(trimmed, "low" | "high" | "max")
+        {
+            return Err(anyhow!(
+                "reasoning_effort must be one of low, high, max for glm-5.3-flash"
+            ));
+        }
+    }
+    if let Some(value) = request.temperature {
+        if !value.is_finite() {
+            return Err(anyhow!("temperature must be finite"));
+        }
+        let max = if request.route.provider.eq_ignore_ascii_case("z_ai")
+            && request.route.provider_model_id == "glm-5.3-flash"
+        {
+            1.0
+        } else {
+            2.0
+        };
+        if value < 0.0 || value > max {
+            return Err(anyhow!("temperature must be in [0, {max}]"));
+        }
+    }
+    if let Some(value) = request.top_p {
+        if !value.is_finite() {
+            return Err(anyhow!("top_p must be finite"));
+        }
+        let min = if request.route.provider.eq_ignore_ascii_case("z_ai")
+            && request.route.provider_model_id == "glm-5.3-flash"
+        {
+            0.01
+        } else {
+            0.0
+        };
+        if value < min || value > 1.0 {
+            return Err(anyhow!("top_p must be in [{min}, 1]"));
+        }
     }
     Ok(())
 }
@@ -1217,6 +1279,10 @@ mod tests {
             input_text: Some("test prompt".to_string()),
             max_output_tokens: None,
             context_window_tokens: None,
+            reasoning_effort: None,
+            clear_thinking: None,
+            temperature: None,
+            top_p: None,
             local_keep_alive: None,
             inference_parameter_fingerprint: None,
             tool_surface: None,
@@ -1230,6 +1296,32 @@ mod tests {
         request.attempt_policy.max_attempts = 1;
         request.max_output_tokens = Some(0);
         assert!(validate_provider_request(&request).is_err());
+        request.max_output_tokens = Some(1);
+        request.route.provider = "z_ai".to_string();
+        request.route.provider_model_id = "glm-5.3-flash".to_string();
+        request.reasoning_effort = Some("medium".to_string());
+        assert!(validate_provider_request(&request)
+            .expect_err("invalid GLM reasoning effort should fail")
+            .to_string()
+            .contains("reasoning_effort"));
+        request.reasoning_effort = Some("low".to_string());
+        request.max_output_tokens = Some(131_073);
+        assert!(validate_provider_request(&request)
+            .expect_err("oversized GLM token budget should fail")
+            .to_string()
+            .contains("131072"));
+        request.max_output_tokens = Some(512);
+        request.temperature = Some(1.1);
+        assert!(validate_provider_request(&request)
+            .expect_err("oversized GLM temperature should fail")
+            .to_string()
+            .contains("temperature"));
+        request.temperature = Some(0.2);
+        request.top_p = Some(0.0);
+        assert!(validate_provider_request(&request)
+            .expect_err("low GLM top_p should fail")
+            .to_string()
+            .contains("top_p"));
     }
 
     fn review_provider_request_fixture() -> ReviewProviderRequestV1 {
@@ -1258,6 +1350,10 @@ mod tests {
             input_text: None,
             max_output_tokens: None,
             context_window_tokens: None,
+            reasoning_effort: None,
+            clear_thinking: None,
+            temperature: None,
+            top_p: None,
             local_keep_alive: None,
             inference_parameter_fingerprint: Some("sha256:test".to_string()),
             tool_surface: None,

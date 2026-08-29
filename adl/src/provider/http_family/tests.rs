@@ -1271,11 +1271,15 @@ fn zai_provider_rejects_missing_credentials_and_bad_response_shape() {
 
     let spec = provider_spec(
         "z_ai",
-        Z_AI_CHAT_COMPLETIONS_ENDPOINT,
+        Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT,
         Some("ZAI_API_KEY"),
         &[],
     );
-    let target = provider_target("z_ai", Z_AI_CHAT_COMPLETIONS_ENDPOINT.to_string(), "glm-5");
+    let target = provider_target(
+        "z_ai",
+        Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT.to_string(),
+        "glm-5",
+    );
     let provider = ZAiProvider::from_target(&spec, &target).expect("provider");
     let missing_key = provider
         .complete("hello")

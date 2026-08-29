@@ -202,7 +202,7 @@ run:
             .config
             .get("endpoint")
             .and_then(|value| value.as_str()),
-        Some("https://api.z.ai/api/paas/v4/chat/completions")
+        Some("https://open.bigmodel.cn/api/paas/v4/chat/completions")
     );
 }
 

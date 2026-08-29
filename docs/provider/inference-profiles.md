@@ -61,6 +61,10 @@ Runtime overrides are intentionally narrow and validated before dispatch:
 
 The direct Z.ai profile is separate from provider variants:
 
+- Existing `z_ai:glm-5` and `z_ai:glm-5-current` profiles preserve the
+  established `https://open.bigmodel.cn/api/paas/v4/chat/completions`
+  endpoint. The newer `https://api.z.ai/api/paas/v4/chat/completions`
+  endpoint is scoped to `z_ai:glm-5.3-flash`.
 - OpenRouter's `z-ai/glm-5.3-flash` route is a distinct OpenRouter-backed
   provider path and is not materialized by this profile.
 - Ollama's `glm-5.3-flash:cloud` route is a distinct Ollama-cloud transport

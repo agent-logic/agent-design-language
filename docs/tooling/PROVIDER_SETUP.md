@@ -74,7 +74,7 @@ DeepSeek native note:
 - the older `http:deepseek-chat` profile remains a compatibility surface for ADL-style completion gateways; it is not the native DeepSeek API path
 
 Z.ai native note:
-- `adl provider setup z_ai` emits `type: "z_ai"`, reads `ZAI_API_KEY`, and uses `https://api.z.ai/api/paas/v4/chat/completions` by default
+- `adl provider setup z_ai` emits `type: "z_ai"` and reads `ZAI_API_KEY`; the default `glm-5` setup path preserves the established `https://open.bigmodel.cn/api/paas/v4/chat/completions` endpoint, while the `z_ai:glm-5.3-flash` profile uses `https://api.z.ai/api/paas/v4/chat/completions`
 - the built-in Z.ai profiles include `z_ai:glm-5`, which maps to provider model id `glm-5` for the provider mini-sprint UTS route `hosted:adl-z-ai:glm-5`, and `z_ai:glm-5.3-flash`, which maps to provider model id `glm-5.3-flash` for `hosted:adl-z-ai:glm-5.3-flash`
 
 Loopback demo note:

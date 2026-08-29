@@ -10,6 +10,9 @@ Profile: `z_ai:glm-5.3-flash`
   through the Z.ai API platform.
 - Z.ai chat-completions documentation uses
   `https://api.z.ai/api/paas/v4/chat/completions` for the direct API path.
+- Existing ADL `z_ai:glm-5` and `z_ai:glm-5-current` profiles intentionally
+  retain the established `https://open.bigmodel.cn/api/paas/v4/chat/completions`
+  endpoint so #578 does not silently reroute older Z.ai profiles.
 - Z.ai and Hugging Face document `reasoning_effort` support for
   `low`, `high`, and `max`, with `max` as the default/reproduction setting.
 - Z.ai and Unsloth document evaluation-style sampling around

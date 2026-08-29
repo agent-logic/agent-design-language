@@ -11,7 +11,7 @@
     "summary": "Implemented a general direct Z.ai GLM-5.3-Flash provider profile with bounded runtime overrides and reviewer-agent selection proof.",
     "changes": [
       "Added `z_ai:glm-5.3-flash` as a first-class provider profile resolving to `hosted:adl-z-ai:glm-5.3-flash` and provider model id `glm-5.3-flash`.",
-      "Updated the canonical Z.ai direct chat-completions endpoint to `https://api.z.ai/api/paas/v4/chat/completions`.",
+      "Added the GLM-5.3-Flash-specific Z.ai direct chat-completions endpoint `https://api.z.ai/api/paas/v4/chat/completions` while preserving the established `glm-5` Z.ai endpoint.",
       "Materialized GLM-5.3-Flash defaults for `reasoning_effort=max`, `clear_thinking=false`, `temperature=1.0`, `top_p=0.95`, and bounded output tokens.",
       "Added runtime adapter support for GLM-5.3-Flash request parameters and fail-closed validation for invalid overrides before network dispatch.",
       "Added reviewer-selection and HTTP request-materialization tests.",

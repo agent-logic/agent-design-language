@@ -136,7 +136,9 @@ pub(crate) const DEEPSEEK_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.deepseek.com/chat/completions";
 pub(crate) const OPENROUTER_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://openrouter.ai/api/v1/chat/completions";
-pub(crate) const Z_AI_CHAT_COMPLETIONS_ENDPOINT: &str =
+pub(crate) const Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT: &str =
+    "https://open.bigmodel.cn/api/paas/v4/chat/completions";
+pub(crate) const Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.z.ai/api/paas/v4/chat/completions";
 pub(crate) const KIMI_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.moonshot.ai/v1/chat/completions";
@@ -650,7 +652,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "z_ai",
             default_model: Some("hosted:adl-z-ai:glm-5"),
             provider_model_id: Some("glm-5"),
-            endpoint: Some(Z_AI_CHAT_COMPLETIONS_ENDPOINT),
+            endpoint: Some(Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT),
         },
     );
     m.insert(
@@ -659,7 +661,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
             kind: "z_ai",
             default_model: Some("hosted:adl-z-ai:glm-5.3-flash"),
             provider_model_id: Some("glm-5.3-flash"),
-            endpoint: Some(Z_AI_CHAT_COMPLETIONS_ENDPOINT),
+            endpoint: Some(Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT),
         },
     );
     for (name, model) in [
@@ -724,7 +726,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         (
             "z_ai:glm-5-current",
             "glm-5",
-            Z_AI_CHAT_COMPLETIONS_ENDPOINT,
+            Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT,
         ),
         (
             "gemini:3.1-pro-preview",
