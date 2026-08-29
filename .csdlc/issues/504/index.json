@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 504,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e0ab52f41b32f4c8fee5899510e2daa1004ed5bb8349ea1afc6137449524b86a",
-  "phase": "ready",
-  "generation": 7,
-  "digest": "6df6266bb69701ed645cd65f48f0de51fe5ea1a33a18c5d5eefd1acfccf7ff88",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "7d24996e661045fdef99fc30dd37b100802f3ae1c777757d2d530b63d6fecb32",
+  "branch": "codex/504-v3-e-remote-delivery-workflow-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0ef1d9b26c2f229a436df8563cdd778d824140ea3318b22dd66f27607bdb235a",
+      "values_digest": "06290fe7d47a1a1764512a9da088ddc0ea1bc33b7bd7211b2b59969eb56f1644",
       "rendered_digest": "045795469a2177f1cdf55f4b53ec53acc84e7f540c8a631562535823ddbe66e3",
       "ast_digest": "48ee89ff29f611eb584004ccdd0f55d0e2254bedcb44fdf4bde15720ac2d2aae"
     },
     "stp": {
-      "values_digest": "0deff5902574a1d37613ae7336b26570befafd96139f63d4f888a659da60e7ce",
+      "values_digest": "393e93229dbedc63a3c75cf513e91eea1e3fef8de2cb4d5bf769ef7a84c657bc",
       "rendered_digest": "45588a30e0087598da490a38a8ac4fa73943b376b7c4917e0a1cf9030da00a3d",
       "ast_digest": "b4d809790a68270384edcc1baad364ded4c51aca8cfaf21f4807f610cbf98d08"
     },
     "spp": {
-      "values_digest": "e7dbecb496e23e47b42599e448efbf7a512eb61b5e4ed3361cdd92c763a7009f",
+      "values_digest": "65fc7836b15962629a912f6d5558deaaf1d46fc121f3ae5b5c98764aebc5fdfc",
       "rendered_digest": "3f4fcb91d40a19dd4d4c531e001198a2e6803c90ad4893689c4d85ee8689193a",
       "ast_digest": "bf17cce436d9dadae435bdccb912317338a540149714364c80ad7b08fa67beff"
     },
     "vpp": {
-      "values_digest": "46bd46f66af74731de5945a5b7681ab79fde5d16f73d1f1dc2d47e2273be96eb",
+      "values_digest": "6ccf5c40e38bd0c23045709200d8e7ba99387eb95ca8e32f523e3db3c97eb2f6",
       "rendered_digest": "60e939ec69d10899f461f2185241491315e34c6a54616a7b45e076eef07a6a45",
       "ast_digest": "e7232286b0f68c0db9ae9daabbb5db93c8a48119d5810534fb160f72462d1928"
     },
     "srp": {
-      "values_digest": "de9d2a108ffbd49a473fb1dddf9998cdd9db90d948fb625d10cf1eb8c0808ab3",
+      "values_digest": "6f39c2dab22ab14bf2554cbe9e36c35cb94eaf36e176f3145926aeb49e73267e",
       "rendered_digest": "4438bda905f7a72573b3ea3668d47b38809654fe74bbdbbb4a312121f0132dc6",
       "ast_digest": "3ea112a20d3e3d1844835fbe76cef162ac72450e36e47014c8b9f4dea23cffeb"
     },
     "sor": {
-      "values_digest": "7d330c639289bec4b3c3f5ba8a5d93fb6f5448e0473c6928a149c9891ff3c680",
-      "rendered_digest": "200a185830219233d18b338c8f51834987115b828d9fba1034974768aa17fb16",
-      "ast_digest": "8cbddf5d7d6c8b68363d563c2fc78a5d92579041e4f378bd98e69978d12eda0f"
+      "values_digest": "af80cddc8566a8999b57e248e5afcb5b4c3134c32d96b1da41015e2c009b4390",
+      "rendered_digest": "2e34859e6c93d5c351e64ffc028e375453882d6679747610779cf0c7db983d2a",
+      "ast_digest": "0b2a73ce2661b1a12269da3480ec57d8a566ae2bed4ec3ad8dd8d9cd713b0d04"
     }
   },
   "transitions": [
@@ -61,6 +62,20 @@
       "to": "ready",
       "actor": "codex:worker-6",
       "reason": "Advance #504 to ready/unbound after typed design approval, pre-bind validator proof, doctor readiness, and explicit #503 terminal dependency. Stop before bind or implementation while #503 remains open."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -119,6 +134,20 @@
       "actor": "codex:worker-6",
       "reason": "Keep #504 VPP truth aligned after advancing to ready/unbound: the executable validator proves the pre-bind ready packet, not only initialized bootstrap state.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-v3-e-preparation\",\"proof_role\":\"Prove the ready/unbound #504 preparation packet preserves the #503 terminal dependency, V3-E acceptance denominator, v2 authority boundary, v3 construction-only boundary, and future visible `Closes #504` publication linkage requirement.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\"],\"parallel_group\":\"504-prebind-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
