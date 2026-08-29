@@ -6,10 +6,36 @@
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
   "phase": "implemented",
   "generation": 15,
-  "digest": "c3c5c07220136a1431b177a7b0a87945e41b925991b7f551f5a45cc846746299",
+  "digest": "abdf40a839dccc57404e983e30c66c542d4fe772904e25f8c9ef6ee771fd354b",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:2fc936d8-c1bd-4350-90b3-cc50d89fc449",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:e90d097e19e4ec43580dbb5a60d876aba38b3924:b434597ecea6bdd9dd75335078acdc0a576efe0f0ad4d01b7abba518b878c58b",
+    "scope": [
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/agent_comms.rs",
+      "adl/src/agent_comms/dispatch/coding.inc",
+      "adl/tests/provider_tests/profiles.rs",
+      "adl/tests/provider_tests/http_family.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+      ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+      ".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh",
+      ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md",
+      ".csdlc/issues/578/index.json",
+      ".csdlc/issues/578/cards/sor.md",
+      ".csdlc/issues/578/cards/sor.values.json"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +71,9 @@
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "05a0cd6972cfb7a227a344aed84c53a165dfbe665bc9a0244387db35d81836d9",
-      "rendered_digest": "1359cc8a5c15fa8b18dd71821bd973a499db698e104834595fca3954dd411940",
-      "ast_digest": "00a30d8a0a7c0f0df09113d27b4710e50e2aef19e2ae89786f1af07f74080aa2"
+      "values_digest": "669ecd174f8148ca611e7b3f023a393d633476c66e9464c3af472c30c7f43e22",
+      "rendered_digest": "7e38682a93478580d63fe7c3014f79928bf542549a3e5f4c01844f03947d9c86",
+      "ast_digest": "e2bb341415c8a2dbf9bfecb7b4b4c3e136752d84e74fc0a42478e13542744bc2"
     },
     "sor": {
       "values_digest": "5a0b56e323036dfa52fc49c22b45e002be3ddfdffa1d6c0673c81f3c6d91dcdd",
@@ -295,6 +321,13 @@
       "actor": "codex:root",
       "reason": "Replace #578 execution truth after repairing the GLM-5.3-Flash endpoint preservation and runtime adapter call path.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a general direct Z.ai GLM-5.3-Flash provider profile, preserved existing Z.ai GLM-5 endpoints, and wired the runtime adapter so reviewer trials can pass bounded GLM-5.3-Flash parameters into the hosted request path.\",\"changes\":[\"Added `z_ai:glm-5.3-flash` as a first-class provider profile resolving to `hosted:adl-z-ai:glm-5.3-flash` and provider model id `glm-5.3-flash`.\",\"Scoped the new `https://api.z.ai/api/paas/v4/chat/completions` endpoint to GLM-5.3-Flash while preserving the established `https://open.bigmodel.cn/api/paas/v4/chat/completions` endpoint for existing `z_ai:glm-5` and `z_ai:glm-5-current` profiles.\",\"Materialized GLM-5.3-Flash defaults for `reasoning_effort=max`, `clear_thinking=false`, `temperature=1.0`, `top_p=0.95`, and bounded output tokens.\",\"Added runtime adapter request fields for reasoning effort, thinking cleanup, temperature, and top-p, with fail-closed validation for invalid GLM-5.3-Flash overrides before network dispatch.\",\"Added a credential-gated reviewer viability smoke script that uses `reasoning_effort=low`, `clear_thinking=true`, low token budget, and a 45-second timeout for fast reviewer trials.\",\"Documented the direct profile, source rationale, provider-variant boundaries, preserved legacy endpoint behavior, and the bind/prepared-helper materialization tooling issue.\"],\"artifacts\":[\"adl/src/provider/profiles.rs\",\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/config.rs\",\"adl/src/provider_adapter.rs\",\"adl/src/provider_communication.rs\",\"adl/src/agent_comms.rs\",\"adl/src/agent_comms/dispatch/coding.inc\",\"adl/tests/provider_tests/profiles.rs\",\"adl/tests/provider_tests/http_family.rs\",\"docs/provider/inference-profiles.md\",\"docs/tooling/PROVIDER_SETUP.md\",\"docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\",\".csdlc/prepared/issues/578/reviewer-selection-smoke.sh\",\".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\",\".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md\"],\"validation\":[{\"command\":[\"cargo fmt --manifest-path adl/Cargo.toml --check\"],\"purpose\":\"Verify Rust formatting for the touched provider and adapter code.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\"cargo test --manifest-path adl/Cargo.toml provider_communication::tests::request_validation_rejects_empty_and_zero_policy_fields\"],\"purpose\":\"Prove provider request validation rejects invalid GLM-5.3-Flash token, reasoning, temperature, and top-p overrides.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\"cargo test --manifest-path adl/Cargo.toml provider_adapter::tests::zai_glm_5_3_flash_adapter_request_uses_documented_defaults_and_fast_overrides\"],\"purpose\":\"Prove adapter materialization emits documented GLM-5.3-Flash defaults, accepts fast reviewer overrides, and keeps legacy GLM-5 on the established endpoint.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\"cargo test --manifest-path adl/Cargo.toml --test provider_tests z_ai_glm_5_3_flash\",\"cargo test --manifest-path adl/Cargo.toml --test provider_tests expand_provider_profiles_accepts_zai_glm5_profile\"],\"purpose\":\"Prove the new profile expands for reviewer selection and existing Z.ai GLM-5 profile expansion preserves its endpoint.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\"],\"purpose\":\"Exercise the reviewer-viability smoke harness; live provider dispatch remains credential-gated.\",\"outcome\":\"deferred\",\"evidence_ref\":\"skipped with `ZAI_API_KEY not set`; no live Z.ai request was performed\"},{\"command\":[\"git diff --check origin/main...HEAD\",\"git diff --check\"],\"purpose\":\"Verify whitespace hygiene for the exact PR diff and uncommitted lifecycle delta.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

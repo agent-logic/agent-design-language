@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl/src/provider/profiles.rs\nadl/src/provider/http_family.rs\nadl/src/provider/http_family/config.rs\nadl/src/provider/mod.rs\nadl/src/provider/http_family/tests.rs\nadl/src/provider_adapter.rs\nadl/src/provider_communication.rs\nadl/src/agent_comms.rs\nadl/src/agent_comms/dispatch/coding.inc\nadl/tests/provider_tests/profiles.rs\nadl/tests/provider_tests/http_family.rs\ndocs/provider/inference-profiles.md\ndocs/tooling/PROVIDER_SETUP.md\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\n.csdlc/prepared/issues/578/reviewer-selection-smoke.sh\n.csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\n.csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md\n.csdlc/issues/578/index.json\n.csdlc/issues/578/cards/sor.md\n.csdlc/issues/578/cards/sor.values.json",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
