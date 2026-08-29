@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Issue #504 V3-E construction-only remote delivery workflow: csdlc-v3/src/commands/remote, csdlc-v3/src/review, csdlc-v3/src/publication, csdlc-v3/tests/remote_commands, and issue-owned lifecycle/evidence.
+Review ADL issue #504 V3-E remote-delivery workflow at exact head f6919016b9f8ab6d0fc1341399788a25e52e5345.
+Verify construction-only C-SDLC v3 remote workflow behavior for accepted PVF evidence, exact independent review authorization, explicit Closes #504 versus Part-Of #504 publication modes, finish derivation from remote readback, and preview-first cleanup eligibility.
+Verify the previous cleanup finding is fixed behaviorally: cleanup must no longer rely on caller-provided canonical_identity_verified truth and must require canonical path equality plus terminal/preview receipts, clean worktree, and non-live worktree gates.
+Verify the branch contains current main/#503 ancestry, specifically merge commit 5692d95ee6e4ee632833be348fa5601ddccbca1a, before V3-E publication.
+Verify v2 remains the only live C-SDLC authority and #504 does not claim V3-F/#505 cutover, v2 retirement, live v3 GitHub mutation, or terminal cleanup execution.
 
 ## Prompts
 
