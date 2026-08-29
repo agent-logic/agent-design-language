@@ -37,12 +37,16 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer reported PASS with no actionable findings for substantive revision f6919016b9f8ab6d0fc1341399788a25e52e5345.
+- Reviewer verified current HEAD c4d2e22ba3301f0197e85845ae49e21f677448b6 differs from f6919016 only by review-assignment metadata under .csdlc/issues/504.
+- Reviewer ran focused remote-command tests: cargo test --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec/csdlc-v3/Cargo.toml --test remote_commands; 10 passed.
+- Reviewer verified git diff --check for the reviewed scope and verified #503 merge commit 5692d95ee6e4ee632833be348fa5601ddccbca1a is ancestral to f6919016.
+- Reviewer did not rerun the full csdlc-v3 suite or typed issue validation live; those broader runs remain local implementation evidence recorded in SOR.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f6919016b9f8ab6d0fc1341399788a25e52e5345:b176971f223ba6eb6123153897788e4092fa1444a10de921c2444e4e1ae9a37a")
 
-Reviewer: None
+Reviewer: Some("fresh-session:issue-504-f6919016")
 
-Result: pre_review
+Result: pass
