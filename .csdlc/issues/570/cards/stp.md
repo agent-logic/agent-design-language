@@ -19,7 +19,7 @@ Align only the active documentation and skill guidance surfaces needed before th
 - Updated csdlc-v3/README.md covering V3-A/B/C/D construction state, clean replacement target, V3-F non-goals, and focused proof commands.
 - Updated root AGENTS.md and docs/onboarding.md distinguishing current v2 authority from v3 construction and naming the three-minute prepared-issue start target.
 - Updated csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and all eleven csdlc-v2/operator/skills/*/SKILL.md files with explicit until-v3-cutover authority wording and v3 construction non-authority.
-- Checked installed Codex PR skills under /Users/daniel/.codex/skills/pr-* with local-only status recorded in SOR if updated.
+- Checked installed Codex PR skills through CODEX_SKILLS_ROOT or the default Codex skills root with local-only status recorded in SOR if updated.
 - Stale-route scan evidence for removed or non-current routes and premature v3 authority claims.
 
 ## Acceptance
@@ -27,7 +27,7 @@ Align only the active documentation and skill guidance surfaces needed before th
 1. AC-1: csdlc-v3/README.md documents the current V3-A/V3-B/V3-C/V3-D construction state, the clean replacement target, non-goals before V3-F, and focused proof commands.
 2. AC-2: Root AGENTS.md and docs/onboarding.md distinguish current v2 authority from v3 construction and name the three-minute prepared-issue start target.
 3. AC-3: csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and all eleven csdlc-v2/operator/skills/*/SKILL.md files state that v2 remains live authority only until explicit v3 cutover and that v3 construction cannot mutate lifecycle state.
-4. AC-4: Installed Codex PR skills under /Users/daniel/.codex/skills/pr-* are checked and, where updated outside the repo, the final SOR records their local-only status explicitly.
+4. AC-4: Installed Codex PR skills are checked through CODEX_SKILLS_ROOT or the default Codex skills root and, where updated outside the repo, the final SOR records their local-only status explicitly.
 5. AC-5: A stale-route scan proves the updated surfaces do not present adl_pr_cycle, pr.sh, pr ready, pr preflight, raw GitHub fallback, or v3 authority as current ADL workflow routes.
 
 ## Dependencies

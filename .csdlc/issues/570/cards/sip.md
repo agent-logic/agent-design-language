@@ -22,16 +22,14 @@ A bounded documentation and skill-guidance update makes the active repo docs, v3
 
 - AGENTS.md
 - docs/onboarding.md
+- docs/architecture/ADL_ARCHITECTURE.md
+- docs/tooling/adl_pr_cycle_skill.md
 - csdlc-v2/AGENTS.md
 - csdlc-v2/operator/SKILLS.md
 - csdlc-v2/operator/skills/**/SKILL.md
 - csdlc-v3/README.md
 - csdlc-v3/AGENTS.md
-- /Users/daniel/.codex/skills/pr-init/SKILL.md
-- /Users/daniel/.codex/skills/pr-ready/SKILL.md
-- /Users/daniel/.codex/skills/pr-run/SKILL.md
-- /Users/daniel/.codex/skills/pr-finish/SKILL.md
-- /Users/daniel/.codex/skills/pr-janitor/SKILL.md
+- Operator-local installed Codex PR skills under CODEX_SKILLS_ROOT or the default Codex skills root, checked only as local evidence and not committed as repository artifacts.
 - .csdlc/issues/570/**
 - .csdlc/prepared/issues/570/**
 - .csdlc/evidence/570/**

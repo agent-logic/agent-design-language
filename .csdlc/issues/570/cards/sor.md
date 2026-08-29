@@ -34,14 +34,18 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
 - csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md
 - csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md
 - csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md
+- .csdlc/evidence/570/authority-boundary-scan.log
+- .csdlc/evidence/570/diff-hygiene.log
+- .csdlc/evidence/570/docs-stale-route-scan.log
+- .csdlc/evidence/570/skill-guidance-scan.log
+- .csdlc/evidence/570/csdlc-validate.log
 - .csdlc/prepared/issues/570/validate-authority-boundary.sh
 - .csdlc/prepared/issues/570/validate-docs-routes.sh
 - .csdlc/prepared/issues/570/validate-skill-guidance.sh
 - .csdlc/prepared/issues/570/recover-review-after-pr584-findings.json
 - .csdlc/prepared/issues/570/repair-sor-status-ready.json
-- .csdlc/prepared/issues/570/replace-sor-execution-after-pr584-findings.json
-- /Users/daniel/.codex/skills/pr-janitor/SKILL.md
-- /Users/daniel/.codex/skills/adl_pr_cycle/SKILL.md
+- .csdlc/prepared/issues/570/replace-sor-execution-final-evidence-refs.json
+- Operator-local installed pr-janitor and adl_pr_cycle skill files under CODEX_SKILLS_ROOT or the default Codex skills root, recorded as local evidence only.
 
 ## Execution
 
@@ -52,8 +56,8 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
 - Updated docs/architecture/ADL_ARCHITECTURE.md so the legacy pr init/pr ready/pr run/pr finish/pr janitor/pr closeout flow is historical orientation only, not the current default lifecycle.
 - Expanded the docs route validator to include architecture guidance and tracked adl_pr_cycle guidance, and made stale-route rejection line-aware so historical/prohibited mentions do not false-fail.
 - Expanded the skill-guidance validator to include adl_pr_cycle, removed machine-specific hard-coded skill paths, and made installed-skill checks use CODEX_SKILLS_ROOT or HOME as local operator evidence.
-- Checked installed operator guidance and applied matching local-only wording to /Users/daniel/.codex/skills/pr-janitor/SKILL.md and /Users/daniel/.codex/skills/adl_pr_cycle/SKILL.md; these paths are outside the repository and are not part of the commit.
-- Recovered stale published review truth after PR #584 exact-head findings, repaired the SOR status from pre_phase to ready through typed csdlc-edit, and retained the recovery requests as issue-local evidence.
+- Checked installed operator guidance and applied matching local-only wording to pr-janitor and adl_pr_cycle under CODEX_SKILLS_ROOT or the default Codex skills root; those local files are outside the repository and are not commit artifacts.
+- Recovered stale published review truth after PR #584 exact-head findings, repaired the SOR status from pre_phase to ready through typed csdlc-edit, normalized SIP/STP/SOR card truth to portable local-evidence wording, and added concrete validation evidence logs.
 
 ## Validation
 
@@ -65,7 +69,7 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
     ],
     "purpose": "Run the issue-owned authority-boundary scan.",
     "outcome": "passed",
-    "evidence_ref": "authority-boundary-scan.log"
+    "evidence_ref": ".csdlc/evidence/570/authority-boundary-scan.log"
   },
   {
     "command": [
@@ -74,7 +78,7 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
     ],
     "purpose": "Run the expanded docs route scan including architecture and tracked adl_pr_cycle guidance.",
     "outcome": "passed",
-    "evidence_ref": "docs-stale-route-scan-pr584-remediation.log"
+    "evidence_ref": ".csdlc/evidence/570/docs-stale-route-scan.log"
   },
   {
     "command": [
@@ -83,7 +87,7 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
     ],
     "purpose": "Run the expanded skill guidance scan including installed adl_pr_cycle when local skills are present.",
     "outcome": "passed",
-    "evidence_ref": "skill-guidance-scan-pr584-remediation.log"
+    "evidence_ref": ".csdlc/evidence/570/skill-guidance-scan.log"
   },
   {
     "command": [
@@ -94,7 +98,7 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
     ],
     "purpose": "Run exact-range diff hygiene against the PR base.",
     "outcome": "passed",
-    "evidence_ref": "diff-hygiene-exact-range-pr584-remediation.log"
+    "evidence_ref": ".csdlc/evidence/570/diff-hygiene.log"
   },
   {
     "command": [
@@ -105,9 +109,9 @@ Align C-SDLC v3 documentation and skill guidance for cutover readiness while pre
       "--issue",
       "570"
     ],
-    "purpose": "Run typed C-SDLC validation after review recovery and SOR repair.",
+    "purpose": "Run typed C-SDLC validation after review recovery and card repairs.",
     "outcome": "passed",
-    "evidence_ref": "csdlc-validate-pr584-remediation.log"
+    "evidence_ref": ".csdlc/evidence/570/csdlc-validate.log"
   }
 ]
 

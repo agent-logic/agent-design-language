@@ -1,0 +1,19 @@
+{
+  "issue": 570,
+  "card": "stp",
+  "expected_generation": 15,
+  "expected_digest": "0ca31e282b07990257323759ea75f710f8f307c1a7e2891d6187c082a738b93c",
+  "claim_id": "claim-570-v3-g-portable-stp-acceptance",
+  "actor": "codex:worker-6",
+  "reason": "Normalize AC-4 so installed-skill checks are described portably.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: csdlc-v3/README.md documents the current V3-A/V3-B/V3-C/V3-D construction state, the clean replacement target, non-goals before V3-F, and focused proof commands.",
+      "AC-2: Root AGENTS.md and docs/onboarding.md distinguish current v2 authority from v3 construction and name the three-minute prepared-issue start target.",
+      "AC-3: csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and all eleven csdlc-v2/operator/skills/*/SKILL.md files state that v2 remains live authority only until explicit v3 cutover and that v3 construction cannot mutate lifecycle state.",
+      "AC-4: Installed Codex PR skills are checked through CODEX_SKILLS_ROOT or the default Codex skills root and, where updated outside the repo, the final SOR records their local-only status explicitly.",
+      "AC-5: A stale-route scan proves the updated surfaces do not present adl_pr_cycle, pr.sh, pr ready, pr preflight, raw GitHub fallback, or v3 authority as current ADL workflow routes."
+    ]
+  }
+}
