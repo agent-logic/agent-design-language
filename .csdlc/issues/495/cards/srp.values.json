@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 495,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
+    "slug": "cross-cloud-runtime-terraform-conversion",
+    "version": "v0.92.1",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #495 XCL-01 paths only: infra/runtime-portable, infra/aws/runtime, infra/gcp/workloads, docs/milestones/v0.92.1/evidence/cloud/xcl-01, .csdlc/prepared/issues/495, .csdlc/evidence/495, and narrow issue-owned validator/proof surfaces.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design keep #495 to XCL-01 cross-cloud Terraform conversion without absorbing AWS-G #496, GCP-E #494, DRT-D, or production cutover?",
+        "Does the design inventory the exact #194/#268 CloudFormation-template denominator and preserve CloudFormation rollback authority until AWS-G?",
+        "Are provider-neutral contract claims backed by explicit AWS/GCP security, identity, networking, state, and cleanup differences?",
+        "Does the proof plan truthfully separate static validation from paid/live apply/destroy parity and avoid credential disclosure?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

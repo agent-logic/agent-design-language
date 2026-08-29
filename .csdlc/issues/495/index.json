@@ -1,0 +1,132 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 495,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "8aa9a8c0ba290a29dfe6bfbab4b9ce40e04b2eaa164d076ad354755a661fb259",
+  "phase": "bound",
+  "generation": 6,
+  "digest": "3d07ed603a7681847d282354c75dbc2ca03b87ccbca619d19f707e29257811a0",
+  "branch": "codex/495-cross-cloud-runtime-terraform-conversion",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-495-cross-cloud-runtime-terraform-conversion",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/495/design.md",
+  "diagram_path": ".csdlc/prepared/issues/495/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:0da44fc7-5acf-46a6-b091-bea42b74d97d",
+      "revision": "400a5443b0af9aa3e3232fcda2a2d6412366b7d137a84b2940c46066e875e1f0"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f58999d64fe073a2a4e896a4d304430c1db619e675ee1b33489f79498a604363",
+      "rendered_digest": "888c873c9a2d8eeaed4fb7574e7c6838b463b26edbd71aeeb47317c7337305ce",
+      "ast_digest": "6d2b586ea1b5ccc012769c66cd62055c23724fa1cc495936a07bafba2b8a5f13"
+    },
+    "stp": {
+      "values_digest": "6f70185dcbf2973dfd180a2d742279aae36bbadb1a5db942eaa02b7ad42e9457",
+      "rendered_digest": "089719cd42a2e7f86a34f7cdabddb55e266193ad0dfd594852d4fbdf3a5ee1a5",
+      "ast_digest": "9cd34d5f7bd2135ea2359efd50a8b1d2ce40ba014970110ee385ecd170df6c14"
+    },
+    "spp": {
+      "values_digest": "45f374c0d8f316f0407dd0e5f016e3843a5cd21de66913a1d9fb70ba09a9f4ef",
+      "rendered_digest": "ac94f4d64d59ce2e4311d133806aafff7846be3b1b96732b22b8f49ccc584fef",
+      "ast_digest": "fd236528b7200b33b9ceccaf798bb854473a530634c26d0d3ac43b17fde91703"
+    },
+    "vpp": {
+      "values_digest": "c5043dd1f7394b6f2afeb23b35bb918db69f2860318592351f0d7281e1edbf20",
+      "rendered_digest": "7f5c1567761295e55778311fe8fe476b11a0990249717443851a50d4fc28e0e7",
+      "ast_digest": "08d54af7f84b9659423dc3975b1c39df05ab7b6746f073fcdb800a7683a88219"
+    },
+    "srp": {
+      "values_digest": "97afa8ceb10b0b7a834d4eeb8db2a49da4884d25c70c215e61346e9922f9cd51",
+      "rendered_digest": "e2580347992bd32aef486982854c6fd0e55d4fd1d26d2efa3a4cfeb4bb7d5107",
+      "ast_digest": "56959f5d5457eb73ab07bf78f60648c26572eabb9a519f07e9eec9c15d3e7e47"
+    },
+    "sor": {
+      "values_digest": "b185e04474bf4db0e907ec285cd34661dac581b16e72f641ebed6ee81b4e006f",
+      "rendered_digest": "b91f6462a28a2131b40ca472c1049b687f422823bd6ccaac5f83208907442c9f",
+      "ast_digest": "110bf1c63e1b759821c1875b77c3451b09db80be0e3501f73f40f6d5fba711bc"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #495 to ready/unbound after dependency terminal caches, corrected denominator inventory, governed validator card truth, prebind validation, fresh design review PASS, typed design approval, doctor PASS, and csdlc-validate PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:0da44fc7-5acf-46a6-b091-bea42b74d97d",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"400a5443b0af9aa3e3232fcda2a2d6412366b7d137a84b2940c46066e875e1f0\",\"design_ref\":\".csdlc/prepared/issues/495/design.md\",\"diagram_digest\":\"983842e336b78e648ed0e338fcf4f13e79c207a9471843037a1945bd00a8a594\",\"diagram_ref\":\".csdlc/prepared/issues/495/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Make #495 validator deliverable issue-owned for typed initialized readiness; prepared validator remains bootstrap evidence and the governed product validator is created after bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"infra/runtime-portable portable workload contract and module documentation\",\"infra/aws/runtime Terraform implementation/adapters for the admitted #194/#268 denominator\",\"infra/gcp/workloads Terraform implementation/adapters consuming GCP-D foundation truth\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01 retained proof packet\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\".csdlc/prepared/issues/495/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\"typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Remove generated prepared validator from product deliverables so typed readiness only requires issue-owned governed validation targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"infra/runtime-portable portable workload contract and module documentation\",\"infra/aws/runtime Terraform implementation/adapters for the admitted #194/#268 denominator\",\"infra/gcp/workloads Terraform implementation/adapters consuming GCP-D foundation truth\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01 retained proof packet\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\"typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Make the deferred #495 governed validator an exact affected path so initialized readiness has an issue-owned validation denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"infra/runtime-portable\",\"infra/aws/runtime\",\"infra/gcp/workloads\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\".csdlc/prepared/issues/495\",\".csdlc/evidence/495\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Align #495 initialized readiness with the issue-owned governed validator target; runnable generated prebind validation remains evidence, while product validation is deferred until the bound worktree creates the owned validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"xcl-01-governed-validator\",\"proof_role\":\"After bind, proves #495 denominator inventory, portable contract, AWS/GCP Terraform surfaces, provider-specific identity/network/IAM differences, CloudFormation rollback retention, redacted proof packet, and explicit paid/live proof gating. During initialized readiness, this lane is an issue-owned deferred validator target paired with the generated prebind validator already executed before design approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\"--lane=all\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #495 is bound and implementation creates the issue-owned governed validator plus complete cross-cloud conversion surfaces.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Advance #495 to ready/unbound after dependency terminal caches, corrected denominator inventory, governed validator card truth, prebind validation, fresh design review PASS, typed design approval, doctor PASS, and csdlc-validate PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}
