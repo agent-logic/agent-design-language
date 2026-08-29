@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "abdf40a839dccc57404e983e30c66c542d4fe772904e25f8c9ef6ee771fd354b",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "dd3a0d473efebc1e084e48f9ccdee4f38723b74ff57b77c5ffd008d19b57595a",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
   "review_assignment": {
@@ -36,7 +36,40 @@
       ".csdlc/issues/578/cards/sor.values.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:2fc936d8-c1bd-4350-90b3-cc50d89fc449",
+    "scope": [
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/http_family/tests.rs",
+      "adl/src/provider_adapter.rs",
+      "adl/src/provider_communication.rs",
+      "adl/src/agent_comms.rs",
+      "adl/src/agent_comms/dispatch/coding.inc",
+      "adl/tests/provider_tests/profiles.rs",
+      "adl/tests/provider_tests/http_family.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+      ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+      ".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh",
+      ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md",
+      ".csdlc/issues/578/index.json",
+      ".csdlc/issues/578/cards/sor.md",
+      ".csdlc/issues/578/cards/sor.values.json"
+    ],
+    "reviewed_revision": "git-blake3:e90d097e19e4ec43580dbb5a60d876aba38b3924:b434597ecea6bdd9dd75335078acdc0a576efe0f0ad4d01b7abba518b878c58b",
+    "findings": [],
+    "residual_risks": [
+      "Live Z.ai dispatch remains credential-gated and was not claimed because ZAI_API_KEY was absent in the local shell.",
+      "OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.",
+      "The fresh reviewer ran focused adapter/profile/diff checks rather than the full provider test suite; local focused validation and prior PR CI cover the bounded surface."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -51,32 +84,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "53bcda143f8e1c642149be020b7a3e40593bcd23433f8d148116acae00416660",
+      "values_digest": "e28ac0851f5bfd6de9b0af4f0bf1381526dffbb4a49493c8e9a730832f877863",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "09ddeccaf8e4d417054b61f3a2f695afb04061092864950e0ea7a8292e1dc3bc",
+      "values_digest": "3da6b8165c2b1ba9414c4ee6f6a5810ddd2aa8671a351faaa4ad1bb1c96c28f9",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "ceff256bcdefc3ddec25093a6e68e3c60c2c52f79603dfc20564ddc33556c669",
+      "values_digest": "51bb285f3de35f0216fcf6db5b8ee7139b3e01ae0ae2be0ddd3b539de58ebb80",
       "rendered_digest": "6d7f4116285b862dcdf00e96174502f8d517bd24b6223155e06e2b7f2141c0bc",
       "ast_digest": "7256508d231339fa26e20251939b3735270f4f6b6d4ae1d207f471484442b3c8"
     },
     "vpp": {
-      "values_digest": "ea0103a4f977d404ed702bd3668970464597c97a2c309825b425f81d222c13c7",
+      "values_digest": "17f832e1912cf76ca4819a95474a6e1730c08a5e25bb1edceb0277ad268b04ca",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "669ecd174f8148ca611e7b3f023a393d633476c66e9464c3af472c30c7f43e22",
-      "rendered_digest": "7e38682a93478580d63fe7c3014f79928bf542549a3e5f4c01844f03947d9c86",
-      "ast_digest": "e2bb341415c8a2dbf9bfecb7b4b4c3e136752d84e74fc0a42478e13542744bc2"
+      "values_digest": "791f1f742f73e82ff52a9bbd218077ca039cd81e9d9ac1e7cf23344ec524f0c7",
+      "rendered_digest": "2640f618c8cc5014aa616d19efc29aebb22fa9003cdf6c71175f363a6436b135",
+      "ast_digest": "617702fd33526ec59f9511e330bc794cb8fd80eb4e99b4fb051665ddbee3cbb0"
     },
     "sor": {
-      "values_digest": "5a0b56e323036dfa52fc49c22b45e002be3ddfdffa1d6c0673c81f3c6d91dcdd",
+      "values_digest": "548d9f424d7fde5773224ac72ec1cb9b2ae02de7020d312fa98e89e86ba3f059",
       "rendered_digest": "e9d9cb599459134c0909e71dcb33eafff25956d2391efeb518fd3f19cb439398",
       "ast_digest": "064d683d8838f46250a6672c27240fa6edc47b74c30efdefb70d7c2645344df0"
     }
@@ -158,6 +191,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "Recover #578 from stale published review after repairing GLM-5.3-Flash endpoint preservation and runtime adapter callability."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:2fc936d8-c1bd-4350-90b3-cc50d89fc449",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -328,6 +368,13 @@
       "actor": "codex:root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 16,
+      "actor": "fresh-session:2fc936d8-c1bd-4350-90b3-cc50d89fc449",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

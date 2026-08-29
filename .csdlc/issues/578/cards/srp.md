@@ -51,12 +51,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live Z.ai dispatch remains credential-gated and was not claimed because ZAI_API_KEY was absent in the local shell.
+- OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.
+- The fresh reviewer ran focused adapter/profile/diff checks rather than the full provider test suite; local focused validation and prior PR CI cover the bounded surface.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:e90d097e19e4ec43580dbb5a60d876aba38b3924:b434597ecea6bdd9dd75335078acdc0a576efe0f0ad4d01b7abba518b878c58b")
 
-Reviewer: None
+Reviewer: Some("fresh-session:2fc936d8-c1bd-4350-90b3-cc50d89fc449")
 
-Result: pre_review
+Result: pass
