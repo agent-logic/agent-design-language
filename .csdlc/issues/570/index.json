@@ -4,14 +4,82 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f174a3f01d27cb916e12b2d5886c2dba4acc49e44950da7aa1b5a83728474945",
-  "phase": "implemented",
-  "generation": 18,
-  "digest": "3eb46c563ec6b328c0ea5bb15a60545599791c99b5fea3a06397cb9559464308",
+  "phase": "published",
+  "generation": 22,
+  "digest": "6447f1193c5644d5f62bc4cc3f67c5925ca1a8440504924014b8f74bc3eebfb3",
   "branch": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-570-v3-g-docs-skill-cutover-readiness-exec",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue_570_pr584_repair_review",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:256a222edf9030877b42e31f2521a1ef43690fda:0f7f20a1a2cd61bf1d2fc1df80a6fa6a80721807853b3d1c6208de46ad01b77d",
+    "scope": [
+      "AGENTS.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "csdlc-v3/README.md",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      ".csdlc/prepared/issues/570/validate-authority-boundary.sh",
+      ".csdlc/prepared/issues/570/validate-docs-routes.sh",
+      ".csdlc/prepared/issues/570/validate-skill-guidance.sh",
+      ".csdlc/prepared/issues/570/recover-review-after-pr584-findings.json",
+      ".csdlc/prepared/issues/570/repair-sor-status-ready.json",
+      ".csdlc/prepared/issues/570/normalize-sip-scope-local-skills.json",
+      ".csdlc/prepared/issues/570/normalize-stp-deliverables-local-skills.json",
+      ".csdlc/prepared/issues/570/normalize-stp-acceptance-local-skills.json",
+      ".csdlc/prepared/issues/570/replace-sor-execution-portable-evidence-refs.json",
+      ".csdlc/prepared/issues/570/replace-sor-execution-final-evidence-refs.json",
+      ".csdlc/evidence/570"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue_570_pr584_repair_review",
+    "scope": [
+      "AGENTS.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "csdlc-v3/README.md",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      ".csdlc/prepared/issues/570/validate-authority-boundary.sh",
+      ".csdlc/prepared/issues/570/validate-docs-routes.sh",
+      ".csdlc/prepared/issues/570/validate-skill-guidance.sh",
+      ".csdlc/prepared/issues/570/recover-review-after-pr584-findings.json",
+      ".csdlc/prepared/issues/570/repair-sor-status-ready.json",
+      ".csdlc/prepared/issues/570/normalize-sip-scope-local-skills.json",
+      ".csdlc/prepared/issues/570/normalize-stp-deliverables-local-skills.json",
+      ".csdlc/prepared/issues/570/normalize-stp-acceptance-local-skills.json",
+      ".csdlc/prepared/issues/570/replace-sor-execution-portable-evidence-refs.json",
+      ".csdlc/prepared/issues/570/replace-sor-execution-final-evidence-refs.json",
+      ".csdlc/evidence/570"
+    ],
+    "reviewed_revision": "git-blake3:256a222edf9030877b42e31f2521a1ef43690fda:0f7f20a1a2cd61bf1d2fc1df80a6fa6a80721807853b3d1c6208de46ad01b77d",
+    "findings": [],
+    "residual_risks": [
+      "Immutable audit history still records superseded machine-local paths from prior generation payloads; live SIP/STP/SOR card truth and prepared replay files now use portable CODEX_SKILLS_ROOT/default-root wording."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 570,
+    "pull_request": 584,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/584",
+    "base": "main",
+    "head": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
+    "revision": "git-blake3:256a222edf9030877b42e31f2521a1ef43690fda:0f7f20a1a2cd61bf1d2fc1df80a6fa6a80721807853b3d1c6208de46ad01b77d",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +93,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ffc9d739f4f58a3abda5176948a96bf88bf6108cb68957cbc8512268385f11b",
+      "values_digest": "9bcd1707d3e39df60f86b4cb62988cb6234907b8557802c0380c07aa9ecb1387",
       "rendered_digest": "b9094982a311b0e3e1a7189395e81cfbf13f8d9df1d8e691c2df763c89897a40",
       "ast_digest": "daf9916f613df96bdc9d7808d24fa5486c6963c823c2c373f18fa4d8af14148e"
     },
     "stp": {
-      "values_digest": "705d224178437050151242179eaae281c5c0674907ea1da139cab8c559786ed7",
+      "values_digest": "a7b2467eebf924be5437d11027f6525d8a0276a07f443663a97a9cdb32d3663f",
       "rendered_digest": "c2d4ee9f4df1de377f9068629f139260ed73c3560cdc159adbaa860b918731b7",
       "ast_digest": "13883a6903f8a87ca71e9b98354379bbaa9a22c7cab4e18eeae63e90d8b5ebcb"
     },
     "spp": {
-      "values_digest": "c1c9bf0590812e746c5f50ff94898fc320471dc243fd791746b8d686841ead79",
+      "values_digest": "b5f2d3728b8902b89619f4811e67b815c25e6a6470a6fcf6a4a5a4bc0d354f01",
       "rendered_digest": "c250fd9ac553a4733e8093e4b2b750710b4ea2fb3d0a6d1321d41553e13520b7",
       "ast_digest": "9c27b9c89b0142a75c195f07b1de413dff533b464f784fb14d107cf09fdab6fa"
     },
     "vpp": {
-      "values_digest": "442de0b382e99a98e94dad0efbc08ad3fd9d25363fa6ff2d2c27ee27642e08de",
+      "values_digest": "1e150d2c22ec6ac6617c1ded6e70c6c30ee34617ffa228d3ab0cb487308681fc",
       "rendered_digest": "2fd6ab6cb6f8732ad50836a77cc927def7cec3c26946e8e98c91bbb830389e51",
       "ast_digest": "24a7e5bd76d1175940f4b16035da5e2e3dbb727dba6b895cf8489e9a5ae883c5"
     },
     "srp": {
-      "values_digest": "358be05678b7ac71e416c3484c53ac3814b70bcf36c71af479785d6b3fa244b3",
-      "rendered_digest": "52b999a47c7895de7b5c42826b75d3b1d8df5e1fcb30424afec407c883d59ffc",
-      "ast_digest": "ef55d8449d7c0898af93df2cb6c0d6641384900683ce30133405f040ae81d117"
+      "values_digest": "a52b7c00a0091fe5dad6ac4a165a65edd68234643e7db41c8b6bdfa335b805a5",
+      "rendered_digest": "44275194df9945c4666434306b84957554a49af0380afb1cdf353bffef7adda0",
+      "ast_digest": "fafc4d20b2b7d0d3b2f6cd905cab17ae18b1cf9326ac51ae7e8ab3a323075265"
     },
     "sor": {
-      "values_digest": "d232ebde4d989b4daeffa26be8ba485279434d66774a8e027fa4c600acacdc62",
-      "rendered_digest": "780eb048ec7dc8eb0ea17098dbb26f130436c80b95c02c82892561d321920f83",
-      "ast_digest": "edbe3dbfffb08848afce507fe162c841b4ed09c3f92634840cbaa19d5d169cd8"
+      "values_digest": "014a48f41970a7eb5a0c98686162573a7917864e0d20f6c1053e71a0214da709",
+      "rendered_digest": "a2033bc96aca5a1dd2e955be3688dd8326accf3bc3198f71209d845c68c25690",
+      "ast_digest": "5f7fe7b9def4e112aa5dd267e0d77f13d11fa283815e7146ac99d385f000fce0"
     }
   },
   "transitions": [
@@ -97,6 +165,34 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #570 after PR #584 exact-head review found stale-route and SOR-truth defects requiring bounded remediation before republication."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover review metadata whose scope included lifecycle issue records and would make review-record metadata part of the substantive publication tree."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -260,6 +356,48 @@
       "actor": "codex:worker-6",
       "reason": "Point final SOR validation truth at concrete tracked evidence logs.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Align C-SDLC v3 documentation and skill guidance for cutover readiness while preserving C-SDLC v2 as the live lifecycle authority until V3-F/#505, including PR #584 stale-route remediation.\",\"changes\":[\"Updated root AGENTS.md and docs/onboarding.md to make the until-V3-F/#505 v2 authority boundary explicit and add the three-minute prepared-v3 issue start target.\",\"Expanded csdlc-v3/README.md with current V3-A/B/C/D state, the #571 corrective gate, the clean replacement target, pre-#505 non-goals, and focused proof commands.\",\"Updated csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and every checked-in v2 operator skill with until-cutover v2 authority and v3 construction non-authority guidance.\",\"Converted tracked docs/tooling/adl_pr_cycle_skill.md from executable compatibility procedure to historical-only blocked guidance that routes current work to typed C-SDLC v2 owner skills.\",\"Updated docs/architecture/ADL_ARCHITECTURE.md so the legacy pr init/pr ready/pr run/pr finish/pr janitor/pr closeout flow is historical orientation only, not the current default lifecycle.\",\"Expanded the docs route validator to include architecture guidance and tracked adl_pr_cycle guidance, and made stale-route rejection line-aware so historical/prohibited mentions do not false-fail.\",\"Expanded the skill-guidance validator to include adl_pr_cycle, removed machine-specific hard-coded skill paths, and made installed-skill checks use CODEX_SKILLS_ROOT or HOME as local operator evidence.\",\"Checked installed operator guidance and applied matching local-only wording to pr-janitor and adl_pr_cycle under CODEX_SKILLS_ROOT or the default Codex skills root; those local files are outside the repository and are not commit artifacts.\",\"Recovered stale published review truth after PR #584 exact-head findings, repaired the SOR status from pre_phase to ready through typed csdlc-edit, normalized SIP/STP/SOR card truth to portable local-evidence wording, and added concrete validation evidence logs.\"],\"artifacts\":[\"AGENTS.md\",\"docs/onboarding.md\",\"docs/architecture/ADL_ARCHITECTURE.md\",\"docs/tooling/adl_pr_cycle_skill.md\",\"csdlc-v3/README.md\",\"csdlc-v2/AGENTS.md\",\"csdlc-v2/operator/SKILLS.md\",\"csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md\",\"csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md\",\".csdlc/evidence/570/authority-boundary-scan.log\",\".csdlc/evidence/570/diff-hygiene.log\",\".csdlc/evidence/570/docs-stale-route-scan.log\",\".csdlc/evidence/570/skill-guidance-scan.log\",\".csdlc/evidence/570/csdlc-validate.log\",\".csdlc/prepared/issues/570/validate-authority-boundary.sh\",\".csdlc/prepared/issues/570/validate-docs-routes.sh\",\".csdlc/prepared/issues/570/validate-skill-guidance.sh\",\".csdlc/prepared/issues/570/recover-review-after-pr584-findings.json\",\".csdlc/prepared/issues/570/repair-sor-status-ready.json\",\".csdlc/prepared/issues/570/replace-sor-execution-final-evidence-refs.json\",\"Operator-local installed pr-janitor and adl_pr_cycle skill files under CODEX_SKILLS_ROOT or the default Codex skills root, recorded as local evidence only.\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/570/validate-authority-boundary.sh\"],\"purpose\":\"Run the issue-owned authority-boundary scan.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/570/authority-boundary-scan.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/570/validate-docs-routes.sh\"],\"purpose\":\"Run the expanded docs route scan including architecture and tracked adl_pr_cycle guidance.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/570/docs-stale-route-scan.log\"},{\"command\":[\"bash\",\".csdlc/prepared/issues/570/validate-skill-guidance.sh\"],\"purpose\":\"Run the expanded skill guidance scan including installed adl_pr_cycle when local skills are present.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/570/skill-guidance-scan.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Run exact-range diff hygiene against the PR base.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/570/diff-hygiene.log\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"570\"],\"purpose\":\"Run typed C-SDLC validation after review recovery and card repairs.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/570/csdlc-validate.log\"}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "Recover review metadata whose scope included lifecycle issue records and would make review-record metadata part of the substantive publication tree.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
