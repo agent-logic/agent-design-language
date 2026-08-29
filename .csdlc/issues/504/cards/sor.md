@@ -105,11 +105,11 @@ Implemented the non-authoritative V3-E remote-delivery workflow, merged current 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
