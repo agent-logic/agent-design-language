@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 345,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+    "slug": "aws-gpu-shepherd-proof-runner",
+    "version": "v0.92.1",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review the complete issue-#345 diff against exact origin/main, with emphasis on paid-launch authority, AWS account and pre-provisioned resource verification, owner-bound cleanup, exact revision/artifact/model proof, evidence redaction, and the optional/non-production claim boundary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any path launch paid compute before account, authorization, cost, deadline, lock, IAM, no-ingress, artifact, quota, and reaper predicates are proven?",
+        "Can interruption or a partial AWS response leave an unowned instance, volume, lock, or cleanup ambiguity?",
+        "Can a stale source, artifact, runner, backend, or retained response be presented as current real-model GPU proof?",
+        "Can public evidence expose credentials, AWS identifiers, private paths, prompts, responses, or environment values?",
+        "Does the issue remain an optional portability proof without changing Runtime/local Shepherd acceptance or absorbing #256?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+flowchart TD
+  H["Historical #5795 runner and evidence<br/>read-only recovery input"] --> R["#345 reusable GPU proof runner"]
+  A["Explicit operator authorization<br/>exact revision + cost ceiling"] --> R
+  P["agent-logic-admin<br/>approved business account"] --> F["Read-only preflight"]
+  I["Pre-provisioned IAM / no-ingress SG / S3 versions / quota / reaper"] --> F
+  R --> F
+  F -->|"refusal"| X["No launch"]
+  F -->|"all predicates pass"| L["One On-Demand GPU instance"]
+  L --> S["SSM exact-revision bootstrap"]
+  S --> M["Pinned model/runtime restoration<br/>digest + GPU residency proof"]
+  M --> G["Governed Shepherd model-backed execution"]
+  G --> E["Bounded redacted evidence"]
+  E --> C["Owner-bound cleanup"]
+  T["Local trap"] --> C
+  U["Guest deadline timer"] --> C
+  D["Permanent tag-scoped reaper"] --> C
+  C --> Z["No temporary instance or volume remains"]
+  E -. "optional evidence input" .-> B["#256 birthday-demo consumer"]

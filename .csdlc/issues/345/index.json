@@ -1,0 +1,76 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 345,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
+  "phase": "initialized",
+  "generation": 2,
+  "digest": "e44baa066fca7c43de43a549e4503dde5d63d5f82407897131b8f503ff6de59a",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/345/design.md",
+  "diagram_path": ".csdlc/prepared/issues/345/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "2d1e269363b2b63a635fda9e0e0418b6cb822c5385733b431ac6dfff70146a76",
+      "rendered_digest": "8938409a9b1325974a7580fa579fa3779b37293b59a35f3e41056ae026958d9f",
+      "ast_digest": "d70c20ab4abcc96865ac41d795c95b246afad5f3b55a76f88364f08516e56c3b"
+    },
+    "stp": {
+      "values_digest": "16c2e80db8fe8975fa08d7cc005725f9e652b63b549c096cb1db784c5080961f",
+      "rendered_digest": "3e0297d1465f8f80e9038a11585826f0db491b28a8bfcb2ce89ba4824b993939",
+      "ast_digest": "186663e96d9094357924e2ed1c5b6d1b83374e0056a21771baccb3665097078b"
+    },
+    "spp": {
+      "values_digest": "ede474a55b7b6e42838e316d9261fcb75492973215fd3cd82bae7a612f05068a",
+      "rendered_digest": "fdfab867eb938b2abe6fa13ac84ffeb61e3cceddd268469c793bcd26669389c6",
+      "ast_digest": "80b856f194cfc7c6a241d88ea3d728a3cbf7c134c486fdfd0b57853773d09c83"
+    },
+    "vpp": {
+      "values_digest": "aa70d30d5114124155ef5df52323c046b62edc6be7b388498926b03a1ede40c3",
+      "rendered_digest": "66741aa1e2e7a8aa6c09f6add5674d5b87f1db4a4e8fbb0bd582acad5cb3ee3f",
+      "ast_digest": "3b72bc8145ab9517c6184cdc1842c39496aac592be65ffdf208defba499b5fbe"
+    },
+    "srp": {
+      "values_digest": "be5af2f92dc270bf06bf4d4c0c20701a22836c0b8bec9b5ec4c203a6f75c86c3",
+      "rendered_digest": "dc98fee9fc127f7c749ec1e2e183ac0fe280a46ef08916ea18c0b7627baad6b4",
+      "ast_digest": "370ff7b7edd5b14761441cffde0a3011ed6ffefe167c2f6e843535678fd90949"
+    },
+    "sor": {
+      "values_digest": "3373823eb6df77eba1317d0f271bdbdd9285cc8f05302e00a9e3afcaaa610f2d",
+      "rendered_digest": "7ea4c6259aa9ecd1d185162147a9223aeca4673a3632ac88c08e75583ec59622",
+      "ast_digest": "a6abbee28e7a473678ffa06395c1cd92ab62d6b896cf5dd51862b69e6b745f86"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root:issue-345-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root:issue-345-preparation",
+      "reason": "Name the exact issue-owned runner and executable fixture so initialized readiness can bind their intentional implementation deferral.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Issue-#345-owned reusable AWS GPU proof command\",\"Executable deterministic runner contract and negative tests\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"Read-only business-account, IAM, no-ingress, artifact, quota, price, and reaper preflight\",\"Exact-revision model-backed GPU execution and bounded evidence contract\",\"Owner-bound trap, guest-timer, and permanent-reaper cleanup\",\"Redacted cost, proof, and cleanup receipt schema\",\"Operator runbook separating preflight from paid execution\",\"Fresh exact-head review and truthful publication handoff\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Replace bootstrap validation lanes with the issue-owned executable targets and explicit preparation-time deferrals required for fail-closed readiness.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue345-runner-contract\",\"proof_role\":\"Execute positive and negative runner fixtures for parsing, account/IAM/security-group/artifact validation, lock ownership, exact revision, interruption, deadline, cleanup, and redaction without AWS mutation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"parallel_group\":\"local-contract\",\"defer_reason\":\"The issue-owned executable fixture is an explicit implementation deliverable; readiness fails closed until this exact target exists and passes.\"},{\"lane\":\"issue345-readonly-aws-preflight\",\"proof_role\":\"Verify the approved business-account and all pre-provisioned launch predicates without acquiring a lock or launching compute.\",\"acceptance_ids\":[\"AC-2\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"preflight\"],\"parallel_group\":\"aws-readonly\",\"defer_reason\":\"The issue-owned runner is an explicit implementation deliverable; no AWS readback or mutation is authorized until this exact target exists and passes deterministic review.\"},{\"lane\":\"issue345-paid-gpu-proof\",\"proof_role\":\"Run one exact-revision, real-model, GPU-resident Shepherd proof and prove owner-bound cleanup and bounded cost.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"large\",\"budget_seconds\":3600,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"EXACT_REVIEWED_SHA\",\"--run-id\",\"AUTHORIZED_RUN_ID\",\"--execute\"],\"parallel_group\":\"aws-paid-serial\",\"defer_reason\":\"Requires separate operator authorization naming the exact reviewed revision, one run ID, deadline, and maximum cost after read-only preflight and launch-readiness review pass.\"},{\"lane\":\"issue345-diff-hygiene\",\"proof_role\":\"Reject whitespace defects in the exact issue change.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"local-contract\",\"defer_reason\":null}]}"
+    }
+  ]
+}
