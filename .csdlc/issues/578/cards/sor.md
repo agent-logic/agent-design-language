@@ -98,11 +98,11 @@ Implemented a general direct Z.ai GLM-5.3-Flash provider profile, preserved exis
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
