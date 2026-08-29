@@ -28,8 +28,14 @@ packet_text = [stp, sip, spp_markdown].join("\n")
 
 assert(issue["issue"] == 504, "wrong issue")
 assert(issue["repository"] == "agent-logic/agent-design-language", "wrong repository")
-assert(["initialized", "ready"].include?(issue["phase"]), "pre-bind validator expects initialized or ready #504")
-assert(issue["worktree"].nil?, "pre-bind validator requires #504 to remain unbound")
+phase = issue["phase"]
+assert(["initialized", "ready", "implemented"].include?(phase), "validator expects initialized, ready, or implemented #504")
+if phase == "implemented"
+  assert(issue["branch"] == "codex/504-v3-e-remote-delivery-workflow-exec", "implemented #504 branch drift")
+  assert(issue["worktree"] == File.join(File.dirname(ROOT), "adl-issue-504-v3-e-remote-delivery-workflow-exec"), "implemented #504 worktree drift")
+else
+  assert(issue["worktree"].nil?, "pre-bind validator requires #504 to remain unbound")
+end
 
 required = [
   "Review binds exact immutable scope",
@@ -53,6 +59,18 @@ assert(lane["lane"] == "prebind-v3-e-preparation", "unexpected pre-bind lane")
 assert(lane["argv"] == ["ruby", ".csdlc/prepared/issues/504/validate-remote-workflow.rb"], "pre-bind lane must target this validator")
 assert(lane["defer_reason"].nil?, "pre-bind validator must be executable, not deferred")
 
+if phase == "implemented"
+  [
+    "csdlc-v3/src/commands/remote/mod.rs",
+    "csdlc-v3/src/review/mod.rs",
+    "csdlc-v3/src/publication/mod.rs",
+    "csdlc-v3/tests/remote_commands.rs",
+    "csdlc-v3/tests/remote_commands/remote_delivery.rs"
+  ].each do |path|
+    assert(File.file?(File.join(ROOT, path)), "missing implemented artifact #{path}")
+  end
+end
+
 review_prompts = srp.dig("content", "values", "review_prompts") || []
 combined = review_prompts.join("\n") + "\n" + packet_text
 ["#503", "#174 through #178", "Closes #504"].each do |needle|
@@ -64,7 +82,7 @@ puts JSON.generate(
     schema: "adl.csdlc_v3.issue504.prebind_validation.v1",
     status: "pass",
     issue: 504,
-    phase: issue["phase"],
+    phase: phase,
     checked: [
       "acceptance_denominator",
       "503_terminal_dependency",
@@ -72,7 +90,7 @@ puts JSON.generate(
       "v3_non_authority_boundary",
       "future_closing_linkage",
       "single_executable_prebind_lane",
-      "unbound_ready_gate"
+      phase == "implemented" ? "bound_implemented_artifacts" : "unbound_ready_gate"
     ]
   }
 )
