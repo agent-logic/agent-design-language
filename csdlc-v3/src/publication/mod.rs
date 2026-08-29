@@ -87,8 +87,10 @@ pub enum FinishRejectReason {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CleanupCandidate {
     pub preview: bool,
+    pub preview_receipt: bool,
     pub committed_closed_out: bool,
     pub terminal_receipt: bool,
+    pub canonical_identity_verified: bool,
     pub registered_worktree: PathBuf,
     pub candidate_path: PathBuf,
     pub dirty: bool,
@@ -105,6 +107,8 @@ pub enum CleanupClassification {
 pub enum CleanupRejectReason {
     NotTerminal,
     MissingReceipt,
+    MissingPreviewReceipt,
+    NonCanonicalPath,
     PathMismatch,
     DirtyWorktree,
     LiveWorktree,
@@ -199,6 +203,12 @@ pub fn classify_cleanup(
     if !candidate.terminal_receipt {
         return Err(CleanupRejectReason::MissingReceipt);
     }
+    if !candidate.canonical_identity_verified
+        || !is_canonical_absolute(&candidate.registered_worktree)
+        || !is_canonical_absolute(&candidate.candidate_path)
+    {
+        return Err(CleanupRejectReason::NonCanonicalPath);
+    }
     if !same_path(&candidate.registered_worktree, &candidate.candidate_path) {
         return Err(CleanupRejectReason::PathMismatch);
     }
@@ -212,6 +222,8 @@ pub fn classify_cleanup(
         Ok(CleanupClassification::PreviewEligible {
             path: candidate.candidate_path.clone(),
         })
+    } else if !candidate.preview_receipt {
+        Err(CleanupRejectReason::MissingPreviewReceipt)
     } else {
         Ok(CleanupClassification::RemoveEligible {
             path: candidate.candidate_path.clone(),
@@ -266,4 +278,14 @@ fn authorization_digest(authorization: &PublicationAuthorization) -> String {
 
 fn same_path(left: &Path, right: &Path) -> bool {
     left == right
+}
+
+fn is_canonical_absolute(path: &Path) -> bool {
+    path.is_absolute()
+        && path.components().all(|component| {
+            !matches!(
+                component,
+                std::path::Component::CurDir | std::path::Component::ParentDir
+            )
+        })
 }

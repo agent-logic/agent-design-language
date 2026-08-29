@@ -55,8 +55,10 @@ fn issue(open: bool) -> IssueReadback {
 fn cleanup() -> CleanupCandidate {
     CleanupCandidate {
         preview: true,
+        preview_receipt: false,
         committed_closed_out: true,
         terminal_receipt: true,
+        canonical_identity_verified: true,
         registered_worktree: PathBuf::from("/Volumes/FastWork/adl-worktrees/adl-issue-504"),
         candidate_path: PathBuf::from("/Volumes/FastWork/adl-worktrees/adl-issue-504"),
         dirty: false,
@@ -297,6 +299,7 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
     );
     let mut remove = cleanup();
     remove.preview = false;
+    remove.preview_receipt = true;
     assert_eq!(
         classify_cleanup(&remove),
         Ok(CleanupClassification::RemoveEligible {
@@ -308,6 +311,31 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
     assert_eq!(
         classify_cleanup(&attack),
         Err(CleanupRejectReason::PathMismatch)
+    );
+    let mut relative = cleanup();
+    relative.candidate_path = PathBuf::from("adl-issue-504");
+    assert_eq!(
+        classify_cleanup(&relative),
+        Err(CleanupRejectReason::NonCanonicalPath)
+    );
+    let mut parent_component = cleanup();
+    parent_component.candidate_path =
+        PathBuf::from("/Volumes/FastWork/adl-worktrees/../adl-worktrees/adl-issue-504");
+    assert_eq!(
+        classify_cleanup(&parent_component),
+        Err(CleanupRejectReason::NonCanonicalPath)
+    );
+    let mut unverified = cleanup();
+    unverified.canonical_identity_verified = false;
+    assert_eq!(
+        classify_cleanup(&unverified),
+        Err(CleanupRejectReason::NonCanonicalPath)
+    );
+    let mut no_preview_receipt = cleanup();
+    no_preview_receipt.preview = false;
+    assert_eq!(
+        classify_cleanup(&no_preview_receipt),
+        Err(CleanupRejectReason::MissingPreviewReceipt)
     );
 }
 
