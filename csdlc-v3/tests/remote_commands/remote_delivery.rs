@@ -10,11 +10,14 @@ use csdlc_v3::review::{
     authorize_publication, FindingDisposition, ReviewFinding, ReviewRejectReason, ReviewTarget,
 };
 use csdlc_v3::REMOTE_DELIVERY_PREDECESSORS;
+use std::fs;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 const ISSUE: u64 = 504;
 const REVISION: &str = "974abc520454690f0b392162b9ced783e8584017";
 const REPOSITORY: &str = "agent-logic/agent-design-language";
+static NEXT_CLEANUP_ID: AtomicUsize = AtomicUsize::new(0);
 
 fn pvf() -> AcceptedPvfResult {
     AcceptedPvfResult {
@@ -53,14 +56,28 @@ fn issue(open: bool) -> IssueReadback {
 }
 
 fn cleanup() -> CleanupCandidate {
+    let id = NEXT_CLEANUP_ID.fetch_add(1, Ordering::SeqCst);
+    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("target")
+        .join(format!(
+            "remote-cleanup-worktree-{}-{id}",
+            std::process::id()
+        ));
+    if path.exists() {
+        fs::remove_dir_all(&path).expect("remove prior cleanup fixture");
+    }
+    fs::create_dir_all(&path).expect("create cleanup fixture");
+    cleanup_at(path)
+}
+
+fn cleanup_at(path: PathBuf) -> CleanupCandidate {
     CleanupCandidate {
         preview: true,
         preview_receipt: false,
         committed_closed_out: true,
         terminal_receipt: true,
-        canonical_identity_verified: true,
-        registered_worktree: PathBuf::from("/Volumes/FastWork/adl-worktrees/adl-issue-504"),
-        candidate_path: PathBuf::from("/Volumes/FastWork/adl-worktrees/adl-issue-504"),
+        registered_worktree: path.clone(),
+        candidate_path: path,
         dirty: false,
         live: false,
     }
@@ -78,6 +95,8 @@ fn v3e_denominator_is_exact() {
 
 #[test]
 fn accepted_pvf_result_reaches_safe_cleanup_preview() {
+    let cleanup_candidate = cleanup();
+    let cleanup_path = cleanup_candidate.candidate_path.clone();
     let input = RemoteDeliveryInput {
         pvf: pvf(),
         review: accepted_review(
@@ -90,7 +109,7 @@ fn accepted_pvf_result_reaches_safe_cleanup_preview() {
         publication: publication(PublicationMode::Closing, "Closes #504"),
         pull_request: merged_pr(REVISION),
         issue: issue(false),
-        cleanup: cleanup(),
+        cleanup: cleanup_candidate,
     };
     let result = deliver(input).expect("closing publication reaches cleanup");
     assert_eq!(
@@ -103,9 +122,7 @@ fn accepted_pvf_result_reaches_safe_cleanup_preview() {
     );
     assert_eq!(
         result.cleanup,
-        CleanupClassification::PreviewEligible {
-            path: PathBuf::from("/Volumes/FastWork/adl-worktrees/adl-issue-504")
-        }
+        CleanupClassification::PreviewEligible { path: cleanup_path }
     );
 }
 
@@ -291,23 +308,24 @@ fn finish_derives_terminal_truth_from_remote_readback_not_local_claims() {
 
 #[test]
 fn cleanup_is_separate_preview_first_and_path_exact() {
+    let candidate = cleanup();
+    let path = candidate.candidate_path.clone();
     assert_eq!(
-        classify_cleanup(&cleanup()),
-        Ok(CleanupClassification::PreviewEligible {
-            path: PathBuf::from("/Volumes/FastWork/adl-worktrees/adl-issue-504")
-        })
+        classify_cleanup(&candidate),
+        Ok(CleanupClassification::PreviewEligible { path: path.clone() })
     );
     let mut remove = cleanup();
+    let remove_path = remove.candidate_path.clone();
     remove.preview = false;
     remove.preview_receipt = true;
     assert_eq!(
         classify_cleanup(&remove),
-        Ok(CleanupClassification::RemoveEligible {
-            path: PathBuf::from("/Volumes/FastWork/adl-worktrees/adl-issue-504")
-        })
+        Ok(CleanupClassification::RemoveEligible { path: remove_path })
     );
     let mut attack = cleanup();
-    attack.candidate_path = PathBuf::from("/Volumes/FastWork/adl-worktrees/adl-issue-504-extra");
+    let attack_path = attack.registered_worktree.with_extension("extra");
+    fs::create_dir_all(&attack_path).expect("create sibling attack fixture");
+    attack.candidate_path = attack_path;
     assert_eq!(
         classify_cleanup(&attack),
         Err(CleanupRejectReason::PathMismatch)
@@ -326,10 +344,10 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
         Err(CleanupRejectReason::NonCanonicalPath)
     );
     let mut unverified = cleanup();
-    unverified.canonical_identity_verified = false;
+    unverified.registered_worktree = unverified.registered_worktree.join("missing-worktree");
     assert_eq!(
         classify_cleanup(&unverified),
-        Err(CleanupRejectReason::NonCanonicalPath)
+        Err(CleanupRejectReason::PathMismatch)
     );
     let mut no_preview_receipt = cleanup();
     no_preview_receipt.preview = false;

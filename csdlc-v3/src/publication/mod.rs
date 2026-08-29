@@ -1,4 +1,5 @@
 use crate::review::PublicationAuthorization;
+use std::fs;
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -90,7 +91,6 @@ pub struct CleanupCandidate {
     pub preview_receipt: bool,
     pub committed_closed_out: bool,
     pub terminal_receipt: bool,
-    pub canonical_identity_verified: bool,
     pub registered_worktree: PathBuf,
     pub candidate_path: PathBuf,
     pub dirty: bool,
@@ -203,13 +203,12 @@ pub fn classify_cleanup(
     if !candidate.terminal_receipt {
         return Err(CleanupRejectReason::MissingReceipt);
     }
-    if !candidate.canonical_identity_verified
-        || !is_canonical_absolute(&candidate.registered_worktree)
+    if !is_canonical_absolute(&candidate.registered_worktree)
         || !is_canonical_absolute(&candidate.candidate_path)
     {
         return Err(CleanupRejectReason::NonCanonicalPath);
     }
-    if !same_path(&candidate.registered_worktree, &candidate.candidate_path) {
+    if !same_canonical_path(&candidate.registered_worktree, &candidate.candidate_path) {
         return Err(CleanupRejectReason::PathMismatch);
     }
     if candidate.dirty {
@@ -276,7 +275,13 @@ fn authorization_digest(authorization: &PublicationAuthorization) -> String {
     hasher.finalize().to_hex().to_string()
 }
 
-fn same_path(left: &Path, right: &Path) -> bool {
+fn same_canonical_path(left: &Path, right: &Path) -> bool {
+    let Ok(left) = fs::canonicalize(left) else {
+        return false;
+    };
+    let Ok(right) = fs::canonicalize(right) else {
+        return false;
+    };
     left == right
 }
 
