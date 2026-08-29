@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the construction-only V3-E remote delivery workflow model after #503 terminal truth was derived and materialized by typed v2 finish/cleanup paths.
+Implemented the non-authoritative V3-E remote-delivery workflow, merged current main so #503 terminal ancestry is present, and hardened cleanup eligibility so preview/removal proof requires committed terminal state, receipts, canonical path equality, clean worktree, and non-live worktree evidence.
 
 ## Artifacts
 
@@ -23,19 +23,46 @@ Implemented the construction-only V3-E remote delivery workflow model after #503
 - csdlc-v3/src/publication/mod.rs
 - csdlc-v3/tests/remote_commands.rs
 - csdlc-v3/tests/remote_commands/remote_delivery.rs
+- .csdlc/prepared/issues/504/validate-remote-workflow.rb
+- .csdlc/evidence/504
 - .csdlc/issues/504
-- .csdlc/prepared/issues/504
 
 ## Execution
 
-- Bound #504 into a dedicated execution worktree from the ready V3-E preparation branch after #503 live GitHub truth showed PR #581 merged and issue #503 closed.
-- Added typed construction-only remote delivery modules for accepted PVF input, exact independent review authorization, explicit closing/part-of publication modes, terminal finish classification, and preview-first cleanup eligibility.
-- Kept v3 non-authoritative: the new remote workflow performs no live GitHub mutation, no v2 lifecycle operation, no merge, no finish, no cleanup, and no authority cutover before #505.
-- Added behavioral remote-command tests proving the happy path from accepted PVF evidence to safe cleanup preview plus refusal cases for stale review, actionable findings, same-principal authorization, missing closing linkage, part-of checkpoint terminal inflation, stale/unmerged remote readback, missing PVF evidence, and unsafe cleanup eligibility.
+- Bound #504 from the prepared V3-E branch into /Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec using the typed csdlc-bind route while preserving v2 as the only live C-SDLC authority.
+- Added non-authoritative C-SDLC v3 remote workflow models for accepted PVF evidence, independent review authorization, explicit closing versus part-of publication modes, finish classification from remote PR/issue readback, and separate cleanup classification.
+- Required closing publication requests to contain a visible GitHub closing line such as Closes #504, while part-of checkpoint publication rejects closing authority and invalidates review/publication after checkpoint completion.
+- Merged current origin/main into the #504 execution branch so the #503 merge commit is ancestral before V3-E publication/review.
+- Hardened cleanup eligibility after review feedback: removal is preview-first, requires terminal and preview receipts, rejects dirty/live worktrees, rejects relative or parent-component paths, and verifies registered and candidate worktree paths by filesystem canonicalization before treating them as the same cleanup target.
+- Kept every V3-E surface construction-only: no v3 authority cutover, no live GitHub mutation through v3, no v2 retirement, and no V3-F/#505 approval claim.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml",
+      "--test",
+      "remote_commands"
+    ],
+    "purpose": "Run the focused V3-E remote workflow tests covering PVF acceptance, review authorization, publication relation enforcement, finish derivation, checkpoint behavior, and cleanup eligibility.",
+    "outcome": "passed",
+    "evidence_ref": "exact-content-for-head:baeb3c53f:10-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v3/Cargo.toml"
+    ],
+    "purpose": "Run the full non-authoritative csdlc-v3 test suite after merging V3-D/current main and hardening V3-E cleanup proof.",
+    "outcome": "passed",
+    "evidence_ref": "exact-content-for-head:baeb3c53f:51-passed"
+  },
   {
     "command": [
       "cargo",
@@ -47,9 +74,9 @@ Implemented the construction-only V3-E remote delivery workflow model after #503
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict Clippy across csdlc-v3 targets.",
+    "purpose": "Reject warnings across csdlc-v3 targets after the V3-E ancestry merge and cleanup hardening.",
     "outcome": "passed",
-    "evidence_ref": "v3-e-clippy.log"
+    "evidence_ref": "exact-content-for-head:baeb3c53f:passed"
   },
   {
     "command": [
@@ -57,58 +84,22 @@ Implemented the construction-only V3-E remote delivery workflow model after #503
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and conflict-marker artifacts.",
+    "purpose": "Verify whitespace hygiene for the V3-E implementation, merge resolution, and cleanup hardening.",
     "outcome": "passed",
-    "evidence_ref": "v3-e-diff-hygiene.log"
+    "evidence_ref": "exact-content-for-head:baeb3c53f:passed"
   },
   {
     "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml"
-    ],
-    "purpose": "Run all csdlc-v3 tests.",
-    "outcome": "passed",
-    "evidence_ref": "v3-e-full-v3-tests.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--test",
-      "remote_commands"
-    ],
-    "purpose": "Run the focused V3-E remote command tests.",
-    "outcome": "passed",
-    "evidence_ref": "v3-e-remote-command-tests.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "fmt",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--check"
-    ],
-    "purpose": "Verify rustfmt for csdlc-v3 after adding remote delivery modules.",
-    "outcome": "passed",
-    "evidence_ref": "v3-e-rustfmt.log"
-  },
-  {
-    "command": [
-      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "csdlc-validate",
       "--root",
       "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec",
       "issue",
       "--issue",
       "504"
     ],
-    "purpose": "Verify #504 C-SDLC issue state immediately before implementation finalization.",
+    "purpose": "Verify typed C-SDLC issue state remains valid in implemented phase after the V3-E branch merge and cleanup hardening.",
     "outcome": "passed",
-    "evidence_ref": "v3-e-typed-issue-validation.log"
+    "evidence_ref": "exact-content-for-head:baeb3c53f:status pass, phase implemented, generation 8"
   }
 ]
 

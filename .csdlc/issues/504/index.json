@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e0ab52f41b32f4c8fee5899510e2daa1004ed5bb8349ea1afc6137449524b86a",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "7d24996e661045fdef99fc30dd37b100802f3ae1c777757d2d530b63d6fecb32",
+  "generation": 9,
+  "digest": "92051be01a20a1446121e31e41457bc8b92fb1894fbe9d10e70eae5ea79c9079",
   "branch": "codex/504-v3-e-remote-delivery-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "06290fe7d47a1a1764512a9da088ddc0ea1bc33b7bd7211b2b59969eb56f1644",
+      "values_digest": "a4f96ec86748a8f31248525c475ec1a6617c713fd5afa5cb20b300841c6accef",
       "rendered_digest": "045795469a2177f1cdf55f4b53ec53acc84e7f540c8a631562535823ddbe66e3",
       "ast_digest": "48ee89ff29f611eb584004ccdd0f55d0e2254bedcb44fdf4bde15720ac2d2aae"
     },
     "stp": {
-      "values_digest": "393e93229dbedc63a3c75cf513e91eea1e3fef8de2cb4d5bf769ef7a84c657bc",
+      "values_digest": "dded214d4d2bc9483927ab939da2068cb407f81be7aa8964a7213b45537ff445",
       "rendered_digest": "45588a30e0087598da490a38a8ac4fa73943b376b7c4917e0a1cf9030da00a3d",
       "ast_digest": "b4d809790a68270384edcc1baad364ded4c51aca8cfaf21f4807f610cbf98d08"
     },
     "spp": {
-      "values_digest": "65fc7836b15962629a912f6d5558deaaf1d46fc121f3ae5b5c98764aebc5fdfc",
+      "values_digest": "2f573b67ca0128f8b2f13b066213d6225a16fd3a64ead7f36138642e7dbfa104",
       "rendered_digest": "3f4fcb91d40a19dd4d4c531e001198a2e6803c90ad4893689c4d85ee8689193a",
       "ast_digest": "bf17cce436d9dadae435bdccb912317338a540149714364c80ad7b08fa67beff"
     },
     "vpp": {
-      "values_digest": "6ccf5c40e38bd0c23045709200d8e7ba99387eb95ca8e32f523e3db3c97eb2f6",
+      "values_digest": "42d549e7c51c108a7c4b753931d8598f5cc83bb709a5df6b2c75cde6d796bc4c",
       "rendered_digest": "60e939ec69d10899f461f2185241491315e34c6a54616a7b45e076eef07a6a45",
       "ast_digest": "e7232286b0f68c0db9ae9daabbb5db93c8a48119d5810534fb160f72462d1928"
     },
     "srp": {
-      "values_digest": "6f39c2dab22ab14bf2554cbe9e36c35cb94eaf36e176f3145926aeb49e73267e",
+      "values_digest": "36ec03ed848466ea5cb88dee17facef9be202fdcf36f967772b0ef7c13620003",
       "rendered_digest": "4438bda905f7a72573b3ea3668d47b38809654fe74bbdbbb4a312121f0132dc6",
       "ast_digest": "3ea112a20d3e3d1844835fbe76cef162ac72450e36e47014c8b9f4dea23cffeb"
     },
     "sor": {
-      "values_digest": "af80cddc8566a8999b57e248e5afcb5b4c3134c32d96b1da41015e2c009b4390",
-      "rendered_digest": "2e34859e6c93d5c351e64ffc028e375453882d6679747610779cf0c7db983d2a",
-      "ast_digest": "0b2a73ce2661b1a12269da3480ec57d8a566ae2bed4ec3ad8dd8d9cd713b0d04"
+      "values_digest": "6609b8192e4e3c4720dd253af8c115e8894138bb2cc227988a8739df35ffab18",
+      "rendered_digest": "baaa1d74e223ae1fa460c5575443aa0daa0e80eed3b376317cc8c9cc63f485d3",
+      "ast_digest": "340b3734ec936e929cfe40e0309bd7388fd615d7de4fc7d40ca8736c3522239a"
     }
   },
   "transitions": [
@@ -148,6 +148,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "Refresh #504 execution truth after merging current main/#503 ancestry and hardening V3-E cleanup eligibility from caller-asserted identity to canonical path proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the non-authoritative V3-E remote-delivery workflow, merged current main so #503 terminal ancestry is present, and hardened cleanup eligibility so preview/removal proof requires committed terminal state, receipts, canonical path equality, clean worktree, and non-live worktree evidence.\",\"changes\":[\"Bound #504 from the prepared V3-E branch into /Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec using the typed csdlc-bind route while preserving v2 as the only live C-SDLC authority.\",\"Added non-authoritative C-SDLC v3 remote workflow models for accepted PVF evidence, independent review authorization, explicit closing versus part-of publication modes, finish classification from remote PR/issue readback, and separate cleanup classification.\",\"Required closing publication requests to contain a visible GitHub closing line such as Closes #504, while part-of checkpoint publication rejects closing authority and invalidates review/publication after checkpoint completion.\",\"Merged current origin/main into the #504 execution branch so the #503 merge commit is ancestral before V3-E publication/review.\",\"Hardened cleanup eligibility after review feedback: removal is preview-first, requires terminal and preview receipts, rejects dirty/live worktrees, rejects relative or parent-component paths, and verifies registered and candidate worktree paths by filesystem canonicalization before treating them as the same cleanup target.\",\"Kept every V3-E surface construction-only: no v3 authority cutover, no live GitHub mutation through v3, no v2 retirement, and no V3-F/#505 approval claim.\"],\"artifacts\":[\"csdlc-v3/src/lib.rs\",\"csdlc-v3/src/commands/mod.rs\",\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/review/mod.rs\",\"csdlc-v3/src/publication/mod.rs\",\"csdlc-v3/tests/remote_commands.rs\",\"csdlc-v3/tests/remote_commands/remote_delivery.rs\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\",\".csdlc/evidence/504\",\".csdlc/issues/504\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"remote_commands\"],\"purpose\":\"Run the focused V3-E remote workflow tests covering PVF acceptance, review authorization, publication relation enforcement, finish derivation, checkpoint behavior, and cleanup eligibility.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-content-for-head:baeb3c53f:10-passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\"],\"purpose\":\"Run the full non-authoritative csdlc-v3 test suite after merging V3-D/current main and hardening V3-E cleanup proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-content-for-head:baeb3c53f:51-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings across csdlc-v3 targets after the V3-E ancestry merge and cleanup hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-content-for-head:baeb3c53f:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify whitespace hygiene for the V3-E implementation, merge resolution, and cleanup hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-content-for-head:baeb3c53f:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec\",\"issue\",\"--issue\",\"504\"],\"purpose\":\"Verify typed C-SDLC issue state remains valid in implemented phase after the V3-E branch merge and cleanup hardening.\",\"outcome\":\"passed\",\"evidence_ref\":\"exact-content-for-head:baeb3c53f:status pass, phase implemented, generation 8\"}]}"
     }
   ]
 }
