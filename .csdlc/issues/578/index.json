@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
   "phase": "published",
-  "generation": 17,
-  "digest": "87c03731df6409578ec46b9beeb9b5b72bbd5bf2e0132162af0d7be57bd4e0b1",
+  "generation": 21,
+  "digest": "08978be3b9fff2ff323ab6abf315c2ca6648e0a7a579bb3697009623126f29ff",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
   "review_assignment": {
@@ -95,34 +95,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "42d7e9f7230f3a49d24de603fa65c51876132bef18408902d64342b3f405b244",
+      "values_digest": "5f90f9723b625ac989c4286bfb356519d2869e764f2c820a60506bbde029170e",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "75d37070cf3a5fb0eb28c37a887e014663b5083ce518e1880402ffeec24b1eda",
+      "values_digest": "0cbee1972edae45cbb10546d08ebcbacdcc92fd3d7fe9604279d4803fd62e9ba",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "37eaa5ceb941529b6c08323094d51c27dd5892b576265935096a4dbfb297c3e4",
+      "values_digest": "9a171f7f5ce68356969dcb97dfb7c3ec1bc640bd50e79c5c8fe2e2c6e2cc2355",
       "rendered_digest": "6d7f4116285b862dcdf00e96174502f8d517bd24b6223155e06e2b7f2141c0bc",
       "ast_digest": "7256508d231339fa26e20251939b3735270f4f6b6d4ae1d207f471484442b3c8"
     },
     "vpp": {
-      "values_digest": "7a1c0ddc1f9abdb5d487ed73ef9585d340f13800a9e2a6e9643b4a3a0e0b1f83",
+      "values_digest": "7b63eb19d7f578e2a668dd1ab400f904cb1d4d093ff4b87b2c637f3bea484cf9",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "79d5236b395b29c9b21dfcc3b23d3d6390bfcacf7deb712561be084543ef1f9b",
+      "values_digest": "04e8f0fff22455be7d0975ad73da3e73b5a2e5a27d80d89b5e5be07017660776",
       "rendered_digest": "2640f618c8cc5014aa616d19efc29aebb22fa9003cdf6c71175f363a6436b135",
       "ast_digest": "617702fd33526ec59f9511e330bc794cb8fd80eb4e99b4fb051665ddbee3cbb0"
     },
     "sor": {
-      "values_digest": "a2dc2151c6e6cd3ecec3939fd9a64952e0be22b360fa239abdcb0c10f5ad329e",
-      "rendered_digest": "a90ab55d8b3f20e4d8f63dd5b910180fbee54c13f087bb2274e0455a92dfa618",
-      "ast_digest": "9c2254d443164bea219b0b4da2619d0281837321381459458fc5b9e9907954d7"
+      "values_digest": "8a37751682b82d861e4a1bea1020d96d92a5fd4e7bc49ab302d2f2f6529bd425",
+      "rendered_digest": "478c3d51fca1ad783eaec6d24ce781a89ac03d1e3fd6df053d750b73f0efbe06",
+      "ast_digest": "48120e81a9c64e1766d5e4fc7651adca2aa6b93f12d97eb16ce7d518cedf3cc6"
     }
   },
   "transitions": [
@@ -400,6 +400,34 @@
       "actor": "codex:root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:root",
+      "reason": "Record credentialed live GLM-5.3-Flash reviewer-viability smoke proof after the operator identified the approved local Z.ai key source.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> .csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\"],\"purpose\":\"Prove the direct Z.ai GLM-5.3-Flash profile can complete a reviewer-viability hosted request with the approved credential source, bounded reviewer-fast parameters, one attempt, and the 45-second timeout.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/provider-smoke/glm-5-3-flash/result.json final_status=ok http_status=200 duration_ms=3748 output_text=GLM reviewer smoke ok; provider-run.jsonl run_finish status=ok\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "Record Ox Alpha / GLM-5.3-Flash reviewer-style viability proof after live provider callability was established.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash/reviewer-proof-request.json --out .adl/provider-smoke/glm-5-3-flash/reviewer-proof-result.json --log .adl/provider-smoke/glm-5-3-flash/reviewer-proof-run.jsonl\"],\"purpose\":\"Prove Ox Alpha / GLM-5.3-Flash can complete a bounded reviewer-style verdict task through the direct Z.ai profile with the approved credential source and reviewer-fast parameters.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/provider-smoke/glm-5-3-flash/reviewer-proof-result.json final_status=ok http_status=200 duration_ms=2405 output_text='VERDICT: PASS; FINDINGS: none; LIMITATIONS: Single-run smoke with max_attempts=1 and 64-token output confirms connectivity only, not sustained reliability or reasoning quality of the glm-5.3-flash endpoint.'; provider-run.jsonl run_finish status=ok\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:root",
+      "reason": "Record Ox Alpha / GLM-5.3-Flash open-PR reviewer smoke across the current ADL open PR set without posting GitHub comments.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"gh pr list --repo agent-logic/agent-design-language --state open --limit 50 --json number,title,headRefName,headRefOid,baseRefName,isDraft,mergeable,url\",\"gh pr diff <pr> --repo agent-logic/agent-design-language --patch\",\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/pr-<pr>-request.json --out .adl/provider-smoke/open-pr-reviews/pr-<pr>-result.json --log .adl/provider-smoke/open-pr-reviews/pr-<pr>-run.jsonl\"],\"purpose\":\"Probe GLM-5.3-Flash as a local-only PR triage reviewer across all currently open ADL PRs using exact PR heads, PR metadata, changed-file lists, and bounded diff excerpts, with no GitHub review comments posted.\",\"outcome\":\"passed\",\"evidence_ref\":\"Open PR set: #588 e9816192741ae1b35f678c5b363fb5567605fcf5, #586 822c81e9d0ad15e479960de542d419e64c80e1f9, #585 8e0c2c217c42c8719fac55de07a4fe498900fac7, #584 a5474e6d4cecf90b989c36e5845acd91dbfa3ead, #582 497271aceb9bc17fed7469fb48681d658a8af14e. All five provider calls final_status=ok within 45s: #588 9667ms, #586 7922ms, #585 8664ms, #584 12906ms, #582 8993ms. Model returned NEEDS_HUMAN_REVIEW for all five because diffs were truncated; this proves fast triage behavior and honest limitation handling, not exact-head approval.\"}}"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:root",
+      "reason": "Record GLM-5.3-Flash reviewer effort-level characterization for PR-review prompts.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/pr-582-max-request.json --out .adl/provider-smoke/open-pr-reviews/pr-582-max-result.json --log .adl/provider-smoke/open-pr-reviews/pr-582-max-run.jsonl\",\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/pr-582-max-180s-request.json --out .adl/provider-smoke/open-pr-reviews/pr-582-max-180s-result.json --log .adl/provider-smoke/open-pr-reviews/pr-582-max-180s-run.jsonl\",\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/pr-582-high-request.json --out .adl/provider-smoke/open-pr-reviews/pr-582-high-result.json --log .adl/provider-smoke/open-pr-reviews/pr-582-high-run.jsonl\"],\"purpose\":\"Characterize whether higher GLM-5.3-Flash reasoning_effort settings are operationally usable for PR-review prompts after low-effort review triage succeeded.\",\"outcome\":\"passed\",\"evidence_ref\":\"Operational characterization passed: high/max effort failures were reproduced and bounded. reasoning_effort=max with 45s timeout returned final_status=failed provider_empty_text_output at 37960ms; reasoning_effort=max with 180s timeout returned final_status=failed provider_empty_text_output at 33979ms; reasoning_effort=high with 90s timeout returned final_status=failed provider_empty_text_output at 37169ms. Keep reviewer-trial default at low; treat high/max as not viable for this PR-review prompt shape until separately repaired.\"}}"
     }
   ]
 }
