@@ -7,13 +7,13 @@
     "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
     "slug": "cross-cloud-runtime-terraform-conversion",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #495 XCL-01 paths only: infra/runtime-portable, infra/aws/runtime, infra/gcp/workloads, docs/milestones/v0.92.1/evidence/cloud/xcl-01, .csdlc/prepared/issues/495, .csdlc/evidence/495, and narrow issue-owned validator/proof surfaces.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

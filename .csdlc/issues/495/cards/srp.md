@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #495 XCL-01 paths only: infra/runtime-portable, infra/aws/runtime, infra/gcp/workloads, docs/milestones/v0.92.1/evidence/cloud/xcl-01, .csdlc/prepared/issues/495, .csdlc/evidence/495, and narrow issue-owned validator/proof surfaces.
+
 
 ## Prompts
 
