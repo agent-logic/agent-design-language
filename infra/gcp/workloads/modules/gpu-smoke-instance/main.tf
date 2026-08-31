@@ -13,31 +13,9 @@ locals {
   )
 }
 
-data "google_compute_network" "private" {
-  name = var.network_name
-}
-
 data "google_compute_subnetwork" "private" {
   name   = var.subnet_name
   region = var.region
-}
-
-resource "google_service_account" "gpu_smoke" {
-  account_id   = substr("${var.run_id}-gpu", 0, 30)
-  display_name = "ADL #494 GCP GPU smoke"
-}
-
-resource "google_compute_firewall" "iap_ssh" {
-  name    = "${var.run_id}-iap-ssh"
-  network = data.google_compute_network.private.name
-
-  allow {
-    protocol = "tcp"
-    ports    = ["22"]
-  }
-
-  source_ranges = var.ssh_source_ranges
-  target_tags   = ["adl-494-gpu-smoke"]
 }
 
 resource "google_compute_instance" "gpu_smoke" {
@@ -45,7 +23,7 @@ resource "google_compute_instance" "gpu_smoke" {
   machine_type = var.machine_type
   zone         = var.zone
   labels       = local.labels
-  tags         = ["adl-494-gpu-smoke"]
+  tags         = [var.support_id]
 
   boot_disk {
     auto_delete = true
@@ -72,7 +50,7 @@ resource "google_compute_instance" "gpu_smoke" {
   }
 
   service_account {
-    email  = google_service_account.gpu_smoke.email
+    email  = var.service_account_email
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
 

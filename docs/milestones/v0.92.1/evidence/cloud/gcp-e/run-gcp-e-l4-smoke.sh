@@ -2,12 +2,14 @@
 set -euo pipefail
 
 repo="$(git rev-parse --show-toplevel)"
-tf_root="${repo}/infra/gcp/workloads/gpu-smoke"
+support_root="${repo}/infra/gcp/workloads/gpu-smoke-support"
+instance_root="${repo}/infra/gcp/workloads/gpu-smoke-instance"
 evidence_dir="${repo}/docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks"
 run_id="${GCP_E_RUN_ID:-adl-494-gpu-smoke-$(date -u +%Y%m%d%H%M%S)}"
+support_id="${GCP_E_SUPPORT_ID:-adl-494-gpu-smoke}"
 project_id="${GCP_E_PROJECT_ID:-cs-poc-cha8mmii0xk0iaw5vpf8mxf}"
-region="${GCP_E_REGION:-us-west1}"
-zone="${GCP_E_ZONE:-us-west1-a}"
+region="${GCP_E_REGION:-us-central1}"
+zone="${GCP_E_ZONE:-us-central1-a}"
 network_name="${GCP_E_NETWORK_NAME:-default}"
 subnet_name="${GCP_E_SUBNET_NAME:-default}"
 machine_type="${GCP_E_MACHINE_TYPE:-g2-standard-4}"
@@ -20,6 +22,9 @@ else
   ttl_default="$(date -u -d '+4 hours' +%Y-%m-%dT%H:%M:%SZ)"
 fi
 ttl_expires_at="${GCP_E_TTL_EXPIRES_AT:-${ttl_default}}"
+git_common_dir="$(git rev-parse --git-common-dir)"
+ssh_key_file="${GCP_E_SSH_KEY_FILE:-${git_common_dir}/csdlc-v2/gcp-e/google_compute_engine}"
+ssh_known_hosts_file="${GCP_E_SSH_KNOWN_HOSTS_FILE:-${git_common_dir}/csdlc-v2/gcp-e/${run_id}.known_hosts}"
 
 if [[ "${max_budget_usd}" != "20" ]]; then
   echo "Refusing #494 proof: GCP_E_MAX_BUDGET_USD must remain 20." >&2
@@ -27,15 +32,26 @@ if [[ "${max_budget_usd}" != "20" ]]; then
 fi
 
 mkdir -p "${evidence_dir}"
-tfvars="${evidence_dir}/${run_id}.auto.tfvars"
+mkdir -p "$(dirname "${ssh_key_file}")"
+mkdir -p "$(dirname "${ssh_known_hosts_file}")"
+touch "${ssh_known_hosts_file}"
+support_tfvars="${evidence_dir}/${run_id}.support.auto.tfvars"
+instance_tfvars="${evidence_dir}/${run_id}.instance.auto.tfvars"
 summary="${evidence_dir}/${run_id}.summary.md"
 
-cat >"${tfvars}" <<VARS
+cat >"${support_tfvars}" <<VARS
+project_id = "${project_id}"
+region = "${region}"
+support_id = "${support_id}"
+network_name = "${network_name}"
+VARS
+
+cat >"${instance_tfvars}" <<VARS
 project_id = "${project_id}"
 region = "${region}"
 zone = "${zone}"
 run_id = "${run_id}"
-network_name = "${network_name}"
+support_id = "${support_id}"
 subnet_name = "${subnet_name}"
 machine_type = "${machine_type}"
 accelerator_type = "${accelerator_type}"
@@ -48,6 +64,7 @@ VARS
   echo "# #494 GCP-E live proof summary"
   echo
   echo "- run_id: ${run_id}"
+  echo "- support_id: ${support_id}"
   echo "- project_id: ${project_id}"
   echo "- region: ${region}"
   echo "- zone: ${zone}"
@@ -56,6 +73,8 @@ VARS
   echo "- accelerator_count: ${accelerator_count}"
   echo "- max_budget_usd: ${max_budget_usd}"
   echo "- ttl_expires_at: ${ttl_expires_at}"
+  echo "- ssh_key_file: Git-common private path, not printed"
+  echo "- ssh_known_hosts_file: Git-common private path, not printed"
   echo
 } >"${summary}"
 
@@ -84,22 +103,48 @@ if ! awk -v limit="${gpu_quota_limit}" -v required="${accelerator_count}" 'BEGIN
 fi
 
 cleanup() {
-  terraform -chdir="${tf_root}" destroy -auto-approve -var-file="${tfvars}" || true
+  terraform -chdir="${instance_root}" destroy -auto-approve -var-file="${instance_tfvars}" || true
 }
 trap cleanup EXIT
 
-terraform -chdir="${tf_root}" init -backend=false
-terraform -chdir="${tf_root}" apply -auto-approve -var-file="${tfvars}" | tee "${evidence_dir}/${run_id}.terraform-apply.log"
+terraform -chdir="${support_root}" init -backend=false
+terraform -chdir="${support_root}" apply -auto-approve -var-file="${support_tfvars}" | tee "${evidence_dir}/${run_id}.terraform-support-apply.log"
+
+service_account_email="$(terraform -chdir="${support_root}" output -raw service_account_email)"
+cat >>"${instance_tfvars}" <<VARS
+service_account_email = "${service_account_email}"
+VARS
+
+terraform -chdir="${instance_root}" init -backend=false
+terraform -chdir="${instance_root}" apply -auto-approve -var-file="${instance_tfvars}" | tee "${evidence_dir}/${run_id}.terraform-instance-apply.log"
 
 instance_name="${run_id}-vm"
-gcloud compute ssh "${instance_name}" --zone="${zone}" --project="${project_id}" --tunnel-through-iap --command="cat /var/log/adl/issue494-gpu-smoke.log" >"${evidence_dir}/${run_id}.gpu-smoke.log"
-gcloud compute ssh "${instance_name}" --zone="${zone}" --project="${project_id}" --tunnel-through-iap --command="test -f /var/lib/adl/issue494-startup-complete"
+gcloud compute instances describe "${instance_name}" --zone="${zone}" --project="${project_id}" --format=json >"${evidence_dir}/${run_id}.instance-created.json"
 
-terraform -chdir="${tf_root}" destroy -auto-approve -var-file="${tfvars}" | tee "${evidence_dir}/${run_id}.terraform-destroy.log"
+ssh_probe_log="${evidence_dir}/${run_id}.ssh-probe.log"
+ssh_ready=0
+for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+  if gcloud compute ssh "${instance_name}" --zone="${zone}" --project="${project_id}" --tunnel-through-iap --ssh-key-file="${ssh_key_file}" --ssh-flag="-o UserKnownHostsFile=${ssh_known_hosts_file}" --ssh-flag="-o StrictHostKeyChecking=accept-new" --command="test -f /var/lib/adl/issue494-startup-complete" >>"${ssh_probe_log}" 2>&1; then
+    ssh_ready=1
+    break
+  fi
+  echo "ssh probe attempt ${attempt} failed; retrying" >>"${ssh_probe_log}"
+  sleep 15
+done
+
+if [[ "${ssh_ready}" != "1" ]]; then
+  echo "GCP-E #494 SSH/readiness probe failed; see ${ssh_probe_log}" >&2
+  exit 1
+fi
+
+gcloud compute ssh "${instance_name}" --zone="${zone}" --project="${project_id}" --tunnel-through-iap --ssh-key-file="${ssh_key_file}" --ssh-flag="-o UserKnownHostsFile=${ssh_known_hosts_file}" --ssh-flag="-o StrictHostKeyChecking=accept-new" --command="cat /var/log/adl/issue494-gpu-smoke.log" >"${evidence_dir}/${run_id}.gpu-smoke.log"
+
+terraform -chdir="${instance_root}" destroy -auto-approve -var-file="${instance_tfvars}" | tee "${evidence_dir}/${run_id}.terraform-instance-destroy.log"
 trap - EXIT
 
 gcloud compute instances list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format=json >"${evidence_dir}/${run_id}.instances-after-destroy.json"
 gcloud compute disks list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format=json >"${evidence_dir}/${run_id}.disks-after-destroy.json"
-gcloud iam service-accounts list --project="${project_id}" --filter="email:${run_id}-gpu" --format=json >"${evidence_dir}/${run_id}.service-accounts-after-destroy.json"
+gcloud iam service-accounts list --project="${project_id}" --filter="email:${support_id}-gpu" --format=json >"${evidence_dir}/${run_id}.support-service-account.json"
+gcloud compute firewall-rules describe "${support_id}-iap-ssh" --project="${project_id}" --format=json >"${evidence_dir}/${run_id}.support-firewall.json"
 
 echo "GCP-E #494 live proof completed; inspect ${summary} and readbacks under ${evidence_dir}"

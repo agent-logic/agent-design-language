@@ -1,7 +1,8 @@
 # #494 GCP-E proof status
 
-Status as of 2026-08-31T01:48:28Z: static implementation proof passes; live
-GPU execution is blocked by GCP project-level GPU quota approval.
+Status as of 2026-08-31T02:05:00Z: static implementation proof passes; live
+GPU execution reached VM creation after quota approval and is being rerun with
+stable support resources plus a Git-common SSH key path.
 
 ## Static proof
 
@@ -9,8 +10,9 @@ Commands run from the #494 bound worktree:
 
 ```sh
 bash .csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh --lane=all
-terraform fmt -check infra/gcp/workloads/gpu-smoke
-terraform -chdir=infra/gcp/workloads/gpu-smoke validate
+terraform fmt -check -recursive infra/gcp/workloads/modules/gpu-smoke-support infra/gcp/workloads/modules/gpu-smoke-instance infra/gcp/workloads/gpu-smoke-support infra/gcp/workloads/gpu-smoke-instance
+TMPDIR="${PWD}/.t/" terraform -chdir=infra/gcp/workloads/gpu-smoke-support validate
+TMPDIR="${PWD}/.t/" terraform -chdir=infra/gcp/workloads/gpu-smoke-instance validate
 git diff --check origin/main...HEAD
 ```
 
@@ -21,8 +23,8 @@ Result: pass.
 Project and target:
 
 - project: `cs-poc-cha8mmii0xk0iaw5vpf8mxf`
-- region: `us-west1`
-- zone: `us-west1-a`
+- region: `us-central1`
+- zone: `us-central1-a`
 - network/subnet: `default` / `default`
 - machine: `g2-standard-4`
 - accelerator: one `nvidia-l4`
@@ -31,9 +33,9 @@ Project and target:
 Read-only GCP checks proved:
 
 - Compute API enabled.
-- `g2-standard-4` exists in `us-west1-a`.
-- `nvidia-l4` exists in `us-west1-a`.
-- `default` subnet exists in `us-west1`.
+- `g2-standard-4` exists in `us-central1-a`.
+- `nvidia-l4` exists in `us-central1-a`.
+- `default` subnet exists in `us-central1`.
 - No #494 instances, disks, snapshots, forwarding rules, static addresses, or
   #494 firewall residue remained after failed attempts.
 
@@ -60,8 +62,40 @@ limit name = GPUS-ALL-REGIONS-per-project
 Terraform destroyed the transient firewall and service account.
 
 The run script now checks `GPUS_ALL_REGIONS` before Terraform apply and refuses
-the proof without creating resources when the global GPU quota is below the
+the proof without creating VM resources when the global GPU quota is below the
 requested accelerator count.
+
+Attempt 3 ran after the quota preference was approved to `1`. Terraform created
+the service account, IAP firewall, and L4 VM, then SSH readback failed because
+`gcloud compute ssh` tried to create its default key under `/Users/daniel/.ssh`.
+The destroy trap removed the VM, firewall, and service account. The script now
+routes `gcloud compute ssh` through `GCP_E_SSH_KEY_FILE`, defaulting to a
+Git-common private path, and probes the startup marker before log readback so
+IAP/OS Login propagation has a bounded retry window.
+
+The operator corrected the desired repeated-run behavior: #494 should not
+recreate stable support resources every time. The Terraform layout now mirrors
+the AWS split with separate support and instance modules/roots. The stable
+support root owns the service account and IAP firewall (`support_id`, default
+`adl-494-gpu-smoke`), while the instance root creates and destroys only its
+run-id VM. The post-run cleanup proof checks for no remaining per-run VM/disk
+resources and retains readback evidence for the stable service account/firewall.
+
+`us-west1-a`, `us-west1-b`, and `us-west1-c` were checked after quota approval;
+`a` and `b` returned stockout for `g2-standard-4 + 1x nvidia-l4`, and `c`
+reported the shape unsupported. The default proof target was therefore moved to
+the first proven quota-valid zone, `us-central1-a`.
+
+Attempt 4 in `us-central1-a` completed the live GPU proof: stable support was a
+no-op, the disposable VM was created, IAP SSH read back `NVIDIA L4,
+580.173.02`, and Terraform destroyed exactly one VM.
+
+Follow-up script hardening tried `gcloud compute ssh --plain` with explicit
+Git-common key and known-hosts paths; that was rejected as the final route
+because `--plain` disables the normal OS Login/key propagation that made the
+successful proof work and produced `Permission denied (publickey)` during the
+readiness probe. The final script keeps normal `gcloud compute ssh` behavior
+while supplying explicit Git-common SSH key and run-scoped known-hosts paths.
 
 ## Quota request
 
@@ -75,4 +109,5 @@ The minimal global GPU quota preference was submitted:
 - reconciling: `true`
 - trace id: `c7ea9756-7398-4e82-974a-cdc98c7a5b85`
 
-Live #494 GPU proof can resume when `GPUS_ALL_REGIONS` grants at least `1`.
+Live #494 GPU proof can resume with the same support resources and a new
+run-specific VM.

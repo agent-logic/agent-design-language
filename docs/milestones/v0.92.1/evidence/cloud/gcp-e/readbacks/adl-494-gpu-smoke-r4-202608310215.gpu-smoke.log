@@ -1,0 +1,17 @@
+Generating public/private rsa key pair.
+Your identification has been saved in /Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine
+Your public key has been saved in /Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine.pub
+The key fingerprint is:
+SHA256:yekN5FHeo/oeS1ZWZekAedaFXRU0DG5LVgQXJhEl5qk daniel@wuji.local
+The key's randomart image is:
++---[RSA 3072]----+
+|          ..oO@&&|
+|         o o++O*o|
+|        o . =B+  |
+|       + + .=o.. |
+|        S .Eo.   |
+|       . + o     |
+|        o =      |
+|         + o     |
+|         .+      |
++----[SHA256]-----+

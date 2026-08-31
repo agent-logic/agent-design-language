@@ -1,0 +1,11 @@
+creationTimestamp: '1969-12-31T16:00:00.000-08:00'
+description: NVIDIA L4
+id: '20009'
+kind: compute#acceleratorType
+maximumCardsPerInstance: 8
+name: nvidia-l4
+resourceMetadata:
+  apiVersion: v1
+  resourceType: compute.googleapis.com/AcceleratorType
+selfLink: https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/acceleratorTypes/nvidia-l4
+zone: https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a

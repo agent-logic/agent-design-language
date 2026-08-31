@@ -24,30 +24,13 @@ Diagram: .csdlc/prepared/issues/494/diagram.mmd
 
 [
   {
-    "lane": "prebind-gcp-e-gpu-smoke-packet",
-    "proof_role": "Proves #494 design packet readiness, #493 terminal dependency cache and ancestry, owned-path boundaries, paid-authorization/cost cap, exact input capture plan, GPU proof plan, telemetry plan, and cleanup-zero plan.",
+    "lane": "gcp-e-issue-validator",
+    "proof_role": "Proves #494 issue-owned validation for split GCP-E support and instance roots, cost cap, SSH route, and cleanup selectors.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
-      "AC-4"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 120,
-    "budget_tokens": 1500,
-    "argv": [
-      "bash",
-      ".csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh",
-      "--lane=prebind"
-    ],
-    "parallel_group": "prebind-local",
-    "defer_reason": null
-  },
-  {
-    "lane": "prebind-review-readiness",
-    "proof_role": "Proves #494 has an issue-owned executable validator and bounded review scope before design approval; this does not claim implementation exact-head review.",
-    "acceptance_ids": [
+      "AC-4",
       "AC-5"
     ],
     "deterministic": true,
@@ -57,9 +40,92 @@ Diagram: .csdlc/prepared/issues/494/diagram.mmd
     "argv": [
       "bash",
       ".csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh",
-      "--lane=packet"
+      "--lane=all"
     ],
-    "parallel_group": "prebind-local",
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "gcp-e-terraform-fmt",
+    "proof_role": "Formatting proof for the #494 split Terraform modules and roots.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "terraform",
+      "fmt",
+      "-check",
+      "-recursive",
+      "infra/gcp/workloads/modules/gpu-smoke-support",
+      "infra/gcp/workloads/modules/gpu-smoke-instance",
+      "infra/gcp/workloads/gpu-smoke-support",
+      "infra/gcp/workloads/gpu-smoke-instance"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "gcp-e-support-terraform-validate",
+    "proof_role": "Terraform schema validation for the stable #494 GCP-E support root.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "terraform",
+      "-chdir=infra/gcp/workloads/gpu-smoke-support",
+      "validate"
+    ],
+    "parallel_group": "terraform",
+    "defer_reason": null
+  },
+  {
+    "lane": "gcp-e-instance-terraform-validate",
+    "proof_role": "Terraform schema validation for the disposable #494 GCP-E instance root.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "terraform",
+      "-chdir=infra/gcp/workloads/gpu-smoke-instance",
+      "validate"
+    ],
+    "parallel_group": "terraform",
+    "defer_reason": null
+  },
+  {
+    "lane": "gcp-e-diff-hygiene",
+    "proof_role": "Diff hygiene proof for #494 before exact review.",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "parallel_group": "local",
     "defer_reason": null
   }
 ]
@@ -76,8 +142,11 @@ Tokens: 25000
 
 ## Commands
 
-- `bash .csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh --lane=prebind`
-- `bash .csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh --lane=packet`
+- `bash .csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh --lane=all`
+- `terraform fmt -check -recursive infra/gcp/workloads/modules/gpu-smoke-support infra/gcp/workloads/modules/gpu-smoke-instance infra/gcp/workloads/gpu-smoke-support infra/gcp/workloads/gpu-smoke-instance`
+- `terraform -chdir=infra/gcp/workloads/gpu-smoke-support validate`
+- `terraform -chdir=infra/gcp/workloads/gpu-smoke-instance validate`
+- `git diff --check origin/main...HEAD`
 
 ## Failure Semantics
 
