@@ -23,6 +23,12 @@ through the typed contracts in `csdlc-v2/operator/skills/`. The old
 `adl_pr_cycle`, `pr.sh`, prompt-template wrapper, and five-command compatibility
 routes are historical surfaces, not current lifecycle authority.
 
+Issue #505 is the pending V3-F tooling changeover decision. Before the default
+route changes, operators must receive the pre-change notice in
+`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md`. Until #505 is explicitly
+approved, merged, and terminally reconciled, v2 remains live authority and v3
+must be treated as construction/cutover evidence only.
+
 Canonical issue state lives under `.csdlc/issues/<issue>/`, with typed request
 material normally prepared under `.csdlc/prepared/issues/<issue>/` or
 Git-common invocation paths when the request is transient. Generated cards are

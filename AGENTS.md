@@ -12,6 +12,20 @@ records remain immutable evidence and are not an instruction to retain deleted
 binaries. Issue ownership is derived from the bound Git branch and worktree;
 claims, leases, heartbeats, and protected-path ledgers are not lifecycle authority.
 
+## Pending C-SDLC v3 tooling changeover notice
+
+Issue #505 is the only current V3-F authority-transition decision lane. Until
+#505 is reviewed, explicitly operator-approved, merged, and terminally
+reconciled, C-SDLC v2 remains the live authority described above. C-SDLC v3 is
+construction and cutover evidence only.
+
+Before changing the default lifecycle route, operators and agents must be
+notified through `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and the typed
+C-SDLC v2 GitHub issue owner. The notification is a warning and coordination
+surface, not cutover approval. If v3 parity, canary rollback, publication,
+finish, cleanup, observation, or approval proof is incomplete, keep using v2
+and do not retire v2 guidance.
+
 This file is the repository-local operating contract for coding agents working
 in ADL.
 

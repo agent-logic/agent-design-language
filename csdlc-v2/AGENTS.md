@@ -8,3 +8,8 @@
 - Install only into `.adl/bin/csdlc-v2/`; never target shared `.adl/bin/`. `csdlc-install verify` is fail closed on missing, symlinked, or non-executable binaries, invalid selector state, or provenance failures; the reviewed inventory explicitly records `v1_sunset:true`.
 - GitHub issue actions route through `csdlc-github-issue`; PR observation routes through `csdlc-github-pr` or `csdlc-pr-state`; `csdlc-github` is compatibility only; `csdlc-finish` is the sole exact-head merge and derived-terminal authority.
 - Default switching is owned only by `csdlc-cutover`; v1 deletion is never authorized by that command.
+- Issue #505 is the pending V3-F tooling changeover decision. Until #505 is
+  explicitly approved, merged, and terminally reconciled, v2 remains the live
+  lifecycle authority. Any default-route switch must first notify operators via
+  `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and typed
+  `csdlc-github-issue`; the notice does not itself authorize v2 retirement.

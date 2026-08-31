@@ -1,133 +1,61 @@
 ---
 name: adl_pr_cycle
-description: "Compatibility entrypoint for routing a tracked ADL issue through the independent C-SDLC v2 Rust lifecycle, from typed bootstrap through reviewable publication and terminal finish."
+description: "Historical compatibility documentation for the retired adl_pr_cycle route. Do not use as a current ADL lifecycle entrypoint."
 ---
 
 # adl_pr_cycle
 
-This tracked file is the canonical source for the local Codex skill installed at:
+This tracked file is retained as historical compatibility evidence for the
+former local Codex skill at:
 
 - `$CODEX_HOME/skills/adl_pr_cycle/SKILL.md`
 
-Install or resync the local skill with:
+Do not install, resync, invoke, or route current ADL work through
+`adl_pr_cycle`. It is not a current workflow entrypoint.
 
-```bash
-bash adl/tools/install_adl_pr_cycle_skill.sh
-```
+Current C-SDLC issue work uses the independent Rust v2 binary set under
+`.adl/bin/csdlc-v2/` and the typed owner skills in
+`csdlc-v2/operator/skills/`. C-SDLC v2 remains the live lifecycle authority
+until explicit V3-F/#505 cutover approval. C-SDLC v3 remains construction-only
+and non-authoritative before that cutover.
 
-## Skill prompt
+Before #505 changes any default tooling route, operators must receive
+`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` through the typed C-SDLC v2 GitHub
+issue owner. That notice is informational and does not revive this compatibility
+surface.
+
+## Historical prompt boundary
 
 ```text
 You are running skill: adl_pr_cycle.
 
 Purpose:
-- Route one tracked issue through the independent C-SDLC v2 Rust control plane.
-- Preserve the name as a compatibility entrypoint; do not revive sunset v1
-  lifecycle wrappers or their card paths.
+- Preserve historical compatibility text without making `adl_pr_cycle` a
+  current lifecycle route.
+- Refuse current issue execution and point operators at the typed C-SDLC v2
+  lifecycle owner skills.
 
-Inputs:
-- issue_num (required)
-- slug (required)
-- title (required)
-- paths (required, comma-separated tracked paths)
-- version (required; use the issue's milestone/version label)
-- mode (optional: apply|suggest, default apply)
-- validation_profile (optional; a named repository validation profile, never an
-  arbitrary shell string)
-- publish (optional, default false)
-- merge (optional, default false; requires explicit operator authorization)
-
-Authority and binaries:
-- Resolve the selected generation with `csdlc-install resolve`.
-- Use only the installed Rust binaries under `.adl/bin/csdlc-v2/` and the typed
-  skills under `csdlc-v2/operator/skills/`.
-- The v2 state store and six-card projections under `.csdlc/` are machine truth.
-- Cards are constructed and edited through the typed card-editor route, which
-  uses the markdown.rs AST and the active template registry. Never patch a
-  rendered card by hand.
-
-Hard guardrails:
-1) Deterministic state machine:
-   preflight -> init -> bind -> design/plan -> implement -> validate -> review
-   -> publish -> shepherd -> finish -> cleanup
-2) Never work on `main`. Bind one issue to one branch/worktree before tracked
-   implementation edits and keep the primary checkout clean.
-3) Do not invoke sunset v1 wrappers, prompt-template commands, or compatibility
-   shell lifecycle surfaces. The control plane never evaluates shell/Python
-   strings. A repository-declared validation profile may run a bounded external
-   proof command only when its typed argv, lane, budget, and evidence contract
-   are recorded in VPP truth.
-4) Do not edit `.csdlc` state or Markdown cards directly. Use `csdlc-edit` and
-   `csdlc-validate`; preserve the canonical SIP -> STP -> SPP -> VPP -> SRP ->
-   SOR lifecycle and bound Git topology invariants.
-5) Do not publish until `csdlc-review` has current exact-head review evidence.
-   Publication must fail closed without it. Do not merge or close the issue
-   unless the operator explicitly authorizes that terminal action.
-6) Keep retries bounded and preserve every failure artifact. Never hide a
-   stale-generation, topology, review, validation, or ancestry error by retrying
-   around it.
-
-Procedure:
-1) Preflight
-   - Confirm the issue exists, the repository is identified, and the primary
-     checkout is clean on `main` (unrelated user changes are preserved and are
-     not part of this issue).
-   - Resolve the issue's version and derive `codex/<issue_num>-<slug>` plus the
-     bound worktree path.
-   - Confirm all six cards, the design, and the diagram are present or can be
-     generated from the current versioned prompt registry.
-2) Init
-   - Submit a typed bootstrap request to `csdlc-issue create`; this is the atomic,
-     pre-binding creation of the issue record and six initial projections. It
-     includes design and diagram paths, operator constraints, review
-     scope, and explicit validation budgets; it is not implementation editing.
-3) Bind
-   - Submit a typed `csdlc-bind` request for the issue branch/worktree.
-   - When issue and code repositories differ, include the explicit
-     `code_repository`; doctor verifies it against effective Git topology.
-   - Preserve the issue branch/worktree relationship and reject conflicting or
-     ambiguous Git topology.
-4) Design/plan, implement, and validate
-   - After binding, use `csdlc-v2-card-editor` for all semantic card
-     construction/repair and run `csdlc-validate` after every accepted edit.
-   - Make only the requested tracked changes in the bound worktree.
-   - Run the smallest proving named validation profile through `csdlc-validate`;
-     record local proof separately from deferred hosted proof.
-5) Review and publish
-   - Obtain bounded subagent review of the exact worktree revision and record it
-     with `csdlc-review`.
-   - Run `csdlc-validate finalize` and then `csdlc-publish` only when review truth,
-     ancestry, staged paths, and validation evidence are current.
-   - Hand the published PR to `csdlc-shepherd`; do not treat a draft or a green
-     local check as merge proof.
-6) Finish and cleanup
-   - Run `csdlc-finish` to validate the exact reviewed green head and derive
-     terminal authority from live GitHub state. Run `csdlc-clean cleanup`
-     separately for the exact registered worktree.
-
-Required evidence/report:
-- `.csdlc/issues/<issue_num>/index.json` and its six card projections
-- `.git/csdlc-v2/requests/<issue_num>.json` for each typed operation
-- bound branch/worktree, exact revision, validation lanes and budgets
-- review assignment/result, publication evidence, shepherd observation, and
-  the derived terminal envelope when those phases are reached
-- one concise report containing inputs, changed tracked paths, commands/typed
-  operations attempted, validation results, blockers, and exactly one next
-  action
+Current-work procedure:
+1) Stop. This compatibility route is blocked by policy for current ADL work.
+2) Use the typed C-SDLC v2 owner skill for the needed operation instead:
+   `csdlc-v2-init`, `csdlc-v2-bind`, `csdlc-v2-card-editor`,
+   `csdlc-v2-validate`, `csdlc-v2-review`, `csdlc-v2-publish`,
+   `csdlc-v2-shepherd`, `csdlc-v2-finish`, or `csdlc-v2-clean`.
+3) Keep v3 work construction-only until V3-F/#505 explicitly approves and
+   proves any authority transition.
 
 Stop boundaries:
-- `mode=suggest` stops after reporting the next typed operation.
-- `publish=false` stops after exact-head review and final validation.
-- `merge=false` stops before merge/finish even when the PR is green.
-- Any stale topology, stale revision, missing card, missing budget, failed proof,
-  missing review, or ancestry drift is a blocker; preserve evidence and report
-  the typed recovery operation instead of improvising.
+- Any current-work request to use `adl_pr_cycle` is blocked by policy.
+- Report the applicable typed C-SDLC v2 owner skill and stop before mutating
+  lifecycle state through this compatibility surface.
+- Do not present this file as a runnable current procedure.
 ```
 
 ## Truth boundaries
 
-- This skill is a compatibility-facing router. The independent Rust v2 binaries
-  and their typed operator skills are the only active lifecycle authority.
+- This file is historical evidence, not executable guidance.
+- The independent Rust v2 binaries and their typed operator skills are the only
+  active lifecycle authority before V3-F/#505.
 - Repository-declared validation may invoke bounded external tools, including a
   shell or Python program, but only as an explicit typed proof command. The
   C-SDLC control plane itself never depends on shell/Python lifecycle logic.
@@ -135,7 +63,6 @@ Stop boundaries:
 
 ## Failure policy
 
-Fail closed on invalid input, missing authority, stale topology or revisions,
-missing review truth, failed validation, publication drift, or incomplete
-finish. Preserve the machine-readable error and report one typed recovery
-operation; do not silently fall back to a legacy command surface.
+Fail closed on any request to use `adl_pr_cycle` for current lifecycle work.
+Preserve the request context and route the operator to the applicable typed v2
+owner skill instead of improvising through a compatibility surface.

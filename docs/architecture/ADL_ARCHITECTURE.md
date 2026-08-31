@@ -81,19 +81,37 @@ cards as the canonical execution packet:
 
 - STP: the bounded task prompt and acceptance contract.
 - SIP: the input state and worktree binding.
+- SPP: the issue-local execution plan.
+- VPP: the validation plan and proof-lane contract.
+- SRP: the structured review prompt and review-result surface.
 - SOR: the output record, validation results, PR state, and closeout truth.
 
-`adl/src/control_plane.rs` defines deterministic issue prompt paths, task bundle
-paths, branch names, and default worktree paths. The default ADL lifecycle is:
+The current lifecycle authority is the typed C-SDLC v2 Rust owner set under
+`.adl/bin/csdlc-v2/`, selected by `csdlc-v2/operator/generation-selector.json`
+and routed through the typed contracts in `csdlc-v2/operator/skills/`. The
+legacy `pr ...` command names are historical orientation only; they are not an
+active operator route after Gate 10D2.
 
-1. `pr init` creates or normalizes the issue prompt and task bundle.
-2. `pr ready` verifies that the issue and cards are structurally ready.
-3. `pr run` binds an execution worktree and performs bounded implementation.
-4. `pr finish` stages intended paths, runs validation, and publishes or updates
-   a draft PR.
-5. `pr janitor` monitors PR checks, conflicts, and review state.
-6. `pr closeout` verifies integration truth, normalizes final cards, and prunes
-   the local execution surface.
+The current ADL lifecycle is:
+
+1. `csdlc-issue` creates or normalizes the issue record and all six cards.
+2. `csdlc-edit` and `csdlc-validate` keep card projections and schemas current.
+3. `csdlc-bind` binds the issue to the exact branch and FastWork worktree.
+4. Implementation and focused PVF validation happen inside that bound worktree.
+5. `csdlc-review` records exact-head independent review truth before
+   publication.
+6. `csdlc-publish` creates or updates the PR with visible closing linkage.
+7. `csdlc-github-pr` / `csdlc-pr-state` observe PR state, checks, and conflicts.
+8. `csdlc-finish` derives terminal authority from live GitHub merge/closure
+   truth.
+9. `csdlc-clean cleanup` removes only the exact registered worktree after
+   terminal truth is materialized.
+
+Issue #505 is the pending V3-F tooling changeover decision. Until that issue is
+reviewed, explicitly approved, and merged, v3 remains construction evidence and
+every active lifecycle write still routes through v2. Operators must receive
+the pre-change notice in `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before
+any default tooling switch.
 
 The root checkout remains the stable coordination checkout. Tracked
 implementation work belongs in issue-specific worktrees, not on the root branch.
@@ -107,12 +125,13 @@ for integrated repository truth.
 The task bundle lifecycle is:
 
 1. Issue intent is captured in a tracked or generated issue prompt.
-2. SIP, STP, SPP, SRP, and SOR cards are created in the versioned task area.
-3. `pr run` copies or binds the executable packet into the worktree.
+2. SIP, STP, SPP, VPP, SRP, and SOR cards are created in the versioned task area.
+3. `csdlc-bind` copies or binds the executable packet into the worktree.
 4. Implementation, validation, and review happen inside the worktree.
-5. `pr finish` records the publication state in SOR.
-6. `pr closeout` reconciles GitHub closure, PR merge state, final cards, and
-   local worktree cleanup.
+5. `csdlc-review` and `csdlc-publish` record review and publication truth.
+6. `csdlc-finish` reconciles GitHub closure and PR merge state.
+7. `csdlc-clean cleanup` prunes the exact local worktree only after terminal
+   closeout truth exists.
 
 This split is important for ADL because many failures in prior milestones were
 not code failures. They were truth-model failures: closed GitHub issues with
