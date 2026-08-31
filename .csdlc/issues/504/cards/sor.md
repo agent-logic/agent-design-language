@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired PR #588 review findings for the non-authoritative V3-E remote-delivery workflow and recovered stale published review/publication truth back to implemented.
+Repaired PR #588 remote-delivery findings and the follow-up cleanup-gate review finding while preserving V3-E as non-authoritative construction work.
 
 ## Artifacts
 
@@ -28,6 +28,7 @@ Repaired PR #588 review findings for the non-authoritative V3-E remote-delivery 
 - Normalized principal comparison before case-insensitive equality so whitespace variants of the same implementer/reviewer cannot self-authorize publication.
 - Allowed Part-Of publication to complete through deliver() as a checkpoint result without terminal cleanup authority.
 - Added cleanup removal execution that performs filesystem removal after preview receipt and terminal gates, and distinguishes removed, already-removed, unregistered, path-mismatch, dirty, and live-worktree states.
+- Fixed the already-removed cleanup path so it still requires terminal state, terminal receipt, preview receipt, clean worktree, non-live worktree, canonical absolute paths, and removal mode before returning AlreadyRemoved.
 - Kept the V3-E implementation construction-only: no v3 live GitHub mutation, v2 retirement, merge, finish, or terminal cleanup authority is claimed.
 
 ## Validation
@@ -42,60 +43,9 @@ Repaired PR #588 review findings for the non-authoritative V3-E remote-delivery 
       "--test",
       "remote_commands"
     ],
-    "purpose": "Focused V3-E remote workflow regression tests for verified observations, whitespace self-review, checkpoint delivery, and cleanup execution states.",
+    "purpose": "Focused V3-E remote workflow regression tests including already-removed cleanup gate refusal.",
     "outcome": "passed",
-    "evidence_ref": "local stdout: 14 passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--all-targets"
-    ],
-    "purpose": "Full non-authoritative csdlc-v3 test suite after PR #588 remediation.",
-    "outcome": "passed",
-    "evidence_ref": "local stdout: 55 passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "clippy",
-      "--manifest-path",
-      "csdlc-v3/Cargo.toml",
-      "--all-targets",
-      "--",
-      "-D",
-      "warnings"
-    ],
-    "purpose": "Reject Rust warnings across the touched V3-E surface.",
-    "outcome": "passed",
-    "evidence_ref": "local stdout: finished dev profile"
-  },
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check",
-      "origin/main...HEAD"
-    ],
-    "purpose": "Exact-range diff hygiene for PR #588 remediation.",
-    "outcome": "passed",
-    "evidence_ref": "local command produced no findings"
-  },
-  {
-    "command": [
-      "csdlc-validate",
-      "--root",
-      ".",
-      "issue",
-      "--issue",
-      "504"
-    ],
-    "purpose": "Typed C-SDLC issue validation after recovery and code repairs.",
-    "outcome": "passed",
-    "evidence_ref": "generation 12 phase implemented status pass before this SOR replacement"
+    "evidence_ref": "local stdout: 15 passed"
   }
 ]
 

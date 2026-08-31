@@ -438,6 +438,66 @@ fn cleanup_removal_executes_and_distinguishes_removed_states() {
 }
 
 #[test]
+fn already_removed_cleanup_still_requires_terminal_and_preview_gates() {
+    let id = NEXT_CLEANUP_ID.fetch_add(1, Ordering::SeqCst);
+    let missing_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("target")
+        .join(format!(
+            "remote-cleanup-missing-worktree-{}-{id}",
+            std::process::id()
+        ));
+    if missing_path.exists() {
+        fs::remove_dir_all(&missing_path).expect("remove stale missing fixture");
+    }
+    let mut candidate = CleanupCandidate {
+        preview: false,
+        preview_receipt: true,
+        committed_closed_out: true,
+        terminal_receipt: true,
+        registered_worktree: missing_path.clone(),
+        candidate_path: missing_path,
+        dirty: false,
+        live: false,
+    };
+
+    candidate.committed_closed_out = false;
+    assert_eq!(
+        execute_cleanup_removal(&candidate),
+        Err(CleanupRejectReason::NotTerminal)
+    );
+    candidate.committed_closed_out = true;
+    candidate.terminal_receipt = false;
+    assert_eq!(
+        execute_cleanup_removal(&candidate),
+        Err(CleanupRejectReason::MissingReceipt)
+    );
+    candidate.terminal_receipt = true;
+    candidate.preview_receipt = false;
+    assert_eq!(
+        execute_cleanup_removal(&candidate),
+        Err(CleanupRejectReason::MissingPreviewReceipt)
+    );
+    candidate.preview_receipt = true;
+    candidate.dirty = true;
+    assert_eq!(
+        execute_cleanup_removal(&candidate),
+        Err(CleanupRejectReason::DirtyWorktree)
+    );
+    candidate.dirty = false;
+    candidate.live = true;
+    assert_eq!(
+        execute_cleanup_removal(&candidate),
+        Err(CleanupRejectReason::LiveWorktree)
+    );
+    candidate.live = false;
+    candidate.preview = true;
+    assert_eq!(
+        execute_cleanup_removal(&candidate),
+        Err(CleanupRejectReason::UnregisteredWorktree)
+    );
+}
+
+#[test]
 fn cleanup_requires_committed_closed_out_state_and_receipt() {
     let mut candidate = cleanup();
     candidate.committed_closed_out = false;

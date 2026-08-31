@@ -236,13 +236,28 @@ pub fn classify_cleanup(
 pub fn execute_cleanup_removal(
     candidate: &CleanupCandidate,
 ) -> Result<CleanupClassification, CleanupRejectReason> {
+    if !candidate.committed_closed_out {
+        return Err(CleanupRejectReason::NotTerminal);
+    }
+    if !candidate.terminal_receipt {
+        return Err(CleanupRejectReason::MissingReceipt);
+    }
     if !is_canonical_absolute(&candidate.registered_worktree)
         || !is_canonical_absolute(&candidate.candidate_path)
     {
         return Err(CleanupRejectReason::NonCanonicalPath);
     }
+    if candidate.dirty {
+        return Err(CleanupRejectReason::DirtyWorktree);
+    }
+    if candidate.live {
+        return Err(CleanupRejectReason::LiveWorktree);
+    }
+    if !candidate.preview && !candidate.preview_receipt {
+        return Err(CleanupRejectReason::MissingPreviewReceipt);
+    }
     if !candidate.registered_worktree.exists() && !candidate.candidate_path.exists() {
-        if candidate.registered_worktree == candidate.candidate_path {
+        if !candidate.preview && candidate.registered_worktree == candidate.candidate_path {
             return Ok(CleanupClassification::AlreadyRemoved {
                 path: candidate.candidate_path.clone(),
             });
