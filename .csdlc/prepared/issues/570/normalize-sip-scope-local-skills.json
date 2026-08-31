@@ -1,0 +1,27 @@
+{
+  "issue": 570,
+  "card": "sip",
+  "expected_generation": 13,
+  "expected_digest": "bc8f7c2ec6f53adec3fb87492bb3711f5ee90878170e0f89d33e1d678e7aaf3a",
+  "claim_id": "claim-570-v3-g-portable-sip-scope",
+  "actor": "codex:worker-6",
+  "reason": "Normalize local installed-skill scope so durable issue truth is portable while retaining local-only evidence boundaries.",
+  "operation": {
+    "operation": "correct_declared_scope_before_publication",
+    "values": [
+      "AGENTS.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills/**/SKILL.md",
+      "csdlc-v3/README.md",
+      "csdlc-v3/AGENTS.md",
+      "Operator-local installed Codex PR skills under CODEX_SKILLS_ROOT or the default Codex skills root, checked only as local evidence and not committed as repository artifacts.",
+      ".csdlc/issues/570/**",
+      ".csdlc/prepared/issues/570/**",
+      ".csdlc/evidence/570/**"
+    ]
+  }
+}

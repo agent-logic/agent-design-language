@@ -19,9 +19,18 @@ Use this page when you need to orient quickly in the ADL repo.
 
 Gate 10D2 is the current C-SDLC authority. Current issue lifecycle work uses
 the independent typed Rust owner binaries under `.adl/bin/csdlc-v2/`, selected
-through the typed contracts in `csdlc-v2/operator/skills/`. The old
+through the typed contracts in `csdlc-v2/operator/skills/`, until an explicit
+operator-reviewed V3-F/#505 cutover changes that contract. The old
 `adl_pr_cycle`, `pr.sh`, prompt-template wrapper, and five-command compatibility
 routes are historical surfaces, not current lifecycle authority.
+
+C-SDLC v3 is the planned clean replacement line, but before V3-F it is only
+construction and cutover-readiness evidence. Do not use v3 to bind worktrees,
+mutate issue state, publish pull requests, finish issues, clean worktrees, or
+retire v2. A prepared v3 issue should still be simple to start: once
+dependencies are satisfied, inspection, typed bind, and first useful work should
+take three minutes or less without bypassing v2 authority, review, validation,
+publication, finish, or cleanup truth.
 
 Canonical issue state lives under `.csdlc/issues/<issue>/`, with typed request
 material normally prepared under `.csdlc/prepared/issues/<issue>/` or

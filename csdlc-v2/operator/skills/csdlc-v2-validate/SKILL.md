@@ -2,6 +2,11 @@
 name: csdlc-v2-validate
 description: Execute declared PVF validation DAGs with typed evidence.
 ---
+C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
+cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
+evidence only. It is not a route for validation, phase advancement,
+publication, finish, cleanup, v2 retirement, or GitHub mutation.
+
 Use `csdlc-schedule` for read-only classification. For routine issue execution, use `csdlc-validate --root <worktree> finalize --request <shared-git-request>` so execution, passing validation, and `Implemented` are one atomic state transition. Keep the one-shot request at the Git-common path `.git/csdlc-v2/requests/<issue>.json` and overwrite it. Do not embed shell command strings or treat skipped/pending proof as passed.
 
 Do not call deleted ADL structured-prompt shell wrappers such as

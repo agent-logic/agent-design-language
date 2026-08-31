@@ -5,6 +5,11 @@ description: Finish one reviewed and published C-SDLC v2 issue by merging its ex
 
 # C-SDLC v2 Finish
 
+C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
+cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
+evidence and must not finish issues, derive terminal truth, clean worktrees, or
+retire v2.
+
 Use `csdlc-install resolve` to locate the active `csdlc-finish` binary, then pass
 one typed finish request with `--root` and `--request`.
 
