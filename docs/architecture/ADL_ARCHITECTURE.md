@@ -109,12 +109,16 @@ for integrated repository truth.
 The task bundle lifecycle is:
 
 1. Issue intent is captured in a tracked or generated issue prompt.
-2. SIP, STP, SPP, SRP, and SOR cards are created in the versioned task area.
-3. `pr run` copies or binds the executable packet into the worktree.
+2. SIP, STP, SPP, VPP, SRP, and SOR cards are created in the versioned task area.
+3. Typed C-SDLC v2 bind validates repository, branch, and worktree identity
+   before implementation starts.
 4. Implementation, validation, and review happen inside the worktree.
-5. `pr finish` records the publication state in SOR.
-6. `pr closeout` reconciles GitHub closure, PR merge state, final cards, and
-   local worktree cleanup.
+5. Typed C-SDLC v2 review and publish record exact-revision review and GitHub
+   publication truth.
+6. Typed C-SDLC v2 finish reconciles live GitHub closure, PR merge state, and
+   terminal card truth.
+7. Typed C-SDLC v2 cleanup removes only the exact registered worktree after
+   terminal evidence permits it.
 
 This split is important for ADL because many failures in prior milestones were
 not code failures. They were truth-model failures: closed GitHub issues with

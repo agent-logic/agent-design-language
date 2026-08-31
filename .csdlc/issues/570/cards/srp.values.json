@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-G] C-SDLC v3 docs and skill cutover readiness",
     "slug": "v0-92-1-v3-g-c-sdlc-v3-docs-and-skill-cutover-readiness",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "AGENTS.md\ndocs/onboarding.md\ndocs/architecture/ADL_ARCHITECTURE.md\ndocs/tooling/adl_pr_cycle_skill.md\ncsdlc-v3/README.md\ncsdlc-v3/AGENTS.md\ncsdlc-v2/AGENTS.md\ncsdlc-v2/operator/SKILLS.md\ncsdlc-v2/operator/skills\n.csdlc/prepared/issues/570/validate-authority-boundary.sh\n.csdlc/prepared/issues/570/validate-docs-routes.sh\n.csdlc/prepared/issues/570/validate-skill-guidance.sh\n.csdlc/prepared/issues/570/recover-review-after-pr584-findings.json\n.csdlc/prepared/issues/570/repair-sor-status-ready.json\n.csdlc/prepared/issues/570/normalize-sip-scope-local-skills.json\n.csdlc/prepared/issues/570/normalize-stp-deliverables-local-skills.json\n.csdlc/prepared/issues/570/normalize-stp-acceptance-local-skills.json\n.csdlc/prepared/issues/570/replace-sor-execution-portable-evidence-refs.json\n.csdlc/prepared/issues/570/replace-sor-execution-final-evidence-refs.json\n.csdlc/evidence/570",
-      "review_revision": "git-blake3:256a222edf9030877b42e31f2521a1ef43690fda:0f7f20a1a2cd61bf1d2fc1df80a6fa6a80721807853b3d1c6208de46ad01b77d",
-      "reviewer": "subagent:issue_570_pr584_repair_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Do the changed docs and skills consistently preserve v2 as live authority until explicit V3-F/#505 cutover?",
         "Do any updated surfaces accidentally claim v3 can mutate lifecycle state before cutover?",
@@ -24,10 +24,8 @@
         "Are local-only installed PR skill checks or updates disclosed truthfully?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Immutable audit history still records superseded machine-local paths from prior generation payloads; live SIP/STP/SOR card truth and prepared replay files now use portable CODEX_SKILLS_ROOT/default-root wording."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -47,6 +47,21 @@ reject_current_route_lines() {
   fi
 }
 
+reject_instructional_legacy_routes() {
+  local file="$1"
+  local matches
+  matches="$(
+    grep -Ein '^[[:space:]]*([0-9]+[.)]|[-*])[[:space:]]*`?(adl_pr_cycle|pr\.sh|pr init|pr ready|pr run|pr finish|pr janitor|pr closeout|pr preflight)`?' "$file" \
+      | grep -Eiv 'historical|former|retired|not a current|not executable guidance|blocked by policy|do not|refuse|evidence only|not executable|not a runnable current procedure' \
+      || true
+  )"
+  if [[ -n "$matches" ]]; then
+    echo "stale-current-route: instructional legacy route in $file" >&2
+    echo "$matches" >&2
+    failures=$((failures + 1))
+  fi
+}
+
 docs=(
   "AGENTS.md"
   "docs/onboarding.md"
@@ -71,11 +86,16 @@ require_file_contains "docs/onboarding.md" "three[- ]minute|3[- ]minute|3 m" "th
 require_file_contains "csdlc-v3/README.md" "V3-A|V3-B|V3-C" "V3-A/B/C construction state"
 require_file_contains "csdlc-v3/README.md" "V3-F|#505" "V3-F/#505 cutover boundary"
 require_file_contains "docs/architecture/ADL_ARCHITECTURE.md" "pr init.*historical|historical.*pr init" "architecture legacy pr-route historical wording"
+require_file_contains "docs/architecture/ADL_ARCHITECTURE.md" "SIP, STP, SPP, VPP, SRP, and SOR" "architecture six-card lifecycle includes VPP"
+require_file_contains "docs/architecture/ADL_ARCHITECTURE.md" "Typed C-SDLC v2 bind" "architecture typed bind lifecycle wording"
+require_file_contains "docs/architecture/ADL_ARCHITECTURE.md" "Typed C-SDLC v2 finish" "architecture typed finish lifecycle wording"
+require_file_contains "docs/architecture/ADL_ARCHITECTURE.md" "Typed C-SDLC v2 cleanup" "architecture typed cleanup lifecycle wording"
 require_file_contains "docs/tooling/adl_pr_cycle_skill.md" "historical compatibility|not a current workflow entrypoint|blocked by policy" "adl_pr_cycle historical-only wording"
 
 current_route_pattern='(^|[^`[:alnum:]_-])(adl_pr_cycle|pr\.sh|pr init|pr ready|pr run|pr finish|pr janitor|pr closeout|pr preflight)([^`[:alnum:]_-]|$).*(current|normal|use|invoke|run|route|default)|default.*(^|[^`[:alnum:]_-])(adl_pr_cycle|pr\.sh|pr init|pr ready|pr run|pr finish|pr janitor|pr closeout|pr preflight)([^`[:alnum:]_-]|$)'
 for file in "${docs[@]}"; do
   reject_current_route_lines "$file" "$current_route_pattern" "legacy wrapper presented as current route"
+  reject_instructional_legacy_routes "$file"
 done
 
 reject_file_contains "AGENTS.md" "v3[^.]{0,80}(is|becomes|remains)[^.]{0,80}(sole|current|live)[^.]{0,80}authority" "premature v3 authority"
