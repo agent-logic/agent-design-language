@@ -3,9 +3,9 @@
   "issue": 345,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "initialized",
-  "generation": 3,
-  "digest": "89ee4425ebb732b048dd9e03c1faef7af0c172806077db22031be493fcd3350f",
+  "phase": "ready",
+  "generation": 4,
+  "digest": "88036d75acc028f4c56617f88742658d3e0155732d55b1a634de77fe306e4462",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "20fe7b2af0b59f2c168217ebc001a8eb851b3539a6f31876d31d233072ff037a",
+      "values_digest": "986ed861c997bbba3d29ab2d15f057a260a0a7a7bd31a809a13b5eb90a085aec",
       "rendered_digest": "8938409a9b1325974a7580fa579fa3779b37293b59a35f3e41056ae026958d9f",
       "ast_digest": "d70c20ab4abcc96865ac41d795c95b246afad5f3b55a76f88364f08516e56c3b"
     },
     "stp": {
-      "values_digest": "c4a06027a4878a5ff97878fb398d2f697f54d117cf983819463735212f86f304",
+      "values_digest": "eb84eae6da691d99714bcbfa900e3c194701c70a40cda3183f18da68252fa459",
       "rendered_digest": "3e0297d1465f8f80e9038a11585826f0db491b28a8bfcb2ce89ba4824b993939",
       "ast_digest": "186663e96d9094357924e2ed1c5b6d1b83374e0056a21771baccb3665097078b"
     },
     "spp": {
-      "values_digest": "c2b37a968147cb53762e2dd40f9193adde9dfc21cfb08601b92b8a2e67a519c3",
+      "values_digest": "897f5817f2f657d14a93433087de8745d205882f6fa8a910076532d408f82a2e",
       "rendered_digest": "fdfab867eb938b2abe6fa13ac84ffeb61e3cceddd268469c793bcd26669389c6",
       "ast_digest": "80b856f194cfc7c6a241d88ea3d728a3cbf7c134c486fdfd0b57853773d09c83"
     },
     "vpp": {
-      "values_digest": "65addb4b91402dc5373561cd00231b1d00c179782123240d95d17e0938c1c62a",
+      "values_digest": "25003d90f714d44da1944de3869acc04809fb9c1d3d993599d3f9ac93d2e1837",
       "rendered_digest": "66741aa1e2e7a8aa6c09f6add5674d5b87f1db4a4e8fbb0bd582acad5cb3ee3f",
       "ast_digest": "3b72bc8145ab9517c6184cdc1842c39496aac592be65ffdf208defba499b5fbe"
     },
     "srp": {
-      "values_digest": "b5db6776e0290852722f2bcbe15adead685b2280f494489c166f07278e168620",
+      "values_digest": "89f1a0097809125faac88ac9335f0ca6dc0281a9d008d09683fd1a97df95f194",
       "rendered_digest": "dc98fee9fc127f7c749ec1e2e183ac0fe280a46ef08916ea18c0b7627baad6b4",
       "ast_digest": "370ff7b7edd5b14761441cffde0a3011ed6ffefe167c2f6e843535678fd90949"
     },
     "sor": {
-      "values_digest": "c4df7a6beec00d5ca282d5f9f23a2ba60e48aaea5648d8b353ed5196ad1d2974",
+      "values_digest": "79ff60ae58b82af0edd59fface0c81f439ba4271cee40cd5e824d8458f339742",
       "rendered_digest": "7ea4c6259aa9ecd1d185162147a9223aeca4673a3632ac88c08e75583ec59622",
       "ast_digest": "a6abbee28e7a473678ffa06395c1cd92ab62d6b896cf5dd51862b69e6b745f86"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root:issue-345-preparation",
+      "reason": "Advance #345 prepared AWS GPU Shepherd proof runner packet to execution-ready after clean initialized doctor and validation."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -83,6 +91,13 @@
       "actor": "fresh-session:01a04b3b-e3c2-7b80-ab4c-024fe6cead30",
       "reason": "approve completed issue design",
       "operation": "{\"design_digest\":\"f789c9d45cd930e363a00686912c470cfb3a4e4cb4ac5de3498da816b37efdb7\",\"design_ref\":\".csdlc/prepared/issues/345/design.md\",\"diagram_digest\":\"c21b673cd85fae0f3abd1cdd5ccaca90418b063796929de1c74f15ca270f0ae7\",\"diagram_ref\":\".csdlc/prepared/issues/345/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root:issue-345-preparation",
+      "reason": "Advance #345 prepared AWS GPU Shepherd proof runner packet to execution-ready after clean initialized doctor and validation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
