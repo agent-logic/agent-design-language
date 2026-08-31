@@ -7,15 +7,15 @@
     "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
     "slug": "gcp-gpu-readiness-smoke-test",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/494\n.csdlc/issues/494\n.csdlc/prepared/issues/494/design.md\n.csdlc/prepared/issues/494/diagram.mmd\n.csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh\ndocs/milestones/v0.92.1/evidence/cloud/gcp-e\ninfra/gcp/workloads/gpu-smoke-instance\ninfra/gcp/workloads/gpu-smoke-support\ninfra/gcp/workloads/modules/gpu-smoke-instance\ninfra/gcp/workloads/modules/gpu-smoke-support",
+      "review_revision": "git-blake3:d86bb74e1b58ac869583d6f2233acbfa40fea36e:a0d85e1f320346025e2ee4d8abc0a15eda3678709493094670d46f6febf5f81e",
+      "reviewer": "fresh-session:ced1bc1e-98e3-4cdf-9967-8856ed5b90b1",
       "review_prompts": [
         "Does the design keep #494 to one bounded GCP-E On-Demand L4 readiness decision without absorbing DRT-D, XCL-01, AWS-G, Observatory, Unity, or production traffic?",
         "Are paid authorization, USD 20 ceiling, exact inputs, GPU inference/headroom, telemetry/cost/deadline, and zero-resource cleanup represented as machine-checkable proof?",
@@ -23,8 +23,10 @@
         "Are quota/capacity, cleanup, and cost failures fail-closed rather than silently accepted?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer did not run live GCP, credentials, paid commands, terraform apply, or cloud readbacks; accepted live evidence remains r8/r9."
+      ],
+      "review_result": "pass"
     }
   }
 }
