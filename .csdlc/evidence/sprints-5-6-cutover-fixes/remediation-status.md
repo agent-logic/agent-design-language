@@ -30,11 +30,17 @@ Status as of this branch:
   GitHub PR owner and used to change only the PR body linkage line to
   `Part-Of #505`; readback evidence is recorded at
   `.csdlc/evidence/591/pr-state-after-remove-closes.json`.
+- Published for review: typed issue transport created tracking issue #596, and
+  typed PR transport created PR #597 from
+  `codex/sprints-5-6-cutover-fixes` to `main`. PR #597 visibly closes #596 and
+  only references #505/#534 as non-closing `Part-Of` context.
 
 Remaining remote-state blocker:
 
 - No known premature remote-linkage blocker remains in PR #591. #505 still must
   not merge until review approval and explicit operator cutover authority.
+- PR #597 is open for review and currently reports `waiting` because no
+  independent review/check-gate result has been observed through typed PR state.
 
 Non-claims:
 
