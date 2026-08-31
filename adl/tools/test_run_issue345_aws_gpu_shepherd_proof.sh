@@ -61,7 +61,13 @@ case "$*" in
     printf '%s\n' '[{"GroupId":"sg-0secret","GroupName":"adl-issue345-no-ingress","IpPermissions":[]}]'
     ;;
   *"iam get-instance-profile"*)
-    printf '%s\n' '{"InstanceProfile":{"InstanceProfileName":"ADLRemoteValidationPermanentProfile","Roles":[{"RoleName":"ADLIssue345Role"}]}}'
+    printf '%s\n' '{"InstanceProfile":{"InstanceProfileName":"ADLRemoteValidationPermanentProfile","Roles":[{"RoleName":"ADLRemoteValidationPermanentRole"}]}}'
+    ;;
+  *"iam list-role-policies"*)
+    printf '%s\n' '{"PolicyNames":["ADLIssue345ArtifactReadOnly"]}'
+    ;;
+  *"iam list-attached-role-policies"*)
+    printf '%s\n' '["AmazonSSMManagedInstanceCore"]'
     ;;
   *"lambda get-function-configuration"*)
     printf '%s\n' '{"State":"Active","LastUpdateStatus":"Successful","Timeout":30}'
@@ -137,6 +143,7 @@ jq -e '.schema == "adl.issue345.aws_gpu_preflight.v1"
   and .public_ingress == false
   and .paid_launch == false
   and .active_issue_instance_count == 0
+  and .instance_profile == "ADLRemoteValidationPermanentProfile"
   and (.account_sha256 | test("^[0-9a-f]{64}$"))
   and (.no_ingress_security_group_sha256 | test("^[0-9a-f]{64}$"))' "$preflight_out" >/dev/null ||
   fail "preflight JSON contract failed"
@@ -149,6 +156,24 @@ if PATH="$BIN_DIR:$PATH" AWS_PROFILE=default AWS_REGION=us-west-2 "$RUNNER" pref
 fi
 grep -q 'AWS profile must be agent-logic-admin' "$wrong_profile_err" ||
   fail "wrong profile error was not fail-closed"
+
+
+bad_role_err="$CASE_DIR/bad-role.err"
+if PATH="$BIN_DIR:$PATH" \
+  AWS_PROFILE=agent-logic-admin \
+  AWS_REGION=us-west-2 \
+  ADL_ISSUE345_EXPECTED_ACCOUNT_SHA256="$ACCOUNT_SHA" \
+  ADL_ISSUE345_ARTIFACT_BUCKET=issue345-artifacts \
+  ADL_ISSUE345_ARTIFACT_MANIFEST_VERSION_ID=manifest-version \
+  ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256="$MANIFEST_SHA" \
+  ADL_ISSUE345_FAKE_AWS_LOG="$CALL_LOG" \
+  ADL_ISSUE345_FAKE_MANIFEST="$MANIFEST" \
+  ADL_ISSUE345_INSTANCE_PROFILE_ROLE=UnexpectedRole \
+  "$RUNNER" preflight >"$CASE_DIR/bad-role.out" 2>"$bad_role_err"; then
+  fail "wrong instance role unexpectedly passed"
+fi
+grep -q 'approved pre-provisioned role' "$bad_role_err" ||
+  fail "wrong instance role did not fail closed"
 
 no_execute_err="$CASE_DIR/no-execute.err"
 if run_with_fake_aws run --commit 0123456789abcdef0123456789abcdef01234567 --run-id adl-issue345-test >"$CASE_DIR/no-execute.out" 2>"$no_execute_err"; then
@@ -197,4 +222,4 @@ fi
 grep -q 'owner token must be the exact 32-character execution token' "$cleanup_err" ||
   fail "cleanup owner-token guard did not fail closed"
 
-printf '%s\n' '{"schema":"adl.issue345.runner_contract_test.v1","status":"pass","paid_launches":0,"preflight":"pass","negative_cases":5}'
+printf '%s\n' '{"schema":"adl.issue345.runner_contract_test.v1","status":"pass","paid_launches":0,"preflight":"pass","negative_cases":6}'

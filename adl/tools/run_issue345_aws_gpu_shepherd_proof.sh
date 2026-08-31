@@ -11,6 +11,9 @@ PROFILE="${AWS_PROFILE:-agent-logic-admin}"
 REGION="${AWS_REGION:-us-west-2}"
 ISSUE_TAG="345"
 INSTANCE_PROFILE="${ADL_ISSUE345_INSTANCE_PROFILE:-ADLRemoteValidationPermanentProfile}"
+INSTANCE_PROFILE_ROLE="${ADL_ISSUE345_INSTANCE_PROFILE_ROLE:-ADLRemoteValidationPermanentRole}"
+INSTANCE_REQUIRED_INLINE_POLICIES="${ADL_ISSUE345_INSTANCE_REQUIRED_INLINE_POLICIES:-ADLIssue345ArtifactReadOnly}"
+INSTANCE_REQUIRED_MANAGED_POLICIES="${ADL_ISSUE345_INSTANCE_REQUIRED_MANAGED_POLICIES:-AmazonSSMManagedInstanceCore}"
 NO_INGRESS_SECURITY_GROUP="${ADL_ISSUE345_NO_INGRESS_SECURITY_GROUP:-adl-issue345-no-ingress}"
 DEADLINE_REAPER_FUNCTION="${ADL_ISSUE345_DEADLINE_REAPER_FUNCTION:-adl-issue345-gpu-deadline-reaper}"
 DEADLINE_REAPER_RULE="${ADL_ISSUE345_DEADLINE_REAPER_RULE:-adl-issue345-gpu-deadline-reaper}"
@@ -167,12 +170,42 @@ verify_no_ingress_security_group() {
   jq -er '.[0].GroupId' <<<"$groups"
 }
 
+verify_policy_set_contains() {
+  local observed_json="$1" required_words="$2" jq_path="$3" message="$4"
+  jq -e --arg required "$required_words" --arg path "$jq_path" '
+    ($required | split(" ") | map(select(length > 0))) as $required
+    | getpath($path | split(".") | map(select(length > 0))) as $observed
+    | all($required[]; . as $needle | ($observed | index($needle)))
+  ' <<<"$observed_json" >/dev/null || {
+    echo "$message" >&2
+    exit 2
+  }
+}
+
 verify_instance_profile() {
-  local profile
+  local profile role_name inline_policies managed_policies
   profile="$(aws --profile "$PROFILE" iam get-instance-profile \
     --instance-profile-name "$INSTANCE_PROFILE" --output json)"
-  jq -e '.InstanceProfile.Roles | length == 1' <<<"$profile" >/dev/null || {
-    echo "instance profile must contain exactly one pre-provisioned role" >&2
+  jq -e --arg expected_profile "$INSTANCE_PROFILE" --arg expected_role "$INSTANCE_PROFILE_ROLE" '
+    .InstanceProfile.InstanceProfileName == $expected_profile
+    and (.InstanceProfile.Roles | length == 1)
+    and .InstanceProfile.Roles[0].RoleName == $expected_role
+  ' <<<"$profile" >/dev/null || {
+    echo "instance profile must contain exactly the approved pre-provisioned role" >&2
+    exit 2
+  }
+  role_name="$(jq -er '.InstanceProfile.Roles[0].RoleName' <<<"$profile")"
+  inline_policies="$(aws --profile "$PROFILE" iam list-role-policies \
+    --role-name "$role_name" --output json)"
+  verify_policy_set_contains "$inline_policies" "$INSTANCE_REQUIRED_INLINE_POLICIES" \
+    "PolicyNames" "instance role inline policy contract drifted"
+  managed_policies="$(aws --profile "$PROFILE" iam list-attached-role-policies \
+    --role-name "$role_name" --query 'AttachedPolicies[].PolicyName' --output json)"
+  jq -e --arg required "$INSTANCE_REQUIRED_MANAGED_POLICIES" '
+    ($required | split(" ") | map(select(length > 0))) as $required
+    | all($required[]; . as $needle | index($needle))
+  ' <<<"$managed_policies" >/dev/null || {
+    echo "instance role managed policy contract drifted" >&2
     exit 2
   }
   jq -er '.InstanceProfile.InstanceProfileName' <<<"$profile"
