@@ -138,11 +138,11 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS an
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
