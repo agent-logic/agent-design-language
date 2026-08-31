@@ -14,13 +14,13 @@ binaries. Issue ownership is derived from the bound Git branch and worktree;
 claims, leases, heartbeats, and protected-path ledgers are not lifecycle authority.
 C-SDLC v3 is construction and cutover-readiness evidence only before that
 cutover; it must not bind, publish, finish, clean, mutate GitHub, retire v2, or
-claim live lifecycle authority. Prepared v3 issue start should be inspectable,
+assert operational control. Prepared v3 issue start should be inspectable,
 bindable, and ready for first useful work in three minutes or less once its
 dependencies are satisfied, while preserving typed v2 guards and review truth.
 
-## Pending C-SDLC v3 tooling changeover notice
+## Pending C-SDLC tooling changeover notice
 
-Issue #505 is the only current V3-F authority-transition decision lane. Until
+Issue #505 is the sole V3-F transition-decision lane for this change. Until
 #505 is reviewed, explicitly operator-approved, merged, and terminally
 reconciled, C-SDLC v2 remains the live authority described above. C-SDLC v3 is
 construction and cutover evidence only.

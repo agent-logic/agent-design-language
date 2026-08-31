@@ -97,6 +97,8 @@ Current C-SDLC issue work uses the independent Rust v2 binary set under
 `.adl/bin/csdlc-v2/` and the typed owner skills in
 `csdlc-v2/operator/skills/`: init, bind, card editing, validation, review,
 publication, shepherding, finish, and cleanup each have an explicit v2 owner.
+C-SDLC v2 remains the live lifecycle authority until an operator-reviewed
+V3-F/#505 cutover is merged and terminally reconciled.
 C-SDLC v3 work remains construction-only and non-authoritative until the
 explicit V3-F/#505 authority transition approves and proves any cutover.
 

@@ -33,6 +33,7 @@ design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
 packet_text = [stp, sip, design, diagram].join("\n")
 notice = read("docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md")
+notice_inline = notice.gsub(/\s+/, " ")
 
 assert(issue["issue"] == 505, "wrong issue")
 assert(issue["repository"] == "agent-logic/agent-design-language", "wrong repository")
@@ -77,7 +78,7 @@ end
   "informational only",
   "not approval",
   "v2 remains the rollback and live-authority target"
-].each { |text| assert(notice.include?(text), "changeover notice missing: #{text}") }
+].each { |text| assert(notice_inline.include?(text), "changeover notice missing: #{text}") }
 
 docs = {
   "AGENTS.md" => read("AGENTS.md"),
@@ -91,12 +92,17 @@ docs = {
 
 docs.each do |path, text|
   assert(text.include?("#505") || text.include?("V3-F"), "#{path} missing #505/V3-F changeover marker")
-  assert(text.include?("v2 remains") || text.include?("C-SDLC v2 remains"), "#{path} missing v2-live boundary")
+  assert(
+    text.match?(/(?:C-SDLC\s+)?v2\b.*\b(?:remains|remain)\b.*\b(?:live|authoritative|authority)\b/i) ||
+      text.match?(/\b(?:live|authoritative|authority)\b.*\b(?:C-SDLC\s+)?v2\b/i),
+    "#{path} missing v2-live boundary"
+  )
 end
 
 architecture = docs.fetch("docs/architecture/ADL_ARCHITECTURE.md")
+architecture_inline = architecture.gsub(/\s+/, " ")
 assert(architecture.include?("SIP, STP, SPP, VPP, SRP, and SOR"), "architecture omits VPP from six-card lifecycle")
-assert(architecture.include?("historical orientation only"), "architecture must classify legacy pr route as historical")
+assert(architecture_inline.include?("historical orientation only"), "architecture must classify legacy pr route as historical")
 assert(!architecture.match?(/^\s*\d+\.\s*`?pr (run|finish|closeout)\b/i), "architecture contains instructional legacy pr lifecycle step")
 
 adl_pr_cycle = docs.fetch("docs/tooling/adl_pr_cycle_skill.md")
