@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the optional AWS GPU Shepherd proof runner with deterministic no-mutation contract proof, actual guest SSM proof choreography for the separately authorized paid lane, and deferred live AWS execution gates.
+Implemented the optional AWS GPU Shepherd proof runner with deterministic no-mutation contract proof, actual guest SSM proof choreography for the separately authorized paid lane, exact reviewed-HEAD launch gating, and deferred live AWS execution gates.
 
 ## Artifacts
 
@@ -25,10 +25,11 @@ Implemented the optional AWS GPU Shepherd proof runner with deterministic no-mut
 ## Execution
 
 - Added issue-owned preflight, paid run, and owner-bound cleanup command for the AWS GPU Shepherd portability proof.
-- Strengthened account, instance-profile role/policy, no-ingress security group, immutable artifact manifest/object-version, AMI/subnet, quota, price, stale-compute, and deadline-reaper predicates before paid launch.
-- Upgraded the paid path to resolve a DLAMI and subnet, launch one tagged On-Demand GPU instance, wait for SSM, run a guest bootstrap proof, verify GPU residency and governed real-model Shepherd proof JSON, and cleanup owner-tagged resources.
-- Added deterministic fake-AWS contract tests proving read-only preflight, fail-closed paid-run predicates, IAM drift rejection, lock collision behavior, fake successful SSM guest proof, post-launch failure cleanup, cleanup owner-token guard, no real paid launch, and redacted public output.
-- Documented the optional portability boundary, required non-secret preflight inputs, paid execution authorization gate, cleanup command, and evidence hygiene.
+- Strengthened account, instance-profile role/policy, no-ingress security group, issue-scoped deadline reaper target, immutable artifact manifest/object-version, DLAMI/subnet, quota, price, stale-compute, and deadline predicates before paid launch.
+- Required the paid-run --commit value to match the currently checked-out reviewed HEAD before any launch attempt.
+- Upgraded the paid path to resolve a DLAMI and subnet, launch one tagged On-Demand GPU instance, wait for SSM, run a guest bootstrap proof with runtime/toolchain artifact prerequisites, verify GPU residency and governed real-model Shepherd proof JSON, retain the lock-version hash before cleanup, and cleanup owner-tagged resources.
+- Added deterministic fake-AWS contract tests proving read-only preflight, fail-closed paid-run predicates, IAM drift rejection, stale-valid-SHA rejection, lock collision behavior, fake successful SSM guest proof, post-launch failure cleanup, cleanup owner-token guard, no real paid launch, and redacted public output.
+- Documented the optional portability boundary, required non-secret preflight inputs, exact reviewed-HEAD paid-run gate, cleanup command, and evidence hygiene.
 
 ## Validation
 
@@ -38,7 +39,7 @@ Implemented the optional AWS GPU Shepherd proof runner with deterministic no-mut
       "bash",
       "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
     ],
-    "purpose": "Run the deterministic fake-AWS contract test for preflight, paid-run gates, SSM guest proof choreography, cleanup, and redaction without real AWS mutation.",
+    "purpose": "Run the deterministic fake-AWS contract test for preflight, paid-run gates, exact reviewed-HEAD gating, SSM guest proof choreography, cleanup, and redaction without real AWS mutation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/345/issue345-runner-contract.log"
   },

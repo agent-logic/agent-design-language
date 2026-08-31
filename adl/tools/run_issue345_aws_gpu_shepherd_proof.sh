@@ -17,6 +17,7 @@ INSTANCE_REQUIRED_MANAGED_POLICIES="${ADL_ISSUE345_INSTANCE_REQUIRED_MANAGED_POL
 NO_INGRESS_SECURITY_GROUP="${ADL_ISSUE345_NO_INGRESS_SECURITY_GROUP:-adl-issue345-no-ingress}"
 DEADLINE_REAPER_FUNCTION="${ADL_ISSUE345_DEADLINE_REAPER_FUNCTION:-adl-issue345-gpu-deadline-reaper}"
 DEADLINE_REAPER_RULE="${ADL_ISSUE345_DEADLINE_REAPER_RULE:-adl-issue345-gpu-deadline-reaper}"
+DEADLINE_REAPER_TARGET_ID="${ADL_ISSUE345_DEADLINE_REAPER_TARGET_ID:-issue345-deadline-reaper}"
 ARTIFACT_BUCKET="${ADL_ISSUE345_ARTIFACT_BUCKET:-}"
 ARTIFACT_MANIFEST_KEY="${ADL_ISSUE345_ARTIFACT_MANIFEST_KEY:-shepherd/gpu/artifact-manifest.json}"
 ARTIFACT_MANIFEST_VERSION_ID="${ADL_ISSUE345_ARTIFACT_MANIFEST_VERSION_ID:-}"
@@ -214,22 +215,29 @@ verify_instance_profile() {
 }
 
 verify_deadline_reaper() {
-  local function_config rule targets
+  local function_config function_arn rule targets
   function_config="$(aws_cli lambda get-function-configuration \
     --function-name "$DEADLINE_REAPER_FUNCTION" --output json)"
-  jq -e '.State == "Active" and .LastUpdateStatus == "Successful" and .Timeout <= 60' \
+  jq -e --arg issue "$ISSUE_TAG" '
+    .State == "Active"
+    and .LastUpdateStatus == "Successful"
+    and .Timeout <= 60
+    and .Environment.Variables.ADL_ISSUE == $issue' \
     <<<"$function_config" >/dev/null || {
-    echo "deadline reaper function is missing or not healthy" >&2
+    echo "deadline reaper function is missing, unhealthy, or not issue-scoped" >&2
     exit 2
   }
+  function_arn="$(jq -er '.FunctionArn' <<<"$function_config")"
   rule="$(aws_cli events describe-rule --name "$DEADLINE_REAPER_RULE" --output json)"
   jq -e '.State == "ENABLED"' <<<"$rule" >/dev/null || {
     echo "deadline reaper schedule must be enabled" >&2
     exit 2
   }
   targets="$(aws_cli events list-targets-by-rule --rule "$DEADLINE_REAPER_RULE" --output json)"
-  jq -e '.Targets | length >= 1' <<<"$targets" >/dev/null || {
-    echo "deadline reaper rule must have at least one target" >&2
+  jq -e --arg id "$DEADLINE_REAPER_TARGET_ID" --arg arn "$function_arn" \
+    '.Targets | length == 1 and .[0].Id == $id and .[0].Arn == $arn' \
+    <<<"$targets" >/dev/null || {
+    echo "deadline reaper rule target must be exactly the issue-scoped reaper Lambda" >&2
     exit 2
   }
 }
@@ -251,6 +259,9 @@ verify_artifact_manifest() {
       and .model_identity == $model
       and (.model_digest_sha256 | test("^[0-9a-f]{64}$"))
       and (.artifacts | type == "array" and length > 0)
+      and any(.artifacts[]; .kind == "ollama_model_store")
+      and any(.artifacts[]; .kind == "ollama_runtime")
+      and any(.artifacts[]; .kind == "rustup_init")
       and all(.artifacts[];
         (.key | type == "string" and length > 0)
         and (.version_id | type == "string" and length > 0)
@@ -529,7 +540,7 @@ cleanup_on_exit() {
 
 run_proof() {
   local sg_id preflight_json run_dir started_at finished_at owner_token_sha256 ami subnet
-  local deadline_epoch user_data instance_id bootstrap_script result status
+  local deadline_epoch user_data instance_id bootstrap_script result status current_head lock_version_sha256
   [[ "$EXECUTE" == true ]] || {
     echo "paid execution requires --execute" >&2
     exit 2
@@ -540,6 +551,11 @@ run_proof() {
   }
   [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || {
     echo "--commit must be one exact 40-character Git commit" >&2
+    exit 2
+  }
+  current_head="$(git -C "$ROOT" rev-parse HEAD)"
+  [[ "$SOURCE_COMMIT" == "$current_head" ]] || {
+    echo "--commit must match the currently checked out reviewed HEAD" >&2
     exit 2
   }
   [[ "$RUN_ID" =~ ^adl-issue345-[A-Za-z0-9._-]+$ ]] || {
@@ -563,6 +579,7 @@ run_proof() {
   acquire_run_lock
   started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   owner_token_sha256="$(sha256_text "$OWNER_TOKEN")"
+  lock_version_sha256="$(sha256_text "$LOCK_VERSION_ID")"
   deadline_epoch="$(( $(date +%s) + MAX_INSTANCE_SECONDS ))"
   user_data="$run_dir/user-data.yaml"
   cat >"$user_data" <<CLOUD_INIT
@@ -618,6 +635,9 @@ CLOUD_INIT
   cat >"$bootstrap_script" <<BOOTSTRAP
 set -Eeuo pipefail
 mkdir -p /opt/adl-issue345/artifacts /opt/adl-ollama-models
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -qq
+apt-get install -y -qq zstd git build-essential pkg-config libssl-dev jq curl ca-certificates awscli
 aws s3api get-object --region '$REGION' --bucket '$ARTIFACT_BUCKET' --key '$ARTIFACT_MANIFEST_KEY' \
   --version-id '$ARTIFACT_MANIFEST_VERSION_ID' /opt/adl-issue345/artifact-manifest.json >/dev/null
 printf '%s  %s\n' '$ARTIFACT_MANIFEST_SHA256' /opt/adl-issue345/artifact-manifest.json | sha256sum -c -
@@ -626,7 +646,8 @@ jq -e --arg model '$MODEL_IDENTITY' \
     and .model_identity == \$model
     and (.model_digest_sha256 | test("^[0-9a-f]{64}$"))
     and any(.artifacts[]; .kind == "ollama_model_store")
-    and any(.artifacts[]; .kind == "ollama_runtime")' \
+    and any(.artifacts[]; .kind == "ollama_runtime")
+    and any(.artifacts[]; .kind == "rustup_init")' \
   /opt/adl-issue345/artifact-manifest.json >/dev/null
 while IFS=\$'\t' read -r kind key version_id relative_path expected_sha; do
   destination="/opt/adl-issue345/artifacts/\$relative_path"
@@ -637,11 +658,14 @@ while IFS=\$'\t' read -r kind key version_id relative_path expected_sha; do
   case "\$kind" in
     ollama_model_store) ;;
     ollama_runtime) OLLAMA_ARCHIVE="\$destination" ;;
+    rustup_init) RUSTUP_INIT="\$destination" ;;
     *) ;;
   esac
 done < <(jq -r '.artifacts[] | [.kind,.key,.version_id,.relative_path,.sha256] | @tsv' /opt/adl-issue345/artifact-manifest.json)
-[[ -n "\${OLLAMA_ARCHIVE:-}" ]]
+[[ -n "\${OLLAMA_ARCHIVE:-}" && -n "\${RUSTUP_INIT:-}" ]]
 tar --zstd -xf "\$OLLAMA_ARCHIVE" -C /usr
+chmod 0700 "\$RUSTUP_INIT"
+"\$RUSTUP_INIT" -y --profile minimal --default-toolchain 1.92.0
 cp -a /opt/adl-issue345/artifacts/model-store/. /opt/adl-ollama-models/
 MODEL_DIGEST=\$(jq -er '.model_digest_sha256' /opt/adl-issue345/artifact-manifest.json)
 git clone --filter=blob:none https://github.com/agent-logic/agent-design-language.git /opt/adl-issue345/repo
@@ -709,7 +733,7 @@ BOOTSTRAP
   jq -n --arg schema adl.issue345.aws_gpu_run.v1 --arg run_id "$RUN_ID" \
     --arg source_commit "$SOURCE_COMMIT" --arg started_at "$started_at" --arg finished_at "$finished_at" \
     --arg owner_token_sha256 "$owner_token_sha256" \
-    --arg lock_version_sha256 "$(sha256_text "$LOCK_VERSION_ID")" \
+    --arg lock_version_sha256 "$lock_version_sha256" \
     --argjson proof "$result" \
     '{schema:$schema,run_id:$run_id,source_commit:$source_commit,started_at:$started_at,
       finished_at:$finished_at,

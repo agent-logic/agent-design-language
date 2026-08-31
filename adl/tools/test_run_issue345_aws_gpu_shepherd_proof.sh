@@ -48,6 +48,13 @@ reset_fixture() {
       "version_id": "runtime-version",
       "relative_path": "runtime/ollama.tar.zst",
       "sha256": "b2cd2f71a0f4c712b0c8382c6fc5416b0611cdde2d9b23bbc733686363d87175"
+    },
+    {
+      "kind": "rustup_init",
+      "key": "runtime/rustup-init",
+      "version_id": "rustup-version",
+      "relative_path": "runtime/rustup-init",
+      "sha256": "b2cd2f71a0f4c712b0c8382c6fc5416b0611cdde2d9b23bbc733686363d87175"
     }
   ]
 }
@@ -82,13 +89,13 @@ case "$*" in
     printf '%s\n' '["AmazonSSMManagedInstanceCore"]'
     ;;
   *"lambda get-function-configuration"*)
-    printf '%s\n' '{"State":"Active","LastUpdateStatus":"Successful","Timeout":30}'
+    printf '%s\n' '{"State":"Active","LastUpdateStatus":"Successful","Timeout":30,"FunctionArn":"arn:aws:lambda:us-west-2:123456789012:function:adl-issue345-gpu-deadline-reaper","Environment":{"Variables":{"ADL_ISSUE":"345"}}}'
     ;;
   *"events describe-rule"*)
     printf '%s\n' '{"State":"ENABLED"}'
     ;;
   *"events list-targets-by-rule"*)
-    printf '%s\n' '{"Targets":[{"Id":"target","Arn":"arn"}]}'
+    printf '%s\n' '{"Targets":[{"Id":"issue345-deadline-reaper","Arn":"arn:aws:lambda:us-west-2:123456789012:function:adl-issue345-gpu-deadline-reaper"}]}'
     ;;
   *"s3api get-object"*)
     destination="${@: -1}"
@@ -147,7 +154,7 @@ case "$*" in
     ;;
   *"ssm get-command-invocation"* )
     if [[ "$*" == *"StandardOutputContent"* ]]; then
-      printf '%s\n' '{"schema":"adl.issue345.aws_gpu_proof.v1","gpu":"NVIDIA L4","gpu_memory_mib":23000,"model_identity":"gemma4:12b","model_artifact_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","artifact_manifest_sha256":"'"${ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256}"'","source_commit":"0123456789abcdef0123456789abcdef01234567","size_vram":1,"shepherd":{"schema":"adl.runtime.shepherd_local_model_smoke.v1","execution_class":"real_local_model","provenance":"live_execution","retained":false,"model_artifact_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},"real_local_model_smoke":"passed"}'
+      printf '%s\n' '{"schema":"adl.issue345.aws_gpu_proof.v1","gpu":"NVIDIA L4","gpu_memory_mib":23000,"model_identity":"gemma4:12b","model_artifact_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","artifact_manifest_sha256":"'"${ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256}"'","source_commit":"'"${ADL_ISSUE345_FAKE_SOURCE_COMMIT:?}"'","size_vram":1,"shepherd":{"schema":"adl.runtime.shepherd_local_model_smoke.v1","execution_class":"real_local_model","provenance":"live_execution","retained":false,"model_artifact_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},"real_local_model_smoke":"passed"}'
     elif [[ "$*" == *"StandardErrorContent"* ]]; then
       printf '\n'
     else
@@ -256,6 +263,13 @@ fi
 grep -q 'exact 40-character Git commit' "$bad_commit_err" ||
   fail "bad commit did not fail closed"
 
+stale_commit_err="$CASE_DIR/stale-commit.err"
+if PATH="$BIN_DIR:$PATH" AWS_PROFILE=agent-logic-admin AWS_REGION=us-west-2 ADL_ISSUE345_PAID_RUN_AUTHORIZATION=authorized "$RUNNER" run --commit 0123456789abcdef0123456789abcdef01234567 --run-id adl-issue345-test --execute >"$CASE_DIR/stale-commit.out" 2>"$stale_commit_err"; then
+  fail "stale but hex commit unexpectedly passed"
+fi
+grep -q 'currently checked out reviewed HEAD' "$stale_commit_err" ||
+  fail "stale exact-looking commit did not fail closed"
+
 lock_err="$CASE_DIR/lock-collision.err"
 if PATH="$BIN_DIR:$PATH" \
   AWS_PROFILE=agent-logic-admin \
@@ -269,7 +283,7 @@ if PATH="$BIN_DIR:$PATH" \
   ADL_ISSUE345_FAKE_AWS_LOG="$CALL_LOG" \
   ADL_ISSUE345_FAKE_MANIFEST="$MANIFEST" \
   ADL_ISSUE345_FAKE_AWS_FAIL_LOCK=1 \
-  "$RUNNER" run --commit 0123456789abcdef0123456789abcdef01234567 --run-id adl-issue345-test --execute >"$CASE_DIR/lock-collision.out" 2>"$lock_err"; then
+  "$RUNNER" run --commit "$(git rev-parse HEAD)" --run-id adl-issue345-test --execute >"$CASE_DIR/lock-collision.out" 2>"$lock_err"; then
   fail "lock collision unexpectedly passed"
 fi
 grep -q 'PreconditionFailed' "$lock_err" || fail "lock collision did not expose AWS conditional failure"
@@ -288,8 +302,9 @@ PATH="$BIN_DIR:$PATH" \
   ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256="$MANIFEST_SHA" \
   ADL_ISSUE345_FAKE_AWS_LOG="$CALL_LOG" \
   ADL_ISSUE345_FAKE_AWS_RUN_LOG="$RUN_CALL_LOG" \
+  ADL_ISSUE345_FAKE_SOURCE_COMMIT="$(git rev-parse HEAD)" \
   ADL_ISSUE345_FAKE_MANIFEST="$MANIFEST" \
-  "$RUNNER" run --commit 0123456789abcdef0123456789abcdef01234567 --run-id adl-issue345-success --execute >"$run_success_out"
+  "$RUNNER" run --commit "$(git rev-parse HEAD)" --run-id adl-issue345-success --execute >"$run_success_out"
 jq -e '.schema == "adl.issue345.aws_gpu_run.v1"
   and .paid_launch == true
   and .model_execution == "proved_by_guest_ssm"
@@ -320,9 +335,10 @@ if PATH="$BIN_DIR:$PATH" \
   ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256="$MANIFEST_SHA" \
   ADL_ISSUE345_FAKE_AWS_LOG="$CALL_LOG" \
   ADL_ISSUE345_FAKE_AWS_RUN_LOG="$RUN_CALL_LOG" \
+  ADL_ISSUE345_FAKE_SOURCE_COMMIT="$(git rev-parse HEAD)" \
   ADL_ISSUE345_FAKE_MANIFEST="$MANIFEST" \
   ADL_ISSUE345_FAKE_AWS_FAIL_AFTER_LAUNCH=1 \
-  "$RUNNER" run --commit 0123456789abcdef0123456789abcdef01234567 --run-id adl-issue345-launch-failure --execute >"$CASE_DIR/fail-after-launch.out" 2>"$fail_after_launch_err"; then
+  "$RUNNER" run --commit "$(git rev-parse HEAD)" --run-id adl-issue345-launch-failure --execute >"$CASE_DIR/fail-after-launch.out" 2>"$fail_after_launch_err"; then
   fail "post-launch failure unexpectedly passed"
 fi
 grep -q 'ec2 run-instances' "$RUN_CALL_LOG" || fail "launch failure case did not attempt launch"
@@ -338,4 +354,4 @@ fi
 grep -q 'owner token must be the exact 32-character execution token' "$cleanup_err" ||
   fail "cleanup owner-token guard did not fail closed"
 
-printf '%s\n' '{"schema":"adl.issue345.runner_contract_test.v1","status":"pass","paid_launches":0,"preflight":"pass","negative_cases":7}'
+printf '%s\n' '{"schema":"adl.issue345.runner_contract_test.v1","status":"pass","paid_launches":0,"preflight":"pass","negative_cases":8}'

@@ -12,9 +12,10 @@ bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh preflight
 
 The preflight path is read-only. By default, raw local run state is kept under the Git common directory (`.git/csdlc-v2/issue345/aws-gpu-state`) or an explicit `ADL_ISSUE345_STATE_ROOT`; public issue evidence should retain only redacted summaries. It verifies the approved `agent-logic-admin`
 profile, `us-west-2`, the operator-provided account hash, a named zero-ingress
-security group, a permanent instance profile plus exact role/policy contract, an enabled deadline reaper,
-versioned immutable model artifacts, GPU quota, bounded On-Demand price, and
-absence of stale issue-owned compute. It emits redacted machine-readable JSON:
+security group, a permanent instance profile plus exact role/policy contract,
+an issue-scoped enabled deadline reaper, versioned immutable model artifacts,
+DLAMI/subnet resolution, GPU quota, bounded On-Demand price, and absence of
+stale issue-owned compute. It emits redacted machine-readable JSON:
 raw AWS account ids, resource ids, tokens, prompts, responses, private paths,
 and environment dumps are not public evidence.
 
@@ -33,7 +34,8 @@ passes and the operator authorizes one exact commit, run id, deadline, and cost
 ceiling. The runner launches at most one On-Demand GPU instance and uses the
 pre-provisioned account/IAM/security-group/artifact/reaper inputs; it does not
 create or broaden IAM, security groups, public ingress, quotas, or permanent
-cloud resources.
+cloud resources. The `--commit` value must match the currently checked-out,
+freshly reviewed HEAD in the issue worktree before launch.
 
 Cleanup is owner-bound:
 
