@@ -940,10 +940,16 @@ import sys
 from pathlib import Path
 
 profile = json.load(open(sys.argv[1]))
-expected_manifest = str(Path(sys.argv[2]).resolve())
+expected_manifest = Path(sys.argv[2]).resolve()
 assert profile["status"] == "escalation_required"
-assert profile["escalation"]["reasons"][0]["manifest_rule"] == expected_manifest
-assert profile["diagnostics"][0]["manifest_rule"] == expected_manifest
+for value in [
+    profile["escalation"]["reasons"][0]["manifest_rule"],
+    profile["diagnostics"][0]["manifest_rule"],
+]:
+    observed = Path(value)
+    if not observed.is_absolute():
+        observed = Path.cwd() / observed
+    assert observed.resolve() == expected_manifest, value
 PY
 
 bad_guardrail_manifest="$TMP/bad-guardrail-manifest.json"
