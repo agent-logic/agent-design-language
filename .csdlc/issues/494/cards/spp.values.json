@@ -1,0 +1,102 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 494,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+    "slug": "gcp-gpu-readiness-smoke-test",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Bootstrap #494 after #493 terminal ancestry, approve a design centered on a disposable On-Demand L4 smoke test, bind a FastWork worktree, implement Terraform/runbook/evidence/validation surfaces, execute the paid proof only within the USD 20 cap, obtain exact-head review, publish with closing linkage, and finish when green.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and approve the GCP-E L4 smoke-test design from current main containing #493 terminal truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Bind the #494 FastWork execution worktree and preserve dependency/collision truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement disposable GPU-smoke Terraform, runbook, evidence packet, cleanup proof, and issue-owned validator.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Execute the authorized paid L4 smoke within USD 20, validate cleanup, obtain fresh exact-head review, publish with closing linkage, and finish when green.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "infra/gcp/workloads/gpu-smoke",
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-e",
+        ".csdlc/prepared/issues/494",
+        ".csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh",
+        ".csdlc/evidence/494"
+      ],
+      "invariants": [
+        "The workload is disposable and issue-labeled for deterministic cleanup",
+        "No checked-in credential, key material, token, or raw account secret appears in source or evidence",
+        "The proof records the exact project, zone, machine type, image, GPU type/count, driver/CUDA surface, Ollama/model input, deadline, and observed cost envelope",
+        "The paid run stops under the USD 20 ceiling and destroys/quarantines no unique evidence",
+        "Independent zero-resource checks prove no #494-owned compute, disk, IP, firewall, service-account, or storage residue remains",
+        "DRT-D, XCL-01, AWS-G, production traffic, Unity, and Observatory scope remain non-goals"
+      ],
+      "risks": [
+        "Quota or regional capacity may not allow the chosen L4 shape",
+        "A GPU image may boot but fail driver/CUDA/Ollama readiness",
+        "Cleanup selectors could miss residual disks, addresses, or service accounts",
+        "A live proof could leak credentials or overly detailed account material if evidence is not redacted",
+        "Costs can rise if deadline enforcement or destroy steps fail"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Paid execution would exceed the USD 20 ceiling",
+        "Quota or capacity cannot satisfy the exact On-Demand L4 shape",
+        "The selected image cannot prove GPU/driver/CUDA/Ollama readiness within the bounded run",
+        "Cleanup or independent zero-resource verification fails",
+        "A proposed proof would read, print, copy, retain, or commit credential material",
+        "A proposed change would implement six-resident qualification, XCL-01 parity, AWS-G retirement, production deployment, Observatory, Unity, or provider-profile work"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/494/design.md",
+      "design_digest": "c8b812bd780da7a4fcb499758926b599d63b49b28597eb20684295371a121d79",
+      "diagram_ref": ".csdlc/prepared/issues/494/diagram.mmd",
+      "diagram_digest": "277ee60da570c791e39bace69b86fd4f94bd815b8f90944727ae2b0bc445d684"
+    }
+  }
+}

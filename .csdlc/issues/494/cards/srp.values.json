@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 494,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+    "slug": "gcp-gpu-readiness-smoke-test",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #494 GCP-E paths only: infra/gcp/workloads/gpu-smoke, docs/milestones/v0.92.1/evidence/cloud/gcp-e, .csdlc/prepared/issues/494, .csdlc/evidence/494, and narrow issue-owned validator/proof surfaces.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design keep #494 to one bounded GCP-E On-Demand L4 readiness decision without absorbing DRT-D, XCL-01, AWS-G, Observatory, Unity, or production traffic?",
+        "Are paid authorization, USD 20 ceiling, exact inputs, GPU inference/headroom, telemetry/cost/deadline, and zero-resource cleanup represented as machine-checkable proof?",
+        "Does the plan avoid credential disclosure while still retaining enough redacted evidence for review?",
+        "Are quota/capacity, cleanup, and cost failures fail-closed rather than silently accepted?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

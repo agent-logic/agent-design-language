@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 494,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
+    "slug": "gcp-gpu-readiness-smoke-test",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #494 GCP-E only; produce and execute one bounded GCP L4 smoke readiness decision with cleanup proof. Do not implement DRT-D six-resident qualification, XCL-01 parity, AWS work, production traffic, Observatory, Unity, or credential-bearing evidence outside the approved paid lane.",
+      "deliverables": [
+        "infra/gcp/workloads/gpu-smoke Terraform/root scripts for one disposable On-Demand L4 smoke workload",
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-e retained readiness decision and proof packet",
+        ".csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh",
+        "typed C-SDLC v2 cards proving dependency, paid authorization, scope, validation, review, publication, and terminal truth"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Paid launch has separate authorization and a USD 20 ceiling",
+        "AC-2: Exact inputs and hardware are retained",
+        "AC-3: GPU inference and headroom are proven",
+        "AC-4: All owned resources are independently absent afterward",
+        "AC-5: Fresh exact-head review has no actionable findings before publication"
+      ],
+      "dependencies": [
+        "GCP-D #493 terminal/merged private platform foundation truth; derived terminal cache observed with PR #587 merge c0bf217934508d6dbc70d78633e6a95d5ddd9d06"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#GCP-E",
+        "docs/milestones/v0.92.1/features/GCP_ACCOUNT_MOVE_IN_v0.92.1.md",
+        "docs/milestones/v0.92.1/evidence/cloud/gcp-d/",
+        "infra/gcp/platform/",
+        ".git/csdlc-v2/derived-terminal/493.json"
+      ],
+      "non_goals": [
+        "Six-resident qualification",
+        "Spot substitution",
+        "Production deployment",
+        "Persistent public exposure or DNS",
+        "AWS changes",
+        "XCL-01 cross-cloud parity",
+        "DRT-D portability qualification",
+        "Unity proof",
+        "Observatory implementation",
+        "Credential disclosure"
+      ]
+    }
+  }
+}
