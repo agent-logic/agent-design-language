@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 11
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\nadl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\ndocs/operations/cloud/aws/shepherd-gpu-proof/README.md\n.csdlc/evidence/345\n.csdlc/issues/345",
-      "review_revision": "git-blake3:549effd3da7dc399e2de9ed8517eadcc34e01a56:a9bc78cd08237731727d0792860748548ca3535ab2306e3c6c63b41ba78c3424",
-      "reviewer": "fresh-session:/root/issue_345_review_r4",
+      "review_scope": ".csdlc/issues/345\n.csdlc/prepared/issues/345/review-assign-r4.json\n.csdlc/prepared/issues/345/review-record-r4-pass.json",
+      "review_revision": "git-blake3:6431ec5022c9944d8fd2d6ee5650ad0e7bcd984c:148c447c6e6d9b362172fae24bd628bd9a3fde598e1d26d465e67b124e9304d3",
+      "reviewer": "fresh-session:/root/issue_345_metadata_tail_review",
       "review_prompts": [
         "Can any path launch paid compute before account, authorization, cost, deadline, lock, IAM, no-ingress, artifact, quota, and reaper predicates are proven?",
         "Can interruption or a partial AWS response leave an unowned instance, volume, lock, or cleanup ambiguity?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Review was read-only and did not run real AWS preflight or paid GPU execution; it confirmed local runner/test contract and the deferred-live boundary only.",
+        "This metadata-tail review covered only the lifecycle review-record commit after substantive review; product runner, test, and docs behavior were unchanged from the substantive PASS at 549effd3da7dc399e2de9ed8517eadcc34e01a56.",
         "Paid GPU execution still requires a separate exact-run operator authorization naming the reviewed revision, run id, deadline, and maximum cost."
       ],
       "review_result": "pass"

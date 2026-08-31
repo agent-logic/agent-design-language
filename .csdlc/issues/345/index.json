@@ -4,42 +4,68 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "reviewed",
-  "generation": 8,
-  "digest": "3e2b756f36c89bea2e1e220bae46cddeb8b0ee27c903fb3c05aac4d8c6f0a05e",
+  "phase": "published",
+  "generation": 11,
+  "digest": "0bf1345ef2ebc20956447722dc8d48f97b2ab94125fbd1284d9f934be6d9ec05",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
   "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_review_r4",
+    "reviewer": "fresh-session:/root/issue_345_metadata_tail_review",
     "assigned_by": "codex:issue-345-implementation",
-    "revision": "git-blake3:549effd3da7dc399e2de9ed8517eadcc34e01a56:a9bc78cd08237731727d0792860748548ca3535ab2306e3c6c63b41ba78c3424",
+    "revision": "git-blake3:6431ec5022c9944d8fd2d6ee5650ad0e7bcd984c:148c447c6e6d9b362172fae24bd628bd9a3fde598e1d26d465e67b124e9304d3",
     "scope": [
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/evidence/345",
-      ".csdlc/issues/345"
+      ".csdlc/issues/345",
+      ".csdlc/prepared/issues/345/review-assign-r4.json",
+      ".csdlc/prepared/issues/345/review-record-r4-pass.json"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:/root/issue_345_review_r4",
+    "reviewer": "fresh-session:/root/issue_345_metadata_tail_review",
     "scope": [
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/evidence/345",
-      ".csdlc/issues/345"
+      ".csdlc/issues/345",
+      ".csdlc/prepared/issues/345/review-assign-r4.json",
+      ".csdlc/prepared/issues/345/review-record-r4-pass.json"
     ],
-    "reviewed_revision": "git-blake3:549effd3da7dc399e2de9ed8517eadcc34e01a56:a9bc78cd08237731727d0792860748548ca3535ab2306e3c6c63b41ba78c3424",
+    "reviewed_revision": "git-blake3:6431ec5022c9944d8fd2d6ee5650ad0e7bcd984c:148c447c6e6d9b362172fae24bd628bd9a3fde598e1d26d465e67b124e9304d3",
     "findings": [],
     "residual_risks": [
-      "Review was read-only and did not run real AWS preflight or paid GPU execution; it confirmed local runner/test contract and the deferred-live boundary only.",
+      "This metadata-tail review covered only the lifecycle review-record commit after substantive review; product runner, test, and docs behavior were unchanged from the substantive PASS at 549effd3da7dc399e2de9ed8517eadcc34e01a56.",
       "Paid GPU execution still requires a separate exact-run operator authorization naming the reviewed revision, run id, deadline, and maximum cost."
     ],
     "completed": true,
-    "non_substantive_proof": null
+    "non_substantive_proof": {
+      "policy": "metadata_only_review_projection",
+      "from_revision": "git-blake3:549effd3da7dc399e2de9ed8517eadcc34e01a56:a9bc78cd08237731727d0792860748548ca3535ab2306e3c6c63b41ba78c3424",
+      "to_revision": "git-blake3:6431ec5022c9944d8fd2d6ee5650ad0e7bcd984c:148c447c6e6d9b362172fae24bd628bd9a3fde598e1d26d465e67b124e9304d3",
+      "from_commit": "549effd3da7dc399e2de9ed8517eadcc34e01a56",
+      "to_commit": "6431ec5022c9944d8fd2d6ee5650ad0e7bcd984c",
+      "changed_paths": [
+        ".csdlc/issues/345/audit.jsonl",
+        ".csdlc/issues/345/cards/sip.values.json",
+        ".csdlc/issues/345/cards/sor.values.json",
+        ".csdlc/issues/345/cards/spp.values.json",
+        ".csdlc/issues/345/cards/srp.md",
+        ".csdlc/issues/345/cards/srp.values.json",
+        ".csdlc/issues/345/cards/stp.values.json",
+        ".csdlc/issues/345/cards/vpp.values.json",
+        ".csdlc/issues/345/index.json",
+        ".csdlc/prepared/issues/345/review-assign-r4.json",
+        ".csdlc/prepared/issues/345/review-record-r4-pass.json"
+      ]
+    }
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 345,
+    "pull_request": 593,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/593",
+    "base": "main",
+    "head": "codex/345-aws-gpu-shepherd-proof-runner",
+    "revision": "git-blake3:6431ec5022c9944d8fd2d6ee5650ad0e7bcd984c:148c447c6e6d9b362172fae24bd628bd9a3fde598e1d26d465e67b124e9304d3",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -53,34 +79,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4de80f2a4353f3f933a31f781da67f3bb0332741036ef542f6acb1ae203b4966",
+      "values_digest": "986a3e8a4a7b69164f24d1bc3675d53b7ad5c549331608b95c649c2af2369c32",
       "rendered_digest": "8938409a9b1325974a7580fa579fa3779b37293b59a35f3e41056ae026958d9f",
       "ast_digest": "d70c20ab4abcc96865ac41d795c95b246afad5f3b55a76f88364f08516e56c3b"
     },
     "stp": {
-      "values_digest": "149210872777314d38a9d1f37ce323adb54e4ed36826f168864d4f73f5887f94",
+      "values_digest": "2fefc1f9df1fce8089d4466a2d056bd040072a57af8354abd880744b7c35fc2a",
       "rendered_digest": "3e0297d1465f8f80e9038a11585826f0db491b28a8bfcb2ce89ba4824b993939",
       "ast_digest": "186663e96d9094357924e2ed1c5b6d1b83374e0056a21771baccb3665097078b"
     },
     "spp": {
-      "values_digest": "1c8ca876c6cbb924621b5ca50692018f8b00c3a29eeff7c17f62cc3218acf4bc",
+      "values_digest": "b67d396bec8a040ee94223cb986e24647cb2066d9676e8d7a6c0602abe4a8938",
       "rendered_digest": "fdfab867eb938b2abe6fa13ac84ffeb61e3cceddd268469c793bcd26669389c6",
       "ast_digest": "80b856f194cfc7c6a241d88ea3d728a3cbf7c134c486fdfd0b57853773d09c83"
     },
     "vpp": {
-      "values_digest": "92b4e3d60adca6efff274615365b17dad5a6a8c8bffc717da454f02a079bb3de",
+      "values_digest": "a564d3c2baf3c7b83fcb816ee6364f3f9c6304bb600c6389fe3103a511e5ea54",
       "rendered_digest": "66741aa1e2e7a8aa6c09f6add5674d5b87f1db4a4e8fbb0bd582acad5cb3ee3f",
       "ast_digest": "3b72bc8145ab9517c6184cdc1842c39496aac592be65ffdf208defba499b5fbe"
     },
     "srp": {
-      "values_digest": "be49062a656eb5a0efab426737e5bda5c324029fdb30a4a4ecd9260ca8dbccee",
-      "rendered_digest": "70b1880087ad9b8d7bbbb16ed3a24f5c96267e4c0f4c24d4785491175ad6e25c",
-      "ast_digest": "8c2a3fd37ba617d5eb110b3957f1ac98050c44d90cfa7810f6ac4593c7431c07"
+      "values_digest": "61ae8c369d67b21192a17b1d56c772890cc05b8fd2dea2c453aecddb061d82c2",
+      "rendered_digest": "cbbc626023cfebc15a23e5bf4d3715194b495b7c6c2900df78638701a0b665ae",
+      "ast_digest": "a17b892d1fcb86308d2475f85b76d0af35ca08b428509d85782b57cdb04225c1"
     },
     "sor": {
-      "values_digest": "6eff99e1dd5903684543c99d71fc7df7916702f3dbbbb9f467d79838c86e3fd9",
-      "rendered_digest": "294f68704d90d58e583fbcf8f25f01412883469a49158c9a160d288a0a1d071f",
-      "ast_digest": "83264e35561f4783202eec125f57adbca942907626b4ac37c01481b1d99cb20d"
+      "values_digest": "4d46cbd0dc8b4b346ab53de5421417bed6c056796ae136a0276155ffbcbb0a14",
+      "rendered_digest": "78ec8a44cb7f080fdc4e87ebda481c2064ed51e4607860f4242cdb56373d7487",
+      "ast_digest": "e540816452be460daf162c900511ba68f325af6883949b699c434382a64ccd36"
     }
   },
   "transitions": [
@@ -111,6 +137,27 @@
       "to": "reviewed",
       "actor": "codex:issue-345-implementation",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-345-implementation",
+      "reason": "Recover reviewed state after the metadata-only review-record commit advanced HEAD beyond the substantive exact-head review, so a metadata-tail exact review can be assigned and recorded."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-345-implementation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-345-implementation",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -190,6 +237,34 @@
       "actor": "codex:issue-345-implementation",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:issue-345-implementation",
+      "reason": "Recover reviewed state after the metadata-only review-record commit advanced HEAD beyond the substantive exact-head review, so a metadata-tail exact review can be assigned and recorded.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-345-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-345-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:issue-345-implementation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
