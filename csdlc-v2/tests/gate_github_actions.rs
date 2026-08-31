@@ -26,6 +26,8 @@ fn base_request(action: GithubAction) -> GithubActionRequest {
         pull_request: None,
         title: None,
         body: None,
+        base: None,
+        head: None,
         labels: Vec::new(),
         assignees: Vec::new(),
         milestone: None,
@@ -77,7 +79,21 @@ fn split_github_binaries_reject_the_wrong_surface_before_network() {
         .expect("run csdlc-github-pr");
     assert!(!pr_binary_rejects_issue.status.success());
     let pr_stdout = String::from_utf8_lossy(&pr_binary_rejects_issue.stdout);
-    assert!(pr_stdout.contains("only accepts pr_state or pr_update actions"));
+    assert!(pr_stdout.contains("only accepts pr_state, pr_create, or pr_update actions"));
+
+    let mut pr_create = base_request(GithubAction::PrCreate);
+    pr_create.title = Some("PR".into());
+    pr_create.body = Some("body".into());
+    pr_create.base = Some("main".into());
+    pr_create.head = Some("codex/test".into());
+    fs::write(&pr_request, serde_json::to_vec_pretty(&pr_create).unwrap()).unwrap();
+    let issue_binary_rejects_pr_create = Command::new(env!("CARGO_BIN_EXE_csdlc-github-issue"))
+        .args(["run", "--request", pr_request.to_str().unwrap()])
+        .output()
+        .expect("run csdlc-github-issue");
+    assert!(!issue_binary_rejects_pr_create.status.success());
+    let issue_stdout = String::from_utf8_lossy(&issue_binary_rejects_pr_create.stdout);
+    assert!(issue_stdout.contains("only accepts issue actions"));
 }
 
 #[test]
@@ -343,6 +359,40 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
         .expect_err("issue field on pr update");
     assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
     assert!(error.message.contains("pr_update accepts only"));
+
+    let missing_pr_create_key = {
+        let mut request = base_request(GithubAction::PrCreate);
+        request.operation_key = None;
+        request.title = Some("PR".into());
+        request.body = Some("body".into());
+        request.base = Some("main".into());
+        request.head = Some("codex/test".into());
+        request
+    };
+    let error = execute_github_action(&missing_pr_create_key)
+        .await
+        .expect_err("missing pr create key");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+    assert!(error.message.contains("operation_key"));
+
+    let missing_pr_create_fields = base_request(GithubAction::PrCreate);
+    let error = execute_github_action(&missing_pr_create_fields)
+        .await
+        .expect_err("missing pr create fields");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+    assert!(error.message.contains("title, body, base, and head"));
+
+    let mut pull_number_on_pr_create = base_request(GithubAction::PrCreate);
+    pull_number_on_pr_create.title = Some("PR".into());
+    pull_number_on_pr_create.body = Some("body".into());
+    pull_number_on_pr_create.base = Some("main".into());
+    pull_number_on_pr_create.head = Some("codex/test".into());
+    pull_number_on_pr_create.pull_request = Some(88);
+    let error = execute_github_action(&pull_number_on_pr_create)
+        .await
+        .expect_err("pull_request field on pr create");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+    assert!(error.message.contains("pr_create accepts only"));
 
     let env = LocalGithubEnv::start();
     env.server.force_noisy_issue_search();

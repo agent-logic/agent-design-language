@@ -68,14 +68,17 @@ async fn run(path: &PathBuf) -> csdlc_v2::Result<serde_json::Value> {
     let request: GithubActionRequest = serde_json::from_slice(&fs::read(path)?)?;
     if !matches!(
         request.action,
-        GithubAction::PrState | GithubAction::PrUpdate
+        GithubAction::PrState | GithubAction::PrCreate | GithubAction::PrUpdate
     ) {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "csdlc-github-pr only accepts pr_state or pr_update actions; use csdlc-github-issue for issue actions",
+            "csdlc-github-pr only accepts pr_state, pr_create, or pr_update actions; use csdlc-github-issue for issue actions",
         ));
     }
-    if matches!(request.action, GithubAction::PrUpdate) {
+    if matches!(
+        request.action,
+        GithubAction::PrCreate | GithubAction::PrUpdate
+    ) {
         return serde_json::to_value(csdlc_v2::execute_github_action(&request).await?)
             .map_err(Into::into);
     }
