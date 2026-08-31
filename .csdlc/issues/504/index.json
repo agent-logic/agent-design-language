@@ -4,14 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e0ab52f41b32f4c8fee5899510e2daa1004ed5bb8349ea1afc6137449524b86a",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "ca10c32ea4ebc532f542d7e1fff2496cfe2c85b3cb13b0719f0efa833a3b3745",
+  "phase": "published",
+  "generation": 18,
+  "digest": "c7018c2c143f33ab135843ecb0f1f5241b8fd15011c799c4e220bbec46735eb7",
   "branch": "codex/504-v3-e-remote-delivery-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec",
   "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review": {
+    "reviewer": "review_pr_588_authority_repair_44b14fdc",
+    "scope": [
+      "csdlc-v3/src/commands/remote/mod.rs",
+      "csdlc-v3/src/commands/remote/tests.rs",
+      "csdlc-v3/src/publication/mod.rs",
+      "csdlc-v3/src/review/mod.rs",
+      ".csdlc/prepared/issues/504/validate-remote-workflow.rb",
+      ".csdlc/issues/504"
+    ],
+    "reviewed_revision": "git-blake3:44b14fdc283f415ebfb4ee4f1b234203a85a2d8b:ce4d4272a3e2ff4f9c1f1a41ced2d3b433682d208f6cf1271c8bb06778312158",
+    "findings": [],
+    "residual_risks": [
+      "V3-E remains non-authoritative construction work; C-SDLC v2 remains the only live lifecycle/GitHub authority until V3-F/#505 cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 504,
+    "pull_request": 588,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/588",
+    "base": "main",
+    "head": "codex/504-v3-e-remote-delivery-workflow-exec",
+    "revision": "git-blake3:44b14fdc283f415ebfb4ee4f1b234203a85a2d8b:ce4d4272a3e2ff4f9c1f1a41ced2d3b433682d208f6cf1271c8bb06778312158",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +53,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fc23d15acb63be0c1baaf6d5f900641c966a37901d181a94db142050dcd27565",
+      "values_digest": "7f27788b3bef087e64c127564cbc1e3385a4ae2c443fa8751fff4824228d944f",
       "rendered_digest": "045795469a2177f1cdf55f4b53ec53acc84e7f540c8a631562535823ddbe66e3",
       "ast_digest": "48ee89ff29f611eb584004ccdd0f55d0e2254bedcb44fdf4bde15720ac2d2aae"
     },
     "stp": {
-      "values_digest": "9fe3bd779397d725a8085b6f7fecd324a36dbcef2bb03923bf3589a5e15326f9",
+      "values_digest": "b4127e20be04a4c7b097f63cefb77ce7fec063fc632c3e20cc543eb17fba38d6",
       "rendered_digest": "45588a30e0087598da490a38a8ac4fa73943b376b7c4917e0a1cf9030da00a3d",
       "ast_digest": "b4d809790a68270384edcc1baad364ded4c51aca8cfaf21f4807f610cbf98d08"
     },
     "spp": {
-      "values_digest": "6e5839f780ebb4cc248b8f41c0e61355c8aa2fd7df5d08097ce0169831713c47",
+      "values_digest": "ce0f6b2bdd7abf2f3cbd1af72f542da8bd8faa02098f4f3e9a95c1080b1bb20a",
       "rendered_digest": "3f4fcb91d40a19dd4d4c531e001198a2e6803c90ad4893689c4d85ee8689193a",
       "ast_digest": "bf17cce436d9dadae435bdccb912317338a540149714364c80ad7b08fa67beff"
     },
     "vpp": {
-      "values_digest": "0d1ec5ead24ad6464668f02680ac43c23e62ec296d7abb0d4214e4cf650be149",
+      "values_digest": "d9f3cca6676a85f9ad28a087e83eee02625b2e81e161272f5191fe287af42375",
       "rendered_digest": "60e939ec69d10899f461f2185241491315e34c6a54616a7b45e076eef07a6a45",
       "ast_digest": "e7232286b0f68c0db9ae9daabbb5db93c8a48119d5810534fb160f72462d1928"
     },
     "srp": {
-      "values_digest": "1f0056e815bae1370258e3d66b6512cbd09df7caf53f9f64685d3248c290d8f8",
-      "rendered_digest": "d8f537f00a1632cece5be0c845404ec4fc85ac5b196f754f07dce3a47a000046",
-      "ast_digest": "9be4bff51d140c5c9cc125283821bc3e62a125504039439ab92e95945d3ca1aa"
+      "values_digest": "f8ab658d3d5ac6a566c5ae27dec8a4b042d5e7b9a57db95f60aa8d74d4889055",
+      "rendered_digest": "cd3ca60f953e788a1d4d20f3a472adc73c454e02253d3e8e7394556ee8bc30bb",
+      "ast_digest": "29dfcc14e3d994321de9749fc6faa841e6a53abfe7d034c055dfc43dab754470"
     },
     "sor": {
-      "values_digest": "dd1f2e678f4d232db5e9cab3f4ae36af2243d96548a8ecd8b2e590d69e64cb62",
-      "rendered_digest": "2bd67f97f676ace612b0f52d4fec5bd6502dbe7797e111a7a86cd95d082ba6bb",
-      "ast_digest": "2fd3e14888b79c7dd0fb8bbffe387e0b50f99f1bf0b2d576580357fe18bccafa"
+      "values_digest": "82f6eeff667da2abdd6f417e2abb51f06b45d80c69b7251d8809ee6f5e6caf27",
+      "rendered_digest": "c554233495c6f5faa58c83148dda1222502ffcc8d443fe4ae56455d6edc2e93b",
+      "ast_digest": "9a5003b984b12dabe5ac054c62442775eb15ca6595b2651d1771ee6c8c0f3c26"
     }
   },
   "transitions": [
@@ -97,6 +125,20 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "PR #588 exact-head review failed; recover published review/publication truth before committing the remote-delivery authority, checkpoint, principal, and cleanup repairs."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "worker-6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "worker-6",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -232,6 +274,20 @@
       "actor": "worker-6",
       "reason": "Record truthful execution after repairing the publication/finish/cleanup authority bypass found in PR #588 review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired PR #588 remote-delivery findings by narrowing delivery, publication, finish, and cleanup authority boundaries; preserving whitespace-normalized reviewer independence; proving Part-Of delivery end-to-end; and implementing safe cleanup removal/outcome distinctions while keeping V3-E non-authoritative construction work.\",\"changes\":[\"Changed the remote delivery boundary so deliver(), Verified::new(), receipt minting, and RemoteDeliveryInput construction are crate-scoped rather than public caller-forgeable APIs.\",\"Made PublicationAuthorization fields crate-scoped so external callers cannot construct review authorization directly.\",\"Made publish(), derive_finish(), and execute_cleanup_removal() crate-scoped so external callers cannot bypass review/publication/finish authority or invoke cleanup removal directly.\",\"Added receipt subject-digest binding so verified observations must match the subject they claim to authorize before source-specific delivery gates can consume them.\",\"Kept reviewer independence normalized on both sides before case-insensitive comparison so whitespace variants of the same principal cannot self-authorize publication.\",\"Kept Part-Of publication on the advertised end-to-end delivery path: deliver() now returns CheckpointCompleted without terminal cleanup authority for checkpoint work.\",\"Implemented cleanup removal execution with filesystem removal after terminal, receipt, preview, clean, non-live, canonical-path, and registration gates; removed, already-removed, unregistered, path-mismatch, dirty, and live outcomes remain distinct.\",\"Moved remote delivery end-to-end tests into the remote module so authority fixture minting is no longer exposed as an integration-test/public API surface.\",\"Strengthened the #504 validator so it checks the sealed delivery/publication/finish/cleanup authority API, end-to-end Part-Of proof, whitespace self-review proof, cleanup execution proof, and already-removed cleanup gate proof.\"],\"artifacts\":[\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/remote/tests.rs\",\"csdlc-v3/src/publication/mod.rs\",\"csdlc-v3/src/review/mod.rs\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\",\".csdlc/issues/504\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\"],\"purpose\":\"Issue-owned V3-E validator including sealed remote authority API and regression-proof denominator checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: status pass, checked sealed_remote_authority_api\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Rust all-target regression coverage for remote delivery, foundation, local commands, and transactions.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: 19 lib tests, 11 foundation tests, 6 local command tests, 20 transaction tests passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Rust warning-free lint gate for the touched construction crate.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: Finished dev profile without warnings\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"504\"],\"purpose\":\"Typed C-SDLC issue validation after remote authority repairs.\",\"outcome\":\"passed\",\"evidence_ref\":\"generation 15 phase implemented status pass before this SOR replacement\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Exact-range diff hygiene for the PR branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: no findings\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "worker-6",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

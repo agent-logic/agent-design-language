@@ -102,11 +102,11 @@ Repaired PR #588 remote-delivery findings by narrowing delivery, publication, fi
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
