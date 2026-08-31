@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0793b51a824a680a043de7acd87b9a37ba594e54bbf3b4c7e7feb2c075b1c887",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "ee91bb6fd754b5ff16fda293f200028134aa82e5e1922b0a41076f7af2036c58",
+  "generation": 11,
+  "digest": "77c846e139d98eb8b95180944b3145c2f2b141aebf823b945e2e3a2034155f5f",
   "branch": "codex/571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a46f912f416cc0ba6ab9d59e194229dfba821e66dc9c1f13af07c9eb5a8bba34",
+      "values_digest": "179a98be6a2be797a90e56e219f7adaa51a71729d03115c0c7dc548c81e9f9ba",
       "rendered_digest": "9ccb4f850e18797d99bbf2565d710059370fa06d871a15eac878584fbc67462e",
       "ast_digest": "d25d92fbdc91b85d6976761a6767c6ce12a057113fcced80ff4120776ab29b19"
     },
     "stp": {
-      "values_digest": "03cca91b2bf9e305762538d36a3ccce7866c17c5f13f2245ae0c0db0f2d3d923",
+      "values_digest": "7ec62d7b7ca4c4c3822a90f3b9ff33ab751c172f5fb305d04122bad2aa0158ab",
       "rendered_digest": "f2b75f46f193e43621bfbabae2e1b02dad5ec38886370df60a233ba2d9be20fa",
       "ast_digest": "086e291c7dfd8229dd82f4b88c395a90f5a08ba795c318c277c2ea2dbf9c1f01"
     },
     "spp": {
-      "values_digest": "bf465475fb4709fa64893b09af0847df63bac623748e6b75e35c5f40cbd7a49d",
+      "values_digest": "5799b2a2e9a52da4af7a65528f3bcb9aa0288effdcd6fe895df6abbcf982bae1",
       "rendered_digest": "60f4e090c005b59d77edf42ae4a6479ec724d6291e2c0269b7a03bf98b1e8d66",
       "ast_digest": "1294097b2388c2b051119d7715fa220a95faa65e53b43e2a91d88989b8985f18"
     },
     "vpp": {
-      "values_digest": "9f1a34130586df0703403b345eae563f66b0426ffe2b06df1160a46998f8ea16",
+      "values_digest": "d704b82daf96f021c0cefc4c609c550a2adf06e4eefb4ff9cb7dde878b6ea64b",
       "rendered_digest": "ccd8dbeafc13b94d9ca476c3db49f24e9e4844716a8ee2e63619f10543f8dbac",
       "ast_digest": "cea556fb53a05a78a82fbc7534eb4ec4fbe6e1dc03e532a10d96a3aac5ac4f6a"
     },
     "srp": {
-      "values_digest": "91cefb7e9c2111bfd08cfa216a5efe617ca415297be986a09201d2b697165685",
+      "values_digest": "d94e2aac13ea02dc20a756a402cc65ec2c7d6da201f862799c97a63a7c3f814f",
       "rendered_digest": "77352b11e8c655e249d0635d145736d57043c0700ce6b79941e961821716f4c1",
       "ast_digest": "68b4329bbcac8a5ca5bb592d3571542c7a6d3c42d0e83fdc5a0f5822a5e552b4"
     },
     "sor": {
-      "values_digest": "96e5f33c8bc9781f909fa17fe9cde18a30405a61739dbc7f13c1c471fd4e3abb",
-      "rendered_digest": "7d8c3d50d82fa91fd3dab45119423955e69edbf5357ad0062d9229cb2cb5684c",
-      "ast_digest": "721d2f851b3fd7d85c3766c9bf4b31b03e03470e9da2461ec3fc4611a66a9751"
+      "values_digest": "7e0c42f1c2d35976543f398417553e393e36338d9e2e92f741c5cc28ed7730a1",
+      "rendered_digest": "94a3f0e240543f58cc79c17f8fddf4c627be070e8e5ddd934ba61e3bda7ebd68",
+      "ast_digest": "145f9a66cbb93400a03dae30defd7a2599339d721273065d64c43eb44f4bf8d2"
     }
   },
   "transitions": [
@@ -190,6 +190,13 @@
       "actor": "codex:worker-6",
       "reason": "Record PR #585 review remediation truth after typed recovery and VPP lane repair.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired PR #585 corrective-follow-up findings by binding predecessor proof lanes to executable owner lanes, recording fail-closed #162 construction-decision evidence, aligning lifecycle gates, and making exact-range diff hygiene an executable VPP lane.\",\"changes\":[\"Added docs/csdlc-v3/owner-proof-lanes.json as the executable lane registry used to validate retained predecessor mappings.\",\"Updated docs/csdlc-v3/predecessor-coverage.json so retained #161-#163 requirements map to declared owner lanes rather than invented free-form lane names.\",\"Added docs/csdlc-v3/construction-decision.json with the ten frozen #162 measurement thresholds, missing evidence artifact/revision status, and fail-closed non-promotion disposition.\",\"Updated docs/csdlc-v3/CONTRACT.md so the construction decision states exact-revision #162 evidence is missing and V3-F/#505 owns the future promote-or-discard authority decision.\",\"Updated CONTRACT.md default V3 path to include retained bind, publication, finish, and cleanup gates.\",\"Strengthened .csdlc/prepared/issues/571/validate-v3a-followup.rb to parse the new machine-readable artifacts, reject invented proof lanes, reject invented construction measurements, validate contract gate text, and validate the VPP diff lane argv.\",\"Recovered stale published review/publication truth and used typed csdlc-edit to replace the VPP exact-range-diff-hygiene lane with git diff --check origin/main...HEAD.\"],\"artifacts\":[\"docs/csdlc-v3/owner-proof-lanes.json\",\"docs/csdlc-v3/construction-decision.json\",\"docs/csdlc-v3/predecessor-coverage.json\",\"docs/csdlc-v3/CONTRACT.md\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\",\".csdlc/issues/571\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\"],\"purpose\":\"Focused corrective follow-up validator for owner lanes, construction decision evidence, lifecycle gates, exact-range VPP lane, and negative fixtures.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: V3-A corrective follow-up validation passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Exact-range diff hygiene for PR #585 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no findings\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"571\"],\"purpose\":\"Typed C-SDLC issue validation after recovery and VPP repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"generation 9 phase implemented status pass before this SOR replacement\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:worker-6",
+      "reason": "Record follow-up PR #585 review remediation for owner-lane source revision provenance.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired PR #585 corrective-follow-up findings and the follow-up owner-lane provenance finding by proving lane declarations against their source artifacts.\",\"changes\":[\"Added docs/csdlc-v3/owner-proof-lanes.json as the executable lane registry used to validate retained predecessor mappings.\",\"Updated docs/csdlc-v3/predecessor-coverage.json so retained #161-#163 requirements map to declared owner lanes rather than invented free-form lane names.\",\"Added docs/csdlc-v3/construction-decision.json with the ten frozen #162 measurement thresholds, missing evidence artifact/revision status, and fail-closed non-promotion disposition.\",\"Updated docs/csdlc-v3/CONTRACT.md so the construction decision states exact-revision #162 evidence is missing and V3-F/#505 owns the future promote-or-discard authority decision.\",\"Updated CONTRACT.md default V3 path to include retained bind, publication, finish, and cleanup gates.\",\"Strengthened .csdlc/prepared/issues/571/validate-v3a-followup.rb to parse the new machine-readable artifacts, reject invented proof lanes, reject invented construction measurements, validate contract gate text, validate the VPP diff lane argv, and dereference owner lane source artifacts instead of trusting copied registry values.\",\"Updated owner-proof-lanes.json so external owner-lane entries point at the current source worktree revisions and the self-referential #571 entry is validated from HEAD:.csdlc/issues/571/cards/vpp.values.json.\"],\"artifacts\":[\"docs/csdlc-v3/owner-proof-lanes.json\",\"docs/csdlc-v3/construction-decision.json\",\"docs/csdlc-v3/predecessor-coverage.json\",\"docs/csdlc-v3/CONTRACT.md\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\",\".csdlc/issues/571\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\"],\"purpose\":\"Focused corrective follow-up validator including owner-lane source dereference.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: V3-A corrective follow-up validation passed\"}]}"
     }
   ]
 }

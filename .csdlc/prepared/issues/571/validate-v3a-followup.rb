@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 require "json"
+require "open3"
+require "pathname"
 require "set"
 
 ROOT = File.expand_path("../../../..", __dir__)
@@ -28,6 +30,55 @@ def blank?(value)
   value.nil? || (value.respond_to?(:empty?) && value.empty?)
 end
 
+def command_output!(*argv)
+  stdout, stderr, status = Open3.capture3(*argv)
+  assert status.success?, "command failed: #{argv.join(" ")} #{stderr.strip}"
+  stdout
+end
+
+def git_root_for(path)
+  cursor = Pathname.new(path).expand_path
+  cursor = cursor.dirname unless cursor.directory?
+  loop do
+    return cursor.to_s if cursor.join(".git").exist?
+    parent = cursor.parent
+    break if parent == cursor
+    cursor = parent
+  end
+  nil
+end
+
+def declared_lane_map(lanes, owner_issue)
+  lane_map = {}
+  lanes.each do |lane|
+    lane_name = lane["lane"]
+    argv = lane["argv"]
+    assert !blank?(lane_name), "owner ##{owner_issue} lane has blank name"
+    assert argv.is_a?(Array) && argv.all? { |part| part.is_a?(String) && !part.empty? },
+           "owner ##{owner_issue} lane #{lane_name} must declare executable argv"
+    assert !lane_map.key?(lane_name), "duplicate owner ##{owner_issue} lane #{lane_name}"
+    lane_map[lane_name] = argv
+  end
+  lane_map
+end
+
+def materialized_lanes(source_path, source_revision, owner_issue)
+  if Pathname.new(source_path).absolute?
+    source_root = git_root_for(source_path)
+    assert source_root, "owner ##{owner_issue} absolute lane source is not inside a git worktree"
+    relative_path = Pathname.new(source_path).relative_path_from(Pathname.new(source_root)).to_s
+    source_text = command_output!("git", "-C", source_root, "show", "#{source_revision}:#{relative_path}")
+    source_doc = JSON.parse(source_text)
+  else
+    source_text = command_output!("git", "-C", ROOT, "show", "#{source_revision}:#{source_path}")
+    source_doc = JSON.parse(source_text)
+  end
+  lanes = source_doc.fetch("content").fetch("values").fetch("lanes")
+  declared_lane_map(lanes, owner_issue)
+rescue JSON::ParserError => e
+  abort "invalid lane source JSON for owner ##{owner_issue}: #{e.message}"
+end
+
 def validate_owner_lane_registry(path)
   doc = read_json(path)
   assert doc["schema"] == "adl.csdlc_v3.owner_proof_lanes.v1",
@@ -41,17 +92,15 @@ def validate_owner_lane_registry(path)
     assert !blank?(source_path), "owner ##{owner_issue} lane source missing path"
     assert !blank?(source_revision), "owner ##{owner_issue} lane source missing revision"
 
-    lanes = {}
-    source.fetch("lanes", []).each do |lane|
-      lane_name = lane["lane"]
-      argv = lane["argv"]
-      assert !blank?(lane_name), "owner ##{owner_issue} lane has blank name"
-      assert argv.is_a?(Array) && argv.all? { |part| part.is_a?(String) && !part.empty? },
-             "owner ##{owner_issue} lane #{lane_name} must declare executable argv"
-      assert !lanes.key?(lane_name), "duplicate owner ##{owner_issue} lane #{lane_name}"
-      lanes[lane_name] = argv
-    end
+    lanes = declared_lane_map(source.fetch("lanes", []), owner_issue)
     assert !lanes.empty?, "owner ##{owner_issue} has no declared proof lanes"
+    materialized = materialized_lanes(source_path, source_revision, owner_issue)
+    lanes.each do |lane_name, argv|
+      assert materialized.key?(lane_name),
+             "owner ##{owner_issue} lane #{lane_name} is not present in #{source_revision}:#{source_path}"
+      assert materialized.fetch(lane_name) == argv,
+             "owner ##{owner_issue} lane #{lane_name} argv does not match #{source_revision}:#{source_path}"
+    end
     assert !lanes_by_issue.key?(owner_issue), "duplicate owner issue lane registry ##{owner_issue}"
     lanes_by_issue[owner_issue] = lanes
   end
