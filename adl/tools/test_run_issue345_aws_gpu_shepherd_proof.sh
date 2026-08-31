@@ -40,7 +40,14 @@ reset_fixture() {
       "key": "models/gemma4/store.zst",
       "version_id": "model-version",
       "relative_path": "model-store/store.zst",
-      "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      "sha256": "b2cd2f71a0f4c712b0c8382c6fc5416b0611cdde2d9b23bbc733686363d87175"
+    },
+    {
+      "kind": "ollama_runtime",
+      "key": "runtime/ollama.tar.zst",
+      "version_id": "runtime-version",
+      "relative_path": "runtime/ollama.tar.zst",
+      "sha256": "b2cd2f71a0f4c712b0c8382c6fc5416b0611cdde2d9b23bbc733686363d87175"
     }
   ]
 }
@@ -85,8 +92,21 @@ case "$*" in
     ;;
   *"s3api get-object"*)
     destination="${@: -1}"
-    cp "${ADL_ISSUE345_FAKE_MANIFEST:?}" "$destination"
+    if [[ "$destination" == *"artifact-manifest.json" ]]; then
+      cp "${ADL_ISSUE345_FAKE_MANIFEST:?}" "$destination"
+    else
+      printf 'fake artifact\n' >"$destination"
+    fi
     printf '%s\n' '{"VersionId":"manifest-version"}'
+    ;;
+  *"ssm get-parameter"*)
+    printf 'ami-secret\n'
+    ;;
+  *"ec2 describe-instance-type-offerings"*)
+    printf '%s\n' '["us-west-2a"]'
+    ;;
+  *"ec2 describe-subnets"*)
+    printf '%s\n' '[{"id":"subnet-secret","az":"us-west-2a","public":true}]'
     ;;
   *"service-quotas get-service-quota"*)
     printf '4\n'
@@ -96,7 +116,6 @@ case "$*" in
     ;;
   *"ec2 describe-instances"*)
     if [[ "$*" == *"Name=tag:adl:run-id"* \
-      && "${ADL_ISSUE345_FAKE_AWS_FAIL_AFTER_LAUNCH:-}" == "1" \
       && -e "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}.launched" \
       && ! -e "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}.terminated" ]]; then
       printf 'i-secret\n'
@@ -108,12 +127,32 @@ case "$*" in
     printf '%s\n' '{"VersionId":"lock-version-secret"}'
     ;;
   *"ec2 run-instances"*)
+    if [[ -n "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}" ]]; then
+      touch "${ADL_ISSUE345_FAKE_AWS_RUN_LOG}.launched"
+    fi
     if [[ "${ADL_ISSUE345_FAKE_AWS_FAIL_AFTER_LAUNCH:-}" == "1" ]]; then
-      touch "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}.launched"
-      printf '%s\n' '{"Instances":[{"InstanceId":"i-secret"}]}'
+      printf 'i-secret\n'
       exit 99
     fi
-    printf '%s\n' '{"Instances":[{"InstanceId":"i-secret"}]}'
+    printf 'i-secret\n'
+    ;;
+  *"ec2 wait instance-running"*|*"ec2 wait instance-status-ok"*)
+    printf '\n'
+    ;;
+  *"ssm describe-instance-information"*)
+    printf 'Online\n'
+    ;;
+  *"ssm send-command"*)
+    printf 'command-secret\n'
+    ;;
+  *"ssm get-command-invocation"* )
+    if [[ "$*" == *"StandardOutputContent"* ]]; then
+      printf '%s\n' '{"schema":"adl.issue345.aws_gpu_proof.v1","gpu":"NVIDIA L4","gpu_memory_mib":23000,"model_identity":"gemma4:12b","model_artifact_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","artifact_manifest_sha256":"'"${ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256}"'","source_commit":"0123456789abcdef0123456789abcdef01234567","size_vram":1,"shepherd":{"schema":"adl.runtime.shepherd_local_model_smoke.v1","execution_class":"real_local_model","provenance":"live_execution","retained":false,"model_artifact_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"},"real_local_model_smoke":"passed"}'
+    elif [[ "$*" == *"StandardErrorContent"* ]]; then
+      printf '\n'
+    else
+      printf 'Success\n'
+    fi
     ;;
   *"ec2 terminate-instances"*)
     touch "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}.terminated"
@@ -236,8 +275,40 @@ fi
 grep -q 'PreconditionFailed' "$lock_err" || fail "lock collision did not expose AWS conditional failure"
 grep -q 's3api put-object' "$CALL_LOG" || fail "lock acquisition was not attempted"
 
+run_success_out="$CASE_DIR/run-success.json"
+: >"$RUN_CALL_LOG"
+PATH="$BIN_DIR:$PATH" \
+  AWS_PROFILE=agent-logic-admin \
+  AWS_REGION=us-west-2 \
+  ADL_ISSUE345_PAID_RUN_AUTHORIZATION=authorized \
+  ADL_ISSUE345_STATE_ROOT="$STATE_DIR" \
+  ADL_ISSUE345_EXPECTED_ACCOUNT_SHA256="$ACCOUNT_SHA" \
+  ADL_ISSUE345_ARTIFACT_BUCKET=issue345-artifacts \
+  ADL_ISSUE345_ARTIFACT_MANIFEST_VERSION_ID=manifest-version \
+  ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256="$MANIFEST_SHA" \
+  ADL_ISSUE345_FAKE_AWS_LOG="$CALL_LOG" \
+  ADL_ISSUE345_FAKE_AWS_RUN_LOG="$RUN_CALL_LOG" \
+  ADL_ISSUE345_FAKE_MANIFEST="$MANIFEST" \
+  "$RUNNER" run --commit 0123456789abcdef0123456789abcdef01234567 --run-id adl-issue345-success --execute >"$run_success_out"
+jq -e '.schema == "adl.issue345.aws_gpu_run.v1"
+  and .paid_launch == true
+  and .model_execution == "proved_by_guest_ssm"
+  and .cleanup == "passed"
+  and .proof.schema == "adl.issue345.aws_gpu_proof.v1"
+  and .proof.shepherd.execution_class == "real_local_model"
+  and .proof.shepherd.provenance == "live_execution"
+  and .proof.shepherd.retained == false
+  and .proof.size_vram > 0' "$run_success_out" >/dev/null ||
+  fail "successful fake run proof JSON contract failed"
+assert_no_secret_output "$run_success_out"
+grep -q 'ec2 run-instances' "$RUN_CALL_LOG" || fail "success case did not launch one fake instance"
+grep -q 'ssm send-command' "$RUN_CALL_LOG" || fail "success case did not dispatch guest proof over SSM"
+grep -q 'ec2 terminate-instances' "$RUN_CALL_LOG" || fail "success case did not cleanup launched instance"
+grep -q 's3api delete-object' "$RUN_CALL_LOG" || fail "success case did not release owner lock"
 
 fail_after_launch_err="$CASE_DIR/fail-after-launch.err"
+: >"$RUN_CALL_LOG"
+rm -f "${RUN_CALL_LOG}.launched" "${RUN_CALL_LOG}.terminated"
 if PATH="$BIN_DIR:$PATH" \
   AWS_PROFILE=agent-logic-admin \
   AWS_REGION=us-west-2 \
