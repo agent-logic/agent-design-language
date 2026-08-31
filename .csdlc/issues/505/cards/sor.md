@@ -111,11 +111,11 @@ Prepared the V3-F/#505 authority-transition documentation and notification surfa
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
