@@ -88,5 +88,7 @@ pub fn authorize_publication(
 }
 
 fn same_principal(left: &str, right: &str) -> bool {
-    !left.trim().is_empty() && left.eq_ignore_ascii_case(right)
+    let left = left.trim();
+    let right = right.trim();
+    !left.is_empty() && left.eq_ignore_ascii_case(right)
 }

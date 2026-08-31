@@ -12,29 +12,23 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the non-authoritative V3-E remote-delivery workflow, merged current main so #503 terminal ancestry is present, and hardened cleanup eligibility so preview/removal proof requires committed terminal state, receipts, canonical path equality, clean worktree, and non-live worktree evidence.
+Repaired PR #588 review findings for the non-authoritative V3-E remote-delivery workflow and recovered stale published review/publication truth back to implemented.
 
 ## Artifacts
 
-- csdlc-v3/src/lib.rs
-- csdlc-v3/src/commands/mod.rs
 - csdlc-v3/src/commands/remote/mod.rs
-- csdlc-v3/src/review/mod.rs
 - csdlc-v3/src/publication/mod.rs
-- csdlc-v3/tests/remote_commands.rs
+- csdlc-v3/src/review/mod.rs
 - csdlc-v3/tests/remote_commands/remote_delivery.rs
-- .csdlc/prepared/issues/504/validate-remote-workflow.rb
-- .csdlc/evidence/504
 - .csdlc/issues/504
 
 ## Execution
 
-- Bound #504 from the prepared V3-E branch into /Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec using the typed csdlc-bind route while preserving v2 as the only live C-SDLC authority.
-- Added non-authoritative C-SDLC v3 remote workflow models for accepted PVF evidence, independent review authorization, explicit closing versus part-of publication modes, finish classification from remote PR/issue readback, and separate cleanup classification.
-- Required closing publication requests to contain a visible GitHub closing line such as Closes #504, while part-of checkpoint publication rejects closing authority and invalidates review/publication after checkpoint completion.
-- Merged current origin/main into the #504 execution branch so the #503 merge commit is ancestral before V3-E publication/review.
-- Hardened cleanup eligibility after review feedback: removal is preview-first, requires terminal and preview receipts, rejects dirty/live worktrees, rejects relative or parent-component paths, and verifies registered and candidate worktree paths by filesystem canonicalization before treating them as the same cleanup target.
-- Kept every V3-E surface construction-only: no v3 authority cutover, no live GitHub mutation through v3, no v2 retirement, and no V3-F/#505 approval claim.
+- Changed remote delivery input so PVF evidence, review records, publication intents, GitHub readbacks, and cleanup candidates must be wrapped in typed verified observations with source-specific receipts before deliver() can treat them as authority inputs.
+- Normalized principal comparison before case-insensitive equality so whitespace variants of the same implementer/reviewer cannot self-authorize publication.
+- Allowed Part-Of publication to complete through deliver() as a checkpoint result without terminal cleanup authority.
+- Added cleanup removal execution that performs filesystem removal after preview receipt and terminal gates, and distinguishes removed, already-removed, unregistered, path-mismatch, dirty, and live-worktree states.
+- Kept the V3-E implementation construction-only: no v3 live GitHub mutation, v2 retirement, merge, finish, or terminal cleanup authority is claimed.
 
 ## Validation
 
@@ -48,20 +42,21 @@ Implemented the non-authoritative V3-E remote-delivery workflow, merged current 
       "--test",
       "remote_commands"
     ],
-    "purpose": "Run the focused V3-E remote workflow tests covering PVF acceptance, review authorization, publication relation enforcement, finish derivation, checkpoint behavior, and cleanup eligibility.",
+    "purpose": "Focused V3-E remote workflow regression tests for verified observations, whitespace self-review, checkpoint delivery, and cleanup execution states.",
     "outcome": "passed",
-    "evidence_ref": "exact-content-for-head:baeb3c53f:10-passed"
+    "evidence_ref": "local stdout: 14 passed"
   },
   {
     "command": [
       "cargo",
       "test",
       "--manifest-path",
-      "csdlc-v3/Cargo.toml"
+      "csdlc-v3/Cargo.toml",
+      "--all-targets"
     ],
-    "purpose": "Run the full non-authoritative csdlc-v3 test suite after merging V3-D/current main and hardening V3-E cleanup proof.",
+    "purpose": "Full non-authoritative csdlc-v3 test suite after PR #588 remediation.",
     "outcome": "passed",
-    "evidence_ref": "exact-content-for-head:baeb3c53f:51-passed"
+    "evidence_ref": "local stdout: 55 passed"
   },
   {
     "command": [
@@ -74,42 +69,43 @@ Implemented the non-authoritative V3-E remote-delivery workflow, merged current 
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings across csdlc-v3 targets after the V3-E ancestry merge and cleanup hardening.",
+    "purpose": "Reject Rust warnings across the touched V3-E surface.",
     "outcome": "passed",
-    "evidence_ref": "exact-content-for-head:baeb3c53f:passed"
+    "evidence_ref": "local stdout: finished dev profile"
   },
   {
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...HEAD"
     ],
-    "purpose": "Verify whitespace hygiene for the V3-E implementation, merge resolution, and cleanup hardening.",
+    "purpose": "Exact-range diff hygiene for PR #588 remediation.",
     "outcome": "passed",
-    "evidence_ref": "exact-content-for-head:baeb3c53f:passed"
+    "evidence_ref": "local command produced no findings"
   },
   {
     "command": [
       "csdlc-validate",
       "--root",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec",
+      ".",
       "issue",
       "--issue",
       "504"
     ],
-    "purpose": "Verify typed C-SDLC issue state remains valid in implemented phase after the V3-E branch merge and cleanup hardening.",
+    "purpose": "Typed C-SDLC issue validation after recovery and code repairs.",
     "outcome": "passed",
-    "evidence_ref": "exact-content-for-head:baeb3c53f:status pass, phase implemented, generation 8"
+    "evidence_ref": "generation 12 phase implemented status pass before this SOR replacement"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

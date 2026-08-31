@@ -4,56 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e0ab52f41b32f4c8fee5899510e2daa1004ed5bb8349ea1afc6137449524b86a",
-  "phase": "published",
-  "generation": 11,
-  "digest": "eefb45035948dac979c83902731252c094d67858214de0ae4c1c452cf774cab8",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "b3d104602b29cc0a0a941b26b4f3daeca3f4e32e83b30a7b4933f75218fe6bb6",
   "branch": "codex/504-v3-e-remote-delivery-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec",
-  "review_assignment": {
-    "reviewer": "fresh-session:issue-504-f6919016",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:f6919016b9f8ab6d0fc1341399788a25e52e5345:b176971f223ba6eb6123153897788e4092fa1444a10de921c2444e4e1ae9a37a",
-    "scope": [
-      "Review ADL issue #504 V3-E remote-delivery workflow at exact head f6919016b9f8ab6d0fc1341399788a25e52e5345.",
-      "Verify construction-only C-SDLC v3 remote workflow behavior for accepted PVF evidence, exact independent review authorization, explicit Closes #504 versus Part-Of #504 publication modes, finish derivation from remote readback, and preview-first cleanup eligibility.",
-      "Verify the previous cleanup finding is fixed behaviorally: cleanup must no longer rely on caller-provided canonical_identity_verified truth and must require canonical path equality plus terminal/preview receipts, clean worktree, and non-live worktree gates.",
-      "Verify the branch contains current main/#503 ancestry, specifically merge commit 5692d95ee6e4ee632833be348fa5601ddccbca1a, before V3-E publication.",
-      "Verify v2 remains the only live C-SDLC authority and #504 does not claim V3-F/#505 cutover, v2 retirement, live v3 GitHub mutation, or terminal cleanup execution."
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:issue-504-f6919016",
-    "scope": [
-      "Review ADL issue #504 V3-E remote-delivery workflow at exact head f6919016b9f8ab6d0fc1341399788a25e52e5345.",
-      "Verify construction-only C-SDLC v3 remote workflow behavior for accepted PVF evidence, exact independent review authorization, explicit Closes #504 versus Part-Of #504 publication modes, finish derivation from remote readback, and preview-first cleanup eligibility.",
-      "Verify the previous cleanup finding is fixed behaviorally: cleanup must no longer rely on caller-provided canonical_identity_verified truth and must require canonical path equality plus terminal/preview receipts, clean worktree, and non-live worktree gates.",
-      "Verify the branch contains current main/#503 ancestry, specifically merge commit 5692d95ee6e4ee632833be348fa5601ddccbca1a, before V3-E publication.",
-      "Verify v2 remains the only live C-SDLC authority and #504 does not claim V3-F/#505 cutover, v2 retirement, live v3 GitHub mutation, or terminal cleanup execution."
-    ],
-    "reviewed_revision": "git-blake3:f6919016b9f8ab6d0fc1341399788a25e52e5345:b176971f223ba6eb6123153897788e4092fa1444a10de921c2444e4e1ae9a37a",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer reported PASS with no actionable findings for substantive revision f6919016b9f8ab6d0fc1341399788a25e52e5345.",
-      "Reviewer verified current HEAD c4d2e22ba3301f0197e85845ae49e21f677448b6 differs from f6919016 only by review-assignment metadata under .csdlc/issues/504.",
-      "Reviewer ran focused remote-command tests: cargo test --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec/csdlc-v3/Cargo.toml --test remote_commands; 10 passed.",
-      "Reviewer verified git diff --check for the reviewed scope and verified #503 merge commit 5692d95ee6e4ee632833be348fa5601ddccbca1a is ancestral to f6919016.",
-      "Reviewer did not rerun the full csdlc-v3 suite or typed issue validation live; those broader runs remain local implementation evidence recorded in SOR."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 504,
-    "pull_request": 588,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/588",
-    "base": "main",
-    "head": "codex/504-v3-e-remote-delivery-workflow-exec",
-    "revision": "git-blake3:69200682d841ba3195ed40f49e6df26e84414f4e:b5eed1906242e7cbf6948d5b4f966c10dad6567b7b094040350825f8f3846e70",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -67,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a945d12b2ef08f8cb31c8824a768c0a0e7e1aad29f546bf6277e3b9a8f36e735",
+      "values_digest": "8f63926be0f60c13ebd8ac824cd462d92f78c1fa9379f0d74fa3a4cdf8440336",
       "rendered_digest": "045795469a2177f1cdf55f4b53ec53acc84e7f540c8a631562535823ddbe66e3",
       "ast_digest": "48ee89ff29f611eb584004ccdd0f55d0e2254bedcb44fdf4bde15720ac2d2aae"
     },
     "stp": {
-      "values_digest": "34f82772c9cdb849d418c846be5ff6f8ccd15c43c4612eb5c1fe9bdafd0312be",
+      "values_digest": "f4fb036514efe51c9aec6fe287dc38f9ca1caa34956e6aae6c83ef9b612bc30d",
       "rendered_digest": "45588a30e0087598da490a38a8ac4fa73943b376b7c4917e0a1cf9030da00a3d",
       "ast_digest": "b4d809790a68270384edcc1baad364ded4c51aca8cfaf21f4807f610cbf98d08"
     },
     "spp": {
-      "values_digest": "84c0e3734756cf2b313e4d5b65cabecf4f7bbd3ecc24e047b8e6b76c2f336bd0",
+      "values_digest": "69e987efd8a16ba8479ccb46eec1e4abb8135e0cc5fe0e7736f249d52aef4c79",
       "rendered_digest": "3f4fcb91d40a19dd4d4c531e001198a2e6803c90ad4893689c4d85ee8689193a",
       "ast_digest": "bf17cce436d9dadae435bdccb912317338a540149714364c80ad7b08fa67beff"
     },
     "vpp": {
-      "values_digest": "78e0c05e8754ae08d4f0e0c58c7f35225edcf02b5eece708d99a64b5bfaac3bc",
+      "values_digest": "ff01c2012c540a6f96f53788a0e3222ca9b5158e64bc6b991746bcf610cd0190",
       "rendered_digest": "60e939ec69d10899f461f2185241491315e34c6a54616a7b45e076eef07a6a45",
       "ast_digest": "e7232286b0f68c0db9ae9daabbb5db93c8a48119d5810534fb160f72462d1928"
     },
     "srp": {
-      "values_digest": "f5ad61488572e996d7f01e022fcbfac40eccf1221e034a0b24c90594b83a8516",
-      "rendered_digest": "219341321ad61a5405e5b09908617f0cd67279ffd8e2e6f053ba8dd7f25639f2",
-      "ast_digest": "2186d32542f23480d6dfbe96d0b802a22e50afae9e13433a3251147bb9a3583b"
+      "values_digest": "c7283c671d784cb9a07c106583ec868508e3b5f07c52ba2ce1e38fbd014d50be",
+      "rendered_digest": "d8f537f00a1632cece5be0c845404ec4fc85ac5b196f754f07dce3a47a000046",
+      "ast_digest": "9be4bff51d140c5c9cc125283821bc3e62a125504039439ab92e95945d3ca1aa"
     },
     "sor": {
-      "values_digest": "80960ea929ad97af5589c3793c78dbf082baebf5d95998dbf310fa6c0e5942dc",
-      "rendered_digest": "beeb45ec829cc7a19d88925b03d1f64c52a165091c3bd64ce92039820049a87f",
-      "ast_digest": "168b36ee8ebd8d9e3028b097718cc4b140de050be13b212918e606408ccd5d41"
+      "values_digest": "b31946e0d762a5e96e341c4a8ffc279da0ba8a3e2579151df1300a279c9f17af",
+      "rendered_digest": "f2136b7486c528a37b6d46774a3958dc3cffb4e9c4c306debb6c4c522a3170c7",
+      "ast_digest": "a9606177bd16e84f8f3c9322e3e4627ce550be2a13df3727ad9395264fcf0ca2"
     }
   },
   "transitions": [
@@ -132,6 +90,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "PR #588 exact-head review failed; recover published review/publication truth before committing the remote-delivery authority, checkpoint, principal, and cleanup repairs."
     }
   ],
   "audit": [
@@ -232,6 +197,20 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "PR #588 exact-head review failed; recover published review/publication truth before committing the remote-delivery authority, checkpoint, principal, and cleanup repairs.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "Record PR #588 review remediation truth after typed recovery cleared stale publication state.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired PR #588 review findings for the non-authoritative V3-E remote-delivery workflow and recovered stale published review/publication truth back to implemented.\",\"changes\":[\"Changed remote delivery input so PVF evidence, review records, publication intents, GitHub readbacks, and cleanup candidates must be wrapped in typed verified observations with source-specific receipts before deliver() can treat them as authority inputs.\",\"Normalized principal comparison before case-insensitive equality so whitespace variants of the same implementer/reviewer cannot self-authorize publication.\",\"Allowed Part-Of publication to complete through deliver() as a checkpoint result without terminal cleanup authority.\",\"Added cleanup removal execution that performs filesystem removal after preview receipt and terminal gates, and distinguishes removed, already-removed, unregistered, path-mismatch, dirty, and live-worktree states.\",\"Kept the V3-E implementation construction-only: no v3 live GitHub mutation, v2 retirement, merge, finish, or terminal cleanup authority is claimed.\"],\"artifacts\":[\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/publication/mod.rs\",\"csdlc-v3/src/review/mod.rs\",\"csdlc-v3/tests/remote_commands/remote_delivery.rs\",\".csdlc/issues/504\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"remote_commands\"],\"purpose\":\"Focused V3-E remote workflow regression tests for verified observations, whitespace self-review, checkpoint delivery, and cleanup execution states.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: 14 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Full non-authoritative csdlc-v3 test suite after PR #588 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: 55 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject Rust warnings across the touched V3-E surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: finished dev profile\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Exact-range diff hygiene for PR #588 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no findings\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"504\"],\"purpose\":\"Typed C-SDLC issue validation after recovery and code repairs.\",\"outcome\":\"passed\",\"evidence_ref\":\"generation 12 phase implemented status pass before this SOR replacement\"}]}"
     }
   ]
 }

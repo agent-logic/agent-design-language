@@ -8,15 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Review ADL issue #504 V3-E remote-delivery workflow at exact head f6919016b9f8ab6d0fc1341399788a25e52e5345.
-Verify construction-only C-SDLC v3 remote workflow behavior for accepted PVF evidence, exact independent review authorization, explicit Closes #504 versus Part-Of #504 publication modes, finish derivation from remote readback, and preview-first cleanup eligibility.
-Verify the previous cleanup finding is fixed behaviorally: cleanup must no longer rely on caller-provided canonical_identity_verified truth and must require canonical path equality plus terminal/preview receipts, clean worktree, and non-live worktree gates.
-Verify the branch contains current main/#503 ancestry, specifically merge commit 5692d95ee6e4ee632833be348fa5601ddccbca1a, before V3-E publication.
-Verify v2 remains the only live C-SDLC authority and #504 does not claim V3-F/#505 cutover, v2 retirement, live v3 GitHub mutation, or terminal cleanup execution.
+
 
 ## Prompts
 
@@ -37,16 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Reviewer reported PASS with no actionable findings for substantive revision f6919016b9f8ab6d0fc1341399788a25e52e5345.
-- Reviewer verified current HEAD c4d2e22ba3301f0197e85845ae49e21f677448b6 differs from f6919016 only by review-assignment metadata under .csdlc/issues/504.
-- Reviewer ran focused remote-command tests: cargo test --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec/csdlc-v3/Cargo.toml --test remote_commands; 10 passed.
-- Reviewer verified git diff --check for the reviewed scope and verified #503 merge commit 5692d95ee6e4ee632833be348fa5601ddccbca1a is ancestral to f6919016.
-- Reviewer did not rerun the full csdlc-v3 suite or typed issue validation live; those broader runs remain local implementation evidence recorded in SOR.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:f6919016b9f8ab6d0fc1341399788a25e52e5345:b176971f223ba6eb6123153897788e4092fa1444a10de921c2444e4e1ae9a37a")
+Revision: None
 
-Reviewer: Some("fresh-session:issue-504-f6919016")
+Reviewer: None
 
-Result: pass
+Result: pre_review

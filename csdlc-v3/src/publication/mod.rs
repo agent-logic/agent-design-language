@@ -101,6 +101,8 @@ pub struct CleanupCandidate {
 pub enum CleanupClassification {
     PreviewEligible { path: PathBuf },
     RemoveEligible { path: PathBuf },
+    Removed { path: PathBuf },
+    AlreadyRemoved { path: PathBuf },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -112,6 +114,7 @@ pub enum CleanupRejectReason {
     PathMismatch,
     DirtyWorktree,
     LiveWorktree,
+    UnregisteredWorktree,
 }
 
 pub fn publish(
@@ -228,6 +231,33 @@ pub fn classify_cleanup(
             path: candidate.candidate_path.clone(),
         })
     }
+}
+
+pub fn execute_cleanup_removal(
+    candidate: &CleanupCandidate,
+) -> Result<CleanupClassification, CleanupRejectReason> {
+    if !is_canonical_absolute(&candidate.registered_worktree)
+        || !is_canonical_absolute(&candidate.candidate_path)
+    {
+        return Err(CleanupRejectReason::NonCanonicalPath);
+    }
+    if !candidate.registered_worktree.exists() && !candidate.candidate_path.exists() {
+        if candidate.registered_worktree == candidate.candidate_path {
+            return Ok(CleanupClassification::AlreadyRemoved {
+                path: candidate.candidate_path.clone(),
+            });
+        }
+        return Err(CleanupRejectReason::UnregisteredWorktree);
+    }
+    if !candidate.registered_worktree.exists() || !candidate.candidate_path.exists() {
+        return Err(CleanupRejectReason::UnregisteredWorktree);
+    }
+    let classification = classify_cleanup(candidate)?;
+    let CleanupClassification::RemoveEligible { path } = classification else {
+        return Ok(classification);
+    };
+    fs::remove_dir_all(&path).map_err(|_| CleanupRejectReason::UnregisteredWorktree)?;
+    Ok(CleanupClassification::Removed { path })
 }
 
 fn evidence(

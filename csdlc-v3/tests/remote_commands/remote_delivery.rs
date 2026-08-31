@@ -1,10 +1,12 @@
 use csdlc_v3::commands::remote::{
-    accepted_review, deliver, AcceptedPvfResult, RemoteDeliveryInput, RemoteDeliveryRejectReason,
+    accepted_review, deliver, receipt, AcceptedPvfResult, AuthoritySource, RemoteDeliveryInput,
+    RemoteDeliveryRejectReason, VerificationRejectReason, Verified,
 };
 use csdlc_v3::publication::{
-    classify_cleanup, derive_finish, publish, CleanupCandidate, CleanupClassification,
-    CleanupRejectReason, FinishClassification, FinishRejectReason, IssueReadback, PublicationMode,
-    PublicationRejectReason, PublicationRequest, PullRequestReadback,
+    classify_cleanup, derive_finish, execute_cleanup_removal, publish, CleanupCandidate,
+    CleanupClassification, CleanupRejectReason, FinishClassification, FinishRejectReason,
+    IssueReadback, PublicationMode, PublicationRejectReason, PublicationRequest,
+    PullRequestReadback,
 };
 use csdlc_v3::review::{
     authorize_publication, FindingDisposition, ReviewFinding, ReviewRejectReason, ReviewTarget,
@@ -83,6 +85,30 @@ fn cleanup_at(path: PathBuf) -> CleanupCandidate {
     }
 }
 
+fn verified<T>(value: T, source: AuthoritySource) -> Verified<T> {
+    Verified::new(value, receipt(source, "verified-observation-digest")).expect("verified fixture")
+}
+
+fn delivery_input(mode: PublicationMode, body: &str, issue_open: bool) -> RemoteDeliveryInput {
+    RemoteDeliveryInput {
+        pvf: verified(pvf(), AuthoritySource::Pvf),
+        review: verified(
+            accepted_review(
+                ISSUE,
+                REVISION,
+                "worker-6-implementation",
+                "independent-reviewer",
+                mode,
+            ),
+            AuthoritySource::Review,
+        ),
+        publication: verified(publication(mode, body), AuthoritySource::PublicationIntent),
+        pull_request: verified(merged_pr(REVISION), AuthoritySource::GithubReadback),
+        issue: verified(issue(issue_open), AuthoritySource::GithubReadback),
+        cleanup: verified(cleanup(), AuthoritySource::WorktreeInspection),
+    }
+}
+
 #[test]
 fn v3e_denominator_is_exact() {
     assert_eq!(REMOTE_DELIVERY_PREDECESSORS, [174, 175, 176, 177, 178]);
@@ -95,22 +121,8 @@ fn v3e_denominator_is_exact() {
 
 #[test]
 fn accepted_pvf_result_reaches_safe_cleanup_preview() {
-    let cleanup_candidate = cleanup();
-    let cleanup_path = cleanup_candidate.candidate_path.clone();
-    let input = RemoteDeliveryInput {
-        pvf: pvf(),
-        review: accepted_review(
-            ISSUE,
-            REVISION,
-            "worker-6-implementation",
-            "independent-reviewer",
-            PublicationMode::Closing,
-        ),
-        publication: publication(PublicationMode::Closing, "Closes #504"),
-        pull_request: merged_pr(REVISION),
-        issue: issue(false),
-        cleanup: cleanup_candidate,
-    };
+    let input = delivery_input(PublicationMode::Closing, "Closes #504", false);
+    let cleanup_path = input.cleanup.value().candidate_path.clone();
     let result = deliver(input).expect("closing publication reaches cleanup");
     assert_eq!(
         result.finish,
@@ -122,7 +134,7 @@ fn accepted_pvf_result_reaches_safe_cleanup_preview() {
     );
     assert_eq!(
         result.cleanup,
-        CleanupClassification::PreviewEligible { path: cleanup_path }
+        Some(CleanupClassification::PreviewEligible { path: cleanup_path })
     );
 }
 
@@ -168,6 +180,26 @@ fn same_principal_cannot_self_authorize_publication() {
         REVISION,
         "worker-6",
         "worker-6",
+        PublicationMode::Closing,
+    );
+    let target = ReviewTarget {
+        repository: REPOSITORY.to_owned(),
+        issue: ISSUE,
+        mode: PublicationMode::Closing,
+    };
+    assert_eq!(
+        authorize_publication(&review, REVISION, "publisher", target),
+        Err(ReviewRejectReason::SamePrincipal)
+    );
+}
+
+#[test]
+fn whitespace_variant_principal_cannot_self_authorize_publication() {
+    let review = accepted_review(
+        ISSUE,
+        REVISION,
+        "worker-6",
+        " worker-6 ",
         PublicationMode::Closing,
     );
     let target = ReviewTarget {
@@ -257,6 +289,25 @@ fn part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority() {
             reason: FinishRejectReason::PartOfParentClosed
         }
     );
+}
+
+#[test]
+fn part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup() {
+    let result = deliver(delivery_input(
+        PublicationMode::PartOf,
+        "Part-Of #504",
+        true,
+    ))
+    .expect("part-of publication completes as checkpoint");
+    assert_eq!(
+        result.finish,
+        FinishClassification::CheckpointCompleted {
+            pull_request: 586,
+            issue: ISSUE,
+            invalidates_review_and_publication: true
+        }
+    );
+    assert_eq!(result.cleanup, None);
 }
 
 #[test]
@@ -358,6 +409,35 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
 }
 
 #[test]
+fn cleanup_removal_executes_and_distinguishes_removed_states() {
+    let mut remove = cleanup();
+    let remove_path = remove.candidate_path.clone();
+    remove.preview = false;
+    remove.preview_receipt = true;
+    assert_eq!(
+        execute_cleanup_removal(&remove),
+        Ok(CleanupClassification::Removed {
+            path: remove_path.clone()
+        })
+    );
+    assert!(!remove_path.exists());
+    assert_eq!(
+        execute_cleanup_removal(&remove),
+        Ok(CleanupClassification::AlreadyRemoved { path: remove_path })
+    );
+
+    let mut unregistered = cleanup();
+    let candidate_path = unregistered.candidate_path.clone();
+    unregistered.preview = false;
+    unregistered.preview_receipt = true;
+    unregistered.registered_worktree = candidate_path.with_extension("missing-registration");
+    assert_eq!(
+        execute_cleanup_removal(&unregistered),
+        Err(CleanupRejectReason::UnregisteredWorktree)
+    );
+}
+
+#[test]
 fn cleanup_requires_committed_closed_out_state_and_receipt() {
     let mut candidate = cleanup();
     candidate.committed_closed_out = false;
@@ -376,28 +456,62 @@ fn cleanup_requires_committed_closed_out_state_and_receipt() {
 #[test]
 fn remote_workflow_refuses_missing_pvf_and_revision_mismatch() {
     let mut input = RemoteDeliveryInput {
-        pvf: pvf(),
-        review: accepted_review(
-            ISSUE,
-            REVISION,
-            "worker-6-implementation",
-            "independent-reviewer",
-            PublicationMode::Closing,
+        pvf: verified(pvf(), AuthoritySource::Pvf),
+        review: verified(
+            accepted_review(
+                ISSUE,
+                REVISION,
+                "worker-6-implementation",
+                "independent-reviewer",
+                PublicationMode::Closing,
+            ),
+            AuthoritySource::Review,
         ),
-        publication: publication(PublicationMode::Closing, "Closes #504"),
-        pull_request: merged_pr(REVISION),
-        issue: issue(false),
-        cleanup: cleanup(),
+        publication: verified(
+            publication(PublicationMode::Closing, "Closes #504"),
+            AuthoritySource::PublicationIntent,
+        ),
+        pull_request: verified(merged_pr(REVISION), AuthoritySource::GithubReadback),
+        issue: verified(issue(false), AuthoritySource::GithubReadback),
+        cleanup: verified(cleanup(), AuthoritySource::WorktreeInspection),
     };
-    input.pvf.evidence_digest.clear();
+    input.pvf = verified(
+        AcceptedPvfResult {
+            evidence_digest: String::new(),
+            ..pvf()
+        },
+        AuthoritySource::Pvf,
+    );
     assert_eq!(
         deliver(input.clone()),
         Err(RemoteDeliveryRejectReason::PvfEvidenceMissing)
     );
-    input.pvf.evidence_digest = "accepted-pvf-digest".to_owned();
-    input.pvf.revision = "different".to_owned();
+    input.pvf = verified(
+        AcceptedPvfResult {
+            revision: "different".to_owned(),
+            ..pvf()
+        },
+        AuthoritySource::Pvf,
+    );
     assert_eq!(
         deliver(input),
         Err(RemoteDeliveryRejectReason::PvfRevisionMismatch)
+    );
+}
+
+#[test]
+fn remote_delivery_rejects_unverified_or_wrong_source_observations() {
+    assert_eq!(
+        Verified::new(pvf(), receipt(AuthoritySource::Pvf, "")),
+        Err(VerificationRejectReason::MissingReceipt)
+    );
+
+    let mut input = delivery_input(PublicationMode::Closing, "Closes #504", false);
+    input.pull_request = verified(merged_pr(REVISION), AuthoritySource::PublicationIntent);
+    assert_eq!(
+        deliver(input),
+        Err(RemoteDeliveryRejectReason::Verification(
+            VerificationRejectReason::WrongSource
+        ))
     );
 }
