@@ -20,7 +20,7 @@ CloudFormation retirement decision.
 | #194 | VPC `10.194.0.0/16` with two private subnets | `network_attachment`, `private_subnet_ids` | AWS VPC/subnets; GCP VPC/subnet with private Google access. |
 | #194 | No public subnet, public IP mapping, internet gateway, or NAT gateway | `launch_flags`, `cleanup_labels` | AWS route tables without IGW/NAT; GCP private subnet/firewall posture. |
 | #194 | No public Runtime ingress and private voter mesh only | `runtime_security_identity` | AWS security groups; GCP firewall tags/service account. |
-| #194 | SSM, SSM messages, EC2 messages, and S3 private artifact access | `private_service_endpoints`, `artifact_source` | AWS interface/gateway endpoints; GCP private Google APIs/artifact bucket access. |
+| #194 | SSM, SSM messages, EC2 messages, and S3 private artifact access | `private_service_endpoints`, `artifact_source` | AWS interface endpoints, S3 gateway endpoint, and S3 prefix-list HTTPS egress; GCP private Google APIs/artifact bucket access. |
 | #194 | Optional voter instances with encrypted gp3 root volumes | `runtime_node_ids`, `runtime_shape` | AWS `aws_instance.optional_voter` creates the optional private voters when `launch_voters=true`; GCP compute instances use provider-native disks and explicit labels. |
 | #268 | On-demand `r7i.2xlarge` Runtime host (`on_demand_r7i_2xlarge_runtime_host`) | `runtime_shape` | AWS `aws_instance.runtime_host` fixed to `r7i.2xlarge`; GCP maps shape explicitly and does not claim equivalence. |
 | #268 | Retained Runtime EBS volume attachment | `retained_runtime_volume`, `retained_volume_id`, `runtime_mount_path` | AWS `aws_volume_attachment.retained_runtime`; GCP uses provider-native persistent disk attachment semantics. |

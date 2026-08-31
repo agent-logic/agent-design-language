@@ -67,6 +67,11 @@ variable "bootstrap_prefix" {
   default     = "shepherd/"
 }
 
+variable "s3_prefix_list_id" {
+  description = "AWS-managed S3 prefix list id for the selected region; used for private HTTPS egress to the S3 gateway endpoint."
+  type        = string
+}
+
 variable "common_tags" {
   description = "Additional resource tags."
   type        = map(string)

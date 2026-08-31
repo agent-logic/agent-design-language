@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 optional voter denominator coverage, repaired GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.
+Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 optional voter denominator coverage, repaired AWS private S3 network egress, repaired GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.
 
 ## Artifacts
 
@@ -38,9 +38,10 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 o
 ## Execution
 
 - Added real AWS optional private voter instances behind launch_voters, preserving #194 AwsVoterA/AwsVoterB private subnet placement, private security group membership, encrypted gp3 root disks, no public IPs, cleanup tags, voter node identity, and endpoint dependencies.
-- Added AWS optional_voter_ids output and validator checks so #194 optional voter claims cannot pass without Terraform resources.
+- Added explicit AWS runtime-instance HTTPS egress to the regional S3 prefix list via s3_prefix_list_id so IAM and the S3 gateway endpoint are paired with a real private network path.
+- Added AWS optional_voter_ids output and validator checks so #194 optional voter and S3 private artifact-path claims cannot pass without Terraform resources.
 - Added GCP artifact_bucket/artifact_prefix inputs, optional service-account storage.objectViewer binding, metadata/startup artifact-source record, cleanup deadline labels/metadata, and portable outputs for artifact_source and cleanup_deadline.
-- Updated denominator inventory, AWS/GCP README truth, retained proof packet, and governed validator to reflect the repaired R2 findings without claiming plan/apply/destroy or paid live proof.
+- Updated denominator inventory, AWS/GCP README truth, retained proof packet, and governed validator to reflect the repaired findings without claiming plan/apply/destroy or paid live proof.
 
 ## Validation
 
@@ -51,7 +52,7 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 o
       "docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh",
       "--lane=all"
     ],
-    "purpose": "Run the issue-owned governed XCL-01 validator covering denominator inventory, portable contract, AWS/GCP Terraform surfaces, #194 optional voters, GCP artifact IAM/deadline mapping, lockfiles, CloudFormation rollback retention, credential redaction, and live-proof gating.",
+    "purpose": "Run the issue-owned governed XCL-01 validator covering denominator inventory, portable contract, AWS/GCP Terraform surfaces, #194 optional voters, AWS S3 prefix-list egress, GCP artifact IAM/deadline mapping, lockfiles, CloudFormation rollback retention, credential redaction, and live-proof gating.",
     "outcome": "passed",
     "evidence_ref": "terminal: xcl-01 governed validation passed: --lane=all"
   },
@@ -65,7 +66,7 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 o
     ],
     "purpose": "Reject unformatted Terraform in the AWS and GCP XCL-01 roots.",
     "outcome": "passed",
-    "evidence_ref": "terminal: terraform fmt -check completed with exit 0 after formatting infra/aws/runtime/xcl-01/outputs.tf"
+    "evidence_ref": "terminal: terraform fmt -check completed with exit 0"
   },
   {
     "command": [
@@ -106,17 +107,6 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 o
     "purpose": "Validate the GCP XCL-01 Terraform root syntax and provider schema without cloud mutation.",
     "outcome": "passed",
     "evidence_ref": "terminal: infra/gcp/workloads/xcl-01 Success! The configuration is valid."
-  },
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check",
-      "origin/main...HEAD"
-    ],
-    "purpose": "Reject whitespace and patch hygiene problems before review.",
-    "outcome": "passed",
-    "evidence_ref": "terminal: git diff --check origin/main...HEAD and git diff --check completed with exit 0"
   }
 ]
 

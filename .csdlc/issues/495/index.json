@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8aa9a8c0ba290a29dfe6bfbab4b9ce40e04b2eaa164d076ad354755a661fb259",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "b62d28d03f96c93c8a3effeb43bdae336c0b365fb904aed25f3c1c1370f8daa9",
+  "generation": 13,
+  "digest": "daee3288d30e2201e87b85a297e1a44e4c4c7d026e1155ebeca5d48f1ca04a1c",
   "branch": "codex/495-cross-cloud-runtime-terraform-conversion",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-495-cross-cloud-runtime-terraform-conversion",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bf526a4cb1f8049231f2dced0f7b0d78d250cf785e67b529a53b5b4262816d98",
+      "values_digest": "d221d2e5408d30d02c15ea8dc8af95fe7e9872a80afbf29b65aa676480a8f982",
       "rendered_digest": "888c873c9a2d8eeaed4fb7574e7c6838b463b26edbd71aeeb47317c7337305ce",
       "ast_digest": "6d2b586ea1b5ccc012769c66cd62055c23724fa1cc495936a07bafba2b8a5f13"
     },
     "stp": {
-      "values_digest": "603fbde37c2aef5a8f6ad15325febed80ab80b3cda2d5251617e830804bd1af4",
+      "values_digest": "f23417731660ccfdc61ce2146fb319680ac4dff76d18067dd7acce6fc0a7d389",
       "rendered_digest": "089719cd42a2e7f86a34f7cdabddb55e266193ad0dfd594852d4fbdf3a5ee1a5",
       "ast_digest": "9cd34d5f7bd2135ea2359efd50a8b1d2ce40ba014970110ee385ecd170df6c14"
     },
     "spp": {
-      "values_digest": "02ed4ec0aa19a34068c7d2c1c67b997810dd9a7f989413afab1112682326fc8b",
+      "values_digest": "57440750e96c421019e1d6414335d1defda57677e3e1632c9cd7073622b03d78",
       "rendered_digest": "ac94f4d64d59ce2e4311d133806aafff7846be3b1b96732b22b8f49ccc584fef",
       "ast_digest": "fd236528b7200b33b9ceccaf798bb854473a530634c26d0d3ac43b17fde91703"
     },
     "vpp": {
-      "values_digest": "78032c3c7d3aea192542c913fc8e546f4b8240ee19cb05989cd718ccb713f694",
+      "values_digest": "86e330f27a358ae533d30eb5d08fadfa041b78bd139f95f07990502e8a8bc83c",
       "rendered_digest": "7f5c1567761295e55778311fe8fe476b11a0990249717443851a50d4fc28e0e7",
       "ast_digest": "08d54af7f84b9659423dc3975b1c39df05ab7b6746f073fcdb800a7683a88219"
     },
     "srp": {
-      "values_digest": "92949d4177825a8d39059985a3f17648d926b1474f4d34c211e87420d1b71ab7",
+      "values_digest": "b6989af0108a6f94cafab68bd6e78ecbf41637bb8456c6c76cd6d9210b180d97",
       "rendered_digest": "32ea04ba3196b183a4649b5393a55abe37c418d5e98f525d6fa69eb1524437e8",
       "ast_digest": "53f3d53220cc4d760228060d6440a35024bcf0de19aa3b500fc1652f6df3c127"
     },
     "sor": {
-      "values_digest": "e36723c0d365cb380c5a87053051a6e2ed43ab570b074bef34f8c545c11e9e12",
-      "rendered_digest": "9f59cb251376ef1ae78ea70546b607d239935deacb05d87d7a13039ccd57ba7e",
-      "ast_digest": "df526cf0d239fac5a7dd2c1ab74a8f9408a06c3ef9b3cbb0bf6a71cc44bf43d0"
+      "values_digest": "96ddd96907788f92ac504cc146eafd2ff5998bfe6fb7163b664799ffd25cea73",
+      "rendered_digest": "134487948ab3fd8f390791bd1b8e0f20726d41b8c2564f214e03bafdc96439f5",
+      "ast_digest": "de62f14ef5612f37fc62587c3b6bd65ddb6da46c8d4399ccbca23a1efec5473c"
     }
   },
   "transitions": [
@@ -183,6 +183,27 @@
       "actor": "codex:/root",
       "reason": "Record #495 remediation after fresh-session:1720195b-cee4-4580-ad79-bd975f4bf55f found missing #194 optional AWS voter resources and missing explicit GCP artifact-source IAM plus cleanup-deadline mapping.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 optional voter denominator coverage, repaired GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.\",\"changes\":[\"Added real AWS optional private voter instances behind launch_voters, preserving #194 AwsVoterA/AwsVoterB private subnet placement, private security group membership, encrypted gp3 root disks, no public IPs, cleanup tags, voter node identity, and endpoint dependencies.\",\"Added AWS optional_voter_ids output and validator checks so #194 optional voter claims cannot pass without Terraform resources.\",\"Added GCP artifact_bucket/artifact_prefix inputs, optional service-account storage.objectViewer binding, metadata/startup artifact-source record, cleanup deadline labels/metadata, and portable outputs for artifact_source and cleanup_deadline.\",\"Updated denominator inventory, AWS/GCP README truth, retained proof packet, and governed validator to reflect the repaired R2 findings without claiming plan/apply/destroy or paid live proof.\"],\"artifacts\":[\".csdlc/prepared/issues/495/denominator-inventory.md\",\"infra/runtime-portable/README.md\",\"infra/runtime-portable/runtime-workload-contract.v1.json\",\"infra/aws/runtime/xcl-01/README.md\",\"infra/aws/runtime/xcl-01/main.tf\",\"infra/aws/runtime/xcl-01/variables.tf\",\"infra/aws/runtime/xcl-01/outputs.tf\",\"infra/aws/runtime/xcl-01/versions.tf\",\"infra/aws/runtime/xcl-01/.terraform.lock.hcl\",\"infra/gcp/workloads/xcl-01/README.md\",\"infra/gcp/workloads/xcl-01/main.tf\",\"infra/gcp/workloads/xcl-01/variables.tf\",\"infra/gcp/workloads/xcl-01/outputs.tf\",\"infra/gcp/workloads/xcl-01/versions.tf\",\"infra/gcp/workloads/xcl-01/.terraform.lock.hcl\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\".csdlc/evidence/495\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned governed XCL-01 validator covering denominator inventory, portable contract, AWS/GCP Terraform surfaces, #194 optional voters, GCP artifact IAM/deadline mapping, lockfiles, CloudFormation rollback retention, credential redaction, and live-proof gating.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: xcl-01 governed validation passed: --lane=all\"},{\"command\":[\"terraform\",\"fmt\",\"-check\",\"infra/aws/runtime/xcl-01\",\"infra/gcp/workloads/xcl-01\"],\"purpose\":\"Reject unformatted Terraform in the AWS and GCP XCL-01 roots.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: terraform fmt -check completed with exit 0 after formatting infra/aws/runtime/xcl-01/outputs.tf\"},{\"command\":[\"terraform\",\"init\",\"-backend=false\",\"-input=false\"],\"purpose\":\"Initialize the AWS XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/aws/runtime/xcl-01 init reused lockfile provider selection and succeeded\"},{\"command\":[\"terraform\",\"validate\"],\"purpose\":\"Validate the AWS XCL-01 Terraform root syntax and provider schema without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/aws/runtime/xcl-01 Success! The configuration is valid.\"},{\"command\":[\"terraform\",\"init\",\"-backend=false\",\"-input=false\"],\"purpose\":\"Initialize the GCP XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/gcp/workloads/xcl-01 init reused lockfile provider selection and succeeded\"},{\"command\":[\"terraform\",\"validate\"],\"purpose\":\"Validate the GCP XCL-01 Terraform root syntax and provider schema without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/gcp/workloads/xcl-01 Success! The configuration is valid.\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and patch hygiene problems before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: git diff --check origin/main...HEAD and git diff --check completed with exit 0\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover #495 failed exact-head review at 2f37b13bfb23e7f47f9bc7b0659af1c64b336b62. Finding preserved: P1 AWS xcl-01 created S3 gateway/IAM artifact access but missed the #194 S3 prefix-list HTTPS egress rule, leaving no proven network path from Runtime host/voters to S3.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record #495 remediation after fresh-session:bb48e421-3a02-49d3-84f4-7d9b1518d0c3 found missing AWS S3 prefix-list HTTPS egress for the #194 private artifact path.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 optional voter denominator coverage, repaired AWS private S3 network egress, repaired GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.\",\"changes\":[\"Added real AWS optional private voter instances behind launch_voters, preserving #194 AwsVoterA/AwsVoterB private subnet placement, private security group membership, encrypted gp3 root disks, no public IPs, cleanup tags, voter node identity, and endpoint dependencies.\",\"Added explicit AWS runtime-instance HTTPS egress to the regional S3 prefix list via s3_prefix_list_id so IAM and the S3 gateway endpoint are paired with a real private network path.\",\"Added AWS optional_voter_ids output and validator checks so #194 optional voter and S3 private artifact-path claims cannot pass without Terraform resources.\",\"Added GCP artifact_bucket/artifact_prefix inputs, optional service-account storage.objectViewer binding, metadata/startup artifact-source record, cleanup deadline labels/metadata, and portable outputs for artifact_source and cleanup_deadline.\",\"Updated denominator inventory, AWS/GCP README truth, retained proof packet, and governed validator to reflect the repaired findings without claiming plan/apply/destroy or paid live proof.\"],\"artifacts\":[\".csdlc/prepared/issues/495/denominator-inventory.md\",\"infra/runtime-portable/README.md\",\"infra/runtime-portable/runtime-workload-contract.v1.json\",\"infra/aws/runtime/xcl-01/README.md\",\"infra/aws/runtime/xcl-01/main.tf\",\"infra/aws/runtime/xcl-01/variables.tf\",\"infra/aws/runtime/xcl-01/outputs.tf\",\"infra/aws/runtime/xcl-01/versions.tf\",\"infra/aws/runtime/xcl-01/.terraform.lock.hcl\",\"infra/gcp/workloads/xcl-01/README.md\",\"infra/gcp/workloads/xcl-01/main.tf\",\"infra/gcp/workloads/xcl-01/variables.tf\",\"infra/gcp/workloads/xcl-01/outputs.tf\",\"infra/gcp/workloads/xcl-01/versions.tf\",\"infra/gcp/workloads/xcl-01/.terraform.lock.hcl\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\".csdlc/evidence/495\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned governed XCL-01 validator covering denominator inventory, portable contract, AWS/GCP Terraform surfaces, #194 optional voters, AWS S3 prefix-list egress, GCP artifact IAM/deadline mapping, lockfiles, CloudFormation rollback retention, credential redaction, and live-proof gating.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: xcl-01 governed validation passed: --lane=all\"},{\"command\":[\"terraform\",\"fmt\",\"-check\",\"infra/aws/runtime/xcl-01\",\"infra/gcp/workloads/xcl-01\"],\"purpose\":\"Reject unformatted Terraform in the AWS and GCP XCL-01 roots.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: terraform fmt -check completed with exit 0\"},{\"command\":[\"terraform\",\"init\",\"-backend=false\",\"-input=false\"],\"purpose\":\"Initialize the AWS XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/aws/runtime/xcl-01 init reused lockfile provider selection and succeeded\"},{\"command\":[\"terraform\",\"validate\"],\"purpose\":\"Validate the AWS XCL-01 Terraform root syntax and provider schema without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/aws/runtime/xcl-01 Success! The configuration is valid.\"},{\"command\":[\"terraform\",\"init\",\"-backend=false\",\"-input=false\"],\"purpose\":\"Initialize the GCP XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/gcp/workloads/xcl-01 init reused lockfile provider selection and succeeded\"},{\"command\":[\"terraform\",\"validate\"],\"purpose\":\"Validate the GCP XCL-01 Terraform root syntax and provider schema without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/gcp/workloads/xcl-01 Success! The configuration is valid.\"}]}"
     }
   ]
 }

@@ -110,6 +110,15 @@ resource "aws_vpc_security_group_egress_rule" "private_voter_mesh" {
   description                  = "Private voter-to-voter mesh; no public egress."
 }
 
+resource "aws_vpc_security_group_egress_rule" "instance_to_s3_gateway" {
+  security_group_id = aws_security_group.runtime_instance.id
+  prefix_list_id    = var.s3_prefix_list_id
+  ip_protocol       = "tcp"
+  from_port         = 443
+  to_port           = 443
+  description       = "HTTPS to the regional S3 prefix list; route target is the private S3 gateway endpoint."
+}
+
 # The three interface endpoints and the S3 gateway endpoint preserve #194's
 # private management/artifact path without creating an internet gateway or NAT.
 resource "aws_vpc_endpoint" "ssm" {

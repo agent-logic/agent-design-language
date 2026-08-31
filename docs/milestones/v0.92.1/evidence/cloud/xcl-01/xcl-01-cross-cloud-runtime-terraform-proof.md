@@ -25,6 +25,8 @@ Status: static/local proof packet. Live AWS/GCP plan/apply/destroy proof is not 
   claiming a single shared resource graph.
 - AWS includes real optional #194 private voter instances behind
   `launch_voters`; the default remains no paid launch.
+- AWS includes #194 private S3 artifact access as both a gateway endpoint and
+  explicit runtime-instance HTTPS egress to the regional S3 prefix list.
 - GCP includes explicit artifact-source service-account IAM and cleanup-deadline
   mapping without creating an artifact bucket in this workload root.
 
