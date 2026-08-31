@@ -12,7 +12,22 @@ Status: draft
 
 ## Scope
 
-
+docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md
+.csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json
+.csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json
+.csdlc/prepared/issues/578/recover-after-quality-evidence-binding-fix.json
+.csdlc/prepared/issues/578/recover-after-unpublished-quality-binding-review.json
+.csdlc/prepared/issues/578/reviewer-quality-binding-review-prompt.md
+.csdlc/issues/578/index.json
+.csdlc/issues/578/audit.jsonl
+.csdlc/issues/578/cards/sip.values.json
+.csdlc/issues/578/cards/stp.values.json
+.csdlc/issues/578/cards/spp.values.json
+.csdlc/issues/578/cards/vpp.values.json
+.csdlc/issues/578/cards/srp.md
+.csdlc/issues/578/cards/srp.values.json
+.csdlc/issues/578/cards/sor.md
+.csdlc/issues/578/cards/sor.values.json
 
 ## Prompts
 
@@ -32,12 +47,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- GLM-5.3-Flash reviewer-quality evidence is packet-bound and supports focused first-pass or second-opinion review only; it does not replace ADL exact-head approval review or CI inspection.
+- The local smoke artifacts under .adl/provider-smoke are intentionally untracked; durable evidence records candidate commits plus request, result, and run-log digests instead.
+- The initial open-PR GLM reviewer smoke remains limited by truncated/noisy PR packets and is not approval evidence.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fdb60de325c63757eb6afb9021ccc24a6a89d321:0d708574d9bce26b7bb8917be08a9cd8a7f96afe1c4e6b7f6cfef95fe2753211")
 
-Reviewer: None
+Reviewer: Some("fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc")
 
-Result: pre_review
+Result: pass

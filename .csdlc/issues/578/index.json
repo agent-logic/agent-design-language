@@ -4,13 +4,64 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
-  "phase": "implemented",
-  "generation": 34,
-  "digest": "159fa6fa35cde71f171ad5c5fb7fa19626102beab457730730b4d26a0d098dac",
+  "phase": "reviewed",
+  "generation": 35,
+  "digest": "cabf17e2f4116f8d063448ff7730d99f23c7ddca08e51756cf0a71adbbdd4b0c",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:fdb60de325c63757eb6afb9021ccc24a6a89d321:0d708574d9bce26b7bb8917be08a9cd8a7f96afe1c4e6b7f6cfef95fe2753211",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+      ".csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json",
+      ".csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json",
+      ".csdlc/prepared/issues/578/recover-after-quality-evidence-binding-fix.json",
+      ".csdlc/prepared/issues/578/recover-after-unpublished-quality-binding-review.json",
+      ".csdlc/prepared/issues/578/reviewer-quality-binding-review-prompt.md",
+      ".csdlc/issues/578/index.json",
+      ".csdlc/issues/578/audit.jsonl",
+      ".csdlc/issues/578/cards/sip.values.json",
+      ".csdlc/issues/578/cards/stp.values.json",
+      ".csdlc/issues/578/cards/spp.values.json",
+      ".csdlc/issues/578/cards/vpp.values.json",
+      ".csdlc/issues/578/cards/srp.md",
+      ".csdlc/issues/578/cards/srp.values.json",
+      ".csdlc/issues/578/cards/sor.md",
+      ".csdlc/issues/578/cards/sor.values.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+      ".csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json",
+      ".csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json",
+      ".csdlc/prepared/issues/578/recover-after-quality-evidence-binding-fix.json",
+      ".csdlc/prepared/issues/578/recover-after-unpublished-quality-binding-review.json",
+      ".csdlc/prepared/issues/578/reviewer-quality-binding-review-prompt.md",
+      ".csdlc/issues/578/index.json",
+      ".csdlc/issues/578/audit.jsonl",
+      ".csdlc/issues/578/cards/sip.values.json",
+      ".csdlc/issues/578/cards/stp.values.json",
+      ".csdlc/issues/578/cards/spp.values.json",
+      ".csdlc/issues/578/cards/vpp.values.json",
+      ".csdlc/issues/578/cards/srp.md",
+      ".csdlc/issues/578/cards/srp.values.json",
+      ".csdlc/issues/578/cards/sor.md",
+      ".csdlc/issues/578/cards/sor.values.json"
+    ],
+    "reviewed_revision": "git-blake3:fdb60de325c63757eb6afb9021ccc24a6a89d321:0d708574d9bce26b7bb8917be08a9cd8a7f96afe1c4e6b7f6cfef95fe2753211",
+    "findings": [],
+    "residual_risks": [
+      "GLM-5.3-Flash reviewer-quality evidence is packet-bound and supports focused first-pass or second-opinion review only; it does not replace ADL exact-head approval review or CI inspection.",
+      "The local smoke artifacts under .adl/provider-smoke are intentionally untracked; durable evidence records candidate commits plus request, result, and run-log digests instead.",
+      "The initial open-PR GLM reviewer smoke remains limited by truncated/noisy PR packets and is not approval evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +76,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9be9849aca4ddb89a0a1f81140dbdcbffc0a3f5872d21249c3f7de24d74cb05d",
+      "values_digest": "0262b6050d89bd0cd72583cb317d83ed061adb933917744fc8fa9fa8f5edf579",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "e14a8a1bfb26550ff77ed2173533f2db4ccb2b3ed9a47fd621fb9988a23af21a",
+      "values_digest": "d222ff2262224165978c3e0c7a2a1ddf0a351743555c072c6085cdda5f01f51c",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "bffccd16119b7904f05d3802bb9d2064468d289052ace2619a74f884f9ac3cd1",
+      "values_digest": "ba7ca79e505b552922ad2010489e1b16b6a881668a7baa6aa5e40f35fafbbf04",
       "rendered_digest": "958fa9b6313803b215ae3dbdf43213ad4ca1d79b31eeadd96bb4db8bad97eb3b",
       "ast_digest": "d20f3cfdda654f53719e3d4a53ff6a8028be934f9481d1691cdf24a18bc4920f"
     },
     "vpp": {
-      "values_digest": "4fd78626b0dc90f8574fa5017d64c1c219237bfba7a043b538bc35341e8bcacb",
+      "values_digest": "04dd8ff618e5452133d93b0bc76f221232ebaca35f49a7e3a39dfc302787c579",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "3bd911225aeecc0c41674066f557004a734b3771dabaec7143d344df87ba4cbc",
-      "rendered_digest": "1359cc8a5c15fa8b18dd71821bd973a499db698e104834595fca3954dd411940",
-      "ast_digest": "00a30d8a0a7c0f0df09113d27b4710e50e2aef19e2ae89786f1af07f74080aa2"
+      "values_digest": "02001cb8c2c9f91d0baa94fd1c36761dc4a784fc81cabd6f1d71b5f2b8948aa0",
+      "rendered_digest": "4b60fb065df314daaa2782579abb9a659ad5f9ac633bbe226ed0ff8911893c2c",
+      "ast_digest": "f7db489da3fd46813a5998743dfcf05a6116e63e367943eeaa7f6f98847a4d4a"
     },
     "sor": {
-      "values_digest": "70d17cfd19168bfeba1d75ba7e3e30ba7bab6f8abc68d32dc1b014a51a668741",
+      "values_digest": "8624aca46c73b6942eb9f390aa10ec753f261989d042c669a1f2e628a3cc9a19",
       "rendered_digest": "a433c66cd8f8e2ba7e86340219ab03041c092f74dc2659bc83c3fa943c796a59",
       "ast_digest": "b55aab41a02704acd12732a37dfc66e959ea38dc2155b0dfef4369cc904cc88b"
     }
@@ -188,6 +239,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "Recover #578 review state after adding tracked GLM-5.3-Flash reviewer-quality evidence from complete focused endpoint-regression packets."
+    },
+    {
+      "sequence": 20,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -519,6 +577,20 @@
       "actor": "codex:root",
       "reason": "Recover #578 review state after the independent reviewer could not verify unpublished local-only quality-binding artifacts from the remote PR head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 34,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 35,
+      "actor": "fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
