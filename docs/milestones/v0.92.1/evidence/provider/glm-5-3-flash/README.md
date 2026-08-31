@@ -146,6 +146,40 @@ when paired with a larger output budget. `max` remains valid for explicit deep
 review only, but its minutes-scale latency makes it a poor default for ordinary
 runtime dispatch.
 
+## Reviewer quality characterization
+
+The first open-PR reviewer smoke was intentionally conservative but not a fair
+quality test: it supplied a truncated, lifecycle-heavy PR packet and therefore
+handicapped the model on code-local defects. A follow-up quality experiment used
+small, complete, focused packets around the exact endpoint-regression surface
+from the failed #582 review and the repaired current code.
+
+The baseline human/Codex review failure was:
+
+- Existing `z_ai:glm-5` and `z_ai:glm-5-current` profiles must continue using
+  `https://open.bigmodel.cn/api/paas/v4/chat/completions`.
+- The rejected candidate changed the shared Z.ai endpoint constant to
+  `https://api.z.ai/api/paas/v4/chat/completions` and reused that constant for
+  both existing profiles and the new `z_ai:glm-5.3-flash` profile.
+- The correct repair gives GLM-5.3-Flash its own `api.z.ai` endpoint constant
+  while retaining the legacy endpoint for the existing GLM-5 profiles.
+
+Local credentialed quality probes, using the approved local Z.ai key source
+without serializing the credential, produced:
+
+| Probe | Packet | Effort | Result | Duration | Quality signal |
+| --- | --- | --- | --- | ---: | --- |
+| `old-endpoint-regression-low` | Complete focused rejected endpoint code | `low` | `FAIL` | 8752 ms | Correctly found both `z_ai:glm-5` and `z_ai:glm-5-current` were rerouted to `api.z.ai`; included one harmless caveat about externally verifying the new Flash host. |
+| `old-endpoint-regression-high` | Complete focused rejected endpoint code | `high` | `FAIL` | 7668 ms | Correctly found the breaking endpoint change, tied it to the migration scope boundary, and identified the new Flash entry as structurally fine. |
+| `current-endpoint-repair-high` | Complete focused repaired endpoint code | `high` | `PASS` | 10240 ms | Correctly recognized the legacy endpoint was preserved for `z_ai:glm-5` and `z_ai:glm-5-current`, and did not repeat the stale endpoint finding. |
+
+This moves the reviewer-quality conclusion from "not proven" to "useful when
+the review harness supplies a bounded, complete packet." The model should still
+not replace ADL exact-head review or required CI inspection, but it is viable as
+a first-pass reviewer for focused code packets and as a second-opinion reviewer
+when the harness explicitly records packet completeness, exact candidate, effort
+level, output budget, and limitations.
+
 ## References
 
 - Z.ai AutoClaw GLM-5.3-Flash release note:

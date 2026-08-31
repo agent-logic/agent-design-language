@@ -7,7 +7,7 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 29
+    "generation": 30
   },
   "status": "pre_phase",
   "content": {
@@ -90,6 +90,16 @@
           "purpose": "Verify whitespace hygiene for the current issue worktree delta.",
           "outcome": "passed",
           "evidence_ref": "local command output, #578 worktree"
+        },
+        {
+          "command": [
+            "env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-run.jsonl",
+            "env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-run.jsonl",
+            "env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-run.jsonl"
+          ],
+          "purpose": "Test GLM-5.3-Flash reviewer quality without truncated packets by comparing focused, complete endpoint-regression packets against the known #582 review failure and the repaired current endpoint split.",
+          "outcome": "passed",
+          "evidence_ref": "Focused complete-packet reviewer quality characterization passed: old rejected endpoint candidate low effort returned FAIL in 8752ms and correctly identified both z_ai:glm-5 and z_ai:glm-5-current rerouted from open.bigmodel.cn to api.z.ai; old rejected endpoint candidate high effort returned FAIL in 7668ms with the same migration-scope finding; current repaired endpoint candidate high effort returned PASS in 10240ms and did not repeat the stale endpoint finding. Conclusion: GLM-5.3-Flash is viable for focused complete-packet first-pass review, but truncated/noisy PR packets remain unsafe for exact-head approval."
         }
       ],
       "integration_state": "pr_open",
