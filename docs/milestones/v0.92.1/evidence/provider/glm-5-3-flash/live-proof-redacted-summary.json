@@ -35,6 +35,42 @@
     "result_sha256": "fe8ff9cf96345ac7ea97e7f19272bf6ce2f919d8efd31e265c04745b216d340d",
     "run_log_sha256": "366d790a6219c5c005644f91cd514f716e9f441f8cf94f937c9ad1769e42ddfa"
   },
+  "higher_effort_boosted_reruns": [
+    {
+      "name": "pr-582-high-boosted",
+      "reasoning_effort": "high",
+      "clear_thinking": true,
+      "temperature": 0.2,
+      "top_p": 0.8,
+      "max_output_tokens": 8192,
+      "attempts": 1,
+      "final_status": "ok",
+      "http_status": 200,
+      "duration_ms": 36240,
+      "output_text_excerpt": "[redacted provider text len=1502]",
+      "retained_verdict": "NEEDS_HUMAN_REVIEW",
+      "request_sha256": "35c29809297baa7233024cac0a90595ac152d8e4cc28fa16a5dfa7ffbbf884eb",
+      "result_sha256": "3fa1bc8d83ea1643655f91c3e5fe24df6728c4652f8245576f6f6166005a4e74",
+      "run_log_sha256": "b1794c21f93e79e64c0ad170fc7a7a99ec215fd26d6f4fa5dee9e7310f7d786a"
+    },
+    {
+      "name": "pr-582-max-boosted",
+      "reasoning_effort": "max",
+      "clear_thinking": true,
+      "temperature": 0.2,
+      "top_p": 0.8,
+      "max_output_tokens": 16384,
+      "attempts": 1,
+      "final_status": "ok",
+      "http_status": 200,
+      "duration_ms": 151326,
+      "output_text_excerpt": "[redacted provider text len=1902]",
+      "retained_verdict": "NEEDS_HUMAN_REVIEW",
+      "request_sha256": "73960f779517730d3c227f8925ea9776952fafde76d168a0f50175a553bb007a",
+      "result_sha256": "f1b659b630ea4b07049e61878fb578892b4d5c50a4e5124c1bfcc64df0d278cb",
+      "run_log_sha256": "e80482c1b9791555b5ed3b06ef845bb944beb2d0613a9032a3ed290c3bbd2998"
+    }
+  ],
   "focused_quality_probes": [
     {
       "name": "old-endpoint-regression-low",
