@@ -4,46 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
-  "phase": "reviewed",
-  "generation": 43,
-  "digest": "fbc202659a0d354a9a4cec567437ba84b4e39f5a5c22e4190d7ef0315ddf021c",
+  "phase": "implemented",
+  "generation": 44,
+  "digest": "541d8f66d926a3dafd94c9249f7058eec9cc7d5351525c8913e3d5819649cd61",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
-  "review_assignment": {
-    "reviewer": "fresh-session:5400e15f-a834-4389-ba44-d94ba751adae",
-    "assigned_by": "codex:root",
-    "revision": "git-blake3:16f2c5ca11b78425ea2b4f6ea4d789c71482ee18:0fb6e83cc8a1e0e5513234d61fe7702d210ea99ef63941ed2f65198014fe2100",
-    "scope": [
-      "adl/src/provider_communication.rs",
-      "adl/src/provider_adapter.rs",
-      "adl/src/provider/profiles.rs",
-      "adl/tests/provider_tests/profiles.rs",
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json",
-      ".csdlc/issues/578",
-      ".csdlc/prepared/issues/578"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:5400e15f-a834-4389-ba44-d94ba751adae",
-    "scope": [
-      "adl/src/provider_communication.rs",
-      "adl/src/provider_adapter.rs",
-      "adl/src/provider/profiles.rs",
-      "adl/tests/provider_tests/profiles.rs",
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json",
-      ".csdlc/issues/578",
-      ".csdlc/prepared/issues/578"
-    ],
-    "reviewed_revision": "git-blake3:16f2c5ca11b78425ea2b4f6ea4d789c71482ee18:0fb6e83cc8a1e0e5513234d61fe7702d210ea99ef63941ed2f65198014fe2100",
-    "findings": [],
-    "residual_risks": [
-      "No live Z.ai request was made during this review; live behavior is supported by the retained redacted proof already committed in the candidate."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -58,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8918051f6b7e1d2499fb149c4edf95831e0600e6819843896e10683acc57527b",
+      "values_digest": "037726ddd9d17144162811931b9896222b3eafa2c3dd71a8acae8116f7aaab20",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "9aa7589b883af43ba45832f9a7bc5d58abddc6b8625e11e8becfdf406a224aab",
+      "values_digest": "135bc6a3bfd5a098ee83fd6d5663f0d2b34eb9fb56209f7ed6b8ea4776a40478",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "4de9c5f51c1ed70f117abef8fef840ff267e4ecc8613e1525272317159693dbc",
+      "values_digest": "8b6d4d5bae5e41c9a36968aa3ef10b46f1fb40669be2b78c91f2281f7927667d",
       "rendered_digest": "958fa9b6313803b215ae3dbdf43213ad4ca1d79b31eeadd96bb4db8bad97eb3b",
       "ast_digest": "d20f3cfdda654f53719e3d4a53ff6a8028be934f9481d1691cdf24a18bc4920f"
     },
     "vpp": {
-      "values_digest": "8991fcfcd4796b5be148645694abe599bce19270c21aa497de5941189bcf59c1",
+      "values_digest": "1be7704ef388c4099e56838f1e7440b9c7622588347136beb14e0eb1f1498f40",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "7cc3afd9bb9480d9c050f879d43f82dbfda82c513c3e909436b0a50c93e51aef",
-      "rendered_digest": "5d1e230e94c86d80249d526feb410f2f06d6297576ff0d8fc67af14526cc9a49",
-      "ast_digest": "5bd7fb40a840103f044e68cb3a61dfdce12c133ecff657d09bf512dc2f646307"
+      "values_digest": "7809611a3e53e04133861beea921fbd8cf2e9a35ddc000a727c9bd1c555eb127",
+      "rendered_digest": "1359cc8a5c15fa8b18dd71821bd973a499db698e104834595fca3954dd411940",
+      "ast_digest": "00a30d8a0a7c0f0df09113d27b4710e50e2aef19e2ae89786f1af07f74080aa2"
     },
     "sor": {
-      "values_digest": "2037c642b2e1202932241a7c3acdd36dba197ebd4c1e31915af42f1bed37a1a1",
+      "values_digest": "a5677117e2f5ef68500e66b90fcf0caeec172a44e62b8f0b8ea66018dfebea0c",
       "rendered_digest": "8db8417a87416815e4231a4176f12e07695cfd6dc9c75c04e1e42a1b262dd6aa",
       "ast_digest": "bde0a939472273be65d8840e40a73ef4c336f3955df453ac037968a1195fd4c2"
     }
@@ -263,6 +230,13 @@
       "to": "reviewed",
       "actor": "fresh-session:5400e15f-a834-4389-ba44-d94ba751adae",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 26,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "Recover #578 after committing the broad review metadata; final publication requires a fresh review bound to the current clean head with a publication-safe scope."
     }
   ],
   "audit": [
@@ -678,6 +652,13 @@
       "actor": "fresh-session:5400e15f-a834-4389-ba44-d94ba751adae",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 44,
+      "actor": "codex:root",
+      "reason": "Recover #578 after committing the broad review metadata; final publication requires a fresh review bound to the current clean head with a publication-safe scope.",
+      "operation": "recover_review"
     }
   ]
 }

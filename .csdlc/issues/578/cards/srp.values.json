@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 43
+    "generation": 44
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider_communication.rs\nadl/src/provider_adapter.rs\nadl/src/provider/profiles.rs\nadl/tests/provider_tests/profiles.rs\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json\n.csdlc/issues/578\n.csdlc/prepared/issues/578",
-      "review_revision": "git-blake3:16f2c5ca11b78425ea2b4f6ea4d789c71482ee18:0fb6e83cc8a1e0e5513234d61fe7702d210ea99ef63941ed2f65198014fe2100",
-      "reviewer": "fresh-session:5400e15f-a834-4389-ba44-d94ba751adae",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does `z_ai:glm-5.3-flash` use the existing #514 profile machinery rather than ad hoc model routing?",
         "Are GLM-5.3-Flash parameters source-grounded and validated before network dispatch?",
@@ -24,10 +24,8 @@
         "Did the patch avoid #446/#455 scope?"
       ],
       "findings": [],
-      "residual_risk": [
-        "No live Z.ai request was made during this review; live behavior is supported by the retained redacted proof already committed in the candidate."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
