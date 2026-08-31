@@ -1,0 +1,99 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 511,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][OBS-A] Observatory experience design",
+    "slug": "obs-a-observatory-experience-design",
+    "version": "v0.92.1",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Define the Observatory experience contract, enumerate state and accessibility behavior, verify Runtime field provenance, and retain review-ready evidence.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Inventory the existing Observatory UI and Runtime projection fields that may be consumed.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Write the per-view information contract and state matrix.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Write keyboard and screen-reader flows for every designed state.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run the focused contract, accessibility-plan, Runtime-field-census, v3 local canary, and review proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/observatory",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        ".csdlc/prepared/issues/511/design.md",
+        ".csdlc/prepared/issues/511/diagram.mmd",
+        ".csdlc/prepared/issues/511/validate-obs-a-contract.sh",
+        ".csdlc/prepared/issues/511/validate-obs-a-states.sh",
+        ".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh",
+        ".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh",
+        ".csdlc/evidence/511",
+        ".csdlc/issues/511"
+      ],
+      "invariants": [
+        "Design does not invent Runtime fields",
+        "Production implementation remains in #512",
+        "V3 remains non-authoritative before #505",
+        "Accessibility states are first-class design truth"
+      ],
+      "risks": [
+        "Existing Runtime projection docs may be incomplete",
+        "Design may accidentally depend on future #512 implementation",
+        "Accessibility denominator may be underspecified"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "A design requires unavailable Runtime authority",
+        "Accessibility denominator is incomplete",
+        "A mock or invented Runtime field is needed",
+        "V3 local output is treated as lifecycle authority"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/511/design.md",
+      "design_digest": "5c2405bb74605f5fb10fc4bfd9e8eda98927b120b2af1f00dc50a45970411748",
+      "diagram_ref": ".csdlc/prepared/issues/511/diagram.mmd",
+      "diagram_digest": "1f3a16fb9e9437fb5cd5dd3646356d098aa225717895126b0fc610c1856b9ec0"
+    }
+  }
+}

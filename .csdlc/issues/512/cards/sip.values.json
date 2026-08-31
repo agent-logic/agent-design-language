@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 512,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+    "slug": "obs-b-observatory-redesign-implementation",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce one implemented Observatory redesign backed by authentic Runtime projections.",
+      "required_outcome": "One implemented Observatory redesign consuming authentic Runtime projections.",
+      "declared_scope": [
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/styles.css",
+        "adl/tools/validate_layer8_authority_observatory_ui.sh",
+        ".csdlc/prepared/issues/512/design.md",
+        ".csdlc/prepared/issues/512/diagram.mmd",
+        ".csdlc/prepared/issues/512/validate-obs-b-browser.sh",
+        ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh",
+        ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+        ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh",
+        ".csdlc/evidence/512",
+        ".csdlc/issues/512"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#512",
+        "OBS-A #511 and Sprint 8 #536 are execution gates",
+        "Issue #84 is independent backlog and non-gating",
+        "V3 remains non-authoritative before #505"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "No tracked implementation work on main",
+        "No mock substitute for required Runtime route",
+        "No TLS public exposure or Unity implementation"
+      ]
+    }
+  }
+}

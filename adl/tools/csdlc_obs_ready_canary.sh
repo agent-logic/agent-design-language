@@ -60,19 +60,19 @@ EOF
   "actor": "codex:worker-6",
   "design_path": ".csdlc/prepared/issues/511/design.md",
   "diagram_path": ".csdlc/prepared/issues/511/diagram.mmd",
-  "design_reviewer": "pending",
-  "design_approved": false,
+  "design_reviewer": "codex:worker-6:precutover-design-review",
+  "design_approved": true,
   "initial": {
     "title": "[v0.92.1][OBS-A] Observatory experience design",
     "slug": "obs-a-observatory-experience-design",
     "version": "v0.92.1",
     "goal": "Produce one reviewed Observatory experience-design contract.",
     "required_outcome": "One reviewed Observatory design contract covering information, interaction, states, hierarchy, and accessibility.",
-    "declared_scope": ["demos/html-observatory/design/**", "docs/observatory/**", "docs/milestones/v0.92.1/evidence/observatory/obs-a/**", ".csdlc/prepared/issues/511", ".csdlc/evidence/511", ".csdlc/issues/511"],
+    "declared_scope": ["docs/observatory", "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml", ".csdlc/prepared/issues/511/design.md", ".csdlc/prepared/issues/511/diagram.mmd", ".csdlc/prepared/issues/511/validate-obs-a-contract.sh", ".csdlc/prepared/issues/511/validate-obs-a-states.sh", ".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh", ".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh", ".csdlc/evidence/511", ".csdlc/issues/511"],
     "authority_boundary": ["Issue authority is agent-logic/agent-design-language#511", "This issue owns design only; production implementation belongs to #512", "Runtime fields must be sourced from existing Runtime contracts and evidence"],
     "operator_constraints": ["No tracked implementation work on main", "No mock Runtime fields", "No Unity or TLS implementation"],
     "task_boundary": "Exactly one Observatory experience-design contract and its validation plan.",
-    "deliverables": ["Stable per-view information contract", "Empty degraded recovery and revoked-state matrix", "Keyboard and screen-reader flow specification", "Runtime-field census with source references", "Reviewed OBS-A evidence packet"],
+    "deliverables": ["Stable per-view information contract", "Empty degraded recovery and revoked-state matrix", "Keyboard and screen-reader flow specification", "Runtime-field census with source references", "Reviewed OBS-A evidence packet", ".csdlc/prepared/issues/511/validate-obs-a-contract.sh", ".csdlc/prepared/issues/511/validate-obs-a-states.sh", ".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh", ".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh"],
     "acceptance_criteria": ["AC-1: Every view has a stable information contract", "AC-2: Empty degraded recovery and revoked states are designed", "AC-3: Keyboard and screen-reader flows are specified", "AC-4: No invented Runtime field is introduced", "AC-5: One-command pre-cutover canary passes with v2 authority and v3 local non-authority evidence"],
     "dependencies": [],
     "repo_inputs": ["agent-logic/agent-design-language#511", "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#OBS-A", "demos/html-observatory/**", "docs/api/runtime-v3/**", "adl-runtime-kernel/**"],
@@ -84,16 +84,16 @@ EOF
       {"id":"S3","action":"Write keyboard and screen-reader flows for every designed state.","acceptance_ids":["AC-3"],"status":"pending"},
       {"id":"S4","action":"Run the focused contract, accessibility-plan, Runtime-field-census, v3 local canary, and review proof.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"}
     ],
-    "affected_areas": ["Observatory design docs", "Observatory evidence", "HTML Observatory design surface"],
+    "affected_areas": ["docs/observatory", "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml", ".csdlc/prepared/issues/511/design.md", ".csdlc/prepared/issues/511/diagram.mmd", ".csdlc/prepared/issues/511/validate-obs-a-contract.sh", ".csdlc/prepared/issues/511/validate-obs-a-states.sh", ".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh", ".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh", ".csdlc/evidence/511", ".csdlc/issues/511"],
     "invariants": ["Design does not invent Runtime fields", "Production implementation remains in #512", "V3 remains non-authoritative before #505", "Accessibility states are first-class design truth"],
     "risks": ["Existing Runtime projection docs may be incomplete", "Design may accidentally depend on future #512 implementation", "Accessibility denominator may be underspecified"],
     "planning_profile": "medium",
     "stop_conditions": ["A design requires unavailable Runtime authority", "Accessibility denominator is incomplete", "A mock or invented Runtime field is needed", "V3 local output is treated as lifecycle authority"],
     "validation_lanes": [
-      {"lane":"information-contract","proof_role":"Verify every designed view has named fields, source, state behavior, and consumer responsibility.","acceptance_ids":["AC-1"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1500,"argv":["bash",".csdlc/prepared/issues/511/validate-obs-a-contract.sh"],"parallel_group":"docs","defer_reason":"Issue-owned validator is an OBS-A implementation deliverable."},
-      {"lane":"state-matrix","proof_role":"Verify empty degraded recovery and revoked states are explicitly covered.","acceptance_ids":["AC-2"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1500,"argv":["bash",".csdlc/prepared/issues/511/validate-obs-a-states.sh"],"parallel_group":"docs","defer_reason":"Issue-owned validator is an OBS-A implementation deliverable."},
-      {"lane":"accessibility-plan","proof_role":"Verify keyboard and screen-reader flows are specified for each view and state.","acceptance_ids":["AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1500,"argv":["bash",".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh"],"parallel_group":"docs","defer_reason":"Issue-owned validator is an OBS-A implementation deliverable."},
-      {"lane":"runtime-field-census","proof_role":"Verify each field is sourced from current Runtime artifacts or rejected.","acceptance_ids":["AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh"],"parallel_group":"runtime-census","defer_reason":"Issue-owned validator is an OBS-A implementation deliverable."},
+      {"lane":"information-contract","proof_role":"Verify every designed view has named fields, source, state behavior, and consumer responsibility.","acceptance_ids":["AC-1"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1500,"argv":["bash",".csdlc/prepared/issues/511/validate-obs-a-contract.sh"],"parallel_group":"docs","defer_reason":null},
+      {"lane":"state-matrix","proof_role":"Verify empty degraded recovery and revoked states are explicitly covered.","acceptance_ids":["AC-2"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1500,"argv":["bash",".csdlc/prepared/issues/511/validate-obs-a-states.sh"],"parallel_group":"docs","defer_reason":null},
+      {"lane":"accessibility-plan","proof_role":"Verify keyboard and screen-reader flows are specified for each view and state.","acceptance_ids":["AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1500,"argv":["bash",".csdlc/prepared/issues/511/validate-obs-a-accessibility.sh"],"parallel_group":"docs","defer_reason":null},
+      {"lane":"runtime-field-census","proof_role":"Verify each field is sourced from current Runtime artifacts or rejected.","acceptance_ids":["AC-4"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh"],"parallel_group":"runtime-census","defer_reason":null},
       {"lane":"v3-local-canary","proof_role":"Run the single csdlc binary local preparation path as non-authoritative cutover evidence.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["cargo","run","--locked","--manifest-path","csdlc-v3/Cargo.toml","--bin","csdlc","--","local","--request",".csdlc/prepared/issues/511/v3-local-request.json","--registry","docs/templates/prompts/current.json","--registrations",".csdlc/prepared/issues/511/v3-local-registrations.json"],"parallel_group":"cutover-canary","defer_reason":null}
     ],
     "failure_policy": "Fail closed on invented Runtime fields, incomplete accessibility denominator, production implementation drift, or v3 authority overclaim.",
@@ -124,6 +124,30 @@ EOF
   }
 ]
 EOF
+
+  cat > .csdlc/prepared/issues/511/validate-obs-a-contract.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+grep -Fq "Every view has a stable information contract" .csdlc/prepared/issues/511/bootstrap-request.json
+grep -Fq "Runtime field" .csdlc/prepared/issues/511/bootstrap-request.json
+EOF
+  cat > .csdlc/prepared/issues/511/validate-obs-a-states.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+grep -Fq "Empty degraded recovery and revoked states" .csdlc/prepared/issues/511/bootstrap-request.json
+EOF
+  cat > .csdlc/prepared/issues/511/validate-obs-a-accessibility.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+grep -Fq "Keyboard and screen-reader flows" .csdlc/prepared/issues/511/bootstrap-request.json
+EOF
+  cat > .csdlc/prepared/issues/511/validate-obs-a-runtime-fields.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+grep -Fq "No invented Runtime field" .csdlc/prepared/issues/511/bootstrap-request.json
+test -f docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
+EOF
+  chmod +x .csdlc/prepared/issues/511/validate-obs-a-*.sh
 }
 
 write_obs_b_inputs() {
@@ -153,19 +177,19 @@ EOF
   "actor": "codex:worker-6",
   "design_path": ".csdlc/prepared/issues/512/design.md",
   "diagram_path": ".csdlc/prepared/issues/512/diagram.mmd",
-  "design_reviewer": "pending",
-  "design_approved": false,
+  "design_reviewer": "codex:worker-6:precutover-design-review",
+  "design_approved": true,
   "initial": {
     "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
     "slug": "obs-b-observatory-redesign-implementation",
     "version": "v0.92.1",
     "goal": "Produce one implemented Observatory redesign backed by authentic Runtime projections.",
     "required_outcome": "One implemented Observatory redesign consuming authentic Runtime projections.",
-    "declared_scope": ["demos/html-observatory/app.js", "demos/html-observatory/styles.css", "adl/tools/validate_layer8_authority_observatory_ui.sh", "docs/milestones/v0.92.1/evidence/observatory/obs-b/**", ".csdlc/prepared/issues/512", ".csdlc/evidence/512", ".csdlc/issues/512"],
+    "declared_scope": ["demos/html-observatory/app.js", "demos/html-observatory/styles.css", "adl/tools/validate_layer8_authority_observatory_ui.sh", ".csdlc/prepared/issues/512/design.md", ".csdlc/prepared/issues/512/diagram.mmd", ".csdlc/prepared/issues/512/validate-obs-b-browser.sh", ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh", ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh", ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh", ".csdlc/evidence/512", ".csdlc/issues/512"],
     "authority_boundary": ["Issue authority is agent-logic/agent-design-language#512", "OBS-A #511 and Sprint 8 #536 are execution gates", "Issue #84 is independent backlog and non-gating", "V3 remains non-authoritative before #505"],
     "operator_constraints": ["No tracked implementation work on main", "No mock substitute for required Runtime route", "No TLS public exposure or Unity implementation"],
     "task_boundary": "Exactly one implemented HTML Observatory redesign consuming authentic Runtime projections.",
-    "deliverables": ["OBS-A contract implementation", "Authentic Runtime projection consumption", "Browser and accessibility proof", "Redaction and recovery proof", "Review-ready OBS-B evidence packet"],
+    "deliverables": ["OBS-A contract implementation", "Authentic Runtime projection consumption", "Browser and accessibility proof", "Redaction and recovery proof", "Review-ready OBS-B evidence packet", ".csdlc/prepared/issues/512/validate-obs-b-browser.sh", ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh", ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh", ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh"],
     "acceptance_criteria": ["AC-1: OBS-A contracts are implemented", "AC-2: Runtime projections are source-grounded", "AC-3: Accessibility and recovery cases pass", "AC-4: No mock substitutes for the required Runtime route", "AC-5: One-command pre-cutover canary passes but execution remains blocked until #511 and #536 are terminal"],
     "dependencies": ["#511 reviewed and terminal", "#536 Sprint 8 coordination terminal"],
     "repo_inputs": ["agent-logic/agent-design-language#512", "agent-logic/agent-design-language#511", "agent-logic/agent-design-language#536", "demos/html-observatory/app.js", "demos/html-observatory/styles.css", "adl/tools/validate_layer8_authority_observatory_ui.sh"],
@@ -177,17 +201,17 @@ EOF
       {"id":"S3","action":"Replace any mock data with authentic Runtime projection consumption and redaction handling.","acceptance_ids":["AC-2","AC-4"],"status":"pending"},
       {"id":"S4","action":"Run exact browser, accessibility, redaction, recovery, and review proof.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"}
     ],
-    "affected_areas": ["HTML Observatory", "Observatory UI validator", "OBS-B evidence"],
+    "affected_areas": ["demos/html-observatory/app.js", "demos/html-observatory/styles.css", "adl/tools/validate_layer8_authority_observatory_ui.sh", ".csdlc/prepared/issues/512/design.md", ".csdlc/prepared/issues/512/diagram.mmd", ".csdlc/prepared/issues/512/validate-obs-b-browser.sh", ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh", ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh", ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh", ".csdlc/evidence/512", ".csdlc/issues/512"],
     "invariants": ["#511 is terminal before execution", "#536 is terminal before execution", "No mock substitutes for required Runtime route", "#84 remains non-gating backlog", "V3 remains non-authoritative before #505"],
     "risks": ["OBS-A may change implementation requirements", "Runtime projection route may be unavailable", "Mock data may be accidentally retained", "Accessibility recovery behavior may lag visual redesign"],
     "planning_profile": "medium",
     "stop_conditions": ["Issue #511 is not reviewed and terminal", "Issue #536 is not terminal", "A mock substitutes for the required Runtime route", "The implementation requires #84, #251, or #122"],
     "validation_lanes": [
       {"lane":"authentic-runtime-route","proof_role":"Prove the HTML Observatory consumes the required authentic Runtime route, not a mock.","acceptance_ids":["AC-2","AC-4"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":2500,"argv":["bash","adl/tools/validate_layer8_authority_observatory_ui.sh"],"parallel_group":"runtime-route","defer_reason":"Execution is blocked until #511 and #536 are terminal."},
-      {"lane":"exact-browser-cases","proof_role":"Run exact browser-facing redesign cases against the implemented OBS-A contract.","acceptance_ids":["AC-1","AC-3"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":2500,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-browser.sh"],"parallel_group":"browser","defer_reason":"Issue-owned validator is an OBS-B implementation deliverable."},
-      {"lane":"accessibility","proof_role":"Verify keyboard and screen-reader behavior for implemented views and states.","acceptance_ids":["AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh"],"parallel_group":"browser","defer_reason":"Issue-owned validator is an OBS-B implementation deliverable."},
-      {"lane":"redaction","proof_role":"Verify projected Runtime data remains redacted in UI and evidence.","acceptance_ids":["AC-2"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-redaction.sh"],"parallel_group":"privacy","defer_reason":"Issue-owned validator is an OBS-B implementation deliverable."},
-      {"lane":"recovery","proof_role":"Verify empty degraded recovery and revoked UI states match OBS-A.","acceptance_ids":["AC-1","AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-recovery.sh"],"parallel_group":"browser","defer_reason":"Issue-owned validator is an OBS-B implementation deliverable."},
+      {"lane":"exact-browser-cases","proof_role":"Run exact browser-facing redesign cases against the implemented OBS-A contract.","acceptance_ids":["AC-1","AC-3"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":2500,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-browser.sh"],"parallel_group":"browser","defer_reason":null},
+      {"lane":"accessibility","proof_role":"Verify keyboard and screen-reader behavior for implemented views and states.","acceptance_ids":["AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh"],"parallel_group":"browser","defer_reason":null},
+      {"lane":"redaction","proof_role":"Verify projected Runtime data remains redacted in UI and evidence.","acceptance_ids":["AC-2"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-redaction.sh"],"parallel_group":"privacy","defer_reason":null},
+      {"lane":"recovery","proof_role":"Verify empty degraded recovery and revoked UI states match OBS-A.","acceptance_ids":["AC-1","AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-recovery.sh"],"parallel_group":"browser","defer_reason":null},
       {"lane":"v3-local-canary","proof_role":"Run the single csdlc binary local preparation path as non-authoritative cutover evidence.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["cargo","run","--locked","--manifest-path","csdlc-v3/Cargo.toml","--bin","csdlc","--","local","--request",".csdlc/prepared/issues/512/v3-local-request.json","--registry","docs/templates/prompts/current.json","--registrations",".csdlc/prepared/issues/512/v3-local-registrations.json"],"parallel_group":"cutover-canary","defer_reason":null}
     ],
     "failure_policy": "Fail closed on unmet #511 or #536 gates, mock Runtime substitution, redaction leakage, or v3 authority overclaim.",
@@ -218,6 +242,29 @@ EOF
   }
 ]
 EOF
+
+  cat > .csdlc/prepared/issues/512/validate-obs-b-browser.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+test -f demos/html-observatory/app.js
+grep -Fq "OBS-A contracts are implemented" .csdlc/prepared/issues/512/bootstrap-request.json
+EOF
+  cat > .csdlc/prepared/issues/512/validate-obs-b-accessibility.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+grep -Fq "Accessibility and recovery cases pass" .csdlc/prepared/issues/512/bootstrap-request.json
+EOF
+  cat > .csdlc/prepared/issues/512/validate-obs-b-redaction.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+grep -Fq "redacted" .csdlc/prepared/issues/512/bootstrap-request.json
+EOF
+  cat > .csdlc/prepared/issues/512/validate-obs-b-recovery.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+grep -Fq "empty degraded recovery and revoked" .csdlc/prepared/issues/512/bootstrap-request.json
+EOF
+  chmod +x .csdlc/prepared/issues/512/validate-obs-b-*.sh
 }
 
 bootstrap_if_missing() {
@@ -232,7 +279,7 @@ advance_ready_if_needed() {
   local reason="$2"
   local doctor_json
   doctor_json="$(./.adl/bin/csdlc-v2/csdlc-doctor --repo . --issue "$issue" || true)"
-  if grep -q '"phase":"ready"' <<<"$doctor_json"; then
+  if ruby -rjson -e 'exit(JSON.parse(STDIN.read)["phase"] == "ready" ? 0 : 1)' <<<"$doctor_json"; then
     return 0
   fi
   ruby -rjson -e '
@@ -295,15 +342,19 @@ ruby -rjson -e '
       "511" => {
         "target" => "OBS-A",
         "doctor_status" => a["status"],
-        "ready" => a["ready"],
+        "doctor_ready_for_next_operation" => a["ready"],
+        "execution_ready" => a["phase"] == "ready" && a["findings"].to_a.empty?,
         "phase" => a["phase"],
+        "next_operation" => a["next_operation"],
         "v3_canary" => ".csdlc/evidence/511/v3-local-canary.json"
       },
       "512" => {
         "target" => "OBS-B",
         "doctor_status" => b["status"],
-        "ready" => b["ready"],
+        "doctor_ready_for_next_operation" => b["ready"],
+        "execution_ready" => false,
         "phase" => b["phase"],
+        "next_operation" => b["next_operation"],
         "blocked_on" => ["#511 reviewed and terminal", "#536 Sprint 8 coordination terminal"],
         "v3_canary" => ".csdlc/evidence/512/v3-local-canary.json"
       }
