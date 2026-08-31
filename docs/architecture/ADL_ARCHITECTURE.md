@@ -86,11 +86,19 @@ cards as the canonical execution packet:
 - SRP: the structured review prompt and review-result surface.
 - SOR: the output record, validation results, PR state, and closeout truth.
 
-The current lifecycle authority is the typed C-SDLC v2 Rust owner set under
-`.adl/bin/csdlc-v2/`, selected by `csdlc-v2/operator/generation-selector.json`
-and routed through the typed contracts in `csdlc-v2/operator/skills/`. The
-legacy `pr ...` command names are historical orientation only; they are not an
-active operator route after Gate 10D2.
+`adl/src/control_plane.rs` still defines deterministic issue prompt paths, task
+bundle paths, branch names, and default worktree paths, but it is not the
+current C-SDLC lifecycle authority. The `pr init`, `pr ready`, `pr run`,
+`pr finish`, `pr janitor`, and `pr closeout` command family is historical
+orientation only and must not be presented as the default route for current
+C-SDLC work.
+
+Current C-SDLC issue work uses the independent Rust v2 binary set under
+`.adl/bin/csdlc-v2/` and the typed owner skills in
+`csdlc-v2/operator/skills/`: init, bind, card editing, validation, review,
+publication, shepherding, finish, and cleanup each have an explicit v2 owner.
+C-SDLC v3 work remains construction-only and non-authoritative until the
+explicit V3-F/#505 authority transition approves and proves any cutover.
 
 The current ADL lifecycle is:
 
@@ -108,10 +116,10 @@ The current ADL lifecycle is:
    terminal truth is materialized.
 
 Issue #505 is the pending V3-F tooling changeover decision. Until that issue is
-reviewed, explicitly approved, and merged, v3 remains construction evidence and
-every active lifecycle write still routes through v2. Operators must receive
-the pre-change notice in `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before
-any default tooling switch.
+reviewed, explicitly approved, merged, and terminally reconciled, v3 remains
+construction evidence and every active lifecycle write still routes through v2.
+Operators must receive the pre-change notice in
+`docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` before any default tooling switch.
 
 The root checkout remains the stable coordination checkout. Tracked
 implementation work belongs in issue-specific worktrees, not on the root branch.
@@ -126,12 +134,15 @@ The task bundle lifecycle is:
 
 1. Issue intent is captured in a tracked or generated issue prompt.
 2. SIP, STP, SPP, VPP, SRP, and SOR cards are created in the versioned task area.
-3. `csdlc-bind` copies or binds the executable packet into the worktree.
+3. Typed C-SDLC v2 bind validates repository, branch, and worktree identity
+   before implementation starts.
 4. Implementation, validation, and review happen inside the worktree.
-5. `csdlc-review` and `csdlc-publish` record review and publication truth.
-6. `csdlc-finish` reconciles GitHub closure and PR merge state.
-7. `csdlc-clean cleanup` prunes the exact local worktree only after terminal
-   closeout truth exists.
+5. Typed C-SDLC v2 review and publish record exact-revision review and GitHub
+   publication truth.
+6. Typed C-SDLC v2 finish reconciles live GitHub closure, PR merge state, and
+   terminal card truth.
+7. Typed C-SDLC v2 cleanup removes only the exact registered worktree after
+   terminal evidence permits it.
 
 This split is important for ADL because many failures in prior milestones were
 not code failures. They were truth-model failures: closed GitHub issues with

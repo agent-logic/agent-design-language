@@ -1,0 +1,138 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 503,
+  "expected_generation": 3,
+  "expected_digest": "d52bded1b71b8bf19719d75928eb30e1a38b4eab39b53c24fa7a5c48dcd657ff",
+  "actor": "codex:worker-6",
+  "summary": "Started Sprint 6 issue #503 in a typed bound execution worktree and implemented the first non-authoritative V3-D local-preparation command contract slice.",
+  "changes": [
+    "Bootstrapped issue #503 local C-SDLC state from the live GitHub issue body, approved the design packet, repaired SPP affected areas to include the exact issue-local files, advanced the issue to ready, and bound the execution worktree through csdlc-bind.",
+    "Added the csdlc-v3 local command module scaffold for prepare-issue, bind-worktree, PVF planning, and doctor-style local findings while keeping V3-D explicitly non-authoritative.",
+    "Added typed JSON parsing for the V3-D local preparation request and active prompt-template registry so malformed contract inputs fail closed instead of being treated as prose.",
+    "Added focused local command tests covering typed command contracts, registered worktree topology binding, active registry card denominator round-tripping, and distinct doctor outcome states.",
+    "Kept Sprint 6 sequencing explicit: #503 is moving after Sprint 5 closeout, while remote delivery, docs readiness, and authority cutover remain downstream gates."
+  ],
+  "artifacts": [
+    "csdlc-v3/Cargo.toml",
+    "csdlc-v3/Cargo.lock",
+    "csdlc-v3/src/lib.rs",
+    "csdlc-v3/src/commands/mod.rs",
+    "csdlc-v3/src/commands/local/mod.rs",
+    "csdlc-v3/tests/local_commands.rs",
+    ".csdlc/issues/503",
+    ".csdlc/prepared/issues/503"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "v3-d-rustfmt",
+          "proof_role": "Formatting proof for the #503 V3-D Rust contract slice.",
+          "purpose": "Verify rustfmt for csdlc-v3 after adding the local preparation command module.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 512, "tokens": 500},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "hygiene",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "cargo",
+          "argv": ["fmt", "--manifest-path", "csdlc-v3/Cargo.toml", "--check"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "v3-d-local-command-tests",
+          "proof_role": "AC-1 through AC-4 local command contract, bind-topology, card-roundtrip, and doctor-findings proof.",
+          "purpose": "Run the focused V3-D local command tests.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 2048, "tokens": 4000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["v3-d-rustfmt"],
+          "parallel_group": "rust",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": "cargo",
+          "argv": ["test", "--manifest-path", "csdlc-v3/Cargo.toml", "--test", "local_commands"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "v3-d-clippy",
+          "proof_role": "Warning-free proof for the #503 V3-D local command code path.",
+          "purpose": "Run strict Clippy across csdlc-v3 targets.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 2048, "tokens": 4000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["v3-d-local-command-tests"],
+          "parallel_group": "rust",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": "cargo",
+          "argv": ["clippy", "--manifest-path", "csdlc-v3/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "v3-d-diff-hygiene",
+          "proof_role": "Diff hygiene proof before #503 review.",
+          "purpose": "Reject whitespace and conflict-marker artifacts.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 500},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "hygiene",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "git",
+          "argv": ["diff", "--check"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "v3-d-typed-issue-validation",
+          "proof_role": "Typed lifecycle/card validation before #503 review and publication.",
+          "purpose": "Verify #503 C-SDLC issue state immediately before implementation finalization.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 512, "tokens": 1000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "typed",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+          "argv": [
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
+            "issue",
+            "--issue",
+            "503"
+          ],
+          "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "v3-d-rustfmt",
+        "v3-d-local-command-tests",
+        "v3-d-clippy",
+        "v3-d-diff-hygiene",
+        "v3-d-typed-issue-validation"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 2, "cpu_units": 4, "memory_mib": 4096, "tokens": 10000},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec/.csdlc/evidence/503",
+    "cancellation_file": null
+  }
+}

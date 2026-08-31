@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 504,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+    "slug": "v3-e-remote-delivery-workflow",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v3/src/commands/remote/mod.rs\ncsdlc-v3/src/commands/remote/tests.rs\ncsdlc-v3/src/publication/mod.rs\ncsdlc-v3/src/review/mod.rs\n.csdlc/prepared/issues/504/validate-remote-workflow.rb\n.csdlc/issues/504",
+      "review_revision": "git-blake3:44b14fdc283f415ebfb4ee4f1b234203a85a2d8b:ce4d4272a3e2ff4f9c1f1a41ced2d3b433682d208f6cf1271c8bb06778312158",
+      "reviewer": "review_pr_588_authority_repair_44b14fdc",
+      "review_prompts": [
+        "Does review bind exact immutable scope without self-authorizing publication or terminal transitions?",
+        "Are publication modes explicit, including visible closing linkage for #504?",
+        "Does finish derive terminal truth from governed publication state rather than caller assertion?",
+        "Is cleanup separately gated after terminal truth?",
+        "Do requirements #174 through #178 have behavioral positive and refusal proof?",
+        "Does every v3 surface remain construction-only before V3-F/#505?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "V3-E remains non-authoritative construction work; C-SDLC v2 remains the only live lifecycle/GitHub authority until V3-F/#505 cutover."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

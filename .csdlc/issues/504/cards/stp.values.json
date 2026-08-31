@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 504,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+    "slug": "v3-e-remote-delivery-workflow",
+    "version": "v0.92.1",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #504 V3-E only; prepare and implement the construction-only remote delivery workflow after #503 is terminal and ancestral. Do not cut over authority, merge/finish/clean through v3, or absorb V3-F/#505.",
+      "deliverables": [
+        "Initialized #504 C-SDLC card bundle for V3-E remote-delivery workflow preparation.",
+        ".csdlc/prepared/issues/504/validate-remote-workflow.rb",
+        "Design and diagram packet under .csdlc/prepared/issues/504 preserving the #503 terminal dependency and V3-F/#505 authority boundary.",
+        "Post-#503 handoff plan naming the future csdlc-v3 remote command, review, publication, finish, cleanup, and remote-command test surfaces."
+      ],
+      "acceptance_criteria": [
+        "AC-1: Review binds exact immutable scope",
+        "AC-2: Publication modes are explicit",
+        "AC-3: Finish derives terminal truth",
+        "AC-4: Requirements #174 through #178 have positive and refusal proof"
+      ],
+      "dependencies": [
+        "V3-D #503 terminal, reconciled, and ancestral before implementation"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#504",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-E",
+        "docs/milestones/v0.92.1/features/CSDLC_V3_v0.92.1.md",
+        "docs/csdlc-v3/predecessor-coverage.json",
+        "csdlc-v3",
+        "PR #581 / issue #503 terminal output when available"
+      ],
+      "non_goals": [
+        "Authority cutover",
+        "Broad repository cleanup",
+        "Replacing C-SDLC v2 as live authority",
+        "Remote provider execution",
+        "Merging, finishing, or cleaning through v3"
+      ]
+    }
+  }
+}

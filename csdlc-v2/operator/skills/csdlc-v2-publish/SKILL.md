@@ -2,6 +2,10 @@
 name: csdlc-v2-publish
 description: Publish only after current pre-publication review truth.
 ---
+C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
+cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
+evidence and must not publish PRs, mutate GitHub, finish issues, or retire v2.
+
 Invoke `csdlc-publish publish` with `draft: false` for the routine path; it creates and records one exact ready PR directly. Existing governed draft publications may still use the bounded ready reconciliation commands, but new routine work must not create a draft first. Keep the one-shot request at the Git-common path `.git/csdlc-v2/requests/<issue>.json` and overwrite it. Do not publish on missing/stale review, ambiguous remote state, or prose-only approval.
 
 `repository` is always the issue-tracker repository recorded by the issue. Set
