@@ -25,15 +25,16 @@ Status as of this branch:
 - Added canary evidence: OBS-A/#511 and OBS-B/#512 were prepared through typed
   v2 plus the single v3 local command. #511 is execution-ready for the next
   issue step; #512 is structurally healthy but execution-blocked on #511/#536.
+- Fixed remotely: PR #591 no longer contains the premature issue-closing
+  keyword for #505. A narrow typed `pr_update` action was added to the Rust
+  GitHub PR owner and used to change only the PR body linkage line to
+  `Part-Of #505`; readback evidence is recorded at
+  `.csdlc/evidence/591/pr-state-after-remove-closes.json`.
 
 Remaining remote-state blocker:
 
-- PR #591 still begins with `Closes #505` at typed `csdlc-github-pr` readback.
-  The installed typed PR owner exposes `pr_state` but no PR body-edit action.
-  `csdlc-publish` may be able to republish a body through the #505 lifecycle,
-  but #505's execution worktree is currently dirty and must not be republished
-  from this remediation branch or through raw `gh`. Until this is corrected in
-  the #505 worktree with typed lifecycle authority, PR #591 must not merge.
+- No known premature remote-linkage blocker remains in PR #591. #505 still must
+  not merge until review approval and explicit operator cutover authority.
 
 Non-claims:
 

@@ -81,6 +81,7 @@ pub enum GithubAction {
     IssueClose,
     IssueRead,
     PrState,
+    PrUpdate,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -191,6 +192,21 @@ pub async fn execute_github_action(
     if matches!(request.action, GithubAction::PrState) {
         let pr_request = PrStateRequest::try_from(request)?;
         let pr_state = collect_pr_state(&pr_request).await?;
+        return GithubActionResult {
+            schema: "csdlc.github_action_result.v1".into(),
+            repository: request.repository.clone(),
+            action: request.action.clone(),
+            operation_key: request.operation_key.clone(),
+            issue: None,
+            comment_id: None,
+            pr_state: Some(pr_state),
+            reconciled: true,
+            producer_digest: None,
+        }
+        .seal_producer();
+    }
+    if matches!(request.action, GithubAction::PrUpdate) {
+        let pr_state = update_pull_request(request).await?;
         return GithubActionResult {
             schema: "csdlc.github_action_result.v1".into(),
             repository: request.repository.clone(),
@@ -317,7 +333,7 @@ pub async fn execute_github_action(
                 request.operation_key.as_deref(),
             )?
         }
-        GithubAction::PrState => unreachable!("handled above"),
+        GithubAction::PrState | GithubAction::PrUpdate => unreachable!("handled above"),
     };
     GithubActionResult {
         schema: "csdlc.github_action_result.v1".into(),
@@ -564,6 +580,7 @@ fn validate_request(request: &GithubActionRequest) -> crate::Result<()> {
             | GithubAction::IssueUpdate
             | GithubAction::IssueComment
             | GithubAction::IssueClose
+            | GithubAction::PrUpdate
     ) {
         required_marker(request)?;
     }
@@ -590,6 +607,33 @@ fn validate_request(request: &GithubActionRequest) -> crate::Result<()> {
             "title and body are required for issue_create",
         ));
     }
+    if matches!(request.action, GithubAction::PrUpdate) {
+        if request.pull_request.is_none() {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::InvalidInput,
+                "pull_request is required for pr_update",
+            ));
+        }
+        if request.body.as_deref().is_none_or(|v| v.trim().is_empty()) {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::InvalidInput,
+                "body is required for pr_update",
+            ));
+        }
+        if request.issue.is_some()
+            || request.title.is_some()
+            || request.state.is_some()
+            || request.comment_body.is_some()
+            || !request.labels.is_empty()
+            || !request.assignees.is_empty()
+            || request.milestone.is_some()
+        {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::InvalidInput,
+                "pr_update accepts only pull_request, body, required_checks, require_review, linked_issue, token_file, and operation_key",
+            ));
+        }
+    }
     if let Some(state) = &request.state {
         if !matches!(state.as_str(), "open" | "closed") {
             return Err(crate::V2Error::new(
@@ -599,6 +643,48 @@ fn validate_request(request: &GithubActionRequest) -> crate::Result<()> {
         }
     }
     Ok(())
+}
+
+async fn update_pull_request(request: &GithubActionRequest) -> crate::Result<PrStatePacket> {
+    let (owner, repo) = split_repository(&request.repository)?;
+    let number = request.pull_request.ok_or_else(|| {
+        crate::V2Error::new(
+            crate::ErrorCode::InvalidInput,
+            "pull_request is required for pr_update",
+        )
+    })?;
+    let body = request.body.as_deref().ok_or_else(|| {
+        crate::V2Error::new(
+            crate::ErrorCode::InvalidInput,
+            "body is required for pr_update",
+        )
+    })?;
+    let token = resolve_token(request.token_file.as_deref())?;
+    let crab = github_client(token)?;
+    let _: Value = crab
+        .patch(
+            format!("/repos/{owner}/{repo}/pulls/{number}"),
+            Some(&json!({ "body": body })),
+        )
+        .await
+        .map_err(remote)?;
+    let packet = collect_pr_state(&PrStateRequest {
+        repository: request.repository.clone(),
+        pull_request: number,
+        required_checks: request.required_checks.clone(),
+        require_review: request.require_review,
+        token_file: request.token_file.clone(),
+        linked_issue: request.linked_issue,
+        linked_issue_repository: None,
+    })
+    .await?;
+    if packet.body.as_deref() != Some(body) {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "PR update readback differs from governed request",
+        ));
+    }
+    Ok(packet)
 }
 
 async fn reconcile_issue_create(

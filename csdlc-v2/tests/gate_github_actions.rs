@@ -77,7 +77,7 @@ fn split_github_binaries_reject_the_wrong_surface_before_network() {
         .expect("run csdlc-github-pr");
     assert!(!pr_binary_rejects_issue.status.success());
     let pr_stdout = String::from_utf8_lossy(&pr_binary_rejects_issue.stdout);
-    assert!(pr_stdout.contains("only accepts pr_state actions"));
+    assert!(pr_stdout.contains("only accepts pr_state or pr_update actions"));
 }
 
 #[test]
@@ -309,6 +309,40 @@ async fn issue_create_and_comment_reconcile_by_marker_with_exact_readback() {
         .expect_err("missing pull request");
     assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
     assert!(error.message.contains("pull_request"));
+
+    let mut missing_pr_update_key = base_request(GithubAction::PrUpdate);
+    missing_pr_update_key.operation_key = None;
+    let error = execute_github_action(&missing_pr_update_key)
+        .await
+        .expect_err("missing pr update key");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+    assert!(error.message.contains("operation_key"));
+
+    let mut missing_pr_update_number = base_request(GithubAction::PrUpdate);
+    missing_pr_update_number.body = Some("PR body".into());
+    let error = execute_github_action(&missing_pr_update_number)
+        .await
+        .expect_err("missing pr update number");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+    assert!(error.message.contains("pull_request"));
+
+    let mut missing_pr_update_body = base_request(GithubAction::PrUpdate);
+    missing_pr_update_body.pull_request = Some(88);
+    let error = execute_github_action(&missing_pr_update_body)
+        .await
+        .expect_err("missing pr update body");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+    assert!(error.message.contains("body"));
+
+    let mut issue_field_on_pr_update = base_request(GithubAction::PrUpdate);
+    issue_field_on_pr_update.pull_request = Some(88);
+    issue_field_on_pr_update.body = Some("PR body".into());
+    issue_field_on_pr_update.issue = Some(77);
+    let error = execute_github_action(&issue_field_on_pr_update)
+        .await
+        .expect_err("issue field on pr update");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::InvalidInput);
+    assert!(error.message.contains("pr_update accepts only"));
 
     let env = LocalGithubEnv::start();
     env.server.force_noisy_issue_search();
