@@ -203,9 +203,9 @@ card-lifecycle migration.
 
 ## Doctor Lifecycle Readiness
 
-`pr doctor` reports lifecycle readiness separately from ordinary card
-existence. Its `card_lifecycle` JSON object, mirrored by `CARD_LIFECYCLE_*`
-text lines, includes:
+The current typed C-SDLC v2 validation and doctor surfaces report lifecycle
+readiness separately from ordinary card existence. Their `card_lifecycle` JSON
+object, mirrored by retained `CARD_LIFECYCLE_*` text lines, includes:
 
 - the canonical order `SIP -> STP -> SPP -> VPP -> SRP -> SOR`
 - the active stage and next required stage
@@ -229,15 +229,15 @@ triggers before work starts. In contrast, branch-bound SPP/SRP drift with a
 matching editor skill.
 
 Legacy SRP policy scaffolds are not valid new SRP prompt artifacts. The
-structured-prompt validator should fail them closed, while `pr doctor` may
-still classify retained historical scaffolds as `legacy_compatible` so they can
-be routed through `srp-editor` instead of being mistaken for final review
-readiness.
+structured-prompt validator should fail them closed, while typed C-SDLC v2
+readiness checks may still classify retained historical scaffolds as
+`legacy_compatible` so they can be routed through `srp-editor` instead of being
+mistaken for final review readiness.
 
 ## SRP/SOR Finish And Closeout Handoff
 
-`pr finish` and `pr closeout` should treat `SRP` and `SOR` as paired but
-separate readiness surfaces:
+Typed C-SDLC v2 finish and cleanup routes should treat `SRP` and `SOR` as
+paired but separate readiness surfaces:
 
 - `SRP` supplies review instructions, findings, dispositions, residual risk, and
   recommended outcome.

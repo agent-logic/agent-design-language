@@ -214,15 +214,15 @@ The normal gate order is:
 Validators and doctor output should report both file existence and stage
 readiness. Existing file presence is not enough.
 
-`pr doctor` now exposes a bounded lifecycle-readiness summary in both text and
-JSON output:
+The current typed C-SDLC v2 validation and doctor surfaces expose bounded
+lifecycle-readiness summaries in machine-readable output:
 
 - `CARD_LIFECYCLE_ACTIVE_STAGE` / `card_lifecycle.active_stage`
 - `CARD_LIFECYCLE_NEXT_REQUIRED_STAGE` /
   `card_lifecycle.next_required_stage`
-- `CARD_LIFECYCLE_PR_RUN_READINESS` /
+- historical `CARD_LIFECYCLE_PR_RUN_READINESS` /
   `card_lifecycle.pr_run_readiness`
-- `CARD_LIFECYCLE_PR_FINISH_READINESS` /
+- historical `CARD_LIFECYCLE_PR_FINISH_READINESS` /
   `card_lifecycle.pr_finish_readiness`
 - one per-card stage row/object for `SIP`, `STP`, `SPP`, `VPP`, `SRP`, and `SOR`
 

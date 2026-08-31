@@ -37,7 +37,7 @@ notice_inline = notice.gsub(/\s+/, " ")
 
 assert(issue["issue"] == 505, "wrong issue")
 assert(issue["repository"] == "agent-logic/agent-design-language", "wrong repository")
-assert(issue["phase"] == "bound", "issue #505 must be bound for execution")
+assert(["bound", "implemented", "reviewed", "published"].include?(issue["phase"]), "issue #505 must be bound or later for execution/publication")
 assert(issue["branch"] == "codex/505-v3-f-authority-transition-decision-exec", "unexpected #505 execution branch")
 assert(issue["worktree"] == "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec", "unexpected #505 execution worktree")
 
