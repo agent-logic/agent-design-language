@@ -94,7 +94,7 @@ Implemented the #494 GCP-E GPU readiness smoke as split stable-support and dispo
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -1,8 +1,10 @@
 # #494 GCP-E proof status
 
-Status as of 2026-08-31T02:05:00Z: static implementation proof passes; live
-GPU execution reached VM creation after quota approval and is being rerun with
-stable support resources plus a Git-common SSH key path.
+Status as of 2026-08-31T03:20:00Z: static implementation proof passes and
+the accepted live GCP-E L4 proof completed in `us-central1-a`. Runs r8 and r9
+are the accepted live readback/cleanup evidence. Runs r10 and r11 are retained
+as rejected hardening attempts that proved `gcloud compute ssh --plain` is not
+the correct route for this proof.
 
 ## Static proof
 
@@ -109,5 +111,6 @@ The minimal global GPU quota preference was submitted:
 - reconciling: `true`
 - trace id: `c7ea9756-7398-4e82-974a-cdc98c7a5b85`
 
-Live #494 GPU proof can resume with the same support resources and a new
-run-specific VM.
+No additional live GPU proof is required for the current #494 publication
+packet. Future reruns can reuse the same stable support resources and create
+only a new run-specific VM.

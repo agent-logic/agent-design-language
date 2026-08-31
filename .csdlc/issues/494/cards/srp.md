@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #494 GCP-E paths only: infra/gcp/workloads/gpu-smoke, docs/milestones/v0.92.1/evidence/cloud/gcp-e, .csdlc/prepared/issues/494, .csdlc/evidence/494, and narrow issue-owned validator/proof surfaces.
+
 
 ## Prompts
 

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fe94dbc84ab0d1df451508b4d682d8703a83d050c141817df3a82cb9ed0eb470",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "d8434a5fbf0e835e310f8001f30e777c9edc80ef9e9698ff4fcea27813639cf4",
+  "generation": 8,
+  "digest": "3cc7e73a887430eeb31ced1fffd4ad11d68a6c84e66b09254785cabfb018d70c",
   "branch": "codex/494-gcp-gpu-readiness-smoke-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-494-gcp-gpu-readiness-smoke-execution",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c59b53d6a61fa3d04a477ad9377fdd818919edefc8b79f172fadfc60c2ec0668",
+      "values_digest": "933407b5e6e0eee1537aff9a26853c5d15df083e1cff70738aa78432c6214cdd",
       "rendered_digest": "3e1844ba1f87234d313a0f56c2708d7c58a69b7540edd787d594f6e0d412465f",
       "ast_digest": "02f49cecf706aaa0319541546da9095d8be8ad334217494c8c61ba004389b594"
     },
     "stp": {
-      "values_digest": "29345d3538080606feb312c3c37f7ae76224d7c02f06964f76c243294499c078",
+      "values_digest": "9758a57f175f4a8cf808ce70c1f01d115e6a94653c2f6542f1ef2428327300ea",
       "rendered_digest": "279bee87e1f3c727c252674e3c56a9d82af401e5404c2999b54d0b0480c5a4ef",
       "ast_digest": "fb16dcdab75e027ed3b6de876ba6b4bd936a10afe3f1f8439cccb0f9c6f98f31"
     },
     "spp": {
-      "values_digest": "aff548e9155807d9c091dc921a9d94d5f5a4dd2a7420fad80569460c5df44253",
+      "values_digest": "7b2c86db49b149e0722fdf65d0c437032dbbd4482d0a3167a6a66b8e9ce808be",
       "rendered_digest": "b176741acb3a6bf99a6966d5172e005b43cf0e3f3d2c2439ce2cf5a197bcfb01",
       "ast_digest": "2c991075ce701f532fd41de1c44c72cd47429fafceeba4e5bdb10146021d66f8"
     },
     "vpp": {
-      "values_digest": "df7beed27057c7c601b45dccd74b3642c492f4f94fed3d6d728545713d6149ed",
+      "values_digest": "5ae178ac383c693d19b5f3010d154b0deb77fd929ffa3ca1f71aa43d17d62ff6",
       "rendered_digest": "8cabea423816adfca657e5dbd84b5c2d2425f0d550545391b0db133c0ac06545",
       "ast_digest": "2f30a07e8f0cbd8f5cd86b06342fe4a4866effef49caeeb2a22ed2a6cac857aa"
     },
     "srp": {
-      "values_digest": "548b9207b3a2ae9e411c154afe98386c4fb68045dce683f4aba0dc5caa4f8e1b",
-      "rendered_digest": "60e55fcf99da168925e57271d934b2a404e1a9bc92bc2d4509ed471d25652a9e",
-      "ast_digest": "74ef176ab072d1d77fbdada5d30eb73bc12fbbef57955b98d5e39e8701ca40e8"
+      "values_digest": "ab2a4d566e184da99f9ae10461d399fd2105c3ea7b85715af8db3093c786caed",
+      "rendered_digest": "7206a8b2e46464798e8e24c68ce749b25eb8fec7331ae845b0028cc35df6a19e",
+      "ast_digest": "7392b69882dd6ee262b30db09759b1f637c4b84c9858d6b13034b3e90f16a716"
     },
     "sor": {
-      "values_digest": "a50f1ea4d45e4d7f14c5c9cff738ac810c3cf0a4b84c1f4618c91839bb9ac7a9",
-      "rendered_digest": "e8d270ca6f6fd236e6824094810af5dff51dae0e4329874eef3b162a6395078a",
-      "ast_digest": "6f5da44d0b9d87887d6c52ed14882f2bd59976e36fd51f3eca946bf7df97da55"
+      "values_digest": "a0445911880d36c54cdd169f87aa975ac2da3edaa3bff92f0c46b10da3d05d31",
+      "rendered_digest": "f6a981c6c350e300f2fa6d5a825499e7ab6b3de016d4ba0f166b58f7b5eaa363",
+      "ast_digest": "58cdc5f8c4ca198309f457b270fbf4d9d66b5a4a56d8ea11178337e15f511e50"
     }
   },
   "transitions": [
@@ -141,6 +141,20 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover interrupted/stale #494 review assignment after precheck found exact-head diff-hygiene failures in committed readback evidence and stale proof-status terminal wording; implementation evidence is being repaired before a fresh exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }
