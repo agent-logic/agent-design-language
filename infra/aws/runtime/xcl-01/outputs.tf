@@ -19,7 +19,7 @@ output "portable_contract" {
     runtime_mount_path               = "/opt/adl-runtime"
     bootstrap_log_path               = "/var/log/adl-issue268-bootstrap.log"
     readiness_marker_path            = "/var/lib/adl/issue268-bootstrap-ready"
-    readiness_command                = "test -f /var/lib/adl/issue268-bootstrap-ready"
+    readiness_command                = "test -f /var/lib/adl/issue268-bootstrap-ready && mountpoint -q /opt/adl-runtime && test -d /opt/adl-runtime/runtime/install"
     iam_role_name                    = aws_iam_role.runtime_host.name
     iam_instance_profile             = aws_iam_instance_profile.runtime_host.name
     cloudformation_rollback_retained = true

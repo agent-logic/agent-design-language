@@ -77,11 +77,18 @@ require_text "infra/aws/runtime/xcl-01/main.tf" "http_tokens                 = \
 require_text "infra/aws/runtime/xcl-01/main.tf" "volume_type           = \"gp3\""
 require_text "infra/aws/runtime/xcl-01/main.tf" "AmazonSSMManagedInstanceCore"
 require_text "infra/aws/runtime/xcl-01/main.tf" "s3:GetObjectVersion"
+require_text "infra/aws/runtime/xcl-01/main.tf" "adl-issue268-mount-runtime"
+require_text "infra/aws/runtime/xcl-01/main.tf" "adl-issue268-runtime-volume.service"
+require_text "infra/aws/runtime/xcl-01/main.tf" "var.runtime_volume_id != null"
+require_text "infra/aws/runtime/xcl-01/main.tf" "mount_path=\"/opt/adl-runtime\""
+require_text "infra/aws/runtime/xcl-01/main.tf" 'test -d "$${mount_path}/runtime/install"'
 require_text "infra/aws/runtime/xcl-01/main.tf" "touch /var/lib/adl/issue268-bootstrap-ready"
 require_text "infra/aws/runtime/xcl-01/variables.tf" "r7i.2xlarge"
 require_text "infra/aws/runtime/xcl-01/variables.tf" "launch_voters"
 require_text "infra/aws/runtime/xcl-01/variables.tf" "s3_prefix_list_id"
 require_text "infra/aws/runtime/xcl-01/outputs.tf" "optional_voter_ids"
+require_text "infra/aws/runtime/xcl-01/outputs.tf" "mountpoint -q /opt/adl-runtime"
+require_text "infra/aws/runtime/xcl-01/outputs.tf" "test -d /opt/adl-runtime/runtime/install"
 require_text "infra/aws/runtime/xcl-01/README.md" "CloudFormation"
 require_text "infra/aws/runtime/xcl-01/.terraform.lock.hcl" "registry.terraform.io/hashicorp/aws"
 

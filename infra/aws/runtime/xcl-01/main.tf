@@ -271,6 +271,11 @@ resource "aws_instance" "runtime_host" {
     set -euo pipefail
     install -d -m 0755 /var/lib/adl /opt/adl-build-cache /opt/adl-runtime /etc/adl
     exec > >(tee -a /var/log/adl-issue268-bootstrap.log) 2>&1
+    if command -v dnf >/dev/null 2>&1; then
+      dnf install -y xfsprogs e2fsprogs || true
+    elif command -v yum >/dev/null 2>&1; then
+      yum install -y xfsprogs e2fsprogs || true
+    fi
     cat >/etc/adl/issue268-runtime.env <<'EOF'
     ADL_RUNTIME_CONTINUITY_ROOT=/opt/adl-runtime/runtime
     ADL_ISSUE268_RETAINED_RUNTIME_ROOT=/opt/adl-runtime/runtime/state/${var.run_id}
@@ -280,10 +285,70 @@ resource "aws_instance" "runtime_host" {
     OLLAMA_MODELS=/opt/adl-runtime/runtime/install/current/ollama-models
     EOF
     chmod 0644 /etc/adl/issue268-runtime.env
+    cat >/usr/local/sbin/adl-issue268-mount-runtime <<'EOF'
+    #!/bin/bash
+    set -euo pipefail
+    volume_id="${var.runtime_volume_id}"
+    volume_serial="$(printf '%s' "$${volume_id}" | tr -d '-')"
+    mount_path="/opt/adl-runtime"
+    device=""
+    for _ in $(seq 1 90); do
+      for candidate in \
+        "/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$${volume_serial}" \
+        "/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$${volume_id}" \
+        "/dev/sdf" \
+        "/dev/xvdf"; do
+        if [ -e "$${candidate}" ]; then
+          device="$${candidate}"
+          break
+        fi
+      done
+      [ -n "$${device}" ] && break
+      sleep 2
+    done
+    if [ -z "$${device}" ]; then
+      echo "retained Runtime volume $${volume_id} was not attached" >&2
+      exit 1
+    fi
+    fs_type="$(blkid -o value -s TYPE "$${device}" || true)"
+    fs_uuid="$(blkid -o value -s UUID "$${device}" || true)"
+    if [ -z "$${fs_type}" ] || [ -z "$${fs_uuid}" ]; then
+      echo "retained Runtime volume $${volume_id} has no recognized filesystem" >&2
+      exit 1
+    fi
+    install -d -m 0755 "$${mount_path}"
+    if ! grep -q "UUID=$${fs_uuid} $${mount_path} " /etc/fstab; then
+      printf 'UUID=%s %s %s defaults,nofail 0 2\n' "$${fs_uuid}" "$${mount_path}" "$${fs_type}" >>/etc/fstab
+    fi
+    mount "$${mount_path}"
+    case "$${fs_type}" in
+      xfs) xfs_growfs "$${mount_path}" || true ;;
+      ext2|ext3|ext4) resize2fs "$${device}" || true ;;
+    esac
+    test -d "$${mount_path}/runtime/install"
+    touch /var/lib/adl/issue268-bootstrap-ready
+    EOF
+    chmod 0755 /usr/local/sbin/adl-issue268-mount-runtime
+    cat >/etc/systemd/system/adl-issue268-runtime-volume.service <<'EOF'
+    [Unit]
+    Description=Mount retained ADL Runtime volume and prove #268 readiness
+    After=local-fs.target
+
+    [Service]
+    Type=oneshot
+    ExecStart=/usr/local/sbin/adl-issue268-mount-runtime
+    RemainAfterExit=yes
+
+    [Install]
+    WantedBy=multi-user.target
+    EOF
     if command -v systemctl >/dev/null 2>&1; then
       systemctl enable --now amazon-ssm-agent || true
+      systemctl daemon-reload
+      systemctl enable --now adl-issue268-runtime-volume.service
+    else
+      /usr/local/sbin/adl-issue268-mount-runtime
     fi
-    touch /var/lib/adl/issue268-bootstrap-ready
   EOT
 
   user_data_replace_on_change = true
@@ -302,6 +367,10 @@ resource "aws_instance" "runtime_host" {
     precondition {
       condition     = var.qualification_instance_type == "r7i.2xlarge"
       error_message = "Issue #495 preserves #268's on-demand r7i.2xlarge qualification shape; change requires a new reviewed denominator."
+    }
+    precondition {
+      condition     = var.runtime_volume_id != null
+      error_message = "Issue #495 preserves #268's retained Runtime volume denominator; runtime_volume_id is required."
     }
   }
 }
