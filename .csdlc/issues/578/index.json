@@ -4,66 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
-  "phase": "reviewed",
-  "generation": 23,
-  "digest": "1c0d70777789ee37dd17a6063a408e3cfa10a90f519c82a7ba05baa09772dea9",
+  "phase": "implemented",
+  "generation": 27,
+  "digest": "19c75b717733a707057eb3c24aaf49d4f5f167ffce386c764d4855d2916e93b6",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
-  "review_assignment": {
-    "reviewer": "fresh-session:4771a65e-426b-4baf-b760-3a12aab2d8ed",
-    "assigned_by": "codex:root",
-    "revision": "git-blake3:af48fb7dac7d33f8612c94cc216a6afb6ac7cce6:21e0fe7d977b6572106a8ac4f351bd36800794ed089c4f03d981f7ef04f85c34",
-    "scope": [
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
-      ".csdlc/issues/578/index.json",
-      ".csdlc/issues/578/audit.jsonl",
-      ".csdlc/issues/578/cards/sip.values.json",
-      ".csdlc/issues/578/cards/stp.values.json",
-      ".csdlc/issues/578/cards/spp.values.json",
-      ".csdlc/issues/578/cards/vpp.values.json",
-      ".csdlc/issues/578/cards/srp.md",
-      ".csdlc/issues/578/cards/srp.values.json",
-      ".csdlc/issues/578/cards/sor.md",
-      ".csdlc/issues/578/cards/sor.values.json",
-      ".csdlc/prepared/issues/578/record-live-zai-smoke-validation.json",
-      ".csdlc/prepared/issues/578/record-ox-alpha-reviewer-proof-validation.json",
-      ".csdlc/prepared/issues/578/record-open-pr-ox-alpha-review-smoke-validation.json",
-      ".csdlc/prepared/issues/578/record-ox-alpha-reviewer-effort-ceiling-validation.json",
-      ".csdlc/prepared/issues/578/recover-after-live-ox-alpha-proof.json",
-      ".csdlc/prepared/issues/578/assign-live-ox-alpha-proof-review.json"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:4771a65e-426b-4baf-b760-3a12aab2d8ed",
-    "scope": [
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
-      ".csdlc/issues/578/index.json",
-      ".csdlc/issues/578/audit.jsonl",
-      ".csdlc/issues/578/cards/sip.values.json",
-      ".csdlc/issues/578/cards/stp.values.json",
-      ".csdlc/issues/578/cards/spp.values.json",
-      ".csdlc/issues/578/cards/vpp.values.json",
-      ".csdlc/issues/578/cards/srp.md",
-      ".csdlc/issues/578/cards/srp.values.json",
-      ".csdlc/issues/578/cards/sor.md",
-      ".csdlc/issues/578/cards/sor.values.json",
-      ".csdlc/prepared/issues/578/record-live-zai-smoke-validation.json",
-      ".csdlc/prepared/issues/578/record-ox-alpha-reviewer-proof-validation.json",
-      ".csdlc/prepared/issues/578/record-open-pr-ox-alpha-review-smoke-validation.json",
-      ".csdlc/prepared/issues/578/record-ox-alpha-reviewer-effort-ceiling-validation.json",
-      ".csdlc/prepared/issues/578/recover-after-live-ox-alpha-proof.json",
-      ".csdlc/prepared/issues/578/assign-live-ox-alpha-proof-review.json"
-    ],
-    "reviewed_revision": "git-blake3:af48fb7dac7d33f8612c94cc216a6afb6ac7cce6:21e0fe7d977b6572106a8ac4f351bd36800794ed089c4f03d981f7ef04f85c34",
-    "findings": [],
-    "residual_risks": [
-      "Open-PR Ox Alpha / GLM-5.3-Flash review smoke used bounded diff excerpts, so it proves fast triage and limitation handling rather than exact-head approval.",
-      "High and max reasoning_effort both returned HTTP 200 empty text for the #582 PR-review prompt shape; reviewer-trial defaults should stay at low until separately repaired or re-characterized.",
-      "The live proof artifacts under .adl/provider-smoke are local redacted run artifacts and are intentionally not committed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -72,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/578/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:7fc77a14-51a8-4ec3-8080-946909886bf3",
-      "revision": "3265114bbf8376d67cf99e046968c042896fffccb2bcae41553c72b4156ad3e5"
+      "reviewer": "fresh-session:4771a65e-426b-4baf-b760-3a12aab2d8ed",
+      "revision": "c2a4d1c268973af755effa609acc511fd726ecb3f6d05755448fae3c693242dd"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "a510ed51029f63693b189c5be37c8298069f16b7ead1ab3501308429b65e2fb3",
+      "values_digest": "76031efe9f43c3c192619d508917043f3abdc4ad5278c926958ca453b4b3d07b",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "3773942e2d04c84b248cb8352a1791a6f54c346af3c153e83111016f1b97346c",
+      "values_digest": "a6f955f80f9fc5db0161bf01d17615c19f2e76f660fe95fe00a0f16a0305d9a1",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "7c0c23d43c0d73d022b57fdbaa6c6ce31eb5b98cddc8ee50da5f5239bbeb5b6c",
-      "rendered_digest": "6d7f4116285b862dcdf00e96174502f8d517bd24b6223155e06e2b7f2141c0bc",
-      "ast_digest": "7256508d231339fa26e20251939b3735270f4f6b6d4ae1d207f471484442b3c8"
+      "values_digest": "188a5001b93381deef3657ee46151a3ac6341c5d48dafe0e582470d94067f56b",
+      "rendered_digest": "958fa9b6313803b215ae3dbdf43213ad4ca1d79b31eeadd96bb4db8bad97eb3b",
+      "ast_digest": "d20f3cfdda654f53719e3d4a53ff6a8028be934f9481d1691cdf24a18bc4920f"
     },
     "vpp": {
-      "values_digest": "4fd23f25656a81696d504cfaca6f5def9d0a1cf9b079a963d6fa4ad8a11ce457",
+      "values_digest": "3c022daa9105699b7e8d6dda165d27bbfb08bc66e42019e4ce8cd6e23328eb8c",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "95dffd6d621a0083bba87c30d97c1774375db5cf6465a294c51d209733524fe2",
-      "rendered_digest": "3d8b1916d4d61f1e7580e6a3c8c4c6b9e5b52ce3c313b5762ce535a5e4066c81",
-      "ast_digest": "4a3ccb5a747ce3c4982a2b1a6cd4fb4fd6479dae828860cf9d06713d6c8966d1"
+      "values_digest": "8e660755aa8a3ffabf50e489a327c4230f34e1cc37360380ac199ef7fb1bfc4d",
+      "rendered_digest": "1359cc8a5c15fa8b18dd71821bd973a499db698e104834595fca3954dd411940",
+      "ast_digest": "00a30d8a0a7c0f0df09113d27b4710e50e2aef19e2ae89786f1af07f74080aa2"
     },
     "sor": {
-      "values_digest": "2d78e7e8078686f27482ffe7797f34ae1fe5259e3afd054d806d4ecde9d5edce",
-      "rendered_digest": "eed9e6b4635d63793613a0885d6e38e3a8d728e464108881c4d2ca582c6d8eb5",
-      "ast_digest": "0415abc3db94b42b502b86646f6dd92a9080e0e8b69e75d9309094b48b9dac14"
+      "values_digest": "7a9f955efe6ccd1dc4f1097a8dc9de6b30203bdbd6b89185f241fe1c35a85122",
+      "rendered_digest": "18a173835ef73f492ff6f76769aa115a2698aabdce245278ae6c675598f3b46a",
+      "ast_digest": "4fa383e0bb566aad788d78cbda9ee335675cc189e70568d556608b2445d839e8"
     }
   },
   "transitions": [
@@ -213,6 +160,13 @@
       "to": "reviewed",
       "actor": "fresh-session:4771a65e-426b-4baf-b760-3a12aab2d8ed",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "Recover #578 review state after GLM-5.3-Flash profile defaults were corrected from source-faithful max/preserved thinking to runtime-safe low/clear thinking and new boosted high/max live proof was captured."
     }
   ],
   "audit": [
@@ -446,6 +400,34 @@
       "actor": "fresh-session:4771a65e-426b-4baf-b760-3a12aab2d8ed",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:root",
+      "reason": "Recover #578 review state after GLM-5.3-Flash profile defaults were corrected from source-faithful max/preserved thinking to runtime-safe low/clear thinking and new boosted high/max live proof was captured.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "codex:root",
+      "reason": "Refresh the authored #578 design after live GLM-5.3-Flash research showed the runtime-safe default should be low effort with clear_thinking=true while high/max remain explicit overrides.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/578/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/578/diagram.mmd\",\"new_design_digest\":\"c2a4d1c268973af755effa609acc511fd726ecb3f6d05755448fae3c693242dd\",\"new_diagram_digest\":\"b38a50d30487f6cca132894d4a6b7ddc5f981b9698964d7a07b49cb8d466de45\",\"old_design_digest\":\"3265114bbf8376d67cf99e046968c042896fffccb2bcae41553c72b4156ad3e5\",\"old_diagram_digest\":\"b38a50d30487f6cca132894d4a6b7ddc5f981b9698964d7a07b49cb8d466de45\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:7fc77a14-51a8-4ec3-8080-946909886bf3\",\"revision\":\"3265114bbf8376d67cf99e046968c042896fffccb2bcae41553c72b4156ad3e5\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":24,\"recovery_sequence\":34}"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "fresh-session:4771a65e-426b-4baf-b760-3a12aab2d8ed",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"c2a4d1c268973af755effa609acc511fd726ecb3f6d05755448fae3c693242dd\",\"design_ref\":\".csdlc/prepared/issues/578/design.md\",\"diagram_digest\":\"b38a50d30487f6cca132894d4a6b7ddc5f981b9698964d7a07b49cb8d466de45\",\"diagram_ref\":\".csdlc/prepared/issues/578/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:root",
+      "reason": "Replace #578 execution truth after live GLM-5.3-Flash research corrected the operational defaults and proved high/max require larger budgets.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented a general direct Z.ai GLM-5.3-Flash provider profile, preserved existing Z.ai GLM-5 endpoints, corrected runtime-safe defaults to low effort with clear thinking, and proved the direct profile through live reviewer-style calls including high/max budget characterization.\",\"changes\":[\"Added `z_ai:glm-5.3-flash` as a first-class provider profile resolving to `hosted:adl-z-ai:glm-5.3-flash` and provider model id `glm-5.3-flash`.\",\"Scoped the new `https://api.z.ai/api/paas/v4/chat/completions` endpoint to GLM-5.3-Flash while preserving the established `https://open.bigmodel.cn/api/paas/v4/chat/completions` endpoint for existing `z_ai:glm-5` and `z_ai:glm-5-current` profiles.\",\"Materialized GLM-5.3-Flash defaults for `reasoning_effort=low`, `clear_thinking=true`, `temperature=1.0`, `top_p=0.95`, and bounded output tokens; high and max remain explicit runtime overrides.\",\"Kept provider-facing `reasoning_effort` validation strict to documented values `low`, `high`, and `max`; a human-facing medium tier must be an ADL preset mapped internally to `high` with larger output budget and timeout, not a raw Z.ai parameter.\",\"Added runtime adapter request fields for reasoning effort, thinking cleanup, temperature, and top-p, with fail-closed validation for invalid GLM-5.3-Flash overrides before network dispatch.\",\"Added a credential-gated reviewer viability smoke script and live proof using the approved local Z.ai key source without printing or serializing the key.\",\"Documented the direct profile, source rationale, provider-variant boundaries, preserved legacy endpoint behavior, Ox Alpha identity, live open-PR reviewer smoke, and high/max output-budget behavior.\"],\"artifacts\":[\"adl/src/provider/profiles.rs\",\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/config.rs\",\"adl/src/provider_adapter.rs\",\"adl/src/provider_communication.rs\",\"adl/src/agent_comms.rs\",\"adl/src/agent_comms/dispatch/coding.inc\",\"adl/tests/provider_tests/profiles.rs\",\"adl/tests/provider_tests/http_family.rs\",\"docs/provider/inference-profiles.md\",\"docs/tooling/PROVIDER_SETUP.md\",\"docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\",\".csdlc/prepared/issues/578/design.md\",\".csdlc/prepared/issues/578/reviewer-selection-smoke.sh\",\".csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\",\".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md\"],\"validation\":[{\"command\":[\"cargo fmt --manifest-path adl/Cargo.toml --check\"],\"purpose\":\"Verify Rust formatting for touched provider/profile/adapter code.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"},{\"command\":[\"cargo test --manifest-path adl/Cargo.toml --test provider_tests\"],\"purpose\":\"Prove provider profile expansion, request materialization, strict invalid override rejection, and existing provider coverage after default correction.\",\"outcome\":\"passed\",\"evidence_ref\":\"66 passed, 1 ignored\"},{\"command\":[\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> .csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\"],\"purpose\":\"Prove direct Z.ai GLM-5.3-Flash reviewer-viability hosted request with approved credential source and runtime-safe parameters.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/provider-smoke/glm-5-3-flash/result.json status=passed duration_ms=1714\"},{\"command\":[\"raw curl probe to https://api.z.ai/api/paas/v4/chat/completions for reasoning_effort low/high/max with clear_thinking=true\"],\"purpose\":\"Confirm Z.ai accepts documented low/high/max effort values and returns visible content; verify medium is not needed as a provider value.\",\"outcome\":\"passed\",\"evidence_ref\":\"low/high/max returned HTTP 200 and content OK; high/max included reasoning_content\"},{\"command\":[\"env ZAI_API_KEY=<redacted> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/research/pr-582-high-boosted-request.json --out .adl/provider-smoke/open-pr-reviews/research/pr-582-high-boosted-result.json --log .adl/provider-smoke/open-pr-reviews/research/pr-582-high-boosted-run.jsonl\",\"env ZAI_API_KEY=<redacted> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/research/pr-582-max-boosted-request.json --out .adl/provider-smoke/open-pr-reviews/research/pr-582-max-boosted-result.json --log .adl/provider-smoke/open-pr-reviews/research/pr-582-max-boosted-run.jsonl\"],\"purpose\":\"Prove previous high/max empty-output failures were output-budget starvation rather than provider callability failure.\",\"outcome\":\"passed\",\"evidence_ref\":\"high 8192 tokens/180s passed at 36240ms; max 16384 tokens/240s passed at 151326ms\"},{\"command\":[\"git diff --check\"],\"purpose\":\"Verify whitespace hygiene for the current issue worktree delta.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command output, #578 worktree\"}]}"
     }
   ]
 }

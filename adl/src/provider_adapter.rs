@@ -1077,10 +1077,10 @@ fn zai_request_body(request: &ProviderInvocationRequestV1) -> Value {
         "stream": false,
     });
     if is_zai_glm_5_3_flash(request) {
-        body["reasoning_effort"] = json!(request.reasoning_effort.as_deref().unwrap_or("max"));
+        body["reasoning_effort"] = json!(request.reasoning_effort.as_deref().unwrap_or("low"));
         body["thinking"] = json!({
             "type": "enabled",
-            "clear_thinking": request.clear_thinking.unwrap_or(false)
+            "clear_thinking": request.clear_thinking.unwrap_or(true)
         });
         body["temperature"] = json!(request.temperature.unwrap_or(1.0));
         body["top_p"] = json!(request.top_p.unwrap_or(0.95));
@@ -2068,11 +2068,11 @@ mod tests {
         let defaults = zai_request_body(&req);
         assert_eq!(defaults["model"], json!("glm-5.3-flash"));
         assert_eq!(defaults["max_tokens"], json!(4_096));
-        assert_eq!(defaults["reasoning_effort"], json!("max"));
+        assert_eq!(defaults["reasoning_effort"], json!("low"));
         assert_eq!(defaults.pointer("/thinking/type"), Some(&json!("enabled")));
         assert_eq!(
             defaults.pointer("/thinking/clear_thinking"),
-            Some(&json!(false))
+            Some(&json!(true))
         );
         assert_eq!(defaults["temperature"], json!(1.0));
         assert_eq!(defaults["top_p"], json!(0.95));

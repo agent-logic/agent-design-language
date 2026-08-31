@@ -7,7 +7,7 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 23
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -98,7 +98,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/578/design.md",
-      "design_digest": "3265114bbf8376d67cf99e046968c042896fffccb2bcae41553c72b4156ad3e5",
+      "design_digest": "c2a4d1c268973af755effa609acc511fd726ecb3f6d05755448fae3c693242dd",
       "diagram_ref": ".csdlc/prepared/issues/578/diagram.mmd",
       "diagram_digest": "b38a50d30487f6cca132894d4a6b7ddc5f981b9698964d7a07b49cb8d466de45"
     }

@@ -258,14 +258,14 @@ run:
             .config
             .get("reasoning_effort")
             .and_then(|value| value.as_str()),
-        Some("max")
+        Some("low")
     );
     assert_eq!(
         provider
             .config
             .get("clear_thinking")
             .and_then(|value| value.as_bool()),
-        Some(false)
+        Some(true)
     );
     assert_eq!(
         provider

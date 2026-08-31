@@ -19,8 +19,8 @@ Add GLM-5.3-Flash as a general-purpose direct Z.ai provider profile through the 
 
 Use source-grounded defaults that are good for general agent/reviewer use and allow runtime overrides:
 
-- `reasoning_effort`: default `max`; runtime override allowed only for `low`, `high`, or `max`.
-- `thinking.clear_thinking`: explicit boolean default chosen by ADL rather than hidden provider behavior. Use `false` by default to preserve reasoning continuity for long-running agent/reviewer turns; allow runtime override to `true` for shorter chat-like or context-cost-sensitive calls.
+- `reasoning_effort`: default `low`; runtime override allowed only for `low`, `high`, or `max`.
+- `thinking.clear_thinking`: explicit boolean default chosen by ADL rather than hidden provider behavior. Use `true` by default for responsive single-turn reviewer/runtime calls; allow runtime override to `false` only for continuity-preserving long-running agent turns that also preserve unmodified `reasoning_content`.
 - `temperature`: default `1.0`; runtime override allowed within the provider's documented range.
 - `top_p`: default `0.95`; runtime override allowed within the provider's documented range.
 - `max_tokens`: default should remain ADL/provider-config bounded; GLM-5.3-Flash-specific validation must reject values above `131072`.

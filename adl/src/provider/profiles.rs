@@ -330,7 +330,7 @@ fn ensure_inference_profile_config(
                     profile_name
                 ));
             }
-            None => "max",
+            None => "low",
         };
         if reasoning_effort.is_empty() {
             return Err(anyhow!(
@@ -346,7 +346,7 @@ fn ensure_inference_profile_config(
         }
         config
             .entry("reasoning_effort".to_string())
-            .or_insert_with(|| json!("max"));
+            .or_insert_with(|| json!("low"));
 
         match config.get("clear_thinking") {
             Some(Value::Bool(_)) | None => {}
@@ -359,7 +359,7 @@ fn ensure_inference_profile_config(
         }
         config
             .entry("clear_thinking".to_string())
-            .or_insert_with(|| json!(false));
+            .or_insert_with(|| json!(true));
     }
 
     Ok(())

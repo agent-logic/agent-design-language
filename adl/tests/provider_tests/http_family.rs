@@ -267,9 +267,9 @@ fn zai_glm_5_3_flash_request_materializes_profile_defaults_and_runtime_overrides
         assert_eq!(body["messages"][0]["content"], "hello glm flash");
         assert_eq!(body["max_tokens"], 4096);
         assert_eq!(body["stream"], false);
-        assert_eq!(body["reasoning_effort"], "max");
+        assert_eq!(body["reasoning_effort"], "low");
         assert_eq!(body["thinking"]["type"], "enabled");
-        assert_eq!(body["thinking"]["clear_thinking"], false);
+        assert_eq!(body["thinking"]["clear_thinking"], true);
         assert_eq!(body["temperature"], 1.0);
         assert_eq!(body["top_p"], 0.95);
         let response_body =
@@ -289,8 +289,8 @@ config:
   endpoint: "http://{addr}/api/paas/v4/chat/completions"
   provider_model_id: "glm-5.3-flash"
   max_output_tokens: 4096
-  reasoning_effort: "max"
-  clear_thinking: false
+  reasoning_effort: "low"
+  clear_thinking: true
   temperature: 1.0
   top_p: 0.95
   auth:

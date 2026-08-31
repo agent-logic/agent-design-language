@@ -41,8 +41,8 @@ The materialized defaults are:
 - `default_model: hosted:adl-z-ai:glm-5.3-flash`
 - `provider_model_id: glm-5.3-flash`
 - `endpoint: https://api.z.ai/api/paas/v4/chat/completions`
-- `reasoning_effort: max`
-- `clear_thinking: false`
+- `reasoning_effort: low`
+- `clear_thinking: true`
 - `temperature: 1.0`
 - `top_p: 0.95`
 - `max_output_tokens: 4096`
@@ -50,11 +50,13 @@ The materialized defaults are:
 
 Runtime overrides are intentionally narrow and validated before dispatch:
 
-- `reasoning_effort` may be `low`, `high`, or `max`.
-- `clear_thinking` must be a boolean. ADL explicitly defaults it to `false`
-  for continuity-preserving long-lived agent and reviewer turns, even though
-  the direct Z.ai API default differs; short chat-like calls may set it to
-  `true`.
+- `reasoning_effort` may be `low`, `high`, or `max`. `medium` is not a
+  provider-supported value; human-facing medium-depth reviewer presets should
+  map internally to `high` plus a larger output-token budget and timeout.
+- `clear_thinking` must be a boolean. ADL explicitly defaults it to `true`
+  for responsive single-turn reviewer/runtime dispatch; continuity-preserving
+  long-lived agent turns may set it to `false` only when they also preserve and
+  replay unmodified `reasoning_content`.
 - `temperature` must be in `[0.0, 1.0]`.
 - `top_p` must be in `[0.01, 1.0]`.
 - `max_output_tokens` may be raised as high as `131072` for GLM-5.3-Flash.

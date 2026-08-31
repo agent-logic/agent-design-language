@@ -23,8 +23,9 @@ Profile: `z_ai:glm-5.3-flash`
 - Z.ai's API documentation lists `thinking.clear_thinking` with default
   `true`, while the Hugging Face/chat-template route documents
   `clear_thinking` defaulting to `false`. ADL intentionally chooses explicit
-  `false` as the profile default for continuity-preserving long-lived
-  reviewer/agent turns and allows runtime override to `true`.
+  `true` as the profile default for responsive single-turn reviewer/runtime
+  dispatch and allows runtime override to `false` only for continuity-preserving
+  long-running agent turns that also preserve unmodified `reasoning_content`.
 - The model is large enough that local execution is not the default ADL proof
   path here; Unsloth lists local quantized memory requirements around 100GB for
   1-bit and 128GB for 3-bit operation.
@@ -121,20 +122,29 @@ not replace ADL exact-head review.
 ## Reviewer effort characterization
 
 The profile supports runtime `reasoning_effort` overrides, but the live
-reviewer prompt evidence favors `low` for now:
+reviewer prompt evidence favors `low` as the default:
 
 - `low`: passed for the direct reviewer-viability smoke, the bounded
   reviewer-style verdict task, and all five open-PR triage calls.
+- `high`: failed on the #582 PR-review prompt with HTTP 200 but empty text
+  output under a 90-second timeout and 1400-token output budget, then passed
+  when rerun with `max_output_tokens=8192` and a 180-second timeout. The
+  successful call completed in 36240 ms and returned a bounded
+  `NEEDS_HUMAN_REVIEW` triage verdict.
 - `max`: failed twice on the #582 PR-review prompt with HTTP 200 but empty text
-  output, once under the original 45-second timeout and again under a 180-second
-  timeout.
-- `high`: failed on the same #582 PR-review prompt with HTTP 200 but empty text
-  output under a 90-second timeout.
+  output under small output budgets, then passed when rerun with
+  `max_output_tokens=16384` and a 240-second timeout. The successful call
+  completed in 151326 ms and returned a bounded `NEEDS_HUMAN_REVIEW` triage
+  verdict.
+- `medium`: not a documented GLM-5.3-Flash `reasoning_effort` value. ADL must
+  not pass it through to Z.ai; if a human-facing medium preset is needed, map
+  it internally to `high` with a larger output-token budget and timeout.
 
-The current reviewer-trial default should therefore remain `low`.
-`high`/`max` remain valid API parameters but are not operationally viable for
-this PR-review prompt shape until a separate repair or prompt/materialization
-change proves otherwise.
+The current reviewer-trial default should therefore remain `low` with
+`clear_thinking=true`. `high` is the practical "medium-depth" reviewer tier
+when paired with a larger output budget. `max` remains valid for explicit deep
+review only, but its minutes-scale latency makes it a poor default for ordinary
+runtime dispatch.
 
 ## References
 
