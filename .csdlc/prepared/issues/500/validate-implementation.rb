@@ -91,7 +91,9 @@ abort("unable to enumerate V3-A contract tests: #{test_error}") unless test_stat
 end
 ok = system("cargo", "test", "--manifest-path", File.join(root, "csdlc-v3/Cargo.toml"))
 abort("focused V3-A contract tests failed") unless ok
-ok = system("git", "-C", root, "diff", "--check")
-abort("diff hygiene failed") unless ok
+diff_base = ENV.fetch("ADL_PR_BASE", "origin/main")
+diff_head = ENV.fetch("ADL_PR_HEAD", "HEAD")
+ok = system("git", "-C", root, "diff", "--check", "#{diff_base}...#{diff_head}")
+abort("diff hygiene failed for #{diff_base}...#{diff_head}") unless ok
 
 puts '{"schema":"adl.v0921.v3a_implementation.v1","outcome":"passed","issue":500}'

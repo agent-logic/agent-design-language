@@ -6,6 +6,14 @@
     "validation": "focused",
     "implementation_reviews": 1,
     "closeouts": 1,
+    "required_gates": [
+      "design_review",
+      "bind",
+      "implementation_review",
+      "publication",
+      "finish",
+      "cleanup"
+    ],
     "three_issue_ready_minutes_max": 3
   },
   "duplicate_authority": "forbidden",
