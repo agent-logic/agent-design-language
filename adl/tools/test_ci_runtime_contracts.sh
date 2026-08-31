@@ -312,6 +312,21 @@ if "runner.temp" in csdlc_v2_job:
         "C-SDLC v2 standalone job must not use unavailable runner context in job-level env"
     )
 
+csdlc_v3_job = job_block("csdlc_v3_standalone")
+for required_fragment in (
+    'build_root="$RUNNER_TEMP/adl-csdlc-v3"',
+    'echo "ADL_CARGO_BUILD_ROOT=$build_root" >> "$GITHUB_ENV"',
+):
+    if required_fragment not in csdlc_v3_job:
+        raise SystemExit(
+            "C-SDLC v3 standalone job must derive its external Cargo root from RUNNER_TEMP; "
+            f"missing fragment: {required_fragment}"
+        )
+if "runner.temp" in csdlc_v3_job:
+    raise SystemExit(
+        "C-SDLC v3 standalone job must not use unavailable runner context in job-level env"
+    )
+
 aggregator_block = step_block("Aggregate split adl-ci lanes")
 for required_fragment in (
     "needs.adl_path_policy.result",
