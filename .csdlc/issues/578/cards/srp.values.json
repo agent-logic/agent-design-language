@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 21
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider/profiles.rs\nadl/src/provider/http_family.rs\nadl/src/provider/http_family/config.rs\nadl/src/provider/mod.rs\nadl/src/provider/http_family/tests.rs\nadl/src/provider_adapter.rs\nadl/src/provider_communication.rs\nadl/src/agent_comms.rs\nadl/src/agent_comms/dispatch/coding.inc\nadl/tests/provider_tests/profiles.rs\nadl/tests/provider_tests/http_family.rs\ndocs/provider/inference-profiles.md\ndocs/tooling/PROVIDER_SETUP.md\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\n.csdlc/prepared/issues/578/reviewer-selection-smoke.sh\n.csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh\n.csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md\n.csdlc/issues/578/index.json\n.csdlc/issues/578/cards/sor.md\n.csdlc/issues/578/cards/sor.values.json",
-      "review_revision": "git-blake3:e90d097e19e4ec43580dbb5a60d876aba38b3924:b434597ecea6bdd9dd75335078acdc0a576efe0f0ad4d01b7abba518b878c58b",
-      "reviewer": "fresh-session:2fc936d8-c1bd-4350-90b3-cc50d89fc449",
+      "review_scope": "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\n.csdlc/issues/578/index.json\n.csdlc/issues/578/audit.jsonl\n.csdlc/issues/578/cards/sip.values.json\n.csdlc/issues/578/cards/stp.values.json\n.csdlc/issues/578/cards/spp.values.json\n.csdlc/issues/578/cards/vpp.values.json\n.csdlc/issues/578/cards/srp.md\n.csdlc/issues/578/cards/srp.values.json\n.csdlc/issues/578/cards/sor.md\n.csdlc/issues/578/cards/sor.values.json\n.csdlc/prepared/issues/578/record-live-zai-smoke-validation.json\n.csdlc/prepared/issues/578/record-ox-alpha-reviewer-proof-validation.json\n.csdlc/prepared/issues/578/record-open-pr-ox-alpha-review-smoke-validation.json\n.csdlc/prepared/issues/578/record-ox-alpha-reviewer-effort-ceiling-validation.json\n.csdlc/prepared/issues/578/recover-after-live-ox-alpha-proof.json\n.csdlc/prepared/issues/578/assign-live-ox-alpha-proof-review.json",
+      "review_revision": "git-blake3:af48fb7dac7d33f8612c94cc216a6afb6ac7cce6:21e0fe7d977b6572106a8ac4f351bd36800794ed089c4f03d981f7ef04f85c34",
+      "reviewer": "fresh-session:4771a65e-426b-4baf-b760-3a12aab2d8ed",
       "review_prompts": [
         "Does `z_ai:glm-5.3-flash` use the existing #514 profile machinery rather than ad hoc model routing?",
         "Are GLM-5.3-Flash parameters source-grounded and validated before network dispatch?",
@@ -25,9 +25,9 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Live Z.ai dispatch remains credential-gated and was not claimed because ZAI_API_KEY was absent in the local shell.",
-        "OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.",
-        "The fresh reviewer ran focused adapter/profile/diff checks rather than the full provider test suite; local focused validation and prior PR CI cover the bounded surface."
+        "Open-PR Ox Alpha / GLM-5.3-Flash review smoke used bounded diff excerpts, so it proves fast triage and limitation handling rather than exact-head approval.",
+        "High and max reasoning_effort both returned HTTP 200 empty text for the #582 PR-review prompt shape; reviewer-trial defaults should stay at low until separately repaired or re-characterized.",
+        "The live proof artifacts under .adl/provider-smoke are local redacted run artifacts and are intentionally not committed."
       ],
       "review_result": "pass"
     }

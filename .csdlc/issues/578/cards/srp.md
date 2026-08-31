@@ -12,26 +12,23 @@ Status: draft
 
 ## Scope
 
-adl/src/provider/profiles.rs
-adl/src/provider/http_family.rs
-adl/src/provider/http_family/config.rs
-adl/src/provider/mod.rs
-adl/src/provider/http_family/tests.rs
-adl/src/provider_adapter.rs
-adl/src/provider_communication.rs
-adl/src/agent_comms.rs
-adl/src/agent_comms/dispatch/coding.inc
-adl/tests/provider_tests/profiles.rs
-adl/tests/provider_tests/http_family.rs
-docs/provider/inference-profiles.md
-docs/tooling/PROVIDER_SETUP.md
 docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md
-.csdlc/prepared/issues/578/reviewer-selection-smoke.sh
-.csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh
-.csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md
 .csdlc/issues/578/index.json
+.csdlc/issues/578/audit.jsonl
+.csdlc/issues/578/cards/sip.values.json
+.csdlc/issues/578/cards/stp.values.json
+.csdlc/issues/578/cards/spp.values.json
+.csdlc/issues/578/cards/vpp.values.json
+.csdlc/issues/578/cards/srp.md
+.csdlc/issues/578/cards/srp.values.json
 .csdlc/issues/578/cards/sor.md
 .csdlc/issues/578/cards/sor.values.json
+.csdlc/prepared/issues/578/record-live-zai-smoke-validation.json
+.csdlc/prepared/issues/578/record-ox-alpha-reviewer-proof-validation.json
+.csdlc/prepared/issues/578/record-open-pr-ox-alpha-review-smoke-validation.json
+.csdlc/prepared/issues/578/record-ox-alpha-reviewer-effort-ceiling-validation.json
+.csdlc/prepared/issues/578/recover-after-live-ox-alpha-proof.json
+.csdlc/prepared/issues/578/assign-live-ox-alpha-proof-review.json
 
 ## Prompts
 
@@ -51,14 +48,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live Z.ai dispatch remains credential-gated and was not claimed because ZAI_API_KEY was absent in the local shell.
-- OpenRouter and Ollama cloud GLM-5.3-Flash routes are documented as distinct variants and intentionally not implemented by #578.
-- The fresh reviewer ran focused adapter/profile/diff checks rather than the full provider test suite; local focused validation and prior PR CI cover the bounded surface.
+- Open-PR Ox Alpha / GLM-5.3-Flash review smoke used bounded diff excerpts, so it proves fast triage and limitation handling rather than exact-head approval.
+- High and max reasoning_effort both returned HTTP 200 empty text for the #582 PR-review prompt shape; reviewer-trial defaults should stay at low until separately repaired or re-characterized.
+- The live proof artifacts under .adl/provider-smoke are local redacted run artifacts and are intentionally not committed.
 
 ## Review Result
 
-Revision: Some("git-blake3:e90d097e19e4ec43580dbb5a60d876aba38b3924:b434597ecea6bdd9dd75335078acdc0a576efe0f0ad4d01b7abba518b878c58b")
+Revision: Some("git-blake3:af48fb7dac7d33f8612c94cc216a6afb6ac7cce6:21e0fe7d977b6572106a8ac4f351bd36800794ed089c4f03d981f7ef04f85c34")
 
-Reviewer: Some("fresh-session:2fc936d8-c1bd-4350-90b3-cc50d89fc449")
+Reviewer: Some("fresh-session:4771a65e-426b-4baf-b760-3a12aab2d8ed")
 
 Result: pass

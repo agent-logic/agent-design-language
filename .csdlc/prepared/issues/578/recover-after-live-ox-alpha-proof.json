@@ -1,0 +1,7 @@
+{
+  "issue": 578,
+  "expected_generation": 21,
+  "expected_digest": "08978be3b9fff2ff323ab6abf315c2ca6648e0a7a579bb3697009623126f29ff",
+  "actor": "codex:root",
+  "reason": "Recover #578 from stale published review after adding credentialed Ox Alpha / GLM-5.3-Flash live callability, reviewer-style, open-PR triage, and effort-ceiling evidence to PR #582."
+}
