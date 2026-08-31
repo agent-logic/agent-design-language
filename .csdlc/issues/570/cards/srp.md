@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+AGENTS.md
+csdlc-v2/AGENTS.md
+csdlc-v2/operator/SKILLS.md
+csdlc-v2/operator/skills
+csdlc-v3/README.md
+docs/architecture/ADL_ARCHITECTURE.md
+docs/onboarding.md
+docs/tooling/adl_pr_cycle_skill.md
+.csdlc/prepared/issues/570
+.csdlc/issues/570
+.csdlc/evidence/570
 
 ## Prompts
 
@@ -32,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- This docs/skill cutover-readiness issue does not cut over authority from C-SDLC v2 to v3; V3-F/#505 remains the explicit authority cutover gate.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b347a0932446802dbfcf4f92e9a8693c9632c17f:6ddae2240c70c2c31f1ca2154ae12d926dd14a615f7bad73ccf434839694eb53")
 
-Reviewer: None
+Reviewer: Some("review_pr_584_postfix")
 
-Result: pre_review
+Result: pass

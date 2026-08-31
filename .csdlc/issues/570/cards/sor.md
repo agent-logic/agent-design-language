@@ -85,11 +85,11 @@ Repaired PR #584 documentation findings by replacing instructional legacy archit
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
