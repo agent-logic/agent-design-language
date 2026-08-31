@@ -24,6 +24,12 @@ variable "runtime_instance_type" {
   default     = "m7i.large"
 }
 
+variable "launch_voters" {
+  description = "Whether to launch both optional #194 private voter instances."
+  type        = bool
+  default     = false
+}
+
 variable "qualification_instance_type" {
   description = "#268 Runtime qualification shape retained from the admitted CloudFormation template."
   type        = string

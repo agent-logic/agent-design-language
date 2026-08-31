@@ -6,6 +6,7 @@ locals {
       adl_source_issues    = "194-268"
       adl_run_id           = lower(replace(var.run_id, "_", "-"))
       adl_cleanup_required = "true"
+      adl_ttl_expires_at   = lower(replace(var.ttl_expires_at, ":", "-"))
     }
   )
 }
@@ -31,6 +32,14 @@ resource "google_compute_subnetwork" "runtime_private" {
 resource "google_service_account" "runtime" {
   account_id   = "${var.run_id}-runtime"
   display_name = "ADL XCL-01 Runtime workload"
+}
+
+resource "google_storage_bucket_iam_member" "runtime_artifact_read" {
+  count = var.artifact_bucket == null ? 0 : 1
+
+  bucket = var.artifact_bucket
+  role   = "roles/storage.objectViewer"
+  member = "serviceAccount:${google_service_account.runtime.email}"
 }
 
 resource "google_compute_firewall" "runtime_internal" {
@@ -71,8 +80,12 @@ resource "google_compute_instance" "runtime" {
   }
 
   metadata = {
-    enable-oslogin = "TRUE"
-    ssh-keys       = var.operator_ssh_public_key == null ? null : "adl:${var.operator_ssh_public_key}"
+    enable-oslogin       = "TRUE"
+    ssh-keys             = var.operator_ssh_public_key == null ? null : "adl:${var.operator_ssh_public_key}"
+    adl-artifact-bucket  = var.artifact_bucket
+    adl-artifact-prefix  = var.artifact_prefix
+    adl-ttl-expires-at   = var.ttl_expires_at
+    adl-cleanup-required = "true"
   }
 
   metadata_startup_script = <<-EOT
@@ -80,8 +93,13 @@ resource "google_compute_instance" "runtime" {
     set -euo pipefail
     install -d -m 0755 /var/lib/adl /opt/adl-runtime /opt/adl-build-cache
     printf '%s\n' '${var.run_id}' >/var/lib/adl/xcl-01-run-id
+    printf '%s\n' '${var.artifact_bucket == null ? "" : var.artifact_bucket}/${var.artifact_prefix}' >/var/lib/adl/xcl-01-artifact-source
     touch /var/lib/adl/issue268-bootstrap-ready
   EOT
+
+  depends_on = [
+    google_storage_bucket_iam_member.runtime_artifact_read
+  ]
 }
 
 resource "google_compute_attached_disk" "runtime_retained" {

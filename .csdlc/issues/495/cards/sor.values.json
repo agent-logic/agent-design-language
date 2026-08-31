@@ -7,20 +7,18 @@
     "title": "[v0.92.1][XCL-01] Cross-cloud Runtime Terraform conversion",
     "slug": "cross-cloud-runtime-terraform-conversion",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #268 AWS Runtime-host denominator coverage, denominator inventory authority, static validator proof, Terraform formatting, and non-apply provider schema validation.",
+      "summary": "Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired #194 optional voter denominator coverage, repaired GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.",
       "actual_changes": [
-        "Added the provider-neutral Runtime workload contract for the admitted #194/#268 denominator.",
-        "Added the missing .csdlc/prepared/issues/495/denominator-inventory.md authority referenced by the approved design.",
-        "Added AWS Terraform conversion surfaces that preserve #194 private network semantics and #268 Runtime host semantics, including EC2 Runtime host, IAM role, instance profile, SSM policy, pinned S3 object-version read permission, IMDSv2, encrypted gp3 root disk, optional retained EBS attachment, optional operator break-glass SSH, bootstrap log, readiness marker, and readiness outputs.",
-        "Added GCP Terraform conversion surfaces that expose service-account, firewall, private-access, disk, startup-script, label, and readiness-marker differences explicitly.",
-        "Added retained Terraform provider lockfiles for AWS and GCP after backend-disabled non-apply init.",
-        "Updated the retained XCL-01 proof packet and governed static validator with no credential material and no plan/apply/destroy claim."
+        "Added real AWS optional private voter instances behind launch_voters, preserving #194 AwsVoterA/AwsVoterB private subnet placement, private security group membership, encrypted gp3 root disks, no public IPs, cleanup tags, voter node identity, and endpoint dependencies.",
+        "Added AWS optional_voter_ids output and validator checks so #194 optional voter claims cannot pass without Terraform resources.",
+        "Added GCP artifact_bucket/artifact_prefix inputs, optional service-account storage.objectViewer binding, metadata/startup artifact-source record, cleanup deadline labels/metadata, and portable outputs for artifact_source and cleanup_deadline.",
+        "Updated denominator inventory, AWS/GCP README truth, retained proof packet, and governed validator to reflect the repaired R2 findings without claiming plan/apply/destroy or paid live proof."
       ],
       "artifacts": [
         ".csdlc/prepared/issues/495/denominator-inventory.md",
@@ -49,7 +47,7 @@
             "docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh",
             "--lane=all"
           ],
-          "purpose": "Run the issue-owned governed XCL-01 validator covering denominator inventory, portable contract, AWS/GCP Terraform surfaces, lockfiles, CloudFormation rollback retention, credential redaction, and live-proof gating.",
+          "purpose": "Run the issue-owned governed XCL-01 validator covering denominator inventory, portable contract, AWS/GCP Terraform surfaces, #194 optional voters, GCP artifact IAM/deadline mapping, lockfiles, CloudFormation rollback retention, credential redaction, and live-proof gating.",
           "outcome": "passed",
           "evidence_ref": "terminal: xcl-01 governed validation passed: --lane=all"
         },
@@ -63,7 +61,7 @@
           ],
           "purpose": "Reject unformatted Terraform in the AWS and GCP XCL-01 roots.",
           "outcome": "passed",
-          "evidence_ref": "terminal: terraform fmt -check completed with exit 0"
+          "evidence_ref": "terminal: terraform fmt -check completed with exit 0 after formatting infra/aws/runtime/xcl-01/outputs.tf"
         },
         {
           "command": [
@@ -114,7 +112,7 @@
           ],
           "purpose": "Reject whitespace and patch hygiene problems before review.",
           "outcome": "passed",
-          "evidence_ref": "terminal: git diff --check origin/main...HEAD completed with exit 0"
+          "evidence_ref": "terminal: git diff --check origin/main...HEAD and git diff --check completed with exit 0"
         }
       ],
       "integration_state": "worktree_only",

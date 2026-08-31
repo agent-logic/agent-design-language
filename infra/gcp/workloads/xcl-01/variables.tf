@@ -18,6 +18,11 @@ variable "run_id" {
   type        = string
 }
 
+variable "ttl_expires_at" {
+  description = "Cleanup TTL/deadline carried into labels for disposable Runtime proof resources."
+  type        = string
+}
+
 variable "network_name" {
   description = "Runtime VPC network name."
   type        = string
@@ -43,6 +48,18 @@ variable "retained_runtime_disk" {
   description = "Existing retained Runtime persistent disk name. Leave null for network-only parity preparation."
   type        = string
   default     = null
+}
+
+variable "artifact_bucket" {
+  description = "Optional GCS bucket containing immutable Runtime bootstrap artifacts."
+  type        = string
+  default     = null
+}
+
+variable "artifact_prefix" {
+  description = "Optional GCS object prefix containing immutable Runtime bootstrap artifacts."
+  type        = string
+  default     = "shepherd/"
 }
 
 variable "operator_ssh_public_key" {

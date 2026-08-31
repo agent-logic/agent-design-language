@@ -14,6 +14,7 @@ output "portable_contract" {
     runtime_node_ids = [
       aws_instance.runtime_host.id
     ]
+    optional_voter_ids               = aws_instance.optional_voter[*].id
     retained_volume_id               = var.runtime_volume_id
     runtime_mount_path               = "/opt/adl-runtime"
     bootstrap_log_path               = "/var/log/adl-issue268-bootstrap.log"

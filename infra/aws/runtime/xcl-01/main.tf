@@ -297,6 +297,57 @@ resource "aws_instance" "runtime_host" {
   }
 }
 
+resource "aws_instance" "optional_voter" {
+  count = var.launch_voters ? 2 : 0
+
+  ami                         = var.runtime_ami_id
+  instance_type               = var.runtime_instance_type
+  subnet_id                   = aws_subnet.private[count.index].id
+  vpc_security_group_ids      = [aws_security_group.runtime_instance.id]
+  iam_instance_profile        = aws_iam_instance_profile.runtime_host.name
+  associate_public_ip_address = false
+  key_name                    = var.operator_ssh_public_key == null ? null : aws_key_pair.operator_break_glass[0].key_name
+
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+    instance_metadata_tags      = "enabled"
+  }
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = true
+    volume_size           = 32
+    volume_type           = "gp3"
+  }
+
+  user_data = <<-EOT
+    #!/bin/bash
+    set -euo pipefail
+    install -d -m 0755 /var/lib/adl/issue194
+    printf '%s %s\n' '${var.run_id}' 'aws-voter-${count.index == 0 ? "a" : "b"}' >/var/lib/adl/issue194/node.txt
+  EOT
+
+  user_data_replace_on_change = true
+
+  tags = merge(local.common_tags, {
+    Name                          = "${var.run_id}-aws-voter-${count.index == 0 ? "a" : "b"}"
+    "adl:source_issue"            = "194"
+    "adl:node_id"                 = "aws-voter-${count.index == 0 ? "a" : "b"}"
+    "adl:component"               = "private-wuji-aws-recovery"
+    "adl:public_runtime_exposure" = "false"
+    "adl:hosted_model_fallback"   = "false"
+  })
+
+  depends_on = [
+    aws_vpc_endpoint.ssm,
+    aws_vpc_endpoint.ssm_messages,
+    aws_vpc_endpoint.ec2_messages,
+    aws_vpc_endpoint.s3_gateway
+  ]
+}
+
 resource "aws_volume_attachment" "retained_runtime" {
   count = var.runtime_volume_id == null ? 0 : 1
 

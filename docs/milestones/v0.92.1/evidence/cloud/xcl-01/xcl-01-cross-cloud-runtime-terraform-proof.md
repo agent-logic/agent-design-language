@@ -23,6 +23,10 @@ Status: static/local proof packet. Live AWS/GCP plan/apply/destroy proof is not 
   retirement.
 - AWS and GCP implementations expose provider-specific differences rather than
   claiming a single shared resource graph.
+- AWS includes real optional #194 private voter instances behind
+  `launch_voters`; the default remains no paid launch.
+- GCP includes explicit artifact-source service-account IAM and cleanup-deadline
+  mapping without creating an artifact bucket in this workload root.
 
 ## Live proof boundary
 
