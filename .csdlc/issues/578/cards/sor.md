@@ -103,11 +103,11 @@ Repaired PR #582 after exact-head review by making GLM-5.3-Flash validation prov
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

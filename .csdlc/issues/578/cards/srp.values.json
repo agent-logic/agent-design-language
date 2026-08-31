@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 44
+    "generation": 46
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/src/provider_communication.rs\nadl/src/provider_adapter.rs\nadl/src/provider/profiles.rs\nadl/tests/provider_tests/profiles.rs\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json\n.csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json\n.csdlc/prepared/issues/578/record-live-zai-smoke-validation.json\n.csdlc/prepared/issues/578/record-open-pr-ox-alpha-review-smoke-validation.json\n.csdlc/prepared/issues/578/record-ox-alpha-reviewer-effort-ceiling-validation.json\n.csdlc/prepared/issues/578/record-ox-alpha-reviewer-proof-validation.json\n.csdlc/prepared/issues/578/record-review-finding-hygiene-validation.json\n.csdlc/prepared/issues/578/recover-after-review-finding-repair.json\n.csdlc/prepared/issues/578/replace-execution-after-review-finding-repair.json\n.csdlc/prepared/issues/578/verify-no-glm-secret-paths.sh\n.csdlc/issues/578/cards/sor.md",
+      "review_revision": "git-blake3:ac96ec72948ca7a3ba8888c8c86a640c067481c7:72020900d4adc2c953e77e840b4dcc33cd24c9c91de15bc2864601c406b170c8",
+      "reviewer": "fresh-session:3ac8f990-e896-4f44-8a00-990dd57c0c73",
       "review_prompts": [
         "Does `z_ai:glm-5.3-flash` use the existing #514 profile machinery rather than ad hoc model routing?",
         "Are GLM-5.3-Flash parameters source-grounded and validated before network dispatch?",
@@ -24,8 +24,12 @@
         "Did the patch avoid #446/#455 scope?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "No credentialed live Z.ai calls were performed during this review; live behavior is supported by retained redacted proof in the candidate.",
+        "Retained live proof is hash/redacted-summary based and does not retain raw request or response bodies.",
+        "GLM-5.3-Flash is proven as focused packet-bound first-pass review evidence, not a replacement for ADL exact-head approval review."
+      ],
+      "review_result": "pass"
     }
   }
 }
