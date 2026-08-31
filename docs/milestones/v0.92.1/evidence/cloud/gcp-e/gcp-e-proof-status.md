@@ -82,6 +82,9 @@ support root owns the service account and IAP firewall (`support_id`, default
 `adl-494-gpu-smoke`), while the instance root creates and destroys only its
 run-id VM. The post-run cleanup proof checks for no remaining per-run VM/disk
 resources and retains readback evidence for the stable service account/firewall.
+The runner imports existing stable service account/firewall resources before
+support apply, so support reuse does not depend on a retained untracked local
+Terraform state file.
 
 `us-west1-a`, `us-west1-b`, and `us-west1-c` were checked after quota approval;
 `a` and `b` returned stockout for `g2-standard-4 + 1x nvidia-l4`, and `c`

@@ -9,3 +9,5 @@
 {"sequence":9,"generation":7,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":10,"generation":7,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":8,"actor":"codex:/root","reason":"Recover interrupted/stale #494 review assignment after precheck found exact-head diff-hygiene failures in committed readback evidence and stale proof-status terminal wording; implementation evidence is being repaired before a fresh exact-head review.","operation":"recover_review"}
+{"sequence":12,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":13,"generation":9,"actor":"codex:/root","reason":"Recover stale #494 exact review assignment after reviewer found stable-support reuse depended on untracked Terraform state; runner now imports existing support resources before support apply.","operation":"recover_review"}

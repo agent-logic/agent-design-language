@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fe94dbc84ab0d1df451508b4d682d8703a83d050c141817df3a82cb9ed0eb470",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "3cc7e73a887430eeb31ced1fffd4ad11d68a6c84e66b09254785cabfb018d70c",
+  "generation": 9,
+  "digest": "787d51b7474211063b168f955eb0c17efe97de68d36154440d710f1311360cd3",
   "branch": "codex/494-gcp-gpu-readiness-smoke-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-494-gcp-gpu-readiness-smoke-execution",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "933407b5e6e0eee1537aff9a26853c5d15df083e1cff70738aa78432c6214cdd",
+      "values_digest": "ce5aac0ba902f5c29598a6b44d83ead05e9300222f982ec13e3636f99b8c59cd",
       "rendered_digest": "3e1844ba1f87234d313a0f56c2708d7c58a69b7540edd787d594f6e0d412465f",
       "ast_digest": "02f49cecf706aaa0319541546da9095d8be8ad334217494c8c61ba004389b594"
     },
     "stp": {
-      "values_digest": "9758a57f175f4a8cf808ce70c1f01d115e6a94653c2f6542f1ef2428327300ea",
+      "values_digest": "d35ddb4abaa710604c75972c3b41c423d2f026c46168bc7a09474990fdd14bda",
       "rendered_digest": "279bee87e1f3c727c252674e3c56a9d82af401e5404c2999b54d0b0480c5a4ef",
       "ast_digest": "fb16dcdab75e027ed3b6de876ba6b4bd936a10afe3f1f8439cccb0f9c6f98f31"
     },
     "spp": {
-      "values_digest": "7b2c86db49b149e0722fdf65d0c437032dbbd4482d0a3167a6a66b8e9ce808be",
+      "values_digest": "d25f27821ae093b1fb2bd5a75d691820e3120dcf0ef74a8dac52be80c85fd342",
       "rendered_digest": "b176741acb3a6bf99a6966d5172e005b43cf0e3f3d2c2439ce2cf5a197bcfb01",
       "ast_digest": "2c991075ce701f532fd41de1c44c72cd47429fafceeba4e5bdb10146021d66f8"
     },
     "vpp": {
-      "values_digest": "5ae178ac383c693d19b5f3010d154b0deb77fd929ffa3ca1f71aa43d17d62ff6",
+      "values_digest": "b71b7216a5fda28d9f17b14b8ca8bad1cf275155e5e04afe761ba3d07248debe",
       "rendered_digest": "8cabea423816adfca657e5dbd84b5c2d2425f0d550545391b0db133c0ac06545",
       "ast_digest": "2f30a07e8f0cbd8f5cd86b06342fe4a4866effef49caeeb2a22ed2a6cac857aa"
     },
     "srp": {
-      "values_digest": "ab2a4d566e184da99f9ae10461d399fd2105c3ea7b85715af8db3093c786caed",
+      "values_digest": "21859639cf44bc1a7f0d4e1be404f78886af70383fb1a4fc9e3049c991227fe6",
       "rendered_digest": "7206a8b2e46464798e8e24c68ce749b25eb8fec7331ae845b0028cc35df6a19e",
       "ast_digest": "7392b69882dd6ee262b30db09759b1f637c4b84c9858d6b13034b3e90f16a716"
     },
     "sor": {
-      "values_digest": "a0445911880d36c54cdd169f87aa975ac2da3edaa3bff92f0c46b10da3d05d31",
+      "values_digest": "bb1c4cd4f2c14449fdd682a25994d8e3899280345f8a1b778087482e9fc66132",
       "rendered_digest": "f6a981c6c350e300f2fa6d5a825499e7ab6b3de016d4ba0f166b58f7b5eaa363",
       "ast_digest": "58cdc5f8c4ca198309f457b270fbf4d9d66b5a4a56d8ea11178337e15f511e50"
     }
@@ -154,6 +154,20 @@
       "generation": 8,
       "actor": "codex:/root",
       "reason": "Recover interrupted/stale #494 review assignment after precheck found exact-head diff-hygiene failures in committed readback evidence and stale proof-status terminal wording; implementation evidence is being repaired before a fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover stale #494 exact review assignment after reviewer found stable-support reuse depended on untracked Terraform state; runner now imports existing support resources before support apply.",
       "operation": "recover_review"
     }
   ]

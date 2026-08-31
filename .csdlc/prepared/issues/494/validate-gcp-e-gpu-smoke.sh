@@ -124,6 +124,8 @@ if [[ "${lane}" == "--lane=all" ]]; then
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "GCP_E_MAX_BUDGET_USD"
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'support_root='
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'instance_root='
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'terraform_state_has'
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'terraform -chdir="${support_root}" import'
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'terraform -chdir="${instance_root}" destroy'
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'GCP_E_SSH_KEY_FILE'
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'GCP_E_SSH_KNOWN_HOSTS_FILE'
@@ -135,6 +137,7 @@ if [[ "${lane}" == "--lane=all" ]]; then
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "gcloud compute instances list"
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "gcloud compute disks list"
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "Stable support"
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "imports existing service account"
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "per-run VM/disk cleanup"
   reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "BEGIN PRIVATE KEY"
   reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "BEGIN PRIVATE KEY"

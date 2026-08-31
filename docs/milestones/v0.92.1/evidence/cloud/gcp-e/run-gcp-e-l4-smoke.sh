@@ -108,6 +108,32 @@ cleanup() {
 trap cleanup EXIT
 
 terraform -chdir="${support_root}" init -backend=false
+
+support_service_account_id="${support_id}-gpu"
+support_service_account_id="${support_service_account_id:0:30}"
+support_service_account_email="${support_service_account_id}@${project_id}.iam.gserviceaccount.com"
+support_service_account_address="module.gpu_smoke_support.google_service_account.gpu_smoke"
+support_firewall_address="module.gpu_smoke_support.google_compute_firewall.iap_ssh"
+support_firewall_name="${support_id}-iap-ssh"
+
+terraform_state_has() {
+  local root="$1"
+  local address="$2"
+  terraform -chdir="${root}" state list 2>/dev/null | grep -Fxq "${address}"
+}
+
+if ! terraform_state_has "${support_root}" "${support_service_account_address}" &&
+  gcloud iam service-accounts describe "${support_service_account_email}" --project="${project_id}" >/dev/null 2>&1; then
+  terraform -chdir="${support_root}" import -var-file="${support_tfvars}" "${support_service_account_address}" "projects/${project_id}/serviceAccounts/${support_service_account_email}" |
+    tee "${evidence_dir}/${run_id}.terraform-support-service-account-import.log"
+fi
+
+if ! terraform_state_has "${support_root}" "${support_firewall_address}" &&
+  gcloud compute firewall-rules describe "${support_firewall_name}" --project="${project_id}" >/dev/null 2>&1; then
+  terraform -chdir="${support_root}" import -var-file="${support_tfvars}" "${support_firewall_address}" "projects/${project_id}/global/firewalls/${support_firewall_name}" |
+    tee "${evidence_dir}/${run_id}.terraform-support-firewall-import.log"
+fi
+
 terraform -chdir="${support_root}" apply -auto-approve -var-file="${support_tfvars}" | tee "${evidence_dir}/${run_id}.terraform-support-apply.log"
 
 service_account_email="$(terraform -chdir="${support_root}" output -raw service_account_email)"

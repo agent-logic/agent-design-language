@@ -29,7 +29,9 @@ The proof follows the same split as the AWS runtime work:
   IAP SSH firewall module.
 - `infra/gcp/workloads/modules/gpu-smoke-instance`: disposable L4 VM module.
 - `infra/gcp/workloads/gpu-smoke-support`: support root; apply when support is
-  missing or intentionally rotated.
+  missing or intentionally rotated. The runner imports existing service account
+  and firewall resources before apply, so a fresh worktree can reuse stable
+  support without relying on untracked local Terraform state.
 - `infra/gcp/workloads/gpu-smoke-instance`: per-run instance root; apply and
   destroy on every smoke run.
 
