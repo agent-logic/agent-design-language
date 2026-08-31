@@ -33,12 +33,12 @@ pub struct ReviewTarget {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PublicationAuthorization {
-    pub issue: u64,
-    pub reviewed_revision: String,
-    pub review_scope_digest: String,
-    pub reviewer: String,
-    pub publisher: String,
-    pub target: ReviewTarget,
+    pub(crate) issue: u64,
+    pub(crate) reviewed_revision: String,
+    pub(crate) review_scope_digest: String,
+    pub(crate) reviewer: String,
+    pub(crate) publisher: String,
+    pub(crate) target: ReviewTarget,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

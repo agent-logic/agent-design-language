@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use crate::review::PublicationAuthorization;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -20,12 +22,12 @@ pub struct PublicationRequest {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PublicationEvidence {
-    pub repository: String,
-    pub issue: u64,
-    pub mode: PublicationMode,
-    pub head_sha: String,
-    pub authorization_digest: String,
-    pub relation: PublicationRelation,
+    pub(crate) repository: String,
+    pub(crate) issue: u64,
+    pub(crate) mode: PublicationMode,
+    pub(crate) head_sha: String,
+    pub(crate) authorization_digest: String,
+    pub(crate) relation: PublicationRelation,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -117,7 +119,7 @@ pub enum CleanupRejectReason {
     UnregisteredWorktree,
 }
 
-pub fn publish(
+pub(crate) fn publish(
     request: PublicationRequest,
     authorization: &PublicationAuthorization,
 ) -> Result<PublicationEvidence, PublicationRejectReason> {
@@ -160,7 +162,7 @@ pub fn publish(
     }
 }
 
-pub fn derive_finish(
+pub(crate) fn derive_finish(
     publication: &PublicationEvidence,
     pull_request: &PullRequestReadback,
     issue: &IssueReadback,
@@ -233,7 +235,7 @@ pub fn classify_cleanup(
     }
 }
 
-pub fn execute_cleanup_removal(
+pub(crate) fn execute_cleanup_removal(
     candidate: &CleanupCandidate,
 ) -> Result<CleanupClassification, CleanupRejectReason> {
     if !candidate.committed_closed_out {

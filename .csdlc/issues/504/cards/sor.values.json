@@ -7,21 +7,23 @@
     "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
     "slug": "v3-e-remote-delivery-workflow",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Repaired PR #588 remote-delivery findings by narrowing the delivery authority boundary, preserving whitespace-normalized reviewer independence, proving Part-Of delivery end-to-end, and implementing safe cleanup removal/outcome distinctions while keeping V3-E non-authoritative construction work.",
+      "summary": "Repaired PR #588 remote-delivery findings by narrowing delivery, publication, finish, and cleanup authority boundaries; preserving whitespace-normalized reviewer independence; proving Part-Of delivery end-to-end; and implementing safe cleanup removal/outcome distinctions while keeping V3-E non-authoritative construction work.",
       "actual_changes": [
         "Changed the remote delivery boundary so deliver(), Verified::new(), receipt minting, and RemoteDeliveryInput construction are crate-scoped rather than public caller-forgeable APIs.",
+        "Made PublicationAuthorization fields crate-scoped so external callers cannot construct review authorization directly.",
+        "Made publish(), derive_finish(), and execute_cleanup_removal() crate-scoped so external callers cannot bypass review/publication/finish authority or invoke cleanup removal directly.",
         "Added receipt subject-digest binding so verified observations must match the subject they claim to authorize before source-specific delivery gates can consume them.",
         "Kept reviewer independence normalized on both sides before case-insensitive comparison so whitespace variants of the same principal cannot self-authorize publication.",
         "Kept Part-Of publication on the advertised end-to-end delivery path: deliver() now returns CheckpointCompleted without terminal cleanup authority for checkpoint work.",
         "Implemented cleanup removal execution with filesystem removal after terminal, receipt, preview, clean, non-live, canonical-path, and registration gates; removed, already-removed, unregistered, path-mismatch, dirty, and live outcomes remain distinct.",
         "Moved remote delivery end-to-end tests into the remote module so authority fixture minting is no longer exposed as an integration-test/public API surface.",
-        "Strengthened the #504 validator so it checks the sealed remote authority API, end-to-end Part-Of proof, whitespace self-review proof, cleanup execution proof, and already-removed cleanup gate proof."
+        "Strengthened the #504 validator so it checks the sealed delivery/publication/finish/cleanup authority API, end-to-end Part-Of proof, whitespace self-review proof, cleanup execution proof, and already-removed cleanup gate proof."
       ],
       "artifacts": [
         "csdlc-v3/src/commands/remote/mod.rs",
@@ -67,6 +69,19 @@
           "purpose": "Rust warning-free lint gate for the touched construction crate.",
           "outcome": "passed",
           "evidence_ref": "local stdout: Finished dev profile without warnings"
+        },
+        {
+          "command": [
+            "csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "504"
+          ],
+          "purpose": "Typed C-SDLC issue validation after remote authority repairs.",
+          "outcome": "passed",
+          "evidence_ref": "generation 15 phase implemented status pass before this SOR replacement"
         },
         {
           "command": [
