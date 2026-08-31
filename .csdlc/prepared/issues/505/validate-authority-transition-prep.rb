@@ -87,7 +87,14 @@ docs = {
   "docs/default_workflow.md" => read("docs/default_workflow.md"),
   "docs/onboarding.md" => read("docs/onboarding.md"),
   "docs/architecture/ADL_ARCHITECTURE.md" => read("docs/architecture/ADL_ARCHITECTURE.md"),
-  "docs/tooling/adl_pr_cycle_skill.md" => read("docs/tooling/adl_pr_cycle_skill.md")
+  "docs/tooling/adl_pr_cycle_skill.md" => read("docs/tooling/adl_pr_cycle_skill.md"),
+  "docs/tooling/card-lifecycle.md" => read("docs/tooling/card-lifecycle.md"),
+  "docs/tooling/structured-prompt-contracts.md" => read("docs/tooling/structured-prompt-contracts.md"),
+  "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md" => read("docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md"),
+  "docs/tooling/editor/pr_run_demo.md" => read("docs/tooling/editor/pr_run_demo.md"),
+  "docs/tooling/editor/README.md" => read("docs/tooling/editor/README.md"),
+  "docs/tooling/editor/five_command_regression_suite.md" => read("docs/tooling/editor/five_command_regression_suite.md"),
+  "docs/tooling/editor/task_bundle_editor.js" => read("docs/tooling/editor/task_bundle_editor.js")
 }
 
 docs.each do |path, text|
@@ -104,6 +111,47 @@ architecture_inline = architecture.gsub(/\s+/, " ")
 assert(architecture.include?("SIP, STP, SPP, VPP, SRP, and SOR"), "architecture omits VPP from six-card lifecycle")
 assert(architecture_inline.include?("historical orientation only"), "architecture must classify legacy pr route as historical")
 assert(!architecture.match?(/^\s*\d+\.\s*`?pr (run|finish|closeout)\b/i), "architecture contains instructional legacy pr lifecycle step")
+
+[
+  "docs/tooling/card-lifecycle.md",
+  "docs/tooling/structured-prompt-contracts.md",
+  "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md",
+  "docs/GLOSSARY.md",
+  "docs/cognitive-sdlc/README.md",
+  "docs/cognitive-sdlc/card-lifecycle.md",
+  "docs/cognitive-sdlc/five-minute-sprint-demo.md",
+  "docs/templates/MILESTONE_CHECKLIST_TEMPLATE.md",
+  "docs/templates/SPRINT_TEMPLATE.md",
+  "docs/templates/README_TEMPLATE.md",
+  "docs/templates/STRUCTURED_PLAN_PROMPT_TEMPLATE.md",
+  "docs/templates/STRUCTURED_REVIEW_POLICY_TEMPLATE.md",
+  "docs/templates/sprints/README.md",
+  "docs/templates/portable-adl/README.md",
+  "docs/templates/portable-adl/1.0.0/AGENTS.md",
+  "docs/templates/planning/fixtures/minimal/sprint.md",
+  "docs/templates/planning/fixtures/minimal/readme.md",
+  "docs/templates/planning/fixtures/minimal/readme_generated.md",
+  "docs/templates/planning/1.0.0/readme.md",
+  "docs/templates/planning/1.0.0/milestone_checklist.md",
+  "docs/templates/planning/1.0.0/sprint.md",
+  "docs/templates/planning/1.1.0/readme.md",
+  "docs/templates/planning/1.1.0/milestone_checklist.md",
+  "docs/templates/planning/1.1.0/sprint.md"
+].each do |path|
+  text = docs.fetch(path) { read(path) }
+  assert(text.include?("SIP -> STP -> SPP -> VPP -> SRP -> SOR"), "#{path} omits VPP from canonical lifecycle")
+end
+
+[
+  "docs/tooling/editor/pr_run_demo.md",
+  "docs/tooling/editor/README.md",
+  "docs/tooling/editor/five_command_regression_suite.md",
+  "docs/tooling/editor/task_bundle_editor.js"
+].each do |path|
+  text = docs.fetch(path)
+  assert(text.include?("historical") || text.include?("retired"), "#{path} must classify legacy editor route as historical/retired")
+  assert(!text.match?(/current pr run command|supported control-plane run surface today|current routing guidance/i), "#{path} contains active legacy route guidance")
+end
 
 adl_pr_cycle = docs.fetch("docs/tooling/adl_pr_cycle_skill.md")
 assert(adl_pr_cycle.include?("Historical compatibility documentation"), "tracked adl_pr_cycle guidance must be historical")

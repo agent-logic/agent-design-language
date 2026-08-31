@@ -4,10 +4,16 @@
 
 This document defines the canonical ADL issue-card lifecycle.
 
+Issue #505 / V3-F is the pending tooling changeover decision. Until that
+operator-reviewed cutover is approved, merged, and terminally reconciled,
+C-SDLC v2 remains the live lifecycle authority; this lifecycle document
+describes card truth and must not be read as v3 operational authority before
+cutover.
+
 The supported issue lifecycle is:
 
 ```text
-SIP -> STP -> SPP -> SRP -> SOR
+SIP -> STP -> SPP -> VPP -> SRP -> SOR
 ```
 
 This lifecycle is the semantic order of issue work. It is not necessarily the
@@ -21,6 +27,7 @@ path stability, but only one lifecycle stage is authoritative at a time.
 | `SIP` | Structured Issue Prompt | What problem, context, scope, and acceptance boundary are we addressing? |
 | `STP` | Structured Task Prompt | What task or solution are we choosing? |
 | `SPP` | Structured Plan Prompt | How will the selected task be executed? |
+| `VPP` | Validation Planning Prompt | What proof lanes, validation profile, and defer/fail-closed rules govern the work? |
 | `SRP` | Structured Review Prompt | What review instructions apply, what did review find, and how were findings dispositioned? |
 | `SOR` | Structured Outcome Record | What changed, what was validated, and what is now true? |
 
@@ -63,7 +70,7 @@ Example target-state summary:
 
 ```text
 This issue corrects card-lifecycle drift so new issues follow
-SIP -> STP -> SPP -> SRP -> SOR.
+SIP -> STP -> SPP -> VPP -> SRP -> SOR.
 ```
 
 ### STP: Structured Task Prompt
@@ -104,7 +111,6 @@ It records:
 
 - execution sequence
 - dependencies
-- validation plan
 - review handoff
 - stop conditions
 - risks and fallback path
@@ -119,8 +125,26 @@ Example target-state summary:
 
 ```text
 Read the source issue, update bounded docs, run focused markdown/path checks,
-obtain pre-PR review, then publish through pr finish.
+obtain pre-PR review, then publish through the typed C-SDLC v2 publication
+owner while v2 remains live authority.
 ```
+
+### VPP: Validation Planning Prompt
+
+The `VPP` is the validation-plan and proof-lane surface.
+
+It records:
+
+- selected proof lanes and their proof roles
+- deterministic/resource posture
+- validation profile
+- defer reasons and fail-closed rules
+- estimate and goal-budget fit
+- release-gate status for tests and proof artifacts
+
+`VPP` sits between execution planning and review. `SPP` says how the work will
+be done; `VPP` says how the result will be proven or why a proof lane is
+explicitly deferred.
 
 ### SRP: Structured Review Prompt
 
@@ -161,7 +185,7 @@ It records:
 - unresolved follow-ups
 - final issue truth
 
-The `SOR` should summarize and link to `SIP`, `STP`, `SPP`, and `SRP`; it
+The `SOR` should summarize and link to `SIP`, `STP`, `SPP`, `VPP`, and `SRP`; it
 should not absorb their full planning or review burden.
 
 The final `SOR` should feed `ObsMem` alongside the final `SRP`.
@@ -180,9 +204,11 @@ The normal gate order is:
 1. `SIP` complete enough to define the issue.
 2. `STP` complete enough to define the selected task or solution.
 3. `SPP` complete enough to guide execution.
-4. `SRP` complete enough to guide review before PR publication, then updated
+4. `VPP` complete enough to define proof lanes, validation profile, and
+   fail-closed/defer rules.
+5. `SRP` complete enough to guide review before PR publication, then updated
    with findings and dispositions.
-5. `SOR` complete enough to record final issue truth after execution,
+6. `SOR` complete enough to record final issue truth after execution,
    publication, merge or closure, and closeout.
 
 Validators and doctor output should report both file existence and stage
@@ -198,7 +224,7 @@ JSON output:
   `card_lifecycle.pr_run_readiness`
 - `CARD_LIFECYCLE_PR_FINISH_READINESS` /
   `card_lifecycle.pr_finish_readiness`
-- one per-card stage row/object for `SIP`, `STP`, `SPP`, `SRP`, and `SOR`
+- one per-card stage row/object for `SIP`, `STP`, `SPP`, `VPP`, `SRP`, and `SOR`
 
 The stage classifier distinguishes `scaffold`, `active`, `complete`, `final`,
 and `legacy_compatible` states. In particular, legacy

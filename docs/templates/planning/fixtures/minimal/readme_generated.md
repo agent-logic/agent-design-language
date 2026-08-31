@@ -157,7 +157,7 @@ Execution expectations:
 - WP-01 is the design/planning pass.
 - Feature and system work occupy the middle of the sequence.
 - Demo/proof, quality, docs/review convergence, and release ceremony work happen at the tail.
-- Each tracked issue follows `SIP -> STP -> SPP -> SRP -> SOR`.
+- Each tracked issue follows `SIP -> STP -> SPP -> VPP -> SRP -> SOR`.
 - Each WP records focused validation and merge/readiness proof.
 - Do not hard-code a 16-WP shape unless that milestone explicitly uses it.
 

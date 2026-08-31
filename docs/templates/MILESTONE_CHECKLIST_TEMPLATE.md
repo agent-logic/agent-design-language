@@ -18,7 +18,7 @@ Ship/no-ship gate for the milestone. Check items only when evidence exists.
 
 ## Execution Discipline
 - [ ] New issue bundles use the target lifecycle
-  `SIP -> STP -> SPP -> SRP -> SOR`, or legacy compatibility exceptions are
+  `SIP -> STP -> SPP -> VPP -> SRP -> SOR`, or legacy compatibility exceptions are
   explicitly documented
 - [ ] Each burst writes artifacts under `.adl/reports/burst/<timestamp>/`
 - [ ] Draft PR opened for each issue before merge

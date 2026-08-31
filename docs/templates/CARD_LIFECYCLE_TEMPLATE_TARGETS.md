@@ -2,10 +2,15 @@
 
 ## Purpose
 
-This document records the target template shape for all five ADL issue cards:
+This document records the target template shape for all six ADL issue cards:
+
+Issue #505 / V3-F is the pending tooling changeover decision. Until that
+operator-reviewed cutover is approved, merged, and terminally reconciled,
+C-SDLC v2 remains the live lifecycle authority; template-target documentation
+does not grant v3 operational authority before cutover.
 
 ```text
-SIP -> STP -> SPP -> SRP -> SOR
+SIP -> STP -> SPP -> VPP -> SRP -> SOR
 ```
 
 It is a template and schema planning surface. Enforcement now belongs to the
@@ -21,6 +26,7 @@ The canonical copy-and-fill template home is now:
 - `docs/templates/prompts/1.0.0/sip.md`
 - `docs/templates/prompts/1.0.0/stp.md`
 - `docs/templates/prompts/1.0.0/spp.md`
+- `docs/templates/prompts/1.0.3/vpp.md`
 - `docs/templates/prompts/1.0.0/srp.md`
 - `docs/templates/prompts/1.0.0/sor.md`
 
@@ -42,7 +48,7 @@ surfaces. New authoring and bootstrap work should treat
 
 New or revised templates should be able to express:
 
-- `lifecycle_stage`: one of `SIP`, `STP`, `SPP`, `SRP`, `SOR`.
+- `lifecycle_stage`: one of `SIP`, `STP`, `SPP`, `VPP`, `SRP`, `SOR`.
 - `activation_state`: the card's current lifecycle readiness.
 - `source_refs`: links to earlier cards that bound the current card.
 - `legacy_compatibility`: whether old naming or structure is intentionally
@@ -127,6 +133,26 @@ Compatibility surfaces:
 - current validator surface: Rust validator-backed contract, not a dedicated
   schema file yet
 
+## VPP Target
+
+`VPP` means Validation Planning Prompt.
+
+Target responsibility:
+
+- selected proof lanes and proof roles
+- deterministic and resource posture
+- validation profile
+- defer reasons and fail-closed rules
+- estimate and goal-budget fit
+- release-gate status for proof artifacts
+
+Compatibility surfaces:
+
+- current file: `vpp.md`
+- canonical template: `docs/templates/prompts/1.0.3/vpp.md`
+- current schema filename:
+  `docs/templates/prompts/1.0.3/schemas/vpp.structure.json`
+
 ## SRP Target
 
 `SRP` means Structured Review Prompt.
@@ -180,7 +206,7 @@ Compatibility surfaces:
 - compatibility generator template: `adl/templates/cards/output_card_template.md`
 - current schema filename: `adl/schemas/structured_output_record.contract.yaml`
 
-`SOR` should summarize and link to `SIP`, `STP`, `SPP`, and `SRP`; it should
+`SOR` should summarize and link to `SIP`, `STP`, `SPP`, `VPP`, and `SRP`; it should
 not absorb their full planning or review content.
 
 ## Non-Goals

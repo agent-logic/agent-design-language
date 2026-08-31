@@ -13,7 +13,7 @@ define the issue and selected task, and before implementation proceeds.
 The canonical card lifecycle is:
 
 ```text
-SIP -> STP -> SPP -> SRP -> SOR
+SIP -> STP -> SPP -> VPP -> SRP -> SOR
 ```
 
 Tooling may create `spp.md` as an early scaffold for path stability. That file

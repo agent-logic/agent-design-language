@@ -4,16 +4,22 @@
 
 ADL now treats the core workflow artifacts as structured prompt surfaces with machine-checkable contracts:
 
+Issue #505 / V3-F is the pending tooling changeover decision. Until that
+operator-reviewed cutover is approved, merged, and terminally reconciled,
+C-SDLC v2 remains the live lifecycle authority; this contract text does not
+make C-SDLC v3 operational authority before cutover.
+
 - `Structured Issue Prompt` (SIP)
 - `Structured Task Prompt` (STP)
 - `Structured Plan Prompt` (SPP)
+- `Validation Planning Prompt` (VPP)
 - `Structured Review Prompt` (SRP)
 - `Structured Outcome Record` (SOR)
 
 The canonical semantic lifecycle is:
 
 ```text
-SIP -> STP -> SPP -> SRP -> SOR
+SIP -> STP -> SPP -> VPP -> SRP -> SOR
 ```
 
 This document defines the first bounded contract layer for those artifacts so tooling can validate stable machine-readable structure without freezing high-value prose too early.
@@ -22,7 +28,7 @@ See `card-lifecycle.md` for the card roles and the distinction between file
 creation order and lifecycle activation order.
 
 See `../templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md` for the current
-template-target shape and compatibility aliases for all five cards.
+template-target shape and compatibility aliases for all six cards.
 
 ## Canonical Contract Files
 
@@ -170,7 +176,7 @@ In `bootstrap`, some machine-readable fields may remain blank while the artifact
 
 This is especially important for:
 
-- SIPs generated before issue-mode `pr run` binds a worktree
+- SIPs generated before typed C-SDLC v2 bind creates an issue worktree
 - SORs generated before execution has happened
 
 The phase model is intentionally narrow. It is not a full workflow state machine.
@@ -201,18 +207,19 @@ card-lifecycle migration.
 existence. Its `card_lifecycle` JSON object, mirrored by `CARD_LIFECYCLE_*`
 text lines, includes:
 
-- the canonical order `SIP -> STP -> SPP -> SRP -> SOR`
+- the canonical order `SIP -> STP -> SPP -> VPP -> SRP -> SOR`
 - the active stage and next required stage
-- `pr_run_readiness`, based on complete-enough `SIP`, `STP`, and `SPP`
-- `pr_finish_readiness`, based on final SRP review truth plus complete or final
-  SOR output truth
+- bind/readiness truth, based on complete-enough `SIP`, `STP`, `SPP`, and
+  executable or explicitly deferred `VPP`
+- publication/finish readiness, based on final SRP review truth plus complete
+  or final SOR output truth
 - per-card state values for `pre_run`, `scaffold`, `active`, `complete`,
   `final`, and `legacy_compatible`
 
 Freshly bootstrapped issues may report `SIP` and `SPP` as `pre_run` while the
 branch/worktree is still unbound. That state is not an editor-fixable defect by
-itself; it records that the issue is structurally ready for `pr run`, where the
-execution branch and worktree make those cards concrete.
+itself; it records that the issue is structurally ready for typed C-SDLC v2
+binding, where the execution branch and worktree make those cards concrete.
 
 The bootstrapped `SPP` should still be useful design-time plan truth. It should
 be generated from source issue context rather than from a generic placeholder,
@@ -273,7 +280,8 @@ This first contract layer does not attempt to solve all editing-control-plane va
 
 Deferred work includes:
 
-- full lifecycle enforcement across `pr init`, issue-mode `pr run`, `pr finish`, and `pr closeout`
+- full lifecycle enforcement across the typed C-SDLC v2 init, bind, review,
+  publish, finish, and clean owners while v2 remains live authority
 - migration of all historical artifacts
 - freezing high-value prose beyond section presence and selected stable scalars
 - full schema coverage for every future authoring/editor surface
