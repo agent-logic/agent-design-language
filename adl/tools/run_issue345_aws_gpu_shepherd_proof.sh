@@ -41,6 +41,7 @@ SOURCE_COMMIT=""
 RUN_ID=""
 OWNER_TOKEN=""
 LOCK_VERSION_ID=""
+RUN_LAUNCH_ATTEMPTED=false
 EXECUTE=false
 
 usage() {
@@ -365,7 +366,7 @@ release_run_lock() {
 
 cleanup_run() {
   local run_id="$1" owner_token="$2" lock_version="$3"
-  local instances volumes
+  local instances volumes remaining_instances remaining_volumes
   [[ "$run_id" =~ ^adl-issue345-[A-Za-z0-9._-]+$ ]] || {
     echo "invalid run id" >&2
     exit 2
@@ -393,18 +394,44 @@ cleanup_run() {
       aws_cli ec2 delete-volume --volume-id "$volume_id" >/dev/null
     done
   fi
+  remaining_instances="$(aws_cli ec2 describe-instances \
+    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" "Name=tag:adl:owner-token,Values=$owner_token" \
+      Name=instance-state-name,Values=pending,running,stopping,stopped \
+    --query 'Reservations[].Instances[].InstanceId' --output text)"
+  remaining_volumes="$(aws_cli ec2 describe-volumes \
+    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" "Name=tag:adl:owner-token,Values=$owner_token" \
+      Name=status,Values=available \
+    --query 'Volumes[].VolumeId' --output text)"
+  [[ -z "$remaining_instances" ]] || {
+    echo "owner-bound cleanup left issue-owned instances behind" >&2
+    exit 2
+  }
+  [[ -z "$remaining_volumes" ]] || {
+    echo "owner-bound cleanup left issue-owned volumes behind" >&2
+    exit 2
+  }
   if [[ -n "$lock_version" ]]; then
     aws_cli s3api delete-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
       --version-id "$lock_version" >/dev/null
+    if [[ "$lock_version" == "$LOCK_VERSION_ID" ]]; then
+      LOCK_VERSION_ID=""
+    fi
   fi
   jq -n --arg schema adl.issue345.aws_gpu_cleanup.v1 --arg run_id "$run_id" \
     '{schema:$schema,run_id:$run_id,instances_remaining:0,volumes_remaining:0,lock_released:true}'
 }
 
 cleanup_on_exit() {
-  local original_rc=$?
+  local original_rc=$? cleanup_receipt
   trap - EXIT INT TERM
-  release_run_lock || true
+  if [[ "$RUN_LAUNCH_ATTEMPTED" == true && -n "$RUN_ID" && -n "$OWNER_TOKEN" && -n "$LOCK_VERSION_ID" ]]; then
+    cleanup_receipt="$STATE_ROOT/$RUN_ID/cleanup-on-exit.json"
+    if ! cleanup_run "$RUN_ID" "$OWNER_TOKEN" "$LOCK_VERSION_ID" >"$cleanup_receipt"; then
+      release_run_lock || true
+    fi
+  else
+    release_run_lock || true
+  fi
   exit "$original_rc"
 }
 
@@ -441,6 +468,7 @@ run_proof() {
   acquire_run_lock
   started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   owner_token_sha256="$(sha256_text "$OWNER_TOKEN")"
+  RUN_LAUNCH_ATTEMPTED=true
   aws_cli ec2 run-instances \
     --instance-type "$GPU_INSTANCE_TYPE" \
     --iam-instance-profile "Name=$INSTANCE_PROFILE" \

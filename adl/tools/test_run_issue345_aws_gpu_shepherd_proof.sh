@@ -14,6 +14,7 @@ CASE_DIR="$FIXTURE_ROOT/issue345-runner-contract"
 BIN_DIR="$CASE_DIR/bin"
 STATE_DIR="$CASE_DIR/state"
 CALL_LOG="$CASE_DIR/aws-calls.log"
+RUN_CALL_LOG="$CASE_DIR/aws-run-calls.log"
 ACCOUNT_ID="123456789012"
 ACCOUNT_SHA="$(printf '%s' "$ACCOUNT_ID" | shasum -a 256 | awk '{print $1}')"
 MANIFEST="$CASE_DIR/artifact-manifest.json"
@@ -27,6 +28,7 @@ fail() {
 reset_fixture() {
   rm -rf "$CASE_DIR"
   mkdir -p "$BIN_DIR" "$STATE_DIR"
+  : >"$RUN_CALL_LOG"
   cat >"$MANIFEST" <<'JSON'
 {
   "schema": "adl.shepherd.portable_model_bundle.v1",
@@ -49,6 +51,9 @@ JSON
 set -euo pipefail
 LOG="${ADL_ISSUE345_FAKE_AWS_LOG:?}"
 printf '%s\n' "$*" >>"$LOG"
+if [[ -n "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}" ]]; then
+  printf '%s\n' "$*" >>"$ADL_ISSUE345_FAKE_AWS_RUN_LOG"
+fi
 if [[ "${ADL_ISSUE345_FAKE_AWS_FAIL_LOCK:-}" == "1" && "$*" == *"s3api put-object"* ]]; then
   echo "An error occurred (PreconditionFailed) when calling the PutObject operation" >&2
   exit 255
@@ -90,15 +95,31 @@ case "$*" in
     printf '%s\n' '["{\"terms\":{\"OnDemand\":{\"x\":{\"priceDimensions\":{\"y\":{\"pricePerUnit\":{\"USD\":\"0.80\"}}}}}}}"]'
     ;;
   *"ec2 describe-instances"*)
-    printf '\n'
+    if [[ "$*" == *"Name=tag:adl:run-id"* \
+      && "${ADL_ISSUE345_FAKE_AWS_FAIL_AFTER_LAUNCH:-}" == "1" \
+      && -e "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}.launched" \
+      && ! -e "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}.terminated" ]]; then
+      printf 'i-secret\n'
+    else
+      printf '\n'
+    fi
     ;;
   *"s3api put-object"*)
     printf '%s\n' '{"VersionId":"lock-version-secret"}'
     ;;
   *"ec2 run-instances"*)
+    if [[ "${ADL_ISSUE345_FAKE_AWS_FAIL_AFTER_LAUNCH:-}" == "1" ]]; then
+      touch "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}.launched"
+      printf '%s\n' '{"Instances":[{"InstanceId":"i-secret"}]}'
+      exit 99
+    fi
     printf '%s\n' '{"Instances":[{"InstanceId":"i-secret"}]}'
     ;;
-  *"ec2 terminate-instances"*|*"ec2 wait instance-terminated"*|*"ec2 describe-volumes"*|*"s3api delete-object"*)
+  *"ec2 terminate-instances"*)
+    touch "${ADL_ISSUE345_FAKE_AWS_RUN_LOG:-}.terminated"
+    printf '\n'
+    ;;
+  *"ec2 wait instance-terminated"*|*"ec2 describe-volumes"*|*"s3api delete-object"*)
     printf '\n'
     ;;
   *)
@@ -215,6 +236,30 @@ fi
 grep -q 'PreconditionFailed' "$lock_err" || fail "lock collision did not expose AWS conditional failure"
 grep -q 's3api put-object' "$CALL_LOG" || fail "lock acquisition was not attempted"
 
+
+fail_after_launch_err="$CASE_DIR/fail-after-launch.err"
+if PATH="$BIN_DIR:$PATH" \
+  AWS_PROFILE=agent-logic-admin \
+  AWS_REGION=us-west-2 \
+  ADL_ISSUE345_PAID_RUN_AUTHORIZATION=authorized \
+  ADL_ISSUE345_STATE_ROOT="$STATE_DIR" \
+  ADL_ISSUE345_EXPECTED_ACCOUNT_SHA256="$ACCOUNT_SHA" \
+  ADL_ISSUE345_ARTIFACT_BUCKET=issue345-artifacts \
+  ADL_ISSUE345_ARTIFACT_MANIFEST_VERSION_ID=manifest-version \
+  ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256="$MANIFEST_SHA" \
+  ADL_ISSUE345_FAKE_AWS_LOG="$CALL_LOG" \
+  ADL_ISSUE345_FAKE_AWS_RUN_LOG="$RUN_CALL_LOG" \
+  ADL_ISSUE345_FAKE_MANIFEST="$MANIFEST" \
+  ADL_ISSUE345_FAKE_AWS_FAIL_AFTER_LAUNCH=1 \
+  "$RUNNER" run --commit 0123456789abcdef0123456789abcdef01234567 --run-id adl-issue345-launch-failure --execute >"$CASE_DIR/fail-after-launch.out" 2>"$fail_after_launch_err"; then
+  fail "post-launch failure unexpectedly passed"
+fi
+grep -q 'ec2 run-instances' "$RUN_CALL_LOG" || fail "launch failure case did not attempt launch"
+grep -q 'ec2 terminate-instances' "$RUN_CALL_LOG" || fail "trap cleanup did not terminate launched instance"
+grep -q 'ec2 wait instance-terminated' "$RUN_CALL_LOG" || fail "trap cleanup did not wait for termination"
+grep -q 'ec2 describe-volumes' "$RUN_CALL_LOG" || fail "trap cleanup did not inspect volumes"
+grep -q 's3api delete-object' "$RUN_CALL_LOG" || fail "trap cleanup did not release lock"
+
 cleanup_err="$CASE_DIR/cleanup-owner.err"
 if run_with_fake_aws cleanup --run-id adl-issue345-test --owner-token nothex --lock-version-id lock-version >"$CASE_DIR/cleanup-owner.out" 2>"$cleanup_err"; then
   fail "bad owner token cleanup unexpectedly passed"
@@ -222,4 +267,4 @@ fi
 grep -q 'owner token must be the exact 32-character execution token' "$cleanup_err" ||
   fail "cleanup owner-token guard did not fail closed"
 
-printf '%s\n' '{"schema":"adl.issue345.runner_contract_test.v1","status":"pass","paid_launches":0,"preflight":"pass","negative_cases":6}'
+printf '%s\n' '{"schema":"adl.issue345.runner_contract_test.v1","status":"pass","paid_launches":0,"preflight":"pass","negative_cases":7}'
