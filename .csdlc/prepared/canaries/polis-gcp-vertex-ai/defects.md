@@ -44,3 +44,8 @@ Observed defects to retain for cutover:
    The cutover tool needs a focused, repo-contained canary lane for path-policy
    assertions instead of forcing broad coverage behavior during issue-start
    validation.
+10. The new v3 local command reported #592 as locally `ready` even though typed
+    v2 validation blocked the same real issue on missing safe owned paths,
+    unavailable validator targets, missing/stale design review, and the
+    non-terminal #528 dependency. The v3 local preparation command must consume
+    real issue/card/readiness truth, not only the optimistic request packet.

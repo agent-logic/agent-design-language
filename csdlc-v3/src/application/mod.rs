@@ -407,7 +407,7 @@ fn validate_issue_record(record: &Value, issue: u64) -> Result<(), FoundationErr
         });
     }
     required_string(record, "phase", "v2 issue record")?;
-    required_string(record, "digest", "v2 issue record")?;
+    let expected_digest = required_string(record, "digest", "v2 issue record")?;
     required_u64(record, "generation", "v2 issue record")?;
     record
         .get("cards")
@@ -416,7 +416,25 @@ fn validate_issue_record(record: &Value, issue: u64) -> Result<(), FoundationErr
             label: "v2 issue record",
             message: "cards must be a JSON object".to_owned(),
         })?;
+    validate_issue_record_digest(record, expected_digest)?;
     Ok(())
+}
+
+fn validate_issue_record_digest(record: &Value, expected: &str) -> Result<(), FoundationError> {
+    let mut normalized = record.clone();
+    normalized
+        .as_object_mut()
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: "record must be a JSON object".to_owned(),
+        })?
+        .insert("digest".to_owned(), Value::String(String::new()));
+    let bytes =
+        serde_json::to_vec(&normalized).map_err(|source| FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: format!("record serialization failed: {source}"),
+        })?;
+    require_digest_match("v2 issue record", "digest", expected, &digest(&bytes))
 }
 
 fn validate_card_values(values: &Value, issue: u64, card: &str) -> Result<(), FoundationError> {

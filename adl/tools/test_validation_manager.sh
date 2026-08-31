@@ -3,7 +3,16 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SCRIPT="$ROOT/adl/tools/validation_manager.sh"
-TMP="$(mktemp -d)"
+TMP="${ADL_VALIDATION_MANAGER_TEST_TMP_DIR:-$ROOT/.csdlc/evidence/validation-manager-test/tmp}"
+case "$TMP" in
+  "$ROOT"/.csdlc/evidence/validation-manager-test/*) ;;
+  *)
+    echo "refusing non-repo-contained validation manager scratch directory: $TMP" >&2
+    exit 2
+    ;;
+esac
+rm -rf "$TMP"
+mkdir -p "$TMP"
 trap 'rm -rf "$TMP"' EXIT
 
 assert_has() {
@@ -165,7 +174,10 @@ assert packet["exit_code"] == 0
 assert packet["status"] == "passed"
 for key in ("stdout_ref", "stderr_ref", "packet_ref"):
     ref = packet[key]
-    assert "/Users/" not in ref and "/private/tmp" not in ref
+    ref_path = Path(ref)
+    if ref_path.is_absolute():
+        assert str(ref_path).startswith(str(Path.cwd())), f"{key} is not repo-contained: {ref}"
+    assert not ref.startswith(("/private/", "/var/folders/", "/tmp/")), f"{key} leaked system temp: {ref}"
 stdout_ref = Path(packet["stdout_ref"])
 stderr_ref = Path(packet["stderr_ref"])
 if not stdout_ref.is_absolute():

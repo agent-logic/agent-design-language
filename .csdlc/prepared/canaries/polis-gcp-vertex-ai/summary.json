@@ -23,12 +23,17 @@
     }
   },
   "readback_marker_present": true,
-  "canary_defect_count": 9,
+  "canary_defect_count": 10,
   "artifacts": [
     ".csdlc/prepared/canaries/polis-gcp-vertex-ai/create-issue-request.json",
     ".csdlc/prepared/canaries/polis-gcp-vertex-ai/create-result.json",
     ".csdlc/prepared/canaries/polis-gcp-vertex-ai/read-issue-request.json",
     ".csdlc/prepared/canaries/polis-gcp-vertex-ai/read-result.json",
-    ".csdlc/prepared/canaries/polis-gcp-vertex-ai/defects.md"
+    ".csdlc/prepared/canaries/polis-gcp-vertex-ai/defects.md",
+    ".csdlc/evidence/592/read-528-result.json",
+    ".csdlc/evidence/592/bootstrap-result.json",
+    ".csdlc/evidence/592/validate-issue-result.json",
+    ".csdlc/evidence/592/doctor-result.json",
+    ".csdlc/evidence/592/v3-local-result.json"
   ]
 }

@@ -120,7 +120,19 @@ assert_current_coverage_workflow_contract() {
   assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
 }
 
-tmp_dir="$(mktemp -d)"
+tmp_dir="${ADL_CI_PATH_POLICY_TEST_TMP_DIR:-$ROOT_DIR/.csdlc/evidence/ci-path-policy-test/tmp}"
+case "$tmp_dir" in
+  "$ROOT_DIR"/.csdlc/evidence/ci-path-policy-test/*) ;;
+  *)
+    echo "refusing non-repo-contained ci path policy scratch directory: $tmp_dir" >&2
+    exit 2
+    ;;
+esac
+rm -rf "$tmp_dir"
+mkdir -p "$tmp_dir"
+mkdir -p "$tmp_dir/env-tmp" "$tmp_dir/rust-validation"
+export TMPDIR="$tmp_dir/env-tmp"
+export ADL_TEST_TMP_ROOT="$tmp_dir/rust-validation"
 trap 'rm -rf "$tmp_dir"' EXIT
 
 python3 "$ROOT_DIR/adl/tools/test_warm_rust_dependency_cache.py"

@@ -1,0 +1,16 @@
+Authoritative coverage compile failed for workspace: 66; partitions and report command suppressed
+coverage summary merge failed: workspace summary is missing: /Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes/.csdlc/evidence/ci-path-policy-test/tmp/rust-validation/authoritative-coverage.h3cYX4/scratch/coverage-output/run-prebuild-failure/coverage-summary.adl.json
+Authoritative coverage profile cleanup failed for workspace: 55
+coverage summary merge failed: workspace summary is missing: /Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes/.csdlc/evidence/ci-path-policy-test/tmp/rust-validation/authoritative-coverage.h3cYX4/scratch/coverage-output/run-combined-failure/coverage-summary.adl.json
+Authoritative coverage profile cleanup failed for adl-runtime: 55
+Authoritative coverage profile cleanup failed for workspace: 55
+coverage summary merge failed: workspace summary is missing: /Volumes/FastWork/adl-worktrees/adl-sprints56-cutover-fixes/.csdlc/evidence/ci-path-policy-test/tmp/rust-validation/authoritative-coverage.h3cYX4/scratch/coverage-output/run-cleanup-failure/coverage-summary.adl.json
+success-err
+fail-err
+==> html_observatory_tooling_syntax: bash -n adl/tools/test_html_observatory.sh
+==> html_observatory_roster_javascript_syntax: test -f adl/tools/validate_v092_html_observatory_roster.mjs && node --check adl/tools/validate_v092_html_observatory_roster.mjs
+==> docs_diff_check: git diff --check
+==> docs_diff_check: git diff --check
+Traceback (most recent call last):
+  File "<stdin>", line 8, in <module>
+AssertionError

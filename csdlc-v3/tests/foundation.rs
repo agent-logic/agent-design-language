@@ -132,6 +132,32 @@ fn read_only_v2_import_rejects_malformed_issue_records() {
 }
 
 #[test]
+fn read_only_v2_import_rejects_issue_record_digest_drift() {
+    let fixture = FixtureRepo::new("issue-record-digest-drift");
+    fixture.write_v3_contracts();
+    fixture.write_all_cards(779);
+    fixture.write_issue_with_record(779, &fixture.issue_record_json(779, None));
+    let mut record: serde_json::Value =
+        serde_json::from_str(&fixture.issue_record_json(779, None)).expect("record json");
+    record.as_object_mut().expect("record object").insert(
+        "phase".to_owned(),
+        serde_json::Value::String("tampered".to_owned()),
+    );
+    fs::write(
+        fixture.root().join(".csdlc/issues/779/index.json"),
+        serde_json::to_string(&record).expect("record text"),
+    )
+    .expect("tampered record");
+
+    let context = RepositoryContext::discover(fixture.root()).expect("fixture context");
+    let error = IssueProjection::load(&context, 779).expect_err("digest drift rejected");
+    assert!(
+        error.to_string().contains("digest mismatch"),
+        "unexpected error: {error}"
+    );
+}
+
+#[test]
 fn read_only_v2_import_rejects_unsupported_record_fields_and_card_identity_drift() {
     let fixture = FixtureRepo::new("identity-drift");
     fixture.write_v3_contracts();
@@ -337,7 +363,7 @@ impl FixtureRepo {
                 let values = format!(
                     r#"{{"identity":{{"issue":{issue}}},"status":"ready","content":{{"card_kind":"{card}"}}}}"#
                 );
-                let ast = to_mdast(&markdown, &ParseOptions::default()).expect("markdown ast");
+                let ast = to_mdast(&markdown, &ParseOptions::gfm()).expect("markdown ast");
                 format!(
                     r#""{card}":{{"values_digest":"{}","rendered_digest":"{}","ast_digest":"{}"}}"#,
                     test_digest(values.as_bytes()),

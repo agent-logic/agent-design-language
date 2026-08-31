@@ -1,0 +1,7 @@
+[
+  {
+    "branch": "codex/592-runtime-gcp-polis-vertex-ai",
+    "worktree": "adl-worktrees/adl-issue-592-runtime-gcp-polis-vertex-ai",
+    "primary": false
+  }
+]
