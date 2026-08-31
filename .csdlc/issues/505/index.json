@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 505,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 5,
-  "digest": "574b370f8a52847cf499f207803020961b86338a76fb6a2bffe1e0d861b0d38c",
-  "branch": null,
-  "worktree": null,
+  "digest": "35828f766558c80a1cc91f13dec952df01516a6974b1b8a806d7e22c97047639",
+  "branch": "codex/505-v3-f-authority-transition-decision-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:worker-6",
       "reason": "Advance #505 to ready/unbound after design approval, doctor readiness, preparation validator proof, and explicit #504 terminal dependency. Stop before bind or implementation while #504 remains open."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -105,6 +113,13 @@
       "actor": "codex:worker-6",
       "reason": "Make the #505 prebind validation lane prove the explicit #570/#571 Sprint 6 gate denominator.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-v3-f-preparation\",\"proof_role\":\"Prove the initialized #505 preparation packet preserves the #504 terminal dependency, the #570/#571 cutover-readiness gates, v2-live authority boundary, no-silent-retirement rule, explicit operator approval gate, and future visible `Closes #505` publication linkage requirement.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/505/validate-authority-transition-prep.rb\"],\"parallel_group\":\"505-prebind-local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
