@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "implemented",
-  "generation": 7,
-  "digest": "658085bd715a8dfc103e2f3ec1877f04114ee9b774b7d265d602c40a5ccf04c5",
+  "phase": "reviewed",
+  "generation": 8,
+  "digest": "3e2b756f36c89bea2e1e220bae46cddeb8b0ee27c903fb3c05aac4d8c6f0a05e",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/issue_345_review_r4",
+    "assigned_by": "codex:issue-345-implementation",
+    "revision": "git-blake3:549effd3da7dc399e2de9ed8517eadcc34e01a56:a9bc78cd08237731727d0792860748548ca3535ab2306e3c6c63b41ba78c3424",
+    "scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/evidence/345",
+      ".csdlc/issues/345"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/issue_345_review_r4",
+    "scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/evidence/345",
+      ".csdlc/issues/345"
+    ],
+    "reviewed_revision": "git-blake3:549effd3da7dc399e2de9ed8517eadcc34e01a56:a9bc78cd08237731727d0792860748548ca3535ab2306e3c6c63b41ba78c3424",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and did not run real AWS preflight or paid GPU execution; it confirmed local runner/test contract and the deferred-live boundary only.",
+      "Paid GPU execution still requires a separate exact-run operator authorization naming the reviewed revision, run id, deadline, and maximum cost."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "15ac1cf3863db682edf8ccd19f7fd27ab059135d16373b6ea21b797f80a37656",
+      "values_digest": "4de80f2a4353f3f933a31f781da67f3bb0332741036ef542f6acb1ae203b4966",
       "rendered_digest": "8938409a9b1325974a7580fa579fa3779b37293b59a35f3e41056ae026958d9f",
       "ast_digest": "d70c20ab4abcc96865ac41d795c95b246afad5f3b55a76f88364f08516e56c3b"
     },
     "stp": {
-      "values_digest": "9381941dd7ff434d2fc5b69cde4297edc33df344ae3ccbe234f96e0d88a89eca",
+      "values_digest": "149210872777314d38a9d1f37ce323adb54e4ed36826f168864d4f73f5887f94",
       "rendered_digest": "3e0297d1465f8f80e9038a11585826f0db491b28a8bfcb2ce89ba4824b993939",
       "ast_digest": "186663e96d9094357924e2ed1c5b6d1b83374e0056a21771baccb3665097078b"
     },
     "spp": {
-      "values_digest": "8d58e22f665e7f2de93956f8c823c2f90076f2011cf09c6fa1080809068b3819",
+      "values_digest": "1c8ca876c6cbb924621b5ca50692018f8b00c3a29eeff7c17f62cc3218acf4bc",
       "rendered_digest": "fdfab867eb938b2abe6fa13ac84ffeb61e3cceddd268469c793bcd26669389c6",
       "ast_digest": "80b856f194cfc7c6a241d88ea3d728a3cbf7c134c486fdfd0b57853773d09c83"
     },
     "vpp": {
-      "values_digest": "f63a22d641e7649e723d3efc2ae53a16bbc2e0414490cecfa95df83c82059b95",
+      "values_digest": "92b4e3d60adca6efff274615365b17dad5a6a8c8bffc717da454f02a079bb3de",
       "rendered_digest": "66741aa1e2e7a8aa6c09f6add5674d5b87f1db4a4e8fbb0bd582acad5cb3ee3f",
       "ast_digest": "3b72bc8145ab9517c6184cdc1842c39496aac592be65ffdf208defba499b5fbe"
     },
     "srp": {
-      "values_digest": "ff2b7bdc2dbfe6d40c243fb04fa1ceec5327ffcc4d669f8ed5e472770e52f5d7",
-      "rendered_digest": "dc98fee9fc127f7c749ec1e2e183ac0fe280a46ef08916ea18c0b7627baad6b4",
-      "ast_digest": "370ff7b7edd5b14761441cffde0a3011ed6ffefe167c2f6e843535678fd90949"
+      "values_digest": "be49062a656eb5a0efab426737e5bda5c324029fdb30a4a4ecd9260ca8dbccee",
+      "rendered_digest": "70b1880087ad9b8d7bbbb16ed3a24f5c96267e4c0f4c24d4785491175ad6e25c",
+      "ast_digest": "8c2a3fd37ba617d5eb110b3957f1ac98050c44d90cfa7810f6ac4593c7431c07"
     },
     "sor": {
-      "values_digest": "faa40e12d7d321a74c561f5106f774b4acf58fb76d6b357bcdd4a02f4f347be2",
+      "values_digest": "6eff99e1dd5903684543c99d71fc7df7916702f3dbbbb9f467d79838c86e3fd9",
       "rendered_digest": "294f68704d90d58e583fbcf8f25f01412883469a49158c9a160d288a0a1d071f",
       "ast_digest": "83264e35561f4783202eec125f57adbca942907626b4ac37c01481b1d99cb20d"
     }
@@ -76,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:issue-345-implementation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-345-implementation",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -141,6 +176,20 @@
       "actor": "codex:issue-345-implementation",
       "reason": "Record r3 review-finding remediation for exact-head paid-run gating, guest bootstrap prerequisites, issue-scoped reaper target validation, and lock-version receipt timing.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the optional AWS GPU Shepherd proof runner with deterministic no-mutation contract proof, actual guest SSM proof choreography for the separately authorized paid lane, exact reviewed-HEAD launch gating, and deferred live AWS execution gates.\",\"changes\":[\"Added issue-owned preflight, paid run, and owner-bound cleanup command for the AWS GPU Shepherd portability proof.\",\"Strengthened account, instance-profile role/policy, no-ingress security group, issue-scoped deadline reaper target, immutable artifact manifest/object-version, DLAMI/subnet, quota, price, stale-compute, and deadline predicates before paid launch.\",\"Required the paid-run --commit value to match the currently checked-out reviewed HEAD before any launch attempt.\",\"Upgraded the paid path to resolve a DLAMI and subnet, launch one tagged On-Demand GPU instance, wait for SSM, run a guest bootstrap proof with runtime/toolchain artifact prerequisites, verify GPU residency and governed real-model Shepherd proof JSON, retain the lock-version hash before cleanup, and cleanup owner-tagged resources.\",\"Added deterministic fake-AWS contract tests proving read-only preflight, fail-closed paid-run predicates, IAM drift rejection, stale-valid-SHA rejection, lock collision behavior, fake successful SSM guest proof, post-launch failure cleanup, cleanup owner-token guard, no real paid launch, and redacted public output.\",\"Documented the optional portability boundary, required non-secret preflight inputs, exact reviewed-HEAD paid-run gate, cleanup command, and evidence hygiene.\"],\"artifacts\":[\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/345/issue345-runner-contract.log\",\".csdlc/evidence/345/issue345-diff-hygiene.log\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Run the deterministic fake-AWS contract test for preflight, paid-run gates, exact reviewed-HEAD gating, SSM guest proof choreography, cleanup, and redaction without real AWS mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/345/issue345-runner-contract.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/345/issue345-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-345-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-345-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

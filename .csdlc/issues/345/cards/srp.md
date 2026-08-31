@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Review the complete issue-#345 diff against exact origin/main, with emphasis on paid-launch authority, AWS account and pre-provisioned resource verification, owner-bound cleanup, exact revision/artifact/model proof, evidence redaction, and the optional/non-production claim boundary.
+adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
+adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
+docs/operations/cloud/aws/shepherd-gpu-proof/README.md
+.csdlc/evidence/345
+.csdlc/issues/345
 
 ## Prompts
 
@@ -32,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was read-only and did not run real AWS preflight or paid GPU execution; it confirmed local runner/test contract and the deferred-live boundary only.
+- Paid GPU execution still requires a separate exact-run operator authorization naming the reviewed revision, run id, deadline, and maximum cost.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:549effd3da7dc399e2de9ed8517eadcc34e01a56:a9bc78cd08237731727d0792860748548ca3535ab2306e3c6c63b41ba78c3424")
 
-Reviewer: None
+Reviewer: Some("fresh-session:/root/issue_345_review_r4")
 
-Result: pre_review
+Result: pass

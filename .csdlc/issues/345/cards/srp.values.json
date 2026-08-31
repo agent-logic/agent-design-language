@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review the complete issue-#345 diff against exact origin/main, with emphasis on paid-launch authority, AWS account and pre-provisioned resource verification, owner-bound cleanup, exact revision/artifact/model proof, evidence redaction, and the optional/non-production claim boundary.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\nadl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\ndocs/operations/cloud/aws/shepherd-gpu-proof/README.md\n.csdlc/evidence/345\n.csdlc/issues/345",
+      "review_revision": "git-blake3:549effd3da7dc399e2de9ed8517eadcc34e01a56:a9bc78cd08237731727d0792860748548ca3535ab2306e3c6c63b41ba78c3424",
+      "reviewer": "fresh-session:/root/issue_345_review_r4",
       "review_prompts": [
         "Can any path launch paid compute before account, authorization, cost, deadline, lock, IAM, no-ingress, artifact, quota, and reaper predicates are proven?",
         "Can interruption or a partial AWS response leave an unowned instance, volume, lock, or cleanup ambiguity?",
@@ -24,8 +24,11 @@
         "Does the issue remain an optional portability proof without changing Runtime/local Shepherd acceptance or absorbing #256?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was read-only and did not run real AWS preflight or paid GPU execution; it confirmed local runner/test contract and the deferred-live boundary only.",
+        "Paid GPU execution still requires a separate exact-run operator authorization naming the reviewed revision, run id, deadline, and maximum cost."
+      ],
+      "review_result": "pass"
     }
   }
 }
