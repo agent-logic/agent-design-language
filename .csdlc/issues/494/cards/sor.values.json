@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
     "slug": "gcp-gpu-readiness-smoke-test",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
@@ -87,8 +87,8 @@
           "evidence_ref": "gcp-e-terraform-fmt.log"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
