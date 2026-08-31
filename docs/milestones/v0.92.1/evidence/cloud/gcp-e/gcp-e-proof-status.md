@@ -69,7 +69,7 @@ requested accelerator count.
 
 Attempt 3 ran after the quota preference was approved to `1`. Terraform created
 the service account, IAP firewall, and L4 VM, then SSH readback failed because
-`gcloud compute ssh` tried to create its default key under `/Users/daniel/.ssh`.
+`gcloud compute ssh` tried to create its default key under `<operator-ssh-dir>`.
 The destroy trap removed the VM, firewall, and service account. The script now
 routes `gcloud compute ssh` through `GCP_E_SSH_KEY_FILE`, defaulting to a
 Git-common private path, and probes the startup marker before log readback so

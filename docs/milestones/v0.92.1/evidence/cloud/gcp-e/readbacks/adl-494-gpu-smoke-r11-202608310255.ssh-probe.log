@@ -25,11 +25,11 @@ Connection closed by UNKNOWN port 65535
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 1 failed; retrying
@@ -44,11 +44,11 @@ daniel@compute.7420931294046541445: Permission denied (publickey).
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 2 failed; retrying
@@ -62,11 +62,11 @@ daniel@compute.7420931294046541445: Permission denied (publickey).
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 3 failed; retrying
@@ -80,11 +80,11 @@ daniel@compute.7420931294046541445: Permission denied (publickey).
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 4 failed; retrying
@@ -98,11 +98,11 @@ daniel@compute.7420931294046541445: Permission denied (publickey).
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 5 failed; retrying
@@ -122,11 +122,11 @@ daniel@compute.7420931294046541445: Permission denied (publickey).
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 7 failed; retrying
@@ -146,11 +146,11 @@ daniel@compute.7420931294046541445: Permission denied (publickey).
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 9 failed; retrying
@@ -164,11 +164,11 @@ daniel@compute.7420931294046541445: Permission denied (publickey).
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 10 failed; retrying
@@ -182,11 +182,11 @@ daniel@compute.7420931294046541445: Permission denied (publickey).
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 11 failed; retrying
@@ -217,11 +217,11 @@ Connection closed by UNKNOWN port 65535
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r11-202608310255-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 12 failed; retrying

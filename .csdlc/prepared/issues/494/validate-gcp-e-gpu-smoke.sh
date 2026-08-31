@@ -36,6 +36,16 @@ reject_text() {
   fi
 }
 
+reject_tree_text() {
+  local root="$1"
+  local needle="$2"
+  if grep -RIFq -- "${needle}" "${root}"; then
+    echo "forbidden text under ${root}: ${needle}" >&2
+    grep -RIFn -- "${needle}" "${root}" >&2
+    exit 1
+  fi
+}
+
 require_empty_file() {
   local path="$1"
   require_file "${path}"
@@ -162,6 +172,10 @@ if [[ "${lane}" == "--lane=all" ]]; then
   reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "gcp-tf-bootstrap"
   reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/gcp-e-proof-status.md" "/Users/daniel/keys"
   reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/gcp-e-proof-status.md" "gcp-tf-bootstrap"
+  reject_tree_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks" "--ssh-key-file="
+  reject_tree_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks" "/Users/daniel/.ssh"
+  reject_tree_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks" "/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e"
+  reject_tree_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks" "google_compute_engine"
   require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r10-202608310247.instances-after-destroy.json"
   require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r10-202608310247.disks-after-destroy.json"
   require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r11-202608310255.instances-after-destroy.json"

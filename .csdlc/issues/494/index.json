@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fe94dbc84ab0d1df451508b4d682d8703a83d050c141817df3a82cb9ed0eb470",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "b6f724454d5f336333c4356696e11e2f09320e0758b12afe85b3f10dc4a55fbb",
+  "generation": 15,
+  "digest": "ab0f2cd6ac114e40b17ef5355327e87cd7c05051e73881fc55683c58b58505e0",
   "branch": "codex/494-gcp-gpu-readiness-smoke-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-494-gcp-gpu-readiness-smoke-execution",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a9bb9ed58d62cfb428558294f75e3762a0880237b3c00fb9300d56ce4a21234c",
+      "values_digest": "3a80583019ef22340575e795d0762ed5fcd16e5e1ebdc7b61004341b97816085",
       "rendered_digest": "3e1844ba1f87234d313a0f56c2708d7c58a69b7540edd787d594f6e0d412465f",
       "ast_digest": "02f49cecf706aaa0319541546da9095d8be8ad334217494c8c61ba004389b594"
     },
     "stp": {
-      "values_digest": "a7068513569dc2cbc4509170b59f46ab51079bcaf71df00ed563340c035087a3",
+      "values_digest": "3893955c9ead13c72b571a10e41c1ffbed7f3cc99101385fbc109c10276f254b",
       "rendered_digest": "279bee87e1f3c727c252674e3c56a9d82af401e5404c2999b54d0b0480c5a4ef",
       "ast_digest": "fb16dcdab75e027ed3b6de876ba6b4bd936a10afe3f1f8439cccb0f9c6f98f31"
     },
     "spp": {
-      "values_digest": "13326cd56bff0c23538acb946b9a3cad44778be016bd484ff7b9aa20f652e91f",
+      "values_digest": "a47c93dfdbdbad2c93420b5f6cad17dc7d9cc0dabd9f979494bafdd425c2e66c",
       "rendered_digest": "b176741acb3a6bf99a6966d5172e005b43cf0e3f3d2c2439ce2cf5a197bcfb01",
       "ast_digest": "2c991075ce701f532fd41de1c44c72cd47429fafceeba4e5bdb10146021d66f8"
     },
     "vpp": {
-      "values_digest": "5a75fd31e5390f83d71dbf1304ac60b6d09da268f4cf515288f2b65d6e07d209",
+      "values_digest": "4f02159a4baee5b1962edfae0366b1b6950a036af7c36c5270dbbf3593f1ed42",
       "rendered_digest": "8cabea423816adfca657e5dbd84b5c2d2425f0d550545391b0db133c0ac06545",
       "ast_digest": "2f30a07e8f0cbd8f5cd86b06342fe4a4866effef49caeeb2a22ed2a6cac857aa"
     },
     "srp": {
-      "values_digest": "6899f25e068d19db0e9dc8baabe17f4073badb8968a32e27ee8cb17aee35e8a1",
+      "values_digest": "b6df304a2d0b56a961d2e00490261e86b94c2e8330e91c26a0745ad3d3463069",
       "rendered_digest": "7206a8b2e46464798e8e24c68ce749b25eb8fec7331ae845b0028cc35df6a19e",
       "ast_digest": "7392b69882dd6ee262b30db09759b1f637c4b84c9858d6b13034b3e90f16a716"
     },
     "sor": {
-      "values_digest": "131355d014f5ee2d2907f1ce212e5b002ee4ea8d94f8290f508c614300ca7dfc",
+      "values_digest": "d828234716f4fb6366665d22c8935e9b4bf914d0e7e1d029f7c55d9ab093ce53",
       "rendered_digest": "f6a981c6c350e300f2fa6d5a825499e7ab6b3de016d4ba0f166b58f7b5eaa363",
       "ast_digest": "58cdc5f8c4ca198309f457b270fbf4d9d66b5a4a56d8ea11178337e15f511e50"
     }
@@ -245,6 +245,20 @@
       "generation": 14,
       "actor": "codex:/root",
       "reason": "Recover #494 review assignment after R7 found cleanup proof must fail closed on destroy failure or non-empty per-run residue and the validator must assert empty retained readbacks.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover #494 review assignment after R8 found committed GCP-E readback logs still contained host-local SSH key and known-host paths, and the validator did not scan readbacks for those markers.",
       "operation": "recover_review"
     }
   ]

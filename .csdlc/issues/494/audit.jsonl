@@ -20,3 +20,5 @@
 {"sequence":20,"generation":13,"actor":"codex:/root","reason":"Recover #494 review assignment after R6 found one remaining P3 credential path hygiene defect in the GCP-E README and validator coverage.","operation":"recover_review"}
 {"sequence":21,"generation":13,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":22,"generation":14,"actor":"codex:/root","reason":"Recover #494 review assignment after R7 found cleanup proof must fail closed on destroy failure or non-empty per-run residue and the validator must assert empty retained readbacks.","operation":"recover_review"}
+{"sequence":23,"generation":14,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":24,"generation":15,"actor":"codex:/root","reason":"Recover #494 review assignment after R8 found committed GCP-E readback logs still contained host-local SSH key and known-host paths, and the validator did not scan readbacks for those markers.","operation":"recover_review"}

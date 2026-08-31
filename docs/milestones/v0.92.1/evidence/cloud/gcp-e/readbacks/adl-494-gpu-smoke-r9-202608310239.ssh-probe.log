@@ -25,11 +25,11 @@ Connection closed by UNKNOWN port 65535
 Recommendation: To check for possible causes of SSH connectivity issues and get
 recommendations, rerun the ssh command with the --troubleshoot option.
 
-gcloud compute ssh adl-494-gpu-smoke-r9-202608310239-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot
+gcloud compute ssh adl-494-gpu-smoke-r9-202608310239-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot
 
 Or, to investigate an IAP tunneling issue:
 
-gcloud compute ssh adl-494-gpu-smoke-r9-202608310239-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a --ssh-key-file=/Users/daniel/git/agent-design-language/.git/csdlc-v2/gcp-e/google_compute_engine --troubleshoot --tunnel-through-iap
+gcloud compute ssh adl-494-gpu-smoke-r9-202608310239-vm --project=cs-poc-cha8mmii0xk0iaw5vpf8mxf --zone=us-central1-a [ssh-key-file redacted] --troubleshoot --tunnel-through-iap
 
 ERROR: (gcloud.compute.ssh) [/usr/bin/ssh] exited with return code [255].
 ssh probe attempt 1 failed; retrying
@@ -38,4 +38,4 @@ WARNING:
 To increase the performance of the tunnel, consider installing NumPy. For instructions,
 please see https://cloud.google.com/iap/docs/using-tcp-forwarding#increasing_the_tcp_upload_bandwidth
 
-Failed to add the host to the list of known hosts (/Users/daniel/.ssh/google_compute_known_hosts).
+Failed to add the host to the list of known hosts (<operator-ssh-known-hosts>).
