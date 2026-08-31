@@ -102,17 +102,22 @@ successful proof work and produced `Permission denied (publickey)` during the
 readiness probe. The final script keeps normal `gcloud compute ssh` behavior
 while supplying explicit Git-common SSH key and run-scoped known-hosts paths.
 The failure cleanup path now records the same disposable instance destroy log
-and VM/disk after-destroy readbacks as the success path, so future failed live
-attempts leave durable zero-residue evidence instead of relying on trap behavior
-alone.
+and VM/disk after-destroy readbacks as the success path. It fails closed if
+`terraform destroy` fails or if the run-scoped VM/disk name readbacks are
+non-empty, so future failed live attempts cannot report success while leaving
+paid residue behind.
 
 The retained r10/r11 follow-up readbacks now prove there is no remaining
 per-run VM or disk residue for those rejected attempts:
 
 - `readbacks/adl-494-gpu-smoke-r10-202608310247.instances-after-destroy.json`
 - `readbacks/adl-494-gpu-smoke-r10-202608310247.disks-after-destroy.json`
+- `readbacks/adl-494-gpu-smoke-r10-202608310247.instances-after-destroy.names`
+- `readbacks/adl-494-gpu-smoke-r10-202608310247.disks-after-destroy.names`
 - `readbacks/adl-494-gpu-smoke-r11-202608310255.instances-after-destroy.json`
 - `readbacks/adl-494-gpu-smoke-r11-202608310255.disks-after-destroy.json`
+- `readbacks/adl-494-gpu-smoke-r11-202608310255.instances-after-destroy.names`
+- `readbacks/adl-494-gpu-smoke-r11-202608310255.disks-after-destroy.names`
 
 ## Quota request
 

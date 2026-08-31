@@ -105,18 +105,30 @@ fi
 record_disposable_residue() {
   gcloud compute instances list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format=json >"${evidence_dir}/${run_id}.instances-after-destroy.json" 2>"${evidence_dir}/${run_id}.instances-after-destroy.stderr" || true
   gcloud compute disks list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format=json >"${evidence_dir}/${run_id}.disks-after-destroy.json" 2>"${evidence_dir}/${run_id}.disks-after-destroy.stderr" || true
+  gcloud compute instances list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format='value(name)' >"${evidence_dir}/${run_id}.instances-after-destroy.names" 2>"${evidence_dir}/${run_id}.instances-after-destroy.names.stderr" || true
+  gcloud compute disks list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format='value(name)' >"${evidence_dir}/${run_id}.disks-after-destroy.names" 2>"${evidence_dir}/${run_id}.disks-after-destroy.names.stderr" || true
+}
+
+assert_no_disposable_residue() {
+  if [[ -s "${evidence_dir}/${run_id}.instances-after-destroy.names" || -s "${evidence_dir}/${run_id}.disks-after-destroy.names" ]]; then
+    echo "GCP-E #494 cleanup left per-run VM or disk residue; see ${evidence_dir}/${run_id}.*after-destroy*" >&2
+    return 1
+  fi
 }
 
 cleanup() {
   local reason="${1:-exit}"
+  local cleanup_destroy_status=0
   {
     echo "cleanup_reason=${reason}"
     terraform -chdir="${instance_root}" destroy -auto-approve -var-file="${instance_tfvars}"
-  } >"${evidence_dir}/${run_id}.terraform-instance-destroy.log" 2>&1 || {
-    cleanup_status=$?
-    echo "cleanup_destroy_status=${cleanup_status}" >>"${evidence_dir}/${run_id}.terraform-instance-destroy.log"
-  }
+  } >"${evidence_dir}/${run_id}.terraform-instance-destroy.log" 2>&1 || cleanup_destroy_status=$?
   record_disposable_residue
+  if [[ "${cleanup_destroy_status}" != "0" ]]; then
+    echo "cleanup_destroy_status=${cleanup_destroy_status}" >>"${evidence_dir}/${run_id}.terraform-instance-destroy.log"
+    return "${cleanup_destroy_status}"
+  fi
+  assert_no_disposable_residue
 }
 trap 'cleanup exit' EXIT
 

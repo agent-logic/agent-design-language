@@ -7,7 +7,7 @@
     "title": "[v0.92.1][GCP-E] GCP GPU readiness smoke test",
     "slug": "gcp-gpu-readiness-smoke-test",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
