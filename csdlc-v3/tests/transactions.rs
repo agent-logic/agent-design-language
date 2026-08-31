@@ -401,6 +401,115 @@ fn durable_transaction_store_rejects_stale_intent_before_journal_append() {
 }
 
 #[test]
+fn durable_open_fails_closed_on_interrupted_intent() {
+    let directory = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
+        "target/csdlc-v3-durable-interrupted-intent-{}",
+        std::process::id()
+    ));
+    let _ = fs::remove_dir_all(&directory);
+    let initial = StateRecord::new(LifecycleState::Ready);
+    {
+        let store =
+            DurableTransactionStore::create(&directory, initial.clone()).expect("durable store");
+        drop(store);
+    }
+    fs::write(
+        directory.join("intents.jsonl"),
+        format!(
+            "{{\"schema\":\"csdlc.v3.transaction_intent.v1\",\"expected_generation\":{},\"expected_digest\":\"{}\",\"command\":\"Bind\",\"provenance\":\"interrupted before state replacement\"}}\n",
+            initial.generation, initial.digest
+        ),
+    )
+    .expect("write interrupted intent fixture");
+    match DurableTransactionStore::open(&directory) {
+        Err(csdlc_v3::storage::StoreError::RecoveryRequired(_)) => {}
+        Err(error) => panic!("unexpected reopen error: {error:?}"),
+        Ok(_) => panic!("interrupted intent must not reopen as a usable store"),
+    }
+    assert!(!directory.join("state.lock").exists());
+    let _ = fs::remove_dir_all(&directory);
+}
+
+#[test]
+fn durable_failed_state_replacement_does_not_advance_live_memory() {
+    let directory = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
+        "target/csdlc-v3-durable-state-write-failure-{}",
+        std::process::id()
+    ));
+    let _ = fs::remove_dir_all(&directory);
+    let initial = StateRecord::new(LifecycleState::Ready);
+    {
+        let mut store =
+            DurableTransactionStore::create(&directory, initial.clone()).expect("durable store");
+        fs::create_dir(directory.join("state.json.tmp")).expect("block temp-file replacement");
+        let transaction = store
+            .begin(
+                LifecycleCommand::Bind,
+                &full_capabilities(),
+                initial.generation,
+                initial.digest.clone(),
+                "state replacement will fail",
+            )
+            .expect("transaction stages");
+        assert!(matches!(
+            store.commit(transaction, ProjectionWrite::Success),
+            Err(csdlc_v3::storage::StoreError::Io(_))
+        ));
+        assert_eq!(store.committed().generation, initial.generation);
+        assert_eq!(store.committed().digest, initial.digest);
+        let journal =
+            fs::read_to_string(directory.join("intents.jsonl")).expect("intent journal exists");
+        assert!(journal.contains("state replacement will fail"));
+    }
+    let _ = fs::remove_dir_all(&directory);
+}
+
+#[test]
+fn durable_projection_failure_after_state_commit_is_repair_authority() {
+    let directory = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
+        "target/csdlc-v3-durable-projection-failure-{}",
+        std::process::id()
+    ));
+    let _ = fs::remove_dir_all(&directory);
+    let initial = StateRecord::new(LifecycleState::Ready);
+    {
+        let mut store =
+            DurableTransactionStore::create(&directory, initial.clone()).expect("durable store");
+        let transaction = store
+            .begin(
+                LifecycleCommand::Bind,
+                &full_capabilities(),
+                initial.generation,
+                initial.digest,
+                "projection writer fails after durable state",
+            )
+            .expect("transaction stages");
+        let result = store
+            .commit_then_project(transaction, |_| {
+                Err(csdlc_v3::storage::StoreError::Io(
+                    "projection write failed after commit".to_owned(),
+                ))
+            })
+            .expect("projection failure is recorded as repair");
+        let CommitResult::ProjectionRepairRequired(state) = result else {
+            panic!("expected projection repair result");
+        };
+        assert!(state.projections_repair_required);
+        assert!(store.committed().projections_repair_required);
+        let state_json = fs::read_to_string(directory.join("state.json")).expect("state json");
+        assert!(state_json.contains("\"projections_repair_required\":true"));
+    }
+    match DurableTransactionStore::open(&directory) {
+        Err(csdlc_v3::storage::StoreError::RecoveryRequired(
+            RecoveryRepair::RegenerateProjections,
+        )) => {}
+        Err(other) => panic!("unexpected open error: {other:?}"),
+        Ok(_) => panic!("interrupted intent must fail closed"),
+    }
+    let _ = fs::remove_dir_all(&directory);
+}
+
+#[test]
 fn recovery_classifies_interrupted_writes_without_losing_provenance() {
     let prior = StateRecord::new(LifecycleState::Ready);
     let mut store = TransactionStore::new(prior.clone()).expect("valid initial digest");

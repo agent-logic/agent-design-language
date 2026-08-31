@@ -137,6 +137,7 @@ validation_profile_report=""
 validation_profile_contract_lanes_selected="$bool_false"
 runtime_v3_fast_required="$bool_false"
 csdlc_v2_standalone_required="$bool_false"
+csdlc_v3_standalone_required="$bool_false"
 adl_v2_standalone_required="$bool_false"
 large_file_lines="${COVERAGE_IMPACT_LARGE_FILE_LINES:-200}"
 large_file_delta="${COVERAGE_IMPACT_LARGE_FILE_DELTA:-80}"
@@ -1125,9 +1126,13 @@ mark_validation_manager_focused_pr_fast_validation() {
   if validation_profile_includes_lane "csdlc_v2_standalone"; then
     csdlc_v2_standalone_required=true
   fi
+  if validation_profile_includes_lane "csdlc_v3_standalone"; then
+    csdlc_v3_standalone_required=true
+  fi
   if validation_profile_includes_lane "ci_path_policy_contracts" \
     || validation_profile_includes_lane "aws_remote_validation_tooling" \
-    || validation_profile_includes_lane "csdlc_v2_standalone"; then
+    || validation_profile_includes_lane "csdlc_v2_standalone" \
+    || validation_profile_includes_lane "csdlc_v3_standalone"; then
     ci_contracts_required=true
   fi
   reason="${validation_profile_primary_reason:-validation_manager_focused_pr_fast_escalation_runs_focused_validation}"
@@ -1399,10 +1404,14 @@ apply_validation_manager_routing() {
   if [ "$validation_profile_status" = "ready_to_run" ] \
     && [ "$validation_profile_escalation_required" = "false" ]; then
     selected_csdlc_v2=false
+    selected_csdlc_v3=false
     selected_adl_v2=false
     selected_runtime_kernel=false
     case ",$validation_profile_run_lanes," in
       *,csdlc_v2_standalone,*) selected_csdlc_v2=true ;;
+    esac
+    case ",$validation_profile_run_lanes," in
+      *,csdlc_v3_standalone,*) selected_csdlc_v3=true ;;
     esac
     case ",$validation_profile_run_lanes," in
       *,adl_v2_standalone,*) selected_adl_v2=true ;;
@@ -1410,12 +1419,16 @@ apply_validation_manager_routing() {
     case ",$validation_profile_run_lanes," in
       *,runtime_kernel_contracts,*) selected_runtime_kernel=true ;;
     esac
-    if [ "$selected_csdlc_v2" = true ] || [ "$selected_adl_v2" = true ] || [ "$selected_runtime_kernel" = true ]; then
+    if [ "$selected_csdlc_v2" = true ] || [ "$selected_csdlc_v3" = true ] || [ "$selected_adl_v2" = true ] || [ "$selected_runtime_kernel" = true ]; then
       coverage_lane="skip"
       coverage_authority="not_required"
       coverage_execution_state="skipped_by_path_policy"
       if [ "$selected_csdlc_v2" = true ]; then
         csdlc_v2_standalone_required=true
+        ci_contracts_required=true
+      fi
+      if [ "$selected_csdlc_v3" = true ]; then
+        csdlc_v3_standalone_required=true
         ci_contracts_required=true
       fi
       if [ "$selected_adl_v2" = true ]; then
@@ -1424,12 +1437,14 @@ apply_validation_manager_routing() {
       if [ "$selected_runtime_kernel" = true ]; then
         runtime_v3_fast_required=true
       fi
-      if [ "$selected_adl_v2" = true ] && [ "$selected_csdlc_v2" != true ] && [ "$selected_runtime_kernel" != true ]; then
+      if [ "$selected_adl_v2" = true ] && [ "$selected_csdlc_v2" != true ] && [ "$selected_csdlc_v3" != true ] && [ "$selected_runtime_kernel" != true ]; then
         reason="standalone_adl_v2_surface_requires_only_its_independent_focused_suite"
       elif [ "$selected_csdlc_v2" = true ] && [ "$selected_runtime_kernel" = true ]; then
         reason="csdlc_v2_and_runtime_v3_surfaces_run_both_independent_focused_lanes"
       elif [ "$selected_csdlc_v2" = true ]; then
         reason="standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+      elif [ "$selected_csdlc_v3" = true ]; then
+        reason="standalone_csdlc_v3_surface_requires_only_its_independent_focused_suite"
       else
         reason="runtime_v3_only_change_runs_independent_runtime_kernel_fast_lane"
       fi
@@ -1456,6 +1471,15 @@ apply_validation_manager_routing() {
       coverage_authority="not_required"
       coverage_execution_state="skipped_by_path_policy"
       reason="standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+      return 0
+      ;;
+    ready_to_run:csdlc_v3_standalone:false)
+      csdlc_v3_standalone_required=true
+      ci_contracts_required=true
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="standalone_csdlc_v3_surface_requires_only_its_independent_focused_suite"
       return 0
       ;;
     ready_to_run:runtime_kernel_contracts:false|\
@@ -1671,6 +1695,9 @@ else
         csdlc-v2/*)
           csdlc_v2_standalone_required=true
           ;;
+        csdlc-v3/*)
+          csdlc_v3_standalone_required=true
+          ;;
         adl-v2/*)
           adl_v2_standalone_required=true
           ;;
@@ -1747,6 +1774,13 @@ EOF
               continue
             fi
             mark_pr_fast_rust_validation
+            ;;
+          csdlc-v3/*)
+            csdlc_v3_standalone_required=true
+            ci_contracts_required=true
+            if [ "$reason" = "path_policy_docs_or_tooling_only" ]; then
+              reason="standalone_csdlc_v3_surface_requires_locked_independent_suite"
+            fi
             ;;
           demos/podcast/*|demos/_preview/podcast/*)
             ci_contracts_required=true
@@ -1935,7 +1969,7 @@ classify_changed_path() {
     adl-runtime/*|adl-runtime-kernel/*|infra/runtime-v3/*|adl/src/csm*|adl/src/long_lived*)
       printf '%s\n' "runtime_critical_source"
       ;;
-    adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*)
+    adl/src/*|adl/tests/*|adl/Cargo.toml|adl/Cargo.lock|adl/build.rs|adl-v2/*|csdlc-v2/*|csdlc-v3/*)
       printf '%s\n' "ordinary_product_source"
       ;;
     *)
@@ -1981,7 +2015,7 @@ EOF
   elif [ "$rust_required" = true ]; then
     pvf_lane="focused_rust"
     release_gate_role="source_required"
-  elif [ "$csdlc_v2_standalone_required" = true ] || [ "$adl_v2_standalone_required" = true ]; then
+  elif [ "$csdlc_v2_standalone_required" = true ] || [ "$csdlc_v3_standalone_required" = true ] || [ "$adl_v2_standalone_required" = true ]; then
     pvf_lane="standalone_focused"
     release_gate_role="source_required"
   elif [ "$ci_contracts_required" = true ]; then
@@ -2017,6 +2051,7 @@ emit "skill_author_contracts_required" "$skill_author_contracts_required"
 emit "validation_profile_contract_lanes_selected" "$validation_profile_contract_lanes_selected"
 emit "runtime_v3_fast_required" "$runtime_v3_fast_required"
 emit "csdlc_v2_standalone_required" "$csdlc_v2_standalone_required"
+emit "csdlc_v3_standalone_required" "$csdlc_v3_standalone_required"
 emit "adl_v2_standalone_required" "$adl_v2_standalone_required"
 emit "fail_closed" "$fail_closed"
 emit "coverage_lane" "$coverage_lane"

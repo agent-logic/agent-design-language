@@ -14,6 +14,7 @@ pub enum PublicationMode {
 pub struct PublicationRequest {
     pub repository: String,
     pub issue: u64,
+    pub pull_request: u64,
     pub mode: PublicationMode,
     pub publisher: String,
     pub body: String,
@@ -24,6 +25,7 @@ pub struct PublicationRequest {
 pub struct PublicationEvidence {
     pub(crate) repository: String,
     pub(crate) issue: u64,
+    pub(crate) pull_request: u64,
     pub(crate) mode: PublicationMode,
     pub(crate) head_sha: String,
     pub(crate) authorization_digest: String,
@@ -39,6 +41,7 @@ pub enum PublicationRelation {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PublicationRejectReason {
     AuthorizationMismatch,
+    MissingPullRequestIdentity,
     MissingClosingRelation,
     ClosingModeHasNonClosingRelation,
     PartOfModeHasClosingRelation,
@@ -51,6 +54,8 @@ pub struct PullRequestReadback {
     pub number: u64,
     pub head_sha: String,
     pub merged: bool,
+    pub closes_issue: Option<u64>,
+    pub part_of_issue: Option<u64>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -80,9 +85,12 @@ pub enum FinishClassification {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FinishRejectReason {
     PullRequestNotMerged,
+    PullRequestMismatch,
     HeadMismatch,
     RepositoryMismatch,
     IssueMismatch,
+    ClosingLinkageMissing,
+    PartOfLinkageMissing,
     PartOfParentClosed,
     ClosingParentStillOpen,
 }
@@ -93,8 +101,12 @@ pub struct CleanupCandidate {
     pub preview_receipt: bool,
     pub committed_closed_out: bool,
     pub terminal_receipt: bool,
+    pub approved_worktree_parent: PathBuf,
+    pub repository_root: PathBuf,
     pub registered_worktree: PathBuf,
     pub candidate_path: PathBuf,
+    pub registration_digest: String,
+    pub preview_identity_digest: Option<String>,
     pub dirty: bool,
     pub live: bool,
 }
@@ -112,8 +124,12 @@ pub enum CleanupRejectReason {
     NotTerminal,
     MissingReceipt,
     MissingPreviewReceipt,
+    MissingRegistrationReceipt,
+    PreviewReceiptMismatch,
     NonCanonicalPath,
     PathMismatch,
+    PathOutsideApprovedParent,
+    ProtectedPath,
     DirtyWorktree,
     LiveWorktree,
     UnregisteredWorktree,
@@ -129,6 +145,9 @@ pub(crate) fn publish(
         || request.head_sha != authorization.reviewed_revision
     {
         return Err(PublicationRejectReason::AuthorizationMismatch);
+    }
+    if request.pull_request == 0 {
+        return Err(PublicationRejectReason::MissingPullRequestIdentity);
     }
     let closes = has_closing_relation(&request.body, request.issue);
     let part_of = has_part_of_relation(&request.body, request.issue);
@@ -175,6 +194,9 @@ pub(crate) fn derive_finish(
     if issue.issue != publication.issue {
         return operator_required(FinishRejectReason::IssueMismatch);
     }
+    if pull_request.number != publication.pull_request {
+        return operator_required(FinishRejectReason::PullRequestMismatch);
+    }
     if pull_request.head_sha != publication.head_sha {
         return operator_required(FinishRejectReason::HeadMismatch);
     }
@@ -182,6 +204,9 @@ pub(crate) fn derive_finish(
         return operator_required(FinishRejectReason::PullRequestNotMerged);
     }
     match publication.mode {
+        PublicationMode::Closing if pull_request.closes_issue != Some(publication.issue) => {
+            operator_required(FinishRejectReason::ClosingLinkageMissing)
+        }
         PublicationMode::Closing if issue.open => {
             operator_required(FinishRejectReason::ClosingParentStillOpen)
         }
@@ -190,6 +215,9 @@ pub(crate) fn derive_finish(
             issue: issue.issue,
             head_sha: pull_request.head_sha.clone(),
         },
+        PublicationMode::PartOf if pull_request.part_of_issue != Some(publication.issue) => {
+            operator_required(FinishRejectReason::PartOfLinkageMissing)
+        }
         PublicationMode::PartOf if issue.open => FinishClassification::CheckpointCompleted {
             pull_request: pull_request.number,
             issue: issue.issue,
@@ -208,13 +236,9 @@ pub fn classify_cleanup(
     if !candidate.terminal_receipt {
         return Err(CleanupRejectReason::MissingReceipt);
     }
-    if !is_canonical_absolute(&candidate.registered_worktree)
-        || !is_canonical_absolute(&candidate.candidate_path)
-    {
-        return Err(CleanupRejectReason::NonCanonicalPath);
-    }
-    if !same_canonical_path(&candidate.registered_worktree, &candidate.candidate_path) {
-        return Err(CleanupRejectReason::PathMismatch);
+    let identity = cleanup_identity(candidate)?;
+    if candidate.registration_digest != identity {
+        return Err(CleanupRejectReason::MissingRegistrationReceipt);
     }
     if candidate.dirty {
         return Err(CleanupRejectReason::DirtyWorktree);
@@ -228,6 +252,8 @@ pub fn classify_cleanup(
         })
     } else if !candidate.preview_receipt {
         Err(CleanupRejectReason::MissingPreviewReceipt)
+    } else if candidate.preview_identity_digest.as_deref() != Some(identity.as_str()) {
+        Err(CleanupRejectReason::PreviewReceiptMismatch)
     } else {
         Ok(CleanupClassification::RemoveEligible {
             path: candidate.candidate_path.clone(),
@@ -244,11 +270,6 @@ pub(crate) fn execute_cleanup_removal(
     if !candidate.terminal_receipt {
         return Err(CleanupRejectReason::MissingReceipt);
     }
-    if !is_canonical_absolute(&candidate.registered_worktree)
-        || !is_canonical_absolute(&candidate.candidate_path)
-    {
-        return Err(CleanupRejectReason::NonCanonicalPath);
-    }
     if candidate.dirty {
         return Err(CleanupRejectReason::DirtyWorktree);
     }
@@ -260,6 +281,14 @@ pub(crate) fn execute_cleanup_removal(
     }
     if !candidate.registered_worktree.exists() && !candidate.candidate_path.exists() {
         if !candidate.preview && candidate.registered_worktree == candidate.candidate_path {
+            if candidate.registration_digest.trim().is_empty() {
+                return Err(CleanupRejectReason::MissingRegistrationReceipt);
+            }
+            if candidate.preview_identity_digest.as_deref()
+                != Some(candidate.registration_digest.as_str())
+            {
+                return Err(CleanupRejectReason::PreviewReceiptMismatch);
+            }
             return Ok(CleanupClassification::AlreadyRemoved {
                 path: candidate.candidate_path.clone(),
             });
@@ -268,6 +297,14 @@ pub(crate) fn execute_cleanup_removal(
     }
     if !candidate.registered_worktree.exists() || !candidate.candidate_path.exists() {
         return Err(CleanupRejectReason::UnregisteredWorktree);
+    }
+    let identity = cleanup_identity(candidate)?;
+    if candidate.registration_digest != identity {
+        return Err(CleanupRejectReason::MissingRegistrationReceipt);
+    }
+    if !candidate.preview && candidate.preview_identity_digest.as_deref() != Some(identity.as_str())
+    {
+        return Err(CleanupRejectReason::PreviewReceiptMismatch);
     }
     let classification = classify_cleanup(candidate)?;
     let CleanupClassification::RemoveEligible { path } = classification else {
@@ -285,6 +322,7 @@ fn evidence(
     PublicationEvidence {
         repository: request.repository,
         issue: request.issue,
+        pull_request: request.pull_request,
         mode: request.mode,
         head_sha: request.head_sha,
         authorization_digest: authorization_digest(authorization),
@@ -322,16 +360,6 @@ fn authorization_digest(authorization: &PublicationAuthorization) -> String {
     hasher.finalize().to_hex().to_string()
 }
 
-fn same_canonical_path(left: &Path, right: &Path) -> bool {
-    let Ok(left) = fs::canonicalize(left) else {
-        return false;
-    };
-    let Ok(right) = fs::canonicalize(right) else {
-        return false;
-    };
-    left == right
-}
-
 fn is_canonical_absolute(path: &Path) -> bool {
     path.is_absolute()
         && path.components().all(|component| {
@@ -340,4 +368,78 @@ fn is_canonical_absolute(path: &Path) -> bool {
                 std::path::Component::CurDir | std::path::Component::ParentDir
             )
         })
+}
+
+pub fn cleanup_registration_digest(
+    approved_worktree_parent: &Path,
+    repository_root: &Path,
+    registered_worktree: &Path,
+    candidate_path: &Path,
+) -> Result<String, CleanupRejectReason> {
+    let approved_worktree_parent = canonical_path(approved_worktree_parent)?;
+    let repository_root = canonical_path(repository_root)?;
+    let registered_worktree = canonical_path(registered_worktree)?;
+    let candidate_path = canonical_path(candidate_path)?;
+    validate_cleanup_paths(
+        &approved_worktree_parent,
+        &repository_root,
+        &registered_worktree,
+        &candidate_path,
+    )?;
+    let mut hasher = blake3::Hasher::new();
+    for path in [
+        approved_worktree_parent,
+        repository_root,
+        registered_worktree,
+        candidate_path,
+    ] {
+        hasher.update(path.to_string_lossy().as_bytes());
+        hasher.update(b"\0");
+    }
+    Ok(hasher.finalize().to_hex().to_string())
+}
+
+fn cleanup_identity(candidate: &CleanupCandidate) -> Result<String, CleanupRejectReason> {
+    cleanup_registration_digest(
+        &candidate.approved_worktree_parent,
+        &candidate.repository_root,
+        &candidate.registered_worktree,
+        &candidate.candidate_path,
+    )
+}
+
+fn canonical_path(path: &Path) -> Result<PathBuf, CleanupRejectReason> {
+    if !is_canonical_absolute(path) {
+        return Err(CleanupRejectReason::NonCanonicalPath);
+    }
+    fs::canonicalize(path).map_err(|_| CleanupRejectReason::UnregisteredWorktree)
+}
+
+fn validate_cleanup_paths(
+    approved_worktree_parent: &Path,
+    repository_root: &Path,
+    registered_worktree: &Path,
+    candidate_path: &Path,
+) -> Result<(), CleanupRejectReason> {
+    if registered_worktree != candidate_path {
+        return Err(CleanupRejectReason::PathMismatch);
+    }
+    if registered_worktree == repository_root
+        || candidate_path == repository_root
+        || registered_worktree == approved_worktree_parent
+        || candidate_path == approved_worktree_parent
+    {
+        return Err(CleanupRejectReason::ProtectedPath);
+    }
+    if !registered_worktree.starts_with(approved_worktree_parent)
+        || !candidate_path.starts_with(approved_worktree_parent)
+    {
+        return Err(CleanupRejectReason::PathOutsideApprovedParent);
+    }
+    if repository_root.starts_with(registered_worktree)
+        || repository_root.starts_with(candidate_path)
+    {
+        return Err(CleanupRejectReason::ProtectedPath);
+    }
+    Ok(())
 }

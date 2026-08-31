@@ -8,17 +8,21 @@ until the explicit V3-F/#505 cutover decision approves the transition.
 ## Current construction state
 
 - V3-A/#500 established the v3 contract and predecessor map as construction
-  evidence. Corrective follow-up #571 remains an explicit Sprint 6 gate for
-  predecessor owner/proof-lane precision and lifecycle-gate consistency before
-  V3-F can approve cutover.
+  evidence. Corrective follow-up #571 repaired the predecessor owner/proof-lane
+  and lifecycle-gate consistency gaps; it remains historical corrective
+  evidence, not authority cutover.
 - V3-B/#501 added foundation import/projection surfaces for v2 compatibility
   exploration. Those surfaces are read-only construction evidence, not live
   import or migration authority.
 - V3-C/#502 added the lifecycle-kernel construction slice and
   `csdlc-v3/AGENTS.md` package-local guardrails. It does not replace v2
   lifecycle commands.
-- V3-D/#503 adds the local preparation command model and `csdlc-v3-local`
-  proof surface. It must remain non-authoritative until V3-F.
+- V3-D/#503 adds the local preparation command model exposed through the single
+  `csdlc local` proof surface. It must remain non-authoritative until V3-F.
+- V3-E/#504 adds remote delivery, review, publication, finish, and cleanup
+  models. They are cutover-readiness proof surfaces only until V3-F.
+- V3-G/#570 repaired v2-first documentation and skill guidance for advance
+  notice. The live route still remains typed v2 until V3-F/#505.
 
 ## Clean replacement target
 
@@ -49,9 +53,18 @@ Use the issue-owned focused proof for the slice you are working on. Current
 local construction checks include:
 
 ```sh
-cargo fmt --manifest-path csdlc-v3/Cargo.toml --check
-cargo test --manifest-path csdlc-v3/Cargo.toml --test local_commands
-cargo clippy --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings
+cargo fmt --manifest-path csdlc-v3/Cargo.toml --all -- --check
+cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets
+cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings
+```
+
+The v3 crate builds one operator-facing binary named `csdlc`. Current
+construction subcommands are:
+
+```sh
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- --help
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- foundation --repo-root .
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- local --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
 ```
 
 For docs and cutover-readiness work, use the issue-owned validators declared by

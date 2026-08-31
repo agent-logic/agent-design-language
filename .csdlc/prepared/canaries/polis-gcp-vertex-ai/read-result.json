@@ -1,0 +1,28 @@
+{
+  "action": "issue_read",
+  "comment_id": null,
+  "issue": {
+    "assignees": [],
+    "body": "## Outcome\n\nConfigure Polis on GCP to use Vertex AI through the governed Runtime/provider configuration path.\n\n## Primary deliverable\n\nOne reviewed, validated GCP/Vertex AI Polis configuration path that can be operated without leaking credentials or bypassing C-SDLC lifecycle authority.\n\n## Dependencies\n\n- Depends on #528 being terminal. Do not bind or execute this issue until #528 is complete and its terminal truth is verified.\n\n## Acceptance criteria\n\n- [ ] #528 is terminal before execution begins.\n- [ ] Polis GCP configuration uses Vertex AI through explicit provider configuration, not ambient defaults.\n- [ ] Vertex AI project/location/model/credential sourcing is documented and redacted.\n- [ ] Runtime/provider validation proves the configured route without printing or committing secrets.\n- [ ] Failure modes distinguish missing credentials, disabled Vertex APIs, project/location mismatch, quota/auth errors, and model errors.\n- [ ] Evidence captures the pre-cutover tooling canary defects found while creating this issue.\n\n## Owned paths\n\n- `docs/runtime/**`\n- `docs/tooling/**`\n- `infra/runtime-v3/**`\n- `adl-runtime-kernel/**`\n- `.csdlc/prepared/issues/<new-issue>/**`\n- `.csdlc/evidence/<new-issue>/**`\n\n## Stop conditions\n\n- #528 is not terminal.\n- Vertex AI setup requires exposing, copying, or committing credential material.\n- GCP project/location authority is ambiguous.\n- The available C-SDLC tooling cannot represent the dependency or provider credential boundary truthfully.\n\n## Non-goals\n\n- Do not implement #528.\n- Do not perform live paid GCP calls unless explicitly authorized later.\n- Do not change C-SDLC v2/v3 cutover authority.\n- Do not add a mock provider as acceptance evidence.\n\n## Canary notes\n\nThis issue was intentionally created as a pre-cutover tooling test. At creation time, C-SDLC v2 remains the sole operational authority. The desired v3/single-binary shape is a governed Rust `csdlc` command that behaves like `gh` plus C-SDLC lifecycle/state, but the currently available authoritative GitHub mutation route is still the typed v2 `csdlc-github-issue` owner. Record that as a cutover defect rather than treating this issue creation as v3 authority.\n\n<!-- csdlc-github-operation:v0921-polis-gcp-vertex-ai-canary -->\n",
+    "closed_at": null,
+    "created_at": "2026-08-31T02:49:39Z",
+    "labels": [
+      "track:roadmap",
+      "type:task",
+      "area:runtime",
+      "version:v0.92.1"
+    ],
+    "marker_present": true,
+    "milestone": 1,
+    "number": 592,
+    "repository": "agent-logic/agent-design-language",
+    "schema": "csdlc.github_issue.v1",
+    "state": "open",
+    "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI"
+  },
+  "operation_key": "v0921-polis-gcp-vertex-ai-canary",
+  "pr_state": null,
+  "reconciled": true,
+  "repository": "agent-logic/agent-design-language",
+  "schema": "csdlc.github_action_result.v1"
+}

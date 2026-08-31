@@ -196,7 +196,7 @@ pub(crate) fn receipt(
     }
 }
 
-pub fn accepted_review(
+pub(crate) fn accepted_review(
     issue: u64,
     revision: &str,
     implementer: &str,

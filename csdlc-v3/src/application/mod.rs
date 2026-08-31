@@ -1,4 +1,5 @@
 use crate::repository::RepositoryContext;
+use markdown::{to_mdast, ParseOptions};
 use serde_json::Value;
 use std::collections::BTreeMap;
 use std::fmt;
@@ -24,7 +25,7 @@ pub const REQUIREMENT_PROOFS: [RequirementProof; 4] = [
         issue: 164,
         title: "[v0.92.1][V3-03] Build The Single-Binary Foundation",
         source_scope: "root parser, dispatch, schemas, completion, generated help, output mode selection, typed top-level errors, and version provenance",
-        foundation_behavior: "read-only csdlc-v3-foundation command requires explicit --repo-root and emits stable machine-readable schema csdlc.v3.foundation.v1",
+        foundation_behavior: "read-only csdlc foundation subcommand requires explicit --repo-root and emits stable machine-readable schema csdlc.v3.foundation.v1",
     },
     RequirementProof {
         issue: 165,
@@ -220,6 +221,7 @@ impl IssueProjection {
                 .map_err(FoundationError::Repository)?;
             let values = parse_json(&values_text, "v2 issue card values")?;
             validate_card_values(&values, issue, card)?;
+            validate_card_digests(&record, card, markdown.as_bytes(), values_text.as_bytes())?;
             cards.insert(
                 card.to_owned(),
                 format!(
@@ -363,6 +365,7 @@ fn validate_issue_record(record: &Value, issue: u64) -> Result<(), FoundationErr
         "audit",
         "branch",
         "cards",
+        "code_repository",
         "design_path",
         "design_review",
         "diagram_path",
@@ -479,6 +482,80 @@ fn require_card_projection(record: &Value, card: &str) -> Result<(), FoundationE
         }
     }
     Ok(())
+}
+
+fn validate_card_digests(
+    record: &Value,
+    card: &str,
+    markdown_bytes: &[u8],
+    values_bytes: &[u8],
+) -> Result<(), FoundationError> {
+    let projection = record
+        .get("cards")
+        .and_then(|cards| cards.get(card))
+        .ok_or_else(|| FoundationError::InvalidProjection {
+            label: "v2 issue record",
+            message: format!("missing {card} card projection"),
+        })?;
+    let values: Value =
+        serde_json::from_slice(values_bytes).map_err(|source| FoundationError::InvalidJson {
+            label: "v2 issue card values",
+            message: source.to_string(),
+        })?;
+    let canonical_values =
+        serde_json::to_vec(&values).map_err(|source| FoundationError::InvalidProjection {
+            label: "v2 issue card values",
+            message: format!("values serialization failed: {source}"),
+        })?;
+    require_digest_match(
+        "v2 issue card projection",
+        &format!("{card}.values_digest"),
+        required_string(projection, "values_digest", "v2 issue record")?,
+        &digest(&canonical_values),
+    )?;
+    require_digest_match(
+        "v2 issue card projection",
+        &format!("{card}.rendered_digest"),
+        required_string(projection, "rendered_digest", "v2 issue record")?,
+        &digest(markdown_bytes),
+    )?;
+    let markdown = std::str::from_utf8(markdown_bytes).map_err(|source| {
+        FoundationError::InvalidProjection {
+            label: "v2 issue card",
+            message: format!("markdown is not utf8: {source}"),
+        }
+    })?;
+    let ast = to_mdast(markdown, &ParseOptions::gfm()).map_err(|source| {
+        FoundationError::InvalidProjection {
+            label: "v2 issue card",
+            message: format!("markdown AST parse failed: {source}"),
+        }
+    })?;
+    require_digest_match(
+        "v2 issue card projection",
+        &format!("{card}.ast_digest"),
+        required_string(projection, "ast_digest", "v2 issue record")?,
+        &digest(format!("{ast:?}").as_bytes()),
+    )
+}
+
+fn require_digest_match(
+    label: &'static str,
+    field: &str,
+    expected: &str,
+    actual: &str,
+) -> Result<(), FoundationError> {
+    if expected == actual {
+        return Ok(());
+    }
+    Err(FoundationError::InvalidProjection {
+        label,
+        message: format!("{field} digest mismatch: expected {expected}, computed {actual}"),
+    })
+}
+
+fn digest(bytes: &[u8]) -> String {
+    blake3::hash(bytes).to_hex().to_string()
 }
 
 fn required_string<'a>(

@@ -160,7 +160,8 @@ fn local_preparation_cli_emits_machine_readable_non_authoritative_plan() {
     )
     .expect("write registrations fixture");
 
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc-v3-local"))
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("local")
         .arg("--request")
         .arg(&request_path)
         .arg("--registry")
@@ -193,7 +194,8 @@ fn local_preparation_cli_rejects_malformed_typed_request() {
     )
     .expect("write registrations fixture");
 
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc-v3-local"))
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .arg("local")
         .arg("--request")
         .arg(&request_path)
         .arg("--registry")

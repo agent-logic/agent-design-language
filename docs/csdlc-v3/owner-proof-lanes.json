@@ -77,7 +77,7 @@
     },
     {
       "owner_issue": 503,
-      "source_path": "/Volumes/FastWork/adl-worktrees/adl-issue-503-v3-d-local-preparation-workflow-exec/.csdlc/issues/503/cards/vpp.values.json",
+      "source_path": ".csdlc/issues/503/cards/vpp.values.json",
       "source_revision": "974abc520454",
       "lanes": [
         {
@@ -108,7 +108,7 @@
     },
     {
       "owner_issue": 504,
-      "source_path": "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec/.csdlc/issues/504/cards/vpp.values.json",
+      "source_path": ".csdlc/issues/504/cards/vpp.values.json",
       "source_revision": "286dbfbe8c7",
       "lanes": [
         {
@@ -130,7 +130,7 @@
     },
     {
       "owner_issue": 570,
-      "source_path": "/Volumes/FastWork/adl-worktrees/adl-issue-570-v3-g-docs-skill-cutover-readiness-exec/.csdlc/issues/570/cards/vpp.values.json",
+      "source_path": ".csdlc/issues/570/cards/vpp.values.json",
       "source_revision": "b347a0932446",
       "lanes": [
         {

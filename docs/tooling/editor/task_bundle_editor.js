@@ -409,7 +409,7 @@ function deriveLifecycleAction() {
 
   return {
     ready: true,
-    summary: "Copy-only lifecycle adapter is ready. The browser prepares the current pr run command; a human runs it from the repo root.",
+    summary: "Copy-only lifecycle adapter is ready. The browser prepares the current typed lifecycle command; a human runs it from the repo root.",
     command: `adl/tools/editor_action.sh prepare --phase run --issue ${issueNumber} --slug ${branchMatch[2]} --version ${version}`
   };
 }
@@ -694,7 +694,7 @@ function updateAll() {
   actionSummary.textContent = lifecycleAction.summary;
   actionCommand.textContent = lifecycleAction.command;
   copyActionButton.disabled = !lifecycleAction.ready;
-  copyActionButton.textContent = lifecycleAction.ready ? "Copy pr run command" : "Fix issue + branch first";
+  copyActionButton.textContent = lifecycleAction.ready ? "Copy lifecycle command" : "Fix issue + branch first";
 }
 
 copyButton.addEventListener("click", async () => {
@@ -712,7 +712,7 @@ copyActionButton.addEventListener("click", async () => {
   await navigator.clipboard.writeText(actionCommand.textContent);
   copyActionButton.textContent = "Copied";
   window.setTimeout(() => {
-    copyActionButton.textContent = "Copy pr run command";
+    copyActionButton.textContent = "Copy lifecycle command";
   }, 1200);
 });
 

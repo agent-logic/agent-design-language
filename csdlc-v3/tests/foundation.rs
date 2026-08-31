@@ -3,6 +3,7 @@ use csdlc_v3::application::{
     REQUIREMENT_PROOFS,
 };
 use csdlc_v3::repository::RepositoryContext;
+use markdown::{to_mdast, ParseOptions};
 use std::fs;
 use std::path::PathBuf;
 use std::process::Command;
@@ -43,8 +44,8 @@ fn repository_context_is_explicit() {
 
 #[test]
 fn single_binary_foundation_command_is_read_only_and_explicit() {
-    let output = Command::new(env!("CARGO_BIN_EXE_csdlc-v3-foundation"))
-        .args(["--repo-root", &repo_root().to_string_lossy()])
+    let output = Command::new(env!("CARGO_BIN_EXE_csdlc"))
+        .args(["foundation", "--repo-root", &repo_root().to_string_lossy()])
         .output()
         .expect("run foundation binary");
     assert!(output.status.success());
@@ -63,12 +64,16 @@ fn application_context_reports_typed_missing_root_errors() {
 
 #[test]
 fn read_only_v2_import_loads_issue_record_and_cards() {
-    let context = RepositoryContext::discover(repo_root()).expect("explicit repository context");
+    let fixture = FixtureRepo::new("valid-v2-import");
+    fixture.write_v3_contracts();
+    fixture.write_all_cards(777);
+    fixture.write_issue_with_record(777, &fixture.issue_record_json(777, None));
+    let context = RepositoryContext::discover(fixture.root()).expect("fixture context");
     let issue_record: serde_json::Value =
-        serde_json::from_str(&context.issue_record_text(501).expect("issue record text"))
+        serde_json::from_str(&context.issue_record_text(777).expect("issue record text"))
             .expect("issue record json");
-    let projection = IssueProjection::load(&context, 501).expect("read-only issue projection");
-    assert_eq!(projection.issue, 501);
+    let projection = IssueProjection::load(&context, 777).expect("read-only issue projection");
+    assert_eq!(projection.issue, 777);
     assert_eq!(projection.schema, "csdlc.issue.index.v1");
     assert_eq!(
         projection.phase,
@@ -77,7 +82,7 @@ fn read_only_v2_import_loads_issue_record_and_cards() {
             .and_then(serde_json::Value::as_str)
             .expect("issue record phase")
     );
-    assert!(projection.generation > 0);
+    assert_eq!(projection.generation, 1);
     assert_eq!(projection.digest.len(), 64);
     assert_eq!(projection.card_count, 6);
     assert_eq!(
@@ -93,6 +98,22 @@ fn read_only_v2_import_loads_issue_record_and_cards() {
         assert!(card.value.contains("markdown_bytes="));
         assert!(card.value.contains("values_digest="));
     }
+}
+
+#[test]
+fn read_only_v2_import_verifies_real_issue_projection_digests() {
+    let context = RepositoryContext::discover(repo_root()).expect("explicit repository context");
+    let projection = IssueProjection::load(&context, 501).expect("real #501 v2 issue projection");
+    assert_eq!(projection.issue, 501);
+    assert_eq!(projection.schema, "csdlc.issue.index.v1");
+    assert_eq!(projection.card_count, 6);
+    assert!(
+        projection
+            .cards
+            .iter()
+            .all(|projection| projection.value.contains("values_digest=")),
+        "real issue import must verify and preserve card digest labels"
+    );
 }
 
 #[test]
@@ -192,7 +213,7 @@ fn retained_requirement_behaviors_are_source_grounded() {
     let proofs = state.requirement_proofs();
     assert!(proofs.iter().any(|proof| proof.issue == 164
         && proof.source_scope.contains("root parser")
-        && proof.foundation_behavior.contains("csdlc-v3-foundation")));
+        && proof.foundation_behavior.contains("csdlc foundation")));
     assert!(proofs.iter().any(|proof| proof.issue == 165
         && proof
             .source_scope
@@ -309,12 +330,40 @@ impl FixtureRepo {
     }
 
     fn issue_record_json(&self, issue: u64, extra: Option<&str>) -> String {
-        format!(
-            r#"{{"schema":"csdlc.issue.index.v1","issue":{issue},"phase":"ready","generation":1,"digest":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","cards":{{"sip":{projection},"stp":{projection},"spp":{projection},"vpp":{projection},"srp":{projection},"sor":{projection}}}{extra}}}"#,
-            projection = r#"{"values_digest":"v","rendered_digest":"r","ast_digest":"a"}"#,
+        let projections = ["sip", "stp", "spp", "vpp", "srp", "sor"]
+            .iter()
+            .map(|card| {
+                let markdown = format!("# {card}\n");
+                let values = format!(
+                    r#"{{"identity":{{"issue":{issue}}},"status":"ready","content":{{"card_kind":"{card}"}}}}"#
+                );
+                let ast = to_mdast(&markdown, &ParseOptions::default()).expect("markdown ast");
+                format!(
+                    r#""{card}":{{"values_digest":"{}","rendered_digest":"{}","ast_digest":"{}"}}"#,
+                    test_digest(values.as_bytes()),
+                    test_digest(markdown.as_bytes()),
+                    test_digest(format!("{ast:?}").as_bytes())
+                )
+            })
+            .collect::<Vec<_>>()
+            .join(",");
+        let mut record = format!(
+            r#"{{"schema":"csdlc.issue.index.v1","issue":{issue},"phase":"ready","generation":1,"digest":"","cards":{{{projections}}}{extra}}}"#,
             extra = extra.unwrap_or("")
-        )
+        );
+        let mut value: serde_json::Value = serde_json::from_str(&record).expect("record json");
+        let digest = test_digest(&serde_json::to_vec(&value).expect("canonical record json"));
+        value
+            .as_object_mut()
+            .expect("object")
+            .insert("digest".to_owned(), serde_json::Value::String(digest));
+        record = serde_json::to_string(&value).expect("record with digest");
+        record
     }
+}
+
+fn test_digest(bytes: &[u8]) -> String {
+    blake3::hash(bytes).to_hex().to_string()
 }
 
 impl Drop for FixtureRepo {
