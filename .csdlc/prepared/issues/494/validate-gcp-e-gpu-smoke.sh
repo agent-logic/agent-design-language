@@ -58,7 +58,7 @@ require_text "${design}" "no #494-owned resources remain"
 require_text "${design}" "It does not own"
 require_text "${diagram}" "Independent zero-resource checks"
 require_text "${index}" "\"issue\": 494"
-if ! grep -Eq '"phase": "(initialized|ready|bound|implemented)"' "${index}"; then
+if ! grep -Eq '"phase": "(initialized|ready|bound|implemented|reviewed|published|merge_ready)"' "${index}"; then
   echo "unexpected #494 phase in ${index}" >&2
   exit 1
 fi

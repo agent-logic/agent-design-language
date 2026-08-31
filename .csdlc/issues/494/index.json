@@ -4,50 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fe94dbc84ab0d1df451508b4d682d8703a83d050c141817df3a82cb9ed0eb470",
-  "phase": "reviewed",
-  "generation": 10,
-  "digest": "8b7a6d5418da606a4ab7153558050522e25f8a60287aef7fea5cac111fcfae7b",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "48b7a4ebe30f3b3b366ec677c088687691974b0d90c5d492011e8f41c1a55f5c",
   "branch": "codex/494-gcp-gpu-readiness-smoke-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-494-gcp-gpu-readiness-smoke-execution",
-  "review_assignment": {
-    "reviewer": "fresh-session:ced1bc1e-98e3-4cdf-9967-8856ed5b90b1",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:d86bb74e1b58ac869583d6f2233acbfa40fea36e:a0d85e1f320346025e2ee4d8abc0a15eda3678709493094670d46f6febf5f81e",
-    "scope": [
-      ".csdlc/evidence/494",
-      ".csdlc/issues/494",
-      ".csdlc/prepared/issues/494/design.md",
-      ".csdlc/prepared/issues/494/diagram.mmd",
-      ".csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh",
-      "docs/milestones/v0.92.1/evidence/cloud/gcp-e",
-      "infra/gcp/workloads/gpu-smoke-instance",
-      "infra/gcp/workloads/gpu-smoke-support",
-      "infra/gcp/workloads/modules/gpu-smoke-instance",
-      "infra/gcp/workloads/modules/gpu-smoke-support"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:ced1bc1e-98e3-4cdf-9967-8856ed5b90b1",
-    "scope": [
-      ".csdlc/evidence/494",
-      ".csdlc/issues/494",
-      ".csdlc/prepared/issues/494/design.md",
-      ".csdlc/prepared/issues/494/diagram.mmd",
-      ".csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh",
-      "docs/milestones/v0.92.1/evidence/cloud/gcp-e",
-      "infra/gcp/workloads/gpu-smoke-instance",
-      "infra/gcp/workloads/gpu-smoke-support",
-      "infra/gcp/workloads/modules/gpu-smoke-instance",
-      "infra/gcp/workloads/modules/gpu-smoke-support"
-    ],
-    "reviewed_revision": "git-blake3:d86bb74e1b58ac869583d6f2233acbfa40fea36e:a0d85e1f320346025e2ee4d8abc0a15eda3678709493094670d46f6febf5f81e",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer did not run live GCP, credentials, paid commands, terraform apply, or cloud readbacks; accepted live evidence remains r8/r9."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -62,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2d38eeca7f447af25e3418a0a34a9a390197f260adcbd605d0cbcce76056f43d",
+      "values_digest": "ae0813d93068807de64016392e4de3e2cff7f0c6c09f4657c90257628f1a44c7",
       "rendered_digest": "3e1844ba1f87234d313a0f56c2708d7c58a69b7540edd787d594f6e0d412465f",
       "ast_digest": "02f49cecf706aaa0319541546da9095d8be8ad334217494c8c61ba004389b594"
     },
     "stp": {
-      "values_digest": "0c6405a0f807a6dfce030db1ad03001ca9530cdd8ccf239e781860f96015938d",
+      "values_digest": "29776d38100369896a4ac6224b8773072a40e2c1eb8a788d024fe71d79ff7e8a",
       "rendered_digest": "279bee87e1f3c727c252674e3c56a9d82af401e5404c2999b54d0b0480c5a4ef",
       "ast_digest": "fb16dcdab75e027ed3b6de876ba6b4bd936a10afe3f1f8439cccb0f9c6f98f31"
     },
     "spp": {
-      "values_digest": "d854183994942564c38503fa9b799cc2643b292de104b76a1e8a6852c4f0cffb",
+      "values_digest": "e5ca80f71c2663a3fee68218ffc1b470357a002877d4290108b71eb421af1985",
       "rendered_digest": "b176741acb3a6bf99a6966d5172e005b43cf0e3f3d2c2439ce2cf5a197bcfb01",
       "ast_digest": "2c991075ce701f532fd41de1c44c72cd47429fafceeba4e5bdb10146021d66f8"
     },
     "vpp": {
-      "values_digest": "db018892262f45b97deded27b700a21b39f92c7277127f68dac1fc4a86138dc5",
+      "values_digest": "bc77d229937786801da1c4aff22cfcb473012ee3559ec9eb81808d114913b182",
       "rendered_digest": "8cabea423816adfca657e5dbd84b5c2d2425f0d550545391b0db133c0ac06545",
       "ast_digest": "2f30a07e8f0cbd8f5cd86b06342fe4a4866effef49caeeb2a22ed2a6cac857aa"
     },
     "srp": {
-      "values_digest": "b36107990d55e3940f4ec4a54c82b6e3b8e67fa596ce1904200bc2b08402380b",
-      "rendered_digest": "c2d7e20350a1c604469273a41fa4ccdc3f14d28efc7a74782e28c2c68e7f4802",
-      "ast_digest": "1cfa62a97e294fe07f84da1690a8ec0c792861b3294b5e39f597ba06fa9361a6"
+      "values_digest": "ed643d38fbc09cf3cd49853f1b219dfc264a215555a8610b8b46f15d37f0b1c3",
+      "rendered_digest": "7206a8b2e46464798e8e24c68ce749b25eb8fec7331ae845b0028cc35df6a19e",
+      "ast_digest": "7392b69882dd6ee262b30db09759b1f637c4b84c9858d6b13034b3e90f16a716"
     },
     "sor": {
-      "values_digest": "521c788da2224674fbc75625c3d7cb80366276cc44d63a2a82358db90daec20a",
+      "values_digest": "8f871d2911c5c6c264827a65b1a6b0a54c869ade91b3ce9a485fd2581684fe7c",
       "rendered_digest": "f6a981c6c350e300f2fa6d5a825499e7ab6b3de016d4ba0f166b58f7b5eaa363",
       "ast_digest": "58cdc5f8c4ca198309f457b270fbf4d9d66b5a4a56d8ea11178337e15f511e50"
     }
@@ -120,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #494 exact review after current-main merge advanced the exact head and exposed a narrow issue-owned validator phase allowlist defect: the validator rejected reviewed lifecycle state even though publication happens after review."
     }
   ],
   "audit": [
@@ -227,6 +197,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #494 exact review after current-main merge advanced the exact head and exposed a narrow issue-owned validator phase allowlist defect: the validator rejected reviewed lifecycle state even though publication happens after review.",
+      "operation": "recover_review"
     }
   ]
 }
