@@ -4,13 +4,44 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fe94dbc84ab0d1df451508b4d682d8703a83d050c141817df3a82cb9ed0eb470",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "ab0f2cd6ac114e40b17ef5355327e87cd7c05051e73881fc55683c58b58505e0",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "11107e8dd7070349e089f351f0554651840551ffe0c454c873bb4fe9911b8123",
   "branch": "codex/494-gcp-gpu-readiness-smoke-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-494-gcp-gpu-readiness-smoke-execution",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:85b2f5f6-6698-4e9a-b893-f8c9a5ee1f0a",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:a1e38c14adbf3b6d88dbae0dcc28a309ffba8f86:b461123439531eb6236915c2f023c1817e063b7ad11364adecbf37101cf56197",
+    "scope": [
+      ".csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh",
+      ".csdlc/issues/494",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-e",
+      "infra/gcp/workloads/modules/gpu-smoke-support",
+      "infra/gcp/workloads/modules/gpu-smoke-instance",
+      "infra/gcp/workloads/gpu-smoke-support",
+      "infra/gcp/workloads/gpu-smoke-instance"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:85b2f5f6-6698-4e9a-b893-f8c9a5ee1f0a",
+    "scope": [
+      ".csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh",
+      ".csdlc/issues/494",
+      "docs/milestones/v0.92.1/evidence/cloud/gcp-e",
+      "infra/gcp/workloads/modules/gpu-smoke-support",
+      "infra/gcp/workloads/modules/gpu-smoke-instance",
+      "infra/gcp/workloads/gpu-smoke-support",
+      "infra/gcp/workloads/gpu-smoke-instance"
+    ],
+    "reviewed_revision": "git-blake3:a1e38c14adbf3b6d88dbae0dcc28a309ffba8f86:b461123439531eb6236915c2f023c1817e063b7ad11364adecbf37101cf56197",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not run paid/live GCP, credentials, terraform apply, or cloud readbacks; accepted retained r8/r9 live evidence and local validation proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3a80583019ef22340575e795d0762ed5fcd16e5e1ebdc7b61004341b97816085",
+      "values_digest": "decf9265a28366948d6276ee330d551a009e069b33ce618722e8705cdfbb27ce",
       "rendered_digest": "3e1844ba1f87234d313a0f56c2708d7c58a69b7540edd787d594f6e0d412465f",
       "ast_digest": "02f49cecf706aaa0319541546da9095d8be8ad334217494c8c61ba004389b594"
     },
     "stp": {
-      "values_digest": "3893955c9ead13c72b571a10e41c1ffbed7f3cc99101385fbc109c10276f254b",
+      "values_digest": "28afea0992c8fe296feb3393ed44787681edd472da928053965bb7f175060754",
       "rendered_digest": "279bee87e1f3c727c252674e3c56a9d82af401e5404c2999b54d0b0480c5a4ef",
       "ast_digest": "fb16dcdab75e027ed3b6de876ba6b4bd936a10afe3f1f8439cccb0f9c6f98f31"
     },
     "spp": {
-      "values_digest": "a47c93dfdbdbad2c93420b5f6cad17dc7d9cc0dabd9f979494bafdd425c2e66c",
+      "values_digest": "c0947f1d1b6b6ec1b619c609a348697e079963feb43c593acf181bd4c55e1cc0",
       "rendered_digest": "b176741acb3a6bf99a6966d5172e005b43cf0e3f3d2c2439ce2cf5a197bcfb01",
       "ast_digest": "2c991075ce701f532fd41de1c44c72cd47429fafceeba4e5bdb10146021d66f8"
     },
     "vpp": {
-      "values_digest": "4f02159a4baee5b1962edfae0366b1b6950a036af7c36c5270dbbf3593f1ed42",
+      "values_digest": "f4462d46c96a8c4b78406b4b0f4d47f14b8381998659821d768919fc6de4c41e",
       "rendered_digest": "8cabea423816adfca657e5dbd84b5c2d2425f0d550545391b0db133c0ac06545",
       "ast_digest": "2f30a07e8f0cbd8f5cd86b06342fe4a4866effef49caeeb2a22ed2a6cac857aa"
     },
     "srp": {
-      "values_digest": "b6df304a2d0b56a961d2e00490261e86b94c2e8330e91c26a0745ad3d3463069",
-      "rendered_digest": "7206a8b2e46464798e8e24c68ce749b25eb8fec7331ae845b0028cc35df6a19e",
-      "ast_digest": "7392b69882dd6ee262b30db09759b1f637c4b84c9858d6b13034b3e90f16a716"
+      "values_digest": "9591e264c7eccd9775e373630fbb3713262b3480765a4b093ea2a78e47c36fe7",
+      "rendered_digest": "d137faade55bc89aa1b8ff4e875f570a073702c3346e0395b973e0b56613c194",
+      "ast_digest": "6261a74b07605bdfe8ba6bce02a633f39db8dabdee3715bf91d15b343fcf947b"
     },
     "sor": {
-      "values_digest": "d828234716f4fb6366665d22c8935e9b4bf914d0e7e1d029f7c55d9ab093ce53",
+      "values_digest": "0f1470a41a16189b8810f5b30a3e3a7b8c946649bb6406836c010b4f0da222ca",
       "rendered_digest": "f6a981c6c350e300f2fa6d5a825499e7ab6b3de016d4ba0f166b58f7b5eaa363",
       "ast_digest": "58cdc5f8c4ca198309f457b270fbf4d9d66b5a4a56d8ea11178337e15f511e50"
     }
@@ -90,6 +121,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #494 exact review after current-main merge advanced the exact head and exposed a narrow issue-owned validator phase allowlist defect: the validator rejected reviewed lifecycle state even though publication happens after review."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -260,6 +298,20 @@
       "actor": "codex:/root",
       "reason": "Recover #494 review assignment after R8 found committed GCP-E readback logs still contained host-local SSH key and known-host paths, and the validator did not scan readbacks for those markers.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

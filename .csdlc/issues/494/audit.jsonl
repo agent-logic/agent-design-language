@@ -22,3 +22,5 @@
 {"sequence":22,"generation":14,"actor":"codex:/root","reason":"Recover #494 review assignment after R7 found cleanup proof must fail closed on destroy failure or non-empty per-run residue and the validator must assert empty retained readbacks.","operation":"recover_review"}
 {"sequence":23,"generation":14,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":15,"actor":"codex:/root","reason":"Recover #494 review assignment after R8 found committed GCP-E readback logs still contained host-local SSH key and known-host paths, and the validator did not scan readbacks for those markers.","operation":"recover_review"}
+{"sequence":25,"generation":15,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":26,"generation":16,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

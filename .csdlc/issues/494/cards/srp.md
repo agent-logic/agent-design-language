@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/494/validate-gcp-e-gpu-smoke.sh
+.csdlc/issues/494
+docs/milestones/v0.92.1/evidence/cloud/gcp-e
+infra/gcp/workloads/modules/gpu-smoke-support
+infra/gcp/workloads/modules/gpu-smoke-instance
+infra/gcp/workloads/gpu-smoke-support
+infra/gcp/workloads/gpu-smoke-instance
 
 ## Prompts
 
@@ -31,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer did not run paid/live GCP, credentials, terraform apply, or cloud readbacks; accepted retained r8/r9 live evidence and local validation proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a1e38c14adbf3b6d88dbae0dcc28a309ffba8f86:b461123439531eb6236915c2f023c1817e063b7ad11364adecbf37101cf56197")
 
-Reviewer: None
+Reviewer: Some("fresh-session:85b2f5f6-6698-4e9a-b893-f8c9a5ee1f0a")
 
-Result: pre_review
+Result: pass
