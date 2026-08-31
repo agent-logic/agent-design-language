@@ -1,17 +1,17 @@
-use csdlc_v3::commands::remote::{
+use super::{
     accepted_review, deliver, receipt, AcceptedPvfResult, AuthoritySource, RemoteDeliveryInput,
     RemoteDeliveryRejectReason, VerificationRejectReason, Verified,
 };
-use csdlc_v3::publication::{
+use crate::publication::{
     classify_cleanup, derive_finish, execute_cleanup_removal, publish, CleanupCandidate,
     CleanupClassification, CleanupRejectReason, FinishClassification, FinishRejectReason,
     IssueReadback, PublicationMode, PublicationRejectReason, PublicationRequest,
     PullRequestReadback,
 };
-use csdlc_v3::review::{
+use crate::review::{
     authorize_publication, FindingDisposition, ReviewFinding, ReviewRejectReason, ReviewTarget,
 };
-use csdlc_v3::REMOTE_DELIVERY_PREDECESSORS;
+use crate::REMOTE_DELIVERY_PREDECESSORS;
 use std::fs;
 use std::path::PathBuf;
 use std::sync::atomic::{AtomicUsize, Ordering};
@@ -86,13 +86,22 @@ fn cleanup_at(path: PathBuf) -> CleanupCandidate {
 }
 
 fn verified<T>(value: T, source: AuthoritySource) -> Verified<T> {
-    Verified::new(value, receipt(source, "verified-observation-digest")).expect("verified fixture")
+    Verified::new(
+        value,
+        receipt(
+            source,
+            "verified-observation-digest",
+            "fixture-subject-digest",
+        ),
+        "fixture-subject-digest".to_owned(),
+    )
+    .expect("verified fixture")
 }
 
 fn delivery_input(mode: PublicationMode, body: &str, issue_open: bool) -> RemoteDeliveryInput {
-    RemoteDeliveryInput {
-        pvf: verified(pvf(), AuthoritySource::Pvf),
-        review: verified(
+    RemoteDeliveryInput::new(
+        verified(pvf(), AuthoritySource::Pvf),
+        verified(
             accepted_review(
                 ISSUE,
                 REVISION,
@@ -102,21 +111,21 @@ fn delivery_input(mode: PublicationMode, body: &str, issue_open: bool) -> Remote
             ),
             AuthoritySource::Review,
         ),
-        publication: verified(publication(mode, body), AuthoritySource::PublicationIntent),
-        pull_request: verified(merged_pr(REVISION), AuthoritySource::GithubReadback),
-        issue: verified(issue(issue_open), AuthoritySource::GithubReadback),
-        cleanup: verified(cleanup(), AuthoritySource::WorktreeInspection),
-    }
+        verified(publication(mode, body), AuthoritySource::PublicationIntent),
+        verified(merged_pr(REVISION), AuthoritySource::GithubReadback),
+        verified(issue(issue_open), AuthoritySource::GithubReadback),
+        verified(cleanup(), AuthoritySource::WorktreeInspection),
+    )
 }
 
 #[test]
 fn v3e_denominator_is_exact() {
     assert_eq!(REMOTE_DELIVERY_PREDECESSORS, [174, 175, 176, 177, 178]);
     for issue in REMOTE_DELIVERY_PREDECESSORS {
-        assert!(csdlc_v3::is_v3e_remote_delivery_predecessor(issue));
+        assert!(crate::is_v3e_remote_delivery_predecessor(issue));
     }
-    assert!(!csdlc_v3::is_v3e_remote_delivery_predecessor(173));
-    assert!(!csdlc_v3::is_v3e_remote_delivery_predecessor(179));
+    assert!(!crate::is_v3e_remote_delivery_predecessor(173));
+    assert!(!crate::is_v3e_remote_delivery_predecessor(179));
 }
 
 #[test]
@@ -515,9 +524,9 @@ fn cleanup_requires_committed_closed_out_state_and_receipt() {
 
 #[test]
 fn remote_workflow_refuses_missing_pvf_and_revision_mismatch() {
-    let mut input = RemoteDeliveryInput {
-        pvf: verified(pvf(), AuthoritySource::Pvf),
-        review: verified(
+    let mut input = RemoteDeliveryInput::new(
+        verified(pvf(), AuthoritySource::Pvf),
+        verified(
             accepted_review(
                 ISSUE,
                 REVISION,
@@ -527,14 +536,14 @@ fn remote_workflow_refuses_missing_pvf_and_revision_mismatch() {
             ),
             AuthoritySource::Review,
         ),
-        publication: verified(
+        verified(
             publication(PublicationMode::Closing, "Closes #504"),
             AuthoritySource::PublicationIntent,
         ),
-        pull_request: verified(merged_pr(REVISION), AuthoritySource::GithubReadback),
-        issue: verified(issue(false), AuthoritySource::GithubReadback),
-        cleanup: verified(cleanup(), AuthoritySource::WorktreeInspection),
-    };
+        verified(merged_pr(REVISION), AuthoritySource::GithubReadback),
+        verified(issue(false), AuthoritySource::GithubReadback),
+        verified(cleanup(), AuthoritySource::WorktreeInspection),
+    );
     input.pvf = verified(
         AcceptedPvfResult {
             evidence_digest: String::new(),
@@ -562,7 +571,11 @@ fn remote_workflow_refuses_missing_pvf_and_revision_mismatch() {
 #[test]
 fn remote_delivery_rejects_unverified_or_wrong_source_observations() {
     assert_eq!(
-        Verified::new(pvf(), receipt(AuthoritySource::Pvf, "")),
+        Verified::new(
+            pvf(),
+            receipt(AuthoritySource::Pvf, "", "fixture-subject-digest"),
+            "fixture-subject-digest".to_owned(),
+        ),
         Err(VerificationRejectReason::MissingReceipt)
     );
 

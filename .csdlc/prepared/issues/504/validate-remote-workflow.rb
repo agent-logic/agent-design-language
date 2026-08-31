@@ -62,13 +62,31 @@ assert(lane["defer_reason"].nil?, "pre-bind validator must be executable, not de
 if phase == "implemented"
   [
     "csdlc-v3/src/commands/remote/mod.rs",
+    "csdlc-v3/src/commands/remote/tests.rs",
     "csdlc-v3/src/review/mod.rs",
     "csdlc-v3/src/publication/mod.rs",
-    "csdlc-v3/tests/remote_commands.rs",
-    "csdlc-v3/tests/remote_commands/remote_delivery.rs"
   ].each do |path|
     assert(File.file?(File.join(ROOT, path)), "missing implemented artifact #{path}")
   end
+  remote = read("csdlc-v3/src/commands/remote/mod.rs")
+  remote_tests = read("csdlc-v3/src/commands/remote/tests.rs")
+  review = read("csdlc-v3/src/review/mod.rs")
+  publication = read("csdlc-v3/src/publication/mod.rs")
+
+  assert(remote.include?("pub(crate) fn deliver"), "deliver must not be a public caller-forgeable authority API")
+  assert(remote.include?("pub(crate) fn new("), "verified observation construction must be crate-scoped")
+  assert(remote.include?("pub(crate) fn receipt("), "authority receipts must be crate-scoped")
+  assert(remote.include?("subject_digest"), "authority receipts must bind to an observed subject digest")
+  assert(!remote.include?("pub fn deliver("), "remote delivery must not expose public deliver()")
+  assert(!remote.include?("pub fn receipt("), "remote delivery must not expose public receipt minting")
+  assert(!remote.include?("pub fn new(value"), "verified observation minting must not be public")
+  assert(remote_tests.include?("part_of_checkpoint_completes_through_end_to_end_delivery_without_cleanup"), "missing end-to-end part-of checkpoint proof")
+  assert(remote_tests.include?("whitespace_variant_principal_cannot_self_authorize_publication"), "missing whitespace self-review regression proof")
+  assert(remote_tests.include?("cleanup_removal_executes_and_distinguishes_removed_states"), "missing cleanup execution/removal proof")
+  assert(remote_tests.include?("already_removed_cleanup_still_requires_terminal_and_preview_gates"), "missing already-removed cleanup gate regression proof")
+  assert(review.include?("let left = left.trim();") && review.include?("let right = right.trim();"), "review principal comparison must normalize both sides")
+  assert(publication.include?("fs::remove_dir_all(&path)"), "cleanup removal must perform filesystem removal")
+  assert(publication.include?("UnregisteredWorktree"), "cleanup must distinguish unregistered worktree states")
 end
 
 review_prompts = srp.dig("content", "values", "review_prompts") || []
@@ -90,7 +108,8 @@ puts JSON.generate(
       "v3_non_authority_boundary",
       "future_closing_linkage",
       "single_executable_prebind_lane",
-      phase == "implemented" ? "bound_implemented_artifacts" : "unbound_ready_gate"
+      phase == "implemented" ? "bound_implemented_artifacts" : "unbound_ready_gate",
+      phase == "implemented" ? "sealed_remote_authority_api" : "prebind_authority_plan"
     ]
   }
 )

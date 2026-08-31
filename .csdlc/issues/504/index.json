@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e0ab52f41b32f4c8fee5899510e2daa1004ed5bb8349ea1afc6137449524b86a",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "bce5b50bbe279bc76c142d0ab03ff596d3467ddc2427e34d99cce9a8f456b711",
+  "generation": 15,
+  "digest": "818e28dc4d60d331c80e3dd9c57f8f715e703ab0b12668aea977a7bfa401e4a2",
   "branch": "codex/504-v3-e-remote-delivery-workflow-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7420883f95c8114fbf3405dc6d9c1002de73d1c99378105d258848ea99d7c73f",
+      "values_digest": "294b14cf089fb6b79d3407fd19df14b574dae10269bb89c3727828c8e1fe7bda",
       "rendered_digest": "045795469a2177f1cdf55f4b53ec53acc84e7f540c8a631562535823ddbe66e3",
       "ast_digest": "48ee89ff29f611eb584004ccdd0f55d0e2254bedcb44fdf4bde15720ac2d2aae"
     },
     "stp": {
-      "values_digest": "7b1319c2d60b28fce3e24f9de22f429ac3f4572e2e9da1a5eaae42a76e80979c",
+      "values_digest": "eed3963de995133b4e28d387b8becb7f7a61aa4c288c5d5c490fbea4f0a569bf",
       "rendered_digest": "45588a30e0087598da490a38a8ac4fa73943b376b7c4917e0a1cf9030da00a3d",
       "ast_digest": "b4d809790a68270384edcc1baad364ded4c51aca8cfaf21f4807f610cbf98d08"
     },
     "spp": {
-      "values_digest": "fee132c98a62e3a30b5765f6275892c5ee85062fd0c060e7caba9fd853da587d",
+      "values_digest": "a2a8faa732b33bec4fbea266864c34248d85916512d0cefc08ce628241668664",
       "rendered_digest": "3f4fcb91d40a19dd4d4c531e001198a2e6803c90ad4893689c4d85ee8689193a",
       "ast_digest": "bf17cce436d9dadae435bdccb912317338a540149714364c80ad7b08fa67beff"
     },
     "vpp": {
-      "values_digest": "8707cd28a2c074d6e719ddfc8cd925808bfdfada3cfc7d6129a1d6ffa7abfd93",
+      "values_digest": "8d9cdec848e283caddc6e0b6bbd19dad43063dbd47b00bcf3ed044676d2ec9af",
       "rendered_digest": "60e939ec69d10899f461f2185241491315e34c6a54616a7b45e076eef07a6a45",
       "ast_digest": "e7232286b0f68c0db9ae9daabbb5db93c8a48119d5810534fb160f72462d1928"
     },
     "srp": {
-      "values_digest": "8c78aee9d0998c156cec37bdcaf5c46d3270f628ced60331b43de79bf58b67b6",
+      "values_digest": "3ac52215139f62e317f6e4e220ae3d21362008d2d130437a1db9801f1a08702a",
       "rendered_digest": "d8f537f00a1632cece5be0c845404ec4fc85ac5b196f754f07dce3a47a000046",
       "ast_digest": "9be4bff51d140c5c9cc125283821bc3e62a125504039439ab92e95945d3ca1aa"
     },
     "sor": {
-      "values_digest": "dca2b18fef9e73410557a038c7b44ed8fd6287033217ea18c007e7dfca97ccc6",
-      "rendered_digest": "8a5ac671050cf743e95ff5d70505e674e8c9291b5dc000016fce7779f842cea9",
-      "ast_digest": "8bbcf7d8ade8721a82d9d02df85a227611c28f444e96f2f43b1393fa102b27a5"
+      "values_digest": "cc17eae26bc70394b3e79e0776fed87abf237a453e9c95cb322a42b61fa7f4f7",
+      "rendered_digest": "46d727f7cda09d1bcb5a0368848bddf56f8ba51858dfad652d2b077cec833bdc",
+      "ast_digest": "b64ecf2037485473c72455f3a5ec18aa95d33d46b6e68b5d31b76fbd8fc23744"
     }
   },
   "transitions": [
@@ -218,6 +218,13 @@
       "actor": "codex:worker-6",
       "reason": "Record follow-up PR #588 review remediation for already-removed cleanup gate bypass.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired PR #588 remote-delivery findings and the follow-up cleanup-gate review finding while preserving V3-E as non-authoritative construction work.\",\"changes\":[\"Changed remote delivery input so PVF evidence, review records, publication intents, GitHub readbacks, and cleanup candidates must be wrapped in typed verified observations with source-specific receipts before deliver() can treat them as authority inputs.\",\"Normalized principal comparison before case-insensitive equality so whitespace variants of the same implementer/reviewer cannot self-authorize publication.\",\"Allowed Part-Of publication to complete through deliver() as a checkpoint result without terminal cleanup authority.\",\"Added cleanup removal execution that performs filesystem removal after preview receipt and terminal gates, and distinguishes removed, already-removed, unregistered, path-mismatch, dirty, and live-worktree states.\",\"Fixed the already-removed cleanup path so it still requires terminal state, terminal receipt, preview receipt, clean worktree, non-live worktree, canonical absolute paths, and removal mode before returning AlreadyRemoved.\",\"Kept the V3-E implementation construction-only: no v3 live GitHub mutation, v2 retirement, merge, finish, or terminal cleanup authority is claimed.\"],\"artifacts\":[\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/publication/mod.rs\",\"csdlc-v3/src/review/mod.rs\",\"csdlc-v3/tests/remote_commands/remote_delivery.rs\",\".csdlc/issues/504\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"remote_commands\"],\"purpose\":\"Focused V3-E remote workflow regression tests including already-removed cleanup gate refusal.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: 15 passed\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "worker-6",
+      "reason": "Record truthful execution after repairing PR #588 remote authority, checkpoint, self-review, and cleanup findings.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired PR #588 remote-delivery findings by narrowing the delivery authority boundary, preserving whitespace-normalized reviewer independence, proving Part-Of delivery end-to-end, and implementing safe cleanup removal/outcome distinctions while keeping V3-E non-authoritative construction work.\",\"changes\":[\"Changed the remote delivery boundary so deliver(), Verified::new(), receipt minting, and RemoteDeliveryInput construction are crate-scoped rather than public caller-forgeable APIs.\",\"Added receipt subject-digest binding so verified observations must match the subject they claim to authorize before source-specific delivery gates can consume them.\",\"Kept reviewer independence normalized on both sides before case-insensitive comparison so whitespace variants of the same principal cannot self-authorize publication.\",\"Kept Part-Of publication on the advertised end-to-end delivery path: deliver() now returns CheckpointCompleted without terminal cleanup authority for checkpoint work.\",\"Implemented cleanup removal execution with filesystem removal after terminal, receipt, preview, clean, non-live, canonical-path, and registration gates; removed, already-removed, unregistered, path-mismatch, dirty, and live outcomes remain distinct.\",\"Moved remote delivery end-to-end tests into the remote module so authority fixture minting is no longer exposed as an integration-test/public API surface.\",\"Strengthened the #504 validator so it checks the sealed remote authority API, end-to-end Part-Of proof, whitespace self-review proof, cleanup execution proof, and already-removed cleanup gate proof.\"],\"artifacts\":[\"csdlc-v3/src/commands/remote/mod.rs\",\"csdlc-v3/src/commands/remote/tests.rs\",\"csdlc-v3/src/publication/mod.rs\",\"csdlc-v3/src/review/mod.rs\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\",\".csdlc/issues/504\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/504/validate-remote-workflow.rb\"],\"purpose\":\"Issue-owned V3-E validator including sealed remote authority API and regression-proof denominator checks.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: status pass, checked sealed_remote_authority_api\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Rust all-target regression coverage for remote delivery, foundation, local commands, and transactions.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: 19 lib tests, 11 foundation tests, 6 local command tests, 20 transaction tests passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Rust warning-free lint gate for the touched construction crate.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: Finished dev profile without warnings\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Exact-range diff hygiene for the PR branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: no findings\"}]}"
     }
   ]
 }

@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use crate::publication::{
     classify_cleanup, derive_finish, publish, CleanupCandidate, CleanupClassification,
     FinishClassification, IssueReadback, PublicationEvidence, PublicationMode, PublicationRequest,
@@ -26,8 +28,9 @@ pub enum AuthoritySource {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AuthorityReceipt {
-    pub source: AuthoritySource,
-    pub digest: String,
+    source: AuthoritySource,
+    digest: String,
+    subject_digest: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -43,8 +46,12 @@ pub enum VerificationRejectReason {
 }
 
 impl<T> Verified<T> {
-    pub fn new(value: T, receipt: AuthorityReceipt) -> Result<Self, VerificationRejectReason> {
-        if receipt.digest.trim().is_empty() {
+    pub(crate) fn new(
+        value: T,
+        receipt: AuthorityReceipt,
+        subject_digest: String,
+    ) -> Result<Self, VerificationRejectReason> {
+        if receipt.digest.trim().is_empty() || receipt.subject_digest != subject_digest {
             return Err(VerificationRejectReason::MissingReceipt);
         }
         Ok(Self { value, receipt })
@@ -64,12 +71,32 @@ impl<T> Verified<T> {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RemoteDeliveryInput {
-    pub pvf: Verified<AcceptedPvfResult>,
-    pub review: Verified<ReviewRecord>,
-    pub publication: Verified<PublicationRequest>,
-    pub pull_request: Verified<PullRequestReadback>,
-    pub issue: Verified<IssueReadback>,
-    pub cleanup: Verified<CleanupCandidate>,
+    pvf: Verified<AcceptedPvfResult>,
+    review: Verified<ReviewRecord>,
+    publication: Verified<PublicationRequest>,
+    pull_request: Verified<PullRequestReadback>,
+    issue: Verified<IssueReadback>,
+    cleanup: Verified<CleanupCandidate>,
+}
+
+impl RemoteDeliveryInput {
+    pub(crate) fn new(
+        pvf: Verified<AcceptedPvfResult>,
+        review: Verified<ReviewRecord>,
+        publication: Verified<PublicationRequest>,
+        pull_request: Verified<PullRequestReadback>,
+        issue: Verified<IssueReadback>,
+        cleanup: Verified<CleanupCandidate>,
+    ) -> Self {
+        Self {
+            pvf,
+            review,
+            publication,
+            pull_request,
+            issue,
+            cleanup,
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -91,7 +118,7 @@ pub enum RemoteDeliveryRejectReason {
     Cleanup(crate::publication::CleanupRejectReason),
 }
 
-pub fn deliver(
+pub(crate) fn deliver(
     input: RemoteDeliveryInput,
 ) -> Result<RemoteDeliveryResult, RemoteDeliveryRejectReason> {
     let pvf = input
@@ -157,10 +184,15 @@ pub fn deliver(
     })
 }
 
-pub fn receipt(source: AuthoritySource, digest: &str) -> AuthorityReceipt {
+pub(crate) fn receipt(
+    source: AuthoritySource,
+    digest: &str,
+    subject_digest: &str,
+) -> AuthorityReceipt {
     AuthorityReceipt {
         source,
         digest: digest.to_owned(),
+        subject_digest: subject_digest.to_owned(),
     }
 }
 
@@ -202,3 +234,6 @@ fn stable_digest(values: &[&str]) -> String {
     }
     hasher.finalize().to_hex().to_string()
 }
+
+#[cfg(test)]
+mod tests;
