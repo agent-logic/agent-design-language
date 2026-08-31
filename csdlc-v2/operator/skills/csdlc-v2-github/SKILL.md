@@ -15,16 +15,17 @@ Prefer the split owner binaries:
 - Invoke `csdlc-github-pr state --request <pr-state-request.json>` for direct
   PR-state observation.
 - Invoke `csdlc-github-pr run --request <github_action_request.json>` only for
-  compatibility with `action: "pr_state"`.
+  `action: "pr_state"`, `action: "pr_create"`, or `action: "pr_update"`.
 
 `csdlc-github run --request <request.json>` remains a compatibility facade for
 the same typed `github_action_request` payload while callers migrate. Do not use
 the GitHub connector, raw `gh`, legacy wrappers, shell/Python lifecycle
 mutation, or AWS.
 
-Every issue/comment mutation must carry an `operation_key`; the command renders
-it as a stable marker, reads back remote state, and fails closed on missing,
-duplicated, or mismatched reconciliation.
+Every issue/comment/PR mutation must carry an `operation_key`. Issue and
+comment mutations render it as a stable marker. PR create appends the same
+marker to the governed body. PR update writes the governed body exactly as
+provided, then reads back the body and fails closed on mismatch.
 
 Supported action values:
 
@@ -34,6 +35,8 @@ Supported action values:
 - `issue_close`
 - `issue_read`
 - `pr_state`
+- `pr_create`
+- `pr_update`
 
 `pr_state` is read-only readiness observation. PR publication and terminal
 delivery remain under the repo-native Rust v2 command surface:

@@ -393,6 +393,7 @@ impl SkillManifest {
             ("csdlc-github-issue", "issue-write", true),
             ("csdlc-github-issue", "issue-read", false),
             ("csdlc-github-pr", "state", false),
+            ("csdlc-github-pr", "pr-write", true),
             ("csdlc-pr-state", "state", false),
             ("csdlc-shadow", "compare", false),
             ("csdlc-shadow", "generate-view", true),
