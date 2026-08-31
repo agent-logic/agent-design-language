@@ -102,10 +102,23 @@ if ! awk -v limit="${gpu_quota_limit}" -v required="${accelerator_count}" 'BEGIN
   exit 1
 fi
 
-cleanup() {
-  terraform -chdir="${instance_root}" destroy -auto-approve -var-file="${instance_tfvars}" || true
+record_disposable_residue() {
+  gcloud compute instances list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format=json >"${evidence_dir}/${run_id}.instances-after-destroy.json" 2>"${evidence_dir}/${run_id}.instances-after-destroy.stderr" || true
+  gcloud compute disks list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format=json >"${evidence_dir}/${run_id}.disks-after-destroy.json" 2>"${evidence_dir}/${run_id}.disks-after-destroy.stderr" || true
 }
-trap cleanup EXIT
+
+cleanup() {
+  local reason="${1:-exit}"
+  {
+    echo "cleanup_reason=${reason}"
+    terraform -chdir="${instance_root}" destroy -auto-approve -var-file="${instance_tfvars}"
+  } >"${evidence_dir}/${run_id}.terraform-instance-destroy.log" 2>&1 || {
+    cleanup_status=$?
+    echo "cleanup_destroy_status=${cleanup_status}" >>"${evidence_dir}/${run_id}.terraform-instance-destroy.log"
+  }
+  record_disposable_residue
+}
+trap 'cleanup exit' EXIT
 
 terraform -chdir="${support_root}" init -backend=false
 
@@ -165,11 +178,9 @@ fi
 
 gcloud compute ssh "${instance_name}" --zone="${zone}" --project="${project_id}" --tunnel-through-iap --ssh-key-file="${ssh_key_file}" --ssh-flag="-o UserKnownHostsFile=${ssh_known_hosts_file}" --ssh-flag="-o StrictHostKeyChecking=accept-new" --command="cat /var/log/adl/issue494-gpu-smoke.log" >"${evidence_dir}/${run_id}.gpu-smoke.log"
 
-terraform -chdir="${instance_root}" destroy -auto-approve -var-file="${instance_tfvars}" | tee "${evidence_dir}/${run_id}.terraform-instance-destroy.log"
+cleanup success
 trap - EXIT
 
-gcloud compute instances list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format=json >"${evidence_dir}/${run_id}.instances-after-destroy.json"
-gcloud compute disks list --project="${project_id}" --filter="labels.issue=494 AND labels.lane=gcp-e AND labels.run_id=${run_id}" --format=json >"${evidence_dir}/${run_id}.disks-after-destroy.json"
 gcloud iam service-accounts list --project="${project_id}" --filter="email:${support_id}-gpu" --format=json >"${evidence_dir}/${run_id}.support-service-account.json"
 gcloud compute firewall-rules describe "${support_id}-iap-ssh" --project="${project_id}" --format=json >"${evidence_dir}/${run_id}.support-firewall.json"
 

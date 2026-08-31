@@ -43,10 +43,10 @@ Read-only GCP checks proved:
 
 ## Live execution attempts
 
-Two bounded live attempts were made with
-`GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json`
-and `CLOUDSDK_CONFIG` under Git-common. The credential file contents were not
-read, copied, printed, or committed.
+Two bounded live attempts were made with an operator-approved
+`GOOGLE_APPLICATION_CREDENTIALS` file outside the repository and
+`CLOUDSDK_CONFIG` under Git-common. The credential file contents and host-local
+credential path were not copied, printed, or committed.
 
 Attempt 1 failed before VM creation because the configured image family
 `common-cu121` did not exist. Terraform destroyed the transient firewall and
@@ -101,6 +101,18 @@ because `--plain` disables the normal OS Login/key propagation that made the
 successful proof work and produced `Permission denied (publickey)` during the
 readiness probe. The final script keeps normal `gcloud compute ssh` behavior
 while supplying explicit Git-common SSH key and run-scoped known-hosts paths.
+The failure cleanup path now records the same disposable instance destroy log
+and VM/disk after-destroy readbacks as the success path, so future failed live
+attempts leave durable zero-residue evidence instead of relying on trap behavior
+alone.
+
+The retained r10/r11 follow-up readbacks now prove there is no remaining
+per-run VM or disk residue for those rejected attempts:
+
+- `readbacks/adl-494-gpu-smoke-r10-202608310247.instances-after-destroy.json`
+- `readbacks/adl-494-gpu-smoke-r10-202608310247.disks-after-destroy.json`
+- `readbacks/adl-494-gpu-smoke-r11-202608310255.instances-after-destroy.json`
+- `readbacks/adl-494-gpu-smoke-r11-202608310255.disks-after-destroy.json`
 
 ## Quota request
 

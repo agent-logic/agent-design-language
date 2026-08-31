@@ -127,6 +127,10 @@ if [[ "${lane}" == "--lane=all" ]]; then
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'terraform_state_has'
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'terraform -chdir="${support_root}" import'
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'terraform -chdir="${instance_root}" destroy'
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "record_disposable_residue"
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "cleanup_reason="
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "instances-after-destroy.stderr"
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "disks-after-destroy.stderr"
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'GCP_E_SSH_KEY_FILE'
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'GCP_E_SSH_KNOWN_HOSTS_FILE'
   reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" '--plain'
@@ -141,6 +145,12 @@ if [[ "${lane}" == "--lane=all" ]]; then
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "per-run VM/disk cleanup"
   reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "BEGIN PRIVATE KEY"
   reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "BEGIN PRIVATE KEY"
+  reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/gcp-e-proof-status.md" "/Users/daniel/keys"
+  require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r10-202608310247.instances-after-destroy.json"
+  require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r10-202608310247.disks-after-destroy.json"
+  require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r11-202608310255.instances-after-destroy.json"
+  require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/readbacks/adl-494-gpu-smoke-r11-202608310255.disks-after-destroy.json"
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/gcp-e-proof-status.md" "r10/r11 follow-up readbacks"
 fi
 
 echo "gcp-e gpu smoke validator passed (${lane})"
