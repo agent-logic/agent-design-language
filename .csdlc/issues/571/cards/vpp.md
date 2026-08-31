@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/571/diagram.mmd
 [
   {
     "lane": "v3a-predecessor-owner-proof-lanes",
-    "proof_role": "Reject missing, empty, duplicated, or broad-only owner issue and proof-lane data for retained #161-#163 predecessor rows.",
+    "proof_role": "Reject missing, empty, duplicated, broad-only, or non-executable owner issue and proof-lane data for retained #161-#163 predecessor rows.",
     "acceptance_ids": [
       "AC-1",
       "AC-5"
@@ -43,7 +43,7 @@ Diagram: .csdlc/prepared/issues/571/diagram.mmd
   },
   {
     "lane": "v3a-construction-decision-evidence",
-    "proof_role": "Verify CONTRACT.md records measured #162 construction-slice disposition, criteria or thresholds, and #163/Decision 11 binding.",
+    "proof_role": "Verify CONTRACT.md and construction-decision.json record the ten #162 measurement thresholds, missing evidence status, exact-revision absence, fail-closed disposition, and #163/Decision 11 binding.",
     "acceptance_ids": [
       "AC-2",
       "AC-5"
@@ -57,11 +57,11 @@ Diagram: .csdlc/prepared/issues/571/diagram.mmd
       ".csdlc/prepared/issues/571/validate-v3a-followup.rb"
     ],
     "parallel_group": "v3a-contract",
-    "defer_reason": "Runs after CONTRACT.md is repaired."
+    "defer_reason": "Runs after CONTRACT.md and construction-decision.json are repaired."
   },
   {
     "lane": "v3a-lifecycle-gate-consistency",
-    "proof_role": "Verify proportional-lifecycle.json default path cannot omit retained bind, publication, finish, or cleanup gates.",
+    "proof_role": "Verify proportional-lifecycle.json and CONTRACT.md default path cannot omit retained bind, publication, finish, or cleanup gates.",
     "acceptance_ids": [
       "AC-3",
       "AC-5"
@@ -75,11 +75,11 @@ Diagram: .csdlc/prepared/issues/571/diagram.mmd
       ".csdlc/prepared/issues/571/validate-v3a-followup.rb"
     ],
     "parallel_group": "v3a-contract",
-    "defer_reason": "Runs after lifecycle matrix repair."
+    "defer_reason": "Runs after lifecycle matrix and contract repair."
   },
   {
     "lane": "exact-range-diff-hygiene",
-    "proof_role": "Verify diff hygiene is checked against an explicit base/head range.",
+    "proof_role": "Execute diff hygiene against the explicit PR base/head range.",
     "acceptance_ids": [
       "AC-4",
       "AC-5"
@@ -89,11 +89,13 @@ Diagram: .csdlc/prepared/issues/571/diagram.mmd
     "budget_seconds": 60,
     "budget_tokens": 400,
     "argv": [
-      "ruby",
-      ".csdlc/prepared/issues/571/validate-v3a-followup.rb"
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
     ],
     "parallel_group": "v3a-final",
-    "defer_reason": "Runs after validator repair."
+    "defer_reason": "Runs after all corrective edits are staged in the issue branch."
   }
 ]
 
@@ -112,7 +114,7 @@ Tokens: 25000
 - `ruby .csdlc/prepared/issues/571/validate-v3a-followup.rb`
 - `ruby .csdlc/prepared/issues/571/validate-v3a-followup.rb`
 - `ruby .csdlc/prepared/issues/571/validate-v3a-followup.rb`
-- `ruby .csdlc/prepared/issues/571/validate-v3a-followup.rb`
+- `git diff --check origin/main...HEAD`
 
 ## Failure Semantics
 

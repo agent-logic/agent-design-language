@@ -4,56 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0793b51a824a680a043de7acd87b9a37ba594e54bbf3b4c7e7feb2c075b1c887",
-  "phase": "published",
-  "generation": 7,
-  "digest": "e9f9d4d79026200546d8cc1abc192711b164004e8477ab1a34026c3c58b54ebc",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "ee91bb6fd754b5ff16fda293f200028134aa82e5e1922b0a41076f7af2036c58",
   "branch": "codex/571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
-  "review_assignment": {
-    "reviewer": "subagent:issue_571_pre_pr_review",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:b7771eb24811acc123a02f060f44428143a76396:78ec3804511f6ec4182e77adb23b547400639f37b5b85b360c98671d3a14c836",
-    "scope": [
-      "docs/csdlc-v3/CONTRACT.md",
-      "docs/csdlc-v3/predecessor-coverage.json",
-      "docs/csdlc-v3/proportional-lifecycle.json",
-      ".csdlc/prepared/issues/500/validate-implementation.rb",
-      ".csdlc/prepared/issues/571/validate-v3a-followup.rb",
-      ".csdlc/issues/571",
-      ".csdlc/prepared/issues/571"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue_571_pre_pr_review",
-    "scope": [
-      "docs/csdlc-v3/CONTRACT.md",
-      "docs/csdlc-v3/predecessor-coverage.json",
-      "docs/csdlc-v3/proportional-lifecycle.json",
-      ".csdlc/prepared/issues/500/validate-implementation.rb",
-      ".csdlc/prepared/issues/571/validate-v3a-followup.rb",
-      ".csdlc/issues/571",
-      ".csdlc/prepared/issues/571"
-    ],
-    "reviewed_revision": "git-blake3:b7771eb24811acc123a02f060f44428143a76396:78ec3804511f6ec4182e77adb23b547400639f37b5b85b360c98671d3a14c836",
-    "findings": [],
-    "residual_risks": [
-      "Publication was not present during review, so the PR body closing keyword remains a publication-time check; the PR must include Closes #571."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 571,
-    "pull_request": 585,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/585",
-    "base": "main",
-    "head": "codex/571-v3-a-followup-predecessor-proof-lifecycle-gates-exec",
-    "revision": "git-blake3:e6863dbffe7cee5ff7bfb37826744022fb4b3c50:ffac8ba8bed2bb49b0f59e13c65a01ee014fde5d5684f83987dddb7850c62d9d",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -67,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2fb2e8c025bae0e0a618df6d01fc735f622a5eae077d4e47e1ca7e81382da80a",
+      "values_digest": "a46f912f416cc0ba6ab9d59e194229dfba821e66dc9c1f13af07c9eb5a8bba34",
       "rendered_digest": "9ccb4f850e18797d99bbf2565d710059370fa06d871a15eac878584fbc67462e",
       "ast_digest": "d25d92fbdc91b85d6976761a6767c6ce12a057113fcced80ff4120776ab29b19"
     },
     "stp": {
-      "values_digest": "71a12b52fc1a4927b7b568d84a76d8d20c8dee4ddc5461244daf7e561dcabbcf",
+      "values_digest": "03cca91b2bf9e305762538d36a3ccce7866c17c5f13f2245ae0c0db0f2d3d923",
       "rendered_digest": "f2b75f46f193e43621bfbabae2e1b02dad5ec38886370df60a233ba2d9be20fa",
       "ast_digest": "086e291c7dfd8229dd82f4b88c395a90f5a08ba795c318c277c2ea2dbf9c1f01"
     },
     "spp": {
-      "values_digest": "e3d1fe6456d8fd3d92486e6ff12d23ae10886011c4043a7431ab62a5b3548dbd",
+      "values_digest": "bf465475fb4709fa64893b09af0847df63bac623748e6b75e35c5f40cbd7a49d",
       "rendered_digest": "60f4e090c005b59d77edf42ae4a6479ec724d6291e2c0269b7a03bf98b1e8d66",
       "ast_digest": "1294097b2388c2b051119d7715fa220a95faa65e53b43e2a91d88989b8985f18"
     },
     "vpp": {
-      "values_digest": "5325e50b1f229d2642ce2351ef64148352e3628b3ea12ac302dacfa7eedbb062",
-      "rendered_digest": "94943fbe8b9b68185233d49888a89c962436e3598aeab713c846cb5e98f64d55",
-      "ast_digest": "2f51f03d3dc5855f473f697364d9e2ed20013280af1a60a851b85ac879f9d736"
+      "values_digest": "9f1a34130586df0703403b345eae563f66b0426ffe2b06df1160a46998f8ea16",
+      "rendered_digest": "ccd8dbeafc13b94d9ca476c3db49f24e9e4844716a8ee2e63619f10543f8dbac",
+      "ast_digest": "cea556fb53a05a78a82fbc7534eb4ec4fbe6e1dc03e532a10d96a3aac5ac4f6a"
     },
     "srp": {
-      "values_digest": "3e57264b637c7c0c5cd3f655548ccb4fec74a172ba8c9612c1687f505cd94f00",
-      "rendered_digest": "43dda7f08fc967d0b2f301378dd43f9da564f58cf72981987d7f3247860c0f53",
-      "ast_digest": "b16129abcc9648fe51ab0b4a8b4cd9888df48718c566ee2efc177ed20d1a1da3"
+      "values_digest": "91cefb7e9c2111bfd08cfa216a5efe617ca415297be986a09201d2b697165685",
+      "rendered_digest": "77352b11e8c655e249d0635d145736d57043c0700ce6b79941e961821716f4c1",
+      "ast_digest": "68b4329bbcac8a5ca5bb592d3571542c7a6d3c42d0e83fdc5a0f5822a5e552b4"
     },
     "sor": {
-      "values_digest": "91da154c932f39cd7360503ed2a1ddbb724fabf4d29cc3f663b944d430555028",
-      "rendered_digest": "0316dbbe2ce8a29dd8c1c0eb889e78890b86d8f8c0c329c95845b479245a19d5",
-      "ast_digest": "0344490ab855f9b622cd52ecc8eeac795e506976b22f80f94f1d4eb535ed142f"
+      "values_digest": "96e5f33c8bc9781f909fa17fe9cde18a30405a61739dbc7f13c1c471fd4e3abb",
+      "rendered_digest": "7d8c3d50d82fa91fd3dab45119423955e69edbf5357ad0062d9229cb2cb5684c",
+      "ast_digest": "721d2f851b3fd7d85c3766c9bf4b31b03e03470e9da2461ec3fc4611a66a9751"
     }
   },
   "transitions": [
@@ -132,6 +90,13 @@
       "to": "published",
       "actor": "codex:worker-6",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "PR #585 exact-head review failed; recover published review/publication truth before repairing VPP lane declarations and validation evidence."
     }
   ],
   "audit": [
@@ -204,6 +169,27 @@
       "actor": "codex:worker-6",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:worker-6",
+      "reason": "PR #585 exact-head review failed; recover published review/publication truth before repairing VPP lane declarations and validation evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:worker-6",
+      "reason": "Repair PR #585 review finding: exact-range diff hygiene must be an executable VPP lane, not a meta-validator source scan.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"v3a-predecessor-owner-proof-lanes\",\"proof_role\":\"Reject missing, empty, duplicated, broad-only, or non-executable owner issue and proof-lane data for retained #161-#163 predecessor rows.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1200,\"argv\":[\"ruby\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\"],\"parallel_group\":\"v3a-contract\",\"defer_reason\":\"Runs after V3-A corrective artifact edits are made.\"},{\"lane\":\"v3a-construction-decision-evidence\",\"proof_role\":\"Verify CONTRACT.md and construction-decision.json record the ten #162 measurement thresholds, missing evidence status, exact-revision absence, fail-closed disposition, and #163/Decision 11 binding.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\"],\"parallel_group\":\"v3a-contract\",\"defer_reason\":\"Runs after CONTRACT.md and construction-decision.json are repaired.\"},{\"lane\":\"v3a-lifecycle-gate-consistency\",\"proof_role\":\"Verify proportional-lifecycle.json and CONTRACT.md default path cannot omit retained bind, publication, finish, or cleanup gates.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\"],\"parallel_group\":\"v3a-contract\",\"defer_reason\":\"Runs after lifecycle matrix and contract repair.\"},{\"lane\":\"exact-range-diff-hygiene\",\"proof_role\":\"Execute diff hygiene against the explicit PR base/head range.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":400,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"v3a-final\",\"defer_reason\":\"Runs after all corrective edits are staged in the issue branch.\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:worker-6",
+      "reason": "Record PR #585 review remediation truth after typed recovery and VPP lane repair.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired PR #585 corrective-follow-up findings by binding predecessor proof lanes to executable owner lanes, recording fail-closed #162 construction-decision evidence, aligning lifecycle gates, and making exact-range diff hygiene an executable VPP lane.\",\"changes\":[\"Added docs/csdlc-v3/owner-proof-lanes.json as the executable lane registry used to validate retained predecessor mappings.\",\"Updated docs/csdlc-v3/predecessor-coverage.json so retained #161-#163 requirements map to declared owner lanes rather than invented free-form lane names.\",\"Added docs/csdlc-v3/construction-decision.json with the ten frozen #162 measurement thresholds, missing evidence artifact/revision status, and fail-closed non-promotion disposition.\",\"Updated docs/csdlc-v3/CONTRACT.md so the construction decision states exact-revision #162 evidence is missing and V3-F/#505 owns the future promote-or-discard authority decision.\",\"Updated CONTRACT.md default V3 path to include retained bind, publication, finish, and cleanup gates.\",\"Strengthened .csdlc/prepared/issues/571/validate-v3a-followup.rb to parse the new machine-readable artifacts, reject invented proof lanes, reject invented construction measurements, validate contract gate text, and validate the VPP diff lane argv.\",\"Recovered stale published review/publication truth and used typed csdlc-edit to replace the VPP exact-range-diff-hygiene lane with git diff --check origin/main...HEAD.\"],\"artifacts\":[\"docs/csdlc-v3/owner-proof-lanes.json\",\"docs/csdlc-v3/construction-decision.json\",\"docs/csdlc-v3/predecessor-coverage.json\",\"docs/csdlc-v3/CONTRACT.md\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\",\".csdlc/issues/571\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/571/validate-v3a-followup.rb\"],\"purpose\":\"Focused corrective follow-up validator for owner lanes, construction decision evidence, lifecycle gates, exact-range VPP lane, and negative fixtures.\",\"outcome\":\"passed\",\"evidence_ref\":\"local stdout: V3-A corrective follow-up validation passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Exact-range diff hygiene for PR #585 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local command produced no findings\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"571\"],\"purpose\":\"Typed C-SDLC issue validation after recovery and VPP repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"generation 9 phase implemented status pass before this SOR replacement\"}]}"
     }
   ]
 }

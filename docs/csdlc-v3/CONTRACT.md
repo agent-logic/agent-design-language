@@ -59,20 +59,28 @@ The default construction posture is boring and explicit: typed inputs,
 deterministic checks, no ambient repository authority, and no hidden process
 state.
 
-The measured #162 construction slice is promoted only as this minimal
-construction seed. It is not promoted as lifecycle authority. The promoted
-portion is the one-binary/one-library, four-layer Rust shape plus deterministic
-contract parsing that does not initialize repository, credential, network, or
-child-task state. Any #162 measurement that exceeds the recorded dependency,
-scope, or execution-threshold criteria remains a stop-and-revise condition for
-later v3 issues rather than implicit approval to widen the crate.
+V3-A does not record satisfied #162 measurement evidence. The ten frozen
+#162 thresholds and their absent observations are recorded in
+`construction-decision.json` against the expected evidence artifact
+`.csdlc/evidence/162/proof.json`; because that exact-revision evidence is
+missing, the measured construction slice is not promoted. The only accepted
+construction seed is the static one-binary/one-library, four-layer Rust shape
+plus deterministic contract parsing that does not initialize repository,
+credential, network, or child-task state. Any future measured value that
+exceeds the recorded dependency, scope, or execution-threshold criteria remains
+a stop-and-revise condition for later v3 issues rather than implicit approval
+to widen the crate.
+
+In short: exact-revision evidence is missing for the #162 measurements, so
+V3-A records a fail-closed non-promotion rather than a construction go signal.
 
 Decision evidence is bound to #163 and Decision 11: v3 mutation authority may
 not proceed until the approved platform commit matrix, rollback posture, and
 Windows fail-closed/read-only policy are satisfied by the relevant owner issue.
-That means the V3-A crate can be used as construction evidence, but V3-F/#505
-must still make the explicit operator-reviewed promote-or-discard decision for
-live authority using #162 measurements and #163 approval evidence.
+That means the V3-A crate can be used only as static construction evidence.
+V3-F/#505 must still make the explicit operator-reviewed promote-or-discard
+decision for live authority using actual #162 measurements, their exact
+revision, and #163 approval evidence.
 
 ## Proportional lifecycle contract
 
@@ -80,12 +88,16 @@ C-SDLC v3 must simplify the lifecycle itself, not merely automate the v2
 ceremony. The default path keeps only gates that materially reduce delivery
 risk and names the concrete hazard for every retained gate.
 
-Default V3 path:
+Default V3 path. The normative default retains the safety-critical bind,
+publication, finish, and cleanup transitions from the retained-gate matrix:
 
 1. one meaningful design gate;
-2. focused validation proportional to the changed surface;
-3. one independent implementation review at exact revision;
-4. truthful closeout.
+2. bind to exact repository, branch, and worktree identity;
+3. focused validation proportional to the changed surface;
+4. one independent implementation review at exact revision;
+5. publication with exact GitHub repository, base, head, and linkage truth;
+6. finish from live GitHub merge and issue-closure evidence;
+7. cleanup of only the exact registered worktree after terminal evidence.
 
 Intermediate projections, repeated generation/digest handoffs, duplicate
 readiness reviews, and umbrella reviews that merely repeat child proof are

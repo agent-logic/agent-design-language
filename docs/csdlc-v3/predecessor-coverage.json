@@ -13,7 +13,7 @@
           "source_acceptance": "AC-1",
           "disposition": "retained",
           "owner_issue": 501,
-          "proof_lane": "v3-foundation-command-output-contracts",
+          "proof_lane": "foundation-unit",
           "maps_to": ["authority-and-compatibility"],
           "notes": "Every public command and output mode remains a versioned-contract requirement."
         },
@@ -31,7 +31,7 @@
           "source_acceptance": "AC-3",
           "disposition": "retained",
           "owner_issue": 505,
-          "proof_lane": "v3-cutover-retained-gate-parity",
+          "proof_lane": "prebind-v3-f-preparation",
           "maps_to": ["authority-and-compatibility", "rollback-and-fail-closed-behavior"],
           "notes": "Exact review, GitHub truth, topology ownership, atomic state, and cleanup boundaries cannot be weakened by later v3 construction."
         },
@@ -40,7 +40,7 @@
           "source_acceptance": "AC-4",
           "disposition": "retained",
           "owner_issue": 505,
-          "proof_lane": "v3-cutover-reviewed-drift-register",
+          "proof_lane": "prebind-v3-f-preparation",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "Unknown or intentionally changed v2 behavior stays explicit and reviewed."
         },
@@ -49,7 +49,7 @@
           "source_acceptance": "AC-5",
           "disposition": "retained",
           "owner_issue": 501,
-          "proof_lane": "v3-foundation-read-only-importer-retention",
+          "proof_lane": "repository-context",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "Importer retention remains governed by v2-origin terminal state and rollback-window expiry."
         },
@@ -58,7 +58,7 @@
           "source_acceptance": "AC-6",
           "disposition": "retained",
           "owner_issue": 501,
-          "proof_lane": "v3-foundation-in-process-rendering-boundary",
+          "proof_lane": "foundation-unit",
           "maps_to": ["authority-and-compatibility"],
           "notes": "Output filtering and templating stay in-process and cannot shell out."
         },
@@ -67,7 +67,7 @@
           "source_acceptance": "AC-7",
           "disposition": "retained",
           "owner_issue": 504,
-          "proof_lane": "v3-review-publication-independence",
+          "proof_lane": "prebind-v3-e-preparation",
           "maps_to": ["proportional-lifecycle-contract"],
           "notes": "Reviewer independence remains structurally checked where identity is bindable."
         },
@@ -76,7 +76,7 @@
           "source_acceptance": "AC-8",
           "disposition": "retained",
           "owner_issue": 504,
-          "proof_lane": "v3-publication-linkage-mode",
+          "proof_lane": "prebind-v3-e-preparation",
           "maps_to": ["proportional-lifecycle-contract"],
           "notes": "Closing and non-closing publication remain disjoint typed modes; PartOf cannot close a parent."
         },
@@ -85,7 +85,7 @@
           "source_acceptance": "AC-9",
           "disposition": "retained",
           "owner_issue": 503,
-          "proof_lane": "v3-local-preparation-field-owner-matrix",
+          "proof_lane": "cli-contract",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "Every mutable authoritative field keeps exactly one matrix owner and typed operation path."
         },
@@ -94,7 +94,7 @@
           "source_acceptance": "AC-10",
           "disposition": "retained",
           "owner_issue": 505,
-          "proof_lane": "v3-cutover-capability-derived-help-auth-tests",
+          "proof_lane": "prebind-v3-f-preparation",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "Command help, authorization, doctor findings, and tests remain mechanically checked against the capability matrix."
         },
@@ -103,7 +103,7 @@
           "source_acceptance": "AC-11",
           "disposition": "retained",
           "owner_issue": 502,
-          "proof_lane": "v3-lifecycle-kernel-state-size-audit",
+          "proof_lane": "transition-matrix",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "State-size warning/block behavior and audit preservation remain retained invariants."
         },
@@ -112,7 +112,7 @@
           "source_acceptance": "AC-12",
           "disposition": "retained",
           "owner_issue": 503,
-          "proof_lane": "v3-local-preparation-largest-bundle-budget",
+          "proof_lane": "card-roundtrip",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "The largest v2 bundle measurement and locked recomputation gate remain predecessor requirements."
         },
@@ -121,7 +121,7 @@
           "source_acceptance": "AC-13",
           "disposition": "retained",
           "owner_issue": 502,
-          "proof_lane": "v3-lifecycle-kernel-state-size-fail-closed",
+          "proof_lane": "transition-matrix",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "If state-size constraints are impractical, v3 must stop for architecture review rather than weaken the factor."
         },
@@ -130,7 +130,7 @@
           "source_acceptance": "AC-14",
           "disposition": "retained",
           "owner_issue": 505,
-          "proof_lane": "v3-cutover-canary-sizing-parity",
+          "proof_lane": "prebind-v3-f-preparation",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "The V3-16 review/recover/card-family canary sizing proof remains represented."
         },
@@ -139,7 +139,7 @@
           "source_acceptance": "AC-15",
           "disposition": "retained",
           "owner_issue": 501,
-          "proof_lane": "v3-foundation-output-filter-subset",
+          "proof_lane": "foundation-unit",
           "maps_to": ["authority-and-compatibility"],
           "notes": "The frozen supported jq subset and unsupported-syntax typed error remain retained."
         },
@@ -148,7 +148,7 @@
           "source_acceptance": "AC-16",
           "disposition": "retained",
           "owner_issue": 570,
-          "proof_lane": "v3-docs-skill-cutover-source-baseline",
+          "proof_lane": "docs-stale-route-scan",
           "maps_to": ["retained-predecessor-contract"],
           "notes": "The retained official CLI source baseline lane remains a start gate for later construction."
         }
@@ -164,7 +164,7 @@
           "source_acceptance": "AC-1",
           "disposition": "retained",
           "owner_issue": 500,
-          "proof_lane": "v3a-construction-decision-evidence",
+          "proof_lane": "v3-a-focused-implementation",
           "maps_to": ["construction-decision"],
           "notes": "The one-binary/one-library four-layer construction shape remains retained."
         },
@@ -173,7 +173,7 @@
           "source_acceptance": "AC-2",
           "disposition": "retained",
           "owner_issue": 501,
-          "proof_lane": "v3-foundation-parse-isolation",
+          "proof_lane": "repository-context",
           "maps_to": ["construction-decision"],
           "notes": "Parsing must not initialize repository, credentials, network, or child task state."
         },
@@ -182,7 +182,7 @@
           "source_acceptance": "AC-3",
           "disposition": "retained",
           "owner_issue": 502,
-          "proof_lane": "v3-lifecycle-kernel-fake-adapter-determinism",
+          "proof_lane": "adapter-boundary",
           "maps_to": ["construction-decision"],
           "notes": "Fake adapters retain deterministic unexpected-operation rejection."
         },
@@ -191,7 +191,7 @@
           "source_acceptance": "AC-4",
           "disposition": "retained",
           "owner_issue": 504,
-          "proof_lane": "v3-review-publication-github-capability-classification",
+          "proof_lane": "prebind-v3-e-preparation",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "Every required GitHub operation remains classified, with raw-request count triggering dependency re-evaluation."
         },
@@ -200,7 +200,7 @@
           "source_acceptance": "AC-5",
           "disposition": "retained",
           "owner_issue": 505,
-          "proof_lane": "v3-cutover-end-to-end-recovery-journey",
+          "proof_lane": "prebind-v3-f-preparation",
           "maps_to": ["proportional-lifecycle-contract"],
           "notes": "The exact-review, typed-recovery, field-correction, projection, audit, and fresh-review journey remains retained."
         },
@@ -218,7 +218,7 @@
           "source_acceptance": "AC-7",
           "disposition": "retained",
           "owner_issue": 505,
-          "proof_lane": "v3-cutover-decision-11-terminal-gate",
+          "proof_lane": "prebind-v3-f-preparation",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "V3-02 recommendation alone cannot satisfy the later V3-08 Decision 11 dependency gate."
         }
@@ -234,7 +234,7 @@
           "source_acceptance": "AC-1",
           "disposition": "retained",
           "owner_issue": 502,
-          "proof_lane": "v3-lifecycle-kernel-durable-transaction-contract",
+          "proof_lane": "transaction-failure",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "Every supported platform keeps a measured commit primitive and durability contract requirement."
         },
@@ -243,7 +243,7 @@
           "source_acceptance": "AC-2",
           "disposition": "retained",
           "owner_issue": 505,
-          "proof_lane": "v3-cutover-platform-posture-parity",
+          "proof_lane": "prebind-v3-f-preparation",
           "maps_to": ["rollback-and-fail-closed-behavior"],
           "notes": "Windows mutation remains equivalently proven or explicitly fail-closed read-only."
         },
@@ -261,7 +261,7 @@
           "source_acceptance": "AC-4",
           "disposition": "retained",
           "owner_issue": 505,
-          "proof_lane": "v3-cutover-decision-11-terminal-gate",
+          "proof_lane": "prebind-v3-f-preparation",
           "maps_to": ["proportional-lifecycle-contract"],
           "notes": "V3-08 remains blocked until the Decision 11 issue is terminal."
         }
