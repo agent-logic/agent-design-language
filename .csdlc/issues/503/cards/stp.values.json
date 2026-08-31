@@ -1,0 +1,63 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 503,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+    "slug": "v0-92-1-v3-d-c-sdlc-v3-local-preparation-workflow",
+    "version": "v0.92.1",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the V3-D local-preparation workflow: typed local command contracts, topology bind model, active-registry card rendering path, and doctor/PVF planning proof for requirements #171 through #173.",
+      "deliverables": [
+        "Local command contracts under csdlc-v3/src/commands/local/**",
+        "Focused local-command workflow tests under csdlc-v3/tests/local_commands/**",
+        "Active prompt-template registry/card-rendering integration for the V3-D local preparation path",
+        "Doctor/PVF planning proof that a typed issue input reaches a validated PVF plan",
+        "Truthful validation and review evidence for #503"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Commands consume typed contracts.",
+        "AC-2: Bind enforces registered topology.",
+        "AC-3: Cards render from the active registry.",
+        "AC-4: Requirements #171 through #173 have CLI proof."
+      ],
+      "dependencies": [
+        "V3-C: #502 is closed by merged PR #572 and typed terminal closeout before #503 starts.",
+        "V3-E: #504 must wait for #503 delivery."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#503",
+        "agent-logic/agent-design-language#502",
+        "agent-logic/agent-design-language#171",
+        "agent-logic/agent-design-language#172",
+        "agent-logic/agent-design-language#173",
+        "docs/csdlc-v3/CONTRACT.md",
+        "docs/csdlc-v3/predecessor-coverage.json",
+        "docs/csdlc-v3/proportional-lifecycle.json",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#V3-D",
+        "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+        "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+        "docs/milestones/v0.92.1/planned-issue-packets/issues/171/cards/stp.md",
+        "docs/milestones/v0.92.1/planned-issue-packets/issues/172/cards/stp.md",
+        "docs/milestones/v0.92.1/planned-issue-packets/issues/173/cards/stp.md",
+        "docs/templates/prompts/current.json"
+      ],
+      "non_goals": [
+        "PVF execution",
+        "GitHub writes from csdlc-v3",
+        "Publication, finish, or cleanup implementation",
+        "Authority cutover",
+        "v2 migration or retirement",
+        "V3-E remote-delivery workflow",
+        "V3-F authority-transition decision",
+        "Repository-wide template redesign"
+      ]
+    }
+  }
+}

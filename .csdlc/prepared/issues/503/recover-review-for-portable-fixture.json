@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.review_recovery_request.v1",
+  "issue": 503,
+  "expected_generation": 4,
+  "expected_digest": "124bc2c5e80d560335faf079248b98adb16886c1d78ecbf8957fb2edec4992e1",
+  "actor": "codex:worker-6",
+  "reason": "Clear the stale #503 review assignment before replacing a machine-local absolute worktree path in the local-command test fixture."
+}
