@@ -39,10 +39,10 @@ Remaining remote-state blocker:
 
 - No known premature remote-linkage blocker remains in PR #591. #505 still must
   not merge until review approval and explicit operator cutover authority.
-- PR #597 is open and non-draft at head
-  `13bf957c697fd8e32c1552580348c3c9bf2e27b8`. Typed readback reports linked
-  issue #596, review `pending`, merge state `blocked`, and classification
-  `waiting`; no independent review/check-gate result has been observed yet.
+- PR #597 is open and non-draft. The retained typed readback captured before
+  subsequent evidence commits reports linked issue #596, review `pending`,
+  merge state `blocked`, and classification `waiting`; fresh typed PR-state
+  readback is required before review, merge, finish, or closeout claims.
 
 Non-claims:
 
