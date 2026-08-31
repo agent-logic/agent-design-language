@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8aa9a8c0ba290a29dfe6bfbab4b9ce40e04b2eaa164d076ad354755a661fb259",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "ad3a6eba8754f72a9fae9a9215238a06e35c126996f4070803534a51395a8439",
+  "generation": 15,
+  "digest": "da9e1f9f338d21bf6508457c02ebc1d7de14b9ec159cf7b7f78fb2fce13f52ab",
   "branch": "codex/495-cross-cloud-runtime-terraform-conversion",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-495-cross-cloud-runtime-terraform-conversion",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f1d1893fc24f43e7ff31e6fc62c77451b747b842a59b48ff06549acbcbb2afc",
+      "values_digest": "63b349681d716fb50dde7832f6106853ac8acb1617a66ded91db73344e198803",
       "rendered_digest": "888c873c9a2d8eeaed4fb7574e7c6838b463b26edbd71aeeb47317c7337305ce",
       "ast_digest": "6d2b586ea1b5ccc012769c66cd62055c23724fa1cc495936a07bafba2b8a5f13"
     },
     "stp": {
-      "values_digest": "3b48ad4b7be233da2d69f838b4a438525063aca18872f95cdc70baca04b730a3",
+      "values_digest": "8b05d138788dddb21785c537f08cd5a5134597bdb746097c4ccdff71881c21cd",
       "rendered_digest": "089719cd42a2e7f86a34f7cdabddb55e266193ad0dfd594852d4fbdf3a5ee1a5",
       "ast_digest": "9cd34d5f7bd2135ea2359efd50a8b1d2ce40ba014970110ee385ecd170df6c14"
     },
     "spp": {
-      "values_digest": "2a26441cd189dded129ca05faf5fa0e89ef0b08eaf22167ef9f59c36705a3529",
+      "values_digest": "6d55c3263ac091c981b3ea00f26141ef5e0cec8fe29b08edd4106312ebce480e",
       "rendered_digest": "ac94f4d64d59ce2e4311d133806aafff7846be3b1b96732b22b8f49ccc584fef",
       "ast_digest": "fd236528b7200b33b9ceccaf798bb854473a530634c26d0d3ac43b17fde91703"
     },
     "vpp": {
-      "values_digest": "e3e09561d858ad17fb0a67d37cfe7149c1690780e16a4b86651044d663b7550e",
+      "values_digest": "7f5d604b6bad3f6103181e0586b00d40942a4070e3c4ff7eb23690be2563d5f0",
       "rendered_digest": "7f5c1567761295e55778311fe8fe476b11a0990249717443851a50d4fc28e0e7",
       "ast_digest": "08d54af7f84b9659423dc3975b1c39df05ab7b6746f073fcdb800a7683a88219"
     },
     "srp": {
-      "values_digest": "1bb0e7e3018dc4e1c58edfd594f4110ef3a148f25bdfe04af581af40fdb187ca",
+      "values_digest": "74ef2d621dff20f2c15056994024ad06b12fb6c6a21db7a559240c913e6b02c3",
       "rendered_digest": "32ea04ba3196b183a4649b5393a55abe37c418d5e98f525d6fa69eb1524437e8",
       "ast_digest": "53f3d53220cc4d760228060d6440a35024bcf0de19aa3b500fc1652f6df3c127"
     },
     "sor": {
-      "values_digest": "82dc331a06414702e8bf8bea9fd79c7f3da04dbd2519836f86ce85a3b283f946",
-      "rendered_digest": "134487948ab3fd8f390791bd1b8e0f20726d41b8c2564f214e03bafdc96439f5",
-      "ast_digest": "de62f14ef5612f37fc62587c3b6bd65ddb6da46c8d4399ccbca23a1efec5473c"
+      "values_digest": "dbf9f560bd2314770bb074b3b8b78a063f5be29e0c6d461ae91b1561a9008c4f",
+      "rendered_digest": "640917dd1ebd59fff9ce484657718ed64c1b483c20b71d4ea22ebfd6db4f023f",
+      "ast_digest": "26521364902d254ac860dacaefe4ccb291bf1a7a41bc34d7b38c1cd7c784afc1"
     }
   },
   "transitions": [
@@ -218,6 +218,13 @@
       "actor": "codex:/root",
       "reason": "Recover #495 exact-head review assignment because origin/main advanced to 5692d95ee6e4ee632833be348fa5601ddccbca1a after assignment; no touched-path collision was observed, but publication requires current-base review after merge.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record #495 current-base validation after merging origin/main 5692d95ee6e4ee632833be348fa5601ddccbca1a with no touched-path conflicts.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented XCL-01 cross-cloud Runtime Terraform conversion on current origin/main with repaired #194 optional voter denominator coverage, repaired AWS private S3 network egress, repaired GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.\",\"changes\":[\"Merged current origin/main 5692d95ee6e4ee632833be348fa5601ddccbca1a into the #495 worktree after read-only collision checks showed no overlap with #495 paths.\",\"Preserved real AWS optional private voter instances behind launch_voters, #194 private subnet/security-group/no-public-IP/encrypted-gp3 semantics, voter node identity, and endpoint dependencies.\",\"Preserved explicit AWS runtime-instance HTTPS egress to the regional S3 prefix list via s3_prefix_list_id so IAM and the S3 gateway endpoint are paired with a real private network path.\",\"Preserved GCP artifact_bucket/artifact_prefix inputs, optional service-account storage.objectViewer binding, metadata/startup artifact-source record, cleanup deadline labels/metadata, and portable outputs for artifact_source and cleanup_deadline.\",\"Reran the governed validator, Terraform fmt, and non-apply AWS/GCP provider validation after the current-base merge without claiming plan/apply/destroy or paid live proof.\"],\"artifacts\":[\".csdlc/prepared/issues/495/denominator-inventory.md\",\"infra/runtime-portable/README.md\",\"infra/runtime-portable/runtime-workload-contract.v1.json\",\"infra/aws/runtime/xcl-01/README.md\",\"infra/aws/runtime/xcl-01/main.tf\",\"infra/aws/runtime/xcl-01/variables.tf\",\"infra/aws/runtime/xcl-01/outputs.tf\",\"infra/aws/runtime/xcl-01/versions.tf\",\"infra/aws/runtime/xcl-01/.terraform.lock.hcl\",\"infra/gcp/workloads/xcl-01/README.md\",\"infra/gcp/workloads/xcl-01/main.tf\",\"infra/gcp/workloads/xcl-01/variables.tf\",\"infra/gcp/workloads/xcl-01/outputs.tf\",\"infra/gcp/workloads/xcl-01/versions.tf\",\"infra/gcp/workloads/xcl-01/.terraform.lock.hcl\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\".csdlc/evidence/495\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned governed XCL-01 validator after current-base merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: xcl-01 governed validation passed: --lane=all\"},{\"command\":[\"terraform\",\"fmt\",\"-check\",\"infra/aws/runtime/xcl-01\",\"infra/gcp/workloads/xcl-01\"],\"purpose\":\"Reject unformatted Terraform after current-base merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: terraform fmt -check completed with exit 0\"},{\"command\":[\"terraform\",\"init\",\"-backend=false\",\"-input=false\"],\"purpose\":\"Initialize the AWS XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation after current-base merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/aws/runtime/xcl-01 init reused lockfile provider selection and succeeded\"},{\"command\":[\"terraform\",\"validate\"],\"purpose\":\"Validate the AWS XCL-01 Terraform root syntax and provider schema without cloud mutation after current-base merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/aws/runtime/xcl-01 Success! The configuration is valid.\"},{\"command\":[\"terraform\",\"init\",\"-backend=false\",\"-input=false\"],\"purpose\":\"Initialize the GCP XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation after current-base merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/gcp/workloads/xcl-01 init reused lockfile provider selection and succeeded\"},{\"command\":[\"terraform\",\"validate\"],\"purpose\":\"Validate the GCP XCL-01 Terraform root syntax and provider schema without cloud mutation after current-base merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/gcp/workloads/xcl-01 Success! The configuration is valid.\"}]}"
     }
   ]
 }
