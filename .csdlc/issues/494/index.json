@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fe94dbc84ab0d1df451508b4d682d8703a83d050c141817df3a82cb9ed0eb470",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "cb78b7b01e5a68ebc34153944601989feb6656bdd71a2da2648a285353771e3f",
+  "generation": 13,
+  "digest": "677fab1e4dfb34ea0e5cc785f61c36669d433800920f492a5d39291e416439b5",
   "branch": "codex/494-gcp-gpu-readiness-smoke-execution",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-494-gcp-gpu-readiness-smoke-execution",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "914b91afd8f78ff901bf7043debf9b70e35b81ff866895bfd3e5fa601a361ce9",
+      "values_digest": "2b858d7dc548345ce64328b2e6e567fb61c80cd71790bdb301341f0c3b5d30f3",
       "rendered_digest": "3e1844ba1f87234d313a0f56c2708d7c58a69b7540edd787d594f6e0d412465f",
       "ast_digest": "02f49cecf706aaa0319541546da9095d8be8ad334217494c8c61ba004389b594"
     },
     "stp": {
-      "values_digest": "7b9db07bae727616c02214b3b7b434110eb9274d37f4464e8e397c336284b393",
+      "values_digest": "1c90821470d66b0d85fbe63ecf0bd166ae23f60e4c70ac4f95b951edf396d6d1",
       "rendered_digest": "279bee87e1f3c727c252674e3c56a9d82af401e5404c2999b54d0b0480c5a4ef",
       "ast_digest": "fb16dcdab75e027ed3b6de876ba6b4bd936a10afe3f1f8439cccb0f9c6f98f31"
     },
     "spp": {
-      "values_digest": "99fb3bf48e15adf35037edf58694c941fc4dc8b094960fc94ac5593fe254a8c4",
+      "values_digest": "ce18330171817f273885587a4fa6f4e8a24e5a19ce7bdbb40e8b86fadb348435",
       "rendered_digest": "b176741acb3a6bf99a6966d5172e005b43cf0e3f3d2c2439ce2cf5a197bcfb01",
       "ast_digest": "2c991075ce701f532fd41de1c44c72cd47429fafceeba4e5bdb10146021d66f8"
     },
     "vpp": {
-      "values_digest": "b8808adbc6f8e43e451503cfb3397f7c37201f744937668b6500f148b8e44cb4",
+      "values_digest": "35a0ca792f66c5b3fce89bd275b5a47ead11ef409b9ab5766a40c360e7162e58",
       "rendered_digest": "8cabea423816adfca657e5dbd84b5c2d2425f0d550545391b0db133c0ac06545",
       "ast_digest": "2f30a07e8f0cbd8f5cd86b06342fe4a4866effef49caeeb2a22ed2a6cac857aa"
     },
     "srp": {
-      "values_digest": "32c3d3c12871a4d8470e0395c065cd721f400f176a73f862cb4785fb0555df86",
+      "values_digest": "1c7c9ef54d058a3c5cdb8d2739b74bc0e221e335fe1630a65c7b08045dfa0b5d",
       "rendered_digest": "7206a8b2e46464798e8e24c68ce749b25eb8fec7331ae845b0028cc35df6a19e",
       "ast_digest": "7392b69882dd6ee262b30db09759b1f637c4b84c9858d6b13034b3e90f16a716"
     },
     "sor": {
-      "values_digest": "cb77e91072c6032438c59f0d1775e8eece72456fd5c2637a401033fdc31a0617",
+      "values_digest": "6c9582b5a6d97a79a35ad6091afb947ec5a89f274bd5af4bc3a37cc3f8d359ee",
       "rendered_digest": "f6a981c6c350e300f2fa6d5a825499e7ab6b3de016d4ba0f166b58f7b5eaa363",
       "ast_digest": "58cdc5f8c4ca198309f457b270fbf4d9d66b5a4a56d8ea11178337e15f511e50"
     }
@@ -217,6 +217,20 @@
       "generation": 12,
       "actor": "codex:/root",
       "reason": "Recover #494 review assignment after R5 found failed-attempt cleanup evidence and credential path hygiene defects requiring bounded remediation before publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover #494 review assignment after R6 found one remaining P3 credential path hygiene defect in the GCP-E README and validator coverage.",
       "operation": "recover_review"
     }
   ]

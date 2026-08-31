@@ -13,13 +13,13 @@ ingress, DNS, Observatory, Unity, AWS work, or persistent GPU infrastructure.
 From the repository root:
 
 ```sh
-GOOGLE_APPLICATION_CREDENTIALS=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json \
+GOOGLE_APPLICATION_CREDENTIALS=/path/to/operator-approved-gcp-service-account.json \
   docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh
 ```
 
-The credential file path is operator-owned and must not be copied, printed, or
-committed. The script records only command results and redacted resource
-identity.
+The credential file path is operator-owned, host-local, and must not be copied,
+printed, or committed. The script records only command results and redacted
+resource identity.
 
 ## Terraform layout
 

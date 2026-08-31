@@ -16,3 +16,5 @@
 {"sequence":16,"generation":11,"actor":"codex:/root","reason":"Recover #494 exact review after current-main merge advanced the exact head and exposed a narrow issue-owned validator phase allowlist defect: the validator rejected reviewed lifecycle state even though publication happens after review.","operation":"recover_review"}
 {"sequence":17,"generation":11,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":18,"generation":12,"actor":"codex:/root","reason":"Recover #494 review assignment after R5 found failed-attempt cleanup evidence and credential path hygiene defects requiring bounded remediation before publication.","operation":"recover_review"}
+{"sequence":19,"generation":12,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":20,"generation":13,"actor":"codex:/root","reason":"Recover #494 review assignment after R6 found one remaining P3 credential path hygiene defect in the GCP-E README and validator coverage.","operation":"recover_review"}
