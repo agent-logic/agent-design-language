@@ -94,7 +94,41 @@ resource "google_compute_instance" "runtime" {
     install -d -m 0755 /var/lib/adl /opt/adl-runtime /opt/adl-build-cache
     printf '%s\n' '${var.run_id}' >/var/lib/adl/xcl-01-run-id
     printf '%s\n' '${var.artifact_bucket == null ? "" : var.artifact_bucket}/${var.artifact_prefix}' >/var/lib/adl/xcl-01-artifact-source
+    cat >/usr/local/sbin/adl-issue268-mount-runtime <<'SCRIPT'
+    #!/bin/bash
+    set -euo pipefail
+    mount_path="/opt/adl-runtime"
+    device="/dev/disk/by-id/google-${var.retained_runtime_disk_device_name}"
+    install -d -m 0755 "$${mount_path}"
+    for _ in $(seq 1 90); do
+      if [ -e "$${device}" ]; then
+        break
+      fi
+      sleep 2
+    done
+    if [ ! -e "$${device}" ]; then
+      echo "retained Runtime disk device not found: $${device}" >&2
+      exit 1
+    fi
+    fs_type="$(blkid -o value -s TYPE "$${device}" || true)"
+    fs_uuid="$(blkid -o value -s UUID "$${device}" || true)"
+    if [ -z "$${fs_type}" ] || [ -z "$${fs_uuid}" ]; then
+      echo "retained Runtime disk must already contain a filesystem" >&2
+      exit 1
+    fi
+    if ! grep -q "UUID=$${fs_uuid} $${mount_path} " /etc/fstab; then
+      printf 'UUID=%s %s %s defaults,nofail 0 2\n' "$${fs_uuid}" "$${mount_path}" "$${fs_type}" >>/etc/fstab
+    fi
+    mount "$${mount_path}"
+    case "$${fs_type}" in
+      xfs) command -v xfs_growfs >/dev/null 2>&1 && xfs_growfs "$${mount_path}" || true ;;
+      ext2|ext3|ext4) command -v resize2fs >/dev/null 2>&1 && resize2fs "$${device}" || true ;;
+    esac
+    test -d "$${mount_path}/runtime/install"
     touch /var/lib/adl/issue268-bootstrap-ready
+SCRIPT
+    chmod 0755 /usr/local/sbin/adl-issue268-mount-runtime
+    /usr/local/sbin/adl-issue268-mount-runtime
   EOT
 
   depends_on = [
@@ -103,8 +137,7 @@ resource "google_compute_instance" "runtime" {
 }
 
 resource "google_compute_attached_disk" "runtime_retained" {
-  count = var.retained_runtime_disk == null ? 0 : 1
-
-  disk     = var.retained_runtime_disk
-  instance = google_compute_instance.runtime.id
+  disk        = var.retained_runtime_disk
+  instance    = google_compute_instance.runtime.id
+  device_name = var.retained_runtime_disk_device_name
 }

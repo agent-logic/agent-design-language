@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8aa9a8c0ba290a29dfe6bfbab4b9ce40e04b2eaa164d076ad354755a661fb259",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "9d2e9397aee3f36c2e8075f95da416827e1ca6ca188fa46391e2734b129f76b6",
+  "generation": 19,
+  "digest": "aa208272b35198fc5db08a00ce4134e8ae497747d05eea17f7d6f03e164cd81c",
   "branch": "codex/495-cross-cloud-runtime-terraform-conversion",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-495-cross-cloud-runtime-terraform-conversion",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "69b0c332988e46f0a92324d89d0cca7218373a6d95c0fa45a58ec08d3532d92e",
+      "values_digest": "7f94c7a8c3b4c53ee2043825e767c0a1926c7a36a3b6f9c22691bef5b5d57b48",
       "rendered_digest": "888c873c9a2d8eeaed4fb7574e7c6838b463b26edbd71aeeb47317c7337305ce",
       "ast_digest": "6d2b586ea1b5ccc012769c66cd62055c23724fa1cc495936a07bafba2b8a5f13"
     },
     "stp": {
-      "values_digest": "c10c05507e21314f1bacd57308afdeb9ee08665bcb78cbc3945aa24e3db0af30",
+      "values_digest": "a3f1fcd8c8277f17ff23afbe0c8946fe54d499a88da8851c6e75585d98576af1",
       "rendered_digest": "089719cd42a2e7f86a34f7cdabddb55e266193ad0dfd594852d4fbdf3a5ee1a5",
       "ast_digest": "9cd34d5f7bd2135ea2359efd50a8b1d2ce40ba014970110ee385ecd170df6c14"
     },
     "spp": {
-      "values_digest": "b23e6876a6a25c1bcfa0791bf8ce533482438417f66d48ca96e12141e82ba5e2",
+      "values_digest": "6819855628845a5ca6c6371d3e89b8126255b4aeb7c1ba89c5f1dd84ffe4fb0e",
       "rendered_digest": "ac94f4d64d59ce2e4311d133806aafff7846be3b1b96732b22b8f49ccc584fef",
       "ast_digest": "fd236528b7200b33b9ceccaf798bb854473a530634c26d0d3ac43b17fde91703"
     },
     "vpp": {
-      "values_digest": "47ecd9a6a0f8b1cd64263f321ddfa50251d317c906e87abe5dcd6e3bdb0f25a0",
+      "values_digest": "9d1968f91c972c75bee4508a0c3dd99d6395e7387fcd6f4c1204ad95a08d6c20",
       "rendered_digest": "7f5c1567761295e55778311fe8fe476b11a0990249717443851a50d4fc28e0e7",
       "ast_digest": "08d54af7f84b9659423dc3975b1c39df05ab7b6746f073fcdb800a7683a88219"
     },
     "srp": {
-      "values_digest": "856490ee8e8848d0d0e1a25852a784031b30f2bd3f6d52550c39f06329a3f313",
+      "values_digest": "0552774bc958adc66c830604259233a80536303295020f132488dda8e231456c",
       "rendered_digest": "32ea04ba3196b183a4649b5393a55abe37c418d5e98f525d6fa69eb1524437e8",
       "ast_digest": "53f3d53220cc4d760228060d6440a35024bcf0de19aa3b500fc1652f6df3c127"
     },
     "sor": {
-      "values_digest": "24ae0ea34a6c83515fdadb446282e90e74e2074ba5b3c540fd4bda839cf9c684",
-      "rendered_digest": "ff3cb17c490da30ada3041b87912bd8036ab1ba3e335af1d7f69b13ca3e37ff4",
-      "ast_digest": "fc77a60e389b23f10883935420955194fb8b5c371a446374008afc105a4da959"
+      "values_digest": "4351fe2145de9524107bbaafc5251920cf3feaec81fdfe4c1559df1986f62918",
+      "rendered_digest": "ffa5b1f45032b2428de62f0f12cf0ff5f29a8c5f124ed13418f48189b1241b09",
+      "ast_digest": "29dfe7a5c941981940836c60184ff3aaf88453a581500b780b888d979d8431fb"
     }
   },
   "transitions": [
@@ -246,6 +246,27 @@
       "actor": "codex:/root",
       "reason": "Record #495 remediation after fresh-session:95d90667-d8d7-41e5-a6fe-24f0b0b3d318 found the AWS #268 retained Runtime volume/readiness denominator was not semantically preserved.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS #268 retained-volume mount/readiness semantics, preserved #194 optional voter coverage, preserved AWS private S3 network egress, preserved GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.\",\"changes\":[\"Recovered the failed R5 exact-head review through typed review recovery before source mutation.\",\"Required runtime_volume_id for the AWS #268 Runtime qualification host so #495 cannot claim the retained-volume denominator without an EBS volume identity.\",\"Added a user-data installed adl-issue268-mount-runtime helper and systemd unit that waits for the retained EBS volume, verifies a recognized filesystem, mounts /opt/adl-runtime, requires /opt/adl-runtime/runtime/install, and writes /var/lib/adl/issue268-bootstrap-ready only after retained-volume readiness is proven.\",\"Updated the AWS portable_contract readiness_command to require marker presence, mountpoint -q /opt/adl-runtime, and /opt/adl-runtime/runtime/install.\",\"Strengthened the issue-owned governed validator so future #495 proof fails if the retained-volume mount helper, systemd unit, runtime_volume_id precondition, mountpoint readiness, or install-directory readiness checks disappear.\"],\"artifacts\":[\".csdlc/prepared/issues/495/denominator-inventory.md\",\"infra/runtime-portable/README.md\",\"infra/runtime-portable/runtime-workload-contract.v1.json\",\"infra/aws/runtime/xcl-01/README.md\",\"infra/aws/runtime/xcl-01/main.tf\",\"infra/aws/runtime/xcl-01/variables.tf\",\"infra/aws/runtime/xcl-01/outputs.tf\",\"infra/aws/runtime/xcl-01/versions.tf\",\"infra/aws/runtime/xcl-01/.terraform.lock.hcl\",\"infra/gcp/workloads/xcl-01/README.md\",\"infra/gcp/workloads/xcl-01/main.tf\",\"infra/gcp/workloads/xcl-01/variables.tf\",\"infra/gcp/workloads/xcl-01/outputs.tf\",\"infra/gcp/workloads/xcl-01/versions.tf\",\"infra/gcp/workloads/xcl-01/.terraform.lock.hcl\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\".csdlc/evidence/495\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned governed XCL-01 validator after retained-volume readiness remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: xcl-01 governed validation passed: --lane=all\"},{\"command\":[\"terraform\",\"fmt\",\"-check\",\"infra/aws/runtime/xcl-01\",\"infra/gcp/workloads/xcl-01\"],\"purpose\":\"Reject unformatted Terraform after retained-volume readiness remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: terraform fmt -check completed with exit 0\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/xcl-01\",\"init\",\"-backend=false\",\"-input=false\"],\"purpose\":\"Initialize the AWS XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: hashicorp/aws v6.62.0 installed; Terraform initialized successfully\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/xcl-01\",\"validate\"],\"purpose\":\"Validate the AWS XCL-01 Terraform root syntax and provider schema without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/aws/runtime/xcl-01 Success! The configuration is valid.\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/xcl-01\",\"init\",\"-backend=false\",\"-input=false\"],\"purpose\":\"Initialize the GCP XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: hashicorp/google v8.0.0 installed; Terraform initialized successfully\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/xcl-01\",\"validate\"],\"purpose\":\"Validate the GCP XCL-01 Terraform root syntax and provider schema without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/gcp/workloads/xcl-01 Success! The configuration is valid.\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and patch hygiene problems before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: git diff --check origin/main...HEAD completed with exit 0\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Recover #495 failed exact-head review at 9c1c7d7f964e43ad858067a710ac3805e40f54ca. Finding preserved: P1 GCP still claims the #268 retained Runtime/readiness shape without requiring retained_runtime_disk, mounting /opt/adl-runtime, verifying /opt/adl-runtime/runtime/install, or exposing an equivalent readiness_command.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Record #495 remediation after fresh-session:43d361e7-4f14-4780-8d02-d6f8ee356677 found the GCP #268 retained Runtime disk/readiness denominator was not semantically preserved.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS and GCP #268 retained Runtime volume/disk mount/readiness semantics, preserved #194 optional voter/private-network coverage, preserved AWS private S3 network egress, preserved GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.\",\"changes\":[\"Recovered the failed R6 exact-head review through typed review recovery before source mutation.\",\"Required retained_runtime_disk for the GCP #268 Runtime qualification host so #495 cannot claim the retained Runtime disk denominator without a persistent disk identity.\",\"Added retained_runtime_disk_device_name so the GCP disk attachment has a stable by-id path for startup-script mounting.\",\"Updated the GCP startup script to install and run adl-issue268-mount-runtime, wait for the retained persistent disk, verify an existing filesystem, mount /opt/adl-runtime, require /opt/adl-runtime/runtime/install, and write /var/lib/adl/issue268-bootstrap-ready only after retained-disk readiness is proven.\",\"Updated the GCP portable_contract readiness_command to require marker presence, mountpoint -q /opt/adl-runtime, and /opt/adl-runtime/runtime/install.\",\"Updated the denominator inventory and GCP README so the GCP mapping truthfully requires retained disk mount/install proof without claiming byte-for-byte EBS equivalence.\",\"Strengthened the issue-owned governed validator so future #495 proof fails if the GCP retained-disk variable, stable device name, mount helper, install-directory readiness, or readiness_command checks disappear.\"],\"artifacts\":[\".csdlc/prepared/issues/495/denominator-inventory.md\",\"infra/runtime-portable/README.md\",\"infra/runtime-portable/runtime-workload-contract.v1.json\",\"infra/aws/runtime/xcl-01/README.md\",\"infra/aws/runtime/xcl-01/main.tf\",\"infra/aws/runtime/xcl-01/variables.tf\",\"infra/aws/runtime/xcl-01/outputs.tf\",\"infra/aws/runtime/xcl-01/versions.tf\",\"infra/aws/runtime/xcl-01/.terraform.lock.hcl\",\"infra/gcp/workloads/xcl-01/README.md\",\"infra/gcp/workloads/xcl-01/main.tf\",\"infra/gcp/workloads/xcl-01/variables.tf\",\"infra/gcp/workloads/xcl-01/outputs.tf\",\"infra/gcp/workloads/xcl-01/versions.tf\",\"infra/gcp/workloads/xcl-01/.terraform.lock.hcl\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\".csdlc/evidence/495\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh\",\"--lane=all\"],\"purpose\":\"Run the issue-owned governed XCL-01 validator after GCP retained-disk readiness remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: xcl-01 governed validation passed: --lane=all\"},{\"command\":[\"terraform\",\"fmt\",\"-check\",\"infra/aws/runtime/xcl-01\",\"infra/gcp/workloads/xcl-01\"],\"purpose\":\"Reject unformatted Terraform after retained-disk readiness remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: terraform fmt -check completed with exit 0\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/xcl-01\",\"init\",\"-backend=false\"],\"purpose\":\"Initialize the AWS XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: hashicorp/aws v6.62.0 installed; Terraform initialized successfully\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/xcl-01\",\"validate\"],\"purpose\":\"Validate the AWS XCL-01 Terraform root syntax and provider schema without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/aws/runtime/xcl-01 Success! The configuration is valid.\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/xcl-01\",\"init\",\"-backend=false\"],\"purpose\":\"Initialize the GCP XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: hashicorp/google v8.0.0 installed; Terraform initialized successfully\"},{\"command\":[\"terraform\",\"-chdir=infra/gcp/workloads/xcl-01\",\"validate\"],\"purpose\":\"Validate the GCP XCL-01 Terraform root syntax and provider schema without cloud mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: infra/gcp/workloads/xcl-01 Success! The configuration is valid.\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Reject whitespace and patch hygiene problems before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: git diff --check origin/main...HEAD completed with exit 0\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"issue\",\"--issue\",\"495\"],\"purpose\":\"Validate typed lifecycle/card truth after R6 recovery before replacing SOR execution truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal: generation 18, phase implemented, status pass\"}]}"
     }
   ]
 }

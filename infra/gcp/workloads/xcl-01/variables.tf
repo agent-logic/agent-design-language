@@ -45,9 +45,14 @@ variable "boot_image" {
 }
 
 variable "retained_runtime_disk" {
-  description = "Existing retained Runtime persistent disk name. Leave null for network-only parity preparation."
+  description = "Existing retained Runtime persistent disk name containing the Runtime install."
   type        = string
-  default     = null
+}
+
+variable "retained_runtime_disk_device_name" {
+  description = "Stable device name used to mount the retained Runtime persistent disk."
+  type        = string
+  default     = "runtime-retained"
 }
 
 variable "artifact_bucket" {

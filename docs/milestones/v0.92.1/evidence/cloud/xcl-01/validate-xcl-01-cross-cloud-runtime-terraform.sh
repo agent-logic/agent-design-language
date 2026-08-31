@@ -33,6 +33,18 @@ require_no_text() {
   fi
 }
 
+require_variable_no_text() {
+  local path="$1"
+  local variable="$2"
+  local text="$3"
+  awk -v variable="$variable" -v text="$text" '
+    $0 == "variable \"" variable "\" {" { in_block=1 }
+    in_block && index($0, text) { found=1 }
+    in_block && $0 == "}" { in_block=0 }
+    END { exit found ? 1 : 0 }
+  ' "$path" || { echo "forbidden text in $path variable $variable: $text" >&2; exit 1; }
+}
+
 require_file "infra/runtime-portable/runtime-workload-contract.v1.json"
 require_file "infra/runtime-portable/README.md"
 require_file ".csdlc/prepared/issues/495/denominator-inventory.md"
@@ -96,14 +108,25 @@ require_text "infra/gcp/workloads/xcl-01/main.tf" "private_ip_google_access = tr
 require_text "infra/gcp/workloads/xcl-01/main.tf" "google_service_account"
 require_text "infra/gcp/workloads/xcl-01/main.tf" "google_storage_bucket_iam_member"
 require_text "infra/gcp/workloads/xcl-01/main.tf" "google_compute_firewall"
+require_text "infra/gcp/workloads/xcl-01/main.tf" "google_compute_attached_disk"
 require_text "infra/gcp/workloads/xcl-01/main.tf" "adl_ttl_expires_at"
 require_text "infra/gcp/workloads/xcl-01/main.tf" "adl-artifact-bucket"
+require_text "infra/gcp/workloads/xcl-01/main.tf" "adl-issue268-mount-runtime"
+require_text "infra/gcp/workloads/xcl-01/main.tf" 'google-${var.retained_runtime_disk_device_name}'
+require_text "infra/gcp/workloads/xcl-01/main.tf" "device_name = var.retained_runtime_disk_device_name"
+require_text "infra/gcp/workloads/xcl-01/main.tf" 'test -d "$${mount_path}/runtime/install"'
 require_text "infra/gcp/workloads/xcl-01/main.tf" "issue268-bootstrap-ready"
 require_text "infra/gcp/workloads/xcl-01/variables.tf" "artifact_bucket"
 require_text "infra/gcp/workloads/xcl-01/variables.tf" "ttl_expires_at"
+require_text "infra/gcp/workloads/xcl-01/variables.tf" "retained_runtime_disk_device_name"
+require_variable_no_text "infra/gcp/workloads/xcl-01/variables.tf" "retained_runtime_disk" "default"
 require_text "infra/gcp/workloads/xcl-01/outputs.tf" "artifact_source"
 require_text "infra/gcp/workloads/xcl-01/outputs.tf" "cleanup_deadline"
+require_text "infra/gcp/workloads/xcl-01/outputs.tf" "readiness_command"
+require_text "infra/gcp/workloads/xcl-01/outputs.tf" "mountpoint -q /opt/adl-runtime"
+require_text "infra/gcp/workloads/xcl-01/outputs.tf" "test -d /opt/adl-runtime/runtime/install"
 require_text "infra/gcp/workloads/xcl-01/README.md" "Provider differences are intentional"
+require_text "infra/gcp/workloads/xcl-01/README.md" "retained Runtime persistent disk is required"
 require_text "infra/gcp/workloads/xcl-01/.terraform.lock.hcl" "registry.terraform.io/hashicorp/google"
 
 require_text "docs/milestones/v0.92.1/evidence/cloud/xcl-01/xcl-01-cross-cloud-runtime-terraform-proof.md" "Live AWS/GCP plan/apply/destroy proof is not claimed"

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS #268 retained-volume mount/readiness semantics, preserved #194 optional voter coverage, preserved AWS private S3 network egress, preserved GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.
+Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS and GCP #268 retained Runtime volume/disk mount/readiness semantics, preserved #194 optional voter/private-network coverage, preserved AWS private S3 network egress, preserved GCP artifact-source/cleanup-deadline mapping, static validator proof, Terraform formatting, and non-apply provider schema validation.
 
 ## Artifacts
 
@@ -37,11 +37,13 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS #2
 
 ## Execution
 
-- Recovered the failed R5 exact-head review through typed review recovery before source mutation.
-- Required runtime_volume_id for the AWS #268 Runtime qualification host so #495 cannot claim the retained-volume denominator without an EBS volume identity.
-- Added a user-data installed adl-issue268-mount-runtime helper and systemd unit that waits for the retained EBS volume, verifies a recognized filesystem, mounts /opt/adl-runtime, requires /opt/adl-runtime/runtime/install, and writes /var/lib/adl/issue268-bootstrap-ready only after retained-volume readiness is proven.
-- Updated the AWS portable_contract readiness_command to require marker presence, mountpoint -q /opt/adl-runtime, and /opt/adl-runtime/runtime/install.
-- Strengthened the issue-owned governed validator so future #495 proof fails if the retained-volume mount helper, systemd unit, runtime_volume_id precondition, mountpoint readiness, or install-directory readiness checks disappear.
+- Recovered the failed R6 exact-head review through typed review recovery before source mutation.
+- Required retained_runtime_disk for the GCP #268 Runtime qualification host so #495 cannot claim the retained Runtime disk denominator without a persistent disk identity.
+- Added retained_runtime_disk_device_name so the GCP disk attachment has a stable by-id path for startup-script mounting.
+- Updated the GCP startup script to install and run adl-issue268-mount-runtime, wait for the retained persistent disk, verify an existing filesystem, mount /opt/adl-runtime, require /opt/adl-runtime/runtime/install, and write /var/lib/adl/issue268-bootstrap-ready only after retained-disk readiness is proven.
+- Updated the GCP portable_contract readiness_command to require marker presence, mountpoint -q /opt/adl-runtime, and /opt/adl-runtime/runtime/install.
+- Updated the denominator inventory and GCP README so the GCP mapping truthfully requires retained disk mount/install proof without claiming byte-for-byte EBS equivalence.
+- Strengthened the issue-owned governed validator so future #495 proof fails if the GCP retained-disk variable, stable device name, mount helper, install-directory readiness, or readiness_command checks disappear.
 
 ## Validation
 
@@ -52,7 +54,7 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS #2
       "docs/milestones/v0.92.1/evidence/cloud/xcl-01/validate-xcl-01-cross-cloud-runtime-terraform.sh",
       "--lane=all"
     ],
-    "purpose": "Run the issue-owned governed XCL-01 validator after retained-volume readiness remediation.",
+    "purpose": "Run the issue-owned governed XCL-01 validator after GCP retained-disk readiness remediation.",
     "outcome": "passed",
     "evidence_ref": "terminal: xcl-01 governed validation passed: --lane=all"
   },
@@ -64,7 +66,7 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS #2
       "infra/aws/runtime/xcl-01",
       "infra/gcp/workloads/xcl-01"
     ],
-    "purpose": "Reject unformatted Terraform after retained-volume readiness remediation.",
+    "purpose": "Reject unformatted Terraform after retained-disk readiness remediation.",
     "outcome": "passed",
     "evidence_ref": "terminal: terraform fmt -check completed with exit 0"
   },
@@ -73,8 +75,7 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS #2
       "terraform",
       "-chdir=infra/aws/runtime/xcl-01",
       "init",
-      "-backend=false",
-      "-input=false"
+      "-backend=false"
     ],
     "purpose": "Initialize the AWS XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.",
     "outcome": "passed",
@@ -95,8 +96,7 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS #2
       "terraform",
       "-chdir=infra/gcp/workloads/xcl-01",
       "init",
-      "-backend=false",
-      "-input=false"
+      "-backend=false"
     ],
     "purpose": "Initialize the GCP XCL-01 Terraform root without backend, plan, apply, destroy, or credentials to enable provider schema validation.",
     "outcome": "passed",
@@ -122,6 +122,17 @@ Implemented XCL-01 cross-cloud Runtime Terraform conversion with repaired AWS #2
     "purpose": "Reject whitespace and patch hygiene problems before review.",
     "outcome": "passed",
     "evidence_ref": "terminal: git diff --check origin/main...HEAD completed with exit 0"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "issue",
+      "--issue",
+      "495"
+    ],
+    "purpose": "Validate typed lifecycle/card truth after R6 recovery before replacing SOR execution truth.",
+    "outcome": "passed",
+    "evidence_ref": "terminal: generation 18, phase implemented, status pass"
   }
 ]
 

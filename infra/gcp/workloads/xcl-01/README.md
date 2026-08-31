@@ -14,7 +14,10 @@ Provider differences are intentional and explicit:
   created by this workload root.
 - Cleanup deadline truth is carried by `ttl_expires_at` labels/metadata and the
   portable output contract.
-- Persistent disks and startup scripts preserve the retained Runtime volume and
-  readiness-marker shape without claiming byte-for-byte EC2/EBS equivalence.
+- The existing retained Runtime persistent disk is required, attached with a
+  stable device name, mounted at `/opt/adl-runtime`, and must already contain
+  `/opt/adl-runtime/runtime/install` before the readiness marker is written.
+  This preserves the retained Runtime volume/readiness shape without claiming
+  byte-for-byte EC2/EBS equivalence.
 
 Live GCP plan/apply/destroy proof is gated on explicit operator authorization.
