@@ -1,0 +1,17 @@
+
+running 10 tests
+test remote_delivery::v3e_denominator_is_exact ... ok
+test remote_delivery::cleanup_requires_committed_closed_out_state_and_receipt ... ok
+test remote_delivery::cleanup_is_separate_preview_first_and_path_exact ... ok
+test remote_delivery::same_principal_cannot_self_authorize_publication ... ok
+test remote_delivery::review_binds_exact_scope_revision_reviewer_and_findings ... ok
+test remote_delivery::accepted_pvf_result_reaches_safe_cleanup_preview ... ok
+test remote_delivery::remote_workflow_refuses_missing_pvf_and_revision_mismatch ... ok
+test remote_delivery::publication_modes_require_exact_relation ... ok
+test remote_delivery::part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority ... ok
+test remote_delivery::finish_derives_terminal_truth_from_remote_readback_not_local_claims ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running tests/remote_commands.rs (csdlc-v3/target/debug/deps/remote_commands-b64800b3e3aa4e63)
