@@ -17,7 +17,11 @@ docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md
 .csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json
 .csdlc/prepared/issues/578/recover-after-quality-evidence-binding-fix.json
 .csdlc/prepared/issues/578/recover-after-unpublished-quality-binding-review.json
+.csdlc/prepared/issues/578/recover-after-committed-review-metadata.json
 .csdlc/prepared/issues/578/reviewer-quality-binding-review-prompt.md
+.csdlc/prepared/issues/578/assign-reviewer-quality-binding-review-r2.json
+.csdlc/prepared/issues/578/record-reviewer-quality-binding-review.json
+.csdlc/prepared/issues/578/publish-quality-binding-update.json
 .csdlc/issues/578/index.json
 .csdlc/issues/578/audit.jsonl
 .csdlc/issues/578/cards/sip.values.json
@@ -53,8 +57,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:fdb60de325c63757eb6afb9021ccc24a6a89d321:0d708574d9bce26b7bb8917be08a9cd8a7f96afe1c4e6b7f6cfef95fe2753211")
+Revision: Some("git-blake3:3378c9ea2a98b93ec51d5448364900155a36eacb:a2da1e7fa5b67813c05201a7de6836cfde8327337ee064d7864f3c7690172908")
 
-Reviewer: Some("fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc")
+Reviewer: Some("fresh-session:c492fd9d-b908-4dd7-bdf4-b110673e7e82")
 
 Result: pass

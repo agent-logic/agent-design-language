@@ -47,3 +47,7 @@
 {"sequence":47,"generation":34,"actor":"codex:root","reason":"Recover #578 review state after the independent reviewer could not verify unpublished local-only quality-binding artifacts from the remote PR head.","operation":"recover_review"}
 {"sequence":48,"generation":34,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":49,"generation":35,"actor":"fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":50,"generation":36,"actor":"codex:root","reason":"Recover #578 review state after committing review metadata moved HEAD beyond the previously reviewed revision; republish requires review bound to the current pushed head.","operation":"recover_review"}
+{"sequence":51,"generation":36,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":52,"generation":37,"actor":"fresh-session:c492fd9d-b908-4dd7-bdf4-b110673e7e82","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":53,"generation":38,"actor":"codex:root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

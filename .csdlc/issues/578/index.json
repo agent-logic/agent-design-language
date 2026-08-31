@@ -4,22 +4,26 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
-  "phase": "reviewed",
-  "generation": 35,
-  "digest": "cabf17e2f4116f8d063448ff7730d99f23c7ddca08e51756cf0a71adbbdd4b0c",
+  "phase": "published",
+  "generation": 38,
+  "digest": "49b59fb091b3482a783a3848e26410534b6c9f8c2d8cb34ffdc93445f567a535",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
   "review_assignment": {
-    "reviewer": "fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc",
+    "reviewer": "fresh-session:c492fd9d-b908-4dd7-bdf4-b110673e7e82",
     "assigned_by": "codex:root",
-    "revision": "git-blake3:fdb60de325c63757eb6afb9021ccc24a6a89d321:0d708574d9bce26b7bb8917be08a9cd8a7f96afe1c4e6b7f6cfef95fe2753211",
+    "revision": "git-blake3:3378c9ea2a98b93ec51d5448364900155a36eacb:a2da1e7fa5b67813c05201a7de6836cfde8327337ee064d7864f3c7690172908",
     "scope": [
       "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
       ".csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json",
       ".csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json",
       ".csdlc/prepared/issues/578/recover-after-quality-evidence-binding-fix.json",
       ".csdlc/prepared/issues/578/recover-after-unpublished-quality-binding-review.json",
+      ".csdlc/prepared/issues/578/recover-after-committed-review-metadata.json",
       ".csdlc/prepared/issues/578/reviewer-quality-binding-review-prompt.md",
+      ".csdlc/prepared/issues/578/assign-reviewer-quality-binding-review-r2.json",
+      ".csdlc/prepared/issues/578/record-reviewer-quality-binding-review.json",
+      ".csdlc/prepared/issues/578/publish-quality-binding-update.json",
       ".csdlc/issues/578/index.json",
       ".csdlc/issues/578/audit.jsonl",
       ".csdlc/issues/578/cards/sip.values.json",
@@ -33,14 +37,18 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc",
+    "reviewer": "fresh-session:c492fd9d-b908-4dd7-bdf4-b110673e7e82",
     "scope": [
       "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
       ".csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json",
       ".csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json",
       ".csdlc/prepared/issues/578/recover-after-quality-evidence-binding-fix.json",
       ".csdlc/prepared/issues/578/recover-after-unpublished-quality-binding-review.json",
+      ".csdlc/prepared/issues/578/recover-after-committed-review-metadata.json",
       ".csdlc/prepared/issues/578/reviewer-quality-binding-review-prompt.md",
+      ".csdlc/prepared/issues/578/assign-reviewer-quality-binding-review-r2.json",
+      ".csdlc/prepared/issues/578/record-reviewer-quality-binding-review.json",
+      ".csdlc/prepared/issues/578/publish-quality-binding-update.json",
       ".csdlc/issues/578/index.json",
       ".csdlc/issues/578/audit.jsonl",
       ".csdlc/issues/578/cards/sip.values.json",
@@ -52,7 +60,7 @@
       ".csdlc/issues/578/cards/sor.md",
       ".csdlc/issues/578/cards/sor.values.json"
     ],
-    "reviewed_revision": "git-blake3:fdb60de325c63757eb6afb9021ccc24a6a89d321:0d708574d9bce26b7bb8917be08a9cd8a7f96afe1c4e6b7f6cfef95fe2753211",
+    "reviewed_revision": "git-blake3:3378c9ea2a98b93ec51d5448364900155a36eacb:a2da1e7fa5b67813c05201a7de6836cfde8327337ee064d7864f3c7690172908",
     "findings": [],
     "residual_risks": [
       "GLM-5.3-Flash reviewer-quality evidence is packet-bound and supports focused first-pass or second-opinion review only; it does not replace ADL exact-head approval review or CI inspection.",
@@ -62,7 +70,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 578,
+    "pull_request": 582,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/582",
+    "base": "main",
+    "head": "codex/578-glm-5-3-flash-provider-profile",
+    "revision": "git-blake3:3378c9ea2a98b93ec51d5448364900155a36eacb:a2da1e7fa5b67813c05201a7de6836cfde8327337ee064d7864f3c7690172908",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -76,34 +95,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0262b6050d89bd0cd72583cb317d83ed061adb933917744fc8fa9fa8f5edf579",
+      "values_digest": "397a29eb1108a689a13d05504da24b35bab1ef1d056d4bb72c7296d05fdba983",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "d222ff2262224165978c3e0c7a2a1ddf0a351743555c072c6085cdda5f01f51c",
+      "values_digest": "076120f3d6737bbca26264cf7958a9f4f66401c3955197941c763922d37b3014",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "ba7ca79e505b552922ad2010489e1b16b6a881668a7baa6aa5e40f35fafbbf04",
+      "values_digest": "b9385aec2fde72b94c14df63f80cc3a1373c71fee96eda7118aa3cdac25a56a4",
       "rendered_digest": "958fa9b6313803b215ae3dbdf43213ad4ca1d79b31eeadd96bb4db8bad97eb3b",
       "ast_digest": "d20f3cfdda654f53719e3d4a53ff6a8028be934f9481d1691cdf24a18bc4920f"
     },
     "vpp": {
-      "values_digest": "04dd8ff618e5452133d93b0bc76f221232ebaca35f49a7e3a39dfc302787c579",
+      "values_digest": "0ad068ade4f6f603d8e248b19f7a41ab1799200c0bf352b8121ca3de277de853",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "02001cb8c2c9f91d0baa94fd1c36761dc4a784fc81cabd6f1d71b5f2b8948aa0",
-      "rendered_digest": "4b60fb065df314daaa2782579abb9a659ad5f9ac633bbe226ed0ff8911893c2c",
-      "ast_digest": "f7db489da3fd46813a5998743dfcf05a6116e63e367943eeaa7f6f98847a4d4a"
+      "values_digest": "23f8939469829ddd5f028502094e4b0e0ad7b124ca1d7056b4b0deb4f8755391",
+      "rendered_digest": "790dab23f3478f64e672379d73ec25187a624c333cc41fd6f7d87bcc67e4d49a",
+      "ast_digest": "79cb6bf4361a4169a1e2cf65d62e5f4c6e36860ebdbf18744d56c7ee502f80c8"
     },
     "sor": {
-      "values_digest": "8624aca46c73b6942eb9f390aa10ec753f261989d042c669a1f2e628a3cc9a19",
-      "rendered_digest": "a433c66cd8f8e2ba7e86340219ab03041c092f74dc2659bc83c3fa943c796a59",
-      "ast_digest": "b55aab41a02704acd12732a37dfc66e959ea38dc2155b0dfef4369cc904cc88b"
+      "values_digest": "c534e27e12cfcdccb88a10e21f507f30dea554e7f4779c5c417cd5aa542fcee4",
+      "rendered_digest": "780c202076bfb99120b78ba4a742a16dec1479fac574491ca4ca098cbc8eab87",
+      "ast_digest": "7c66ad815bf392124a1173f702a42deb49482c077985671ed6a7f43c838f761a"
     }
   },
   "transitions": [
@@ -246,6 +265,27 @@
       "to": "reviewed",
       "actor": "fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 21,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "Recover #578 review state after committing review metadata moved HEAD beyond the previously reviewed revision; republish requires review bound to the current pushed head."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:c492fd9d-b908-4dd7-bdf4-b110673e7e82",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 23,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -591,6 +631,34 @@
       "actor": "fresh-session:1af4bd6b-3806-4a70-acba-1998527ba0bc",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 36,
+      "actor": "codex:root",
+      "reason": "Recover #578 review state after committing review metadata moved HEAD beyond the previously reviewed revision; republish requires review bound to the current pushed head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 36,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 37,
+      "actor": "fresh-session:c492fd9d-b908-4dd7-bdf4-b110673e7e82",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 38,
+      "actor": "codex:root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
