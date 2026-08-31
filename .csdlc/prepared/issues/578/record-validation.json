@@ -1,0 +1,26 @@
+{
+  "issue": 578,
+  "card": "sor",
+  "expected_generation": 2,
+  "expected_digest": "5d6354805bf211dcc2f33b709f3230379129cff39a98a455842883ce6e68a205",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "actor": "codex:root",
+  "reason": "Record focused provider profile and reviewer-selection validation for GLM-5.3-Flash.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo fmt --manifest-path adl/Cargo.toml --check",
+        "cargo test --manifest-path adl/Cargo.toml --test provider_tests profiles::z_ai_glm_5_3_flash_profile_expands_for_reviewer_agent_selection",
+        "cargo test --manifest-path adl/Cargo.toml --test provider_tests http_family::zai_glm_5_3_flash_request_materializes_profile_defaults_and_runtime_overrides",
+        "cargo test --manifest-path adl/Cargo.toml --test provider_tests z_ai_glm_5_3_flash",
+        "cargo test --manifest-path adl/Cargo.toml --test provider_tests zai_glm_5_3_flash",
+        "bash .csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+        "cargo test --manifest-path adl/Cargo.toml --test provider_tests"
+      ],
+      "purpose": "Prove the general Z.ai GLM-5.3-Flash profile expands deterministically, can be selected by a reviewer agent, materializes documented request parameters, rejects invalid runtime overrides before dispatch, and preserves the existing provider test target.",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
+    }
+  }
+}

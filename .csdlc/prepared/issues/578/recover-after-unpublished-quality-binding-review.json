@@ -1,0 +1,7 @@
+{
+  "issue": 578,
+  "expected_generation": 33,
+  "expected_digest": "11784f05b5b89b375ec248f2d95efaec14b6851034d80122f01f0b35e0c95f06",
+  "actor": "codex:root",
+  "reason": "Recover #578 review state after the independent reviewer could not verify unpublished local-only quality-binding artifacts from the remote PR head."
+}

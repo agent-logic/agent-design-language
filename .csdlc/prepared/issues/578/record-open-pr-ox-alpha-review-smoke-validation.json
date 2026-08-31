@@ -1,0 +1,23 @@
+{
+  "issue": 578,
+  "card": "sor",
+  "expected_generation": 19,
+  "expected_digest": "aca0f08f8ea88eca2f8e8019443d50c18bdb08d0b34d1fd2771f33cdb7ac8fbf",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "actor": "codex:root",
+  "reason": "Record Ox Alpha / GLM-5.3-Flash open-PR reviewer smoke across the current ADL open PR set without posting GitHub comments.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "gh pr list --repo agent-logic/agent-design-language --state open --limit 50 --json number,title,headRefName,headRefOid,baseRefName,isDraft,mergeable,url",
+        "gh pr diff <pr> --repo agent-logic/agent-design-language --patch",
+        "env ZAI_API_KEY=<redacted from operator-approved ZAI_API_KEY source> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/pr-<pr>-request.json --out .adl/provider-smoke/open-pr-reviews/pr-<pr>-result.json --log .adl/provider-smoke/open-pr-reviews/pr-<pr>-run.jsonl"
+      ],
+      "purpose": "Probe GLM-5.3-Flash as a local-only PR triage reviewer across all currently open ADL PRs using exact PR heads, PR metadata, changed-file lists, and bounded diff excerpts, with no GitHub review comments posted.",
+      "outcome": "passed",
+      "evidence_ref": "Open PR set: #588 e9816192741ae1b35f678c5b363fb5567605fcf5, #586 822c81e9d0ad15e479960de542d419e64c80e1f9, #585 8e0c2c217c42c8719fac55de07a4fe498900fac7, #584 a5474e6d4cecf90b989c36e5845acd91dbfa3ead, #582 497271aceb9bc17fed7469fb48681d658a8af14e. All five provider calls final_status=ok within 45s: #588 9667ms, #586 7922ms, #585 8664ms, #584 12906ms, #582 8993ms. Model returned NEEDS_HUMAN_REVIEW for all five because diffs were truncated; this proves fast triage behavior and honest limitation handling, not exact-head approval."
+    }
+  },
+  "fail_after_backup": false
+}

@@ -44,7 +44,8 @@ pub use profiles::{
 pub(crate) use profiles::{
     is_allowed_ollama_endpoint, is_allowed_remote_endpoint, ANTHROPIC_MESSAGES_ENDPOINT,
     ANTHROPIC_VERSION, DEEPSEEK_CHAT_COMPLETIONS_ENDPOINT, OPENAI_RESPONSES_ENDPOINT,
-    OPENROUTER_CHAT_COMPLETIONS_ENDPOINT, Z_AI_CHAT_COMPLETIONS_ENDPOINT,
+    OPENROUTER_CHAT_COMPLETIONS_ENDPOINT, Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT,
+    Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT,
 };
 
 /// A minimal blocking provider abstraction used by runtime execution paths.

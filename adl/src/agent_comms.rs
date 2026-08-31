@@ -517,7 +517,7 @@ pub struct AcipCodingOutcomeV1 {
     pub writer_model_ref: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, JsonSchema)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct AcipCodingProviderBoundaryAdapterV1 {
     pub schema_version: String,
