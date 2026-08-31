@@ -7,15 +7,15 @@
     "title": "[v0.92.1][PROV] Add first-class GLM-5.3-Flash provider profile",
     "slug": "v0-92-1-prov-glm-5-3-flash-provider-profile",
     "version": "v0.92.1",
-    "generation": 30
+    "generation": 32
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/provider/profiles.rs\nadl/src/provider_adapter.rs\nadl/tests/provider_tests/http_family.rs\nadl/tests/provider_tests/profiles.rs\ndocs/provider/inference-profiles.md\ndocs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\n.csdlc/prepared/issues/578/design.md\n.csdlc/issues/578/index.json\n.csdlc/issues/578/audit.jsonl\n.csdlc/issues/578/cards/sip.values.json\n.csdlc/issues/578/cards/stp.values.json\n.csdlc/issues/578/cards/spp.md\n.csdlc/issues/578/cards/spp.values.json\n.csdlc/issues/578/cards/vpp.values.json\n.csdlc/issues/578/cards/srp.md\n.csdlc/issues/578/cards/srp.values.json\n.csdlc/issues/578/cards/sor.md\n.csdlc/issues/578/cards/sor.values.json",
-      "review_revision": "git-blake3:6a1fc52d6c185793a92178a2090c0c3373a90227:2d252d0fd15a9653db863e4fb459c8ae2d5a74f4e31f2e7cf7752b8eba49945f",
-      "reviewer": "fresh-session:09da19f4-5b8d-437a-99ed-6b7ebe038dd3",
+      "review_scope": "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md\n.csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json\n.csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json\n.csdlc/issues/578/index.json\n.csdlc/issues/578/audit.jsonl\n.csdlc/issues/578/cards/sip.values.json\n.csdlc/issues/578/cards/stp.values.json\n.csdlc/issues/578/cards/spp.values.json\n.csdlc/issues/578/cards/vpp.values.json\n.csdlc/issues/578/cards/srp.md\n.csdlc/issues/578/cards/srp.values.json\n.csdlc/issues/578/cards/sor.md\n.csdlc/issues/578/cards/sor.values.json",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does `z_ai:glm-5.3-flash` use the existing #514 profile machinery rather than ad hoc model routing?",
         "Are GLM-5.3-Flash parameters source-grounded and validated before network dispatch?",
@@ -24,12 +24,8 @@
         "Did the patch avoid #446/#455 scope?"
       ],
       "findings": [],
-      "residual_risk": [
-        "GitHub PR #582 was still at 5501e85a6d0217f2592a67df8d92fab253948c53 during review; publication must push and reconcile the reviewed head before claiming live PR currency.",
-        "High and max GLM-5.3-Flash effort modes are callable with larger output budgets but have materially higher latency; low remains the safe runtime/reviewer default.",
-        "Human-facing medium effort is not a Z.ai provider parameter and must be implemented only as an ADL preset mapped to documented provider values."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

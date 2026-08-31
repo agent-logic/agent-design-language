@@ -104,16 +104,26 @@ Implemented a general direct Z.ai GLM-5.3-Flash provider profile, preserved exis
     "purpose": "Test GLM-5.3-Flash reviewer quality without truncated packets by comparing focused, complete endpoint-regression packets against the known #582 review failure and the repaired current endpoint split.",
     "outcome": "passed",
     "evidence_ref": "Focused complete-packet reviewer quality characterization passed: old rejected endpoint candidate low effort returned FAIL in 8752ms and correctly identified both z_ai:glm-5 and z_ai:glm-5-current rerouted from open.bigmodel.cn to api.z.ai; old rejected endpoint candidate high effort returned FAIL in 7668ms with the same migration-scope finding; current repaired endpoint candidate high effort returned PASS in 10240ms and did not repeat the stale endpoint finding. Conclusion: GLM-5.3-Flash is viable for focused complete-packet first-pass review, but truncated/noisy PR packets remain unsafe for exact-head approval."
+  },
+  {
+    "command": [
+      "env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-run.jsonl",
+      "env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-run.jsonl",
+      "env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-run.jsonl"
+    ],
+    "purpose": "Test GLM-5.3-Flash reviewer quality without truncated packets by comparing focused endpoint-regression packets against the rejected #582 head 724515224c36e55bed59e16c08e99d559271fa7d and the repaired worktree head c9759517d30b9ea14175be6d6fdaf9d019183593.",
+    "outcome": "passed",
+    "evidence_ref": "Packet-bound reviewer quality characterization passed: rejected #582 head 724515224c36e55bed59e16c08e99d559271fa7d low-effort request sha256 22276c77f89ec5e5de0e3a627a5ff18ded42f8e3dc27f24802a2d036220d9c31 returned FAIL in 8752ms and correctly identified both z_ai:glm-5 and z_ai:glm-5-current rerouted from open.bigmodel.cn to api.z.ai; rejected #582 head 724515224c36e55bed59e16c08e99d559271fa7d high-effort request sha256 23cfe04eab78a62bb8da103b5e560f3ed2c13f76d16ddfb60e38392d594ae76e returned FAIL in 7668ms with the same migration-scope finding; repaired worktree head c9759517d30b9ea14175be6d6fdaf9d019183593 high-effort request sha256 daec9511fedded4f188de98ac5b5231b48b12f3d09eb6851e270fe52e635cec5 returned PASS in 10240ms and did not repeat the stale endpoint finding. Result digests: old-low a30a311fa1582411737328e613d76d0b47af10025ea6b24dee137decf62014a9, old-high 4c434c2f818474cad2649b11785c14f366c493b05386101a0ab0fecee496f09e, current-high 6b46ccc3a1506074da7499d4b81639a9bdbe04b29d36c2b571a49c8b0e2f210d. Run-log digests: old-low 687d895b9801c7b6515d3fdbe94970a412d27fb99e777fd6b06c8d361a3329ce, old-high c65831cb869f77b77dd00739d34ce475734b129743b3fcb9de9b552a36786120, current-high 5cd08d46e77271703c4fab4673a5d9424087bbf6859d731906f14abf4a325107. Conclusion: GLM-5.3-Flash is viable for focused packet-bound first-pass review, but truncated/noisy PR packets remain unsafe for exact-head approval."
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

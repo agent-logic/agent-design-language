@@ -152,7 +152,9 @@ The first open-PR reviewer smoke was intentionally conservative but not a fair
 quality test: it supplied a truncated, lifecycle-heavy PR packet and therefore
 handicapped the model on code-local defects. A follow-up quality experiment used
 small, complete, focused packets around the exact endpoint-regression surface
-from the failed #582 review and the repaired current code.
+from the failed #582 review and the repaired current code. The quality claim is
+therefore packet-specific: the evidence proves behavior on the exact packets
+identified below, not a blanket replacement for ADL exact-head approval review.
 
 The baseline human/Codex review failure was:
 
@@ -167,11 +169,26 @@ The baseline human/Codex review failure was:
 Local credentialed quality probes, using the approved local Z.ai key source
 without serializing the credential, produced:
 
-| Probe | Packet | Effort | Result | Duration | Quality signal |
-| --- | --- | --- | --- | ---: | --- |
-| `old-endpoint-regression-low` | Complete focused rejected endpoint code | `low` | `FAIL` | 8752 ms | Correctly found both `z_ai:glm-5` and `z_ai:glm-5-current` were rerouted to `api.z.ai`; included one harmless caveat about externally verifying the new Flash host. |
-| `old-endpoint-regression-high` | Complete focused rejected endpoint code | `high` | `FAIL` | 7668 ms | Correctly found the breaking endpoint change, tied it to the migration scope boundary, and identified the new Flash entry as structurally fine. |
-| `current-endpoint-repair-high` | Complete focused repaired endpoint code | `high` | `PASS` | 10240 ms | Correctly recognized the legacy endpoint was preserved for `z_ai:glm-5` and `z_ai:glm-5-current`, and did not repeat the stale endpoint finding. |
+| Probe | Candidate | Request sha256 | Effort | Result | Duration | Quality signal |
+| --- | --- | --- | --- | --- | ---: | --- |
+| `old-endpoint-regression-low` | rejected PR head `724515224c36e55bed59e16c08e99d559271fa7d` | `22276c77f89ec5e5de0e3a627a5ff18ded42f8e3dc27f24802a2d036220d9c31` | `low` | `FAIL` | 8752 ms | Correctly found both `z_ai:glm-5` and `z_ai:glm-5-current` were rerouted to `api.z.ai`; included one harmless caveat about externally verifying the new Flash host. |
+| `old-endpoint-regression-high` | rejected PR head `724515224c36e55bed59e16c08e99d559271fa7d` | `23cfe04eab78a62bb8da103b5e560f3ed2c13f76d16ddfb60e38392d594ae76e` | `high` | `FAIL` | 7668 ms | Correctly found the breaking endpoint change, tied it to the migration scope boundary, and identified the new Flash entry as structurally fine. |
+| `current-endpoint-repair-high` | repaired worktree head `c9759517d30b9ea14175be6d6fdaf9d019183593` | `daec9511fedded4f188de98ac5b5231b48b12f3d09eb6851e270fe52e635cec5` | `high` | `PASS` | 10240 ms | Correctly recognized the legacy endpoint was preserved for `z_ai:glm-5` and `z_ai:glm-5-current`, and did not repeat the stale endpoint finding. |
+
+The corresponding response and run-log sha256 digests were:
+
+- `old-endpoint-regression-low-result.json`:
+  `a30a311fa1582411737328e613d76d0b47af10025ea6b24dee137decf62014a9`
+- `old-endpoint-regression-low-run.jsonl`:
+  `687d895b9801c7b6515d3fdbe94970a412d27fb99e777fd6b06c8d361a3329ce`
+- `old-endpoint-regression-high-result.json`:
+  `4c434c2f818474cad2649b11785c14f366c493b05386101a0ab0fecee496f09e`
+- `old-endpoint-regression-high-run.jsonl`:
+  `c65831cb869f77b77dd00739d34ce475734b129743b3fcb9de9b552a36786120`
+- `current-endpoint-repair-high-result.json`:
+  `6b46ccc3a1506074da7499d4b81639a9bdbe04b29d36c2b571a49c8b0e2f210d`
+- `current-endpoint-repair-high-run.jsonl`:
+  `5cd08d46e77271703c4fab4673a5d9424087bbf6859d731906f14abf4a325107`
 
 This moves the reviewer-quality conclusion from "not proven" to "useful when
 the review harness supplies a bounded, complete packet." The model should still
