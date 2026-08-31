@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 494,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fe94dbc84ab0d1df451508b4d682d8703a83d050c141817df3a82cb9ed0eb470",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 5,
-  "digest": "825054c2d9e19ea7a614809decb95304ac90e95638a52b4af788f72e69832042",
-  "branch": null,
-  "worktree": null,
+  "digest": "5b6a073a5c3fda4b037b258eb8a77f6cf608beca5c4f5a90d1d4dae9e7a5cc28",
+  "branch": "codex/494-gcp-gpu-readiness-smoke-execution",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-494-gcp-gpu-readiness-smoke-execution",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:/root",
       "reason": "Advance #494 to ready/unbound after live issue acceptance reconciliation, #493 terminal cache and ancestry validation, prebind validator PASS, fresh design/readiness review PASS, typed design approval, doctor PASS, and csdlc-validate PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -105,6 +113,13 @@
       "actor": "codex:/root",
       "reason": "Advance #494 to ready/unbound after live issue acceptance reconciliation, #493 terminal cache and ancestry validation, prebind validator PASS, fresh design/readiness review PASS, typed design approval, doctor PASS, and csdlc-validate PASS.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }

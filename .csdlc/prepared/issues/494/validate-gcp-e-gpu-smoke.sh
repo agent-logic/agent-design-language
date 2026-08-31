@@ -58,7 +58,10 @@ require_text "${design}" "independently prove that no #494-owned resources remai
 require_text "${design}" "It does not own"
 require_text "${diagram}" "Independent zero-resource checks"
 require_text "${index}" "\"issue\": 494"
-require_text "${index}" "\"phase\": \"initialized\""
+if ! grep -Eq '"phase": "(initialized|ready|bound|implemented)"' "${index}"; then
+  echo "unexpected #494 phase in ${index}" >&2
+  exit 1
+fi
 
 csdlc_validate="${CSDLC_VALIDATE:-/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate}"
 if [[ ! -x "${csdlc_validate}" ]]; then
@@ -87,11 +90,23 @@ if [[ "${lane}" == "--lane=all" ]]; then
   require_file "infra/gcp/workloads/gpu-smoke/main.tf"
   require_file "infra/gcp/workloads/gpu-smoke/variables.tf"
   require_file "infra/gcp/workloads/gpu-smoke/outputs.tf"
+  require_file "infra/gcp/workloads/gpu-smoke/provider.tf"
+  require_file "infra/gcp/workloads/gpu-smoke/versions.tf"
   require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md"
   require_file "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh"
   require_text "infra/gcp/workloads/gpu-smoke/variables.tf" "max_budget_usd"
-  require_text "infra/gcp/workloads/gpu-smoke/main.tf" "nvidia-l4"
+  require_text "infra/gcp/workloads/gpu-smoke/variables.tf" "nvidia-l4"
+  require_text "infra/gcp/workloads/gpu-smoke/main.tf" "provisioning_model  = \"STANDARD\""
+  require_text "infra/gcp/workloads/gpu-smoke/main.tf" "enable-oslogin"
+  require_text "infra/gcp/workloads/gpu-smoke/main.tf" "adl-cleanup-required"
+  require_text "infra/gcp/workloads/gpu-smoke/outputs.tf" "cleanup_selector"
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "GCP_E_MAX_BUDGET_USD"
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" 'terraform -chdir="${tf_root}" destroy'
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "gcloud compute instances list"
+  require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "gcloud compute disks list"
   require_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "zero-resource"
+  reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/run-gcp-e-l4-smoke.sh" "BEGIN PRIVATE KEY"
+  reject_text "docs/milestones/v0.92.1/evidence/cloud/gcp-e/README.md" "BEGIN PRIVATE KEY"
 fi
 
 echo "gcp-e gpu smoke validator passed (${lane})"
