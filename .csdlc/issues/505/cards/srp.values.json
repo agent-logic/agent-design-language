@@ -7,15 +7,15 @@
     "title": "[v0.92.1][V3-F] C-SDLC v3 authority-transition decision",
     "slug": "v0-92-1-v3-f-c-sdlc-v3-authority-transition-decision",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "V3-F authority-transition decision preparation, requirements #179/#180 mapping, parity matrix plan, canary rollback plan, observation evidence plan, operator approval gate, and issue-local evidence only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "AGENTS.md\ncsdlc-v2/AGENTS.md\ncsdlc-v2/operator/SKILLS.md\ncsdlc-v2/operator/skills\ncsdlc-v3/AGENTS.md\ncsdlc-v3/README.md\ndocs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md\ndocs/default_workflow.md\ndocs/onboarding.md\ndocs/architecture/ADL_ARCHITECTURE.md\ndocs/tooling/adl_pr_cycle_skill.md\ndocs/tooling/card-lifecycle.md\ndocs/tooling/structured-prompt-contracts.md\ndocs/tooling/editor\ndocs/templates",
+      "review_revision": "git-blake3:3653c889beeced98bfb0bd6f92df7877257f1fa4:b3050fb680b43bb9c4557b774c3fbeccfd3f8aea0689cbda6d5935e031e79350",
+      "reviewer": "review_issue_505_notice_docs_readonly_verdict",
       "review_prompts": [
         "Verify #505 remains pre-bind preparation only until #504 is terminal, reconciled, and ancestral.",
         "Verify the packet preserves C-SDLC v2 live authority and rejects silent v2 retirement before explicit operator approval.",
@@ -23,8 +23,10 @@
         "Verify the future PR body requirement visibly uses `Closes #505`."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "No PR body existed at review time; publication must still include visible `Closes #505`."
+      ],
+      "review_result": "pass"
     }
   }
 }

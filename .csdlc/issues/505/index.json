@@ -4,13 +4,60 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "6463da1e2e70e9cd2035481a909e41685eefa6e109dde27e83721eb7aebd83b1",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "1a5bda02b116c8bccae72d01e66a57e62281e8df71afe7f1bbf1ae242825ec09",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "review_issue_505_notice_docs_readonly_verdict",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:3653c889beeced98bfb0bd6f92df7877257f1fa4:b3050fb680b43bb9c4557b774c3fbeccfd3f8aea0689cbda6d5935e031e79350",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates"
+    ]
+  },
+  "review": {
+    "reviewer": "review_issue_505_notice_docs_readonly_verdict",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates"
+    ],
+    "reviewed_revision": "git-blake3:3653c889beeced98bfb0bd6f92df7877257f1fa4:b3050fb680b43bb9c4557b774c3fbeccfd3f8aea0689cbda6d5935e031e79350",
+    "findings": [],
+    "residual_risks": [
+      "No PR body existed at review time; publication must still include visible `Closes #505`."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "27cf1809a7c87d28be744a7ce465b181db789e290c2950d3adb54a172c82f731",
+      "values_digest": "321ce007ae570728fc02193235a29257b46720895fe9875f41999c57bfd52032",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "f0d1f6be4a93557f9c81347c2eb0a891385ddbda3b2e1775d04562bc91fdec20",
+      "values_digest": "980bf6073b94f73d35564df2248f8193653b90fbb33d08d5c198f3dbd3157cb7",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "aaae3ddd5dc185046ffea160ad28bf1d087452675e54b697b60f84665aa52aee",
+      "values_digest": "7c4f92db9de41e25b882ca6e9c9b9b9fbea757ca20b036a322c8be49b439ae0e",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "8b965767799b9450ff0a3be80151338ac6560713bcb1bc178868a1cc26f705a3",
+      "values_digest": "0724fd475533e41f04534f11cc9e47b1b59088968538aba5801dc7e7762482bb",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "2850abe327a7fef181caec7ed32da5a6e6336300ed9ecc7710fdc9e7d7948299",
-      "rendered_digest": "692a261aac92c89f01dde68a3909b98414cef502f3fa2c2620f9731710b4b28b",
-      "ast_digest": "88f2fae14925519c38944fb30f70e75a6b98b8ce8ccdd7db3413c7c0c30ae6f6"
+      "values_digest": "3988cb5b5efae3a9085bc329d6be13fbd4c36480eae060ddc1bd96e5ccd3abc0",
+      "rendered_digest": "093c7457c395af2e858f2d80c88354c3101300b5067bfa297ab6243c17bc637d",
+      "ast_digest": "d00cb67b1f76defc434f18ed3dd2c833105cbc4bcd169de18a03f6c1b8f4e8a8"
     },
     "sor": {
-      "values_digest": "48082290eadeaa0237f527aeb62505e8915888841f9b0b9a83b0fcf8fec8e416",
+      "values_digest": "e99fbe8ed71a22369c4b4d761619f41e93a5f34b32a50f585a326ac28586add4",
       "rendered_digest": "793209e816cc5657ee69d2a89d89c3d113cdf0a040b6787ea00873772b09e4d4",
       "ast_digest": "e3c03b3bb5b969246d50f75cef40456b7c7d6289b671e224b751ad9a8f8f118f"
     }
@@ -76,6 +123,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -134,6 +188,20 @@
       "actor": "codex:worker-6",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

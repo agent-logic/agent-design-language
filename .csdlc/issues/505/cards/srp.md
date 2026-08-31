@@ -12,7 +12,21 @@ Status: pre_phase
 
 ## Scope
 
-V3-F authority-transition decision preparation, requirements #179/#180 mapping, parity matrix plan, canary rollback plan, observation evidence plan, operator approval gate, and issue-local evidence only.
+AGENTS.md
+csdlc-v2/AGENTS.md
+csdlc-v2/operator/SKILLS.md
+csdlc-v2/operator/skills
+csdlc-v3/AGENTS.md
+csdlc-v3/README.md
+docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md
+docs/default_workflow.md
+docs/onboarding.md
+docs/architecture/ADL_ARCHITECTURE.md
+docs/tooling/adl_pr_cycle_skill.md
+docs/tooling/card-lifecycle.md
+docs/tooling/structured-prompt-contracts.md
+docs/tooling/editor
+docs/templates
 
 ## Prompts
 
@@ -31,12 +45,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No PR body existed at review time; publication must still include visible `Closes #505`.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3653c889beeced98bfb0bd6f92df7877257f1fa4:b3050fb680b43bb9c4557b774c3fbeccfd3f8aea0689cbda6d5935e031e79350")
 
-Reviewer: None
+Reviewer: Some("review_issue_505_notice_docs_readonly_verdict")
 
-Result: pre_review
+Result: pass
