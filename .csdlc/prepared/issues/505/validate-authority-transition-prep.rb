@@ -146,11 +146,15 @@ end
   "docs/tooling/editor/pr_run_demo.md",
   "docs/tooling/editor/README.md",
   "docs/tooling/editor/five_command_regression_suite.md",
-  "docs/tooling/editor/task_bundle_editor.js"
+  "docs/tooling/editor/task_bundle_editor.js",
+  "docs/templates/STRUCTURED_PLAN_PROMPT_TEMPLATE.md"
 ].each do |path|
-  text = docs.fetch(path)
-  assert(text.include?("historical") || text.include?("retired"), "#{path} must classify legacy editor route as historical/retired")
+  text = docs.fetch(path) { read(path) }
+  unless path == "docs/templates/STRUCTURED_PLAN_PROMPT_TEMPLATE.md"
+    assert(text.include?("historical") || text.include?("retired"), "#{path} must classify legacy editor route as historical/retired")
+  end
   assert(!text.match?(/current pr run command|supported control-plane run surface today|current routing guidance/i), "#{path} contains active legacy route guidance")
+  assert(!text.match?(/`pr (doctor|finish|closeout)`.*\b(should|must|now|reports?|treats?)\b/i), "#{path} contains normative legacy pr route guidance")
 end
 
 adl_pr_cycle = docs.fetch("docs/tooling/adl_pr_cycle_skill.md")
