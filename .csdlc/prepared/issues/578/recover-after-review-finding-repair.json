@@ -1,0 +1,7 @@
+{
+  "issue": 578,
+  "expected_generation": 38,
+  "expected_digest": "49b59fb091b3482a783a3848e26410534b6c9f8c2d8cb34ffdc93445f567a535",
+  "actor": "codex:root",
+  "reason": "Recover #578 review state after repairing PR #582 review findings for Z.ai alias validation, reasoning_effort normalization, credential-source portability, and retained live-proof evidence."
+}

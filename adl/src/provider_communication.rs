@@ -99,6 +99,17 @@ pub struct ProviderInvocationRequestV1 {
     pub benchmark_ref: Option<String>,
 }
 
+fn is_zai_provider_alias(provider: &str) -> bool {
+    matches!(
+        provider.trim().to_ascii_lowercase().as_str(),
+        "z_ai" | "zai" | "zhipu"
+    )
+}
+
+fn is_zai_glm_5_3_flash_route(route: &ProviderRouteV1) -> bool {
+    is_zai_provider_alias(&route.provider) && route.provider_model_id == "glm-5.3-flash"
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum ProviderAttemptStatusV1 {
@@ -649,8 +660,7 @@ pub fn validate_provider_request(request: &ProviderInvocationRequestV1) -> Resul
     if request.max_output_tokens == Some(0) {
         return Err(anyhow!("max_output_tokens must be greater than zero"));
     }
-    if request.route.provider.eq_ignore_ascii_case("z_ai")
-        && request.route.provider_model_id == "glm-5.3-flash"
+    if is_zai_glm_5_3_flash_route(&request.route)
         && request
             .max_output_tokens
             .is_some_and(|value| value > 131_072)
@@ -664,9 +674,7 @@ pub fn validate_provider_request(request: &ProviderInvocationRequestV1) -> Resul
         if trimmed.is_empty() {
             return Err(anyhow!("reasoning_effort must not be empty when provided"));
         }
-        if request.route.provider.eq_ignore_ascii_case("z_ai")
-            && request.route.provider_model_id == "glm-5.3-flash"
-            && !matches!(trimmed, "low" | "high" | "max")
+        if is_zai_glm_5_3_flash_route(&request.route) && !matches!(trimmed, "low" | "high" | "max")
         {
             return Err(anyhow!(
                 "reasoning_effort must be one of low, high, max for glm-5.3-flash"
@@ -677,9 +685,7 @@ pub fn validate_provider_request(request: &ProviderInvocationRequestV1) -> Resul
         if !value.is_finite() {
             return Err(anyhow!("temperature must be finite"));
         }
-        let max = if request.route.provider.eq_ignore_ascii_case("z_ai")
-            && request.route.provider_model_id == "glm-5.3-flash"
-        {
+        let max = if is_zai_glm_5_3_flash_route(&request.route) {
             1.0
         } else {
             2.0
@@ -692,9 +698,7 @@ pub fn validate_provider_request(request: &ProviderInvocationRequestV1) -> Resul
         if !value.is_finite() {
             return Err(anyhow!("top_p must be finite"));
         }
-        let min = if request.route.provider.eq_ignore_ascii_case("z_ai")
-            && request.route.provider_model_id == "glm-5.3-flash"
-        {
+        let min = if is_zai_glm_5_3_flash_route(&request.route) {
             0.01
         } else {
             0.0
@@ -1322,6 +1326,22 @@ mod tests {
             .expect_err("low GLM top_p should fail")
             .to_string()
             .contains("top_p"));
+
+        request.top_p = Some(0.8);
+        request.route.provider = "zai".to_string();
+        request.reasoning_effort = Some("medium".to_string());
+        assert!(validate_provider_request(&request)
+            .expect_err("invalid GLM reasoning effort through alias should fail")
+            .to_string()
+            .contains("reasoning_effort"));
+
+        request.route.provider = "zhipu".to_string();
+        request.reasoning_effort = Some("low".to_string());
+        request.temperature = Some(1.1);
+        assert!(validate_provider_request(&request)
+            .expect_err("oversized GLM temperature through alias should fail")
+            .to_string()
+            .contains("temperature"));
     }
 
     fn review_provider_request_fixture() -> ReviewProviderRequestV1 {

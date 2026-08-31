@@ -12,7 +12,7 @@
       "command": [
         "gh pr list --repo agent-logic/agent-design-language --state open --limit 50 --json number,title,headRefName,headRefOid,baseRefName,isDraft,mergeable,url",
         "gh pr diff <pr> --repo agent-logic/agent-design-language --patch",
-        "env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/pr-<pr>-request.json --out .adl/provider-smoke/open-pr-reviews/pr-<pr>-result.json --log .adl/provider-smoke/open-pr-reviews/pr-<pr>-run.jsonl"
+        "env ZAI_API_KEY=<redacted from operator-approved ZAI_API_KEY source> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/open-pr-reviews/pr-<pr>-request.json --out .adl/provider-smoke/open-pr-reviews/pr-<pr>-result.json --log .adl/provider-smoke/open-pr-reviews/pr-<pr>-run.jsonl"
       ],
       "purpose": "Probe GLM-5.3-Flash as a local-only PR triage reviewer across all currently open ADL PRs using exact PR heads, PR metadata, changed-file lists, and bounded diff excerpts, with no GitHub review comments posted.",
       "outcome": "passed",

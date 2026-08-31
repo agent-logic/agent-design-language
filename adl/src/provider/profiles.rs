@@ -344,9 +344,7 @@ fn ensure_inference_profile_config(
                 profile_name
             ));
         }
-        config
-            .entry("reasoning_effort".to_string())
-            .or_insert_with(|| json!("low"));
+        config.insert("reasoning_effort".to_string(), json!(reasoning_effort));
 
         match config.get("clear_thinking") {
             Some(Value::Bool(_)) | None => {}

@@ -10,11 +10,11 @@
     "operation": "record_validation",
     "result": {
       "command": [
-        "env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash/reviewer-proof-request.json --out .adl/provider-smoke/glm-5-3-flash/reviewer-proof-result.json --log .adl/provider-smoke/glm-5-3-flash/reviewer-proof-run.jsonl"
+        "env ZAI_API_KEY=<redacted from operator-approved ZAI_API_KEY source> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request <local ignored reviewer-proof request> --out <local ignored reviewer-proof result> --log <local ignored reviewer-proof run log>"
       ],
       "purpose": "Prove Ox Alpha / GLM-5.3-Flash can complete a bounded reviewer-style verdict task through the direct Z.ai profile with the approved credential source and reviewer-fast parameters.",
       "outcome": "passed",
-      "evidence_ref": ".adl/provider-smoke/glm-5-3-flash/reviewer-proof-result.json final_status=ok http_status=200 duration_ms=2405 output_text='VERDICT: PASS; FINDINGS: none; LIMITATIONS: Single-run smoke with max_attempts=1 and 64-token output confirms connectivity only, not sustained reliability or reasoning quality of the glm-5.3-flash endpoint.'; provider-run.jsonl run_finish status=ok"
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json reviewer_verdict_smoke final_status=ok http_status=200 duration_ms=2405 retained_verdict=PASS_WITH_LIMITATION"
     }
   },
   "fail_after_backup": false

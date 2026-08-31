@@ -1077,7 +1077,13 @@ fn zai_request_body(request: &ProviderInvocationRequestV1) -> Value {
         "stream": false,
     });
     if is_zai_glm_5_3_flash(request) {
-        body["reasoning_effort"] = json!(request.reasoning_effort.as_deref().unwrap_or("low"));
+        let reasoning_effort = request
+            .reasoning_effort
+            .as_deref()
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .unwrap_or("low");
+        body["reasoning_effort"] = json!(reasoning_effort);
         body["thinking"] = json!({
             "type": "enabled",
             "clear_thinking": request.clear_thinking.unwrap_or(true)
@@ -1086,7 +1092,7 @@ fn zai_request_body(request: &ProviderInvocationRequestV1) -> Value {
         body["top_p"] = json!(request.top_p.unwrap_or(0.95));
     } else {
         if let Some(reasoning_effort) = request.reasoning_effort.as_deref() {
-            body["reasoning_effort"] = json!(reasoning_effort);
+            body["reasoning_effort"] = json!(reasoning_effort.trim());
         }
         if let Some(clear_thinking) = request.clear_thinking {
             body["thinking"] = json!({
@@ -2078,7 +2084,7 @@ mod tests {
         assert_eq!(defaults["top_p"], json!(0.95));
 
         req.max_output_tokens = Some(512);
-        req.reasoning_effort = Some("low".to_string());
+        req.reasoning_effort = Some(" low ".to_string());
         req.clear_thinking = Some(true);
         req.temperature = Some(0.2);
         req.top_p = Some(0.8);

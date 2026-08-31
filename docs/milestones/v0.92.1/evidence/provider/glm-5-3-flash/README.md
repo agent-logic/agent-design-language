@@ -68,35 +68,34 @@ provider credential:
 
 Live Z.ai execution is credential-gated by `ZAI_API_KEY`; absence of that
 credential is not claimed as a live model PASS. After the operator identified
-the approved local Z.ai key source, the credentialed reviewer-viability smoke
+the operator-approved ZAI_API_KEY source, the credentialed reviewer-viability smoke
 completed successfully:
 
 - Command shape:
   `ZAI_API_KEY=<redacted> .csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh`
-- Credential source: `/Users/daniel/keys/z.ai.ADL-default.key`; value never
-  printed, copied, committed, or serialized.
+- Credential source: operator-approved `ZAI_API_KEY` source; the credential
+  value and machine-local filename are not printed, copied, committed, or
+  serialized.
 - Profile: `z_ai:glm-5.3-flash`
 - Runtime surface: direct hosted Z.ai API, `glm-5.3-flash`
 - Parameters: `reasoning_effort=low`, `clear_thinking=true`,
   `temperature=0.2`, `top_p=0.8`, `max_output_tokens=64`
 - Timeout/attempts: 45 seconds, one attempt
-- Result: passed, `final_status=ok`, HTTP 200, duration 3748 ms
+- Result: passed, `final_status=ok`, HTTP 200, duration 1714 ms
 - Expected output: `GLM reviewer smoke ok`
-- Local redacted artifacts:
-  `.adl/provider-smoke/glm-5-3-flash/result.json` and
-  `.adl/provider-smoke/glm-5-3-flash/provider-run.jsonl`
+- Retained redacted proof:
+  `docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json`
 
 The same direct profile also completed a bounded reviewer-style verdict task
 for the #582 live-proof evidence:
 
 - Command shape:
-  `ZAI_API_KEY=<redacted> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash/reviewer-proof-request.json --out .adl/provider-smoke/glm-5-3-flash/reviewer-proof-result.json --log .adl/provider-smoke/glm-5-3-flash/reviewer-proof-run.jsonl`
+  `ZAI_API_KEY=<redacted> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request <local ignored reviewer-proof request> --out <local ignored reviewer-proof result> --log <local ignored reviewer-proof run log>`
 - Result: passed, `final_status=ok`, HTTP 200, duration 2405 ms
 - Model verdict:
   `VERDICT: PASS; FINDINGS: none; LIMITATIONS: Single-run smoke with max_attempts=1 and 64-token output confirms connectivity only, not sustained reliability or reasoning quality of the glm-5.3-flash endpoint.`
-- Local redacted artifacts:
-  `.adl/provider-smoke/glm-5-3-flash/reviewer-proof-result.json` and
-  `.adl/provider-smoke/glm-5-3-flash/reviewer-proof-run.jsonl`
+- Retained redacted proof:
+  `docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json`
 
 ## Open-PR reviewer smoke
 
@@ -166,8 +165,8 @@ The baseline human/Codex review failure was:
 - The correct repair gives GLM-5.3-Flash its own `api.z.ai` endpoint constant
   while retaining the legacy endpoint for the existing GLM-5 profiles.
 
-Local credentialed quality probes, using the approved local Z.ai key source
-without serializing the credential, produced:
+Local credentialed quality probes, using the operator-approved `ZAI_API_KEY`
+source without serializing the credential value or source filename, produced:
 
 | Probe | Candidate | Request sha256 | Effort | Result | Duration | Quality signal |
 | --- | --- | --- | --- | --- | ---: | --- |

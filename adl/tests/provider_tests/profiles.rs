@@ -311,7 +311,7 @@ providers:
     profile: "z_ai:glm-5.3-flash"
     config:
       max_output_tokens: 131072
-      reasoning_effort: "high"
+      reasoning_effort: " high "
       clear_thinking: true
       temperature: 0.85
       top_p: 0.9

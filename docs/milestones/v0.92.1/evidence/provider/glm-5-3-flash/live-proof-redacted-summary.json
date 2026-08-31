@@ -1,0 +1,77 @@
+{
+  "schema": "adl.provider_live_proof_redacted_summary.v1",
+  "issue": 578,
+  "provider_profile": "z_ai:glm-5.3-flash",
+  "provider_model_id": "glm-5.3-flash",
+  "credential_source": "operator-approved ZAI_API_KEY source",
+  "credential_value_retained": false,
+  "credential_path_retained": false,
+  "source_artifact_policy": "Source request/result/run logs were local ignored provider-smoke artifacts. This committed summary retains only redacted status, timing, hashes, and bounded verdict text needed for review.",
+  "live_smoke": {
+    "command_shape": "ZAI_API_KEY=<redacted> .csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh",
+    "parameters": {
+      "reasoning_effort": "low",
+      "clear_thinking": true,
+      "temperature": 0.2,
+      "top_p": 0.8,
+      "max_output_tokens": 64
+    },
+    "attempts": 1,
+    "timeout_seconds": 45,
+    "final_status": "ok",
+    "http_status": 200,
+    "duration_ms": 1714,
+    "output_text_excerpt": "[redacted provider text len=21]",
+    "result_sha256": "da32f9fd77610269cbf52261fd4188764bcfd6a55a46a60ba0997bb7ceea85a6",
+    "run_log_sha256": "8228e0f1378683d1495ef9b98e2a494f2b8bcc8619805aeff62252c00a937a1d"
+  },
+  "reviewer_verdict_smoke": {
+    "command_shape": "ZAI_API_KEY=<redacted> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request <local ignored reviewer-proof request> --out <local ignored reviewer-proof result> --log <local ignored reviewer-proof run log>",
+    "final_status": "ok",
+    "http_status": 200,
+    "duration_ms": 2405,
+    "output_text_excerpt": "[redacted provider text len=206]",
+    "retained_verdict": "VERDICT: PASS; FINDINGS: none; LIMITATIONS: Single-run smoke with max_attempts=1 and 64-token output confirms connectivity only, not sustained reliability or reasoning quality of the glm-5.3-flash endpoint.",
+    "result_sha256": "fe8ff9cf96345ac7ea97e7f19272bf6ce2f919d8efd31e265c04745b216d340d",
+    "run_log_sha256": "366d790a6219c5c005644f91cd514f716e9f441f8cf94f937c9ad1769e42ddfa"
+  },
+  "focused_quality_probes": [
+    {
+      "name": "old-endpoint-regression-low",
+      "candidate": "rejected PR head 724515224c36e55bed59e16c08e99d559271fa7d",
+      "request_sha256": "22276c77f89ec5e5de0e3a627a5ff18ded42f8e3dc27f24802a2d036220d9c31",
+      "result_sha256": "a30a311fa1582411737328e613d76d0b47af10025ea6b24dee137decf62014a9",
+      "run_log_sha256": "687d895b9801c7b6515d3fdbe94970a412d27fb99e777fd6b06c8d361a3329ce",
+      "reasoning_effort": "low",
+      "duration_ms": 8752,
+      "model_verdict": "FAIL",
+      "quality_signal": "Found both legacy profiles rerouted from open.bigmodel.cn to api.z.ai."
+    },
+    {
+      "name": "old-endpoint-regression-high",
+      "candidate": "rejected PR head 724515224c36e55bed59e16c08e99d559271fa7d",
+      "request_sha256": "23cfe04eab78a62bb8da103b5e560f3ed2c13f76d16ddfb60e38392d594ae76e",
+      "result_sha256": "4c434c2f818474cad2649b11785c14f366c493b05386101a0ab0fecee496f09e",
+      "run_log_sha256": "c65831cb869f77b77dd00739d34ce475734b129743b3fcb9de9b552a36786120",
+      "reasoning_effort": "high",
+      "duration_ms": 7668,
+      "model_verdict": "FAIL",
+      "quality_signal": "Found the endpoint migration-scope defect and identified the new Flash entry as structurally fine."
+    },
+    {
+      "name": "current-endpoint-repair-high",
+      "candidate": "repaired worktree head c9759517d30b9ea14175be6d6fdaf9d019183593",
+      "request_sha256": "daec9511fedded4f188de98ac5b5231b48b12f3d09eb6851e270fe52e635cec5",
+      "result_sha256": "6b46ccc3a1506074da7499d4b81639a9bdbe04b29d36c2b571a49c8b0e2f210d",
+      "run_log_sha256": "5cd08d46e77271703c4fab4673a5d9424087bbf6859d731906f14abf4a325107",
+      "reasoning_effort": "high",
+      "duration_ms": 10240,
+      "model_verdict": "PASS",
+      "quality_signal": "Recognized that legacy endpoint behavior was preserved and did not repeat the stale endpoint finding."
+    }
+  ],
+  "limitations": [
+    "This retained summary proves exact live-call outcomes only through redacted local artifact hashes; it does not retain provider request/response bodies.",
+    "The reviewer-quality probes are packet-bound first-pass evidence, not ADL exact-head approval authority."
+  ]
+}
