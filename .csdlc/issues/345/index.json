@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 345,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "ready",
-  "generation": 4,
-  "digest": "88036d75acc028f4c56617f88742658d3e0155732d55b1a634de77fe306e4462",
-  "branch": null,
-  "worktree": null,
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "fa40a08e457b76a0572069ade83484504bcc4f59ae5ba6fcd4351aa5da8d2e5d",
+  "branch": "codex/345-aws-gpu-shepherd-proof-runner",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "986ed861c997bbba3d29ab2d15f057a260a0a7a7bd31a809a13b5eb90a085aec",
+      "values_digest": "a03851bf781154662ae5deb9fae9f4489de2526675749d0f4c47c7b324b79de5",
       "rendered_digest": "8938409a9b1325974a7580fa579fa3779b37293b59a35f3e41056ae026958d9f",
       "ast_digest": "d70c20ab4abcc96865ac41d795c95b246afad5f3b55a76f88364f08516e56c3b"
     },
     "stp": {
-      "values_digest": "eb84eae6da691d99714bcbfa900e3c194701c70a40cda3183f18da68252fa459",
+      "values_digest": "7fdbf03aab6566ee4037aec874af3939fa1fb52d731457a82ef7d61041f58d18",
       "rendered_digest": "3e0297d1465f8f80e9038a11585826f0db491b28a8bfcb2ce89ba4824b993939",
       "ast_digest": "186663e96d9094357924e2ed1c5b6d1b83374e0056a21771baccb3665097078b"
     },
     "spp": {
-      "values_digest": "897f5817f2f657d14a93433087de8745d205882f6fa8a910076532d408f82a2e",
+      "values_digest": "a0d393119495a509de3ebbe85a83584a9366c9c9f1ae28e3b862fe1cfe374823",
       "rendered_digest": "fdfab867eb938b2abe6fa13ac84ffeb61e3cceddd268469c793bcd26669389c6",
       "ast_digest": "80b856f194cfc7c6a241d88ea3d728a3cbf7c134c486fdfd0b57853773d09c83"
     },
     "vpp": {
-      "values_digest": "25003d90f714d44da1944de3869acc04809fb9c1d3d993599d3f9ac93d2e1837",
+      "values_digest": "a6f8cd58be42d41f75e0f04509baab6f35f891f05e6616b670d810bb4ad015f5",
       "rendered_digest": "66741aa1e2e7a8aa6c09f6add5674d5b87f1db4a4e8fbb0bd582acad5cb3ee3f",
       "ast_digest": "3b72bc8145ab9517c6184cdc1842c39496aac592be65ffdf208defba499b5fbe"
     },
     "srp": {
-      "values_digest": "89f1a0097809125faac88ac9335f0ca6dc0281a9d008d09683fd1a97df95f194",
+      "values_digest": "a63743ebd2f3f48ec78c72cb1627642316e2092c45f3dbff7608b1012d288680",
       "rendered_digest": "dc98fee9fc127f7c749ec1e2e183ac0fe280a46ef08916ea18c0b7627baad6b4",
       "ast_digest": "370ff7b7edd5b14761441cffde0a3011ed6ffefe167c2f6e843535678fd90949"
     },
     "sor": {
-      "values_digest": "79ff60ae58b82af0edd59fface0c81f439ba4271cee40cd5e824d8458f339742",
-      "rendered_digest": "7ea4c6259aa9ecd1d185162147a9223aeca4673a3632ac88c08e75583ec59622",
-      "ast_digest": "a6abbee28e7a473678ffa06395c1cd92ab62d6b896cf5dd51862b69e6b745f86"
+      "values_digest": "697325668fc2f8d05e0387919c5b7d9bea8d1628b27b884755393c10cb3be7cb",
+      "rendered_digest": "f615d3b29fb503b807326d051081f763067e1033a6deacb7c64803878c8f7531",
+      "ast_digest": "7988dacd3436efbff45fd6a6735c0012080dccf3e777d33da1a5b38294954a0a"
     }
   },
   "transitions": [
@@ -61,6 +62,20 @@
       "to": "ready",
       "actor": "codex:/root:issue-345-preparation",
       "reason": "Advance #345 prepared AWS GPU Shepherd proof runner packet to execution-ready after clean initialized doctor and validation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-345-implementation",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -98,6 +113,20 @@
       "actor": "codex:/root:issue-345-preparation",
       "reason": "Advance #345 prepared AWS GPU Shepherd proof runner packet to execution-ready after clean initialized doctor and validation.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-345-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
