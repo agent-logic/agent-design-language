@@ -5,30 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "29a6c152177a08fc0f736770e5a999715291e1bb864b2bc5cce43abc0b76fcbb",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "a3d7a5a26ef4d8aac7d66f9cc46a21a757ef40ec26e386708cf3a18b57538f24",
+  "generation": 34,
+  "digest": "159fa6fa35cde71f171ad5c5fb7fa19626102beab457730730b4d26a0d098dac",
   "branch": "codex/578-glm-5-3-flash-provider-profile",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-578-glm-5-3-flash-provider-profile",
-  "review_assignment": {
-    "reviewer": "fresh-session:03245b52-0ac0-45b1-ad05-a1723d3c9fb8",
-    "assigned_by": "codex:root",
-    "revision": "git-blake3:c9759517d30b9ea14175be6d6fdaf9d019183593:e63a32a94e3b973653e3ef6ddc5bfd3c937e5431e3e76de10b60d31dd3199c27",
-    "scope": [
-      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
-      ".csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json",
-      ".csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json",
-      ".csdlc/issues/578/index.json",
-      ".csdlc/issues/578/audit.jsonl",
-      ".csdlc/issues/578/cards/sip.values.json",
-      ".csdlc/issues/578/cards/stp.values.json",
-      ".csdlc/issues/578/cards/spp.values.json",
-      ".csdlc/issues/578/cards/vpp.values.json",
-      ".csdlc/issues/578/cards/srp.md",
-      ".csdlc/issues/578/cards/srp.values.json",
-      ".csdlc/issues/578/cards/sor.md",
-      ".csdlc/issues/578/cards/sor.values.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "009da4e484f3689989ea7601fb3023dbe8ecb21a18e0d2c1e4322844cce15c8d",
+      "values_digest": "9be9849aca4ddb89a0a1f81140dbdcbffc0a3f5872d21249c3f7de24d74cb05d",
       "rendered_digest": "f5388e1bc825fdfbd10c9c0391d40be37136d3ef3ef3537feb5fb97a02c95df7",
       "ast_digest": "fcf7cdf5005ce453c5d0de45785a28d0cd5f0eec9b70d66c68334f88d379e069"
     },
     "stp": {
-      "values_digest": "b6c8e120dc234b05ea23f4a7dad2c1c363cd107471b82ea6cdd89bfdf64e89e3",
+      "values_digest": "e14a8a1bfb26550ff77ed2173533f2db4ccb2b3ed9a47fd621fb9988a23af21a",
       "rendered_digest": "60f1dafe0d1a37ce6aac4062aa47fd8df74d173ed8d81acd92ae42f7bbd03fe1",
       "ast_digest": "010c7db8ca156aab1667a499dfc3c127c68c9954f1351da9da287fa1af5f5de7"
     },
     "spp": {
-      "values_digest": "30d50bd641d06e796fa86ab1f6dfe7a9e402419e0eaa22fefa8baf03c9a3378e",
+      "values_digest": "bffccd16119b7904f05d3802bb9d2064468d289052ace2619a74f884f9ac3cd1",
       "rendered_digest": "958fa9b6313803b215ae3dbdf43213ad4ca1d79b31eeadd96bb4db8bad97eb3b",
       "ast_digest": "d20f3cfdda654f53719e3d4a53ff6a8028be934f9481d1691cdf24a18bc4920f"
     },
     "vpp": {
-      "values_digest": "b7ba9092f631967b7e6f006237f2b41cd3176ad1e42fa0e5305514b55914f403",
+      "values_digest": "4fd78626b0dc90f8574fa5017d64c1c219237bfba7a043b538bc35341e8bcacb",
       "rendered_digest": "d19ad7f9854fd00fb8a8b4e5a61e1084f2719c17ded46c089535e5953b4e7df9",
       "ast_digest": "8b7e5663635b0fc946a43b44ae0c773e4b7fdacf0fef4b691a8a340817faf67f"
     },
     "srp": {
-      "values_digest": "d1b9a29f4a1b540465257832a964fac2e915ac1745381b7c0cd24a7c1467e5eb",
-      "rendered_digest": "b8035264967dbd9056ca5afef362cf25a105b114a4635d2d6dc4aebda001da4a",
-      "ast_digest": "e23ffed1f8bea82ca0f4fba36a6adb0d8b96f672087d234bc026edebe2b8c447"
+      "values_digest": "3bd911225aeecc0c41674066f557004a734b3771dabaec7143d344df87ba4cbc",
+      "rendered_digest": "1359cc8a5c15fa8b18dd71821bd973a499db698e104834595fca3954dd411940",
+      "ast_digest": "00a30d8a0a7c0f0df09113d27b4710e50e2aef19e2ae89786f1af07f74080aa2"
     },
     "sor": {
-      "values_digest": "36340b450e939f29cb9716d445e51fbf6b49178aae8c81340c8918bb129fbfa3",
+      "values_digest": "70d17cfd19168bfeba1d75ba7e3e30ba7bab6f8abc68d32dc1b014a51a668741",
       "rendered_digest": "a433c66cd8f8e2ba7e86340219ab03041c092f74dc2659bc83c3fa943c796a59",
       "ast_digest": "b55aab41a02704acd12732a37dfc66e959ea38dc2155b0dfef4369cc904cc88b"
     }
@@ -517,6 +498,27 @@
       "actor": "codex:root",
       "reason": "Record GLM-5.3-Flash reviewer quality characterization using complete focused endpoint-regression packets after the previous truncated PR-review packet proved unfair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-low-run.jsonl\",\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/old-endpoint-regression-high-run.jsonl\",\"env ZAI_API_KEY=<redacted from /Users/daniel/keys/z.ai.ADL-default.key> cargo run --manifest-path adl/Cargo.toml --bin adl-provider-adapter -- --request .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-request.json --out .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-result.json --log .adl/provider-smoke/glm-5-3-flash-quality/current-endpoint-repair-high-run.jsonl\"],\"purpose\":\"Test GLM-5.3-Flash reviewer quality without truncated packets by comparing focused endpoint-regression packets against the rejected #582 head 724515224c36e55bed59e16c08e99d559271fa7d and the repaired worktree head c9759517d30b9ea14175be6d6fdaf9d019183593.\",\"outcome\":\"passed\",\"evidence_ref\":\"Packet-bound reviewer quality characterization passed: rejected #582 head 724515224c36e55bed59e16c08e99d559271fa7d low-effort request sha256 22276c77f89ec5e5de0e3a627a5ff18ded42f8e3dc27f24802a2d036220d9c31 returned FAIL in 8752ms and correctly identified both z_ai:glm-5 and z_ai:glm-5-current rerouted from open.bigmodel.cn to api.z.ai; rejected #582 head 724515224c36e55bed59e16c08e99d559271fa7d high-effort request sha256 23cfe04eab78a62bb8da103b5e560f3ed2c13f76d16ddfb60e38392d594ae76e returned FAIL in 7668ms with the same migration-scope finding; repaired worktree head c9759517d30b9ea14175be6d6fdaf9d019183593 high-effort request sha256 daec9511fedded4f188de98ac5b5231b48b12f3d09eb6851e270fe52e635cec5 returned PASS in 10240ms and did not repeat the stale endpoint finding. Result digests: old-low a30a311fa1582411737328e613d76d0b47af10025ea6b24dee137decf62014a9, old-high 4c434c2f818474cad2649b11785c14f366c493b05386101a0ab0fecee496f09e, current-high 6b46ccc3a1506074da7499d4b81639a9bdbe04b29d36c2b571a49c8b0e2f210d. Run-log digests: old-low 687d895b9801c7b6515d3fdbe94970a412d27fb99e777fd6b06c8d361a3329ce, old-high c65831cb869f77b77dd00739d34ce475734b129743b3fcb9de9b552a36786120, current-high 5cd08d46e77271703c4fab4673a5d9424087bbf6859d731906f14abf4a325107. Conclusion: GLM-5.3-Flash is viable for focused packet-bound first-pass review, but truncated/noisy PR packets remain unsafe for exact-head approval.\"}}"
+    },
+    {
+      "sequence": 45,
+      "generation": 33,
+      "actor": "codex:root",
+      "reason": "Recover #578 review state after binding the GLM-5.3-Flash reviewer-quality evidence to exact candidate commits and packet digests.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 33,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 34,
+      "actor": "codex:root",
+      "reason": "Recover #578 review state after the independent reviewer could not verify unpublished local-only quality-binding artifacts from the remote PR head.",
+      "operation": "recover_review"
     }
   ]
 }
