@@ -1,12 +1,21 @@
 use std::io::{Read, Write};
 
 use ::adl::provider::{build_provider, is_retryable_error, stable_failure_kind};
+use serde_json::Value;
 
 use super::helpers::EnvVarGuard;
 use super::support::{
     block_incoming_localhost, localhost_and_auth_env_guard, provider_spec_from_yaml,
     read_http_request,
 };
+
+fn request_json_body(request: &str) -> Value {
+    let body = request
+        .split_once("\r\n\r\n")
+        .map(|(_, body)| body)
+        .expect("request should include a JSON body");
+    serde_json::from_str(body).expect("request body should be JSON")
+}
 
 #[test]
 fn http_provider_happy_path() {
@@ -235,6 +244,127 @@ config:
         .complete("hello zai")
         .expect("z_ai provider should succeed");
     assert_eq!(out, "ZAI_NATIVE_OK");
+}
+
+#[test]
+fn zai_glm_5_3_flash_request_materializes_profile_defaults_and_runtime_overrides() {
+    let server = match std::net::TcpListener::bind("127.0.0.1:0") {
+        Ok(s) => s,
+        Err(e) if e.kind() == std::io::ErrorKind::PermissionDenied => return,
+        Err(e) => panic!("failed to bind local test server: {e}"),
+    };
+    let addr = server.local_addr().unwrap();
+    let _env_guard = localhost_and_auth_env_guard("ADL_TEST_ZAI_KEY", "test-zai-token");
+
+    std::thread::spawn(move || {
+        let (mut stream, _) = server.accept().unwrap();
+        let request = read_http_request(&mut stream);
+        assert!(request.to_ascii_lowercase().contains("authorization:"));
+        assert!(request.contains("Bearer test-zai-token"));
+        let body = request_json_body(&request);
+        assert_eq!(body["model"], "glm-5.3-flash");
+        assert_eq!(body["messages"][0]["role"], "user");
+        assert_eq!(body["messages"][0]["content"], "hello glm flash");
+        assert_eq!(body["max_tokens"], 4096);
+        assert_eq!(body["stream"], false);
+        assert_eq!(body["reasoning_effort"], "low");
+        assert_eq!(body["thinking"]["type"], "enabled");
+        assert_eq!(body["thinking"]["clear_thinking"], true);
+        assert_eq!(body["temperature"], 1.0);
+        assert_eq!(body["top_p"], 0.95);
+        let response_body =
+            r#"{"model":"glm-5.3-flash","choices":[{"message":{"content":"GLM_FLASH_OK"}}]}"#;
+        let resp = format!(
+            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\n\r\n{}",
+            response_body.len(),
+            response_body
+        );
+        let _ = stream.write_all(resp.as_bytes());
+    });
+
+    let spec = provider_spec_from_yaml(&format!(
+        r#"
+type: z_ai
+config:
+  endpoint: "http://{addr}/api/paas/v4/chat/completions"
+  provider_model_id: "glm-5.3-flash"
+  max_output_tokens: 4096
+  reasoning_effort: "low"
+  clear_thinking: true
+  temperature: 1.0
+  top_p: 0.95
+  auth:
+    type: bearer
+    env: ADL_TEST_ZAI_KEY
+"#
+    ));
+
+    let provider = build_provider(&spec, None).expect("z_ai GLM-5.3-Flash provider should build");
+    let out = provider
+        .complete("hello glm flash")
+        .expect("z_ai GLM-5.3-Flash provider should succeed");
+    assert_eq!(out, "GLM_FLASH_OK");
+}
+
+#[test]
+fn zai_glm_5_3_flash_rejects_invalid_runtime_config() {
+    for (yaml, expected) in [
+        (
+            r#"
+type: z_ai
+config:
+  provider_model_id: "glm-5.3-flash"
+  max_output_tokens: 131073
+"#,
+            "max_tokens/max_output_tokens must be no greater than 131072",
+        ),
+        (
+            r#"
+type: z_ai
+config:
+  provider_model_id: "glm-5.3-flash"
+  reasoning_effort: "medium"
+"#,
+            "reasoning_effort must be one of low, high, max",
+        ),
+        (
+            r#"
+type: z_ai
+config:
+  provider_model_id: "glm-5.3-flash"
+  clear_thinking: "false"
+"#,
+            "clear_thinking must be a boolean",
+        ),
+        (
+            r#"
+type: z_ai
+config:
+  provider_model_id: "glm-5.3-flash"
+  temperature: 1.1
+"#,
+            "temperature must be in [0, 1]",
+        ),
+        (
+            r#"
+type: z_ai
+config:
+  provider_model_id: "glm-5.3-flash"
+  top_p: 0.0
+"#,
+            "top_p must be in [0.01, 1]",
+        ),
+    ] {
+        let spec = provider_spec_from_yaml(yaml);
+        let err = match build_provider(&spec, None) {
+            Ok(_) => panic!("invalid config should fail"),
+            Err(err) => err,
+        };
+        assert!(
+            err.to_string().contains(expected),
+            "expected {expected:?}, got {err:#}"
+        );
+    }
 }
 
 #[test]

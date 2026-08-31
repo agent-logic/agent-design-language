@@ -1,0 +1,19 @@
+{
+  "issue": 570,
+  "card": "stp",
+  "expected_generation": 14,
+  "expected_digest": "f77f11cf4113cff04f7d46953d40ddd9e3eb190dcd597bd92a283045d70beafc",
+  "claim_id": "claim-570-v3-g-portable-stp-deliverables",
+  "actor": "codex:worker-6",
+  "reason": "Normalize STP deliverables so local installed-skill checks are portable operator-local evidence rather than machine-specific repo truth.",
+  "operation": {
+    "operation": "correct_stp_deliverables_after_recovery",
+    "values": [
+      "Updated csdlc-v3/README.md covering V3-A/B/C/D construction state, clean replacement target, V3-F non-goals, and focused proof commands.",
+      "Updated root AGENTS.md and docs/onboarding.md distinguishing current v2 authority from v3 construction and naming the three-minute prepared-issue start target.",
+      "Updated csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and all eleven csdlc-v2/operator/skills/*/SKILL.md files with explicit until-v3-cutover authority wording and v3 construction non-authority.",
+      "Checked installed Codex PR skills through CODEX_SKILLS_ROOT or the default Codex skills root with local-only status recorded in SOR if updated.",
+      "Stale-route scan evidence for removed or non-current routes and premature v3 authority claims."
+    ]
+  }
+}

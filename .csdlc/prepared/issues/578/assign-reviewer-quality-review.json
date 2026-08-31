@@ -1,0 +1,23 @@
+{
+  "issue": 578,
+  "expected_generation": 31,
+  "expected_digest": "e2c673f8d17444bb22cf83739239b17e7546fc038fe6d06fd8b5e3a0c77c4650",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "reviewer": "fresh-session:03245b52-0ac0-45b1-ad05-a1723d3c9fb8",
+  "assigned_by": "codex:root",
+  "scope": [
+    "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+    ".csdlc/prepared/issues/578/record-glm-reviewer-quality-validation.json",
+    ".csdlc/prepared/issues/578/recover-after-reviewer-quality-probes.json",
+    ".csdlc/issues/578/index.json",
+    ".csdlc/issues/578/audit.jsonl",
+    ".csdlc/issues/578/cards/sip.values.json",
+    ".csdlc/issues/578/cards/stp.values.json",
+    ".csdlc/issues/578/cards/spp.values.json",
+    ".csdlc/issues/578/cards/vpp.values.json",
+    ".csdlc/issues/578/cards/srp.md",
+    ".csdlc/issues/578/cards/srp.values.json",
+    ".csdlc/issues/578/cards/sor.md",
+    ".csdlc/issues/578/cards/sor.values.json"
+  ]
+}

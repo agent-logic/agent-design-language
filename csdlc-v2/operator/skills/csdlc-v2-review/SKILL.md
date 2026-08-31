@@ -2,6 +2,11 @@
 name: csdlc-v2-review
 description: Assign and record exact-revision pre-publication review truth.
 ---
+C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
+cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
+evidence and must not replace v2 review, publication, finish, or cleanup
+authority.
+
 Generate or refresh the standard SRP at the complete substantive commit. Create
 the typed `csdlc-review assign` record for the fresh reviewer before sending any
 review material, then send that SRP, the repository/worktree path, and the exact

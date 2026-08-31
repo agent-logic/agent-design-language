@@ -5,12 +5,18 @@
 The v1 C-SDLC command wrappers, `pr.sh` lifecycle wrappers, prompt-template
 wrappers, and `csdlc-import` binary are sunset. For C-SDLC work, the sole
 operational authority is the independent Rust v2 binary set under
-`csdlc-v2/`, routed through the typed skills in `csdlc-v2/operator/skills/`.
+`csdlc-v2/`, routed through the typed skills in `csdlc-v2/operator/skills/`,
+until an explicit operator-reviewed V3-F/#505 cutover changes that contract.
 Use the typed v2 binaries and do not invoke the removed v1 wrappers. The final
 coexistence inventory explicitly records `v1_sunset`; historical Gate 10A-C
 records remain immutable evidence and are not an instruction to retain deleted
 binaries. Issue ownership is derived from the bound Git branch and worktree;
 claims, leases, heartbeats, and protected-path ledgers are not lifecycle authority.
+C-SDLC v3 is construction and cutover-readiness evidence only before that
+cutover; it must not bind, publish, finish, clean, mutate GitHub, retire v2, or
+claim live lifecycle authority. Prepared v3 issue start should be inspectable,
+bindable, and ready for first useful work in three minutes or less once its
+dependencies are satisfied, while preserving typed v2 guards and review truth.
 
 This file is the repository-local operating contract for coding agents working
 in ADL.
@@ -184,6 +190,9 @@ These rules are mandatory for ADL issue work.
 ### C-SDLC v2 coexistence (Gate 10A)
 
 - Generation authority is `csdlc-v2/operator/generation-selector.json`. Gate 10A-C records are historical; Gate 10D2 is the current final `v1_sunset` authority.
+- That v2 authority remains live only until explicit V3-F/#505 cutover. Until
+  then, `csdlc-v3/**` is non-authoritative construction evidence for a clean
+  replacement line, not an operational lifecycle route.
 - Explicit v2 work routes through the eleven typed contracts under `csdlc-v2/operator/skills/`; those skills delegate to Rust binaries and never mutate Markdown/state directly.
 - Resolve every current lifecycle route through `csdlc-install resolve`, which reads that selector as the sole authority. Install v2 only into the dedicated `.adl/bin/csdlc-v2/` generation directory; the final verifier also fails if forbidden v1 paths reappear.
 - Historical rollback and recovery proofs remain immutable evidence. The exact D2 approval authorizes the completed v1 command-surface sunset; retained session ownership remains a shared invariant.

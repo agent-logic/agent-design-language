@@ -32,8 +32,10 @@ const DEFAULT_ANTHROPIC_MESSAGES_URL: &str = "https://api.anthropic.com/v1/messa
 const DEFAULT_DEEPSEEK_CHAT_COMPLETIONS_URL: &str = "https://api.deepseek.com/chat/completions";
 const DEFAULT_OPENROUTER_CHAT_COMPLETIONS_URL: &str =
     "https://openrouter.ai/api/v1/chat/completions";
-const DEFAULT_ZAI_CHAT_COMPLETIONS_URL: &str =
+const DEFAULT_ZAI_LEGACY_CHAT_COMPLETIONS_URL: &str =
     "https://open.bigmodel.cn/api/paas/v4/chat/completions";
+const DEFAULT_ZAI_GLM_5_3_FLASH_CHAT_COMPLETIONS_URL: &str =
+    "https://api.z.ai/api/paas/v4/chat/completions";
 const DEFAULT_KIMI_CHAT_COMPLETIONS_URL: &str = "https://api.moonshot.ai/v1/chat/completions";
 const DEFAULT_MINIMAX_CHAT_COMPLETIONS_URL: &str = "https://api.minimax.io/v1/chat/completions";
 const DEFAULT_OPENROUTER_MAX_TOKENS: u64 = 2048;
@@ -1040,7 +1042,7 @@ fn execute_hosted_zai(
     let key = resolve_credential(request.route.credential_ref.as_deref(), "ZAI_API_KEY")?;
     let url = provider_endpoint_url(
         request.route.endpoint_ref.as_deref(),
-        DEFAULT_ZAI_CHAT_COMPLETIONS_URL,
+        zai_default_chat_completions_url(request),
     )?;
     let response = client(policy)?
         .post(url)
@@ -1057,15 +1059,70 @@ fn execute_hosted_zai(
 }
 
 fn zai_request_body(request: &ProviderInvocationRequestV1) -> Value {
-    json!({
+    let max_tokens = output_token_budget_or_default(
+        request,
+        if is_zai_glm_5_3_flash(request) {
+            4_096
+        } else {
+            256
+        },
+    );
+    let mut body = json!({
         "model": request.route.provider_model_id,
         "messages": [{
             "role": "user",
             "content": request.input_text.as_deref().unwrap_or_default(),
         }],
-        "max_tokens": output_token_budget_or_default(request, 256),
+        "max_tokens": max_tokens,
         "stream": false,
-    })
+    });
+    if is_zai_glm_5_3_flash(request) {
+        let reasoning_effort = request
+            .reasoning_effort
+            .as_deref()
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .unwrap_or("low");
+        body["reasoning_effort"] = json!(reasoning_effort);
+        body["thinking"] = json!({
+            "type": "enabled",
+            "clear_thinking": request.clear_thinking.unwrap_or(true)
+        });
+        body["temperature"] = json!(request.temperature.unwrap_or(1.0));
+        body["top_p"] = json!(request.top_p.unwrap_or(0.95));
+    } else {
+        if let Some(reasoning_effort) = request.reasoning_effort.as_deref() {
+            body["reasoning_effort"] = json!(reasoning_effort.trim());
+        }
+        if let Some(clear_thinking) = request.clear_thinking {
+            body["thinking"] = json!({
+                "type": "enabled",
+                "clear_thinking": clear_thinking
+            });
+        }
+        if let Some(temperature) = request.temperature {
+            body["temperature"] = json!(temperature);
+        }
+        if let Some(top_p) = request.top_p {
+            body["top_p"] = json!(top_p);
+        }
+    }
+    body
+}
+
+fn zai_default_chat_completions_url(request: &ProviderInvocationRequestV1) -> &'static str {
+    if is_zai_glm_5_3_flash(request) {
+        DEFAULT_ZAI_GLM_5_3_FLASH_CHAT_COMPLETIONS_URL
+    } else {
+        DEFAULT_ZAI_LEGACY_CHAT_COMPLETIONS_URL
+    }
+}
+
+fn is_zai_glm_5_3_flash(request: &ProviderInvocationRequestV1) -> bool {
+    matches!(
+        request.route.provider.to_ascii_lowercase().as_str(),
+        "z_ai" | "zai" | "zhipu"
+    ) && request.route.provider_model_id == "glm-5.3-flash"
 }
 
 fn execute_hosted_gemini(
@@ -1812,6 +1869,10 @@ mod tests {
             input_text: Some("secret prompt should not enter logs".to_string()),
             max_output_tokens: None,
             context_window_tokens: None,
+            reasoning_effort: None,
+            clear_thinking: None,
+            temperature: None,
+            top_p: None,
             local_keep_alive: None,
             inference_parameter_fingerprint: None,
             tool_surface: None,
@@ -1995,6 +2056,51 @@ mod tests {
             Some(&json!(4_096))
         );
         assert_eq!(ollama_request_body(&ollama_req)["keep_alive"], json!(-1));
+    }
+
+    #[test]
+    fn zai_glm_5_3_flash_adapter_request_uses_documented_defaults_and_fast_overrides() {
+        let mut req = request(
+            RuntimeSurfaceV1::HostedApi,
+            "http://127.0.0.1:1".to_string(),
+        );
+        req.route.provider = "z_ai".to_string();
+        req.route.provider_model_id = "glm-5.3-flash".to_string();
+        assert_eq!(
+            zai_default_chat_completions_url(&req),
+            DEFAULT_ZAI_GLM_5_3_FLASH_CHAT_COMPLETIONS_URL
+        );
+
+        let defaults = zai_request_body(&req);
+        assert_eq!(defaults["model"], json!("glm-5.3-flash"));
+        assert_eq!(defaults["max_tokens"], json!(4_096));
+        assert_eq!(defaults["reasoning_effort"], json!("low"));
+        assert_eq!(defaults.pointer("/thinking/type"), Some(&json!("enabled")));
+        assert_eq!(
+            defaults.pointer("/thinking/clear_thinking"),
+            Some(&json!(true))
+        );
+        assert_eq!(defaults["temperature"], json!(1.0));
+        assert_eq!(defaults["top_p"], json!(0.95));
+
+        req.max_output_tokens = Some(512);
+        req.reasoning_effort = Some(" low ".to_string());
+        req.clear_thinking = Some(true);
+        req.temperature = Some(0.2);
+        req.top_p = Some(0.8);
+
+        let fast = zai_request_body(&req);
+        assert_eq!(fast["max_tokens"], json!(512));
+        assert_eq!(fast["reasoning_effort"], json!("low"));
+        assert_eq!(fast.pointer("/thinking/clear_thinking"), Some(&json!(true)));
+        assert_eq!(fast["temperature"], json!(0.2));
+        assert_eq!(fast["top_p"], json!(0.8));
+
+        req.route.provider_model_id = "glm-5".to_string();
+        assert_eq!(
+            zai_default_chat_completions_url(&req),
+            DEFAULT_ZAI_LEGACY_CHAT_COMPLETIONS_URL
+        );
     }
 
     #[test]

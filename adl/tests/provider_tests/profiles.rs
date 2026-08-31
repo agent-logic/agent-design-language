@@ -207,6 +207,234 @@ run:
 }
 
 #[test]
+fn z_ai_glm_5_3_flash_profile_expands_for_reviewer_agent_selection() {
+    let doc = adl_doc_from_yaml(
+        r#"
+version: "0.5"
+providers:
+  glm53_flash:
+    profile: "z_ai:glm-5.3-flash"
+agents:
+  fresh_reviewer:
+    provider: "glm53_flash"
+    model: "hosted:adl-z-ai:glm-5.3-flash"
+tasks:
+  review:
+    prompt:
+      user: "review candidate"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - agent: "fresh_reviewer"
+        task: "review"
+"#,
+    );
+
+    let expanded = expand_provider_profiles(&doc).expect("expand GLM-5.3-Flash profile");
+    let provider = &expanded.providers["glm53_flash"];
+    assert_eq!(provider.kind, "z_ai");
+    assert_eq!(provider.profile.as_deref(), Some("z_ai:glm-5.3-flash"));
+    assert_eq!(
+        provider.default_model.as_deref(),
+        Some("hosted:adl-z-ai:glm-5.3-flash")
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("provider_model_id")
+            .and_then(|value| value.as_str()),
+        Some("glm-5.3-flash")
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("endpoint")
+            .and_then(|value| value.as_str()),
+        Some("https://api.z.ai/api/paas/v4/chat/completions")
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("reasoning_effort")
+            .and_then(|value| value.as_str()),
+        Some("low")
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("clear_thinking")
+            .and_then(|value| value.as_bool()),
+        Some(true)
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("temperature")
+            .and_then(|value| value.as_f64()),
+        Some(1.0)
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("top_p")
+            .and_then(|value| value.as_f64()),
+        Some(0.95)
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("max_output_tokens")
+            .and_then(|value| value.as_u64()),
+        Some(4096)
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("timeout_secs")
+            .and_then(|value| value.as_u64()),
+        Some(120)
+    );
+    let reviewer = &expanded.agents["fresh_reviewer"];
+    assert_eq!(reviewer.provider, "glm53_flash");
+    assert_eq!(reviewer.model, "hosted:adl-z-ai:glm-5.3-flash");
+    build_provider(provider, None).expect("expanded GLM-5.3-Flash profile should build");
+}
+
+#[test]
+fn z_ai_glm_5_3_flash_profile_preserves_runtime_overrides() {
+    let doc = adl_doc_from_yaml(
+        r#"
+version: "0.5"
+providers:
+  glm53_flash:
+    profile: "z_ai:glm-5.3-flash"
+    config:
+      max_output_tokens: 131072
+      reasoning_effort: " high "
+      clear_thinking: true
+      temperature: 0.85
+      top_p: 0.9
+agents:
+  reviewer:
+    provider: "glm53_flash"
+    model: "hosted:adl-z-ai:glm-5.3-flash"
+tasks:
+  review:
+    prompt:
+      user: "review candidate"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - agent: "reviewer"
+        task: "review"
+"#,
+    );
+
+    let expanded = expand_provider_profiles(&doc).expect("profile overrides should expand");
+    let provider = &expanded.providers["glm53_flash"];
+    assert_eq!(
+        provider
+            .config
+            .get("max_output_tokens")
+            .and_then(|value| value.as_u64()),
+        Some(131_072)
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("reasoning_effort")
+            .and_then(|value| value.as_str()),
+        Some("high")
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("clear_thinking")
+            .and_then(|value| value.as_bool()),
+        Some(true)
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("temperature")
+            .and_then(|value| value.as_f64()),
+        Some(0.85)
+    );
+    assert_eq!(
+        provider
+            .config
+            .get("top_p")
+            .and_then(|value| value.as_f64()),
+        Some(0.9)
+    );
+}
+
+#[test]
+fn z_ai_glm_5_3_flash_profile_rejects_invalid_runtime_overrides() {
+    for (yaml, expected) in [
+        (
+            r#"
+version: "0.5"
+providers:
+  p:
+    profile: "z_ai:glm-5.3-flash"
+    config:
+      reasoning_effort: "medium"
+"#,
+            "reasoning_effort must be one of low, high, max",
+        ),
+        (
+            r#"
+version: "0.5"
+providers:
+  p:
+    profile: "z_ai:glm-5.3-flash"
+    config:
+      clear_thinking: "false"
+"#,
+            "clear_thinking must be a boolean",
+        ),
+        (
+            r#"
+version: "0.5"
+providers:
+  p:
+    profile: "z_ai:glm-5.3-flash"
+    config:
+      max_output_tokens: 131073
+"#,
+            "max_output_tokens must be a positive integer no greater than 131072",
+        ),
+    ] {
+        let doc = adl_doc_from_yaml(&format!(
+            r#"{yaml}
+agents:
+  reviewer:
+    provider: "p"
+    model: "hosted:adl-z-ai:glm-5.3-flash"
+tasks:
+  review:
+    prompt:
+      user: "review"
+run:
+  workflow:
+    kind: sequential
+    steps:
+      - agent: "reviewer"
+        task: "review"
+"#
+        ));
+        let err = expand_provider_profiles(&doc).expect_err("invalid override should fail");
+        assert!(
+            err.to_string().contains(expected),
+            "expected {expected:?}, got {err:#}"
+        );
+    }
+}
+
+#[test]
 fn expand_provider_profiles_accepts_bedrock_nova_pro_inference_profile() {
     let doc = adl_doc_from_yaml(
         r#"

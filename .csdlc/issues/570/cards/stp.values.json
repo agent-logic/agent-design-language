@@ -1,0 +1,61 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 570,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-G] C-SDLC v3 docs and skill cutover readiness",
+    "slug": "v0-92-1-v3-g-c-sdlc-v3-docs-and-skill-cutover-readiness",
+    "version": "v0.92.1",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Align only the active documentation and skill guidance surfaces needed before the clean v3 replacement cutover: root/onboarding docs, v2 operator guidance, v3 README/AGENTS, and local installed PR-skill guidance checks.",
+      "deliverables": [
+        "Updated csdlc-v3/README.md covering V3-A/B/C/D construction state, clean replacement target, V3-F non-goals, and focused proof commands.",
+        "Updated root AGENTS.md and docs/onboarding.md distinguishing current v2 authority from v3 construction and naming the three-minute prepared-issue start target.",
+        "Updated csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and all eleven csdlc-v2/operator/skills/*/SKILL.md files with explicit until-v3-cutover authority wording and v3 construction non-authority.",
+        "Checked installed Codex PR skills through CODEX_SKILLS_ROOT or the default Codex skills root with local-only status recorded in SOR if updated.",
+        "Stale-route scan evidence for removed or non-current routes and premature v3 authority claims."
+      ],
+      "acceptance_criteria": [
+        "AC-1: csdlc-v3/README.md documents the current V3-A/V3-B/V3-C/V3-D construction state, the clean replacement target, non-goals before V3-F, and focused proof commands.",
+        "AC-2: Root AGENTS.md and docs/onboarding.md distinguish current v2 authority from v3 construction and name the three-minute prepared-issue start target.",
+        "AC-3: csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and all eleven csdlc-v2/operator/skills/*/SKILL.md files state that v2 remains live authority only until explicit v3 cutover and that v3 construction cannot mutate lifecycle state.",
+        "AC-4: Installed Codex PR skills are checked through CODEX_SKILLS_ROOT or the default Codex skills root and, where updated outside the repo, the final SOR records their local-only status explicitly.",
+        "AC-5: A stale-route scan proves the updated surfaces do not present adl_pr_cycle, pr.sh, pr ready, pr preflight, raw GitHub fallback, or v3 authority as current ADL workflow routes."
+      ],
+      "dependencies": [
+        "V3-C: #502 delivered crate-local csdlc-v3/AGENTS.md construction boundary.",
+        "V3-F: #505 must provide final operator approval before actual authority transition.",
+        "Sprint 6 umbrella #534 keeps #570 as an explicit docs and skill cutover-readiness gate."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#570",
+        "agent-logic/agent-design-language#534",
+        "agent-logic/agent-design-language#502",
+        "agent-logic/agent-design-language#505",
+        "AGENTS.md",
+        "docs/onboarding.md",
+        "csdlc-v2/AGENTS.md",
+        "csdlc-v2/operator/SKILLS.md",
+        "csdlc-v2/operator/skills/",
+        "csdlc-v3/README.md",
+        "csdlc-v3/AGENTS.md",
+        "docs/csdlc-v3/CONTRACT.md",
+        "docs/csdlc-v3/predecessor-coverage.json",
+        "docs/csdlc-v3/proportional-lifecycle.json"
+      ],
+      "non_goals": [
+        "Implementing V3-D, V3-E, or V3-F.",
+        "Deleting or retiring v2.",
+        "Publishing, finishing, or cleaning any issue through v3.",
+        "Rewriting historical Gate 10A-D evidence.",
+        "Implementing parity/import, remote delivery, authority cutover, or v2 deletion."
+      ]
+    }
+  }
+}

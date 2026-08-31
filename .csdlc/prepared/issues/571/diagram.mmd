@@ -1,0 +1,11 @@
+flowchart LR
+  F["#500/#565 post-merge findings"] --> C["#571 corrective V3-A contract repair"]
+  C --> P["predecessor-coverage.json<br/>owner_issue + proof_lane per retained row"]
+  C --> D["CONTRACT.md<br/>#162 disposition + thresholds + #163/Decision 11"]
+  C --> L["proportional-lifecycle.json<br/>default includes retained gates"]
+  C --> H["validate-implementation.rb<br/>exact base...head diff hygiene"]
+  P --> V["issue-owned validator"]
+  D --> V
+  L --> V
+  H --> V
+  V --> G["#505 V3-F may proceed only after #571 is resolved/dispositioned"]

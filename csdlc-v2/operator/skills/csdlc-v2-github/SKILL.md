@@ -3,6 +3,10 @@ name: csdlc-v2-github
 description: Execute repo-native C-SDLC v2 GitHub issue and PR actions through the split typed Rust command surface.
 ---
 
+C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
+cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
+evidence and must not mutate GitHub, publish PRs, finish issues, or retire v2.
+
 Prefer the split owner binaries:
 
 - Invoke `csdlc-github-issue run --request <request.json>` for
