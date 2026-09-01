@@ -3,13 +3,36 @@
   "issue": 531,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e14535db7b495d139cde4ee9b64193548b419a73af2001399b8e4c2bacad2b06",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "93eab692a0699011b2f035242f60ad604184b301f7a419266de64ede376fdbcf",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "a3f181f76954af5ec9d8a12af55fe16df294abdb57d2e2c154a36ab3d1afa0ed",
   "branch": "codex/531-sprint3-cloud-convergence-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-531-sprint3-cloud-convergence-closeout",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "review_531_sprint3_closeout",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9e3adb91fd2299f520c8e86bf0b7c9d0e7d29c3e:08257dc35e118f64d83f43491a1af3257f7a00d711b0cdaa4f115d1468bbff9c",
+    "scope": [
+      ".csdlc/prepared/issues/531",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3"
+    ]
+  },
+  "review": {
+    "reviewer": "review_531_sprint3_closeout",
+    "scope": [
+      ".csdlc/prepared/issues/531",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3"
+    ],
+    "reviewed_revision": "git-blake3:9e3adb91fd2299f520c8e86bf0b7c9d0e7d29c3e:08257dc35e118f64d83f43491a1af3257f7a00d711b0cdaa4f115d1468bbff9c",
+    "findings": [],
+    "residual_risks": [
+      "Local child C-SDLC terminal and cleanup state for #489, #494, #495, and #496 remains not recorded in this checkout.",
+      "Skipped child CI lanes remain skipped evidence and are not claimed as passed.",
+      "The Sprint 3 umbrella closeout does not claim new paid AWS/GCP execution or production cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,34 +47,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73c9a5f3f825e1e83ea39ca3b8c013a5951f2be15c97edde90bd0ba706b77036",
+      "values_digest": "68313d43abb150390b6c79af741f03e3d03d2ec650f6c02c497ab82104d85648",
       "rendered_digest": "bbe4d3c98970ca21fb0251ef9f233d75acaf09506a220130aa8baf6cbc04d774",
       "ast_digest": "70d31153c00fdf754af40f17f47270c9460efd62b68131d8713cea97d5d1412e"
     },
     "stp": {
-      "values_digest": "372b3b1e17199dd1c346c3db6562ae2931026456343094f020a1a91ad49e2fc4",
+      "values_digest": "773dcd51b712dc0d620b4b31320f4187b0844ff54d2971e90976f3bfe0c3be90",
       "rendered_digest": "0cf7247d0367cdc6f9b21d588fbcd877c14529064b2ba839882c10838a736183",
       "ast_digest": "d70a9dd39f30535f740118eb2f4eb51d093f3e32180fb78152ff81c2b2f0006f"
     },
     "spp": {
-      "values_digest": "631529f3aaafd1e47de1b9a23e44480a14edd49a3ea523206262b24de0c73ec3",
+      "values_digest": "acce2b2beb37e9c8cd645252c1997fe424e88dff0ff48df81a2aef899b254ebc",
       "rendered_digest": "67a556f39af05ac52536834cf50aeaaa606df133763766ee27afdda503affa0e",
       "ast_digest": "f963254e3764724be83c82c71f2dc1eed03218c37db1d2da2f1591cd9133317e"
     },
     "vpp": {
-      "values_digest": "c7acb991300b7f8049a78bae84fa9df8c3f0caf82f25d045b67b814e8f144d87",
+      "values_digest": "bbecf6a9f680575d9f7321cd8caa371aa3a8c16dd159e5d3dffa39c586542b35",
       "rendered_digest": "7b16aca8c7657b1a9583b21fa31da030eb46b3116790d85fd463b0b271815753",
       "ast_digest": "8e9dcc5b9cdbbea9a4573c9cea6ce660fd2e8a5349bd2eadb928f62d0c8ce456"
     },
     "srp": {
-      "values_digest": "0ab9a06a07ec70f82968677d07c4c0ea82c3c623c24a97bdd7835afcdac2a716",
-      "rendered_digest": "5320cdb8fcd4b3414103ad94e4cad0c021574ed8276ccba9ea893add089fbb03",
-      "ast_digest": "635ea92e5c18fffcd22448984980fc12b0b31aa708346cf0708f8fe6964bbfe6"
+      "values_digest": "dde8f4b8e0b115cbd220814ce79276eeb3d882e5ede0a3d9c1b7a0559ccf5b32",
+      "rendered_digest": "64745873425bbd8570e4c6f0bdb28b95499c3a1ccbde2ec628ba94fcee4b5486",
+      "ast_digest": "930f623200cc1b45b3e88340cd25c67ede26d37f64ba4f44341d5d272e5a53b7"
     },
     "sor": {
-      "values_digest": "1877d59cdded87482062f83ee4b8eafaefa302e2f68522908107409f0014cbe5",
-      "rendered_digest": "c5b5f52fa8869c130259678db7cffafaf947f5c48fd78bef7c8349784840b94a",
-      "ast_digest": "f464d3522db9e052d4468ebf2db1e86cf1eee8f3d0009c66a65c81785d5099d7"
+      "values_digest": "bf01bef2b0fe97c2ff49391086f14d0d45de1f3ce52eaadd3f95636f80ce82c3",
+      "rendered_digest": "bc0b1e7c2c512bcbe4692d311a86205ef95e3c2a289af23c823d0c477580e075",
+      "ast_digest": "ce57ea05a5082b5df0cd0bb2d22d845285b2088074c83286e1560d5ba05a7d2e"
     }
   },
   "transitions": [
@@ -75,6 +98,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Sprint 3 closeout artifact execution is recorded; advance to implemented so validation and review truth can be recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -175,6 +205,27 @@
       "actor": "codex",
       "reason": "Record corrected staged diff hygiene after the sprint closeout artifact trailing whitespace was fixed.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--cached\",\"--check\"],\"purpose\":\"Reject whitespace errors in the exact staged Sprint 3 closeout records and evidence before commit and typed review.\",\"outcome\":\"passed\",\"evidence_ref\":\"Command completed successfully with no output.\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "Record Sprint 3 review-gate validator after typed review passed and #531 advanced to reviewed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh\"],\"purpose\":\"Prove #531 has non-null typed review evidence before publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"Command output: sprint-3-review-gate: pass\"}}"
     }
   ]
 }

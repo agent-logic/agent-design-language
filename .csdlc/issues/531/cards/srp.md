@@ -12,7 +12,8 @@ Status: pre_phase
 
 ## Scope
 
-Issue #531 Sprint 3 umbrella closeout artifacts, local C-SDLC records, validation output, and typed publication readiness.
+.csdlc/prepared/issues/531
+docs/milestones/v0.92.1/evidence/cloud/sprint-3
 
 ## Prompts
 
@@ -31,12 +32,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Local child C-SDLC terminal and cleanup state for #489, #494, #495, and #496 remains not recorded in this checkout.
+- Skipped child CI lanes remain skipped evidence and are not claimed as passed.
+- The Sprint 3 umbrella closeout does not claim new paid AWS/GCP execution or production cutover.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9e3adb91fd2299f520c8e86bf0b7c9d0e7d29c3e:08257dc35e118f64d83f43491a1af3257f7a00d711b0cdaa4f115d1468bbff9c")
 
-Reviewer: None
+Reviewer: Some("review_531_sprint3_closeout")
 
-Result: pre_review
+Result: pass

@@ -7,15 +7,15 @@
     "title": "[v0.92.1][Sprint 3] Cloud convergence",
     "slug": "sprint-3-cloud-convergence",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #531 Sprint 3 umbrella closeout artifacts, local C-SDLC records, validation output, and typed publication readiness.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/531\ndocs/milestones/v0.92.1/evidence/cloud/sprint-3",
+      "review_revision": "git-blake3:9e3adb91fd2299f520c8e86bf0b7c9d0e7d29c3e:08257dc35e118f64d83f43491a1af3257f7a00d711b0cdaa4f115d1468bbff9c",
+      "reviewer": "review_531_sprint3_closeout",
       "review_prompts": [
         "Does the sprint result overclaim child implementation, paid cloud proof, production cutover, cleanup, or terminal status?",
         "Are all roster v4 children represented with live issue dispositions and evidence limitations?",
@@ -23,8 +23,12 @@
         "Does publication use the typed v2 route and include the correct closing linkage for #531?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Local child C-SDLC terminal and cleanup state for #489, #494, #495, and #496 remains not recorded in this checkout.",
+        "Skipped child CI lanes remain skipped evidence and are not claimed as passed.",
+        "The Sprint 3 umbrella closeout does not claim new paid AWS/GCP execution or production cutover."
+      ],
+      "review_result": "pass"
     }
   }
 }

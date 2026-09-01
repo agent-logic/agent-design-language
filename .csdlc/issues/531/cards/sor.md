@@ -68,6 +68,15 @@ Created the Sprint 3 cloud convergence closeout evidence artifact after all decl
     "purpose": "Reject whitespace errors in the exact staged Sprint 3 closeout records and evidence before commit and typed review.",
     "outcome": "passed",
     "evidence_ref": "Command completed successfully with no output."
+  },
+  {
+    "command": [
+      "bash",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh"
+    ],
+    "purpose": "Prove #531 has non-null typed review evidence before publication.",
+    "outcome": "passed",
+    "evidence_ref": "Command output: sprint-3-review-gate: pass"
   }
 ]
 
