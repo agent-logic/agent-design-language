@@ -261,9 +261,13 @@ tag inventory.
 Before image capture, both preparation guests clear cloud-init state and logs,
 reset machine identity, and remove SSH host keys so first launch regenerates
 per-instance state. Raw EC2 provider IDs are written immediately to
-`preparation-resources.json`. If preparation is interrupted, rerun exact cleanup
-from that worktree and run ID; it also discovers tagged resources that were
-created immediately before a local ledger write:
+`preparation-resources.json`, including the first data snapshot before the
+second snapshot request begins. The exit trap is active before warm-storage
+apply. If preparation is interrupted before its result is durable, it removes
+the incomplete warm-storage state as well as disposable preparation and raw
+resources. Rerun exact cleanup from that worktree and run ID; it does not
+require a completed preparation result and also discovers tagged resources
+that were created immediately before a local ledger write:
 
 ```bash
 bash adl/tools/run_issue607_warm_polis.sh recover-preparation \
@@ -331,4 +335,6 @@ request, then repeat it with the separately approved file. Retirement accepts
 only a saved plan that deletes exactly the two retained EBS volumes and no
 other resource. Snapshot retirement separately deregisters the exact two
 prepared images and deletes their root snapshots plus the two sealed-data
-snapshots.
+snapshots. Both recovery and retirement treat only an explicit AWS not-found
+result as absence; API or transport errors fail the action, and terminal success
+is emitted only after exact-ID absence readback.

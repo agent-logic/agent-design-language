@@ -48,6 +48,7 @@ PREP_GPU_AMI_ID=""
 AUTH_CAMPAIGN_ID=""
 AUTH_ACTION=""
 PREP_RESOURCE_LEDGER=""
+CLEANUP_STORAGE_ON_FAILURE=false
 
 usage() {
   cat <<'EOF' >&2
@@ -261,10 +262,13 @@ saved_plan() {
   mode="$1" root="$2" data="$3" state="$4" vars="$5" plan="$6" json="$7"
   state_sha=absent; [[ -f "$state" ]] && state_sha="$(sha256_file "$state")"
   input_signature="$(sha256_text "$mode:$COMMIT:$(sha256_file "$vars"):$state_sha")"
-  if [[ -f "$plan" && -f "$json" ]]; then
+  if [[ -f "$plan" ]]; then
     [[ -f "$plan.inputs.sha256" && "$(tr -d '[:space:]' <"$plan.inputs.sha256")" == "$input_signature" ]] \
       || { echo "saved plan inputs changed; choose a new run ID instead of reusing authorization state" >&2; return 2; }
-    "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$mode" "$json" >/dev/null
+    tf "$data" "$root" init -backend=false -input=false >/dev/null
+    tf "$data" "$root" show -json "$plan" >"$json.next"
+    "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$mode" "$json.next" >/dev/null
+    mv "$json.next" "$json"
     sha256_file "$plan"
     return 0
   fi
@@ -316,6 +320,61 @@ cleanup_compute_state() {
   [[ -z "$managed" ]] || { echo "compute Terraform state retains managed resources: $managed" >&2; return 1; }
 }
 
+cleanup_storage_state() {
+  local storage_dir="$1"
+  [[ -f "$storage_dir/terraform.tfvars.json" && -f "$storage_dir/terraform.tfstate" ]] || return 0
+  mkdir -p "$storage_dir/tfdata-recovery"
+  tf "$storage_dir/tfdata-recovery" "$STORAGE_ROOT" init -backend=false -input=false >/dev/null
+  tf "$storage_dir/tfdata-recovery" "$STORAGE_ROOT" plan -destroy -input=false \
+    -state="$storage_dir/terraform.tfstate" -var-file="$storage_dir/terraform.tfvars.json" \
+    -out="$storage_dir/recovery-destroy.tfplan" >/dev/null
+  tf "$storage_dir/tfdata-recovery" "$STORAGE_ROOT" show -json "$storage_dir/recovery-destroy.tfplan" \
+    >"$storage_dir/recovery-destroy-plan.json"
+  "$ROOT/adl/tools/issue607_validate_saved_plan.sh" retirement "$storage_dir/recovery-destroy-plan.json" >/dev/null
+  tf "$storage_dir/tfdata-recovery" "$STORAGE_ROOT" apply -input=false \
+    -state="$storage_dir/terraform.tfstate" -auto-approve "$storage_dir/recovery-destroy.tfplan" >/dev/null
+  managed="$(tf "$storage_dir/tfdata-recovery" "$STORAGE_ROOT" state list -state="$storage_dir/terraform.tfstate" | awk '!/^data\./' || true)"
+  [[ -z "$managed" ]] || { echo "warm-storage Terraform state retains managed resources: $managed" >&2; return 1; }
+}
+
+resource_exists() {
+  local kind="$1" id="$2" output error_file="$STATE_ROOT/aws-describe-error"
+  mkdir -p "$STATE_ROOT"
+  case "$kind" in
+    image)
+      if output="$(aws_cli ec2 describe-images --image-ids "$id" --query 'Images[].ImageId' --output text 2>"$error_file")"; then :
+      elif rg -q 'InvalidAMIID\.NotFound' "$error_file"; then return 1
+      else echo "AWS image absence check failed for $id" >&2; return 2; fi
+      ;;
+    snapshot)
+      if output="$(aws_cli ec2 describe-snapshots --snapshot-ids "$id" --query 'Snapshots[].SnapshotId' --output text 2>"$error_file")"; then :
+      elif rg -q 'InvalidSnapshot\.NotFound' "$error_file"; then return 1
+      else echo "AWS snapshot absence check failed for $id" >&2; return 2; fi
+      ;;
+    volume)
+      if output="$(aws_cli ec2 describe-volumes --volume-ids "$id" --query 'Volumes[].VolumeId' --output text 2>"$error_file")"; then :
+      elif rg -q 'InvalidVolume\.NotFound' "$error_file"; then return 1
+      else echo "AWS volume absence check failed for $id" >&2; return 2; fi
+      ;;
+    *) echo "unsupported resource kind: $kind" >&2; return 2 ;;
+  esac
+  [[ -n "$output" && "$output" != None ]]
+}
+
+require_resource_absent() {
+  local kind="$1" id="$2" attempt
+  for attempt in $(seq 1 60); do
+    if resource_exists "$kind" "$id"; then
+      sleep 2
+    else
+      rc=$?; [[ "$rc" -eq 1 ]] && return 0
+      return "$rc"
+    fi
+  done
+  echo "$kind remains after cleanup: $id" >&2
+  return 1
+}
+
 record_preparation_resource() {
   kind="$1" id="$2" state="$3"
   [[ -n "$PREP_RESOURCE_LEDGER" && -f "$PREP_RESOURCE_LEDGER" ]] || return 0
@@ -331,29 +390,33 @@ cleanup_recorded_preparation_resources() {
   while IFS=$'\t' read -r kind id; do
     case "$kind" in
       image)
-        snapshots="$(aws_cli ec2 describe-images --image-ids "$id" --query 'Images[0].BlockDeviceMappings[].Ebs.SnapshotId' --output text 2>/dev/null || true)"
-        aws_cli ec2 deregister-image --image-id "$id" >/dev/null 2>&1 || true
-        for snapshot in $snapshots; do aws_cli ec2 delete-snapshot --snapshot-id "$snapshot" >/dev/null 2>&1 || true; done
+        if resource_exists image "$id"; then :
+        else rc=$?; [[ "$rc" -eq 1 ]] && continue; cleanup_rc=1; continue; fi
+        snapshots="$(aws_cli ec2 describe-images --image-ids "$id" --query 'Images[0].BlockDeviceMappings[].Ebs.SnapshotId' --output text)" || { cleanup_rc=1; continue; }
+        aws_cli ec2 deregister-image --image-id "$id" >/dev/null || { cleanup_rc=1; continue; }
+        require_resource_absent image "$id" || { cleanup_rc=1; continue; }
+        for snapshot in $snapshots; do
+          if resource_exists snapshot "$snapshot"; then aws_cli ec2 delete-snapshot --snapshot-id "$snapshot" >/dev/null || cleanup_rc=1
+          else rc=$?; [[ "$rc" -eq 1 ]] || cleanup_rc=1; fi
+        done
         ;;
       volume)
         for _ in $(seq 1 60); do
-          state="$(aws_cli ec2 describe-volumes --volume-ids "$id" --query 'Volumes[0].State' --output text 2>/dev/null || true)"
-          [[ -z "$state" || "$state" == None ]] && break
-          [[ "$state" == available ]] && aws_cli ec2 delete-volume --volume-id "$id" >/dev/null 2>&1 || true
+          if resource_exists volume "$id"; then :; else rc=$?; [[ "$rc" -eq 1 ]] && break; cleanup_rc=1; break; fi
+          state="$(aws_cli ec2 describe-volumes --volume-ids "$id" --query 'Volumes[0].State' --output text)" || { cleanup_rc=1; break; }
+          if [[ "$state" == available ]]; then aws_cli ec2 delete-volume --volume-id "$id" >/dev/null || cleanup_rc=1; fi
           sleep 2
         done
         ;;
-      snapshot) aws_cli ec2 delete-snapshot --snapshot-id "$id" >/dev/null 2>&1 || true ;;
+      snapshot)
+        if resource_exists snapshot "$id"; then aws_cli ec2 delete-snapshot --snapshot-id "$id" >/dev/null || cleanup_rc=1
+        else rc=$?; [[ "$rc" -eq 1 ]] || cleanup_rc=1; fi
+        ;;
     esac
   done < <(jq -r '.resources[]|select(.state=="active")|[.kind,.id]|@tsv' "$ledger")
-  remaining="$(jq -r '.resources[]|select(.state=="active")|.id' "$ledger" | while read -r id; do
-    case "$id" in
-      ami-*) aws_cli ec2 describe-images --image-ids "$id" --query 'Images[].ImageId' --output text 2>/dev/null || true ;;
-      snap-*) aws_cli ec2 describe-snapshots --snapshot-ids "$id" --query 'Snapshots[].SnapshotId' --output text 2>/dev/null || true ;;
-      vol-*) aws_cli ec2 describe-volumes --volume-ids "$id" --query 'Volumes[].VolumeId' --output text 2>/dev/null || true ;;
-    esac
-  done)"
-  [[ -z "$remaining" ]] || { echo "recorded preparation resources remain after cleanup: $remaining" >&2; cleanup_rc=1; }
+  while IFS=$'\t' read -r kind id; do
+    require_resource_absent "$kind" "$id" || cleanup_rc=1
+  done < <(jq -r '.resources[]|select(.state=="active")|[.kind,.id]|@tsv' "$ledger")
   return "$cleanup_rc"
 }
 
@@ -362,21 +425,28 @@ cleanup_on_exit() {
   trap - EXIT INT TERM
   if [[ -n "$RESTORE_TEST_VOLUME_ID" ]]; then
     for _ in $(seq 1 60); do
-      state="$(aws_cli ec2 describe-volumes --volume-ids "$RESTORE_TEST_VOLUME_ID" --query 'Volumes[0].State' --output text 2>/dev/null || true)"
-      [[ -z "$state" || "$state" == None ]] && break
+      if resource_exists volume "$RESTORE_TEST_VOLUME_ID"; then :; else rc=$?; [[ "$rc" -eq 1 ]] && break; cleanup_rc=1; break; fi
+      state="$(aws_cli ec2 describe-volumes --volume-ids "$RESTORE_TEST_VOLUME_ID" --query 'Volumes[0].State' --output text)" || { cleanup_rc=1; break; }
       if [[ "$state" == available ]]; then
-        aws_cli ec2 delete-volume --volume-id "$RESTORE_TEST_VOLUME_ID" >/dev/null 2>&1 || true
+        aws_cli ec2 delete-volume --volume-id "$RESTORE_TEST_VOLUME_ID" >/dev/null || cleanup_rc=1
       fi
       sleep 2
     done
-    state="$(aws_cli ec2 describe-volumes --volume-ids "$RESTORE_TEST_VOLUME_ID" --query 'Volumes[0].State' --output text 2>/dev/null || true)"
-    [[ -z "$state" || "$state" == None ]] || { echo "temporary restore volume remains: $RESTORE_TEST_VOLUME_ID ($state); rerun retention-status for recovery instructions" >&2; cleanup_rc=1; }
+    require_resource_absent volume "$RESTORE_TEST_VOLUME_ID" || cleanup_rc=1
   fi
   for image in "$PREP_RUNTIME_AMI_ID" "$PREP_GPU_AMI_ID"; do
     [[ -n "$image" ]] || continue
-    image_snapshots="$(aws_cli ec2 describe-images --image-ids "$image" --query 'Images[0].BlockDeviceMappings[].Ebs.SnapshotId' --output text 2>/dev/null || true)"
-    aws_cli ec2 deregister-image --image-id "$image" >/dev/null 2>&1 || true
-    for snapshot in $image_snapshots; do aws_cli ec2 delete-snapshot --snapshot-id "$snapshot" >/dev/null 2>&1 || true; done
+    if resource_exists image "$image"; then
+      image_snapshots="$(aws_cli ec2 describe-images --image-ids "$image" --query 'Images[0].BlockDeviceMappings[].Ebs.SnapshotId' --output text)" || { cleanup_rc=1; continue; }
+      aws_cli ec2 deregister-image --image-id "$image" >/dev/null || { cleanup_rc=1; continue; }
+      require_resource_absent image "$image" || cleanup_rc=1
+      for snapshot in $image_snapshots; do
+        if resource_exists snapshot "$snapshot"; then aws_cli ec2 delete-snapshot --snapshot-id "$snapshot" >/dev/null || cleanup_rc=1
+        else rc=$?; [[ "$rc" -eq 1 ]] || cleanup_rc=1; fi
+      done
+    else
+      rc=$?; [[ "$rc" -eq 1 ]] || cleanup_rc=1
+    fi
   done
   [[ -z "$PREP_RESOURCE_LEDGER" ]] || cleanup_recorded_preparation_resources "$PREP_RESOURCE_LEDGER" || cleanup_rc=$?
   if [[ "$CLEANUP_COMPLETE" != true && -n "$CLEANUP_RUN_DIR" ]]; then
@@ -384,6 +454,9 @@ cleanup_on_exit() {
       preparation) cleanup_preparation_state "$CLEANUP_RUN_DIR" || cleanup_rc=$? ;;
       compute) cleanup_compute_state "$CLEANUP_RUN_DIR" || cleanup_rc=$? ;;
     esac
+  fi
+  if [[ "$CLEANUP_STORAGE_ON_FAILURE" == true && -n "$CLEANUP_RUN_DIR" ]]; then
+    cleanup_storage_state "$STATE_ROOT/storage/$STORAGE_ID" || cleanup_rc=$?
   fi
   ((rc == 0 && cleanup_rc != 0)) && rc=$cleanup_rc
   exit "$rc"
@@ -419,11 +492,12 @@ snapshot_prepared_generation() {
   runtime_snapshot="$(aws_cli ec2 create-snapshot --volume-id "$runtime_volume" --description "ADL issue 607 sealed Runtime generation $generation" \
     --tag-specifications "ResourceType=snapshot,Tags=[{Key=Name,Value=$STORAGE_ID-runtime},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:node,Value=runtime},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:seal-sha256,Value=$runtime_root},{Key=adl:retention-until,Value=$retention_until},{Key=adl:retained,Value=true}]" \
     --query SnapshotId --output text)"
+  [[ "$runtime_snapshot" =~ ^snap-[0-9a-f]+$ ]] || { echo "Runtime snapshot creation did not return an exact ID" >&2; return 1; }
+  record_preparation_resource snapshot "$runtime_snapshot" active
   gpu_snapshot="$(aws_cli ec2 create-snapshot --volume-id "$gpu_volume" --description "ADL issue 607 sealed GPU generation $generation" \
     --tag-specifications "ResourceType=snapshot,Tags=[{Key=Name,Value=$STORAGE_ID-gpu},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:node,Value=gpu},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:seal-sha256,Value=$gpu_root},{Key=adl:retention-until,Value=$retention_until},{Key=adl:retained,Value=true}]" \
     --query SnapshotId --output text)"
-  [[ "$runtime_snapshot" =~ ^snap-[0-9a-f]+$ && "$gpu_snapshot" =~ ^snap-[0-9a-f]+$ ]] || { echo "snapshot creation did not return exact IDs" >&2; return 1; }
-  record_preparation_resource snapshot "$runtime_snapshot" active
+  [[ "$gpu_snapshot" =~ ^snap-[0-9a-f]+$ ]] || { echo "GPU snapshot creation did not return an exact ID" >&2; return 1; }
   record_preparation_resource snapshot "$gpu_snapshot" active
   aws_cli ec2 wait snapshot-completed --snapshot-ids "$runtime_snapshot" "$gpu_snapshot"
   snapshot_elapsed=$(( $(date +%s) - snapshot_started ))
@@ -566,8 +640,8 @@ retire_storage() {
   jq -n --arg action retire-storage --arg storage "$STORAGE_ID" --arg plan "$plan_sha" --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" --argjson artifacts "$artifacts" '{schema:"adl.issue607.storage_authorization_request.v2",action:$action,storage_id:$storage,saved_plan_sha256:$plan,runtime_volume_id:$runtime,gpu_volume_id:$gpu,retained_artifact_ids:$artifacts,retention_until:null}' >"$storage_dir/authorization-request.json"
   validate_storage_authorization retire-storage "$plan_sha" "$runtime_volume" "$gpu_volume" "$artifacts"; consume_authorization
   tf "$storage_dir/tfdata-retirement" "$STORAGE_ROOT" apply -input=false -state="$storage_dir/terraform.tfstate" -auto-approve "$storage_dir/retirement.tfplan" >/dev/null
-  remaining="$(aws_cli ec2 describe-volumes --volume-ids "$runtime_volume" "$gpu_volume" --query 'Volumes[].VolumeId' --output text 2>/dev/null || true)"
-  [[ -z "$remaining" ]] || { echo "retired volumes still exist: $remaining" >&2; exit 1; }
+  require_resource_absent volume "$runtime_volume"
+  require_resource_absent volume "$gpu_volume"
   snapshots="$(jq -c '[.runtime.snapshot_id,.gpu.snapshot_id]' "$storage_dir/preparation-result.json")"
   jq -n --arg storage_id "$STORAGE_ID" --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --argjson snapshots "$snapshots" '{schema:"adl.issue607.storage_retirement.v2",status:"retired",storage_id:$storage_id,deleted_volume_ids:[$runtime,$gpu],retained_snapshot_ids:$snapshots,authorization_sha256:$authorization_sha256}'
 }
@@ -582,8 +656,13 @@ retire_snapshots() {
   manifest_sha="$(sha256_file "$storage_dir/snapshot-retirement-manifest.json")"
   jq -n --arg action retire-snapshots --arg storage "$STORAGE_ID" --arg plan "$manifest_sha" --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" --argjson artifacts "$artifacts" '{schema:"adl.issue607.storage_authorization_request.v2",action:$action,storage_id:$storage,saved_plan_sha256:$plan,runtime_volume_id:$runtime,gpu_volume_id:$gpu,retained_artifact_ids:$artifacts,retention_until:null}' >"$storage_dir/authorization-request.json"
   validate_storage_authorization retire-snapshots "$manifest_sha" "$runtime_volume" "$gpu_volume" "$artifacts"; consume_authorization
-  for image in "$(jq -r .prepared_images.runtime_ami_id "$storage_dir/preparation-result.json")" "$(jq -r .prepared_images.gpu_ami_id "$storage_dir/preparation-result.json")"; do aws_cli ec2 deregister-image --image-id "$image"; done
+  runtime_image="$(jq -r .prepared_images.runtime_ami_id "$storage_dir/preparation-result.json")"
+  gpu_image="$(jq -r .prepared_images.gpu_ami_id "$storage_dir/preparation-result.json")"
+  for image in "$runtime_image" "$gpu_image"; do aws_cli ec2 deregister-image --image-id "$image"; done
+  require_resource_absent image "$runtime_image"
+  require_resource_absent image "$gpu_image"
   for artifact in $(jq -r '.[]|select(startswith("snap-"))' <<<"$artifacts"); do aws_cli ec2 delete-snapshot --snapshot-id "$artifact"; done
+  for artifact in $(jq -r '.[]|select(startswith("snap-"))' <<<"$artifacts"); do require_resource_absent snapshot "$artifact"; done
   jq -n --arg storage_id "$STORAGE_ID" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --argjson artifacts "$artifacts" '{schema:"adl.issue607.snapshot_retirement.v1",status:"retired",storage_id:$storage_id,deleted_artifact_ids:$artifacts,authorization_sha256:$authorization_sha256}'
 }
 
@@ -603,6 +682,7 @@ recover_preparation() {
   for id in $(aws_cli ec2 describe-volumes --filters Name=tag:adl:issue,Values=607 Name=tag:adl:run-id,Values="$RUN_ID" Name=tag:adl:snapshot-restore-test,Values=true --query 'Volumes[].VolumeId' --output text); do record_preparation_resource volume "$id" active; done
   cleanup_recorded_preparation_resources "$ledger"
   cleanup_preparation_state "$run_dir"
+  cleanup_storage_state "$STATE_ROOT/storage/$STORAGE_ID"
   jq '.status="recovered"|.resources|=map(if .state=="active" then .state="deleted" else . end)' "$ledger" >"$ledger.next"
   mv "$ledger.next" "$ledger"
   jq -n --arg run_id "$RUN_ID" --arg storage_id "$STORAGE_ID" --arg ledger_sha256 "$(sha256_file "$ledger")" \
@@ -648,6 +728,8 @@ prepare() {
   jq -n --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg campaign "$campaign_id" --arg owner "$(sha256_text "$owner")" \
     '{schema:"adl.issue607.preparation_resource_ledger.v1",status:"active",run_id:$run,storage_id:$storage,campaign_id:$campaign,owner_token_sha256:$owner,resources:[]}' >"$PREP_RESOURCE_LEDGER"
   consume_authorization; touch "$run_dir/paid-started"; action_start="$SECONDS"
+  CLEANUP_KIND=preparation; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false; CLEANUP_STORAGE_ON_FAILURE=true
+  trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
   upload_versioned "$archive" "$source_key" >"$run_dir/source-object.json"
   source_version="$(jq -r .version_id "$run_dir/source-object.json")"
   tf "$run_dir/tfdata-storage" "$STORAGE_ROOT" apply -input=false -state="$storage_dir/terraform.tfstate" -auto-approve "$run_dir/storage-create.tfplan" >/dev/null
@@ -662,8 +744,6 @@ prepare() {
     --arg runtime_ami_metadata "$(jq -c --arg id "$RUNTIME_AMI" '.ami_metadata[]|select(.image_id==$id)' "$run_dir/preflight.json")" --arg gpu_ami_metadata "$(jq -c --arg id "$GPU_AMI" '.ami_metadata[]|select(.image_id==$id)' "$run_dir/preflight.json")" --argjson read_keys "$read_keys" \
     '{aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,termination_at:$deadline,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,runtime_ami_metadata_json:$runtime_ami_metadata,gpu_ami_metadata_json:$gpu_ami_metadata,ami_metadata_sha256:$ami_metadata_sha,vpc_id:$vpc,subnet_id:$subnet,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,artifact_bucket:$bucket,artifact_read_keys:$read_keys,receipt_write_prefix:$receipt,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,source_commit:$source_commit,source_archive_key:$source_key,source_archive_version_id:$source_version,source_archive_sha256:$source_sha,artifact_manifest_key:$manifest_key,artifact_manifest_version_id:$manifest_version,artifact_manifest_sha256:$manifest_sha,kms_key_arn:$kms,availability_zone:$az,artifact_generation:$generation}' >"$run_dir/preparation.tfvars.json"
   prep_plan_sha="$(saved_plan preparation "$PREPARATION_ROOT" "$run_dir/tfdata-preparation" "$run_dir/preparation.tfstate" "$run_dir/preparation.tfvars.json" "$run_dir/preparation.tfplan" "$run_dir/preparation-plan.json")"
-  CLEANUP_KIND=preparation; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false
-  trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" apply -input=false -state="$run_dir/preparation.tfstate" -auto-approve "$run_dir/preparation.tfplan" >/dev/null
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" output -state="$run_dir/preparation.tfstate" -json >"$run_dir/preparation-outputs.json"
   runtime_preparation_instance="$(jq -r .runtime_preparation_instance_id.value "$run_dir/preparation-outputs.json")"
@@ -699,6 +779,7 @@ prepare() {
     '{schema:"adl.issue607.preparation_result.v4",status:"prepared",storage_id:$storage_id,artifact_generation:$generation,campaign:$campaign,base_images:{runtime_ami_id:$base_runtime_ami,gpu_ami_id:$base_gpu_ami},prepared_images:{runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami},runtime:{volume_id:$runtime_volume_id,snapshot_id:$runtime_snapshot_id,root_hash:$runtime_root_hash},gpu:{volume_id:$gpu_volume_id,snapshot_id:$gpu_snapshot_id,root_hash:$gpu_root_hash},plans:{storage_create:$storage_plan_sha256,preparation:$preparation_plan_sha256,storage_seal_tags:$storage_tag_plan_sha256},authorization_sha256:$authorization_sha256,zero_disposable_residue_sha256:$residue_sha256,snapshot_restore_test:{sha256:$snapshot_restore_sha256,s3_key:$snapshot_receipt_key,s3_version_id:$snapshot_receipt_version},disposable_residue:0}' | tee "$storage_dir/preparation-result.json"
   jq '.status="completed"|.resources|=map(if .state=="active" then .state="retained" else . end)' "$PREP_RESOURCE_LEDGER" >"$PREP_RESOURCE_LEDGER.next"
   mv "$PREP_RESOURCE_LEDGER.next" "$PREP_RESOURCE_LEDGER"
+  CLEANUP_STORAGE_ON_FAILURE=false
   PREP_RUNTIME_AMI_ID=""; PREP_GPU_AMI_ID=""
   trap - EXIT INT TERM
 }
@@ -792,6 +873,12 @@ case "$ACTION" in
   retire-storage) require aws; require terraform; retire_storage ;;
   retire-snapshots) require aws; require terraform; retire_snapshots ;;
   recover-preparation) require aws; require terraform; recover_preparation ;;
+  test-resource-absence)
+    require aws
+    [[ $# -eq 2 ]] || { echo "test-resource-absence requires kind and id" >&2; exit 2; }
+    if resource_exists "$1" "$2"; then printf 'exists\n'
+    else rc=$?; [[ "$rc" -eq 1 ]] && printf 'absent\n' || exit "$rc"; fi
+    ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;
 esac

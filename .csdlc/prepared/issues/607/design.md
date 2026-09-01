@@ -45,13 +45,15 @@ does not own:
 All three roots bind the same account, region, availability zone, KMS key ARN, owner
 token, and artifact generation. Preflight rejects missing tags, wrong KMS key,
 wrong AZ, attachment to another instance, or a volume present in both states.
-Before every Terraform apply and destroy, a machine-readable saved-plan validator
-inspects `terraform show -json` and rejects any create, update, replace, or
+Before every Terraform apply and destroy, the controller regenerates a
+machine-readable view from the exact binary saved plan, then the saved-plan validator
+inspects that fresh `terraform show -json` output and rejects any create, update, replace, or
 delete action against a warm volume, KMS key, seal object, or retained snapshot
 from the compute root. The storage root is never destroyed by a compute trap.
 The first authorization invocation retains the exact binary saved plan and a
-digest of its inputs; the authorized invocation must reuse that file rather
-than regenerate timestamp-bearing plan metadata.
+digest of its inputs; the authorized invocation must reuse that binary file
+rather than regenerate the plan. A cached JSON view is never trusted as the
+authorization safety denominator.
 
 ## Two-phase contract
 
@@ -183,10 +185,18 @@ than relying on an unmeasured aggregate.
 - Explicit storage cleanup owns deletion of obsolete warm volumes only after a
   replacement seal is proven and a separate single-use authorization selects
   the exact IDs. It is not reachable from compute cleanup.
+- The preparation exit trap is installed before the storage apply. Until the
+  complete preparation result and retained-resource ledger are durable, any
+  interruption destroys the exact incomplete warm-storage Terraform state as
+  well as disposable preparation state and raw resources. The explicit
+  `recover-preparation` path performs the same state cleanup without requiring
+  a completed preparation result.
 - Prepared images, their root snapshots, and both sealed-data snapshots carry
   the same `retention-until` tag. `extend-retention` binds and updates every
   retained artifact; `retire-snapshots` binds exact IDs, deregisters the two
   images, and deletes their root snapshots plus both sealed-data snapshots.
+  Cleanup and retirement distinguish AWS not-found responses from API or
+  transport failures and report success only after exact-ID absence readback.
 - Cross-AZ, wrong filesystem UUID, stale generation, partial hydration, missing
   artifact, digest mismatch, or unexpected writable residue fails closed.
 - TLS private material, when present, remains in a mode-0600 service-owned
@@ -223,7 +233,9 @@ compute replacement, not unbounded unpriced retention.
 1. Terraform formatting and offline validation prove the attachment graph and
    preserved-volume boundary.
 2. Executable shell fixtures reject compilation, package-manager, Git, model
-   download, mutable S3, stale seal, wrong AZ/volume, and cleanup deletion paths.
+   download, mutable S3, stale seal, wrong AZ/volume, and ambiguous AWS absence
+   responses; source checks also bind early storage cleanup and exact binary-plan
+   JSON regeneration.
 3. Artifact tests build or inspect the real repository binaries and verify the
    seal digest algorithm without paid AWS mutation.
 4. Three separately authorized AWS actions prepare the volumes and launch twice

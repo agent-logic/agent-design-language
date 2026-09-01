@@ -40,6 +40,28 @@ run_contracts() {
   "$guard" retirement "$good_retirement" >/dev/null
   ! "$guard" retirement "$bad_retirement" >/dev/null 2>&1
 
+  aws() {
+    case "${ADL_ISSUE607_MOCK_AWS_RESULT:-}" in
+      exists) printf '%s\n' "${@: -1}" ;;
+      absent)
+        case " $* " in
+          *' describe-images '*) printf 'An error occurred (InvalidAMIID.NotFound) when calling DescribeImages\n' >&2 ;;
+          *' describe-volumes '*) printf 'An error occurred (InvalidVolume.NotFound) when calling DescribeVolumes\n' >&2 ;;
+          *) printf 'An error occurred (InvalidSnapshot.NotFound) when calling DescribeSnapshots\n' >&2 ;;
+        esac
+        return 255
+        ;;
+      ambiguous) printf 'connection timed out\n' >&2; return 255 ;;
+      *) return 2 ;;
+    esac
+  }
+  export -f aws
+  [[ "$(ADL_ISSUE607_MOCK_AWS_RESULT=exists bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-resource-absence snapshot snap-0123456789abcdef0)" == exists ]]
+  [[ "$(ADL_ISSUE607_MOCK_AWS_RESULT=absent bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-resource-absence snapshot snap-0123456789abcdef0)" == absent ]]
+  [[ "$(ADL_ISSUE607_MOCK_AWS_RESULT=absent bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-resource-absence image ami-0123456789abcdef0)" == absent ]]
+  [[ "$(ADL_ISSUE607_MOCK_AWS_RESULT=absent bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-resource-absence volume vol-0123456789abcdef0)" == absent ]]
+  ! ADL_ISSUE607_MOCK_AWS_RESULT=ambiguous bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-resource-absence snapshot snap-0123456789abcdef0 >/dev/null 2>&1
+
   rg -q 'http_tokens[[:space:]]*=[[:space:]]*"required"' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
   rg -q 'http_tokens[[:space:]]*=[[:space:]]*"required"' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
   rg -q 'Operator SSH recovery from exact public IPv4 /32' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
@@ -70,6 +92,8 @@ run_contracts() {
   rg -Fq "'[{\"DeviceName\":\"/dev/sdf\",\"NoDevice\":\"\"}]'" "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'retire-snapshots' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'saved plan inputs changed' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -Fq 'show -json "$plan" >"$json.next"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -Fq 'CLEANUP_STORAGE_ON_FAILURE=true' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'preparation-host path' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'cloud-init clean --logs --machine-id' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'cloud-init clean --logs --machine-id' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
