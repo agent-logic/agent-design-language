@@ -2,12 +2,13 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 497,
   "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "310bed020d2d7cf8562632c720514a23f6869faf35f91cfd2c76cb371c014b0a",
-  "phase": "ready",
+  "phase": "bound",
   "generation": 5,
-  "digest": "89f73ab834039ed5a3226701b361f4cf87ffe8c6e98e2fb51e55d3b1ae46658d",
-  "branch": null,
-  "worktree": null,
+  "digest": "4768737928632cf58ae6ac1dfc66c887b536ffb74bdcd78740ceb621c410f563",
+  "branch": "codex/497-corp-c-sprint4-execution",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-497-corp-c-sprint4-execution",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -61,6 +62,13 @@
       "to": "ready",
       "actor": "codex:worker-7",
       "reason": "Typed doctor and issue validation pass for the prepared CORP-C Sprint 4 lifecycle package."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -105,6 +113,13 @@
       "actor": "codex:worker-7",
       "reason": "Typed doctor and issue validation pass for the prepared CORP-C Sprint 4 lifecycle package.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
