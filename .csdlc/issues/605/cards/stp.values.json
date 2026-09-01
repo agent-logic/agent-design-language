@@ -1,0 +1,72 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 605,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
+    "slug": "aws-gpu-shepherd-proof-runner",
+    "version": "v0.92.1",
+    "generation": 115
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement, validate, review, publish, and execute one bounded Terraform-owned AWS qualification with a regular Runtime/Guardian/six-agent node and a separate multi-model Ollama GPU node; both require the same SSH key pair and /32 ingress, while 24/7 production deployment remains out of scope.",
+      "deliverables": [
+        "Issue-#345-owned two-node Terraform root for one regular Runtime node and one Ollama GPU node",
+        "One shared Terraform-managed EC2 key pair with mandatory operator IPv4 /32 SSH ingress on both nodes",
+        "Automatic digest-bound GPU and Runtime cloud-init bootstrap scripts using immutable S3 artifacts and no live Git checkout",
+        "Private Runtime-security-group-only Ollama routing on TCP/11434 with at least two simultaneously GPU-resident models",
+        "Guardian, Runtime v3, governed Shepherd, and six-agent UTS, ACC, Freedom Gate, and runtime.observe proof flow",
+        "Read-only business-account, AMI, public-subnet route, artifact, quota, price, cost, and zero-residue preflight",
+        "Single-use exact-run authorization, saved-plan digest, redacted S3 receipts, and worktree-local recovery record",
+        "Terraform destroy, guest deadline, and tag-constrained Scheduler cleanup for both nodes and volumes",
+        "Executable no-paid runner contract and negative tests",
+        "Operator runbook plus fresh exact-head review and truthful publication handoff"
+      ],
+      "acceptance_criteria": [
+        "AC-1: One issue-owned Terraform root and runner plan exactly two On-Demand instances: a regular Runtime node for Guardian, Runtime, six resident agents, UTS, ACC, and Freedom Gate, plus a GPU node for Ollama and at least two simultaneously resident models.",
+        "AC-2: Terraform creates one shared EC2 key pair from the approved public key and attaches it to both nodes; both nodes always have public IPv4 and TCP/22 ingress only from one required valid IPv4 /32, while SSM is recovery-only and bootstrap is automatic cloud-init.",
+        "AC-3: The GPU security group exposes Ollama TCP/11434 only to the Runtime security group; no public Ollama or Runtime application ingress is created, and the Runtime workload calls the GPU node by private address.",
+        "AC-4: Paid execution requires exact source/review identity, unique run identity, a single-use retained authorization, immutable S3 artifacts, exact Terraform source and input identity, both instance types, both disks, SSH key/CIDR hashes, deadline, and a conservative combined compute, storage, IPv4, and request-cost bound within the hard ceiling; the exact saved plan applied is retained by digest.",
+        "AC-5: The GPU node proves exact model artifact digests, expected GPU state, one governed Shepherd real-model result for every configured model, and simultaneous nonzero GPU residency for the complete configured set of at least two models.",
+        "AC-6: The Runtime node proves Guardian-supervised Runtime v3 health and lifecycle plus six real long-lived Runtime agents executing private-Ollama-backed proposals through UTS, ACC, Freedom Gate, and runtime.observe; evidence does not claim an unimplemented Runtime-v3-to-Ollama kernel transit path.",
+        "AC-7: Controller Terraform destroy, guest deadline shutdown, and a Terraform-managed tag-constrained EventBridge Scheduler termination target independently cover both nodes; success, failure, interruption, timeout, and cleanup retry leave zero issue/run instances and volumes.",
+        "AC-8: Public evidence is machine-readable, digest-bound, cost-relevant, and redacted; credentials, private key material, raw identifiers, prompts, responses, private paths, and environment dumps are absent, while retained operator/run state stays inside the issue worktree.",
+        "AC-9: Focused local and live-read-only tests prove the exact two-node Terraform topology, one shared key pair, mandatory /32 SSH on both nodes, private SG-only Ollama routing, SSM recovery-only posture, authorization replay rejection, plan and combined-cost binding, receipt validation, zero residue, and zero pre-authorization paid launches; fresh exact-head review has no unresolved actionable finding before publication and paid execution."
+      ],
+      "dependencies": [
+        "Historical recovery commit 7a26886c47962e71c128489f5176a045ae8e9a64",
+        "Current governed Shepherd adapter and issue-268 six-agent Runtime, UTS, ACC, Freedom Gate, and runtime.observe proof surfaces",
+        "Agent Logic business AWS account through profile agent-logic-admin, sufficient On-Demand GPU quota, and a VPC with a public subnet",
+        "Operator-approved public SSH key and current public IPv4 /32; private key material remains outside Terraform and the repository",
+        "Immutable versioned S3 Ollama runtime, model stores, manifest, and Rust bootstrap artifact",
+        "#256 as downstream consumer only"
+      ],
+      "repo_inputs": [
+        "https://github.com/agent-logic/agent-design-language/issues/345",
+        "docs/milestones/v0.92.1/features/DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+        "infra/aws/runtime/gpu-proof",
+        "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+        "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+        "adl/tools/run_issue268_six_resident_uts_cycle.py",
+        "adl/tools/issue268_runtime_uts_task_panel.json",
+        "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+        ".csdlc/prepared/issues/345/design.md",
+        ".csdlc/prepared/issues/345/diagram.mmd"
+      ],
+      "non_goals": [
+        "Changing Runtime, Guardian, Shepherd, UTS, ACC, Freedom Gate, or runtime.observe semantics",
+        "Creating a 24/7, production, multi-region, autoscaled, or cross-cloud service",
+        "Using Spot, retry launches, alternate instance types, hosted inference, or another provider as fallback",
+        "Opening public application or Ollama ingress; only mandatory operator SSH /32 ingress is public",
+        "Deleting or rewriting the retained versioned S3 model bundle",
+        "Changing model defaults or claiming an unimplemented Runtime-v3 kernel-to-Ollama transit path",
+        "Executing or closing #256"
+      ]
+    }
+  }
+}

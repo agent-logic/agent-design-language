@@ -1,18 +1,26 @@
-flowchart TD
-  H["Historical #5795 runner and evidence<br/>read-only recovery input"] --> R["#345 reusable GPU proof runner"]
-  A["Explicit operator authorization<br/>exact revision + cost ceiling"] --> R
-  P["agent-logic-admin<br/>approved business account"] --> F["Read-only preflight"]
-  I["Pre-provisioned IAM / no-ingress SG / S3 versions / quota / reaper"] --> F
-  R --> F
-  F -->|"refusal"| X["No launch"]
-  F -->|"all predicates pass"| L["One On-Demand GPU instance"]
-  L --> S["SSM exact-revision bootstrap"]
-  S --> M["Pinned model/runtime restoration<br/>digest + GPU residency proof"]
-  M --> G["Governed Shepherd model-backed execution"]
-  G --> E["Bounded redacted evidence"]
-  E --> C["Owner-bound cleanup"]
-  T["Local trap"] --> C
-  U["Guest deadline timer"] --> C
-  D["Permanent tag-scoped reaper"] --> C
-  C --> Z["No temporary instance or volume remains"]
-  E -. "optional evidence input" .-> B["#256 birthday-demo consumer"]
+flowchart LR
+  O["Operator<br/>one public key + IPv4 /32"] --> T["Issue #345 runner<br/>reviewed + authorized"]
+  T --> TF["Terraform root<br/>saved plan + local state"]
+  S3["Versioned S3 artifacts<br/>source + Ollama + models + bootstrap"] --> G
+  S3 --> R
+  TF --> K["One shared EC2 key pair"]
+  TF --> P["Validated public subnet<br/>IGW route + permissive NACL"]
+  P --> R["Regular EC2 node<br/>Guardian + Runtime v3<br/>six agents + UTS/ACC"]
+  P --> G["GPU EC2 node<br/>Ollama + 2+ resident models"]
+  K --> R
+  K --> G
+  O -->|"TCP/22 only"| R
+  O -->|"TCP/22 only"| G
+  R -->|"private TCP/11434<br/>SG-to-SG only"| G
+  G -->|"exact S3 readiness receipt key"| R
+  R --> E["Exact S3 final receipt key<br/>model + Guardian + ACC"]
+  T --> L["Mode-0600 local recovery<br/>owner + lock version"]
+  R -. "SSM recovery only" .-> SSM["AWS Systems Manager"]
+  G -. "SSM recovery only" .-> SSM
+  TF --> D["Terraform destroy"]
+  TF --> Q["EventBridge Scheduler<br/>both exact instance IDs"]
+  R --> U["Guest deadline shutdown"]
+  G --> U
+  D --> Z["Zero instances and volumes"]
+  Q --> Z
+  U --> Z

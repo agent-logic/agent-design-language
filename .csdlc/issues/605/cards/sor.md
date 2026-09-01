@@ -1,0 +1,140 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 605
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+The reviewed Terraform runner completed the authorized us-west-2c two-node qualification successfully within the USD 20 ceiling. The GPU node verified and simultaneously retained llama3.1:8b and qwen3:8b with exact immutable digests and nonzero VRAM while Ollama remained private. The Runtime node restored the Git-free repo archive, compiled and launched Guardian and Runtime v3, passed authenticated HTTPS and v3 WSS fanout plus restart, state, degradation, Vector, log, and shutdown assertions, executed live Shepherd inference against both models, and produced six distinct governed ACC agent execution receipts. Cleanup terminated both instances, removed all tagged volumes, emptied Terraform state, and released the S3 lock. The receipt truthfully does not claim direct Runtime-v3-to-Ollama transit; it proves the two live model paths and the six ACC tool paths separately.
+
+## Artifacts
+
+- adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
+- adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
+- infra/aws/runtime/gpu-proof/main.tf
+- .adl/local/issue345/adl-issue345-20260901-152336/runtime-final.json
+- .adl/local/issue345/adl-issue345-20260901-152336/gpu-ready.json
+- .adl/local/issue345/adl-issue345-20260901-152336/summary.json
+- .adl/local/issue345/adl-issue345-20260901-152336/cleanup.json
+
+## Execution
+
+- Retained the reviewed Terraform-owned two-node topology with one shared SSH key, mandatory public /32 SSH ingress on both nodes, private Ollama ingress from only the Runtime security group, immutable S3 artifacts, single-use authorization, and USD 20 hard ceiling.
+- Launched one r7i.2xlarge Runtime and Guardian node and one g6.xlarge Ollama GPU node in us-west-2c with public SSH and private application transit.
+- Verified llama3.1:8b digest 46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e at 5271715839 bytes VRAM and qwen3:8b digest 500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41 at 5578204118 bytes VRAM simultaneously resident.
+- Proved Guardian launch, Runtime kernel readiness, authenticated HTTPS and schema=v3 WSS, bounded child restart, preserved state, dependency and Vector recovery, clean logs, and clean shutdown.
+- Executed live real-model Shepherd proof against both configured GPU models and retained response, model, backend, runner, and nonce hashes.
+- Executed six distinct resident agent tool cycles across the two model assignments; every receipt records decision executed, gate_allowed, governed_execution_completed, and exit code zero with distinct ACC contract and authority evidence.
+- Kept the evidence boundary explicit: direct Runtime-v3-to-Ollama transit is not claimed by this bounded runner; the live Shepherd model execution and governed Runtime agent ACC execution are separate proofs.
+- Confirmed cleanup left zero run instances, zero tagged volumes, zero Terraform resources, and no S3 run lock.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--bin",
+      "adl-runtime-lifecycle-soak",
+      "tests::observatory_wss_qualification_requests_current_feed_schema",
+      "--",
+      "--exact"
+    ],
+    "purpose": "Prove the lifecycle WSS upgrade explicitly selects the v3 feed and retains the configured Observatory origin.",
+    "outcome": "passed",
+    "evidence_ref": "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--",
+      "--check"
+    ],
+    "purpose": "Verify Rust formatting for the WSS schema-selection remediation.",
+    "outcome": "passed",
+    "evidence_ref": "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "run",
+      "--commit",
+      "4c9cffce469c0b4f9a99b2f492d41e7f3b6cb67b",
+      "--run-id",
+      "adl-issue345-20260901-152336",
+      "--authorization-file",
+      ".adl/local/issue345/operator-authorization-wss-v3-2c.json",
+      "--execute"
+    ],
+    "purpose": "Execute the complete authorized Terraform two-node AWS qualification with real GPU models, Guardian and Runtime lifecycle proof, six governed agent ACC cycles, and automatic cleanup.",
+    "outcome": "passed",
+    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-152336/summary.json"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "aws",
+      "ec2",
+      "describe-instances/describe-volumes"
+    ],
+    "purpose": "Verify no run instances or tagged volumes remain after Terraform cleanup.",
+    "outcome": "passed",
+    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-152336/cleanup.json"
+  },
+  {
+    "command": [
+      "AWS_PROFILE=agent-logic-admin",
+      "aws",
+      "s3api",
+      "head-object",
+      "--key",
+      "locks/issue345-paid-run.json"
+    ],
+    "purpose": "Verify the single-use paid-run lock was released after cleanup.",
+    "outcome": "passed",
+    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-152336/cleanup.json"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject patch hygiene defects.",
+    "outcome": "passed",
+    "evidence_ref": "git diff"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none
