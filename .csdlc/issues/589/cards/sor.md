@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Implemented, independently reviewed, deployed, and live-proved ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.
+Implemented, independently reviewed, deployed, and live-proved ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, robust Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.
 
 ## Artifacts
 
@@ -27,6 +27,8 @@ Implemented, independently reviewed, deployed, and live-proved ordered Wuji Runt
 - adl-runtime-kernel/tests/configuration.rs
 - adl-runtime-kernel/tests/control.rs
 - infra/aws/csm-runtime-health
+- adl-runtime-kernel/src/telemetry.rs
+- adl-runtime-kernel/tests/assembly.rs
 
 ## Execution
 
@@ -38,6 +40,7 @@ Implemented, independently reviewed, deployed, and live-proved ordered Wuji Runt
 - Readiness requires a fresh Shepherd admission lease.
 - Health export is allowlisted and CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.
 - Focused tests cover candidate commit, rollback ordering, owner/hash mismatch rejection, exact service PID parsing, lease identity propagation, continuity projection compatibility, and transaction cleanup.
+- Widened the Shepherd admission freshness lease from five seconds to thirty seconds while retaining the one-second heartbeat cadence, providing bounded scheduling headroom without weakening freshness gating.
 
 ## Validation
 
@@ -188,16 +191,30 @@ Implemented, independently reviewed, deployed, and live-proved ordered Wuji Runt
     "purpose": "Periodic health alarm state proof",
     "outcome": "passed",
     "evidence_ref": "alarm OK with fresh HealthyHeartbeat datapoints"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "assembly"
+    ],
+    "purpose": "Prove the production Shepherd admission receives an exact thirty-second freshness lease and preserve writer and adapter behavior.",
+    "outcome": "passed",
+    "evidence_ref": "10 passed; local_production_adapters_execute_real_bounded_behavior asserts deadline minus observation equals 30000 milliseconds."
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

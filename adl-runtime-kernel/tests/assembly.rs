@@ -376,6 +376,15 @@ async fn local_production_adapters_execute_real_bounded_behavior() {
         assert_eq!(error.class, FailureClass::Fatal);
         assert!(error.message.contains("external transport"));
     }
+    let shepherd = &recorder.snapshot().agent_admissions["shepherd"];
+    assert_eq!(
+        shepherd.freshness_deadline_unix_millis - shepherd.observed_at_unix_millis,
+        adl_runtime_kernel::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS
+    );
+    assert_eq!(
+        adl_runtime_kernel::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS,
+        30_000
+    );
 }
 
 #[tokio::test]
