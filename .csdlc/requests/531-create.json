@@ -1,0 +1,173 @@
+{
+  "issue": 531,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:/root",
+  "design_path": ".csdlc/prepared/issues/531/design.md",
+  "diagram_path": ".csdlc/prepared/issues/531/diagram.mmd",
+  "design_reviewer": "codex:/root",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][Sprint 3] Cloud convergence",
+    "slug": "sprint-3-cloud-convergence",
+    "version": "v0.92.1",
+    "goal": "Coordinate Sprint 3 cloud convergence closeout as one bounded evidence and review workflow without absorbing child implementation.",
+    "required_outcome": "One reviewable Sprint 3 result records roster version 4, child dispositions, reviewed merge heads, green checks, merge commits, ancestry, residual risks, and truthful typed lifecycle status.",
+    "declared_scope": [
+      "Sprint 3 umbrella issue #531",
+      "Roster version 4 child issues #495, #489, #496, and #494",
+      "Sprint-level evidence, review, validation, publication, and closeout truth"
+    ],
+    "authority_boundary": [
+      "Typed C-SDLC v2 lifecycle state remains operational authority",
+      "Live GitHub issue and PR state is authoritative for remote dispositions",
+      "Child issue implementation, paid cloud proof, and resource operations remain outside the umbrella boundary"
+    ],
+    "operator_constraints": [
+      "Do not implement child work inside the umbrella",
+      "Do not serialize children without a declared dependency",
+      "Do not treat child typed finish or cleanup as a dependency for another child",
+      "Keep AWS, paid launches, and big-runner usage off unless separately authorized",
+      "Preserve current main and other-session worktree ownership"
+    ],
+    "task_boundary": "Execute the Sprint 3 management closeout path after declared roster children have closed, retaining truthful evidence and stopping before any unsupported completion claim.",
+    "deliverables": [
+      "Sprint 3 closeout evidence artifact",
+      "Roster and child disposition summary",
+      "Review/validation record for the sprint-level result",
+      "Typed publication and terminal closeout record when gates pass"
+    ],
+    "acceptance_criteria": [
+      "The closeout artifact records membership version 4 and all current roster children",
+      "Every child has live GitHub state and local lifecycle disposition recorded without overclaiming missing evidence",
+      "Child PR, merge, check, and ancestry evidence is retained or explicitly marked unavailable",
+      "The sprint result does not absorb child implementation or rerun paid/cloud work",
+      "Fresh sprint-end review finds no actionable findings before publication",
+      "Typed v2 publication and finish gates are used for the umbrella if review and validation pass"
+    ],
+    "dependencies": [
+      "#495 XCL-01 Cross-cloud Runtime Terraform conversion",
+      "#489 AWS-F AWS Runtime platform modules",
+      "#496 AWS-G AWS CloudFormation retirement decision",
+      "#494 GCP-E GCP GPU readiness smoke test"
+    ],
+    "repo_inputs": [
+      ".csdlc/issues/489",
+      ".csdlc/issues/494",
+      ".csdlc/issues/495",
+      ".csdlc/issues/496",
+      "docs/milestones/v0.92.1/evidence/cloud/**",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+    ],
+    "non_goals": [
+      "Child implementation",
+      "Paid cloud launch or live resource mutation",
+      "Production cutover",
+      "Retiring C-SDLC v2 authority",
+      "Closing or rewriting child issues"
+    ],
+    "plan_summary": "Initialize and bind the sprint umbrella, collect live child issue and PR truth, write one sprint closeout artifact, validate it, run sprint-end review, then publish and finish only if the typed gates pass.",
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Initialize and bind #531 to a FastWork issue worktree after confirming main is clean and current.",
+        "acceptance_ids": ["AC-1", "AC-4", "AC-6"],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Collect live GitHub and local C-SDLC disposition evidence for roster children #495, #489, #496, and #494.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3"],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Write the Sprint 3 closeout evidence artifact and static validator.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Run focused validation and sprint-end review, then record review truth.",
+        "acceptance_ids": ["AC-4", "AC-5"],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Use typed v2 publication and finish routes if review and validation gates pass.",
+        "acceptance_ids": ["AC-5", "AC-6"],
+        "status": "pending"
+      }
+    ],
+    "affected_areas": [
+      ".csdlc/issues/531",
+      ".csdlc/prepared/issues/531",
+      ".csdlc/requests/531-*",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3/**"
+    ],
+    "invariants": [
+      "The umbrella never upgrades skipped, deferred, or missing child evidence to pass",
+      "Live GitHub state is rechecked before sprint-state transitions",
+      "No paid provider command runs without separate authorization",
+      "No child implementation file is changed by the umbrella",
+      "C-SDLC v2 remains the live lifecycle authority"
+    ],
+    "risks": [
+      "A child issue may be closed before typed local finish or cleanup is complete",
+      "Some child PR/check evidence may require explicit unavailable or deferred disposition",
+      "Main may advance while the sprint closeout work is underway"
+    ],
+    "planning_profile": "medium",
+    "stop_conditions": [
+      "Any declared roster child is reopened or rerouted without a typed membership update",
+      "A child merge or PR disposition cannot be classified truthfully",
+      "The closeout result would require paid cloud or production proof",
+      "Typed v2 validation rejects the issue record or review state"
+    ],
+    "validation_lanes": [
+      {
+        "lane": "sprint-3-closeout-static",
+        "proof_role": "Prove the Sprint 3 closeout artifact names roster v4, all child issues, live dispositions, residual-risk boundaries, and no paid/cloud execution claim.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["bash", "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh"],
+        "parallel_group": "sprint-3-closeout",
+        "defer_reason": "Validator is produced with the sprint closeout artifact."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject whitespace errors in sprint closeout records and evidence.",
+        "acceptance_ids": ["AC-4", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      },
+      {
+        "lane": "sprint-3-review-gate",
+        "proof_role": "Require a fresh sprint-end review with no actionable findings before typed publication.",
+        "acceptance_ids": ["AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 60,
+        "budget_tokens": 1000,
+        "argv": ["bash", "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh"],
+        "parallel_group": "review",
+        "defer_reason": "Validator is produced after sprint-end review truth is recorded."
+      }
+    ],
+    "failure_policy": "Fail closed on stale roster truth, ambiguous child disposition, unsupported paid/cloud claim, dirty topology, or typed validation failure.",
+    "review_prompts": [
+      "Does the sprint result overclaim child implementation, paid cloud proof, production cutover, cleanup, or terminal status?",
+      "Are all roster v4 children represented with live issue dispositions and evidence limitations?",
+      "Is every unavailable PR, check, merge, ancestry, or local lifecycle datum truthfully residualized?",
+      "Does publication use the typed v2 route and include the correct closing linkage for #531?"
+    ],
+    "review_scope": "Issue #531 Sprint 3 umbrella closeout artifacts, local C-SDLC records, validation output, and typed publication readiness."
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "issue": 531,
+  "card": "sip",
+  "expected_generation": 0,
+  "expected_digest": "7ea6e18ac05fdfa8e6a4e3c97ba7495c62eef2e5dfd78c279399799fecebecbf",
+  "claim_id": "claim-531-sprint3-cloud-convergence-closeout",
+  "actor": "codex:/root",
+  "reason": "Sprint 3 roster children are closed live and #531 cards/design are initialized; advance to ready for local binding.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

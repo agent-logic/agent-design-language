@@ -1,0 +1,18 @@
+{
+  "issue": 531,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "2bfe24de3061e9d90e5785cbf59418f8e75869006b532def0180070e74d90ac9",
+  "claim_id": "claim-531-sprint3-cloud-convergence-closeout",
+  "actor": "codex:/root",
+  "reason": "Diff hygiene passed for Sprint 3 closeout records and evidence.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["git", "diff", "--check"],
+      "purpose": "Reject whitespace errors in sprint closeout records and evidence before review.",
+      "outcome": "passed",
+      "evidence_ref": "Command completed successfully with no output."
+    }
+  }
+}

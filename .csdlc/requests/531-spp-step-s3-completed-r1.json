@@ -1,0 +1,13 @@
+{
+  "issue": 531,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "21dec0ea782dd0419be3b2ba6a77a006cc0ef84f666ecfeb02892529d9a36175",
+  "actor": "codex",
+  "reason": "record SPP step S3 as completed after the sprint closeout artifact and validator scripts were created",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S3",
+    "status": "completed"
+  }
+}

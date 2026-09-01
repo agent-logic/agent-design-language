@@ -1,0 +1,11 @@
+{
+  "issue": 531,
+  "expected_generation": 12,
+  "expected_digest": "93eab692a0699011b2f035242f60ad604184b301f7a419266de64ede376fdbcf",
+  "reviewer": "review_531_sprint3_closeout",
+  "assigned_by": "codex:/root",
+  "scope": [
+    ".csdlc/prepared/issues/531",
+    "docs/milestones/v0.92.1/evidence/cloud/sprint-3"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "issue": 531,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "4bb1b44bd39c59c9d874cfce58ea08e79770288331cb22b8e5fc1bbcfbd88a00",
+  "claim_id": "claim-531-sprint3-cloud-convergence-closeout",
+  "actor": "codex:/root",
+  "reason": "Sprint 3 closeout static validator passed after artifact creation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["bash", "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh"],
+      "purpose": "Prove the Sprint 3 closeout artifact names roster v4, all child issues, live dispositions, merge ancestry, residual-risk boundaries, and no paid/cloud execution claim.",
+      "outcome": "passed",
+      "evidence_ref": "Command output: sprint-3-closeout-static: pass"
+    }
+  }
+}
