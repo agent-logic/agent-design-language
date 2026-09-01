@@ -38,12 +38,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The read-only reviewer did not inject a live process crash; crash ordering is covered by focused lifecycle tests.
+- The Terraform-managed AWS edge currently returns 503 because its residential Wuji origin is externally unreachable; that separate #122 edge condition does not invalidate local Guardian, Runtime, CloudWatch, or SSM recovery proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:15ff9fda869ba94bd18c90e1f076577f192969e7:0897ae90617c525bdc17e173aa39a6400cc158561081782b8bbb0c467ffbd126")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/issue_589_review")
 
-Result: pre_review
+Result: pass

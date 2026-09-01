@@ -3,15 +3,15 @@
   "issue": 589,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
-  "phase": "implemented",
-  "generation": 34,
-  "digest": "3e07bcdb6ad1c73005088e4e3f4265647c3eb38de72b73a90150cbc335fd0da9",
+  "phase": "reviewed",
+  "generation": 35,
+  "digest": "973c6044cf0e29e59dfa813e2c516e70501c496eab47253e99370f1991013ed1",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": {
     "reviewer": "subagent:/root/issue_589_review",
     "assigned_by": "codex-issue-589",
-    "revision": "git-blake3:b8f99d270a2975f152c0b17e761b03b4c52fc27d:96bf7c56785b7c59cb41e1bddf99547a0a2bec9bc57179b674c342516983203d",
+    "revision": "git-blake3:15ff9fda869ba94bd18c90e1f076577f192969e7:0897ae90617c525bdc17e173aa39a6400cc158561081782b8bbb0c467ffbd126",
     "scope": [
       ".csdlc/issues/589",
       "adl/src/cli/csm_runtime_v3_cmd.rs",
@@ -24,7 +24,28 @@
       "adl-runtime-kernel/tests/control.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "scope": [
+      ".csdlc/issues/589",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/config.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/configuration.rs",
+      "adl-runtime-kernel/tests/control.rs"
+    ],
+    "reviewed_revision": "git-blake3:15ff9fda869ba94bd18c90e1f076577f192969e7:0897ae90617c525bdc17e173aa39a6400cc158561081782b8bbb0c467ffbd126",
+    "findings": [],
+    "residual_risks": [
+      "The read-only reviewer did not inject a live process crash; crash ordering is covered by focused lifecycle tests.",
+      "The Terraform-managed AWS edge currently returns 503 because its residential Wuji origin is externally unreachable; that separate #122 edge condition does not invalidate local Guardian, Runtime, CloudWatch, or SSM recovery proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -39,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e3c44bd5002357779f99eb5f34b1fbe763bab61995e07f4703aac0ece8241cfc",
+      "values_digest": "b023bb31cea316f83dcfbf737ba17420050e972128e9a48cc87a2ac90992d5b0",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "fd3c5ec9f3bcd3a06f196c58fdab20d5f5cbcd7cdef9fc6de811ac8868225032",
+      "values_digest": "a2c89ccd3ef7bc46bb43afeb44034fd8967d1eef55402b8dba5d71e27b083aed",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "3461d979b18b386433faf3c99eecaef1794465791c07f2ffd2d5a1db77a36426",
+      "values_digest": "946f6f7722b9a0ecfcc3a7855019e961449a846a3295aa204f4fdf1ce880e95e",
       "rendered_digest": "315bb82392767ff9d0c5acb9c99df4dbc87c4fd82dec36c6bb76bbab7b32cb3f",
       "ast_digest": "569fe120c9e4d45f1e5799229ca53e07754cf71fba0027620a6fdaf4211394af"
     },
     "vpp": {
-      "values_digest": "62603c9a73d2dffcb22a52c51fa49ce4854f1def82ccec2afddac964cfad495c",
+      "values_digest": "5596eedb5ed05754770e960ba2edb89fb2b4644d4b487e086ef9385a610daa6e",
       "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
       "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "7194a8a77f611e587018f2bb66a44a3afecee0fe75352b5c993c487fafdc3fd0",
-      "rendered_digest": "3faa817adf5ce7bf213e622a5a89a2ad96f5db866b3a6deff6e2d075621ff582",
-      "ast_digest": "8a7d2fc83775d2170208aca9d7cb792ee3bf6220cac725c22b43e9abca503f91"
+      "values_digest": "55f6e0074689b501edec726bd6fb9c02f8394c338ff19581059b0591286c8e75",
+      "rendered_digest": "d210b397229c98be1ab5645c01cd97ddc9ca5d7b8475cc6e60ab2540bc9e7dec",
+      "ast_digest": "975d780ab85daa2ce534f3d2b5ec0fe3c4fc6820bc6a93689bbbfa4b132403f7"
     },
     "sor": {
-      "values_digest": "7a5e10882fc6a9141e0ab6a491c436ba5644d30ab6832af00e9310f7391a3485",
+      "values_digest": "bc22b168878c4270616c55929c5838e19aa75c575032795d917f77243ca87cff",
       "rendered_digest": "b08949a2c547e2fefa24e60fe409a41f850c0ed15f43910ccecef2e82090aba3",
       "ast_digest": "7d8ffe337e0066c6cb9c979104f5c4f7dc7e170eae3606ba5628d4b6929340db"
     }
@@ -174,6 +195,13 @@
       "to": "implemented",
       "actor": "codex-issue-589",
       "reason": "Recover exact-review truth after hosted Linux Clippy exposed a macOS-only launchctl parser compiled as dead code in the non-test Linux binary."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -498,6 +526,20 @@
       "actor": "codex-issue-589",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 34,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 35,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

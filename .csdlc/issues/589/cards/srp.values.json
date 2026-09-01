@@ -7,23 +7,26 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 34
+    "generation": 35
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/589\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl-runtime/src/guardian.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/control.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:15ff9fda869ba94bd18c90e1f076577f192969e7:0897ae90617c525bdc17e173aa39a6400cc158561081782b8bbb0c467ffbd126",
+      "reviewer": "subagent:/root/issue_589_review",
       "review_prompts": [
         "Verify startup no longer requires the separate continuity channel while Guardian ownership remains intact.",
         "Verify stale-state recovery cannot remove a lock owned by a live writer.",
         "Verify reload preserves the last known-good running configuration on candidate failure."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The read-only reviewer did not inject a live process crash; crash ordering is covered by focused lifecycle tests.",
+        "The Terraform-managed AWS edge currently returns 503 because its residential Wuji origin is externally unreachable; that separate #122 edge condition does not invalidate local Guardian, Runtime, CloudWatch, or SSM recovery proof."
+      ],
+      "review_result": "pass"
     }
   }
 }
