@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "1fb55b70fb776353eb1ddca63467ccefe5a60e9141c8462566d772eee9724c45",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "29bc463ea731b9526e5130299c1d98f7a26d135656fddde0d324f885f3afc509",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
   "review_assignment": {
@@ -55,7 +55,58 @@
       "csdlc-v2/tests/publication_ready.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/review_604_all_defects_closed",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/pr610-state-request.json",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/publish-final-ready-request.json",
+      ".csdlc/evidence/604/publish-ready-update-request.json",
+      ".csdlc/evidence/604/ready-request.json",
+      ".csdlc/evidence/604/recover-after-canary-defect-fixes.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
+      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-assign-after-resume-push-fix.json",
+      ".csdlc/evidence/604/review-assign-all-defects-closed.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-github-pr.rs",
+      "csdlc-v2/src/bin/csdlc-pr-state.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ],
+    "reviewed_revision": "git-blake3:7f1e4e1c97116ab6488f7d9c6d53ddb270747e77:70491f192a8f37d2e3cdef4a05470acabebd5694f10a8aa8d90b64449779c4b2",
+    "findings": [],
+    "residual_risks": [
+      "GitHub CI remains external to local review and must be read back after publication.",
+      "The exact assigned-revision review check verified that commits after the source PASS are #604 lifecycle/evidence-only and do not alter source behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -70,32 +121,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c93acc18e018ddf2921330b13ddd9b53944dbb359f81a4de74c2928019d7b1b0",
+      "values_digest": "a6732bd540c4b9495812386179c397bd5e5e923e2680259594800135b068bdfd",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "5a17c24f7c1265c0404a93611c366c5a2427948e0efd1cf9921cc01c7ad06d10",
+      "values_digest": "7bc3d141b1e85b5b030a5801b5bcdfea940cbeddaf549ddff38ebac95deca973",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "8bec444102ebbda092a89f3d6a133ad623385d20c03efd36b3b5b97610ae7898",
+      "values_digest": "a159c2139c777637a4d12dac4639679f102851612473a22fbe832eb98af6f4a3",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "95bfbf61f806c899678b6ec9747f37b54344ad9daa0ff54b85484c36508a780b",
+      "values_digest": "fe6ba034702763595332ff15b9e6137712ef1172f5ddabc474625baaa5df72a0",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "2f7d849a3063d5af127bc31032191924fb9310a0de7dae1df2a27182226be920",
-      "rendered_digest": "d24adb8fb5374b444b80eb1fd55cbfb18028f5ba39789cbdb27f4df3c5cab70b",
-      "ast_digest": "4286e04138f5c1fac9d0b7fecb07ef4cec876ac33fd0ac45061b7599b71df4d2"
+      "values_digest": "d3cbb6024ea9fb4669166f48aff5d3196a636aecc4b9b2aac06440eaa73502ae",
+      "rendered_digest": "23b13d5e8d15bc13db775333de90e136bfd6c1b17a32dcec6393491acd413e92",
+      "ast_digest": "dbf1e292e69987c42281b4b5469db9c20f757c4b6b8b42cdc0054af8348be3a0"
     },
     "sor": {
-      "values_digest": "91966599f8953462837d5cba570ab10ef5dc427e25554db60ee32d4b979e59d8",
+      "values_digest": "9aa3ae2dfffc9e952167bbad53bcdea304bd73b6332eb51020938f82025a0161",
       "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
       "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
     }
@@ -198,6 +249,13 @@
       "to": "implemented",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover after final canary-defect fixes added retained PR-state envelope compatibility and a fail-closed self-staling review-scope guard. The PR remains live and will be reconciled through a fresh typed review and publication pass."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -361,6 +419,13 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

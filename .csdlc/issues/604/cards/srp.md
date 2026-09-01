@@ -70,12 +70,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- GitHub CI remains external to local review and must be read back after publication.
+- The exact assigned-revision review check verified that commits after the source PASS are #604 lifecycle/evidence-only and do not alter source behavior.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7f1e4e1c97116ab6488f7d9c6d53ddb270747e77:70491f192a8f37d2e3cdef4a05470acabebd5694f10a8aa8d90b64449779c4b2")
 
-Reviewer: None
+Reviewer: Some("/root/review_604_all_defects_closed")
 
-Result: pre_review
+Result: pass
