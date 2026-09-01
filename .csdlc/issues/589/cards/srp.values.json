@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/589\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/Cargo.toml\nadl/Cargo.lock\nadl-runtime/src/guardian.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/tests/control.rs",
+      "review_scope": ".csdlc/issues/589\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl-runtime/src/guardian.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/tests/configuration.rs\nadl-runtime-kernel/tests/control.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

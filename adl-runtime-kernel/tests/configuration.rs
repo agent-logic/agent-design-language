@@ -682,12 +682,15 @@ fn continuity_identity_excludes_non_stateful_runtime_policy() {
     let config =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
-    let expected = config.continuity_identity_projection().unwrap();
+    let mut legacy_config = config.clone();
+    legacy_config.observatory.additional_allowed_origins.clear();
+    let expected = legacy_config.continuity_identity_projection().unwrap();
+    assert_eq!(config.continuity_identity_projection().unwrap(), expected);
     assert!(expected["observability_pipeline"]
         .get("cloudwatch")
         .is_none());
 
-    let mut next_cycle = config.clone();
+    let mut next_cycle = legacy_config.clone();
     next_cycle.credentials.continuity_min_generation = 41;
     next_cycle.observability_pipeline.lifecycle_run = "run-2".to_owned();
     next_cycle.observability_pipeline.lifecycle_cycle = "cycle-42".to_owned();

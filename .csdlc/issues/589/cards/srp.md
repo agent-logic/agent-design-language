@@ -14,12 +14,12 @@ Status: draft
 
 .csdlc/issues/589
 adl/src/cli/csm_runtime_v3_cmd.rs
-adl/Cargo.toml
-adl/Cargo.lock
 adl-runtime/src/guardian.rs
 adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/config.rs
 adl-runtime-kernel/src/control.rs
 adl-runtime-kernel/src/control/feeds.rs
+adl-runtime-kernel/tests/configuration.rs
 adl-runtime-kernel/tests/control.rs
 
 ## Prompts
