@@ -194,14 +194,14 @@ fn lifecycle_and_durable_storage_canary_uses_real_terminal_issue_and_recovery_pr
     let index = read_issue_index(&root, 504);
     assert_eq!(index["phase"], "closed_out");
 
-    let mut store = DurableTransactionStore::create(
-        root.join(format!(
-            "csdlc-v3/target/real-issue-canary-504-store-{}",
-            std::process::id()
-        )),
-        StateRecord::new(LifecycleState::ClosedOut),
-    )
-    .expect("durable store creates under repo target");
+    let store_dir = root.join(format!(
+        "csdlc-v3/target/real-issue-canary-504-store-{}",
+        std::process::id()
+    ));
+    let _ = fs::remove_dir_all(&store_dir);
+    let mut store =
+        DurableTransactionStore::create(&store_dir, StateRecord::new(LifecycleState::ClosedOut))
+            .expect("durable store creates under repo target");
     let committed = store.committed().clone();
     let transaction = store
         .begin(
@@ -224,11 +224,8 @@ fn lifecycle_and_durable_storage_canary_uses_real_terminal_issue_and_recovery_pr
         .contains(&ProjectionInvalidation::CleanupEligibility));
 
     drop(store);
-    let reopened = DurableTransactionStore::open(root.join(format!(
-        "csdlc-v3/target/real-issue-canary-504-store-{}",
-        std::process::id()
-    )))
-    .expect("durable store reopens after committed projection success");
+    let reopened = DurableTransactionStore::open(&store_dir)
+        .expect("durable store reopens after committed projection success");
     assert_eq!(reopened.committed().generation, next.generation);
     assert_eq!(reopened.committed().digest, next.digest);
 
