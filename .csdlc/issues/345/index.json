@@ -4,13 +4,46 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "implemented",
-  "generation": 62,
-  "digest": "15cb5c6aa46ff93c3a7630cd2e887f2b5d5191d94f3353f46d5dc5b9039a9b28",
+  "phase": "reviewed",
+  "generation": 63,
+  "digest": "b61f64775a1ba21dae02d81e023980bae16fc096d7cb7eebd96860c33b0a035c",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
+    "revision": "git-blake3:a537fb45cb4067e863efd4ecf7740a0b259ad689:3672627451d63c5bd82b4308076c82998f242219b356ee53615a4100fbf56957",
+    "scope": [
+      "infra/aws/runtime/gpu-proof",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/prepared/issues/345/design.md",
+      ".csdlc/prepared/issues/345/diagram.mmd",
+      ".csdlc/issues/345"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "scope": [
+      "infra/aws/runtime/gpu-proof",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/prepared/issues/345/design.md",
+      ".csdlc/prepared/issues/345/diagram.mmd",
+      ".csdlc/issues/345"
+    ],
+    "reviewed_revision": "git-blake3:a537fb45cb4067e863efd4ecf7740a0b259ad689:3672627451d63c5bd82b4308076c82998f242219b356ee53615a4100fbf56957",
+    "findings": [],
+    "residual_risks": [
+      "The live paid two-node GPU proof remains pending this recorded review and single-use authorization.",
+      "PR #593 merged an older head; this reviewed candidate is not yet integrated into main.",
+      "The bounded qualification does not establish 24/7 production readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +58,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5264d4f02a44ee5f38ef1f4ce6d09b72259e9850d5487716f2f33a82151483e5",
+      "values_digest": "b3e2bff28fe8135478ad040bae23619457abc45a5b65ddebfa530a5f8691c8c3",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "9d2f3b6533ca9ef79f14a07b9453cc3a54763f35b5156258d8fecd7f00bf6b50",
+      "values_digest": "c2bf630019002c7b9b07cf7a9d718ed00e171eb45c3a265f6f1eee4633897c82",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "fb52808a8cdbf08c55801b9a01486def1708618202d8e36d735d25e53167c506",
+      "values_digest": "a46523b8760f551db6281cb72ff30d8a12b3488e0246ab5e9c65ac19825302ec",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "e19bd7f0c2f0282db731903455f9c171d2c52b59572d29d5c5193b1791d2a7c8",
+      "values_digest": "7065f19fc99aa6e89c9050a8bd3c9f1ab845b85d9687a9d9e7a51960336ebe8e",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "1a9069efbf3b84c7278c6d91a83d25647bdfa6a434fc84c620f4bd9165d1e619",
-      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
-      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
+      "values_digest": "8b769b411b2b8e7034f02941043c17825849c4bce3988433f0ddfa6bb7992e6a",
+      "rendered_digest": "661650991e1af06cc61a84711e0b1318eefac50a7ac51f24d003184e027086a5",
+      "ast_digest": "1b1f7e2506f03bd2b4901c8c7c81b1d8b0ffebb17a8daf67367057b20fa40d64"
     },
     "sor": {
-      "values_digest": "16c7ecfd19644adc9796a2495f39e8f325a63d94f883ad93c07d09bc10560821",
+      "values_digest": "a6f21d2126af75a6a7c59506bb0cf81f1b0740c98b8c73e11d3ccc9c2c91a91e",
       "rendered_digest": "13d6eefe486dac0cc8e3b40170d41b1497b1f85d46fed18676c0226265e72cb7",
       "ast_digest": "0e8a85b0a742b57447f5c89114a9de263e2097c6cc1e0cf97599fb57330a5d36"
     }
@@ -132,6 +165,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-345-two-node-terraform",
       "reason": "Recover published review state because the operator replaced the single-host CloudFormation/direct-launch design with a Terraform-owned two-node Runtime/Guardian and Ollama GPU topology with mandatory SSH on both nodes."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -645,6 +685,20 @@
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Record F-345-22 and F-345-23 remediation plus current no-paid proof without claiming the merged historical PR contains this candidate or that the paid guest run occurred.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and no-paid validated the Terraform-owned two-node AWS Runtime qualification through the final launch-review remediations. PR #593 merged an older head, so this exact candidate remains worktree-only and the paid GPU guest proof remains pending a fresh exact-head PASS and single-use authorization.\",\"changes\":[\"Added an isolated Terraform root owning one regular Runtime node, one GPU Ollama node, two security groups, one shared EC2 key pair, separate roles/profiles, encrypted disposable gp3 disks, and a two-node EventBridge Scheduler deadline.\",\"Pinned the Terraform AWS provider to agent-logic-admin and required both public-IPv4 nodes to share one managed public key with TCP/22 limited to the operator IPv4 /32; GPU TCP/11434 remains Runtime-security-group-only.\",\"Replaced controller-side EC2/SSM orchestration with automatic cloud-init, retained SSM only for recovery, and replaced live guest Git checkout with an immutable versioned source archive.\",\"Configured the GPU bootstrap to restore at least two immutable models, keep them loaded in one Ollama service, and emit readiness only after every expected digest has nonzero VRAM residency.\",\"Configured the Runtime bootstrap to run Guardian/Runtime lifecycle, route the local-only Shepherd smoke contract through a loopback proxy to private Ollama, and run the restored repository-rooted six-agent UTS, ACC, Freedom Gate, and runtime.observe proof.\",\"Granted both guests read access only to exact bootstrap object keys, including the Runtime node's GPU-ready receipt, while retaining one exact create-only receipt write per node.\",\"Rechecked resolved AMI, VPC, subnet, route-table, and network-ACL identities after preflight so Terraform cannot apply drifted inputs.\",\"Bound single-use authorization to both nodes, disks, immutable artifacts, SSH/network identity, Terraform source, typed issue/design state, deadline, and combined compute/storage/IPv4/request cost.\",\"Corrected STP dependencies, repository inputs, and non-goals to authorize the exact two-node IAM, security-group, public IPv4, and mandatory SSH surface without widening the qualification.\",\"Retained mode-0600 worktree-local recovery state and controller destroy, guest deadline, and tag-constrained Scheduler cleanup for both nodes.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/prepared/issues/345/design.md\",\".csdlc/prepared/issues/345/diagram.mmd\",\".csdlc/issues/345\"],\"validation\":[{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"fmt\",\"-check\"],\"purpose\":\"Reject Terraform formatting drift.\",\"outcome\":\"passed\",\"evidence_ref\":\"infra/aws/runtime/gpu-proof\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"validate\"],\"purpose\":\"Validate the complete two-node Terraform configuration and narrowed IAM policies.\",\"outcome\":\"passed\",\"evidence_ref\":\"infra/aws/runtime/gpu-proof\"},{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove twenty no-paid topology, SSH, private-Ollama, exact-object IAM, input-drift, typed-review-state, authorization, recovery, and guest-script contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"preflight\"],\"purpose\":\"Verify current business-account AMIs, public subnet route/NACL, pricing, quota, immutable artifacts, SSH/network hashes, 1.425111 USD worst-case cost, and zero stale resources without launching compute.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/local/issue345/preflight-artifact-manifest.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
+    },
+    {
+      "sequence": 74,
+      "generation": 62,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 75,
+      "generation": 63,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
