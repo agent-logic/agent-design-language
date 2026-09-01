@@ -21,7 +21,7 @@ may be restored to closed and materialized terminal.
 | #501 | closed | restored closed and materialized terminal | Prior #568 review initially failed, but live PR #568 readback plus current main evidence showed a merged closing PR with green checks and exact-head PASS review evidence; #501 terminal truth was materialized at generation 20. |
 | #502 | closed | restored closed and materialized terminal | Prior #572 review initially failed, but live PR #572 readback plus current main evidence showed a merged closing PR with green checks and exact-head PASS review evidence; #502 terminal truth was materialized at generation 32. |
 | #503 | closed | left closed | Live GitHub shows #503 closed by merged PR #581, and terminal truth was materialized on current main-derived state. |
-| #504 | open | reopened | Prior #588/#597 review evidence left remote-delivery authority findings unresolved for #504 scope. |
+| #504 | closed | restored closed and materialized terminal | PR #588 is merged with visible `Closes #504`, green checks, and exact-head PASS review evidence at `44b14fdc283f415ebfb4ee4f1b234203a85a2d8b`; live issue readback showed #504 open after merge, so closure hygiene closed it through typed v2 issue authority and materialized terminal truth at generation 19. |
 | #505 | open | left open | #505 is the V3-F authority-transition decision gate and must not close before explicit operator-reviewed cutover. |
 | #570 | closed | restored closed and materialized terminal | Live PR #584 readback showed a merged closing PR with green checks and exact-head PASS review; terminal truth was materialized at generation 27. |
 | #571 | closed | restored closed and materialized terminal | Live PR #585 readback showed a merged closing PR with green checks and exact-head PASS review; terminal truth was materialized at generation 14. |
@@ -48,6 +48,7 @@ Terminal materialization requests are retained at:
 - `.csdlc/prepared/issues/501/materialize-terminal-after-hygiene.json`
 - `.csdlc/prepared/issues/502/materialize-terminal-after-hygiene.json`
 - `.csdlc/prepared/issues/503/materialize-terminal-main.json`
+- `.csdlc/prepared/issues/504/materialize-terminal-after-hygiene.json`
 - `.csdlc/prepared/issues/570/materialize-terminal-after-hygiene.json`
 - `.csdlc/prepared/issues/571/materialize-terminal-after-hygiene.json`
 
@@ -61,8 +62,8 @@ Terminal materialization requests are retained at:
 ## Non-Claims
 
 This packet does not claim v3 cutover readiness, #505 completion, or terminal
-success for #504 or #596. It records closure hygiene only: failed or unproven
-issues remain open, while #500, #501, #502, #503, #570, and #571 have terminal
+success for #596. It records closure hygiene only: failed or unproven issues
+remain open, while #500, #501, #502, #503, #504, #570, and #571 have terminal
 truth tied to successful review/corrective evidence and remote evidence. #596
 is only restored to a valid ready-state record; it is not terminal closeout
 truth.
