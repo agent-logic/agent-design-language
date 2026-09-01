@@ -1,0 +1,7 @@
+{
+  "issue": 604,
+  "expected_generation": 9,
+  "expected_digest": "caccf6c949030442bb2ea58e3b0d105947a25536f0436927de0a46476b9a9b9a",
+  "actor": "codex:/root/worker-6/issue-604",
+  "reason": "Recover after live ready canary exposed that csdlc-publish ready recorded local ready truth but did not commit and push the governed metadata tail. The PR remains live and will be reconciled through a repaired typed publication path."
+}

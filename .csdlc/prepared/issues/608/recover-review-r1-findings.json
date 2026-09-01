@@ -1,0 +1,7 @@
+{
+  "issue": 608,
+  "expected_generation": 4,
+  "expected_digest": "b8adaa92e9d0eff2d1846d826ebe767da6a332083ba31dc914a7d5709e3e6275",
+  "actor": "codex:/root",
+  "reason": "Recover the failed exact-head review so the bounded Vertex trust, thinking-budget validation, and credential-adjacent evidence findings can be remediated before a fresh review."
+}

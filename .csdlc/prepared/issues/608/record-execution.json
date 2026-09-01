@@ -1,0 +1,44 @@
+{
+  "issue": 608,
+  "card": "sor",
+  "expected_generation": 3,
+  "expected_digest": "86c6b1e9607d6ae2aaf7abc6f68d23e75a21415e5109e1744c17eb2bb545bf27",
+  "actor": "codex:608-vertex-provider",
+  "reason": "Record implemented Vertex global endpoint and thinking config proof for #608.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Implemented native Vertex Gemini global endpoint routing, first-party global endpoint trust, and config-backed thinking controls for #608.",
+    "changes": [
+      "Added global endpoint derivation so location global uses aiplatform.googleapis.com while regional locations keep <region>-aiplatform.googleapis.com.",
+      "Accepted aiplatform.googleapis.com as a trusted first-party Vertex endpoint for credentialed calls.",
+      "Added config-backed thinking_level, thinking_budget, and include_thoughts request-body rendering.",
+      "Rejected simultaneous thinking_level and thinking_budget to avoid mixing model-family contracts.",
+      "Added focused unit tests for endpoint derivation and thinking config behavior.",
+      "Added issue-owned focused and live Vertex proof scripts."
+    ],
+    "artifacts": [
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/tests.rs",
+      ".csdlc/prepared/issues/608/validate-provider.sh",
+      ".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh",
+      ".csdlc/evidence/608/live-vertex/vertex_2_5_model_matrix_native_endpoint.adl.yaml",
+      ".csdlc/evidence/608/live-vertex/vertex_global_3x_model_matrix_native_endpoint.adl.yaml",
+      ".csdlc/evidence/608/live-vertex/proof-summary.md"
+    ],
+    "validation": [
+      {
+        "purpose": "Focused provider implementation proof: formatting, Vertex unit tests, diff hygiene, and adl package compile.",
+        "command": ["bash", ".csdlc/prepared/issues/608/validate-provider.sh"],
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/608/live-vertex/proof-summary.md"
+      },
+      {
+        "purpose": "Live regional Gemini 2.5 and global Gemini 3.x provider proof using approved GCP key path without endpoint overrides.",
+        "command": ["bash", ".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh"],
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/608/live-vertex/proof-summary.md"
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

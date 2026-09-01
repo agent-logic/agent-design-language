@@ -512,11 +512,13 @@ grep -F "test(runtime_v2_unified_runtime_kernel)" <<<"$unified_runtime_kernel_ex
 runtime_v3_surfaces_changed="$TMP/runtime-v3-surfaces-changed.txt"
 cat >"$runtime_v3_surfaces_changed" <<'EOF'
 M	adl/src/cli/runtime_v3_cmd.rs
+M	adl/src/cli/csm_runtime_v3_cmd.rs
 M	adl-runtime/src/guardian.rs
 A	adl-runtime/src/bin/adl-runtime-guardian.rs
 EOF
 runtime_v3_expression="$(bash "$SCRIPT" --changed-files "$runtime_v3_surfaces_changed" --print-risk-nextest-expression)"
 grep -F "binary_id(adl::bin/adl) and test(/^cli::runtime_v3_cmd::tests::/)" <<<"$runtime_v3_expression" >/dev/null
+grep -F "binary_id(adl::bin/adl) and test(/^cli::csm_runtime_v3_cmd::tests::/)" <<<"$runtime_v3_expression" >/dev/null
 grep -F "test(/^guardian::tests::/)" <<<"$runtime_v3_expression" >/dev/null
 grep -F "binary_id(adl-runtime::guardian_cli) and test(/^guardian_cli_/)" <<<"$runtime_v3_expression" >/dev/null
 runtime_v3_filters="$TMP/runtime-v3-filters.txt"

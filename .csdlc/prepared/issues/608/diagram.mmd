@@ -1,0 +1,10 @@
+flowchart LR
+  C["ADL provider config"] --> P["vertex_ai_gemini provider"]
+  P --> E{"location"}
+  E -->|"global"| G["aiplatform.googleapis.com"]
+  E -->|"regional"| R["<region>-aiplatform.googleapis.com"]
+  C --> T["thinking_level / thinking_budget / include_thoughts"]
+  T --> B["generationConfig.thinkingConfig"]
+  G --> V["Vertex generateContent"]
+  R --> V
+

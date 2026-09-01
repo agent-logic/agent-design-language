@@ -12,7 +12,9 @@ use std::{
     time::{Duration, Instant},
 };
 
-use adl_runtime_kernel::{RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA};
+use adl_runtime_kernel::{
+    RuntimeCloudWatchInitConfig, RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
+};
 use runtime_observability::{
     audit_master_log_file, render_vector_config, RuntimeVectorConfig, RuntimeVectorPipeline,
 };
@@ -247,6 +249,45 @@ fn vector_config_declares_durable_master_otlp_and_bounded_buffers() {
     assert!(!rendered_text.contains("aws_access_key_id"));
     assert!(!rendered_text.contains("device_and_inode"));
     assert!(!rendered_text.contains("log_to_metric"));
+}
+
+#[test]
+fn vector_config_routes_redacted_runtime_health_to_cloudwatch_without_credentials() {
+    let root = test_root("cloudwatch-config-shape");
+    let mut config = vector_config(root, None);
+    config.cloudwatch = Some(RuntimeCloudWatchInitConfig {
+        region: "us-west-2".to_owned(),
+        log_group: "/agent-logic/runtime-v3/konishi-dev".to_owned(),
+        log_stream: "wuji".to_owned(),
+    });
+    let rendered = render_vector_config(&config);
+
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_cloudwatch"]["type"],
+        "aws_cloudwatch_logs"
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_cloudwatch"]["inputs"],
+        json!(["runtime_v3_cloud_health"])
+    );
+    assert_eq!(
+        rendered["transforms"]["runtime_v3_cloud_health"]["inputs"],
+        json!(["runtime_v3_redacted"])
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_cloudwatch"]["create_missing_group"],
+        false
+    );
+    assert_eq!(
+        rendered["sinks"]["runtime_v3_cloudwatch"]["buffer"]["max_size"],
+        268_435_488_u64
+    );
+    let rendered_text = serde_json::to_string(&rendered).unwrap();
+    assert!(rendered_text.contains("runtime_health_heartbeat"));
+    assert!(rendered_text.contains("adl.runtime_v3.cloud_health.v1"));
+    assert!(!rendered_text.contains(". = .fields"));
+    assert!(!rendered_text.contains("aws_secret_access_key"));
+    assert!(!rendered_text.contains("aws_access_key_id"));
 }
 
 #[test]
@@ -657,6 +698,7 @@ fn vector_config(root: PathBuf, otlp_endpoint: Option<String>) -> RuntimeVectorC
         vector_data_dir: root.join("observability/vector-data"),
         spool_max_bytes: 8 * 1024 * 1024,
         spool_retained_files: 4,
+        cloudwatch: None,
     }
 }
 

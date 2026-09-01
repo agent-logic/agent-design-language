@@ -113,6 +113,11 @@ vector_data_dir = "vector-data"
 spool_max_bytes = 8388608
 spool_retained_files = 4
 
+[observability_pipeline.cloudwatch]
+region = "us-west-2"
+log_group = "/agent-logic/runtime-v3/axioma-wuji-dev"
+log_stream = "wuji"
+
 [weather]
 sample_millis = 1000
 history_capacity = 60
