@@ -67,6 +67,7 @@ run_contracts() {
   [[ "$(ADL_ISSUE607_MOCK_AWS_RESULT=absent bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-resource-absence image ami-0123456789abcdef0)" == absent ]]
   [[ "$(ADL_ISSUE607_MOCK_AWS_RESULT=absent bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-resource-absence volume vol-0123456789abcdef0)" == absent ]]
   ! ADL_ISSUE607_MOCK_AWS_RESULT=ambiguous bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-resource-absence snapshot snap-0123456789abcdef0 >/dev/null 2>&1
+  jq -e --arg source 'runs/new/source.tar' '(. // []) | all(.[]; .==$source)' <<<null >/dev/null
 
   rg -q 'http_tokens[[:space:]]*=[[:space:]]*"required"' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
   rg -q 'http_tokens[[:space:]]*=[[:space:]]*"required"' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"

@@ -245,7 +245,7 @@ assert_campaign_action_unused() {
 
 assert_remote_run_unused() {
   keys="$(aws_cli s3api list-objects-v2 --bucket "$BUCKET" --prefix "${PREFIX}runs/$RUN_ID/" --query 'Contents[].Key' --output json)"
-  jq -e --arg source "${PREFIX}runs/$RUN_ID/source.tar" 'all(.[]; .==$source)' <<<"$keys" >/dev/null \
+  jq -e --arg source "${PREFIX}runs/$RUN_ID/source.tar" '(. // []) | all(.[]; .==$source)' <<<"$keys" >/dev/null \
     || { echo "remote run prefix contains stale receipts: $RUN_ID" >&2; exit 2; }
 }
 

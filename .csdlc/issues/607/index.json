@@ -3,36 +3,13 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "reviewed",
-  "generation": 22,
-  "digest": "389bab5adb684d8ac216f4de56541533fbf891b8856d6da8d2cb5ad339e235b6",
+  "phase": "implemented",
+  "generation": 23,
+  "digest": "640415e8f24d17333bda888ffadae311fadc31e8ef67225afc3b54ab4483f901",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:issue_607_design_review",
-    "scope": [
-      ".csdlc/issues/607",
-      ".csdlc/prepared/issues/607",
-      ".csdlc/evidence/607",
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl/tools/issue607_probe_runtime.py",
-      "adl/tools/issue607_qualify_warm_polis.sh",
-      "adl/tools/issue607_validate_saved_plan.sh",
-      "adl/tools/run_issue607_warm_polis.sh",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      "infra/aws/runtime/gpu-proof"
-    ],
-    "reviewed_revision": "git-blake3:c2cafcc425a45de2175f7fc1763c86f741a61c66:036981322d8f7c8df1f3f3906c99db29b45322505fa03400f8c973bbf84b35e3",
-    "findings": [],
-    "residual_risks": [
-      "Paid AWS startup timing, full qualification, and exact zero-residue proof remain pending in S4 and are not claimed by the draft SOR."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -47,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ec3ec12b86324ee235504506fb0a8659bd31dfdecce15333b0c81fe0a3a41625",
+      "values_digest": "981efc0fe69824fbbc4283e81139d2f36245277eeafb97584b403bde49acd15a",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "bd2b224fca6922aaaafef90fc69fdc47889585fe567cfd116b8eacf6cfd7488b",
+      "values_digest": "330552001dd070675c53f96869afd1cafac823e971cec3b5d2030aaf5fc96315",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "45dba848854fc0f13fb4bbeb3c312f0f48c118021935b902bfb29469bff60f97",
+      "values_digest": "1b13376f783457d8bfa0dcf054aac64ede1027cdc67b5b0adb65ae375639cada",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "3fb7c547a2b12e8160ec60075af1b0b8e215873e48e7afd89b02fbb6ec2e487e",
+      "values_digest": "db729fb47c8ebd61390b89baa231b2bfc3b59513c854208313a2002a64178447",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "7aa9eaf066d624aad09214ed64500540638feb2cd55239176dabb209dd796341",
-      "rendered_digest": "86726a6e0f96ea8018285847bf543d5552a929b4a964ef57acf10617f7ffda33",
-      "ast_digest": "a75f1f0a6908969fe8da0ee126f0778ef333a302277af9b7672f238a4d618609"
+      "values_digest": "e90a279908c11d32d2e5d4a5b402d150a744c4fc8fbf723f09957abd29b0c054",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "4558c3ab71a407da99bc19f390dd325ffb160599edbbd8bd79ae9117f826db3f",
+      "values_digest": "08cb7d562345c729b774f2fc2f1d0714abe52e403d3ea0d4f1b879f37cdc7f6b",
       "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
       "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
     }
@@ -105,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex-primary-issue607",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the reviewed state after live read-only pre-mutation evidence exposed a null Contents handling defect in the empty S3 run-prefix guard."
     }
   ],
   "audit": [
@@ -282,6 +266,13 @@
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the reviewed state after live read-only pre-mutation evidence exposed a null Contents handling defect in the empty S3 run-prefix guard.",
+      "operation": "recover_review"
     }
   ]
 }
