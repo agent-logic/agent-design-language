@@ -7,7 +7,7 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 17
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -112,8 +112,8 @@
           "evidence_ref": "alarm recovery command 9ce0b157-5862-4622-a90d-a39c9f7ff1c4 succeeded"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "draft",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

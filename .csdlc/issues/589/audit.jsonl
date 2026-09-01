@@ -21,3 +21,4 @@
 {"sequence":21,"generation":16,"actor":"codex-issue-589","reason":"Execution and validation evidence are complete and ready for exact-commit review.","operation":"{\"operation\":\"advance_status\",\"status\":\"ready\"}"}
 {"sequence":22,"generation":16,"actor":"codex-issue-589","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":23,"generation":17,"actor":"subagent:/root/issue_589_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":24,"generation":18,"actor":"codex-issue-589","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
