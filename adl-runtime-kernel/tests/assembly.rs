@@ -315,6 +315,16 @@ fn write_foreign_lock_owner(lock: &Path, writer_id: &str, pid: u32) {
     .unwrap();
 }
 
+fn write_start_intent(root: &Path, writer_id: &str, pid: u32) {
+    std::fs::write(
+        root.join("writer.starting.json"),
+        format!(
+            r#"{{"schema":"adl.runtime.local_writer_start.v1","writer_id":"{writer_id}","pid":{pid}}}"#
+        ),
+    )
+    .unwrap();
+}
+
 #[tokio::test]
 async fn local_production_adapters_execute_real_bounded_behavior() {
     let root = TempDir::new().unwrap();
@@ -633,6 +643,32 @@ async fn agent_scheduler_checkpoint_cancellation_and_storage_are_real() {
     assert!(try_lifelog(&partial_root).is_err());
     assert!(partial_lock.exists());
     std::fs::remove_dir_all(partial_lock).unwrap();
+
+    let interrupted_start_root = root.path().join("interrupted-writer-start");
+    let interrupted_start_lock = interrupted_start_root.join("writer.lock");
+    std::fs::create_dir_all(&interrupted_start_lock).unwrap();
+    write_start_intent(&interrupted_start_root, "interrupted", u32::MAX);
+    let recovered = try_lifelog(&interrupted_start_root).unwrap();
+    assert!(interrupted_start_lock.exists());
+    assert!(!interrupted_start_root.join("writer.starting.json").exists());
+    drop(recovered);
+    assert!(!interrupted_start_lock.exists());
+
+    let active_interrupted_root = root.path().join("active-interrupted-writer-start");
+    let active_interrupted_lock = active_interrupted_root.join("writer.lock");
+    std::fs::create_dir_all(&active_interrupted_lock).unwrap();
+    write_start_intent(
+        &active_interrupted_root,
+        "active-interrupted",
+        std::process::id(),
+    );
+    assert!(try_lifelog(&active_interrupted_root).is_err());
+    assert!(active_interrupted_lock.exists());
+    assert!(active_interrupted_root
+        .join("writer.starting.json")
+        .exists());
+    std::fs::remove_dir_all(active_interrupted_lock).unwrap();
+    std::fs::remove_file(active_interrupted_root.join("writer.starting.json")).unwrap();
 
     let replaced_root = root.path().join("replaced-writer");
     let replaced_writer = try_lifelog(&replaced_root).unwrap();

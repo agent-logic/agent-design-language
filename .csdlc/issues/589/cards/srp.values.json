@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 589,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Make Wuji Guardian startup and config reload converge",
+    "slug": "wuji-guardian-start-reload",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "CSM Runtime v3 lifecycle commands, Guardian startup ownership, stale-state reconciliation, config reload safety, and focused operational proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify startup no longer requires the separate continuity channel while Guardian ownership remains intact.",
+        "Verify stale-state recovery cannot remove a lock owned by a live writer.",
+        "Verify reload preserves the last known-good running configuration on candidate failure."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

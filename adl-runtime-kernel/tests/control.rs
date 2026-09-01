@@ -813,6 +813,9 @@ async fn readiness_fails_closed_before_first_weather_sample() {
     assert!(report
         .degraded_reasons
         .contains(&"weather_stale".to_owned()));
+    assert!(report
+        .degraded_reasons
+        .contains(&"shepherd_not_admitted".to_owned()));
     assert!(report.weather_freshness.is_none());
 }
 
@@ -1016,6 +1019,16 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
         integrity: "snapshot-hash".to_owned(),
     });
     recorder.promote_observability();
+    let admission_now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as u64;
+    assert!(recorder.record_agent_admission(
+        "shepherd",
+        admission_now,
+        admission_now.saturating_add(60_000),
+        "0123456789abcdef0123456789abcdef01234567",
+    ));
     let service = Arc::new(ControlService::new_with_observatory_config(
         "instance-1",
         recorder,

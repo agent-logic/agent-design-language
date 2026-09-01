@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 589,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Make Wuji Guardian startup and config reload converge",
+    "slug": "wuji-guardian-start-reload",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make Wuji start reliably through CSM without a separate Guardian continuity-channel startup dependency.",
+      "required_outcome": "One operator command starts or reloads Wuji, safely reconciles interrupted startup state, reaches stable HTTPS readiness on 20997, and remains supervised by the host service manager.",
+      "declared_scope": [
+        "CSM Runtime v3 service start, stop, status, and reload commands",
+        "Guardian startup readiness and kernel lease ownership",
+        "Safe reconciliation of ownerless locks and interrupted startup journals",
+        "Focused local and AWS-facing readiness proof"
+      ],
+      "authority_boundary": [
+        "Guardian remains the Runtime process authority",
+        "Single-writer safety remains fail closed for genuine live writers",
+        "Retained Polis state and signed checkpoints are preserved",
+        "No separate port-20998 continuity channel is required for ordinary startup"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Fix forward and do not revert the current recovery work",
+        "Do not discard retained Wuji state",
+        "Keep validation focused and restore the always-on service"
+      ]
+    }
+  }
+}

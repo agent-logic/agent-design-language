@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 589,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Make Wuji Guardian startup and config reload converge",
+    "slug": "wuji-guardian-start-reload",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Runtime v3 and CSM operator startup/reload reliability only.",
+      "deliverables": [
+        "CSM Runtime v3 lifecycle commands",
+        "Simplified Guardian startup path",
+        "Safe interrupted-start reconciliation",
+        "Focused regression tests and Wuji readiness proof"
+      ],
+      "acceptance_criteria": [
+        "A single CSM start invocation reaches stable Runtime HTTPS readiness on 20997",
+        "Ordinary startup does not depend on a separate port-20998 continuity handshake",
+        "CSM exposes start, stop, status, and validated config reload/restart",
+        "Ownerless locks and interrupted startup journals reconcile automatically without discarding Polis state",
+        "A genuine live writer is still rejected",
+        "The host service manager keeps Wuji running and restarts it after failure",
+        "Focused local tests pass and local plus AWS-facing health is verified"
+      ],
+      "dependencies": [
+        "Runtime v3 Guardian and kernel",
+        "Existing CSM service operator surface"
+      ],
+      "repo_inputs": [
+        "adl/src/cli/csm_cmd.rs",
+        "adl-runtime/src/guardian.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "infra/runtime-v3/runtime-init.toml"
+      ],
+      "non_goals": [
+        "Discarding or resetting retained Wuji state",
+        "Weakening Guardian authority or live-writer exclusion",
+        "Changing public API or WSS route semantics",
+        "Broad Runtime refactoring"
+      ]
+    }
+  }
+}

@@ -1962,6 +1962,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
 
     pub fn readiness_report(&self) -> RuntimeReadinessReport {
         let feed = self.observatory_feed();
+        let now = now_unix_millis();
         let weather_freshness = feed.weather_freshness.clone();
         let weather_stale = weather_freshness
             .as_ref()
@@ -1972,6 +1973,18 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         }
         if weather_stale {
             degraded_reasons.push("weather_stale".to_owned());
+        }
+        let shepherd_ready = feed
+            .health
+            .snapshot
+            .agent_admissions
+            .get("shepherd")
+            .is_some_and(|admission| {
+                admission.observed_at_unix_millis <= now
+                    && admission.freshness_deadline_unix_millis >= now
+            });
+        if !shepherd_ready {
+            degraded_reasons.push("shepherd_not_admitted".to_owned());
         }
         RuntimeReadinessReport {
             schema: RUNTIME_READINESS_SCHEMA.to_owned(),

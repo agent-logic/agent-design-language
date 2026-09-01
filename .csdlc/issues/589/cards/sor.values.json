@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 589,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Make Wuji Guardian startup and config reload converge",
+    "slug": "wuji-guardian-start-reload",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented a simple ordered Runtime v3 host lifecycle, removed the Guardian's separate startup continuity client, hardened correlated writer recovery and reload rollback, required a fresh Shepherd for readiness, and deployed bounded CloudWatch-to-SSM recovery for Wuji.",
+      "actual_changes": [
+        "CSM start and reload now use one ordered stop-wait-start-readiness sequence without overlapping host-service generations.",
+        "Guardian ordinary startup supervises the kernel through its authenticated child lease and no longer creates a separate continuity-channel client.",
+        "Writer and reload transaction cleanup is correlated, atomic, and removes partial staging files after failed copies.",
+        "Runtime readiness requires a fresh admitted Shepherd lease and emits a bounded health heartbeat containing Polis, instance, readiness, liveness, and canonical config identity.",
+        "Terraform provisions a missing-heartbeat CloudWatch alarm, EventBridge target, SNS notification, and bounded SSM recovery document for Wuji."
+      ],
+      "artifacts": [
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/observability.rs",
+        "infra/aws/csm-runtime-health"
+      ],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

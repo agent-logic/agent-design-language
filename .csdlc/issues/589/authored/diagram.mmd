@@ -1,0 +1,15 @@
+flowchart LR
+  C["csm start / reload / status"] --> H["Host service manager"]
+  H --> G["Guardian"]
+  G -->|"authenticated child lease"| K["Runtime v3 kernel"]
+  K --> A["HTTPS + WSS :20997"]
+  K --> S["Retained Polis state + signed checkpoints"]
+  C -->|"validate candidate before restart"| V["Runtime init validation"]
+  V --> G
+  X["Migration / checkpoint transfer"] -. "explicit operation only" .-> K
+  K -->|"periodic health EMF"| CW["Vector -> CloudWatch metrics"]
+  W["CloudWatch Synthetics /v1/health"] --> M["CloudWatch alarm + EventBridge"]
+  CW --> M
+  M --> R["SSM Run Command"]
+  R -->|"csm status + governed recovery"| C
+  R --> N["Recovery result notification"]

@@ -2,6 +2,7 @@ use anyhow::{Context, Result};
 use std::path::PathBuf;
 
 use super::agent_cmd::real_csm_daemon;
+use super::csm_runtime_v3_cmd::real_runtime_v3_service;
 use super::csm_service_cmd::real_service;
 use ::adl::csm_backpressure::{prove_backpressure, BackpressureProofOptions};
 use ::adl::csm_cav_red_blue::{prove_cav_red_blue, CavRedBlueProofOptions};
@@ -35,7 +36,7 @@ pub(crate) fn real_csm_standalone(args: &[String]) -> Result<()> {
 fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
     let Some(cmd) = args.first().map(|value| value.as_str()) else {
         eprintln!(
-            "csm requires subcommand: daemon | service | governed-stop | credential-policy | continuity | godel-snapshot | cav | backpressure | aws-signal | storage | cloud-control | observatory"
+            "csm requires subcommand: daemon | service | runtime-v3 | governed-stop | credential-policy | continuity | godel-snapshot | cav | backpressure | aws-signal | storage | cloud-control | observatory"
         );
         std::process::exit(2);
     };
@@ -51,6 +52,12 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
             CsmDispatchMode::StandaloneRuntime => real_service(&args[1..]),
             CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
                 "csm service is owned by the standalone csm runtime binary; use `csm service`, not `adl csm service`"
+            )),
+        },
+        "runtime-v3" => match mode {
+            CsmDispatchMode::StandaloneRuntime => real_runtime_v3_service(&args[1..]),
+            CsmDispatchMode::AdlControlPlane => Err(anyhow::anyhow!(
+                "csm runtime-v3 is owned by the standalone csm runtime binary; use `csm runtime-v3`, not `adl csm runtime-v3`"
             )),
         },
         "governed-stop" => match mode {
@@ -114,7 +121,7 @@ fn real_csm_with_mode(args: &[String], mode: CsmDispatchMode) -> Result<()> {
         }
         other => {
             eprintln!(
-                "unknown csm subcommand: {other} (expected daemon, service, governed-stop, credential-policy, continuity, godel-snapshot, cav, backpressure, aws-signal, storage, cloud-control, or observatory)"
+                "unknown csm subcommand: {other} (expected daemon, service, runtime-v3, governed-stop, credential-policy, continuity, godel-snapshot, cav, backpressure, aws-signal, storage, cloud-control, or observatory)"
             );
             std::process::exit(2);
         }
@@ -1174,6 +1181,7 @@ pub(crate) fn csm_usage() -> &'static str {
   csm daemon --spec <agent-spec.yaml> [--checkpoint-interval-secs <n>] [--interval-secs <n>] [--api-bind 127.0.0.1:19997] [--recover-stale-lease] [--no-sleep] [--json]
   csm service install --spec <agent-spec.yaml> [--service-root <dir>] [--manager launchd|local] [--label <label>] [--csm-bin <path>] [--api-bind 127.0.0.1:19997] [--json]
   csm service start|status|stop|remove [--service-root <dir>] [--json]
+  csm runtime-v3 start|stop|status|reload --init <absolute-runtime-init.toml> [--plist <absolute-launchd-plist>] [--label <service-label>] [--json]
   csm governed-stop --spec <agent-spec.yaml> --reason <text> --operator <identity> --authorization <base64-ed25519-signature> --intent emergency_polis_stop|operator_safety_stop|recoverability_drill --requested-at <RFC3339> [--json]
   csm credential-policy prove --out <proof-dir> [--run-id <id>] [--operator <identity>] [--requested-at <RFC3339>] [--json]
   csm cav red-blue prove --out <proof-dir> [--run-id <id>] [--operator <identity>] [--requested-at <RFC3339>] [--json]
@@ -1196,6 +1204,7 @@ Semantics:
   - csm daemon owns the runtime API as an embedded module in the daemon process; the API is not a separate service process.
   - csm daemon service mode has no cycle-count lifetime boundary; --no-sleep is a test-only bounded harness boundary.
   - csm service owns CSM runtime supervision around csm daemon; local mode is the portable Rust supervisor path, while launchd/systemd metadata are host integration targets.
+  - csm runtime-v3 validates the complete candidate init before starting or reloading the Guardian, converges through launchd or systemd, and reports listener readiness without broad process scans.
   - csm governed-stop is the only emergency polis stop path; it requires explicit operator metadata, checkpoints and safe-fail serialization before stop, lifecycle lifelog DB rows, and governed notice fan-out.
   - csm credential-policy proves no-secret credential class inventory, rotation cadence, break-glass audit events, revocation, and failed-closed negative cases for missing, expired, denied, and stale bindings.
   - csm cav red-blue proves bounded red-team fixtures and blue-team detection/response for CSM runtime security surfaces without retaining secrets or performing destructive cloud actions.

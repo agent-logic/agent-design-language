@@ -829,6 +829,9 @@ async fn main() -> ExitCode {
             let mut shepherd_heartbeat =
                 tokio::time::interval(std::time::Duration::from_millis(1_000));
             shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let mut cloud_health_heartbeat =
+                tokio::time::interval(std::time::Duration::from_secs(30));
+            cloud_health_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let serve_result = 'serve: loop {
                 if let Some(observability) = observability.as_mut() {
                     if let Err(error) = observability.poll_health() {
@@ -884,6 +887,37 @@ async fn main() -> ExitCode {
                                 );
                             }
                         }
+                    },
+                    _ = cloud_health_heartbeat.tick() => {
+                        let snapshot = recorder.snapshot();
+                        let health = recorder.health();
+                        tracing::info!(
+                            target: "adl_runtime_kernel",
+                            schema = "adl.runtime_v3.cloud_health.v1",
+                            event = "runtime_health_heartbeat",
+                            polis_id = %init.polis.id,
+                            runtime_instance_id = %instance_id,
+                            topology_generation = snapshot.topology_generation,
+                            continuity_generation = snapshot
+                                .continuity_head
+                                .as_ref()
+                                .map(|head| head.generation)
+                                .unwrap_or(0),
+                            config_hash = snapshot
+                                .continuity_head
+                                .as_ref()
+                                .map(|head| head.config_hash.as_str())
+                                .unwrap_or("unavailable"),
+                            ready = health.ready,
+                            live = health.live,
+                            ready_metric = u8::from(health.ready),
+                            live_metric = u8::from(health.live),
+                            degraded_components = health.degraded_components.len(),
+                            failed_components = health.failed_components.len(),
+                            restarting_components = health.restarting_components.len(),
+                            saturated_queues = health.saturated_queues.len(),
+                            "runtime health heartbeat"
+                        );
                     },
                     signal = shutdown_signal.recv() => {
                         if let Err(error) = signal {
