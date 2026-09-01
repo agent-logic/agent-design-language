@@ -4,13 +4,39 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "implemented",
-  "generation": 87,
-  "digest": "3cc499751ecd7154c46aa59cb935768b2be5e729ea03c8564733e562346216a2",
+  "phase": "reviewed",
+  "generation": 88,
+  "digest": "da95cfd8eed56a969dd5f2d27de4caf78734c049170bc1924adc57d0d21b3068",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
+    "revision": "git-blake3:13a4bf44f39feb6c11323ac170b108717c56ea9d:53bf7da760d0aa2efa3bc09e023837bfd05d0999ae567c19a5887172af090cc0",
+    "scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/issues/345"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/issues/345"
+    ],
+    "reviewed_revision": "git-blake3:13a4bf44f39feb6c11323ac170b108717c56ea9d:53bf7da760d0aa2efa3bc09e023837bfd05d0999ae567c19a5887172af090cc0",
+    "findings": [],
+    "residual_risks": [
+      "Final paid two-node success remains pending.",
+      "The bounded qualification does not establish 24/7 production readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "55e6f35aaa2085da67b46795e769484e4f89e519d2e57ff236c177a2c1122bc6",
+      "values_digest": "979d14a70be40e3d8d1adf4f2134142efcc3fc11af52a8a8f6f07f23f9c80dac",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "df4c4ee414a428808237bf9260c9bdaf72a7018a9258bfcc34099fbd3ceddf06",
+      "values_digest": "1fa1f21f987c480d1482238a04a8856760134816471b4f80db849c21980b7a2e",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "88d3e3299b100df2c0cfc843a942a0da9ff617f70d0b390abc4b0b660f638c09",
+      "values_digest": "e8061302f0c82c74d2b8c682269d0efa4afc23b1f3f22e73600cb3fb20805ac4",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "f9616323d7553682742b0469b9e3d649b6ad66f26545fae678c8de997a369900",
+      "values_digest": "daf49747152a9bef3a7821e212cae7c506d22f91e8a66f7ff90575128a966555",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "6dc935f2bac985c17004840e1b308250b89d48e37ee1f25d4136ecb00cc055c3",
-      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
-      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
+      "values_digest": "2bb5fb006ae8fa75f1bfae58f4114c2066c6e203600691f5be5da1e0f802fc7c",
+      "rendered_digest": "40b2611665f75e9ba0d451a50292155b45f916f758034ccd1563809b44a911fa",
+      "ast_digest": "1fa469d5a0e5cd0f0d3bb4037fee9d8157f21237bcecb2b8f621c07451fa090f"
     },
     "sor": {
-      "values_digest": "7a175eee60adef23a5fad5f072c0fb2c5f9b45ce09188f119f342e2b996372d1",
+      "values_digest": "f5d62825c38c43b26fc62335e1e64bf8ecc049a4c0f0700eedc6c61921086a32",
       "rendered_digest": "438cabc74618d0ce3a9246895cf33c58bfa89146bd25ee179c33722d16f77dbb",
       "ast_digest": "58a844b63e1f98864d123f09495f92be60cb8d97696d8548f5999934524e3a60"
     }
@@ -202,6 +228,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Recover the exact-head PASS after the fourth paid run proved the selective source archive omitted three Runtime kernel compile-time documents; add the full small compile-input closure and retain the live diagnostic truth before re-review."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -953,6 +986,20 @@
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Record the fourth real run, its two-model GPU success, exact guardian_lifecycle compile-input failure receipt, zero-residue cleanup, and the bounded archive-closure remediation without claiming final success.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Four real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, pinned Rust installation, and Vector installation, then failed in guardian_lifecycle because the selective archive omitted three compile-time Runtime documents. The new bounded diagnostic receipt preserved the exact compiler errors. Both nodes and all volumes were destroyed and the lock was released. The source archive now includes the complete small Rust dependency and compile-input closure; final paid proof remains pending review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.\",\"Observed the fourth real GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed the Runtime node pass package setup including CMake, immutable source restoration, pinned Rust installation, and Vector installation before guardian_lifecycle compilation.\",\"Captured the exact bounded diagnostic proving three missing compile-time Runtime documents instead of losing the guest failure after termination.\",\"Extended the exact source archive with adl-spec plus the small Runtime API, parity-matrix, and stock-league compile inputs required by source-level include macros.\",\"Extended the archive contract test to assert every external compile input needed by the production Runtime and ADL builds.\",\"Updated the runbook to describe dependency and compile-input closure truthfully.\",\"Confirmed controller cleanup terminated both instances, removed all run volumes, destroyed Terraform state resources, and released the lock.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof\",\"adl-runtime-kernel/build.rs\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".adl/local/issue345/adl-issue345-20260901-110251/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-110251/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-110251/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove the no-paid topology, bootstrap, dependency and compile-input archive closure, revision, diagnostics, IAM, authorization, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"ec75a382f9a354ccc4677b769b18043fc9c21567\",\"--run-id\",\"adl-issue345-20260901-110251\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-cargo-fix.json\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through repeated GPU residency, remediated native build setup, exact diagnostic failure, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-110251\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"validate\"],\"purpose\":\"Validate the complete two-node Terraform configuration.\",\"outcome\":\"passed\",\"evidence_ref\":\"infra/aws/runtime/gpu-proof\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
+    },
+    {
+      "sequence": 108,
+      "generation": 87,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 109,
+      "generation": 88,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
