@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "441fec45d4e996219640d1b85b1189f3252bc7d8040c26828fea256a77e10f3f",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "2a35a207668d977797854c25a6c8e0029ebdfc20a964f9a2a4b9cfae48e5ea57",
+  "generation": 6,
+  "digest": "9ece151805fedd9409784828c671d9849b757088164055eb0e9992932a0be8c9",
   "branch": "codex/608-vertex-global-thinking-provider-config",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-608-vertex-global-thinking-provider-config-exec",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0a9418602634c1c756b53d9d71f6c66419aad33a7ac4cabfc529245f60a70790",
+      "values_digest": "8eb5502a62e7ed4f116a2d7a968c4d80dab251bdf6050bfd5940b0494e882892",
       "rendered_digest": "be65d9203b2c74102ac352c28e6eb4e153548faf50a048d45fb39d08b52cec66",
       "ast_digest": "eeeafa3d11967bd3f7444e3c7950803293f5826bd5805879f07b1670e112456d"
     },
     "stp": {
-      "values_digest": "b01ba896a67030dcc59bf1d88923c8083d78ce996cd20d2aa8034c6292718580",
+      "values_digest": "e8ea067c14517f7d550e17654d4f4e1d616bb3e2fa44b12c4c95b116216c1201",
       "rendered_digest": "f06942e46e39f6caf1928c7d0792e65207ba57fb47776a069f6c2132e49a040b",
       "ast_digest": "37ea2512965f1546c37985239dcd410357f1931e15e778b00e270b0bd0648760"
     },
     "spp": {
-      "values_digest": "5a8f664be19fe2efc5c09d269f2c5e5f145ee6879d1cdf5c4ade2ce8f8740d7b",
+      "values_digest": "184ec3c5f0329fb04149d7b552d5f0444a2374296fc204f00c67091f3cacb683",
       "rendered_digest": "9d7711434fe23e9a15155afd851dc054f249ada1ac11e7e0ebf3079b241142d2",
       "ast_digest": "a56b2b8380fccba17f20cf2ea6df9981c81a17da8142127009b39d5a93044b46"
     },
     "vpp": {
-      "values_digest": "33fbdfc366993825ef940bd24c2daffa9e5a2ec3e2b181fdeb0f1d2208bf86b5",
+      "values_digest": "36e8f4596cb029d010fbb8ed0b8fdce611ac09ec9264a89711c8a8953e118581",
       "rendered_digest": "377592f996d1118147690f84da042fd2b9a65f4c5a28ae9f84dc1d53ff2d932a",
       "ast_digest": "ad5f5cca32856fefb6c07c6b3bc5d2080da179d05bdc928d938e50ecc2ff6381"
     },
     "srp": {
-      "values_digest": "671667c4fb1a421e80eb9e012c675a139a34342163d5eb3980116c74b11de28f",
-      "rendered_digest": "90a2721800993eeec49f8759ed4c4a0a566869cea679fcf7fb55851519b98cc2",
-      "ast_digest": "72f589c54d6c7d250a0c7a52c724ac838c2b2a2f3e6627c06fa78ec5f8344f41"
+      "values_digest": "3a8e7876da0749a89080954e8c1e92749f6d7b986a4ba937f1ee0cd26f81eaf8",
+      "rendered_digest": "d7d02964917e206bee1349e07fddbf49981ccd4b428099a72f1e3d72141e18eb",
+      "ast_digest": "6593f29a8dd8a0fc7874b47ee7073a9dbc7ec9965bdf68a0e4a13549ae9fb5b3"
     },
     "sor": {
-      "values_digest": "cdc07aa0baf613e8e6a587771c99e8d478cb29f928131127e6f69ed12f7fc996",
-      "rendered_digest": "bd82942534c5eb2eb4698e10ea5660c36b36b13e6eb7d5d523ec91fdca43d5a7",
-      "ast_digest": "80cf01d3d27047be5cb6fca14fc5fd63480abb5bef4f3af67865af3963c7a639"
+      "values_digest": "57ba05def1cf9b81bda7dd626bb88fed471952ca028fb3226614e028bd1d8c3a",
+      "rendered_digest": "4a1d62301681e8c28d8be0dc3d8770aa877cb31d73176530aaac2b5ed06555a1",
+      "ast_digest": "fbeb38d65977bdbafecd2bb737b75699bf876459c067dd1d07964c98bf7a1187"
     }
   },
   "transitions": [
@@ -120,6 +120,27 @@
       "actor": "codex:608-vertex-provider",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Recover the failed exact-head review so the bounded Vertex trust, thinking-budget validation, and credential-adjacent evidence findings can be remediated before a fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record the exact post-review remediation for Vertex endpoint trust, strict thinking-budget validation, and redacted live-proof evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Vertex AI Gemini provider support for native global endpoints and configurable thinking parameters, then remediated exact review findings by tying trusted Vertex hosts to the configured location, failing closed on invalid thinking_budget values, and redacting credential-adjacent proof details.\",\"changes\":[\"Generated regional Vertex endpoints as <location>-aiplatform.googleapis.com and global Vertex endpoints as aiplatform.googleapis.com without endpoint overrides.\",\"Accepted only the configured regional host or the global host for credential-bearing Vertex calls unless an explicit custom endpoint trust override is set.\",\"Rendered thinkingLevel, thinkingBudget, and includeThoughts into generationConfig.thinkingConfig while rejecting mutually exclusive or invalid thinking settings.\",\"Added focused regressions for global endpoint derivation, global trust, configured regional trust, arbitrary aiplatform-looking host refusal, thinking config rendering, mutual exclusion, and invalid thinking_budget values.\",\"Preserved live Vertex proof through approved key-path routing while redacting local key path and service-account identity from committed evidence.\"],\"artifacts\":[\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\",\".csdlc/prepared/issues/608/validate-provider.sh\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\",\".csdlc/evidence/608/live-vertex/proof-summary.md\",\".csdlc/evidence/608/vertex-provider-focused.log\",\".csdlc/evidence/608/vertex-provider-live.log\"],\"validation\":[{\"command\":[\"bash\",\".csdlc/prepared/issues/608/validate-provider.sh\"],\"purpose\":\"Prove endpoint derivation, request body rendering, strict trust policy, invalid config behavior, formatting, diff hygiene, and package compile.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/608/vertex-provider-focused.log; 6/6 focused Vertex tests passed and cargo check passed.\"},{\"command\":[\"bash\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\"],\"purpose\":\"Prove native provider calls against approved company Vertex endpoints without endpoint overrides for regional Gemini 2.5 and global Gemini 3.x models.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/608/vertex-provider-live.log; regional 2.5 matrix 3/3 and global 3.x matrix 6/6 succeeded.\"},{\"command\":[\"rg\",\"-n\",\"ya29\\\\.|private_key|BEGIN PRIVATE|refresh_token|client_secret|/Users/daniel/keys|tf-bootstrap@\",\".csdlc/evidence/608\",\".csdlc/prepared/issues/608\",\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\"],\"purpose\":\"Prove committed #608 source, proof scripts, and evidence do not expose provider tokens, key material, local key paths, or service-account identity.\",\"outcome\":\"passed\",\"evidence_ref\":\"Local scan returned no matches after proof redaction.\"}]}"
     }
   ]
 }

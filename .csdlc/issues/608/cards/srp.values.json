@@ -7,13 +7,13 @@
     "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
     "slug": "vertex-global-gemini-thinking-config",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 6
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Vertex provider endpoint derivation, trusted host policy, thinking config rendering, focused tests, and live proof truth for #608 only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

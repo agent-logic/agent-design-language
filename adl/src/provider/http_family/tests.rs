@@ -215,7 +215,7 @@ fn vertex_ai_global_endpoint_is_trusted_without_custom_override() {
         kind: "vertex_ai_gemini".to_string(),
         base_url: None,
         default_model: Some("gemini-3.7-flash".to_string()),
-        config: HashMap::new(),
+        config: HashMap::from([("location".to_string(), json!("global"))]),
     };
 
     validate_vertex_ai_endpoint(
@@ -223,6 +223,33 @@ fn vertex_ai_global_endpoint_is_trusted_without_custom_override() {
         "https://aiplatform.googleapis.com/v1/projects/company-project/locations/global/publishers/google/models/gemini-3.7-flash:generateContent",
     )
     .expect("global Vertex AI endpoint should be trusted");
+}
+
+#[test]
+fn vertex_ai_regional_endpoint_must_match_configured_location() {
+    let spec = adl::ProviderSpec {
+        id: Some("vertex_ai_gemini_primary".to_string()),
+        profile: None,
+        kind: "vertex_ai_gemini".to_string(),
+        base_url: None,
+        default_model: Some("gemini-2.5-flash".to_string()),
+        config: HashMap::from([("location".to_string(), json!("us-west1"))]),
+    };
+
+    validate_vertex_ai_endpoint(
+        &spec,
+        "https://us-west1-aiplatform.googleapis.com/v1/projects/company-project/locations/us-west1/publishers/google/models/gemini-2.5-flash:generateContent",
+    )
+    .expect("matching regional Vertex AI endpoint should be trusted");
+
+    let err = validate_vertex_ai_endpoint(
+        &spec,
+        "https://not-a-region-aiplatform.googleapis.com/v1/projects/company-project/locations/us-west1/publishers/google/models/gemini-2.5-flash:generateContent",
+    )
+    .expect_err("arbitrary aiplatform-looking hosts should not be trusted");
+    assert!(err
+        .to_string()
+        .contains("refusing to send Vertex AI bearer credentials"));
 }
 
 #[test]
@@ -257,6 +284,18 @@ fn vertex_ai_thinking_level_and_budget_are_mutually_exclusive() {
     assert!(err
         .to_string()
         .contains("config.thinking_level and config.thinking_budget are mutually exclusive"));
+}
+
+#[test]
+fn vertex_ai_thinking_budget_fails_closed_on_invalid_values() {
+    for invalid in [json!(0), json!(-1), json!("not-a-number"), json!(true)] {
+        let cfg = HashMap::from([("thinking_budget".to_string(), invalid)]);
+        let err = vertex_ai_thinking_config_from_config(&cfg)
+            .expect_err("invalid thinking_budget should fail closed");
+        assert!(err
+            .to_string()
+            .contains("config.thinking_budget must be a positive integer"));
+    }
 }
 
 #[test]

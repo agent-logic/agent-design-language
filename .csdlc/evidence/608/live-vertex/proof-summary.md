@@ -20,7 +20,7 @@ Focused local validation:
 
 Live Vertex validation:
 
-- `ADL_VERTEX_GCP_KEY=/Users/daniel/keys/gcp-tf-bootstrap-cs-host-377d41e71a824f92802120-20260827.json bash .csdlc/evidence/608/live-vertex/run-live-provider-proof.sh`
+- `ADL_VERTEX_GCP_KEY=<approved company Vertex service-account key path> bash .csdlc/evidence/608/live-vertex/run-live-provider-proof.sh`
 - Result: PASS
 - Regional `us-west1` Gemini 2.5 native provider proof:
   - `gemini-2.5-flash`: success
@@ -33,4 +33,3 @@ Live Vertex validation:
   - `gemini-3.5-flash-lite`: success
   - `gemini-3.1-pro-preview`: success
   - `gemini-3-flash-preview`: success
-

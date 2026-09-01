@@ -1339,7 +1339,7 @@ fn vertex_ai_tools_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Va
 
 fn vertex_ai_thinking_config_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Value>> {
     let thinking_level = cfg_string(cfg, "thinking_level");
-    let thinking_budget = cfg_u64(cfg, "thinking_budget");
+    let thinking_budget = cfg_u64_strict(cfg, "thinking_budget", "vertex_ai_gemini")?;
     let include_thoughts = cfg_bool_opt(cfg, "include_thoughts", "vertex_ai_gemini")?;
 
     if thinking_level.is_some() && thinking_budget.is_some() {
@@ -1424,9 +1424,14 @@ fn validate_vertex_ai_endpoint(spec: &adl::ProviderSpec, endpoint: &str) -> Resu
             "endpoint must use https://; plaintext http:// is only allowed for localhost/loopback test endpoints",
         ));
     }
-    let trusted_vertex_endpoint = endpoint_host(endpoint).is_some_and(|host| {
-        host == "aiplatform.googleapis.com" || host.ends_with("-aiplatform.googleapis.com")
-    });
+    let trusted_vertex_endpoint = match (
+        endpoint_host(endpoint),
+        required_cfg_string(&spec.config, "location", "vertex_ai_gemini"),
+    ) {
+        (Some(host), Ok(location)) if location == "global" => host == "aiplatform.googleapis.com",
+        (Some(host), Ok(location)) => host == format!("{location}-aiplatform.googleapis.com"),
+        _ => false,
+    };
     if is_loopback_endpoint(endpoint)
         || trusted_vertex_endpoint
         || cfg_bool_opt(&spec.config, "trust_custom_endpoint", "vertex_ai_gemini")?.unwrap_or(false)

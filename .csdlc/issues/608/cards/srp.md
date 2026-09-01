@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Vertex provider endpoint derivation, trusted host policy, thinking config rendering, focused tests, and live proof truth for #608 only.
+
 
 ## Prompts
 
