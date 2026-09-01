@@ -36,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Directory submission and provider-account work remains intentionally deferred to #264/#51.
+- Private external retained sources behind the redacted receipts were not inspected; the public proof validates retained redacted receipts, digest binding, and fail-closed validator behavior.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3067d90cc54e94d40d6a988672b09314e9ab272b:a8f60fe1a3022c7c01d2283313677256736e5e8b7db38bdb2f508f9b8a50c90c")
 
-Reviewer: None
+Reviewer: Some("fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a")
 
-Result: pre_review
+Result: pass

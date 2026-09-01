@@ -3,9 +3,9 @@
   "issue": 261,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "79989eec9d376fe03f54c75e0368aa38a2e52820742db16b14eae9eb5a7dfe69",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "c4d56c2de17d77a352c9e0333e5ce31b8313cf2c85e7dd0369cac2a298dd4f53",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "c3651e4499d1ee0847c011430937e255a0417465d410ff57777c6d4ce129c412",
   "branch": "codex/261-podcast-show-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-261-podcast-show-identity",
   "review_assignment": {
@@ -20,7 +20,24 @@
       "verify no #264 or #51 submission/provider/directory work is implemented"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a",
+    "scope": [
+      "exact head 3067d90cc on branch codex/261-podcast-show-identity",
+      "docs/milestones/v0.92/review/podcast_identity_261/**",
+      "demos/podcast/artwork.png",
+      "verify #261 release gates bind to retained redacted receipt files by digest",
+      "verify no #264 or #51 submission/provider/directory work is implemented"
+    ],
+    "reviewed_revision": "git-blake3:3067d90cc54e94d40d6a988672b09314e9ab272b:a8f60fe1a3022c7c01d2283313677256736e5e8b7db38bdb2f508f9b8a50c90c",
+    "findings": [],
+    "residual_risks": [
+      "Directory submission and provider-account work remains intentionally deferred to #264/#51.",
+      "Private external retained sources behind the redacted receipts were not inspected; the public proof validates retained redacted receipts, digest binding, and fail-closed validator behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6e0f269ed8f30acd1240381a1a2f5af97466657c925e11c7fba4dd5dbdb6d59f",
+      "values_digest": "0d7ae8a2ebe9aecc084bcb66aa6ae384902b07382bd3a9dcbb0f7aae8fa35749",
       "rendered_digest": "93a2c62e359bbcd5dad24acd2770a0ca3affdadf924958fa8733d2454e17a44f",
       "ast_digest": "82040e4c170fce1e8e2cf144146b469dbd77b0eb9cf6a0ce648dbbf53a1c9170"
     },
     "stp": {
-      "values_digest": "31bdccacb2be5533ce4b56eba06880ae93c994402a77d5cd3dddc86c06fdba8f",
+      "values_digest": "d4c1333f5bb12ee7457100a6dd740e5feffddca1980f028d45601076f90040b1",
       "rendered_digest": "5a818e58e482b72dc1480ea444a6ef2b11cb26d123b7dba036b57dc5f1eb2e2d",
       "ast_digest": "6981a756aad6aa3ded34a3d678e2f97ea6c5b67aac93577bbe13c9461164fd3c"
     },
     "spp": {
-      "values_digest": "598e7c0d27b6b3bfdce32aada159de16d6176a736befad3e65929382a921f91d",
+      "values_digest": "43fd642bfa5c0cf71da04f31093620668f5bcba081ba7dc709e5dc2667f39421",
       "rendered_digest": "abe1f9b484461c31ae318681fbe179287a32bef44e3529eef599908f6a88239e",
       "ast_digest": "354904c65e4002755644e653ae9c9943ab365461952b252923f7815d524f7e53"
     },
     "vpp": {
-      "values_digest": "f274625487d3de14563e5e333a038692ca65b738369cda262fb9bcd989a0b545",
+      "values_digest": "c17ae2b78fc85af3321c920a9a234d694c0bc6adaaf857e554c2be8b9425de89",
       "rendered_digest": "cb2716456370655d7fbfa88f5ee58ada17b3b80f6c398f582962a514a59d668f",
       "ast_digest": "0961496d9f65d5dda646f3ad1fff38d07a09cf5f5215b99e9207369744087881"
     },
     "srp": {
-      "values_digest": "6e90f78fc906045f12182522a7f89510960b91a47f77adfcaec6e51d6de52e07",
-      "rendered_digest": "72d6057a0e8bafb7297997b4484687bcef87b72e76239308d3a73c6599ca3bb0",
-      "ast_digest": "88645343f1792e2a6e02d38d6086d02755477ecab172718136577a3878c22e7e"
+      "values_digest": "8cce4b4df9297575cf3fc559200f4ec623d55ae40330c4d4603298bc4faeba62",
+      "rendered_digest": "8286389652324844abc78100f6a7dc77bf31e6e81502b3ddca0b41f29913fd71",
+      "ast_digest": "96fac4b494fc85c833a0c3b62f50dc6abee36b1f552bac13b4c0a765f5234fdf"
     },
     "sor": {
-      "values_digest": "e33d1ca8bf48b13210d316f32766c05eaefd1f92797ceceabaf44dafafaddb15",
+      "values_digest": "b2b71898990d4f113c06e5c8e25cc23687bb68b00747fffe5c9187f5276d5495",
       "rendered_digest": "03a60b85c90ea234c7e8740a3cb3ec8663a98459de8fc5873063444b1ab16395",
       "ast_digest": "da3cd06f269dde8cda98dcd4648a9bc5b29c36ef06affa84e0439efa0cc24979"
     }
@@ -121,6 +138,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Recover review after lifecycle metadata was folded into the exact reviewed commit while repairing #261 release-gate evidence binding."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -305,6 +329,13 @@
       "actor": "codex:podcast-issue-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
