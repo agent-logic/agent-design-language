@@ -3,41 +3,24 @@
   "issue": 261,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "79989eec9d376fe03f54c75e0368aa38a2e52820742db16b14eae9eb5a7dfe69",
-  "phase": "reviewed",
-  "generation": 20,
-  "digest": "aff121940ffc1b1cd1851e9ada5bdec2d20362af99ca3633a41a7177c640464f",
+  "phase": "implemented",
+  "generation": 21,
+  "digest": "c4d56c2de17d77a352c9e0333e5ce31b8313cf2c85e7dd0369cac2a298dd4f53",
   "branch": "codex/261-podcast-show-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-261-podcast-show-identity",
   "review_assignment": {
-    "reviewer": "fresh-session:39c8f174-261f-4479-9880-88fe7fa03f63",
+    "reviewer": "fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a",
     "assigned_by": "codex:podcast-issue-owner",
-    "revision": "git-blake3:1e8038040408f9c083a37ea2f722f30e3adcea12:2aacc220e4aec56ae6415ccc4bf449b808520edc91b5f0adac2e34cb008b15b1",
+    "revision": "git-blake3:3067d90cc54e94d40d6a988672b09314e9ab272b:a8f60fe1a3022c7c01d2283313677256736e5e8b7db38bdb2f508f9b8a50c90c",
     "scope": [
-      "exact head 1e8038040 on branch codex/261-podcast-show-identity",
+      "exact head 3067d90cc on branch codex/261-podcast-show-identity",
       "docs/milestones/v0.92/review/podcast_identity_261/**",
       "demos/podcast/artwork.png",
       "verify #261 release gates bind to retained redacted receipt files by digest",
       "verify no #264 or #51 submission/provider/directory work is implemented"
     ]
   },
-  "review": {
-    "reviewer": "fresh-session:39c8f174-261f-4479-9880-88fe7fa03f63",
-    "scope": [
-      "exact head 1e8038040 on branch codex/261-podcast-show-identity",
-      "docs/milestones/v0.92/review/podcast_identity_261/**",
-      "demos/podcast/artwork.png",
-      "verify #261 release gates bind to retained redacted receipt files by digest",
-      "verify no #264 or #51 submission/provider/directory work is implemented"
-    ],
-    "reviewed_revision": "git-blake3:1e8038040408f9c083a37ea2f722f30e3adcea12:2aacc220e4aec56ae6415ccc4bf449b808520edc91b5f0adac2e34cb008b15b1",
-    "findings": [],
-    "residual_risks": [
-      "Directory submission and provider-account work remains intentionally deferred to #264/#51.",
-      "Private external retained sources behind the redacted receipts were not inspected; the public proof validates retained redacted receipts, digest binding, and fail-closed validator behavior."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +35,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1e79af0626079a47184e28b52dbb1176969069ee0509ea940a6dfc4a3acab033",
+      "values_digest": "6e0f269ed8f30acd1240381a1a2f5af97466657c925e11c7fba4dd5dbdb6d59f",
       "rendered_digest": "93a2c62e359bbcd5dad24acd2770a0ca3affdadf924958fa8733d2454e17a44f",
       "ast_digest": "82040e4c170fce1e8e2cf144146b469dbd77b0eb9cf6a0ce648dbbf53a1c9170"
     },
     "stp": {
-      "values_digest": "a0f1479170c8dfdc079d29396a52fe19526c2728e9c37f9b558f8f7e730eb831",
+      "values_digest": "31bdccacb2be5533ce4b56eba06880ae93c994402a77d5cd3dddc86c06fdba8f",
       "rendered_digest": "5a818e58e482b72dc1480ea444a6ef2b11cb26d123b7dba036b57dc5f1eb2e2d",
       "ast_digest": "6981a756aad6aa3ded34a3d678e2f97ea6c5b67aac93577bbe13c9461164fd3c"
     },
     "spp": {
-      "values_digest": "d5c3a1d70317e03940c00dc49496a75107cf7d9b3b46727cd41de41d9bcc322e",
+      "values_digest": "598e7c0d27b6b3bfdce32aada159de16d6176a736befad3e65929382a921f91d",
       "rendered_digest": "abe1f9b484461c31ae318681fbe179287a32bef44e3529eef599908f6a88239e",
       "ast_digest": "354904c65e4002755644e653ae9c9943ab365461952b252923f7815d524f7e53"
     },
     "vpp": {
-      "values_digest": "e6f2234a2f61516c73c8b4292e89ad37230357fb8c6db1449a01137bf10a3064",
+      "values_digest": "f274625487d3de14563e5e333a038692ca65b738369cda262fb9bcd989a0b545",
       "rendered_digest": "cb2716456370655d7fbfa88f5ee58ada17b3b80f6c398f582962a514a59d668f",
       "ast_digest": "0961496d9f65d5dda646f3ad1fff38d07a09cf5f5215b99e9207369744087881"
     },
     "srp": {
-      "values_digest": "8c10900a80206dc4ce335628244e66e7c127d4e6da8f647ab99a653a0f87ba0b",
-      "rendered_digest": "bf83ff09fabbb7e8c240e2651282491e04476a8de98c46d76b07afddf456542e",
-      "ast_digest": "e5df8550d8ee0c1924f60eabdf74e3afc46f0deba16d613e4ec1d9f1f3b91702"
+      "values_digest": "6e90f78fc906045f12182522a7f89510960b91a47f77adfcaec6e51d6de52e07",
+      "rendered_digest": "72d6057a0e8bafb7297997b4484687bcef87b72e76239308d3a73c6599ca3bb0",
+      "ast_digest": "88645343f1792e2a6e02d38d6086d02755477ecab172718136577a3878c22e7e"
     },
     "sor": {
-      "values_digest": "2f1442e93bff4d916c310589cf9ed954dffd0d250907bacb6386f1616fb259ad",
+      "values_digest": "e33d1ca8bf48b13210d316f32766c05eaefd1f92797ceceabaf44dafafaddb15",
       "rendered_digest": "03a60b85c90ea234c7e8740a3cb3ec8663a98459de8fc5873063444b1ab16395",
       "ast_digest": "da3cd06f269dde8cda98dcd4648a9bc5b29c36ef06affa84e0439efa0cc24979"
     }
@@ -131,6 +114,13 @@
       "to": "reviewed",
       "actor": "fresh-session:39c8f174-261f-4479-9880-88fe7fa03f63",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Recover review after lifecycle metadata was folded into the exact reviewed commit while repairing #261 release-gate evidence binding."
     }
   ],
   "audit": [
@@ -301,6 +291,20 @@
       "actor": "fresh-session:39c8f174-261f-4479-9880-88fe7fa03f63",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex",
+      "reason": "Recover review after lifecycle metadata was folded into the exact reviewed commit while repairing #261 release-gate evidence binding.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

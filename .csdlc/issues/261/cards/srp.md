@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-exact head 1e8038040 on branch codex/261-podcast-show-identity
+exact head 3067d90cc on branch codex/261-podcast-show-identity
 docs/milestones/v0.92/review/podcast_identity_261/**
 demos/podcast/artwork.png
 verify #261 release gates bind to retained redacted receipt files by digest
@@ -36,13 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Directory submission and provider-account work remains intentionally deferred to #264/#51.
-- Private external retained sources behind the redacted receipts were not inspected; the public proof validates retained redacted receipts, digest binding, and fail-closed validator behavior.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:1e8038040408f9c083a37ea2f722f30e3adcea12:2aacc220e4aec56ae6415ccc4bf449b808520edc91b5f0adac2e34cb008b15b1")
+Revision: None
 
-Reviewer: Some("fresh-session:39c8f174-261f-4479-9880-88fe7fa03f63")
+Reviewer: None
 
-Result: pass
+Result: pre_review
