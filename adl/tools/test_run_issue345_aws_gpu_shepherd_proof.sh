@@ -112,6 +112,41 @@ if (verify_authorized_preflight_bindings "$(jq '.ami_sha256 = ("f" * 64)' <<<"$b
   fail "resolved AMI authorization mismatch unexpectedly passed"
 fi
 
+reviewed_revision="$(jq -r '.reviewed_revision' "$tmp/authorization.json")"
+jq -n --arg revision "$reviewed_revision" \
+  '{phase:"reviewed",review:{completed:true,findings:[],reviewed_revision:$revision}}' \
+  >"$tmp/review-index.json"
+SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" \
+  verify_review_authority "$tmp/review-index.json" "$ROOT" "$head"
+jq '.review.reviewed_revision = ("git-blake3:" + ("f" * 40) + ":" + ("f" * 64))' \
+  "$tmp/review-index.json" >"$tmp/review-index-mismatch.json"
+if (SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" \
+    verify_review_authority "$tmp/review-index-mismatch.json" "$ROOT" "$head") 2>/dev/null; then
+  fail "typed review mismatch unexpectedly passed"
+fi
+drift_source="$(git -C "$ROOT" rev-parse HEAD^)"
+jq --arg source "$drift_source" '
+  .source_commit = $source
+  | .reviewed_revision = ("git-blake3:" + $source + ":" + ("0" * 64))
+' "$tmp/authorization.json" >"$tmp/authorization-drift-source.json"
+jq --arg revision "$(jq -r '.reviewed_revision' "$tmp/authorization-drift-source.json")" \
+  '.review.reviewed_revision = $revision' "$tmp/review-index.json" >"$tmp/review-index-drift-source.json"
+if (SOURCE_COMMIT="$drift_source" AUTHORIZATION_FILE="$tmp/authorization-drift-source.json" \
+    verify_review_authority "$tmp/review-index-drift-source.json" "$ROOT" "$head") 2>/dev/null; then
+  fail "substantive post-review drift unexpectedly passed"
+fi
+
+RUN_ID=adl-issue345-launch-argv
+OWNER_TOKEN=0123456789abcdef0123456789abcdef
+build_run_instances_argv ami-authorized subnet-authorized sg-authorized /tmp/user-data.yaml 1234567890
+launch_argv="$(printf '%s\n' "${RUN_INSTANCES_ARGV[@]}")"
+grep -Fqx 'ami-authorized' <<<"$launch_argv" || fail "authorized AMI is absent from launch argv"
+grep -Fqx 'subnet-authorized' <<<"$launch_argv" || fail "authorized subnet is absent from launch argv"
+grep -Fqx 'sg-authorized' <<<"$launch_argv" || fail "authorized security group is absent from launch argv"
+[[ "$(grep -Fxc 'ami-authorized' <<<"$launch_argv")" == 1 ]] || fail "authorized AMI is not used exactly once"
+[[ "$(grep -Fxc 'subnet-authorized' <<<"$launch_argv")" == 1 ]] || fail "authorized subnet is not used exactly once"
+[[ "$(grep -Fxc 'sg-authorized' <<<"$launch_argv")" == 1 ]] || fail "authorized security group is not used exactly once"
+
 instance_trust='{"Role":{"RoleName":"ADLIssue345GpuProofRole","AssumeRolePolicyDocument":{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}}}'
 instance_trust_is_exact <<<"$instance_trust" >/dev/null || fail "valid instance trust fixture failed"
 if instance_trust_is_exact <<<"${instance_trust/ec2.amazonaws.com/lambda.amazonaws.com}" >/dev/null; then
@@ -169,4 +204,4 @@ jq -n --arg live_preflight "$live_preflight" \
   '{schema:"adl.issue345.runner_contract_test.v2",status:"pass",paid_launches:0,
     real_git:true,fake_aws:false,live_aws_preflight:$live_preflight,
     multi_model_ordering:"request_then_residency",
-    negative_cases:(if $live_preflight == "passed" then 16 else 11 end)}'
+    negative_cases:(if $live_preflight == "passed" then 18 else 13 end)}'

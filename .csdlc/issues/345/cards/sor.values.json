@@ -7,20 +7,18 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 20
+    "generation": 22
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Resolved all exact-head review findings in the optional AWS GPU proof runner; local and real read-only AWS proofs pass, while paid GPU guest execution remains pending fresh exact-head review and typed publication.",
+      "summary": "Resolved all exact-head review findings in the optional AWS GPU proof runner; thirteen local and eighteen combined read-only safety cases pass, while paid GPU execution remains pending fresh exact-head review and typed publication.",
       "actual_changes": [
-        "Normalize Ollama's optional sha256 digest prefix before the governed real-model smoke test compares the installed model with the manifest digest.",
-        "Derive the retained single-use marker from canonical JSON so key ordering and whitespace cannot replay an authorization.",
-        "Require authorization schema v2 to bind the business-account hash, immutable manifest, exact IAM and security-group pins, reaper identity, and resolved AMI and subnet hashes.",
-        "Require the authorization's full immutable review revision to equal the current passing typed C-SDLC review and reject substantive proof-surface drift after that reviewed source commit.",
-        "Resolve the security group, AMI, and subnet once, authorize their hashes through preflight, and reuse those exact values for launch to remove the TOCTOU gap.",
-        "Execute focused local fixtures for canonical authorization identity, fabricated review revision, authorization mismatches, reaper bounds, resolved AMI drift, both IAM trust policies, and cleanup ownership."
+        "Document execution from the clean reviewed or published lifecycle head with --commit naming its unchanged reviewed substantive ancestor.",
+        "Execute the typed-review equality guard and real-Git substantive-drift rejection against isolated review indexes.",
+        "Build the EC2 run-instances argv through one pure function and prove that the authorized security-group, AMI, and subnet values each reach launch exactly once.",
+        "Retain canonical authorization identity, exact infrastructure binding, full review revision equality, bounded cost, multi-model residency, Guardian, Runtime-agent ACC, cleanup, and 24/7 non-claim boundaries."
       ],
       "artifacts": [
         "adl-runtime/tests/shepherd_local_model.rs",
@@ -37,7 +35,7 @@
             "bash",
             "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
           ],
-          "purpose": "Execute eleven local no-AWS safety cases and the runner contract without paid launch.",
+          "purpose": "Execute thirteen local no-AWS safety cases including exact-review, drift, and launch-argv regressions.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/345/issue345-runner-contract.log"
         },
@@ -48,24 +46,9 @@
             "bash",
             "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
           ],
-          "purpose": "Execute the real read-only AWS preflight plus five live drift cases and eleven local safety cases without paid launch.",
+          "purpose": "Execute the real read-only AWS preflight plus all eighteen combined safety cases without paid launch.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/345/issue345-live-preflight.json"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "adl-runtime/Cargo.toml",
-            "--test",
-            "shepherd_local_model",
-            "--no-run"
-          ],
-          "purpose": "Compile the corrected real Ollama model smoke test.",
-          "outcome": "passed",
-          "evidence_ref": "adl-runtime/tests/shepherd_local_model.rs"
         },
         {
           "command": [

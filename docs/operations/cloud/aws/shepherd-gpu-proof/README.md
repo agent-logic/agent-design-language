@@ -57,8 +57,10 @@ another checkout or host. A lock collision is checked before consuming the
 authorization.
 
 The runner attempts at most one On-Demand GPU instance and has no fallback or
-retry. The reviewed commit must equal the tracked-clean checkout HEAD. On that
-one host, the guest proves the Guardian-supervised Runtime v3 lifecycle, runs
+retry. Execute from the tracked-clean reviewed or published lifecycle head;
+`--commit` names the reviewed substantive ancestor, and the runner rejects any
+later change to a substantive proof surface. On that one host, the guest proves
+the Guardian-supervised Runtime v3 lifecycle, runs
 the current governed Shepherd adapter once per configured model, and runs real
 long-lived Runtime agents whose Ollama responses are compiled and executed
 through UTS, ACC, the Freedom Gate, and the harmless `runtime.observe` adapter.

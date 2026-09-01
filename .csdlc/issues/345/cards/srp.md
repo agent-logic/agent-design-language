@@ -32,9 +32,9 @@ docs/operations/cloud/aws/shepherd-gpu-proof/README.md
 
 [
   {
-    "id": "F-345-12",
-    "severity": "p1",
-    "summary": "Paid authorization accepts any reviewed-revision suffix instead of the exact assigned immutable revision.",
+    "id": "F-345-14",
+    "severity": "p2",
+    "summary": "The runbook incorrectly requires the reviewed substantive commit to equal checkout HEAD instead of describing the clean reviewed or published metadata-tail lifecycle head.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -42,9 +42,9 @@ docs/operations/cloud/aws/shepherd-gpu-proof/README.md
     "route": null
   },
   {
-    "id": "F-345-13",
-    "severity": "p1",
-    "summary": "The runner re-resolves AMI and subnet after authorization verification, leaving a launch-time TOCTOU path to unbound infrastructure.",
+    "id": "F-345-15",
+    "severity": "p2",
+    "summary": "Local proof does not execute the typed-review equality and substantive-drift guard or prove authorized SG, AMI, and subnet values reach launch arguments.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -59,13 +59,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- No paid GPU instance was launched, so the full guest and cleanup lane remains dynamically unproved.
-- This bounded proof runner does not establish 24/7 service readiness.
+- No paid GPU launch has yet exercised the guest and cleanup path.
+- The bounded runner does not establish 24/7 service readiness.
 
 ## Review Result
 
-Revision: Some("git-blake3:37b4fe46b16ffa76a16f1f2f56e5773de1df60ef:de5bc7e6aaaf8bc96a56753dd48919ea672d88dcfa2b778292458dd718b7da37")
+Revision: Some("git-blake3:87c82f0b8049004b9f8fb755cddf398ef05aaf6f:e9425c9cb9c064167e6abf85c9ca7f8f59fd876102de94d1f43c0c4062911a62")
 
-Reviewer: Some("fresh-session:/root/issue_345_final_review")
+Reviewer: Some("fresh-session:/root/issue_345_launch_ready_review")
 
 Result: changes_required

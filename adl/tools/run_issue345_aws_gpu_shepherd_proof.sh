@@ -292,8 +292,10 @@ verify_authorized_preflight_bindings() {
 }
 
 verify_review_authority() {
-  local index_file="$ROOT/.csdlc/issues/345/index.json"
-  local authorized_revision recorded_revision current_head
+  local index_file="${1:-$ROOT/.csdlc/issues/345/index.json}"
+  local review_root="${2:-$ROOT}"
+  local current_head="${3:-}"
+  local authorized_revision recorded_revision
   [[ -f "$index_file" ]] || {
     echo "typed issue review state is missing" >&2
     exit 2
@@ -309,12 +311,12 @@ verify_review_authority() {
     echo "paid-run authorization does not equal the current typed exact-head review" >&2
     exit 2
   }
-  current_head="$(git -C "$ROOT" rev-parse HEAD)"
-  git -C "$ROOT" merge-base --is-ancestor "$SOURCE_COMMIT" "$current_head" || {
+  [[ -n "$current_head" ]] || current_head="$(git -C "$review_root" rev-parse HEAD)"
+  git -C "$review_root" merge-base --is-ancestor "$SOURCE_COMMIT" "$current_head" || {
     echo "reviewed source commit is not an ancestor of the current lifecycle head" >&2
     exit 2
   }
-  git -C "$ROOT" diff --quiet "$SOURCE_COMMIT..$current_head" -- \
+  git -C "$review_root" diff --quiet "$SOURCE_COMMIT..$current_head" -- \
     adl-runtime/tests/shepherd_local_model.rs \
     adl/tools/run_issue345_aws_gpu_shepherd_proof.sh \
     adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh \
@@ -323,6 +325,29 @@ verify_review_authority() {
       echo "substantive proof surfaces changed after exact-head review" >&2
       exit 2
     }
+}
+
+RUN_INSTANCES_ARGV=()
+build_run_instances_argv() {
+  local ami="$1" subnet="$2" sg_id="$3" user_data="$4" deadline_epoch="$5"
+  RUN_INSTANCES_ARGV=(
+    ec2 run-instances
+    --image-id "$ami"
+    --instance-type "$GPU_INSTANCE_TYPE"
+    --subnet-id "$subnet"
+    --associate-public-ip-address
+    --iam-instance-profile "Name=$INSTANCE_PROFILE"
+    --security-group-ids "$sg_id"
+    --instance-initiated-shutdown-behavior terminate
+    --metadata-options HttpTokens=required,HttpEndpoint=enabled
+    --block-device-mappings "DeviceName=/dev/sda1,Ebs={DeleteOnTermination=true,Encrypted=true,VolumeSize=$GP3_VOLUME_SIZE_GIB,VolumeType=gp3}"
+    --user-data "file://$user_data"
+    --tag-specifications
+    "ResourceType=instance,Tags=[{Key=Name,Value=$RUN_ID},{Key=adl:issue,Value=$ISSUE_TAG},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$OWNER_TOKEN},{Key=adl:managed-deadline,Value=true},{Key=adl:deadline-epoch,Value=$deadline_epoch}]"
+    "ResourceType=volume,Tags=[{Key=adl:issue,Value=$ISSUE_TAG},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$OWNER_TOKEN}]"
+    --query 'Instances[0].InstanceId'
+    --output text
+  )
 }
 
 aws_cli() {
@@ -1041,21 +1066,8 @@ runcmd:
   - systemctl enable --now adl-issue345-deadline.timer
 CLOUD_INIT
   RUN_LAUNCH_ATTEMPTED=true
-  instance_id="$(aws_cli ec2 run-instances \
-    --image-id "$ami" \
-    --instance-type "$GPU_INSTANCE_TYPE" \
-    --subnet-id "$subnet" \
-    --associate-public-ip-address \
-    --iam-instance-profile "Name=$INSTANCE_PROFILE" \
-    --security-group-ids "$sg_id" \
-    --instance-initiated-shutdown-behavior terminate \
-    --metadata-options HttpTokens=required,HttpEndpoint=enabled \
-    --block-device-mappings "DeviceName=/dev/sda1,Ebs={DeleteOnTermination=true,Encrypted=true,VolumeSize=$GP3_VOLUME_SIZE_GIB,VolumeType=gp3}" \
-    --user-data "file://$user_data" \
-    --tag-specifications \
-      "ResourceType=instance,Tags=[{Key=Name,Value=$RUN_ID},{Key=adl:issue,Value=$ISSUE_TAG},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$OWNER_TOKEN},{Key=adl:managed-deadline,Value=true},{Key=adl:deadline-epoch,Value=$deadline_epoch}]" \
-      "ResourceType=volume,Tags=[{Key=adl:issue,Value=$ISSUE_TAG},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$OWNER_TOKEN}]" \
-    --query 'Instances[0].InstanceId' --output text)"
+  build_run_instances_argv "$ami" "$subnet" "$sg_id" "$user_data" "$deadline_epoch"
+  instance_id="$(aws_cli "${RUN_INSTANCES_ARGV[@]}")"
   aws_cli ec2 wait instance-running --instance-ids "$instance_id"
   aws_cli ec2 wait instance-status-ok --instance-ids "$instance_id"
   wait_for_ssm "$instance_id"
