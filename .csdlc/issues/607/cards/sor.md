@@ -8,23 +8,46 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: draft
 
 ## Summary
 
-Pre-execution output record.
+Implemented the bounded warm two-node AWS path at 95efc4fd1; retained live AWS snapshot and launch proof is still pending.
 
 ## Artifacts
 
-- none
+- adl/tools/run_issue607_warm_polis.sh
+- adl/tools/issue607_probe_runtime.py
+- adl/tools/issue607_qualify_warm_polis.sh
+- adl/tools/issue607_validate_saved_plan.sh
+- adl/tools/test_issue607_warm_polis.sh
+- infra/aws/runtime/gpu-proof
+- docs/operations/cloud/aws/shepherd-gpu-proof/README.md
 
 ## Execution
 
-- none
+- Separated retained warm storage, disposable preparation, and disposable compute ownership
+- Prepared complete Runtime and GPU closures once and activated without launch-time installation or downloads
+- Added persistent Guardian HTTPS and WSS readiness probing separately from full qualification
+- Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope
+- Added exact cleanup queries, explicit retention extension and volume retirement, and a cumulative cost ledger
+- Required completed sparse snapshots of both sealed volumes and timed/deleted one temporary GPU snapshot restore
+- Reduced each warm volume to 200 GiB while preserving current-payload headroom and the 30-second target
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_issue607_warm_polis.sh",
+      "all"
+    ],
+    "purpose": "Record the complete bounded no-paid local validation packet; live AWS snapshot and launch proof remains pending.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/607/local-validation-95efc4fd1.json"
+  }
+]
 
 ## Integration
 

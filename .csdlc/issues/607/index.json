@@ -3,9 +3,9 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "bound",
-  "generation": 8,
-  "digest": "32604ba0b0077b24fb727a52496a2badbe009a71371f516f6efd2d5a1820bab0",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "babb7710ee2c6d35e3d48b40c16ea2f6d523d82cbcacd4e3180b423b15e6781a",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "271926d2289206630357152c5571ab07ba54f00c46d5429c59006431df8b9c64",
+      "values_digest": "50fe4431e1c90f759138606645e96f15c0cdb0231fbcd4742df48581b20d9324",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "d1b5f08e25d181b5a8bfae429b86e2100f5251608e777e26e1412eba9a493f2c",
+      "values_digest": "8b72310eccfc06fc6110c649c2eb643c4fe155e89f3e64fceb0f53a6356505ac",
       "rendered_digest": "e63f1e5f5fb4bba67bf3c570eda580aed960f92e2646c30901693256dac70ce1",
       "ast_digest": "57d0c417b6c7e6160f823e2b892b73de47e7f9315d440d56f6598ad02e142a13"
     },
     "spp": {
-      "values_digest": "236a37a1fae3ac88997adc0dbeed277befb33a9b083b57790f07c4f2b53a9bfb",
+      "values_digest": "4320b726b55ca826db06bb219cc32dbd60234f13350eb29a833b2a0638314483",
       "rendered_digest": "3fb1f065105cdb7155bdf1a3640a7551655418235fa69ca9e2d1410b0f226076",
       "ast_digest": "6b338654813658c09d13e8f0590dd3dcdbf5ae3e18541fcea415d9b878f326f3"
     },
     "vpp": {
-      "values_digest": "073ed51a4b392ef545af7046405f1e60ca41da934a974ac34c1b4fb065d646e7",
+      "values_digest": "02fc1e0e9126ce2e244813fd2e30875b8e6bb26c2fd5f661322fd0bae65f02f5",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "65183d4f5f7df57ea36405e4a565b8ddc0ca56f17e6c8f202f499b6b713b33a1",
+      "values_digest": "172319617692a82b1b1a0cc17e2eac217f0a2291a064526a993f52b054664b52",
       "rendered_digest": "760a69e67eb8207947bae9361b4ba01b520e59c800fbe6e394fd6ef3829b2b88",
       "ast_digest": "f03ec258e96ffa45836262a290ddbd4e6bbd185ce41f6367039dbeb7b574f509"
     },
     "sor": {
-      "values_digest": "e6b1c7da831e50876b6d7b102a796d50b5dae745da1f047fe26d5c469f9ce85b",
-      "rendered_digest": "683838a44ca0f4b72bd3bdf77ceaf03018737c6d8062322b6ec35b9ffae3fec8",
-      "ast_digest": "e2a7410fd0e26a3ff079374caafb72a06e29ece1c653de83b63df86aee13c823"
+      "values_digest": "69e5acca97585de357636eb44632fb765ce22ec80487f2aa4d65f3f2f5eef970",
+      "rendered_digest": "adb76a92131e058a18d57090a3519df37df0c0ec9ca4294a4481d4a283c905fb",
+      "ast_digest": "5ac40f4367e4e6b8be1635d8959c250a79c09fb0ffa0d25d7f228d3e60a29c87"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "The bounded implementation and no-paid validation are recorded; live AWS validation and exact-head review remain subsequent gates."
     }
   ],
   "audit": [
@@ -140,6 +147,34 @@
       "actor": "codex-primary-issue607",
       "reason": "Replan the bound issue for operator-required durable snapshots, restore timing, sparse economics, and the existing thirty-second warm target.",
       "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download\",\"AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources\",\"AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals\",\"AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches\",\"AC-5: Preparation and compute destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue while preserving exactly two warm volumes and two completed sealed-generation snapshots; the temporary restore volume is deleted\",\"AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident\",\"AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt within 30 seconds and controller-monotonic apply-to-observed aggregate service_ready meets 120 seconds or remains failed\",\"AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions\",\"AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the 30-second warm path testable while stale cross-AZ partial dirty or mismatched volumes fail closed\",\"AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 20 ceiling with no retry reuse\",\"AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action\",\"AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement disjoint storage and compute Terraform ownership plus exact AMI KMS AZ canonical-plan authorization and destroy guards.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-5\",\"AC-9\",\"AC-10\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Build the complete immutable launch and qualification closure, seal the two sparse 200 GiB warm volumes, retain completed snapshots of both, and time a temporary snapshot restore.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-9\",\"AC-11\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Implement no-install activation, persistent Guardian readiness, separate qualification receipts, stage budgets, deterministic negative tests, and exact zero-residue queries.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Bind three single-use authorizations to one aggregate envelope, prepare once, prove the snapshot restore timing, and launch twice proving timing full behavior cost and exact residue.\",\"acceptance_ids\":[\"AC-5\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Obtain fresh exact-head review, fix every actionable finding, publish through typed lifecycle authority, finish, and clean.\",\"acceptance_ids\":[\"AC-12\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"issue607-preparation-contract\",\"proof_role\":\"Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, snapshot preservation and restore timing, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before publication.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\",\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/607/validate-preparation.sh\"],\"parallel_group\":\"readiness\",\"defer_reason\":null},{\"lane\":\"issue607-diff-hygiene\",\"proof_role\":\"Reject preparation and later implementation diff hygiene defects.\",\"acceptance_ids\":[\"AC-12\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex-primary-issue607",
+      "reason": "Record the implemented worktree result without claiming pending paid AWS proof, review, publication, or merge.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the bounded warm two-node AWS path at 95efc4fd1; retained live AWS snapshot and launch proof is still pending.\",\"changes\":[\"Separated retained warm storage, disposable preparation, and disposable compute ownership\",\"Prepared complete Runtime and GPU closures once and activated without launch-time installation or downloads\",\"Added persistent Guardian HTTPS and WSS readiness probing separately from full qualification\",\"Bound canonical saved-plan digests and three single-use actions to one aggregate authorization envelope\",\"Added exact cleanup queries, explicit retention extension and volume retirement, and a cumulative cost ledger\",\"Required completed sparse snapshots of both sealed volumes and timed/deleted one temporary GPU snapshot restore\",\"Reduced each warm volume to 200 GiB while preserving current-payload headroom and the 30-second target\"],\"artifacts\":[\"adl/tools/run_issue607_warm_polis.sh\",\"adl/tools/issue607_probe_runtime.py\",\"adl/tools/issue607_qualify_warm_polis.sh\",\"adl/tools/issue607_validate_saved_plan.sh\",\"adl/tools/test_issue607_warm_polis.sh\",\"infra/aws/runtime/gpu-proof\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex-primary-issue607",
+      "reason": "Record only the local checks actually run at the implementation candidate.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_issue607_warm_polis.sh\",\"all\"],\"purpose\":\"Record the complete bounded no-paid local validation packet; live AWS snapshot and launch proof remains pending.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/607/local-validation-95efc4fd1.json\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex-primary-issue607",
+      "reason": "Implementation and local validation are recorded; paid AWS evidence, review, publication, and merge remain pending.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"draft\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex-primary-issue607",
+      "reason": "The bounded implementation and no-paid validation are recorded; live AWS validation and exact-head review remain subsequent gates.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
