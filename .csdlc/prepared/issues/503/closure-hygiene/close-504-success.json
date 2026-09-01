@@ -1,0 +1,18 @@
+{
+  "repository": "agent-logic/agent-design-language",
+  "action": "issue_close",
+  "operation_key": "worker-6-closure-hygiene-close-504-success-20260901",
+  "token_file": null,
+  "issue": 504,
+  "pull_request": null,
+  "title": null,
+  "body": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": "closed",
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": 504
+}

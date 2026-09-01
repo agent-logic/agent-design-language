@@ -1,0 +1,21 @@
+{
+  "issue": 596,
+  "card": "stp",
+  "expected_generation": 3,
+  "expected_digest": "5ef9fb1023fef83350e9eae34ffed9e4e9bc996d388cd471f9bb38b0bc1adf4d",
+  "actor": "worker-6:lifecycle-truth-repair",
+  "reason": "Correct #596 acceptance truth after PR #597 merged with non-closing Part-Of linkage and refresh stale ready-state design bindings.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: #596 has canonical local C-SDLC v2 issue state with SIP, STP, SPP, VPP, SRP, and SOR cards",
+      "AC-2: PR #597 uses non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully",
+      "AC-3: PR body create/update operations are performed through typed C-SDLC v2 GitHub owners, not raw gh",
+      "AC-4: Repeated PR update operation keys cannot overwrite a different governed body",
+      "AC-5: v3 durable transaction proof fails closed across projection crash windows",
+      "AC-6: v3 construction remains non-authoritative until #505 cutover",
+      "AC-7: Focused v2, v3, CI-policy, canary, and diff-hygiene validation passes before handoff"
+    ]
+  },
+  "fail_after_backup": false
+}

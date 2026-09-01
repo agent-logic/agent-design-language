@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
     "slug": "v3-e-remote-delivery-workflow",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 19
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
           "acceptance_ids": [
             "AC-1"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -51,7 +51,7 @@
           "acceptance_ids": [
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -62,7 +62,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

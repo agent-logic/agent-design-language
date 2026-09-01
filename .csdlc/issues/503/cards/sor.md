@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -107,17 +107,17 @@ Implemented the non-authoritative V3-D local-preparation command contract slice 
 
 ## Integration
 
-pr_open
+merged
 
 ## Publication
 
-Publication: draft
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 
