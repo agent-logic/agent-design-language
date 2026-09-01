@@ -1,0 +1,12 @@
+{
+  "issue": 596,
+  "card": "sip",
+  "expected_generation": 2,
+  "expected_digest": "7a8199fa4e0c9cb963e7982e9bd9d5e48289836ff2a76cd41ebe71af20dd17c5",
+  "actor": "worker-6",
+  "reason": "Advance #596 to ready after design approval and issue-local validation lane repair, before binding the existing remediation branch/worktree.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}
