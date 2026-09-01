@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 31
+    "generation": 32
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/607\nadl/tools/test_issue607_warm_polis.sh\ninfra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl\ninfra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl",
-      "review_revision": "git-blake3:ea9868c5b8ef441e1317359738e81005bf5dfe42:e53eff90102c0b1b22e54db0c2b6c07cf4e9a4233c0cb2ee77e51d469a7d0194",
-      "reviewer": "subagent:issue_607_r6_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
         "Can Terraform destroy or a trap delete the persistent warm volumes?",
@@ -24,10 +24,8 @@
         "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
       ],
       "findings": [],
-      "residual_risk": [
-        "A new paid AWS preparation campaign and two warm launches remain required to prove the remediated guest path and startup target."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

@@ -3,38 +3,13 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "reviewed",
-  "generation": 31,
-  "digest": "2f1feb082755d85ffb6269251e362fabaeb6ecf45d11924f70a5b4e3037e371d",
+  "phase": "implemented",
+  "generation": 32,
+  "digest": "d74865aa62dec26a7e24dbf3331c3066d3879d2d3cf76db9631e3f2775fe8bff",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": {
-    "reviewer": "subagent:issue_607_r6_review",
-    "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:ea9868c5b8ef441e1317359738e81005bf5dfe42:e53eff90102c0b1b22e54db0c2b6c07cf4e9a4233c0cb2ee77e51d469a7d0194",
-    "scope": [
-      ".csdlc/issues/607",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl",
-      "infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:issue_607_r6_review",
-    "scope": [
-      ".csdlc/issues/607",
-      "adl/tools/test_issue607_warm_polis.sh",
-      "infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl",
-      "infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
-    ],
-    "reviewed_revision": "git-blake3:ea9868c5b8ef441e1317359738e81005bf5dfe42:e53eff90102c0b1b22e54db0c2b6c07cf4e9a4233c0cb2ee77e51d469a7d0194",
-    "findings": [],
-    "residual_risks": [
-      "A new paid AWS preparation campaign and two warm launches remain required to prove the remediated guest path and startup target."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "366dd40ca2b8966d17b4d72c1ed0c4d304318f9596f0660db886219570196b09",
+      "values_digest": "ff222d7aea574cb960464b991ea811fc127583021332d893e49463f003a85d9b",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "4f152c6470c0744fafce474df8a0e972a5ba20d7223ed60f0b066c61760635e1",
+      "values_digest": "098f8bb2525f0f45df36bc9786593cc502b727ab9a102d960611825758d4da64",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "8e9535096ea510a1864f15b05ab72962c48b75ecb56474c41cc703e985315b36",
+      "values_digest": "d3f04a1a6cefb85e1ae2094581b79aa58b3f0e7ff1e79ff13bc50d476c70938d",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "44568a5028d3da11624bd3936d91ec50871b20cb2a8373b5e67fb90b12f0dd0c",
+      "values_digest": "d6f225d41b0a939274b72b18ed2f8cd9c301b25cde6b7433d8a470aff6c455ab",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "a6a656802becc9a0834d2351e77b879db6ee6c2be255e70f5f96808b7166d8f2",
-      "rendered_digest": "58260605893199b1883ca0327a13b684bf1634124349224a626d88efa116fa2b",
-      "ast_digest": "e22f001704ab489ee3ef6d2026c61f33fe6b279a4564741a79efef665bf9c321"
+      "values_digest": "0fb176a619ac09ed9b5e91c7db06214bd0dfcb6ade49bdc833407349d229364a",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "a648a208efc11ae90888f8e0a1be61fe3bc9385df39a5b1d5d79134e7e36cb6b",
+      "values_digest": "4a40aa5b665d37d7efaec837741614d22dd996817ec39baf2e207f35c56fdfe4",
       "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
       "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
     }
@@ -149,6 +124,13 @@
       "to": "reviewed",
       "actor": "codex-primary-issue607",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after the authorized preparation proved AWS AMI and snapshot completion can validly exceed the fixed CLI waiter limit; replace it with bounded state-aware polling before another paid campaign."
     }
   ],
   "audit": [
@@ -417,6 +399,13 @@
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 32,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover reviewed state after the authorized preparation proved AWS AMI and snapshot completion can validly exceed the fixed CLI waiter limit; replace it with bounded state-aware polling before another paid campaign.",
+      "operation": "recover_review"
     }
   ]
 }

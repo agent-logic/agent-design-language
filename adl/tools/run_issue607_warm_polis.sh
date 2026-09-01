@@ -33,7 +33,10 @@ WARM_GPU_GIB=200
 SNAPSHOT_ALLOCATED_ALLOWANCE_GIB=260
 PREPARATION_STOP_OBSERVATIONS="${ADL_ISSUE607_PREPARATION_STOP_OBSERVATIONS:-3}"
 PREPARATION_POLL_SECONDS="${ADL_ISSUE607_PREPARATION_POLL_SECONDS:-5}"
-[[ "$PREPARATION_STOP_OBSERVATIONS" =~ ^[1-9][0-9]*$ && "$PREPARATION_POLL_SECONDS" =~ ^[0-9]+$ ]] || {
+CONTROL_PLANE_WAIT_SECONDS="${ADL_ISSUE607_CONTROL_PLANE_WAIT_SECONDS:-$PREPARATION_SECONDS}"
+CONTROL_PLANE_POLL_SECONDS="${ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS:-15}"
+[[ "$PREPARATION_STOP_OBSERVATIONS" =~ ^[1-9][0-9]*$ && "$PREPARATION_POLL_SECONDS" =~ ^[0-9]+$ \
+  && "$CONTROL_PLANE_WAIT_SECONDS" =~ ^[1-9][0-9]*$ && "$CONTROL_PLANE_POLL_SECONDS" =~ ^[0-9]+$ ]] || {
   echo "invalid preparation observation controls" >&2
   exit 2
 }
@@ -542,6 +545,33 @@ cleanup_on_exit() {
   exit "$rc"
 }
 
+wait_image_available() {
+  image_id="$1" deadline=$((SECONDS + CONTROL_PLANE_WAIT_SECONDS))
+  while ((SECONDS <= deadline)); do
+    state="$(aws_cli ec2 describe-images --image-ids "$image_id" --query 'Images[0].State' --output text)" || return
+    case "$state" in
+      available) return 0 ;;
+      pending) sleep "$CONTROL_PLANE_POLL_SECONDS" ;;
+      *) echo "prepared image entered terminal state $state: $image_id" >&2; return 1 ;;
+    esac
+  done
+  echo "prepared image remained pending beyond ${CONTROL_PLANE_WAIT_SECONDS}s: $image_id" >&2
+  return 1
+}
+
+wait_snapshots_completed() {
+  deadline=$((SECONDS + CONTROL_PLANE_WAIT_SECONDS))
+  while ((SECONDS <= deadline)); do
+    states="$(aws_cli ec2 describe-snapshots --snapshot-ids "$@" --query 'Snapshots[].State' --output json)" || return
+    jq -e --argjson expected "$#" 'length==$expected and all(.[];.=="completed")' <<<"$states" >/dev/null && return 0
+    jq -e --argjson expected "$#" 'length==$expected and all(.[];.=="pending" or .=="completed")' <<<"$states" >/dev/null \
+      || { echo "prepared snapshot entered a failed or incomplete state" >&2; return 1; }
+    sleep "$CONTROL_PLANE_POLL_SECONDS"
+  done
+  echo "prepared snapshots remained pending beyond ${CONTROL_PLANE_WAIT_SECONDS}s" >&2
+  return 1
+}
+
 create_prepared_image() {
   node="$1" instance_id="$2" retention_until="$3"
   name="$STORAGE_ID-$node-${COMMIT:0:12}"
@@ -552,7 +582,7 @@ create_prepared_image() {
     --query ImageId --output text)"
   if [[ "$node" == runtime ]]; then PREP_RUNTIME_AMI_ID="$image_id"; else PREP_GPU_AMI_ID="$image_id"; fi
   record_preparation_resource image "$image_id" active
-  aws_cli ec2 wait image-available --image-ids "$image_id"
+  wait_image_available "$image_id"
   image_snapshots="$(aws_cli ec2 describe-images --image-ids "$image_id" --query 'Images[0].BlockDeviceMappings[].Ebs.SnapshotId' --output text)"
   [[ "$image_snapshots" =~ ^snap-[0-9a-f]+$ ]] || { echo "prepared image must have exactly one root snapshot: $image_id" >&2; return 1; }
   if [[ "$node" == runtime ]]; then PREP_RUNTIME_ROOT_SNAPSHOT_ID="$image_snapshots"; else PREP_GPU_ROOT_SNAPSHOT_ID="$image_snapshots"; fi
@@ -580,7 +610,7 @@ snapshot_prepared_generation() {
     --query SnapshotId --output text)"
   [[ "$gpu_snapshot" =~ ^snap-[0-9a-f]+$ ]] || { echo "GPU snapshot creation did not return an exact ID" >&2; return 1; }
   record_preparation_resource snapshot "$gpu_snapshot" active
-  aws_cli ec2 wait snapshot-completed --snapshot-ids "$runtime_snapshot" "$gpu_snapshot"
+  wait_snapshots_completed "$runtime_snapshot" "$gpu_snapshot"
   snapshot_elapsed=$(( $(date +%s) - snapshot_started ))
   snapshot_state="$(aws_cli ec2 describe-snapshots --snapshot-ids "$runtime_snapshot" "$gpu_snapshot" --query 'Snapshots[].{snapshot_id:SnapshotId,source_volume_id:VolumeId,state:State,progress:Progress,volume_size_gib:VolumeSize,started_at:StartTime,tags:Tags}' --output json | jq -c 'sort_by(.snapshot_id)')"
   jq -e --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" 'length==2 and all(.[];.state=="completed" and .progress=="100%") and ([.[].source_volume_id]|sort)==([$runtime,$gpu]|sort)' <<<"$snapshot_state" >/dev/null
@@ -964,6 +994,16 @@ case "$ACTION" in
     require aws
     [[ $# -eq 9 ]] || { echo "test-preparation-wait requires the nine wait arguments" >&2; exit 2; }
     wait_preparation_receipts "$@"
+    ;;
+  test-control-plane-wait)
+    require aws
+    [[ $# -ge 2 ]] || { echo "test-control-plane-wait requires image|snapshots and IDs" >&2; exit 2; }
+    kind="$1"; shift
+    case "$kind" in
+      image) [[ $# -eq 1 ]] || exit 2; wait_image_available "$1" ;;
+      snapshots) wait_snapshots_completed "$@" ;;
+      *) exit 2 ;;
+    esac
     ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;

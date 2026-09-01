@@ -79,6 +79,7 @@ run_contracts() {
     if [[ "$*" == *" describe-instances "* && "$*" == *" i-gpu "* ]]; then printf 'stopped\n'; return 0; fi
     return 2
   }
+  export CASE_ROOT
   export -f aws
   ! ADL_ISSUE607_PREPARATION_STOP_OBSERVATIONS=1 ADL_ISSUE607_PREPARATION_POLL_SECONDS=0 \
     bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-preparation-wait \
@@ -86,6 +87,28 @@ run_contracts() {
       gpu-ok gpu-failed i-gpu "$CASE_ROOT/gpu-receipt.json" 5 \
       >"$CASE_ROOT/wait.out" 2>"$CASE_ROOT/wait.err"
   rg -q 'gpu preparation instance stopped without' "$CASE_ROOT/wait.err"
+
+  rm -f "$CASE_ROOT/control-plane-image-count" "$CASE_ROOT/control-plane-snapshot-count"
+  aws() {
+    if [[ "$*" == *" describe-images "* ]]; then
+      count="$(($(cat "$CASE_ROOT/control-plane-image-count" 2>/dev/null || printf 0) + 1))"
+      printf '%s' "$count" >"$CASE_ROOT/control-plane-image-count"
+      [[ "$count" -ge 2 ]] && printf 'available\n' || printf 'pending\n'
+      return 0
+    fi
+    if [[ "$*" == *" describe-snapshots "* ]]; then
+      count="$(($(cat "$CASE_ROOT/control-plane-snapshot-count" 2>/dev/null || printf 0) + 1))"
+      printf '%s' "$count" >"$CASE_ROOT/control-plane-snapshot-count"
+      [[ "$count" -ge 2 ]] && printf '["completed","completed"]\n' || printf '["pending","completed"]\n'
+      return 0
+    fi
+    return 2
+  }
+  export -f aws
+  ADL_ISSUE607_CONTROL_PLANE_WAIT_SECONDS=2 ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
+    bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-control-plane-wait image ami-0123456789abcdef0
+  ADL_ISSUE607_CONTROL_PLANE_WAIT_SECONDS=2 ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
+    bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-control-plane-wait snapshots snap-0123456789abcdef0 snap-abcdef01234567890
 
   for template in \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
@@ -155,6 +178,7 @@ run_contracts() {
   rg -q '^stage=artifact_download$' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'for node in runtime gpu' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'preparation instance stopped without a success or failure receipt' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  ! rg -q 'ec2 wait (image-available|snapshot-completed)' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'measured_after_preparation_bootstrap:true' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'measured_after_preparation_bootstrap:true' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   ! rg -q 'dd if=/dev/zero' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
