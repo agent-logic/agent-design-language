@@ -1,0 +1,152 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 528,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ffce9a74a84dcf49d507c8d3048ef69dd74cc44ee100d52bd932b2d444978bb2",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "7004ba18c5591d12ee556af552b9722ba6ffe9ce9a639080f711ef8dbfddad0c",
+  "branch": "codex/528-vertex-ai-gemini-provider-transport",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-528-vertex-ai-gemini-provider-transport",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/528/design.md",
+  "diagram_path": ".csdlc/prepared/issues/528/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:fb9c4321-a7a5-4284-91b8-3ba63e521409",
+      "revision": "dab6c9d56989cb945ed16286e39691dbfb79daa512ed48141cc4280daa518c21"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c082b2ed533bfe34c5d1e5598b04035dace0a70c2c73abcca96949b0a1bf8973",
+      "rendered_digest": "8d51702ddd23d0e2e9d6ee5d83fc2b5f1eb79f72d918a178e94c01c6e3087e6c",
+      "ast_digest": "a885d6b8a6aa91956f7ab5574a7865acf7834b3ca7b6794271560ff55474719c"
+    },
+    "stp": {
+      "values_digest": "c5cd1ddb317e40f909e61380f7aab3597384b1b19869d7554120cefcf8648bb5",
+      "rendered_digest": "58515cc327ceb9adb527d6ee4cc9c0b8f49aba5f3d4f29e89e9bf1dccbe30ed1",
+      "ast_digest": "7208ce9df21f504b1ebbff12b0ba421ba7ff10b912e22557dfdcf22df97e3b1c"
+    },
+    "spp": {
+      "values_digest": "cb8c3574a23e1cc7befeea36e1866c9cce9c7179385816544efe14667084de30",
+      "rendered_digest": "fa82e626f23150346db08311dc8c6b43cb072dd182399258a97145e90a778f0f",
+      "ast_digest": "0acd20d6ba14e1f9b74b00b48ad0ad34b4509406f218f3173176c629927bd146"
+    },
+    "vpp": {
+      "values_digest": "17072c6daa209c0ad0ebab4eae62ab2ada64bc9d248d7842d8d48a9aa10151ad",
+      "rendered_digest": "fbea891f5bebcfaeae4eaf7c47a28bc90a93ced031d295f97a5dda27e7247ae2",
+      "ast_digest": "50e529ff5a31d348e0536aa1c4288531f8dcbe70fa03c954864fa8d8400ce066"
+    },
+    "srp": {
+      "values_digest": "b63c6cf6e961be3fa0d98f4fca9bd095da6efd8aa9457fbdc14943ce0ad4af6f",
+      "rendered_digest": "b0d76109733178b6cc11adbfa2223d5a35d8cb4d486c5716d58cde91757e8962",
+      "ast_digest": "06463f254d963b62840fefa64a4cfb66f77ddcdbf74085003da23b661cfb86bc"
+    },
+    "sor": {
+      "values_digest": "6e5d5f3d04b5375dd352ba77cc4f566c3e7ae0d8c07cfe065596b4cb546bd022",
+      "rendered_digest": "57f7e2ef9d6d0b96d9c327b28bc691c3c110c53eb480da8a59ef32c0a64fad1f",
+      "ast_digest": "79135bbc8e023eade956a0d856a4fcc8f32978c8b0c72a2086f86e4aa4052847"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "advance #528 to ready after fresh design review PASS and readiness validation"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "repair #528 initialized VPP lanes so prebind readiness has issue-owned executable proof and live Vertex smoke remains explicit deferred external proof",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-vertex-ai-provider-packet\",\"proof_role\":\"Proves #528 design packet readiness, #514 dependency truth, provider substrate inputs, credential-redaction boundary, and live-smoke defer posture before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/528/validate-vertex-ai-provider-transport.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"vertex-ai-provider-rust-focused\",\"proof_role\":\"After bind, runs focused Rust provider tests covering shared Gemini codec reuse, Vertex AI transport config/auth boundaries, UTS tools, streaming, errors, cancellation, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"provider\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #528 is bound and implementation creates the Vertex AI transport and shared Gemini codec proof.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"After bind, verifies whitespace and patch hygiene for the exact #528 implementation diff.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #528 has an implementation diff.\"},{\"lane\":\"live-vertex-smoke\",\"proof_role\":\"Optional external provider qualification proving a live Vertex AI call only after explicit operator authorization, ADC/workload identity, project, region, model, quota, and cost ceiling are set.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":1500,\"argv\":[\"bash\",\".csdlc/prepared/issues/528/run-live-vertex-smoke.sh\"],\"parallel_group\":\"external-provider\",\"defer_reason\":\"Deferred: live Vertex AI calls require separate operator authorization plus configured ADC/workload identity, project, location, model, quota, and cost ceiling.\"},{\"lane\":\"exact-head-review\",\"proof_role\":\"Fresh exact-head review proving no actionable P0-P3 findings before publication.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"csdlc-review\",\"record\"],\"parallel_group\":\"review\",\"defer_reason\":\"Deferred until #528 is implemented and locally validated.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "include exact #528 prepared validator entrypoints as owned paths so initialized readiness can prove an issue-specific denominator",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider_adapter.rs\",\"adl/src/provider_substrate.rs\",\"adl/src/provider_communication.rs\",\"adl/tests\",\"docs/operations\",\"docs/validation/pvf_lanes.json\",\".csdlc/prepared/issues/528/validate-vertex-ai-provider-transport.sh\",\".csdlc/prepared/issues/528/run-live-vertex-smoke.sh\",\".csdlc/prepared/issues/528\",\".csdlc/evidence/528\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "repair #528 VPP lane argv to use executable issue-owned prepared validators and installed typed review binary",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"prebind-vertex-ai-provider-packet\",\"proof_role\":\"Proves #528 design packet readiness, #514 dependency truth, provider substrate inputs, credential-redaction boundary, and live-smoke defer posture before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\".csdlc/prepared/issues/528/validate-vertex-ai-provider-transport.sh\"],\"parallel_group\":\"prebind-local\",\"defer_reason\":null},{\"lane\":\"vertex-ai-provider-rust-focused\",\"proof_role\":\"After bind, runs focused Rust provider tests covering shared Gemini codec reuse, Vertex AI transport config/auth boundaries, UTS tools, streaming, errors, cancellation, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"provider\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #528 is bound and implementation creates the Vertex AI transport and shared Gemini codec proof.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"After bind, verifies whitespace and patch hygiene for the exact #528 implementation diff.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"parallel_group\":\"postbind-local\",\"defer_reason\":\"Deferred until #528 has an implementation diff.\"},{\"lane\":\"live-vertex-smoke\",\"proof_role\":\"Optional external provider qualification proving a live Vertex AI call only after explicit operator authorization, ADC/workload identity, project, region, model, quota, and cost ceiling are set.\",\"acceptance_ids\":[\"AC-9\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":1500,\"argv\":[\".csdlc/prepared/issues/528/run-live-vertex-smoke.sh\"],\"parallel_group\":\"external-provider\",\"defer_reason\":\"Deferred: live Vertex AI calls require separate operator authorization plus configured ADC/workload identity, project, location, model, quota, and cost ceiling.\"},{\"lane\":\"exact-head-review\",\"proof_role\":\"Fresh exact-head review proving no actionable P0-P3 findings before publication.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-review\",\"record\"],\"parallel_group\":\"review\",\"defer_reason\":\"Deferred until #528 is implemented and locally validated.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:fb9c4321-a7a5-4284-91b8-3ba63e521409",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"dab6c9d56989cb945ed16286e39691dbfb79daa512ed48141cc4280daa518c21\",\"design_ref\":\".csdlc/prepared/issues/528/design.md\",\"diagram_digest\":\"e6676e2e88750ea4db2327dfe7187c3e0b43806b6cdc1f17ddbf9959a91d3179\",\"diagram_ref\":\".csdlc/prepared/issues/528/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "advance #528 to ready after fresh design review PASS and readiness validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record the final Vertex AI profile-registry assertion added after implementation finalize and before immutable review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implementation remains bounded to the Vertex AI Gemini provider transport, with explicit profile-registry proof added before review.\",\"changes\":[\"Added a focused assertion that vertex_ai:gemini-2.5-flash remains a first-class vertex_ai_gemini profile with no generic HTTP endpoint fallback.\"],\"artifacts\":[\"adl/src/provider/mod.rs\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record refreshed post-finalize proof for the added Vertex AI profile-registry assertion.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"provider_mod_registry_keeps_expanded_vendor_identities_distinct\",\"--\",\"--nocapture\"],\"purpose\":\"Proves the vertex_ai:gemini-2.5-flash profile is registered as native vertex_ai_gemini with no endpoint fallback.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/528/provider-profile-registry-post-finalize.log\"}}"
+    }
+  ]
+}

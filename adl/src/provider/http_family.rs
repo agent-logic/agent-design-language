@@ -14,9 +14,9 @@ use std::time::Duration;
 mod config;
 
 use config::{
-    auth_env_for, cfg_bool_opt, cfg_f64_strict, cfg_u64_strict, ollama_generate_endpoint,
-    validate_http_credential_endpoint, validate_vendor_credential_endpoint, vendor_endpoint,
-    HttpAuth,
+    auth_env_for, cfg_bool_opt, cfg_f64_strict, cfg_u64_strict, endpoint_host,
+    is_loopback_endpoint, ollama_generate_endpoint, validate_http_credential_endpoint,
+    validate_vendor_credential_endpoint, vendor_endpoint, HttpAuth,
 };
 pub(crate) use config::{cfg_u64, timeout_secs};
 
@@ -390,6 +390,14 @@ fn extract_deepseek_output_text(json: &Value) -> Option<String> {
 
 fn extract_openrouter_output_text(json: &Value) -> Option<String> {
     extract_deepseek_output_text(json)
+}
+
+fn extract_gemini_output_text(json: &Value) -> Option<String> {
+    json.pointer("/candidates/0/content/parts/0/text")
+        .and_then(|v| v.as_str())
+        .map(str::trim)
+        .filter(|v| !v.is_empty())
+        .map(ToString::to_string)
 }
 
 fn extract_bedrock_nova_output_text(json: &Value) -> Option<String> {
@@ -902,6 +910,120 @@ impl Provider for AwsBedrockProvider {
             .map_err(|err| runtime_error("bedrock", format!("failed to build runtime: {err}")))?
             .block_on(self.complete_async(prompt))
     }
+}
+
+#[derive(Debug, Clone)]
+/// Google Vertex AI Gemini provider using the generateContent API format.
+pub struct VertexAiGeminiProvider {
+    endpoint: String,
+    auth_env: String,
+    model: String,
+    max_output_tokens: u64,
+    timeout_secs: Option<u64>,
+}
+
+impl VertexAiGeminiProvider {
+    /// Build a Vertex AI Gemini provider from normalized invocation target.
+    pub fn from_target(
+        spec: &adl::ProviderSpec,
+        target: &ProviderInvocationTargetV1,
+    ) -> Result<Self> {
+        let project = required_cfg_string(&spec.config, "project", "vertex_ai_gemini")?;
+        let location = required_cfg_string(&spec.config, "location", "vertex_ai_gemini")?;
+        let endpoint = cfg_string(&spec.config, "endpoint").unwrap_or_else(|| {
+            vertex_ai_gemini_endpoint(&project, &location, &target.provider_model_id)
+        });
+        validate_vertex_ai_endpoint(spec, &endpoint)?;
+        let auth_env = auth_env_for(spec, "ADL_VERTEX_AI_ACCESS_TOKEN")?;
+        Ok(Self {
+            endpoint,
+            auth_env,
+            model: target.provider_model_id.clone(),
+            max_output_tokens: cfg_u64(&spec.config, "max_output_tokens").unwrap_or(1024),
+            timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+        })
+    }
+}
+
+impl Provider for VertexAiGeminiProvider {
+    fn complete(&self, prompt: &str) -> Result<String> {
+        let token = env::var(&self.auth_env).map_err(|_| {
+            invalid_config(
+                "vertex_ai_gemini",
+                format!("missing required auth env var '{}'", self.auth_env),
+            )
+        })?;
+        let mut client_builder = reqwest::blocking::Client::builder();
+        if let Some(secs) = self.timeout_secs {
+            client_builder = client_builder.timeout(Duration::from_secs(secs));
+        }
+        let client = client_builder
+            .build()
+            .context("failed to build Vertex AI Gemini client")
+            .map_err(|err| runtime_error("vertex_ai_gemini", err.to_string()))?;
+        let req = client
+            .post(&self.endpoint)
+            .header("Content-Type", "application/json")
+            .bearer_auth(token)
+            .json(&serde_json::json!({
+                "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "maxOutputTokens": self.max_output_tokens,
+                },
+            }));
+        let (json, http_status) = provider_http_json("vertex_ai_gemini", req)?;
+        let output = extract_gemini_output_text(&json).ok_or_else(|| {
+            runtime_error_non_retryable("vertex_ai_gemini", "response missing Gemini text output")
+        })?;
+        write_native_invocation_record(
+            "vertex_ai_gemini",
+            &self.model,
+            prompt,
+            &output,
+            http_status,
+        )?;
+        Ok(output)
+    }
+}
+
+fn vertex_ai_gemini_endpoint(project: &str, location: &str, model: &str) -> String {
+    format!(
+        "https://{location}-aiplatform.googleapis.com/v1/projects/{project}/locations/{location}/publishers/google/models/{model}:generateContent"
+    )
+}
+
+fn required_cfg_string(
+    cfg: &HashMap<String, Value>,
+    key: &str,
+    provider_label: &str,
+) -> Result<String> {
+    cfg_string(cfg, key).ok_or_else(|| {
+        invalid_config(
+            provider_label,
+            format!("config.{key} is required for Vertex AI Gemini"),
+        )
+    })
+}
+
+fn validate_vertex_ai_endpoint(spec: &adl::ProviderSpec, endpoint: &str) -> Result<()> {
+    if !is_allowed_remote_endpoint(endpoint) {
+        return Err(invalid_config(
+            "vertex_ai_gemini",
+            "endpoint must use https://; plaintext http:// is only allowed for localhost/loopback test endpoints",
+        ));
+    }
+    let trusted_vertex_endpoint =
+        endpoint_host(endpoint).is_some_and(|host| host.ends_with("-aiplatform.googleapis.com"));
+    if is_loopback_endpoint(endpoint)
+        || trusted_vertex_endpoint
+        || cfg_bool_opt(&spec.config, "trust_custom_endpoint", "vertex_ai_gemini")?.unwrap_or(false)
+    {
+        return Ok(());
+    }
+    Err(invalid_config(
+        "vertex_ai_gemini",
+        "refusing to send Vertex AI bearer credentials to an untrusted endpoint; use a regional aiplatform.googleapis.com endpoint, loopback, or config.trust_custom_endpoint: true",
+    ))
 }
 
 fn cfg_string(cfg: &HashMap<String, Value>, key: &str) -> Option<String> {

@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 528,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+    "slug": "vertex-ai-gemini-provider-transport",
+    "version": "v0.92.1",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Design and implementation review for #528 Vertex AI Gemini provider transport only; exclude GCP infrastructure, #509 qualification, and live paid provider proof unless separately authorized.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #528 preserve one shared Gemini semantic codec while adding a distinct Vertex AI transport?",
+        "Does the design avoid credential disclosure and embedded API keys?",
+        "Are project/location/model/endpoint/timeouts/cancellation boundaries explicit and testable?",
+        "Do deterministic tests cover UTS tool names and arguments, streaming/non-streaming normalization, error classification, and redaction?",
+        "Are live Vertex calls correctly separated as optional externally authorized proof?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

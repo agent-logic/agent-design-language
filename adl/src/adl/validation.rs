@@ -330,7 +330,7 @@ pub(super) fn validate_provider(provider_id: &str, provider: &ProviderSpec) -> R
             }
             Ok(())
         }
-        "mock" | "openai" | "anthropic" => Ok(()),
+        "mock" | "openai" | "anthropic" | "vertex_ai_gemini" | "vertex_ai" | "vertex" => Ok(()),
         "http" | "http_remote" => {
             let endpoint = provider
                 .base_url
@@ -351,7 +351,7 @@ pub(super) fn validate_provider(provider_id: &str, provider: &ProviderSpec) -> R
             Ok(())
         }
         other => Err(anyhow!(
-            "providers.{provider_id} has unsupported kind '{other}' (supported: ollama, local_ollama, mock, http, http_remote, openai, anthropic)"
+            "providers.{provider_id} has unsupported kind '{other}' (supported: ollama, local_ollama, mock, http, http_remote, openai, anthropic, vertex_ai_gemini)"
         )),
     }
 }

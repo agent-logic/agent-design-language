@@ -201,6 +201,131 @@ config:
 }
 
 #[test]
+fn vertex_ai_gemini_provider_translates_native_response_and_records_family() {
+    let server = match std::net::TcpListener::bind("127.0.0.1:0") {
+        Ok(s) => s,
+        Err(e) if e.kind() == std::io::ErrorKind::PermissionDenied => return,
+        Err(e) => panic!("failed to bind local test server: {e}"),
+    };
+    let addr = server.local_addr().unwrap();
+    let receipt_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../.csdlc/evidence/528/provider-tests");
+    std::fs::create_dir_all(&receipt_dir).expect("create issue-owned provider test evidence dir");
+    let receipt = receipt_dir.join(format!(
+        "adl-vertex-ai-invocations-{}-{}.json",
+        std::process::id(),
+        std::thread::current().name().unwrap_or("test")
+    ));
+    let _ = std::fs::remove_file(&receipt);
+    let receipt_value = receipt.to_string_lossy().to_string();
+    let _env_guard = EnvVarGuard::set_many(&[
+        ("NO_PROXY", std::ffi::OsStr::new("127.0.0.1,localhost")),
+        (
+            "ADL_TEST_VERTEX_AI_TOKEN",
+            std::ffi::OsStr::new("test-vertex-token"),
+        ),
+        (
+            "ADL_PROVIDER_INVOCATIONS_PATH",
+            std::ffi::OsStr::new(&receipt_value),
+        ),
+    ]);
+
+    std::thread::spawn(move || {
+        let (mut stream, _) = server.accept().unwrap();
+        let request = read_http_request(&mut stream);
+        assert!(request.starts_with("POST /v1/projects/test-project/locations/us-west1/publishers/google/models/gemini-test:generateContent "));
+        assert!(request.to_ascii_lowercase().contains("authorization:"));
+        assert!(request.contains("Bearer test-vertex-token"));
+        assert!(request.contains("\"role\":\"user\""));
+        assert!(request.contains("\"text\":\"hello vertex\""));
+        assert!(request.contains("\"maxOutputTokens\":321"));
+        let body = r#"{"candidates":[{"content":{"parts":[{"text":"VERTEX_NATIVE_OK"}]}}]}"#;
+        let resp = format!(
+            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\n\r\n{}",
+            body.len(),
+            body
+        );
+        let _ = stream.write_all(resp.as_bytes());
+    });
+
+    let spec = provider_spec_from_yaml(&format!(
+        r#"
+type: vertex_ai_gemini
+config:
+  endpoint: "http://{addr}/v1/projects/test-project/locations/us-west1/publishers/google/models/gemini-test:generateContent"
+  project: "test-project"
+  location: "us-west1"
+  provider_model_id: "gemini-test"
+  max_output_tokens: 321
+  auth:
+    type: bearer
+    env: ADL_TEST_VERTEX_AI_TOKEN
+"#
+    ));
+
+    let provider = build_provider(&spec, None).expect("vertex_ai_gemini provider should build");
+    let out = provider
+        .complete("hello vertex")
+        .expect("vertex_ai_gemini provider should succeed");
+    assert_eq!(out, "VERTEX_NATIVE_OK");
+
+    let receipt_json: Value =
+        serde_json::from_slice(&std::fs::read(&receipt).expect("invocation receipt should exist"))
+            .expect("receipt should be JSON");
+    assert_eq!(receipt_json["invocations"][0]["family"], "vertex_ai_gemini");
+    assert_eq!(receipt_json["invocations"][0]["model"], "gemini-test");
+    assert_eq!(receipt_json["invocations"][0]["http_status"], 200);
+    let rendered = receipt_json.to_string();
+    assert!(!rendered.contains("test-vertex-token"));
+    assert!(!rendered.contains("ADL_TEST_VERTEX_AI_TOKEN"));
+    let _ = std::fs::remove_file(receipt);
+}
+
+#[test]
+fn vertex_ai_gemini_provider_builds_regional_endpoint_without_network() {
+    let spec = provider_spec_from_yaml(
+        r#"
+type: vertex_ai_gemini
+config:
+  project: "company-project"
+  location: "us-west1"
+  provider_model_id: "gemini-2.5-flash"
+"#,
+    );
+
+    let provider = build_provider(&spec, None)
+        .expect("vertex_ai_gemini provider should build with regional Vertex endpoint");
+    let err = provider
+        .complete("missing token")
+        .expect_err("missing token should fail before network");
+    let msg = format!("{err:#}");
+    assert!(msg.contains("missing required auth env var 'ADL_VERTEX_AI_ACCESS_TOKEN'"));
+    assert!(!msg.contains("Bearer"));
+}
+
+#[test]
+fn vertex_ai_gemini_provider_rejects_untrusted_custom_endpoint() {
+    let spec = provider_spec_from_yaml(
+        r#"
+type: vertex_ai_gemini
+config:
+  endpoint: "https://example.com/v1/projects/p/locations/us-west1/publishers/google/models/gemini-test:generateContent"
+  project: "p"
+  location: "us-west1"
+  provider_model_id: "gemini-test"
+"#,
+    );
+
+    let err = match build_provider(&spec, None) {
+        Ok(_) => panic!("untrusted custom endpoint should fail"),
+        Err(err) => err,
+    };
+    assert!(err
+        .to_string()
+        .contains("refusing to send Vertex AI bearer credentials to an untrusted endpoint"));
+}
+
+#[test]
 fn zai_provider_translates_native_response_through_build_provider() {
     let server = match std::net::TcpListener::bind("127.0.0.1:0") {
         Ok(s) => s,

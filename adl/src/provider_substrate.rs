@@ -146,6 +146,9 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
                 "mistral" => return "mistral".to_string(),
                 "cohere" => return "cohere".to_string(),
                 "gemini" => return "google".to_string(),
+                "vertex" | "vertex_ai" | "vertex_ai_gemini" => {
+                    return "google_vertex_ai".to_string();
+                }
                 "http" => return "generic_http".to_string(),
                 "deepgram" => return "deepgram".to_string(),
                 _ => {}
@@ -169,6 +172,9 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
             || lower.contains("generativelanguage")
             || lower.contains("gemini")
         {
+            if lower.contains("aiplatform.googleapis.com") {
+                return "google_vertex_ai".to_string();
+            }
             return "google".to_string();
         }
         if lower.contains("deepseek") {
@@ -199,6 +205,7 @@ fn infer_vendor(spec: &adl::ProviderSpec) -> String {
         "deepseek" => "deepseek".to_string(),
         "bedrock" | "aws_bedrock" => "aws_bedrock".to_string(),
         "openrouter" => "openrouter".to_string(),
+        "vertex_ai_gemini" | "vertex_ai" | "vertex" => "google_vertex_ai".to_string(),
         "z_ai" | "zai" | "zhipu" => "z_ai".to_string(),
         "http" | "http_remote" => "generic_http".to_string(),
         "deepgram" => "deepgram".to_string(),
@@ -217,7 +224,8 @@ fn infer_transport(spec: &adl::ProviderSpec) -> Result<ProviderTransportV1> {
             }
         }
         "http" | "http_remote" | "openai" | "anthropic" | "deepseek" | "openrouter" | "bedrock"
-        | "aws_bedrock" | "z_ai" | "zai" | "zhipu" | "deepgram" => Ok(ProviderTransportV1::Http),
+        | "aws_bedrock" | "z_ai" | "zai" | "zhipu" | "deepgram" | "vertex_ai_gemini"
+        | "vertex_ai" | "vertex" => Ok(ProviderTransportV1::Http),
         "local_ollama" => Ok(ProviderTransportV1::LocalCli),
         "mock" => Ok(ProviderTransportV1::InProcess),
         other => Err(anyhow!(

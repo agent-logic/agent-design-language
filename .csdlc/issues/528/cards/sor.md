@@ -1,0 +1,151 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 528
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Implementation remains bounded to the Vertex AI Gemini provider transport, with explicit profile-registry proof added before review.
+
+## Artifacts
+
+- adl/src/adl/validation.rs
+- adl/src/provider/http_family.rs
+- adl/src/provider/http_family/config.rs
+- adl/src/provider/mod.rs
+- adl/src/provider/profiles.rs
+- adl/src/provider_substrate.rs
+- adl/tests/adl_tests.rs
+- adl/tests/provider_tests/http_family.rs
+- .csdlc/prepared/issues/528/validate-vertex-ai-provider-transport.sh
+- .csdlc/prepared/issues/528/run-live-vertex-smoke.sh
+- adl/src/provider/mod.rs
+
+## Execution
+
+- Added first-class vertex_ai_gemini provider dispatch with vertex_ai and vertex aliases mapped through the HTTP transport substrate.
+- Implemented regional Vertex AI generateContent endpoint construction from explicit project, location, and provider_model_id values, with bearer auth sourced only from a configured environment variable.
+- Rejected plaintext remote endpoints and untrusted custom HTTPS endpoints before credential use, while allowing loopback endpoints for deterministic local harness tests.
+- Parsed Gemini generateContent candidate text responses and recorded sanitized native invocation evidence under the vertex_ai_gemini family.
+- Added semantic provider-kind validation, a Vertex AI Gemini profile preset, and focused local tests covering request shape, response parsing, endpoint safety, missing-token redaction, and provider registry dispatch.
+- Added a focused assertion that vertex_ai:gemini-2.5-flash remains a first-class vertex_ai_gemini profile with no generic HTTP endpoint fallback.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "validate_accepts_native_openai_anthropic_and_vertex_provider_kinds",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "ADL semantic provider-kind validation test",
+    "outcome": "passed",
+    "evidence_ref": "adl-native-provider-kind-validation.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Git diff hygiene",
+    "outcome": "passed",
+    "evidence_ref": "diff-hygiene.log"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/528/validate-vertex-ai-provider-transport.sh"
+    ],
+    "purpose": "Prepared packet validator",
+    "outcome": "passed",
+    "evidence_ref": "prebind-vertex-ai-provider-packet.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict Rust Clippy",
+    "outcome": "passed",
+    "evidence_ref": "strict-clippy-all-targets.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "vertex_ai_gemini",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Vertex AI Gemini provider integration tests",
+    "outcome": "passed",
+    "evidence_ref": "vertex-ai-native-harness.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--lib",
+      "provider"
+    ],
+    "purpose": "Provider-focused Rust library tests",
+    "outcome": "passed",
+    "evidence_ref": "vertex-ai-provider-rust-focused.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "provider_mod_registry_keeps_expanded_vendor_identities_distinct",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Proves the vertex_ai:gemini-2.5-flash profile is registered as native vertex_ai_gemini with no endpoint fallback.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/528/provider-profile-registry-post-finalize.log"
+  }
+]
+
+## Integration
+
+not_started
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none
