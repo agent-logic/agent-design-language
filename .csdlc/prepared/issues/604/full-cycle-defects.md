@@ -83,3 +83,26 @@ publication.
 - Required fix: provide a governed owner-source-change path that stages source,
   records implementation truth, and refreshes installed provenance without
   relying on ad hoc operator sequencing.
+
+## DEFECT-008: Install and test temp-root policy is under-specified
+
+- Status: open tooling defect.
+- Evidence: `csdlc-install install` failed with `CARGO_TARGET_DIR must name the
+  validated external Cargo target` until an external FastWork target was
+  provided. Separately, running `gate10a` with repo-local `TMPDIR` caused its
+  own temporary external-target fixture to be rejected as inside the repository.
+- Impact: an operator trying to avoid `/private/tmp` can accidentally break the
+  owner-binary install/provenance lane.
+- Required fix: one-command start/validation should select and advertise a
+  safe external build/temp root automatically, while keeping issue evidence
+  under the bound worktree.
+
+## DEFECT-009: gate10a had a parallel test race on forbidden v1 paths
+
+- Status: fixed in #604.
+- Evidence: the full `gate10a` suite intermittently failed because one test
+  temporarily wrote `adl/tools/pr.sh` into the live repository while another
+  parallel test checked coexistence. The single test passed in isolation.
+- Fix: serialized the tests that mutate or observe the live forbidden-path
+  surface with a process-local mutex and improved the failing assertion
+  diagnostic.

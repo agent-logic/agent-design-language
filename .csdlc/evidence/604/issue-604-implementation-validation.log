@@ -1,0 +1,22 @@
+
+running 5 tests
+test ready_preflight_requires_exact_draft_pr_identity ... ok
+test ready_post_readback_requires_exact_non_draft_pr_identity ... ok
+test ready_readback_rejects_identity_drift_and_wrong_draft_state ... ok
+test ready_preparation_rejects_stale_cas_and_non_draft_publication ... ok
+test ready_preparation_accepts_exact_published_draft_record ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+
+running 3 tests
+test connector_403_is_not_token_failure_or_fallback_authority ... ok
+test shared_token_precedence_and_error_redaction_are_preserved ... ok
+test github_route_policy_is_consistent_and_fail_closed ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/publication_ready.rs (csdlc-v2/target/debug/deps/publication_ready-d592697ca69f7b6e)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/gate_github_route_policy.rs (csdlc-v2/target/debug/deps/gate_github_route_policy-a4138f9a06c7b743)

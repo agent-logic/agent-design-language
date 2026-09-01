@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 604,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
+    "slug": "v2-publish-ready-reconciliation",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Restore typed C-SDLC v2 publication commands that can safely mark governed draft PRs ready and reconcile uncertain ready mutations.",
+      "required_outcome": "The authoritative csdlc-publish owner supports exact-identity ready and reconcile-ready operations with durable lifecycle truth and focused tests.",
+      "declared_scope": [
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/src/bin/csdlc-publish.rs",
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/tests/**",
+        "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+        "csdlc-v2/operator/skills.json",
+        ".csdlc/prepared/issues/604/**",
+        ".csdlc/issues/604/**"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains the sole live lifecycle authority until explicit #505 cutover.",
+        "csdlc-publish owns publication and publication-ready reconciliation for this issue.",
+        "The implementation must not use raw gh or ChatGPT GitHub connector writes.",
+        "Ready publication truth is recorded only after exact live PR readback proves the expected remote state.",
+        "This issue does not merge, finish, clean, or close any PR."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use the canonical FastWork issue worktree.",
+        "Keep the primary checkout clean.",
+        "Do not use raw gh.",
+        "Publish with Closes #604 after implementation, validation, and review pass.",
+        "Capture any full-cycle tooling defects for later resolution."
+      ]
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 604,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "2ee630b9ba0f0138500073e8262337e2df99304858ad5c599e5d5cb9398ba5db",
+  "branch": "codex/604-v2-publish-ready-reconciliation-exec",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/604/design.md",
+  "diagram_path": ".csdlc/prepared/issues/604/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:live-issue-604-20260901",
+      "revision": "b8848e01d7c9010be517c43cedc50c002d795dfcf4f48ebab7d4648c7615459b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "bcbc2134acd82baa3cd1dbdff39e121aa65294acce4d3c8621c6a73710de869d",
+      "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
+      "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
+    },
+    "stp": {
+      "values_digest": "1fee5b34fd7679ebfdd4abfdd29958c94026bfcd889b9b71ef871c3d618c8d45",
+      "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
+      "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
+    },
+    "spp": {
+      "values_digest": "9bcde2787f5266d7a0c8623a3cfdc755e72544e4c6f20ad915821b4cc48291b1",
+      "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
+      "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
+    },
+    "vpp": {
+      "values_digest": "cf727328161e9778ea908118c3f6b1bad23787c847f5fbc73ba5cfa19a95879b",
+      "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
+      "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
+    },
+    "srp": {
+      "values_digest": "af606f71f5a07e3bb8ae783fcd544da4ee9aaf7472ffe04a0c37bf895d07863f",
+      "rendered_digest": "fc388d1580ebea3a1eb2068438be8be9bb2c9f986d566a804546bc9321cb5c33",
+      "ast_digest": "3bc1550374b4d892467c858325b717ab76f40c34ddd0fb1a22a94be6e091bf71"
+    },
+    "sor": {
+      "values_digest": "25f881d394dd06078a600030476b97a29ff38358691a99d29e501b1ae8fe6ab7",
+      "rendered_digest": "ac992af359d6f0425e462261901f01f66887eb1cbb1ea1917c894268f3a547c3",
+      "ast_digest": "66e619f35ce9acee88dc572a9a0171f7a8600dce6ceb080ce371fbad5ad8ce8d"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Repair #604 validation-planning truth so the issue-owned focused integration-test target exists before execution binding.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-publish-ready-tests\",\"proof_role\":\"Prove typed ready and reconcile-ready publication behavior, rejection paths, and recovery semantics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_ready\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-github-route-tests\",\"proof_role\":\"Prove GitHub route owner boundaries and publication command inventory remain aligned.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_route_policy\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Validate whitespace hygiene for tracked #604 changes.\",\"acceptance_ids\":[\"AC-1\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Repair #604 ownership truth so doctor can bind the focused publication_ready test target to an exact issue-owned path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/publication.rs\",\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/publication_ready.rs\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\"csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\",\"csdlc-v2/operator/skills.json\",\".csdlc/prepared/issues/604/**\",\".csdlc/issues/604/**\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Repair #604 deliverable truth so the focused publication_ready test target is declared as an issue deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Typed csdlc-publish ready request/result command.\",\"Typed csdlc-publish reconcile-ready request/result command.\",\"Durable exact-identity lifecycle truth after successful remote readback.\",\"csdlc-v2/tests/publication_ready.rs focused tests for success, uncertainty/recovery, identity drift, stale CAS, pre-state rejection, and zero-write failure paths.\",\"Updated publication skill and operator inventory documentation.\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

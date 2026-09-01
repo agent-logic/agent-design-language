@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 604,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
+    "slug": "v2-publish-ready-reconciliation",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Restore governed draft-to-ready and reconcile-ready publication operations in the v2 publication owner, with tests and skill/inventory alignment.",
+      "deliverables": [
+        "Typed csdlc-publish ready request/result command.",
+        "Typed csdlc-publish reconcile-ready request/result command.",
+        "Durable exact-identity lifecycle truth after successful remote readback.",
+        "csdlc-v2/tests/publication_ready.rs focused tests for success, uncertainty/recovery, identity drift, stale CAS, pre-state rejection, and zero-write failure paths.",
+        "Updated publication skill and operator inventory documentation."
+      ],
+      "acceptance_criteria": [
+        "AC-1: Restore a typed exact-identity draft-to-ready operation under the authoritative v2 publication owner.",
+        "AC-2: Re-observe exact repository, PR, head SHA, open state, and draft state before and after mutation.",
+        "AC-3: Record ready publication truth atomically and provide reconciliation after uncertain remote response.",
+        "AC-4: Reject mismatched repository, PR, head, non-draft pre-state, closed state, stale generation, or stale digest without lifecycle mutation.",
+        "AC-5: Align publication skill text and installed binary inventory with the implemented command surface.",
+        "AC-6: Add focused tests for success, remote uncertainty, recovery, identity drift, and zero-write failure paths."
+      ],
+      "dependencies": [
+        "Live GitHub issue #604",
+        "Current Gate 10D2 v2 authority contract"
+      ],
+      "repo_inputs": [
+        "https://github.com/agent-logic/agent-design-language/issues/604",
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/src/bin/csdlc-publish.rs",
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+        "csdlc-v2/operator/skills.json"
+      ],
+      "non_goals": [
+        "Runtime v3 behavior changes",
+        "Raw GitHub fallback",
+        "Merge, finish, cleanup, or issue closeout",
+        "Weakening reviewed or publication prerequisites"
+      ]
+    }
+  }
+}
