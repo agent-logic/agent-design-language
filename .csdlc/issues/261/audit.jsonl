@@ -25,3 +25,4 @@
 {"sequence":25,"generation":21,"actor":"codex","reason":"Recover review after lifecycle metadata was folded into the exact reviewed commit while repairing #261 release-gate evidence binding.","operation":"recover_review"}
 {"sequence":26,"generation":21,"actor":"codex:podcast-issue-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":27,"generation":22,"actor":"fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":28,"generation":23,"actor":"codex:podcast-issue-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

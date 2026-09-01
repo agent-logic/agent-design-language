@@ -99,11 +99,11 @@ Finalized The Cognitive Stack show identity packet with operator-approved title,
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
