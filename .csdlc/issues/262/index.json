@@ -1,0 +1,103 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 262,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b5b5435406520c7781c54e92dce8020118c48f2fcd3702ba59f7ec8b9a48bee6",
+  "phase": "ready",
+  "generation": 4,
+  "digest": "5dbe5c731f23230bced5e8e04fc218fd97f82677b5b8d91dd92f83ac048d3688",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/262/design.md",
+  "diagram_path": ".csdlc/prepared/issues/262/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
+      "revision": "2ad6b02587c25d6dc494d36dcb29994ab945efd160f460b704c9a2180a6441ad"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9f68cc7849906d773e26baa99ac0fadfbe103e9ef287525a29e8acd0ea4d1e74",
+      "rendered_digest": "a549b27e538d8c26ca89f6581e840aeaaed986893ef27bca528a946824ea9815",
+      "ast_digest": "f4a75872712ef3f2f102ca92f6a434b1a28010a0304924d76cb31a0cbd389b6d"
+    },
+    "stp": {
+      "values_digest": "04914cfa4370d8c0834d3022efe583a77d8bcb02b1caa58e50c0ce3ceac5905d",
+      "rendered_digest": "be3e22b434b7131c9de3a9a3d3ac748d986ed9d2f6c994c1ee420df60b6a3e1b",
+      "ast_digest": "2b2f18cc464f76396a8593f48af931f8b0913d4790ed51ac06290766bc91c6ec"
+    },
+    "spp": {
+      "values_digest": "dfd6b937131e3a6d5781e4821662b10ee78832028def6a13d60d6616e8cc560d",
+      "rendered_digest": "a43105207ee0542c580f1a03fe4c26ff599e3a9b7aa6d8c8450ee551cdd6bc65",
+      "ast_digest": "7d9fc62af17fa5be7afe23d1c05f1b970cfd8b98bcb3e552996eb4a7d166010c"
+    },
+    "vpp": {
+      "values_digest": "10cb842ccff8c696eaeda29ff5d15d30107d2785951137711c844ec2da88c350",
+      "rendered_digest": "f75b1c10a9ccb3888e3097390847d513a0f580a357370e3e5a1174174f5e3a89",
+      "ast_digest": "1a98a4c6814f8081df004d687c029f5971050d78556bf1e5dd23a41b71d501ec"
+    },
+    "srp": {
+      "values_digest": "eb97dfc7c46037ba7eb0ca23ff3b72084c3be2d5b615c9358413ba64070b10c2",
+      "rendered_digest": "c9b41d47c14da6267ddcbcce440b838544cfc0ddebcaa091af0a44b1dca83e67",
+      "ast_digest": "058466a4cec1456ddfe31f45b6b71f86e098ecfdc2cca32bb8ee9392357c96e6"
+    },
+    "sor": {
+      "values_digest": "656c6116e0d06b63a4302767d0879f57018b434e6ba2d534809b2b643aa32680",
+      "rendered_digest": "d4eddece9b3b1004facc1f6f0ec3e5e8e38a1c0f39f2a35c81232c03d958cb45",
+      "ast_digest": "f81477d6ba726430cf7f37d8370db19edff72decfb69910c355800a22d05e7c8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:podcast-issue-owner",
+      "reason": "Advance the validated podcast production-hosting bundle to ready after #261 identity publication succeeded and The Cognitive Stack feed/page candidate validation passed."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:sprint8-readiness",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"2ad6b02587c25d6dc494d36dcb29994ab945efd160f460b704c9a2180a6441ad\",\"design_ref\":\".csdlc/prepared/issues/262/design.md\",\"diagram_digest\":\"f2f481181c6f373c16ea49990527b9abbe24ce7852ffbeb7ef4231e87f944394\",\"diagram_ref\":\".csdlc/prepared/issues/262/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "Advance the validated podcast production-hosting bundle to ready after #261 identity publication succeeded and The Cognitive Stack feed/page candidate validation passed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "Repair #262 readiness by routing the focused validation lane through the issue-owned Ruby validator now present in the branch and no longer deferring proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-262-focused\",\"proof_role\":\"RSS, enclosure, HTTPS, MIME, byte-range, desktop/mobile playback, rollback, and metadata parity\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"],\"parallel_group\":\"sprint8-issue-262\",\"defer_reason\":null},{\"lane\":\"issue-262-diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":200,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"sprint8-hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "Own the exact #262 validation script path so doctor can bind the executable issue-specific denominator instead of relying on directory-prefix inference.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/podcast/feed.xml\",\"docs/milestones/v0.92.1/evidence/podcast/51-b\",\"adl/tools/record_podcast_native_playback.sh\",\"adl/tools/record_podcast_browser_playback.mjs\",\"adl/tools/record_podcast_ios_safari_playback.sh\",\".csdlc/prepared/issues/262/validate-podcast-hosting.rb\"]}"
+    }
+  ]
+}
