@@ -54,3 +54,17 @@
   the publish command entered its resume path with no new issue metadata tail.
 - Fix: the resume path now pushes the current branch head before reobserving the
   PR at the expected metadata head.
+
+## DEFECT-014: retained terminal-authority guard overmatched publication-ready reconciliation
+
+- Status: fixed in #604.
+- Evidence: full local `cargo test --locked --manifest-path csdlc-v2/Cargo.toml`
+  reproduced the GitHub `csdlc-v2-standalone` failure in
+  `gate_terminal_authority_deletion`: the retained terminal-authority deletion
+  guard rejected the new `ReconcileReady` publication action solely because its
+  name matched a retired terminal-reconciliation pattern.
+- Impact: the full standalone lane failed even though `ReconcileReady` is a
+  publication-readiness route and does not expose terminal/finish authority.
+- Fix: the retained terminal-authority test now keeps terminal writer names on
+  the denylist while explicitly allowing `ReconcileReady` as publication
+  readiness, not closeout authority.
