@@ -29,6 +29,7 @@ sip = read(".csdlc/issues/505/cards/sip.md")
 spp = json(".csdlc/issues/505/cards/spp.values.json")
 vpp = json(".csdlc/issues/505/cards/vpp.values.json")
 srp = json(".csdlc/issues/505/cards/srp.values.json")
+v3_trial = json(".csdlc/evidence/505/v3-local-trial.json")
 design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
 packet_text = [stp, sip, design, diagram].join("\n")
@@ -63,6 +64,13 @@ assert(packet_text.include?("No silent v2 retirement") || packet_text.include?("
 assert(diagram.include?("Rollback exercise"), "missing rollback diagram node")
 assert(diagram.include?("Observation evidence"), "missing observation diagram node")
 
+assert(v3_trial["schema"] == "csdlc.v3.local_preparation.v1", "v3 local trial emitted wrong schema")
+assert(v3_trial["read_only"] == true, "v3 local trial must remain read-only")
+assert(v3_trial["operational_authority"] == false, "v3 local trial must not grant operational authority")
+assert(v3_trial.dig("result", "issue") == 505, "v3 local trial targeted wrong issue")
+assert(v3_trial.dig("result", "findings", 0, "code") == "doctor_ready", "v3 local trial did not reach doctor-ready plan")
+assert(v3_trial.dig("result", "cards", "card_kinds") == ["sip", "stp", "spp", "vpp", "srp", "sor"], "v3 local trial did not use six-card registry")
+
 [504, 570, 571].each do |issue_number|
   receipt_path = File.join(GIT_COMMON, "csdlc-v2", "closeout", "#{issue_number}.json")
   assert(File.file?(receipt_path), "missing terminal closeout receipt for ##{issue_number}")
@@ -93,8 +101,12 @@ docs = {
   "docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md" => read("docs/templates/CARD_LIFECYCLE_TEMPLATE_TARGETS.md"),
   "docs/tooling/editor/pr_run_demo.md" => read("docs/tooling/editor/pr_run_demo.md"),
   "docs/tooling/editor/README.md" => read("docs/tooling/editor/README.md"),
+  "docs/tooling/editor/index.html" => read("docs/tooling/editor/index.html"),
   "docs/tooling/editor/five_command_regression_suite.md" => read("docs/tooling/editor/five_command_regression_suite.md"),
-  "docs/tooling/editor/task_bundle_editor.js" => read("docs/tooling/editor/task_bundle_editor.js")
+  "docs/tooling/editor/task_bundle_editor.js" => read("docs/tooling/editor/task_bundle_editor.js"),
+  "docs/templates/prompts/current.json" => read("docs/templates/prompts/current.json"),
+  "docs/templates/prompts/1.0.3/sor.md" => read("docs/templates/prompts/1.0.3/sor.md"),
+  "docs/templates/prompts/1.0.3/schemas/sor.structure.json" => read("docs/templates/prompts/1.0.3/schemas/sor.structure.json")
 }
 
 docs.each do |path, text|
@@ -147,7 +159,10 @@ end
   "docs/tooling/editor/README.md",
   "docs/tooling/editor/five_command_regression_suite.md",
   "docs/tooling/editor/task_bundle_editor.js",
-  "docs/templates/STRUCTURED_PLAN_PROMPT_TEMPLATE.md"
+  "docs/tooling/editor/index.html",
+  "docs/templates/STRUCTURED_PLAN_PROMPT_TEMPLATE.md",
+  "docs/templates/prompts/1.0.3/sor.md",
+  "docs/templates/prompts/1.0.3/schemas/sor.structure.json"
 ].each do |path|
   text = docs.fetch(path) { read(path) }
   unless path == "docs/templates/STRUCTURED_PLAN_PROMPT_TEMPLATE.md"
@@ -155,6 +170,22 @@ end
   end
   assert(!text.match?(/current pr run command|supported control-plane run surface today|current routing guidance/i), "#{path} contains active legacy route guidance")
   assert(!text.match?(/`pr (doctor|finish|closeout)`.*\b(should|must|now|reports?|treats?)\b/i), "#{path} contains normative legacy pr route guidance")
+  assert(!text.match?(/Copy pr run command/i), "#{path} exposes retired pr-run button text")
+end
+
+active_registry = json("docs/templates/prompts/current.json")
+assert(active_registry["csdlc_prompt_template_set"] == "1.0.3", "unexpected active prompt template set")
+active_registry.fetch("templates").each do |_kind, entry|
+  path = entry.fetch("path")
+  next unless path.start_with?("docs/templates/prompts/1.0.3/")
+
+  text = read(path)
+  assert(!text.match?(/`pr (run|finish|closeout|ready|doctor)`.*\b(should|must|normally|current|use|run)\b/i), "#{path} contains active normative legacy pr guidance")
+  schema_path = entry["structure_schema_path"]
+  next unless schema_path
+
+  schema_text = read(schema_path)
+  assert(!schema_text.match?(/`pr (run|finish|closeout|ready|doctor)`.*\b(should|must|normally|current|use|run)\b/i), "#{schema_path} contains active normative legacy pr guidance")
 end
 
 adl_pr_cycle = docs.fetch("docs/tooling/adl_pr_cycle_skill.md")
@@ -193,7 +224,8 @@ puts JSON.generate(
       "no_silent_v2_retirement",
       "operator_approval_gate",
       "future_closing_linkage",
-      "single_executable_prebind_lane",
+      "non_authoritative_v3_local_trial",
+      "single_prebind_validator_lane",
       "bound_execution_topology"
     ]
   }

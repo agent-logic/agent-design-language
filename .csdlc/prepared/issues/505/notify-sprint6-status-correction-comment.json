@@ -1,0 +1,7 @@
+{
+  "action": "issue_comment",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 534,
+  "operation_key": "issue-534-sprint6-v3-cutover-status-correction",
+  "comment_body": "Sprint 6 C-SDLC v3 delivery/cutover status correction:\n\nThe prior #534 status comment was an advance-notice snapshot, not merge authority. Since that comment, PR #591 has received additional review-tail/evidence commits. Treat the prior exact head and CI text as stale snapshot evidence only.\n\nCurrent rule for #505 / PR #591: perform fresh live GitHub readback of PR head, CI, mergeability, review, and closing linkage before any approval or merge decision. Until #505 is explicitly operator-approved, merged, and terminally reconciled, C-SDLC v2 remains live authority and C-SDLC v3 remains non-authoritative construction/cutover evidence.\n\nA local v3 trial has now been run only as non-authoritative construction proof: `csdlc-v3-local` consumed repo-contained #505 request/registry/registration fixtures, emitted `read_only: true`, `operational_authority: false`, planned `SIP -> STP -> SPP -> VPP -> SRP -> SOR`, and reached `doctor_ready`. This did not create a GitHub issue, bind live lifecycle authority, publish, finish, clean, or cut over from v2.\n\n<!-- csdlc-github-operation:issue-534-sprint6-v3-cutover-status-correction -->"
+}
