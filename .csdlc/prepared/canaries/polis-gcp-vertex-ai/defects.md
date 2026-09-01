@@ -49,3 +49,10 @@ Observed defects to retain for cutover:
     unavailable validator targets, missing/stale design review, and the
     non-terminal #528 dependency. The v3 local preparation command must consume
     real issue/card/readiness truth, not only the optimistic request packet.
+11. Attempting to reconcile #596 SOR truth after PR #597 already existed exposed
+    a remediation-lifecycle gap: `csdlc-edit` rejects SOR execution mutation
+    while the issue is locally `ready`, `csdlc-validate finalize` requires the
+    issue to be `bound`, and `csdlc-bind` rejects binding from the existing
+    non-`main` remediation branch because no exact issue worktree was already
+    declared. The final one-command issue path needs an explicit adopt-existing-
+    branch/worktree route for governed remediation PRs.
