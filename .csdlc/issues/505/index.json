@@ -4,13 +4,63 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "81d8f8ba1a3dab2c00da2728339109c97f68844f06cb795ec611ed094c130466",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "2efd72f3828c7ebb37b55c8f7f37ab33d3b3150228850f4ed63baebefba6b6a6",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "review_591_head_a6749932e",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:a6749932e540a8adb7b2ccf29ca3bc808a24dec1:e3c056beadf1bbf578b73d95014656791809f6e9436b658e4eabd3ade94e24e8",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/csdlc-v3",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates"
+    ]
+  },
+  "review": {
+    "reviewer": "review_591_head_a6749932e",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/csdlc-v3",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates"
+    ],
+    "reviewed_revision": "git-blake3:a6749932e540a8adb7b2ccf29ca3bc808a24dec1:e3c056beadf1bbf578b73d95014656791809f6e9436b658e4eabd3ade94e24e8",
+    "findings": [],
+    "residual_risks": [
+      "This PASS covers the #505 preparation gate only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.",
+      "Hosted checks were still pending during review and must settle before merge readiness is claimed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3d0ff5bffbf424e5d764ae7a27cd0d6b662c1573d4c5a538c268f864af27ca03",
+      "values_digest": "9b6725f9067cf20ca57c17feb2bedc37c7dbd8b1c7657a2d9b41bafe58ab4289",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "d88c543c83db3237b0c49cdcbd6cdd98482d1009a5ee3a3c43e0c27e64fc1ed7",
+      "values_digest": "0a2d60723bb054549eaf82276f737d0d9c8e5dba665f41ba4396d80f240557be",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "ec50874c2cc6ffafeca0b99a7a8b020125c375c66b38cde38a41dd805e904842",
+      "values_digest": "5b434a7abdb3da4cdbfbaed630c45a7aff94d96a1cf7dbf00af47268614e9dbe",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "963fd219a7f8a49675ff90e56cae076b1dc0ee48fc327e7e08b106268a446e37",
+      "values_digest": "d6832a22d4deee2519b8acefb150e2c9257dd7917f5880d70a19c433f0bd9292",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "8bb0e97114e7794f6c6b4fdf170d93a731dfef245a582619920a901b5a20c678",
-      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
-      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
+      "values_digest": "3f1a6a3c6d9590ba5d55fd4ff78da65209289d75f591847361119ff3ce752b67",
+      "rendered_digest": "a22813a9d4d53461dedcaf5f69f52af105a064e812fd64003a137852b8c3b6b5",
+      "ast_digest": "975c89bc778d54e9323c288b9c7f15da6399c4b2f23f3b3a9c739b14f38eaab4"
     },
     "sor": {
-      "values_digest": "1b6886e325f67f8667855bc70927cbd7d9b412d9026639f0eee58cad68325296",
+      "values_digest": "d0156038183d9b323ed6a0b226d4bfdda776c1c7e1d9efe772625afccd2df862",
       "rendered_digest": "8d3bb810b722aa8e728d53e103a2900522e2300072769623dadeb9ba3690ca3f",
       "ast_digest": "971f5ee1de0a8c60dc4a72465ec8baf4d8196561aa8d012c301e50d2675b794f"
     }
@@ -125,6 +175,13 @@
       "to": "implemented",
       "actor": "codex:worker-6",
       "reason": "Recover #505 review truth after transient prepared review request artifacts were mistakenly committed, making the publication review guard fail closed as review_stale."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -260,6 +317,20 @@
       "actor": "codex:worker-6",
       "reason": "Recover #505 review truth after transient prepared review request artifacts were mistakenly committed, making the publication review guard fail closed as review_stale.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
