@@ -28,3 +28,5 @@
 {"sequence":28,"generation":25,"actor":"codex-primary-issue607","reason":"Recover reviewed state after the authorized AWS preparation run exposed Ubuntu 24.04 package availability and interrupted-cleanup reconciliation defects, plus a missing early stopped-instance failure signal.","operation":"recover_review"}
 {"sequence":29,"generation":25,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":26,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":31,"generation":26,"actor":"codex-primary-issue607","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":32,"generation":27,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

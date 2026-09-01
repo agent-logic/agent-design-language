@@ -30,18 +30,7 @@ infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl
 
 ## Findings
 
-[
-  {
-    "id": "I607-R5-F1",
-    "severity": "p1",
-    "summary": "Preparation publishes success before cloud-init and SSH host-key image hygiene completes.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -53,8 +42,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:f0aed7a20af45eec53a301a08c601da3815d9261:116917425bcc1e693831d8befad217d3e8648b42fc136e50831234c8b08562e9")
+Revision: Some("git-blake3:2d2a1292f9ff249fba58f69fb824c64b46c0df66:32124376c1c0a4eb3e959ec6c8b85c81f2c1c92990822e418ac0aa2dc51aa681")
 
-Reviewer: Some("subagent:issue_607_final_exact_review")
+Reviewer: Some("subagent:issue_607_hygiene_review")
 
-Result: changes_required
+Result: pass

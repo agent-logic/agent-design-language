@@ -3,15 +3,15 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "4cfb1174d2894018d398e18045b9c209b86b79417eb4b4db4313f837a5dfc7d4",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "c62c0e5f9c54df6053597a68e1d08a91039212d47d25b5fcfc18a35b05ba4bdb",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": {
-    "reviewer": "subagent:issue_607_final_exact_review",
+    "reviewer": "subagent:issue_607_hygiene_review",
     "assigned_by": "codex-primary-issue607",
-    "revision": "git-blake3:f0aed7a20af45eec53a301a08c601da3815d9261:116917425bcc1e693831d8befad217d3e8648b42fc136e50831234c8b08562e9",
+    "revision": "git-blake3:2d2a1292f9ff249fba58f69fb824c64b46c0df66:32124376c1c0a4eb3e959ec6c8b85c81f2c1c92990822e418ac0aa2dc51aa681",
     "scope": [
       ".csdlc/issues/607",
       "adl/tools/issue607_validate_saved_plan.sh",
@@ -23,7 +23,7 @@
     ]
   },
   "review": {
-    "reviewer": "subagent:issue_607_final_exact_review",
+    "reviewer": "subagent:issue_607_hygiene_review",
     "scope": [
       ".csdlc/issues/607",
       "adl/tools/issue607_validate_saved_plan.sh",
@@ -33,19 +33,8 @@
       "infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl",
       "infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
     ],
-    "reviewed_revision": "git-blake3:f0aed7a20af45eec53a301a08c601da3815d9261:116917425bcc1e693831d8befad217d3e8648b42fc136e50831234c8b08562e9",
-    "findings": [
-      {
-        "id": "I607-R5-F1",
-        "severity": "p1",
-        "summary": "Preparation publishes success before cloud-init and SSH host-key image hygiene completes.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:2d2a1292f9ff249fba58f69fb824c64b46c0df66:32124376c1c0a4eb3e959ec6c8b85c81f2c1c92990822e418ac0aa2dc51aa681",
+    "findings": [],
     "residual_risks": [
       "Live paid AWS preparation and repeated warm-launch timing remain pending."
     ],
@@ -66,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b71b3cb5193754c0f1fffa7c9426d6c971c9e082154db2222e49bacf1fdb593d",
+      "values_digest": "96bad735335b5a34e2c0f1342407f21ecc05fcea7dd6c994544b257e12ef4dfb",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "a8c01caf6caf8bdff331471f44267b26d47d5f4a78a3895d4988582611c97524",
+      "values_digest": "69854fd56d026383132f4a5181a10453e5c058f3318573b118de13847a64ab84",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "08147d14b6f01870833dd8adc8b24ad971027eafc70745d8463022da1416fa2c",
+      "values_digest": "f4b729bcd374096b49c972ef9bb20c0e592782b42a43492599d3f131a279073c",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "aebc651b75d39e886b8a03e270af6dd12519e0e67fe970f903314e8ec5264edd",
+      "values_digest": "9a797ade696ffb9d19596238d75251d864bc70f5487e845bdc5fa497a4805b2c",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "dc7ccd216854af1630f0de65b47e6dd412ebf8c0b4c8db02f9aaf197213e9064",
-      "rendered_digest": "3bc5d018df4f82edaba1a00c8f52ac736dac89f5858d715c4c6d7660c96ba358",
-      "ast_digest": "a35b69b467b77c2a68a19e335d74dbd4f9f06e386f738420e7f38b4abe7fb8c9"
+      "values_digest": "c2e844b11098773e4ac76c21cc901bc96e2c9b79108fd74718786ac27a47cada",
+      "rendered_digest": "1f795faf9c29ce8b0a94462f9f44f9a1e5f46cb810fa16df57ac00e8ebd41c60",
+      "ast_digest": "249b2fb6c26140d73de77562a2f4d2dd2871aade66b1cb38ccf03933d537e3e6"
     },
     "sor": {
-      "values_digest": "b3b13db490a3a512033897f7821d7c217675371487ee9f05c87a184212e34108",
+      "values_digest": "c62058d60dbcfa20a787821452172c88ed53ce1f7e67f02924f3e34dbc26a6d1",
       "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
       "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
     }
@@ -145,6 +134,13 @@
       "to": "implemented",
       "actor": "codex-primary-issue607",
       "reason": "Recover reviewed state after the authorized AWS preparation run exposed Ubuntu 24.04 package availability and interrupted-cleanup reconciliation defects, plus a missing early stopped-instance failure signal."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -354,6 +350,20 @@
     {
       "sequence": 30,
       "generation": 26,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
       "actor": "codex-primary-issue607",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
