@@ -12,7 +12,13 @@ Status: draft
 
 ## Scope
 
-
+infra/cloud/aws/issue345-two-node
+adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
+adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
+adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
+adl-runtime/tests/shepherd_local_model.rs
+docs/operations/cloud/aws/shepherd-gpu-proof/README.md
+.csdlc/issues/345
 
 ## Prompts
 

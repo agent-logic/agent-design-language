@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 108
+    "generation": 109
   },
   "status": "pre_phase",
   "content": {
@@ -27,7 +27,7 @@
       "artifacts": [
         "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-        "infra/cloud/aws/issue345-two-node/main.tf",
+        "infra/aws/runtime/gpu-proof/main.tf",
         ".adl/local/issue345/adl-issue345-20260901-152336/runtime-final.json",
         ".adl/local/issue345/adl-issue345-20260901-152336/gpu-ready.json",
         ".adl/local/issue345/adl-issue345-20260901-152336/summary.json",

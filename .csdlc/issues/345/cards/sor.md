@@ -18,7 +18,7 @@ The reviewed Terraform runner completed the authorized us-west-2c two-node quali
 
 - adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
 - adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
-- infra/cloud/aws/issue345-two-node/main.tf
+- infra/aws/runtime/gpu-proof/main.tf
 - .adl/local/issue345/adl-issue345-20260901-152336/runtime-final.json
 - .adl/local/issue345/adl-issue345-20260901-152336/gpu-ready.json
 - .adl/local/issue345/adl-issue345-20260901-152336/summary.json
