@@ -7,7 +7,7 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 51
+    "generation": 54
   },
   "status": "draft",
   "content": {
@@ -28,7 +28,7 @@
           "summary": "The SOR omits the required SSM instance ID and combines SSM and live roster claims under one command that cannot reproduce both evidence surfaces.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
+          "disposition": "fixed",
           "fix_revision": null,
           "route": null
         }

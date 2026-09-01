@@ -16,7 +16,7 @@ Unify ordinary Guardian startup around supervised process ownership, add reliabl
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 

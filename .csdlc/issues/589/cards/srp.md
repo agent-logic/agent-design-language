@@ -29,7 +29,7 @@ Status: draft
     "summary": "The SOR omits the required SSM instance ID and combines SSM and live roster claims under one command that cannot reproduce both evidence surfaces.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   }
