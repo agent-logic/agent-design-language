@@ -68,3 +68,18 @@
 - Fix: the retained terminal-authority test now keeps terminal writer names on
   the denylist while explicitly allowing `ReconcileReady` as publication
   readiness, not closeout authority.
+
+## DEFECT-015: retained terminal prerequisite digests drifted from live receipts
+
+- Status: fixed in #604.
+- Evidence: after DEFECT-014 was fixed, the full local standalone suite reached
+  `projection_recovery_integration` and failed because the hard-coded retained
+  terminal digests for #298 and #299 no longer matched the live
+  `.git/csdlc-v2/derived-terminal/*.json` receipts. The merge SHAs and
+  ancestry checks were still current.
+- Impact: the full v2 suite could remain red even though the retained terminal
+  receipts were present and internally consistent, masking real canary defects
+  behind stale fixture constants.
+- Fix: the retained-prerequisite constants now match the current live terminal
+  receipts for #298 and #299 while preserving the existing merge-SHA and
+  ancestry assertions.
