@@ -4,13 +4,93 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "834d12da7f5cbad31d5e8d7a1d79816d6036fa0265dd034bbaea20e9bdcaac81",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "5548d03cd474e046fd6bbe0ddd3e2d2c4ad1061a1d91cce4cffacb60613b13d7",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "/root/review_604_resume_tail",
+    "assigned_by": "codex:/root/worker-6/issue-604",
+    "revision": "git-blake3:6c0d71d2fb74d851b23eb116b1cb8fce9e4ca303:952ad0da0207337e34c2ca750a27de6f6644f4be1e7b88b5d374f011660b487c",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/pr610-state-request.json",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/publish-final-ready-request.json",
+      ".csdlc/evidence/604/publish-ready-update-request.json",
+      ".csdlc/evidence/604/ready-request.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
+      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_604_resume_tail",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/pr610-state-request.json",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/publish-final-ready-request.json",
+      ".csdlc/evidence/604/publish-ready-update-request.json",
+      ".csdlc/evidence/604/ready-request.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
+      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ],
+    "reviewed_revision": "git-blake3:6c0d71d2fb74d851b23eb116b1cb8fce9e4ca303:952ad0da0207337e34c2ca750a27de6f6644f4be1e7b88b5d374f011660b487c",
+    "findings": [],
+    "residual_risks": [
+      "PR #610 had already been marked ready by the initial live canary run before the ready metadata-tail fix; the repaired ready/reconcile-ready path is now covered by focused tests and the existing PR publication path is reconciled through typed publish.",
+      "The final GitHub CI result is external and may still be pending after the typed publication update."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +105,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e06672e52e793f58937220d4c7dea39e3b7899a03fd822358d57d0776fe16d9b",
+      "values_digest": "cd48619d23f526eeb3a2d47f3fe010025795ece831a02ca9b0f35a066a6e8466",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "0fd68876c833b685d0015898f30cb384d4fa5d582818bc9c82f57bc3ae78211d",
+      "values_digest": "f07a521cd4db89550d3c5f0b5233a7a8033c1aaa1a523ff66cf99467a882f7c8",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "fe8cea88840d5bd20522db6b3c3b6906472e5cf8b0abc4139819afd456ecc75d",
+      "values_digest": "9e1b0eac8d95bd53402eadc315233858d2af0771031a3421c35e34c6afad1ed7",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "e3fb3fdc145f83e30392833504b631921d07a8d1de948db8cd321d9239b31145",
+      "values_digest": "8c4dd2949dea077fe28f8acdfe176aaf5885c9b76bd137c884ea1c35c60b3015",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "f58e340360e62dc01e7d7fde3055f838bb4581d963bcb86340cd741ec340a233",
-      "rendered_digest": "6521d3d327da10bb1f72a25546d0721d3fb4f827e19ce3a48477d3a071365771",
-      "ast_digest": "d6631edc7e03e03c23d19446bf4618d3806a58c44cf76c2a5166d8c68631562d"
+      "values_digest": "85382266a824479309fe3e8a69a5fc9632ad244cc530d10dd738b347b1c59a1b",
+      "rendered_digest": "b5eca9ad78c6aa828ec24a5c101e15b5f7490708e6abec88d0c1ad14aa0f6dc1",
+      "ast_digest": "3786bfaca8007ede4ee76902357ec76b3600ded5623f773863e82e564f5e9b0a"
     },
     "sor": {
-      "values_digest": "99f8d5caa72a0d2d1f2af0b7de649f79d6d6ebb52275e768f293e939362c29d2",
+      "values_digest": "e82f156c68c7a0ea846998196130f37203fe5ecab4d31b61c3c825a82a41a3be",
       "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
       "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
     }
@@ -132,6 +212,13 @@
       "to": "implemented",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover after live publication-resume testing exposed that csdlc-publish publish on an already-published issue did not push an advanced local evidence head before remote reobservation. The PR remains live and will be reconciled through the repaired typed publication path."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -260,6 +347,20 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover after live publication-resume testing exposed that csdlc-publish publish on an already-published issue did not push an advanced local evidence head before remote reobservation. The PR remains live and will be reconciled through the repaired typed publication path.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

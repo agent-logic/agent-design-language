@@ -7,15 +7,15 @@
     "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
     "slug": "v2-publish-ready-reconciliation",
     "version": "v0.92.1",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/604/full-cycle-defects-tail.md\n.csdlc/evidence/604/issue-604-implementation-validation.log\n.csdlc/evidence/604/pr610-state-request.json\n.csdlc/evidence/604/publish-draft-request.json\n.csdlc/evidence/604/publish-final-ready-request.json\n.csdlc/evidence/604/publish-ready-update-request.json\n.csdlc/evidence/604/ready-request.json\n.csdlc/evidence/604/recover-after-ready-tail-gap.json\n.csdlc/evidence/604/recover-after-resume-push-gap.json\n.csdlc/evidence/604/review-assign-after-ready-tail-fix.json\n.csdlc/evidence/604/review-assign-publication-valid.json\n.csdlc/evidence/604/review-record-after-ready-tail-fix.json\n.csdlc/evidence/604/review-record-publication-valid.json\n.csdlc/prepared/issues/604/design.md\n.csdlc/prepared/issues/604/diagram.mmd\n.csdlc/prepared/issues/604/finalize-request.json\n.csdlc/prepared/issues/604/full-cycle-defects.md\n.csdlc/prepared/issues/604/publish-draft-request.json\n.csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json\n.csdlc/prepared/issues/604/review-assign-repaired.json\n.csdlc/prepared/issues/604/review-record-repaired.json\n.csdlc/prepared/issues/604/validate-implementation.sh\ncsdlc-v2/operator/skills.json\ncsdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\ncsdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/operator.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/publication_ready.rs",
+      "review_revision": "git-blake3:6c0d71d2fb74d851b23eb116b1cb8fce9e4ca303:952ad0da0207337e34c2ca750a27de6f6644f4be1e7b88b5d374f011660b487c",
+      "reviewer": "/root/review_604_resume_tail",
       "review_prompts": [
         "Does csdlc-publish ready verify exact live PR identity before and after mutation?",
         "Does reconcile-ready recover only from independently observed remote truth?",
@@ -24,8 +24,11 @@
         "Does the PR body include Closes #604 only after implementation, validation, and review truth are current?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "PR #610 had already been marked ready by the initial live canary run before the ready metadata-tail fix; the repaired ready/reconcile-ready path is now covered by focused tests and the existing PR publication path is reconciled through typed publish.",
+        "The final GitHub CI result is external and may still be pending after the typed publication update."
+      ],
+      "review_result": "pass"
     }
   }
 }
