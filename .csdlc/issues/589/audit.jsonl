@@ -76,3 +76,4 @@
 {"sequence":76,"generation":59,"actor":"codex-issue-589","reason":"Record the focused coverage-impact contract validation required by final review.","operation":"{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the issue-owned coverage-impact routing contract and failure-path behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused contract script completed with PASS test_check_coverage_impact.\"}}"}
 {"sequence":77,"generation":59,"actor":"codex-issue-589","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":78,"generation":60,"actor":"subagent:/root/issue_589_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":79,"generation":61,"actor":"codex-issue-589","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
