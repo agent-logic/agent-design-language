@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "da3deeafceffad3586684ee35f8059673e7ffaa1f0402a2db7cd5c79db9fbfc9",
+  "generation": 9,
+  "digest": "de4787b0aaecef85fc138b4522e8ebdb915f3038faea87d5c2eb1aefe987cb78",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": null,
@@ -18,40 +18,40 @@
   "diagram_path": ".csdlc/issues/589/authored/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:e4a70724-b887-4be9-a9a4-e6b57c89daf1",
-      "revision": "3d28aa621825b2e57ed7560b45b28f146f0e635fc31c8b0ffd86cbeeef969912"
+      "reviewer": "fresh-session:01a05acb-79c7-7832-aeb8-d403eb19a370",
+      "revision": "54d41b6e7a358aa9588eee0ba71de8d6fe9bc385d8b1b6a0636b402b56f8dab8"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "0e6268a6b281b6854f9d4a369eec1d980d88efcd91299fd724d0c1b1222eb95b",
+      "values_digest": "b0e98848c3bc1d9742c6593724cdd05b89fc5a4c277d3dfe4ea941e917f937f2",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "f6dd6c2821258bfe83b10d22d660046f0dc1e4dbc27c64bffad430001a3b9590",
+      "values_digest": "80d64a8c153999d94479fe4f441a4fcc3730106d0438798ed26a180ff59c6078",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "c6dcfad35e20615bf31e12670fa6f44b7fb88dd0dc00a0b762109bd741afa0be",
-      "rendered_digest": "22888d0ca9a7cdec501bdb4146c0fba556f31304e53bf3aa567456b1ef437ea6",
-      "ast_digest": "d50c0ec8e0a1dcac177c293cbc54450632c46bc094f6de2f140f36782ff63373"
+      "values_digest": "21c6a857da67af6ad792b875dde2cb99d616ab469f82d9fb852a1c2aa27b3993",
+      "rendered_digest": "2e3d79a609e305b6ab0498f0e32c65898932faf84d830485c70ae127e0c7b9ba",
+      "ast_digest": "e976eba29651fa90d5c5193c77112c9b193234890122b45a48870b2b6d1d96d3"
     },
     "vpp": {
-      "values_digest": "4ed1414150b05a2c10f3d2c783bb6edd9385660e32ebc0a3b84cadcd7e797903",
-      "rendered_digest": "f4b7af7f886686a6079f9132f33ab65a1398a285252a7abd4bbc635a9bb0f2a7",
-      "ast_digest": "040b695b220f7e6e03fed3be4301291ffec4f2f5d558f3e4d8a7fa69c0cca3e1"
+      "values_digest": "abd570436c49b9772cc93a49da1f7980d9855c9b41257ba21beb9971f15baf1a",
+      "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
+      "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "7e8365d15d6aceb1c90b1e76adc6d8e356c88f011e3a14cbc4980d762c607587",
-      "rendered_digest": "ea8aa278b883f7fee6557a01c3ec1dcdd25230e453c89fcd3208240e0b056cdd",
-      "ast_digest": "d6224b5c24777a3317756b54f7493a1c3c59d6289ea2bc862ec4063f00313183"
+      "values_digest": "efe15bb2269493bbf3c70ee5bcc863f65809c65596205d3ede4204d869083c02",
+      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
+      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "d5b8b3bcc2ef654607e882ef2268d6bb4e31eea44366160448431b333b23c37e",
-      "rendered_digest": "2d2ae465f5fb244d6625fce8a8d0e717fcaef53837dfd5441700b9bbfbf5b92e",
-      "ast_digest": "814f316e52654aae4cac353657af340298273eef6ea5fba7d000ddc1222fde67"
+      "values_digest": "5966e6796f1791148aa3cb264dd5c4e6b3affad6d9f4b4cb66d1060a9e7e4084",
+      "rendered_digest": "8050b7a2b94e4ed90cb5d9fa8ba19c32d9adf25aa82d445a9fe4852baadf0fd0",
+      "ast_digest": "3e89ec39db0c75d7868a8528f0fd993774611f111ea8abb4b1e036912c6e08b4"
     }
   },
   "transitions": [
@@ -119,6 +119,48 @@
       "actor": "codex-issue-589",
       "reason": "Replace the stale single test lane with focused local, infrastructure, and live proof lanes matching the implemented acceptance surface.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"kernel-focused\",\"proof_role\":\"Writer recovery, Shepherd readiness, configuration, and health-export regression proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"guardian-csm-focused\",\"proof_role\":\"Guardian supervision and ordered CSM lifecycle regression proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"cli::csm_runtime_v3_cmd::tests\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"terraform-static\",\"proof_role\":\"Bounded AWS health-recovery infrastructure syntax and plan proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"terraform\",\"validate\"],\"parallel_group\":\"infra\",\"defer_reason\":null},{\"lane\":\"wuji-live\",\"proof_role\":\"Identity-bound HTTPS, Shepherd admission, CloudWatch alarm, and SSM recovery proof\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"csm\",\"runtime-v3\",\"status\",\"--init\",\".adl/runtime-v3/live/runtime-init.toml\"],\"parallel_group\":\"live\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex-issue-589",
+      "reason": "Apply the exact-commit review findings, refresh authored design truth, and prepare a new clean exact revision for independent review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex-issue-589",
+      "reason": "Refresh design and diagram truth after recorded review recovery: ordered current-to-candidate reload, active config identity, and no unimplemented Synthetics claim.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/issues/589/authored/design.md\",\"diagram_ref\":\".csdlc/issues/589/authored/diagram.mmd\",\"new_design_digest\":\"54d41b6e7a358aa9588eee0ba71de8d6fe9bc385d8b1b6a0636b402b56f8dab8\",\"new_diagram_digest\":\"c7217c238ee2a813ef2495c4f17742a13073af133bf3676469c49509daa38a81\",\"old_design_digest\":\"3d28aa621825b2e57ed7560b45b28f146f0e635fc31c8b0ffd86cbeeef969912\",\"old_diagram_digest\":\"b6cc5bf0ebdf1a614727413edb34ebbe2075d335ad74c3e11e37ebeec189a0af\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:e4a70724-b887-4be9-a9a4-e6b57c89daf1\",\"revision\":\"3d28aa621825b2e57ed7560b45b28f146f0e635fc31c8b0ffd86cbeeef969912\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":6,\"recovery_sequence\":9}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "fresh-session:01a05acb-79c7-7832-aeb8-d403eb19a370",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"54d41b6e7a358aa9588eee0ba71de8d6fe9bc385d8b1b6a0636b402b56f8dab8\",\"design_ref\":\".csdlc/issues/589/authored/design.md\",\"diagram_digest\":\"c7217c238ee2a813ef2495c4f17742a13073af133bf3676469c49509daa38a81\",\"diagram_ref\":\".csdlc/issues/589/authored/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex-issue-589",
+      "reason": "Correct the CSM lane to target the adl binary test target that actually owns and runs the 11 lifecycle tests.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"kernel-focused\",\"proof_role\":\"Writer recovery, Shepherd readiness, configuration, and health-export regression proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"guardian-csm-focused\",\"proof_role\":\"Guardian supervision and ordered CSM lifecycle regression proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"terraform-static\",\"proof_role\":\"Bounded AWS health-recovery infrastructure syntax and plan proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"terraform\",\"validate\"],\"parallel_group\":\"infra\",\"defer_reason\":null},{\"lane\":\"wuji-live\",\"proof_role\":\"Identity-bound HTTPS, Shepherd admission, CloudWatch alarm, and SSM recovery proof\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"csm\",\"runtime-v3\",\"status\",\"--init\",\".adl/runtime-v3/live/runtime-init.toml\"],\"parallel_group\":\"live\",\"defer_reason\":null}]}"
     }
   ]
 }

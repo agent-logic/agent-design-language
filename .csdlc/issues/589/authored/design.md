@@ -24,6 +24,11 @@ CSM owns the host-service lifecycle for Runtime v3:
 - `reload` validates a candidate init file before restart, retains the last
   known-good configuration, and rolls back if readiness is not reached.
 
+Restart is deliberately sequential: stop the registered service, wait until
+the service and its current HTTPS listener are both absent, install and start
+the next configuration from the registered service definition, then wait for
+identity-bound HTTPS readiness. CSM does not overlap host-service generations.
+
 The command must be idempotent: starting an already healthy Runtime succeeds,
 and restarting after an interrupted attempt converges without manual journal
 or lock editing.
@@ -64,10 +69,10 @@ changes.
 
 The Runtime regularly emits a health heartbeat through the existing
 Vector/CloudWatch EMF path. The metric identifies the Polis and Runtime instance
-and reports readiness plus the active configuration generation; it contains no
+and reports readiness plus the active canonical configuration hash; it contains no
 credentials or sensitive state. CloudWatch alarms on an unhealthy value or
-missing heartbeat data. A low-frequency Synthetics check of Wuji's public
-`/v1/health` separately covers the end-to-end edge path.
+missing heartbeat data. Persistent public-edge monitoring belongs to the shared
+edge architecture and is not claimed by this host-recovery module.
 
 An alarm routes through EventBridge and invokes a bounded SSM Run Command
 against the uniquely identified managed Wuji host. That command calls the same

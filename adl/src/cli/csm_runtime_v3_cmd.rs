@@ -165,16 +165,27 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
         return emit_status(args, &current, "reload", true);
     };
     let candidate = validated_init(candidate_path)?;
-    let backup = replace_config_with_candidate(&args.init, candidate_path)?;
-    let reload_result = start_clean(args, &candidate);
+    stop_and_wait(args, &current)?;
+    let backup = match replace_config_with_candidate(&args.init, candidate_path) {
+        Ok(backup) => backup,
+        Err(error) => {
+            start_and_wait(args, &current)
+                .context("Runtime v3 did not recover after candidate install failed")?;
+            return Err(error);
+        }
+    };
+    let reload_result = start_and_wait(args, &candidate);
     if let Err(reload_error) = reload_result {
+        stop_and_wait(args, &candidate)
+            .context("stop failed Runtime v3 candidate before config rollback")?;
         restore_last_known_good(&args.init, &backup).with_context(|| {
             format!(
                 "restore last-known-good Runtime v3 init {}",
                 args.init.display()
             )
         })?;
-        start_clean(args, &current).context("Runtime v3 did not recover after config rollback")?;
+        start_and_wait(args, &current)
+            .context("Runtime v3 did not recover after config rollback")?;
         return Err(anyhow!(
             "Runtime v3 candidate reload failed and last-known-good configuration was restored: {reload_error}"
         ));
@@ -316,12 +327,21 @@ fn stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
 }
 
 fn start_clean(args: &RuntimeV3ServiceArgs, init: &RuntimeInitConfig) -> Result<()> {
-    if platform_loaded(args) {
-        platform_stop(args)?;
-        wait_for_stopped(args, init, Duration::from_secs(15))?;
+    stop_and_wait(args, init)?;
+    start_and_wait(args, init)
+}
+
+fn stop_and_wait(args: &RuntimeV3ServiceArgs, current: &RuntimeInitConfig) -> Result<()> {
+    if !platform_loaded(args) {
+        return Ok(());
     }
+    platform_stop(args)?;
+    wait_for_stopped(args, current, Duration::from_secs(15))
+}
+
+fn start_and_wait(args: &RuntimeV3ServiceArgs, next: &RuntimeInitConfig) -> Result<()> {
     platform_start(args)?;
-    wait_for_listener(init, Duration::from_secs(15))
+    wait_for_listener(next, Duration::from_secs(15))
 }
 
 fn status(args: &RuntimeV3ServiceArgs, operation: &'static str) -> Result<()> {

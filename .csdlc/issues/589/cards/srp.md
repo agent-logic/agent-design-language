@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-CSM Runtime v3 lifecycle commands, Guardian startup ownership, stale-state reconciliation, config reload safety, and focused operational proof.
+
 
 ## Prompts
 

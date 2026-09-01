@@ -8,8 +8,7 @@ flowchart LR
   V --> G
   X["Migration / checkpoint transfer"] -. "explicit operation only" .-> K
   K -->|"periodic health EMF"| CW["Vector -> CloudWatch metrics"]
-  W["CloudWatch Synthetics /v1/health"] --> M["CloudWatch alarm + EventBridge"]
-  CW --> M
+  CW --> M["Missing-heartbeat alarm + EventBridge"]
   M --> R["SSM Run Command"]
   R -->|"csm status + governed recovery"| C
   R --> N["Recovery result notification"]

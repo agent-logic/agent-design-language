@@ -7,7 +7,7 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 4
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -82,9 +82,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/issues/589/authored/design.md",
-      "design_digest": "3d28aa621825b2e57ed7560b45b28f146f0e635fc31c8b0ffd86cbeeef969912",
+      "design_digest": "54d41b6e7a358aa9588eee0ba71de8d6fe9bc385d8b1b6a0636b402b56f8dab8",
       "diagram_ref": ".csdlc/issues/589/authored/diagram.mmd",
-      "diagram_digest": "b6cc5bf0ebdf1a614727413edb34ebbe2075d335ad74c3e11e37ebeec189a0af"
+      "diagram_digest": "c7217c238ee2a813ef2495c4f17742a13073af133bf3676469c49509daa38a81"
     }
   }
 }

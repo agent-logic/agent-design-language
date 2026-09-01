@@ -37,7 +37,7 @@ Implemented a simple ordered Runtime v3 host lifecycle, removed the Guardian's s
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -1,0 +1,13 @@
+{
+  "actor":"codex-issue-589",
+  "card":"spp",
+  "expected_digest":"de4787b0aaecef85fc138b4522e8ebdb915f3038faea87d5c2eb1aefe987cb78",
+  "expected_generation":9,
+  "issue":589,
+  "operation":{"operation":"correct_plan_steps_after_recovery","steps":[
+    {"id":"step-1","action":"Characterize the failed Guardian startup and define the simplified ownership invariant","acceptance_ids":["AC-1","AC-2","AC-5"],"status":"completed"},
+    {"id":"step-2","action":"Implement CSM lifecycle commands and remove the separate startup continuity-channel dependency","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"completed"},
+    {"id":"step-3","action":"Add focused tests and verify persistent local and AWS-facing readiness","acceptance_ids":["AC-6","AC-7"],"status":"completed"}
+  ]},
+  "reason":"Record completed plan-step truth after review recovery."
+}

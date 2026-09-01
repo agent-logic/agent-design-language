@@ -499,6 +499,7 @@ async fn main() -> ExitCode {
             )
             .to_hex()
             .to_string();
+            let active_config_hash = config_hash.clone();
             let snapshot = LiveKernelSnapshot::new(
                 assembly.topology_hash.clone(),
                 config_hash,
@@ -903,11 +904,7 @@ async fn main() -> ExitCode {
                                 .as_ref()
                                 .map(|head| head.generation)
                                 .unwrap_or(0),
-                            config_hash = snapshot
-                                .continuity_head
-                                .as_ref()
-                                .map(|head| head.config_hash.as_str())
-                                .unwrap_or("unavailable"),
+                            config_hash = %active_config_hash,
                             ready = health.ready,
                             live = health.live,
                             ready_metric = u8::from(health.ready),

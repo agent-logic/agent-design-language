@@ -67,8 +67,9 @@ Diagram: .csdlc/issues/589/authored/diagram.mmd
       "--locked",
       "--manifest-path",
       "adl/Cargo.toml",
-      "--lib",
-      "cli::csm_runtime_v3_cmd::tests"
+      "--bin",
+      "adl",
+      "csm_runtime_v3"
     ],
     "parallel_group": "local-runtime",
     "defer_reason": null
@@ -128,7 +129,7 @@ Tokens: 25000
 ## Commands
 
 - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml`
-- `cargo test --locked --manifest-path adl/Cargo.toml --lib cli::csm_runtime_v3_cmd::tests`
+- `cargo test --locked --manifest-path adl/Cargo.toml --bin adl csm_runtime_v3`
 - `terraform validate`
 - `csm runtime-v3 status --init .adl/runtime-v3/live/runtime-init.toml`
 
