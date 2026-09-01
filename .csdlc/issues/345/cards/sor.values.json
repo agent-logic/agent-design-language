@@ -7,22 +7,22 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 85
+    "generation": 87
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Three real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, and Vector installation, then the Runtime node exited 101 during Cargo work. The deleted node left only the old terse failure receipt. Both nodes and volumes were destroyed. The bootstrap now installs CMake for aws-lc-sys, the kernel build accepts the authorization-bound archive revision without Git, and future failure receipts retain a bounded stage and diagnostic tail. Final paid proof remains pending exact-head review and rerun.",
+      "summary": "Four real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, pinned Rust installation, and Vector installation, then failed in guardian_lifecycle because the selective archive omitted three compile-time Runtime documents. The new bounded diagnostic receipt preserved the exact compiler errors. Both nodes and all volumes were destroyed and the lock was released. The source archive now includes the complete small Rust dependency and compile-input closure; final paid proof remains pending review and rerun.",
       "actual_changes": [
         "Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.",
-        "Observed the third real GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.",
-        "Observed the Runtime node pass immutable source restoration and the remediated Vector stage, then exit 101 during Cargo work.",
-        "Added CMake to Runtime package setup because the locked aws-lc-sys native dependency requires it on the Ubuntu guest.",
-        "Changed the runtime-kernel build script to accept only an exact lowercase forty-hex ADL_RUNTIME_SOURCE_REVISION and prefer it over unavailable Git metadata in the immutable source archive.",
-        "Added bounded stage and 4096-byte diagnostic-tail fields to Runtime failure receipts so a terminated node does not erase the actionable failure cause.",
-        "Extended the generated-bootstrap contract test to cover CMake, archive revision propagation, and diagnostic receipt fields.",
-        "Confirmed controller cleanup drove both instances to termination, removed all run volumes, destroyed Terraform state resources, and released the lock after the third attempt."
+        "Observed the fourth real GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.",
+        "Observed the Runtime node pass package setup including CMake, immutable source restoration, pinned Rust installation, and Vector installation before guardian_lifecycle compilation.",
+        "Captured the exact bounded diagnostic proving three missing compile-time Runtime documents instead of losing the guest failure after termination.",
+        "Extended the exact source archive with adl-spec plus the small Runtime API, parity-matrix, and stock-league compile inputs required by source-level include macros.",
+        "Extended the archive contract test to assert every external compile input needed by the production Runtime and ADL builds.",
+        "Updated the runbook to describe dependency and compile-input closure truthfully.",
+        "Confirmed controller cleanup terminated both instances, removed all run volumes, destroyed Terraform state resources, and released the lock."
       ],
       "artifacts": [
         "infra/aws/runtime/gpu-proof",
@@ -30,9 +30,9 @@
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
         "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
         "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-        ".adl/local/issue345/adl-issue345-20260901-102827/gpu-ready.json",
-        ".adl/local/issue345/adl-issue345-20260901-102827/runtime-final.json",
-        ".adl/local/issue345/adl-issue345-20260901-102827/cleanup-on-exit.json"
+        ".adl/local/issue345/adl-issue345-20260901-110251/gpu-ready.json",
+        ".adl/local/issue345/adl-issue345-20260901-110251/runtime-final.json",
+        ".adl/local/issue345/adl-issue345-20260901-110251/cleanup-on-exit.json"
       ],
       "actual_validation": [
         {
@@ -40,7 +40,7 @@
             "bash",
             "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
           ],
-          "purpose": "Prove the no-paid topology, bootstrap, native-build prerequisite, revision, diagnostic, IAM, authorization, recovery, and cleanup contracts.",
+          "purpose": "Prove the no-paid topology, bootstrap, dependency and compile-input archive closure, revision, diagnostics, IAM, authorization, recovery, and cleanup contracts.",
           "outcome": "passed",
           "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
         },
@@ -50,16 +50,16 @@
             "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
             "run",
             "--commit",
-            "7deec6a83a4e7578f86208e07a7c21008cb47a29",
+            "ec75a382f9a354ccc4677b769b18043fc9c21567",
             "--run-id",
-            "adl-issue345-20260901-102827",
+            "adl-issue345-20260901-110251",
             "--authorization-file",
-            ".adl/local/issue345/operator-authorization-vector-fix.json",
+            ".adl/local/issue345/operator-authorization-cargo-fix.json",
             "--execute"
           ],
-          "purpose": "Run the real Terraform two-node qualification through repeated GPU residency, remediated Vector setup, Runtime Cargo failure, and cleanup.",
+          "purpose": "Run the real Terraform two-node qualification through repeated GPU residency, remediated native build setup, exact diagnostic failure, and cleanup.",
           "outcome": "failed",
-          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-102827"
+          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-110251"
         },
         {
           "command": [

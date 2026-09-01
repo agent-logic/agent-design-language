@@ -41,7 +41,9 @@ grep -q 'validate_state_root' "$RUNNER" || fail "runner does not enforce worktre
 ! grep -q 'git-common-dir\|csdlc-v2/issue345' "$RUNNER" || fail "runner still uses Git common state"
 ! grep -q 'ec2 run-instances\|ssm send-command\|AWS-RunShellScript' "$RUNNER" || fail "controller still owns launch or SSM bootstrap"
 ! grep -q 'git clone\|git -C /opt/adl-issue345/repo fetch' "$RUNNER" || fail "guest bootstrap still depends on live Git"
-grep -q 'SOURCE_ARCHIVE_PATHS=(adl adl-runtime adl-runtime-kernel adl-resilience)' "$RUNNER" || fail "exact reviewed build-source archive does not declare the required local dependency closure"
+for archive_path in adl adl-runtime adl-runtime-kernel adl-resilience adl-spec docs/api/runtime-v3/v1 docs/architecture/runtime_v3_parity_matrix.v1.json demos/fixtures/stock_league/season_001_fixture.json; do
+  grep -Fxq "  $archive_path" "$RUNNER" || fail "exact reviewed build-source archive omits $archive_path"
+done
 grep -q 'create_source_archive "$source_archive"' "$RUNNER" || fail "paid run does not use the reviewed source-archive helper"
 grep -q 'export ADL_RUNTIME_SOURCE_REVISION="$commit"' "$RUNNER" || fail "archived Runtime validation is not bound to the authorized source revision"
 grep -q 'revision=${ADL_RUNTIME_SOURCE_REVISION:-}' "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" || fail "Guardian validator cannot consume an archive-safe source revision"
@@ -114,6 +116,15 @@ tar -xf "$tmp/source.tar" -C "$tmp/source"
 [[ ! -e "$tmp/source/.git" ]] || fail "source archive unexpectedly contains Git metadata"
 for component in adl adl-runtime adl-runtime-kernel adl-resilience; do
   [[ -f "$tmp/source/$component/Cargo.toml" ]] || fail "source archive omitted $component/Cargo.toml"
+done
+for compile_input in \
+  docs/api/runtime-v3/v1/openapi.json \
+  docs/api/runtime-v3/v1/observatory.openapi.json \
+  docs/architecture/runtime_v3_parity_matrix.v1.json \
+  adl-spec/examples/v0.8/godel_experiment_workflow.template.v1.json \
+  adl-spec/schemas/v0.8/tool_result.v1.schema.json \
+  demos/fixtures/stock_league/season_001_fixture.json; do
+  [[ -f "$tmp/source/$compile_input" ]] || fail "source archive omitted compile-time input $compile_input"
 done
 while IFS= read -r -d '' manifest; do
   manifest_dir="$(dirname "$manifest")"

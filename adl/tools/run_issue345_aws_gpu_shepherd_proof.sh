@@ -40,7 +40,16 @@ SSH_INGRESS_CIDR="${ADL_ISSUE345_SSH_INGRESS_CIDR:-}"
 SSH_PUBLIC_KEY_FILE="${ADL_ISSUE345_SSH_PUBLIC_KEY_FILE:-}"
 VPC_ID="${ADL_ISSUE345_VPC_ID:-}"
 LOCK_KEY="${ADL_ISSUE345_LOCK_KEY:-shepherd/locks/issue345-aws-two-node.lock}"
-SOURCE_ARCHIVE_PATHS=(adl adl-runtime adl-runtime-kernel adl-resilience)
+SOURCE_ARCHIVE_PATHS=(
+  adl
+  adl-runtime
+  adl-runtime-kernel
+  adl-resilience
+  adl-spec
+  docs/api/runtime-v3/v1
+  docs/architecture/runtime_v3_parity_matrix.v1.json
+  demos/fixtures/stock_league/season_001_fixture.json
+)
 
 SOURCE_COMMIT=""
 RUN_ID=""
