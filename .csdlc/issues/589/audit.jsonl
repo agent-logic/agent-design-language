@@ -40,3 +40,4 @@
 {"sequence":40,"generation":30,"actor":"codex-issue-589","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":41,"generation":31,"actor":"subagent:/root/issue_589_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":42,"generation":32,"actor":"codex-issue-589","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":43,"generation":33,"actor":"codex-issue-589","reason":"Recover exact-review truth after hosted Linux Clippy exposed a macOS-only launchctl parser compiled as dead code in the non-test Linux binary.","operation":"recover_review"}

@@ -197,11 +197,11 @@ Implemented and focused-tested ordered Wuji Runtime v3 lifecycle control, crash-
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

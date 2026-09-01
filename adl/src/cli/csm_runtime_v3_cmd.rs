@@ -715,6 +715,7 @@ fn platform_process_id(args: &RuntimeV3ServiceArgs) -> Option<u32> {
     parse_launchctl_process_id(std::str::from_utf8(&output.stdout).ok()?)
 }
 
+#[cfg(any(target_os = "macos", test))]
 fn parse_launchctl_process_id(output: &str) -> Option<u32> {
     output.lines().find_map(|line| {
         let (name, value) = line.trim().split_once('=')?;
