@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "546e85c2e5fb163a29c67d6f148cbc79eacddcf8485fd831d8b91861c0f1db0c",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "fe6e9201b9a906e38a25710963620cbcd2d989f22302c0d8302b778f4d4e334f",
+  "generation": 9,
+  "digest": "61f654fcd95cedb774e934921c15e96fecf110ef3d632cffaaa512890d6297e0",
   "branch": "codex/496-aws-cloudformation-retirement-decision-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-496-aws-cloudformation-retirement-decision-bound",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2b28def9e94b804df613872f42dd5d6bcbfe9314056a86f4c4044e5f39b6ccb9",
+      "values_digest": "26febd6f37b59889591df4ffe983bd9c7676a0109b4bdbc26d437a61b619e821",
       "rendered_digest": "ba724bb557f178cb5cb116d66a996a8be304c3c3267bcb9c6abef00453559c4d",
       "ast_digest": "8d1a475c90b9205b3bf9f5209251d2c26e8cf00423adb149d47ab2ec22a29f85"
     },
     "stp": {
-      "values_digest": "faea5ff17dda838343ec6ca8630c5743fa8d47364622365e09c165aeab911bc3",
+      "values_digest": "103b6e40203c644fa468acd016005e464fafbfa4a7972bf2a23341c7b7b873ca",
       "rendered_digest": "6f09d3f746bb0d0154a6b0f45fb6453cf231120c3bee68f8ffab2e8bd9abdd4e",
       "ast_digest": "a5ddf4bd3bd32d5cdec6f46287e8b8afd1cb26569351cd3f7ba963c3c6b0f857"
     },
     "spp": {
-      "values_digest": "16f30bdfc3a93a23630492a23980d823e12068883b962cda7f7b5fbc0326859d",
+      "values_digest": "f62ac77e230ad8a93d01fd26d3db51a2d78c900486682e5ea5d265a11e742aeb",
       "rendered_digest": "0105d5c6f6e6dcddcc5ffc7da19eb15ee6ac63ac7185fdbea3a1546d41e929d4",
       "ast_digest": "1734583f180d9d866dd1a49234a9c97bdc81164bb0f0827f3d6a56f6757b1745"
     },
     "vpp": {
-      "values_digest": "6e681921689c64f7d3242981cfb8e333e9221ab11b0b7b03526bbf3ee8f73fc7",
+      "values_digest": "a79cd7457aa4fc88eeba57275c7393346284f57f979876435af39f960d7f3a29",
       "rendered_digest": "54016a4be7498595d1cae5c00addc1acc5cf86c046f3813abd7e0b571001a11a",
       "ast_digest": "cd09ef4297970a6fd71522ea0f2c846ec95ff4b2e71ed08e180f05d0cf0f8cd4"
     },
     "srp": {
-      "values_digest": "71194e8640227660e664d04a0832e30c02ffb7cddeb9b7322d923bf998760259",
+      "values_digest": "55b7966bdea601153ba38765514f05169a1d19f02f62766d6250b1ba4af2f962",
       "rendered_digest": "5d6c6559024bd937d9ee9a3d5bd7d063ac24ca2f0eecda7dbde11f16c9afab18",
       "ast_digest": "11ca4fc74058bcc592b6a994a6eb6120e9324830eb625a9ba4ce7b18886cf7c2"
     },
     "sor": {
-      "values_digest": "3f89c3c07e81b3c388b618b28f74aac15da7aba08ae3d6a90bd1fff211c3d826",
-      "rendered_digest": "f79bc9b6be479ca90cd7e02a23923da78ad287e3f3445922d510e86fd5aca864",
-      "ast_digest": "803415557882e0fdffb31530fef5d79835c30f7f2effc08afd1448247677a95f"
+      "values_digest": "b649f1fb37036d706050e351c4140879cc58812b9f3daf4b9735c12e8ca4a25f",
+      "rendered_digest": "6642904223cd00ce5ccd876b655b186cc2ce4ac23e4ef60134d1f1be69d84c5b",
+      "ast_digest": "b3c4db937ee9b769a30da6fcc430a865f5e0060f0a321a4e4a301667d7970303"
     }
   },
   "transitions": [
@@ -155,6 +155,13 @@
       "actor": "codex:/root",
       "reason": "Record repaired #496 proof after exact review findings: validator self-reference row added and candidate diff hygiene uses git diff --check HEAD.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired #496 after exact review FAIL by adding the validator self-reference disposition row, removing ledger whitespace issues, and updating diff hygiene to prove the candidate diff against HEAD before commit.\",\"changes\":[\"Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh to the ledger consumer-census with retained-evidence disposition\",\"Removed trailing Markdown whitespace from docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"Updated VPP diff hygiene lane to run git diff --check HEAD\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\",\".csdlc/evidence/496/aws-g-retirement-ledger-static.log\",\".csdlc/evidence/496/aws-g-diff-hygiene.log\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\"],\"purpose\":\"Validate #496 ledger inventory, dependency merge evidence, disposition-bearing consumer/reference path census, rollback retention, no deletion authority, and live-stack non-claim.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/496/aws-g-retirement-ledger-static.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Validate candidate diff whitespace hygiene before immutable commit.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/496/aws-g-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record final #496 proof after excluding #496 request self-surfaces from the validator census.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired #496 validator/proof after exact review by adding the validator self-reference ledger row, removing ledger whitespace issues, updating diff hygiene to prove the candidate diff against HEAD, and excluding #496 request-packet self-surfaces from the validator census.\",\"changes\":[\"Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh to the ledger consumer-census with retained-evidence disposition\",\"Removed trailing Markdown whitespace from docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"Updated VPP diff hygiene lane to run git diff --check HEAD\",\"Excluded .csdlc/requests/496-* request-packet self-surfaces from the validator census\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\",\".csdlc/evidence/496/aws-g-retirement-ledger-static.log\",\".csdlc/evidence/496/aws-g-diff-hygiene.log\"],\"validation\":[{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\"],\"purpose\":\"Validate #496 ledger inventory, dependency merge evidence, disposition-bearing consumer/reference path census, rollback retention, no deletion authority, and live-stack non-claim.\",\"outcome\":\"passed\",\"evidence_ref\":\"rerun: aws-g CloudFormation retirement validation passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Validate candidate diff whitespace hygiene before immutable commit.\",\"outcome\":\"passed\",\"evidence_ref\":\"rerun: git diff --check HEAD exited 0\"}]}"
     }
   ]
 }

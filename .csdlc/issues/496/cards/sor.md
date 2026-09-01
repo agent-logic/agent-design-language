@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired #496 after exact review FAIL by adding the validator self-reference disposition row, removing ledger whitespace issues, and updating diff hygiene to prove the candidate diff against HEAD before commit.
+Repaired #496 validator/proof after exact review by adding the validator self-reference ledger row, removing ledger whitespace issues, updating diff hygiene to prove the candidate diff against HEAD, and excluding #496 request-packet self-surfaces from the validator census.
 
 ## Artifacts
 
@@ -26,6 +26,7 @@ Repaired #496 after exact review FAIL by adding the validator self-reference dis
 - Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh to the ledger consumer-census with retained-evidence disposition
 - Removed trailing Markdown whitespace from docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md
 - Updated VPP diff hygiene lane to run git diff --check HEAD
+- Excluded .csdlc/requests/496-* request-packet self-surfaces from the validator census
 
 ## Validation
 
@@ -37,7 +38,7 @@ Repaired #496 after exact review FAIL by adding the validator self-reference dis
     ],
     "purpose": "Validate #496 ledger inventory, dependency merge evidence, disposition-bearing consumer/reference path census, rollback retention, no deletion authority, and live-stack non-claim.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/496/aws-g-retirement-ledger-static.log"
+    "evidence_ref": "rerun: aws-g CloudFormation retirement validation passed"
   },
   {
     "command": [
@@ -48,7 +49,7 @@ Repaired #496 after exact review FAIL by adding the validator self-reference dis
     ],
     "purpose": "Validate candidate diff whitespace hygiene before immutable commit.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/496/aws-g-diff-hygiene.log"
+    "evidence_ref": "rerun: git diff --check HEAD exited 0"
   }
 ]
 

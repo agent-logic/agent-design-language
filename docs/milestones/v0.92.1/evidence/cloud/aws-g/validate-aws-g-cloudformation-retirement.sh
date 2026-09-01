@@ -53,6 +53,7 @@ template_refs="$(
     ':!docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md' \
     ':!.csdlc/issues/496/**' \
     ':!.csdlc/prepared/issues/496/**' \
+    ':!.csdlc/requests/496-*' \
     ':!.t2/**'
 )"
 
