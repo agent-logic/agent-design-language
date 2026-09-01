@@ -3,13 +3,36 @@
   "issue": 607,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
-  "phase": "implemented",
-  "generation": 32,
-  "digest": "d74865aa62dec26a7e24dbf3331c3066d3879d2d3cf76db9631e3f2775fe8bff",
+  "phase": "reviewed",
+  "generation": 33,
+  "digest": "2695aa899b76d9439ac91ce4efc931e12eb7233ac24bf4ff2eb5d7064eecc173",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:issue_607_waiter_review",
+    "assigned_by": "codex-primary-issue607",
+    "revision": "git-blake3:4ce115221322978ce1f24a028abd74e5efd9f6e6:30157191880709c350b2e7a0483fda21ab655980264ed3314cedaddb40c9e6c2",
+    "scope": [
+      ".csdlc/issues/607",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:issue_607_waiter_review",
+    "scope": [
+      ".csdlc/issues/607",
+      "adl/tools/run_issue607_warm_polis.sh",
+      "adl/tools/test_issue607_warm_polis.sh"
+    ],
+    "reviewed_revision": "git-blake3:4ce115221322978ce1f24a028abd74e5efd9f6e6:30157191880709c350b2e7a0483fda21ab655980264ed3314cedaddb40c9e6c2",
+    "findings": [],
+    "residual_risks": [
+      "Real AWS control-plane latency and state transitions remain to be proven by the next authorized preparation campaign."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +47,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ff222d7aea574cb960464b991ea811fc127583021332d893e49463f003a85d9b",
+      "values_digest": "00c9f23605f93e731b9ca3de515f9c9bb1609dca7a4cc0d2c2f7ce105f5945d0",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "098f8bb2525f0f45df36bc9786593cc502b727ab9a102d960611825758d4da64",
+      "values_digest": "b66e2b2dd5e9eb7e695f683c30af33f8d838ae39b292a931dac9604b24b97f21",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "d3f04a1a6cefb85e1ae2094581b79aa58b3f0e7ff1e79ff13bc50d476c70938d",
+      "values_digest": "203e576ec6b156a376acaac17896689f72077d6829748603392e0e15e82db30a",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "d6f225d41b0a939274b72b18ed2f8cd9c301b25cde6b7433d8a470aff6c455ab",
+      "values_digest": "8e507c9dc344e251a14cb9b7f2e50934b9c4a53961c8e33538c612f8824e921b",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "0fb176a619ac09ed9b5e91c7db06214bd0dfcb6ade49bdc833407349d229364a",
-      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
-      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
+      "values_digest": "6d1550b7d30cd4c0fb0fd79dd3a3a24622d9b5dbf161ba22de51f2f331e9e0fc",
+      "rendered_digest": "add620eab884f2d2aba4fc37fd21021831696eeb6cfaeb9dae3004f1c9b7940b",
+      "ast_digest": "5480c96352b378456841dfd80ea82495b7584b3db382c75f26568f375bbb0984"
     },
     "sor": {
-      "values_digest": "4a40aa5b665d37d7efaec837741614d22dd996817ec39baf2e207f35c56fdfe4",
+      "values_digest": "8f71263c3d58ea2d8c988cdfc0491a730c069f36e95a281381474cb17118e4b4",
       "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
       "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
     }
@@ -131,6 +154,13 @@
       "to": "implemented",
       "actor": "codex-primary-issue607",
       "reason": "Recover reviewed state after the authorized preparation proved AWS AMI and snapshot completion can validly exceed the fixed CLI waiter limit; replace it with bounded state-aware polling before another paid campaign."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-primary-issue607",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -406,6 +436,20 @@
       "actor": "codex-primary-issue607",
       "reason": "Recover reviewed state after the authorized preparation proved AWS AMI and snapshot completion can validly exceed the fixed CLI waiter limit; replace it with bounded state-aware polling before another paid campaign.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 33,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

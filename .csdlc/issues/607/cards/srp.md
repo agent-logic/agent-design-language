@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/607
+adl/tools/run_issue607_warm_polis.sh
+adl/tools/test_issue607_warm_polis.sh
 
 ## Prompts
 
@@ -32,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Real AWS control-plane latency and state transitions remain to be proven by the next authorized preparation campaign.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4ce115221322978ce1f24a028abd74e5efd9f6e6:30157191880709c350b2e7a0483fda21ab655980264ed3314cedaddb40c9e6c2")
 
-Reviewer: None
+Reviewer: Some("subagent:issue_607_waiter_review")
 
-Result: pre_review
+Result: pass
