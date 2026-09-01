@@ -93,7 +93,9 @@ run_contracts() {
     if [[ "$*" == *" describe-images "* ]]; then
       count="$(($(cat "$CASE_ROOT/control-plane-image-count" 2>/dev/null || printf 0) + 1))"
       printf '%s' "$count" >"$CASE_ROOT/control-plane-image-count"
-      [[ "$count" -ge 2 ]] && printf 'available\n' || printf 'pending\n'
+      [[ "$count" -ge 2 ]] \
+        && printf '[{"image_id":"ami-0123456789abcdef0","state":"available"},{"image_id":"ami-abcdef01234567890","state":"available"}]\n' \
+        || printf '[{"image_id":"ami-0123456789abcdef0","state":"pending"},{"image_id":"ami-abcdef01234567890","state":"available"}]\n'
       return 0
     fi
     if [[ "$*" == *" describe-snapshots "* ]]; then
@@ -105,9 +107,9 @@ run_contracts() {
     return 2
   }
   export -f aws
-  ADL_ISSUE607_CONTROL_PLANE_WAIT_SECONDS=2 ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
-    bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-control-plane-wait image ami-0123456789abcdef0
-  ADL_ISSUE607_CONTROL_PLANE_WAIT_SECONDS=2 ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
+  ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
+    bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-control-plane-wait image ami-0123456789abcdef0 ami-abcdef01234567890
+  ADL_ISSUE607_CONTROL_PLANE_POLL_SECONDS=0 \
     bash "$ROOT/adl/tools/run_issue607_warm_polis.sh" test-control-plane-wait snapshots snap-0123456789abcdef0 snap-abcdef01234567890
 
   for template in \
@@ -187,7 +189,10 @@ run_contracts() {
   rg -q 'adl.issue607.snapshot_restore_test.v1' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'aws_cli ec2 wait volume-deleted' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'adl.issue607.authorization.v3' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
-  rg -q 'create_prepared_image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'start_prepared_image' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'resume-preparation' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'PRESERVE_PREPARATION_ON_EXIT=true' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  ! rg -q 'CONTROL_PLANE_WAIT_SECONDS|ec2 wait (image-available|snapshot-completed|instance-stopped)' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq "'[{\"DeviceName\":\"/dev/sdf\",\"NoDevice\":\"\"}]'" "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'retire-snapshots' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'saved plan inputs changed' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
