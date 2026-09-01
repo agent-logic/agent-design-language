@@ -1,0 +1,11 @@
+{
+  "issue": 496,
+  "expected_generation": 15,
+  "expected_digest": "4c5e736940e5649c7495c8fbdc1f7581fe80ed0081c33dc64f90e67dcd559a52",
+  "reviewer": "fresh-session:53b89b9a-e9e8-4f14-b86a-fb33599d239e",
+  "assigned_by": "codex:/root",
+  "revision": "git-blake3:1105455ad15f95a2f0b9103b336692154ad0a41e:4e0cf8d0c7e4f578e98a54ddf18baf7594e2895b69cb17bf590fc806b607ba2d",
+  "scope": [
+    "docs/milestones/v0.92.1/evidence/cloud/aws-g"
+  ]
+}

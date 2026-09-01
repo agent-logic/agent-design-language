@@ -1,0 +1,38 @@
+{
+  "issue": 496,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "fe6e9201b9a906e38a25710963620cbcd2d989f22302c0d8302b778f4d4e334f",
+  "actor": "codex:/root",
+  "reason": "Record final #496 proof after excluding #496 request self-surfaces from the validator census.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Repaired #496 validator/proof after exact review by adding the validator self-reference ledger row, removing ledger whitespace issues, updating diff hygiene to prove the candidate diff against HEAD, and excluding #496 request-packet self-surfaces from the validator census.",
+    "changes": [
+      "Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh to the ledger consumer-census with retained-evidence disposition",
+      "Removed trailing Markdown whitespace from docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+      "Updated VPP diff hygiene lane to run git diff --check HEAD",
+      "Excluded .csdlc/requests/496-* request-packet self-surfaces from the validator census"
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh",
+      ".csdlc/evidence/496/aws-g-retirement-ledger-static.log",
+      ".csdlc/evidence/496/aws-g-diff-hygiene.log"
+    ],
+    "validation": [
+      {
+        "command": ["bash", "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh"],
+        "purpose": "Validate #496 ledger inventory, dependency merge evidence, disposition-bearing consumer/reference path census, rollback retention, no deletion authority, and live-stack non-claim.",
+        "outcome": "passed",
+        "evidence_ref": "rerun: aws-g CloudFormation retirement validation passed"
+      },
+      {
+        "command": ["git", "diff", "--check", "HEAD"],
+        "purpose": "Validate candidate diff whitespace hygiene before immutable commit.",
+        "outcome": "passed",
+        "evidence_ref": "rerun: git diff --check HEAD exited 0"
+      }
+    ]
+  }
+}
