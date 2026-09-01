@@ -1,4 +1,5 @@
 use std::io::{Read, Write};
+use std::path::Path;
 
 use ::adl::provider::{build_provider, is_retryable_error, stable_failure_kind};
 use serde_json::Value;
@@ -15,6 +16,23 @@ fn request_json_body(request: &str) -> Value {
         .map(|(_, body)| body)
         .expect("request should include a JSON body");
     serde_json::from_str(body).expect("request body should be JSON")
+}
+
+fn issue_528_test_artifact_dir(name: &str) -> std::path::PathBuf {
+    let dir = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("adl crate should have a workspace parent")
+        .join(".csdlc/evidence/528/provider-tests")
+        .join(name);
+    std::fs::create_dir_all(&dir).expect("issue-owned provider test directory should be writable");
+    dir
+}
+
+fn prepend_path(dir: &Path) -> std::ffi::OsString {
+    let old_path = std::env::var_os("PATH").unwrap_or_default();
+    let mut paths = std::env::split_paths(&old_path).collect::<Vec<_>>();
+    paths.insert(0, dir.to_path_buf());
+    std::env::join_paths(paths).expect("PATH should be joinable")
 }
 
 #[test]
@@ -278,7 +296,9 @@ config:
     let rendered = receipt_json.to_string();
     assert!(!rendered.contains("test-vertex-token"));
     assert!(!rendered.contains("ADL_TEST_VERTEX_AI_TOKEN"));
+    let lock = receipt.with_extension("json.lock");
     let _ = std::fs::remove_file(receipt);
+    let _ = std::fs::remove_file(lock);
 }
 
 #[test]
@@ -370,9 +390,13 @@ fn vertex_ai_gemini_provider_streams_via_vertex_stream_endpoint_and_callback() {
         assert!(request.starts_with("POST /v1/projects/test-project/locations/us-west1/publishers/google/models/gemini-test:streamGenerateContent "));
         let body = request_json_body(&request);
         assert_eq!(body["contents"][0]["parts"][0]["text"], "stream vertex");
-        let response = r#"{"candidates":[{"content":{"parts":[{"text":"VERTEX_STREAM_OK"}]}}]}"#;
+        let response = concat!(
+            "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"VERTEX_\"}]}}]}\n\n",
+            "data: {\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"STREAM_OK\"}]}}]}\n\n",
+            "data: [DONE]\n\n",
+        );
         let resp = format!(
-            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\n\r\n{}",
+            "HTTP/1.1 200 OK\r\nContent-Type: text/event-stream\r\nContent-Length: {}\r\n\r\n{}",
             response.len(),
             response
         );
@@ -399,7 +423,73 @@ config:
         .complete_stream("stream vertex", &mut |chunk| chunks.push(chunk.to_string()))
         .expect("vertex_ai_gemini stream should succeed");
     assert_eq!(out, "VERTEX_STREAM_OK");
-    assert_eq!(chunks, vec!["VERTEX_STREAM_OK"]);
+    assert_eq!(chunks, vec!["VERTEX_", "STREAM_OK"]);
+}
+
+#[test]
+fn vertex_ai_gemini_provider_acquires_adc_token_with_gcloud_when_env_missing() {
+    let server = match std::net::TcpListener::bind("127.0.0.1:0") {
+        Ok(s) => s,
+        Err(e) if e.kind() == std::io::ErrorKind::PermissionDenied => return,
+        Err(e) => panic!("failed to bind local test server: {e}"),
+    };
+    let addr = server.local_addr().unwrap();
+    let bin_dir = issue_528_test_artifact_dir("mock-gcloud-adc");
+    let gcloud = bin_dir.join("gcloud");
+    std::fs::write(
+        &gcloud,
+        "#!/bin/sh\nif [ \"$1 $2\" = \"auth print-access-token\" ]; then printf 'adc-token-from-gcloud\\n'; exit 0; fi\nexit 64\n",
+    )
+    .expect("mock gcloud should be writable");
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::PermissionsExt;
+        let mut perms = std::fs::metadata(&gcloud)
+            .expect("mock gcloud should have metadata")
+            .permissions();
+        perms.set_mode(0o700);
+        std::fs::set_permissions(&gcloud, perms).expect("mock gcloud should be executable");
+    }
+    let path_value = prepend_path(&bin_dir);
+    let _env_guard = EnvVarGuard::set_many(&[
+        ("NO_PROXY", std::ffi::OsStr::new("127.0.0.1,localhost")),
+        ("PATH", path_value.as_os_str()),
+    ]);
+
+    std::thread::spawn(move || {
+        let (mut stream, _) = server.accept().unwrap();
+        let request = read_http_request(&mut stream);
+        assert!(request.to_ascii_lowercase().contains("authorization:"));
+        assert!(request.contains("Bearer adc-token-from-gcloud"));
+        let response = r#"{"candidates":[{"content":{"parts":[{"text":"ADC_OK"}]}}]}"#;
+        let resp = format!(
+            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\n\r\n{}",
+            response.len(),
+            response
+        );
+        let _ = stream.write_all(resp.as_bytes());
+    });
+
+    let spec = provider_spec_from_yaml(&format!(
+        r#"
+type: vertex_ai_gemini
+config:
+  endpoint: "http://{addr}/v1/projects/test-project/locations/us-west1/publishers/google/models/gemini-test:generateContent"
+  project: "test-project"
+  location: "us-west1"
+  provider_model_id: "gemini-test"
+  auth:
+    type: adc
+"#
+    ));
+
+    let provider = build_provider(&spec, None).expect("vertex_ai_gemini provider should build");
+    let out = provider
+        .complete("adc vertex")
+        .expect("vertex_ai_gemini ADC command token should succeed");
+    assert_eq!(out, "ADC_OK");
+    let _ = std::fs::remove_file(gcloud);
+    let _ = std::fs::remove_dir(bin_dir);
 }
 
 #[test]
@@ -411,6 +501,9 @@ config:
   project: "company-project"
   location: "us-west1"
   provider_model_id: "gemini-2.5-flash"
+  auth:
+    type: bearer
+    env: ADL_TEST_MISSING_VERTEX_TOKEN
 "#,
     );
 
@@ -420,7 +513,7 @@ config:
         .complete("missing token")
         .expect_err("missing token should fail before network");
     let msg = format!("{err:#}");
-    assert!(msg.contains("missing required auth env var 'ADL_VERTEX_AI_ACCESS_TOKEN'"));
+    assert!(msg.contains("missing Vertex AI bearer token env var 'ADL_TEST_MISSING_VERTEX_TOKEN'"));
     assert!(!msg.contains("Bearer"));
 }
 

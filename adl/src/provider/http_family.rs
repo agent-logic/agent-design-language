@@ -8,6 +8,7 @@ use aws_sdk_sts as sts;
 use fs2::FileExt;
 use sha2::{Digest, Sha256};
 use std::fs::{File, OpenOptions};
+use std::process::Command;
 use std::thread;
 use std::time::Duration;
 
@@ -91,6 +92,33 @@ fn provider_http_json(
     provider_label: &str,
     req: reqwest::blocking::RequestBuilder,
 ) -> Result<(Value, u16)> {
+    let resp = provider_http_response(provider_label, req)?;
+
+    let http_status = resp.status().as_u16();
+    let json = resp
+        .json()
+        .context("native provider response was not valid JSON")
+        .map_err(|err| runtime_error_non_retryable(provider_label, err.to_string()))?;
+    Ok((json, http_status))
+}
+
+fn provider_http_text(
+    provider_label: &str,
+    req: reqwest::blocking::RequestBuilder,
+) -> Result<(String, u16)> {
+    let resp = provider_http_response(provider_label, req)?;
+    let http_status = resp.status().as_u16();
+    let text = resp
+        .text()
+        .context("native provider response body could not be read")
+        .map_err(|err| runtime_error(provider_label, err.to_string()))?;
+    Ok((text, http_status))
+}
+
+fn provider_http_response(
+    provider_label: &str,
+    req: reqwest::blocking::RequestBuilder,
+) -> Result<reqwest::blocking::Response> {
     let resp = match req.send() {
         Ok(resp) => resp,
         Err(err) => {
@@ -126,13 +154,7 @@ fn provider_http_json(
         }
         return Err(runtime_error(provider_label, msg));
     }
-
-    let http_status = resp.status().as_u16();
-    let json = resp
-        .json()
-        .context("native provider response was not valid JSON")
-        .map_err(|err| runtime_error_non_retryable(provider_label, err.to_string()))?;
-    Ok((json, http_status))
+    Ok(resp)
 }
 
 fn write_native_invocation_record(
@@ -946,7 +968,7 @@ impl Provider for AwsBedrockProvider {
 /// Google Vertex AI Gemini provider using the generateContent API format.
 pub struct VertexAiGeminiProvider {
     endpoint: String,
-    auth_env: String,
+    auth: VertexAiAuth,
     model: String,
     max_output_tokens: u64,
     timeout_secs: Option<u64>,
@@ -965,10 +987,9 @@ impl VertexAiGeminiProvider {
             vertex_ai_gemini_endpoint(&project, &location, &target.provider_model_id)
         });
         validate_vertex_ai_endpoint(spec, &endpoint)?;
-        let auth_env = auth_env_for(spec, "ADL_VERTEX_AI_ACCESS_TOKEN")?;
         Ok(Self {
             endpoint,
-            auth_env,
+            auth: vertex_ai_auth_from_config(spec)?,
             model: target.provider_model_id.clone(),
             max_output_tokens: cfg_u64(&spec.config, "max_output_tokens").unwrap_or(1024),
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
@@ -982,12 +1003,7 @@ impl VertexAiGeminiProvider {
         streaming: bool,
         mut on_chunk: Option<&mut dyn FnMut(&str)>,
     ) -> Result<String> {
-        let token = env::var(&self.auth_env).map_err(|_| {
-            invalid_config(
-                "vertex_ai_gemini",
-                format!("missing required auth env var '{}'", self.auth_env),
-            )
-        })?;
+        let token = self.auth.resolve_token()?;
         let mut client_builder = reqwest::blocking::Client::builder();
         if let Some(secs) = self.timeout_secs {
             client_builder = client_builder.timeout(Duration::from_secs(secs));
@@ -1010,13 +1026,27 @@ impl VertexAiGeminiProvider {
                 self.max_output_tokens,
                 self.tools.as_ref(),
             ));
-        let (json, http_status) = provider_http_json("vertex_ai_gemini", req)?;
-        let output = extract_gemini_output_text(&json).ok_or_else(|| {
-            runtime_error_non_retryable("vertex_ai_gemini", "response missing Gemini text output")
-        })?;
-        if let Some(callback) = on_chunk.as_mut() {
-            callback(&output);
-        }
+        let (output, http_status) = if streaming {
+            let (body, http_status) = provider_http_text("vertex_ai_gemini", req)?;
+            let output = if let Some(callback) = on_chunk.as_mut() {
+                extract_vertex_ai_stream_output(&body, Some(&mut **callback))?
+            } else {
+                extract_vertex_ai_stream_output(&body, None)?
+            };
+            (output, http_status)
+        } else {
+            let (json, http_status) = provider_http_json("vertex_ai_gemini", req)?;
+            let output = extract_gemini_output_text(&json).ok_or_else(|| {
+                runtime_error_non_retryable(
+                    "vertex_ai_gemini",
+                    "response missing Gemini text output",
+                )
+            })?;
+            if let Some(callback) = on_chunk.as_mut() {
+                callback(&output);
+            }
+            (output, http_status)
+        };
         write_native_invocation_record(
             "vertex_ai_gemini",
             &self.model,
@@ -1036,6 +1066,150 @@ impl Provider for VertexAiGeminiProvider {
     fn complete_stream(&self, prompt: &str, on_chunk: &mut dyn FnMut(&str)) -> Result<String> {
         self.complete_with_mode(prompt, true, Some(on_chunk))
     }
+}
+
+#[derive(Debug, Clone)]
+enum VertexAiAuth {
+    BearerEnv { env: String },
+    Adc { env_override: String },
+    WorkloadIdentity { env_override: String },
+}
+
+impl VertexAiAuth {
+    fn resolve_token(&self) -> Result<String> {
+        match self {
+            Self::BearerEnv { env } => vertex_ai_env_token(env),
+            Self::Adc { env_override } => {
+                vertex_ai_env_token(env_override).or_else(|_| vertex_ai_gcloud_adc_token())
+            }
+            Self::WorkloadIdentity { env_override } => vertex_ai_env_token(env_override)
+                .or_else(|_| vertex_ai_metadata_workload_identity_token()),
+        }
+    }
+}
+
+fn vertex_ai_auth_from_config(spec: &adl::ProviderSpec) -> Result<VertexAiAuth> {
+    let Some(auth_val) = spec.config.get("auth") else {
+        return Ok(VertexAiAuth::Adc {
+            env_override: "ADL_VERTEX_AI_ACCESS_TOKEN".to_string(),
+        });
+    };
+    let obj = auth_val
+        .as_object()
+        .ok_or_else(|| invalid_config("vertex_ai_gemini", "config.auth must be an object"))?;
+    let auth_type = obj
+        .get("type")
+        .and_then(|v| v.as_str())
+        .ok_or_else(|| invalid_config("vertex_ai_gemini", "config.auth.type is required"))?;
+    match auth_type {
+        "bearer" => Ok(VertexAiAuth::BearerEnv {
+            env: auth_env_for(spec, "ADL_VERTEX_AI_ACCESS_TOKEN")?,
+        }),
+        "adc" => Ok(VertexAiAuth::Adc {
+            env_override: vertex_ai_auth_env_override(obj)?,
+        }),
+        "workload_identity" => Ok(VertexAiAuth::WorkloadIdentity {
+            env_override: vertex_ai_auth_env_override(obj)?,
+        }),
+        other => Err(invalid_config(
+            "vertex_ai_gemini",
+            format!(
+                "config.auth.type must be 'bearer', 'adc', or 'workload_identity' (got '{other}')"
+            ),
+        )),
+    }
+}
+
+fn vertex_ai_auth_env_override(obj: &serde_json::Map<String, Value>) -> Result<String> {
+    let env_key = obj
+        .get("env")
+        .and_then(|v| v.as_str())
+        .unwrap_or("ADL_VERTEX_AI_ACCESS_TOKEN")
+        .trim();
+    if env_key.is_empty() {
+        return Err(invalid_config(
+            "vertex_ai_gemini",
+            "config.auth.env must not be empty",
+        ));
+    }
+    Ok(env_key.to_string())
+}
+
+fn vertex_ai_env_token(env_key: &str) -> Result<String> {
+    let token = env::var(env_key).map_err(|_| {
+        invalid_config(
+            "vertex_ai_gemini",
+            format!(
+                "missing Vertex AI bearer token env var '{env_key}' and no ADC/workload identity token was available"
+            ),
+        )
+    })?;
+    let trimmed = token.trim();
+    if trimmed.is_empty() {
+        return Err(invalid_config(
+            "vertex_ai_gemini",
+            format!("Vertex AI bearer token env var '{env_key}' must not be empty"),
+        ));
+    }
+    Ok(trimmed.to_string())
+}
+
+fn vertex_ai_gcloud_adc_token() -> Result<String> {
+    let output = Command::new("gcloud")
+        .args(["auth", "print-access-token", "--quiet"])
+        .output()
+        .map_err(|err| {
+            invalid_config(
+                "vertex_ai_gemini",
+                format!("ADC token acquisition failed: gcloud auth print-access-token unavailable: {err}"),
+            )
+        })?;
+    if !output.status.success() {
+        return Err(invalid_config(
+            "vertex_ai_gemini",
+            "ADC token acquisition failed: gcloud auth print-access-token returned a non-zero status",
+        ));
+    }
+    let token = String::from_utf8(output.stdout).map_err(|err| {
+        invalid_config(
+            "vertex_ai_gemini",
+            format!("ADC token acquisition produced non-UTF-8 output: {err}"),
+        )
+    })?;
+    let trimmed = token.trim();
+    if trimmed.is_empty() {
+        return Err(invalid_config(
+            "vertex_ai_gemini",
+            "ADC token acquisition produced an empty token",
+        ));
+    }
+    Ok(trimmed.to_string())
+}
+
+fn vertex_ai_metadata_workload_identity_token() -> Result<String> {
+    let client = reqwest::blocking::Client::builder()
+        .timeout(Duration::from_secs(2))
+        .build()
+        .context("failed to build Vertex AI workload identity metadata client")
+        .map_err(|err| runtime_error("vertex_ai_gemini", err.to_string()))?;
+    let (json, _) = provider_http_json(
+        "vertex_ai_gemini",
+        client
+            .get("http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token")
+            .header("Metadata-Flavor", "Google"),
+    )?;
+    let token = json
+        .get("access_token")
+        .and_then(|v| v.as_str())
+        .map(str::trim)
+        .filter(|v| !v.is_empty())
+        .ok_or_else(|| {
+            invalid_config(
+                "vertex_ai_gemini",
+                "workload identity metadata response missing access_token",
+            )
+        })?;
+    Ok(token.to_string())
 }
 
 fn vertex_ai_gemini_endpoint(project: &str, location: &str, model: &str) -> String {
@@ -1066,6 +1240,65 @@ fn vertex_ai_gemini_request_body(
         body["tools"] = tools.clone();
     }
     body
+}
+
+fn extract_vertex_ai_stream_output(
+    body: &str,
+    mut on_chunk: Option<&mut dyn FnMut(&str)>,
+) -> Result<String> {
+    let frames = parse_vertex_ai_stream_frames(body)?;
+    let mut output = String::new();
+    for frame in frames {
+        let Some(chunk) = extract_gemini_output_text(&frame) else {
+            continue;
+        };
+        if let Some(callback) = on_chunk.as_deref_mut() {
+            callback(&chunk);
+        }
+        output.push_str(&chunk);
+    }
+    if output.is_empty() {
+        return Err(runtime_error_non_retryable(
+            "vertex_ai_gemini",
+            "streaming response missing Gemini text output",
+        ));
+    }
+    Ok(output)
+}
+
+fn parse_vertex_ai_stream_frames(body: &str) -> Result<Vec<Value>> {
+    if let Ok(value) = serde_json::from_str::<Value>(body) {
+        return match value {
+            Value::Array(items) => Ok(items),
+            other => Ok(vec![other]),
+        };
+    }
+
+    let mut frames = Vec::new();
+    for raw_line in body.lines() {
+        let line = raw_line.trim();
+        if line.is_empty() {
+            continue;
+        }
+        let payload = line.strip_prefix("data:").map(str::trim).unwrap_or(line);
+        if payload.is_empty() || payload == "[DONE]" {
+            continue;
+        }
+        let frame = serde_json::from_str::<Value>(payload).map_err(|err| {
+            runtime_error_non_retryable(
+                "vertex_ai_gemini",
+                format!("streaming response frame was not valid JSON: {err}"),
+            )
+        })?;
+        frames.push(frame);
+    }
+    if frames.is_empty() {
+        return Err(runtime_error_non_retryable(
+            "vertex_ai_gemini",
+            "streaming response did not contain JSON frames",
+        ));
+    }
+    Ok(frames)
 }
 
 fn vertex_ai_tools_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Value>> {
