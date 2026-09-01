@@ -322,16 +322,32 @@ Implemented, locally validated, independently reviewed, and live-deployed ordere
     "purpose": "Prove fail-closed launchctl stopped-state classification, real missing-service handling, listener disappearance without a captured owner PID, and the complete focused CSM lifecycle surface.",
     "outcome": "passed",
     "evidence_ref": "28 focused CSM tests passed on Wuji/macOS; real launchctl print for a missing label returned the accepted service-not-found exit 113; cargo fmt --check and git diff --check passed."
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove the exact hosted lint failure is resolved without weakening warning policy.",
+    "outcome": "passed",
+    "evidence_ref": "ADL binary Clippy completed successfully with -D warnings; all 28 focused CSM tests also passed after the lint-only assertion rewrite."
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

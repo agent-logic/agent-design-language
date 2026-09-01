@@ -1405,8 +1405,8 @@ mod tests {
 
     #[test]
     fn launchctl_state_classifier_accepts_only_running_or_service_not_found() {
-        assert_eq!(launchctl_print_is_stopped(true, Some(0)).unwrap(), false);
-        assert_eq!(launchctl_print_is_stopped(false, Some(113)).unwrap(), true);
+        assert!(!launchctl_print_is_stopped(true, Some(0)).unwrap());
+        assert!(launchctl_print_is_stopped(false, Some(113)).unwrap());
         for exit_code in [Some(1), Some(3), None] {
             assert!(launchctl_print_is_stopped(false, exit_code).is_err());
         }

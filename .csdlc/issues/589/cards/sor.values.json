@@ -7,7 +7,7 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 74
+    "generation": 76
   },
   "status": "ready",
   "content": {
@@ -318,10 +318,26 @@
           "purpose": "Prove fail-closed launchctl stopped-state classification, real missing-service handling, listener disappearance without a captured owner PID, and the complete focused CSM lifecycle surface.",
           "outcome": "passed",
           "evidence_ref": "28 focused CSM tests passed on Wuji/macOS; real launchctl print for a missing label returned the accepted service-not-found exit 113; cargo fmt --check and git diff --check passed."
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "adl",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove the exact hosted lint failure is resolved without weakening warning policy.",
+          "outcome": "passed",
+          "evidence_ref": "ADL binary Clippy completed successfully with -D warnings; all 28 focused CSM tests also passed after the lint-only assertion rewrite."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

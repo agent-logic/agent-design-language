@@ -7,25 +7,23 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 74
+    "generation": 76
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/cli/csm_runtime_v3_cmd.rs\n.csdlc/issues/589",
-      "review_revision": "git-blake3:83b003b9ae24ec6a4f328a98154b3735642a61fa:37988ab7dddd698291ebce7ab2d51b0c8775cf72639846404074a880e8d3bcff",
-      "reviewer": "subagent:/root/issue_589_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify startup no longer requires the separate continuity channel while Guardian ownership remains intact.",
         "Verify stale-state recovery cannot remove a lock owned by a live writer.",
         "Verify reload preserves the last known-good running configuration on candidate failure."
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted Linux CI remains the proving execution environment for the systemd command path; live Runtime and cloud readbacks are mutable point-in-time evidence."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
