@@ -43,6 +43,9 @@ grep -q 'validate_state_root' "$RUNNER" || fail "runner does not enforce worktre
 ! grep -q 'git clone\|git -C /opt/adl-issue345/repo fetch' "$RUNNER" || fail "guest bootstrap still depends on live Git"
 grep -q 'SOURCE_ARCHIVE_PATHS=(adl adl-runtime adl-runtime-kernel adl-resilience)' "$RUNNER" || fail "exact reviewed build-source archive does not declare the required local dependency closure"
 grep -q 'create_source_archive "$source_archive"' "$RUNNER" || fail "paid run does not use the reviewed source-archive helper"
+grep -q 'export ADL_RUNTIME_SOURCE_REVISION="$commit"' "$RUNNER" || fail "archived Runtime validation is not bound to the authorized source revision"
+grep -q 'revision=${ADL_RUNTIME_SOURCE_REVISION:-}' "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" || fail "Guardian validator cannot consume an archive-safe source revision"
+grep -q 'ADL_RUNTIME_SOURCE_REVISION must be an exact lowercase Git commit' "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" || fail "archive-safe source revision is not validated"
 grep -q 'source_archive' "$RUNNER" || fail "versioned source archive is not bound into guest configuration"
 grep -q 's3 cp "$file" "s3://$ARTIFACT_BUCKET/$key" --only-show-errors' "$RUNNER" || fail "large run artifacts do not use the AWS CLI multipart transfer path"
 [[ "$(grep -Fc -- "--if-none-match '*'" "$RUNNER")" -ge 6 ]] || fail "locks, authorization, and guest receipts must be create-only"
@@ -102,6 +105,7 @@ SOURCE_COMMIT="$head"
 create_source_archive "$tmp/source.tar"
 mkdir -p "$tmp/source"
 tar -xf "$tmp/source.tar" -C "$tmp/source"
+[[ ! -e "$tmp/source/.git" ]] || fail "source archive unexpectedly contains Git metadata"
 for component in adl adl-runtime adl-runtime-kernel adl-resilience; do
   [[ -f "$tmp/source/$component/Cargo.toml" ]] || fail "source archive omitted $component/Cargo.toml"
 done

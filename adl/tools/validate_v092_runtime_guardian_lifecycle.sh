@@ -109,7 +109,15 @@ cargo build --locked --manifest-path "$repo_root/adl-runtime-kernel/Cargo.toml" 
 cargo build --locked --manifest-path "$repo_root/adl-runtime/Cargo.toml" \
   --bin adl-runtime-guardian --bin adl-runtime-lifecycle-soak
 
-revision=$(git -C "$repo_root" rev-parse HEAD)
+revision=${ADL_RUNTIME_SOURCE_REVISION:-}
+if [[ -n "$revision" ]]; then
+  [[ "$revision" =~ ^[0-9a-f]{40}$ ]] || {
+    echo "ADL_RUNTIME_SOURCE_REVISION must be an exact lowercase Git commit" >&2
+    exit 64
+  }
+else
+  revision=$(git -C "$repo_root" rev-parse HEAD)
+fi
 run_root=$(mktemp -d "$qualification_root/5820-run.XXXXXX")
 state_root="$run_root/state"
 report="$run_root/report.json"

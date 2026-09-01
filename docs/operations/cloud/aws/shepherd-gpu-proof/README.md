@@ -114,8 +114,12 @@ instance fallback.
 Before apply, the runner stores versioned configuration and two digest-bound
 bootstrap scripts in the authorized S3 prefix. Large run artifacts use the AWS
 CLI multipart transfer path and then bind the bucket's exact returned version.
-The exact source archive contains only the tracked `adl` and `adl-runtime`
-build/proof trees, avoiding unrelated repository media and historical evidence.
+The exact source archive contains only the tracked `adl`, `adl-runtime`,
+`adl-runtime-kernel`, and `adl-resilience` build/proof trees. This is the full
+local Rust path-dependency closure required by the Runtime proof while avoiding
+unrelated repository media and historical evidence. The Runtime bootstrap passes
+the authorization-bound source revision to validators because an archive does
+not contain mutable Git metadata.
 Terraform injects separate automatic cloud-init payloads:
 
 1. The GPU node downloads exact object versions, starts Ollama as a persistent
