@@ -389,6 +389,8 @@ impl SkillManifest {
             ("csdlc-finish", "validate-cached-issue", false),
             ("csdlc-publish", "publish", true),
             ("csdlc-publish", "status", false),
+            ("csdlc-publish", "ready", true),
+            ("csdlc-publish", "reconcile-ready", true),
             ("csdlc-publish", "schema", false),
             ("csdlc-github-issue", "issue-write", true),
             ("csdlc-github-issue", "issue-read", false),

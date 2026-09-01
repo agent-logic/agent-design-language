@@ -1,0 +1,12 @@
+flowchart TD
+  A["Reviewed/published issue record"] --> B["csdlc-publish ready request"]
+  B --> C["Pre-mutation PR readback"]
+  C --> D{"open draft at expected head?"}
+  D -- no --> E["fail before lifecycle mutation"]
+  D -- yes --> F["typed GitHub ready mutation"]
+  F --> G["Post-mutation PR readback"]
+  G --> H{"open non-draft at expected head?"}
+  H -- yes --> I["record ready publication truth"]
+  H -- uncertain --> J["reconcile-ready re-observes remote"]
+  J --> I
+  H -- mismatch --> K["fail closed; retain defect evidence"]

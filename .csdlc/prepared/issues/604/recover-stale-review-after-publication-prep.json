@@ -1,0 +1,7 @@
+{
+  "issue": 604,
+  "expected_generation": 5,
+  "expected_digest": "236f69f391fec0961ec52270804d427a1de8ba80d50b9726a64ac56a63897704",
+  "actor": "codex:/root/worker-6/issue-604",
+  "reason": "Recover stale review after publication preflight exposed that the prior review scope included lifecycle metadata mutated by the review record itself. A fresh review will be recorded after publication request preparation is part of the reviewed head."
+}

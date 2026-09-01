@@ -1,0 +1,78 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 604,
+  "expected_generation": 3,
+  "expected_digest": "974792bf3ac5c4abdb3ecbc03df2e074aa50406ef98bd7ff3b408ace8cffbd0d",
+  "claim_id": "claim-604-v2-publish-ready-reconciliation",
+  "actor": "codex:/root/worker-6/issue-604",
+  "summary": "Restored governed C-SDLC v2 draft-to-ready publication reconciliation with exact PR/head/repository readback, durable ready metadata, route inventory documentation, and focused regression coverage. Captured full-cycle canary defects without using v3 as lifecycle authority before cutover.",
+  "changes": [
+    "Added typed ready and reconcile-ready request paths to csdlc-publish.",
+    "Bound ready publication to exact issue generation, digest, repository, PR number, head SHA, open state, and draft-state transitions.",
+    "Recorded ready publication truth through the existing C-SDLC v2 store after successful remote readback.",
+    "Updated the v2 publication skill and owner-operation inventory for the new commands.",
+    "Added focused publication-ready regression tests and a repo-local validation script.",
+    "Recorded full-cycle canary defects discovered while testing issue #604."
+  ],
+  "artifacts": [
+    "csdlc-v2/src/publication.rs",
+    "csdlc-v2/src/bin/csdlc-publish.rs",
+    "csdlc-v2/src/lib.rs",
+    "csdlc-v2/src/operator.rs",
+    "csdlc-v2/operator/skills.json",
+    "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+    "csdlc-v2/tests/publication_ready.rs",
+    ".csdlc/prepared/issues/604/validate-implementation.sh",
+    ".csdlc/prepared/issues/604/full-cycle-defects.md"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "issue-604-implementation-validation",
+          "proof_role": "implementation_behavior",
+          "purpose": "Prove the #604 ready/reconcile-ready behavior and route inventory updates using the repo-local validation script.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 2,
+            "memory_mib": 2048,
+            "tokens": 3000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 240,
+          "executable": "bash",
+          "argv": [
+            ".csdlc/prepared/issues/604/validate-implementation.sh"
+          ],
+          "evidence": {
+            "max_log_bytes": 1048576,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "issue-604-implementation-validation"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 2,
+      "memory_mib": 2048,
+      "tokens": 3000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec/.csdlc/evidence/604",
+    "cancellation_file": null
+  }
+}

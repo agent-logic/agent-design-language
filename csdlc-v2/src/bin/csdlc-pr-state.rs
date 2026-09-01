@@ -1,5 +1,5 @@
 use clap::Parser;
-use csdlc_v2::github::{collect_pr_state, PrStateRequest};
+use csdlc_v2::github::{collect_pr_state, decode_pr_state_request, PrStateRequest};
 use std::path::PathBuf;
 
 #[derive(Parser)]
@@ -13,7 +13,7 @@ async fn main() {
     let cli = Cli::parse();
     let request: PrStateRequest = match std::fs::read(&cli.request)
         .ok()
-        .and_then(|b| serde_json::from_slice(&b).ok())
+        .and_then(|b| decode_pr_state_request(&b).ok())
     {
         Some(value) => value,
         None => {
