@@ -12,21 +12,7 @@ Status: draft
 
 ## Scope
 
-AGENTS.md
-csdlc-v2/AGENTS.md
-csdlc-v2/operator/SKILLS.md
-csdlc-v2/operator/skills
-csdlc-v3/AGENTS.md
-csdlc-v3/README.md
-docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md
-docs/default_workflow.md
-docs/onboarding.md
-docs/architecture/ADL_ARCHITECTURE.md
-docs/tooling/adl_pr_cycle_skill.md
-docs/tooling/card-lifecycle.md
-docs/tooling/structured-prompt-contracts.md
-docs/tooling/editor
-docs/templates
+
 
 ## Prompts
 
@@ -45,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- No PR body existed at review time; publication must still include visible `Closes #505`.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:eb061985764cf8aad19b9d5df7fa7d5b7cfb3931:319668cd2664d373e9e5ca724ffb67d47c387413781bdba7303308a3a4f5b4b5")
+Revision: None
 
-Reviewer: Some("review_issue_505_final_docs_head")
+Reviewer: None
 
-Result: pass
+Result: pre_review
