@@ -99,6 +99,11 @@ jq '.max_reaper_lag_seconds = 299 | .max_billable_seconds = 3599' "$tmp/authoriz
 if (SOURCE_COMMIT="$head" RUN_ID="$run_id" AUTHORIZATION_FILE="$tmp/authorization-short-reaper.json" load_authorization) 2>/dev/null; then
   fail "authorization with insufficient reaper bound unexpectedly passed"
 fi
+jq '.reviewed_revision = ("git-blake3:" + .source_commit + ":not-an-immutable-digest")' \
+  "$tmp/authorization.json" >"$tmp/authorization-bad-review.json"
+if (SOURCE_COMMIT="$head" RUN_ID="$run_id" AUTHORIZATION_FILE="$tmp/authorization-bad-review.json" load_authorization) 2>/dev/null; then
+  fail "authorization with a fabricated reviewed revision unexpectedly passed"
+fi
 AUTHORIZATION_FILE="$tmp/authorization.json"
 bound_preflight="$(jq -n --arg account "$EXPECTED_ACCOUNT_SHA256" '{account_sha256:$account,
   no_ingress_security_group_sha256:("0" * 64),ami_sha256:("0" * 64),subnet_sha256:("0" * 64)}')"
@@ -164,4 +169,4 @@ jq -n --arg live_preflight "$live_preflight" \
   '{schema:"adl.issue345.runner_contract_test.v2",status:"pass",paid_launches:0,
     real_git:true,fake_aws:false,live_aws_preflight:$live_preflight,
     multi_model_ordering:"request_then_residency",
-    negative_cases:(if $live_preflight == "passed" then 15 else 10 end)}'
+    negative_cases:(if $live_preflight == "passed" then 16 else 11 end)}'

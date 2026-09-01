@@ -201,7 +201,8 @@ load_authorization() {
     and .authorized == true
     and (.authorization_id | type == "string" and length > 0)
     and .source_commit == $commit
-    and (.reviewed_revision | type == "string" and startswith("git-blake3:" + $commit + ":"))
+    and (.reviewed_revision | type == "string"
+      and test("^git-blake3:" + $commit + ":[0-9a-f]{64}$"))
     and .run_id == $run_id
     and .region == "us-west-2"
     and (.instance_type | type == "string" and length > 0)
@@ -288,6 +289,40 @@ verify_authorized_preflight_bindings() {
     echo "paid-run authorization does not bind the resolved AWS preflight inputs" >&2
     exit 2
   }
+}
+
+verify_review_authority() {
+  local index_file="$ROOT/.csdlc/issues/345/index.json"
+  local authorized_revision recorded_revision current_head
+  [[ -f "$index_file" ]] || {
+    echo "typed issue review state is missing" >&2
+    exit 2
+  }
+  authorized_revision="$(jq -er '.reviewed_revision' "$AUTHORIZATION_FILE")"
+  recorded_revision="$(jq -er '
+    select(.phase == "reviewed" or .phase == "published")
+    | .review
+    | select(.completed == true and ([.findings[]? | select(.actionable == true and .disposition == "open")] | length) == 0)
+    | .reviewed_revision
+  ' "$index_file")"
+  [[ "$authorized_revision" == "$recorded_revision" ]] || {
+    echo "paid-run authorization does not equal the current typed exact-head review" >&2
+    exit 2
+  }
+  current_head="$(git -C "$ROOT" rev-parse HEAD)"
+  git -C "$ROOT" merge-base --is-ancestor "$SOURCE_COMMIT" "$current_head" || {
+    echo "reviewed source commit is not an ancestor of the current lifecycle head" >&2
+    exit 2
+  }
+  git -C "$ROOT" diff --quiet "$SOURCE_COMMIT..$current_head" -- \
+    adl-runtime/tests/shepherd_local_model.rs \
+    adl/tools/run_issue345_aws_gpu_shepherd_proof.sh \
+    adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh \
+    adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml \
+    docs/operations/cloud/aws/shepherd-gpu-proof/README.md || {
+      echo "substantive proof surfaces changed after exact-head review" >&2
+      exit 2
+    }
 }
 
 aws_cli() {
@@ -609,6 +644,7 @@ active_issue_volumes() {
 }
 
 preflight() {
+  local resolved_ami="${1:-}" resolved_subnet="${2:-}" resolved_sg_id="${3:-}"
   local account_hash sg_id sg_id_hash profile_name quota price active active_volumes model_set_sha256 ami_hash subnet_hash
   local billable_seconds worst_case_compute_cost gp3_cost public_ipv4_cost total_worst_case_cost
   require_profile
@@ -624,13 +660,16 @@ preflight() {
     exit 2
   }
   account_hash="$(verify_account)"
-  sg_id="$(verify_no_ingress_security_group)"
+  [[ -n "$resolved_sg_id" ]] || resolved_sg_id="$(verify_no_ingress_security_group)"
+  sg_id="$resolved_sg_id"
   sg_id_hash="$(sha256_text "$sg_id")"
   profile_name="$(verify_instance_profile)"
   verify_deadline_reaper
   model_set_sha256="$(verify_artifact_manifest)"
-  ami_hash="$(sha256_text "$(resolve_ami)")"
-  subnet_hash="$(sha256_text "$(resolve_subnet)")"
+  [[ -n "$resolved_ami" ]] || resolved_ami="$(resolve_ami)"
+  [[ -n "$resolved_subnet" ]] || resolved_subnet="$(resolve_subnet)"
+  ami_hash="$(sha256_text "$resolved_ami")"
+  subnet_hash="$(sha256_text "$resolved_subnet")"
   quota="$(gpu_quota)"
   price="$(gpu_hourly_price_usd)"
   billable_seconds="$(( MAX_INSTANCE_SECONDS + REAPER_MAX_LAG_SECONDS ))"
@@ -921,7 +960,7 @@ run_proof() {
   local sg_id preflight_json run_dir started_at finished_at started_epoch finished_epoch elapsed_seconds
   local owner_token_sha256 ami subnet hourly_price estimated_compute_cost estimated_gp3_cost estimated_public_ipv4_cost estimated_total_cost
   local model_set_sha256 billable_seconds worst_case_total_cost
-  local deadline_epoch user_data instance_id bootstrap_script result status current_head lock_version_sha256 authorization_consumption_version_sha256
+  local deadline_epoch user_data instance_id bootstrap_script result status lock_version_sha256 authorization_consumption_version_sha256
   [[ "$EXECUTE" == true ]] || {
     echo "paid execution requires --execute" >&2
     exit 2
@@ -935,15 +974,11 @@ run_proof() {
     exit 2
   }
   load_authorization
-  current_head="$(git -C "$ROOT" rev-parse HEAD)"
-  [[ "$SOURCE_COMMIT" == "$current_head" ]] || {
-    echo "--commit must match the currently checked out reviewed HEAD" >&2
-    exit 2
-  }
   [[ -z "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ]] || {
     echo "paid execution requires a tracked-clean exact reviewed checkout" >&2
     exit 2
   }
+  verify_review_authority
   OWNER_TOKEN="$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')"
   [[ "$OWNER_TOKEN" =~ ^[0-9a-f]{32}$ ]] || {
     echo "failed to create owner token" >&2
@@ -957,14 +992,14 @@ run_proof() {
   mkdir -p "$run_dir"
   cp "$AUTHORIZATION_FILE" "$run_dir/authorization.json"
   chmod 0600 "$run_dir/authorization.json"
-  preflight_json="$(preflight)"
+  sg_id="$(verify_no_ingress_security_group)"
+  ami="$(resolve_ami)"
+  subnet="$(resolve_subnet)"
+  preflight_json="$(preflight "$ami" "$subnet" "$sg_id")"
   printf '%s\n' "$preflight_json" >"$run_dir/preflight.json"
   verify_authorized_preflight_bindings "$preflight_json"
   hourly_price="$(jq -er '.gpu_hourly_price_usd' <<<"$preflight_json")"
   model_set_sha256="$(jq -er '.model_set_sha256' <<<"$preflight_json")"
-  sg_id="$(verify_no_ingress_security_group)"
-  ami="$(resolve_ami)"
-  subnet="$(resolve_subnet)"
   trap cleanup_on_exit EXIT
   trap 'exit 130' INT TERM
   acquire_run_lock

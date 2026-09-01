@@ -43,6 +43,12 @@ bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh run \
   --execute
 ```
 
+The authorized reviewed revision must exactly equal the current passing typed
+C-SDLC review, and the reviewed source commit must remain unchanged across all
+substantive proof surfaces at the lifecycle head. The runner resolves the
+security group, AMI, and subnet once, verifies those exact values through the
+authorized preflight, and reuses the same values for `run-instances`.
+
 Before acquiring compute, the runner writes a create-only, versioned S3 marker
 keyed by the canonical JSON digest of the authorization. JSON whitespace and
 object-key order therefore cannot create a second consumption identity. Cleanup
