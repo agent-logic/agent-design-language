@@ -81,12 +81,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- PR #610 still requires final typed publication readback and GitHub CI confirmation at the republished head.
+- DEFECT-016 is a canary orchestration defect, not a product correctness finding; the issue records the recovery so the final review evidence is tied to a visible PASS transcript.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ed1f44d02db4ceecdf8e833ad33ffb205b3a3c5e:260fc607d2c80cb1c971171f745c5991389be872dd4284959c404eb08bc04f04")
 
-Reviewer: None
+Reviewer: Some("/root/review_604_tiny_visible_final")
 
-Result: pre_review
+Result: pass

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "ce461180a8bd9cd0f86fc4bda728064372de34cd6d90c35d301a80b8d1f601d7",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "97581c0bdc2f52845dcf8fa7f586a14e9d783d19d270bba4c76297c0c5dc09a7",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
   "review_assignment": {
@@ -66,7 +66,69 @@
       "csdlc-v2/tests/publication_ready.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "/root/review_604_tiny_visible_final",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/pr610-state-request.json",
+      ".csdlc/evidence/604/publish-after-terminal-prereq-refresh-request.json",
+      ".csdlc/evidence/604/publish-all-defects-closed-request.json",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/publish-final-ready-request.json",
+      ".csdlc/evidence/604/publish-ready-update-request.json",
+      ".csdlc/evidence/604/ready-request.json",
+      ".csdlc/evidence/604/recover-after-canary-defect-fixes.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
+      ".csdlc/evidence/604/recover-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/recover-after-unreturned-review-record.json",
+      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-assign-after-resume-push-fix.json",
+      ".csdlc/evidence/604/review-assign-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/review-assign-all-defects-closed.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-assign-visible-final.json",
+      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-record-after-resume-push-fix.json",
+      ".csdlc/evidence/604/review-record-after-terminal-prereq-refresh.json",
+      ".csdlc/evidence/604/review-record-all-defects-closed.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-github-pr.rs",
+      "csdlc-v2/src/bin/csdlc-pr-state.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ],
+    "reviewed_revision": "git-blake3:ed1f44d02db4ceecdf8e833ad33ffb205b3a3c5e:260fc607d2c80cb1c971171f745c5991389be872dd4284959c404eb08bc04f04",
+    "findings": [],
+    "residual_risks": [
+      "PR #610 still requires final typed publication readback and GitHub CI confirmation at the republished head.",
+      "DEFECT-016 is a canary orchestration defect, not a product correctness finding; the issue records the recovery so the final review evidence is tied to a visible PASS transcript."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -81,32 +143,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8d60a6daf8b7036cb47161c22e64a168fc33dd5a060701bf6b3aec16bf3b134f",
+      "values_digest": "ba9359f39d5c3155a6e911dc3fd6e91317685fe972a3038e692065614e2aa82f",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "56374e601498c1f4c140d0b87b481b4c68063970afe1a56df73b6f87305163da",
+      "values_digest": "b9eb204274f97231d31235dbe2c1837deb61fd5a9aa001e839a4b639da01eebf",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "fe6c9c509e83f871a48f8f20e5bb63f445ac0bd974957a31e716412995dfcb49",
+      "values_digest": "280669185bf4945101e8ee4597ed0430ec0dd5ffa0976ec650cb858a715b6760",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "f60f0993d91a19bdd73a1b9dccb3fe372c1595d844f42b21b4659283cb59482d",
+      "values_digest": "a2bd5433ef06c1dea810d493b695d9490ee52deb9ec707806dd21a09cf9380b0",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "4c9b950a35654e2ab3dc5c4058d1288bad492879a0dad9862b840ddc4755483f",
-      "rendered_digest": "b823ddd2ef9bae9893d2a7290481d45676d09c2833f54b45e687ace0cead2da6",
-      "ast_digest": "07c33c9e287fd2147997a18623220da51f687c04f9192c8a287860ab7cab2ebd"
+      "values_digest": "e547a737f4aebe50574c0471651f6fa37ec51d2dfbdca7367c3643bc1d4fbff8",
+      "rendered_digest": "29dbee4fd03d950c98a64f86f958947891d9b71e64996f0d9859235ae290529d",
+      "ast_digest": "13c78149e21c80bf4ece2167adba92802a53fbd3c385e158e1d0842dffaa9033"
     },
     "sor": {
-      "values_digest": "a984bb0c18afc44cbf678123edcf00dd12be1d9935ebd2f3f05ae2c0a2c531cc",
+      "values_digest": "635d07a0657b6c967f3072dece64177da9f8234cda201cfa83a534934575f0ac",
       "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
       "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
     }
@@ -251,6 +313,13 @@
       "to": "implemented",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover after the branch was reviewed and published with a reviewer identity whose final PASS was not visible to the orchestrating session. The final review will be re-recorded against the reviewer transcript that actually returned PASS."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -470,6 +539,13 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
