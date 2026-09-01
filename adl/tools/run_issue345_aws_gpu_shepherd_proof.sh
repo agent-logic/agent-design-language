@@ -10,25 +10,33 @@ fi
 PROFILE="${AWS_PROFILE:-agent-logic-admin}"
 REGION="${AWS_REGION:-us-west-2}"
 ISSUE_TAG="345"
-INSTANCE_PROFILE="${ADL_ISSUE345_INSTANCE_PROFILE:-ADLRemoteValidationPermanentProfile}"
-INSTANCE_PROFILE_ROLE="${ADL_ISSUE345_INSTANCE_PROFILE_ROLE:-ADLRemoteValidationPermanentRole}"
-INSTANCE_REQUIRED_INLINE_POLICIES="${ADL_ISSUE345_INSTANCE_REQUIRED_INLINE_POLICIES:-ADLIssue345ArtifactReadOnly}"
-INSTANCE_REQUIRED_MANAGED_POLICIES="${ADL_ISSUE345_INSTANCE_REQUIRED_MANAGED_POLICIES:-AmazonSSMManagedInstanceCore}"
+INSTANCE_PROFILE="${ADL_ISSUE345_INSTANCE_PROFILE:-ADLIssue345GpuProofProfile}"
+INSTANCE_PROFILE_ROLE="${ADL_ISSUE345_INSTANCE_PROFILE_ROLE:-ADLIssue345GpuProofRole}"
+INSTANCE_REQUIRED_INLINE_POLICY="${ADL_ISSUE345_INSTANCE_REQUIRED_INLINE_POLICY:-ADLIssue345ArtifactReadOnly}"
+INSTANCE_REQUIRED_INLINE_POLICY_SHA256="${ADL_ISSUE345_INSTANCE_REQUIRED_INLINE_POLICY_SHA256:-da365d5db114fc8b324ea5ce92dd324f48cea4b10b4fb44219d8d99f01734e25}"
+INSTANCE_REQUIRED_MANAGED_POLICY_ARN="${ADL_ISSUE345_INSTANCE_REQUIRED_MANAGED_POLICY_ARN:-arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore}"
 NO_INGRESS_SECURITY_GROUP="${ADL_ISSUE345_NO_INGRESS_SECURITY_GROUP:-adl-issue345-no-ingress}"
 DEADLINE_REAPER_FUNCTION="${ADL_ISSUE345_DEADLINE_REAPER_FUNCTION:-adl-issue345-gpu-deadline-reaper}"
 DEADLINE_REAPER_RULE="${ADL_ISSUE345_DEADLINE_REAPER_RULE:-adl-issue345-gpu-deadline-reaper}"
 DEADLINE_REAPER_TARGET_ID="${ADL_ISSUE345_DEADLINE_REAPER_TARGET_ID:-issue345-deadline-reaper}"
-ARTIFACT_BUCKET="${ADL_ISSUE345_ARTIFACT_BUCKET:-}"
-ARTIFACT_MANIFEST_KEY="${ADL_ISSUE345_ARTIFACT_MANIFEST_KEY:-shepherd/gpu/artifact-manifest.json}"
-ARTIFACT_MANIFEST_VERSION_ID="${ADL_ISSUE345_ARTIFACT_MANIFEST_VERSION_ID:-}"
-ARTIFACT_MANIFEST_SHA256="${ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256:-}"
-EXPECTED_ACCOUNT_SHA256="${ADL_ISSUE345_EXPECTED_ACCOUNT_SHA256:-}"
+DEADLINE_REAPER_ROLE="${ADL_ISSUE345_DEADLINE_REAPER_ROLE:-ADLIssue345GpuDeadlineReaperRole}"
+DEADLINE_REAPER_INLINE_POLICY="${ADL_ISSUE345_DEADLINE_REAPER_INLINE_POLICY:-ReapOnlyManagedIssue345Instances}"
+DEADLINE_REAPER_CODE_SHA256_B64="${ADL_ISSUE345_DEADLINE_REAPER_CODE_SHA256_B64:-I1k3z+nVVyEpJoPiVJISHGY+snqsUTlyuM5XYucoq2c=}"
+DEADLINE_REAPER_SCHEDULE="${ADL_ISSUE345_DEADLINE_REAPER_SCHEDULE:-rate(5 minutes)}"
+DEADLINE_REAPER_LOG_POLICY_ARN="arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+ARTIFACT_BUCKET="${ADL_ISSUE345_ARTIFACT_BUCKET:-adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2}"
+ARTIFACT_MANIFEST_KEY="${ADL_ISSUE345_ARTIFACT_MANIFEST_KEY:-shepherd/issue-345/two-model/artifact-manifest.json}"
+ARTIFACT_MANIFEST_VERSION_ID="${ADL_ISSUE345_ARTIFACT_MANIFEST_VERSION_ID:-lhijSQflurILIwFEYdtMUGbg9sFgUrbn}"
+ARTIFACT_MANIFEST_SHA256="${ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256:-2bb1e56c8c045f85fbc4380e37c33bf47bffe8cab7f6f29102117348e23a3d6b}"
+EXPECTED_ACCOUNT_SHA256="${ADL_ISSUE345_EXPECTED_ACCOUNT_SHA256:-b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9}"
 DLAMI_PARAMETER="${ADL_ISSUE345_DLAMI_PARAMETER:-/aws/service/deeplearning/ami/x86_64/base-oss-nvidia-driver-gpu-ubuntu-24.04/latest/ami-id}"
 GPU_INSTANCE_TYPE="${ADL_ISSUE345_GPU_INSTANCE_TYPE:-g6.xlarge}"
 GPU_QUOTA_CODE="${ADL_ISSUE345_GPU_QUOTA_CODE:-L-DB2E81BA}"
 GPU_VCPUS_REQUIRED="${ADL_ISSUE345_GPU_VCPUS_REQUIRED:-4}"
 MAX_GPU_HOURLY_USD="${ADL_ISSUE345_MAX_GPU_HOURLY_USD:-0.85}"
 MAX_INSTANCE_SECONDS="${ADL_ISSUE345_MAX_INSTANCE_SECONDS:-3300}"
+MAX_TOTAL_COST_USD="${ADL_ISSUE345_MAX_TOTAL_COST_USD:-20.00}"
+HARD_MAX_TOTAL_COST_USD="20.00"
 GIT_COMMON_DIR="$(git -C "$ROOT" rev-parse --git-common-dir 2>/dev/null || true)"
 if [[ -n "$GIT_COMMON_DIR" ]]; then
   DEFAULT_STATE_ROOT="$GIT_COMMON_DIR/csdlc-v2/issue345/aws-gpu-state"
@@ -37,10 +45,12 @@ else
 fi
 STATE_ROOT="${ADL_ISSUE345_STATE_ROOT:-$DEFAULT_STATE_ROOT}"
 LOCK_KEY="${ADL_ISSUE345_LOCK_KEY:-shepherd/locks/issue345-aws-gpu.lock}"
-MODEL_IDENTITY="${ADL_ISSUE345_MODEL_IDENTITY:-gemma4:12b}"
+MODEL_IDENTITIES_JSON="${ADL_ISSUE345_MODEL_IDENTITIES_JSON:-[\"llama3.1:8b\",\"qwen3:8b\"]}"
 
 SOURCE_COMMIT=""
 RUN_ID=""
+AUTHORIZATION_FILE=""
+AUTHORIZATION_SHA256=""
 OWNER_TOKEN=""
 LOCK_VERSION_ID=""
 RUN_LAUNCH_ATTEMPTED=false
@@ -50,15 +60,14 @@ usage() {
   cat <<'USAGE'
 Usage:
   adl/tools/run_issue345_aws_gpu_shepherd_proof.sh preflight
-  adl/tools/run_issue345_aws_gpu_shepherd_proof.sh run --commit <sha> --run-id <id> --execute
+  adl/tools/run_issue345_aws_gpu_shepherd_proof.sh run --commit <sha> --run-id <id> --authorization-file <path> --execute
   adl/tools/run_issue345_aws_gpu_shepherd_proof.sh cleanup --run-id <id> --owner-token <token> --lock-version-id <version>
 
 Issue #345 is an optional AWS GPU Shepherd portability proof. Preflight is
-read-only. The run path requires explicit operator authorization through
-ADL_ISSUE345_PAID_RUN_AUTHORIZATION=authorized, an exact commit, a unique run
-id, --execute, one approved Agent Logic AWS profile, pre-provisioned resources,
-and bounded cost/deadline inputs. The runner never creates IAM, security groups,
-quotas, public ingress, or standing production inference fallback.
+read-only. The run path requires a retained authorization JSON file binding the
+exact commit, unique run id, model set, instance type, deadline, hourly ceiling,
+and total-cost ceiling. The runner never creates IAM, security groups, quotas,
+public ingress, or standing production inference fallback.
 USAGE
 }
 
@@ -78,6 +87,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --lock-version-id)
       LOCK_VERSION_ID="${2:-}"
+      shift 2
+      ;;
+    --authorization-file)
+      AUTHORIZATION_FILE="${2:-}"
       shift 2
       ;;
     --execute)
@@ -107,8 +120,77 @@ sha256_text() {
   printf '%s' "$1" | shasum -a 256 | awk '{print $1}'
 }
 
-json_string() {
-  jq -Rn --arg value "$1" '$value'
+sha256_file() {
+  shasum -a 256 "$1" | awk '{print $1}'
+}
+
+canonical_json_sha256() {
+  jq -S -c . | shasum -a 256 | awk '{print $1}'
+}
+
+validate_model_identities() {
+  jq -e '
+    type == "array"
+    and length >= 2
+    and length == (unique | length)
+    and all(.[]; type == "string" and test("^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"))
+  ' <<<"$MODEL_IDENTITIES_JSON" >/dev/null || {
+    echo "ADL_ISSUE345_MODEL_IDENTITIES_JSON must be a unique JSON array of at least two model identities" >&2
+    exit 2
+  }
+  MODEL_IDENTITIES_JSON="$(jq -c . <<<"$MODEL_IDENTITIES_JSON")"
+}
+
+load_authorization() {
+  local now worst_case
+  [[ -f "$AUTHORIZATION_FILE" ]] || {
+    echo "paid execution requires --authorization-file naming a retained authorization JSON file" >&2
+    exit 2
+  }
+  jq -e --arg commit "$SOURCE_COMMIT" --arg run_id "$RUN_ID" '
+    .schema == "adl.issue345.paid_run_authorization.v1"
+    and .authorized == true
+    and (.authorization_id | type == "string" and length > 0)
+    and .source_commit == $commit
+    and (.reviewed_revision | type == "string" and startswith("git-blake3:" + $commit + ":"))
+    and .run_id == $run_id
+    and .region == "us-west-2"
+    and (.instance_type | type == "string" and length > 0)
+    and (.model_identities | type == "array" and length >= 2 and length == (unique | length))
+    and all(.model_identities[]; type == "string" and test("^[A-Za-z0-9][A-Za-z0-9._:/-]{0,127}$"))
+    and (.max_instance_seconds | type == "number" and floor == . and . >= 1 and . <= 3600)
+    and (.max_gpu_hourly_usd | type == "number" and . > 0)
+    and (.max_total_cost_usd | type == "number" and . > 0)
+    and (.expires_epoch | type == "number" and floor == .)
+  ' "$AUTHORIZATION_FILE" >/dev/null || {
+    echo "paid-run authorization is malformed or does not bind the requested commit and run id" >&2
+    exit 2
+  }
+  now="$(date +%s)"
+  [[ "$(jq -r '.expires_epoch' "$AUTHORIZATION_FILE")" -gt "$now" ]] || {
+    echo "paid-run authorization has expired" >&2
+    exit 2
+  }
+  REGION="$(jq -r '.region' "$AUTHORIZATION_FILE")"
+  GPU_INSTANCE_TYPE="$(jq -r '.instance_type' "$AUTHORIZATION_FILE")"
+  MODEL_IDENTITIES_JSON="$(jq -c '.model_identities' "$AUTHORIZATION_FILE")"
+  MAX_INSTANCE_SECONDS="$(jq -r '.max_instance_seconds' "$AUTHORIZATION_FILE")"
+  MAX_GPU_HOURLY_USD="$(jq -r '.max_gpu_hourly_usd' "$AUTHORIZATION_FILE")"
+  MAX_TOTAL_COST_USD="$(jq -r '.max_total_cost_usd' "$AUTHORIZATION_FILE")"
+  validate_model_identities
+  awk -v total="$MAX_TOTAL_COST_USD" -v hard="$HARD_MAX_TOTAL_COST_USD" \
+    'BEGIN { exit !(total <= hard) }' || {
+    echo "paid-run total-cost ceiling exceeds the hard safety cap" >&2
+    exit 2
+  }
+  worst_case="$(awk -v hourly="$MAX_GPU_HOURLY_USD" -v seconds="$MAX_INSTANCE_SECONDS" \
+    'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
+  awk -v estimated="$worst_case" -v total="$MAX_TOTAL_COST_USD" \
+    'BEGIN { exit !(estimated <= total) }' || {
+    echo "authorized hourly price and deadline exceed the authorized total-cost ceiling" >&2
+    exit 2
+  }
+  AUTHORIZATION_SHA256="$(sha256_file "$AUTHORIZATION_FILE")"
 }
 
 aws_cli() {
@@ -173,26 +255,23 @@ verify_no_ingress_security_group() {
   jq -er '.[0].GroupId' <<<"$groups"
 }
 
-verify_policy_set_contains() {
-  local observed_json="$1" required_words="$2" jq_path="$3" message="$4"
-  jq -e --arg required "$required_words" --arg path "$jq_path" '
-    ($required | split(" ") | map(select(length > 0))) as $required
-    | getpath($path | split(".") | map(select(length > 0))) as $observed
-    | all($required[]; . as $needle | ($observed | index($needle)))
-  ' <<<"$observed_json" >/dev/null || {
-    echo "$message" >&2
+verify_instance_profile() {
+  local profile role_name account expected_role_arn inline_policies inline_policy_document
+  local inline_policy_sha256 managed_policies managed_policy_name
+  [[ "$INSTANCE_REQUIRED_INLINE_POLICY_SHA256" =~ ^[0-9a-f]{64}$ ]] || {
+    echo "ADL_ISSUE345_INSTANCE_REQUIRED_INLINE_POLICY_SHA256 must pin the approved inline policy document" >&2
     exit 2
   }
-}
-
-verify_instance_profile() {
-  local profile role_name inline_policies managed_policies
+  account="$(aws --profile "$PROFILE" sts get-caller-identity --query Account --output text)"
+  expected_role_arn="arn:aws:iam::$account:role/$INSTANCE_PROFILE_ROLE"
   profile="$(aws --profile "$PROFILE" iam get-instance-profile \
     --instance-profile-name "$INSTANCE_PROFILE" --output json)"
-  jq -e --arg expected_profile "$INSTANCE_PROFILE" --arg expected_role "$INSTANCE_PROFILE_ROLE" '
+  jq -e --arg expected_profile "$INSTANCE_PROFILE" --arg expected_role "$INSTANCE_PROFILE_ROLE" \
+    --arg expected_role_arn "$expected_role_arn" '
     .InstanceProfile.InstanceProfileName == $expected_profile
     and (.InstanceProfile.Roles | length == 1)
     and .InstanceProfile.Roles[0].RoleName == $expected_role
+    and .InstanceProfile.Roles[0].Arn == $expected_role_arn
   ' <<<"$profile" >/dev/null || {
     echo "instance profile must contain exactly the approved pre-provisioned role" >&2
     exit 2
@@ -200,28 +279,52 @@ verify_instance_profile() {
   role_name="$(jq -er '.InstanceProfile.Roles[0].RoleName' <<<"$profile")"
   inline_policies="$(aws --profile "$PROFILE" iam list-role-policies \
     --role-name "$role_name" --output json)"
-  verify_policy_set_contains "$inline_policies" "$INSTANCE_REQUIRED_INLINE_POLICIES" \
-    "PolicyNames" "instance role inline policy contract drifted"
+  jq -e --arg expected "$INSTANCE_REQUIRED_INLINE_POLICY" \
+    '.PolicyNames == [$expected]' <<<"$inline_policies" >/dev/null || {
+    echo "instance role inline policy set drifted" >&2
+    exit 2
+  }
+  inline_policy_document="$(aws --profile "$PROFILE" iam get-role-policy \
+    --role-name "$role_name" --policy-name "$INSTANCE_REQUIRED_INLINE_POLICY" \
+    --query PolicyDocument --output json)"
+  inline_policy_sha256="$(canonical_json_sha256 <<<"$inline_policy_document")"
+  [[ "$inline_policy_sha256" == "$INSTANCE_REQUIRED_INLINE_POLICY_SHA256" ]] || {
+    echo "instance role inline policy document drifted" >&2
+    exit 2
+  }
   managed_policies="$(aws --profile "$PROFILE" iam list-attached-role-policies \
-    --role-name "$role_name" --query 'AttachedPolicies[].PolicyName' --output json)"
-  jq -e --arg required "$INSTANCE_REQUIRED_MANAGED_POLICIES" '
-    ($required | split(" ") | map(select(length > 0))) as $required
-    | all($required[]; . as $needle | index($needle))
+    --role-name "$role_name" --output json)"
+  managed_policy_name="${INSTANCE_REQUIRED_MANAGED_POLICY_ARN##*/}"
+  jq -e --arg name "$managed_policy_name" --arg arn "$INSTANCE_REQUIRED_MANAGED_POLICY_ARN" '
+    .AttachedPolicies == [{PolicyName:$name,PolicyArn:$arn}]
   ' <<<"$managed_policies" >/dev/null || {
-    echo "instance role managed policy contract drifted" >&2
+    echo "instance role managed policy set or ARN drifted" >&2
     exit 2
   }
   jq -er '.InstanceProfile.InstanceProfileName' <<<"$profile"
 }
 
 verify_deadline_reaper() {
-  local function_config function_arn rule targets
+  local account function_config function_arn expected_role_arn rule rule_arn targets
+  local policy_names attached_policies policy lambda_policy expected_instance_resource
+  [[ -n "$DEADLINE_REAPER_CODE_SHA256_B64" ]] || {
+    echo "ADL_ISSUE345_DEADLINE_REAPER_CODE_SHA256_B64 must pin the approved reaper code" >&2
+    exit 2
+  }
+  account="$(aws --profile "$PROFILE" sts get-caller-identity --query Account --output text)"
+  expected_role_arn="arn:aws:iam::$account:role/$DEADLINE_REAPER_ROLE"
+  expected_instance_resource="arn:aws:ec2:$REGION:$account:instance/*"
   function_config="$(aws_cli lambda get-function-configuration \
     --function-name "$DEADLINE_REAPER_FUNCTION" --output json)"
-  jq -e --arg issue "$ISSUE_TAG" '
+  jq -e --arg issue "$ISSUE_TAG" --arg code "$DEADLINE_REAPER_CODE_SHA256_B64" \
+    --arg role "$expected_role_arn" '
     .State == "Active"
     and .LastUpdateStatus == "Successful"
-    and .Timeout <= 60
+    and .CodeSha256 == $code
+    and .Role == $role
+    and .Handler == "index.handler"
+    and .Runtime == "python3.13"
+    and .Timeout == 30
     and .Environment.Variables.ADL_ISSUE == $issue' \
     <<<"$function_config" >/dev/null || {
     echo "deadline reaper function is missing, unhealthy, or not issue-scoped" >&2
@@ -229,10 +332,12 @@ verify_deadline_reaper() {
   }
   function_arn="$(jq -er '.FunctionArn' <<<"$function_config")"
   rule="$(aws_cli events describe-rule --name "$DEADLINE_REAPER_RULE" --output json)"
-  jq -e '.State == "ENABLED"' <<<"$rule" >/dev/null || {
-    echo "deadline reaper schedule must be enabled" >&2
+  jq -e --arg schedule "$DEADLINE_REAPER_SCHEDULE" \
+    '.State == "ENABLED" and .ScheduleExpression == $schedule' <<<"$rule" >/dev/null || {
+    echo "deadline reaper schedule drifted" >&2
     exit 2
   }
+  rule_arn="$(jq -er '.Arn' <<<"$rule")"
   targets="$(aws_cli events list-targets-by-rule --rule "$DEADLINE_REAPER_RULE" --output json)"
   jq -e --arg id "$DEADLINE_REAPER_TARGET_ID" --arg arn "$function_arn" \
     '.Targets | length == 1 and .[0].Id == $id and .[0].Arn == $arn' \
@@ -240,11 +345,54 @@ verify_deadline_reaper() {
     echo "deadline reaper rule target must be exactly the issue-scoped reaper Lambda" >&2
     exit 2
   }
+  policy_names="$(aws --profile "$PROFILE" iam list-role-policies \
+    --role-name "$DEADLINE_REAPER_ROLE" --output json)"
+  jq -e --arg policy "$DEADLINE_REAPER_INLINE_POLICY" \
+    '.PolicyNames == [$policy]' <<<"$policy_names" >/dev/null || {
+    echo "deadline reaper inline policy set drifted" >&2
+    exit 2
+  }
+  attached_policies="$(aws --profile "$PROFILE" iam list-attached-role-policies \
+    --role-name "$DEADLINE_REAPER_ROLE" --output json)"
+  jq -e --arg arn "$DEADLINE_REAPER_LOG_POLICY_ARN" '
+    .AttachedPolicies == [{PolicyName:"AWSLambdaBasicExecutionRole",PolicyArn:$arn}]
+  ' <<<"$attached_policies" >/dev/null || {
+    echo "deadline reaper attached policy set drifted" >&2
+    exit 2
+  }
+  policy="$(aws --profile "$PROFILE" iam get-role-policy \
+    --role-name "$DEADLINE_REAPER_ROLE" --policy-name "$DEADLINE_REAPER_INLINE_POLICY" \
+    --query PolicyDocument --output json)"
+  jq -e --arg resource "$expected_instance_resource" --arg issue "$ISSUE_TAG" '
+    .Version == "2012-10-17" and (.Statement | length == 2)
+    and any(.Statement[]; .Effect == "Allow" and .Action == "ec2:DescribeInstances" and .Resource == "*")
+    and any(.Statement[]; .Effect == "Allow" and .Action == "ec2:TerminateInstances"
+      and .Resource == $resource
+      and .Condition.StringEquals["ec2:ResourceTag/adl:issue"] == $issue
+      and .Condition.StringEquals["ec2:ResourceTag/adl:managed-deadline"] == "true")
+  ' <<<"$policy" >/dev/null || {
+    echo "deadline reaper least-privilege policy drifted" >&2
+    exit 2
+  }
+  lambda_policy="$(aws_cli lambda get-policy --function-name "$DEADLINE_REAPER_FUNCTION" \
+    --query Policy --output text)"
+  jq -e --arg function_arn "$function_arn" --arg rule_arn "$rule_arn" '
+    .Version == "2012-10-17" and (.Statement | length == 1)
+    and .Statement[0].Effect == "Allow"
+    and .Statement[0].Principal.Service == "events.amazonaws.com"
+    and .Statement[0].Action == "lambda:InvokeFunction"
+    and .Statement[0].Resource == $function_arn
+    and .Statement[0].Condition.ArnLike["AWS:SourceArn"] == $rule_arn
+  ' <<<"$lambda_policy" >/dev/null || {
+    echo "EventBridge permission to invoke the deadline reaper drifted" >&2
+    exit 2
+  }
 }
 
 verify_artifact_manifest() {
-  local destination artifact_list artifact_temp
+  local destination artifact_list observed
   require_artifact_inputs
+  validate_model_identities
   destination="$STATE_ROOT/preflight-artifact-manifest.json"
   mkdir -p "$STATE_ROOT"
   aws_cli s3api get-object \
@@ -252,21 +400,30 @@ verify_artifact_manifest() {
     --key "$ARTIFACT_MANIFEST_KEY" \
     --version-id "$ARTIFACT_MANIFEST_VERSION_ID" \
     "$destination" >/dev/null
-  printf '%s  %s\n' "$ARTIFACT_MANIFEST_SHA256" "$destination" | shasum -a 256 -c - >/dev/null
+  printf '%s  %s\n' "$ARTIFACT_MANIFEST_SHA256" "$destination" | shasum -a 256 -c - >/dev/null || {
+    echo "artifact manifest SHA-256 drifted" >&2
+    exit 2
+  }
   jq -e \
-    --arg model "$MODEL_IDENTITY" \
-    '.schema == "adl.shepherd.portable_model_bundle.v1"
-      and .model_identity == $model
-      and (.model_digest_sha256 | test("^[0-9a-f]{64}$"))
+    --argjson expected_models "$MODEL_IDENTITIES_JSON" \
+    '.schema == "adl.shepherd.portable_model_bundle.v2"
+      and (.models | type == "array" and length >= 2)
+      and (.models | map(.model_identity) | length == (unique | length))
+      and ((.models | map(.model_identity) | sort) == ($expected_models | sort))
+      and all(.models[];
+        (.model_identity | type == "string" and length > 0)
+        and (.model_digest_sha256 | test("^[0-9a-f]{64}$")))
       and (.artifacts | type == "array" and length > 0)
-      and any(.artifacts[]; .kind == "ollama_model_store")
-      and any(.artifacts[]; .kind == "ollama_runtime")
-      and any(.artifacts[]; .kind == "rustup_init")
+      and ([.artifacts[] | select(.kind == "ollama_runtime")] | length == 1)
+      and ([.artifacts[] | select(.kind == "rustup_init")] | length == 1)
+      and (([.artifacts[] | select(.kind == "ollama_model_store") | .model_identity] | sort)
+        == ($expected_models | sort))
       and all(.artifacts[];
         (.key | type == "string" and length > 0)
         and (.version_id | type == "string" and length > 0)
         and (.sha256 | test("^[0-9a-f]{64}$"))
-        and (.relative_path | test("^[A-Za-z0-9._/-]+$") and (startswith("/") | not) and (contains("..") | not)))' \
+        and (.relative_path | test("^[A-Za-z0-9._/-]+$") and (startswith("/") | not) and (split("/") | index("..") | not))
+        and (if .kind == "ollama_model_store" then (.model_identity | IN($expected_models[])) else true end))' \
     "$destination" >/dev/null || {
       echo "artifact manifest contract failed" >&2
       exit 2
@@ -274,16 +431,18 @@ verify_artifact_manifest() {
   artifact_list="$STATE_ROOT/preflight-artifact-list.tsv"
   jq -r '.artifacts[] | [.key,.version_id,.sha256] | @tsv' "$destination" >"$artifact_list"
   while IFS=$'\t' read -r key version_id expected_sha; do
-    artifact_temp="$STATE_ROOT/preflight-artifact-$(sha256_text "$key:$version_id").probe"
-    aws_cli s3api get-object \
+    observed="$(aws_cli s3api head-object \
       --bucket "$ARTIFACT_BUCKET" \
       --key "$key" \
       --version-id "$version_id" \
-      "$artifact_temp" >/dev/null
-    printf '%s  %s\n' "$expected_sha" "$artifact_temp" | shasum -a 256 -c - >/dev/null
-    rm -f "$artifact_temp"
+      --query '{version_id:VersionId,sha256:Metadata.sha256}' --output json)"
+    jq -e --arg version "$version_id" --arg sha "$expected_sha" \
+      '.version_id == $version and .sha256 == $sha' <<<"$observed" >/dev/null || {
+        echo "artifact object version or retained SHA-256 metadata drifted" >&2
+        exit 2
+      }
   done <"$artifact_list"
-  jq -er '.model_digest_sha256' "$destination"
+  jq -S -c '.models | sort_by(.model_identity)' "$destination" | canonical_json_sha256
 }
 
 resolve_ami() {
@@ -337,20 +496,23 @@ active_issue_instances() {
 }
 
 preflight() {
-  local account_hash sg_id_hash profile_name quota price active model_digest ami_hash subnet_hash
+  local account_hash sg_id sg_id_hash profile_name quota price active model_set_sha256 ami_hash subnet_hash worst_case_cost
   require_profile
   require_command aws
   require_command jq
   require_command shasum
   account_hash="$(verify_account)"
-  sg_id_hash="$(sha256_text "$(verify_no_ingress_security_group)")"
+  sg_id="$(verify_no_ingress_security_group)"
+  sg_id_hash="$(sha256_text "$sg_id")"
   profile_name="$(verify_instance_profile)"
   verify_deadline_reaper
-  model_digest="$(verify_artifact_manifest)"
+  model_set_sha256="$(verify_artifact_manifest)"
   ami_hash="$(sha256_text "$(resolve_ami)")"
   subnet_hash="$(sha256_text "$(resolve_subnet)")"
   quota="$(gpu_quota)"
   price="$(gpu_hourly_price_usd)"
+  worst_case_cost="$(awk -v hourly="$price" -v seconds="$MAX_INSTANCE_SECONDS" \
+    'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
   active="$(active_issue_instances)"
   jq -n \
     --arg schema "adl.issue345.aws_gpu_preflight.v1" \
@@ -364,24 +526,30 @@ preflight() {
     --arg deadline_reaper_function "$DEADLINE_REAPER_FUNCTION" \
     --arg deadline_reaper_rule "$DEADLINE_REAPER_RULE" \
     --arg gpu_instance_type "$GPU_INSTANCE_TYPE" \
-    --arg model_identity "$MODEL_IDENTITY" \
-    --arg model_artifact_sha256 "$model_digest" \
+    --argjson model_identities "$MODEL_IDENTITIES_JSON" \
+    --arg model_set_sha256 "$model_set_sha256" \
     --arg artifact_manifest_sha256 "$ARTIFACT_MANIFEST_SHA256" \
     --argjson gpu_quota_vcpus "$quota" \
     --argjson gpu_vcpus_required "$GPU_VCPUS_REQUIRED" \
     --argjson gpu_hourly_price_usd "$price" \
     --argjson max_gpu_hourly_price_usd "$MAX_GPU_HOURLY_USD" \
+    --argjson max_instance_seconds "$MAX_INSTANCE_SECONDS" \
+    --argjson worst_case_compute_cost_usd "$worst_case_cost" \
+    --argjson max_total_cost_usd "$MAX_TOTAL_COST_USD" \
     --arg active_issue_instances "$active" \
     '{schema:$schema,profile:$profile,region:$region,account_sha256:$account_sha256,
       ami_sha256:$ami_sha256,subnet_sha256:$subnet_sha256,
       no_ingress_security_group_sha256:$no_ingress_security_group_sha256,
       instance_profile:$instance_profile,deadline_reaper_function:$deadline_reaper_function,
       deadline_reaper_rule:$deadline_reaper_rule,gpu_instance_type:$gpu_instance_type,
-      model_identity:$model_identity,model_artifact_sha256:$model_artifact_sha256,
+      model_identities:$model_identities,model_count:($model_identities | length),model_set_sha256:$model_set_sha256,
       artifact_manifest_sha256:$artifact_manifest_sha256,gpu_quota_vcpus:$gpu_quota_vcpus,
       gpu_vcpus_required:$gpu_vcpus_required,gpu_hourly_price_usd:$gpu_hourly_price_usd,
       max_gpu_hourly_price_usd:$max_gpu_hourly_price_usd,
+      max_instance_seconds:$max_instance_seconds,worst_case_compute_cost_usd:$worst_case_compute_cost_usd,
+      max_total_cost_usd:$max_total_cost_usd,
       price_ready:($gpu_hourly_price_usd <= $max_gpu_hourly_price_usd),
+      total_cost_ready:($worst_case_compute_cost_usd <= $max_total_cost_usd),
       quota_ready:($gpu_quota_vcpus >= $gpu_vcpus_required),
       active_issue_instance_count:(if $active_issue_instances == "" then 0 else ($active_issue_instances | split("\t") | length) end),
       public_ingress:false, paid_launch:false}'
@@ -391,6 +559,10 @@ preflight() {
   }
   awk -v quota="$quota" -v required="$GPU_VCPUS_REQUIRED" 'BEGIN { exit !(quota >= required) }'
   awk -v price="$price" -v maximum="$MAX_GPU_HOURLY_USD" 'BEGIN { exit !(price <= maximum) }'
+  awk -v estimated="$worst_case_cost" -v maximum="$MAX_TOTAL_COST_USD" \
+    'BEGIN { exit !(estimated <= maximum) }'
+  awk -v total="$MAX_TOTAL_COST_USD" -v hard="$HARD_MAX_TOTAL_COST_USD" \
+    'BEGIN { exit !(total <= hard) }'
 }
 
 acquire_run_lock() {
@@ -401,17 +573,36 @@ acquire_run_lock() {
   owner_token_sha256="$(sha256_text "$OWNER_TOKEN")"
   jq -n --arg schema adl.issue345.aws_gpu_lock.v1 --arg run_id "$RUN_ID" \
     --arg owner_token_sha256 "$owner_token_sha256" \
-    '{schema:$schema,run_id:$run_id,owner_token_sha256:$owner_token_sha256}' >"$lock_file"
+    --arg authorization_sha256 "$AUTHORIZATION_SHA256" \
+    --argjson expires_epoch "$(( $(date +%s) + MAX_INSTANCE_SECONDS + 300 ))" \
+    '{schema:$schema,run_id:$run_id,owner_token_sha256:$owner_token_sha256,
+      authorization_sha256:$authorization_sha256,expires_epoch:$expires_epoch}' >"$lock_file"
   response="$(aws_cli s3api put-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
     --body "$lock_file" --content-type application/json --if-none-match '*' --output json)"
   LOCK_VERSION_ID="$(jq -er '.VersionId | select(type == "string" and length > 0)' <<<"$response")"
 }
 
 release_run_lock() {
-  [[ -n "$LOCK_VERSION_ID" ]] || return 0
+  local run_id="$1" owner_token="$2" lock_version="$3"
+  local retained_lock retained_owner_sha256 expected_owner_sha256
+  [[ -n "$lock_version" ]] || return 0
+  retained_lock="$STATE_ROOT/$run_id/retained-run-lock.json"
+  aws_cli s3api get-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
+    --version-id "$lock_version" "$retained_lock" >/dev/null
+  retained_owner_sha256="$(jq -er --arg run_id "$run_id" '
+    select(.schema == "adl.issue345.aws_gpu_lock.v1" and .run_id == $run_id)
+    | .owner_token_sha256 | select(test("^[0-9a-f]{64}$"))
+  ' "$retained_lock")"
+  expected_owner_sha256="$(sha256_text "$owner_token")"
+  [[ "$retained_owner_sha256" == "$expected_owner_sha256" ]] || {
+    echo "refusing to release a lock owned by another run or execution" >&2
+    return 2
+  }
   aws_cli s3api delete-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
-    --version-id "$LOCK_VERSION_ID" >/dev/null
-  LOCK_VERSION_ID=""
+    --version-id "$lock_version" >/dev/null
+  if [[ "$lock_version" == "$LOCK_VERSION_ID" ]]; then
+    LOCK_VERSION_ID=""
+  fi
 }
 
 wait_for_ssm() {
@@ -469,7 +660,7 @@ run_ssm_script() {
 
 cleanup_run() {
   local run_id="$1" owner_token="$2" lock_version="$3"
-  local instances volumes remaining_instances remaining_volumes
+  local instance_records volume_records instances volumes remaining_instances remaining_volumes
   [[ "$run_id" =~ ^adl-issue345-[A-Za-z0-9._-]+$ ]] || {
     echo "invalid run id" >&2
     exit 2
@@ -478,19 +669,39 @@ cleanup_run() {
     echo "owner token must be the exact 32-character execution token" >&2
     exit 2
   }
-  instances="$(aws_cli ec2 describe-instances \
-    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" "Name=tag:adl:owner-token,Values=$owner_token" \
+  require_profile
+  require_artifact_inputs
+  verify_account >/dev/null
+  instance_records="$(aws_cli ec2 describe-instances \
+    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" \
       Name=instance-state-name,Values=pending,running,stopping,stopped \
-    --query 'Reservations[].Instances[].InstanceId' --output text)"
+    --query 'Reservations[].Instances[].{id:InstanceId,tags:Tags}' --output json)"
+  jq -e --arg owner "$owner_token" '
+    all(.[]; ([.tags[]? | select(.Key == "adl:owner-token") | .Value] == [$owner]))
+  ' <<<"$instance_records" >/dev/null || {
+    echo "owner-bound cleanup found an issue/run instance owned by another execution" >&2
+    exit 2
+  }
+  instances="$(jq -r '.[].id' <<<"$instance_records" | paste -sd' ' -)"
   if [[ -n "$instances" ]]; then
     read -r -a instance_ids <<<"$instances"
     aws_cli ec2 terminate-instances --instance-ids "${instance_ids[@]}" >/dev/null
     aws_cli ec2 wait instance-terminated --instance-ids "${instance_ids[@]}"
   fi
-  volumes="$(aws_cli ec2 describe-volumes \
-    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" "Name=tag:adl:owner-token,Values=$owner_token" \
-      Name=status,Values=available \
-    --query 'Volumes[].VolumeId' --output text)"
+  volume_records="$(aws_cli ec2 describe-volumes \
+    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" \
+    --query 'Volumes[].{id:VolumeId,state:State,tags:Tags}' --output json)"
+  jq -e --arg owner "$owner_token" '
+    all(.[]; ([.tags[]? | select(.Key == "adl:owner-token") | .Value] == [$owner]))
+  ' <<<"$volume_records" >/dev/null || {
+    echo "owner-bound cleanup found an issue/run volume owned by another execution" >&2
+    exit 2
+  }
+  jq -e 'all(.[]; .state == "available")' <<<"$volume_records" >/dev/null || {
+    echo "owner-bound cleanup found a volume that is not yet safely deletable" >&2
+    exit 2
+  }
+  volumes="$(jq -r '.[].id' <<<"$volume_records" | paste -sd' ' -)"
   if [[ -n "$volumes" ]]; then
     read -r -a volume_ids <<<"$volumes"
     for volume_id in "${volume_ids[@]}"; do
@@ -498,12 +709,11 @@ cleanup_run() {
     done
   fi
   remaining_instances="$(aws_cli ec2 describe-instances \
-    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" "Name=tag:adl:owner-token,Values=$owner_token" \
+    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" \
       Name=instance-state-name,Values=pending,running,stopping,stopped \
     --query 'Reservations[].Instances[].InstanceId' --output text)"
   remaining_volumes="$(aws_cli ec2 describe-volumes \
-    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" "Name=tag:adl:owner-token,Values=$owner_token" \
-      Name=status,Values=available \
+    --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" \
     --query 'Volumes[].VolumeId' --output text)"
   [[ -z "$remaining_instances" ]] || {
     echo "owner-bound cleanup left issue-owned instances behind" >&2
@@ -513,13 +723,7 @@ cleanup_run() {
     echo "owner-bound cleanup left issue-owned volumes behind" >&2
     exit 2
   }
-  if [[ -n "$lock_version" ]]; then
-    aws_cli s3api delete-object --bucket "$ARTIFACT_BUCKET" --key "$LOCK_KEY" \
-      --version-id "$lock_version" >/dev/null
-    if [[ "$lock_version" == "$LOCK_VERSION_ID" ]]; then
-      LOCK_VERSION_ID=""
-    fi
-  fi
+  release_run_lock "$run_id" "$owner_token" "$lock_version"
   jq -n --arg schema adl.issue345.aws_gpu_cleanup.v1 --arg run_id "$run_id" \
     '{schema:$schema,run_id:$run_id,instances_remaining:0,volumes_remaining:0,lock_released:true}'
 }
@@ -529,37 +733,39 @@ cleanup_on_exit() {
   trap - EXIT INT TERM
   if [[ "$RUN_LAUNCH_ATTEMPTED" == true && -n "$RUN_ID" && -n "$OWNER_TOKEN" && -n "$LOCK_VERSION_ID" ]]; then
     cleanup_receipt="$STATE_ROOT/$RUN_ID/cleanup-on-exit.json"
-    if ! cleanup_run "$RUN_ID" "$OWNER_TOKEN" "$LOCK_VERSION_ID" >"$cleanup_receipt"; then
-      release_run_lock || true
-    fi
+    cleanup_run "$RUN_ID" "$OWNER_TOKEN" "$LOCK_VERSION_ID" >"$cleanup_receipt" || true
   else
-    release_run_lock || true
+    if [[ -n "$RUN_ID" && -n "$OWNER_TOKEN" && -n "$LOCK_VERSION_ID" ]]; then
+      release_run_lock "$RUN_ID" "$OWNER_TOKEN" "$LOCK_VERSION_ID" || true
+    fi
   fi
   exit "$original_rc"
 }
 
 run_proof() {
-  local sg_id preflight_json run_dir started_at finished_at owner_token_sha256 ami subnet
+  local sg_id preflight_json run_dir started_at finished_at started_epoch finished_epoch elapsed_seconds
+  local owner_token_sha256 ami subnet hourly_price estimated_compute_cost model_set_sha256
   local deadline_epoch user_data instance_id bootstrap_script result status current_head lock_version_sha256
   [[ "$EXECUTE" == true ]] || {
     echo "paid execution requires --execute" >&2
-    exit 2
-  }
-  [[ "${ADL_ISSUE345_PAID_RUN_AUTHORIZATION:-}" == "authorized" ]] || {
-    echo "paid execution requires ADL_ISSUE345_PAID_RUN_AUTHORIZATION=authorized" >&2
     exit 2
   }
   [[ "$SOURCE_COMMIT" =~ ^[0-9a-f]{40}$ ]] || {
     echo "--commit must be one exact 40-character Git commit" >&2
     exit 2
   }
+  [[ "$RUN_ID" =~ ^adl-issue345-[A-Za-z0-9._-]+$ ]] || {
+    echo "--run-id must begin with adl-issue345-" >&2
+    exit 2
+  }
+  load_authorization
   current_head="$(git -C "$ROOT" rev-parse HEAD)"
   [[ "$SOURCE_COMMIT" == "$current_head" ]] || {
     echo "--commit must match the currently checked out reviewed HEAD" >&2
     exit 2
   }
-  [[ "$RUN_ID" =~ ^adl-issue345-[A-Za-z0-9._-]+$ ]] || {
-    echo "--run-id must begin with adl-issue345-" >&2
+  [[ -z "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ]] || {
+    echo "paid execution requires a tracked-clean exact reviewed checkout" >&2
     exit 2
   }
   OWNER_TOKEN="$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')"
@@ -568,15 +774,24 @@ run_proof() {
     exit 2
   }
   run_dir="$STATE_ROOT/$RUN_ID"
+  [[ ! -e "$run_dir" ]] || {
+    echo "run id has already been used in the persistent issue state" >&2
+    exit 2
+  }
   mkdir -p "$run_dir"
+  cp "$AUTHORIZATION_FILE" "$run_dir/authorization.json"
+  chmod 0600 "$run_dir/authorization.json"
   preflight_json="$(preflight)"
   printf '%s\n' "$preflight_json" >"$run_dir/preflight.json"
+  hourly_price="$(jq -er '.gpu_hourly_price_usd' <<<"$preflight_json")"
+  model_set_sha256="$(jq -er '.model_set_sha256' <<<"$preflight_json")"
   sg_id="$(verify_no_ingress_security_group)"
   ami="$(resolve_ami)"
   subnet="$(resolve_subnet)"
   trap cleanup_on_exit EXIT
   trap 'exit 130' INT TERM
   acquire_run_lock
+  started_epoch="$(date +%s)"
   started_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   owner_token_sha256="$(sha256_text "$OWNER_TOKEN")"
   lock_version_sha256="$(sha256_text "$LOCK_VERSION_ID")"
@@ -641,13 +856,15 @@ apt-get install -y -qq zstd git build-essential pkg-config libssl-dev jq curl ca
 aws s3api get-object --region '$REGION' --bucket '$ARTIFACT_BUCKET' --key '$ARTIFACT_MANIFEST_KEY' \
   --version-id '$ARTIFACT_MANIFEST_VERSION_ID' /opt/adl-issue345/artifact-manifest.json >/dev/null
 printf '%s  %s\n' '$ARTIFACT_MANIFEST_SHA256' /opt/adl-issue345/artifact-manifest.json | sha256sum -c -
-jq -e --arg model '$MODEL_IDENTITY' \
-  '.schema == "adl.shepherd.portable_model_bundle.v1"
-    and .model_identity == \$model
-    and (.model_digest_sha256 | test("^[0-9a-f]{64}$"))
-    and any(.artifacts[]; .kind == "ollama_model_store")
-    and any(.artifacts[]; .kind == "ollama_runtime")
-    and any(.artifacts[]; .kind == "rustup_init")' \
+jq -e --argjson expected_models '$MODEL_IDENTITIES_JSON' \
+  '.schema == "adl.shepherd.portable_model_bundle.v2"
+    and (.models | type == "array" and length >= 2)
+    and ((.models | map(.model_identity) | sort) == (\$expected_models | sort))
+    and all(.models[]; (.model_digest_sha256 | test("^[0-9a-f]{64}$")))
+    and (([.artifacts[] | select(.kind == "ollama_model_store") | .model_identity] | sort)
+      == (\$expected_models | sort))
+    and ([.artifacts[] | select(.kind == "ollama_runtime")] | length == 1)
+    and ([.artifacts[] | select(.kind == "rustup_init")] | length == 1)' \
   /opt/adl-issue345/artifact-manifest.json >/dev/null
 while IFS=\$'\t' read -r kind key version_id relative_path expected_sha; do
   destination="/opt/adl-issue345/artifacts/\$relative_path"
@@ -656,7 +873,7 @@ while IFS=\$'\t' read -r kind key version_id relative_path expected_sha; do
     --version-id "\$version_id" "\$destination" >/dev/null
   printf '%s  %s\n' "\$expected_sha" "\$destination" | sha256sum -c -
   case "\$kind" in
-    ollama_model_store) ;;
+    ollama_model_store) tar --zstd -xf "\$destination" -C /opt/adl-ollama-models ;;
     ollama_runtime) OLLAMA_ARCHIVE="\$destination" ;;
     rustup_init) RUSTUP_INIT="\$destination" ;;
     *) ;;
@@ -666,8 +883,8 @@ done < <(jq -r '.artifacts[] | [.kind,.key,.version_id,.relative_path,.sha256] |
 tar --zstd -xf "\$OLLAMA_ARCHIVE" -C /usr
 chmod 0700 "\$RUSTUP_INIT"
 "\$RUSTUP_INIT" -y --profile minimal --default-toolchain 1.92.0
-cp -a /opt/adl-issue345/artifacts/model-store/. /opt/adl-ollama-models/
-MODEL_DIGEST=\$(jq -er '.model_digest_sha256' /opt/adl-issue345/artifact-manifest.json)
+MODEL_SET_JSON=\$(jq -c '.models | sort_by(.model_identity)' /opt/adl-issue345/artifact-manifest.json)
+MODEL_COUNT=\$(jq 'length' <<<"\$MODEL_SET_JSON")
 git clone --filter=blob:none https://github.com/agent-logic/agent-design-language.git /opt/adl-issue345/repo
 git -C /opt/adl-issue345/repo fetch origin '$SOURCE_COMMIT'
 git -C /opt/adl-issue345/repo checkout --detach '$SOURCE_COMMIT'
@@ -675,68 +892,133 @@ GPU_NAME=\$(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)
 GPU_MEMORY_MIB=\$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | head -1 | tr -d ' ')
 [[ -n "\$GPU_NAME" ]]
 (( GPU_MEMORY_MIB > 0 ))
-nohup env OLLAMA_MODELS=/opt/adl-ollama-models OLLAMA_HOST=127.0.0.1:11434 /usr/bin/ollama serve >/opt/adl-issue345/ollama-gpu.log 2>&1 &
+nohup env OLLAMA_MODELS=/opt/adl-ollama-models/models OLLAMA_HOST=127.0.0.1:11434 \
+  OLLAMA_KEEP_ALIVE=-1 OLLAMA_MAX_LOADED_MODELS="\$MODEL_COUNT" \
+  /usr/bin/ollama serve >/opt/adl-issue345/ollama-gpu.log 2>&1 &
 OLLAMA_PID=\$!
 trap 'kill "\$OLLAMA_PID" 2>/dev/null || true' EXIT
 for attempt in \$(seq 1 60); do
   curl -fsS http://127.0.0.1:11434/api/version >/dev/null && break
   sleep 1
 done
-LIVE_MODEL_DIGEST=\$(curl -fsS http://127.0.0.1:11434/api/tags | jq -er --arg model '$MODEL_IDENTITY' '[.models[] | select(.name == \$model)][0].digest')
-[[ "\$LIVE_MODEL_DIGEST" == "\$MODEL_DIGEST" ]]
-VRAM_BYTES=\$(curl -fsS http://127.0.0.1:11434/api/ps | jq -er --arg model '$MODEL_IDENTITY' '[.models[] | select(.name == \$model)][0].size_vram')
-(( VRAM_BYTES > 0 ))
+curl -fsS http://127.0.0.1:11434/api/tags | jq -e --argjson expected "\$MODEL_SET_JSON" '
+  ([.models[] | {model_identity:.name,model_digest_sha256:(.digest | sub("^sha256:"; ""))}]
+    | sort_by(.model_identity)) == \$expected
+' >/dev/null
 cd /opt/adl-issue345/repo
 source /root/.cargo/env 2>/dev/null || true
-ADL_SHEPHERD_OLLAMA_HOST=http://127.0.0.1:11434 \
-ADL_SHEPHERD_BACKEND_IDENTITY=ollama_cuda_aws_l4 \
-ADL_SHEPHERD_MODEL_IDENTITY='$MODEL_IDENTITY' \
-ADL_SHEPHERD_MODEL_DIGEST_SHA256="\$MODEL_DIGEST" \
-cargo test --locked --manifest-path adl-runtime/Cargo.toml \
-  --test shepherd_local_model real_local_model_smoke -- --ignored --exact --nocapture \
-  >/opt/adl-issue345/shepherd-local-model-smoke.log 2>&1
-SHEPHERD_PROOF=\$(grep '"schema":"adl.runtime.shepherd_local_model_smoke.v1"' /opt/adl-issue345/shepherd-local-model-smoke.log | tail -1)
-jq -e --arg digest "\$MODEL_DIGEST" \
-  '.schema == "adl.runtime.shepherd_local_model_smoke.v1"
-    and .execution_class == "real_local_model"
-    and .provenance == "live_execution"
-    and .retained == false
-    and .model_artifact_sha256 == \$digest' <<<"\$SHEPHERD_PROOF" >/dev/null
+export CARGO_TARGET_DIR=/opt/adl-issue345/target
+export ADL_VECTOR_INSTALL_ROOT=/opt/adl-issue345/vector
+bash adl/tools/install_vector_component.sh >/opt/adl-issue345/vector-install.log
+export ADL_RUNTIME_VECTOR_BIN=/opt/adl-issue345/vector/bin/vector
+export ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT=/opt/adl-issue345/runtime-guardian
+export ADL_RUNTIME_GUARDIAN_TARGET_ROOT=/opt/adl-issue345
+bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x \
+  >/opt/adl-issue345/runtime-guardian.log 2>&1
+GUARDIAN_PROOF_PATH=\$(find /opt/adl-issue345/runtime-guardian -type f -name issue-proof.json -print)
+[[ \$(printf '%s\n' "\$GUARDIAN_PROOF_PATH" | awk 'NF { count += 1 } END { print count + 0 }') -eq 1 ]]
+GUARDIAN_PROOF=\$(jq -ce '
+  select(.schema == "adl.runtime_v3.guardian_lifecycle_proof.v1" and .status == "pass")
+  | select(.assertions.guardian_launched == true and .assertions.kernel_ready == true)
+  | select(.assertions.authenticated_https == true and .assertions.authenticated_wss == true)
+  | select(.assertions.bounded_restart == true and .assertions.clean_shutdown == true)
+  | {schema,status,source_revision,lifecycle_component_suite,assertions}
+' "\$GUARDIAN_PROOF_PATH")
+SHEPHERD_PROOFS='[]'
+while IFS=\$'\t' read -r MODEL_IDENTITY MODEL_DIGEST; do
+  MODEL_LOG="/opt/adl-issue345/shepherd-\$(printf '%s' "\$MODEL_IDENTITY" | sha256sum | awk '{print \$1}').log"
+  ADL_SHEPHERD_OLLAMA_HOST=http://127.0.0.1:11434 \
+  ADL_SHEPHERD_BACKEND_IDENTITY=ollama_cuda_aws_l4 \
+  ADL_SHEPHERD_MODEL_IDENTITY="\$MODEL_IDENTITY" \
+  ADL_SHEPHERD_MODEL_DIGEST_SHA256="\$MODEL_DIGEST" \
+  cargo test --locked --manifest-path adl-runtime/Cargo.toml \
+    --test shepherd_local_model real_local_model_smoke -- --ignored --exact --nocapture \
+    >"\$MODEL_LOG" 2>&1
+  SHEPHERD_PROOF=\$(grep '"schema":"adl.runtime.shepherd_local_model_smoke.v1"' "\$MODEL_LOG" | tail -1)
+  jq -e --arg digest "\$MODEL_DIGEST" '
+    .schema == "adl.runtime.shepherd_local_model_smoke.v1"
+      and .execution_class == "real_local_model"
+      and .provenance == "live_execution"
+      and .retained == false
+      and .model_artifact_sha256 == \$digest' <<<"\$SHEPHERD_PROOF" >/dev/null
+  SHEPHERD_PROOFS=\$(jq -c --arg model "\$MODEL_IDENTITY" --argjson proof "\$SHEPHERD_PROOF" \
+    '. + [{model_identity:\$model,proof:\$proof}]' <<<"\$SHEPHERD_PROOFS")
+done < <(jq -r '.[] | [.model_identity,.model_digest_sha256] | @tsv' <<<"\$MODEL_SET_JSON")
+MODEL_RESIDENCY=\$(curl -fsS http://127.0.0.1:11434/api/ps | jq -ce --argjson expected "\$MODEL_SET_JSON" '
+  [.models[] | {model_identity:.name,model_digest_sha256:(.digest | sub("^sha256:"; "")),size_vram:.size_vram}]
+  | sort_by(.model_identity)
+  | select(length == (\$expected | length))
+  | select(all(.[]; .size_vram > 0))
+  | select(map({model_identity,model_digest_sha256}) == \$expected)
+')
+TOTAL_VRAM_BYTES=\$(jq '[.[].size_vram] | add' <<<"\$MODEL_RESIDENCY")
 kill "\$OLLAMA_PID"
 wait "\$OLLAMA_PID" || true
 trap - EXIT
-jq -n --arg schema adl.issue345.aws_gpu_proof.v1 \
+jq -n --arg schema adl.issue345.aws_gpu_proof.v2 \
   --arg gpu "\$GPU_NAME" --argjson gpu_memory_mib "\$GPU_MEMORY_MIB" \
-  --arg model '$MODEL_IDENTITY' --arg digest "\$MODEL_DIGEST" \
   --arg manifest '$ARTIFACT_MANIFEST_SHA256' --arg commit '$SOURCE_COMMIT' \
-  --argjson size_vram "\$VRAM_BYTES" --argjson shepherd "\$SHEPHERD_PROOF" \
+  --argjson models "\$MODEL_RESIDENCY" --argjson total_vram_bytes "\$TOTAL_VRAM_BYTES" \
+  --argjson guardian "\$GUARDIAN_PROOF" \
+  --argjson shepherd_proofs "\$SHEPHERD_PROOFS" \
   '{schema:\$schema,gpu:\$gpu,gpu_memory_mib:\$gpu_memory_mib,
-    model_identity:\$model,model_artifact_sha256:\$digest,
     artifact_manifest_sha256:\$manifest,source_commit:\$commit,
-    size_vram:\$size_vram,shepherd:\$shepherd,real_local_model_smoke:"passed"}'
+    models:\$models,model_count:(\$models | length),total_vram_bytes:\$total_vram_bytes,
+    guardian_runtime:\$guardian,shepherd_proofs:\$shepherd_proofs,
+    architecture:["guardian","runtime","ollama"],multi_model_residency:"passed"}'
 BOOTSTRAP
   bash -n "$bootstrap_script"
   run_ssm_script "$instance_id" bootstrap "$bootstrap_script"
   result="$(tail -1 "$run_dir/bootstrap.stdout")"
   status="$(jq -er --arg commit "$SOURCE_COMMIT" --arg manifest "$ARTIFACT_MANIFEST_SHA256" \
-    '.schema == "adl.issue345.aws_gpu_proof.v1"
+    --argjson expected_models "$MODEL_IDENTITIES_JSON" '
+    .schema == "adl.issue345.aws_gpu_proof.v2"
       and .source_commit == $commit
       and .artifact_manifest_sha256 == $manifest
-      and .size_vram > 0
-      and .shepherd.execution_class == "real_local_model"
-      and .shepherd.provenance == "live_execution"
-      and .shepherd.retained == false' <<<"$result")"
+      and .multi_model_residency == "passed"
+      and .architecture == ["guardian","runtime","ollama"]
+      and .guardian_runtime.schema == "adl.runtime_v3.guardian_lifecycle_proof.v1"
+      and .guardian_runtime.status == "pass"
+      and .guardian_runtime.source_revision == $commit
+      and .guardian_runtime.assertions.guardian_launched == true
+      and .guardian_runtime.assertions.kernel_ready == true
+      and .model_count == ($expected_models | length)
+      and ((.models | map(.model_identity) | sort) == ($expected_models | sort))
+      and all(.models[]; .size_vram > 0 and (.model_digest_sha256 | test("^[0-9a-f]{64}$")))
+      and (.shepherd_proofs | length == ($expected_models | length))
+      and ((.shepherd_proofs | map(.model_identity) | sort) == ($expected_models | sort))
+      and all(.shepherd_proofs[];
+        .proof.execution_class == "real_local_model"
+        and .proof.provenance == "live_execution"
+        and .proof.retained == false)
+      and .total_vram_bytes > 0' <<<"$result")"
   [[ "$status" == "true" ]]
   cleanup_run "$RUN_ID" "$OWNER_TOKEN" "$LOCK_VERSION_ID" >"$run_dir/cleanup.json"
   trap - EXIT INT TERM
+  finished_epoch="$(date +%s)"
   finished_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  elapsed_seconds="$((finished_epoch - started_epoch))"
+  estimated_compute_cost="$(awk -v hourly="$hourly_price" -v seconds="$elapsed_seconds" \
+    'BEGIN { printf "%.6f", hourly * seconds / 3600 }')"
   jq -n --arg schema adl.issue345.aws_gpu_run.v1 --arg run_id "$RUN_ID" \
     --arg source_commit "$SOURCE_COMMIT" --arg started_at "$started_at" --arg finished_at "$finished_at" \
+    --arg instance_type "$GPU_INSTANCE_TYPE" --arg authorization_sha256 "$AUTHORIZATION_SHA256" \
     --arg owner_token_sha256 "$owner_token_sha256" \
     --arg lock_version_sha256 "$lock_version_sha256" \
+    --arg model_set_sha256 "$model_set_sha256" \
+    --argjson model_identities "$MODEL_IDENTITIES_JSON" \
+    --argjson elapsed_seconds "$elapsed_seconds" --argjson gpu_hourly_price_usd "$hourly_price" \
+    --argjson estimated_compute_cost_usd "$estimated_compute_cost" \
+    --argjson authorized_max_total_cost_usd "$MAX_TOTAL_COST_USD" \
+    --argjson authorized_max_instance_seconds "$MAX_INSTANCE_SECONDS" \
     --argjson proof "$result" \
     '{schema:$schema,run_id:$run_id,source_commit:$source_commit,started_at:$started_at,
-      finished_at:$finished_at,
+      finished_at:$finished_at,elapsed_seconds:$elapsed_seconds,instance_type:$instance_type,
+      gpu_hourly_price_usd:$gpu_hourly_price_usd,estimated_compute_cost_usd:$estimated_compute_cost_usd,
+      authorized_max_total_cost_usd:$authorized_max_total_cost_usd,
+      authorized_max_instance_seconds:$authorized_max_instance_seconds,
+      authorization_sha256:$authorization_sha256,model_identities:$model_identities,
+      model_count:($model_identities | length),model_set_sha256:$model_set_sha256,
       owner_token_sha256:$owner_token_sha256,lock_version_sha256:$lock_version_sha256,
       paid_launch:true,public_ingress:false,model_execution:"proved_by_guest_ssm",
       proof:$proof,cleanup:"passed"}' | tee "$run_dir/summary.json"

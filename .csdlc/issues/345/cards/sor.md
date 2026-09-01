@@ -58,11 +58,11 @@ Implemented the optional AWS GPU Shepherd proof runner with deterministic no-mut
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

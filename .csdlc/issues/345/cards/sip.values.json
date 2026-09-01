@@ -7,13 +7,13 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
-      "goal": "Recover and harden one bounded reusable AWS GPU proof runner for the current governed Shepherd adapter without making AWS a Runtime dependency.",
+      "goal": "Recover and harden one bounded reusable AWS GPU proof runner that loads and attests a configured set of at least two simultaneously resident models through the current governed Shepherd adapter without making AWS a Runtime dependency or claiming six-resident qualification.",
       "required_outcome": "A reviewed issue-owned command can preflight, run one explicitly authorized real GPU-backed Shepherd proof at an exact repository revision, retain redacted machine-readable evidence, and remove all temporary compute on every exit path.",
       "declared_scope": [
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",

@@ -12,7 +12,7 @@ Status: ready
 
 ## Goal
 
-Recover and harden one bounded reusable AWS GPU proof runner for the current governed Shepherd adapter without making AWS a Runtime dependency.
+Recover and harden one bounded reusable AWS GPU proof runner that loads and attests a configured set of at least two simultaneously resident models through the current governed Shepherd adapter without making AWS a Runtime dependency or claiming six-resident qualification.
 
 ## Required Outcome
 
