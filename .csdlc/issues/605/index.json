@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "reviewed",
-  "generation": 111,
-  "digest": "1bb552f51b6d19fecce0f0f8f876950d18015e18aa679b3a74c2fe1f60f27baf",
+  "phase": "published",
+  "generation": 112,
+  "digest": "5b4d89fe6d024f5275d8da331165a66cfffb7ab7930425a9ef4ee6d6b40a894c",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
   "review_assignment": {
@@ -43,7 +43,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 605,
+    "pull_request": 606,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/606",
+    "base": "main",
+    "head": "codex/345-aws-gpu-shepherd-proof-runner",
+    "revision": "git-blake3:84f9921ffb90b504318bd2b9c986335a948238eb:dc9d0176146f7369cdba7a84eeffcf1b09bfb471971e4a41a88d56f7529cbd1b",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -57,34 +68,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e8bd2672021364c9c301a9319e1d5f3cc398eb7fbaef28ec0fd999b96d096927",
+      "values_digest": "3364d47a1b2bad927bade19cfd4fd5f38c9a00a8769a837c6eed4b37173672ed",
       "rendered_digest": "d6b7639029c636d4281e56c0b4fb2af2e809b3b52586c668b90595b91f327efe",
       "ast_digest": "a7ed36c6e3be0898d035c1ad539ba121f17721b1c475c37f624f268137e89acc"
     },
     "stp": {
-      "values_digest": "b3bec69453b518b08381d12d0778e20dc16d5557a0ae2356ce4261a832241648",
+      "values_digest": "8c662466d2900252571c695bd3162c60fa73831362f8ea559ea2a917f10f21c1",
       "rendered_digest": "929299106be15d218116152dfc8352127f343217528c7a271073f313117738ba",
       "ast_digest": "2c9ae72ece5a21f3dcbb3e04e335cfb39cda3a853e7ce756ad8586ecdf1e2d59"
     },
     "spp": {
-      "values_digest": "4174f4c0c8310bfafdfe0e5ebebf197038975f8c8c659e5f2a0d9de0c0d43ab2",
+      "values_digest": "c5fc4fa4bceaa1d8ea011ba5c63fd298772f8c6592cd8fcc97c5e443c16d3659",
       "rendered_digest": "dca20ded530d3f783d85d0d1dce10a6ce9bbe8f3383e623f69d9d9e4eac95a7b",
       "ast_digest": "429145abff6f2e7bca828affe591559b263e3c3a79f8579d6ed1240ddb41ce42"
     },
     "vpp": {
-      "values_digest": "3219a8d781370c71d615c1f777e0da9fe165bc3ee900a527e0766f576b1da81b",
+      "values_digest": "6bf501671cc28f90fce17af63802c7cae57085fb2b788257b929e2c64526405a",
       "rendered_digest": "e6254f9301e89bfa36f5c0d1723730570d0a5ff8af4dcda4d369b64798b44d1e",
       "ast_digest": "936bcd21f90bed69e41def7ddbd30645b2875917aac9067d3bc8c8f45f199659"
     },
     "srp": {
-      "values_digest": "7c9655e147817c33a3182c2dac286193e2726d50bd57c2463f9310198ca019fd",
+      "values_digest": "a74c971a0c089dec8bdb9ee876c5afec9f3ba32460bd416d1d972e00edef7bd7",
       "rendered_digest": "60b7bcc6ed41124401c119f2593df712765f96ecab32c46dbaa9c578174ae1c2",
       "ast_digest": "b5ce5d7d3f8320a51d9b5a1940c4196c27811e4710917c667d88653568651bf1"
     },
     "sor": {
-      "values_digest": "f61272af21d622ffb3160556439b7fdafe4b3e2d8ef4570c033922c80e011782",
-      "rendered_digest": "e014fdfd833baebb202760f78d890341a664bc872a34a5273a929816784c5ed8",
-      "ast_digest": "f544f5356a93a5570bfd8b11220f72793c5da4759900635a715d894ed7fa3afc"
+      "values_digest": "3d227e7a1ea2cda628805fa071d858e324a1057d948fa6a8a5b80cd1a7069c96",
+      "rendered_digest": "5c0db25e692e54a4beebe711c07f1a85a82fcc05fbd28a536ea7468a8ed10423",
+      "ast_digest": "b8aba22c1970dae31771abb2742ef74fe1e112e3a8c8e6d2af7d81405aa6b493"
     }
   },
   "transitions": [
@@ -339,6 +350,13 @@
       "to": "reviewed",
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 37,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root:issue-345-final-integration",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -1321,6 +1339,13 @@
       "actor": "codex:/root:issue-345-final-integration",
       "reason": "Move the reviewed post-merge issue #345 implementation onto canonical follow-on #605 because PR #593 and #345 closed before the final reviewed remediations and paid proof existed.",
       "operation": "{\"cleared_publication\":false,\"cleared_readiness\":false,\"operation\":\"migrate_bound_issue_identity\",\"source_issue\":345,\"source_repository\":\"agent-logic/agent-design-language\",\"target_issue\":605,\"target_issue_evidence\":\".adl/local/issue345/target-issue-605.json\",\"target_issue_evidence_digest\":\"9b6a4c925863781c1a2648125565caf041c116099af6c67f21d8d26272a318e9\",\"target_repository\":\"agent-logic/agent-design-language\"}"
+    },
+    {
+      "sequence": 141,
+      "generation": 112,
+      "actor": "codex:/root:issue-345-final-integration",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

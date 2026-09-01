@@ -123,11 +123,11 @@ The reviewed Terraform runner completed the authorized us-west-2c two-node quali
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
