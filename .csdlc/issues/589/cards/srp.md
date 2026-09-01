@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/589
+adl/src/cli/csm_runtime_v3_cmd.rs
+adl-runtime/src/guardian.rs
+adl-runtime/tests/runtime_guardian_lifecycle.rs
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/control/feeds.rs
+adl-runtime-kernel/tests/configuration.rs
+adl-runtime-kernel/tests/control.rs
 
 ## Prompts
 
@@ -30,12 +39,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The focused lease-framing rerun was on macOS; hosted Linux coverage remains the final Linux proof.
+- The Terraform-managed AWS edge currently returns 503 because its residential Wuji origin is externally unreachable; that separate #122 edge condition does not invalidate local Guardian, Runtime, CloudWatch, or SSM recovery proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fc85bcea7b05093e89d648a7ffc15766daa6ecfc:a963b2b30c6c6cd59aefa4fa54ff108fd54ecc47ca297bb5739ff4e33c71c7ce")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/issue_589_review")
 
-Result: pre_review
+Result: pass
