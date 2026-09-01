@@ -10,6 +10,7 @@ run "retained_storage_plan" {
     owner_token         = "0123456789abcdef0123456789abcdef"
     kms_key_arn         = "arn:aws:kms:us-west-2:123456789012:key/01234567-89ab-cdef-0123-456789abcdef"
     artifact_generation = "issue607-test-generation"
+    retention_until     = "2026-09-08T00:00:00Z"
     runtime_seal_sha256 = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
     gpu_seal_sha256     = "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789"
   }

@@ -292,6 +292,20 @@ max_open_handles = 8
 destination_path.write_text(text, encoding="utf-8")
 PY
 
+if [[ "${ADL_RUNTIME_PREPARE_STATE_ONLY:-0}" == 1 ]]; then
+  "$target_dir/debug/adl-runtime-lifecycle-soak" \
+    --guardian "$target_dir/debug/adl-runtime-guardian" \
+    --kernel "$target_dir/debug/adl-runtime-kernel" \
+    --vector "$vector_bin" \
+    --init-template "$init_template" \
+    --state-root "$state_root" \
+    --report "$report" \
+    --revision "$revision" \
+    --suite "$lifecycle_suite" \
+    --prepare-only >/dev/null
+  exit 0
+fi
+
 python3 - "$state_root" "$wss_proof" "$https_transcript" "$wss_transcript" \
   "$probe_ready" "$probe_ack" <<'PY' 2>"$wss_stderr" &
 import base64

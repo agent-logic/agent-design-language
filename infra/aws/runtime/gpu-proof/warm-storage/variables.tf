@@ -64,6 +64,15 @@ variable "artifact_generation" {
   }
 }
 
+variable "retention_until" {
+  description = "UTC delete-or-extend decision deadline for this warm generation."
+  type        = string
+  validation {
+    condition     = can(regex("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$", var.retention_until))
+    error_message = "retention_until must be an RFC3339 UTC second."
+  }
+}
+
 variable "runtime_seal_sha256" {
   type = string
   validation {
@@ -97,7 +106,7 @@ variable "runtime_throughput_mibps" {
 
 variable "gpu_size_gib" {
   type    = number
-  default = 500
+  default = 200
 }
 
 variable "gpu_iops" {

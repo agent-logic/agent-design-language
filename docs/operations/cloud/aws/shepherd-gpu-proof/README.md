@@ -188,3 +188,125 @@ deadline targeting, private-IP injection, loopback Shepherd forwarding,
 explicit six-agent task-panel rooting, mode-0600 recovery state, single-use
 authorization, exact review equality, and zero controller-owned launch
 commands.
+
+## Issue #607 warm two-node qualification
+
+Issue #607 retains the #605 network and service topology but removes builds,
+package installation, and model downloads from normal launch. It uses three
+disjoint local Terraform states:
+
+1. `infra/aws/runtime/gpu-proof/warm-storage` owns only the two encrypted,
+   retained, AZ-bound gp3 data volumes.
+2. `infra/aws/runtime/gpu-proof/warm-storage/preparation` owns the two
+   short-lived hydrator instances and their disposable infrastructure. It
+   builds the repository binaries, installs package-managed build facilities,
+   copies the exact versioned Ollama/model closure, prepares reusable Runtime
+   state, writes every volume block, and seals each content partition with
+   dm-verity. It does not survive preparation.
+3. `infra/aws/runtime/gpu-proof` owns the two normal-launch instances,
+   security/IAM/deadline resources, and warm-volume attachments. It never owns
+   or deletes the retained volumes.
+
+All generated state remains under `.adl/local/issue607` in the bound issue
+worktree. Use only `agent-logic-admin` in `us-west-2`, one existing SSH public
+key, and one exact public IPv4 `/32`.
+
+### Read-only preflight
+
+```bash
+ADL_ISSUE607_SSH_PUBLIC_KEY_FILE=/absolute/path/to/public-key.pub \
+AWS_PROFILE=agent-logic-admin AWS_REGION=us-west-2 \
+bash adl/tools/run_issue607_warm_polis.sh preflight
+```
+
+Preflight resolves and records exact AMI metadata, account/network/KMS and SSH
+identity hashes, current On-Demand prices, two retained EBS performance
+profiles, disposable root EBS, two public IPv4 addresses, S3/request allowance,
+two retained sparse snapshots with a 100 GiB allocated-block allowance, and
+seven days of retained storage. It fails when the aggregate
+estimate exceeds USD 20 and launches nothing.
+
+### Prepare once
+
+Run preparation first without an authorization file. The controller builds a
+local source archive, creates and validates the exact storage saved plan, writes
+`authorization-request.json`, and exits before S3 upload or AWS mutation:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh prepare \
+  --commit EXACT_REVIEWED_SHA \
+  --run-id adl-issue607-prepare-UNIQUE \
+  --storage-id adl-issue607-warm-v1 \
+  --execute
+```
+
+The operator-authorized `adl.issue607.authorization.v2` file must copy the
+request's exact action, commit, run, storage, saved-plan, preflight, action
+manifest, and aggregate-envelope fields; add a unique `action_id`, future
+`expires_at`, `authorized: true`, and `single_use: true`. Execute the same
+command with `--authorization-file`. The authorization is consumed through a
+create-only S3 marker immediately before the first mutation.
+
+Successful preparation leaves two sealed 200 GiB volumes, completed immutable
+snapshots of both volumes, their storage state, the exact AMI/facility/seal
+receipts, a GPU snapshot-to-volume availability timing receipt, and an aggregate
+cost ledger. Unused volume extents are not zero-filled, preserving sparse
+snapshot economics. The temporary restored timing volume is deleted. The
+preparation instances, ENIs, security group, IAM resources, scheduler, shared
+key pair, and root volumes must be absent according to both Terraform and live
+tag inventory.
+
+### Launch twice
+
+Use a unique run ID and distinct single-use authorization for each ordinal:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh launch \
+  --commit EXACT_REVIEWED_SHA \
+  --run-id adl-issue607-launch-1-UNIQUE \
+  --storage-id adl-issue607-warm-v1 \
+  --ordinal 1 --execute
+```
+
+As with preparation, the first invocation emits an exact authorization request
+and performs no mutation. Add `--authorization-file` to the identical command
+only after authorization. Repeat with ordinal `2` and another unique run ID and
+authorization.
+
+Each guest verifies the exact unmodified AMI facility inventory, volume ID,
+generation, manifest, and dm-verity root. GPU readiness requires all configured
+models resident with nonzero VRAM. Runtime readiness requires the persistent
+Guardian process to pass authenticated HTTPS and WSS probes. Each guest must
+reach local readiness in 30 seconds; controller apply-to-observed readiness
+must remain within 120 seconds. The later qualification receipt separately
+requires both Shepherd model proofs, six governed Runtime-agent ACC executions,
+and restart/state/degradation/Vector/log/shutdown proof. Compute is then
+destroyed and live tag inventory must show zero disposable residue while the
+two warm volumes remain `available`.
+
+### Retention decision
+
+Inspect the exact volumes and seven-day deadline without mutation:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh retention-status \
+  --storage-id adl-issue607-warm-v1
+```
+
+Extending retention or deleting the generation requires a separate
+`adl.issue607.storage_authorization.v1` that binds the controller-emitted exact
+saved plan and both volume IDs. Neither path is reachable from compute cleanup:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh extend-retention \
+  --storage-id adl-issue607-warm-v1 \
+  --retention-until 2026-09-15T00:00:00Z --execute
+
+bash adl/tools/run_issue607_warm_polis.sh retire-storage \
+  --storage-id adl-issue607-warm-v1 --execute
+```
+
+Run either command once without `--authorization-file` to obtain its exact
+request, then repeat it with the separately approved file. Retirement accepts
+only a saved plan that deletes exactly the two retained EBS volumes and no
+other resource.

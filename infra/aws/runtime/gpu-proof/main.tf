@@ -258,6 +258,7 @@ resource "aws_instance" "gpu" {
 
   instance_initiated_shutdown_behavior = "terminate"
   user_data = local.warm_enabled ? templatefile("${path.module}/warm-gpu-user-data.sh.tftpl", {
+    run_id              = var.run_id
     region              = var.aws_region
     artifact_bucket     = var.artifact_bucket
     ready_key           = "${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
@@ -305,13 +306,16 @@ resource "aws_instance" "runtime" {
 
   instance_initiated_shutdown_behavior = "terminate"
   user_data = local.warm_enabled ? templatefile("${path.module}/warm-runtime-user-data.sh.tftpl", {
+    run_id              = var.run_id
     region              = var.aws_region
     artifact_bucket     = var.artifact_bucket
     gpu_ready_key       = "${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
     runtime_ready_key   = "${var.artifact_prefix}runs/${var.run_id}/runtime-local-ready.json"
     qualification_key   = "${var.artifact_prefix}runs/${var.run_id}/qualification-complete.json"
     volume_id           = var.runtime_warm_volume_id
+    gpu_volume_id       = var.gpu_warm_volume_id
     root_hash           = var.runtime_warm_seal_sha256
+    gpu_root_hash       = var.gpu_warm_seal_sha256
     artifact_generation = var.warm_artifact_generation
     source_commit       = var.warm_source_commit
     gpu_private_ip      = aws_instance.gpu.private_ip

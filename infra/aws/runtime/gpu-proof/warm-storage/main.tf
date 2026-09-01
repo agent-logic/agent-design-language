@@ -6,6 +6,7 @@ locals {
     "adl:artifact-generation" = var.artifact_generation
     "adl:retained"            = "true"
     "adl:compute-owned"       = "false"
+    "adl:retention-until"     = var.retention_until
   }
 }
 
@@ -24,9 +25,6 @@ resource "aws_ebs_volume" "runtime" {
     "adl:seal-sha256" = var.runtime_seal_sha256
   })
 
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_ebs_volume" "gpu" {
@@ -44,9 +42,6 @@ resource "aws_ebs_volume" "gpu" {
     "adl:seal-sha256" = var.gpu_seal_sha256
   })
 
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 check "qualification_performance_floor" {

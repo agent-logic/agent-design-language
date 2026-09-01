@@ -31,13 +31,13 @@ One preparation path plus one warm two-node Terraform launch path and truthful s
 2. AC-2: A separate warm-storage Terraform state owns only exact KMS-encrypted AZ-bound persistent volumes while compute state owns only attachments and disposable #605 resources
 3. AC-3: Preparation produces the complete #605 Runtime Guardian ADL CSM Shepherd Vector validator driver schema fixture library Ollama and model closure with canonical dm-verity seals
 4. AC-4: Exact Runtime and GPU AMI IDs metadata facilities libc NVIDIA CUDA and device ABI are bound into preparation authorization seals and both warm launches
-5. AC-5: Preparation and compute plan destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue and no warm-volume KMS snapshot seal or storage-state mutation
+5. AC-5: Preparation and compute destroy and cleanup evidence proves least-privilege IMDSv2 SSH IAM private-network deadline termination zero disposable residue while preserving exactly two warm volumes and two completed sealed-generation snapshots; the temporary restore volume is deleted
 6. AC-6: Read-only sealed content and separate disposable writable scratch allow two launches without trusted-content mutation and exact configured models become simultaneously resident
 7. AC-7: Each guest uses CLOCK_BOOTTIME from its cloud-init activation start to its own local_ready receipt within 30 seconds and controller-monotonic apply-to-observed aggregate service_ready meets 120 seconds or remains failed
 8. AC-8: Service-ready cannot emit before both seals models private Ollama Guardian Runtime health and authenticated HTTPS WSS; qualification-complete separately requires all #605 Shepherd ACC restart state degradation Vector log and shutdown assertions
-9. AC-9: Explicit gp3 size IOPS and throughput artifact-byte full-initialization and per-stage budgets make the 30-second path feasible and stale cross-AZ partial dirty or mismatched volumes fail closed
-10. AC-10: Preparation launch one and launch two use separate single-use authorizations under one aggregate exact-plan USD 20 envelope with no retry reuse
-11. AC-11: Cost proof includes preparation both launches EBS performance S3 snapshots IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action
+9. AC-9: Explicit 200 GiB gp3 size IOPS and throughput actual-content preparation sparse snapshots measured snapshot-to-volume availability and per-stage budgets make the 30-second warm path testable while stale cross-AZ partial dirty or mismatched volumes fail closed
+10. AC-10: Preparation launch one and launch two use separate single-use authorizations with one shared aggregate-envelope identity and canonical exact-plan digests under the USD 20 ceiling with no retry reuse
+11. AC-11: Cost proof includes preparation both launches EBS performance S3 two retained snapshot allowance IPv4 requests and seven-day warm retention plus continuing daily monthly rate and exact extend delete action
 12. AC-12: Deterministic proof one repeated live qualification and fresh exact-head review have no unresolved actionable finding before publication
 
 ## Dependencies

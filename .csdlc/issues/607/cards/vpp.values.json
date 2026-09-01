@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 7
+    "generation": 8
   },
   "status": "ready",
   "content": {
@@ -17,7 +17,7 @@
       "lanes": [
         {
           "lane": "issue607-preparation-contract",
-          "proof_role": "Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before binding.",
+          "proof_role": "Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, snapshot preservation and restore timing, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before publication.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",

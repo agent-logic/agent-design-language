@@ -16,39 +16,43 @@ Separate slow preparation from fast launch, seal two persistent AZ-local data vo
 
 ## Plan
 
-Revision 4
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Implement disjoint storage and compute Terraform ownership plus exact AMI KMS AZ and destroy-plan guards.",
+    "action": "Implement disjoint storage and compute Terraform ownership plus exact AMI KMS AZ canonical-plan authorization and destroy guards.",
     "acceptance_ids": [
       "AC-2",
       "AC-4",
       "AC-5",
-      "AC-9"
+      "AC-9",
+      "AC-10"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Build the complete immutable launch and qualification artifact closure and dm-verity sealed warm volumes.",
+    "action": "Build the complete immutable launch and qualification closure, seal the two sparse 200 GiB warm volumes, retain completed snapshots of both, and time a temporary snapshot restore.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
       "AC-4",
+      "AC-5",
       "AC-6",
-      "AC-9"
+      "AC-9",
+      "AC-11"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Implement no-install activation service and qualification receipts stage budgets and deterministic negative tests.",
+    "action": "Implement no-install activation, persistent Guardian readiness, separate qualification receipts, stage budgets, deterministic negative tests, and exact zero-residue queries.",
     "acceptance_ids": [
       "AC-1",
+      "AC-5",
       "AC-6",
       "AC-7",
       "AC-8",
@@ -59,7 +63,7 @@ Revision 4
   },
   {
     "id": "S4",
-    "action": "Bind three single-use authorizations and aggregate cost then prepare and launch twice proving timing full behavior and exact residue.",
+    "action": "Bind three single-use authorizations to one aggregate envelope, prepare once, prove the snapshot restore timing, and launch twice proving timing full behavior cost and exact residue.",
     "acceptance_ids": [
       "AC-5",
       "AC-7",
@@ -73,7 +77,7 @@ Revision 4
   },
   {
     "id": "S5",
-    "action": "Obtain fresh exact-head review fix every actionable finding and publish through typed lifecycle authority.",
+    "action": "Obtain fresh exact-head review, fix every actionable finding, publish through typed lifecycle authority, finish, and clean.",
     "acceptance_ids": [
       "AC-12"
     ],

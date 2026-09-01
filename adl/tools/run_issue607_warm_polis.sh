@@ -25,24 +25,34 @@ COMPUTE_ROOT="$ROOT/infra/aws/runtime/gpu-proof"
 MAX_TOTAL_USD=20
 PREPARATION_SECONDS=2700
 LAUNCH_SECONDS=600
+PREPARATION_ROOT_GIB=80
+RUNTIME_ROOT_GIB=80
+GPU_ROOT_GIB=200
+WARM_RUNTIME_GIB=200
+WARM_GPU_GIB=200
+SNAPSHOT_ALLOCATED_ALLOWANCE_GIB=100
 
 COMMIT=""
 RUN_ID=""
 STORAGE_ID="${ADL_ISSUE607_STORAGE_ID:-adl-issue607-warm-v1}"
 AUTHORIZATION_FILE=""
 ORDINAL=""
+RETENTION_UNTIL=""
 EXECUTE=false
 CLEANUP_KIND=""
 CLEANUP_RUN_DIR=""
 CLEANUP_COMPLETE=false
+RESTORE_TEST_VOLUME_ID=""
 
 usage() {
   cat <<'EOF' >&2
 Usage:
   run_issue607_warm_polis.sh preflight
-  run_issue607_warm_polis.sh artifact --commit <sha> --run-id <adl-issue607-id>
   run_issue607_warm_polis.sh prepare --commit <sha> --run-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh launch --commit <sha> --run-id <id> --ordinal 1|2 --authorization-file <json> --execute
+  run_issue607_warm_polis.sh retention-status --storage-id <id>
+  run_issue607_warm_polis.sh extend-retention --storage-id <id> --retention-until <UTC> --authorization-file <json> --execute
+  run_issue607_warm_polis.sh retire-storage --storage-id <id> --authorization-file <json> --execute
   run_issue607_warm_polis.sh validate-plan compute|warm-storage|preparation <terraform-show.json>
 
 Required environment for paid actions:
@@ -63,6 +73,7 @@ while [[ $# -gt 0 ]]; do
     --storage-id) STORAGE_ID="${2:-}"; shift 2 ;;
     --authorization-file) AUTHORIZATION_FILE="${2:-}"; shift 2 ;;
     --ordinal) ORDINAL="${2:-}"; shift 2 ;;
+    --retention-until) RETENTION_UNTIL="${2:-}"; shift 2 ;;
     --execute) EXECUTE=true; shift ;;
     -h|--help) usage; exit 0 ;;
     *) break ;;
@@ -78,6 +89,15 @@ future_utc() { python3 - "$1" <<'PY'
 import datetime, sys
 print((datetime.datetime.now(datetime.timezone.utc)+datetime.timedelta(seconds=int(sys.argv[1]))).strftime("%Y-%m-%dT%H:%M:%SZ"))
 PY
+}
+fixed_deadline() {
+  path="$1" seconds="$2"
+  if [[ ! -f "$path" ]]; then
+    future_utc "$seconds" >"$path"
+  fi
+  value="$(tr -d '[:space:]' <"$path")"
+  [[ "$value" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$ ]] || { echo "invalid persisted deadline" >&2; exit 2; }
+  printf '%s\n' "$value"
 }
 
 validate_identity() {
@@ -138,6 +158,9 @@ preflight() {
   resolve_subnet
   RUNTIME_AMI="$(aws_cli ssm get-parameter --name "$RUNTIME_AMI_PARAMETER" --query Parameter.Value --output text)"
   GPU_AMI="$(aws_cli ssm get-parameter --name "$GPU_AMI_PARAMETER" --query Parameter.Value --output text)"
+  image_metadata="$(aws_cli ec2 describe-images --image-ids "$RUNTIME_AMI" "$GPU_AMI" --query 'Images[].{image_id:ImageId,name:Name,owner_id:OwnerId,creation_date:CreationDate,architecture:Architecture,root_device_name:RootDeviceName,virtualization_type:VirtualizationType,boot_mode:BootMode,root_snapshot:BlockDeviceMappings[0].Ebs.SnapshotId,root_size_gib:BlockDeviceMappings[0].Ebs.VolumeSize}' --output json | jq -c 'sort_by(.image_id)')"
+  [[ "$(jq 'length' <<<"$image_metadata")" == 2 ]] || { echo "exact AMI metadata could not be resolved" >&2; exit 2; }
+  image_metadata_sha="$(sha256_text "$(jq -S -c . <<<"$image_metadata")")"
   KMS_KEY_ARN="${ADL_ISSUE607_KMS_KEY_ARN:-$(aws_cli kms describe-key --key-id alias/aws/ebs --query KeyMetadata.Arn --output text)}"
   manifest="$STATE_ROOT/preflight-model-manifest.json"
   mkdir -p "$STATE_ROOT"
@@ -147,19 +170,21 @@ preflight() {
   runtime_price="$(instance_price "$RUNTIME_TYPE")"
   runtime_prep_price="$(instance_price "$RUNTIME_PREPARATION_TYPE")"
   gpu_price="$(instance_price "$GPU_TYPE")"
-  storage_7d="$(awk 'BEGIN {printf "%.6f", ((700*0.08)+((125+375)*0.04))*7/30}')"
+  storage_7d="$(awk -v runtime="$WARM_RUNTIME_GIB" -v gpu="$WARM_GPU_GIB" 'BEGIN {printf "%.6f", (((runtime+gpu)*0.08)+((125+375)*0.04))*7/30}')"
+  snapshot_7d="$(awk -v allocated="$SNAPSHOT_ALLOCATED_ALLOWANCE_GIB" 'BEGIN {printf "%.6f", allocated*0.05*7/30}')"
   prep_compute="$(awk -v r="$runtime_prep_price" -v g="$gpu_price" -v s="$PREPARATION_SECONDS" 'BEGIN {printf "%.6f",(r+g)*s/3600}')"
   launch_compute="$(awk -v r="$runtime_price" -v g="$gpu_price" -v s="$LAUNCH_SECONDS" 'BEGIN {printf "%.6f",2*(r+g)*s/3600}')"
   ipv4="$(awk -v p="$PREPARATION_SECONDS" -v l="$LAUNCH_SECONDS" 'BEGIN {printf "%.6f",2*0.005*(p+2*l)/3600}')"
-  total="$(awk -v s="$storage_7d" -v p="$prep_compute" -v l="$launch_compute" -v i="$ipv4" 'BEGIN {printf "%.6f",s+p+l+i+0.20}')"
+  root_ebs="$(awk -v p="$PREPARATION_SECONDS" -v l="$LAUNCH_SECONDS" -v prep="$PREPARATION_ROOT_GIB" -v runtime="$RUNTIME_ROOT_GIB" -v gpu="$GPU_ROOT_GIB" 'BEGIN {printf "%.6f", ((2*prep*p)+(2*(runtime+gpu)*l))*0.08/(30*24*3600)}')"
+  total="$(awk -v s="$storage_7d" -v snap="$snapshot_7d" -v p="$prep_compute" -v l="$launch_compute" -v i="$ipv4" -v r="$root_ebs" 'BEGIN {printf "%.6f",s+snap+p+l+i+r+0.20}')"
   awk -v total="$total" -v max="$MAX_TOTAL_USD" 'BEGIN {exit !(total<=max)}' || { echo "conservative aggregate estimate exceeds USD 20: $total" >&2; exit 2; }
   active="$(aws_cli ec2 describe-instances --filters Name=tag:adl:issue,Values=607 Name=instance-state-name,Values=pending,running,stopping,stopped --query 'Reservations[].Instances[].InstanceId' --output text)"
   [[ -z "$active" ]] || { echo "active issue-607 instance exists: $active" >&2; exit 2; }
   jq -n --arg account_sha256 "$(sha256_text "$account")" --arg runtime_ami "$RUNTIME_AMI" --arg gpu_ami "$GPU_AMI" \
     --arg vpc_id "$VPC_ID" --arg subnet_id "$SUBNET_ID" --arg availability_zone "$AZ" --arg kms_key_arn "$KMS_KEY_ARN" \
-    --arg ssh_cidr_sha256 "$(sha256_text "$SSH_INGRESS_CIDR")" --arg ssh_key_sha256 "$(sha256_text "$SSH_PUBLIC_KEY")" \
-    --argjson storage_7d "$storage_7d" --argjson prep_compute "$prep_compute" --argjson launch_compute "$launch_compute" --argjson ipv4 "$ipv4" --argjson total "$total" \
-    '{schema:"adl.issue607.preflight.v1",status:"pass",paid_action:false,account_sha256:$account_sha256,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc_id,subnet_id:$subnet_id,availability_zone:$availability_zone,kms_key_arn:$kms_key_arn,ssh_ingress_cidr_sha256:$ssh_cidr_sha256,ssh_public_key_sha256:$ssh_key_sha256,cost:{warm_storage_seven_day_usd:$storage_7d,preparation_compute_usd:$prep_compute,two_launch_compute_usd:$launch_compute,public_ipv4_usd:$ipv4,requests_s3_allowance_usd:0.20,aggregate_maximum_usd:$total,authorized_ceiling_usd:20,continuing_storage_daily_usd:(76/30),continuing_storage_monthly_usd:76}}'
+    --arg ssh_cidr_sha256 "$(sha256_text "$SSH_INGRESS_CIDR")" --arg ssh_key_sha256 "$(sha256_text "$SSH_PUBLIC_KEY")" --arg image_metadata_sha256 "$image_metadata_sha" --argjson image_metadata "$image_metadata" \
+    --argjson runtime_rate "$runtime_price" --argjson runtime_prep_rate "$runtime_prep_price" --argjson gpu_rate "$gpu_price" --argjson storage_7d "$storage_7d" --argjson snapshot_7d "$snapshot_7d" --argjson snapshot_allowance_gib "$SNAPSHOT_ALLOCATED_ALLOWANCE_GIB" --argjson prep_compute "$prep_compute" --argjson launch_compute "$launch_compute" --argjson ipv4 "$ipv4" --argjson root_ebs "$root_ebs" --argjson total "$total" \
+    '{schema:"adl.issue607.preflight.v3",status:"pass",paid_action:false,account_sha256:$account_sha256,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,ami_metadata:$image_metadata,ami_metadata_sha256:$image_metadata_sha256,vpc_id:$vpc_id,subnet_id:$subnet_id,availability_zone:$availability_zone,kms_key_arn:$kms_key_arn,ssh_ingress_cidr_sha256:$ssh_cidr_sha256,ssh_public_key_sha256:$ssh_key_sha256,cost:{rates:{runtime_hourly_usd:$runtime_rate,runtime_preparation_hourly_usd:$runtime_prep_rate,gpu_hourly_usd:$gpu_rate,gp3_gib_month_usd:0.08,ebs_snapshot_gib_month_usd:0.05,public_ipv4_hourly_usd:0.005},warm_storage_seven_day_usd:$storage_7d,snapshot_seven_day_allowance_usd:$snapshot_7d,snapshot_allocated_allowance_gib:$snapshot_allowance_gib,preparation_compute_usd:$prep_compute,two_launch_compute_usd:$launch_compute,disposable_root_ebs_usd:$root_ebs,public_ipv4_usd:$ipv4,requests_s3_allowance_usd:0.20,s3_new_artifact_bytes:0,snapshot_count:2,aggregate_maximum_usd:$total,authorized_ceiling_usd:20,continuing_warm_storage_daily_usd:(52/30),continuing_warm_storage_monthly_usd:52,continuing_snapshot_allowance_daily_usd:(5/30),continuing_snapshot_allowance_monthly_usd:5,continuing_total_daily_usd:(57/30),continuing_total_monthly_usd:57}}'
 }
 
 create_source_archive() {
@@ -174,26 +199,37 @@ upload_versioned() {
   jq -n --arg key "$key" --arg version_id "$version" --arg sha256 "$sha" '{key:$key,version_id:$version_id,sha256:$sha256}'
 }
 
-artifact() {
-  validate_identity
-  run_dir="$STATE_ROOT/runs/$RUN_ID"
-  mkdir -p "$run_dir"
-  archive="$run_dir/source.tar"
-  create_source_archive "$archive"
-  upload_versioned "$archive" "${PREFIX}runs/$RUN_ID/source.tar" | tee "$run_dir/source-object.json"
+validate_authorization() {
+  expected_action="$1" expected_plan_sha="$2" expected_preflight_sha="$3" expected_manifest_sha="$4" expected_total="$5" expected_envelope_id="$6"
+  [[ -f "$AUTHORIZATION_FILE" ]] || { echo "authorization file is required; review the emitted authorization-request.json" >&2; exit 3; }
+  jq -e --arg action "$expected_action" --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
+    --arg plan "$expected_plan_sha" --arg preflight "$expected_preflight_sha" --arg manifest "$expected_manifest_sha" --argjson total "$expected_total" --arg envelope "$expected_envelope_id" '
+    .schema=="adl.issue607.authorization.v2" and .authorized==true and .action==$action
+    and .source_commit==$commit and .run_id==$run and .storage_id==$storage and .single_use==true
+    and .saved_plan_sha256==$plan and .preflight_sha256==$preflight and .action_manifest_sha256==$manifest
+    and (.action_id|type=="string" and length>=16)
+    and .aggregate_envelope.schema=="adl.issue607.aggregate_envelope.v1"
+    and .aggregate_envelope.id==$envelope
+    and .aggregate_envelope.actions==["prepare","launch-1","launch-2"]
+    and .aggregate_envelope.authorized_ceiling_usd==20
+    and .aggregate_envelope.estimated_total_usd==$total
+    and (.aggregate_envelope.estimated_total_usd|type=="number" and .>0 and .<=20)
+    and (.expires_at|fromdateiso8601>now)
+  ' "$AUTHORIZATION_FILE" >/dev/null || { echo "authorization does not bind the exact plan, action manifest, identities, and aggregate USD 20 envelope" >&2; exit 2; }
+  AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
 }
 
-validate_authorization() {
-  expected_action="$1"
-  [[ -f "$AUTHORIZATION_FILE" ]] || { echo "authorization file is required" >&2; exit 2; }
-  jq -e --arg action "$expected_action" --arg commit "$COMMIT" --arg run "$RUN_ID" '
-    .schema=="adl.issue607.authorization.v1" and .authorized==true and .action==$action
-    and .source_commit==$commit and .run_id==$run and .single_use==true
-    and (.action_id|type=="string" and length>=16)
-    and (.max_total_usd|type=="number" and .>0 and .<=20)
-    and (.expires_at|fromdateiso8601>now)
-  ' "$AUTHORIZATION_FILE" >/dev/null || { echo "authorization does not bind the exact action, commit, run, and budget" >&2; exit 2; }
-  AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
+write_authorization_request() {
+  action="$1" plan_sha="$2" preflight_sha="$3" manifest_sha="$4" output="$5" total="$6" envelope_id="$7"
+  jq -n --arg action "$action" --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" \
+    --arg plan "$plan_sha" --arg preflight "$preflight_sha" --arg manifest "$manifest_sha" --argjson total "$total" --arg envelope "$envelope_id" \
+    '{schema:"adl.issue607.authorization_request.v2",action:$action,source_commit:$commit,run_id:$run,storage_id:$storage,saved_plan_sha256:$plan,preflight_sha256:$preflight,action_manifest_sha256:$manifest,aggregate_envelope:{schema:"adl.issue607.aggregate_envelope.v1",id:$envelope,actions:["prepare","launch-1","launch-2"],estimated_total_usd:$total,authorized_ceiling_usd:20}}' >"$output"
+}
+
+assert_remote_run_unused() {
+  keys="$(aws_cli s3api list-objects-v2 --bucket "$BUCKET" --prefix "${PREFIX}runs/$RUN_ID/" --query 'Contents[].Key' --output json)"
+  jq -e --arg source "${PREFIX}runs/$RUN_ID/source.tar" 'all(.[]; .==$source)' <<<"$keys" >/dev/null \
+    || { echo "remote run prefix contains stale receipts: $RUN_ID" >&2; exit 2; }
 }
 
 consume_authorization() {
@@ -207,7 +243,7 @@ saved_plan() {
   tf "$data" "$root" plan -input=false -state="$state" -var-file="$vars" -out="$plan" >/dev/null
   tf "$data" "$root" show -json "$plan" >"$json"
   "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$mode" "$json" >/dev/null
-  sha256_file "$plan"
+  jq -S -c . "$json" | shasum -a 256 | awk '{print $1}'
 }
 
 wait_object() {
@@ -231,6 +267,8 @@ cleanup_preparation_state() {
   "$ROOT/adl/tools/issue607_validate_saved_plan.sh" preparation "$run_dir/preparation-cleanup-plan.json" >/dev/null
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" apply -input=false \
     -state="$run_dir/preparation.tfstate" -auto-approve "$run_dir/preparation-cleanup.tfplan" >/dev/null
+  managed="$(tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" state list -state="$run_dir/preparation.tfstate" | awk '!/^data\./' || true)"
+  [[ -z "$managed" ]] || { echo "preparation Terraform state retains managed resources: $managed" >&2; return 1; }
 }
 
 cleanup_compute_state() {
@@ -244,11 +282,16 @@ cleanup_compute_state() {
   "$ROOT/adl/tools/issue607_validate_saved_plan.sh" compute "$run_dir/compute-cleanup-plan.json" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false \
     -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute-cleanup.tfplan" >/dev/null
+  managed="$(tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" state list -state="$run_dir/compute.tfstate" | awk '!/^data\./' || true)"
+  [[ -z "$managed" ]] || { echo "compute Terraform state retains managed resources: $managed" >&2; return 1; }
 }
 
 cleanup_on_exit() {
   local rc=$? cleanup_rc=0
   trap - EXIT INT TERM
+  if [[ -n "$RESTORE_TEST_VOLUME_ID" ]]; then
+    aws_cli ec2 delete-volume --volume-id "$RESTORE_TEST_VOLUME_ID" >/dev/null 2>&1 || cleanup_rc=$?
+  fi
   if [[ "$CLEANUP_COMPLETE" != true && -n "$CLEANUP_RUN_DIR" ]]; then
     case "$CLEANUP_KIND" in
       preparation) cleanup_preparation_state "$CLEANUP_RUN_DIR" || cleanup_rc=$? ;;
@@ -259,23 +302,177 @@ cleanup_on_exit() {
   exit "$rc"
 }
 
+snapshot_prepared_generation() {
+  run_dir="$1" storage_dir="$2" runtime_volume="$3" gpu_volume="$4" runtime_root="$5" gpu_root="$6" generation="$7"
+  snapshot_owner="$(sha256_text "$COMMIT:$STORAGE_ID:snapshots" | cut -c1-32)"
+  snapshot_started="$(date +%s)"
+  runtime_snapshot="$(aws_cli ec2 create-snapshot --volume-id "$runtime_volume" --description "ADL issue 607 sealed Runtime generation $generation" \
+    --tag-specifications "ResourceType=snapshot,Tags=[{Key=Name,Value=$STORAGE_ID-runtime},{Key=adl:issue,Value=607},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:node,Value=runtime},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:seal-sha256,Value=$runtime_root},{Key=adl:retained,Value=true}]" \
+    --query SnapshotId --output text)"
+  gpu_snapshot="$(aws_cli ec2 create-snapshot --volume-id "$gpu_volume" --description "ADL issue 607 sealed GPU generation $generation" \
+    --tag-specifications "ResourceType=snapshot,Tags=[{Key=Name,Value=$STORAGE_ID-gpu},{Key=adl:issue,Value=607},{Key=adl:storage-id,Value=$STORAGE_ID},{Key=adl:node,Value=gpu},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:artifact-generation,Value=$generation},{Key=adl:seal-sha256,Value=$gpu_root},{Key=adl:retained,Value=true}]" \
+    --query SnapshotId --output text)"
+  [[ "$runtime_snapshot" =~ ^snap-[0-9a-f]+$ && "$gpu_snapshot" =~ ^snap-[0-9a-f]+$ ]] || { echo "snapshot creation did not return exact IDs" >&2; return 1; }
+  aws_cli ec2 wait snapshot-completed --snapshot-ids "$runtime_snapshot" "$gpu_snapshot"
+  snapshot_elapsed=$(( $(date +%s) - snapshot_started ))
+  snapshot_state="$(aws_cli ec2 describe-snapshots --snapshot-ids "$runtime_snapshot" "$gpu_snapshot" --query 'Snapshots[].{snapshot_id:SnapshotId,source_volume_id:VolumeId,state:State,progress:Progress,volume_size_gib:VolumeSize,started_at:StartTime,tags:Tags}' --output json | jq -c 'sort_by(.snapshot_id)')"
+  jq -e --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" 'length==2 and all(.[];.state=="completed" and .progress=="100%") and ([.[].source_volume_id]|sort)==([$runtime,$gpu]|sort)' <<<"$snapshot_state" >/dev/null
+
+  restore_started="$(date +%s)"
+  RESTORE_TEST_VOLUME_ID="$(aws_cli ec2 create-volume --snapshot-id "$gpu_snapshot" --availability-zone "$AZ" --volume-type gp3 --iops 3000 --throughput 500 \
+    --tag-specifications "ResourceType=volume,Tags=[{Key=Name,Value=$RUN_ID-snapshot-restore-test},{Key=adl:issue,Value=607},{Key=adl:run-id,Value=$RUN_ID},{Key=adl:owner-token,Value=$snapshot_owner},{Key=adl:snapshot-restore-test,Value=true},{Key=adl:cleanup-required,Value=true}]" \
+    --query VolumeId --output text)"
+  [[ "$RESTORE_TEST_VOLUME_ID" =~ ^vol-[0-9a-f]+$ ]] || { echo "snapshot restore did not return an exact volume ID" >&2; return 1; }
+  aws_cli ec2 wait volume-available --volume-ids "$RESTORE_TEST_VOLUME_ID"
+  restore_available_elapsed=$(( $(date +%s) - restore_started ))
+  restore_state="$(aws_cli ec2 describe-volumes --volume-ids "$RESTORE_TEST_VOLUME_ID" --query 'Volumes[0].{volume_id:VolumeId,snapshot_id:SnapshotId,state:State,availability_zone:AvailabilityZone,size_gib:Size,iops:Iops,throughput:Throughput,encrypted:Encrypted,kms_key_id:KmsKeyId}' --output json)"
+  jq -e --arg snapshot "$gpu_snapshot" --arg az "$AZ" '.snapshot_id==$snapshot and .state=="available" and .availability_zone==$az and .encrypted==true' <<<"$restore_state" >/dev/null
+  aws_cli ec2 delete-volume --volume-id "$RESTORE_TEST_VOLUME_ID"
+  aws_cli ec2 wait volume-deleted --volume-ids "$RESTORE_TEST_VOLUME_ID"
+  restored_volume="$RESTORE_TEST_VOLUME_ID"; RESTORE_TEST_VOLUME_ID=""
+  jq -n --arg storage_id "$STORAGE_ID" --arg generation "$generation" --arg runtime_snapshot_id "$runtime_snapshot" --arg gpu_snapshot_id "$gpu_snapshot" \
+    --arg restored_volume_id "$restored_volume" --argjson snapshot_elapsed_seconds "$snapshot_elapsed" --argjson restore_available_seconds "$restore_available_elapsed" \
+    --argjson snapshots "$snapshot_state" --argjson restore "$restore_state" \
+    '{schema:"adl.issue607.snapshot_restore_test.v1",status:"passed",storage_id:$storage_id,artifact_generation:$generation,snapshots:{runtime:$runtime_snapshot_id,gpu:$gpu_snapshot_id},snapshot_completion_seconds:$snapshot_elapsed_seconds,restore:{source_snapshot_id:$gpu_snapshot_id,temporary_volume_id:$restored_volume_id,available_seconds:$restore_available_seconds,state:$restore,deleted_after_test:true},snapshot_state:$snapshots,scope:"control-plane snapshot-to-volume availability only; subsequent warm launches separately prove mounted model and Runtime reads"}' >"$storage_dir/snapshot-restore-test.json"
+}
+
+verify_no_disposable_residue() {
+  owner="$1" output="$2"; shift 2
+  allowed='[]'; allowed_ids='[]'
+  while (($#)); do
+    allowed="$(jq -c --arg arn "arn:aws:ec2:$REGION:$account:volume/$1" '.+[$arn]' <<<"$allowed")"
+    allowed_ids="$(jq -c --arg id "$1" '.+[$id]' <<<"$allowed_ids")"
+    shift
+  done
+  live="$(aws_cli resourcegroupstaggingapi get-resources --tag-filters Key=adl:issue,Values=607 Key=adl:owner-token,Values="$owner" --query 'ResourceTagMappingList[].ResourceARN' --output json)"
+  unexpected="$(jq -c --argjson allowed "$allowed" '[.[]|select(($allowed|index(.))==null)]' <<<"$live")"
+  instances="$(aws_cli ec2 describe-instances --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" Name=instance-state-name,Values=pending,running,stopping,stopped --query 'Reservations[].Instances[].InstanceId' --output json)"
+  volumes="$(aws_cli ec2 describe-volumes --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" --query 'Volumes[].VolumeId' --output json)"
+  unexpected_volumes="$(jq -c --argjson allowed "$allowed_ids" '[.[]|select(($allowed|index(.))==null)]' <<<"$volumes")"
+  enis="$(aws_cli ec2 describe-network-interfaces --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" --query 'NetworkInterfaces[].NetworkInterfaceId' --output json)"
+  groups="$(aws_cli ec2 describe-security-groups --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" --query 'SecurityGroups[].GroupId' --output json)"
+  keys="$(aws_cli ec2 describe-key-pairs --filters Name=tag:adl:issue,Values=607 Name=tag:adl:owner-token,Values="$owner" --query 'KeyPairs[].KeyPairId' --output json)"
+  evidence="$(jq -n --argjson tagging "$unexpected" --argjson instances "$instances" --argjson volumes "$unexpected_volumes" --argjson enis "$enis" --argjson groups "$groups" --argjson keys "$keys" '{tagging_api:$tagging,instances:$instances,volumes:$volumes,network_interfaces:$enis,security_groups:$groups,key_pairs:$keys}')"
+  jq -e 'all(.[];length==0)' <<<"$evidence" >/dev/null || { jq -n --argjson evidence "$evidence" '{status:"failed",unexpected_resources:$evidence}' >"$output"; return 1; }
+  jq -n --arg owner_sha256 "$(sha256_text "$owner")" --argjson allowed "$allowed" --argjson evidence "$evidence" '{schema:"adl.issue607.zero_disposable_residue.v2",status:"pass",owner_token_sha256:$owner_sha256,allowed_retained_resources:$allowed,targeted_queries:$evidence,unexpected_resources:[]}' >"$output"
+}
+
+record_cost_ledger() {
+  action="$1" elapsed="$2" preflight_file="$3" ledger="$4" run_id="$5" source_bytes="${6:-0}"
+  runtime_rate="$(jq -r .cost.rates.runtime_hourly_usd "$preflight_file")"
+  prep_rate="$(jq -r .cost.rates.runtime_preparation_hourly_usd "$preflight_file")"
+  gpu_rate="$(jq -r .cost.rates.gpu_hourly_usd "$preflight_file")"
+  if [[ "$action" == prepare ]]; then
+    action_cost="$(awk -v e="$elapsed" -v r="$prep_rate" -v g="$gpu_rate" -v root="$PREPARATION_ROOT_GIB" -v warm="$(jq -r .cost.warm_storage_seven_day_usd "$preflight_file")" -v snapshots="$(jq -r .cost.snapshot_seven_day_allowance_usd "$preflight_file")" 'BEGIN {printf "%.6f", warm+snapshots+0.20+((r+g)*e/3600)+(2*root*0.08*e/(30*24*3600))+(2*0.005*e/3600)}')"
+  else
+    action_cost="$(awk -v e="$elapsed" -v r="$runtime_rate" -v g="$gpu_rate" -v rr="$RUNTIME_ROOT_GIB" -v gr="$GPU_ROOT_GIB" 'BEGIN {printf "%.6f", ((r+g)*e/3600)+((rr+gr)*0.08*e/(30*24*3600))+(2*0.005*e/3600)}')"
+  fi
+  [[ -f "$ledger" ]] || jq -n --argjson ceiling "$MAX_TOTAL_USD" '{schema:"adl.issue607.aggregate_cost_ledger.v1",authorized_ceiling_usd:$ceiling,entries:[]}' >"$ledger"
+  snapshot_count=0; [[ "$action" == prepare ]] && snapshot_count=2
+  jq --arg action "$action" --arg run "$run_id" --argjson elapsed "$elapsed" --argjson cost "$action_cost" --argjson source_bytes "$source_bytes" --argjson snapshot_count "$snapshot_count" \
+    '.entries += [{action:$action,run_id:$run,measured_elapsed_seconds:$elapsed,conservative_cost_usd:$cost,s3_new_artifact_bytes:$source_bytes,snapshot_count:$snapshot_count}] | .cumulative_conservative_usd=([.entries[].conservative_cost_usd]|add)' "$ledger" >"$ledger.next"
+  mv "$ledger.next" "$ledger"
+  cumulative="$(jq -r .cumulative_conservative_usd "$ledger")"
+  awk -v total="$cumulative" -v max="$MAX_TOTAL_USD" 'BEGIN {exit !(total<=max)}' || { echo "cumulative conservative cost exceeds USD 20: $cumulative" >&2; return 1; }
+}
+
+validate_storage_authorization() {
+  expected_action="$1" expected_plan="$2" runtime_volume="$3" gpu_volume="$4"
+  [[ -f "$AUTHORIZATION_FILE" ]] || { echo "storage authorization file is required; review the emitted authorization-request.json" >&2; exit 3; }
+  jq -e --arg action "$expected_action" --arg storage "$STORAGE_ID" --arg plan "$expected_plan" --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" --arg retention "$RETENTION_UNTIL" '
+    .schema=="adl.issue607.storage_authorization.v1" and .authorized==true and .action==$action
+    and .storage_id==$storage and .saved_plan_sha256==$plan and .runtime_volume_id==$runtime and .gpu_volume_id==$gpu
+    and .single_use==true and (.action_id|type=="string" and length>=16)
+    and (($action=="extend-retention" and .retention_until==$retention) or ($action=="retire-storage" and (.retention_until==null)))
+    and (.expires_at|fromdateiso8601>now)
+  ' "$AUTHORIZATION_FILE" >/dev/null || { echo "storage authorization does not bind the exact plan and volumes" >&2; exit 2; }
+  AUTHORIZATION_SHA256="$(jq -S -c . "$AUTHORIZATION_FILE" | shasum -a 256 | awk '{print $1}')"
+}
+
+retention_status() {
+  storage_dir="$STATE_ROOT/storage/$STORAGE_ID"
+  [[ -f "$storage_dir/terraform.tfstate" && -f "$storage_dir/terraform.tfvars.json" ]] || { echo "storage state is missing" >&2; exit 2; }
+  mkdir -p "$storage_dir/tfdata-status"
+  account="$(business_account)"
+  tf "$storage_dir/tfdata-status" "$STORAGE_ROOT" init -backend=false -input=false >/dev/null
+  tf "$storage_dir/tfdata-status" "$STORAGE_ROOT" output -state="$storage_dir/terraform.tfstate" -json >"$storage_dir/status-outputs.json"
+  runtime_volume="$(jq -r .runtime_volume_id.value "$storage_dir/status-outputs.json")"; gpu_volume="$(jq -r .gpu_volume_id.value "$storage_dir/status-outputs.json")"
+  live="$(aws_cli ec2 describe-volumes --volume-ids "$runtime_volume" "$gpu_volume" --query 'Volumes[].{volume_id:VolumeId,state:State,availability_zone:AvailabilityZone,size_gib:Size,iops:Iops,throughput:Throughput,kms_key_id:KmsKeyId,tags:Tags}' --output json | jq -c 'sort_by(.volume_id)')"
+  snapshots='[]'
+  if [[ -f "$storage_dir/preparation-result.json" ]]; then
+    runtime_snapshot="$(jq -r .runtime.snapshot_id "$storage_dir/preparation-result.json")"; gpu_snapshot="$(jq -r .gpu.snapshot_id "$storage_dir/preparation-result.json")"
+    snapshots="$(aws_cli ec2 describe-snapshots --snapshot-ids "$runtime_snapshot" "$gpu_snapshot" --query 'Snapshots[].{snapshot_id:SnapshotId,state:State,source_volume_id:VolumeId,volume_size_gib:VolumeSize,tags:Tags}' --output json | jq -c 'sort_by(.snapshot_id)')"
+  fi
+  jq -n --arg storage_id "$STORAGE_ID" --arg retention_until "$(jq -r .retention_until "$storage_dir/terraform.tfvars.json")" --argjson volumes "$live" --argjson snapshots "$snapshots" '{schema:"adl.issue607.retention_status.v2",storage_id:$storage_id,retention_until:$retention_until,decision_required:"extend-retention-or-retire-volumes; snapshots remain retained",volumes:$volumes,snapshots:$snapshots}'
+}
+
+extend_retention() {
+  [[ "$EXECUTE" == true && "$RETENTION_UNTIL" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$ ]] || { echo "extend-retention requires exact --retention-until and --execute" >&2; exit 2; }
+  storage_dir="$STATE_ROOT/storage/$STORAGE_ID"; mkdir -p "$storage_dir/tfdata-retention"
+  [[ -f "$storage_dir/terraform.tfstate" && -f "$storage_dir/terraform.tfvars.json" ]] || { echo "storage state is missing" >&2; exit 2; }
+  jq --arg retention "$RETENTION_UNTIL" '.retention_until=$retention' "$storage_dir/terraform.tfvars.json" >"$storage_dir/terraform.tfvars.extend.json"
+  plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$storage_dir/tfdata-retention" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.extend.json" "$storage_dir/retention.tfplan" "$storage_dir/retention-plan.json")"
+  runtime_volume="$(jq -r '.resources[]|select(.type=="aws_ebs_volume" and .name=="runtime")|.instances[0].attributes.id' "$storage_dir/terraform.tfstate")"; gpu_volume="$(jq -r '.resources[]|select(.type=="aws_ebs_volume" and .name=="gpu")|.instances[0].attributes.id' "$storage_dir/terraform.tfstate")"
+  jq -n --arg action extend-retention --arg storage "$STORAGE_ID" --arg plan "$plan_sha" --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" --arg retention "$RETENTION_UNTIL" '{schema:"adl.issue607.storage_authorization_request.v1",action:$action,storage_id:$storage,saved_plan_sha256:$plan,runtime_volume_id:$runtime,gpu_volume_id:$gpu,retention_until:$retention}' >"$storage_dir/authorization-request.json"
+  validate_storage_authorization extend-retention "$plan_sha" "$runtime_volume" "$gpu_volume"; consume_authorization
+  tf "$storage_dir/tfdata-retention" "$STORAGE_ROOT" apply -input=false -state="$storage_dir/terraform.tfstate" -auto-approve "$storage_dir/retention.tfplan" >/dev/null
+  mv "$storage_dir/terraform.tfvars.extend.json" "$storage_dir/terraform.tfvars.json"
+  retention_status
+}
+
+retire_storage() {
+  [[ "$EXECUTE" == true ]] || { echo "retire-storage requires --execute" >&2; exit 2; }
+  storage_dir="$STATE_ROOT/storage/$STORAGE_ID"; mkdir -p "$storage_dir/tfdata-retirement"
+  [[ -f "$storage_dir/terraform.tfstate" && -f "$storage_dir/terraform.tfvars.json" ]] || { echo "storage state is missing" >&2; exit 2; }
+  tf "$storage_dir/tfdata-retirement" "$STORAGE_ROOT" init -backend=false -input=false >/dev/null
+  tf "$storage_dir/tfdata-retirement" "$STORAGE_ROOT" plan -destroy -input=false -state="$storage_dir/terraform.tfstate" -var-file="$storage_dir/terraform.tfvars.json" -out="$storage_dir/retirement.tfplan" >/dev/null
+  tf "$storage_dir/tfdata-retirement" "$STORAGE_ROOT" show -json "$storage_dir/retirement.tfplan" >"$storage_dir/retirement-plan.json"
+  "$ROOT/adl/tools/issue607_validate_saved_plan.sh" retirement "$storage_dir/retirement-plan.json" >/dev/null
+  plan_sha="$(jq -S -c . "$storage_dir/retirement-plan.json" | shasum -a 256 | awk '{print $1}')"
+  runtime_volume="$(jq -r '.resources[]|select(.type=="aws_ebs_volume" and .name=="runtime")|.instances[0].attributes.id' "$storage_dir/terraform.tfstate")"; gpu_volume="$(jq -r '.resources[]|select(.type=="aws_ebs_volume" and .name=="gpu")|.instances[0].attributes.id' "$storage_dir/terraform.tfstate")"
+  jq -n --arg action retire-storage --arg storage "$STORAGE_ID" --arg plan "$plan_sha" --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" '{schema:"adl.issue607.storage_authorization_request.v1",action:$action,storage_id:$storage,saved_plan_sha256:$plan,runtime_volume_id:$runtime,gpu_volume_id:$gpu,retention_until:null}' >"$storage_dir/authorization-request.json"
+  validate_storage_authorization retire-storage "$plan_sha" "$runtime_volume" "$gpu_volume"; consume_authorization
+  tf "$storage_dir/tfdata-retirement" "$STORAGE_ROOT" apply -input=false -state="$storage_dir/terraform.tfstate" -auto-approve "$storage_dir/retirement.tfplan" >/dev/null
+  remaining="$(aws_cli ec2 describe-volumes --volume-ids "$runtime_volume" "$gpu_volume" --query 'Volumes[].VolumeId' --output text 2>/dev/null || true)"
+  [[ -z "$remaining" ]] || { echo "retired volumes still exist: $remaining" >&2; exit 1; }
+  snapshots="$(jq -c '[.runtime.snapshot_id,.gpu.snapshot_id]' "$storage_dir/preparation-result.json")"
+  jq -n --arg storage_id "$STORAGE_ID" --arg runtime "$runtime_volume" --arg gpu "$gpu_volume" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --argjson snapshots "$snapshots" '{schema:"adl.issue607.storage_retirement.v2",status:"retired",storage_id:$storage_id,deleted_volume_ids:[$runtime,$gpu],retained_snapshot_ids:$snapshots,authorization_sha256:$authorization_sha256}'
+}
+
 prepare() {
   [[ "$EXECUTE" == true ]] || { echo "prepare requires --execute" >&2; exit 2; }
-  validate_identity; validate_authorization prepare
+  validate_identity
   run_dir="$STATE_ROOT/runs/$RUN_ID"; storage_dir="$STATE_ROOT/storage/$STORAGE_ID"
   [[ ! -e "$run_dir/paid-started" ]] || { echo "run already started" >&2; exit 2; }
   mkdir -p "$run_dir" "$storage_dir" "$run_dir/tfdata-storage" "$run_dir/tfdata-preparation"
   preflight >"$run_dir/preflight.json"
+  cp "$run_dir/preflight.json" "$storage_dir/preflight.json"
   load_operator_inputs; resolve_subnet
   account="$(business_account)"; RUNTIME_AMI="$(jq -r .runtime_ami_id "$run_dir/preflight.json")"; GPU_AMI="$(jq -r .gpu_ami_id "$run_dir/preflight.json")"; KMS_KEY_ARN="$(jq -r .kms_key_arn "$run_dir/preflight.json")"
-  [[ -f "$run_dir/source-object.json" ]] || artifact
-  source_key="$(jq -r .key "$run_dir/source-object.json")"; source_version="$(jq -r .version_id "$run_dir/source-object.json")"; source_sha="$(jq -r .sha256 "$run_dir/source-object.json")"
-  owner="$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')"; generation="$COMMIT"
+  archive="$run_dir/source.tar"
+  [[ -f "$archive" ]] || create_source_archive "$archive"
+  source_key="${PREFIX}runs/$RUN_ID/source.tar"; source_sha="$(sha256_file "$archive")"
+  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:prepare" | cut -c1-32)"; generation="$COMMIT"
   zeros="$(printf '0%.0s' {1..64})"
-  jq -n --arg account "$account" --arg region "$REGION" --arg az "$AZ" --arg storage "$STORAGE_ID" --arg owner "$owner" --arg kms "$KMS_KEY_ARN" --arg generation "$generation" --arg zeros "$zeros" \
-    '{aws_account_id:$account,aws_region:$region,availability_zone:$az,storage_id:$storage,owner_token:$owner,kms_key_arn:$kms,artifact_generation:$generation,runtime_seal_sha256:$zeros,gpu_seal_sha256:$zeros}' >"$storage_dir/terraform.tfvars.json"
+  retention_until="$(fixed_deadline "$storage_dir/retention-until.txt" 604800)"
+  jq -n --arg account "$account" --arg region "$REGION" --arg az "$AZ" --arg storage "$STORAGE_ID" --arg owner "$owner" --arg kms "$KMS_KEY_ARN" --arg generation "$generation" --arg retention "$retention_until" --arg zeros "$zeros" \
+    --argjson runtime_size_gib "$WARM_RUNTIME_GIB" --argjson gpu_size_gib "$WARM_GPU_GIB" \
+    '{aws_account_id:$account,aws_region:$region,availability_zone:$az,storage_id:$storage,owner_token:$owner,kms_key_arn:$kms,artifact_generation:$generation,retention_until:$retention,runtime_size_gib:$runtime_size_gib,gpu_size_gib:$gpu_size_gib,runtime_seal_sha256:$zeros,gpu_seal_sha256:$zeros}' >"$storage_dir/terraform.tfvars.json"
   storage_plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$run_dir/tfdata-storage" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.json" "$run_dir/storage-create.tfplan" "$run_dir/storage-create-plan.json")"
-  consume_authorization; touch "$run_dir/paid-started"
+  preflight_sha="$(sha256_file "$run_dir/preflight.json")"
+  action_manifest="$run_dir/prepare-action-manifest.json"
+  jq -n --arg action prepare --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$storage_plan_sha" --arg preflight "$preflight_sha" \
+    --arg source_sha "$source_sha" --arg owner_sha "$(sha256_text "$owner")" \
+    '{schema:"adl.issue607.action_manifest.v3",action:$action,source_commit:$commit,run_id:$run,storage_id:$storage,storage_create_plan_sha256:$plan,preflight_sha256:$preflight,source_archive_sha256:$source_sha,owner_token_sha256:$owner_sha,snapshot_policy:{retained_nodes:["runtime","gpu"],temporary_restore_node:"gpu",temporary_restore_deleted:true,measurement:"snapshot_to_volume_available_seconds"}}' >"$action_manifest"
+  action_manifest_sha="$(sha256_file "$action_manifest")"
+  estimated_total="$(jq -r .cost.aggregate_maximum_usd "$run_dir/preflight.json")"
+  envelope_id="$(sha256_text "$COMMIT:$STORAGE_ID:$preflight_sha:$estimated_total")"
+  write_authorization_request prepare "$storage_plan_sha" "$preflight_sha" "$action_manifest_sha" "$run_dir/authorization-request.json" "$estimated_total" "$envelope_id"
+  validate_authorization prepare "$storage_plan_sha" "$preflight_sha" "$action_manifest_sha" "$estimated_total" "$envelope_id"
+  assert_remote_run_unused
+  consume_authorization; touch "$run_dir/paid-started"; action_start="$SECONDS"
+  upload_versioned "$archive" "$source_key" >"$run_dir/source-object.json"
+  source_version="$(jq -r .version_id "$run_dir/source-object.json")"
   tf "$run_dir/tfdata-storage" "$STORAGE_ROOT" apply -input=false -state="$storage_dir/terraform.tfstate" -auto-approve "$run_dir/storage-create.tfplan" >/dev/null
   tf "$run_dir/tfdata-storage" "$STORAGE_ROOT" output -state="$storage_dir/terraform.tfstate" -json >"$storage_dir/outputs.json"
   runtime_volume="$(jq -r .runtime_volume_id.value "$storage_dir/outputs.json")"; gpu_volume="$(jq -r .gpu_volume_id.value "$storage_dir/outputs.json")"
@@ -284,8 +481,9 @@ prepare() {
   jq -n --arg account "$account" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$owner" --arg deadline "$deadline" --arg runtime_ami "$RUNTIME_AMI" --arg gpu_ami "$GPU_AMI" \
     --arg vpc "$VPC_ID" --arg subnet "$SUBNET_ID" --arg cidr "$SSH_INGRESS_CIDR" --arg public_key "$SSH_PUBLIC_KEY" --arg bucket "$BUCKET" --arg receipt "$receipt_prefix" \
     --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg source_commit "$COMMIT" --arg source_key "$source_key" --arg source_version "$source_version" --arg source_sha "$source_sha" \
-    --arg manifest_key "$MANIFEST_KEY" --arg manifest_version "$MANIFEST_VERSION" --arg manifest_sha "$MANIFEST_SHA256" --arg kms "$KMS_KEY_ARN" --arg az "$AZ" --arg generation "$generation" --argjson read_keys "$read_keys" \
-    '{aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,termination_at:$deadline,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,artifact_bucket:$bucket,artifact_read_keys:$read_keys,receipt_write_prefix:$receipt,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,source_commit:$source_commit,source_archive_key:$source_key,source_archive_version_id:$source_version,source_archive_sha256:$source_sha,artifact_manifest_key:$manifest_key,artifact_manifest_version_id:$manifest_version,artifact_manifest_sha256:$manifest_sha,kms_key_arn:$kms,availability_zone:$az,artifact_generation:$generation}' >"$run_dir/preparation.tfvars.json"
+    --arg manifest_key "$MANIFEST_KEY" --arg manifest_version "$MANIFEST_VERSION" --arg manifest_sha "$MANIFEST_SHA256" --arg kms "$KMS_KEY_ARN" --arg az "$AZ" --arg generation "$generation" --arg ami_metadata_sha "$(jq -r .ami_metadata_sha256 "$run_dir/preflight.json")" \
+    --arg runtime_ami_metadata "$(jq -c --arg id "$RUNTIME_AMI" '.ami_metadata[]|select(.image_id==$id)' "$run_dir/preflight.json")" --arg gpu_ami_metadata "$(jq -c --arg id "$GPU_AMI" '.ami_metadata[]|select(.image_id==$id)' "$run_dir/preflight.json")" --argjson read_keys "$read_keys" \
+    '{aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,termination_at:$deadline,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,runtime_ami_metadata_json:$runtime_ami_metadata,gpu_ami_metadata_json:$gpu_ami_metadata,ami_metadata_sha256:$ami_metadata_sha,vpc_id:$vpc,subnet_id:$subnet,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,artifact_bucket:$bucket,artifact_read_keys:$read_keys,receipt_write_prefix:$receipt,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,source_commit:$source_commit,source_archive_key:$source_key,source_archive_version_id:$source_version,source_archive_sha256:$source_sha,artifact_manifest_key:$manifest_key,artifact_manifest_version_id:$manifest_version,artifact_manifest_sha256:$manifest_sha,kms_key_arn:$kms,availability_zone:$az,artifact_generation:$generation}' >"$run_dir/preparation.tfvars.json"
   prep_plan_sha="$(saved_plan preparation "$PREPARATION_ROOT" "$run_dir/tfdata-preparation" "$run_dir/preparation.tfstate" "$run_dir/preparation.tfvars.json" "$run_dir/preparation.tfplan" "$run_dir/preparation-plan.json")"
   CLEANUP_KIND=preparation; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false
   trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
@@ -297,66 +495,108 @@ prepare() {
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" show -json "$run_dir/preparation-destroy.tfplan" >"$run_dir/preparation-destroy-plan.json"
   "$ROOT/adl/tools/issue607_validate_saved_plan.sh" preparation "$run_dir/preparation-destroy-plan.json" >/dev/null
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" apply -input=false -state="$run_dir/preparation.tfstate" -auto-approve "$run_dir/preparation-destroy.tfplan" >/dev/null
+  managed="$(tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" state list -state="$run_dir/preparation.tfstate" | awk '!/^data\./' || true)"
+  [[ -z "$managed" ]] || { echo "preparation Terraform state retains managed resources: $managed" >&2; exit 1; }
   CLEANUP_COMPLETE=true; trap - EXIT INT TERM
+  verify_no_disposable_residue "$owner" "$run_dir/preparation-zero-residue.json" "$runtime_volume" "$gpu_volume"
   runtime_root="$(jq -r .root_hash "$run_dir/runtime-preparation.json")"; gpu_root="$(jq -r .root_hash "$run_dir/gpu-preparation.json")"
+  trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
+  snapshot_prepared_generation "$run_dir" "$storage_dir" "$runtime_volume" "$gpu_volume" "$runtime_root" "$gpu_root" "$generation"
+  trap - EXIT INT TERM
+  runtime_snapshot="$(jq -r .snapshots.runtime "$storage_dir/snapshot-restore-test.json")"; gpu_snapshot="$(jq -r .snapshots.gpu "$storage_dir/snapshot-restore-test.json")"
+  upload_versioned "$storage_dir/snapshot-restore-test.json" "${PREFIX}storage/$STORAGE_ID/snapshot-restore-test.json" >"$storage_dir/snapshot-restore-object.json"
+  snapshot_receipt_key="$(jq -r .key "$storage_dir/snapshot-restore-object.json")"; snapshot_receipt_version="$(jq -r .version_id "$storage_dir/snapshot-restore-object.json")"
   jq --arg runtime "$runtime_root" --arg gpu "$gpu_root" '.runtime_seal_sha256=$runtime|.gpu_seal_sha256=$gpu' "$storage_dir/terraform.tfvars.json" >"$storage_dir/terraform.tfvars.next.json"
   mv "$storage_dir/terraform.tfvars.next.json" "$storage_dir/terraform.tfvars.json"
   storage_tag_plan_sha="$(saved_plan warm-storage "$STORAGE_ROOT" "$run_dir/tfdata-storage" "$storage_dir/terraform.tfstate" "$storage_dir/terraform.tfvars.json" "$run_dir/storage-seal-tags.tfplan" "$run_dir/storage-seal-tags-plan.json")"
   tf "$run_dir/tfdata-storage" "$STORAGE_ROOT" apply -input=false -state="$storage_dir/terraform.tfstate" -auto-approve "$run_dir/storage-seal-tags.tfplan" >/dev/null
-  jq -n --arg storage_id "$STORAGE_ID" --arg generation "$generation" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --arg storage_plan_sha256 "$storage_plan_sha" --arg preparation_plan_sha256 "$prep_plan_sha" --arg storage_tag_plan_sha256 "$storage_tag_plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" \
-    '{schema:"adl.issue607.preparation_result.v1",status:"prepared",storage_id:$storage_id,artifact_generation:$generation,runtime:{volume_id:$runtime_volume_id,root_hash:$runtime_root_hash},gpu:{volume_id:$gpu_volume_id,root_hash:$gpu_root_hash},plans:{storage_create:$storage_plan_sha256,preparation:$preparation_plan_sha256,storage_seal_tags:$storage_tag_plan_sha256},authorization_sha256:$authorization_sha256,disposable_residue:0}' | tee "$storage_dir/preparation-result.json"
+  action_elapsed=$((SECONDS-action_start))
+  record_cost_ledger prepare "$action_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID" "$(wc -c <"$run_dir/source.tar" | tr -d '[:space:]')"
+  jq -n --arg storage_id "$STORAGE_ID" --arg generation "$generation" --arg envelope_id "$envelope_id" --arg runtime_ami "$(jq -r .runtime_ami_id "$run_dir/preflight.json")" --arg gpu_ami "$(jq -r .gpu_ami_id "$run_dir/preflight.json")" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_snapshot_id "$runtime_snapshot" --arg gpu_snapshot_id "$gpu_snapshot" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --arg storage_plan_sha256 "$storage_plan_sha" --arg preparation_plan_sha256 "$prep_plan_sha" --arg storage_tag_plan_sha256 "$storage_tag_plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/preparation-zero-residue.json")" --arg snapshot_restore_sha256 "$(sha256_file "$storage_dir/snapshot-restore-test.json")" --arg snapshot_receipt_key "$snapshot_receipt_key" --arg snapshot_receipt_version "$snapshot_receipt_version" \
+    '{schema:"adl.issue607.preparation_result.v3",status:"prepared",storage_id:$storage_id,artifact_generation:$generation,aggregate_envelope_id:$envelope_id,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,runtime:{volume_id:$runtime_volume_id,snapshot_id:$runtime_snapshot_id,root_hash:$runtime_root_hash},gpu:{volume_id:$gpu_volume_id,snapshot_id:$gpu_snapshot_id,root_hash:$gpu_root_hash},plans:{storage_create:$storage_plan_sha256,preparation:$preparation_plan_sha256,storage_seal_tags:$storage_tag_plan_sha256},authorization_sha256:$authorization_sha256,zero_disposable_residue_sha256:$residue_sha256,snapshot_restore_test:{sha256:$snapshot_restore_sha256,s3_key:$snapshot_receipt_key,s3_version_id:$snapshot_receipt_version},disposable_residue:0}' | tee "$storage_dir/preparation-result.json"
 }
 
 launch() {
   [[ "$EXECUTE" == true && ( "$ORDINAL" == 1 || "$ORDINAL" == 2 ) ]] || { echo "launch requires --ordinal 1|2 and --execute" >&2; exit 2; }
-  validate_identity; validate_authorization "launch-$ORDINAL"
+  validate_identity
   run_dir="$STATE_ROOT/runs/$RUN_ID"; storage_dir="$STATE_ROOT/storage/$STORAGE_ID"
   [[ -f "$storage_dir/preparation-result.json" && ! -e "$run_dir/paid-started" ]] || { echo "prepared storage missing or launch already started" >&2; exit 2; }
   mkdir -p "$run_dir" "$run_dir/tfdata-compute"
-  preflight >"$run_dir/preflight.json"; load_operator_inputs; resolve_subnet; account="$(business_account)"
+  [[ -f "$storage_dir/preflight.json" ]] || { echo "prepared preflight tuple is missing" >&2; exit 2; }
+  cp "$storage_dir/preflight.json" "$run_dir/preflight.json"
+  load_operator_inputs; resolve_subnet; account="$(business_account)"
+  [[ "$(sha256_text "$SSH_INGRESS_CIDR")" == "$(jq -r .ssh_ingress_cidr_sha256 "$run_dir/preflight.json")" \
+    && "$(sha256_text "$SSH_PUBLIC_KEY")" == "$(jq -r .ssh_public_key_sha256 "$run_dir/preflight.json")" \
+    && "$VPC_ID" == "$(jq -r .vpc_id "$run_dir/preflight.json")" \
+    && "$SUBNET_ID" == "$(jq -r .subnet_id "$run_dir/preflight.json")" \
+    && "$AZ" == "$(jq -r .availability_zone "$run_dir/preflight.json")" ]] || { echo "launch identity tuple drifted from preparation" >&2; exit 2; }
+  current_image_metadata="$(aws_cli ec2 describe-images --image-ids "$(jq -r .runtime_ami_id "$run_dir/preflight.json")" "$(jq -r .gpu_ami_id "$run_dir/preflight.json")" --query 'Images[].{image_id:ImageId,name:Name,owner_id:OwnerId,creation_date:CreationDate,architecture:Architecture,root_device_name:RootDeviceName,virtualization_type:VirtualizationType,boot_mode:BootMode,root_snapshot:BlockDeviceMappings[0].Ebs.SnapshotId,root_size_gib:BlockDeviceMappings[0].Ebs.VolumeSize}' --output json | jq -c 'sort_by(.image_id)')"
+  [[ "$(sha256_text "$(jq -S -c . <<<"$current_image_metadata")")" == "$(jq -r .ami_metadata_sha256 "$run_dir/preflight.json")" ]] || { echo "exact AMI metadata drifted from preparation" >&2; exit 2; }
   generation="$(jq -r .artifact_generation "$storage_dir/preparation-result.json")"
   [[ "$generation" == "$COMMIT" ]] || { echo "prepared generation does not match exact launch commit" >&2; exit 2; }
   runtime_volume="$(jq -r .runtime.volume_id "$storage_dir/preparation-result.json")"; gpu_volume="$(jq -r .gpu.volume_id "$storage_dir/preparation-result.json")"
   runtime_root="$(jq -r .runtime.root_hash "$storage_dir/preparation-result.json")"; gpu_root="$(jq -r .gpu.root_hash "$storage_dir/preparation-result.json")"
-  owner="$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')"; deadline="$(future_utc "$LAUNCH_SECONDS")"
+  owner="$(sha256_text "$COMMIT:$RUN_ID:$STORAGE_ID:launch-$ORDINAL" | cut -c1-32)"; deadline="$(fixed_deadline "$run_dir/termination-at.txt" "$LAUNCH_SECONDS")"
   gpu_key="${PREFIX}runs/$RUN_ID/gpu-ready.json"; runtime_key="${PREFIX}runs/$RUN_ID/runtime-local-ready.json"; qualification_key="${PREFIX}runs/$RUN_ID/qualification-complete.json"; service_key="${PREFIX}runs/$RUN_ID/service-ready.json"
   read_keys="$(jq -c --arg manifest "$MANIFEST_KEY" --arg gpu "$gpu_key" '([.artifacts[].key]+[$manifest,$gpu])|unique' "$STATE_ROOT/preflight-model-manifest.json")"
   jq -n --arg account "$account" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$owner" --arg runtime_ami "$(jq -r .runtime_ami_id "$run_dir/preflight.json")" --arg gpu_ami "$(jq -r .gpu_ami_id "$run_dir/preflight.json")" --arg vpc "$VPC_ID" --arg subnet "$SUBNET_ID" --arg cidr "$SSH_INGRESS_CIDR" --arg public_key "$SSH_PUBLIC_KEY" --arg deadline "$deadline" --arg bucket "$BUCKET" --arg prefix "$PREFIX" --arg az "$AZ" --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg runtime_root "$runtime_root" --arg gpu_root "$gpu_root" --arg generation "$generation" --arg commit "$COMMIT" --argjson read_keys "$read_keys" \
     --arg kms "$(jq -r .kms_key_arn "$run_dir/preflight.json")" \
-    '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:"r7i.2xlarge",gpu_instance_type:"g6.xlarge",ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,termination_at:$deadline,authorized_max_hourly_usd:1.55,authorized_max_total_usd:20,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
+    --arg runtime_type "$RUNTIME_TYPE" --arg gpu_type "$GPU_TYPE" --argjson runtime_root_gib "$RUNTIME_ROOT_GIB" --argjson gpu_root_gib "$GPU_ROOT_GIB" \
+    '{issue_number:607,aws_account_id:$account,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,runtime_root_volume_size_gib:$runtime_root_gib,gpu_root_volume_size_gib:$gpu_root_gib,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,termination_at:$deadline,authorized_max_hourly_usd:1.55,authorized_max_total_usd:20,artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$read_keys,gpu_user_data:"warm-volume-path",runtime_user_data:"__GPU_PRIVATE_IP__",warm_volume_availability_zone:$az,runtime_warm_volume_id:$runtime_volume,gpu_warm_volume_id:$gpu_volume,runtime_warm_seal_sha256:$runtime_root,gpu_warm_seal_sha256:$gpu_root,warm_artifact_generation:$generation,warm_source_commit:$commit,warm_kms_key_arn:$kms}' >"$run_dir/compute.tfvars.json"
   plan_sha="$(saved_plan compute "$COMPUTE_ROOT" "$run_dir/tfdata-compute" "$run_dir/compute.tfstate" "$run_dir/compute.tfvars.json" "$run_dir/compute.tfplan" "$run_dir/compute-plan.json")"
+  preflight_sha="$(sha256_file "$run_dir/preflight.json")"
+  action_manifest="$run_dir/launch-action-manifest.json"
+  jq -n --arg action "launch-$ORDINAL" --arg commit "$COMMIT" --arg run "$RUN_ID" --arg storage "$STORAGE_ID" --arg plan "$plan_sha" --arg preflight "$preflight_sha" \
+    --arg runtime_volume "$runtime_volume" --arg gpu_volume "$gpu_volume" --arg runtime_root "$runtime_root" --arg gpu_root "$gpu_root" --arg owner_sha "$(sha256_text "$owner")" \
+    '{schema:"adl.issue607.action_manifest.v2",action:$action,source_commit:$commit,run_id:$run,storage_id:$storage,compute_plan_sha256:$plan,preflight_sha256:$preflight,runtime_volume_id:$runtime_volume,gpu_volume_id:$gpu_volume,runtime_root_hash:$runtime_root,gpu_root_hash:$gpu_root,owner_token_sha256:$owner_sha}' >"$action_manifest"
+  action_manifest_sha="$(sha256_file "$action_manifest")"
+  estimated_total="$(jq -r .cost.aggregate_maximum_usd "$run_dir/preflight.json")"
+  envelope_id="$(jq -r .aggregate_envelope_id "$storage_dir/preparation-result.json")"
+  [[ "$envelope_id" =~ ^[0-9a-f]{64}$ ]] || { echo "prepared aggregate envelope identity is invalid" >&2; exit 2; }
+  write_authorization_request "launch-$ORDINAL" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$run_dir/authorization-request.json" "$estimated_total" "$envelope_id"
+  validate_authorization "launch-$ORDINAL" "$plan_sha" "$preflight_sha" "$action_manifest_sha" "$estimated_total" "$envelope_id"
+  assert_remote_run_unused
   consume_authorization; touch "$run_dir/paid-started"; apply_start="$SECONDS"
   CLEANUP_KIND=compute; CLEANUP_RUN_DIR="$run_dir"; CLEANUP_COMPLETE=false
   trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute.tfplan" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" output -state="$run_dir/compute.tfstate" -json >"$run_dir/compute-outputs.json"
+  runtime_instance="$(jq -r .runtime_instance_id.value "$run_dir/compute-outputs.json")"
+  gpu_instance="$(jq -r .gpu_instance_id.value "$run_dir/compute-outputs.json")"
   wait_object "$gpu_key" "$run_dir/gpu-ready.json" "$LAUNCH_SECONDS"
   wait_object "$runtime_key" "$run_dir/runtime-local-ready.json" "$LAUNCH_SECONDS"
   elapsed=$((SECONDS-apply_start))
-  jq -e '.status=="ready" and .local_ready_seconds<=30 and .model_count>=2' "$run_dir/gpu-ready.json" >/dev/null
-  jq -e '.status=="ready" and .local_ready_seconds<=30 and .guardian_supervised==true and .runtime_ready==true and .authenticated_https==true and .authenticated_wss==true' "$run_dir/runtime-local-ready.json" >/dev/null
+  jq -e --arg run "$RUN_ID" --arg instance "$gpu_instance" --arg volume "$gpu_volume" --arg generation "$generation" --arg root "$gpu_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds<=30 and .model_count>=2' "$run_dir/gpu-ready.json" >/dev/null
+  jq -e --arg run "$RUN_ID" --arg instance "$runtime_instance" --arg volume "$runtime_volume" --arg generation "$generation" --arg root "$runtime_root" '.status=="ready" and .run_id==$run and .instance_id==$instance and .volume_id==$volume and .artifact_generation==$generation and .dm_verity_root_hash==$root and .local_ready_seconds<=30 and .guardian_supervised==true and .runtime_ready==true and .authenticated_https==true and .authenticated_wss==true' "$run_dir/runtime-local-ready.json" >/dev/null
   ((elapsed<=120)) || { echo "controller service-ready target missed: ${elapsed}s" >&2; exit 1; }
-  jq -n --arg run_id "$RUN_ID" --argjson elapsed "$elapsed" --arg generation "$generation" --arg gpu_sha "$(sha256_file "$run_dir/gpu-ready.json")" --arg runtime_sha "$(sha256_file "$run_dir/runtime-local-ready.json")" \
-    '{schema:"adl.issue607.service_ready.v1",status:"ready",run_id:$run_id,clock_source:"controller_bash_SECONDS_monotonic",apply_to_observed_seconds:$elapsed,artifact_generation:$generation,gpu_local_ready_sha256:$gpu_sha,runtime_local_ready_sha256:$runtime_sha}' >"$run_dir/service-ready.json"
+  jq -n --arg run_id "$RUN_ID" --arg runtime_instance_id "$runtime_instance" --arg gpu_instance_id "$gpu_instance" --arg runtime_volume_id "$runtime_volume" --arg gpu_volume_id "$gpu_volume" --arg runtime_root_hash "$runtime_root" --arg gpu_root_hash "$gpu_root" --argjson elapsed "$elapsed" --arg generation "$generation" --arg gpu_sha "$(sha256_file "$run_dir/gpu-ready.json")" --arg runtime_sha "$(sha256_file "$run_dir/runtime-local-ready.json")" \
+    '{schema:"adl.issue607.service_ready.v2",status:"ready",run_id:$run_id,runtime_instance_id:$runtime_instance_id,gpu_instance_id:$gpu_instance_id,runtime_volume_id:$runtime_volume_id,gpu_volume_id:$gpu_volume_id,runtime_root_hash:$runtime_root_hash,gpu_root_hash:$gpu_root_hash,clock_source:"controller_bash_SECONDS_monotonic",apply_to_observed_seconds:$elapsed,artifact_generation:$generation,gpu_local_ready_sha256:$gpu_sha,runtime_local_ready_sha256:$runtime_sha}' >"$run_dir/service-ready.json"
   aws_cli s3api put-object --bucket "$BUCKET" --key "$service_key" --body "$run_dir/service-ready.json" --if-none-match '*' >/dev/null
   wait_object "$qualification_key" "$run_dir/qualification-complete.json" "$LAUNCH_SECONDS"
-  jq -e --arg commit "$COMMIT" '.status=="passed" and .source_commit==$commit and (.shepherd_proofs|length)>=2 and (.runtime_agent_acc_proofs|length)==6 and ([.assertions[]]|all)' "$run_dir/qualification-complete.json" >/dev/null
+  jq -e --arg run "$RUN_ID" --arg commit "$COMMIT" '.status=="passed" and .run_id==$run and .source_commit==$commit and (.shepherd_proofs|length)>=2 and (.runtime_agent_acc_proofs|length)==6 and ([.assertions[]]|all)' "$run_dir/qualification-complete.json" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" plan -destroy -input=false -state="$run_dir/compute.tfstate" -var-file="$run_dir/compute.tfvars.json" -out="$run_dir/compute-destroy.tfplan" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" show -json "$run_dir/compute-destroy.tfplan" >"$run_dir/compute-destroy-plan.json"
   "$ROOT/adl/tools/issue607_validate_saved_plan.sh" compute "$run_dir/compute-destroy-plan.json" >/dev/null
   tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" apply -input=false -state="$run_dir/compute.tfstate" -auto-approve "$run_dir/compute-destroy.tfplan" >/dev/null
+  managed="$(tf "$run_dir/tfdata-compute" "$COMPUTE_ROOT" state list -state="$run_dir/compute.tfstate" | awk '!/^data\./' || true)"
+  [[ -z "$managed" ]] || { echo "compute Terraform state retains managed resources: $managed" >&2; exit 1; }
   CLEANUP_COMPLETE=true; trap - EXIT INT TERM
+  verify_no_disposable_residue "$owner" "$run_dir/compute-zero-residue.json"
   for volume in "$runtime_volume" "$gpu_volume"; do aws_cli ec2 describe-volumes --volume-ids "$volume" --query 'Volumes[0].State' --output text | grep -qx available; done
-  jq -n --argjson ordinal "$ORDINAL" --arg run_id "$RUN_ID" --arg plan_sha256 "$plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --argjson elapsed "$elapsed" --arg service_ready_sha256 "$(sha256_file "$run_dir/service-ready.json")" --arg qualification_sha256 "$(sha256_file "$run_dir/qualification-complete.json")" \
-    '{schema:"adl.issue607.warm_launch_result.v1",status:"passed",ordinal:$ordinal,run_id:$run_id,plan_sha256:$plan_sha256,authorization_sha256:$authorization_sha256,apply_to_service_ready_seconds:$elapsed,service_ready_sha256:$service_ready_sha256,qualification_complete_sha256:$qualification_sha256,compute_residue:0,warm_volumes_retained:2}' | tee "$run_dir/summary.json"
+  action_elapsed=$((SECONDS-apply_start))
+  record_cost_ledger "launch-$ORDINAL" "$action_elapsed" "$run_dir/preflight.json" "$storage_dir/cost-ledger.json" "$RUN_ID"
+  jq -n --argjson ordinal "$ORDINAL" --arg run_id "$RUN_ID" --arg plan_sha256 "$plan_sha" --arg authorization_sha256 "$AUTHORIZATION_SHA256" --arg residue_sha256 "$(sha256_file "$run_dir/compute-zero-residue.json")" --argjson elapsed "$elapsed" --arg service_ready_sha256 "$(sha256_file "$run_dir/service-ready.json")" --arg qualification_sha256 "$(sha256_file "$run_dir/qualification-complete.json")" \
+    '{schema:"adl.issue607.warm_launch_result.v2",status:"passed",ordinal:$ordinal,run_id:$run_id,plan_sha256:$plan_sha256,authorization_sha256:$authorization_sha256,apply_to_service_ready_seconds:$elapsed,service_ready_sha256:$service_ready_sha256,qualification_complete_sha256:$qualification_sha256,zero_disposable_residue_sha256:$residue_sha256,compute_residue:0,warm_volumes_retained:2}' | tee "$run_dir/summary.json"
 }
 
 require jq; require shasum
 case "$ACTION" in
   preflight) preflight ;;
-  artifact) require aws; artifact ;;
-  prepare) require aws; require terraform; require uuidgen; prepare ;;
-  launch) require aws; require terraform; require uuidgen; launch ;;
+  prepare) require aws; require terraform; prepare ;;
+  launch) require aws; require terraform; launch ;;
+  retention-status) require aws; require terraform; retention_status ;;
+  extend-retention) require aws; require terraform; extend_retention ;;
+  retire-storage) require aws; require terraform; retire_storage ;;
   validate-plan) exec "$ROOT/adl/tools/issue607_validate_saved_plan.sh" "$@" ;;
   *) usage; exit 2 ;;
 esac

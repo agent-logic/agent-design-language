@@ -8,19 +8,29 @@ bucket=${ADL_ISSUE607_ARTIFACT_BUCKET:?}
 qualification_key=${ADL_ISSUE607_QUALIFICATION_KEY:?}
 source_commit=${ADL_ISSUE607_SOURCE_COMMIT:?}
 gpu_private_ip=${ADL_ISSUE607_GPU_PRIVATE_IP:?}
+run_id=${ADL_ISSUE607_RUN_ID:?}
 manifest="$warm_root/install/config/artifact-manifest.json"
 mkdir -p "$state_root/agent-evidence"
 
+s3_put() {
+  python3 - "$1" "$2" "$3" "$4" <<'PY'
+import pathlib, sys, boto3
+region, bucket, key, source = sys.argv[1:]
+boto3.client("s3", region_name=region).put_object(Bucket=bucket, Key=key, Body=pathlib.Path(source).read_bytes(), IfNoneMatch="*")
+PY
+}
+
 publish_failure() {
   rc=$?
-  jq -n --argjson rc "$rc" --arg stage "${stage:-qualification}" \
-    '{schema:"adl.issue607.qualification_complete.v1",status:"failed",exit_code:$rc,stage:$stage}' >"$state_root/qualification.json" 2>/dev/null || true
-  aws s3api put-object --region "$region" --bucket "$bucket" --key "$qualification_key" --body "$state_root/qualification.json" --if-none-match '*' >/dev/null 2>&1 || true
+  jq -n --arg run_id "$run_id" --argjson rc "$rc" --arg stage "${stage:-qualification}" \
+    '{schema:"adl.issue607.qualification_complete.v1",status:"failed",run_id:$run_id,exit_code:$rc,stage:$stage}' >"$state_root/qualification.json" 2>/dev/null || true
+  s3_put "$region" "$bucket" "$qualification_key" "$state_root/qualification.json" >/dev/null 2>&1 || true
   exit "$rc"
 }
 trap publish_failure EXIT
 
-for command in aws curl jq python3 sha256sum; do command -v "$command" >/dev/null; done
+for command in curl jq python3 sha256sum; do command -v "$command" >/dev/null; done
+python3 -c 'import boto3, botocore' >/dev/null
 jq -e '.schema=="adl.shepherd.portable_model_bundle.v2" and (.models|length)>=2' "$manifest" >/dev/null
 guardian_proof="$(find "$state_root/guardian-evidence" -type f -name issue-proof.json -print -quit)"
 jq -e '
@@ -69,10 +79,10 @@ python3 "$state_root/run-six-resident-remote.py" \
 agents="$(jq -sc 'map(select(.agent_test_outcome=="executed" and .runtime_exit_code==0 and .runtime_receipt.decision=="executed"))|select(length==6)' "$state_root"/agent-evidence/pre-*.json)"
 
 stage=receipt
-jq -n --arg source_commit "$source_commit" \
+jq -n --arg run_id "$run_id" --arg source_commit "$source_commit" \
   --arg guardian_proof_sha256 "$(sha256sum "$guardian_proof" | awk '{print $1}')" \
   --argjson shepherd "$shepherd" --argjson agents "$agents" \
-  '{schema:"adl.issue607.qualification_complete.v1",status:"passed",source_commit:$source_commit,guardian_proof_sha256:$guardian_proof_sha256,shepherd_proofs:$shepherd,runtime_agent_acc_proofs:$agents,assertions:{two_model_shepherd:true,six_agent_acc:true,guardian_restart:true,state_preserved:true,degradation_recovered:true,vector_recovered:true,clean_logs:true,clean_shutdown:true}}' \
+  '{schema:"adl.issue607.qualification_complete.v1",status:"passed",run_id:$run_id,source_commit:$source_commit,guardian_proof_sha256:$guardian_proof_sha256,shepherd_proofs:$shepherd,runtime_agent_acc_proofs:$agents,assertions:{two_model_shepherd:true,six_agent_acc:true,guardian_restart:true,state_preserved:true,degradation_recovered:true,vector_recovered:true,clean_logs:true,clean_shutdown:true}}' \
   >"$state_root/qualification.json"
-aws s3api put-object --region "$region" --bucket "$bucket" --key "$qualification_key" --body "$state_root/qualification.json" --if-none-match '*' >/dev/null
+s3_put "$region" "$bucket" "$qualification_key" "$state_root/qualification.json"
 trap - EXIT

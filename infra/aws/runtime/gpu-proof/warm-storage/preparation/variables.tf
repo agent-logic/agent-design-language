@@ -35,6 +35,22 @@ variable "gpu_ami_id" {
   type        = string
 }
 
+variable "runtime_ami_metadata_json" {
+  type = string
+}
+
+variable "gpu_ami_metadata_json" {
+  type = string
+}
+
+variable "ami_metadata_sha256" {
+  type = string
+  validation {
+    condition     = can(regex("^[0-9a-f]{64}$", var.ami_metadata_sha256))
+    error_message = "ami_metadata_sha256 must be lowercase SHA-256."
+  }
+}
+
 variable "runtime_instance_type" {
   type    = string
   default = "m7i.2xlarge"

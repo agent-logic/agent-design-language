@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/607/diagram.mmd
 [
   {
     "lane": "issue607-preparation-contract",
-    "proof_role": "Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before binding.",
+    "proof_role": "Validate the exact #607 design packet, all twelve acceptance criteria, plan coverage, separate state ownership, complete artifact closure, snapshot preservation and restore timing, exact platform identity, timing denominators, performance budgets, three authorizations, and seven-day USD 20 envelope before publication.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",

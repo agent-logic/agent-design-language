@@ -108,6 +108,8 @@ resource "aws_instance" "runtime_preparation" {
     receipt_write_prefix         = var.receipt_write_prefix
     runtime_volume_id            = var.runtime_volume_id
     runtime_ami_id               = var.runtime_ami_id
+    runtime_ami_metadata_json    = var.runtime_ami_metadata_json
+    ami_metadata_sha256          = var.ami_metadata_sha256
     availability_zone            = var.availability_zone
     artifact_generation          = var.artifact_generation
   })
@@ -155,6 +157,8 @@ resource "aws_instance" "gpu_preparation" {
     receipt_write_prefix         = var.receipt_write_prefix
     gpu_volume_id                = var.gpu_volume_id
     gpu_ami_id                   = var.gpu_ami_id
+    gpu_ami_metadata_json        = var.gpu_ami_metadata_json
+    ami_metadata_sha256          = var.ami_metadata_sha256
     availability_zone            = var.availability_zone
     artifact_generation          = var.artifact_generation
   })
