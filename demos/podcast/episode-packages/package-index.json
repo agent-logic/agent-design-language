@@ -1,0 +1,26 @@
+{
+  "schema": "agent_logic.podcast.episode_package_index.v1",
+  "issue": 342,
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_checkpoint",
+  "publication_claimed": false,
+  "production_feed_claimed": false,
+  "directory_submission_claimed": false,
+  "episode_count": 10,
+  "episodes": [
+    "001-meet-the-ai-coworkers",
+    "002-can-an-ai-be-a-good-teammate",
+    "003-the-promise-and-weirdness-of-talking-to-machines",
+    "004-what-should-we-let-ai-do-for-us",
+    "005-can-ai-help-us-think-better",
+    "006-the-new-creative-room",
+    "007-trust-receipts-and-proof",
+    "008-local-ai-vs-cloud-ai",
+    "009-when-ai-gets-stuck",
+    "010-what-does-a-weekly-ai-studio-look-like"
+  ],
+  "handoff_to_262": {
+    "ready": false,
+    "reason": "Final audio, final package QA, exact-head editorial/audio review, and terminal #261 identity gates remain pending."
+  }
+}

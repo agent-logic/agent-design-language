@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 7,
+  "slug": "007-trust-receipts-and-proof",
+  "title": "Trust, Receipts, and Proof",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Explain why AI products need receipts: what was asked, what was done, who reviewed it, and what remains unproven.",
+  "agent_panel": ["Codex", "ChatGPT", "Claude", "security reviewer guest"],
+  "listener_takeaway": "Trust is not a vibe; it is an inspectable chain of evidence, review, and refusal boundaries.",
+  "promotes": ["C-SDLC", "evidence packets", "auditable agents"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}
