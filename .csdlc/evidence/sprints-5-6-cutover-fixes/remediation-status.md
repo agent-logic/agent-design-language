@@ -25,6 +25,13 @@ Status as of this branch:
 - Added canary evidence: OBS-A/#511 and OBS-B/#512 were prepared through typed
   v2 plus the single v3 local command. #511 is execution-ready for the next
   issue step; #512 is structurally healthy but execution-blocked on #511/#536.
+- Captured cutover-readiness defect: #570/#571 live GitHub state is terminal
+  and the shared Git terminal cache contains terminal envelopes, but the only
+  registered FastWork worktrees for those issues are stale prep-state
+  projections. Typed historical finish and cached-terminal validation both fail
+  closed from those prep worktrees because the immutable terminal cache belongs
+  to later canonical generations. See
+  `.csdlc/evidence/sprints-5-6-cutover-fixes/terminal-cache-conflict-570-571.md`.
 - Fixed remotely: PR #591 no longer contains the premature issue-closing
   keyword for #505. A narrow typed `pr_update` action was added to the Rust
   GitHub PR owner and used to change only the PR body linkage line to
@@ -39,6 +46,9 @@ Remaining remote-state blocker:
 
 - No known premature remote-linkage blocker remains in PR #591. #505 still must
   not merge until review approval and explicit operator cutover authority.
+- #570/#571 are live-remote terminal, but the stale registered prep worktrees
+  need a typed diagnostic/reconciliation affordance before cutover so operators
+  do not have to manually compare common terminal-cache generations.
 - PR #597 is open and non-draft. The retained typed readback captured before
   subsequent evidence commits reports linked issue #596, review `pending`,
   merge state `blocked`, and classification `waiting`; fresh typed PR-state
