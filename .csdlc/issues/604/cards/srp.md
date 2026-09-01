@@ -77,12 +77,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- PR #610 is still awaiting final typed publication update and GitHub CI confirmation after the retained terminal digest refresh.
+- Issue #604 intentionally records every canary defect discovered during the live full-cycle test; those records are issue evidence and should not be treated as new unresolved product findings.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:880523a6c0435d7b3ad4302ed613a91aa8c407d0:a980a3db8a150b2fdab00151d85db33d929182d97d6aba04df217b2e211b0cb3")
 
-Reviewer: None
+Reviewer: Some("/root/review_604_terminal_digest_refresh")
 
-Result: pre_review
+Result: pass
