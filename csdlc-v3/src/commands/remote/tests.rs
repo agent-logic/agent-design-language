@@ -103,6 +103,16 @@ fn cleanup_at(path: PathBuf) -> CleanupCandidate {
         .join("worktrees")
         .join(worktree_name);
     fs::create_dir_all(&git_common_dir).expect("create git common dir fixture");
+    fs::write(
+        path.join(".git"),
+        format!("gitdir: {}\n", git_common_dir.display()),
+    )
+    .expect("write worktree gitdir pointer");
+    fs::write(
+        git_common_dir.join("gitdir"),
+        format!("{}/.git\n", path.display()),
+    )
+    .expect("write common gitdir pointer");
     let registration = GitWorktreeRegistration {
         repository_root,
         worktree_path: path.clone(),

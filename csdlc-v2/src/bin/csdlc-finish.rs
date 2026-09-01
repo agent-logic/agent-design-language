@@ -3,9 +3,9 @@ use std::path::PathBuf;
 
 use clap::{Parser, Subcommand};
 use csdlc_v2::finish::{
-    envelope_matches_record_in_repo, execute_finish, execute_historical_finish,
-    execute_recordless_closeout, load_cached_terminal, FinishRequest, HistoricalFinishRequest,
-    RecordlessCloseoutRequest,
+    diagnose_cached_terminal, envelope_matches_record_in_repo, execute_finish,
+    execute_historical_finish, execute_recordless_closeout, load_cached_terminal, FinishRequest,
+    HistoricalFinishRequest, RecordlessCloseoutRequest,
 };
 use csdlc_v2::{ErrorCode, Store, V2Error};
 
@@ -14,11 +14,13 @@ use csdlc_v2::{ErrorCode, Store, V2Error};
 struct Cli {
     #[arg(long, default_value = ".")]
     root: PathBuf,
-    #[arg(long, conflicts_with_all = ["validate_cached_issue", "historical_request"])]
+    #[arg(long, conflicts_with_all = ["validate_cached_issue", "diagnose_cached_issue", "historical_request"])]
     request: Option<PathBuf>,
-    #[arg(long, conflicts_with_all = ["request", "historical_request"])]
+    #[arg(long, conflicts_with_all = ["request", "diagnose_cached_issue", "historical_request"])]
     validate_cached_issue: Option<u64>,
-    #[arg(long, conflicts_with_all = ["request", "validate_cached_issue"])]
+    #[arg(long, conflicts_with_all = ["request", "validate_cached_issue", "historical_request"])]
+    diagnose_cached_issue: Option<u64>,
+    #[arg(long, conflicts_with_all = ["request", "validate_cached_issue", "diagnose_cached_issue"])]
     historical_request: Option<PathBuf>,
     #[command(subcommand)]
     command: Option<Command>,
@@ -49,7 +51,7 @@ async fn main() {
 }
 
 async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
-    if cli.validate_cached_issue.is_none() {
+    if cli.validate_cached_issue.is_none() && cli.diagnose_cached_issue.is_none() {
         let operation = if cli.command.is_some() {
             "recordless-closeout"
         } else if cli.historical_request.is_some() {
@@ -90,6 +92,10 @@ async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
             "terminal": terminal,
         }));
     }
+    if let Some(issue) = cli.diagnose_cached_issue {
+        return serde_json::to_value(diagnose_cached_terminal(&cli.root, issue)?)
+            .map_err(Into::into);
+    }
     if let Some(request) = cli.historical_request {
         let request: HistoricalFinishRequest = serde_json::from_slice(&fs::read(request)?)?;
         return serde_json::to_value(execute_historical_finish(&cli.root, &request).await?)
@@ -98,7 +104,7 @@ async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
     let request = cli.request.ok_or_else(|| {
         V2Error::new(
             ErrorCode::InvalidInput,
-            "finish requires --request, --validate-cached-issue, --historical-request, or a subcommand",
+            "finish requires --request, --validate-cached-issue, --diagnose-cached-issue, --historical-request, or a subcommand",
         )
     })?;
     let request: FinishRequest = serde_json::from_slice(&fs::read(request)?)?;

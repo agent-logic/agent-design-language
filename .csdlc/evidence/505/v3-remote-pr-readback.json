@@ -1,0 +1,10 @@
+{
+  "schema": "csdlc.v3.pr_readback.v1",
+  "repository": "agent-logic/agent-design-language",
+  "number": 591,
+  "head_sha": "0ccbc4ad70a92092cad36b38d4efcd750746ee83",
+  "trial_scope": "retained_precommit_bridge_fixture_not_live_authority",
+  "merged": false,
+  "closes_issue": null,
+  "part_of_issue": 505
+}

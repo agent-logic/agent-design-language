@@ -1,5 +1,4 @@
 {
-  "action": "pr_state",
   "repository": "agent-logic/agent-design-language",
   "pull_request": 597,
   "required_checks": [],

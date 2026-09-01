@@ -1,0 +1,11 @@
+{
+  "schema": "csdlc.v3.publication_intent.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 505,
+  "pull_request": 591,
+  "mode": "part_of",
+  "publisher": "codex-505-remediation",
+  "body": "Part-Of #505\n\nC-SDLC v3 remains pre-cutover evidence only until #505 is explicitly approved, merged, and reconciled through the live typed authority route.",
+  "head_sha": "0ccbc4ad70a92092cad36b38d4efcd750746ee83",
+  "trial_scope": "retained_precommit_bridge_fixture_not_live_authority"
+}

@@ -5,7 +5,7 @@
 //! worktrees, execute PVF lanes, publish PRs, write GitHub state, finish,
 //! cleanup, migrate v2, or grant operational authority.
 
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -47,6 +47,7 @@ pub struct WorktreeRegistration {
 pub struct PromptRegistry {
     pub version: String,
     pub card_kinds: BTreeSet<String>,
+    pub template_paths: BTreeMap<String, String>,
 }
 
 /// The planned render set for an issue.
@@ -55,6 +56,16 @@ pub struct CardRenderPlan {
     pub registry_version: String,
     pub issue: u64,
     pub card_kinds: Vec<String>,
+    pub rendered_cards: Vec<RenderedCard>,
+}
+
+/// One concrete, template-derived card render target.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct RenderedCard {
+    pub kind: String,
+    pub template_ref: String,
+    pub rendered_ref: String,
+    pub render_manifest_digest: String,
 }
 
 /// Bind authorization is separate from command construction.
@@ -152,9 +163,21 @@ impl PromptRegistry {
                     "active registry must declare templates",
                 )]
             })?;
+        let mut template_paths = BTreeMap::new();
+        for (kind, entry) in templates {
+            let Some(path) = entry.get("path").and_then(Value::as_str) else {
+                return Err(vec![finding(
+                    PlanStatus::Blocked,
+                    "registry_template_path_missing",
+                    "active registry template entries must declare paths",
+                )]);
+            };
+            template_paths.insert(kind.clone(), path.to_owned());
+        }
         Ok(Self {
             version: version.into(),
             card_kinds: templates.keys().cloned().collect(),
+            template_paths,
         })
     }
 }
@@ -226,6 +249,28 @@ pub fn plan_cards(
         }
     }
     if findings.is_empty() {
+        let mut rendered_cards = Vec::new();
+        let issue_text = issue.to_string();
+        for kind in REQUIRED_CARD_KINDS {
+            let Some(template_ref) = registry.template_paths.get(kind) else {
+                return Err(vec![finding(
+                    PlanStatus::Blocked,
+                    "registry_template_path_missing",
+                    "active registry template entries must declare paths",
+                )]);
+            };
+            rendered_cards.push(RenderedCard {
+                kind: kind.to_owned(),
+                template_ref: template_ref.clone(),
+                rendered_ref: format!(".csdlc/issues/{issue}/cards/{kind}.md"),
+                render_manifest_digest: stable_digest(&[
+                    "csdlc-v3.local.render-manifest.v1",
+                    template_ref,
+                    &issue_text,
+                    kind,
+                ]),
+            });
+        }
         Ok(CardRenderPlan {
             registry_version: registry.version.clone(),
             issue,
@@ -233,10 +278,20 @@ pub fn plan_cards(
                 .into_iter()
                 .map(str::to_string)
                 .collect(),
+            rendered_cards,
         })
     } else {
         Err(findings)
     }
+}
+
+fn stable_digest(values: &[&str]) -> String {
+    let mut hasher = blake3::Hasher::new();
+    for value in values {
+        hasher.update(value.as_bytes());
+        hasher.update(b"\0");
+    }
+    hasher.finalize().to_hex().to_string()
 }
 
 /// Authorize bind only from exact registered topology, never branch name alone.

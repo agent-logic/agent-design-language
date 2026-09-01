@@ -30,6 +30,10 @@ spp = json(".csdlc/issues/505/cards/spp.values.json")
 vpp = json(".csdlc/issues/505/cards/vpp.values.json")
 srp = json(".csdlc/issues/505/cards/srp.values.json")
 v3_trial = json(".csdlc/evidence/505/v3-local-trial.json")
+failed_issue_readback = json(".csdlc/evidence/sprints-5-6-cutover-fixes/reopened-failed-issues-20260901.json")
+sprint_membership_readback = json("docs/milestones/v0.92.1/evidence/wp-01/sprint-umbrella-membership-v5-retained-readback.json")
+gemini_receipt = json(".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/receipt.json")
+gemini_review = read(".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/review.md")
 pr591_state_request = json(".csdlc/prepared/issues/505/pr591-state-after-prep-refresh-request.json")
 design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
@@ -71,6 +75,45 @@ assert(v3_trial["operational_authority"] == false, "v3 local trial must not gran
 assert(v3_trial.dig("result", "issue") == 505, "v3 local trial targeted wrong issue")
 assert(v3_trial.dig("result", "findings", 0, "code") == "doctor_ready", "v3 local trial did not reach doctor-ready plan")
 assert(v3_trial.dig("result", "cards", "card_kinds") == ["sip", "stp", "spp", "vpp", "srp", "sor"], "v3 local trial did not use six-card registry")
+rendered_cards = v3_trial.dig("result", "cards", "rendered_cards")
+assert(rendered_cards.is_a?(Array) && rendered_cards.length == 6, "v3 local trial must expose six rendered card targets")
+rendered_cards.each do |card|
+  assert(%w[sip stp spp vpp srp sor].include?(card["kind"]), "unexpected rendered card kind")
+  assert(card["template_ref"].to_s.start_with?("docs/templates/prompts/"), "rendered card missing template ref")
+  assert(card["rendered_ref"].to_s.start_with?(".csdlc/issues/505/cards/"), "rendered card missing issue-local rendered ref")
+  assert(card["render_manifest_digest"].to_s.match?(/\A[0-9a-f]{64}\z/), "rendered card missing deterministic digest")
+end
+
+assert(failed_issue_readback["transport"] == "typed-v2 csdlc-github-issue", "failed-issue reopen evidence must use typed v2")
+assert(failed_issue_readback["raw_gh_used"] == false, "failed-issue reopen evidence must not use raw gh")
+reopened = failed_issue_readback.fetch("reopened")
+expected_reopened = [501, 502, 503, 504, 533, 596]
+assert(reopened.map { |row| row.fetch("issue") }.sort == expected_reopened, "unexpected failed-issue reopen denominator")
+reopened.each do |row|
+  assert(row["readback_state"] == "open", "failed issue ##{row["issue"]} was not reopened")
+  assert(row["closed_at"].nil?, "failed issue ##{row["issue"]} still has closed_at")
+end
+assert(
+  failed_issue_readback["closure_policy"].to_s.include?("Do not close these issues again"),
+  "failed-issue reopen evidence missing closure policy"
+)
+
+assert(sprint_membership_readback["transport"] == "typed-v2 csdlc-github-issue", "sprint membership readback must use typed v2")
+assert(sprint_membership_readback["raw_gh_used"] == false, "sprint membership readback must not use raw gh")
+sprint5 = sprint_membership_readback.fetch("umbrellas").find { |row| row["sprint"] == 5 }
+sprint6 = sprint_membership_readback.fetch("umbrellas").find { |row| row["sprint"] == 6 }
+assert(sprint5 && sprint5["issue"] == 533 && sprint5["state"] == "open", "Sprint 5 umbrella must be retained as open after failed review")
+assert(sprint5["membership_version"] == 4 && sprint5["members"] == [500, 501, 502], "Sprint 5 membership readback drift")
+assert(sprint6 && sprint6["issue"] == 534 && sprint6["state"] == "open", "Sprint 6 umbrella must remain open")
+assert(sprint6["membership_version"] == 5 && sprint6["members"] == [503, 504, 505, 570], "Sprint 6 v5 membership readback drift")
+assert(sprint_membership_readback["cutover_gate"].to_s.include?("#505 must not approve cutover"), "sprint membership readback missing #505 cutover gate")
+
+assert(gemini_receipt["provider_family"] == "gemini", "Gemini review receipt missing provider family")
+assert(gemini_receipt["http_status"] == 200, "Gemini review did not complete successfully")
+assert(gemini_receipt["credential_material_retained"] == false, "Gemini receipt must not retain credential material")
+assert(gemini_receipt["review_ref"] == ".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/review.md", "Gemini review ref drift")
+assert(gemini_review.include?("GEMINI_ACTIONABLE_FINDINGS="), "Gemini review missing actionable-finding marker")
+assert(gemini_review.include?("remote command") && gemini_review.include?("cleanup"), "Gemini review missing expected remediation focus")
 
 assert(pr591_state_request.keys.sort == ["linked_issue", "linked_issue_repository", "pull_request", "repository", "require_review", "required_checks", "token_file"].sort, "PR #591 state request must use the current typed state schema")
 assert(pr591_state_request["repository"] == "agent-logic/agent-design-language", "PR #591 state request repository drift")
@@ -233,6 +276,10 @@ puts JSON.generate(
       "future_closing_linkage",
       "current_pr591_state_request_schema",
       "non_authoritative_v3_local_trial",
+      "local_trial_render_manifest",
+      "failed_issue_reopen_readback",
+      "sprint_membership_v5_readback",
+      "gemini_assisted_review_receipt",
       "single_prebind_validator_lane",
       "bound_execution_topology"
     ]
