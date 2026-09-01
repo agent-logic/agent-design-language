@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 261,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+    "slug": "podcast-show-identity",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Pre-execution output record.",
+      "actual_changes": [],
+      "artifacts": [],
+      "actual_validation": [
+        {
+          "command": [
+            "python3",
+            "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py"
+          ],
+          "purpose": "Prove the candidate show-identity packet schema, artwork metadata, ownership allocation, name research digest, scope allowlist, and pending external-gate truth after the working-title refresh.",
+          "outcome": "passed",
+          "evidence_ref": "local terminal transcript 2026-08-28: candidate mode passed with artwork_sha256 e142182ecefa06b34256d7ceeededfb3c3418c1f66e9a57750d3ed21d8d2fc8d and external gates pending."
+        },
+        {
+          "command": [
+            "python3",
+            "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+            "--redaction-only"
+          ],
+          "purpose": "Prove the refreshed identity packet retains no credential, token, private mailbox content, recovery code, verification code, private key material, or unbounded retained authority text.",
+          "outcome": "passed",
+          "evidence_ref": "local terminal transcript 2026-08-28: redaction-only mode passed for exact #261 packet scope after The Cognitive Stack refresh."
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

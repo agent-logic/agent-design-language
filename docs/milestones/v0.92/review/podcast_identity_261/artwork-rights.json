@@ -1,0 +1,39 @@
+{
+  "schema": "agent_logic.podcast.artwork_rights.v1",
+  "status": "operator_confirmed",
+  "distribution_artwork": {
+    "path": "demos/podcast/artwork.png",
+    "bytes": 4126190,
+    "sha256": "e142182ecefa06b34256d7ceeededfb3c3418c1f66e9a57750d3ed21d8d2fc8d",
+    "format": "PNG",
+    "width": 3000,
+    "height": 3000,
+    "bit_depth": 8,
+    "color_space": "RGB"
+  },
+  "retained_source": {
+    "path": "demos/podcast/episodes/001-meet-the-ai-coworkers/artwork-source.png",
+    "bytes": 1218797,
+    "sha256": "a2b3a0bfb9b438e479c036728251c7b8ae90124beb799e875031832ec8916b43",
+    "format": "PNG",
+    "width": 1254,
+    "height": 1254,
+    "bit_depth": 8,
+    "color_space": "RGB"
+  },
+  "observed_provenance": {
+    "repository_statement": "Episode 001 records operator-selected artwork and a proportional 3000 x 3000 technical derivative.",
+    "source_packet": "demos/podcast/episodes/001-meet-the-ai-coworkers/source-packet.md",
+    "runbook": "demos/podcast/S3_CLOUDFRONT_RUNBOOK.md",
+    "first_distribution_commit": "4e18ec45fa0a812bbc9e25f5172b69dfeeb94bba",
+    "first_source_commit": "fe6f4cae4602cda099c063c4b52633425b90fc2f"
+  },
+  "rights_basis": "owned_original",
+  "license_identifier": "agent_logic_internal_artwork_rights_v1",
+  "creator_or_source_owner": "agent_logic_inc",
+  "operator_confirmation": "operator_confirmed_rights_basis",
+  "operator_confirmation_sha256": "b2c40071fc04982e04c2f2786f5dfc9ef1d03df723d93ea253ad0dd7b515b3cc",
+  "operator_confirmation_timestamp_utc": "2026-09-01T18:44:04Z",
+  "publication_authorized": true,
+  "note": "Repository history proves retained bytes and technical derivation, but does not independently prove creation ownership or publication license. Operator confirmation is required."
+}

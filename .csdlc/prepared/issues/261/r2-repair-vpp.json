@@ -1,0 +1,61 @@
+{
+  "issue": 261,
+  "card": "vpp",
+  "expected_generation": 8,
+  "expected_digest": "0ae40914b2bef0b2c14cb6a1aaf2c935b34061e368b6bd45b9ca47bc33d940c0",
+  "actor": "codex:issue-261-design-r2-remediation",
+  "reason": "Repair the second fresh design-review findings: validate schema identifiers, versions, types and exact record paths; bind title authority to a digest-linked structured decision; constrain retained text; and prove RFC3339 UTC chronology.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "identity-candidate-and-actual-scope",
+        "proof_role": "Prove exact schema IDs, versions, field types, record paths, artwork/source bytes and properties, allocation, digest-linked title research, truthful pending gates, and every actual BASE...HEAD, staged, unstaged, and untracked path against the declared allowlist.",
+        "acceptance_ids": ["AC-2", "AC-4", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 4000,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py"],
+        "parallel_group": "261-serial-01",
+        "defer_reason": null
+      },
+      {
+        "lane": "strict-schema-redaction",
+        "proof_role": "Reject unknown fields, invalid pending nullability, unbounded or invalid scalar grammar, non-classified retained authority text, prohibited values, credentials, private mailbox content, codes, and private-key material across exact JSON and bounded Markdown.",
+        "acceptance_ids": ["AC-3", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 90,
+        "budget_tokens": 2500,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py", "--redaction-only"],
+        "parallel_group": "261-serial-02",
+        "defer_reason": null
+      },
+      {
+        "lane": "evidence-bound-external-release-gates",
+        "proof_role": "Fail closed unless the digest-bound structured title decision approves the exact title, concrete classified rights evidence and mailbox control/receive/provider/retention evidence agree, and all decision/evidence timestamps are RFC3339 UTC in valid chronology; status changes alone cannot pass.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 3500,
+        "argv": ["python3", "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py", "--release"],
+        "parallel_group": "261-serial-03",
+        "defer_reason": "Deferred and expected to fail while operator title, rights confirmation, or mailbox control/receive evidence remains pending; publication is prohibited until this exact lane passes."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove patch hygiene after the validator has independently proved the complete actual path set against the immutable current-main preparation base.",
+        "acceptance_ids": ["AC-4", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "261-serial-04",
+        "defer_reason": null
+      }
+    ]
+  }
+}

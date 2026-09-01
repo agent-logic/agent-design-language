@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 261,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+    "slug": "podcast-show-identity",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #261 issue/prepared/evidence plus demos/podcast/artwork.png and docs/milestones/v0.92/review/podcast_identity_261/**; live #51/#262/#342 graph; operator identity and mailbox evidence boundaries; strict exclusion of episode/audio/package production feed hosting deployment directory submission and public launch.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is every identity field explicitly operator-approved rather than inferred from candidate feed text?",
+        "Does artwork technical proof and rights provenance bind the exact retained bytes without unsupported ownership claims?",
+        "Does mailbox proof establish company-controlled receive readiness while retaining no message content credential token or verification code?",
+        "Is ownership exactly #261 identity/artwork #342 package artifacts and #262 production feed/hosting with no collision?",
+        "Do all downstream references resolve to one versioned canonical packet without publication overclaim?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

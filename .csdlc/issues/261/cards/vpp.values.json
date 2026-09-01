@@ -1,0 +1,109 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 261,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
+    "slug": "podcast-show-identity",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "identity-candidate-and-actual-scope",
+          "proof_role": "Prove exact schema IDs, versions, field types and record paths; every declared provenance value, repository path and full Git commit; exact distribution and retained-source artwork bytes and metadata; complete #261/#342/#262 allocation equality; digest-linked title research; truthful pending gates; and every actual BASE...HEAD, staged, unstaged and untracked path against the declared allowlist.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 4500,
+          "argv": [
+            "python3",
+            "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py"
+          ],
+          "parallel_group": "261-serial-01",
+          "defer_reason": null
+        },
+        {
+          "lane": "strict-schema-redaction",
+          "proof_role": "Reject unknown fields, invalid pending nullability, unbounded or invalid scalar grammar, non-classified retained authority text, prohibited values, credentials, private mailbox content, codes and private-key material across exact JSON and bounded Markdown.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 90,
+          "budget_tokens": 2500,
+          "argv": [
+            "python3",
+            "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+            "--redaction-only"
+          ],
+          "parallel_group": "261-serial-02",
+          "defer_reason": null
+        },
+        {
+          "lane": "evidence-bound-external-release-gates",
+          "proof_role": "Fail closed unless the digest-bound structured title decision approves the exact title, concrete classified rights evidence and mailbox control/receive/provider/retention evidence agree, and every decision/evidence timestamp matches exact RFC3339 full-date T full-time UTC Z grammar in valid chronology; status changes alone cannot pass.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 3500,
+          "argv": [
+            "python3",
+            "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+            "--release"
+          ],
+          "parallel_group": "261-serial-03",
+          "defer_reason": "Deferred and expected to fail while operator title, rights confirmation, or mailbox control/receive evidence remains pending; publication is prohibited until this exact lane passes."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Prove patch hygiene after the validator independently proves the complete actual path set against the immutable current-main preparation base.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "261-serial-04",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on unapproved identity pending mailbox proof missing rights provenance metadata or digest mismatch non-RGB/non-square artwork secret leakage path collision scope drift review finding CI failure or terminal mismatch.",
+      "design_ref": ".csdlc/prepared/issues/261/design.md",
+      "design_digest": "ea7882ecf45d307793e2a71f0524040d7257fdb6c9c59880d4dba766c3647638",
+      "diagram_ref": ".csdlc/prepared/issues/261/diagram.mmd",
+      "diagram_digest": "8656619a890479888dcea9f75aa002e79656f06ce10b29e8429b61da01441ff3"
+    }
+  }
+}

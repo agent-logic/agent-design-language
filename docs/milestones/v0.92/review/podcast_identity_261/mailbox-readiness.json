@@ -1,0 +1,15 @@
+{
+  "schema": "agent_logic.podcast.mailbox_readiness.v1",
+  "status": "verified_received",
+  "mailbox": "podcast@agent-logic.ai",
+  "control_class": "company_controlled_verified",
+  "control_evidence_sha256": "3f106dda9dc4aca43d978f2e261af5ea2d5e88c63f396c7608fe830d5c3d14e3",
+  "test_timestamp_utc": "2026-09-01T18:44:04Z",
+  "sender_class": "operator_external_account",
+  "receive_outcome": "received",
+  "provider_class": "company_mail_provider",
+  "source_evidence_sha256": "dd0b65005ba80a6fa2ea7f63a8cfbd25eb8e4c6db4217029e81b379414c2c45f",
+  "redaction_statement": "No mailbox credential, token, recovery code, verification code, message body, header, sender address, magic link, screenshot, or original message is retained.",
+  "operator_retention_approval": true,
+  "publication_authorized": true
+}
