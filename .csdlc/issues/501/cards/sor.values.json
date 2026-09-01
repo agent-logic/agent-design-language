@@ -7,9 +7,9 @@
     "title": "[v0.92.1][V3-B] C-SDLC v3 foundation",
     "slug": "v0-92-1-v3-b-c-sdlc-v3-foundation",
     "version": "v0.92.1",
-    "generation": 19
+    "generation": 20
   },
-  "status": "ready",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -97,10 +97,10 @@
           "evidence_ref": "machine JSON output schema csdlc.v3.foundation.v1, 2026-08-28, issue #501 worktree"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": [
         "Proceed to typed review assignment and pre-PR independent review for #501; do not start #502 until #501 publication/finish boundary is satisfied."
       ]
