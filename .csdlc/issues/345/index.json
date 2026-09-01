@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "implemented",
-  "generation": 75,
-  "digest": "55c117895640b69064bfed566ea74ce829902774cfc4afa7cebc684a78df4e2e",
+  "phase": "reviewed",
+  "generation": 76,
+  "digest": "827450fbf1676e282bceb75c0a511e3be2435319e88216c61551480fc337ca0e",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
+    "revision": "git-blake3:875456c408c06b9620e417b6e07daffd00de2879:3e6d7d099874f80066cb30aa2a665a6c75474e97c72b8c9c47d3b4ee4520f4b6",
+    "scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/issues/345"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/issues/345"
+    ],
+    "reviewed_revision": "git-blake3:875456c408c06b9620e417b6e07daffd00de2879:3e6d7d099874f80066cb30aa2a665a6c75474e97c72b8c9c47d3b4ee4520f4b6",
+    "findings": [],
+    "residual_risks": [
+      "The final paid two-node GPU and Runtime proof remains pending.",
+      "The bounded qualification does not establish 24/7 production readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "aca094610015f097f9741e7ee993237cf70d9d23bc5d9085959ee9e2922c2cff",
+      "values_digest": "7465c0936faf72eeff76f3a7deb0032f70f28c94e2481e4c192771e9e1cbccba",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "038cd3d9892c61c234835213b8a715d87e4e78dbfe52f67af062ac1ff8dec3ab",
+      "values_digest": "e72fe5c6f426deefac7c36ec233a5e733547306c939b657c5528c87dfadbbc71",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "f503da08d79e89ffc5f1fe1e9426013c3a88f9a69b4c2360b3902533fd5f7f22",
+      "values_digest": "d4c6ced9726f9a2da2de67add413fe8fd019e08ddb541290dcad5ffd2e982579",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "623a9c97762d02742f18da321413f04c27f46e1201f4c088bef694d578adb486",
+      "values_digest": "a19da3efaacf33dd0857bfa785bbcb1f28755d7930df1e0d78ec92746aa73a20",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "771fc3ec5e6d4aa0c84ed8ad37db44269e4d972b735c3f7031d8702ba7a74424",
-      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
-      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
+      "values_digest": "12669c1c661afa6ffec4b3bd0b80dd71ae509450d414b26cb778cbc9d4b650c0",
+      "rendered_digest": "80002fe05a8992a0c4f85d1239a261698ebe69a2ed3875e28d681a5d20390ede",
+      "ast_digest": "605929f97aaf661eb6a20a1c3ce86ab5652fbcd5488d91d92023b8b070c7471d"
     },
     "sor": {
-      "values_digest": "45719f6834fba8ecf60a55773ce7bc361918485aa8846c4decc17293218cae58",
+      "values_digest": "e13927708e0ff6cf1cf8e214276fd65dcf20ae875b8ae4add10edc47e5f256ec",
       "rendered_digest": "338d70172518973b25b32081633db09089096b71f329cf77e0c517b89fc4db2e",
       "ast_digest": "72a7d4aaa7813bb229732772f56d3b778200194d7251bbafb1a41cb81e5dacbc"
     }
@@ -160,6 +188,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Recover the prior PASS after the live run proved cloud-init does not define HOME; make HOME explicit for both bootstraps and Ollama, and reduce the exact source archive to required build trees before another paid run."
+    },
+    {
+      "sequence": 16,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -799,6 +834,20 @@
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Record F-345-27 and F-345-28 remediation without changing the truthful pending status of the final paid rerun.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The Terraform two-node path launched successfully and proved two-model GPU residency, then exposed an unset-HOME bootstrap defect before Runtime proof. Terraform cleanup terminated both nodes and removed their volumes. The worktree now defines HOME, packages the complete 25 MiB Rust dependency closure, and passes the authorization-bound source revision to Git-free archived validation; final paid proof remains pending exact-head review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.\",\"Replaced the hung single PUT with multipart upload plus fail-closed immutable VersionId verification.\",\"Observed a real GPU receipt proving llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed Runtime cloud-init fail before Rust execution because HOME was unset and recorded the failed receipt without overstating Guardian or six-agent proof.\",\"Made HOME=/root explicit in both bootstrap scripts and the Ollama systemd unit.\",\"Reduced the exact reviewed source archive from 335 MiB to 25 MiB while including adl, adl-runtime, adl-runtime-kernel, and adl-resilience, the complete local Rust path-dependency closure required by the Runtime bootstrap.\",\"Added an extracted-archive contract check that fails if any archived Cargo path target is absent and proves the bundle contains no mutable Git metadata.\",\"Made the Guardian lifecycle validator accept only an exact lowercase authorization-bound source revision when running from an archive, while retaining Git discovery for normal repository execution.\",\"Corrected the AWS runbook to name the four-component archive closure and Git-free revision contract.\",\"Confirmed controller cleanup drove both instances to termination and removed run volumes before another authorization.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".adl/local/issue345/adl-issue345-20260901-090918/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-090918/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-090918/terraform.tfstate\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove twenty-four no-paid topology, bootstrap, Git-free extracted-archive dependency closure, IAM, authorization, input-drift, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"e54a3da961b8f65eeebe6e463f7d99bfbbc05668\",\"--run-id\",\"adl-issue345-20260901-090918\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through GPU residency, Runtime bootstrap, failure receipt, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-090918\"},{\"command\":[\"git\",\"archive\",\"--format=tar\",\"HEAD\",\"--\",\"adl\",\"adl-runtime\",\"adl-runtime-kernel\",\"adl-resilience\"],\"purpose\":\"Verify the selective exact-source archive contains the complete local Rust dependency closure and is 25 MiB instead of 335 MiB.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/local/issue345/source-closure-test.tar\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"],\"purpose\":\"Validate the archive-safe lifecycle validator shell contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"validate\"],\"purpose\":\"Validate the complete two-node Terraform configuration.\",\"outcome\":\"passed\",\"evidence_ref\":\"infra/aws/runtime/gpu-proof\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
+    },
+    {
+      "sequence": 92,
+      "generation": 75,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 93,
+      "generation": 76,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
