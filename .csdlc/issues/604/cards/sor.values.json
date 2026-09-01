@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
     "slug": "v2-publish-ready-reconciliation",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -44,8 +44,8 @@
           "evidence_ref": "issue-604-implementation-validation.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
