@@ -148,11 +148,11 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: draft
 
 Merge: not_merged
 
