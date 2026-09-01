@@ -4,8 +4,8 @@ set -euo pipefail
 MODE="${1:-}"
 PLAN_JSON="${2:-}"
 
-[[ "$MODE" == compute || "$MODE" == warm-storage || "$MODE" == preparation || "$MODE" == retirement ]] || {
-  echo "usage: issue607_validate_saved_plan.sh compute|warm-storage|preparation|retirement <terraform-show-json>" >&2
+[[ "$MODE" == compute || "$MODE" == warm-storage || "$MODE" == preparation || "$MODE" == retirement || "$MODE" == recovery-retirement ]] || {
+  echo "usage: issue607_validate_saved_plan.sh compute|warm-storage|preparation|retirement|recovery-retirement <terraform-show-json>" >&2
   exit 2
 }
 [[ -f "$PLAN_JSON" ]] || { echo "saved plan JSON is missing: $PLAN_JSON" >&2; exit 2; }
@@ -74,7 +74,7 @@ elif [[ "$MODE" == preparation ]]; then
     echo "preparation plan contains attachment replacement or update" >&2
     exit 1
   }
-else
+elif [[ "$MODE" == retirement ]]; then
   jq -e '
     . as $plan
     | ([$plan.resource_changes[] | select(.mode == "managed") | select(.type != "aws_ebs_volume") | select(.change.actions != ["no-op"])] | length == 0)
@@ -82,6 +82,16 @@ else
     and ([$plan.resource_changes[] | select(.mode == "managed" and .type == "aws_ebs_volume" and .change.actions != ["delete"] and .change.actions != ["no-op"])] | length == 0)
   ' "$PLAN_JSON" >/dev/null || {
     echo "retirement plan must delete exactly the two retained EBS volumes and nothing else" >&2
+    exit 1
+  }
+else
+  jq -e '
+    . as $plan
+    | ([$plan.resource_changes[] | select(.mode == "managed") | select(.type != "aws_ebs_volume") | select(.change.actions != ["no-op"])] | length == 0)
+    and ([$plan.resource_changes[] | select(.mode == "managed" and .type == "aws_ebs_volume" and (.name == "runtime" or .name == "gpu") and .change.actions == ["delete"])] | length >= 1 and length <= 2)
+    and ([$plan.resource_changes[] | select(.mode == "managed" and .type == "aws_ebs_volume" and ((.name != "runtime" and .name != "gpu") or (.change.actions != ["delete"] and .change.actions != ["no-op"])))] | length == 0)
+  ' "$PLAN_JSON" >/dev/null || {
+    echo "recovery retirement may delete only the one or two partially created warm EBS volumes" >&2
     exit 1
   }
 fi

@@ -190,11 +190,17 @@ than relying on an unmeasured aggregate.
   interruption destroys the exact incomplete warm-storage Terraform state as
   well as disposable preparation state and raw resources. The explicit
   `recover-preparation` path performs the same state cleanup without requiring
-  a completed preparation result.
+  a completed preparation result. Its narrow recovery validator permits one or
+  both named warm volumes to be deleted so a partial Terraform apply cannot
+  defeat cleanup.
 - Prepared images, their root snapshots, and both sealed-data snapshots carry
   the same `retention-until` tag. `extend-retention` binds and updates every
   retained artifact; `retire-snapshots` binds exact IDs, deregisters the two
   images, and deletes their root snapshots plus both sealed-data snapshots.
+  Preparation persists the root snapshot IDs before retention begins. A
+  partially completed snapshot-retirement action may replay only the identical
+  consumed authorization and exact manifest, making deletion idempotently
+  resumable after either image has already been deregistered.
   Cleanup and retirement distinguish AWS not-found responses from API or
   transport failures and report success only after exact-ID absence readback.
 - Cross-AZ, wrong filesystem UUID, stale generation, partial hydration, missing

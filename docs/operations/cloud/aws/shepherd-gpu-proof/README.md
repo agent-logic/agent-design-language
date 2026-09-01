@@ -337,4 +337,7 @@ other resource. Snapshot retirement separately deregisters the exact two
 prepared images and deletes their root snapshots plus the two sealed-data
 snapshots. Both recovery and retirement treat only an explicit AWS not-found
 result as absence; API or transport errors fail the action, and terminal success
-is emitted only after exact-ID absence readback.
+is emitted only after exact-ID absence readback. The preparation result stores
+both root snapshot IDs, so an interrupted snapshot retirement can resume with
+the identical already-consumed authorization and manifest even after an AMI is
+gone; a different authorization is rejected.

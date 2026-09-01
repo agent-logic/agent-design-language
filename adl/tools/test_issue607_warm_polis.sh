@@ -21,6 +21,8 @@ run_contracts() {
   local bad_preparation="$CASE_ROOT/bad-preparation.json"
   local good_retirement="$CASE_ROOT/good-retirement.json"
   local bad_retirement="$CASE_ROOT/bad-retirement.json"
+  local good_recovery_retirement="$CASE_ROOT/good-recovery-retirement.json"
+  local bad_recovery_retirement="$CASE_ROOT/bad-recovery-retirement.json"
 
   write_plan "$good_compute" '[{"mode":"managed","type":"aws_instance","change":{"actions":["create"]}},{"mode":"managed","type":"aws_volume_attachment","change":{"actions":["create"]}},{"mode":"data","type":"aws_ebs_volume","change":{"actions":["read"]}}]'
   write_plan "$bad_compute" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["delete"]}}]'
@@ -30,6 +32,8 @@ run_contracts() {
   write_plan "$bad_preparation" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["update"]}}]'
   write_plan "$good_retirement" '[{"mode":"managed","type":"aws_ebs_volume","name":"runtime","change":{"actions":["delete"]}},{"mode":"managed","type":"aws_ebs_volume","name":"gpu","change":{"actions":["delete"]}}]'
   write_plan "$bad_retirement" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["delete"]}},{"mode":"managed","type":"aws_instance","change":{"actions":["delete"]}}]'
+  write_plan "$good_recovery_retirement" '[{"mode":"managed","type":"aws_ebs_volume","name":"runtime","change":{"actions":["delete"]}}]'
+  write_plan "$bad_recovery_retirement" '[{"mode":"managed","type":"aws_ebs_volume","name":"unowned","change":{"actions":["delete"]}}]'
 
   "$guard" compute "$good_compute" >/dev/null
   ! "$guard" compute "$bad_compute" >/dev/null 2>&1
@@ -39,6 +43,8 @@ run_contracts() {
   ! "$guard" preparation "$bad_preparation" >/dev/null 2>&1
   "$guard" retirement "$good_retirement" >/dev/null
   ! "$guard" retirement "$bad_retirement" >/dev/null 2>&1
+  "$guard" recovery-retirement "$good_recovery_retirement" >/dev/null
+  ! "$guard" recovery-retirement "$bad_recovery_retirement" >/dev/null 2>&1
 
   aws() {
     case "${ADL_ISSUE607_MOCK_AWS_RESULT:-}" in
@@ -94,6 +100,10 @@ run_contracts() {
   rg -q 'saved plan inputs changed' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'show -json "$plan" >"$json.next"' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -Fq 'CLEANUP_STORAGE_ON_FAILURE=true' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'saved_destroy_plan retirement' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -q 'runtime_root_snapshot_id' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  rg -Fq 'storage/$STORAGE_ID/actions/retire-snapshots.json' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
+  ! rg -n 'state list.*\|\| true' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'preparation-host path' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'cloud-init clean --logs --machine-id' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'cloud-init clean --logs --machine-id' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
