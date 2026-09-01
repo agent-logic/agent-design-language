@@ -17,7 +17,7 @@ may be restored to closed and materialized terminal.
 
 | Issue | Live state | Disposition | Reason |
 | --- | --- | --- | --- |
-| #500 | open | reopened | Prior #500/#565 review was FAIL and corrective proof remains tracked by #571. |
+| #500 | closed | restored closed and materialized terminal | #500 failed historically at PR #565, but corrective #571 is now closed_out from merged PR #585 exact-head PASS evidence; #500 terminal truth was materialized at generation 28 with that qualification. |
 | #501 | open | reopened | Prior #568 review was FAIL against #501 foundation proof and no accepted terminal review was available in this hygiene pass. |
 | #502 | open | reopened | Prior #572 review was FAIL against #502 lifecycle-kernel authority and durable-storage proof. |
 | #503 | closed | left closed | Live GitHub shows #503 closed by merged PR #581, and terminal truth was materialized on current main-derived state. |
@@ -44,6 +44,7 @@ Request packets are retained under:
 
 Terminal materialization requests are retained at:
 
+- `.csdlc/prepared/issues/500/materialize-terminal-corrected-by-571.json`
 - `.csdlc/prepared/issues/503/materialize-terminal-main.json`
 - `.csdlc/prepared/issues/570/materialize-terminal-after-hygiene.json`
 - `.csdlc/prepared/issues/571/materialize-terminal-after-hygiene.json`
@@ -51,6 +52,6 @@ Terminal materialization requests are retained at:
 ## Non-Claims
 
 This packet does not claim v3 cutover readiness, #505 completion, or terminal
-success for #500, #501, #502, #504, or #596. It records closure hygiene only:
-failed or unproven issues remain open, while #503, #570, and #571 have terminal
-truth tied to successful review and remote evidence.
+success for #501, #502, #504, or #596. It records closure hygiene only: failed
+or unproven issues remain open, while #500, #503, #570, and #571 have terminal
+truth tied to successful review/corrective evidence and remote evidence.

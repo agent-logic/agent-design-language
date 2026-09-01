@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.terminal_materialize_request.v1",
+  "issue": 500,
+  "expected_generation": 27,
+  "expected_digest": "ece81f34cd7ffb9f56bec1c3ff9fe5b0ee5ec9d847bc20e15d9418d6a08e2989",
+  "actor": "worker-6",
+  "reason": "Materialize #500 terminal truth as historically failed but corrected later by #571, after #571 was restored to closed and materialized terminal from merged PR #585 exact-head PASS evidence."
+}
