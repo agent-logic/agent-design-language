@@ -34,6 +34,7 @@ grep -q 'Resource = local.runtime_receipt_arn' "$TF_ROOT/main.tf" || fail "Runti
 grep -q 'artifact_read_arns  = \[for key in var.artifact_read_keys' "$TF_ROOT/main.tf" || fail "guest reads are not scoped to exact object keys"
 grep -q '!strcontains(key, "/locks/")' "$TF_ROOT/main.tf" || fail "guest read keys can include controller lock objects"
 ! grep -A10 'artifact_read_statement = {' "$TF_ROOT/main.tf" | grep -q 's3:PutObject' || fail "broad artifact-prefix writes remain"
+grep -q -- '--arg ready "$ready_key"' "$RUNNER" || fail "Runtime cannot read the exact GPU-ready receipt"
 
 grep -q 'STATE_BASE=.*\.adl/local/issue345' "$RUNNER" || fail "runner state is not worktree-local"
 grep -q 'validate_state_root' "$RUNNER" || fail "runner does not enforce worktree-local state containment"
@@ -59,6 +60,8 @@ grep -q 'route_table_sha256' "$RUNNER" || fail "public route-table identity is n
 grep -q 'network_acl_sha256' "$RUNNER" || fail "network-ACL identity is not authorization-bound"
 grep -q 'socat TCP-LISTEN:11434,bind=127.0.0.1' "$RUNNER" || fail "private GPU forwarding for the local Shepherd contract is missing"
 grep -q -- '--task-panel /opt/adl-issue345/repo/adl/tools/issue268_runtime_uts_task_panel.json' "$RUNNER" || fail "six-agent task panel is not explicitly rooted in the restored repository"
+grep -q 'remote_runner=/opt/adl-issue345/repo/adl/tools/run-six-resident-remote.py' "$RUNNER" || fail "six-agent runner does not retain its repository-relative root"
+grep -q 'verify_resolved_preflight_inputs "$preflight_json"' "$RUNNER" || fail "apply inputs are not rechecked against authorized preflight"
 grep -q 'adl.issue345.local_recovery.v1' "$RUNNER" || fail "durable local owner/lock recovery record is missing"
 grep -q 'chmod 0600 "$run_dir/recovery.json"' "$RUNNER" || fail "local recovery record is not mode 0600"
 
@@ -111,6 +114,20 @@ preflight_fixture="$(jq -n --arg account "$EXPECTED_ACCOUNT_SHA256" --arg key_ha
 verify_authorized_preflight_bindings "$preflight_fixture"
 if (verify_authorized_preflight_bindings "$(jq '.gpu_ami_sha256=("f"*64)' <<<"$preflight_fixture")") 2>/dev/null; then fail "GPU AMI drift passed"; fi
 
+resolved_runtime_ami=ami-runtime
+resolved_gpu_ami=ami-gpu
+resolved_subnet=subnet-public
+resolved_subnet_proof="$(jq -n '{route_table_sha256:("6"*64),network_acl_sha256:("7"*64)}')"
+resolved_fixture="$(jq -n \
+  --arg runtime "$(sha256_text "$resolved_runtime_ami")" \
+  --arg gpu "$(sha256_text "$resolved_gpu_ami")" \
+  --arg subnet "$(sha256_text "$resolved_subnet")" \
+  --arg vpc "$(sha256_text "$VPC_ID")" \
+  '{runtime_ami_sha256:$runtime,gpu_ami_sha256:$gpu,subnet_sha256:$subnet,vpc_sha256:$vpc,
+    route_table_sha256:("6"*64),network_acl_sha256:("7"*64)}')"
+verify_resolved_preflight_inputs "$resolved_fixture" "$resolved_runtime_ami" "$resolved_gpu_ami" "$resolved_subnet" "$resolved_subnet_proof"
+if (verify_resolved_preflight_inputs "$resolved_fixture" "$resolved_runtime_ami" ami-drift "$resolved_subnet" "$resolved_subnet_proof") 2>/dev/null; then fail "post-preflight GPU AMI drift passed"; fi
+
 revision="$(jq -r .reviewed_revision "$tmp/authorization.json")"
 jq -n --arg revision "$revision" '{phase:"reviewed",review:{completed:true,findings:[],reviewed_revision:$revision}}' >"$tmp/review.json"
 SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" verify_review_authority "$tmp/review.json" "$ROOT" "$head"
@@ -127,4 +144,4 @@ grep -q 'requires --authorization-file' "$tmp/noauth.err" || fail "missing autho
 
 jq -n '{schema:"adl.issue345.two_node_runner_contract.v1",status:"pass",paid_launches:0,
   terraform_nodes:2,managed_key_pairs:1,public_ssh_cidrs:1,ollama_public:false,
-  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:18}'
+  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:19}'

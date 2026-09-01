@@ -28,11 +28,12 @@ only tag-constrained `ec2:TerminateInstances` authority. There is no Lambda,
 Python reaper, Spot fallback, controller-side `run-instances`, or SSM
 SendCommand path.
 
-Both guest roles can read the issue artifact prefix, but their write authority
-is narrower: the GPU role can create only its exact run-specific ready receipt,
-and the Runtime role can create only its exact run-specific final receipt.
-Neither guest can write model/runtime artifacts, source/config objects, locks,
-or authorization markers.
+Both guest roles can read only the exact immutable artifact and run-object keys
+needed for bootstrap, including the Runtime node's exact GPU-ready receipt key.
+Their write authority is narrower: the GPU role can create only its exact
+run-specific ready receipt, and the Runtime role can create only its exact
+run-specific final receipt. Neither guest can write model/runtime artifacts,
+source/config objects, locks, or authorization markers.
 
 Terraform uses explicit account, region, VPC, subnet, AMIs, instance types,
 disk sizes, SSH inputs, owner token, deadline, artifact prefix, and cost ceiling

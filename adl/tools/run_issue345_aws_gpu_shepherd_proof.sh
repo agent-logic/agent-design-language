@@ -377,6 +377,26 @@ verify_authorized_preflight_bindings() {
     }
 }
 
+verify_resolved_preflight_inputs() {
+  local p="$1" runtime_ami="$2" gpu_ami="$3" subnet="$4" subnet_proof="$5"
+  jq -e \
+    --arg runtime_ami_sha256 "$(sha256_text "$runtime_ami")" \
+    --arg gpu_ami_sha256 "$(sha256_text "$gpu_ami")" \
+    --arg subnet_sha256 "$(sha256_text "$subnet")" \
+    --arg vpc_sha256 "$(sha256_text "$VPC_ID")" \
+    --arg route_table_sha256 "$(jq -er .route_table_sha256 <<<"$subnet_proof")" \
+    --arg network_acl_sha256 "$(jq -er .network_acl_sha256 <<<"$subnet_proof")" '
+    .runtime_ami_sha256 == $runtime_ami_sha256
+    and .gpu_ami_sha256 == $gpu_ami_sha256
+    and .subnet_sha256 == $subnet_sha256
+    and .vpc_sha256 == $vpc_sha256
+    and .route_table_sha256 == $route_table_sha256
+    and .network_acl_sha256 == $network_acl_sha256
+  ' <<<"$p" >/dev/null || {
+    echo "resolved AWS inputs changed after authorized preflight" >&2; exit 2;
+  }
+}
+
 verify_review_authority() {
   local index_file="${1:-$ROOT/.csdlc/issues/345/index.json}" review_root="${2:-$ROOT}" current_head="${3:-}"
   local authorized recorded
@@ -536,8 +556,9 @@ jq --arg first "$first" --arg second "$second" '
   | .residents |= (to_entries | map(.value.model=(if (.key%2)==0 then $first else $second end) | .value))
 ' adl/tools/issue268_six_resident_uts_plan.json >/opt/adl-issue345/plan.json
 mkdir -p /opt/adl-issue345/agent-evidence
-sed "s#http://127.0.0.1:11434#http://$GPU_PRIVATE_IP:11434#g" adl/tools/run_issue268_six_resident_uts_cycle.py >/opt/adl-issue345/run-six-resident.py
-python3 /opt/adl-issue345/run-six-resident.py --phase pre --state /opt/adl-issue345/agent-state.json --evidence-dir /opt/adl-issue345/agent-evidence --plan /opt/adl-issue345/plan.json --task-panel /opt/adl-issue345/repo/adl/tools/issue268_runtime_uts_task_panel.json --runtime-bin /opt/adl-issue345/target/debug/adl --runtime-root /opt/adl-issue345/runtime >/opt/adl-issue345/agents.log 2>&1
+remote_runner=/opt/adl-issue345/repo/adl/tools/run-six-resident-remote.py
+sed "s#http://127.0.0.1:11434#http://$GPU_PRIVATE_IP:11434#g" adl/tools/run_issue268_six_resident_uts_cycle.py >"$remote_runner"
+python3 "$remote_runner" --phase pre --state /opt/adl-issue345/agent-state.json --evidence-dir /opt/adl-issue345/agent-evidence --plan /opt/adl-issue345/plan.json --task-panel /opt/adl-issue345/repo/adl/tools/issue268_runtime_uts_task_panel.json --runtime-bin /opt/adl-issue345/target/debug/adl --runtime-root /opt/adl-issue345/runtime >/opt/adl-issue345/agents.log 2>&1
 agents="$(jq -sc 'map(select(.agent_test_outcome=="executed" and .runtime_exit_code==0 and .runtime_receipt.decision=="executed"))|select(length==6)' /opt/adl-issue345/agent-evidence/pre-*.json)"
 gpu="$(cat /opt/adl-issue345/gpu-ready.json)"
 jq -n --arg commit "$commit" --argjson gpu "$gpu" --argjson guardian "$guardian" --argjson shepherd "$shepherd" --argjson agents "$agents" \
@@ -618,7 +639,7 @@ run_proof() {
   load_authorization
   [[ -z "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ]] || { echo "paid execution requires a tracked-clean checkout" >&2; exit 2; }
   verify_review_authority
-  local run_dir="$STATE_ROOT/$RUN_ID" preflight_json runtime_ami gpu_ami subnet account_id deadline deadline_epoch config_key config_version config_sha
+  local run_dir="$STATE_ROOT/$RUN_ID" preflight_json runtime_ami gpu_ami subnet subnet_proof account_id deadline deadline_epoch config_key config_version config_sha
   local source_archive source_key source_version source_sha artifact_read_keys
   local gpu_script runtime_script gpu_key runtime_key gpu_version runtime_version gpu_sha runtime_sha ready_key final_key
   [[ ! -e "$run_dir" ]] || { echo "run id already exists in .adl/local/issue345" >&2; exit 2; }
@@ -626,6 +647,8 @@ run_proof() {
   cp "$AUTHORIZATION_FILE" "$run_dir/authorization.json"; chmod 0600 "$run_dir/authorization.json"
   preflight_json="$(preflight)"; printf '%s\n' "$preflight_json" >"$run_dir/preflight.json"; verify_authorized_preflight_bindings "$preflight_json"
   runtime_ami="$(resolve_ami "$RUNTIME_AMI_PARAMETER")"; gpu_ami="$(resolve_ami "$GPU_AMI_PARAMETER")"; subnet="$(resolve_subnet)"
+  subnet_proof="$(verify_public_subnet "$subnet")"
+  verify_resolved_preflight_inputs "$preflight_json" "$runtime_ami" "$gpu_ami" "$subnet" "$subnet_proof"
   account_id="$(aws --profile "$PROFILE" sts get-caller-identity --query Account --output text)"
   OWNER_TOKEN="$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')"
   acquire_run_lock
@@ -647,8 +670,8 @@ run_proof() {
   gpu_script="$run_dir/gpu-bootstrap.sh"; runtime_script="$run_dir/runtime-bootstrap.sh"; write_gpu_bootstrap "$gpu_script"; write_runtime_bootstrap "$runtime_script"
   gpu_key="${ARTIFACT_PREFIX}runs/$RUN_ID/gpu-bootstrap.sh"; runtime_key="${ARTIFACT_PREFIX}runs/$RUN_ID/runtime-bootstrap.sh"
   gpu_sha="$(sha256_file "$gpu_script")"; runtime_sha="$(sha256_file "$runtime_script")"; gpu_version="$(upload_versioned "$gpu_script" "$gpu_key")"; runtime_version="$(upload_versioned "$runtime_script" "$runtime_key")"
-  artifact_read_keys="$(jq -c --arg manifest "$ARTIFACT_MANIFEST_KEY" --arg source "$source_key" --arg config "$config_key" --arg gpu "$gpu_key" --arg runtime "$runtime_key" \
-    '([.artifacts[].key] + [$manifest,$source,$config,$gpu,$runtime] | unique)' "$STATE_ROOT/preflight-artifact-manifest.json")"
+  artifact_read_keys="$(jq -c --arg manifest "$ARTIFACT_MANIFEST_KEY" --arg source "$source_key" --arg config "$config_key" --arg gpu "$gpu_key" --arg runtime "$runtime_key" --arg ready "$ready_key" \
+    '([.artifacts[].key] + [$manifest,$source,$config,$gpu,$runtime,$ready] | unique)' "$STATE_ROOT/preflight-artifact-manifest.json")"
   write_user_data "$run_dir/gpu-user-data.sh" "$gpu_key" "$gpu_version" "$gpu_sha" "$config_key" "$config_version" "$config_sha" "$ready_key" "$ready_key"
   write_user_data "$run_dir/runtime-user-data.sh" "$runtime_key" "$runtime_version" "$runtime_sha" "$config_key" "$config_version" "$config_sha" "$ready_key" "$final_key" __GPU_PRIVATE_IP__
   deadline_epoch="$(( $(date +%s) + MAX_INSTANCE_SECONDS ))"
