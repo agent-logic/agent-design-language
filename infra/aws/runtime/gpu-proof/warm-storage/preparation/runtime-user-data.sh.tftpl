@@ -28,6 +28,12 @@ with open(source, "rb") as body:
 PY
 }
 
+finalize_preparation() {
+  cloud-init clean --logs --machine-id || return
+  rm -f /etc/ssh/ssh_host_* || return
+  s3_put_once '${region}' '${artifact_bucket}' '${receipt_write_prefix}runtime-preparation-final.json' "$work/final.json"
+}
+
 finish_failure() {
   rc=$?
   logger -t adl-issue607 "runtime preparation bootstrap failed rc=$rc" || true
@@ -168,8 +174,6 @@ root_hash="$(awk '/Root hash:/ {print $3}' <<<"$verity_output")"
 jq -n --arg source_commit '${source_commit}' --arg generation '${artifact_generation}' \
   --arg volume_id '${runtime_volume_id}' --arg root_hash "$root_hash" --argjson facility_inventory "$facility_inventory" \
   '{schema:"adl.issue607.runtime_preparation.v1",status:"prepared",source_commit:$source_commit,artifact_generation:$generation,volume_id:$volume_id,root_hash:$root_hash,fully_initialized:true,facility_inventory:$facility_inventory}' >"$work/final.json"
-s3_put_once '${region}' '${artifact_bucket}' '${receipt_write_prefix}runtime-preparation-final.json' "$work/final.json"
-cloud-init clean --logs --machine-id
-rm -f /etc/ssh/ssh_host_*
+finalize_preparation
 trap - EXIT
 shutdown -h now

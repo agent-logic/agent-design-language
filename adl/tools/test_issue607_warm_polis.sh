@@ -86,6 +86,21 @@ run_contracts() {
       gpu-ok gpu-failed i-gpu "$CASE_ROOT/gpu-receipt.json" 5 \
       >"$CASE_ROOT/wait.out" 2>"$CASE_ROOT/wait.err"
   rg -q 'gpu preparation instance stopped without' "$CASE_ROOT/wait.err"
+
+  for template in \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"; do
+    (
+      eval "$(sed -n '/^finalize_preparation() {$/,/^}$/p' "$template")"
+      work="$CASE_ROOT/hygiene-failure"
+      mkdir -p "$work"
+      cloud-init() { return 1; }
+      rm() { return 0; }
+      s3_put_once() { : >"$CASE_ROOT/premature-success"; }
+      ! finalize_preparation
+      [[ ! -e "$CASE_ROOT/premature-success" ]]
+    )
+  done
   jq -e --arg source 'runs/new/source.tar' '(. // []) | all(.[]; .==$source)' <<<null >/dev/null
 
   rg -q 'http_tokens[[:space:]]*=[[:space:]]*"required"' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
@@ -111,6 +126,8 @@ run_contracts() {
   rg -q '^s3_get\(\)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q 'before-sign.s3.PutObject' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'before-sign.s3.PutObject' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
+  rg -q '^finalize_preparation$' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
+  rg -q '^finalize_preparation$' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q 'for node in runtime gpu' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'preparation instance stopped without a success or failure receipt' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'measured_after_preparation_bootstrap:true' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
