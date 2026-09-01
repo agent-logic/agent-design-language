@@ -7,93 +7,106 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 24
+    "generation": 48
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
-      "summary": "Recover the retained runner into issue-owned paths, reconcile it with the current Shepherd contract and business-account controls, add executable failure/cleanup/redaction tests, prove a read-only preflight, obtain exact-head review, and leave paid execution gated on separate exact-run authorization.",
+      "plan_revision": 5,
+      "summary": "Implement and validate one Terraform-owned, two-node AWS qualification: a regular Runtime/Guardian/six-agent node and a private-linked Ollama GPU node, with one shared SSH key pair, automatic cloud-init, exact cost and artifact binding, three independent cleanup paths, fresh exact-head review, and one separately authorized paid proof.",
       "steps": [
         {
           "id": "S1",
-          "action": "Bind exact historical runner/evidence inputs and current Shepherd/AWS authority boundaries without importing legacy lifecycle state.",
+          "action": "Recover published lifecycle truth and revise issue design/cards for the Terraform-owned two-node Runtime and GPU topology with one mandatory shared SSH key pair.",
           "acceptance_ids": [
             "AC-1",
-            "AC-8"
+            "AC-2",
+            "AC-3",
+            "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
-          "action": "Recover, rename, and simplify the runner under issue-#345 ownership while preserving explicit preflight, run, cleanup, owner lock, deadlines, and no-fallback semantics.",
+          "action": "Implement the isolated Terraform root, automatic Runtime/GPU cloud-init payloads, private Ollama route, S3 receipts, exact deadline scheduler, and Terraform destroy cleanup.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
-            "AC-5"
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
-          "action": "Add executable deterministic positive and negative runner tests plus evidence redaction and cleanup contracts without AWS mutation.",
+          "action": "Replace single-host authorization and preflight with exact two-node Terraform-plan, SSH, artifact, account, cost, and zero-residue binding.",
           "acceptance_ids": [
-            "AC-5",
-            "AC-6",
-            "AC-7"
+            "AC-4",
+            "AC-7",
+            "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
-          "action": "Run the read-only business-account preflight and reconcile any operator-provisioned resource drift without creating or broadening resources.",
+          "action": "Run focused no-paid Terraform, shell, receipt, authorization, Git, and live read-only AWS validation and resolve every failure.",
           "acceptance_ids": [
             "AC-2",
-            "AC-8"
-          ],
-          "status": "pending"
-        },
-        {
-          "id": "S5",
-          "action": "Obtain exact-head implementation review and prepare a truthful publication handoff with the paid lane still separately gated.",
-          "acceptance_ids": [
-            "AC-6",
+            "AC-3",
+            "AC-4",
+            "AC-7",
             "AC-8",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
+        },
+        {
+          "id": "S5",
+          "action": "Obtain a fresh exact-head bounded review, fix every actionable finding, and republish PR #593 through typed lifecycle authority.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "in_progress"
         },
         {
           "id": "S6",
-          "action": "Only after explicit exact-run operator authorization, run one bounded On-Demand GPU proof, retain redacted proof/cost/cleanup evidence, and re-review the final evidence head.",
+          "action": "After new exact-run authorization, execute one bounded real two-node AWS proof, retain redacted runtime/model/ACC/cost/cleanup evidence, re-review, and finish only when PR #593 is green.",
           "acceptance_ids": [
-            "AC-3",
             "AC-4",
             "AC-5",
             "AC-6",
+            "AC-7",
+            "AC-8",
             "AC-9"
           ],
           "status": "pending"
         }
       ],
       "affected_areas": [
+        "infra/aws/runtime/gpu-proof",
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
         "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+        "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml (removed)",
         "docs/operations/cloud/aws/shepherd-gpu-proof",
         ".csdlc/prepared/issues/345",
         ".csdlc/evidence/345"
       ],
       "invariants": [
         "The approved Agent Logic business account is verified before mutation.",
-        "No IAM or security-group creation/broadening and no public ingress occurs.",
-        "No paid launch occurs without exact-run authorization, revision, budget, run ID, and deadline.",
-        "At most one On-Demand instance is attempted and there is no fallback or retry.",
-        "Immutable artifacts and current source are digest-bound before model execution.",
-        "All temporary compute is owner-tagged, deadline-bound, and cleaned on every path.",
-        "Public evidence is redacted and cannot expose credentials, identifiers, prompts, responses, private paths, or environment dumps.",
-        "AWS remains optional and does not change Runtime/local Shepherd availability."
+        "Terraform owns exactly two On-Demand instances, their two security groups, one shared EC2 key pair, least-privilege roles/profiles, encrypted root disks, and the deadline scheduler.",
+        "Both nodes always have public IPv4 and mandatory TCP/22 ingress from exactly one valid operator IPv4 /32; no other public ingress is created.",
+        "GPU TCP/11434 is reachable only from the Runtime security group over the private address.",
+        "Cloud-init performs normal bootstrap and SSM remains recovery-only.",
+        "No paid apply occurs without exact current review, typed publication, single-use authorization, immutable artifacts, exact Terraform source and inputs, run ID, deadline, and combined cost bound.",
+        "Every configured model is digest-attested and simultaneously GPU-resident before the Runtime proof begins.",
+        "Controller destroy, guest shutdown deadline, and tag-constrained Scheduler independently cover both nodes.",
+        "All operator/run/Terraform state stays under .adl/local/issue345 in the bound worktree and public evidence is redacted.",
+        "AWS remains a bounded qualification lane and does not claim 24/7 production readiness."
       ],
       "risks": [
         "Recovered shell logic may encode stale account, AMI, IAM, artifact, quota, or pricing assumptions.",
@@ -110,19 +123,21 @@
       },
       "stop_conditions": [
         "The configured AWS profile does not resolve to the approved business account.",
-        "The instance profile, policies, security group, immutable artifact manifest, quota, price, or permanent deadline reaper is missing or ambiguous.",
-        "A required change would create or broaden IAM/security-group authority.",
-        "Exact adapter/source/artifact identity cannot be proven.",
-        "A paid launch lacks explicit exact-run operator authorization or exceeds its cost/deadline ceiling.",
-        "Cleanup ownership is ambiguous or any temporary compute remains.",
-        "Evidence cannot be redacted without losing the proving denominator.",
+        "Terraform does not validate to exactly two On-Demand nodes, one shared key pair, mandatory /32 SSH on both, private SG-only Ollama, or all three deadline paths.",
+        "Exact review, source, Terraform inputs, SSH key/CIDR, VPC/subnet/AMI, artifact, quota, or combined cost identity cannot be proven.",
+        "A paid apply lacks current typed publication and explicit single-use exact-run authorization or exceeds its cost/deadline ceiling.",
+        "Either cloud-init path depends on controller-side SSM commands or live Git checkout.",
+        "The complete configured model set is not simultaneously GPU-resident with expected digests.",
+        "Guardian, Runtime, six UTS/ACC/Freedom-Gate/runtime.observe agent executions, or truthful non-transit evidence cannot be proven.",
+        "Cleanup ownership is ambiguous or any matching instance or volume remains.",
+        "State escapes the bound worktree or evidence cannot be redacted without losing the proving denominator.",
         "Fresh review reports an unresolved actionable finding."
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/345/design.md",
-      "design_digest": "f789c9d45cd930e363a00686912c470cfb3a4e4cb4ac5de3498da816b37efdb7",
+      "design_digest": "2c10beb0d51f1f1c755fd5bfa66eaf72597e270d1ab22d5d7bd371a31884c0f7",
       "diagram_ref": ".csdlc/prepared/issues/345/diagram.mmd",
-      "diagram_digest": "c21b673cd85fae0f3abd1cdd5ccaca90418b063796929de1c74f15ca270f0ae7"
+      "diagram_digest": "4565e689e454d83ea8e9ee9e450bf4a7fcb4ef10d1383efa948d34ef068f6554"
     }
   }
 }

@@ -1,90 +1,88 @@
-# Issue #345 design — AWS GPU Shepherd proof runner
+# Issue #345 design — two-node AWS Runtime qualification
 
 ## Purpose
 
-Recover the bounded AWS GPU Shepherd runner retained at commit
-`7a26886c47962e71c128489f5176a045ae8e9a64`, rename and harden it as an
-issue-#345-owned command, and prove that the current governed Shepherd adapter
-can execute one real model-backed request on Agent Logic-owned AWS GPU compute.
+Provide one bounded, repeatable AWS qualification of the actual deployment
+shape: a regular EC2 node runs Guardian, Runtime v3, six governed agents, UTS,
+ACC, and Freedom Gate; a separate GPU EC2 node runs Ollama with at least two
+simultaneously resident models. Terraform is the only infrastructure creation
+path. This qualification remains temporary and budget-bound; it is not the
+later 24/7 production deployment.
 
-This is an optional remote portability proof. It does not replace the local
-Runtime-to-Shepherd acceptance path, make AWS a Runtime dependency, or grant
-standing authority for paid launches.
+## Authority and scope
 
-## Authority boundary
+Issue #345 owns the issue-local Terraform root, its runner and focused tests,
+the AWS proof runbook, typed issue artifacts, and redacted evidence. It does
+not change Runtime admission semantics, model defaults, production DNS, or the
+future multi-region/24/7 topology. The approved `agent-logic-admin` profile and
+immutable versioned model bundle are inputs.
 
-Issue #345 owns only:
+SSM is installed and enabled on both nodes for recovery only. It is never the
+bootstrap transport. Cloud-init starts both workloads automatically. Both
+instances always receive public IPv4 and use the same Terraform-managed EC2
+key pair; TCP/22 ingress is required on both and restricted to one validated
+operator IPv4 `/32`. No other public ingress exists.
 
-- `adl/tools/run_issue345_aws_gpu_shepherd_proof.sh`
-- `adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh`
-- `.csdlc/prepared/issues/345/**`
-- `.csdlc/evidence/345/**`
-- focused documentation that describes this optional proof lane
+## Terraform topology
 
-The historical `run_wp5795_aws_gpu_proof.sh` and its retained evidence are
-read-only recovery inputs. Runtime, governed admission, Shepherd adapter, local
-model, Observatory, IAM, security-group, quota, and S3 artifact authorities
-remain with their existing owners. The runner may verify pre-provisioned AWS
-resources but may not create or broaden IAM roles, instance profiles, security
-groups, or public ingress.
+The root at `infra/aws/runtime/gpu-proof` owns exactly two On-Demand instances,
+two security groups, one shared key pair, separate least-privilege instance
+roles/profiles, encrypted delete-on-termination gp3 root disks, and one
+EventBridge Scheduler deadline targeting both exact instance IDs.
 
-## Execution design
+The GPU security group admits TCP/11434 only from the Runtime security group.
+The Runtime cloud-init receives the GPU private address from Terraform. The
+GPU node restores the immutable Ollama runtime and every configured model from
+S3, starts one persistent Ollama service with infinite keep-alive and a loaded
+model limit matching the configured set, exercises every model, and publishes
+a digest-bound readiness receipt only after all expected models have nonzero
+GPU residency.
 
-The runner exposes three explicit actions: `preflight`, `run`, and `cleanup`.
-Preflight is read-only and verifies the `agent-logic-admin` profile resolves to
-the approved business account, the selected region and GPU instance type are
-available, the expected permanent instance profile and policies match exactly,
-the named security group has no ingress, the immutable S3 manifest and object
-versions match their pinned digests, the quota and current On-Demand price fit
-the declared bounds, and no stale issue-owned compute remains.
+The Runtime node waits for that private readiness surface, restores the exact
+reviewed repository archive from versioned S3, then runs the Guardian lifecycle
+proof and six real Runtime-agent cycles through UTS, ACC, Freedom Gate, and
+`runtime.observe`. The governed Shepherd smoke contract is run once per
+configured model against the private GPU endpoint. Evidence does not claim an
+unimplemented Runtime-v3 kernel-to-Ollama transit path.
 
-Paid execution requires a full commit SHA, unique run ID, explicit `--execute`,
-and a separately recorded operator authorization and cost ceiling. One
-On-Demand GPU instance is launched with encrypted delete-on-termination root
-storage, no public ingress, SSM transport, exact issue/run/owner/deadline tags,
-and no fallback or retry to a different purchase option. The guest restores
-the exact versioned model/runtime artifacts, checks every digest, checks the
-GPU driver and model residency, builds or reuses only revision-bound Runtime
-artifacts, and invokes the current governed Shepherd proof at the requested
-repository revision.
+## Launch and cost controls
 
-Three independent cleanup layers remain mandatory: local trap cleanup, a guest
-deadline timer, and the pre-existing tag-scoped deadline reaper. Cleanup is
-owner-bound and idempotent. Any uncertainty about account, resource identity,
-lock ownership, proof revision, artifact identity, deadline, or cleanup is a
-terminal refusal rather than authority to continue.
+`preflight` is read-only with respect to paid compute. It verifies the business
+account, both AMIs and instance prices, GPU quota, VPC/subnet, immutable S3
+manifest, SSH key and `/32`, Terraform source identity, total compute/storage/
+IPv4/request cost, and zero stale issue instances or volumes.
+
+Paid `run` requires a clean reviewed revision, a unique run ID, explicit
+`--execute`, and one retained single-use authorization binding both instance
+types, both disks, immutable artifacts, network inputs, SSH key hash, `/32`,
+Terraform source identity, deadline, and combined cost ceiling. The runner
+creates a saved Terraform plan and applies exactly that file. Its digest is
+retained with the final evidence. There is no Spot fallback, retry launch, or
+unreviewed infrastructure path.
+
+## Resilience and cleanup
+
+Three independent termination paths cover both nodes: the controller's
+Terraform destroy trap, a guest-local systemd deadline shutdown on each node,
+and the tag-constrained Terraform-managed Scheduler target. Cleanup is
+owner-bound and verifies zero matching instances and volumes before releasing
+the run lock. All Terraform state, plans, authorization copies, generated
+bootstrap files, and receipts remain beneath `.adl/local/issue345` in the bound
+worktree.
 
 ## Evidence and privacy
 
-The public evidence packet records only bounded redacted facts: source
-revision, model/backend/artifact digests, GPU class and residency, proof result,
-elapsed time, estimated compute cost, cleanup disposition, and hashes of any
-private raw logs. It must not retain credentials, tokens, account IDs, raw AWS
-resource IDs, model prompts, model output, private paths, or environment dumps.
-
-Deterministic local tests exercise parsing, preflight refusal, account/profile
-mismatch, security-group ingress, IAM drift, stale revision, lock collision,
-deadline handling, interruption, cleanup failure, and redaction without AWS
-mutation. A paid pass is valid only when the exact reviewed runner revision and
-current Shepherd adapter revision produce a real model-backed receipt and all
-temporary resources are then absent.
-
-## Dependencies
-
-- Historical recovery commit `7a26886c47962e71c128489f5176a045ae8e9a64`
-- Current governed Shepherd adapter and local proof contract derived from the
-  former #5795 lane
-- Existing Agent Logic business-account profile and operator-provisioned IAM,
-  security-group, S3, quota, and deadline-reaper resources
-- #256 only as a downstream birthday-demo consumer; #345 does not absorb or
-  execute #256
-
-Preparation and deterministic tests require no paid AWS authority. Any live
-launch remains separately operator-authorized and budget-bound.
+Public evidence contains only source and artifact digests, model identities and
+residency facts, bounded component outcomes, cost inputs, the saved-plan digest,
+and cleanup counts. It excludes credentials, private keys, raw AWS identifiers,
+prompts, responses, private paths, and environment dumps. Local contract tests
+prove the static topology and fail-closed input/authorization behavior without
+launching compute. Live AWS execution is valid only after a fresh exact-head
+review and typed publication.
 
 ## Rollback
 
-Rollback removes or disables only the issue-#345 runner and its optional proof
-documentation. It does not alter Runtime, the local Shepherd adapter, S3 model
-artifacts, or permanent business-account controls. Cleanup must still finish
-before rollback can be considered complete.
+Terraform destroy removes the temporary two-node deployment. The deadline
+paths remain effective if the controller disappears. Rollback does not delete
+the versioned S3 model bundle or change Runtime/Guardian behavior outside the
+issue-owned qualification lane.

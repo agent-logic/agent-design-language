@@ -7,69 +7,93 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 24
+    "generation": 48
   },
   "status": "ready",
   "content": {
     "card_kind": "vpp",
     "values": {
-      "summary": "Execute the smallest proving validation DAG.",
+      "summary": "Prove the exact two-node Terraform topology and runner locally, verify current AWS inputs through a live read-only preflight with zero paid launches, obtain fresh exact-head review and typed publication, then run one separately authorized paid qualification and prove model residency, Guardian/Runtime/ACC execution, and zero residue.",
       "lanes": [
         {
-          "lane": "issue345-runner-contract",
-          "proof_role": "Execute positive and negative runner fixtures for parsing, account/IAM/security-group/artifact validation, lock ownership, exact revision, interruption, deadline, cleanup, and redaction without AWS mutation.",
+          "lane": "issue345-terraform-contract",
+          "proof_role": "Validate the two-node Terraform graph and sanitized saved plan: exactly two On-Demand instances, one shared key pair, mandatory /32 SSH on both, private SG-only 11434, SSM recovery attachments, encrypted delete-on-termination disks, and two-node deadline termination.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
             "AC-3",
-            "AC-5",
-            "AC-6",
-            "AC-7"
+            "AC-7",
+            "AC-9"
           ],
           "deterministic": true,
           "resource_profile": "small",
           "budget_seconds": 600,
           "budget_tokens": 4000,
           "argv": [
+            "terraform",
+            "-chdir=infra/aws/runtime/gpu-proof",
+            "validate"
+          ],
+          "parallel_group": "local-contract",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue345-runner-contract",
+          "proof_role": "Execute no-paid authorization, exact-review, Terraform source/input binding, saved-plan receipt, redaction, combined-cost, cleanup, and topology-negative fixtures using only worktree-local state.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
+          "argv": [
             "bash",
             "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
           ],
           "parallel_group": "local-contract",
-          "defer_reason": "The issue-owned executable fixture is an explicit implementation deliverable; readiness fails closed until this exact target exists and passes."
+          "defer_reason": null
         },
         {
           "lane": "issue345-readonly-aws-preflight",
-          "proof_role": "Verify the approved business-account and all pre-provisioned launch predicates without acquiring a lock or launching compute.",
+          "proof_role": "Verify the business account, immutable artifacts, quota, pricing, resolved Runtime/GPU AMIs, subnet/VPC, and zero issue/run compute without mutation.",
           "acceptance_ids": [
-            "AC-2",
-            "AC-8"
+            "AC-4",
+            "AC-8",
+            "AC-9"
           ],
           "deterministic": false,
           "resource_profile": "small",
           "budget_seconds": 300,
-          "budget_tokens": 1500,
+          "budget_tokens": 2000,
           "argv": [
             "bash",
             "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
             "preflight"
           ],
           "parallel_group": "aws-readonly",
-          "defer_reason": "The issue-owned runner is an explicit implementation deliverable; no AWS readback or mutation is authorized until this exact target exists and passes deterministic review."
+          "defer_reason": null
         },
         {
-          "lane": "issue345-paid-gpu-proof",
-          "proof_role": "Run one exact-revision, real-model, GPU-resident Shepherd proof and prove owner-bound cleanup and bounded cost.",
+          "lane": "issue345-paid-two-node-proof",
+          "proof_role": "Apply one saved Terraform plan from the authorized exact source and inputs, retain its digest, prove real GPU model residency and separate Runtime/Guardian/six-agent ACC execution over the private Ollama route, destroy the stack, and verify zero residue within the authorized combined cost.",
           "acceptance_ids": [
-            "AC-3",
             "AC-4",
             "AC-5",
             "AC-6",
+            "AC-7",
+            "AC-8",
             "AC-9"
           ],
           "deterministic": false,
           "resource_profile": "large",
           "budget_seconds": 3600,
-          "budget_tokens": 4000,
+          "budget_tokens": 6000,
           "argv": [
             "bash",
             "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
@@ -78,38 +102,40 @@
             "EXACT_REVIEWED_SHA",
             "--run-id",
             "AUTHORIZED_RUN_ID",
+            "--authorization-file",
+            "WORKTREE_LOCAL_AUTHORIZATION",
             "--execute"
           ],
           "parallel_group": "aws-paid-serial",
-          "defer_reason": "Requires separate operator authorization naming the exact reviewed revision, one run ID, deadline, and maximum cost after read-only preflight and launch-readiness review pass."
+          "defer_reason": "Requires a fresh passing exact-head review, typed publication, and new operator authorization binding the exact Terraform source, inputs, and combined two-node budget."
         },
         {
-          "lane": "issue345-diff-hygiene",
-          "proof_role": "Reject whitespace defects in the exact issue change.",
+          "lane": "issue345-exact-head-review",
+          "proof_role": "Review the exact candidate, Terraform plan contract, retained evidence, public redaction, two-node proof truth, and cleanup denominator before publication and finish.",
           "acceptance_ids": [
+            "AC-8",
             "AC-9"
           ],
-          "deterministic": true,
-          "resource_profile": "small",
-          "budget_seconds": 60,
-          "budget_tokens": 500,
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 5000,
           "argv": [
             "git",
             "diff",
-            "--check",
-            "origin/main...HEAD"
+            "--check"
           ],
-          "parallel_group": "local-contract",
-          "defer_reason": null
+          "parallel_group": "review",
+          "defer_reason": "Runs after implementation and focused validation are complete at the exact candidate revision."
         }
       ],
       "planned_validation_seconds": 7200,
       "planned_validation_tokens": 50000,
-      "failure_policy": "Fail closed before paid mutation on any account, authorization, cost, deadline, lock, IAM, no-ingress, artifact, quota, reaper, exact-revision, model-proof, redaction, or cleanup ambiguity; preserve bounded diagnostics and require a fresh reviewed attempt rather than fallback or retry.",
+      "failure_policy": "Fail closed before paid apply on any account, review, authorization, Terraform source/input, SSH /32/key, cost, deadline, artifact, quota, topology, lock, or stale-resource ambiguity. After apply, always attempt Terraform destroy and verify zero run instances and volumes; retain bounded failure evidence and never retry or fall back to another purchase path.",
       "design_ref": ".csdlc/prepared/issues/345/design.md",
-      "design_digest": "f789c9d45cd930e363a00686912c470cfb3a4e4cb4ac5de3498da816b37efdb7",
+      "design_digest": "2c10beb0d51f1f1c755fd5bfa66eaf72597e270d1ab22d5d7bd371a31884c0f7",
       "diagram_ref": ".csdlc/prepared/issues/345/diagram.mmd",
-      "diagram_digest": "c21b673cd85fae0f3abd1cdd5ccaca90418b063796929de1c74f15ca270f0ae7"
+      "diagram_digest": "4565e689e454d83ea8e9ee9e450bf4a7fcb4ef10d1383efa948d34ef068f6554"
     }
   }
 }

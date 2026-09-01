@@ -12,21 +12,16 @@ Status: draft
 
 ## Scope
 
-adl-runtime/tests/shepherd_local_model.rs
-adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
-adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
-adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml
-docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-.csdlc/evidence/345
-.csdlc/issues/345
+
 
 ## Prompts
 
-- Can any path launch paid compute before account, authorization, cost, deadline, lock, IAM, no-ingress, artifact, quota, and reaper predicates are proven?
-- Can interruption or a partial AWS response leave an unowned instance, volume, lock, or cleanup ambiguity?
-- Can a stale source, artifact, runner, backend, or retained response be presented as current real-model GPU proof?
-- Can public evidence expose credentials, AWS identifiers, private paths, prompts, responses, or environment values?
-- Does the issue remain an optional portability proof without changing Runtime/local Shepherd acceptance or absorbing #256?
+- Can Terraform create any topology other than exactly one regular Runtime node and one GPU Ollama node, or omit the single shared key pair, public IPv4, or required /32 SSH ingress from either node?
+- Can TCP/11434 become public or reachable from any source other than the Runtime security group, or can bootstrap depend on controller-side SSM commands?
+- Can paid apply occur without current exact-head review, single-use authorization, immutable artifacts, both instance and disk costs, exact network and SSH bindings, Terraform source identity, deadline, and zero stale issue resources?
+- Can either node fail during package/bootstrap/model/Runtime setup without a bounded receipt and three independent termination paths covering both instances and volumes?
+- Does the GPU receipt prove every configured model is simultaneously resident with its expected digest, and does the Runtime receipt prove Guardian plus six real UTS/ACC/Freedom-Gate/runtime.observe executions without overstating kernel transit?
+- Can public evidence or Terraform state escape the worktree, expose credentials/private key/raw identifiers/prompts/responses, or claim 24/7 readiness beyond this bounded qualification?
 
 ## Findings
 
@@ -38,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The authorized paid GPU lane still must dynamically prove guest execution and cleanup.
-- This bounded proof runner does not establish 24/7 service readiness.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:b8e09e3fef74306eff27c1b7ba8dcaa6200a2304:324219e3d8cd9a59312eac25c9f75d91f929f935fa2afa4964676d335b13efba")
+Revision: None
 
-Reviewer: Some("fresh-session:/root/issue_345_final_pass_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

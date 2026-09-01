@@ -12,7 +12,7 @@ Status: ready
 
 ## Goal
 
-Recover and harden one bounded reusable AWS GPU proof runner that loads and attests a configured set of at least two simultaneously resident models through the current governed Shepherd adapter without making AWS a Runtime dependency or claiming six-resident qualification.
+Deliver one reliable, bounded, Terraform-owned AWS qualification that provisions a regular Runtime/Guardian/agent node and a separate Ollama GPU node, attaches one shared operator SSH key pair to both with required /32 ingress, proves private inter-node model execution and all governed ACC/tool paths, and removes both nodes and volumes within the authorized cost and deadline.
 
 ## Required Outcome
 
@@ -20,6 +20,7 @@ A reviewed issue-owned command can preflight, run one explicitly authorized real
 
 ## Scope
 
+- infra/aws/runtime/gpu-proof/**
 - adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
 - adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
 - docs/operations/cloud/aws/shepherd-gpu-proof/**
@@ -28,12 +29,13 @@ A reviewed issue-owned command can preflight, run one explicitly authorized real
 
 ## Authority
 
-- Issue #345 owns only the optional AWS GPU Shepherd proof runner, focused tests, proof documentation, and redacted evidence.
-- The former #5795 local Shepherd contract and commit 7a26886c47962e71c128489f5176a045ae8e9a64 are read-only recovery inputs.
-- Issue #256 is a downstream birthday-demo consumer and is not executed or modified by #345.
-- IAM roles, instance profiles, security groups, S3 artifacts, quota, and the deadline reaper are operator-provisioned inputs that the runner verifies but does not create or broaden.
-- Paid AWS execution requires separate exact-run operator authorization and the Agent Logic business account.
-- No hosted inference, production fallback, public ingress, or default model change is authorized.
+- Issue #345 owns only the temporary two-node Terraform qualification root, its runner/tests/runbook, typed artifacts, and redacted evidence.
+- Terraform may create the exact temporary instances, security groups, one shared key pair, least-privilege roles/profiles, encrypted root disks, and deadline scheduler declared by this issue.
+- The versioned S3 model bundle and approved Agent Logic business account/profile remain operator-provided inputs and are not deleted by cleanup.
+- SSM authority is recovery-only; normal bootstrap is automatic cloud-init and no controller-side command execution is part of the proof.
+- Runtime admission semantics, model defaults, production DNS, other clouds, multi-region replication, and 24/7 deployment remain outside #345.
+- Paid execution requires separate exact-run authorization and may not exceed the operator's 20 USD ceiling.
+- Issue #256 remains a downstream consumer and is not executed or modified by #345.
 
 ## Assumptions
 
@@ -41,10 +43,13 @@ A reviewed issue-owned command can preflight, run one explicitly authorized real
 
 ## Operator Constraints
 
-- Use AWS profile agent-logic-admin and verify the resolved business account before any mutation.
-- Do not print, copy, commit, or expose AWS credentials or credential files.
-- Do not create IAM profiles, roles, policies, security groups, or public ingress.
-- Use one On-Demand GPU instance with no fallback or retry only after explicit paid-run authorization.
-- Retain no raw account IDs, AWS resource IDs, model prompts, model output, secrets, private paths, or environment dumps in public evidence.
-- Preparation and deterministic validation must not launch paid compute.
-- Obtain fresh exact-head review before publication and again before any paid launch if source changes.
+- Use AWS profile agent-logic-admin and verify the resolved business account before mutation.
+- Terraform is the sole instance, network, IAM, disk, key-pair, and deadline-scheduler creation path for this qualification.
+- Create exactly two On-Demand nodes: regular Runtime/Guardian/agents and GPU Ollama; use no fallback or retry launch.
+- Create exactly one EC2 key pair from the approved public key and attach it to both nodes.
+- Both nodes always have public IPv4 and TCP/22 ingress restricted to the required valid operator IPv4 /32; GPU TCP/11434 is Runtime-security-group-only.
+- Cloud-init performs automatic bootstrap; SSM is enabled for recovery only and never drives normal setup.
+- Keep Terraform state, plans, authorization copies, generated bootstrap, and receipts inside the bound worktree.
+- Do not print, copy, commit, or expose credentials, private keys, raw AWS identifiers, prompts, responses, private paths, or environment dumps.
+- Preparation and deterministic validation launch no paid compute; paid apply requires fresh exact-head review, typed publication, single-use authorization, and a combined worst-case cost no greater than 20 USD.
+- Do not claim 24/7 production readiness or an unimplemented Runtime-v3 kernel-to-Ollama transit path.

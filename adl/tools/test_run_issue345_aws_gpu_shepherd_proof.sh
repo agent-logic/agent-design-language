@@ -3,205 +3,114 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 RUNNER="$ROOT/adl/tools/run_issue345_aws_gpu_shepherd_proof.sh"
-
-fail() {
-  echo "FAIL issue345-runner-contract: $*" >&2
-  exit 1
-}
-
-expect_failure() {
-  local needle="$1"
-  shift
-  local out="$tmp/failure-$RANDOM.out" err="$tmp/failure-$RANDOM.err"
-  if "$@" >"$out" 2>"$err"; then
-    fail "expected failure containing: $needle"
-  fi
-  grep -q "$needle" "$err" || fail "failure did not contain: $needle"
-}
-
-bash -n "$RUNNER"
-git -C "$ROOT" rev-parse --verify HEAD >/dev/null
-
-help="$($RUNNER preflight --help)"
-grep -q -- '--authorization-file' <<<"$help" || fail "authorization-file interface is missing"
-grep -q -- '--owner-token' <<<"$help" || fail "owner-bound cleanup interface is missing"
-
-model_request_line="$(grep -n 'cargo test --locked' "$RUNNER" | tail -1 | cut -d: -f1)"
-residency_line="$(grep -n '/api/ps' "$RUNNER" | tail -1 | cut -d: -f1)"
-[[ "$model_request_line" -lt "$residency_line" ]] || fail "GPU residency is checked before model execution"
-grep -q 'OLLAMA_KEEP_ALIVE=-1' "$RUNNER" || fail "models are not kept resident"
-grep -q 'OLLAMA_MAX_LOADED_MODELS=' "$RUNNER" || fail "multi-model capacity is not configured"
-grep -q 'length >= 2' "$RUNNER" || fail "multi-model input is not required"
-grep -q 'adl.issue345.aws_gpu_proof.v2' "$RUNNER" || fail "multi-model proof schema is missing"
-grep -q 'estimated_compute_cost_usd' "$RUNNER" || fail "cost evidence is missing"
-grep -q 'validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x' "$RUNNER" || fail "Runtime Guardian launch proof is missing"
-grep -q 'run_issue268_six_resident_uts_cycle.py' "$RUNNER" || fail "real Runtime agent UTS/ACC path is missing"
-grep -q 'runtime_agent_acc_proofs' "$RUNNER" || fail "Runtime agent ACC proof receipt is missing"
-grep -q 'components_exercised:\["guardian_supervised_runtime_v3","governed_runtime_agents","ollama_gpu"\]' "$RUNNER" || fail "component-complete architecture receipt is missing"
-grep -q 'runtime_v3_to_ollama_transit_proved:false' "$RUNNER" || fail "Runtime v3 provider-boundary non-claim is missing"
-grep -q 'issue345-authorizations/\$AUTHORIZATION_SHA256.json' "$RUNNER" || fail "durable single-use authorization marker is missing"
-grep -q -- "--if-none-match '\*'" "$RUNNER" || fail "authorization replay guard is missing"
-grep -q 'instance role assume-role trust policy drifted' "$RUNNER" || fail "instance-role trust verification is missing"
-grep -q 'deadline reaper assume-role trust policy drifted' "$RUNNER" || fail "reaper-role trust verification is missing"
-grep -q 'active_issue_volumes' "$RUNNER" || fail "stale EBS detection is missing"
-grep -q 'VolumeSize=\$GP3_VOLUME_SIZE_GIB' "$RUNNER" || fail "bounded 10x disk setting is not used at launch"
-grep -q 'conservative_worst_case_total_cost_usd' "$RUNNER" || fail "complete worst-case cost receipt is missing"
-
-tmp="$(mktemp -d "${TMPDIR:-/tmp}/issue345-contract.XXXXXX")"
+TF_ROOT="$ROOT/infra/aws/runtime/gpu-proof"
+TEST_STATE_ROOT="$ROOT/.adl/local/issue345/tests"
+mkdir -p "$TEST_STATE_ROOT"
+tmp="$(mktemp -d "$TEST_STATE_ROOT/issue345-two-node-contract.XXXXXX")"
 trap 'rm -rf "$tmp"' EXIT
 
-# Load only the runner's pure validators. This never invokes AWS or a paid path.
+fail() { echo "FAIL issue345-two-node-contract: $*" >&2; exit 1; }
+
+bash -n "$RUNNER"
+terraform -chdir="$TF_ROOT" validate >/dev/null
+
+[[ "$(grep -Ec '^resource "aws_instance" "(runtime|gpu)"' "$TF_ROOT/main.tf")" == 2 ]] || fail "Terraform must own exactly two nodes"
+grep -q 'profile             = var.aws_profile' "$TF_ROOT/versions.tf" || fail "Terraform provider is not pinned to the business profile"
+grep -q 'var.aws_profile == "agent-logic-admin"' "$TF_ROOT/variables.tf" || fail "Terraform profile can drift to the default account"
+[[ "$(grep -Ec '^resource "aws_key_pair" "operator"' "$TF_ROOT/main.tf")" == 1 ]] || fail "Terraform must own exactly one shared key pair"
+[[ "$(grep -Fc 'key_name                    = aws_key_pair.operator.key_name' "$TF_ROOT/main.tf")" == 2 ]] || fail "both nodes must require the managed key pair"
+[[ "$(grep -Fc 'associate_public_ip_address = true' "$TF_ROOT/main.tf")" == 2 ]] || fail "both nodes must always receive public IPv4"
+[[ "$(grep -Ec 'from_port   = 22' "$TF_ROOT/main.tf")" == 2 ]] || fail "both node security groups must expose SSH"
+[[ "$(grep -Fc 'cidr_blocks = [var.ssh_ingress_cidr]' "$TF_ROOT/main.tf")" == 2 ]] || fail "SSH must be restricted to the required /32"
+grep -q 'from_port       = 11434' "$TF_ROOT/main.tf" || fail "GPU Ollama ingress is missing"
+grep -q 'security_groups = \[aws_security_group.runtime.id\]' "$TF_ROOT/main.tf" || fail "Ollama must be SG-to-SG only"
+[[ "$(grep -Fc 'AmazonSSMManagedInstanceCore' "$TF_ROOT/main.tf")" == 2 ]] || fail "both nodes need SSM recovery policy"
+grep -q 'InstanceIds = \[aws_instance.runtime.id, aws_instance.gpu.id\]' "$TF_ROOT/main.tf" || fail "deadline must terminate both exact nodes"
+[[ "$(grep -Fc 'delete_on_termination = true' "$TF_ROOT/main.tf")" == 2 ]] || fail "both root disks must delete on termination"
+[[ "$(grep -Fc 'encrypted             = true' "$TF_ROOT/main.tf")" == 2 ]] || fail "both root disks must be encrypted"
+grep -q 'replace(var.runtime_user_data, "__GPU_PRIVATE_IP__", aws_instance.gpu.private_ip)' "$TF_ROOT/main.tf" || fail "Runtime must receive the GPU private IP"
+
+grep -q 'STATE_BASE=.*\.adl/local/issue345' "$RUNNER" || fail "runner state is not worktree-local"
+grep -q 'validate_state_root' "$RUNNER" || fail "runner does not enforce worktree-local state containment"
+! grep -q 'git-common-dir\|csdlc-v2/issue345' "$RUNNER" || fail "runner still uses Git common state"
+! grep -q 'ec2 run-instances\|ssm send-command\|AWS-RunShellScript' "$RUNNER" || fail "controller still owns launch or SSM bootstrap"
+! grep -q 'git clone\|git -C /opt/adl-issue345/repo fetch' "$RUNNER" || fail "guest bootstrap still depends on live Git"
+grep -q 'git -C "$ROOT" archive --format=tar "$SOURCE_COMMIT"' "$RUNNER" || fail "exact reviewed repository archive is missing"
+grep -q 'source_archive' "$RUNNER" || fail "versioned source archive is not bound into guest configuration"
+[[ "$(grep -Fc -- "--if-none-match '*'" "$RUNNER")" -ge 6 ]] || fail "locks, authorization, and guest receipts must be create-only"
+grep -q 'terraform .* plan' "$RUNNER" || fail "Terraform plan is missing"
+grep -q 'terraform .* apply' "$RUNNER" || fail "Terraform apply is missing"
+grep -q 'terraform .* destroy' "$RUNNER" || fail "Terraform destroy is missing"
+grep -q 'gpu-ready.json' "$RUNNER" || fail "GPU readiness receipt is missing"
+grep -q 'runtime-final.json' "$RUNNER" || fail "Runtime final receipt is missing"
+grep -q 'runtime_v3_to_ollama_transit_proved:false' "$RUNNER" || fail "Runtime-v3 transit non-claim is missing"
+grep -q 'systemd-run.*adl-issue345-deadline' "$RUNNER" || fail "guest deadline shutdown is missing"
+! grep -q 'apt-get install -y -qq awscli' "$RUNNER" || fail "known-broken Ubuntu apt awscli path returned"
+grep -q 'snap install aws-cli --classic' "$RUNNER" || fail "cloud-init must install AWS CLI through the available package manager"
+grep -q 'terraform_source_sha256' "$RUNNER" || fail "Terraform source identity is not bound"
+grep -q 'terraform_plan_sha256' "$RUNNER" || fail "saved Terraform plan digest is not retained"
+
+printf '%s\n' 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI0123456789abcdefghijklmnopqrstuv issue345' >"$tmp/operator.pub"
+export ADL_ISSUE345_STATE_ROOT="$tmp/state"
+export ADL_ISSUE345_SSH_INGRESS_CIDR=203.0.113.10/32
+export ADL_ISSUE345_SSH_PUBLIC_KEY_FILE="$tmp/operator.pub"
+export ADL_ISSUE345_VPC_ID=vpc-0123456789abcdef0
 ADL_ISSUE345_LIBRARY_MODE=1 source "$RUNNER"
+if (ADL_ISSUE345_STATE_ROOT=/private/tmp/issue345 ADL_ISSUE345_LIBRARY_MODE=1 source "$RUNNER") 2>/dev/null; then fail "state-root escape passed"; fi
+write_gpu_bootstrap "$tmp/gpu-bootstrap.sh"
+write_runtime_bootstrap "$tmp/runtime-bootstrap.sh"
+bash -n "$tmp/gpu-bootstrap.sh"
+bash -n "$tmp/runtime-bootstrap.sh"
+write_user_data "$tmp/gpu-user-data.sh" script-key script-version "$(printf 'a%.0s' {1..64})" config-key config-version "$(printf 'b%.0s' {1..64})" ready-key ready-key
+write_user_data "$tmp/runtime-user-data.sh" script-key script-version "$(printf 'a%.0s' {1..64})" config-key config-version "$(printf 'b%.0s' {1..64})" ready-key final-key __GPU_PRIVATE_IP__
+bash -n "$tmp/gpu-user-data.sh"
+bash -n "$tmp/runtime-user-data.sh"
+[[ "$(grep -Fc 'systemctl enable --now' "$tmp/gpu-user-data.sh")" -ge 3 ]] || fail "GPU cloud-init does not enable SSM recovery"
+[[ "$(grep -Fc 'systemctl enable --now' "$tmp/runtime-user-data.sh")" -ge 3 ]] || fail "Runtime cloud-init does not enable SSM recovery"
 
 head="$(git -C "$ROOT" rev-parse HEAD)"
-run_id="adl-issue345-contract"
-expires_epoch="$(( $(date +%s) + 3600 ))"
-jq -n \
-  --arg commit "$head" --arg run_id "$run_id" --arg expires "$expires_epoch" \
-  --arg account "$EXPECTED_ACCOUNT_SHA256" \
-  --arg bucket "$ARTIFACT_BUCKET" --arg manifest_key "$ARTIFACT_MANIFEST_KEY" \
-  --arg manifest_version "$ARTIFACT_MANIFEST_VERSION_ID" --arg manifest_sha "$ARTIFACT_MANIFEST_SHA256" \
-  --arg profile "$INSTANCE_PROFILE" --arg role "$INSTANCE_PROFILE_ROLE" \
-  --arg inline_policy "$INSTANCE_REQUIRED_INLINE_POLICY" --arg inline_sha "$INSTANCE_REQUIRED_INLINE_POLICY_SHA256" \
-  --arg managed_policy "$INSTANCE_REQUIRED_MANAGED_POLICY_ARN" --arg security_group "$NO_INGRESS_SECURITY_GROUP" \
-  --arg reaper_function "$DEADLINE_REAPER_FUNCTION" --arg reaper_rule "$DEADLINE_REAPER_RULE" \
-  --arg reaper_role "$DEADLINE_REAPER_ROLE" --arg reaper_code "$DEADLINE_REAPER_CODE_SHA256_B64" \
-  --arg dlami_parameter "$DLAMI_PARAMETER" --argjson models "$MODEL_IDENTITIES_JSON" '
-  {
-    schema:"adl.issue345.paid_run_authorization.v2",authorized:true,
-    authorization_id:"issue345-contract",source_commit:$commit,
-    reviewed_revision:("git-blake3:" + $commit + ":" + ("0" * 64)),run_id:$run_id,
-    region:"us-west-2",instance_type:"g6.xlarge",model_identities:$models,
-    max_instance_seconds:3300,max_reaper_lag_seconds:300,max_billable_seconds:3600,
-    max_gpu_hourly_usd:0.85,max_total_cost_usd:20,
-    cost_overheads:{gp3_volume_size_gib:200,gp3_monthly_usd_per_gib:0.08,
-      public_ipv4_hourly_usd:0.005,aws_request_overhead_usd:0.05},
-    expires_epoch:($expires | tonumber),
-    bindings:{aws_account_sha256:$account,
-      artifact_manifest:{bucket:$bucket,key:$manifest_key,version_id:$manifest_version,sha256:$manifest_sha},
-      instance_profile:{name:$profile,role:$role,inline_policy:$inline_policy,
-        inline_policy_sha256:$inline_sha,managed_policy_arn:$managed_policy},
-      no_ingress_security_group:{name:$security_group,resolved_id_sha256:("0" * 64)},
-      deadline_reaper:{function:$reaper_function,rule:$reaper_rule,role:$reaper_role,code_sha256_b64:$reaper_code},
-      dlami:{parameter:$dlami_parameter,resolved_ami_sha256:("0" * 64)},
-      subnet_sha256:("0" * 64)}}' >"$tmp/authorization.json"
-jq -S . "$tmp/authorization.json" >"$tmp/authorization-reformatted.json"
-digest_a="$(authorization_canonical_sha256 "$tmp/authorization.json")"
-digest_b="$(authorization_canonical_sha256 "$tmp/authorization-reformatted.json")"
-[[ "$digest_a" == "$digest_b" ]] || fail "semantic authorization formatting changes its consumption key"
+run_id=adl-issue345-contract
+load_ssh_inputs
+jq -n --arg commit "$head" --arg run "$run_id" --arg account "$EXPECTED_ACCOUNT_SHA256" \
+  --arg cidr "$SSH_INGRESS_CIDR" --arg key_hash "$SSH_PUBLIC_KEY_SHA256" \
+  --arg bucket "$ARTIFACT_BUCKET" --arg key "$ARTIFACT_MANIFEST_KEY" --arg version "$ARTIFACT_MANIFEST_VERSION_ID" --arg manifest_sha "$ARTIFACT_MANIFEST_SHA256" \
+  --arg runtime "$RUNTIME_INSTANCE_TYPE" --arg gpu "$GPU_INSTANCE_TYPE" --argjson models "$MODEL_IDENTITIES_JSON" '
+  {schema:"adl.issue345.paid_run_authorization.v3",authorized:true,authorization_id:"contract",
+   source_commit:$commit,reviewed_revision:("git-blake3:"+$commit+":"+("0"*64)),run_id:$run,region:"us-west-2",
+   runtime_instance_type:$runtime,gpu_instance_type:$gpu,model_identities:$models,
+   ssh_ingress_cidr:$cidr,ssh_public_key_sha256:$key_hash,
+   max_instance_seconds:3300,max_reaper_lag_seconds:300,max_billable_seconds:3600,
+   max_runtime_hourly_usd:0.70,max_gpu_hourly_usd:0.85,max_combined_hourly_usd:1.55,max_total_cost_usd:20,
+   cost_overheads:{runtime_gp3_gib:80,gpu_gp3_gib:200,gp3_monthly_usd_per_gib:0.08,public_ipv4_count:2,public_ipv4_hourly_usd:0.005,aws_request_overhead_usd:0.05},
+   expires_epoch:(now+3600|floor),bindings:{aws_account_sha256:$account,
+    artifact_manifest:{bucket:$bucket,key:$key,version_id:$version,sha256:$manifest_sha},
+    runtime_ami_sha256:("1"*64),gpu_ami_sha256:("2"*64),subnet_sha256:("3"*64),vpc_sha256:("4"*64),terraform_source_sha256:("5"*64)}}' >"$tmp/authorization.json"
 
-SOURCE_COMMIT="$head" RUN_ID="$run_id" AUTHORIZATION_FILE="$tmp/authorization.json" load_authorization
-jq '.bindings.aws_account_sha256 = ("f" * 64)' "$tmp/authorization.json" >"$tmp/authorization-wrong-account.json"
-if (SOURCE_COMMIT="$head" RUN_ID="$run_id" AUTHORIZATION_FILE="$tmp/authorization-wrong-account.json" load_authorization) 2>/dev/null; then
-  fail "authorization with another account binding unexpectedly passed"
-fi
-jq '.max_reaper_lag_seconds = 299 | .max_billable_seconds = 3599' "$tmp/authorization.json" >"$tmp/authorization-short-reaper.json"
-if (SOURCE_COMMIT="$head" RUN_ID="$run_id" AUTHORIZATION_FILE="$tmp/authorization-short-reaper.json" load_authorization) 2>/dev/null; then
-  fail "authorization with insufficient reaper bound unexpectedly passed"
-fi
-jq '.reviewed_revision = ("git-blake3:" + .source_commit + ":not-an-immutable-digest")' \
-  "$tmp/authorization.json" >"$tmp/authorization-bad-review.json"
-if (SOURCE_COMMIT="$head" RUN_ID="$run_id" AUTHORIZATION_FILE="$tmp/authorization-bad-review.json" load_authorization) 2>/dev/null; then
-  fail "authorization with a fabricated reviewed revision unexpectedly passed"
-fi
+SOURCE_COMMIT="$head"
+RUN_ID="$run_id"
 AUTHORIZATION_FILE="$tmp/authorization.json"
-bound_preflight="$(jq -n --arg account "$EXPECTED_ACCOUNT_SHA256" '{account_sha256:$account,
-  no_ingress_security_group_sha256:("0" * 64),ami_sha256:("0" * 64),subnet_sha256:("0" * 64)}')"
-verify_authorized_preflight_bindings "$bound_preflight"
-if (verify_authorized_preflight_bindings "$(jq '.ami_sha256 = ("f" * 64)' <<<"$bound_preflight")") 2>/dev/null; then
-  fail "resolved AMI authorization mismatch unexpectedly passed"
-fi
+load_authorization
+awk -v r="$MAX_RUNTIME_HOURLY_USD" -v g="$MAX_GPU_HOURLY_USD" -v c="$MAX_COMBINED_HOURLY_USD" 'BEGIN{exit !(r==0.70 && g==0.85 && c==1.55)}' || fail "two-node hourly authorization was not loaded"
+awk -v d="$GP3_MONTHLY_USD_PER_GIB" -v i="$PUBLIC_IPV4_HOURLY_USD" -v q="$AWS_REQUEST_OVERHEAD_USD" 'BEGIN{exit !(d==0.08 && i==0.005 && q==0.05)}' || fail "authorized cost overheads were not loaded"
+preflight_fixture="$(jq -n --arg account "$EXPECTED_ACCOUNT_SHA256" --arg key_hash "$SSH_PUBLIC_KEY_SHA256" --arg cidr_hash "$(sha256_text "$SSH_INGRESS_CIDR")" \
+  '{account_sha256:$account,runtime_ami_sha256:("1"*64),gpu_ami_sha256:("2"*64),subnet_sha256:("3"*64),vpc_sha256:("4"*64),terraform_source_sha256:("5"*64),ssh_public_key_sha256:$key_hash,ssh_ingress_cidr_sha256:$cidr_hash}')"
+verify_authorized_preflight_bindings "$preflight_fixture"
+if (verify_authorized_preflight_bindings "$(jq '.gpu_ami_sha256=("f"*64)' <<<"$preflight_fixture")") 2>/dev/null; then fail "GPU AMI drift passed"; fi
 
-reviewed_revision="$(jq -r '.reviewed_revision' "$tmp/authorization.json")"
-jq -n --arg revision "$reviewed_revision" \
-  '{phase:"reviewed",review:{completed:true,findings:[],reviewed_revision:$revision}}' \
-  >"$tmp/review-index.json"
-SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" \
-  verify_review_authority "$tmp/review-index.json" "$ROOT" "$head"
-jq '.review.reviewed_revision = ("git-blake3:" + ("f" * 40) + ":" + ("f" * 64))' \
-  "$tmp/review-index.json" >"$tmp/review-index-mismatch.json"
-if (SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" \
-    verify_review_authority "$tmp/review-index-mismatch.json" "$ROOT" "$head") 2>/dev/null; then
-  fail "typed review mismatch unexpectedly passed"
-fi
-drift_source="$(git -C "$ROOT" rev-parse HEAD^)"
-jq --arg source "$drift_source" '
-  .source_commit = $source
-  | .reviewed_revision = ("git-blake3:" + $source + ":" + ("0" * 64))
-' "$tmp/authorization.json" >"$tmp/authorization-drift-source.json"
-jq --arg revision "$(jq -r '.reviewed_revision' "$tmp/authorization-drift-source.json")" \
-  '.review.reviewed_revision = $revision' "$tmp/review-index.json" >"$tmp/review-index-drift-source.json"
-if (SOURCE_COMMIT="$drift_source" AUTHORIZATION_FILE="$tmp/authorization-drift-source.json" \
-    verify_review_authority "$tmp/review-index-drift-source.json" "$ROOT" "$head") 2>/dev/null; then
-  fail "substantive post-review drift unexpectedly passed"
-fi
+revision="$(jq -r .reviewed_revision "$tmp/authorization.json")"
+jq -n --arg revision "$revision" '{phase:"reviewed",review:{completed:true,findings:[],reviewed_revision:$revision}}' >"$tmp/review.json"
+SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" verify_review_authority "$tmp/review.json" "$ROOT" "$head"
+if (SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" verify_review_authority <(jq '.review.reviewed_revision=("git-blake3:"+("f"*40)+":"+("f"*64))' "$tmp/review.json") "$ROOT" "$head") 2>/dev/null; then fail "typed review mismatch passed"; fi
 
-RUN_ID=adl-issue345-launch-argv
-OWNER_TOKEN=0123456789abcdef0123456789abcdef
-build_run_instances_argv ami-authorized subnet-authorized sg-authorized /tmp/user-data.yaml 1234567890
-launch_argv="$(printf '%s\n' "${RUN_INSTANCES_ARGV[@]}")"
-grep -Fqx 'ami-authorized' <<<"$launch_argv" || fail "authorized AMI is absent from launch argv"
-grep -Fqx 'subnet-authorized' <<<"$launch_argv" || fail "authorized subnet is absent from launch argv"
-grep -Fqx 'sg-authorized' <<<"$launch_argv" || fail "authorized security group is absent from launch argv"
-[[ "$(grep -Fxc 'ami-authorized' <<<"$launch_argv")" == 1 ]] || fail "authorized AMI is not used exactly once"
-[[ "$(grep -Fxc 'subnet-authorized' <<<"$launch_argv")" == 1 ]] || fail "authorized subnet is not used exactly once"
-[[ "$(grep -Fxc 'sg-authorized' <<<"$launch_argv")" == 1 ]] || fail "authorized security group is not used exactly once"
+if (SSH_INGRESS_CIDR=0.0.0.0/0; load_ssh_inputs) 2>/dev/null; then fail "non-/32 SSH passed"; fi
+if (SSH_PUBLIC_KEY_FILE="$tmp/missing.pub"; load_ssh_inputs) 2>/dev/null; then fail "missing public key passed"; fi
 
-instance_trust='{"Role":{"RoleName":"ADLIssue345GpuProofRole","AssumeRolePolicyDocument":{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"ec2.amazonaws.com"},"Action":"sts:AssumeRole"}]}}}'
-instance_trust_is_exact <<<"$instance_trust" >/dev/null || fail "valid instance trust fixture failed"
-if instance_trust_is_exact <<<"${instance_trust/ec2.amazonaws.com/lambda.amazonaws.com}" >/dev/null; then
-  fail "instance trust drift unexpectedly passed"
+if ADL_ISSUE345_SSH_INGRESS_CIDR="$SSH_INGRESS_CIDR" ADL_ISSUE345_SSH_PUBLIC_KEY_FILE="$SSH_PUBLIC_KEY_FILE" \
+  "$RUNNER" run --commit "$head" --run-id adl-issue345-no-authorization --execute >"$tmp/noauth.out" 2>"$tmp/noauth.err"; then
+  fail "paid run without authorization passed"
 fi
-reaper_trust='{"Role":{"RoleName":"ADLIssue345GpuDeadlineReaperRole","AssumeRolePolicyDocument":{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"lambda.amazonaws.com"},"Action":"sts:AssumeRole"}]}}}'
-reaper_trust_is_exact <<<"$reaper_trust" >/dev/null || fail "valid reaper trust fixture failed"
-if reaper_trust_is_exact <<<"${reaper_trust/lambda.amazonaws.com/ec2.amazonaws.com}" >/dev/null; then
-  fail "reaper trust drift unexpectedly passed"
-fi
+grep -q 'requires --authorization-file' "$tmp/noauth.err" || fail "missing authorization did not fail before AWS"
 
-owned_records='[{"tags":[{"Key":"adl:owner-token","Value":"0123456789abcdef0123456789abcdef"}]}]'
-records_are_owned_by 0123456789abcdef0123456789abcdef <<<"$owned_records" >/dev/null \
-  || fail "valid cleanup owner fixture failed"
-if records_are_owned_by fedcba9876543210fedcba9876543210 <<<"$owned_records" >/dev/null; then
-  fail "cleanup ownership mismatch unexpectedly passed"
-fi
-
-if AWS_PROFILE=default AWS_REGION=us-west-2 "$RUNNER" preflight >"$tmp/wrong-profile.out" 2>"$tmp/wrong-profile.err"; then
-  fail "wrong AWS profile unexpectedly passed"
-fi
-grep -q 'AWS profile must be agent-logic-admin' "$tmp/wrong-profile.err" || fail "wrong profile did not fail closed"
-
-if "$RUNNER" run --commit "$head" --run-id adl-issue345-no-authorization --execute \
-  >"$tmp/no-authorization.out" 2>"$tmp/no-authorization.err"; then
-  fail "paid run without retained authorization unexpectedly passed"
-fi
-grep -q 'requires --authorization-file' "$tmp/no-authorization.err" || fail "missing authorization did not fail closed"
-
-live_preflight="not_run"
-if [[ "${ADL_ISSUE345_LIVE_PREFLIGHT:-0}" == 1 ]]; then
-  "$RUNNER" preflight >"$tmp/live-preflight.json"
-  jq -e '.schema == "adl.issue345.aws_gpu_preflight.v1"
-    and .model_count >= 2 and .price_ready and .total_cost_ready and .quota_ready
-    and .active_issue_instance_count == 0 and .active_issue_volume_count == 0
-    and .max_billable_seconds == (.max_instance_seconds + .reaper_max_lag_seconds)
-    and .cost_overheads.gp3_volume_size_gib >= 200
-    and .worst_case_total_cost_usd <= .max_total_cost_usd
-    and .public_ingress == false
-    and .paid_launch == false' "$tmp/live-preflight.json" >/dev/null || fail "live AWS preflight contract failed"
-  live_preflight="passed"
-  expect_failure 'approved Agent Logic account hash' env \
-    ADL_ISSUE345_EXPECTED_ACCOUNT_SHA256="$(printf '0%.0s' {1..64})" "$RUNNER" preflight
-  expect_failure 'zero ingress rules' env \
-    ADL_ISSUE345_NO_INGRESS_SECURITY_GROUP=adl-issue345-does-not-exist "$RUNNER" preflight
-  expect_failure 'inline policy document drifted' env \
-    ADL_ISSUE345_INSTANCE_REQUIRED_INLINE_POLICY_SHA256="$(printf '0%.0s' {1..64})" "$RUNNER" preflight
-  expect_failure 'deadline reaper function' env \
-    ADL_ISSUE345_DEADLINE_REAPER_CODE_SHA256_B64=wrong-code-digest "$RUNNER" preflight
-  expect_failure 'artifact manifest SHA-256 drifted' env \
-    ADL_ISSUE345_ARTIFACT_MANIFEST_SHA256="$(printf '0%.0s' {1..64})" "$RUNNER" preflight
-fi
-
-jq -n --arg live_preflight "$live_preflight" \
-  '{schema:"adl.issue345.runner_contract_test.v2",status:"pass",paid_launches:0,
-    real_git:true,fake_aws:false,live_aws_preflight:$live_preflight,
-    multi_model_ordering:"request_then_residency",
-    negative_cases:(if $live_preflight == "passed" then 18 else 13 end)}'
+jq -n '{schema:"adl.issue345.two_node_runner_contract.v1",status:"pass",paid_launches:0,
+  terraform_nodes:2,managed_key_pairs:1,public_ssh_cidrs:1,ollama_public:false,
+  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:12}'

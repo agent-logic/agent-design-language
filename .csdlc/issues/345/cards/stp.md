@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Recover, rename, harden, test, and document one optional AWS GPU Shepherd proof runner; live execution is a separately authorized validation lane and not implicit preparation work.
+Implement, validate, review, publish, and execute one bounded Terraform-owned AWS qualification with a regular Runtime/Guardian/six-agent node and a separate multi-model Ollama GPU node; both require the same SSH key pair and /32 ingress, while 24/7 production deployment remains out of scope.
 
 ## Deliverables
 
@@ -29,15 +29,15 @@ Recover, rename, harden, test, and document one optional AWS GPU Shepherd proof 
 
 ## Acceptance
 
-1. AC-1: One reusable issue-owned command exposes explicit preflight, exact-revision run, and owner-bound cleanup actions.
-2. AC-2: Preflight verifies the agent-logic-admin business account, exact IAM permission and trust policies, named no-ingress security group, immutable S3 manifest/object versions, GPU quota, bounded On-Demand price, deadline reaper, and zero stale issue instances or volumes before launch.
-3. AC-3: Paid execution requires an exact commit, unique run identity, explicit execute flag, retained single-use operator authorization, and conservative compute, reaper-lag, storage, public-IPv4, and request-cost bounds; it launches at most one On-Demand GPU instance with no fallback or retry.
-4. AC-4: The guest proves exact source revision, artifact digests, expected GPU/driver/runtime state, one current governed Shepherd real-model result for every configured model, and simultaneous nonzero GPU residency for the complete configured set of at least two models.
-5. AC-5: The same host proves Guardian-supervised Runtime v3 health and lifecycle plus real long-lived Runtime agents that execute Ollama-backed proposals through UTS, ACC, the Freedom Gate, and the governed runtime.observe adapter; evidence explicitly does not claim a Runtime-v3-to-Ollama transit path that does not exist.
-6. AC-6: Local trap, guest deadline timer, and permanent tag-scoped reaper provide independent cleanup; success, failure, interruption, timeout, and cleanup retry leave no temporary instance or volume.
-7. AC-7: Public evidence is machine-readable, digest-bound, cost-relevant, and redacted; credentials, account/resource identifiers, prompts, responses, private paths, and environment dumps are absent.
-8. AC-8: Executable local negative fixtures cover canonical authorization identity, malformed paid invocations, IAM trust drift, and cleanup-owner mismatch without AWS mutation; live read-only preflight dynamically verifies the current account, IAM policies and trust, no-ingress group, immutable artifacts, stale-volume absence, deadline/reaper state, quota, price, and full cost bound; the paid GPU lane supplies guest, model, ACC, residency, and cleanup proof.
-9. AC-9: Fresh exact-head review has no unresolved actionable finding before publication, and a separate launch-readiness review is required after any source change before paid execution.
+1. AC-1: One issue-owned Terraform root and runner plan exactly two On-Demand instances: a regular Runtime node for Guardian, Runtime, six resident agents, UTS, ACC, and Freedom Gate, plus a GPU node for Ollama and at least two simultaneously resident models.
+2. AC-2: Terraform creates one shared EC2 key pair from the approved public key and attaches it to both nodes; both nodes always have public IPv4 and TCP/22 ingress only from one required valid IPv4 /32, while SSM is recovery-only and bootstrap is automatic cloud-init.
+3. AC-3: The GPU security group exposes Ollama TCP/11434 only to the Runtime security group; no public Ollama or Runtime application ingress is created, and the Runtime workload calls the GPU node by private address.
+4. AC-4: Paid execution requires exact source/review identity, unique run identity, a single-use retained authorization, immutable S3 artifacts, exact Terraform source and input identity, both instance types, both disks, SSH key/CIDR hashes, deadline, and a conservative combined compute, storage, IPv4, and request-cost bound within the hard ceiling; the exact saved plan applied is retained by digest.
+5. AC-5: The GPU node proves exact model artifact digests, expected GPU state, one governed Shepherd real-model result for every configured model, and simultaneous nonzero GPU residency for the complete configured set of at least two models.
+6. AC-6: The Runtime node proves Guardian-supervised Runtime v3 health and lifecycle plus six real long-lived Runtime agents executing private-Ollama-backed proposals through UTS, ACC, Freedom Gate, and runtime.observe; evidence does not claim an unimplemented Runtime-v3-to-Ollama kernel transit path.
+7. AC-7: Controller Terraform destroy, guest deadline shutdown, and a Terraform-managed tag-constrained EventBridge Scheduler termination target independently cover both nodes; success, failure, interruption, timeout, and cleanup retry leave zero issue/run instances and volumes.
+8. AC-8: Public evidence is machine-readable, digest-bound, cost-relevant, and redacted; credentials, private key material, raw identifiers, prompts, responses, private paths, and environment dumps are absent, while retained operator/run state stays inside the issue worktree.
+9. AC-9: Focused local and live-read-only tests prove the exact two-node Terraform topology, one shared key pair, mandatory /32 SSH on both nodes, private SG-only Ollama routing, SSM recovery-only posture, authorization replay rejection, plan and combined-cost binding, receipt validation, zero residue, and zero pre-authorization paid launches; fresh exact-head review has no unresolved actionable finding before publication and paid execution.
 
 ## Dependencies
 
