@@ -3,9 +3,9 @@
   "issue": 497,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "310bed020d2d7cf8562632c720514a23f6869faf35f91cfd2c76cb371c014b0a",
-  "phase": "initialized",
-  "generation": 4,
-  "digest": "ea0e66e588b22caee795ed49c8b185bc64ccb9185acbf3e5ff50b12bb2e86af9",
+  "phase": "ready",
+  "generation": 5,
+  "digest": "89f73ab834039ed5a3226701b361f4cf87ffe8c6e98e2fb51e55d3b1ae46658d",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3e10f63c54c74b479ef8784dad64aa6c8285cfe58b798d6564701e3d0dde87de",
+      "values_digest": "7ec07fda8041bd3c9201c339050c4295ee594f0035579cecbb53053857a9bb9e",
       "rendered_digest": "827f7ced73029442d52b51476266da516a2d44b0a599aa255f430c2f6fc12f09",
       "ast_digest": "8c718c00b376ec069717bb11e1bd37e5e003c7cddbcc65236acf11871e235535"
     },
     "stp": {
-      "values_digest": "5b9e8765e6444cfedf5ebce25c77111e35ab4b80d0971a2a9d923e39697271c7",
+      "values_digest": "25ae0f3d6ab03051ecee5aa3a91a8ca6c4980a749cb4d479dded843bdc59fc4e",
       "rendered_digest": "c7adcc018351d8406f634e15ff8481a00d8f80d26d8edff6faa8c0d209485b04",
       "ast_digest": "401e84fd9cdce741773ed18077b057bc12dde07d92909b4bea9371743d6dc805"
     },
     "spp": {
-      "values_digest": "a2e855d69e2af32e0b9460b578bdc5b38b17b374369f1169234b5c4155a08662",
+      "values_digest": "cdbad0bf85e537835b436bc136549eda1e069b011ce32ff581d14ed929470cbd",
       "rendered_digest": "ce108ef6737abe6ef127ececbf21f4775706788fa64e92aa9efc8297ec441008",
       "ast_digest": "c4bfbbc695fee4636c74151b76e06cf74f62d9596646d14ba4b225de9e4dae48"
     },
     "vpp": {
-      "values_digest": "768dd5929ff6143be7ef42349b091bbda222f40f1045e4ccf39c8ba4452ce75f",
+      "values_digest": "0f39496f44aa5153e150bbb917cd1ff8bfa684a241873c9ba4bfa605e99c3b8d",
       "rendered_digest": "7cdb84aaf6cfa37a96efffb576846fb56b5b9c61bc3d1ddfed6984d5d6f12522",
       "ast_digest": "840260204bab8f6551b69557ff06f0c8a159ee502aa2245228bedcfaec9a0b95"
     },
     "srp": {
-      "values_digest": "36b8c1fe410af6208acb857f0f5baa0f72b69f574d2cbe7e8b6e931004f2dfef",
+      "values_digest": "b5604f4bab0186f8b5dc29d93e5c3b16674d6a5bbc7c03ba45d3342afd78e28d",
       "rendered_digest": "bb267e29ed501681804e100577e56c36189c2e63109c969b48c276c33c655d39",
       "ast_digest": "a030c6d34979912c8f8b8c98f63b92a703a21fa82abb53ce36ba2bdc617c964f"
     },
     "sor": {
-      "values_digest": "d1460a86df7cd1d6e7f55f5ddb1e9ef592ec8d2f11e48a85a761d800f9eda6c0",
+      "values_digest": "3ca0bf4dae106d4e1be4dff6f78b5dde7a232ec7bb50e6bfff09b03a805aace8",
       "rendered_digest": "27310f4256e39b5b4245d918ce538cd512ab665475d65941632179702ce88944",
       "ast_digest": "15c73c24f4d140b200e9e239fb2c9767e9e783418f277e1f8e42f8048788f720"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-7",
+      "reason": "Typed doctor and issue validation pass for the prepared CORP-C Sprint 4 lifecycle package."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -90,6 +98,13 @@
       "actor": "codex:worker-7",
       "reason": "Make the issue-specific VPP denominator explicit by owning the exact readiness validator target file.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/corporate/control-transfer/\",\"docs/milestones/v0.92.1/evidence/corporate/corp-c/\",\".csdlc/issues/497/\",\".csdlc/prepared/issues/497/\",\".csdlc/evidence/497/\",\".csdlc/evidence/497/validate-readiness.rb\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:worker-7",
+      "reason": "Typed doctor and issue validation pass for the prepared CORP-C Sprint 4 lifecycle package.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
