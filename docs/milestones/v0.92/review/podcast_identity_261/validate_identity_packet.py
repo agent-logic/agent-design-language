@@ -47,6 +47,7 @@ ALLOWED_PREFIXES = (
     ".csdlc/issues/261/",
     ".csdlc/prepared/issues/261/",
     ".csdlc/evidence/261/",
+    ".csdlc/evidence/.csdlc-finalize-261-",
     "docs/milestones/v0.92/review/podcast_identity_261/",
 )
 

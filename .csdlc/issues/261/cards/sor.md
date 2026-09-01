@@ -12,15 +12,26 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Finalized The Cognitive Stack show identity packet with operator-approved title, artwork-rights confirmation, redacted mailbox readiness, release-gate validation, and no #264/#51 submission work.
 
 ## Artifacts
 
-- none
+- docs/milestones/v0.92/review/podcast_identity_261/README.md
+- docs/milestones/v0.92/review/podcast_identity_261/show-identity.json
+- docs/milestones/v0.92/review/podcast_identity_261/name-decision.json
+- docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json
+- docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json
+- docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md
+- docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py
+- .csdlc/issues/261
+- .csdlc/prepared/issues/261
 
 ## Execution
 
-- none
+- Recorded The Cognitive Stack as the approved show title in the issue-owned identity packet.
+- Recorded artwork rights and mailbox readiness evidence without retaining secrets or private mailbox contents.
+- Preserved publication_claimed:false and excluded directory submission, provider account action, and #264/#51 coordination work.
+- Validated candidate, redaction-only, release, and diff-hygiene lanes from the #261 worktree.
 
 ## Validation
 
@@ -43,6 +54,46 @@ Pre-execution output record.
     "purpose": "Prove the refreshed identity packet retains no credential, token, private mailbox content, recovery code, verification code, private key material, or unbounded retained authority text.",
     "outcome": "passed",
     "evidence_ref": "local terminal transcript 2026-08-28: redaction-only mode passed for exact #261 packet scope after The Cognitive Stack refresh."
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "HEAD~1..HEAD"
+    ],
+    "purpose": "Reject whitespace and patch hygiene defects in the exact implementation commit.",
+    "outcome": "passed",
+    "evidence_ref": "diff-hygiene.log"
+  },
+  {
+    "command": [
+      "python3",
+      "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+      "--release"
+    ],
+    "purpose": "Fail closed unless the approved title, artwork rights confirmation, and redacted mailbox readiness evidence are all present and consistent.",
+    "outcome": "passed",
+    "evidence_ref": "evidence-bound-external-release-gates.log"
+  },
+  {
+    "command": [
+      "python3",
+      "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py"
+    ],
+    "purpose": "Prove exact schema, artwork/source metadata, allocation, external-gate truth, and actual #261 scope for The Cognitive Stack without implementing #264/#51 submission work.",
+    "outcome": "passed",
+    "evidence_ref": "identity-candidate-and-actual-scope.log"
+  },
+  {
+    "command": [
+      "python3",
+      "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+      "--redaction-only"
+    ],
+    "purpose": "Reject credentials, tokens, verification codes, recovery codes, private mailbox content, and private key material from the retained #261 packet.",
+    "outcome": "passed",
+    "evidence_ref": "strict-schema-redaction.log"
   }
 ]
 
