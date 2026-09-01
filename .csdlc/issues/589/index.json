@@ -3,13 +3,42 @@
   "issue": 589,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "18c861c528dd6b0be2cee02677c10c351ee9bcd1eafde37f2070efe6abb31580",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "ab09945c3f4ed3192995ef4d4b340448b92c35a4cda8e99d41508e043ce0712d",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "assigned_by": "codex-issue-589",
+    "revision": "git-blake3:cb0d306132c2762e64f4a9d7a271ac4605e6d242:55d600c98932c61548e230c6e42075d07649b60d0efdf9235b14f2714a4f8d8e",
+    "scope": [
+      ".csdlc/issues/589",
+      "adl-runtime-kernel",
+      "adl-runtime",
+      "adl",
+      "infra/aws/csm-runtime-health",
+      "infra/runtime-v3/runtime-init.toml"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "scope": [
+      ".csdlc/issues/589",
+      "adl-runtime-kernel",
+      "adl-runtime",
+      "adl",
+      "infra/aws/csm-runtime-health",
+      "infra/runtime-v3/runtime-init.toml"
+    ],
+    "reviewed_revision": "git-blake3:cb0d306132c2762e64f4a9d7a271ac4605e6d242:55d600c98932c61548e230c6e42075d07649b60d0efdf9235b14f2714a4f8d8e",
+    "findings": [],
+    "residual_risks": [
+      "Live AWS operations were not repeated for the lifecycle-only final commit; the retained live proof remains bound to the unchanged implementation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "caed8c29ba64b2de864ba603652e3769c073a487c459636d36a5bafa5df95940",
+      "values_digest": "24d5e9b0ef4e18e62c6ee037f336adc80fb51649b475db86429402331c32dcc7",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "1a7ea8fb81f40fb432d9b537cb9f175b37a414fef0c922fedc34ac61dce3bd36",
+      "values_digest": "e92f2aabd9e4451d64e185d27a629660ab70d7608ef2b08a8f87da49492501a0",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "aaf05c1c6d6595802e20809c6dee6380d4c53e0edbd7090595060c0a878f361d",
+      "values_digest": "6537eb45b888d5ad3d9c26cdd65d98130c050f9e804abe17ab76440e227f832e",
       "rendered_digest": "315bb82392767ff9d0c5acb9c99df4dbc87c4fd82dec36c6bb76bbab7b32cb3f",
       "ast_digest": "569fe120c9e4d45f1e5799229ca53e07754cf71fba0027620a6fdaf4211394af"
     },
     "vpp": {
-      "values_digest": "10ee05eaeae1f0ce732ee91da02efdcf83e8006aea5f10736ae7d3c5465dbfa5",
+      "values_digest": "0179afb958fc31c75c38e6463fdf71f68a6225948baa732893d9fe66b920d4f5",
       "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
       "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "04895d982f82cab934660aa6c0da389db8b8abad757cc3195afbc202dba714ca",
-      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
-      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
+      "values_digest": "715b936355e68e5fa1a5e678bd1288fc956daee792e14abc8d7f3a92c4ae5340",
+      "rendered_digest": "4b8157f4f92563a2509577604744aa5f19f922831e06140922d8f8903ab2c705",
+      "ast_digest": "77a0fd4e30b9a1e16e55328a85ad66394d6c6955f20ad4ffed61c4a577373454"
     },
     "sor": {
-      "values_digest": "9acc550b6b89d98accd5c210667bfb4b62d93a7b9cf839beffdd141a48b02eb6",
+      "values_digest": "87a22d5590aced72007aa7afae9d0e91616ad5684501f5c3784db518aad4eeca",
       "rendered_digest": "5773948a6ae9b6d85c936bce3154fc75d96a89369ae5db870c6928d28c4546e6",
       "ast_digest": "de9f5b88e6f7e6d8c5853ad72c134846afe13e4fed1144cf6832a366c22c8e22"
     }
@@ -75,6 +104,13 @@
       "to": "implemented",
       "actor": "codex-issue-589",
       "reason": "Implementation evidence is present and the bounded change is ready for lifecycle truth reconciliation and review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -224,6 +260,20 @@
       "actor": "codex-issue-589",
       "reason": "Execution and validation evidence are complete and ready for exact-commit review.",
       "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
