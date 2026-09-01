@@ -2000,15 +2000,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         if weather_stale {
             degraded_reasons.push("weather_stale".to_owned());
         }
-        let shepherd_ready = feed
-            .health
-            .snapshot
-            .agent_admissions
-            .get("shepherd")
-            .is_some_and(|admission| {
-                admission.observed_at_unix_millis <= now
-                    && admission.freshness_deadline_unix_millis >= now
-            });
+        let shepherd_ready = shepherd_admission_is_fresh(&feed.health.snapshot, now);
         if !shepherd_ready {
             degraded_reasons.push("shepherd_not_admitted".to_owned());
         }
@@ -3532,6 +3524,39 @@ fn now_unix_millis() -> u64 {
         .duration_since(UNIX_EPOCH)
         .map(|duration| u64::try_from(duration.as_millis()).unwrap_or(u64::MAX))
         .unwrap_or(0)
+}
+
+fn shepherd_admission_is_fresh(snapshot: &RuntimeSnapshot, now_unix_millis: u64) -> bool {
+    snapshot
+        .agent_admissions
+        .get("shepherd")
+        .is_some_and(|admission| {
+            admission.observed_at_unix_millis <= now_unix_millis
+                && admission.freshness_deadline_unix_millis >= now_unix_millis
+        })
+}
+
+#[cfg(test)]
+mod shepherd_readiness_tests {
+    use super::*;
+
+    #[test]
+    fn readiness_accepts_the_deadline_and_fails_closed_after_heartbeat_loss() {
+        let recorder = RuntimeRecorder::new(4);
+
+        assert!(recorder.record_agent_admission(
+            "shepherd",
+            1_000,
+            31_000,
+            "1111111111111111111111111111111111111111",
+        ));
+        assert!(shepherd_admission_is_fresh(&recorder.snapshot(), 31_000));
+        assert!(!shepherd_admission_is_fresh(&recorder.snapshot(), 31_001));
+
+        assert!(recorder.record_agent_heartbeat("shepherd", 2_000, 32_000));
+        assert!(shepherd_admission_is_fresh(&recorder.snapshot(), 32_000));
+        assert!(!shepherd_admission_is_fresh(&recorder.snapshot(), 32_001));
+    }
 }
 
 fn constant_time_eq(left: &[u8], right: &[u8]) -> bool {

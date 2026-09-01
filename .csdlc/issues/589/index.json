@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 42,
-  "digest": "05ef6dca251400802d5d47f9db8940ba53a6bf0c487315bcc9c31cb20c268c54",
+  "generation": 44,
+  "digest": "59b37c70137b98ee4f6a4b6b4664df1e4cde12c83b5a6542e10b8381e70668e3",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fe30a40939b5922f04541685fdb25a59bb4ef99ddbf878afecc5f0d707857869",
+      "values_digest": "5ba20303188ea6f9711e0d7ba28c949ec00164c746e335b7fd83861fca5c8304",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "3d3786f94f56cb0fc7b4d3e4e8c03a7f83dadeb91affd885d2bc65291ee92321",
+      "values_digest": "9e84e053363e1fc9fee80319055fd43866cc213e68791adab36a2571e00d459f",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "51689f51a31929957c81f290991ab5b2b6f664c5e237d35ee7d65d56a239916d",
+      "values_digest": "d34ab2762584dc40eeaf2bc5620874003dc5812728d3143f07cab40d8a95d4ec",
       "rendered_digest": "315bb82392767ff9d0c5acb9c99df4dbc87c4fd82dec36c6bb76bbab7b32cb3f",
       "ast_digest": "569fe120c9e4d45f1e5799229ca53e07754cf71fba0027620a6fdaf4211394af"
     },
     "vpp": {
-      "values_digest": "68f978b5fba76c17243ad99df8600ef1093268a4d54651817bb1301fbf7cc372",
+      "values_digest": "5b4585b6ee94b6774eb0383f14e2cfb8379d7f7af69a1b0c8e9419c98a0367fd",
       "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
       "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "c35f11198a1d37039c0be23e054c54df3a51eba3d3f5a9c6e1a5e1caf3922cdb",
+      "values_digest": "f8f880974322a6db20e1e992e92084dbbf9410e01dbf031e66dfb1169ffb01cd",
       "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
       "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "f9c112cfeaa97a01d00072787dd0d2ff6973fd206d05373a3e3cf2a01aea9724",
-      "rendered_digest": "1d608bf47dda507ea16493cddc1bbcbaa3d355f0979fc17c390ef092d13ab496",
-      "ast_digest": "e29d3ae5d6093525e9b9bbd3aae863663afa08c5f2e5af791837f6e11a79a542"
+      "values_digest": "f0ad993f2b282779d40b9d98c48bbe30a1e5d46473a17b1274538480fce93019",
+      "rendered_digest": "c485580170622c6212052c412f73bcb03af1f261be7755425f02eb35d5069298",
+      "ast_digest": "0365263cb5af4500574924f2e56a7611b32c84b25adb29169dc24662c3973ff7"
     }
   },
   "transitions": [
@@ -595,6 +595,20 @@
       "actor": "codex-issue-589",
       "reason": "Record focused Shepherd freshness lease proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\"],\"purpose\":\"Prove the production Shepherd admission receives an exact thirty-second freshness lease and preserve writer and adapter behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"10 passed; local_production_adapters_execute_real_bounded_behavior asserts deadline minus observation equals 30000 milliseconds.\"}}"
+    },
+    {
+      "sequence": 57,
+      "generation": 43,
+      "actor": "codex-issue-589",
+      "reason": "Correct the execution summary after exact-head review found the freshness repair was not yet reviewed or deployed.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented and locally validated ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup. Earlier-head live deployment evidence remains retained; the thirty-second Shepherd freshness repair is pending fresh exact-head review and live deployment.\",\"changes\":[\"Made the readiness decision use one explicit Shepherd-admission freshness predicate and added deterministic deadline, expiry, heartbeat-renewal, and renewed-expiry coverage without wall-clock sleeps.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\"]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 44,
+      "actor": "codex-issue-589",
+      "reason": "Record deterministic Shepherd readiness boundary and heartbeat renewal proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"shepherd_readiness_tests::readiness_accepts_the_deadline_and_fails_closed_after_heartbeat_loss\"],\"purpose\":\"Prove readiness remains valid at the exact lease deadline, fails closed one millisecond later, renews on a production recorder heartbeat, and expires after the renewed deadline without wall-clock timing.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 focused readiness-boundary test passed; assembly 10 passed; all-target kernel Clippy and rustfmt passed.\"}}"
     }
   ]
 }
