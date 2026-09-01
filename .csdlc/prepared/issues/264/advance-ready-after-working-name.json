@@ -1,0 +1,12 @@
+{
+  "issue": 264,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "9a88f507e5c72332485ac42ced79a0d10762023b2ea8a9887fdac9e3c10020e1",
+  "actor": "codex:/root/podcast-readiness",
+  "reason": "Advance the validated podcast directory-submission bundle to ready after recording the operator-directed working show name while preserving its external-authorization gate.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

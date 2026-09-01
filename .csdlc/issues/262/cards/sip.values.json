@@ -7,7 +7,7 @@
     "title": "Podcast production hosting, RSS, enclosures, and playback",
     "slug": "podcast-production-hosting",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,10 @@
       "authority_boundary": [
         "Issue 262 owns only its declared result and paths; Sprint 8 umbrella #536 coordinates but cannot implement or approve this child."
       ],
-      "initial_assumptions": [],
+      "initial_assumptions": [
+        "Sprint 8 podcast preparation uses `The Cognitive Stack` as the operator-directed working show name unless superseded by a later typed issue update.",
+        "The working show name is not a legal or trademark clearance claim, directory availability proof, mailbox ownership proof, or public launch authorization."
+      ],
       "operator_constraints": [
         "Use typed C-SDLC v2 lifecycle only",
         "Use a dedicated FastWork issue worktree and issue-bound session goal",

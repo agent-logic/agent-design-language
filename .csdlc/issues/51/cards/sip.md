@@ -30,7 +30,8 @@ One integrated podcast status view reconciles #261, #342, #262, #263, and #264 t
 
 ## Assumptions
 
-- none
+- Sprint 8 podcast preparation uses `The Cognitive Stack` as the operator-directed working show name unless superseded by a later typed issue update.
+- The working show name is not a legal or trademark clearance claim, directory availability proof, mailbox ownership proof, or public launch authorization.
 
 ## Operator Constraints
 

@@ -3,9 +3,9 @@
   "issue": 264,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "1726f8e58ce8d16dd9aa7e32f57a5d1c0ede863daf10a0926f7feb12893a0e66",
-  "phase": "initialized",
-  "generation": 3,
-  "digest": "2323a4bd0a29c6d25833ed81abf8c79d8b5902e0912291bd314460cc3add3b75",
+  "phase": "ready",
+  "generation": 5,
+  "digest": "c20f38c83502e591a6fdf683377580b8ee0cb8c1dd41ac62c589f3a576fec750",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e61634f53644a309f6dbb782c0bc49868839f73e483024c9e8a8879c265dc108",
-      "rendered_digest": "8176f464fd1f550e50a049cb4e72d8ba794c77c264f93ee02fb3f69ce9177b81",
-      "ast_digest": "5d7c08b631977a7e70050350cb58ae171f96e1af1a80b814c82830c7e95d846c"
+      "values_digest": "e4393caffcb0c27a540a9d0529e6d0b6e15890c9d8b556c2d1240ad4198fc061",
+      "rendered_digest": "ce08e23366019023647b648a880eef5e3e11b055c17dbff1dc627a58ee30eb29",
+      "ast_digest": "d9cc61079c55c1dbcdb2facff63c63541505a82dcb62a5482ce8e9a4fe85de54"
     },
     "stp": {
-      "values_digest": "e28f12195838d509234c422198c89c1e984697c633c40eca77f0e8d68cd4696a",
+      "values_digest": "c631c5aa129d995386638f01998d5c3bd609782125033657b985ef497ac489e1",
       "rendered_digest": "0e7e03acef08bb550856e4393400739d718c8d598a279cb95a62da666a14cd85",
       "ast_digest": "ca63b183ee21031a84d7d2ac282b77a69b963104be9ae5c237967c6d3190083c"
     },
     "spp": {
-      "values_digest": "c0d61dcb8024216ae7f338ac64f11f698593cae73cfbd6d80f953b706e894b55",
+      "values_digest": "9e1d966af4e6063adec94bb3244421589d17bdafda299b2f85d3666abdb7f510",
       "rendered_digest": "63d0a5e446e2afd8b9df628e868faf35eb0cd74ea337c67bf014408bbaac3525",
       "ast_digest": "3efd54ea07df1c3e8fb5eef8852492801ae980314e9de12751f3614bddbf78bf"
     },
     "vpp": {
-      "values_digest": "fdc9a175c0b3317d7a914be61de4c64604a584c27234753e24975eca8b3a1443",
+      "values_digest": "e581f08af260c608b0e0d317c5cf31dc4b3ec4a62c776d581055efcb19fbef58",
       "rendered_digest": "fe4fbb01c22ea57776e16bb9139be4284742801fae93ae82177eee5f4b0c8722",
       "ast_digest": "7776a1d6f6a28d90f06ec7dd9eb323df1d35eda696bfd56c91ecd86b949b2f91"
     },
     "srp": {
-      "values_digest": "c6e5868191ac44fede1f465f7f72f149959c3bc5ac1662c324666423e305495a",
+      "values_digest": "c04b705b5c6522597d454b59a2405c0e98bb561f6674c771d6b2fd65c1e5af63",
       "rendered_digest": "57c2834728fc39e9220b110da1a8a28862d3bc067f5bd62e3f8f6a4c79dea502",
       "ast_digest": "94b0edb526ee1e61659c1fc041346a1274c674e18b09f2499c741a171bd60ac3"
     },
     "sor": {
-      "values_digest": "831a1a009c0f3a9b8ceaab2172e1a4f67ed0b75f6bead13b54753ecd5d933262",
+      "values_digest": "aee7da6d7ac924b7e288b553161b90c4f62dad7b942265ff7f65b70eeb34fe41",
       "rendered_digest": "60ceb07eb9bec5f74b65f33aa571cb5bf82e3d5de4df7e4bff135dbec79732e4",
       "ast_digest": "3864d3f8ecd00af2cc217ef32398af587ffc1407a466e9509c3d4551038a4852"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/podcast-readiness",
+      "reason": "Advance the validated podcast directory-submission bundle to ready after recording the operator-directed working show name while preserving its external-authorization gate."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -83,6 +91,20 @@
       "actor": "fresh-session:b4704bf2-b05c-41d5-9535-d91749d90cdd",
       "reason": "approve completed issue design",
       "operation": "{\"design_digest\":\"65d38b667312f95317d70b59f5beafeb959d4623dd78cbc2abf91b7c34c1446b\",\"design_ref\":\".csdlc/prepared/issues/264/design.md\",\"diagram_digest\":\"36f47ae06a242da01eaa04edda8e44a77a3c68a9b30276e6f01b6b14b22e12ac\",\"diagram_ref\":\".csdlc/prepared/issues/264/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/podcast-readiness",
+      "reason": "Record the operator-directed Sprint 8 podcast working show name in the typed preparation bundle.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"initial_assumptions\",\"values\":[\"Sprint 8 podcast preparation uses `The Cognitive Stack` as the operator-directed working show name unless superseded by a later typed issue update.\",\"The working show name is not a legal or trademark clearance claim, directory availability proof, mailbox ownership proof, or public launch authorization.\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root/podcast-readiness",
+      "reason": "Advance the validated podcast directory-submission bundle to ready after recording the operator-directed working show name while preserving its external-authorization gate.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }

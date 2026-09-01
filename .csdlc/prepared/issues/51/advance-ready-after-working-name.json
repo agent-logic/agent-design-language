@@ -1,0 +1,12 @@
+{
+  "issue": 51,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "3a7e5b12eb49dc090390dafefd807697b8b174e9daacd727b9d103a0d4d8ddf4",
+  "actor": "codex:/root/podcast-readiness",
+  "reason": "Advance the validated podcast coordination bundle to ready after recording the operator-directed working show name.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}

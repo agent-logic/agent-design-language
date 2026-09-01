@@ -1,0 +1,12 @@
+{
+  "issue": 261,
+  "card": "spp",
+  "expected_generation": 4,
+  "expected_digest": "36919b88daa0d411d3c921db5989b898c3c6da971fb2431c5e3efe09b254d3eb",
+  "actor": "codex:/root/podcast-readiness",
+  "reason": "Advance the validated podcast show-identity bundle to ready after recording the operator-directed working show name.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  }
+}
