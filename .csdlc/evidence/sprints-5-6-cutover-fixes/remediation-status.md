@@ -107,6 +107,11 @@ Status as of this branch:
   advertises the Sprint 8/9 readiness canary and still uses non-closing
   `Part-Of #505`; readback evidence is retained at
   `.csdlc/evidence/591/pr-state-after-sprint89-readiness.json`.
+- Tested real issue #604 through the v3 local-preparation canary. Typed v2 live
+  issue readback confirms #604 is open and scoped to the `csdlc-publish`
+  ready/reconcile-ready regression; non-authoritative `csdlc local` reached
+  `doctor_ready` with a six-card render plan in 0.06 seconds. Evidence is
+  retained under `.csdlc/evidence/505/issue-604-*`.
 - Historical note: typed issue transport created tracking issue #596, and typed
   PR transport created PR #597 from `codex/sprints-5-6-cutover-fixes` to
   `main`. PR #597 was later merged, but that merge did not itself terminalize

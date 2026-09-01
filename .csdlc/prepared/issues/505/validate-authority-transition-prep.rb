@@ -41,6 +41,9 @@ sprint89_issue511_local = json(".csdlc/evidence/sprints-8-9-v3-readiness/issue-5
 sprint89_issue515_local = json(".csdlc/evidence/sprints-8-9-v3-readiness/issue-515-local-readiness-report.json")
 sprint89_timed_stdout = json(".csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-9-readiness-timed.stdout")
 sprint89_timed_stderr = read(".csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-9-readiness-timed.stderr")
+issue604_readback = json(".csdlc/evidence/505/issue-604-readback.json")
+issue604_local = json(".csdlc/evidence/505/issue-604-local-canary-report.json")
+issue604_timing = read(".csdlc/evidence/505/issue-604-local-canary-timing.stderr")
 design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
 packet_text = [stp, sip, design, diagram].join("\n")
@@ -163,7 +166,8 @@ assert(real_seconds.positive? && real_seconds < 180.0, "Sprint 8/9 readiness can
 
 {
   511 => sprint89_issue511_local,
-  515 => sprint89_issue515_local
+  515 => sprint89_issue515_local,
+  604 => issue604_local
 }.each do |issue_number, report|
   assert(report["schema"] == "csdlc.v3.local_preparation.v1", "issue ##{issue_number} local canary emitted wrong schema")
   assert(report["read_only"] == true, "issue ##{issue_number} local canary must be read-only")
@@ -174,6 +178,11 @@ assert(real_seconds.positive? && real_seconds < 180.0, "Sprint 8/9 readiness can
   assert(result.dig("cards", "rendered_cards").is_a?(Array) && result.dig("cards", "rendered_cards").length == 6, "issue ##{issue_number} local canary missing render manifest")
   assert(result.dig("findings", 0, "code") == "doctor_ready", "issue ##{issue_number} local canary did not reach doctor-ready")
 end
+assert(issue604_readback.dig("issue", "number") == 604, "#604 live readback targeted wrong issue")
+assert(issue604_readback.dig("issue", "state") == "open", "#604 must be open for the v3 canary")
+assert(issue604_readback.dig("issue", "body").to_s.include?("csdlc-publish"), "#604 readback missing publication regression scope")
+issue604_real_seconds = issue604_timing[/^real\s+([0-9.]+)/, 1].to_f
+assert(issue604_real_seconds.positive? && issue604_real_seconds < 180.0, "#604 v3 local canary must complete under the three-minute issue-start target")
 
 [504, 570, 571].each do |issue_number|
   receipt_path = File.join(GIT_COMMON, "csdlc-v2", "closeout", "#{issue_number}.json")
@@ -338,6 +347,7 @@ puts JSON.generate(
       "sprint_8_9_v3_readiness_canary",
       "sprint_8_9_issue_local_canaries",
       "sprint_8_9_readiness_under_three_minutes",
+      "issue_604_v3_local_canary_under_three_minutes",
       "single_prebind_validator_lane",
       "bound_execution_topology"
     ]
