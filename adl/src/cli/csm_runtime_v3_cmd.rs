@@ -742,6 +742,9 @@ fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 
 #[cfg(target_os = "linux")]
 fn platform_stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
+    if !platform_loaded(args) {
+        return Ok(());
+    }
     run(Command::new("systemctl").args(["stop", &systemd_unit(args)]))
 }
 

@@ -7,25 +7,23 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 61
+    "generation": 63
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/589",
-      "review_revision": "git-blake3:96f81c6ef45b96495a2a07f68a26f303f6a73eb3:b9d678f48cd8d2a4f18e2dc6e42800137c54b09f05e906f4e806f889126e89c7",
-      "reviewer": "subagent:/root/issue_589_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify startup no longer requires the separate continuity channel while Guardian ownership remains intact.",
         "Verify stale-state recovery cannot remove a lock owned by a live writer.",
         "Verify reload preserves the last known-good running configuration on candidate failure."
       ],
       "findings": [],
-      "residual_risk": [
-        "Live Runtime and cloud readbacks remain mutable point-in-time evidence."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

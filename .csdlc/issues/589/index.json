@@ -3,44 +3,14 @@
   "issue": 589,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
-  "phase": "published",
-  "generation": 61,
-  "digest": "970ce9efdd16b64cfa3e3c8f692b6feb733d20dbb77e4604f13e0fad9ae4d49a",
+  "phase": "implemented",
+  "generation": 63,
+  "digest": "4e024dcdd66adf5094e956cd5e3356b963d8bc6995b3f1f632065f58af3690ab",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
-  "review_assignment": {
-    "reviewer": "subagent:/root/issue_589_review",
-    "assigned_by": "codex-issue-589",
-    "revision": "git-blake3:96f81c6ef45b96495a2a07f68a26f303f6a73eb3:b9d678f48cd8d2a4f18e2dc6e42800137c54b09f05e906f4e806f889126e89c7",
-    "scope": [
-      ".csdlc/issues/589"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/issue_589_review",
-    "scope": [
-      ".csdlc/issues/589"
-    ],
-    "reviewed_revision": "git-blake3:96f81c6ef45b96495a2a07f68a26f303f6a73eb3:b9d678f48cd8d2a4f18e2dc6e42800137c54b09f05e906f4e806f889126e89c7",
-    "findings": [],
-    "residual_risks": [
-      "Live Runtime and cloud readbacks remain mutable point-in-time evidence."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 589,
-    "pull_request": 598,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/598",
-    "base": "main",
-    "head": "codex/589-wuji-guardian-start-reload",
-    "revision": "git-blake3:e368563b47227b513359b937b64c52fdc72fce6d:5be025bdd51c5838e91fd69cc62a35d28e6d21f6ae654717496c97c04cb1b1e2",
-    "linkage_mode": "closing",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -54,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "504e5f8616ab598ed671025388596b9eb8b4309b5e997d3565131962eea532ab",
+      "values_digest": "edb12e2a52d2225cd09d9ae965a706196a5ce7755fd213152a16ccd9f119f187",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "e78671e080124979cdebb252a0919a98c282a34e959ee92941a34ea0ed2ee4d9",
+      "values_digest": "f365d9a37fde5f3edb8393cdc25685c4de3195a5c9e902c8debda8302521ebbd",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "3573d32cf7fc6f1266d7a05733d0de1d1f0b3c9ae830755149ff4f77679ac45e",
+      "values_digest": "6034e6306b5cc74f14991206fae0f6591e2639592157167091e6cd4a0099fbde",
       "rendered_digest": "a069ff69cb5df91f309448828701857112434b9c742c1e1015449f6af9603623",
       "ast_digest": "1abf9f10cd423045ec1cbacf37555bd467ef11fb8b5182951ea89a803f070a15"
     },
     "vpp": {
-      "values_digest": "f3a9786e43741a3329a68ded5410389edd8da408f02ff68c9cc42e74fe04ef09",
+      "values_digest": "9caccf9c18cd977b0d984a0f9bea5a2303edb92477b18b8e37b6d28da0377e92",
       "rendered_digest": "206db6dfc5256ca6596b14c8509493d5be13fdbfb61516aab1007b527e4c5aa0",
       "ast_digest": "5faac6bcb1180015c997ff4639ccdd93b0f6dcade665c98bc5064680e4f04a69"
     },
     "srp": {
-      "values_digest": "f2f0dfa5479d6085e723d1e19777d90a1debeca710c55d5663be6a978e29366e",
-      "rendered_digest": "09c818674fc9dee97f1720b125a0e51b86ca3b3cf7bbf47d56928e69a72492fe",
-      "ast_digest": "82459836ab957cef04e0cfe29791c6cdc794cb867fb11ca65925926092d84989"
+      "values_digest": "2ffe1ad3d2f5db13e164ebd34b4cb8cc5e1fafc12cb5053992b85e27eb4b4e46",
+      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
+      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "587d794484a26f3cf165a27fc4a628fb13450ef05c6287dba0b8051a17b088e9",
-      "rendered_digest": "7d6230d3933d05ba56f052e3687417f11fa4be22a74eed0d4cf273bbf2ab7217",
-      "ast_digest": "0d62b8decb93d6cef9f8c65911c1034b94e2e77f1242fe0e59c50a8f1c79f1bc"
+      "values_digest": "6a4ab493722d5c70e925cb41852953949a1d5af3447c10d552001a4e137a8145",
+      "rendered_digest": "a04eca859ffba4bbfeb099b6846e8de830a485ddec3ed602e064bf85c2b6b645",
+      "ast_digest": "9743cf7281428bc5150f8538a5004d9009df6b5dadf927e064de90f13ff8d1ec"
     }
   },
   "transitions": [
@@ -259,6 +229,13 @@
       "to": "published",
       "actor": "codex-issue-589",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 26,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-issue-589",
+      "reason": "Recover published review truth after exact-head Linux workspace coverage exposed non-idempotent systemd stop behavior for an absent unit."
     }
   ],
   "audit": [
@@ -814,6 +791,20 @@
       "actor": "codex-issue-589",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 80,
+      "generation": 62,
+      "actor": "codex-issue-589",
+      "reason": "Recover published review truth after exact-head Linux workspace coverage exposed non-idempotent systemd stop behavior for an absent unit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 81,
+      "generation": 63,
+      "actor": "codex-issue-589",
+      "reason": "Record the focused remediation proof for the exact-head Linux hosted-coverage failure.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"cli::csm_runtime_v3_cmd::tests::missing_service_is_unloaded_and_has_no_owned_process\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove absent service stop remains idempotent without attempting a privileged service-manager stop; hosted Linux CI remains the proving denominator for the Linux cfg branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused test passed 1/1 locally and cargo fmt --check passed; exact-head hosted Linux CI is required to prove the repaired systemd branch.\"}}"
     }
   ]
 }

@@ -259,16 +259,31 @@ Implemented, locally validated, independently reviewed, and live-deployed ordere
     "purpose": "Prove the issue-owned coverage-impact routing contract and failure-path behavior.",
     "outcome": "passed",
     "evidence_ref": "Focused contract script completed with PASS test_check_coverage_impact."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "cli::csm_runtime_v3_cmd::tests::missing_service_is_unloaded_and_has_no_owned_process",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "purpose": "Prove absent service stop remains idempotent without attempting a privileged service-manager stop; hosted Linux CI remains the proving denominator for the Linux cfg branch.",
+    "outcome": "passed",
+    "evidence_ref": "Focused test passed 1/1 locally and cargo fmt --check passed; exact-head hosted Linux CI is required to prove the repaired systemd branch."
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

@@ -7,7 +7,7 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 61
+    "generation": 63
   },
   "status": "ready",
   "content": {
@@ -255,10 +255,25 @@
           "purpose": "Prove the issue-owned coverage-impact routing contract and failure-path behavior.",
           "outcome": "passed",
           "evidence_ref": "Focused contract script completed with PASS test_check_coverage_impact."
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "cli::csm_runtime_v3_cmd::tests::missing_service_is_unloaded_and_has_no_owned_process",
+            "--",
+            "--exact",
+            "--nocapture"
+          ],
+          "purpose": "Prove absent service stop remains idempotent without attempting a privileged service-manager stop; hosted Linux CI remains the proving denominator for the Linux cfg branch.",
+          "outcome": "passed",
+          "evidence_ref": "Focused test passed 1/1 locally and cargo fmt --check passed; exact-head hosted Linux CI is required to prove the repaired systemd branch."
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "draft",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
