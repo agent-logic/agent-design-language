@@ -7,23 +7,36 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 48
+    "generation": 51
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/589",
+      "review_revision": "git-blake3:ac8b65c7314f548d8b15a8501916d828d8d249d5:126abf6a62e38078483f74a2a73c3fac18a7c2d44f7cabaf06937be06f810a20",
+      "reviewer": "subagent:/root/issue_589_review",
       "review_prompts": [
         "Verify startup no longer requires the separate continuity channel while Guardian ownership remains intact.",
         "Verify stale-state recovery cannot remove a lock owned by a live writer.",
         "Verify reload preserves the last known-good running configuration on candidate failure."
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "F-589-LIVE-1",
+          "severity": "p2",
+          "summary": "The SOR omits the required SSM instance ID and combines SSM and live roster claims under one command that cannot reproduce both evidence surfaces.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "The live roster is a mutable point-in-time surface."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

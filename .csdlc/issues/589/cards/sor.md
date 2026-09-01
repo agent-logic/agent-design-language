@@ -162,6 +162,8 @@ Implemented, locally validated, independently reviewed, and live-deployed ordere
       "get-command-invocation",
       "--command-id",
       "a7587de0-c5b2-41b2-af6b-7de99b26db12",
+      "--instance-id",
+      "mi-0dd41a2b1cad222a0",
       "--profile",
       "agent-logic-admin"
     ],
@@ -230,12 +232,24 @@ Implemented, locally validated, independently reviewed, and live-deployed ordere
       "get-command-invocation",
       "--command-id",
       "60136b40-8e73-4a7c-bb45-46a60780641f",
+      "--instance-id",
+      "mi-0dd41a2b1cad222a0",
       "--profile",
       "agent-logic-admin"
     ],
-    "purpose": "Prove governed service-owner reload, owned Runtime readiness, exact reviewed source revision, and live thirty-second Shepherd freshness window on Wuji.",
+    "purpose": "Prove governed service-owner reload and owned Runtime readiness on Wuji.",
     "outcome": "passed",
-    "evidence_ref": "SSM reload/status succeeded; Guardian 35914, Runtime 35917, listener and observability ready. /v1/agents reported healthy Shepherd source revision 1addbc0f2d2238c372a06f0d90cab4b1cd039881 and deadline minus observed time 30000 milliseconds."
+    "evidence_ref": "SSM invocation succeeded with response code 0; Guardian 35914, Runtime 35917, listener_ready true, and observability_ready true."
+  },
+  {
+    "command": [
+      "curl",
+      "-ksS",
+      "https://127.0.0.1:20997/v1/agents"
+    ],
+    "purpose": "Prove the live reviewed Shepherd source identity and thirty-second freshness window independently of the SSM deployment receipt.",
+    "outcome": "passed",
+    "evidence_ref": "Live roster reported healthy Shepherd source revision 1addbc0f2d2238c372a06f0d90cab4b1cd039881 and freshness_deadline_unix_millis minus observed_at_unix_millis equal to 30000."
   }
 ]
 
