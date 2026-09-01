@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Implemented and locally validated ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup. Earlier-head live deployment evidence remains retained; the thirty-second Shepherd freshness repair is pending fresh exact-head review and live deployment.
+Implemented, locally validated, independently reviewed, and live-deployed ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, thirty-second Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.
 
 ## Artifacts
 
@@ -30,6 +30,8 @@ Implemented and locally validated ordered Wuji Runtime v3 lifecycle control, cra
 - adl-runtime-kernel/src/telemetry.rs
 - adl-runtime-kernel/tests/assembly.rs
 - adl-runtime-kernel/src/control.rs
+- AWS SSM command 60136b40-8e73-4a7c-bb45-46a60780641f
+- Wuji /v1/ready and /v1/agents live responses
 
 ## Execution
 
@@ -43,6 +45,7 @@ Implemented and locally validated ordered Wuji Runtime v3 lifecycle control, cra
 - Focused tests cover candidate commit, rollback ordering, owner/hash mismatch rejection, exact service PID parsing, lease identity propagation, continuity projection compatibility, and transaction cleanup.
 - Widened the Shepherd admission freshness lease from five seconds to thirty seconds while retaining the one-second heartbeat cadence, providing bounded scheduling headroom without weakening freshness gating.
 - Made the readiness decision use one explicit Shepherd-admission freshness predicate and added deterministic deadline, expiry, heartbeat-renewal, and renewed-expiry coverage without wall-clock sleeps.
+- Deployed the reviewed thirty-second freshness repair through governed CSM reload under Wuji's service owner and verified the live Runtime roster reports the exact reviewed source revision and lease duration.
 
 ## Validation
 
@@ -219,6 +222,20 @@ Implemented and locally validated ordered Wuji Runtime v3 lifecycle control, cra
     "purpose": "Prove readiness remains valid at the exact lease deadline, fails closed one millisecond later, renews on a production recorder heartbeat, and expires after the renewed deadline without wall-clock timing.",
     "outcome": "passed",
     "evidence_ref": "1 focused readiness-boundary test passed; assembly 10 passed; all-target kernel Clippy and rustfmt passed."
+  },
+  {
+    "command": [
+      "aws",
+      "ssm",
+      "get-command-invocation",
+      "--command-id",
+      "60136b40-8e73-4a7c-bb45-46a60780641f",
+      "--profile",
+      "agent-logic-admin"
+    ],
+    "purpose": "Prove governed service-owner reload, owned Runtime readiness, exact reviewed source revision, and live thirty-second Shepherd freshness window on Wuji.",
+    "outcome": "passed",
+    "evidence_ref": "SSM reload/status succeeded; Guardian 35914, Runtime 35917, listener and observability ready. /v1/agents reported healthy Shepherd source revision 1addbc0f2d2238c372a06f0d90cab4b1cd039881 and deadline minus observed time 30000 milliseconds."
   }
 ]
 

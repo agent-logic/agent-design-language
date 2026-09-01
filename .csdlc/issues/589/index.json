@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 44,
-  "digest": "59b37c70137b98ee4f6a4b6b4664df1e4cde12c83b5a6542e10b8381e70668e3",
+  "generation": 48,
+  "digest": "c9a91c30bf83447d7e7d829ec890e5b90a9187d02e08228fdc954775844b4b93",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5ba20303188ea6f9711e0d7ba28c949ec00164c746e335b7fd83861fca5c8304",
+      "values_digest": "f4fc355ea389552d5a20b09d453bc8a02ed5767f39647f12c7b2fee098c93d05",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "9e84e053363e1fc9fee80319055fd43866cc213e68791adab36a2571e00d459f",
+      "values_digest": "c255e1ff3e9dfc25156873baa1fd3b89e0dca103b694d96a4875fa23dd6f1518",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "d34ab2762584dc40eeaf2bc5620874003dc5812728d3143f07cab40d8a95d4ec",
+      "values_digest": "afcf244222691cb51418b242fc9f78d8daf3e873ed795fdc7417da7e91a15a33",
       "rendered_digest": "315bb82392767ff9d0c5acb9c99df4dbc87c4fd82dec36c6bb76bbab7b32cb3f",
       "ast_digest": "569fe120c9e4d45f1e5799229ca53e07754cf71fba0027620a6fdaf4211394af"
     },
     "vpp": {
-      "values_digest": "5b4585b6ee94b6774eb0383f14e2cfb8379d7f7af69a1b0c8e9419c98a0367fd",
+      "values_digest": "12c37eaadccf3384a2d75ee7e3d30937075ce0c2b4b517590f44446d5a262da8",
       "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
       "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "f8f880974322a6db20e1e992e92084dbbf9410e01dbf031e66dfb1169ffb01cd",
+      "values_digest": "39bbcdde1d54a48fdd68e8ce3861f7064d70d980566f181c54046c9fe450ecef",
       "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
       "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "f0ad993f2b282779d40b9d98c48bbe30a1e5d46473a17b1274538480fce93019",
-      "rendered_digest": "c485580170622c6212052c412f73bcb03af1f261be7755425f02eb35d5069298",
-      "ast_digest": "0365263cb5af4500574924f2e56a7611b32c84b25adb29169dc24662c3973ff7"
+      "values_digest": "4d76b53c210d01c2e204c38eb847edd4123aec8a90db800a55b2a0531d51b123",
+      "rendered_digest": "dc639965dd7e7c1aefc6e166d4b9295bc4c71e1a1f0d268b83c1fbf14ef8824d",
+      "ast_digest": "1f4df21b2657adfb5f59eb8318c8d0f1b6df9f3145e59ee803a0faa3d1d322b2"
     }
   },
   "transitions": [
@@ -201,6 +201,20 @@
       "to": "implemented",
       "actor": "codex-issue-589",
       "reason": "Recover exact-review truth after operational review found the five-second Shepherd admission freshness lease had insufficient scheduling headroom for stable always-on readiness and demo roster visibility."
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 23,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-issue-589",
+      "reason": "Recover exact-review truth so the SOR can record the newly completed governed Wuji deployment and thirty-second live Shepherd lease proof."
     }
   ],
   "audit": [
@@ -609,6 +623,41 @@
       "actor": "codex-issue-589",
       "reason": "Record deterministic Shepherd readiness boundary and heartbeat renewal proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"shepherd_readiness_tests::readiness_accepts_the_deadline_and_fails_closed_after_heartbeat_loss\"],\"purpose\":\"Prove readiness remains valid at the exact lease deadline, fails closed one millisecond later, renews on a production recorder heartbeat, and expires after the renewed deadline without wall-clock timing.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 focused readiness-boundary test passed; assembly 10 passed; all-target kernel Clippy and rustfmt passed.\"}}"
+    },
+    {
+      "sequence": 59,
+      "generation": 44,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 45,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 46,
+      "actor": "codex-issue-589",
+      "reason": "Recover exact-review truth so the SOR can record the newly completed governed Wuji deployment and thirty-second live Shepherd lease proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 47,
+      "actor": "codex-issue-589",
+      "reason": "Record governed Wuji deployment and live thirty-second Shepherd freshness proof.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented, locally validated, independently reviewed, and live-deployed ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, thirty-second Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.\",\"changes\":[\"Deployed the reviewed thirty-second freshness repair through governed CSM reload under Wuji's service owner and verified the live Runtime roster reports the exact reviewed source revision and lease duration.\"],\"artifacts\":[\"AWS SSM command 60136b40-8e73-4a7c-bb45-46a60780641f\",\"Wuji /v1/ready and /v1/agents live responses\"]}"
+    },
+    {
+      "sequence": 63,
+      "generation": 48,
+      "actor": "codex-issue-589",
+      "reason": "Record exact live Wuji freshness and source-identity validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"aws\",\"ssm\",\"get-command-invocation\",\"--command-id\",\"60136b40-8e73-4a7c-bb45-46a60780641f\",\"--profile\",\"agent-logic-admin\"],\"purpose\":\"Prove governed service-owner reload, owned Runtime readiness, exact reviewed source revision, and live thirty-second Shepherd freshness window on Wuji.\",\"outcome\":\"passed\",\"evidence_ref\":\"SSM reload/status succeeded; Guardian 35914, Runtime 35917, listener and observability ready. /v1/agents reported healthy Shepherd source revision 1addbc0f2d2238c372a06f0d90cab4b1cd039881 and deadline minus observed time 30000 milliseconds.\"}}"
     }
   ]
 }
