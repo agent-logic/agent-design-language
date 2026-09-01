@@ -1,0 +1,13 @@
+{
+  "issue": 498,
+  "card": "sip",
+  "expected_generation": 4,
+  "expected_digest": "d00af0d75a419285d550d0961c2935d3061ad979b66b28c0ca7cf749479392e3",
+  "actor": "codex:worker-7",
+  "reason": "Typed doctor and issue validation pass for the prepared CORP-D Sprint 4 lifecycle package while preserving the explicit CORP-C terminal execution gate.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  },
+  "fail_after_backup": false
+}
