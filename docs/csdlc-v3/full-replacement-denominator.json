@@ -1,0 +1,131 @@
+{
+  "schema": "csdlc.v3.full_replacement_denominator.v1",
+  "authority_issue": 505,
+  "source_issue": 604,
+  "status": "incomplete",
+  "cutover_ready": false,
+  "replacement_rule": "C-SDLC v3 may not replace v2 until the single v3 csdlc binary implements and behaviorally proves every required C-SDLC v2 entrypoint listed here, plus any explicitly approved removals.",
+  "current_v3_binary": "csdlc-v3/src/main.rs",
+  "current_v3_commands": [
+    "foundation",
+    "local"
+  ],
+  "required_v2_entrypoints": [
+    {
+      "entrypoint": "csdlc-bind",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-clean",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-cutover",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-doctor",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-edit",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-eligibility",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-finish",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-github",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-github-issue",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-github-pr",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-install",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-issue",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-pr-state",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-proof",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-publish",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-review",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-schedule",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-shadow",
+      "v3_command": "foundation",
+      "replacement_status": "partial"
+    },
+    {
+      "entrypoint": "csdlc-shepherd",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-soak",
+      "v3_command": null,
+      "replacement_status": "missing"
+    },
+    {
+      "entrypoint": "csdlc-validate",
+      "v3_command": "foundation",
+      "replacement_status": "partial"
+    }
+  ],
+  "proof_required_before_cutover": [
+    "one single v3 csdlc binary exposes the complete command surface",
+    "every replacement command has schema-compatible request and response handling or an approved removal record",
+    "issue lifecycle, review, publication, finish, cleanup, GitHub issue, GitHub PR, runner, validation, proof, scheduling, shadow, soak, install, and eligibility paths are behaviorally proven on real issues",
+    "v2 binaries are retired only after #505 records explicit operator approval and successful rollback/canary evidence"
+  ],
+  "non_claims": [
+    "This manifest does not make v3 operational authority.",
+    "This manifest does not approve #505 cutover.",
+    "This manifest records the current replacement gap so cutover cannot be claimed from partial v3 readiness evidence."
+  ]
+}
