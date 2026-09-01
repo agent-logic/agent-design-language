@@ -1,0 +1,20 @@
+{
+  "issue": 531,
+  "card": "sor",
+  "expected_generation": 10,
+  "expected_digest": "44f29e29751b1abbc5215028a3b10f3f481012168f3af363599047c2ba3acba0",
+  "actor": "codex",
+  "reason": "Record upgraded Sprint 3 closeout validator result after the script was repaired to prove live GitHub issue and PR state plus local merge ancestry.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh"
+      ],
+      "purpose": "Prove the Sprint 3 closeout artifact preserves roster v4, residual-risk boundaries, no paid/cloud execution claim, and verifies each child issue is closed, each child PR is merged with the expected merge commit, and each merge commit is ancestral to HEAD.",
+      "outcome": "passed",
+      "evidence_ref": "Command output: sprint-3-closeout-live: pass"
+    }
+  }
+}

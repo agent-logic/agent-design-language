@@ -1,0 +1,50 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 345
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Recover and harden one bounded reusable AWS GPU proof runner that loads and attests a configured set of at least two simultaneously resident models through the current governed Shepherd adapter without making AWS a Runtime dependency or claiming six-resident qualification.
+
+## Required Outcome
+
+A reviewed issue-owned command can preflight, run one explicitly authorized real GPU-backed Shepherd proof at an exact repository revision, retain redacted machine-readable evidence, and remove all temporary compute on every exit path.
+
+## Scope
+
+- adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
+- adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
+- docs/operations/cloud/aws/shepherd-gpu-proof/**
+- .csdlc/prepared/issues/345/**
+- .csdlc/evidence/345/**
+
+## Authority
+
+- Issue #345 owns only the optional AWS GPU Shepherd proof runner, focused tests, proof documentation, and redacted evidence.
+- The former #5795 local Shepherd contract and commit 7a26886c47962e71c128489f5176a045ae8e9a64 are read-only recovery inputs.
+- Issue #256 is a downstream birthday-demo consumer and is not executed or modified by #345.
+- IAM roles, instance profiles, security groups, S3 artifacts, quota, and the deadline reaper are operator-provisioned inputs that the runner verifies but does not create or broaden.
+- Paid AWS execution requires separate exact-run operator authorization and the Agent Logic business account.
+- No hosted inference, production fallback, public ingress, or default model change is authorized.
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use AWS profile agent-logic-admin and verify the resolved business account before any mutation.
+- Do not print, copy, commit, or expose AWS credentials or credential files.
+- Do not create IAM profiles, roles, policies, security groups, or public ingress.
+- Use one On-Demand GPU instance with no fallback or retry only after explicit paid-run authorization.
+- Retain no raw account IDs, AWS resource IDs, model prompts, model output, secrets, private paths, or environment dumps in public evidence.
+- Preparation and deterministic validation must not launch paid compute.
+- Obtain fresh exact-head review before publication and again before any paid launch if source changes.

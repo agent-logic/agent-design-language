@@ -1,0 +1,33 @@
+{
+  "issue": 578,
+  "card": "sor",
+  "expected_generation": 1,
+  "expected_digest": "577cc01926beba653c441c5075340318085a4a5bf080bf696438c9576002ca6f",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "actor": "codex:root",
+  "reason": "Record the bounded GLM-5.3-Flash provider profile implementation.",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented a general direct Z.ai GLM-5.3-Flash provider profile with bounded runtime overrides and reviewer-agent selection proof.",
+    "changes": [
+      "Added `z_ai:glm-5.3-flash` as a first-class provider profile resolving to `hosted:adl-z-ai:glm-5.3-flash` and provider model id `glm-5.3-flash`.",
+      "Added the GLM-5.3-Flash-specific Z.ai direct chat-completions endpoint `https://api.z.ai/api/paas/v4/chat/completions` while preserving the established `glm-5` Z.ai endpoint.",
+      "Materialized GLM-5.3-Flash defaults for `reasoning_effort=max`, `clear_thinking=false`, `temperature=1.0`, `top_p=0.95`, and bounded output tokens.",
+      "Added runtime adapter support for GLM-5.3-Flash request parameters and fail-closed validation for invalid overrides before network dispatch.",
+      "Added reviewer-selection and HTTP request-materialization tests.",
+      "Documented the direct profile, source rationale, provider-variant boundaries, and the bind/prepared-helper materialization tooling issue."
+    ],
+    "artifacts": [
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/tests/provider_tests/profiles.rs",
+      "adl/tests/provider_tests/http_family.rs",
+      "docs/provider/inference-profiles.md",
+      "docs/tooling/PROVIDER_SETUP.md",
+      "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+      ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+      ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
+    ]
+  }
+}

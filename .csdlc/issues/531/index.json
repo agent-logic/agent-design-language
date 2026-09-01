@@ -1,0 +1,326 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 531,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e14535db7b495d139cde4ee9b64193548b419a73af2001399b8e4c2bacad2b06",
+  "phase": "published",
+  "generation": 19,
+  "digest": "aa54991e8de3620d12536e1308708b589295cad3779253dc1cdf981025d0cb08",
+  "branch": "codex/531-sprint3-cloud-convergence-closeout",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-531-sprint3-cloud-convergence-closeout",
+  "review_assignment": {
+    "reviewer": "review_531_sprint3_closeout",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ffda9d3560d677956220db45d8060714405602d7:5bd4447c057963e436872e4d38af45ae4e6d9391a4f7df906762522b9d2bb3de",
+    "scope": [
+      ".csdlc/prepared/issues/531",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3"
+    ]
+  },
+  "review": {
+    "reviewer": "review_531_sprint3_closeout",
+    "scope": [
+      ".csdlc/prepared/issues/531",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3"
+    ],
+    "reviewed_revision": "git-blake3:ffda9d3560d677956220db45d8060714405602d7:5bd4447c057963e436872e4d38af45ae4e6d9391a4f7df906762522b9d2bb3de",
+    "findings": [],
+    "residual_risks": [
+      "Local child C-SDLC terminal and cleanup state for #489, #494, #495, and #496 remains not recorded in this checkout.",
+      "Skipped child CI lanes remain skipped evidence and are not claimed as passed.",
+      "The Sprint 3 umbrella closeout does not claim new paid AWS/GCP execution or production cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 531,
+    "pull_request": 600,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/600",
+    "base": "main",
+    "head": "codex/531-sprint3-cloud-convergence-closeout",
+    "revision": "git-blake3:ffda9d3560d677956220db45d8060714405602d7:5bd4447c057963e436872e4d38af45ae4e6d9391a4f7df906762522b9d2bb3de",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/531/design.md",
+  "diagram_path": ".csdlc/prepared/issues/531/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root",
+      "revision": "b1a08651c35e236bc401e396cb2ba55d6db49bd88dfcc3e8cd91e52dd676abb8"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "eb70743484975a119916d22d61d9637c4a7f942ddfb2a8041ce37faf2f8ed542",
+      "rendered_digest": "bbe4d3c98970ca21fb0251ef9f233d75acaf09506a220130aa8baf6cbc04d774",
+      "ast_digest": "70d31153c00fdf754af40f17f47270c9460efd62b68131d8713cea97d5d1412e"
+    },
+    "stp": {
+      "values_digest": "6c5228b01418a32ab0b09fdc2659b4fb1861eba6825e23791d3ecf85bd4a4d29",
+      "rendered_digest": "0cf7247d0367cdc6f9b21d588fbcd877c14529064b2ba839882c10838a736183",
+      "ast_digest": "d70a9dd39f30535f740118eb2f4eb51d093f3e32180fb78152ff81c2b2f0006f"
+    },
+    "spp": {
+      "values_digest": "04b5c22edb742ddd2624579242b2f5e86d59efffca082e7d62251838fe75e19b",
+      "rendered_digest": "67a556f39af05ac52536834cf50aeaaa606df133763766ee27afdda503affa0e",
+      "ast_digest": "f963254e3764724be83c82c71f2dc1eed03218c37db1d2da2f1591cd9133317e"
+    },
+    "vpp": {
+      "values_digest": "deb59a4c758515fdaaad3ff0e6301b3a2c6546eb7c8f40116ea6e32bc9f6f3e7",
+      "rendered_digest": "7b16aca8c7657b1a9583b21fa31da030eb46b3116790d85fd463b0b271815753",
+      "ast_digest": "8e9dcc5b9cdbbea9a4573c9cea6ce660fd2e8a5349bd2eadb928f62d0c8ce456"
+    },
+    "srp": {
+      "values_digest": "959ab34f5f7bb7cf6acf4b3ada9edb25580e9e3e2660197cccde616960d4885f",
+      "rendered_digest": "79c38170b2c395c3db126c479ac224357a81ee863c4c7aee8bc382b53583b2db",
+      "ast_digest": "da3bfc4255d0dc8ce8b4522b8122444a6c987c8efb729460341d042fea064f1f"
+    },
+    "sor": {
+      "values_digest": "b90aa9c58843d37d5045eae3a925eca0f1b7bb6af33e7edfe7cb016171bd1daa",
+      "rendered_digest": "a837c059dddbf41b8265dd38c514b3aaaeec5fb1cbb61c8019594823e6f5777b",
+      "ast_digest": "d059b8956306edfc49a676f308aa4242f8762f3c46b9520adbd6a2ee92bfa113"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Sprint 3 roster children are closed live and #531 cards/design are initialized; advance to ready for local binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Sprint 3 closeout artifact execution is recorded; advance to implemented so validation and review truth can be recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review state after publication guard reported review_publication_dead_end because review request files were committed after the exact reviewed artifact revision; reassign and rerecord review against the current clean head."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review state after rebasing #531 onto current origin/main changed the exact clean commit identity; reassign and rerecord review against rebased HEAD."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Sprint 3 roster children are closed live and #531 cards/design are initialized; advance to ready for local binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Make the Sprint 3 closeout artifact and validator scripts explicit issue-owned affected areas so VPP lanes select governed issue-specific denominators.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/531\",\".csdlc/prepared/issues/531\",\".csdlc/requests/531-*\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/sprint-3-cloud-convergence-closeout.md\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Record Sprint 3 closeout artifact creation and conservative child-disposition evidence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Created the Sprint 3 cloud convergence closeout evidence artifact after all declared roster children were observed closed live, with merged PRs and local merge ancestry proven.\",\"changes\":[\"Initialized and bound #531 using typed C-SDLC v2 in the FastWork issue worktree.\",\"Recorded roster membership version 4 with child issues #489, #494, #495, and #496.\",\"Recorded live issue closure, linked PRs, merge commits, CI disposition, and local ancestry for each roster child.\",\"Preserved local child C-SDLC terminal/cleanup status as not recorded rather than claiming finish or cleanup.\"],\"artifacts\":[\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/sprint-3-cloud-convergence-closeout.md\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Sprint 3 closeout artifact execution is recorded; advance to implemented so validation and review truth can be recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Sprint 3 closeout static validator passed after artifact creation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh\"],\"purpose\":\"Prove the Sprint 3 closeout artifact names roster v4, all child issues, live dispositions, merge ancestry, residual-risk boundaries, and no paid/cloud execution claim.\",\"outcome\":\"passed\",\"evidence_ref\":\"Command output: sprint-3-closeout-static: pass\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Diff hygiene passed for Sprint 3 closeout records and evidence.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in sprint closeout records and evidence before review.\",\"outcome\":\"passed\",\"evidence_ref\":\"Command completed successfully with no output.\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex",
+      "reason": "record SPP step S1 as completed after typed initialization and binding completed in the bound FastWork worktree",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex",
+      "reason": "record SPP step S2 as completed after live GitHub child issue, PR, merge commit, local child C-SDLC, and ancestry evidence was collected",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex",
+      "reason": "record SPP step S3 as completed after the sprint closeout artifact and validator scripts were created",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "record SPP step S4 as in progress while validation repair and sprint-end review are underway",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "Record upgraded Sprint 3 closeout validator result after the script was repaired to prove live GitHub issue and PR state plus local merge ancestry.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh\"],\"purpose\":\"Prove the Sprint 3 closeout artifact preserves roster v4, residual-risk boundaries, no paid/cloud execution claim, and verifies each child issue is closed, each child PR is merged with the expected merge commit, and each merge commit is ancestral to HEAD.\",\"outcome\":\"passed\",\"evidence_ref\":\"Command output: sprint-3-closeout-live: pass\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "Record corrected staged diff hygiene after the sprint closeout artifact trailing whitespace was fixed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--cached\",\"--check\"],\"purpose\":\"Reject whitespace errors in the exact staged Sprint 3 closeout records and evidence before commit and typed review.\",\"outcome\":\"passed\",\"evidence_ref\":\"Command completed successfully with no output.\"}}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex",
+      "reason": "Record Sprint 3 review-gate validator after typed review passed and #531 advanced to reviewed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh\"],\"purpose\":\"Prove #531 has non-null typed review evidence before publication.\",\"outcome\":\"passed\",\"evidence_ref\":\"Command output: sprint-3-review-gate: pass\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover review state after publication guard reported review_publication_dead_end because review request files were committed after the exact reviewed artifact revision; reassign and rerecord review against the current clean head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover review state after rebasing #531 onto current origin/main changed the exact clean commit identity; reassign and rerecord review against rebased HEAD.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

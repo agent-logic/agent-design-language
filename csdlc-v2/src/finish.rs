@@ -1443,6 +1443,8 @@ async fn read_issue_in_repository(
         pull_request: None,
         title: None,
         body: None,
+        base: None,
+        head: None,
         labels: Vec::new(),
         assignees: Vec::new(),
         milestone: None,

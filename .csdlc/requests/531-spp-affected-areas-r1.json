@@ -1,0 +1,21 @@
+{
+  "issue": 531,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "6421d9daa5e4029622727ccec0171e72bcd010ef480e5b20a664cff2da07a911",
+  "actor": "codex:/root",
+  "reason": "Make the Sprint 3 closeout artifact and validator scripts explicit issue-owned affected areas so VPP lanes select governed issue-specific denominators.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      ".csdlc/issues/531",
+      ".csdlc/prepared/issues/531",
+      ".csdlc/requests/531-*",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3/sprint-3-cloud-convergence-closeout.md",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh"
+    ]
+  }
+}

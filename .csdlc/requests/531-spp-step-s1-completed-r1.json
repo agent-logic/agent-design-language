@@ -1,0 +1,13 @@
+{
+  "issue": 531,
+  "card": "spp",
+  "expected_generation": 6,
+  "expected_digest": "fc212dbc42c5a293e2b4b134dc22bcd256c1e7ec764dd4536e5aaf31ea9455fc",
+  "actor": "codex",
+  "reason": "record SPP step S1 as completed after typed initialization and binding completed in the bound FastWork worktree",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S1",
+    "status": "completed"
+  }
+}

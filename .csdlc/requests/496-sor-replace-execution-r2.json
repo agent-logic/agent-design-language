@@ -1,0 +1,37 @@
+{
+  "issue": 496,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "e1d4c3d5186167db261836a4a564f1b4be132cb1e6ea424e070384857fb33a5a",
+  "actor": "codex:/root",
+  "reason": "Record repaired #496 proof after exact review findings: validator self-reference row added and candidate diff hygiene uses git diff --check HEAD.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Repaired #496 after exact review FAIL by adding the validator self-reference disposition row, removing ledger whitespace issues, and updating diff hygiene to prove the candidate diff against HEAD before commit.",
+    "changes": [
+      "Added docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh to the ledger consumer-census with retained-evidence disposition",
+      "Removed trailing Markdown whitespace from docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+      "Updated VPP diff hygiene lane to run git diff --check HEAD"
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh",
+      ".csdlc/evidence/496/aws-g-retirement-ledger-static.log",
+      ".csdlc/evidence/496/aws-g-diff-hygiene.log"
+    ],
+    "validation": [
+      {
+        "command": ["bash", "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh"],
+        "purpose": "Validate #496 ledger inventory, dependency merge evidence, disposition-bearing consumer/reference path census, rollback retention, no deletion authority, and live-stack non-claim.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/496/aws-g-retirement-ledger-static.log"
+      },
+      {
+        "command": ["git", "diff", "--check", "HEAD"],
+        "purpose": "Validate candidate diff whitespace hygiene before immutable commit.",
+        "outcome": "passed",
+        "evidence_ref": ".csdlc/evidence/496/aws-g-diff-hygiene.log"
+      }
+    ]
+  }
+}

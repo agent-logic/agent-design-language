@@ -17,6 +17,21 @@ fn cfg_bool(cfg: &HashMap<String, Value>, key: &str, provider_label: &str) -> Re
     }
 }
 
+pub(crate) fn cfg_bool_opt(
+    cfg: &HashMap<String, Value>,
+    key: &str,
+    provider_label: &str,
+) -> Result<Option<bool>> {
+    match cfg.get(key) {
+        None => Ok(None),
+        Some(Value::Bool(value)) => Ok(Some(*value)),
+        Some(_) => Err(invalid_config(
+            provider_label,
+            format!("config.{key} must be a boolean when provided"),
+        )),
+    }
+}
+
 fn endpoint_host(endpoint: &str) -> Option<String> {
     Url::parse(endpoint)
         .ok()
@@ -262,6 +277,32 @@ pub(crate) fn cfg_u64_strict(
         let parsed = s.parse::<u64>().map_err(|_| invalid_value())?;
         return if parsed > 0 {
             Ok(Some(parsed))
+        } else {
+            Err(invalid_value())
+        };
+    }
+
+    Err(invalid_value())
+}
+
+pub(crate) fn cfg_f64_strict(
+    cfg: &HashMap<String, Value>,
+    key: &str,
+    provider_label: &str,
+) -> Result<Option<f64>> {
+    let invalid_value = || {
+        invalid_config(
+            provider_label,
+            format!("config.{key} must be a finite number when provided"),
+        )
+    };
+    let Some(value) = cfg.get(key) else {
+        return Ok(None);
+    };
+
+    if let Some(number) = value.as_f64() {
+        return if number.is_finite() {
+            Ok(Some(number))
         } else {
             Err(invalid_value())
         };

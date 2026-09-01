@@ -1,0 +1,17 @@
+[0m[1mmodule.gpu_smoke_support.data.google_compute_network.private: Reading...[0m[0m
+[0m[1mmodule.gpu_smoke_support.google_service_account.gpu_smoke: Refreshing state... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/serviceAccounts/adl-494-gpu-smoke-gpu@cs-poc-cha8mmii0xk0iaw5vpf8mxf.iam.gserviceaccount.com][0m
+[0m[1mmodule.gpu_smoke_support.data.google_compute_network.private: Read complete after 0s [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default][0m
+[0m[1mmodule.gpu_smoke_support.google_compute_firewall.iap_ssh: Refreshing state... [id=projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/firewalls/adl-494-gpu-smoke-iap-ssh][0m
+
+[0m[1m[32mNo changes.[0m[1m Your infrastructure matches the configuration.[0m
+
+[0mTerraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.
+[0m[1m[32m
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.[0m
+[0m[1m[32m
+Outputs:
+
+[0mfirewall_name = "adl-494-gpu-smoke-iap-ssh"
+network_tag = "adl-494-gpu-smoke"
+service_account_email = "adl-494-gpu-smoke-gpu@cs-poc-cha8mmii0xk0iaw5vpf8mxf.iam.gserviceaccount.com"

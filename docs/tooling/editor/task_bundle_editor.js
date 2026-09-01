@@ -409,7 +409,7 @@ function deriveLifecycleAction() {
 
   return {
     ready: true,
-    summary: "Copy-only historical adapter is ready. The browser prepares the retired pr run command for compatibility evidence only; current lifecycle work must use typed C-SDLC v2 while v2 remains live authority until V3-F/#505 cutover.",
+    summary: "Copy-only lifecycle adapter is ready. The browser prepares the current typed v2 lifecycle command; a human runs it from the repo root. The legacy editor route is historical and retired; C-SDLC v2 remains live authority until the V3-F/#505 cutover gate.",
     command: `adl/tools/editor_action.sh prepare --phase run --issue ${issueNumber} --slug ${branchMatch[2]} --version ${version}`
   };
 }

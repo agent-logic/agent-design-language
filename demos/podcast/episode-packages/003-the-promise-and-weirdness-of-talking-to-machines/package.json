@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 3,
+  "slug": "003-the-promise-and-weirdness-of-talking-to-machines",
+  "title": "The Promise and Weirdness of Talking to Machines",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Make the strangeness of conversational AI feel concrete: voice, agency, misunderstanding, delight, and friction.",
+  "agent_panel": ["ChatGPT", "Claude", "Gemini", "local model guest"],
+  "listener_takeaway": "The weirdness is a design material; the product job is to make it safe, useful, and human-comprehensible.",
+  "promotes": ["conversation design", "human-centered AI", "agent boundaries"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

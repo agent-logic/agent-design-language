@@ -1,0 +1,10 @@
+flowchart LR
+  A["#493 GCP-D terminal cache"] --> B["#494 static GPU-smoke contract"]
+  B --> C["Disposable On-Demand L4 VM"]
+  C --> D["GPU detection + CUDA/driver"]
+  D --> E["Small Ollama/model inference"]
+  E --> F["Telemetry + cost/deadline capture"]
+  F --> G["Destroy"]
+  G --> H["Independent zero-resource checks"]
+  H --> I["GCP-E readiness decision"]
+  B -. non-goal .-> J["No DRT-D / XCL-01 / AWS-G / production scope"]

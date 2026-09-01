@@ -1,0 +1,13 @@
+{
+  "issue": 531,
+  "card": "spp",
+  "expected_generation": 9,
+  "expected_digest": "cea01261f8720485ad4a51b4847e1b22bb6e1492a5b6bcc4a10367d41a025c34",
+  "actor": "codex",
+  "reason": "record SPP step S4 as in progress while validation repair and sprint-end review are underway",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "in_progress"
+  }
+}

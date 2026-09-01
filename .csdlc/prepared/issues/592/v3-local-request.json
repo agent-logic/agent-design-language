@@ -1,0 +1,9 @@
+{
+  "issue": 592,
+  "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/592-runtime-gcp-polis-vertex-ai",
+  "worktree": "adl-worktrees/adl-issue-592-runtime-gcp-polis-vertex-ai",
+  "registry_version": "1.0.3",
+  "commands": ["prepare_issue", "bind_worktree", "plan_pvf", "doctor"]
+}

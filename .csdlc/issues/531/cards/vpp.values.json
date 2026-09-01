@@ -1,0 +1,84 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 531,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sprint 3] Cloud convergence",
+    "slug": "sprint-3-cloud-convergence",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "sprint-3-closeout-static",
+          "proof_role": "Prove the Sprint 3 closeout artifact names roster v4, all child issues, live dispositions, residual-risk boundaries, and no paid/cloud execution claim.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-closeout.sh"
+          ],
+          "parallel_group": "sprint-3-closeout",
+          "defer_reason": "Validator is produced with the sprint closeout artifact."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace errors in sprint closeout records and evidence.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        },
+        {
+          "lane": "sprint-3-review-gate",
+          "proof_role": "Require a fresh sprint-end review with no actionable findings before typed publication.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh"
+          ],
+          "parallel_group": "review",
+          "defer_reason": "Validator is produced after sprint-end review truth is recorded."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale roster truth, ambiguous child disposition, unsupported paid/cloud claim, dirty topology, or typed validation failure.",
+      "design_ref": ".csdlc/prepared/issues/531/design.md",
+      "design_digest": "b1a08651c35e236bc401e396cb2ba55d6db49bd88dfcc3e8cd91e52dd676abb8",
+      "diagram_ref": ".csdlc/prepared/issues/531/diagram.mmd",
+      "diagram_digest": "28772d4fd6432d7758ce3c904c6a275f36140de01f34b9f735e75243b40b665f"
+    }
+  }
+}

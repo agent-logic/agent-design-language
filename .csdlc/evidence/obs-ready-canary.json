@@ -1,0 +1,33 @@
+{
+  "schema": "csdlc.obs_ready_canary.v1",
+  "authority": {
+    "live_lifecycle": "csdlc-v2",
+    "v3_operational_authority": false,
+    "operator_entrypoint": "adl/tools/csdlc_obs_ready_canary.sh",
+    "v3_binary": "csdlc"
+  },
+  "issues": {
+    "511": {
+      "target": "OBS-A",
+      "doctor_status": "pass",
+      "doctor_ready_for_next_operation": false,
+      "execution_ready": true,
+      "phase": "ready",
+      "next_operation": "inspect_phase",
+      "v3_canary": ".csdlc/evidence/511/v3-local-canary.json"
+    },
+    "512": {
+      "target": "OBS-B",
+      "doctor_status": "pass",
+      "doctor_ready_for_next_operation": true,
+      "execution_ready": false,
+      "phase": "initialized",
+      "next_operation": "advance_ready",
+      "blocked_on": [
+        "#511 reviewed and terminal",
+        "#536 Sprint 8 coordination terminal"
+      ],
+      "v3_canary": ".csdlc/evidence/512/v3-local-canary.json"
+    }
+  }
+}

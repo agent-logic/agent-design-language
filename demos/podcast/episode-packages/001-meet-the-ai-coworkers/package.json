@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.episode_source_package.v1",
+  "episode": 1,
+  "slug": "001-meet-the-ai-coworkers",
+  "title": "Meet the AI Coworkers",
+  "show_working_title": "The Cognitive Stack",
+  "status": "source_package_ready_audio_pending",
+  "premise": "Introduce the listener to the show: multiple AI systems reason together as visible coworkers, not invisible magic.",
+  "agent_panel": ["Codex", "ChatGPT", "Claude", "Gemini"],
+  "listener_takeaway": "AI collaboration becomes more trustworthy when roles, boundaries, disagreements, and proof are visible.",
+  "promotes": ["multi-agent reasoning", "governed workflow", "reviewable AI output"],
+  "audio": {"final_mp3": null, "archive_audio": null, "status": "pending_final_package_proof"},
+  "publication_claimed": false
+}

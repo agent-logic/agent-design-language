@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 596,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
+    "slug": "sprints-5-6-cutover-fixes",
+    "version": "v0.92.1",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Bounded remediation of sprint review blockers and typed-tool canary defects needed before #505 can be reviewed for cutover.",
+      "deliverables": [
+        "Typed six-card lifecycle state for #596",
+        "PR #597 body with visible Closes #596 and non-closing #505/#534 linkage",
+        "Typed GitHub PR create/update operations with owner provenance and idempotent update safety",
+        "Single csdlc v3 binary and standalone locked CI coverage",
+        "Behavior-backed v3 importer, durability, review, finish, and cleanup fixes",
+        "Real issue canary evidence for #592, OBS-A/#511, and OBS-B/#512"
+      ],
+      "acceptance_criteria": [
+        "AC-1: #596 has canonical local C-SDLC v2 issue state with SIP, STP, SPP, VPP, SRP, and SOR cards",
+        "AC-2: PR #597 visibly closes #596 and does not close #505",
+        "AC-3: PR body create/update operations are performed through typed C-SDLC v2 GitHub owners, not raw gh",
+        "AC-4: Repeated PR update operation keys cannot overwrite a different governed body",
+        "AC-5: v3 durable transaction proof fails closed across projection crash windows",
+        "AC-6: v3 construction remains non-authoritative until #505 cutover",
+        "AC-7: Focused v2, v3, CI-policy, canary, and diff-hygiene validation passes before handoff"
+      ],
+      "dependencies": [
+        "#505 remains the explicit cutover gate",
+        "#534 remains the sprint delivery umbrella",
+        "Sprint 5/6 synthesis at /Volumes/FastWork/adl-reviews/csdlc-sprints-5-6-20260830/SYNTHESIS.md"
+      ],
+      "repo_inputs": [
+        "/Volumes/FastWork/adl-reviews/csdlc-sprints-5-6-20260830/SYNTHESIS.md",
+        "PR #597",
+        "Issue #596",
+        ".csdlc/evidence/sprints-5-6-cutover-fixes/remediation-pr-create-result.json",
+        ".csdlc/evidence/sprints-5-6-cutover-fixes/remediation-pr597-state-after-push.json"
+      ],
+      "non_goals": [
+        "Cut over from C-SDLC v2 to v3",
+        "Merge or finish #505",
+        "Hide unrelated sprint defects in the remediation PR",
+        "Use raw GitHub CLI for covered lifecycle writes"
+      ]
+    }
+  }
+}

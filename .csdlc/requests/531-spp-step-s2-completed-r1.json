@@ -1,0 +1,13 @@
+{
+  "issue": 531,
+  "card": "spp",
+  "expected_generation": 7,
+  "expected_digest": "8f7500a168f77b77afb3852b319ff525e93dfd9e7bfc7ce84ccb435622a16ac3",
+  "actor": "codex",
+  "reason": "record SPP step S2 as completed after live GitHub child issue, PR, merge commit, local child C-SDLC, and ancestry evidence was collected",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S2",
+    "status": "completed"
+  }
+}

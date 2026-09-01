@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 596,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
+  "phase": "ready",
+  "generation": 3,
+  "digest": "5ef9fb1023fef83350e9eae34ffed9e4e9bc996d388cd471f9bb38b0bc1adf4d",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/596/design.md",
+  "diagram_path": ".csdlc/prepared/issues/596/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "worker-6:operator-reviewed",
+      "revision": "49da6d996cd3ad753d225fc7301126f732ce2dd815a7fc5378642174997301bb"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d88d89cb5995fa0551ea6cfcfa05de090c45c6d215954cf5c2c74e1f87c2184b",
+      "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
+      "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
+    },
+    "stp": {
+      "values_digest": "177dfc76fd07a4a9759e3120144105cc2ccf680698a69dd6c05f4e0087a61eb2",
+      "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
+      "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
+    },
+    "spp": {
+      "values_digest": "2e37835d19fc21b82f41d175682af20184bb29f366334eee3ee262f7be24e1c4",
+      "rendered_digest": "cf4bd35b96257f447906baa698ed0ac0589fd5567c9bd683630c8a3df67ee078",
+      "ast_digest": "02186660a6dfe7cff12603add8f76705d20debce302860d4ded2cb17f4833df4"
+    },
+    "vpp": {
+      "values_digest": "b35502ac3f5849ebd0ddc24b8f5df0df591d0572ed81605b9dc6d8f992d9d409",
+      "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
+      "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
+    },
+    "srp": {
+      "values_digest": "cc5f00372555cf6bf55d2ded1bba84816267b52242496c5f9aea0fb4ed2d343a",
+      "rendered_digest": "5e73e5925328b092789181e36f16c36501741c98ff71962279354b445ecc3a5b",
+      "ast_digest": "8e806d3673620d233597703b4598a0e42454a07c18d589a82ff8eed11b20b954"
+    },
+    "sor": {
+      "values_digest": "9f003e53865682feaf88e6ca95c122754171a0fe68849a6c628a91da9638d96b",
+      "rendered_digest": "73236e3cd06d949b141dd51a947449f7669dcda56f36cc29276c4b22926c7f73",
+      "ast_digest": "5dd404f88b5b4690f31d88bf400e6aa175b3d2d3c11caf199d46f6040ab8b3a3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "worker-6",
+      "reason": "Advance #596 to ready after design approval and issue-local validation lane repair, before binding the existing remediation branch/worktree."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "worker-6:sprints56-remediation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "worker-6:vpp-readiness-repair",
+      "reason": "Own the issue-local remediation validator so #596 validation lanes have an executable denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/operator\",\"csdlc-v3/src/storage/mod.rs\",\"csdlc-v3/tests\",\".github/workflows/ci.yaml\",\"adl/tools\",\".csdlc/issues/596\",\".csdlc/prepared/issues/596\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\",\".csdlc/evidence/sprints-5-6-cutover-fixes\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "worker-6:vpp-readiness-repair",
+      "reason": "Select the issue-owned remediation validator as the executable validation denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"remediation-regression\",\"proof_role\":\"Prove #596 local lifecycle, PR-closing linkage, and non-closing #505/#534 linkage through an issue-owned validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\"],\"parallel_group\":\"policy\",\"defer_reason\":null},{\"lane\":\"v2-github-pr-transport\",\"proof_role\":\"Prove typed PR create/update action validation, owner provenance, and idempotent conflict rejection.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"parallel_group\":\"rust-focused\",\"defer_reason\":null},{\"lane\":\"v3-durable-storage\",\"proof_role\":\"Prove durable projection repair remains required across committed-state/missing-projection crash windows.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":360,\"budget_tokens\":2600,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"transactions\"],\"parallel_group\":\"rust-focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "worker-6",
+      "reason": "Advance #596 to ready after design approval and issue-local validation lane repair, before binding the existing remediation branch/worktree.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "action": "issue_read",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 592,
+  "operation_key": "v0921-polis-gcp-vertex-ai-canary",
+  "token_file": null,
+  "pull_request": null,
+  "title": null,
+  "body": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

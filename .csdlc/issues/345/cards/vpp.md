@@ -1,0 +1,138 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 345
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/345/design.md
+
+Diagram: .csdlc/prepared/issues/345/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "issue345-runner-contract",
+    "proof_role": "Execute positive and negative runner fixtures for parsing, account/IAM/security-group/artifact validation, lock ownership, exact revision, interruption, deadline, cleanup, and redaction without AWS mutation.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-5",
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 600,
+    "budget_tokens": 4000,
+    "argv": [
+      "bash",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
+    ],
+    "parallel_group": "local-contract",
+    "defer_reason": "The issue-owned executable fixture is an explicit implementation deliverable; readiness fails closed until this exact target exists and passes."
+  },
+  {
+    "lane": "issue345-readonly-aws-preflight",
+    "proof_role": "Verify the approved business-account and all pre-provisioned launch predicates without acquiring a lock or launching compute.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-8"
+    ],
+    "deterministic": false,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1500,
+    "argv": [
+      "bash",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "preflight"
+    ],
+    "parallel_group": "aws-readonly",
+    "defer_reason": "The issue-owned runner is an explicit implementation deliverable; no AWS readback or mutation is authorized until this exact target exists and passes deterministic review."
+  },
+  {
+    "lane": "issue345-paid-gpu-proof",
+    "proof_role": "Run one exact-revision, real-model, GPU-resident Shepherd proof and prove owner-bound cleanup and bounded cost.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-9"
+    ],
+    "deterministic": false,
+    "resource_profile": "large",
+    "budget_seconds": 3600,
+    "budget_tokens": 4000,
+    "argv": [
+      "bash",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "run",
+      "--commit",
+      "EXACT_REVIEWED_SHA",
+      "--run-id",
+      "AUTHORIZED_RUN_ID",
+      "--execute"
+    ],
+    "parallel_group": "aws-paid-serial",
+    "defer_reason": "Requires separate operator authorization naming the exact reviewed revision, one run ID, deadline, and maximum cost after read-only preflight and launch-readiness review pass."
+  },
+  {
+    "lane": "issue345-diff-hygiene",
+    "proof_role": "Reject whitespace defects in the exact issue change.",
+    "acceptance_ids": [
+      "AC-9"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 60,
+    "budget_tokens": 500,
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "parallel_group": "local-contract",
+    "defer_reason": null
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 7200
+
+Tokens: 50000
+
+## Commands
+
+- `bash adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh`
+- `bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh preflight`
+- `bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh run --commit EXACT_REVIEWED_SHA --run-id AUTHORIZED_RUN_ID --execute`
+- `git diff --check origin/main...HEAD`
+
+## Failure Semantics
+
+Fail closed before paid mutation on any account, authorization, cost, deadline, lock, IAM, no-ingress, artifact, quota, reaper, exact-revision, model-proof, redaction, or cleanup ambiguity; preserve bounded diagnostics and require a fresh reviewed attempt rather than fallback or retry.
+
+## Handoff
+
+Retain typed evidence before convergence.
