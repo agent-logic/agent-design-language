@@ -26,3 +26,15 @@
 - Fix: `ready` and `reconcile-ready` now commit the governed issue metadata
   tail, push the branch, reobserve the PR at the metadata head, and validate the
   metadata-only follow-up before returning success.
+
+## DEFECT-012: Retained PR-state request examples use a stale action field
+
+- Status: open compatibility/documentation defect.
+- Evidence: copying the shape from an existing retained
+  `.csdlc/prepared/issues/*/pr-state-request.json` failed with
+  `unknown field action`; current `csdlc-github-pr state` expects the request
+  body without `action`.
+- Impact: operators following retained local examples can lose time on schema
+  drift during PR readback.
+- Required fix: update retained examples or provide a schema-guided request
+  generator for PR-state readbacks.

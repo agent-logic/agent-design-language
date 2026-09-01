@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 604,
+  "expected_generation": 12,
+  "expected_digest": "bb5097433ed985a4d9d11f15c0f6f0cfa602c865880db040940142166c928ee4",
+  "actor": "codex:/root/worker-6/issue-604",
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/604-v2-publish-ready-reconciliation-exec",
+  "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
+  "body": "Closes #604\n\nSummary:\n- Restores typed `csdlc-publish ready` and `csdlc-publish reconcile-ready` for governed draft-to-ready publication reconciliation.\n- Revalidates live PR repository, number, base, head branch, exact head SHA, open state, draft state, and observed body linkage before recording ready truth.\n- Publishes the new ready request schemas and records full-cycle canary defects found while testing #604.\n- Fixes the ready/reconcile-ready metadata tail so ready publication truth is committed, pushed, reobserved, and verified as a metadata-only follow-up.\n\nValidation:\n- `.csdlc/prepared/issues/604/validate-implementation.sh`\n- `TMPDIR=/Volumes/FastWork/adl-cargo-targets/issue-604-test-tmp cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate10a`\n- `TMPDIR=/Volumes/FastWork/adl-cargo-targets/issue-604-test-tmp cargo clippy --locked --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`\n- `git diff --check`\n\nCanary notes:\n- This PR deliberately published as draft first, then was marked ready through the new typed ready command to exercise the full #604 path.\n- The canary exposed and fixed a ready metadata-tail defect before final PR update.\n- Typed PR-state readback confirmed PR #610 is open, non-draft, linked to #604 by GitHub closing reference, and awaiting CI.\n- Captured defects remain in `.csdlc/prepared/issues/604/full-cycle-defects.md` and `.csdlc/evidence/604/full-cycle-defects-tail.md` for follow-up routing.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "remote": "origin",
+  "token_file": null
+}
