@@ -38,4 +38,4 @@ human editor controls final publication.
 ## Links
 
 - Agent Logic: https://agent-logic.ai/
-- Cognitive Spacetime RSS: https://agent-logic.ai/podcast/feed.xml
+- The Cognitive Stack RSS: https://agent-logic.ai/podcast/feed.xml

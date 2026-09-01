@@ -1,4 +1,4 @@
-# Cognitive Spacetime: The Agent Logic Podcast Launch Readiness
+# The Cognitive Stack Launch Readiness
 
 This packet prepares the complete first episode for final human review and
 public-feed deployment.

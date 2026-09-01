@@ -1,7 +1,7 @@
 {
   "schema": "agent-logic.podcast.episode.v2",
   "number": 1,
-  "show_title": "Cognitive Spacetime: The Agent Logic Podcast",
+  "show_title": "The Cognitive Stack",
   "title": "Meet the AI Coworkers",
   "slug": "meet-the-ai-coworkers",
   "subtitle": "When does an AI stop feeling like software you query and start feeling like someone on the team?",
@@ -12,7 +12,7 @@
   "episode_type": "full",
   "publication_status": "held_for_human_review",
   "proposed_publication_date": "2026-08-10T16:00:00Z",
-  "guid": "agent-logic-cognitive-spacetime-episode-001",
+  "guid": "agent-logic-the-cognitive-stack-episode-001",
   "page_url": "https://agent-logic.ai/podcast/episodes/meet-the-ai-coworkers/",
   "audio_url": "https://agent-logic.ai/podcast/audio/meet-the-ai-coworkers.mp3",
   "audio_type": "audio/mpeg",

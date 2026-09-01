@@ -1,4 +1,4 @@
-# Cognitive Spacetime S3 And CloudFront Runbook
+# The Cognitive Stack S3 And CloudFront Runbook
 
 This runbook governs durable podcast storage and public media delivery. It
 separates retained production evidence from approved public artifacts so that
