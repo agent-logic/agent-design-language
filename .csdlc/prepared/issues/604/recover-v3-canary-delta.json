@@ -1,0 +1,7 @@
+{
+  "issue": 604,
+  "expected_generation": 24,
+  "expected_digest": "18a2819671c7580207fd1e33399a739df099a94d96d2217ce7743d17ac879f7b",
+  "actor": "codex:/root/worker-6/issue-604",
+  "reason": "Recover #604 after adding real-issue C-SDLC v3 canary coverage and DEFECT-017 evidence so review, publication, and ready truth can be refreshed for the new head."
+}

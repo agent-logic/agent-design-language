@@ -96,3 +96,22 @@
   review transcript did not justify the recorded reviewer identity.
 - Fix: the issue is recovered and republished with review evidence tied to the
   reviewer that actually returned a visible PASS in this session.
+
+## DEFECT-017: v3 canary coverage used modeled fixtures instead of real issue records
+
+- Status: fixed in #604.
+- Evidence: the v3 crate exposed only `foundation` and `local` CLI commands,
+  while its lifecycle/storage/adapter/remote-delivery coverage was mostly
+  exercised through synthetic fixture issues. That made it too easy to miss
+  field-shape and revision-normalization mismatches when testing against actual
+  v2 lifecycle records.
+- Impact: v3 readiness could look green without proving that the current
+  non-authoritative v3 surfaces can ingest real ADL issue records before
+  cutover.
+- Fix: added real-issue canaries for #604 across foundation projection, local
+  preparation, lifecycle recovery, durable storage reopen, adapter command
+  construction, and non-authoritative credential injection, plus a real #504
+  remote-delivery terminal-identity canary in preview-cleanup mode. The canary
+  records the observed v2 distinction between typed review revision evidence
+  and GitHub terminal SHA instead of treating those raw fields as the same
+  authority value.

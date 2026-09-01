@@ -10,4 +10,7 @@ export TMPDIR="$repo_root/.csdlc/evidence/604/tmp"
 cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test publication_ready
 cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate_github_route_policy
 cargo fmt --manifest-path csdlc-v2/Cargo.toml --all -- --check
+cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets
+cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings
+cargo fmt --manifest-path csdlc-v3/Cargo.toml --check
 git diff --check

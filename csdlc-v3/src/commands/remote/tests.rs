@@ -152,6 +152,19 @@ fn delivery_input(mode: PublicationMode, body: &str, issue_open: bool) -> Remote
     )
 }
 
+fn repo_root() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("manifest has repository parent")
+        .to_path_buf()
+}
+
+fn real_issue_index(issue: u64) -> serde_json::Value {
+    let path = repo_root().join(format!(".csdlc/issues/{issue}/index.json"));
+    let bytes = fs::read(path).expect("real issue index exists");
+    serde_json::from_slice(&bytes).expect("real issue index parses")
+}
+
 #[test]
 fn v3e_denominator_is_exact() {
     assert_eq!(REMOTE_DELIVERY_PREDECESSORS, [174, 175, 176, 177, 178]);
@@ -173,6 +186,109 @@ fn accepted_pvf_result_reaches_safe_cleanup_preview() {
             pull_request: 586,
             issue: ISSUE,
             head_sha: REVISION.to_owned()
+        }
+    );
+    assert_eq!(
+        result.cleanup,
+        Some(CleanupClassification::PreviewEligible { path: cleanup_path })
+    );
+}
+
+#[test]
+fn remote_delivery_canary_uses_real_issue_504_terminal_identity_without_mutation() {
+    let index = real_issue_index(ISSUE);
+    assert_eq!(index["phase"], "closed_out");
+    let reviewed_revision = index["review"]["reviewed_revision"]
+        .as_str()
+        .expect("real reviewed revision");
+    assert!(
+        reviewed_revision.starts_with("git-blake3:"),
+        "real v2 review stores typed revision evidence"
+    );
+    let pull_request = index["publication"]["pull_request"]
+        .as_u64()
+        .expect("real publication pull request");
+    let observed_sha = index["terminal"]["observed_sha"]
+        .as_str()
+        .expect("real terminal observed sha");
+    let reviewer = index["review"]["reviewer"].as_str().expect("real reviewer");
+    let scope_paths = index["review"]["scope"]
+        .as_array()
+        .expect("real review scope")
+        .iter()
+        .map(|value| value.as_str().expect("real review scope item").to_owned())
+        .collect::<Vec<_>>();
+
+    let pvf = AcceptedPvfResult {
+        issue: ISSUE,
+        revision: observed_sha.to_owned(),
+        evidence_digest: index["digest"]
+            .as_str()
+            .expect("real issue digest")
+            .to_owned(),
+    };
+    let review = review_from_accepted_evidence(AcceptedReviewEvidence {
+        issue: ISSUE,
+        reviewed_revision: observed_sha.to_owned(),
+        scope_paths,
+        implementer: "worker-6-implementation".to_owned(),
+        reviewer: reviewer.to_owned(),
+        findings: vec![ReviewFinding {
+            id: "real-issue-canary-clean".to_owned(),
+            disposition: FindingDisposition::Resolved,
+        }],
+        target: ReviewTarget {
+            repository: REPOSITORY.to_owned(),
+            issue: ISSUE,
+            mode: PublicationMode::Closing,
+        },
+        typed_review_evidence_digest: index["review"]["reviewed_revision"]
+            .as_str()
+            .expect("real review evidence")
+            .to_owned(),
+    })
+    .expect("real typed review evidence constructs accepted review");
+    let publication = PublicationRequest {
+        repository: REPOSITORY.to_owned(),
+        issue: ISSUE,
+        pull_request,
+        mode: PublicationMode::Closing,
+        publisher: "worker-6-publisher".to_owned(),
+        body: "Closes #504".to_owned(),
+        head_sha: observed_sha.to_owned(),
+    };
+    let pull_request_readback = PullRequestReadback {
+        repository: REPOSITORY.to_owned(),
+        number: pull_request,
+        head_sha: observed_sha.to_owned(),
+        merged: true,
+        closes_issue: Some(ISSUE),
+        part_of_issue: None,
+    };
+    let issue_readback = IssueReadback {
+        repository: REPOSITORY.to_owned(),
+        issue: ISSUE,
+        open: false,
+    };
+
+    let mut cleanup = cleanup();
+    cleanup.preview = true;
+    let cleanup_path = cleanup.candidate_path.clone();
+    let result = deliver(RemoteDeliveryInput::new(
+        verified(pvf, AuthoritySource::Pvf),
+        verified(review, AuthoritySource::Review),
+        verified(publication, AuthoritySource::PublicationIntent),
+        verified(pull_request_readback, AuthoritySource::GithubReadback),
+        verified(issue_readback, AuthoritySource::GithubReadback),
+        verified(cleanup, AuthoritySource::WorktreeInspection),
+    ))
+    .expect("real issue remote identity reaches terminal preview");
+    assert_eq!(
+        result.finish,
+        FinishClassification::TerminalClosedOut {
+            pull_request,
+            issue: ISSUE,
+            head_sha: observed_sha.to_owned()
         }
     );
     assert_eq!(
