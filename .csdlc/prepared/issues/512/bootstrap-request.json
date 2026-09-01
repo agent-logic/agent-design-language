@@ -1,0 +1,48 @@
+{
+  "issue": 512,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:worker-6",
+  "design_path": ".csdlc/prepared/issues/512/design.md",
+  "diagram_path": ".csdlc/prepared/issues/512/diagram.mmd",
+  "design_reviewer": "codex:worker-6:precutover-design-review",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+    "slug": "obs-b-observatory-redesign-implementation",
+    "version": "v0.92.1",
+    "goal": "Produce one implemented Observatory redesign backed by authentic Runtime projections.",
+    "required_outcome": "One implemented Observatory redesign consuming authentic Runtime projections.",
+    "declared_scope": ["demos/html-observatory/app.js", "demos/html-observatory/styles.css", "adl/tools/validate_layer8_authority_observatory_ui.sh", ".csdlc/prepared/issues/512/design.md", ".csdlc/prepared/issues/512/diagram.mmd", ".csdlc/prepared/issues/512/validate-obs-b-browser.sh", ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh", ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh", ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh", ".csdlc/evidence/512", ".csdlc/issues/512"],
+    "authority_boundary": ["Issue authority is agent-logic/agent-design-language#512", "OBS-A #511 and Sprint 8 #536 are execution gates", "Issue #84 is independent backlog and non-gating", "V3 remains non-authoritative before #505"],
+    "operator_constraints": ["No tracked implementation work on main", "No mock substitute for required Runtime route", "No TLS public exposure or Unity implementation"],
+    "task_boundary": "Exactly one implemented HTML Observatory redesign consuming authentic Runtime projections.",
+    "deliverables": ["OBS-A contract implementation", "Authentic Runtime projection consumption", "Browser and accessibility proof", "Redaction and recovery proof", "Review-ready OBS-B evidence packet", ".csdlc/prepared/issues/512/validate-obs-b-browser.sh", ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh", ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh", ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh"],
+    "acceptance_criteria": ["AC-1: OBS-A contracts are implemented", "AC-2: Runtime projections are source-grounded", "AC-3: Accessibility and recovery cases pass", "AC-4: No mock substitutes for the required Runtime route", "AC-5: One-command pre-cutover canary passes but execution remains blocked until #511 and #536 are terminal"],
+    "dependencies": ["#511 reviewed and terminal", "#536 Sprint 8 coordination terminal"],
+    "repo_inputs": ["agent-logic/agent-design-language#512", "agent-logic/agent-design-language#511", "agent-logic/agent-design-language#536", "demos/html-observatory/app.js", "demos/html-observatory/styles.css", "adl/tools/validate_layer8_authority_observatory_ui.sh"],
+    "non_goals": ["TLS 1.2 implementation owned by #251", "Public exposure owned by #122", "Unity integration owned by independent backlog #84", "Mock Runtime substitution"],
+    "plan_summary": "After OBS-A and Sprint 8 gates are terminal, implement the HTML Observatory redesign against authentic Runtime projections and prove browser, accessibility, redaction, and recovery behavior.",
+    "steps": [
+      {"id":"S1","action":"Confirm #511 reviewed contract and #536 Sprint 8 coordination are terminal before binding execution.","acceptance_ids":["AC-1","AC-5"],"status":"pending"},
+      {"id":"S2","action":"Implement OBS-A view/state/accessibility contracts in the HTML Observatory.","acceptance_ids":["AC-1","AC-3"],"status":"pending"},
+      {"id":"S3","action":"Replace any mock data with authentic Runtime projection consumption and redaction handling.","acceptance_ids":["AC-2","AC-4"],"status":"pending"},
+      {"id":"S4","action":"Run exact browser, accessibility, redaction, recovery, and review proof.","acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5"],"status":"pending"}
+    ],
+    "affected_areas": ["demos/html-observatory/app.js", "demos/html-observatory/styles.css", "adl/tools/validate_layer8_authority_observatory_ui.sh", ".csdlc/prepared/issues/512/design.md", ".csdlc/prepared/issues/512/diagram.mmd", ".csdlc/prepared/issues/512/validate-obs-b-browser.sh", ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh", ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh", ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh", ".csdlc/evidence/512", ".csdlc/issues/512"],
+    "invariants": ["#511 is terminal before execution", "#536 is terminal before execution", "No mock substitutes for required Runtime route", "#84 remains non-gating backlog", "V3 remains non-authoritative before #505"],
+    "risks": ["OBS-A may change implementation requirements", "Runtime projection route may be unavailable", "Mock data may be accidentally retained", "Accessibility recovery behavior may lag visual redesign"],
+    "planning_profile": "medium",
+    "stop_conditions": ["Issue #511 is not reviewed and terminal", "Issue #536 is not terminal", "A mock substitutes for the required Runtime route", "The implementation requires #84, #251, or #122"],
+    "validation_lanes": [
+      {"lane":"authentic-runtime-route","proof_role":"Prove the HTML Observatory consumes the required authentic Runtime route, not a mock.","acceptance_ids":["AC-2","AC-4"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":2500,"argv":["bash","adl/tools/validate_layer8_authority_observatory_ui.sh"],"parallel_group":"runtime-route","defer_reason":"Execution is blocked until #511 and #536 are terminal."},
+      {"lane":"exact-browser-cases","proof_role":"Run exact browser-facing redesign cases against the implemented OBS-A contract.","acceptance_ids":["AC-1","AC-3"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":2500,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-browser.sh"],"parallel_group":"browser","defer_reason":null},
+      {"lane":"accessibility","proof_role":"Verify keyboard and screen-reader behavior for implemented views and states.","acceptance_ids":["AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh"],"parallel_group":"browser","defer_reason":null},
+      {"lane":"redaction","proof_role":"Verify projected Runtime data remains redacted in UI and evidence.","acceptance_ids":["AC-2"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-redaction.sh"],"parallel_group":"privacy","defer_reason":null},
+      {"lane":"recovery","proof_role":"Verify empty degraded recovery and revoked UI states match OBS-A.","acceptance_ids":["AC-1","AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1800,"argv":["bash",".csdlc/prepared/issues/512/validate-obs-b-recovery.sh"],"parallel_group":"browser","defer_reason":null},
+      {"lane":"v3-local-canary","proof_role":"Run the single csdlc binary local preparation path as non-authoritative cutover evidence.","acceptance_ids":["AC-5"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":["cargo","run","--locked","--manifest-path","csdlc-v3/Cargo.toml","--bin","csdlc","--","local","--request",".csdlc/prepared/issues/512/v3-local-request.json","--registry","docs/templates/prompts/current.json","--registrations",".csdlc/prepared/issues/512/v3-local-registrations.json"],"parallel_group":"cutover-canary","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on unmet #511 or #536 gates, mock Runtime substitution, redaction leakage, or v3 authority overclaim.",
+    "review_prompts": ["Were #511 and #536 terminal before execution?", "Does the UI consume authentic Runtime projections?", "Are recovery and accessibility cases proven rather than visually asserted?"],
+    "review_scope": "OBS-B HTML implementation, authentic Runtime route, accessibility, redaction, recovery, and pre-cutover canary evidence only."
+  }
+}

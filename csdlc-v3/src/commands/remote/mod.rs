@@ -6,8 +6,8 @@ use crate::publication::{
     PullRequestReadback,
 };
 use crate::review::{
-    authorize_publication, FindingDisposition, PublicationAuthorization, ReviewFinding,
-    ReviewRecord, ReviewRejectReason, ReviewTarget,
+    authorize_publication, PublicationAuthorization, ReviewFinding, ReviewRecord,
+    ReviewRejectReason, ReviewTarget,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -45,13 +45,20 @@ pub enum VerificationRejectReason {
     WrongSource,
 }
 
-impl<T> Verified<T> {
+pub trait VerifiableSubject {
+    fn subject_digest(&self) -> String;
+}
+
+impl<T: VerifiableSubject> Verified<T> {
     pub(crate) fn new(
         value: T,
         receipt: AuthorityReceipt,
-        subject_digest: String,
     ) -> Result<Self, VerificationRejectReason> {
-        if receipt.digest.trim().is_empty() || receipt.subject_digest != subject_digest {
+        let subject_digest = value.subject_digest();
+        if receipt.digest != authority_receipt_digest(receipt.source, &subject_digest)
+            || receipt.subject_digest != subject_digest
+            || receipt.subject_digest.trim().is_empty()
+        {
             return Err(VerificationRejectReason::MissingReceipt);
         }
         Ok(Self { value, receipt })
@@ -184,46 +191,84 @@ pub(crate) fn deliver(
     })
 }
 
-pub(crate) fn receipt(
-    source: AuthoritySource,
-    digest: &str,
-    subject_digest: &str,
-) -> AuthorityReceipt {
+pub(crate) fn receipt(source: AuthoritySource, subject_digest: &str) -> AuthorityReceipt {
     AuthorityReceipt {
         source,
-        digest: digest.to_owned(),
+        digest: authority_receipt_digest(source, subject_digest),
         subject_digest: subject_digest.to_owned(),
     }
 }
 
-pub fn accepted_review(
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AcceptedReviewEvidence {
+    pub issue: u64,
+    pub reviewed_revision: String,
+    pub scope_paths: Vec<String>,
+    pub implementer: String,
+    pub reviewer: String,
+    pub findings: Vec<ReviewFinding>,
+    pub target: ReviewTarget,
+    pub typed_review_evidence_digest: String,
+}
+
+pub(crate) fn review_from_accepted_evidence(
+    evidence: AcceptedReviewEvidence,
+) -> Result<ReviewRecord, VerificationRejectReason> {
+    if evidence.typed_review_evidence_digest.trim().is_empty()
+        || evidence.scope_paths.is_empty()
+        || evidence.reviewed_revision.trim().is_empty()
+    {
+        return Err(VerificationRejectReason::MissingReceipt);
+    }
+    Ok(ReviewRecord {
+        issue: evidence.issue,
+        reviewed_revision: evidence.reviewed_revision,
+        scope_digest: stable_digest(
+            &evidence
+                .scope_paths
+                .iter()
+                .map(String::as_str)
+                .collect::<Vec<_>>(),
+        ),
+        implementer: evidence.implementer,
+        reviewer: evidence.reviewer,
+        findings: evidence.findings,
+        target: evidence.target,
+        evidence_digest: evidence.typed_review_evidence_digest,
+    })
+}
+
+#[cfg(test)]
+pub(crate) fn accepted_review(
     issue: u64,
     revision: &str,
     implementer: &str,
     reviewer: &str,
     mode: PublicationMode,
 ) -> ReviewRecord {
-    ReviewRecord {
+    review_from_accepted_evidence(AcceptedReviewEvidence {
         issue,
         reviewed_revision: revision.to_owned(),
-        scope_digest: stable_digest(&[
-            "csdlc-v3/src/commands/remote",
-            "csdlc-v3/src/review",
-            "csdlc-v3/src/publication",
-            "csdlc-v3/tests/remote_commands",
-        ]),
+        scope_paths: vec![
+            "csdlc-v3/src/commands/remote".to_owned(),
+            "csdlc-v3/src/review".to_owned(),
+            "csdlc-v3/src/publication".to_owned(),
+            "csdlc-v3/tests/remote_commands".to_owned(),
+        ],
         implementer: implementer.to_owned(),
         reviewer: reviewer.to_owned(),
-        findings: vec![ReviewFinding {
+        findings: vec![crate::review::ReviewFinding {
             id: "review-clean".to_owned(),
-            disposition: FindingDisposition::Resolved,
+            disposition: crate::review::FindingDisposition::Resolved,
         }],
         target: ReviewTarget {
             repository: "agent-logic/agent-design-language".to_owned(),
             issue,
             mode,
         },
-    }
+        typed_review_evidence_digest: stable_digest(&["typed-review-evidence", revision]),
+    })
+    .expect("accepted typed review evidence")
 }
 
 fn stable_digest(values: &[&str]) -> String {
@@ -233,6 +278,112 @@ fn stable_digest(values: &[&str]) -> String {
         hasher.update(b"\0");
     }
     hasher.finalize().to_hex().to_string()
+}
+
+fn authority_receipt_digest(source: AuthoritySource, subject_digest: &str) -> String {
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(format!("{source:?}").as_bytes());
+    hasher.update(b"\0");
+    hasher.update(subject_digest.as_bytes());
+    hasher.finalize().to_hex().to_string()
+}
+
+impl VerifiableSubject for AcceptedPvfResult {
+    fn subject_digest(&self) -> String {
+        stable_digest(&[
+            &self.issue.to_string(),
+            &self.revision,
+            &self.evidence_digest,
+        ])
+    }
+}
+
+impl VerifiableSubject for ReviewRecord {
+    fn subject_digest(&self) -> String {
+        stable_digest(&[
+            &self.issue.to_string(),
+            &self.reviewed_revision,
+            &self.scope_digest,
+            &self.implementer,
+            &self.reviewer,
+            &self.evidence_digest,
+        ])
+    }
+}
+
+impl VerifiableSubject for PublicationRequest {
+    fn subject_digest(&self) -> String {
+        stable_digest(&[
+            &self.repository,
+            &self.issue.to_string(),
+            &self.pull_request.to_string(),
+            match self.mode {
+                PublicationMode::Closing => "closing",
+                PublicationMode::PartOf => "part_of",
+            },
+            &self.publisher,
+            &self.body,
+            &self.head_sha,
+        ])
+    }
+}
+
+impl VerifiableSubject for PullRequestReadback {
+    fn subject_digest(&self) -> String {
+        stable_digest(&[
+            &self.repository,
+            &self.number.to_string(),
+            &self.head_sha,
+            if self.merged { "merged" } else { "open" },
+            &self.closes_issue.map(|v| v.to_string()).unwrap_or_default(),
+            &self
+                .part_of_issue
+                .map(|v| v.to_string())
+                .unwrap_or_default(),
+        ])
+    }
+}
+
+impl VerifiableSubject for IssueReadback {
+    fn subject_digest(&self) -> String {
+        stable_digest(&[
+            &self.repository,
+            &self.issue.to_string(),
+            if self.open { "open" } else { "closed" },
+        ])
+    }
+}
+
+impl VerifiableSubject for CleanupCandidate {
+    fn subject_digest(&self) -> String {
+        stable_digest(&[
+            if self.preview { "preview" } else { "remove" },
+            if self.preview_receipt {
+                "preview_receipt"
+            } else {
+                "no_preview_receipt"
+            },
+            if self.committed_closed_out {
+                "closed_out"
+            } else {
+                "not_closed_out"
+            },
+            if self.terminal_receipt {
+                "terminal_receipt"
+            } else {
+                "no_terminal_receipt"
+            },
+            &self.approved_worktree_parent.to_string_lossy(),
+            &self.registration.repository_root.to_string_lossy(),
+            &self.registration.worktree_path.to_string_lossy(),
+            &self.registration.git_common_dir.to_string_lossy(),
+            &self.candidate_path.to_string_lossy(),
+            &self.registration_digest,
+            self.preview_identity_digest.as_deref().unwrap_or_default(),
+            if self.dirty { "dirty" } else { "clean" },
+            if self.live { "live" } else { "not_live" },
+        ])
+    }
 }
 
 #[cfg(test)]

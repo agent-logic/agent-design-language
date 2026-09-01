@@ -83,6 +83,7 @@ pub enum StoreError {
     LockUnavailable,
     Io(String),
     StructuredReviewRecoveryProvenanceRequired,
+    RecoveryRequired(RecoveryRepair),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -244,6 +245,7 @@ impl TransactionStore {
     }
 }
 
+#[derive(Debug)]
 pub struct DurableTransactionStore {
     store: TransactionStore,
     directory: PathBuf,
@@ -270,6 +272,7 @@ impl DurableTransactionStore {
         let lock = StoreLock::acquire(&directory)?;
         let committed = read_state(&directory)?;
         let journal = read_intents(&directory)?;
+        classify_open_recovery(&committed, journal.last())?;
         let store = TransactionStore { committed, journal };
         Ok(Self {
             store,
@@ -325,10 +328,41 @@ impl DurableTransactionStore {
     ) -> Result<CommitResult, StoreError> {
         self.ensure_current_intent(&transaction.intent)?;
         append_intent(&self.directory, &transaction.intent)?;
-        let result = self.store.commit(transaction, projection_write)?;
-        write_state_atomically(&self.directory, self.store.committed())?;
+        let mut next_store = self.store.clone();
+        let result = next_store.commit(transaction, projection_write)?;
+        write_state_atomically(&self.directory, next_store.committed())?;
         sync_directory(&self.directory)?;
+        self.store = next_store;
         Ok(result)
+    }
+
+    pub fn commit_then_project(
+        &mut self,
+        transaction: StagedTransaction,
+        projection_write: impl FnOnce(&StateRecord) -> Result<(), StoreError>,
+    ) -> Result<CommitResult, StoreError> {
+        self.ensure_current_intent(&transaction.intent)?;
+        append_intent(&self.directory, &transaction.intent)?;
+        let mut next_store = self.store.clone();
+        next_store.commit(transaction, ProjectionWrite::Success)?;
+        next_store.committed.projections_repair_required = true;
+        next_store.committed.refresh_digest();
+        write_state_atomically(&self.directory, next_store.committed())?;
+        sync_directory(&self.directory)?;
+        let mut projected_state = next_store.committed().clone();
+        projected_state.projections_repair_required = false;
+        projected_state.refresh_digest();
+        if projection_write(&projected_state).is_err() {
+            self.store = next_store;
+            return Ok(CommitResult::ProjectionRepairRequired(
+                self.store.committed().clone(),
+            ));
+        }
+        next_store.committed = projected_state;
+        write_state_atomically(&self.directory, next_store.committed())?;
+        sync_directory(&self.directory)?;
+        self.store = next_store;
+        Ok(CommitResult::Committed(self.store.committed().clone()))
     }
 
     fn ensure_current_intent(&self, intent: &TransactionIntent) -> Result<(), StoreError> {
@@ -347,6 +381,46 @@ impl DurableTransactionStore {
     }
 }
 
+fn classify_open_recovery(
+    committed: &StateRecord,
+    latest_intent: Option<&TransactionIntent>,
+) -> Result<(), StoreError> {
+    let classification = match latest_intent {
+        None => classify_recovery(RecoveryObservation::NoIntent {
+            state: committed.clone(),
+        }),
+        Some(intent) if committed.generation == intent.expected_generation => {
+            classify_recovery(RecoveryObservation::IntentWithoutCommit {
+                prior: committed.clone(),
+                intent: intent.clone(),
+            })
+        }
+        Some(intent) if committed.generation == intent.expected_generation + 1 => {
+            classify_recovery(RecoveryObservation::StateCommitted {
+                state: committed.clone(),
+                intent: intent.clone(),
+            })
+        }
+        Some(intent) => classify_recovery(RecoveryObservation::StateCommittedProjectionMissing {
+            state: committed.clone(),
+            intent: intent.clone(),
+        }),
+    };
+    match classification {
+        RecoveryClassification::NewState(_) => Ok(()),
+        RecoveryClassification::PriorState(_) => Err(StoreError::RecoveryRequired(
+            RecoveryRepair::ExactReadbackBeforeRemoteResume,
+        )),
+        RecoveryClassification::RepairRequired { repair, .. } => {
+            Err(StoreError::RecoveryRequired(repair))
+        }
+        RecoveryClassification::CorruptRecoveryInput { reason } => Err(StoreError::Io(format!(
+            "recovery classification failed: {reason:?}"
+        ))),
+    }
+}
+
+#[derive(Debug)]
 struct StoreLock {
     path: PathBuf,
 }

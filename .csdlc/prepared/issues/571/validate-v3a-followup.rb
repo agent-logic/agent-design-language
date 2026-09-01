@@ -63,16 +63,10 @@ def declared_lane_map(lanes, owner_issue)
 end
 
 def materialized_lanes(source_path, source_revision, owner_issue)
-  if Pathname.new(source_path).absolute?
-    source_root = git_root_for(source_path)
-    assert source_root, "owner ##{owner_issue} absolute lane source is not inside a git worktree"
-    relative_path = Pathname.new(source_path).relative_path_from(Pathname.new(source_root)).to_s
-    source_text = command_output!("git", "-C", source_root, "show", "#{source_revision}:#{relative_path}")
-    source_doc = JSON.parse(source_text)
-  else
-    source_text = command_output!("git", "-C", ROOT, "show", "#{source_revision}:#{source_path}")
-    source_doc = JSON.parse(source_text)
-  end
+  assert !Pathname.new(source_path).absolute?,
+         "owner ##{owner_issue} lane source must be repository-relative, not machine-local"
+  source_text = command_output!("git", "-C", ROOT, "show", "#{source_revision}:#{source_path}")
+  source_doc = JSON.parse(source_text)
   lanes = source_doc.fetch("content").fetch("values").fetch("lanes")
   declared_lane_map(lanes, owner_issue)
 rescue JSON::ParserError => e

@@ -1,0 +1,46 @@
+{
+  "issue": 592,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:worker-6:real-issue-canary",
+  "design_path": ".csdlc/prepared/issues/592/design.md",
+  "diagram_path": ".csdlc/prepared/issues/592/diagram.mmd",
+  "design_reviewer": "pending",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+    "slug": "runtime-gcp-polis-vertex-ai",
+    "version": "v0.92.1",
+    "goal": "Configure Polis on GCP to use Vertex AI through the governed Runtime/provider configuration path.",
+    "required_outcome": "One reviewed, validated GCP/Vertex AI Polis configuration path that can be operated without leaking credentials or bypassing C-SDLC lifecycle authority.",
+    "declared_scope": ["docs/runtime/**", "docs/tooling/**", "infra/runtime-v3/**", "adl-runtime-kernel/**", ".csdlc/prepared/issues/592/**", ".csdlc/evidence/592/**", ".csdlc/issues/592/**"],
+    "authority_boundary": ["Issue authority is agent-logic/agent-design-language#592", "Dependency #528 must be terminal before execution begins", "C-SDLC v2 remains live authority until #505 cutover is explicitly approved", "No raw gh route is permitted for this canary"],
+    "operator_constraints": ["Do not bind or execute while #528 is non-terminal", "Do not print copy commit or retain credential material", "Do not perform live paid GCP calls without later explicit authorization", "Keep all canary evidence in the repository/worktree, not /private/tmp"],
+    "task_boundary": "Exactly one future Polis GCP Vertex AI configuration task plus pre-cutover tooling canary evidence.",
+    "deliverables": ["Explicit Vertex AI provider configuration plan", "Redacted credential sourcing documentation", "Runtime/provider validation plan", "Failure-mode classification", "Real-issue tooling canary evidence"],
+    "acceptance_criteria": ["AC-1: #528 is terminal before execution begins", "AC-2: Polis GCP configuration uses Vertex AI through explicit provider configuration, not ambient defaults", "AC-3: Vertex AI project location model and credential sourcing are documented and redacted", "AC-4: Runtime/provider validation proves the configured route without printing or committing secrets", "AC-5: Failure modes distinguish missing credentials disabled Vertex APIs project/location mismatch quota/auth errors and model errors", "AC-6: Evidence captures the pre-cutover tooling canary defects found while creating and bootstrapping this real issue"],
+    "dependencies": ["#528 terminal"],
+    "repo_inputs": ["agent-logic/agent-design-language#592", "agent-logic/agent-design-language#528", "adl-runtime-kernel/**", "infra/runtime-v3/**", "docs/runtime/**"],
+    "non_goals": ["Implement #528", "Live paid GCP calls without explicit authorization", "C-SDLC v2/v3 authority cutover", "Mock provider acceptance evidence"],
+    "plan_summary": "After #528 is terminal, configure Polis for explicit Vertex AI provider use, document redacted GCP credential/project/location/model sourcing, prove failure modes, and retain canary evidence.",
+    "steps": [
+      {"id":"S1","action":"Verify #528 terminal truth through typed C-SDLC readback before binding execution.","acceptance_ids":["AC-1"],"status":"pending"},
+      {"id":"S2","action":"Design explicit Vertex AI provider configuration for Polis on GCP.","acceptance_ids":["AC-2","AC-3"],"status":"pending"},
+      {"id":"S3","action":"Implement the bounded configuration path after dependency clearance.","acceptance_ids":["AC-2","AC-3","AC-4"],"status":"pending"},
+      {"id":"S4","action":"Validate redaction and distinct Vertex AI failure modes without secret exposure.","acceptance_ids":["AC-4","AC-5","AC-6"],"status":"pending"}
+    ],
+    "affected_areas": ["Runtime provider configuration", "GCP/Vertex AI docs", "Runtime validation evidence", "C-SDLC tooling canary evidence"],
+    "invariants": ["#528 gates execution", "Credentials are never printed or committed", "Provider config is explicit not ambient", "V2 remains live authority before #505", "Canary defects are retained instead of worked around silently"],
+    "risks": ["GCP project/location authority may be ambiguous", "Vertex API enablement or quota may be unavailable", "Credential source may be confused with secret material", "Tooling setup friction may obscure task readiness"],
+    "planning_profile": "medium",
+    "stop_conditions": ["#528 is not terminal", "GCP credential or project authority is ambiguous", "A live paid call is needed without explicit authorization", "Tooling cannot represent dependency or credential boundaries truthfully"],
+    "validation_lanes": [
+      {"lane":"dependency-terminal-readback","proof_role":"Use typed C-SDLC readback to prove #528 is terminal before any execution bind.","acceptance_ids":["AC-1"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1000,"argv":[".adl/bin/csdlc-v2/csdlc-github-issue","run","--request",".csdlc/prepared/issues/592/read-528-request.json"],"parallel_group":"preflight","defer_reason":"#528 was non-terminal during issue-start canary."},
+      {"lane":"vertex-config-docs","proof_role":"Verify provider project location model and credential sourcing are explicit and redacted.","acceptance_ids":["AC-2","AC-3"],"deterministic":true,"resource_profile":"small","budget_seconds":180,"budget_tokens":1600,"argv":["bash",".csdlc/prepared/issues/592/validate-vertex-config-docs.sh"],"parallel_group":"docs","defer_reason":"Implementation is gated by #528."},
+      {"lane":"runtime-provider-proof","proof_role":"Prove Polis uses the configured Vertex AI provider route without mocks or secret output.","acceptance_ids":["AC-4","AC-5"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":3500,"argv":["bash",".csdlc/prepared/issues/592/validate-runtime-vertex-ai.sh"],"parallel_group":"runtime","defer_reason":"Implementation is gated by #528 and later explicit live-call authorization if needed."},
+      {"lane":"tooling-canary","proof_role":"Retain real issue create read bootstrap validate and doctor evidence plus defects.","acceptance_ids":["AC-6"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1200,"argv":["bash",".csdlc/prepared/issues/592/validate-tooling-canary.sh"],"parallel_group":"tooling","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on non-terminal #528, credential exposure, ambient GCP defaults, mock-provider acceptance, raw gh dependency, or unrecorded tooling defects.",
+    "review_prompts": ["Is #528 terminal before execution?", "Is Vertex AI configuration explicit and redacted?", "Do failure modes distinguish auth, API, quota, project/location, and model failures?", "Did the canary record every tooling defect rather than hiding it?"],
+    "review_scope": "Issue #592 bootstrap, dependency gate, provider configuration boundary, validation plan, and canary evidence only."
+  }
+}

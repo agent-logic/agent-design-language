@@ -1,0 +1,18 @@
+{
+  "action": "pr_update",
+  "repository": "agent-logic/agent-design-language",
+  "operation_key": "worker-6-pr591-remove-closes-505-20260831",
+  "token_file": null,
+  "issue": null,
+  "pull_request": 591,
+  "title": null,
+  "body": "Part-Of #505\n\nPrepares the V3-F authority-transition decision surface before any C-SDLC v2-to-v3 tooling changeover. C-SDLC v2 remains the live lifecycle authority until #505 is reviewed, explicitly operator-approved, merged, and terminally reconciled; C-SDLC v3 remains construction and cutover evidence only before that point.\n\nChanges:\n- Adds `docs/csdlc-v3/TOOLING_CHANGEOVER_NOTICE.md` and sent the pre-changeover notification on #505 via typed C-SDLC v2 GitHub issue transport.\n- Updates root `AGENTS.md`, `csdlc-v2/AGENTS.md`, `csdlc-v3/AGENTS.md`, onboarding, default workflow, architecture, and retained skill/editor docs so operators see the transition warning in advance.\n- Updates active lifecycle docs/templates to the six-card `SIP -> STP -> SPP -> VPP -> SRP -> SOR` contract.\n- Keeps `adl_pr_cycle`, `pr.sh`, and `pr ready/run/finish/closeout` language historical/retired rather than live route guidance.\n- Strengthens the #505 validator to cover predecessor receipts, notification evidence, docs/skills/AGENTS surfaces, VPP lifecycle coverage, legacy-route rejection, and future closing linkage.\n\nValidation:\n- `ruby .csdlc/prepared/issues/505/validate-authority-transition-prep.rb`\n- `bash .csdlc/prepared/issues/570/validate-docs-routes.sh`\n- `bash .csdlc/prepared/issues/570/validate-skill-guidance.sh`\n- `bash .csdlc/prepared/issues/570/validate-authority-boundary.sh`\n- `./.adl/bin/csdlc-v2/csdlc-validate --root . issue --issue 505`\n- `git diff --check origin/main...HEAD`\n\nReview:\n- Read-only subagent review `review_issue_505_final_docs_head` PASS at exact head `eb061985764cf8aad19b9d5df7fa7d5b7cfb3931` after fixing the final stale `pr doctor` template wording.\n\nNotification:\n- Typed issue notification sent before cutover; GitHub comment id `5472588060`.\n\nNon-claims:\n- This PR does not itself make v3 live authority, retire v2, merge/finish the issue, or bypass operator approval.",
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

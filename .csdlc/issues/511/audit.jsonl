@@ -1,0 +1,2 @@
+{"sequence":1,"generation":0,"actor":"codex:worker-6","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"codex:worker-6:obs-ready-canary","reason":"OBS-A has no remote dependencies; bootstrap, v2 validation, and single-binary v3 local canary passed. Stop before implementation binding.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}

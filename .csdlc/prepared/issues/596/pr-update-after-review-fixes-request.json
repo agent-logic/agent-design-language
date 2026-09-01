@@ -1,0 +1,20 @@
+{
+  "action": "pr_update",
+  "repository": "agent-logic/agent-design-language",
+  "operation_key": "worker-6-sprints56-remediation-pr-update-authority-fixes-20260831",
+  "token_file": null,
+  "issue": null,
+  "pull_request": 597,
+  "title": null,
+  "body": "Part-Of #596\nPart-Of #505\nPart-Of #534\n\nThis PR packages the bounded Sprint 5/6 cutover-review remediation branch without making C-SDLC v3 live authority.\n\nChanges:\n- Adds standalone locked csdlc-v3 CI selection and workflow coverage for v3 source changes.\n- Consolidates csdlc-v3 execution around a single `csdlc` binary with foundation/local subcommands.\n- Strengthens read-only v2 import to recompute issue-record and card digests before accepting projections.\n- Adds behavioral proof for durable reopen, failed state replacement, projection repair, review authority, finish linkage, part-of delivery, and cleanup classification/removal boundaries.\n- Exercises real issue canaries for Polis/Vertex issue creation plus OBS-A/#511 and OBS-B/#512 readiness.\n- Adds typed GitHub PR body update/create actions needed to avoid raw `gh` during sprint remediation.\n- Adds typed local C-SDLC v2 lifecycle state for #596 with all six cards and an issue-owned remediation validator.\n- Hardens typed PR body update replay so a reused operation key cannot overwrite a different governed body.\n- Closes the durable v3 projection crash window by persisting repair-required state until projection success is durably cleared.\n\nValidation:\n- `csdlc-validate issue --issue 596`\n- `bash .csdlc/prepared/issues/596/validate-remediation-regression.sh`\n- `cargo test --locked --manifest-path csdlc-v3/Cargo.toml --all-targets`\n- `cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings`\n- `cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions`\n- `TMPDIR=/Volumes/FastWork/adl-worktrees/adl-command-tmp cargo test --locked --manifest-path csdlc-v2/Cargo.toml --lib`\n- `bash adl/tools/test_ci_runtime_contracts.sh`\n- `bash adl/tools/test_ci_path_policy.sh`\n- `bash adl/tools/csdlc_obs_ready_canary.sh`\n- `git diff --check origin/main...HEAD`\n\nNon-claims:\n- Leaves issue #596 open until its typed lifecycle is bound, reviewed, published, and reconciled.\n- Leaves issue #505 open; no cutover, merge, finish, or cleanup authority is claimed.\n\n<!-- csdlc-github-operation:worker-6-sprints56-remediation-pr-create-20260831 -->\n",
+  "base": null,
+  "head": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

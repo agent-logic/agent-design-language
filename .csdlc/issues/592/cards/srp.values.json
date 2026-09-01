@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 592,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+    "slug": "runtime-gcp-polis-vertex-ai",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #592 bootstrap, dependency gate, provider configuration boundary, validation plan, and canary evidence only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is #528 terminal before execution?",
+        "Is Vertex AI configuration explicit and redacted?",
+        "Do failure modes distinguish auth, API, quota, project/location, and model failures?",
+        "Did the canary record every tooling defect rather than hiding it?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

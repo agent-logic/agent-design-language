@@ -1,12 +1,13 @@
 use super::{
-    accepted_review, deliver, receipt, AcceptedPvfResult, AuthoritySource, RemoteDeliveryInput,
-    RemoteDeliveryRejectReason, VerificationRejectReason, Verified,
+    accepted_review, deliver, receipt, review_from_accepted_evidence, AcceptedPvfResult,
+    AcceptedReviewEvidence, AuthoritySource, RemoteDeliveryInput, RemoteDeliveryRejectReason,
+    VerifiableSubject, VerificationRejectReason, Verified,
 };
 use crate::publication::{
-    classify_cleanup, derive_finish, execute_cleanup_removal, publish, CleanupCandidate,
-    CleanupClassification, CleanupRejectReason, FinishClassification, FinishRejectReason,
-    IssueReadback, PublicationMode, PublicationRejectReason, PublicationRequest,
-    PullRequestReadback,
+    classify_cleanup, cleanup_candidate_from_git_registration, derive_finish,
+    execute_cleanup_removal, publish, CleanupCandidate, CleanupClassification, CleanupRejectReason,
+    FinishClassification, FinishRejectReason, GitWorktreeRegistration, IssueReadback,
+    PublicationMode, PublicationRejectReason, PublicationRequest, PullRequestReadback,
 };
 use crate::review::{
     authorize_publication, FindingDisposition, ReviewFinding, ReviewRejectReason, ReviewTarget,
@@ -33,6 +34,7 @@ fn publication(mode: PublicationMode, body: &str) -> PublicationRequest {
     PublicationRequest {
         repository: REPOSITORY.to_owned(),
         issue: ISSUE,
+        pull_request: 586,
         mode,
         publisher: "worker-6-publisher".to_owned(),
         body: body.to_owned(),
@@ -46,6 +48,19 @@ fn merged_pr(head_sha: &str) -> PullRequestReadback {
         number: 586,
         head_sha: head_sha.to_owned(),
         merged: true,
+        closes_issue: Some(ISSUE),
+        part_of_issue: None,
+    }
+}
+
+fn merged_part_of_pr(head_sha: &str) -> PullRequestReadback {
+    PullRequestReadback {
+        repository: REPOSITORY.to_owned(),
+        number: 586,
+        head_sha: head_sha.to_owned(),
+        merged: true,
+        closes_issue: None,
+        part_of_issue: Some(ISSUE),
     }
 }
 
@@ -73,32 +88,51 @@ fn cleanup() -> CleanupCandidate {
 }
 
 fn cleanup_at(path: PathBuf) -> CleanupCandidate {
-    CleanupCandidate {
-        preview: true,
-        preview_receipt: false,
-        committed_closed_out: true,
-        terminal_receipt: true,
-        registered_worktree: path.clone(),
-        candidate_path: path,
-        dirty: false,
-        live: false,
-    }
+    let approved_worktree_parent = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("target");
+    let repository_root = approved_worktree_parent.join(format!(
+        "remote-cleanup-repo-{}-{}",
+        std::process::id(),
+        NEXT_CLEANUP_ID.fetch_add(1, Ordering::SeqCst)
+    ));
+    let worktree_name = path
+        .file_name()
+        .and_then(|value| value.to_str())
+        .unwrap_or("worktree");
+    let git_common_dir = repository_root
+        .join(".git")
+        .join("worktrees")
+        .join(worktree_name);
+    fs::create_dir_all(&git_common_dir).expect("create git common dir fixture");
+    let registration = GitWorktreeRegistration {
+        repository_root,
+        worktree_path: path.clone(),
+        git_common_dir,
+    };
+    cleanup_candidate_from_git_registration(
+        &approved_worktree_parent,
+        &path,
+        registration,
+        true,
+        false,
+        true,
+        true,
+        None,
+        false,
+        false,
+    )
+    .expect("registered cleanup identity")
 }
 
-fn verified<T>(value: T, source: AuthoritySource) -> Verified<T> {
-    Verified::new(
-        value,
-        receipt(
-            source,
-            "verified-observation-digest",
-            "fixture-subject-digest",
-        ),
-        "fixture-subject-digest".to_owned(),
-    )
-    .expect("verified fixture")
+fn verified<T: VerifiableSubject>(value: T, source: AuthoritySource) -> Verified<T> {
+    let subject_digest = value.subject_digest();
+    Verified::new(value, receipt(source, &subject_digest)).expect("verified fixture")
 }
 
 fn delivery_input(mode: PublicationMode, body: &str, issue_open: bool) -> RemoteDeliveryInput {
+    let pull_request = match mode {
+        PublicationMode::Closing => merged_pr(REVISION),
+        PublicationMode::PartOf => merged_part_of_pr(REVISION),
+    };
     RemoteDeliveryInput::new(
         verified(pvf(), AuthoritySource::Pvf),
         verified(
@@ -112,7 +146,7 @@ fn delivery_input(mode: PublicationMode, body: &str, issue_open: bool) -> Remote
             AuthoritySource::Review,
         ),
         verified(publication(mode, body), AuthoritySource::PublicationIntent),
-        verified(merged_pr(REVISION), AuthoritySource::GithubReadback),
+        verified(pull_request, AuthoritySource::GithubReadback),
         verified(issue(issue_open), AuthoritySource::GithubReadback),
         verified(cleanup(), AuthoritySource::WorktreeInspection),
     )
@@ -285,7 +319,7 @@ fn part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority() {
     )
     .expect("part-of publication");
     assert_eq!(
-        derive_finish(&evidence, &merged_pr(REVISION), &issue(true)),
+        derive_finish(&evidence, &merged_part_of_pr(REVISION), &issue(true)),
         FinishClassification::CheckpointCompleted {
             pull_request: 586,
             issue: ISSUE,
@@ -293,7 +327,7 @@ fn part_of_checkpoint_does_not_close_parent_or_grant_terminal_authority() {
         }
     );
     assert_eq!(
-        derive_finish(&evidence, &merged_pr(REVISION), &issue(false)),
+        derive_finish(&evidence, &merged_part_of_pr(REVISION), &issue(false)),
         FinishClassification::OperatorRequired {
             reason: FinishRejectReason::PartOfParentClosed
         }
@@ -364,6 +398,22 @@ fn finish_derives_terminal_truth_from_remote_readback_not_local_claims() {
             reason: FinishRejectReason::ClosingParentStillOpen
         }
     );
+    let mut unrelated = merged_pr(REVISION);
+    unrelated.number = 999;
+    assert_eq!(
+        derive_finish(&evidence, &unrelated, &issue(false)),
+        FinishClassification::OperatorRequired {
+            reason: FinishRejectReason::PullRequestMismatch
+        }
+    );
+    let mut missing_linkage = merged_pr(REVISION);
+    missing_linkage.closes_issue = None;
+    assert_eq!(
+        derive_finish(&evidence, &missing_linkage, &issue(false)),
+        FinishClassification::OperatorRequired {
+            reason: FinishRejectReason::ClosingLinkageMissing
+        }
+    );
 }
 
 #[test]
@@ -378,12 +428,13 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
     let remove_path = remove.candidate_path.clone();
     remove.preview = false;
     remove.preview_receipt = true;
+    remove.preview_identity_digest = Some(remove.registration_digest.clone());
     assert_eq!(
         classify_cleanup(&remove),
         Ok(CleanupClassification::RemoveEligible { path: remove_path })
     );
     let mut attack = cleanup();
-    let attack_path = attack.registered_worktree.with_extension("extra");
+    let attack_path = attack.registration.worktree_path.with_extension("extra");
     fs::create_dir_all(&attack_path).expect("create sibling attack fixture");
     attack.candidate_path = attack_path;
     assert_eq!(
@@ -404,16 +455,46 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
         Err(CleanupRejectReason::NonCanonicalPath)
     );
     let mut unverified = cleanup();
-    unverified.registered_worktree = unverified.registered_worktree.join("missing-worktree");
+    unverified.registration.worktree_path = unverified
+        .registration
+        .worktree_path
+        .join("missing-worktree");
     assert_eq!(
         classify_cleanup(&unverified),
-        Err(CleanupRejectReason::PathMismatch)
+        Err(CleanupRejectReason::UnregisteredWorktree)
     );
     let mut no_preview_receipt = cleanup();
     no_preview_receipt.preview = false;
     assert_eq!(
         classify_cleanup(&no_preview_receipt),
         Err(CleanupRejectReason::MissingPreviewReceipt)
+    );
+    no_preview_receipt.preview_receipt = true;
+    no_preview_receipt.preview_identity_digest = Some("forged-preview".to_owned());
+    assert_eq!(
+        classify_cleanup(&no_preview_receipt),
+        Err(CleanupRejectReason::PreviewReceiptMismatch)
+    );
+    let broad_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let broad = cleanup_candidate_from_git_registration(
+        &broad_path.join("target"),
+        &broad_path,
+        GitWorktreeRegistration {
+            repository_root: broad_path.clone(),
+            worktree_path: broad_path.clone(),
+            git_common_dir: PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".git"),
+        },
+        true,
+        false,
+        true,
+        true,
+        None,
+        false,
+        false,
+    );
+    assert_eq!(
+        broad.and_then(|candidate| classify_cleanup(&candidate)),
+        Err(CleanupRejectReason::ProtectedPath)
     );
 }
 
@@ -423,6 +504,7 @@ fn cleanup_removal_executes_and_distinguishes_removed_states() {
     let remove_path = remove.candidate_path.clone();
     remove.preview = false;
     remove.preview_receipt = true;
+    remove.preview_identity_digest = Some(remove.registration_digest.clone());
     assert_eq!(
         execute_cleanup_removal(&remove),
         Ok(CleanupClassification::Removed {
@@ -439,7 +521,8 @@ fn cleanup_removal_executes_and_distinguishes_removed_states() {
     let candidate_path = unregistered.candidate_path.clone();
     unregistered.preview = false;
     unregistered.preview_receipt = true;
-    unregistered.registered_worktree = candidate_path.with_extension("missing-registration");
+    unregistered.preview_identity_digest = Some(unregistered.registration_digest.clone());
+    unregistered.registration.worktree_path = candidate_path.with_extension("missing-registration");
     assert_eq!(
         execute_cleanup_removal(&unregistered),
         Err(CleanupRejectReason::UnregisteredWorktree)
@@ -463,8 +546,15 @@ fn already_removed_cleanup_still_requires_terminal_and_preview_gates() {
         preview_receipt: true,
         committed_closed_out: true,
         terminal_receipt: true,
-        registered_worktree: missing_path.clone(),
+        approved_worktree_parent: PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("target"),
+        registration: GitWorktreeRegistration {
+            repository_root: PathBuf::from(env!("CARGO_MANIFEST_DIR")),
+            worktree_path: missing_path.clone(),
+            git_common_dir: missing_path.join(".git"),
+        },
         candidate_path: missing_path,
+        registration_digest: "missing-registration-digest".to_owned(),
+        preview_identity_digest: Some("missing-registration-digest".to_owned()),
         dirty: false,
         live: false,
     };
@@ -573,8 +663,11 @@ fn remote_delivery_rejects_unverified_or_wrong_source_observations() {
     assert_eq!(
         Verified::new(
             pvf(),
-            receipt(AuthoritySource::Pvf, "", "fixture-subject-digest"),
-            "fixture-subject-digest".to_owned(),
+            super::AuthorityReceipt {
+                source: AuthoritySource::Pvf,
+                digest: String::new(),
+                subject_digest: pvf().subject_digest(),
+            },
         ),
         Err(VerificationRejectReason::MissingReceipt)
     );
@@ -586,5 +679,79 @@ fn remote_delivery_rejects_unverified_or_wrong_source_observations() {
         Err(RemoteDeliveryRejectReason::Verification(
             VerificationRejectReason::WrongSource
         ))
+    );
+}
+
+#[test]
+fn verified_receipt_must_match_the_exact_subject_value() {
+    let original = pvf();
+    let receipt = receipt(AuthoritySource::Pvf, &original.subject_digest());
+    let forged = AcceptedPvfResult {
+        revision: "attacker-revision".to_owned(),
+        ..original
+    };
+    assert_eq!(
+        Verified::new(forged, receipt),
+        Err(VerificationRejectReason::MissingReceipt)
+    );
+}
+
+#[test]
+fn accepted_review_requires_typed_evidence_digest_and_scope() {
+    let evidence = AcceptedReviewEvidence {
+        issue: ISSUE,
+        reviewed_revision: REVISION.to_owned(),
+        scope_paths: vec!["csdlc-v3/src/commands/remote".to_owned()],
+        implementer: "worker-6-implementation".to_owned(),
+        reviewer: "independent-reviewer".to_owned(),
+        findings: vec![],
+        target: ReviewTarget {
+            repository: REPOSITORY.to_owned(),
+            issue: ISSUE,
+            mode: PublicationMode::Closing,
+        },
+        typed_review_evidence_digest: String::new(),
+    };
+    assert_eq!(
+        review_from_accepted_evidence(evidence),
+        Err(VerificationRejectReason::MissingReceipt)
+    );
+}
+
+#[test]
+fn cleanup_constructor_rejects_self_made_git_directory_registration() {
+    let id = NEXT_CLEANUP_ID.fetch_add(1, Ordering::SeqCst);
+    let approved_worktree_parent = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("target");
+    let path = approved_worktree_parent.join(format!(
+        "remote-cleanup-forged-worktree-{}-{id}",
+        std::process::id()
+    ));
+    let repository_root = approved_worktree_parent.join(format!(
+        "remote-cleanup-forged-repo-{}-{id}",
+        std::process::id()
+    ));
+    let self_made_git_dir = path.join(".git");
+    fs::create_dir_all(&self_made_git_dir).expect("create self-made git dir fixture");
+    fs::create_dir_all(repository_root.join(".git").join("worktrees"))
+        .expect("create registration parent fixture");
+
+    assert_eq!(
+        cleanup_candidate_from_git_registration(
+            &approved_worktree_parent,
+            &path,
+            GitWorktreeRegistration {
+                repository_root,
+                worktree_path: path.clone(),
+                git_common_dir: self_made_git_dir,
+            },
+            true,
+            false,
+            true,
+            true,
+            None,
+            false,
+            false,
+        ),
+        Err(CleanupRejectReason::MissingRegistrationReceipt)
     );
 }

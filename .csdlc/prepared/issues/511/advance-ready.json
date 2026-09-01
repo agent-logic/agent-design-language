@@ -1,0 +1,12 @@
+{
+  "issue": 511,
+  "actor": "codex:worker-6:obs-ready-canary",
+  "expected_generation": 1,
+  "expected_digest": "f9c74cb5e32580e18276bb36bdccd07c80bab012851b7743c6903e7302f8bbdd",
+  "card": "spp",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "ready"
+  },
+  "reason": "OBS-A has no remote dependencies; bootstrap, v2 validation, and single-binary v3 local canary passed. Stop before implementation binding."
+}

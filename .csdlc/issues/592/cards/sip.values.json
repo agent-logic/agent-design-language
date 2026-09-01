@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 592,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+    "slug": "runtime-gcp-polis-vertex-ai",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Configure Polis on GCP to use Vertex AI through the governed Runtime/provider configuration path.",
+      "required_outcome": "One reviewed, validated GCP/Vertex AI Polis configuration path that can be operated without leaking credentials or bypassing C-SDLC lifecycle authority.",
+      "declared_scope": [
+        "docs/runtime/**",
+        "docs/tooling/**",
+        "infra/runtime-v3/**",
+        "adl-runtime-kernel/**",
+        ".csdlc/prepared/issues/592/**",
+        ".csdlc/evidence/592/**",
+        ".csdlc/issues/592/**"
+      ],
+      "authority_boundary": [
+        "Issue authority is agent-logic/agent-design-language#592",
+        "Dependency #528 must be terminal before execution begins",
+        "C-SDLC v2 remains live authority until #505 cutover is explicitly approved",
+        "No raw gh route is permitted for this canary"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not bind or execute while #528 is non-terminal",
+        "Do not print copy commit or retain credential material",
+        "Do not perform live paid GCP calls without later explicit authorization",
+        "Keep all canary evidence in the repository/worktree, not /private/tmp"
+      ]
+    }
+  }
+}

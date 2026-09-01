@@ -101,6 +101,14 @@ assert_current_coverage_workflow_contract() {
   assert_file_has "$workflow" 'selected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected success'
   assert_file_has "$workflow" 'unselected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected skipped'
   assert_file_has "$workflow" 'csdlc_v2_standalone_required must be exactly true or false'
+  assert_file_has "$workflow" 'name: csdlc-v3-standalone'
+  assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.csdlc_v3_standalone_required == 'true'"
+  assert_file_has "$workflow" 'csdlc_v3_standalone:${{ needs.csdlc_v3_standalone.result }}'
+  assert_file_has "$workflow" 'cargo test --locked --manifest-path csdlc-v3/Cargo.toml'
+  assert_file_has "$workflow" 'cargo clippy --locked --manifest-path csdlc-v3/Cargo.toml --all-targets -- -D warnings'
+  assert_file_has "$workflow" 'selected C-SDLC v3 standalone lane is $CSDLC_V3_STANDALONE_RESULT; expected success'
+  assert_file_has "$workflow" 'unselected C-SDLC v3 standalone lane is $CSDLC_V3_STANDALONE_RESULT; expected skipped'
+  assert_file_has "$workflow" 'csdlc_v3_standalone_required must be exactly true or false'
   assert_file_has "$workflow" 'name: adl-v2-standalone'
   assert_file_has "$workflow" "if: needs.adl_path_policy.outputs.adl_v2_standalone_required == 'true'"
   assert_file_has "$workflow" 'adl_v2_standalone:${{ needs.adl_v2_standalone.result }}'
@@ -112,7 +120,19 @@ assert_current_coverage_workflow_contract() {
   assert_file_not_has "$workflow" '--authority "adl_coverage_always_on"'
 }
 
-tmp_dir="$(mktemp -d)"
+tmp_dir="${ADL_CI_PATH_POLICY_TEST_TMP_DIR:-$ROOT_DIR/.csdlc/evidence/ci-path-policy-test/tmp}"
+case "$tmp_dir" in
+  "$ROOT_DIR"/.csdlc/evidence/ci-path-policy-test/*) ;;
+  *)
+    echo "refusing non-repo-contained ci path policy scratch directory: $tmp_dir" >&2
+    exit 2
+    ;;
+esac
+rm -rf "$tmp_dir"
+mkdir -p "$tmp_dir"
+mkdir -p "$tmp_dir/env-tmp" "$tmp_dir/rust-validation"
+export TMPDIR="$tmp_dir/env-tmp"
+export ADL_TEST_TMP_ROOT="$tmp_dir/rust-validation"
 trap 'rm -rf "$tmp_dir"' EXIT
 
 python3 "$ROOT_DIR/adl/tools/test_warm_rust_dependency_cache.py"
@@ -337,6 +357,7 @@ PY
   csdlc_metadata_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_metadata_head" --ref "refs/pull/1/merge")"
   assert_has "$csdlc_metadata_output" "change_class=lifecycle_metadata"
   assert_has "$csdlc_metadata_output" "csdlc_v2_standalone_required=false"
+  assert_has "$csdlc_metadata_output" "csdlc_v3_standalone_required=false"
   assert_has "$csdlc_metadata_output" "rust_required=false"
   assert_has "$csdlc_metadata_output" "coverage_required=false"
 
@@ -348,10 +369,25 @@ PY
   csdlc_v2_head="$(git rev-parse HEAD)"
   csdlc_v2_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_v2_head" --ref "refs/pull/1/merge")"
   assert_has "$csdlc_v2_output" "csdlc_v2_standalone_required=true"
+  assert_has "$csdlc_v2_output" "csdlc_v3_standalone_required=false"
   assert_has "$csdlc_v2_output" "rust_required=false"
   assert_has "$csdlc_v2_output" "coverage_required=false"
   assert_has "$csdlc_v2_output" "full_coverage_required=false"
   assert_has "$csdlc_v2_output" "reason=standalone_csdlc_v2_surface_requires_only_its_independent_focused_suite"
+
+  git checkout -q -b csdlc-v3-standalone "$base_sha"
+  mkdir -p csdlc-v3/src
+  printf 'pub fn v3() {}\n' > csdlc-v3/src/lib.rs
+  git add csdlc-v3/src/lib.rs
+  git commit -q -m csdlc-v3-standalone
+  csdlc_v3_head="$(git rev-parse HEAD)"
+  csdlc_v3_output="$($POLICY --event-name pull_request --base "$base_sha" --head "$csdlc_v3_head" --ref "refs/pull/1/merge")"
+  assert_has "$csdlc_v3_output" "csdlc_v3_standalone_required=true"
+  assert_has "$csdlc_v3_output" "csdlc_v2_standalone_required=false"
+  assert_has "$csdlc_v3_output" "rust_required=false"
+  assert_has "$csdlc_v3_output" "coverage_required=false"
+  assert_has "$csdlc_v3_output" "full_coverage_required=false"
+  assert_has "$csdlc_v3_output" "reason=standalone_csdlc_v3_surface_requires_only_its_independent_focused_suite"
 
   git checkout -q -b adl-v2-standalone "$base_sha"
   mkdir -p adl-v2/crates/adl-records/src
@@ -363,6 +399,7 @@ PY
   assert_has "$adl_v2_output" "validation_profile_run_lanes=adl_v2_standalone"
   assert_has "$adl_v2_output" "adl_v2_standalone_required=true"
   assert_has "$adl_v2_output" "csdlc_v2_standalone_required=false"
+  assert_has "$adl_v2_output" "csdlc_v3_standalone_required=false"
   assert_has "$adl_v2_output" "rust_required=false"
   assert_has "$adl_v2_output" "coverage_required=false"
   assert_has "$adl_v2_output" "full_coverage_required=false"

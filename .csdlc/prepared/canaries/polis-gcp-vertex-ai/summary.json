@@ -1,0 +1,39 @@
+{
+  "schema": "csdlc.canary.polis_gcp_vertex_issue_create.v1",
+  "created_issue": 592,
+  "title": "[v0.92.1][runtime][gcp] Configure Polis to use Vertex AI",
+  "state": "open",
+  "repository": "agent-logic/agent-design-language",
+  "depends_on": [
+    528
+  ],
+  "dependency_528_live_state": "not_terminal_for_execution; require typed C-SDLC terminal readback before binding or running #592",
+  "authoritative_write_route": "csdlc-v2/csdlc-github-issue",
+  "desired_cutover_route": "single Rust csdlc command with gh-like issue operations plus C-SDLC lifecycle state",
+  "single_binary_local_proof": {
+    "cargo_metadata_bins": [
+      "csdlc"
+    ],
+    "help_command": "cargo run --quiet --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- --help",
+    "foundation_command": "cargo run --quiet --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- foundation --repo-root .",
+    "foundation_result": {
+      "schema": "csdlc.v3.foundation.v1",
+      "read_only": true,
+      "authority": "csdlc-v2"
+    }
+  },
+  "readback_marker_present": true,
+  "canary_defect_count": 10,
+  "artifacts": [
+    ".csdlc/prepared/canaries/polis-gcp-vertex-ai/create-issue-request.json",
+    ".csdlc/prepared/canaries/polis-gcp-vertex-ai/create-result.json",
+    ".csdlc/prepared/canaries/polis-gcp-vertex-ai/read-issue-request.json",
+    ".csdlc/prepared/canaries/polis-gcp-vertex-ai/read-result.json",
+    ".csdlc/prepared/canaries/polis-gcp-vertex-ai/defects.md",
+    ".csdlc/evidence/592/read-528-result.json",
+    ".csdlc/evidence/592/bootstrap-result.json",
+    ".csdlc/evidence/592/validate-issue-result.json",
+    ".csdlc/evidence/592/doctor-result.json",
+    ".csdlc/evidence/592/v3-local-result.json"
+  ]
+}

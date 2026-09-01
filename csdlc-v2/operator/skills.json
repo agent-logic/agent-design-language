@@ -110,6 +110,11 @@
       "mutates_state": false
     },
     {
+      "binary": "csdlc-github-pr",
+      "operation": "pr-write",
+      "mutates_state": true
+    },
+    {
       "binary": "csdlc-pr-state",
       "operation": "state",
       "mutates_state": false

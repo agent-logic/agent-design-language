@@ -1,0 +1,18 @@
+{
+  "action": "pr_state",
+  "repository": "agent-logic/agent-design-language",
+  "operation_key": "worker-6-sprints56-pr591-state-read-20260831",
+  "token_file": null,
+  "issue": null,
+  "pull_request": 591,
+  "title": null,
+  "body": null,
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}
