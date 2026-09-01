@@ -1,5 +1,8 @@
+use std::fs::{self, File, OpenOptions};
+use std::io::Write;
 use std::net::SocketAddr;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::Duration;
 
 use anyhow::{anyhow, Context, Result};
@@ -9,6 +12,10 @@ use super::csm_cmd::real_csm_standalone;
 use super::process_cmd::real_process;
 use adl::long_lived_agent::load_spec;
 use adl_runtime::runtime_api_auth::RuntimeApiCredentialStore;
+use adl_runtime_kernel::control::AGENT_ADMISSION_SCHEMA;
+use adl_runtime_kernel::RuntimeInitConfig;
+
+static AGENT_ARTIFACT_TEMP_SEQUENCE: AtomicU64 = AtomicU64::new(0);
 
 pub(crate) fn real_csmctl(args: &[String]) -> Result<()> {
     match args.first().map(String::as_str) {
@@ -17,12 +24,13 @@ pub(crate) fn real_csmctl(args: &[String]) -> Result<()> {
         Some("diagnostics") => real_diagnostics(&args[1..]),
         Some("api") => real_api(&args[1..]),
         Some("cloud") => real_cloud(&args[1..]),
+        Some("agent") => real_agent(&args[1..]),
         Some("--help" | "-h" | "help") | None => {
             println!("{}", csmctl_usage());
             Ok(())
         }
         Some(other) => Err(anyhow!(
-            "unknown csmctl module '{other}'. Expected runtime, api, status, diagnostics, cloud, help, or --version.\n\n{}",
+            "unknown csmctl module '{other}'. Expected runtime, agent, api, status, diagnostics, cloud, help, or --version.\n\n{}",
             csmctl_usage()
         )),
     }
@@ -37,6 +45,7 @@ Usage:\n\
   csmctl runtime backpressure prove ...\n\
   csmctl runtime storage prove-s3 ...\n\
   csmctl runtime observatory --packet <visibility-packet.json> ...\n\
+  csmctl agent add --init <runtime-init.toml> --id <id> --name <name> --role <role> --provider ollama --model <model> --endpoint <url>\n\
   csmctl api get --spec <agent-spec.yaml> [--path /status] [--bind 127.0.0.1:19997]\n\
   csmctl api credential <status|rotate|revoke> --spec <agent-spec.yaml>\n\
   csmctl status [--pid <pid>|--pid-file <path>|--port <port> [--host 127.0.0.1]] [--json]\n\
@@ -47,6 +56,7 @@ Usage:\n\
   csmctl --version\n\n\
 Modules:\n\
   runtime      Administer the CSM service, governed stop, embedded API bind, continuity, backpressure, storage, and observatory surfaces.\n\
+  agent        Add a provider-verified agent to a running Runtime without editing its init file or restarting it.\n\
   api          Authenticated client and credential lifecycle for the embedded runtime API.\n\
   status       Permission-safe liveness checks for CSM process metadata or loopback ports.\n\
   diagnostics  Explicit diagnostic wrappers around permission-safe process probes.\n\
@@ -56,6 +66,306 @@ Boundaries:\n\
   - csmctl is the operator/admin control plane for that runtime.\n\
   - adl remains ADL language authoring, compilation, validation, and runtime workflow tooling.\n\
   - C-SDLC issue execution resolves through csdlc-install and the independent typed v2 binaries."
+}
+
+fn real_agent(args: &[String]) -> Result<()> {
+    match args.first().map(String::as_str) {
+        Some("add") => csmctl_agent_add(&args[1..]),
+        Some("list") => csmctl_agent_read(&args[1..], None),
+        Some("get") => csmctl_agent_read(&args[1..], Some(required_arg(&args[1..], "--id")?)),
+        Some("remove") => csmctl_agent_remove(&args[1..]),
+        Some("checkpoint") => csmctl_agent_checkpoint(&args[1..]),
+        Some("dehydrate") => csmctl_agent_dehydrate(&args[1..]),
+        Some("migrate") => csmctl_agent_migrate(&args[1..]),
+        Some("rehydrate") => csmctl_agent_rehydrate(&args[1..]),
+        Some("--help" | "-h" | "help") | None => {
+            println!("{}", csmctl_agent_usage());
+            Ok(())
+        }
+        Some(other) => Err(anyhow!(
+            "unknown csmctl agent command '{other}'. Expected add, list, get, remove, checkpoint, dehydrate, migrate, rehydrate, or help"
+        )),
+    }
+}
+
+fn csmctl_agent_usage() -> &'static str {
+    "csmctl agent - manage the Runtime v3 agent lifecycle\n\n\
+Usage:\n\
+  csmctl agent add --init <init> --id <id> --name <name> --role <role> --provider ollama --model <model> --endpoint <private-http-url>\n\
+  csmctl agent list --init <init>\n\
+  csmctl agent get --init <init> --id <id>\n\
+  csmctl agent checkpoint --init <init> --id <id> [--out <checkpoint.json>]\n\
+  csmctl agent dehydrate --init <init> --id <id> --out <freeze-dried-agent.json>\n\
+  csmctl agent migrate --init <init> --id <id> --out <freeze-dried-agent.json>\n\
+  csmctl agent rehydrate --init <init> --bundle <freeze-dried-agent.json>\n\
+  csmctl agent remove --init <init> --id <id>\n\n\
+Migration checkpoints and freeze-dried bundles are written atomically. migrate removes the source only after the bundle is durable."
+}
+
+struct RuntimeAgentClient {
+    client: reqwest::blocking::Client,
+    base_url: String,
+    write_token: String,
+}
+
+impl RuntimeAgentClient {
+    fn from_args(args: &[String]) -> Result<Self> {
+        let init_path = required_path_arg(args, "--init")?;
+        let init = RuntimeInitConfig::from_path(init_path.clone())
+            .with_context(|| format!("load Runtime v3 init {}", init_path.display()))?;
+        let address: SocketAddr = init
+            .api
+            .address
+            .parse()
+            .with_context(|| format!("parse Runtime API address {}", init.api.address))?;
+        let roots = fs::read(&init.api.tls.trust_roots_path).with_context(|| {
+            format!(
+                "read Runtime trust roots {}",
+                init.api.tls.trust_roots_path.display()
+            )
+        })?;
+        let certificates =
+            reqwest::Certificate::from_pem_bundle(&roots).context("parse Runtime trust roots")?;
+        let write_token = fs::read_to_string(&init.credentials.acip_write_token_path)
+            .with_context(|| {
+                format!(
+                    "read Runtime write credential {}",
+                    init.credentials.acip_write_token_path.display()
+                )
+            })?;
+        let write_token = write_token.trim().to_owned();
+        if write_token.is_empty() || write_token.chars().any(char::is_whitespace) {
+            return Err(anyhow!("Runtime write credential is invalid"));
+        }
+        let mut builder = reqwest::blocking::Client::builder()
+            .tls_built_in_root_certs(false)
+            .resolve(&init.api.tls.server_name, address)
+            .connect_timeout(Duration::from_secs(3))
+            .timeout(Duration::from_secs(15));
+        for certificate in certificates {
+            builder = builder.add_root_certificate(certificate);
+        }
+        let client = builder
+            .build()
+            .context("build authenticated Runtime agent lifecycle client")?;
+        Ok(Self {
+            client,
+            base_url: format!("https://{}:{}", init.api.tls.server_name, address.port()),
+            write_token,
+        })
+    }
+
+    fn call(
+        &self,
+        method: reqwest::Method,
+        path: &str,
+        body: Option<&serde_json::Value>,
+    ) -> Result<serde_json::Value> {
+        let mut request = self
+            .client
+            .request(method, format!("{}{}", self.base_url, path))
+            .bearer_auth(&self.write_token);
+        if let Some(body) = body {
+            request = request.json(body);
+        }
+        let response = request
+            .send()
+            .context("call authenticated Runtime agent lifecycle API")?;
+        let status = response.status();
+        let text = response
+            .text()
+            .context("read Runtime agent lifecycle response")?;
+        if !status.is_success() {
+            return Err(anyhow!(
+                "Runtime agent lifecycle returned HTTP {status}: {text}"
+            ));
+        }
+        serde_json::from_str(&text).context("parse Runtime agent lifecycle response")
+    }
+}
+
+fn csmctl_agent_add(args: &[String]) -> Result<()> {
+    let allowed = [
+        "--init",
+        "--id",
+        "--name",
+        "--role",
+        "--provider",
+        "--model",
+        "--endpoint",
+    ];
+    if args.len() != allowed.len() * 2
+        || args
+            .chunks_exact(2)
+            .any(|pair| !allowed.contains(&pair[0].as_str()))
+        || allowed
+            .iter()
+            .any(|flag| args.iter().filter(|value| value.as_str() == *flag).count() != 1)
+    {
+        return Err(anyhow!("csmctl agent add requires each of --init, --id, --name, --role, --provider, --model, and --endpoint exactly once"));
+    }
+    let value = RuntimeAgentClient::from_args(args)?.call(
+        reqwest::Method::POST,
+        "/v1/agents",
+        Some(&json!({
+            "schema": AGENT_ADMISSION_SCHEMA,
+            "id": required_arg(args, "--id")?,
+            "name": required_arg(args, "--name")?,
+            "role": required_arg(args, "--role")?,
+            "provider": required_arg(args, "--provider")?,
+            "model": required_arg(args, "--model")?,
+            "endpoint": required_arg(args, "--endpoint")?
+        })),
+    )?;
+    println!("{}", serde_json::to_string_pretty(&value)?);
+    Ok(())
+}
+
+fn csmctl_agent_read(args: &[String], agent_id: Option<&str>) -> Result<()> {
+    let client = RuntimeAgentClient::from_args(args)?;
+    let path = match agent_id {
+        Some(id) => format!("/v1/agents/{}", safe_agent_id(id)?),
+        None => "/v1/agents".to_owned(),
+    };
+    let value = client.call(reqwest::Method::GET, &path, None)?;
+    println!("{}", serde_json::to_string_pretty(&value)?);
+    Ok(())
+}
+
+fn csmctl_agent_remove(args: &[String]) -> Result<()> {
+    let id = safe_agent_id(required_arg(args, "--id")?)?;
+    let value = RuntimeAgentClient::from_args(args)?.call(
+        reqwest::Method::DELETE,
+        &format!("/v1/agents/{id}"),
+        None,
+    )?;
+    println!("{}", serde_json::to_string_pretty(&value)?);
+    Ok(())
+}
+
+fn csmctl_agent_checkpoint(args: &[String]) -> Result<()> {
+    let id = safe_agent_id(required_arg(args, "--id")?)?;
+    let value = RuntimeAgentClient::from_args(args)?.call(
+        reqwest::Method::POST,
+        &format!("/v1/agents/{id}/checkpoint"),
+        None,
+    )?;
+    if let Some(path) = optional_arg(args, "--out") {
+        write_json_atomically(PathBuf::from(path).as_path(), &value)?;
+    }
+    println!("{}", serde_json::to_string_pretty(&value)?);
+    Ok(())
+}
+
+fn csmctl_agent_dehydrate(args: &[String]) -> Result<()> {
+    let id = safe_agent_id(required_arg(args, "--id")?)?;
+    let output = PathBuf::from(required_arg(args, "--out")?);
+    let value = RuntimeAgentClient::from_args(args)?.call(
+        reqwest::Method::POST,
+        &format!("/v1/agents/{id}/dehydrate"),
+        None,
+    )?;
+    write_json_atomically(&output, &value)?;
+    println!("{}", serde_json::to_string_pretty(&value)?);
+    Ok(())
+}
+
+fn csmctl_agent_migrate(args: &[String]) -> Result<()> {
+    let id = safe_agent_id(required_arg(args, "--id")?)?;
+    let output = PathBuf::from(required_arg(args, "--out")?);
+    let client = RuntimeAgentClient::from_args(args)?;
+    let bundle = client.call(
+        reqwest::Method::POST,
+        &format!("/v1/agents/{id}/dehydrate"),
+        None,
+    )?;
+    write_json_atomically(&output, &bundle)?;
+    let digest = bundle["bundle_digest"]
+        .as_str()
+        .ok_or_else(|| anyhow!("Runtime migration bundle omitted bundle_digest"))?;
+    let committed = client.call(
+        reqwest::Method::POST,
+        &format!("/v1/agents/{id}/dehydrate/commit"),
+        Some(&json!({"bundle_digest":digest})),
+    )?;
+    println!(
+        "{}",
+        serde_json::to_string_pretty(
+            &json!({"schema":"adl.csmctl.agent_migration.v1","status":"migrated","bundle":output,"source_commit":committed})
+        )?
+    );
+    Ok(())
+}
+
+fn csmctl_agent_rehydrate(args: &[String]) -> Result<()> {
+    let bundle_path = PathBuf::from(required_arg(args, "--bundle")?);
+    let bundle: serde_json::Value =
+        serde_json::from_slice(&fs::read(&bundle_path).with_context(|| {
+            format!("read freeze-dried agent bundle {}", bundle_path.display())
+        })?)
+        .context("parse freeze-dried agent bundle")?;
+    let value = RuntimeAgentClient::from_args(args)?.call(
+        reqwest::Method::POST,
+        "/v1/agents/rehydrate",
+        Some(&bundle),
+    )?;
+    println!("{}", serde_json::to_string_pretty(&value)?);
+    Ok(())
+}
+
+fn safe_agent_id(value: &str) -> Result<&str> {
+    if value.is_empty()
+        || value.len() > 128
+        || !value
+            .bytes()
+            .all(|byte| byte.is_ascii_alphanumeric() || matches!(byte, b'.' | b':' | b'_' | b'-'))
+    {
+        return Err(anyhow!("agent id is invalid"));
+    }
+    Ok(value)
+}
+
+fn write_json_atomically(path: &std::path::Path, value: &serde_json::Value) -> Result<()> {
+    let parent = path
+        .parent()
+        .ok_or_else(|| anyhow!("output path has no parent"))?;
+    fs::create_dir_all(parent)
+        .with_context(|| format!("create output directory {}", parent.display()))?;
+    let sequence = AGENT_ARTIFACT_TEMP_SEQUENCE.fetch_add(1, Ordering::Relaxed);
+    let temp = path.with_extension(format!("json.{}.{}.tmp", std::process::id(), sequence));
+    let mut file = OpenOptions::new()
+        .create_new(true)
+        .write(true)
+        .open(&temp)
+        .with_context(|| format!("create temporary artifact {}", temp.display()))?;
+    let commit = (|| -> Result<()> {
+        file.write_all(&serde_json::to_vec_pretty(value)?)?;
+        file.sync_all()?;
+        fs::hard_link(&temp, path).with_context(|| {
+            format!(
+                "commit new artifact {} without replacing an existing artifact",
+                path.display()
+            )
+        })?;
+        fs::remove_file(&temp)
+            .with_context(|| format!("remove temporary artifact {}", temp.display()))?;
+        Ok(())
+    })();
+    if commit.is_err() {
+        let _ = fs::remove_file(&temp);
+    }
+    commit?;
+    File::open(parent)
+        .with_context(|| format!("open output directory {}", parent.display()))?
+        .sync_all()
+        .with_context(|| format!("fsync output directory {}", parent.display()))?;
+    Ok(())
+}
+
+fn required_arg<'a>(args: &'a [String], flag: &str) -> Result<&'a str> {
+    optional_arg(args, flag)
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| anyhow!("missing required {flag} <value>"))
 }
 
 fn real_api(args: &[String]) -> Result<()> {
@@ -324,12 +634,13 @@ fn default_csm_owner_binary() -> Result<PathBuf> {
 #[cfg(test)]
 mod tests {
     use super::{
-        csmctl_api_get, csmctl_api_usage, csmctl_cloud_usage, csmctl_diagnostics_usage,
-        csmctl_runtime_usage, csmctl_status_usage, csmctl_usage, real_csmctl, runtime_service_args,
+        csmctl_agent_usage, csmctl_api_get, csmctl_api_usage, csmctl_cloud_usage,
+        csmctl_diagnostics_usage, csmctl_runtime_usage, csmctl_status_usage, csmctl_usage,
+        real_csmctl, runtime_service_args, safe_agent_id, write_json_atomically,
     };
     use adl::csm_runtime_api::{serve_runtime_api, CsmRuntimeApiOptions};
     use adl_runtime::runtime_api_auth::RuntimeApiCredentialStore;
-    use serde_json::Value;
+    use serde_json::{json, Value};
     use std::fs;
     use std::net::TcpListener;
     use std::path::PathBuf;
@@ -553,6 +864,51 @@ safety:
             real_csmctl(&args(&["compile"])),
             "unknown csmctl module 'compile'",
         );
+    }
+
+    #[test]
+    fn csmctl_agent_lifecycle_is_complete_and_bounded() {
+        let usage = csmctl_agent_usage();
+        for command in [
+            "agent add",
+            "agent list",
+            "agent get",
+            "agent checkpoint",
+            "agent dehydrate",
+            "agent migrate",
+            "agent rehydrate",
+            "agent remove",
+        ] {
+            assert!(
+                usage.contains(command),
+                "missing lifecycle command {command}"
+            );
+        }
+        assert!(usage.contains("fsynced") || usage.contains("written atomically"));
+        assert_err_contains(
+            real_csmctl(&args(&["agent", "add", "--id", "incomplete"])),
+            "requires each of",
+        );
+        assert!(safe_agent_id("gemma-e4b").is_ok());
+        assert!(safe_agent_id("../shepherd").is_err());
+    }
+
+    #[test]
+    fn csmctl_agent_artifacts_are_committed_atomically_in_repo_fixture() {
+        let root = temp_root("agent-artifact-atomic");
+        let path = root.join("freeze-dried-agent.json");
+        let value = json!({"schema":"test","bundle_digest":"abc"});
+        write_json_atomically(&path, &value).expect("atomic artifact write");
+        let observed: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        assert_eq!(observed, value);
+        assert!(write_json_atomically(&path, &json!({"replacement":true})).is_err());
+        let observed: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        assert_eq!(observed, value);
+        assert!(fs::read_dir(&root).unwrap().all(|entry| !entry
+            .unwrap()
+            .file_name()
+            .to_string_lossy()
+            .ends_with(".tmp")));
     }
 
     #[test]

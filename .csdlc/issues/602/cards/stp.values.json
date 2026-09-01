@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 602,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
+    "slug": "runtime-csmctl-dynamic-agent-admission",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only dynamic local Runtime v3 Ollama agent admission, durable restart recovery, csmctl client behavior, roster visibility, and their focused proof.",
+      "deliverables": [
+        "csmctl agent add command",
+        "Authenticated Runtime v3 POST /v1/agents admission API",
+        "Atomic versioned dynamic-admission persistence and restart reload",
+        "Immediate synchronized roster projection with Shepherd preserved",
+        "Focused success duplicate conflict invalid unavailable-model and rollback tests",
+        "Live Wuji gemma4:e4b-mlx demonstration"
+      ],
+      "acceptance_criteria": [
+        "csmctl exposes agent add, list, get, checkpoint, remove, dehydrate, migrate, and rehydrate commands without Runtime init edits or ordinary restart requirements",
+        "A verified added or rehydrated agent is immediately healthy, available, communication-eligible, and visible while Shepherd remains ready and cannot be removed, checkpointed, or migrated",
+        "Identical mutations are idempotent, conflicting identities and stale migration commits fail closed, and list/get are authenticated through the configured Runtime trust boundary",
+        "Invalid authorization, provider, model, endpoint, identity, role, display name, unavailable model, or tampered checkpoint or artifact fails before durable or live mutation with actionable secret-free diagnostics",
+        "Successful lifecycle mutations and checkpoints are atomically persisted under Runtime state and restored on restart; invalid persisted state fails closed",
+        "Dehydrate embeds a durable integrity-bound checkpoint in a portable freeze-dried agent artifact and migrate uses a two-phase checkpoint-freeze-write-commit sequence so failure cannot silently erase the source agent",
+        "Rehydrate verifies checkpoint and artifact integrity, identity continuity, destination provider/model availability, and conflict freedom before atomic destination admission",
+        "Focused command, API, persistence, checkpoint, roster, artifact, restart, and live Wuji proofs pass at the exact reviewed revision"
+      ],
+      "dependencies": [
+        "Issue #589 exact implementation branch and governed Runtime v3 lifecycle surfaces",
+        "Existing Runtime v3 TLS and ACIP write-token configuration",
+        "Existing Ollama HTTP provider endpoint and installed gemma4:e4b-mlx model on Wuji"
+      ],
+      "repo_inputs": [
+        "GitHub issue #602",
+        "adl/src/cli/csmctl_cmd.rs",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "docs/api/runtime-v3/v1/observatory.openapi.json"
+      ],
+      "non_goals": [
+        "Multi-node placement or scheduling",
+        "Model download or unrelated model startup",
+        "Providers other than Ollama HTTP",
+        "Static init-file agent entries",
+        "Replacing Shepherd",
+        "Changing #589 or Sprint 7"
+      ]
+    }
+  }
+}

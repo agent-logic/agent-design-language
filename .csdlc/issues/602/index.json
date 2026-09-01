@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 602,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "140805c9db274a1675365cd52be032eff3fc902c2263f2fd02b5ed3207a82831",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "90b157eb39dce4664ea2be840d760f3172394c80b1b85e819df4b4f9ecdd9b43",
+  "branch": "codex/602-runtime-csmctl-agent-add",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-602-runtime-csmctl-agent-add",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/602/design.md",
+  "diagram_path": ".csdlc/prepared/issues/602/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:issue-602-design-review",
+      "revision": "8ec2477720ecd6e79add81268ac981bfbe427822a88219b463d19a4c13ee2235"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2867585d9bfb8d6eb2013f0d22ff92c7abf80c70ab80cbd6827b65f42b8fe82c",
+      "rendered_digest": "f06da2a69d6ccade6030a5ec0f697c243a022ab1fa9fbf9e8b907d42844123fa",
+      "ast_digest": "dac00121867040facfd061e95813fda4623c38d07dca29f5ded3509c7d676bbf"
+    },
+    "stp": {
+      "values_digest": "c0d2cd7cd1fe39839d9374ac7a49a17aec85471b09bd0b651768741b8b2dc833",
+      "rendered_digest": "685a16b0a5343de7dd152f3f07f2f928cc97bdbf842b23afdd3fe4e5193f4250",
+      "ast_digest": "f070b2062ce94bfd85f7ab202472aef0426dc64f1280b111becd85ab24fc1333"
+    },
+    "spp": {
+      "values_digest": "d6bb2cccdf1969c7ce8e8145ec9b96b4b19037467dff0067f1ec567fd0d9bbeb",
+      "rendered_digest": "7e96e1c4d440a20729f5d2c5f67cec5fc21ae692ee350abefd9c630f8d84ffdb",
+      "ast_digest": "cf9a78bf4d95698938e4b30e9543a9f5dc18ecd407680d4381e2134288e7ab06"
+    },
+    "vpp": {
+      "values_digest": "46247a2a382548db6d362e6b54fa57b3d86f0fe5cc3ce28d56097621fe4760cf",
+      "rendered_digest": "8ebb1dc1d1d06d3f0e561cdc18bbeda169b50259d0cc632b3e532d1e63c231a1",
+      "ast_digest": "8bfc4a992fe9825b6d502e50daf09925a64051c9b5b1adf324c76ef0b1a6ba62"
+    },
+    "srp": {
+      "values_digest": "ca88cd5f5c14ebf70acba2da61fa379b7a7a031429df77bbc9dc8a47204aa222",
+      "rendered_digest": "37d971c962699545428f906b641375d3de97b22bba7d8122dc8bfe92e42d8bfe",
+      "ast_digest": "0b4e72ef66d80e9436c36fb66f9adffbb7221a27b9ebb6bf1ebedfd4a56b3217"
+    },
+    "sor": {
+      "values_digest": "8aed6686bde32c7163f6b74af2ff310e159664f293b87b415435caeedf693486",
+      "rendered_digest": "b0c66a9c3f408fff0b5c2c8d83fac3018a2c0ad93a51e228c2a5d396daf5e84b",
+      "ast_digest": "4fefe162e6f00aaf3e1d4bc6e0243eb65e892f503504ce261a1b0e15a44a9930"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-602-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-602",
+      "reason": "Declare exact repository-owned implementation and proving validation paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csmctl_cmd.rs\",\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\".csdlc/prepared/issues/602/validate-focused.sh\",\".csdlc/prepared/issues/602/validate-live-wuji.sh\",\".csdlc/evidence/602\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-602",
+      "reason": "Route focused and live proof through exact issue-owned executable validators.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-agent-admission\",\"proof_role\":\"Prove csmctl parsing authenticated transport validation idempotence persistence roster projection OpenAPI parity and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":7000,\"argv\":[\"bash\",\".csdlc/prepared/issues/602/validate-focused.sh\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"live-wuji-agent-admission\",\"proof_role\":\"Prove first add duplicate roster health Shepherd preservation and restart recovery against the installed Wuji gemma4:e4b-mlx model.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":420,\"budget_tokens\":2400,\"argv\":[\"bash\",\".csdlc/prepared/issues/602/validate-live-wuji.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Runs after focused proof and exact candidate deployment using the existing installed model without paid cloud resources.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-602",
+      "reason": "Operator expanded #602 from add-only admission to a coherent portable agent lifecycle with freeze-dry migration and destination rehydration.",
+      "operation": "{\"operation\":\"replace_acceptance_plan\",\"acceptance_criteria\":[\"csmctl exposes agent add, list, get, remove, dehydrate, migrate, and rehydrate commands without Runtime init edits or ordinary restart requirements\",\"A verified added or rehydrated agent is immediately healthy, available, communication-eligible, and visible while Shepherd remains ready and cannot be removed or migrated\",\"Identical mutations are idempotent, conflicting identities and stale migration commits fail closed, and list/get are authenticated through the configured Runtime trust boundary\",\"Invalid authorization, provider, model, endpoint, identity, role, display name, unavailable model, or tampered artifact fails before durable or live mutation with actionable secret-free diagnostics\",\"Successful lifecycle mutations are atomically persisted under Runtime state and restored on restart; invalid persisted state fails closed\",\"Dehydrate produces an integrity-bound portable freeze-dried agent artifact and migrate uses a two-phase freeze-write-commit sequence so failure cannot silently erase the source agent\",\"Rehydrate verifies artifact integrity, identity continuity, destination provider/model availability, and conflict freedom before atomic destination admission\",\"Focused command, API, persistence, roster, artifact, restart, and live Wuji proofs pass at the exact reviewed revision\"],\"steps\":[{\"id\":\"S1\",\"action\":\"Implement the authenticated Runtime agent lifecycle API, atomic store, synchronized roster, two-phase dehydration, portable bundle, removal, and rehydration.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement csmctl agent add, list, get, remove, dehydrate, migrate, and rehydrate with exact TLS, bearer handling, atomic artifact writes, and secret-free output.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Update API contracts and run focused lifecycle, persistence, artifact-tamper, roster, formatting, and lint proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Deploy the exact candidate on Wuji and prove add, duplicate, freeze-dry migration, rehydration, roster health, Shepherd preservation, and restart recovery with gemma4:e4b-mlx.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Run bounded exact-head review, fix actionable findings, and publish the stacked #602 PR without merging or modifying #589.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}],\"validation_lanes\":[{\"lane\":\"focused-agent-admission\",\"proof_role\":\"Prove the complete csmctl and Runtime agent lifecycle, authenticated transport, validation, idempotence, atomic persistence, freeze-dry integrity, rehydration, roster projection, OpenAPI parity, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"bash\",\".csdlc/prepared/issues/602/validate-focused.sh\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"live-wuji-agent-admission\",\"proof_role\":\"Prove add, duplicate, freeze-dry migration, rehydration, roster health, Shepherd preservation, and restart recovery against installed Wuji gemma4:e4b-mlx.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"bash\",\".csdlc/prepared/issues/602/validate-live-wuji.sh\"],\"parallel_group\":\"live\",\"defer_reason\":\"Runs after focused proof and exact candidate deployment using the existing installed model without paid cloud resources.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-602",
+      "reason": "Operator explicitly required a first-class csmctl agent checkpoint command and checkpoint-backed migration continuity.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"csmctl exposes agent add, list, get, checkpoint, remove, dehydrate, migrate, and rehydrate commands without Runtime init edits or ordinary restart requirements\",\"A verified added or rehydrated agent is immediately healthy, available, communication-eligible, and visible while Shepherd remains ready and cannot be removed, checkpointed, or migrated\",\"Identical mutations are idempotent, conflicting identities and stale migration commits fail closed, and list/get are authenticated through the configured Runtime trust boundary\",\"Invalid authorization, provider, model, endpoint, identity, role, display name, unavailable model, or tampered checkpoint or artifact fails before durable or live mutation with actionable secret-free diagnostics\",\"Successful lifecycle mutations and checkpoints are atomically persisted under Runtime state and restored on restart; invalid persisted state fails closed\",\"Dehydrate embeds a durable integrity-bound checkpoint in a portable freeze-dried agent artifact and migrate uses a two-phase checkpoint-freeze-write-commit sequence so failure cannot silently erase the source agent\",\"Rehydrate verifies checkpoint and artifact integrity, identity continuity, destination provider/model availability, and conflict freedom before atomic destination admission\",\"Focused command, API, persistence, checkpoint, roster, artifact, restart, and live Wuji proofs pass at the exact reviewed revision\"]}"
+    }
+  ]
+}

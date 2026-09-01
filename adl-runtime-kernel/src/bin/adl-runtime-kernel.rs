@@ -620,6 +620,12 @@ async fn main() -> ExitCode {
                     .with_layer8_authority(authority)
                     .with_layer8_signed_exchange(exchange);
             }
+            if let Err(error) = service.configure_dynamic_agent_store(
+                operation_state_identity.join("dynamic-agent-admissions.json"),
+            ) {
+                eprintln!("runtime dynamic agent store is invalid: {error}");
+                return ExitCode::from(78);
+            }
             let service = Arc::new(service);
             service.set_agent_roster_token_key(blake3::derive_key(
                 "adl.runtime_v3.agent_roster.page_token.continuity.v1",
@@ -838,6 +844,10 @@ async fn main() -> ExitCode {
             let mut shepherd_heartbeat =
                 tokio::time::interval(std::time::Duration::from_millis(1_000));
             shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let mut dynamic_agent_heartbeat =
+                tokio::time::interval(std::time::Duration::from_secs(10));
+            dynamic_agent_heartbeat
+                .set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let mut cloud_health_heartbeat =
                 tokio::time::interval(std::time::Duration::from_secs(30));
             cloud_health_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
@@ -896,6 +906,9 @@ async fn main() -> ExitCode {
                                 );
                             }
                         }
+                    },
+                    _ = dynamic_agent_heartbeat.tick() => {
+                        service.refresh_dynamic_agent_health().await;
                     },
                     _ = cloud_health_heartbeat.tick() => {
                         let snapshot = recorder.snapshot();

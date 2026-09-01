@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 602,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Runtime] Add dynamic agent admission to csmctl",
+    "slug": "runtime-csmctl-dynamic-agent-admission",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #602 dynamic admission API store roster csmctl command tests OpenAPI and live Wuji evidence only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any unauthorized or conflicting request mutate durable or live roster state?",
+        "Can persistence and in-memory roster truth split after any modeled failure?",
+        "Does restart reload preserve exact admission and reject corrupt state?",
+        "Does csmctl keep credentials out of argv output errors and persisted state?",
+        "Does the live proof preserve Shepherd and avoid init mutation or restart for first add?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

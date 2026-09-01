@@ -1363,7 +1363,32 @@ impl InProcessOperationExecutor {
                             "agent_conversation_bound",
                         ));
                     }
-                    return_output(recipient_id)
+                    let provider = task["provider"].as_str();
+                    let model = task["model"].as_str();
+                    let endpoint = task["endpoint"].as_str();
+                    match (provider, model, endpoint) {
+                        (None, None, None) => return_output(recipient_id),
+                        (Some("ollama"), Some(model), Some(endpoint)) => {
+                            let message = crate::control::invoke_ollama_model(
+                                endpoint,
+                                model,
+                                input,
+                                cancellation,
+                            )
+                            .await
+                            .map_err(|error| adapter_error(FailureClass::Retryable, error))?;
+                            serde_json::json!({
+                                "recipient_id": recipient_id,
+                                "message": message,
+                            })
+                        }
+                        _ => {
+                            return Err(adapter_error(
+                                FailureClass::Fatal,
+                                "agent_provider_binding_invalid",
+                            ))
+                        }
+                    }
                 }
                 _ => return Err(adapter_error(FailureClass::Fatal, "agent_work_unknown")),
             };

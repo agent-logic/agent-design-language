@@ -1,0 +1,21 @@
+{
+  "issue": 602,
+  "card": "stp",
+  "expected_generation": 3,
+  "expected_digest": "e80619c11b8c653ad11c1b201c046652fa28e94e89ce1f23a3c638aa5f157cfd",
+  "actor": "codex:issue-602",
+  "reason": "Operator explicitly required a first-class csmctl agent checkpoint command and checkpoint-backed migration continuity.",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "csmctl exposes agent add, list, get, checkpoint, remove, dehydrate, migrate, and rehydrate commands without Runtime init edits or ordinary restart requirements",
+      "A verified added or rehydrated agent is immediately healthy, available, communication-eligible, and visible while Shepherd remains ready and cannot be removed, checkpointed, or migrated",
+      "Identical mutations are idempotent, conflicting identities and stale migration commits fail closed, and list/get are authenticated through the configured Runtime trust boundary",
+      "Invalid authorization, provider, model, endpoint, identity, role, display name, unavailable model, or tampered checkpoint or artifact fails before durable or live mutation with actionable secret-free diagnostics",
+      "Successful lifecycle mutations and checkpoints are atomically persisted under Runtime state and restored on restart; invalid persisted state fails closed",
+      "Dehydrate embeds a durable integrity-bound checkpoint in a portable freeze-dried agent artifact and migrate uses a two-phase checkpoint-freeze-write-commit sequence so failure cannot silently erase the source agent",
+      "Rehydrate verifies checkpoint and artifact integrity, identity continuity, destination provider/model availability, and conflict freedom before atomic destination admission",
+      "Focused command, API, persistence, checkpoint, roster, artifact, restart, and live Wuji proofs pass at the exact reviewed revision"
+    ]
+  }
+}

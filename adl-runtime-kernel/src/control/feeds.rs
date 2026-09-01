@@ -132,6 +132,31 @@ impl AgentPopulationFeed {
         self
     }
 
+    pub(super) fn admit_dynamic(&mut self, agent: AgentSample) {
+        if let Some(existing) = self.sample.iter_mut().find(|item| item.id == agent.id) {
+            *existing = agent;
+        } else {
+            self.sample.push(agent);
+        }
+        self.sample.sort_by(|left, right| left.id.cmp(&right.id));
+        self.revision = self.revision.saturating_add(1).max(1);
+        self.total_count = self.sample.len() as u64;
+        if let Some(policy) = self.public_policy.as_mut() {
+            for item in &self.sample {
+                policy.visible_agent_ids.insert(item.id.clone());
+            }
+        }
+    }
+
+    pub(super) fn remove_dynamic(&mut self, agent_id: &str) {
+        self.sample.retain(|item| item.id != agent_id);
+        self.revision = self.revision.saturating_add(1).max(1);
+        self.total_count = self.sample.len() as u64;
+        if let Some(policy) = self.public_policy.as_mut() {
+            policy.visible_agent_ids.remove(agent_id);
+        }
+    }
+
     pub(super) fn with_runtime_snapshot_query(
         &self,
         snapshot: &RuntimeSnapshot,
