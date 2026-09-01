@@ -14,3 +14,4 @@
 {"sequence":14,"generation":10,"actor":"codex:/root/worker-6/issue-604","reason":"Recover after live ready canary exposed that csdlc-publish ready recorded local ready truth but did not commit and push the governed metadata tail. The PR remains live and will be reconciled through a repaired typed publication path.","operation":"recover_review"}
 {"sequence":15,"generation":10,"actor":"codex:/root/worker-6/issue-604","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":16,"generation":11,"actor":"codex:/root/worker-6/issue-604","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":17,"generation":12,"actor":"codex:/root/worker-6/issue-604","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
