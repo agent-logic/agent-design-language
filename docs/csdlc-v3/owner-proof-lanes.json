@@ -119,8 +119,8 @@
     },
     {
       "owner_issue": 505,
-      "source_path": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision/.csdlc/issues/505/cards/vpp.values.json",
-      "source_revision": "169171868622",
+      "source_path": "docs/csdlc-v3/owner-lane-sources/issue-505-vpp.values.json",
+      "source_revision": "HEAD",
       "lanes": [
         {
           "lane": "prebind-v3-f-preparation",
