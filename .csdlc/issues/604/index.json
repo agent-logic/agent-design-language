@@ -4,135 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "published",
-  "generation": 21,
-  "digest": "d921e0824b6038494fe3a63b17c9bce80ede3ef11fd00dabc40c51912fe1118e",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "6fa6fa89e004ae9b48a512968bca565ca98ac2fdd198235c519099f51a269c38",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
-  "review_assignment": {
-    "reviewer": "/root/review_604_terminal_digest_refresh",
-    "assigned_by": "codex:/root/worker-6/issue-604",
-    "revision": "git-blake3:880523a6c0435d7b3ad4302ed613a91aa8c407d0:a980a3db8a150b2fdab00151d85db33d929182d97d6aba04df217b2e211b0cb3",
-    "scope": [
-      ".csdlc/evidence/604/full-cycle-defects-tail.md",
-      ".csdlc/evidence/604/issue-604-implementation-validation.log",
-      ".csdlc/evidence/604/pr610-state-request.json",
-      ".csdlc/evidence/604/publish-all-defects-closed-request.json",
-      ".csdlc/evidence/604/publish-draft-request.json",
-      ".csdlc/evidence/604/publish-final-ready-request.json",
-      ".csdlc/evidence/604/publish-ready-update-request.json",
-      ".csdlc/evidence/604/ready-request.json",
-      ".csdlc/evidence/604/recover-after-canary-defect-fixes.json",
-      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
-      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
-      ".csdlc/evidence/604/recover-after-terminal-prereq-refresh.json",
-      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
-      ".csdlc/evidence/604/review-assign-after-resume-push-fix.json",
-      ".csdlc/evidence/604/review-assign-after-terminal-prereq-refresh.json",
-      ".csdlc/evidence/604/review-assign-all-defects-closed.json",
-      ".csdlc/evidence/604/review-assign-publication-valid.json",
-      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
-      ".csdlc/evidence/604/review-record-after-resume-push-fix.json",
-      ".csdlc/evidence/604/review-record-all-defects-closed.json",
-      ".csdlc/evidence/604/review-record-publication-valid.json",
-      ".csdlc/prepared/issues/604/design.md",
-      ".csdlc/prepared/issues/604/diagram.mmd",
-      ".csdlc/prepared/issues/604/finalize-request.json",
-      ".csdlc/prepared/issues/604/full-cycle-defects.md",
-      ".csdlc/prepared/issues/604/publish-draft-request.json",
-      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
-      ".csdlc/prepared/issues/604/review-assign-repaired.json",
-      ".csdlc/prepared/issues/604/review-record-repaired.json",
-      ".csdlc/prepared/issues/604/validate-implementation.sh",
-      "csdlc-v2/operator/skills.json",
-      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-github-pr.rs",
-      "csdlc-v2/src/bin/csdlc-pr-state.rs",
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/review.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate5.rs",
-      "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      "csdlc-v2/tests/publication_ready.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/review_604_terminal_digest_refresh",
-    "scope": [
-      ".csdlc/evidence/604/full-cycle-defects-tail.md",
-      ".csdlc/evidence/604/issue-604-implementation-validation.log",
-      ".csdlc/evidence/604/pr610-state-request.json",
-      ".csdlc/evidence/604/publish-all-defects-closed-request.json",
-      ".csdlc/evidence/604/publish-draft-request.json",
-      ".csdlc/evidence/604/publish-final-ready-request.json",
-      ".csdlc/evidence/604/publish-ready-update-request.json",
-      ".csdlc/evidence/604/ready-request.json",
-      ".csdlc/evidence/604/recover-after-canary-defect-fixes.json",
-      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
-      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
-      ".csdlc/evidence/604/recover-after-terminal-prereq-refresh.json",
-      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
-      ".csdlc/evidence/604/review-assign-after-resume-push-fix.json",
-      ".csdlc/evidence/604/review-assign-after-terminal-prereq-refresh.json",
-      ".csdlc/evidence/604/review-assign-all-defects-closed.json",
-      ".csdlc/evidence/604/review-assign-publication-valid.json",
-      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
-      ".csdlc/evidence/604/review-record-after-resume-push-fix.json",
-      ".csdlc/evidence/604/review-record-all-defects-closed.json",
-      ".csdlc/evidence/604/review-record-publication-valid.json",
-      ".csdlc/prepared/issues/604/design.md",
-      ".csdlc/prepared/issues/604/diagram.mmd",
-      ".csdlc/prepared/issues/604/finalize-request.json",
-      ".csdlc/prepared/issues/604/full-cycle-defects.md",
-      ".csdlc/prepared/issues/604/publish-draft-request.json",
-      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
-      ".csdlc/prepared/issues/604/review-assign-repaired.json",
-      ".csdlc/prepared/issues/604/review-record-repaired.json",
-      ".csdlc/prepared/issues/604/validate-implementation.sh",
-      "csdlc-v2/operator/skills.json",
-      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-github-pr.rs",
-      "csdlc-v2/src/bin/csdlc-pr-state.rs",
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/review.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/gate5.rs",
-      "csdlc-v2/tests/gate_terminal_authority_deletion.rs",
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      "csdlc-v2/tests/publication_ready.rs"
-    ],
-    "reviewed_revision": "git-blake3:880523a6c0435d7b3ad4302ed613a91aa8c407d0:a980a3db8a150b2fdab00151d85db33d929182d97d6aba04df217b2e211b0cb3",
-    "findings": [],
-    "residual_risks": [
-      "PR #610 is still awaiting final typed publication update and GitHub CI confirmation after the retained terminal digest refresh.",
-      "Issue #604 intentionally records every canary defect discovered during the live full-cycle test; those records are issue evidence and should not be treated as new unresolved product findings."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 604,
-    "pull_request": 610,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/610",
-    "base": "main",
-    "head": "codex/604-v2-publish-ready-reconciliation-exec",
-    "revision": "git-blake3:6e80ca4aec853acac6b942f4e57b61a21fe8fbbf:b30287b00e818ec385b21ed3b49eb76317deb6acae49e78275e89400da6f6bed",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -146,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fce5d9b2e00c2ab3745e219c28f77b36c17504051cd0bb9ef9dabf670df9e2cd",
+      "values_digest": "8d60a6daf8b7036cb47161c22e64a168fc33dd5a060701bf6b3aec16bf3b134f",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "9f0f4727414e70111a134e0f525f16baabc444626e6dd57f1d3eed0dcc86a380",
+      "values_digest": "56374e601498c1f4c140d0b87b481b4c68063970afe1a56df73b6f87305163da",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "1ec3f53014b8e55d7673e7eff39f99551479e63e08524bc6f8ae1e510f98a376",
+      "values_digest": "fe6c9c509e83f871a48f8f20e5bb63f445ac0bd974957a31e716412995dfcb49",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "61b22a110559e721ba62312d31636bc60990341c7b8b6476e253e20f4771ee54",
+      "values_digest": "f60f0993d91a19bdd73a1b9dccb3fe372c1595d844f42b21b4659283cb59482d",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "36a540e7817b474c975415e02f2f97d2f57a76189996b8bebc67ad6cf4b7bc1f",
-      "rendered_digest": "0059435f33ebdfbb3b90ebeb8717f14c740be6ae20dcecb67862ee66f67de25d",
-      "ast_digest": "a9ee8532a16758039fa07a1f398c2c82110f6fd67ea779a28e2f0fb20fb8a2ef"
+      "values_digest": "fcb7908edc2f5dc4432f7adb7324130a7916c8c51224c5ee6edda8f68e818bb6",
+      "rendered_digest": "6521d3d327da10bb1f72a25546d0721d3fb4f827e19ce3a48477d3a071365771",
+      "ast_digest": "d6631edc7e03e03c23d19446bf4618d3806a58c44cf76c2a5166d8c68631562d"
     },
     "sor": {
-      "values_digest": "c71db470caf95cb6df83a48fe3965a5da4c4bd82991d703b6306686fe4f113e5",
-      "rendered_digest": "d86efaaa93bb97399db817c06999237e4114cf3cc4d101e6ee0037adb9702133",
-      "ast_digest": "0d67b990ddc0c47dd5ebe5e2aff4ae6083574a88f91c3fa960ab0604b5d33aa5"
+      "values_digest": "a984bb0c18afc44cbf678123edcf00dd12be1d9935ebd2f3f05ae2c0a2c531cc",
+      "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
+      "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
     }
   },
   "transitions": [
@@ -309,6 +188,13 @@
       "to": "published",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after the branch was reviewed and published with a reviewer identity whose final PASS was not visible to the orchestrating session. The final review will be re-recorded against the reviewer transcript that actually returned PASS."
     }
   ],
   "audit": [
@@ -514,6 +400,13 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after the branch was reviewed and published with a reviewer identity whose final PASS was not visible to the orchestrating session. The final review will be re-recorded against the reviewer transcript that actually returned PASS.",
+      "operation": "recover_review"
     }
   ]
 }
