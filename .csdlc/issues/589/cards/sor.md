@@ -193,11 +193,11 @@ Implemented, independently reviewed, deployed, and live-proved ordered Wuji Runt
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

@@ -3,61 +3,14 @@
   "issue": 589,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
-  "phase": "published",
-  "generation": 36,
-  "digest": "21bcbba3b5ee6c3c9160776336d9dcda54de6f02b5e3225949ea3243bc5fbca5",
+  "phase": "implemented",
+  "generation": 37,
+  "digest": "f254e7c964b16170ab2ec021defeba81d621b72a8c867f0d8e881d2ee1bbb592",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
-  "review_assignment": {
-    "reviewer": "subagent:/root/issue_589_review",
-    "assigned_by": "codex-issue-589",
-    "revision": "git-blake3:15ff9fda869ba94bd18c90e1f076577f192969e7:0897ae90617c525bdc17e173aa39a6400cc158561081782b8bbb0c467ffbd126",
-    "scope": [
-      ".csdlc/issues/589",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/issue_589_review",
-    "scope": [
-      ".csdlc/issues/589",
-      "adl/src/cli/csm_runtime_v3_cmd.rs",
-      "adl-runtime/src/guardian.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/control/feeds.rs",
-      "adl-runtime-kernel/tests/configuration.rs",
-      "adl-runtime-kernel/tests/control.rs"
-    ],
-    "reviewed_revision": "git-blake3:15ff9fda869ba94bd18c90e1f076577f192969e7:0897ae90617c525bdc17e173aa39a6400cc158561081782b8bbb0c467ffbd126",
-    "findings": [],
-    "residual_risks": [
-      "The read-only reviewer did not inject a live process crash; crash ordering is covered by focused lifecycle tests.",
-      "The Terraform-managed AWS edge currently returns 503 because its residential Wuji origin is externally unreachable; that separate #122 edge condition does not invalidate local Guardian, Runtime, CloudWatch, or SSM recovery proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 589,
-    "pull_request": 598,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/598",
-    "base": "main",
-    "head": "codex/589-wuji-guardian-start-reload",
-    "revision": "git-blake3:16b9cc24a0e4b03e6a7fda670ae65789d53e9c96:891434fbb92a25b2d2c65263e5a368be4896b9178728b13814b5c7cebd22cb8e",
-    "linkage_mode": "closing",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -71,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cb9de69bb763defa88b2455f51a86f695fb8bceaaa67634fefee0f79f4b0af3e",
+      "values_digest": "99820c288690f00a639e14d0401fc0d3372db44d5736b9aaf07d30471e9636eb",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "27aecb5add3853c22059b3a60bf9c16a1f89b2231e3d78620917068c48535593",
+      "values_digest": "8cea7cfd225c7dd034501546706a2d4bf22b77939222802a4225ee0f6c11a843",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "ae41884c9724338603b12e2826058af0ab69cb6dae18a8b60029ac3d6f70a0bb",
+      "values_digest": "3dac57ad910ba795399e97e848f572f8c2b5464f2578e20cc313b0825307d851",
       "rendered_digest": "315bb82392767ff9d0c5acb9c99df4dbc87c4fd82dec36c6bb76bbab7b32cb3f",
       "ast_digest": "569fe120c9e4d45f1e5799229ca53e07754cf71fba0027620a6fdaf4211394af"
     },
     "vpp": {
-      "values_digest": "a9560cd363ff46a98c30e993f0e1ea105d1d329401666cf2479cce3390859e41",
+      "values_digest": "114a992ba24b257484bd0fd2bb37ddb30e86a327722942bbc2b2e8e681a4e3bd",
       "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
       "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "8fac26de6933f273e2821de2cb1c4e5c8b1c3cbb6f69176a407a858357ad0073",
-      "rendered_digest": "d210b397229c98be1ab5645c01cd97ddc9ca5d7b8475cc6e60ab2540bc9e7dec",
-      "ast_digest": "975d780ab85daa2ce534f3d2b5ec0fe3c4fc6820bc6a93689bbbfa4b132403f7"
+      "values_digest": "ed069c3cc54461d4a3d4db1cb056771c058e84695ebf25d24105d6323093003a",
+      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
+      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "e94e9288a9f0c3aac92afb641a9c477d3256b7c8dd959ba1c99ef874f5993c40",
-      "rendered_digest": "18bcb309cac4564ebba8764e0bde2b4482240571116a7b164c133eb1d6fda095",
-      "ast_digest": "9e0aebc9da909bb0a018a0f9bb3127056e5de2b8f7d565ed2b8ae0eecdec86ae"
+      "values_digest": "6acb610c616e186a09cbc9c8f46bb3c2984083193422add8008697966b76a71c",
+      "rendered_digest": "b08949a2c547e2fefa24e60fe409a41f850c0ed15f43910ccecef2e82090aba3",
+      "ast_digest": "7d8ffe337e0066c6cb9c979104f5c4f7dc7e170eae3606ba5628d4b6929340db"
     }
   },
   "transitions": [
@@ -220,6 +173,13 @@
       "to": "published",
       "actor": "codex-issue-589",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 18,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-issue-589",
+      "reason": "Recover exact-review truth after hosted Linux runtime coverage exposed a stale integration-test child that consumed only the pre-PID two-byte Guardian lease acknowledgement."
     }
   ],
   "audit": [
@@ -565,6 +525,13 @@
       "actor": "codex-issue-589",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 50,
+      "generation": 37,
+      "actor": "codex-issue-589",
+      "reason": "Recover exact-review truth after hosted Linux runtime coverage exposed a stale integration-test child that consumed only the pre-PID two-byte Guardian lease acknowledgement.",
+      "operation": "recover_review"
     }
   ]
 }
