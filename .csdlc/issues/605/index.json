@@ -4,13 +4,45 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "implemented",
-  "generation": 113,
-  "digest": "b18f30308543fcf6d9a4e14737d5abd3311f8b39e03deedac6d07772f64d73df",
+  "phase": "reviewed",
+  "generation": 114,
+  "digest": "d7b51c15b533ab60f0889861ae5c5efd636e1b7786009ea178cf1676dc750c19",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "assigned_by": "codex:/root:issue-345-final-integration",
+    "revision": "git-blake3:9103f3029aad866cb1c018226f89d17cd10bf9ea:e5c7c20c23662a5e0560e2f79b0efb4c8a6c56b603e3ec926b0d7ece2349f3fb",
+    "scope": [
+      "infra/aws/runtime/gpu-proof",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/tests/shepherd_local_model.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/issues/605"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "scope": [
+      "infra/aws/runtime/gpu-proof",
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+      "adl-runtime/tests/shepherd_local_model.rs",
+      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
+      ".csdlc/issues/605"
+    ],
+    "reviewed_revision": "git-blake3:9103f3029aad866cb1c018226f89d17cd10bf9ea:e5c7c20c23662a5e0560e2f79b0efb4c8a6c56b603e3ec926b0d7ece2349f3fb",
+    "findings": [],
+    "residual_risks": [
+      "The bounded qualification does not establish 24/7 production readiness.",
+      "The receipt proves live Shepherd model execution and governed Runtime agent ACC execution separately; it does not claim direct Runtime-v3-to-Ollama transit."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ba77b0ea20a25f18f2edd069e7601242366ecb4a143ae8936618cd806313dd5c",
+      "values_digest": "baaf97b5d0ccb77db0459291ae5acaef0f03b9469aa763ec201d7f592d454d83",
       "rendered_digest": "d6b7639029c636d4281e56c0b4fb2af2e809b3b52586c668b90595b91f327efe",
       "ast_digest": "a7ed36c6e3be0898d035c1ad539ba121f17721b1c475c37f624f268137e89acc"
     },
     "stp": {
-      "values_digest": "d847b410a6736124ec49684069f8fc70ee634c40142fd7fa4c5cf5291801fcbb",
+      "values_digest": "a3e25a21fd81d4d1b1a61236a0a17923e26a1f75b5b78cb698146b9104b5d273",
       "rendered_digest": "929299106be15d218116152dfc8352127f343217528c7a271073f313117738ba",
       "ast_digest": "2c9ae72ece5a21f3dcbb3e04e335cfb39cda3a853e7ce756ad8586ecdf1e2d59"
     },
     "spp": {
-      "values_digest": "2c2e55b534017b8c5391e3530a3cb28c995d6974540b320fb07c483e5901e827",
+      "values_digest": "0864b7f7cc900fe774ab5aab71298eee026536fc836bce7218a3fb9230581382",
       "rendered_digest": "dca20ded530d3f783d85d0d1dce10a6ce9bbe8f3383e623f69d9d9e4eac95a7b",
       "ast_digest": "429145abff6f2e7bca828affe591559b263e3c3a79f8579d6ed1240ddb41ce42"
     },
     "vpp": {
-      "values_digest": "746c9f2cc094e2f5c07e368a4541500491ec4c87bc491c187d86834f0302a459",
+      "values_digest": "0e6805bafa3dbade750971f2f60c18689a05b80670fe9b74fd7031fe65e62790",
       "rendered_digest": "e6254f9301e89bfa36f5c0d1723730570d0a5ff8af4dcda4d369b64798b44d1e",
       "ast_digest": "936bcd21f90bed69e41def7ddbd30645b2875917aac9067d3bc8c8f45f199659"
     },
     "srp": {
-      "values_digest": "66ab09fe44a01a099849b7caeb10b4d18cfa5eea8791e37b155099a5f1fda370",
-      "rendered_digest": "38381bb1691406c2dcaf5e9087898cd467700e6a58b7cb82f45fd3534fc18907",
-      "ast_digest": "10910d4e46db85b00f586cca7ddcc144964f95cc20537c125f92f96b8ee83135"
+      "values_digest": "73ae2f323eed6e9125ae533563f3886fb4915d99e05d255908a223ecdbc8101b",
+      "rendered_digest": "632a90a2b3ad8ef60a4f9d350aa79db6bd56c9ac22aadb2336ecbf7919b8c483",
+      "ast_digest": "309eb652d5143c0b7b1bda2c06c5fe7920ba21caef8b7eca444fdd382c31e77d"
     },
     "sor": {
-      "values_digest": "675da7e551003d490af0d1e6cbe72fec582840252759686151ad5332e9da4e09",
+      "values_digest": "3cc6fa2b5047158006988185d1657f00a800f95eaaf4904ef6b953c25a89f4e8",
       "rendered_digest": "e014fdfd833baebb202760f78d890341a664bc872a34a5273a929816784c5ed8",
       "ast_digest": "f544f5356a93a5570bfd8b11220f72793c5da4759900635a715d894ed7fa3afc"
     }
@@ -321,6 +353,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-345-final-integration",
       "reason": "Recover published review truth after merging current main to resolve PR #606 add/add conflicts, retaining the reviewed follow-on versions of the five issue-owned artifacts and obtaining a fresh exact-head review before republication."
+    },
+    {
+      "sequence": 39,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -1317,6 +1356,20 @@
       "actor": "codex:/root:issue-345-final-integration",
       "reason": "Recover published review truth after merging current main to resolve PR #606 add/add conflicts, retaining the reviewed follow-on versions of the five issue-owned artifacts and obtaining a fresh exact-head review before republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 143,
+      "generation": 113,
+      "actor": "codex:/root:issue-345-final-integration",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 144,
+      "generation": 114,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
