@@ -3,13 +3,53 @@
   "issue": 528,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ffce9a74a84dcf49d507c8d3048ef69dd74cc44ee100d52bd932b2d444978bb2",
-  "phase": "implemented",
-  "generation": 27,
-  "digest": "0ec0ad6953ffe1c9fba86771a48929ab6a6b56b7d84f22a583484db62301d69c",
+  "phase": "reviewed",
+  "generation": 28,
+  "digest": "e16584fe0a64bd9c7b823942c8181bc76f4471243cf92ce7e9cdbf009381a546",
   "branch": "codex/528-vertex-ai-gemini-provider-transport",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-528-vertex-ai-gemini-provider-transport",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ad06b19c-5866-4bdc-939d-bedc2cd559d9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4867f7de80a6274230eea3cdcba8379ead3b41e7:e3c120724e0b33844d72a3a0336e5348c8aa6ae2155afc9e9f5d6d56b963217a",
+    "scope": [
+      ".csdlc/evidence/528",
+      ".csdlc/issues/528",
+      ".csdlc/prepared/issues/528",
+      "adl/src/adl/validation.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/tests/adl_tests.rs",
+      "adl/tests/provider_tests/http_family.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:ad06b19c-5866-4bdc-939d-bedc2cd559d9",
+    "scope": [
+      ".csdlc/evidence/528",
+      ".csdlc/issues/528",
+      ".csdlc/prepared/issues/528",
+      "adl/src/adl/validation.rs",
+      "adl/src/provider/http_family.rs",
+      "adl/src/provider/http_family/config.rs",
+      "adl/src/provider/mod.rs",
+      "adl/src/provider/profiles.rs",
+      "adl/src/provider_substrate.rs",
+      "adl/tests/adl_tests.rs",
+      "adl/tests/provider_tests/http_family.rs"
+    ],
+    "reviewed_revision": "git-blake3:4867f7de80a6274230eea3cdcba8379ead3b41e7:e3c120724e0b33844d72a3a0336e5348c8aa6ae2155afc9e9f5d6d56b963217a",
+    "findings": [],
+    "residual_risks": [
+      "Live Vertex AI provider call was not run; credentialed provider proof remains separately gated by explicit operator authorization and environment configuration.",
+      "The reviewer did not rerun Rust tests because the review was read-only and the retained proof logs already covered the exact implementation head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7d5dc6333cf89de03daea5f9920c5c9a9e2b5baac749bead4eec26dc60840879",
+      "values_digest": "00c861e6ebfd5ad3db325c09f36532bb5ccfe9ffe05c73ff910696e2366ce407",
       "rendered_digest": "8d51702ddd23d0e2e9d6ee5d83fc2b5f1eb79f72d918a178e94c01c6e3087e6c",
       "ast_digest": "a885d6b8a6aa91956f7ab5574a7865acf7834b3ca7b6794271560ff55474719c"
     },
     "stp": {
-      "values_digest": "68a6d93d7b6113703ded5764083ff91c651879ce3b78d0c27342b7e9bd2f75e6",
+      "values_digest": "05b3b551336d085f46540425352ee49af4bd4f28c5480cc4f484b4c2f765e9cf",
       "rendered_digest": "58515cc327ceb9adb527d6ee4cc9c0b8f49aba5f3d4f29e89e9bf1dccbe30ed1",
       "ast_digest": "7208ce9df21f504b1ebbff12b0ba421ba7ff10b912e22557dfdcf22df97e3b1c"
     },
     "spp": {
-      "values_digest": "240312db17fb79ecdd1dc0729fd1c47066a4a48065b9041a9edb01c7cb7d490c",
+      "values_digest": "6b10faf4dbed3702ba4dfc01a21c4894aac440243c581aed12cdb41d583bdf85",
       "rendered_digest": "266e06f9a67360d5645813d68b2780348731a443edf8c0a8834a92f903c0e85a",
       "ast_digest": "689216fe81f415843953ccbfa40c6b0e2b5a3e2dd815cca4c60b8ec6a7a8f751"
     },
     "vpp": {
-      "values_digest": "35b8a0fe066bfb2535c1acbac93e432922a8109519a01b4ad8803a616b6b7d8c",
+      "values_digest": "0038fbd55f2d12ebed3054f70cd2a19f1112847fe5ef43f7563d79aedf16b6c3",
       "rendered_digest": "fbea891f5bebcfaeae4eaf7c47a28bc90a93ced031d295f97a5dda27e7247ae2",
       "ast_digest": "50e529ff5a31d348e0536aa1c4288531f8dcbe70fa03c954864fa8d8400ce066"
     },
     "srp": {
-      "values_digest": "6ce96681a78d056fbc9d824ab57b4936f7f733761ce3dfd3b2343aa730e5a0be",
-      "rendered_digest": "e660db2be7b5957e9b5b62db0e88b3ca3e27258324fbe756a07b72e605553eeb",
-      "ast_digest": "c4aadad469f845cb33bf17070e28d42afef2173b7e58a370f78693a117319556"
+      "values_digest": "6f1fe54c13da5e38bb4c61c4876db75387fee4f7c3ef52d1aa40af5774776f33",
+      "rendered_digest": "4b51e2cd55583d680f542831d739a2b848c631388de3bdde93aa33a91cb6df90",
+      "ast_digest": "b153d5fa7316f4b0fce6037b85b0782ba3bcbd33a2d11928bed741e937957213"
     },
     "sor": {
-      "values_digest": "39802a0df973bc8619e7cd7d06f56048a5fbec7a8e5a5b564610ea17a55b7d26",
+      "values_digest": "74d2a9b5cffc16a226209652d01d2350399e29567c01bcf36a5fe8d912f19c06",
       "rendered_digest": "263e0f351d77e86c8898f76d87f7c8910eba8fdbf3679bf2cb5538c26f0945b2",
       "ast_digest": "9bb95ec08582571a87ab72ebd6285e183107351661aba9b015a0fdcd7c040c86"
     }
@@ -75,6 +115,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -301,6 +348,20 @@
       "actor": "codex:/root",
       "reason": "Record #528 test-artifact hygiene repair after R3 remediation proof.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed previously committed zero-byte provider-test lock sidecars and made the #528 provider tests clean up transient lock and mock-gcloud artifacts.\",\"changes\":[\"Deleted zero-byte .lock files generated by earlier provider receipt tests from issue-owned evidence.\",\"Updated the Vertex receipt test to remove its invocation lock sidecar after removing the receipt.\",\"Updated the ADC mock-gcloud test to remove its worktree-local mock executable and directory after the test.\"],\"artifacts\":[\"adl/tests/provider_tests/http_family.rs\",\".csdlc/evidence/528/provider-tests\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
