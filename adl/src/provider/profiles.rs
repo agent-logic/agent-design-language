@@ -42,6 +42,15 @@ const DETERMINISTIC_OLLAMA_INFERENCE_PROFILE: ProviderInferenceProfilePreset =
         deterministic_seed: Some(0),
     };
 
+const GLM_5_3_FLASH_INFERENCE_PROFILE: ProviderInferenceProfilePreset =
+    ProviderInferenceProfilePreset {
+        temperature: 1.0,
+        top_p: 0.95,
+        max_output_tokens: 4096,
+        timeout_secs: 120,
+        deterministic_seed: None,
+    };
+
 const PROFILE_STATE_SCHEMA: &str = "adl.provider_profile_state.v1";
 const PROFILE_MATERIALIZATION_STATE_SCHEMA: &str = "adl.provider_profile_materialization_state.v1";
 const PROFILE_MATERIALIZATION_SCHEMA: &str = "adl.provider_profile_materialization_projection.v1";
@@ -70,6 +79,7 @@ fn profile_vendor(profile: &str) -> Option<&'static str> {
         Some("deepseek") => Some("deepseek"),
         Some("z_ai" | "zai" | "zhipu") => Some("z_ai"),
         Some("gemini") => Some("google"),
+        Some("vertex" | "vertex_ai" | "vertex_ai_gemini") => Some("google_vertex_ai"),
         Some("chatgpt") => Some("openai"),
         Some("claude") => Some("anthropic"),
         Some("deepgram") => Some("deepgram"),
@@ -127,8 +137,10 @@ pub(crate) const DEEPSEEK_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.deepseek.com/chat/completions";
 pub(crate) const OPENROUTER_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://openrouter.ai/api/v1/chat/completions";
-pub(crate) const Z_AI_CHAT_COMPLETIONS_ENDPOINT: &str =
+pub(crate) const Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://open.bigmodel.cn/api/paas/v4/chat/completions";
+pub(crate) const Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT: &str =
+    "https://api.z.ai/api/paas/v4/chat/completions";
 pub(crate) const KIMI_CHAT_COMPLETIONS_ENDPOINT: &str =
     "https://api.moonshot.ai/v1/chat/completions";
 pub(crate) const MINIMAX_CHAT_COMPLETIONS_ENDPOINT: &str =
@@ -144,10 +156,17 @@ pub(crate) const DEEPGRAM_API_ENDPOINT: &str = "https://api.deepgram.com";
 pub(crate) const ANTHROPIC_VERSION: &str = "2023-06-01";
 
 fn inference_profile_for(preset: ProviderProfilePreset) -> ProviderInferenceProfilePreset {
+    if preset.provider_model_id == Some("glm-5.3-flash") {
+        return GLM_5_3_FLASH_INFERENCE_PROFILE;
+    }
     match preset.kind {
         "ollama" => DETERMINISTIC_OLLAMA_INFERENCE_PROFILE,
         _ => DEFAULT_INFERENCE_PROFILE,
     }
+}
+
+fn is_glm_5_3_flash_profile(preset: ProviderProfilePreset) -> bool {
+    preset.kind == "z_ai" && preset.provider_model_id == Some("glm-5.3-flash")
 }
 
 fn config_f64(
@@ -220,16 +239,37 @@ fn ensure_inference_profile_config(
     config: &mut BTreeMap<String, Value>,
 ) -> Result<()> {
     let inference = inference_profile_for(preset);
+    let max_profile_output_tokens = if is_glm_5_3_flash_profile(preset) {
+        131_072
+    } else {
+        MAX_PROFILE_OUTPUT_TOKENS
+    };
+    let temperature_max = if is_glm_5_3_flash_profile(preset) {
+        1.0
+    } else {
+        2.0
+    };
+    let top_p_min = if is_glm_5_3_flash_profile(preset) {
+        0.01
+    } else {
+        0.0
+    };
 
     let temperature =
         config_f64(provider_id, config, "temperature")?.unwrap_or(inference.temperature);
-    validate_bounded_f64(provider_id, "temperature", temperature, 0.0, 2.0)?;
+    validate_bounded_f64(
+        provider_id,
+        "temperature",
+        temperature,
+        0.0,
+        temperature_max,
+    )?;
     config
         .entry("temperature".to_string())
         .or_insert_with(|| json!(inference.temperature));
 
     let top_p = config_f64(provider_id, config, "top_p")?.unwrap_or(inference.top_p);
-    validate_bounded_f64(provider_id, "top_p", top_p, 0.0, 1.0)?;
+    validate_bounded_f64(provider_id, "top_p", top_p, top_p_min, 1.0)?;
     config
         .entry("top_p".to_string())
         .or_insert_with(|| json!(inference.top_p));
@@ -240,7 +280,7 @@ fn ensure_inference_profile_config(
         provider_id,
         "max_output_tokens",
         max_output_tokens,
-        MAX_PROFILE_OUTPUT_TOKENS,
+        max_profile_output_tokens,
     )?;
     config
         .entry("max_output_tokens".to_string())
@@ -280,6 +320,45 @@ fn ensure_inference_profile_config(
             "activation_policy".to_string(),
             json!("validate_before_activation"),
         );
+    }
+
+    if is_glm_5_3_flash_profile(preset) {
+        let reasoning_effort = match config.get("reasoning_effort") {
+            Some(Value::String(value)) => value.trim(),
+            Some(_) => {
+                return Err(anyhow!(
+                    "providers.{provider_id}.config.reasoning_effort must be a string for profile '{}'",
+                    profile_name
+                ));
+            }
+            None => "low",
+        };
+        if reasoning_effort.is_empty() {
+            return Err(anyhow!(
+                "providers.{provider_id}.config.reasoning_effort must not be empty for profile '{}'",
+                profile_name
+            ));
+        }
+        if !matches!(reasoning_effort, "low" | "high" | "max") {
+            return Err(anyhow!(
+                "providers.{provider_id}.config.reasoning_effort must be one of low, high, max for profile '{}'",
+                profile_name
+            ));
+        }
+        config.insert("reasoning_effort".to_string(), json!(reasoning_effort));
+
+        match config.get("clear_thinking") {
+            Some(Value::Bool(_)) | None => {}
+            Some(_) => {
+                return Err(anyhow!(
+                    "providers.{provider_id}.config.clear_thinking must be a boolean for profile '{}'",
+                    profile_name
+                ));
+            }
+        }
+        config
+            .entry("clear_thinking".to_string())
+            .or_insert_with(|| json!(true));
     }
 
     Ok(())
@@ -567,12 +646,30 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         );
     }
     m.insert(
+        "vertex_ai:gemini-2.5-flash",
+        ProviderProfilePreset {
+            kind: "vertex_ai_gemini",
+            default_model: Some("hosted:google-vertex-ai:gemini-2.5-flash"),
+            provider_model_id: Some("gemini-2.5-flash"),
+            endpoint: None,
+        },
+    );
+    m.insert(
         "z_ai:glm-5",
         ProviderProfilePreset {
             kind: "z_ai",
             default_model: Some("hosted:adl-z-ai:glm-5"),
             provider_model_id: Some("glm-5"),
-            endpoint: Some(Z_AI_CHAT_COMPLETIONS_ENDPOINT),
+            endpoint: Some(Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT),
+        },
+    );
+    m.insert(
+        "z_ai:glm-5.3-flash",
+        ProviderProfilePreset {
+            kind: "z_ai",
+            default_model: Some("hosted:adl-z-ai:glm-5.3-flash"),
+            provider_model_id: Some("glm-5.3-flash"),
+            endpoint: Some(Z_AI_GLM_5_3_FLASH_CHAT_COMPLETIONS_ENDPOINT),
         },
     );
     for (name, model) in [
@@ -637,7 +734,7 @@ pub(crate) fn provider_profile_registry() -> BTreeMap<&'static str, ProviderProf
         (
             "z_ai:glm-5-current",
             "glm-5",
-            Z_AI_CHAT_COMPLETIONS_ENDPOINT,
+            Z_AI_LEGACY_CHAT_COMPLETIONS_ENDPOINT,
         ),
         (
             "gemini:3.1-pro-preview",

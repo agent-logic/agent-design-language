@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 512,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+    "slug": "obs-b-observatory-redesign-implementation",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "OBS-B HTML implementation, authentic Runtime route, accessibility, redaction, recovery, and pre-cutover canary evidence only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Were #511 and #536 terminal before execution?",
+        "Does the UI consume authentic Runtime projections?",
+        "Are recovery and accessibility cases proven rather than visually asserted?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

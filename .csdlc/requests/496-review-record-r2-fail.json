@@ -1,0 +1,33 @@
+{
+  "issue": 496,
+  "expected_generation": 9,
+  "expected_digest": "bc1ba92b1f324a58d6e564942d42b239c32de856ac58b463da1e2f0356caa30e",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "fresh-session:1d5a9f5f-9f1e-41fb-8985-6970b3f0df72",
+    "reviewed_revision": "git-blake3:9805fd96142056f8fa4ff3e8647b71ea7889aac8:79ba9d2c66dbcbd3b7a5ed16bfe1a211966d676b75b17d804629eecd3783adbb",
+    "completed": true,
+    "scope": [
+      "Exact commit 9805fd96142056f8fa4ff3e8647b71ea7889aac8",
+      "Issue #496 AWS-G only",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/**",
+      ".csdlc/issues/496/**",
+      ".csdlc/prepared/issues/496/**",
+      ".csdlc/evidence/496/**",
+      "Read-only denominator references to adl/tools/issue194_private_network.cloudformation.json and adl/tools/issue268_runtime_qualification.cloudformation.yaml"
+    ],
+    "findings": [
+      {
+        "id": "496-r2-p2-prepared-validator-card-drift",
+        "severity": "p2",
+        "summary": "STP/SPP still point to the non-existent prepared validator path instead of the implemented docs validator path.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": []
+  }
+}

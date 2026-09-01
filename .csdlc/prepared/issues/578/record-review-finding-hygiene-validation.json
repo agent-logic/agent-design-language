@@ -1,0 +1,20 @@
+{
+  "issue": 578,
+  "card": "sor",
+  "expected_generation": 41,
+  "expected_digest": "5a1d91f9938bcd8cf6011d1a6434d4f0eb9fba4e7b578172a1dd440c33d28f1a",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "actor": "codex:root",
+  "reason": "Record review-finding hygiene validation after redacting credential-source and ignored-local-artifact references from tracked #578 records.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash .csdlc/prepared/issues/578/verify-no-glm-secret-paths.sh"
+      ],
+      "purpose": "Prove tracked #578 records, prepared requests, and retained GLM-5.3-Flash evidence no longer expose the machine-local key filename, stale 3748 ms live-smoke claim, or ignored local provider-smoke proof artifacts flagged by review.",
+      "outcome": "passed",
+      "evidence_ref": "local command output, #578 worktree"
+    }
+  }
+}

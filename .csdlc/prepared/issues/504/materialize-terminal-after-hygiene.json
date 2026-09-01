@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.terminal_materialize_request.v1",
+  "issue": 504,
+  "expected_generation": 18,
+  "expected_digest": "c7018c2c143f33ab135843ecb0f1f5241b8fd15011c799c4e220bbec46735eb7",
+  "actor": "worker-6",
+  "reason": "Materialize #504 terminal truth after live PR #588 readback showed a merged closing PR with green checks and exact-head PASS review, and closure hygiene corrected the issue back to closed."
+}

@@ -96,7 +96,7 @@ Rules:
 - Verification scope describes where the verification commands were run.
 - worktree_only means at least one required path still exists only outside the main repository path.
 - Completed output records must not leave `Status` as `NOT_STARTED`.
-- By `pr finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure).
+- By typed `csdlc-finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure).
 
 ## Validation
 - Validation commands and their purpose:

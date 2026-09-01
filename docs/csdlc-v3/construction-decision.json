@@ -1,0 +1,139 @@
+{
+  "schema": "adl.csdlc_v3.construction_decision.v1",
+  "issue": 571,
+  "predecessor_issue": 162,
+  "decision_owner_issue": 505,
+  "decision_11_binding_issue": 163,
+  "source_thresholds": {
+    "source_path": "docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md",
+    "source_lines": "1331-1342"
+  },
+  "expected_evidence_artifact": ".csdlc/evidence/162/proof.json",
+  "expected_evidence_revision": null,
+  "expected_evidence_status": "missing",
+  "slice_disposition": "not_promoted_missing_162_measurements",
+  "authority_disposition": "construction_seed_only_not_lifecycle_authority",
+  "cutover_disposition": "defer_promote_or_discard_to_issue_505",
+  "measurements": [
+    {
+      "id": "stripped_release_binary_size",
+      "label": "Stripped release binary",
+      "operator": "lte",
+      "threshold_value": 35,
+      "threshold_unit": "MiB",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "direct_dependency_count",
+      "label": "Direct dependencies",
+      "operator": "lte",
+      "threshold_value": 30,
+      "threshold_unit": "dependencies",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "locked_transitive_package_count",
+      "label": "Locked transitive packages",
+      "operator": "lte",
+      "threshold_value": 300,
+      "threshold_unit": "packages",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "clean_build_seconds",
+      "label": "Clean build",
+      "operator": "lte",
+      "threshold_value": 300,
+      "threshold_unit": "seconds",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "warm_incremental_build_seconds",
+      "label": "Warm incremental build",
+      "operator": "lte",
+      "threshold_value": 60,
+      "threshold_unit": "seconds",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "startup_version_schema_completion_p95_ms",
+      "label": "version, schema, completion startup p95",
+      "operator": "lte",
+      "threshold_value": 50,
+      "threshold_unit": "milliseconds",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "local_issue_show_p95_ms",
+      "label": "Local issue show p95",
+      "operator": "lte",
+      "threshold_value": 250,
+      "threshold_unit": "milliseconds",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "local_doctor_p95_seconds",
+      "label": "Local doctor p95",
+      "operator": "lte",
+      "threshold_value": 1,
+      "threshold_unit": "seconds",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "deterministic_spike_test_suite_seconds",
+      "label": "Deterministic spike test suite",
+      "operator": "lte",
+      "threshold_value": 30,
+      "threshold_unit": "seconds",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    },
+    {
+      "id": "authored_production_rust_lines",
+      "label": "Authored production Rust for the slice",
+      "operator": "lte",
+      "threshold_value": 2500,
+      "threshold_unit": "lines",
+      "observed_value": null,
+      "evidence_artifact": ".csdlc/evidence/162/proof.json",
+      "evidence_revision": null,
+      "evidence_status": "missing",
+      "disposition": "blocked_missing_measurement"
+    }
+  ]
+}

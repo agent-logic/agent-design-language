@@ -1,0 +1,169 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 503,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-D] C-SDLC v3 local preparation workflow",
+    "slug": "v0-92-1-v3-d-c-sdlc-v3-local-preparation-workflow",
+    "version": "v0.92.1",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "cli-contract",
+          "proof_role": "Prove local preparation commands consume typed contracts and produce typed outputs without shell or live lifecycle authority.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "local_commands",
+            "contract"
+          ],
+          "parallel_group": "v3-d-focused",
+          "defer_reason": "Deferred until implementation creates the exact issue-owned harness csdlc-v3/tests/local_commands.rs."
+        },
+        {
+          "lane": "bind-topology",
+          "proof_role": "Prove local bind modeling requires registered topology and rejects branch-name-only authority.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "local_commands",
+            "topology"
+          ],
+          "parallel_group": "v3-d-focused",
+          "defer_reason": "Deferred until implementation creates the exact issue-owned harness csdlc-v3/tests/local_commands.rs."
+        },
+        {
+          "lane": "card-roundtrip",
+          "proof_role": "Prove cards render from the active prompt-template registry and round-trip without hand editing.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "local_commands",
+            "card"
+          ],
+          "parallel_group": "v3-d-focused",
+          "defer_reason": "Deferred until implementation creates the exact issue-owned harness csdlc-v3/tests/local_commands.rs."
+        },
+        {
+          "lane": "doctor-findings",
+          "proof_role": "Prove one typed issue input reaches a doctor-validated PVF plan with non-conflated ready/blocked/failed/deferred/skipped outcomes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "local_commands",
+            "doctor"
+          ],
+          "parallel_group": "v3-d-focused",
+          "defer_reason": "Deferred until implementation creates the exact issue-owned harness csdlc-v3/tests/local_commands.rs."
+        },
+        {
+          "lane": "strict-clippy",
+          "proof_role": "Reject Rust correctness and maintainability issues in the bounded V3-D crate surface.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1200,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "v3-d-focused",
+          "defer_reason": "Runs after implementation changes exist."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace and malformed diff defects in the bounded issue diff.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 300,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "v3-d-final",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on v3 local commands bypassing typed contracts, branch-name-only bind authorization, hand-edited generated cards, conflated doctor/PVF outcomes, live GitHub/lifecycle mutation from csdlc-v3, or any implied v3 authority cutover.",
+      "design_ref": ".csdlc/prepared/issues/503/design.md",
+      "design_digest": "f06f261a4beba106cdf8bdcde4007e4bb32e05f2c4bf6f071528f3922544d9d8",
+      "diagram_ref": ".csdlc/prepared/issues/503/diagram.mmd",
+      "diagram_digest": "f93d4b7764daad0bd5a65214a1930583103578ea271b56575b70b43ebda623cb"
+    }
+  }
+}

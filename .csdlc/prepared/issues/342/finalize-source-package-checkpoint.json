@@ -1,0 +1,144 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 342,
+  "expected_generation": 19,
+  "expected_digest": "2c9d712bc095601eb67ed04cee1663cc013330a6cd5edf36565cfb2b244d8681",
+  "actor": "codex:/root/sprint8-podcast-lane",
+  "summary": "Created a non-production first-ten source-package checkpoint for The Cognitive Stack under demos/podcast/episode-packages/**. The checkpoint defines the ten-episode denominator, season arc, per-episode source-package records, and a non-production feed fragment, while claiming no final audio, production RSS, hosting, directory submission, mailbox verification, or public launch.",
+  "changes": [
+    "Added demos/podcast/episode-packages/package-index.json with the exact ten-episode denominator and downstream #262 handoff marked not ready.",
+    "Added demos/podcast/episode-packages/feed-fragment.xml as a non-production #342 parity fragment only.",
+    "Added ten per-episode package.json records with premise, AI panel, listener takeaway, promotional hooks, and final audio status pending.",
+    "Added demos/podcast/episode-packages/season-arc.md with audience promise, tone, episode spine, product throughline, and checkpoint non-claims.",
+    "Added focused validators for the source-package checkpoint and non-production integrated feed fragment."
+  ],
+  "artifacts": [
+    "demos/podcast/episode-packages/README.md",
+    "demos/podcast/episode-packages/package-index.json",
+    "demos/podcast/episode-packages/feed-fragment.xml",
+    "demos/podcast/episode-packages/season-arc.md",
+    "demos/podcast/episode-packages/001-meet-the-ai-coworkers/package.json",
+    "demos/podcast/episode-packages/002-can-an-ai-be-a-good-teammate/package.json",
+    "demos/podcast/episode-packages/003-the-promise-and-weirdness-of-talking-to-machines/package.json",
+    "demos/podcast/episode-packages/004-what-should-we-let-ai-do-for-us/package.json",
+    "demos/podcast/episode-packages/005-can-ai-help-us-think-better/package.json",
+    "demos/podcast/episode-packages/006-the-new-creative-room/package.json",
+    "demos/podcast/episode-packages/007-trust-receipts-and-proof/package.json",
+    "demos/podcast/episode-packages/008-local-ai-vs-cloud-ai/package.json",
+    "demos/podcast/episode-packages/009-when-ai-gets-stuck/package.json",
+    "demos/podcast/episode-packages/010-what-does-a-weekly-ai-studio-look-like/package.json",
+    ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+    ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
+    ".csdlc/prepared/issues/342/validate-readiness.rb"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "wp24a-bound-readiness",
+          "proof_role": "Prove #342 bound worktree identity, current dependency boundaries, source-package checkpoint posture, and no deployment/publication claim.",
+          "purpose": "Confirm the bound issue context is safe before finalizing the checkpoint.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 64,
+            "tokens": 100
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "ruby",
+          "argv": [
+            ".csdlc/prepared/issues/342/validate-readiness.rb"
+          ],
+          "evidence": {
+            "max_log_bytes": 8192,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "episode-package-contract",
+          "proof_role": "Validate all ten The Cognitive Stack source-package records under demos/podcast/episode-packages/** and prove final audio/publication remain unclaimed.",
+          "purpose": "Prove the ten-episode source-package denominator and non-production state.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 64,
+            "tokens": 100
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "wp24a-bound-readiness"
+          ],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "ruby",
+          "argv": [
+            ".csdlc/prepared/issues/342/validate-episode-packages.rb"
+          ],
+          "evidence": {
+            "max_log_bytes": 8192,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "integrated-podcast-proof",
+          "proof_role": "Validate the non-production feed fragment denominator and prove it contains no production URL or publication claim.",
+          "purpose": "Prove #342's handoff fragment remains non-production and does not consume #262 authority.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 64,
+            "tokens": 100
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [
+            "episode-package-contract"
+          ],
+          "parallel_group": "local",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "ruby",
+          "argv": [
+            ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb"
+          ],
+          "evidence": {
+            "max_log_bytes": 8192,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "wp24a-bound-readiness",
+        "episode-package-contract",
+        "integrated-podcast-proof"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 1,
+      "memory_mib": 128,
+      "tokens": 300
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-342-podcast-studio-first-ten-episodes",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-342-podcast-studio-first-ten-episodes/.csdlc/evidence/342",
+    "cancellation_file": null
+  }
+}

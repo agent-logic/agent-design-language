@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.terminal_materialize_request.v1",
+  "issue": 503,
+  "expected_generation": 14,
+  "expected_digest": "b37c6550ffbf52ef87de935ce541fa41758e2927d9236ad0342a4f48d9ce32a2",
+  "actor": "worker-6",
+  "reason": "Materialize #503 terminal truth on current main after live GitHub verified PR #581 merged and issue #503 closed by the merged PR."
+}

@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 596,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
+    "slug": "sprints-5-6-cutover-fixes",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Repair the concrete Sprint 5/6 cutover-review blockers while keeping C-SDLC v2 as live authority until #505.",
+      "required_outcome": "The remediation PR has typed local lifecycle state, uses typed GitHub operations, fixes reviewed v2/v3 defects with behavior-backed proof, and remains explicitly non-authoritative for v3 cutover.",
+      "declared_scope": [
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/src/bin/csdlc-github-pr.rs",
+        "csdlc-v2/operator",
+        "csdlc-v3",
+        ".github/workflows/ci.yaml",
+        "adl/tools",
+        "docs/csdlc-v3",
+        ".csdlc/prepared/issues/596",
+        ".csdlc/evidence/sprints-5-6-cutover-fixes"
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 remains live authority until explicit #505 cutover",
+        "PR #597 may close #596 only",
+        "#505 and #534 references are Part-Of only",
+        "No merge, finish, cleanup, or v3 authority cutover is authorized by this issue",
+        "Raw gh is not used for covered lifecycle writes"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not work on primary main",
+        "Do not use /private/tmp for generated task artifacts",
+        "Use typed C-SDLC v2 operations for covered lifecycle state",
+        "Capture defects found while testing real issues for later resolution"
+      ]
+    }
+  }
+}

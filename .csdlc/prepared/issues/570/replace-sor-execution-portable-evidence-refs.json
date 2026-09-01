@@ -1,0 +1,104 @@
+{
+  "issue": 570,
+  "card": "sor",
+  "expected_generation": 16,
+  "expected_digest": "3e59112b085ba222ec47dbe079797435066977381147e9896e25c60864ee8389",
+  "claim_id": "claim-570-v3-g-portable-sor-evidence",
+  "actor": "codex:worker-6",
+  "reason": "Normalize SOR validation refs and local installed-skill evidence after bounded review found non-portable durable truth.",
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Align C-SDLC v3 documentation and skill guidance for cutover readiness while preserving C-SDLC v2 as the live lifecycle authority until V3-F/#505, including PR #584 stale-route remediation.",
+    "changes": [
+      "Updated root AGENTS.md and docs/onboarding.md to make the until-V3-F/#505 v2 authority boundary explicit and add the three-minute prepared-v3 issue start target.",
+      "Expanded csdlc-v3/README.md with current V3-A/B/C/D state, the #571 corrective gate, the clean replacement target, pre-#505 non-goals, and focused proof commands.",
+      "Updated csdlc-v2/AGENTS.md, csdlc-v2/operator/SKILLS.md, and every checked-in v2 operator skill with until-cutover v2 authority and v3 construction non-authority guidance.",
+      "Converted tracked docs/tooling/adl_pr_cycle_skill.md from executable compatibility procedure to historical-only blocked guidance that routes current work to typed C-SDLC v2 owner skills.",
+      "Updated docs/architecture/ADL_ARCHITECTURE.md so the legacy pr init/pr ready/pr run/pr finish/pr janitor/pr closeout flow is historical orientation only, not the current default lifecycle.",
+      "Expanded the docs route validator to include architecture guidance and tracked adl_pr_cycle guidance, and made stale-route rejection line-aware so historical/prohibited mentions do not false-fail.",
+      "Expanded the skill-guidance validator to include adl_pr_cycle, removed machine-specific hard-coded skill paths, and made installed-skill checks use CODEX_SKILLS_ROOT or HOME as local operator evidence.",
+      "Checked installed operator guidance and applied matching local-only wording to pr-janitor and adl_pr_cycle under CODEX_SKILLS_ROOT or the default Codex skills root; those local files are outside the repository and are not commit artifacts.",
+      "Recovered stale published review truth after PR #584 exact-head findings, repaired the SOR status from pre_phase to ready through typed csdlc-edit, and normalized SIP/STP/SOR card truth to portable local-evidence wording."
+    ],
+    "artifacts": [
+      "AGENTS.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "csdlc-v3/README.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md",
+      "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      ".csdlc/prepared/issues/570/validate-authority-boundary.sh",
+      ".csdlc/prepared/issues/570/validate-docs-routes.sh",
+      ".csdlc/prepared/issues/570/validate-skill-guidance.sh",
+      ".csdlc/prepared/issues/570/recover-review-after-pr584-findings.json",
+      ".csdlc/prepared/issues/570/repair-sor-status-ready.json",
+      ".csdlc/prepared/issues/570/replace-sor-execution-portable-evidence-refs.json",
+      "Operator-local installed pr-janitor and adl_pr_cycle skill files under CODEX_SKILLS_ROOT or the default Codex skills root, recorded as local evidence only."
+    ],
+    "validation": [
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/570/validate-authority-boundary.sh"
+        ],
+        "purpose": "Run the issue-owned authority-boundary scan.",
+        "outcome": "passed",
+        "evidence_ref": "authority-boundary-scan.log"
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/570/validate-docs-routes.sh"
+        ],
+        "purpose": "Run the expanded docs route scan including architecture and tracked adl_pr_cycle guidance.",
+        "outcome": "passed",
+        "evidence_ref": "docs-stale-route-scan.log"
+      },
+      {
+        "command": [
+          "bash",
+          ".csdlc/prepared/issues/570/validate-skill-guidance.sh"
+        ],
+        "purpose": "Run the expanded skill guidance scan including installed adl_pr_cycle when local skills are present.",
+        "outcome": "passed",
+        "evidence_ref": "skill-guidance-scan.log"
+      },
+      {
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "origin/main...HEAD"
+        ],
+        "purpose": "Run exact-range diff hygiene against the PR base.",
+        "outcome": "passed",
+        "evidence_ref": "diff-hygiene.log"
+      },
+      {
+        "command": [
+          ".adl/bin/csdlc-v2/csdlc-validate",
+          "--root",
+          ".",
+          "issue",
+          "--issue",
+          "570"
+        ],
+        "purpose": "Run typed C-SDLC validation after review recovery and card repairs.",
+        "outcome": "passed",
+        "evidence_ref": "csdlc-validate stdout: generation 16 status pass before final SOR normalization; rerun required after this operation."
+      }
+    ]
+  }
+}

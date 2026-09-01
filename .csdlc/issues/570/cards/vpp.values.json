@@ -1,0 +1,105 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 570,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-G] C-SDLC v3 docs and skill cutover readiness",
+    "slug": "v0-92-1-v3-g-c-sdlc-v3-docs-and-skill-cutover-readiness",
+    "version": "v0.92.1",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "docs-stale-route-scan",
+          "proof_role": "Prove updated docs do not present adl_pr_cycle, pr.sh, pr ready, pr preflight, raw GitHub fallback, or premature v3 authority as current workflow routes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/570/validate-docs-routes.sh"
+          ],
+          "parallel_group": "v3-g-docs",
+          "defer_reason": "Runs after documentation changes are made."
+        },
+        {
+          "lane": "skill-guidance-scan",
+          "proof_role": "Prove v2 operator and installed PR skill guidance records until-cutover v2 authority and v3 construction non-authority.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/570/validate-skill-guidance.sh"
+          ],
+          "parallel_group": "v3-g-docs",
+          "defer_reason": "Runs after skill guidance checks and updates are made."
+        },
+        {
+          "lane": "authority-boundary-scan",
+          "proof_role": "Prove changed docs and skill guidance preserve the v2-live/v3-construction boundary and clean replacement truth before V3-F.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/570/validate-authority-boundary.sh"
+          ],
+          "parallel_group": "v3-g-docs",
+          "defer_reason": "Runs after documentation and skill guidance changes are made."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace and malformed diff defects in the bounded #570 diff.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 300,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "v3-g-final",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on any stale route presented as current workflow, premature v3 authority claim, untracked installed-skill divergence, hidden V3-F decision, or attempt to delete/retire v2 inside #570.",
+      "design_ref": ".csdlc/prepared/issues/570/design.md",
+      "design_digest": "d58a5d78a45a00ec04a199fa45d92b1946280982ea8a5e725583013860eae28e",
+      "diagram_ref": ".csdlc/prepared/issues/570/diagram.mmd",
+      "diagram_digest": "da800d63ccb9bf01b74e33d6ac4eea0f6bfc4b1b137d81d0ea92f47e6a1f368d"
+    }
+  }
+}

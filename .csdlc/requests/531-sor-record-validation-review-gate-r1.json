@@ -1,0 +1,20 @@
+{
+  "issue": 531,
+  "card": "sor",
+  "expected_generation": 13,
+  "expected_digest": "20ba164c2415b597a74792716068790709630f235a805ddf8a34be36fea7485a",
+  "actor": "codex",
+  "reason": "Record Sprint 3 review-gate validator after typed review passed and #531 advanced to reviewed.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "docs/milestones/v0.92.1/evidence/cloud/sprint-3/validate-sprint-3-review-gate.sh"
+      ],
+      "purpose": "Prove #531 has non-null typed review evidence before publication.",
+      "outcome": "passed",
+      "evidence_ref": "Command output: sprint-3-review-gate: pass"
+    }
+  }
+}

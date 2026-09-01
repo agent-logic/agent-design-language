@@ -1,0 +1,22 @@
+{
+  "issue": 531,
+  "expected_generation": 12,
+  "expected_digest": "578a24cdad49c2fd580b5f678a4dfe46d8f9a3cf05abbafe37bfe923d7d9dc47",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "review_531_sprint3_closeout",
+    "scope": [
+      ".csdlc/prepared/issues/531",
+      "docs/milestones/v0.92.1/evidence/cloud/sprint-3"
+    ],
+    "reviewed_revision": "git-blake3:9e3adb91fd2299f520c8e86bf0b7c9d0e7d29c3e:08257dc35e118f64d83f43491a1af3257f7a00d711b0cdaa4f115d1468bbff9c",
+    "findings": [],
+    "residual_risks": [
+      "Local child C-SDLC terminal and cleanup state for #489, #494, #495, and #496 remains not recorded in this checkout.",
+      "Skipped child CI lanes remain skipped evidence and are not claimed as passed.",
+      "The Sprint 3 umbrella closeout does not claim new paid AWS/GCP execution or production cutover."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

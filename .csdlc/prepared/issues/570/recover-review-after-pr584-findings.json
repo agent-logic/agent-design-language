@@ -1,0 +1,7 @@
+{
+  "issue": 570,
+  "expected_generation": 10,
+  "expected_digest": "7155902b8c51823c3b66296c11869570b4affd8a73abaabd65d2a88f64edfaf4",
+  "actor": "codex:worker-6",
+  "reason": "Recover #570 after PR #584 exact-head review found stale-route and SOR-truth defects requiring bounded remediation before republication."
+}

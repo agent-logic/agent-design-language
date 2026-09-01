@@ -1,0 +1,129 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 528,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+    "slug": "vertex-ai-gemini-provider-transport",
+    "version": "v0.92.1",
+    "generation": 29
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Bootstrap #528 from the live issue, approve a design centered on shared Gemini codec reuse plus a distinct Vertex AI transport, bind a FastWork worktree, implement provider/config/auth/receipt/test/doc changes, run focused deterministic provider proof, obtain exact-head review, publish with Closes #528, and finish when green.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and approve the Vertex AI Gemini provider transport design from current issue and #514 dependency truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-7",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Bind #528 in a FastWork worktree and inventory existing provider substrate/Gemini Developer API behavior.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement shared Gemini codec reuse and the distinct Vertex AI transport/config/auth boundary.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Add deterministic provider, streaming, UTS tool, error, cancellation, and redaction proof plus operator docs/live-smoke packet.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Record truthful SOR/SRP state, obtain fresh exact-head review, publish with Closes #528, and finish when required checks are green.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl/src/provider_adapter.rs",
+        "adl/src/provider_substrate.rs",
+        "adl/src/provider_communication.rs",
+        "adl/tests",
+        "docs/operations",
+        "docs/validation/pvf_lanes.json",
+        ".csdlc/prepared/issues/528/validate-vertex-ai-provider-transport.sh",
+        ".csdlc/prepared/issues/528/run-live-vertex-smoke.sh",
+        ".csdlc/prepared/issues/528",
+        ".csdlc/evidence/528"
+      ],
+      "invariants": [
+        "Existing Gemini Developer API semantics stay compatible",
+        "Vertex AI is distinguishable from Gemini Developer API in configuration and receipts",
+        "No credential material, access tokens, prompt bodies, or raw sensitive responses are logged or committed",
+        "Local deterministic proof does not claim live Vertex AI provider success",
+        "Provider error classification remains common across transports where applicable",
+        "UTS tool names and arguments are preserved exactly through normalization"
+      ],
+      "risks": [
+        "Codec extraction could regress the existing Gemini Developer API route",
+        "Vertex AI endpoint construction could accidentally hard-code project, location, or publisher defaults",
+        "Auth implementation could leak access tokens or credential paths in logs/receipts",
+        "Tool-call argument normalization could diverge between Gemini transports",
+        "Live Vertex behavior may differ from deterministic fixtures and requires separately governed proof"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Implementation requires reading or exposing credential contents",
+        "A live paid Vertex AI call would be needed without explicit operator authorization",
+        "A change rewrites unrelated providers or replaces existing Gemini Developer API behavior without focused compatibility proof",
+        "The transport cannot preserve UTS tool names and arguments through deterministic tests",
+        "The work attempts to mutate GCP IAM/API/billing/organization policy",
+        "The issue cannot be bound under /Volumes/FastWork/adl-worktrees through typed v2"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/528/design.md",
+      "design_digest": "3c3bddc9b94c407bbd6e70a2a8e29f15df162ee39493f09787361d7a3007d5f4",
+      "diagram_ref": ".csdlc/prepared/issues/528/diagram.mmd",
+      "diagram_digest": "e6676e2e88750ea4db2327dfe7187c3e0b43806b6cdc1f17ddbf9959a91d3179"
+    }
+  }
+}

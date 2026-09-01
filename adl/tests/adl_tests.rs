@@ -909,7 +909,7 @@ run:
 }
 
 #[test]
-fn validate_accepts_native_openai_and_anthropic_provider_kinds() {
+fn validate_accepts_native_openai_anthropic_and_vertex_provider_kinds() {
     let yaml = r#"
 version: "0.5"
 providers:
@@ -921,6 +921,12 @@ providers:
     type: "anthropic"
     config:
       provider_model_id: "claude-test"
+  vertex_primary:
+    type: "vertex_ai_gemini"
+    config:
+      project: "company-project"
+      location: "us-west1"
+      provider_model_id: "gemini-2.5-flash"
 agents:
   a1:
     provider: "openai_primary"
@@ -937,7 +943,7 @@ run:
 "#;
     let doc: AdlDoc = serde_yaml::from_str(yaml).expect("yaml parse");
     doc.validate()
-        .expect("native OpenAI/Anthropic provider kinds should validate");
+        .expect("native OpenAI/Anthropic/Vertex AI provider kinds should validate");
 }
 
 #[test]

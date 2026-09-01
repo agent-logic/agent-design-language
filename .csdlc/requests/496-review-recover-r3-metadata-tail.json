@@ -1,0 +1,7 @@
+{
+  "issue": 496,
+  "expected_generation": 14,
+  "expected_digest": "23e1d96964b75f8982af1eca985631975994338bde04e76c9efcc10d0ca33896",
+  "actor": "codex:/root",
+  "reason": "Recover #496 after publication guard reported review_publication_dead_end because the R3 reviewed revision included non-clean assignment metadata; reassign against the current clean committed head before publication."
+}

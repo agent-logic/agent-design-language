@@ -1,0 +1,10 @@
+flowchart LR
+  A["#488 AWS-E terminal<br/>adoption register"] --> X["#495 XCL-01<br/>portable Runtime workload contract"]
+  G["#493 GCP-D terminal<br/>platform foundation"] --> X
+  X --> P["infra/runtime-portable<br/>provider-neutral contract"]
+  X --> AWS["infra/aws/runtime<br/>AWS implementation"]
+  X --> GCP["infra/gcp/workloads<br/>GCP implementation"]
+  AWS -. "rollback retained" .-> CF["#194/#268<br/>CloudFormation templates"]
+  X -. "unlocks" .-> R["#496 AWS-G<br/>retirement decision"]
+  X -. "later input" .-> D["DRT-D / release gates"]
+  GPUE["#494 GCP-E GPU smoke"] -. "separate" .- X

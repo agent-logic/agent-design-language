@@ -1,0 +1,21 @@
+{
+  "issue": 578,
+  "card": "sor",
+  "expected_generation": 17,
+  "expected_digest": "87c03731df6409578ec46b9beeb9b5b72bbd5bf2e0132162af0d7be57bd4e0b1",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "actor": "codex:root",
+  "reason": "Record credentialed live GLM-5.3-Flash reviewer-viability smoke proof after the operator identified the operator-approved ZAI_API_KEY source.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "env ZAI_API_KEY=<redacted from operator-approved ZAI_API_KEY source> .csdlc/prepared/issues/578/glm-5-3-flash-reviewer-viability-smoke.sh"
+      ],
+      "purpose": "Prove the direct Z.ai GLM-5.3-Flash profile can complete a reviewer-viability hosted request with the operator-approved credential source, bounded reviewer-fast parameters, one attempt, and the 45-second timeout.",
+      "outcome": "passed",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/live-proof-redacted-summary.json live_smoke final_status=ok http_status=200 duration_ms=1714 output_text_excerpt=[redacted provider text len=21]"
+    }
+  },
+  "fail_after_backup": false
+}

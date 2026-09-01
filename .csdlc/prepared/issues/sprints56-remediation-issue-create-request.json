@@ -1,0 +1,18 @@
+{
+  "action": "issue_create",
+  "repository": "agent-logic/agent-design-language",
+  "operation_key": "worker-6-sprints56-remediation-issue-20260831",
+  "token_file": null,
+  "issue": null,
+  "pull_request": null,
+  "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover review blockers",
+  "body": "Track the bounded remediation branch for the Sprint 5/6 cutover review synthesis.\n\nScope:\n- Keep C-SDLC v2 as live authority until #505 is explicitly reviewed and approved for cutover.\n- Repair the Sprint 5/6 review findings that block PR #591 and V3-F readiness.\n- Keep #570 and #571 as explicit gate evidence.\n- Preserve #505 as the authority-transition decision issue; this issue must not replace or close #505.\n\nAcceptance:\n- PR #591 does not prematurely close #505.\n- Standalone csdlc-v3 locked CI selection is enforced for v3 changes.\n- v3 construction uses a single csdlc binary shape.\n- v2 import verifies issue/card digest integrity.\n- v3 durable storage, review, finish, and cleanup findings have focused behavioral proof.\n- OBS-A/#511 and OBS-B/#512 canaries are exercised against real issue records.\n- The remediation PR includes a visible closing keyword for this issue only.\n\nNon-goals:\n- Do not cut over authority from v2 to v3.\n- Do not merge, finish, or clean #505.\n- Do not use raw gh transport.",
+  "labels": [],
+  "assignees": [],
+  "milestone": null,
+  "state": null,
+  "comment_body": null,
+  "required_checks": [],
+  "require_review": false,
+  "linked_issue": null
+}

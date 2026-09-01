@@ -1,0 +1,119 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 570
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Bootstrap #570, review and align the named documentation and skill surfaces, update only bounded guidance needed for v3 cutover readiness, verify with stale-route and skill-guidance scans, record truthful local-only installed-skill status if touched, and publish a reviewed PR without changing live authority.
+
+## Plan
+
+Revision 2
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Bootstrap #570 typed issue state and confirm docs/skills scope against Sprint 6 #534.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S2",
+    "action": "Update v3 README/AGENTS and root/onboarding documentation with construction-only, clean replacement, and three-minute start guidance.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S3",
+    "action": "Update v2 operator docs and all eleven v2 operator skill files with until-cutover authority wording and v3 non-authority guardrails.",
+    "acceptance_ids": [
+      "AC-3"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S4",
+    "action": "Check installed Codex PR skills and record whether any local-only updates were needed.",
+    "acceptance_ids": [
+      "AC-4"
+    ],
+    "status": "completed"
+  },
+  {
+    "id": "S5",
+    "action": "Run stale-route, skill-guidance, diff-hygiene, and authority-boundary review proof before publication.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "completed"
+  }
+]
+
+## Invariants
+
+- v2 remains the sole live lifecycle authority until explicit V3-F/#505 cutover.
+- v3 construction cannot mutate lifecycle state before cutover.
+- Documentation must describe clean replacement, not permanent coexistence.
+- The three-minute prepared-issue start target simplifies ceremony without removing typed v2 guards, review, validation, publication, finish, or cleanup truth.
+- Installed PR skill updates outside the repository are local-only unless separately tracked.
+
+## Risks
+
+- A doc or skill could accidentally claim v3 is already current authority.
+- A stale route such as adl_pr_cycle, pr.sh, pr ready, or pr preflight could remain presented as current guidance.
+- Installed skills could diverge from tracked guidance without SOR disclosure.
+- The issue could expand into V3-F cutover or v2 deletion instead of readiness.
+
+## Estimates
+
+{
+  "elapsed_seconds": 21600,
+  "total_tokens": 80000,
+  "validation_seconds": 3600
+}
+
+## Design
+
+.csdlc/prepared/issues/570/design.md
+
+Digest: d58a5d78a45a00ec04a199fa45d92b1946280982ea8a5e725583013860eae28e
+
+## Diagram
+
+.csdlc/prepared/issues/570/diagram.mmd
+
+Digest: da800d63ccb9bf01b74e33d6ac4eea0f6bfc4b1b137d81d0ea92f47e6a1f368d
+
+## Stop Conditions
+
+- Any doc or skill claims v3 is current authority before V3-F.
+- Any doc or skill revives removed v1/compatibility wrappers as normal ADL workflow.
+- The issue attempts to delete v2 or make the V3-F authority decision.
+- Installed skill changes cannot be recorded truthfully as local-only.
+
+## Handoff
+
+Proceed only after doctor readiness.

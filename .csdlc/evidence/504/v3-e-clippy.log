@@ -1,0 +1,11 @@
+    Checking memchr v2.8.3
+    Checking cfg-if v1.0.4
+    Checking itoa v1.0.18
+    Checking constant_time_eq v0.4.2
+    Checking arrayvec v0.7.8
+    Checking zmij v1.0.23
+    Checking serde_core v1.0.229
+    Checking blake3 v1.8.7
+    Checking serde_json v1.0.151
+    Checking csdlc-v3 v0.1.0 (/Volumes/FastWork/adl-worktrees/adl-issue-504-v3-e-remote-delivery-workflow-exec/csdlc-v3)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.57s

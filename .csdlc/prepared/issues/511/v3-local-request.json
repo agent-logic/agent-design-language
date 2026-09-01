@@ -1,0 +1,9 @@
+{
+  "issue": 511,
+  "title": "[v0.92.1][OBS-A] Observatory experience design",
+  "repository": "agent-logic/agent-design-language",
+  "branch": "codex/511-obs-a-observatory-experience-design",
+  "worktree": "adl-worktrees/adl-issue-511-obs-a-observatory-experience-design",
+  "registry_version": "1.0.3",
+  "commands": ["prepare_issue", "bind_worktree", "plan_pvf", "doctor"]
+}

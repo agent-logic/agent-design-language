@@ -1,0 +1,8 @@
+flowchart TD
+  I592["#592 Polis GCP Vertex AI"]
+  I528["#528 Vertex AI Gemini provider transport"]
+  CONFIG["Explicit GCP project/location/model/credential config"]
+  RUNTIME["Governed Runtime/provider route"]
+  EVIDENCE["Redacted validation evidence"]
+  I528 --> I592
+  I592 --> CONFIG --> RUNTIME --> EVIDENCE

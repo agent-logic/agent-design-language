@@ -2,6 +2,11 @@
 name: csdlc-v2-init
 description: Create all six C-SDLC v2 cards and canonical issue state from typed input.
 ---
+C-SDLC v2 remains the live lifecycle authority only until explicit V3-F/#505
+cutover. Before that cutover, `csdlc-v3/**` is non-authoritative construction
+evidence and must not create, initialize, repair, or mutate live lifecycle
+state.
+
 Invoke `csdlc-issue --root <repo> create --request <json>`. Do not edit
 Markdown/state, invoke shell/Python lifecycle logic, bind a worktree, or infer
 success from prose. The installed v2 generation remains the sole operational

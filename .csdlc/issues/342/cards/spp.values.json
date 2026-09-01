@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 342,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-24A] Podcast Studio first ten episodes",
+    "slug": "podcast-studio-first-ten-episodes",
+    "version": "v0.92.1",
+    "generation": 29
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 5,
+      "summary": "After fresh design approval and exact collision-free allocation, bind #342 in FastWork, revalidate preserved Episode 001, produce complete Episodes 002-010 in truthful checkpoints, run integrated package and negative proof, obtain exact-head editorial/audio review, and hand terminal package inputs to #262 without publication.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Approve current identity, dependency graph, denominator, and exact #261/#262 path allocation before bind.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Revalidate preserved Episode 001 and produce complete Episodes 002-010 in package-complete checkpoints.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run integrated package, audio, manifest, feed/enclosure-parity, rights, redaction, and negative validation.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain exact-head editorial/audio review and prepare the non-publication handoff to #262.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "demos/podcast/episode-packages",
+        "demos/podcast/episode-packages/feed-fragment.xml",
+        ".csdlc/issues/342",
+        ".csdlc/evidence/342",
+        ".csdlc/prepared/issues/342/design.md",
+        ".csdlc/prepared/issues/342/diagram.mmd",
+        ".csdlc/prepared/issues/342/validate-readiness.rb",
+        ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+        ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb"
+      ],
+      "invariants": [
+        "Ten-package denominator never shrinks",
+        "Legacy lifecycle/evidence remains immutable",
+        "Package claims are exact and checkpoint-local",
+        "External actions require separate authority",
+        "Current repository identity is explicit in every lifecycle operation"
+      ],
+      "risks": [
+        "Legacy Episode 001 review may be stale at a future head",
+        "Artwork/feed paths overlap semantically with #261/#262 until exact allocation",
+        "Large audio artifacts can hide digest or metadata drift",
+        "Consent, rights, redaction, or synthetic-voice provenance can be overstated"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Unresolved exact path allocation with #261 or #262",
+        "Active overlapping product worktree",
+        "Episode package denominator mismatch",
+        "Missing rights, consent, redaction, or provenance evidence",
+        "Need for deployment, provider, mailbox, directory, or publication action",
+        "Fresh design review finding"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/342/design.md",
+      "design_digest": "afd2da027811ef9cb66d4bd2d00ac1226ee165788516e0bd6ed199fefd1d3960",
+      "diagram_ref": ".csdlc/prepared/issues/342/diagram.mmd",
+      "diagram_digest": "0e14c559d412ef7519ec4b50fcb5f271c27352e82a1dfa9342b6e2a264ce84e1"
+    }
+  }
+}

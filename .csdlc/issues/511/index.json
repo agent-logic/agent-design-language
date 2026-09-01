@@ -1,0 +1,82 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 511,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b1bec6b9c3b06fe85ce6204828d243c70533af7214981c5ff1f8f3acbe0a70d9",
+  "phase": "ready",
+  "generation": 1,
+  "digest": "f9c74cb5e32580e18276bb36bdccd07c80bab012851b7743c6903e7302f8bbdd",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/511/design.md",
+  "diagram_path": ".csdlc/prepared/issues/511/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:worker-6:precutover-design-review",
+      "revision": "5c2405bb74605f5fb10fc4bfd9e8eda98927b120b2af1f00dc50a45970411748"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c0c86f40ccf2dd38192f5a1d33ec37b29a070078d180a4e8b0639ebfe22128e2",
+      "rendered_digest": "116e485e37331d4e7c33aac7ade03f8d600aac7c3f78410ba136d67aec76b7fc",
+      "ast_digest": "d000277a09e43c5feb919d8344ff8d8ccc599236cfbf6b9ca8e7f4d9b0efd5da"
+    },
+    "stp": {
+      "values_digest": "e056012f4ff3af7ab648dca74347f04de58074bbe253810bd4f2e1e84ef9ffa9",
+      "rendered_digest": "f1b244b497cb718ee934cb05cfebd4e9cb8af70a295a5f08270df5bcdb96477a",
+      "ast_digest": "8c648bc816dfc41365a6ce4b39d4174b19d63f8091b661d1948b96255dd18be3"
+    },
+    "spp": {
+      "values_digest": "0455226f6fce3ad27ea5c924b05022d46935fe27b1ba089a3c5eaee749abfa88",
+      "rendered_digest": "888ebf6b337be7fec1e2c4547f46d60eaf298af39f3e28eb6f11e382c7303cdb",
+      "ast_digest": "120b840bd05512669feb0d52798e24b30f8197eea88dc0858dbcf4c68bdac293"
+    },
+    "vpp": {
+      "values_digest": "d7510f0a9a5427301047dc2538254b65e693e966873172f0fb32c005a78539af",
+      "rendered_digest": "672d5d890e3e1d75ecb694190f8bd61d9c8ffda7da6e70e110e12b2bfc7e8143",
+      "ast_digest": "473b1f8af4f5a4b966cde73f88c8398ec5bd2149e61ff46fee4c266c6118482d"
+    },
+    "srp": {
+      "values_digest": "a7ef47de7db5b24c5b3d6a1d8f2ac4a85d214d90f792420fbe3842e199d95cdd",
+      "rendered_digest": "163b7deef3293cf294af2afda037b472fa5ce7d7fa18c49a161d968f2f885164",
+      "ast_digest": "94e2594b4799e1f7d9ff1af83e28087481b72b09878eef7baa858d86cdf550cc"
+    },
+    "sor": {
+      "values_digest": "32e009b39d51c843d42899d7095a4b31cfb51572a2e8f9cde8cdbde0db113052",
+      "rendered_digest": "d0562a714e1daf1a9bd019977bdfeeee41cb4cb1eb59ef8e7fb3933e5a9ec84e",
+      "ast_digest": "f7dea182dc897f97c6e4b42c32ac41ae1cbab621ad1c0107848ca8f4a1916a01"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:worker-6:obs-ready-canary",
+      "reason": "OBS-A has no remote dependencies; bootstrap, v2 validation, and single-binary v3 local canary passed. Stop before implementation binding."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-6",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-6:obs-ready-canary",
+      "reason": "OBS-A has no remote dependencies; bootstrap, v2 validation, and single-binary v3 local canary passed. Stop before implementation binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    }
+  ]
+}

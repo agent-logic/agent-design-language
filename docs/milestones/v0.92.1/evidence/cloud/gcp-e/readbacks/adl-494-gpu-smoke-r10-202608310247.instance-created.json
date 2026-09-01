@@ -1,0 +1,149 @@
+{
+  "canIpForward": false,
+  "cpuPlatform": "Intel Cascade Lake",
+  "creationTimestamp": "2026-08-30T19:25:04.490-07:00",
+  "deletionProtection": false,
+  "disks": [
+    {
+      "autoDelete": true,
+      "boot": true,
+      "deviceName": "persistent-disk-0",
+      "diskSizeGb": "100",
+      "guestOsFeatures": [
+        {
+          "type": "VIRTIO_SCSI_MULTIQUEUE"
+        },
+        {
+          "type": "UEFI_COMPATIBLE"
+        },
+        {
+          "type": "GVNIC"
+        }
+      ],
+      "index": 0,
+      "interface": "NVME",
+      "kind": "compute#attachedDisk",
+      "licenses": [
+        "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-dlvm",
+        "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-gvnic",
+        "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-py310",
+        "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-gpu-common-cu129",
+        "https://www.googleapis.com/compute/v1/projects/click-to-deploy-images/global/licenses/c2d-dl-platform-ubuntu-2204"
+      ],
+      "mode": "READ_WRITE",
+      "source": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/disks/adl-494-gpu-smoke-r10-202608310247-vm",
+      "type": "PERSISTENT"
+    }
+  ],
+  "fingerprint": "FOOs3EFJddg=",
+  "guestAccelerators": [
+    {
+      "acceleratorCount": 1,
+      "acceleratorType": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/acceleratorTypes/nvidia-l4"
+    }
+  ],
+  "id": "3166162984971622639",
+  "kind": "compute#instance",
+  "labelFingerprint": "qdjHL9FBF2c=",
+  "labels": {
+    "app": "adl",
+    "goog-terraform-provisioned": "true",
+    "issue": "494",
+    "lane": "gcp-e",
+    "milestone": "v0-92-1",
+    "owner": "agent-logic",
+    "run_id": "adl-494-gpu-smoke-r10-202608310247",
+    "ttl": "disposable"
+  },
+  "lastStartTimestamp": "2026-08-30T19:25:12.818-07:00",
+  "machineType": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/machineTypes/g2-standard-4",
+  "metadata": {
+    "fingerprint": "YD3enXcQqeA=",
+    "items": [
+      {
+        "key": "adl-cleanup-required",
+        "value": "true"
+      },
+      {
+        "key": "adl-issue",
+        "value": "494"
+      },
+      {
+        "key": "adl-max-budget-usd",
+        "value": "20"
+      },
+      {
+        "key": "adl-model-name",
+        "value": "gpu-smoke-local"
+      },
+      {
+        "key": "adl-run-id",
+        "value": "adl-494-gpu-smoke-r10-202608310247"
+      },
+      {
+        "key": "adl-ttl-expires-at",
+        "value": "2026-08-31T06:24:48Z"
+      },
+      {
+        "key": "enable-oslogin",
+        "value": "TRUE"
+      },
+      {
+        "key": "startup-script",
+        "value": "#!/bin/bash\nset -euo pipefail\ninstall -d -m 0755 /var/lib/adl /var/log/adl\n{\n  printf 'issue=494\\n'\n  printf 'run_id=%s\\n' 'adl-494-gpu-smoke-r10-202608310247'\n  printf 'machine_type=%s\\n' 'g2-standard-4'\n  printf 'accelerator_type=%s\\n' 'nvidia-l4'\n  printf 'accelerator_count=%s\\n' '1'\n  printf 'model_name=%s\\n' 'gpu-smoke-local'\n  date -u '+started_at=%Y-%m-%dT%H:%M:%SZ'\n  if command -v nvidia-smi >/dev/null 2>&1; then\n    nvidia-smi --query-gpu=name,driver_version,memory.total,memory.free --format=csv,noheader || true\n  else\n    printf 'nvidia_smi=missing\\n'\n  fi\n  free -h || true\n  df -h / || true\n  date -u '+finished_at=%Y-%m-%dT%H:%M:%SZ'\n} >/var/log/adl/issue494-gpu-smoke.log 2>&1\ntouch /var/lib/adl/issue494-startup-complete\n"
+      }
+    ],
+    "kind": "compute#metadata"
+  },
+  "name": "adl-494-gpu-smoke-r10-202608310247-vm",
+  "networkInterfaces": [
+    {
+      "fingerprint": "7ORr5E9tuFw=",
+      "kind": "compute#networkInterface",
+      "name": "nic0",
+      "network": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/global/networks/default",
+      "networkIP": "10.128.0.4",
+      "stackType": "IPV4_ONLY",
+      "subnetwork": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/regions/us-central1/subnetworks/default"
+    }
+  ],
+  "resourceStatus": {
+    "effectiveInstanceMetadata": {
+      "enableOsloginMetadataValue": true,
+      "vmDnsSettingMetadataValue": "ZonalOnly"
+    }
+  },
+  "satisfiesPzi": true,
+  "scheduling": {
+    "automaticRestart": false,
+    "onHostMaintenance": "TERMINATE",
+    "preemptible": false,
+    "provisioningModel": "STANDARD"
+  },
+  "selfLink": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a/instances/adl-494-gpu-smoke-r10-202608310247-vm",
+  "serviceAccounts": [
+    {
+      "email": "adl-494-gpu-smoke-gpu@cs-poc-cha8mmii0xk0iaw5vpf8mxf.iam.gserviceaccount.com",
+      "scopes": [
+        "https://www.googleapis.com/auth/cloud-platform"
+      ]
+    }
+  ],
+  "shieldedInstanceConfig": {
+    "enableIntegrityMonitoring": true,
+    "enableSecureBoot": false,
+    "enableVtpm": true
+  },
+  "shieldedInstanceIntegrityPolicy": {
+    "updateAutoLearnPolicy": true
+  },
+  "startRestricted": false,
+  "status": "RUNNING",
+  "tags": {
+    "fingerprint": "okp3GrMPvpc=",
+    "items": [
+      "adl-494-gpu-smoke"
+    ]
+  },
+  "zone": "https://www.googleapis.com/compute/v1/projects/cs-poc-cha8mmii0xk0iaw5vpf8mxf/zones/us-central1-a"
+}

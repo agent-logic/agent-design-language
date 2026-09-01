@@ -441,7 +441,7 @@
         "<dynamic-heading>",
         "Main Repo Integration (REQUIRED)"
       ],
-      "text": "- By `pr finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure)."
+      "text": "- By typed `csdlc-finish`, `Status` should normally be `DONE` (or `FAILED` if the run failed and the record is documenting that failure)."
     }
   ]
 }

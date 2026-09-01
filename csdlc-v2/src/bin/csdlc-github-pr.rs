@@ -3,7 +3,8 @@ use std::{fs, path::PathBuf};
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
     github::{collect_pr_state, PrStateRequest},
-    public_schema_bundle, write_json_stdout, ErrorCode, GithubAction, GithubActionRequest, V2Error,
+    public_schema_bundle, verify_installed_owner_operation, write_json_stdout, ErrorCode,
+    GithubAction, GithubActionRequest, V2Error,
 };
 
 #[derive(Parser)]
@@ -60,18 +61,31 @@ async fn main() {
 }
 
 async fn state(path: &PathBuf) -> csdlc_v2::Result<serde_json::Value> {
+    verify_installed_owner_operation(&std::env::current_dir()?, "state")?;
     let request: PrStateRequest = serde_json::from_slice(&fs::read(path)?)?;
     serde_json::to_value(collect_pr_state(&request).await?).map_err(Into::into)
 }
 
 async fn run(path: &PathBuf) -> csdlc_v2::Result<serde_json::Value> {
     let request: GithubActionRequest = serde_json::from_slice(&fs::read(path)?)?;
-    if !matches!(request.action, GithubAction::PrState) {
+    if !matches!(
+        request.action,
+        GithubAction::PrState | GithubAction::PrCreate | GithubAction::PrUpdate
+    ) {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "csdlc-github-pr only accepts pr_state actions; use csdlc-github-issue for issue actions",
+            "csdlc-github-pr only accepts pr_state, pr_create, or pr_update actions; use csdlc-github-issue for issue actions",
         ));
     }
+    if matches!(
+        request.action,
+        GithubAction::PrCreate | GithubAction::PrUpdate
+    ) {
+        verify_installed_owner_operation(&std::env::current_dir()?, "pr-write")?;
+        return serde_json::to_value(csdlc_v2::execute_github_action(&request).await?)
+            .map_err(Into::into);
+    }
+    verify_installed_owner_operation(&std::env::current_dir()?, "state")?;
     let pr_request = PrStateRequest::try_from(&request)?;
     serde_json::to_value(collect_pr_state(&pr_request).await?).map_err(Into::into)
 }

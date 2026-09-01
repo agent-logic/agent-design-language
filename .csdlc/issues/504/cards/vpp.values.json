@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 504,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
+    "slug": "v3-e-remote-delivery-workflow",
+    "version": "v0.92.1",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "prebind-v3-e-preparation",
+          "proof_role": "Prove the ready/unbound #504 preparation packet preserves the #503 terminal dependency, V3-E acceptance denominator, v2 authority boundary, v3 construction-only boundary, and future visible `Closes #504` publication linkage requirement.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/504/validate-remote-workflow.rb"
+          ],
+          "parallel_group": "504-prebind-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed if any v3 remote delivery surface mutates live lifecycle state, if #503 is not terminal and ancestral before implementation, if publication omits visible closing linkage, or if review/finish/cleanup gates can be bypassed.",
+      "design_ref": ".csdlc/prepared/issues/504/design.md",
+      "design_digest": "6eb4d3c5e97fb57e8cf22a8d2d689e54a012aa5c0dd8f8df9a1e7c2c206413c6",
+      "diagram_ref": ".csdlc/prepared/issues/504/diagram.mmd",
+      "diagram_digest": "5421dcacb842a64acf16491135479b08ed32764db8b008dabea548a16db052e6"
+    }
+  }
+}

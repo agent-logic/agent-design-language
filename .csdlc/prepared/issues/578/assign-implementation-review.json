@@ -1,0 +1,20 @@
+{
+  "issue": 578,
+  "expected_generation": 4,
+  "expected_digest": "340c5d15a4ebce1ce4064b197cc1809a6ee2b287a02edb7a6830ef439198cc72",
+  "claim_id": "claim-578-glm-5-3-flash-provider-profile",
+  "reviewer": "fresh-session:b8205d48-4329-489e-9298-4449cf0552d8",
+  "assigned_by": "codex:root",
+  "scope": [
+    "adl/src/provider/profiles.rs",
+    "adl/src/provider/http_family.rs",
+    "adl/src/provider/http_family/config.rs",
+    "adl/tests/provider_tests/profiles.rs",
+    "adl/tests/provider_tests/http_family.rs",
+    "docs/provider/inference-profiles.md",
+    "docs/tooling/PROVIDER_SETUP.md",
+    "docs/milestones/v0.92.1/evidence/provider/glm-5-3-flash/README.md",
+    ".csdlc/prepared/issues/578/reviewer-selection-smoke.sh",
+    ".csdlc/prepared/issues/578/tooling-issue-bind-prepared-helper-materialization.md"
+  ]
+}

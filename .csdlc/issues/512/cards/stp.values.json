@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 512,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][OBS-B] Observatory redesign implementation",
+    "slug": "obs-b-observatory-redesign-implementation",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Exactly one implemented HTML Observatory redesign consuming authentic Runtime projections.",
+      "deliverables": [
+        "OBS-A contract implementation",
+        "Authentic Runtime projection consumption",
+        "Browser and accessibility proof",
+        "Redaction and recovery proof",
+        "Review-ready OBS-B evidence packet",
+        ".csdlc/prepared/issues/512/validate-obs-b-browser.sh",
+        ".csdlc/prepared/issues/512/validate-obs-b-accessibility.sh",
+        ".csdlc/prepared/issues/512/validate-obs-b-redaction.sh",
+        ".csdlc/prepared/issues/512/validate-obs-b-recovery.sh"
+      ],
+      "acceptance_criteria": [
+        "AC-1: OBS-A contracts are implemented",
+        "AC-2: Runtime projections are source-grounded",
+        "AC-3: Accessibility and recovery cases pass",
+        "AC-4: No mock substitutes for the required Runtime route",
+        "AC-5: One-command pre-cutover canary passes but execution remains blocked until #511 and #536 are terminal"
+      ],
+      "dependencies": [
+        "#511 reviewed and terminal",
+        "#536 Sprint 8 coordination terminal"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#512",
+        "agent-logic/agent-design-language#511",
+        "agent-logic/agent-design-language#536",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/styles.css",
+        "adl/tools/validate_layer8_authority_observatory_ui.sh"
+      ],
+      "non_goals": [
+        "TLS 1.2 implementation owned by #251",
+        "Public exposure owned by #122",
+        "Unity integration owned by independent backlog #84",
+        "Mock Runtime substitution"
+      ]
+    }
+  }
+}

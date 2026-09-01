@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 342,
+  "expected_generation": 20,
+  "expected_digest": "495d3a0a6a370b8b8059ac357822b30576a15ed87f78dd9d71cff3fb40d9dc8c",
+  "claim_id": "claim-342-podcast-source-package-checkpoint",
+  "reviewer": "codex-task:01a049d0-40ad-7b32-a59e-5c7ebe083ee7",
+  "assigned_by": "codex:/root/sprint8-podcast-lane",
+  "scope": [
+    "demos/podcast/episode-packages/**",
+    ".csdlc/issues/342",
+    ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+    ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
+    ".csdlc/prepared/issues/342/validate-readiness.rb"
+  ]
+}

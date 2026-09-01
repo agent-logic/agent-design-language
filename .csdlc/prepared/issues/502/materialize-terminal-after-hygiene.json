@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.terminal_materialize_request.v1",
+  "issue": 502,
+  "expected_generation": 31,
+  "expected_digest": "4bd0dc158deb7e948e6367e4202360cfc0ac6a74f44e6bd30ff6f5c6ee33e16a",
+  "actor": "worker-6",
+  "reason": "Materialize #502 terminal truth after live PR #572 readback showed a merged closing PR with green checks and exact-head PASS review evidence, and current-main transaction tests passed for durable/recovery behavior."
+}

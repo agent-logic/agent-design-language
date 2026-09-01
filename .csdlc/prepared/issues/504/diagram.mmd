@@ -1,0 +1,9 @@
+flowchart LR
+  A["#503 terminal, reconciled, ancestral"] -->|required before bind| B["#504 V3-E execution worktree"]
+  B --> C["Exact review scope"]
+  C --> D["Explicit publication modes"]
+  D --> E["Terminal finish truth"]
+  E --> F["Separate cleanup eligibility"]
+  D --> G["Future PR body visibly contains Closes #504"]
+  H["C-SDLC v2 live authority"] -. "remains authority until V3-F/#505" .-> B
+  I["C-SDLC v3 construction-only"] -. "no live lifecycle mutation before cutover" .-> C

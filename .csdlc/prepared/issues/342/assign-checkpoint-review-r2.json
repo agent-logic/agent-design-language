@@ -1,0 +1,14 @@
+{
+  "issue": 342,
+  "expected_generation": 21,
+  "expected_digest": "4134626da385af2d37da66e01d844d401ba6b97e704239b876a95d0ba4d409d8",
+  "reviewer": "codex-task:01a049d3-b6c6-7042-92f2-719766d4d19f",
+  "assigned_by": "codex:/root/sprint8-podcast-lane",
+  "scope": [
+    "demos/podcast/episode-packages/**",
+    ".csdlc/issues/342",
+    ".csdlc/prepared/issues/342/validate-episode-packages.rb",
+    ".csdlc/prepared/issues/342/validate-integrated-podcast-proof.rb",
+    ".csdlc/prepared/issues/342/validate-readiness.rb"
+  ]
+}
