@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/589
-adl-runtime-kernel
-adl-runtime
-adl
-infra/aws/csm-runtime-health
-infra/runtime-v3/runtime-init.toml
+
 
 ## Prompts
 
@@ -35,12 +30,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live AWS operations were not repeated for the lifecycle-only final commit; the retained live proof remains bound to the unchanged implementation.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:cb0d306132c2762e64f4a9d7a271ac4605e6d242:55d600c98932c61548e230c6e42075d07649b60d0efdf9235b14f2714a4f8d8e")
+Revision: None
 
-Reviewer: Some("subagent:/root/issue_589_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

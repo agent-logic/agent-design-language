@@ -22,3 +22,4 @@
 {"sequence":22,"generation":16,"actor":"codex-issue-589","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":23,"generation":17,"actor":"subagent:/root/issue_589_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":24,"generation":18,"actor":"codex-issue-589","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":25,"generation":19,"actor":"codex-issue-589","reason":"Recover exact-review truth after the published Linux CI lane exposed and the branch fixed a platform-specific dead-code warning in the CSM plist argument field.","operation":"recover_review"}
