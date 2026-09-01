@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "547cb594e7d4584c606caae32a9c51b0b62216b4c94832586027b0af471c9002",
+  "generation": 26,
+  "digest": "b569427da21cdf1a923b0fef69ef82168cb349e443db04fc1c06f0550273a7d0",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4ca779bfa8e87bfd9dbe3f746dfab201c7c500c582fb8192e1de2ad80de3c425",
+      "values_digest": "de39f87a6600e169066adac21b2ad7a1c22f5784cbfc30fa630c84ddeaaf6678",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "183e92ca4a7dc68c41c31a9c2e85e1e61a7b5adb87686a0676e83f672937e518",
+      "values_digest": "7d9df11767f2c04eceeddeb739702edb8623443c788b531f44bf7d1d1b0b26eb",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "d51de04f2b8988760232ff729d47f95d10c9fd1ed73a4b02347bc821000ee2d5",
+      "values_digest": "5d53b9db95c3590b1f5d661eacc1da78898f342793cb642051a686f2a4379ef0",
       "rendered_digest": "315bb82392767ff9d0c5acb9c99df4dbc87c4fd82dec36c6bb76bbab7b32cb3f",
       "ast_digest": "569fe120c9e4d45f1e5799229ca53e07754cf71fba0027620a6fdaf4211394af"
     },
     "vpp": {
-      "values_digest": "01c9b38f19ac796995cc24e8571eeb0d814c95d31ff25089dd03273da3699860",
+      "values_digest": "0a1a380c8fda308ef7d2ed96e4e9a27e86a2c91ebf2f7f949041b4cf586f2cb5",
       "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
       "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "cc829462c160b78622fda75637f461ff08cf1fc6f69b35e74653b57e2bb41f5b",
+      "values_digest": "c4dec9b0728a3e5ee639f680f681d4e52724b08d700e266b9cc04dbbdc738b82",
       "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
       "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "6bbdb08f8cf1bbed79f5a52220d57ca1e582273cecdc7b1b6a02a7d785480e72",
-      "rendered_digest": "b9914ce7cefd121f1fd802346b4e97f9c821169cb1a7bb022b9e8b2f37af8916",
-      "ast_digest": "db7839591de1424044cdd0703b994f77ba426709b9c3c5a88034ba80db4e276b"
+      "values_digest": "14751428ea4fecc8b4b8bd9d7ff22564a67a54fe8437abb2ef3160ef6d0e3b57",
+      "rendered_digest": "a611c0797fec9149629972fe6a498b63dd5467e44f335c5cfa07df2e9dc14e0f",
+      "ast_digest": "8d33393577522cfa6b59791f13c9713194259218159247a32b46443c038e5a99"
     }
   },
   "transitions": [
@@ -329,6 +329,34 @@
       "actor": "codex-issue-589",
       "reason": "Record the focused coverage repair and the transaction cleanup regression it exposed before exact-commit review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.\",\"changes\":[\"Current Runtime generation stops and its current HTTPS endpoint disappears before a candidate generation starts.\",\"Guardian ordinary startup no longer creates a separate continuity client.\",\"Readiness requires a fresh Shepherd admission lease.\",\"Health export is allowlisted and emits the active canonical config hash.\",\"CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.\",\"CSM failure-path tests prove transaction cleanup never deletes a pre-existing destination, and coverage-impact routing selects the focused CSM lifecycle tests.\"],\"artifacts\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/observability.rs\",\"infra/aws/csm-runtime-health\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3\"],\"purpose\":\"CSM lifecycle, failure-path, and transaction regression proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 20 passed\"},{\"command\":[\"cargo\",\"llvm-cov\",\"--bin\",\"adl\",\"--json\",\"--summary-only\",\"--\",\"csm_runtime_v3\"],\"purpose\":\"Focused changed-source line coverage proof\",\"outcome\":\"passed\",\"evidence_ref\":\"csm_runtime_v3_cmd.rs: 686/851 lines, 80.61 percent\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Coverage-impact mapping contract proof\",\"outcome\":\"passed\",\"evidence_ref\":\"focused mapping selects cli::csm_runtime_v3_cmd::tests\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\"],\"purpose\":\"Writer recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 10 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"purpose\":\"Shepherd-gated readiness proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 28 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\"],\"purpose\":\"Health-only export and log recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 32 passed\"},{\"command\":[\"csm\",\"runtime-v3\",\"reload\",\"--init\",\".adl/runtime-v3/live/runtime-init.toml\"],\"purpose\":\"Live ordered service lifecycle proof\",\"outcome\":\"passed\",\"evidence_ref\":\"live Wuji HTTPS readiness, observability readiness, and one healthy Shepherd\"},{\"command\":[\"aws\",\"ssm\",\"list-command-invocations\",\"--profile\",\"agent-logic-admin\"],\"purpose\":\"CloudWatch-to-SSM recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"governed Wuji SSM recovery command succeeded\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex-issue-589",
+      "reason": "Make the recorded focused coverage command reproducible from the bound worktree root by naming adl/Cargo.toml explicitly.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 26,
+      "actor": "codex-issue-589",
+      "reason": "Record the focused coverage command as reproducible from the bound worktree root.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.\",\"changes\":[\"Current Runtime generation stops and its current HTTPS endpoint disappears before a candidate generation starts.\",\"Guardian ordinary startup no longer creates a separate continuity client.\",\"Readiness requires a fresh Shepherd admission lease.\",\"Health export is allowlisted and emits the active canonical config hash.\",\"CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.\",\"CSM failure-path tests prove transaction cleanup never deletes a pre-existing destination, and coverage-impact routing selects the focused CSM lifecycle tests.\"],\"artifacts\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/observability.rs\",\"infra/aws/csm-runtime-health\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3\"],\"purpose\":\"CSM lifecycle, failure-path, and transaction regression proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 20 passed\"},{\"command\":[\"cargo\",\"llvm-cov\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"--json\",\"--summary-only\",\"--\",\"csm_runtime_v3\"],\"purpose\":\"Focused changed-source line coverage proof\",\"outcome\":\"passed\",\"evidence_ref\":\"csm_runtime_v3_cmd.rs: 686/851 lines, 80.61 percent\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Coverage-impact mapping contract proof\",\"outcome\":\"passed\",\"evidence_ref\":\"focused mapping selects cli::csm_runtime_v3_cmd::tests\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\"],\"purpose\":\"Writer recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 10 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"purpose\":\"Shepherd-gated readiness proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 28 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\"],\"purpose\":\"Health-only export and log recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 32 passed\"},{\"command\":[\"csm\",\"runtime-v3\",\"reload\",\"--init\",\".adl/runtime-v3/live/runtime-init.toml\"],\"purpose\":\"Live ordered service lifecycle proof\",\"outcome\":\"passed\",\"evidence_ref\":\"live Wuji HTTPS readiness, observability readiness, and one healthy Shepherd\"},{\"command\":[\"aws\",\"ssm\",\"list-command-invocations\",\"--profile\",\"agent-logic-admin\"],\"purpose\":\"CloudWatch-to-SSM recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"governed Wuji SSM recovery command succeeded\"}]}"
     }
   ]
 }

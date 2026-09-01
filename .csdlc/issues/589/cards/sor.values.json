@@ -7,7 +7,7 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 23
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -52,6 +52,8 @@
           "command": [
             "cargo",
             "llvm-cov",
+            "--manifest-path",
+            "adl/Cargo.toml",
             "--bin",
             "adl",
             "--json",

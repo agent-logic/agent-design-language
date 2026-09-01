@@ -56,6 +56,8 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
     "command": [
       "cargo",
       "llvm-cov",
+      "--manifest-path",
+      "adl/Cargo.toml",
       "--bin",
       "adl",
       "--json",
