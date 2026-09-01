@@ -7,24 +7,23 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 76
+    "generation": 78
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "The Terraform two-node path launched successfully and proved two-model GPU residency, then exposed an unset-HOME bootstrap defect before Runtime proof. Terraform cleanup terminated both nodes and removed their volumes. The worktree now defines HOME, packages the complete 25 MiB Rust dependency closure, and passes the authorization-bound source revision to Git-free archived validation; final paid proof remains pending exact-head review and rerun.",
+      "summary": "Two real Terraform launches have now proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, and reached Runtime validation, where it exposed a Vector install-root mismatch and failed with exit 69. Both nodes and volumes were destroyed. The install and validator paths now share one explicit root; final paid proof remains pending review and rerun.",
       "actual_changes": [
         "Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.",
         "Replaced the hung single PUT with multipart upload plus fail-closed immutable VersionId verification.",
-        "Observed a real GPU receipt proving llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.",
-        "Observed Runtime cloud-init fail before Rust execution because HOME was unset and recorded the failed receipt without overstating Guardian or six-agent proof.",
-        "Made HOME=/root explicit in both bootstrap scripts and the Ollama systemd unit.",
-        "Reduced the exact reviewed source archive from 335 MiB to 25 MiB while including adl, adl-runtime, adl-runtime-kernel, and adl-resilience, the complete local Rust path-dependency closure required by the Runtime bootstrap.",
-        "Added an extracted-archive contract check that fails if any archived Cargo path target is absent and proves the bundle contains no mutable Git metadata.",
-        "Made the Guardian lifecycle validator accept only an exact lowercase authorization-bound source revision when running from an archive, while retaining Git discovery for normal repository execution.",
-        "Corrected the AWS runbook to name the four-component archive closure and Git-free revision contract.",
-        "Confirmed controller cleanup drove both instances to termination and removed run volumes before another authorization."
+        "Observed two real GPU receipts proving llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.",
+        "Made HOME=/root explicit in both bootstrap scripts and the Ollama systemd unit after the first Runtime failure.",
+        "Reduced the exact reviewed source archive from 335 MiB to 25 MiB with complete local Rust path-dependency closure and Git-free authorization-bound revision validation.",
+        "Observed the second Runtime node fail with exit 69 because the verified Vector installer used the repository default root while the validator was pointed at /opt/adl-issue345/vector.",
+        "Set ADL_VECTOR_INSTALL_ROOT and ADL_RUNTIME_VECTOR_BIN from the same explicit vector_root and fail closed unless that exact binary is executable.",
+        "Extended the generated-bootstrap contract test to prove installer, validator, and executable checks use the same Vector root.",
+        "Confirmed controller cleanup drove both instances to termination, removed all run volumes, destroyed Terraform state resources, and released the lock after both failed attempts."
       ],
       "artifacts": [
         "infra/aws/runtime/gpu-proof",
@@ -32,9 +31,9 @@
         "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
         "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
         "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-        ".adl/local/issue345/adl-issue345-20260901-090918/gpu-ready.json",
-        ".adl/local/issue345/adl-issue345-20260901-090918/runtime-final.json",
-        ".adl/local/issue345/adl-issue345-20260901-090918/terraform.tfstate"
+        ".adl/local/issue345/adl-issue345-20260901-100440/gpu-ready.json",
+        ".adl/local/issue345/adl-issue345-20260901-100440/runtime-final.json",
+        ".adl/local/issue345/adl-issue345-20260901-100440/cleanup-on-exit.json"
       ],
       "actual_validation": [
         {
@@ -42,7 +41,7 @@
             "bash",
             "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
           ],
-          "purpose": "Prove twenty-four no-paid topology, bootstrap, Git-free extracted-archive dependency closure, IAM, authorization, input-drift, recovery, and cleanup contracts.",
+          "purpose": "Prove twenty-four no-paid topology, bootstrap, Vector-root, Git-free archive, IAM, authorization, recovery, and cleanup contracts.",
           "outcome": "passed",
           "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
         },
@@ -52,40 +51,14 @@
             "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
             "run",
             "--commit",
-            "e54a3da961b8f65eeebe6e463f7d99bfbbc05668",
+            "875456c408c06b9620e417b6e07daffd00de2879",
             "--run-id",
-            "adl-issue345-20260901-090918",
+            "adl-issue345-20260901-100440",
             "--execute"
           ],
-          "purpose": "Run the real Terraform two-node qualification through GPU residency, Runtime bootstrap, failure receipt, and cleanup.",
+          "purpose": "Run the real Terraform two-node qualification through GPU residency, Runtime validation, failure receipt, and cleanup.",
           "outcome": "failed",
-          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-090918"
-        },
-        {
-          "command": [
-            "git",
-            "archive",
-            "--format=tar",
-            "HEAD",
-            "--",
-            "adl",
-            "adl-runtime",
-            "adl-runtime-kernel",
-            "adl-resilience"
-          ],
-          "purpose": "Verify the selective exact-source archive contains the complete local Rust dependency closure and is 25 MiB instead of 335 MiB.",
-          "outcome": "passed",
-          "evidence_ref": ".adl/local/issue345/source-closure-test.tar"
-        },
-        {
-          "command": [
-            "bash",
-            "-n",
-            "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
-          ],
-          "purpose": "Validate the archive-safe lifecycle validator shell contract.",
-          "outcome": "passed",
-          "evidence_ref": "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-100440"
         },
         {
           "command": [

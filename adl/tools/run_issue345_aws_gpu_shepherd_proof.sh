@@ -563,7 +563,9 @@ tar -xf /opt/adl-issue345/source.tar -C /opt/adl-issue345/repo
 commit="$(jq -r .source_commit "$CONFIG")"; [[ "$commit" =~ ^[0-9a-f]{40}$ ]]
 cd /opt/adl-issue345/repo; source /root/.cargo/env; export CARGO_TARGET_DIR=/opt/adl-issue345/target; export OLLAMA_HOST="http://$GPU_PRIVATE_IP:11434"
 export ADL_RUNTIME_SOURCE_REVISION="$commit" ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT=/opt/adl-issue345/repo/.adl/runtime-v3/issue345 ADL_RUNTIME_GUARDIAN_TARGET_ROOT=/opt/adl-issue345
-bash adl/tools/install_vector_component.sh >/opt/adl-issue345/vector-install.log; export ADL_RUNTIME_VECTOR_BIN=/opt/adl-issue345/vector/bin/vector
+vector_root=/opt/adl-issue345/vector
+ADL_VECTOR_INSTALL_ROOT="$vector_root" bash adl/tools/install_vector_component.sh >/opt/adl-issue345/vector-install.log
+export ADL_RUNTIME_VECTOR_BIN="$vector_root/bin/vector"; [[ -x "$ADL_RUNTIME_VECTOR_BIN" ]]
 bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x >/opt/adl-issue345/guardian.log 2>&1
 guardian_path="$(find "$ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT" -type f -name issue-proof.json -print -quit)"
 guardian="$(jq -ce 'select(.schema=="adl.runtime_v3.guardian_lifecycle_proof.v1" and .status=="pass")' "$guardian_path")"

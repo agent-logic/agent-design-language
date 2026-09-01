@@ -85,6 +85,9 @@ bash -n "$tmp/runtime-bootstrap.sh"
 [[ "$(grep -Fc 'export HOME=/root' "$tmp/gpu-bootstrap.sh")" == 1 ]] || fail "GPU bootstrap does not define HOME"
 [[ "$(grep -Fc 'Environment=HOME=/root' "$tmp/gpu-bootstrap.sh")" == 1 ]] || fail "Ollama systemd service does not define HOME"
 [[ "$(grep -Fc 'export HOME=/root' "$tmp/runtime-bootstrap.sh")" == 1 ]] || fail "Runtime bootstrap does not define HOME"
+grep -q 'ADL_VECTOR_INSTALL_ROOT="$vector_root" bash adl/tools/install_vector_component.sh' "$tmp/runtime-bootstrap.sh" || fail "Runtime bootstrap does not install Vector into its declared root"
+grep -q 'ADL_RUNTIME_VECTOR_BIN="$vector_root/bin/vector"' "$tmp/runtime-bootstrap.sh" || fail "Runtime validator does not use the declared Vector install root"
+grep -q '\[\[ -x "$ADL_RUNTIME_VECTOR_BIN" \]\]' "$tmp/runtime-bootstrap.sh" || fail "Runtime bootstrap does not verify the installed Vector binary"
 write_user_data "$tmp/gpu-user-data.sh" script-key script-version "$(printf 'a%.0s' {1..64})" config-key config-version "$(printf 'b%.0s' {1..64})" ready-key ready-key
 write_user_data "$tmp/runtime-user-data.sh" script-key script-version "$(printf 'a%.0s' {1..64})" config-key config-version "$(printf 'b%.0s' {1..64})" ready-key final-key __GPU_PRIVATE_IP__
 bash -n "$tmp/gpu-user-data.sh"
