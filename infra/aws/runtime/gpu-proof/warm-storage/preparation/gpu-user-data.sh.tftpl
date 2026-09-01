@@ -18,10 +18,13 @@ s3_put_once() {
   python3 - "$@" <<'PY'
 import boto3, sys
 region, bucket, key, source = sys.argv[1:]
+client = boto3.client("s3", region_name=region)
+client.meta.events.register(
+    "before-sign.s3.PutObject",
+    lambda request, **kwargs: request.headers.__setitem__("If-None-Match", "*"),
+)
 with open(source, "rb") as body:
-    boto3.client("s3", region_name=region).put_object(
-        Bucket=bucket, Key=key, Body=body, IfNoneMatch="*"
-    )
+    client.put_object(Bucket=bucket, Key=key, Body=body)
 PY
 }
 

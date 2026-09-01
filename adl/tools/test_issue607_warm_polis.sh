@@ -109,6 +109,8 @@ run_contracts() {
   ! rg -q 'apt-get install[^\n]*awscli|snap install|snapd' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q '^s3_get\(\)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q '^s3_get\(\)' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
+  rg -q 'before-sign.s3.PutObject' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
+  rg -q 'before-sign.s3.PutObject' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q 'for node in runtime gpu' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'preparation instance stopped without a success or failure receipt' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'measured_after_preparation_bootstrap:true' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
