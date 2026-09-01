@@ -4,63 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "8b6e0a80b1bb23aff20654f7660ec3fe347a5dcf0ab2a3439c6bc2cd6c2b7f84",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "81d8f8ba1a3dab2c00da2728339109c97f68844f06cb795ec611ed094c130466",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": {
-    "reviewer": "review_591_head_31afaa5a3",
-    "assigned_by": "codex:worker-6",
-    "revision": "git-blake3:31afaa5a32af0da162c2494c7cfab4b78e13174d:a5041df040b4e69f865774d7bd2dab49af3c5d362dab3b79a3615f42445d5816",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/operator/SKILLS.md",
-      "csdlc-v2/operator/skills",
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v3/README.md",
-      "docs/csdlc-v3",
-      "docs/default_workflow.md",
-      "docs/onboarding.md",
-      "docs/architecture/ADL_ARCHITECTURE.md",
-      "docs/tooling/adl_pr_cycle_skill.md",
-      "docs/tooling/card-lifecycle.md",
-      "docs/tooling/structured-prompt-contracts.md",
-      "docs/tooling/editor",
-      "docs/templates"
-    ]
-  },
-  "review": {
-    "reviewer": "review_591_head_31afaa5a3",
-    "scope": [
-      "AGENTS.md",
-      "csdlc-v2/AGENTS.md",
-      "csdlc-v2/operator/SKILLS.md",
-      "csdlc-v2/operator/skills",
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      "csdlc-v3/AGENTS.md",
-      "csdlc-v3/README.md",
-      "docs/csdlc-v3",
-      "docs/default_workflow.md",
-      "docs/onboarding.md",
-      "docs/architecture/ADL_ARCHITECTURE.md",
-      "docs/tooling/adl_pr_cycle_skill.md",
-      "docs/tooling/card-lifecycle.md",
-      "docs/tooling/structured-prompt-contracts.md",
-      "docs/tooling/editor",
-      "docs/templates"
-    ],
-    "reviewed_revision": "git-blake3:31afaa5a32af0da162c2494c7cfab4b78e13174d:a5041df040b4e69f865774d7bd2dab49af3c5d362dab3b79a3615f42445d5816",
-    "findings": [],
-    "residual_risks": [
-      "This PASS covers the #505 preparation gate only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.",
-      "At review time GitHub still reported adl-coverage-workspace-hosted as pending; treat hosted merge-readiness as an external PR-wait gate until live readback clears it."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -75,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a4be6568e49e1e14ab1ae5571d576581fa49ba1141be78bb2a267cedf3d56de2",
+      "values_digest": "3d0ff5bffbf424e5d764ae7a27cd0d6b662c1573d4c5a538c268f864af27ca03",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "5cb27c7260d398a96bc50be9b19fa8ca27e0c64856d9ac511c58b18611fe01fe",
+      "values_digest": "d88c543c83db3237b0c49cdcbd6cdd98482d1009a5ee3a3c43e0c27e64fc1ed7",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "8371ade6861ae0b9d9e4e7e816971e07c6f9d9c61d4ae6bb2ae5815d24c71dc8",
+      "values_digest": "ec50874c2cc6ffafeca0b99a7a8b020125c375c66b38cde38a41dd805e904842",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "a746f3e019f7f181d3fbecd74b978745edfbcf7e19be5a1226c1c12402d90b75",
+      "values_digest": "963fd219a7f8a49675ff90e56cae076b1dc0ee48fc327e7e08b106268a446e37",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "bbdeac9fee1a7a6cfaaa1e0519bc260185a266b94d75af7ba3b0483f62f52942",
-      "rendered_digest": "dbcf30ca842cab590973749e260a41284327dd9a06bcce5cfc6e720d670e020a",
-      "ast_digest": "a14ecb816551fcac38cd9a09e36df83c1415bae51e1d06a8c6c1a64c4cc05c6b"
+      "values_digest": "8bb0e97114e7794f6c6b4fdf170d93a731dfef245a582619920a901b5a20c678",
+      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
+      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
     },
     "sor": {
-      "values_digest": "92679ec69a3af48d6ac7699583984c6b27fc99e80e131b170c890dcba374a90b",
+      "values_digest": "1b6886e325f67f8667855bc70927cbd7d9b412d9026639f0eee58cad68325296",
       "rendered_digest": "8d3bb810b722aa8e728d53e103a2900522e2300072769623dadeb9ba3690ca3f",
       "ast_digest": "971f5ee1de0a8c60dc4a72465ec8baf4d8196561aa8d012c301e50d2675b794f"
     }
@@ -168,6 +118,13 @@
       "to": "reviewed",
       "actor": "codex:worker-6",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-6",
+      "reason": "Recover #505 review truth after transient prepared review request artifacts were mistakenly committed, making the publication review guard fail closed as review_stale."
     }
   ],
   "audit": [
@@ -296,6 +253,13 @@
       "actor": "codex:worker-6",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:worker-6",
+      "reason": "Recover #505 review truth after transient prepared review request artifacts were mistakenly committed, making the publication review guard fail closed as review_stale.",
+      "operation": "recover_review"
     }
   ]
 }

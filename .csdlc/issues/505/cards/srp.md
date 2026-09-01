@@ -12,22 +12,7 @@ Status: draft
 
 ## Scope
 
-AGENTS.md
-csdlc-v2/AGENTS.md
-csdlc-v2/operator/SKILLS.md
-csdlc-v2/operator/skills
-csdlc-v2/tests/projection_recovery_integration.rs
-csdlc-v3/AGENTS.md
-csdlc-v3/README.md
-docs/csdlc-v3
-docs/default_workflow.md
-docs/onboarding.md
-docs/architecture/ADL_ARCHITECTURE.md
-docs/tooling/adl_pr_cycle_skill.md
-docs/tooling/card-lifecycle.md
-docs/tooling/structured-prompt-contracts.md
-docs/tooling/editor
-docs/templates
+
 
 ## Prompts
 
@@ -46,13 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This PASS covers the #505 preparation gate only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.
-- At review time GitHub still reported adl-coverage-workspace-hosted as pending; treat hosted merge-readiness as an external PR-wait gate until live readback clears it.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:31afaa5a32af0da162c2494c7cfab4b78e13174d:a5041df040b4e69f865774d7bd2dab49af3c5d362dab3b79a3615f42445d5816")
+Revision: None
 
-Reviewer: Some("review_591_head_31afaa5a3")
+Reviewer: None
 
-Result: pass
+Result: pre_review
