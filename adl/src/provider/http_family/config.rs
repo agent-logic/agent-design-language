@@ -32,13 +32,13 @@ pub(crate) fn cfg_bool_opt(
     }
 }
 
-fn endpoint_host(endpoint: &str) -> Option<String> {
+pub(super) fn endpoint_host(endpoint: &str) -> Option<String> {
     Url::parse(endpoint)
         .ok()
         .and_then(|url| url.host_str().map(|host| host.to_ascii_lowercase()))
 }
 
-fn is_loopback_endpoint(endpoint: &str) -> bool {
+pub(super) fn is_loopback_endpoint(endpoint: &str) -> bool {
     let Some(host) = endpoint_host(endpoint) else {
         return false;
     };

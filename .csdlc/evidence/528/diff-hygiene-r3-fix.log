@@ -1,0 +1,2 @@
+Command: git diff --check origin/main...HEAD
+Result: PASS

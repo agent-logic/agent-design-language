@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 528,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][PROV-C] Vertex AI Gemini provider transport",
+    "slug": "vertex-ai-gemini-provider-transport",
+    "version": "v0.92.1",
+    "generation": 29
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/528\n.csdlc/issues/528\n.csdlc/prepared/issues/528\nadl/src/adl/validation.rs\nadl/src/provider/http_family.rs\nadl/src/provider/http_family/config.rs\nadl/src/provider/mod.rs\nadl/src/provider/profiles.rs\nadl/src/provider_substrate.rs\nadl/tests/adl_tests.rs\nadl/tests/provider_tests/http_family.rs",
+      "review_revision": "git-blake3:4867f7de80a6274230eea3cdcba8379ead3b41e7:e3c120724e0b33844d72a3a0336e5348c8aa6ae2155afc9e9f5d6d56b963217a",
+      "reviewer": "fresh-session:ad06b19c-5866-4bdc-939d-bedc2cd559d9",
+      "review_prompts": [
+        "Does #528 preserve one shared Gemini semantic codec while adding a distinct Vertex AI transport?",
+        "Does the design avoid credential disclosure and embedded API keys?",
+        "Are project/location/model/endpoint/timeouts/cancellation boundaries explicit and testable?",
+        "Do deterministic tests cover UTS tool names and arguments, streaming/non-streaming normalization, error classification, and redaction?",
+        "Are live Vertex calls correctly separated as optional externally authorized proof?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Live Vertex AI provider call was not run; credentialed provider proof remains separately gated by explicit operator authorization and environment configuration.",
+        "The reviewer did not rerun Rust tests because the review was read-only and the retained proof logs already covered the exact implementation head."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

@@ -31,7 +31,7 @@ pub use deepgram::{
 };
 pub use http_family::{
     AnthropicProvider, AwsBedrockProvider, HttpProvider, OllamaHttpProvider, OpenAiProvider,
-    ZAiProvider,
+    VertexAiGeminiProvider, ZAiProvider,
 };
 pub use http_family::{DeepSeekProvider, OpenRouterProvider};
 pub use local::{MockProvider, OllamaProvider};
@@ -85,8 +85,8 @@ impl ProviderError {
             kind: ProviderErrorKind::UnknownKind,
             provider: None,
             message: format!(
-                "provider kind '{kind}' is not supported (supported: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, bedrock, aws_bedrock, z_ai). \
-Set providers.<id>.type to one of: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, bedrock, aws_bedrock, z_ai. The remote provider surfaces are HTTPS-only."
+            "provider kind '{kind}' is not supported (supported: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, bedrock, aws_bedrock, z_ai). \
+Set providers.<id>.type to one of: ollama, local_ollama, mock, http, http_remote, openai, anthropic, deepseek, openrouter, bedrock, aws_bedrock, z_ai, vertex_ai_gemini. The remote provider surfaces are HTTPS-only."
             ),
         }
     }
@@ -251,7 +251,8 @@ pub fn build_provider_for_id(
 ) -> Result<Box<dyn Provider>> {
     match spec.kind.trim() {
         "http" | "http_remote" | "ollama" | "local_ollama" | "mock" | "openai" | "anthropic"
-        | "deepseek" | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai" | "zai" | "zhipu" => {}
+        | "deepseek" | "openrouter" | "bedrock" | "aws_bedrock" | "z_ai" | "zai" | "zhipu"
+        | "vertex_ai_gemini" | "vertex_ai" | "vertex" => {}
         other => return Err(unknown_kind(other)),
     }
 
@@ -270,6 +271,9 @@ pub fn build_provider_for_id(
                 Ok(Box::new(AwsBedrockProvider::from_target(spec, &target)?))
             }
             "z_ai" | "zai" | "zhipu" => Ok(Box::new(ZAiProvider::from_target(spec, &target)?)),
+            "vertex_ai_gemini" | "vertex_ai" | "vertex" => Ok(Box::new(
+                VertexAiGeminiProvider::from_target(spec, &target)?,
+            )),
             other => Err(unknown_kind(other)),
         },
         provider_substrate::ProviderTransportV1::LocalCli
@@ -377,6 +381,15 @@ mod tests {
         let openrouter = provider_spec("openrouter", Some("openai/gpt-4o-mini"));
         build_provider_for_id("openrouter_primary", &openrouter, None)
             .expect("openrouter provider");
+
+        let mut vertex = provider_spec("vertex_ai_gemini", Some("gemini-2.5-flash"));
+        vertex
+            .config
+            .insert("project".to_string(), serde_json::json!("company-project"));
+        vertex
+            .config
+            .insert("location".to_string(), serde_json::json!("us-west1"));
+        build_provider_for_id("vertex_primary", &vertex, None).expect("vertex provider");
     }
 
     #[test]
@@ -521,9 +534,22 @@ mod tests {
             "cohere:command-a-plus",
             "deepseek:v4",
             "gemini:3.1-pro-preview",
+            "vertex_ai:gemini-2.5-flash",
         ] {
             assert!(names.contains(&name.to_string()), "missing profile {name}");
         }
+        assert_eq!(
+            provider_profile_registry()["vertex_ai:gemini-2.5-flash"].kind,
+            "vertex_ai_gemini"
+        );
+        assert_eq!(
+            provider_profile_registry()["vertex_ai:gemini-2.5-flash"].provider_model_id,
+            Some("gemini-2.5-flash")
+        );
+        assert_eq!(
+            provider_profile_registry()["vertex_ai:gemini-2.5-flash"].endpoint,
+            None
+        );
         assert_ne!(
             provider_profile_registry()["kimi:k2.5"].provider_model_id,
             provider_profile_registry()["xai:grok-4.5"].provider_model_id
