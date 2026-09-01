@@ -1,0 +1,1 @@
+{"schema":"adl.issue345.runner_contract_test.v2","status":"pass","paid_launches":0,"real_git":true,"fake_aws":false,"live_aws_preflight":"passed","multi_model_ordering":"request_then_residency","negative_cases":18}
