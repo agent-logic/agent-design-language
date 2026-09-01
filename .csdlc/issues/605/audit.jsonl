@@ -142,3 +142,4 @@
 {"sequence":142,"generation":113,"actor":"codex:/root:issue-345-final-integration","reason":"Recover published review truth after merging current main to resolve PR #606 add/add conflicts, retaining the reviewed follow-on versions of the five issue-owned artifacts and obtaining a fresh exact-head review before republication.","operation":"recover_review"}
 {"sequence":143,"generation":113,"actor":"codex:/root:issue-345-final-integration","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":144,"generation":114,"actor":"fresh-session:/root/issue_345_final_launch_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":145,"generation":115,"actor":"codex:/root:issue-345-final-integration","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
