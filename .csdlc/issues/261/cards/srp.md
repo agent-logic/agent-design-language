@@ -35,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Directory submission and provider-account work remains intentionally deferred to #264.
+- The public podcast page/feed work remains stacked behind #262 and is not implemented by #261 alone.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f8c27d3839a80eecbcf98ee77960376e9c6b46e9:e1555acf8e7cfb3d4f4c629e9806fcfe8b3c7b16441bd3573d6cef77f806edae")
 
-Reviewer: None
+Reviewer: Some("fresh-session:78839b05-3163-4827-bb33-f759ecba6dff")
 
-Result: pre_review
+Result: pass
