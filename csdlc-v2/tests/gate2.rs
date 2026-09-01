@@ -3400,6 +3400,86 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
         &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
     ));
 
+    fs::write(
+        repo.join("design/issue-42.md"),
+        "ready approved design changed before bind\n",
+    )
+    .expect("change approved ready design");
+    let audit_len_before_stale_ready_approval = record.audit.len();
+    record = csdlc_v2::store::approve_design(
+        &store,
+        csdlc_v2::store::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: record.generation,
+            expected_digest: record.digest.clone(),
+            reviewer: "fresh-session:55555555-5555-4555-8555-555555555555".into(),
+        },
+    )
+    .expect("reapprove ready approved stale authored design");
+    assert_eq!(
+        record.audit.len(),
+        audit_len_before_stale_ready_approval + 1
+    );
+    let ready_approved_stale_event = record
+        .audit
+        .last()
+        .expect("ready approved stale approval event");
+    assert_eq!(
+        ready_approved_stale_event.reason,
+        "reapprove repaired ready issue design"
+    );
+    assert_eq!(
+        record.design_review,
+        csdlc_v2::DesignReview::Approved {
+            reviewer: "fresh-session:55555555-5555-4555-8555-555555555555".into(),
+            revision: digest(
+                &fs::read(repo.join("design/issue-42.md"))
+                    .expect("ready approved current design bytes")
+            )
+        }
+    );
+    must_succeed(command(
+        &repo,
+        env!("CARGO_BIN_EXE_csdlc-validate"),
+        &["--root", &repo.to_string_lossy(), "issue", "--issue", "42"],
+    ));
+
+    let clean_approved_ready = issue_projection_snapshot(&repo, 42);
+    let approved_ready_design_bytes =
+        fs::read(repo.join("design/issue-42.md")).expect("approved ready design bytes");
+    let mut path_drift_record = record.clone();
+    let mut drifted_spp =
+        store.load_cards(42).expect("ready approved cards")[&CardKind::Spp].clone();
+    match &mut drifted_spp.content {
+        CardContent::Spp(values) => values.design_ref = "design/wrong.md".into(),
+        _ => unreachable!("SPP"),
+    }
+    write_consistent_card(&repo, &mut path_drift_record, CardKind::Spp, &drifted_spp);
+    fs::write(
+        repo.join("design/issue-42.md"),
+        "ready approved design changed with drifted ref\n",
+    )
+    .expect("change design with drifted ref");
+    let injected_path_drift = issue_projection_snapshot(&repo, 42);
+    let path_drift_error = csdlc_v2::store::approve_design(
+        &store,
+        csdlc_v2::store::ApproveDesignRequest {
+            issue: 42,
+            expected_generation: path_drift_record.generation,
+            expected_digest: path_drift_record.digest.clone(),
+            reviewer: "fresh-session:66666666-6666-4666-8666-666666666666".into(),
+        },
+    )
+    .expect_err("ready approved path drift must fail closed");
+    assert_eq!(
+        path_drift_error.code,
+        csdlc_v2::ErrorCode::InvalidTransition
+    );
+    assert_eq!(issue_projection_snapshot(&repo, 42), injected_path_drift);
+    restore_issue_projection(&repo, 42, &clean_approved_ready);
+    fs::write(repo.join("design/issue-42.md"), approved_ready_design_bytes)
+        .expect("restore approved ready design bytes");
+
     let before_interruption = issue_projection_snapshot(&repo, 42);
     let interrupted = direct_edit(&store, &record, CardKind::Stp, exact_acceptance(), true)
         .expect_err("injected interruption");

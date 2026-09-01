@@ -3607,24 +3607,42 @@ fn approve_design_with_hook(
             record.design_review,
             DesignReview::Pending | DesignReview::ChangesRequired { .. }
         );
-    let initialized_reapproval = record.phase == LifecyclePhase::Initialized
-        && matches!(record.design_review, DesignReview::Approved { .. })
-        && [CardKind::Spp, CardKind::Vpp]
+    let stale_design_references =
+        [CardKind::Spp, CardKind::Vpp]
             .iter()
-            .any(|kind| match &cards[kind].content {
+            .all(|kind| match &cards[kind].content {
                 CardContent::Spp(values) => {
-                    values.design_digest != design_digest || values.diagram_digest != diagram_digest
+                    values.design_ref == record.design_path
+                        && values.diagram_ref == record.diagram_path
                 }
                 CardContent::Vpp(values) => {
-                    values.design_digest != design_digest || values.diagram_digest != diagram_digest
+                    values.design_ref == record.design_path
+                        && values.diagram_ref == record.diagram_path
                 }
                 _ => unreachable!("design-bearing card"),
-            });
+            })
+            && [CardKind::Spp, CardKind::Vpp]
+                .iter()
+                .any(|kind| match &cards[kind].content {
+                    CardContent::Spp(values) => {
+                        values.design_digest != design_digest
+                            || values.diagram_digest != diagram_digest
+                    }
+                    CardContent::Vpp(values) => {
+                        values.design_digest != design_digest
+                            || values.diagram_digest != diagram_digest
+                    }
+                    _ => unreachable!("design-bearing card"),
+                });
+    let initialized_reapproval = record.phase == LifecyclePhase::Initialized
+        && matches!(record.design_review, DesignReview::Approved { .. })
+        && stale_design_references;
     let ready_reapproval = record.phase == LifecyclePhase::Ready
-        && matches!(
+        && (matches!(
             record.design_review,
             DesignReview::Pending | DesignReview::ChangesRequired { .. }
-        )
+        ) || (matches!(record.design_review, DesignReview::Approved { .. })
+            && stale_design_references))
         && record.branch.is_none()
         && record.worktree.is_none()
         && record.review_assignment.is_none()
