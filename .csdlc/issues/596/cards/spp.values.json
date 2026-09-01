@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
     "slug": "sprints-5-6-cutover-fixes",
     "version": "v0.92.1",
-    "generation": 3
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -103,9 +103,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/596/design.md",
-      "design_digest": "49da6d996cd3ad753d225fc7301126f732ce2dd815a7fc5378642174997301bb",
+      "design_digest": "52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966",
       "diagram_ref": ".csdlc/prepared/issues/596/diagram.mmd",
-      "diagram_digest": "e1ab7ebed0bad7574ff6ba639fdeccba760dc9fd07a54c65c3f59779a3920ba9"
+      "diagram_digest": "3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070"
     }
   }
 }
