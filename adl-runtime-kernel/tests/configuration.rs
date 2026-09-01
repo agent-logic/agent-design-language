@@ -677,7 +677,7 @@ fn runtime_init_rejects_ipv6_bind_addresses() {
 }
 
 #[test]
-fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
+fn continuity_identity_excludes_non_stateful_runtime_policy() {
     let root = config_test_root();
     let config =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
@@ -693,6 +693,21 @@ fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
     next_cycle.observability_pipeline.lifecycle_cycle = "cycle-42".to_owned();
     assert_eq!(
         next_cycle.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut changed_origins = next_cycle.clone();
+    changed_origins.observatory.additional_allowed_origins =
+        vec!["http://localhost:8000".to_owned()];
+    assert_eq!(
+        changed_origins.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    changed_origins.observatory.allowed_origins =
+        vec!["https://observatory.example.test".to_owned()];
+    assert_ne!(
+        changed_origins.continuity_identity_projection().unwrap(),
         expected
     );
 

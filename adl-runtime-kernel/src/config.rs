@@ -667,6 +667,15 @@ impl RuntimeInitConfig {
             observability.remove("lifecycle_run");
             observability.remove("lifecycle_cycle");
         }
+        if let Some(observatory) = value
+            .get_mut("observatory")
+            .and_then(serde_json::Value::as_object_mut)
+        {
+            observatory.insert(
+                "additional_allowed_origins".to_owned(),
+                serde_json::Value::Array(Vec::new()),
+            );
+        }
         Ok(value)
     }
 }

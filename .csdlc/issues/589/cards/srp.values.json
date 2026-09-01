@@ -7,13 +7,13 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 33
+    "generation": 34
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/589\nadl/src/cli/csm_runtime_v3_cmd.rs\nadl/Cargo.toml\nadl/Cargo.lock\nadl-runtime/src/guardian.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/control/feeds.rs\nadl-runtime-kernel/tests/control.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

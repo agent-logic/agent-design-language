@@ -7,21 +7,22 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 33
+    "generation": 34
   },
   "status": "ready",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented and focused-tested ordered Wuji Runtime v3 lifecycle control, crash-safe interrupted reload reconciliation, authenticated Guardian ownership, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.",
+      "summary": "Implemented, independently reviewed, deployed, and live-proved ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.",
       "actual_changes": [
         "Current Runtime generation stops and its owned HTTPS endpoint disappears before a candidate generation starts.",
         "Interrupted reload commits a ready candidate only when the service-manager Guardian PID and active init BLAKE3 hash match Runtime readiness; otherwise CSM stops the service before restoring the backup.",
         "Guardian startup no longer creates a separate continuity client and the lease acknowledgement carries the Guardian process identity into Runtime readiness.",
         "CSM start, status, reload, and recovery require the responding Runtime to report the service-manager-owned Guardian PID and exact active init hash.",
+        "Continuity identity preserves stateful Runtime bindings and primary HTTPS origins while normalizing the designated additional development-origin list, allowing an approved localhost CORS addition without invalidating durable checkpoints.",
         "Readiness requires a fresh Shepherd admission lease.",
         "Health export is allowlisted and CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.",
-        "Focused tests cover candidate commit, rollback ordering, owner/hash mismatch rejection, exact service PID parsing, lease identity propagation, and transaction cleanup."
+        "Focused tests cover candidate commit, rollback ordering, owner/hash mismatch rejection, exact service PID parsing, lease identity propagation, continuity projection compatibility, and transaction cleanup."
       ],
       "artifacts": [
         "adl/src/cli/csm_runtime_v3_cmd.rs",
@@ -29,11 +30,11 @@
         "adl/Cargo.lock",
         "adl-runtime/src/guardian.rs",
         "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/config.rs",
         "adl-runtime-kernel/src/control.rs",
         "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
         "adl-runtime-kernel/tests/control.rs",
-        "adl/tools/check_coverage_impact.sh",
-        "adl/tools/test_check_coverage_impact.sh",
         "infra/aws/csm-runtime-health"
       ],
       "actual_validation": [
@@ -71,12 +72,18 @@
         },
         {
           "command": [
-            "bash",
-            "adl/tools/test_check_coverage_impact.sh"
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "configuration",
+            "continuity_identity_excludes_non_stateful_runtime_policy"
           ],
-          "purpose": "Coverage-impact mapping contract proof",
+          "purpose": "Backward-compatible continuity identity and additional-origin hot-reload proof",
           "outcome": "passed",
-          "evidence_ref": "focused mapping selects cli::csm_runtime_v3_cmd::tests"
+          "evidence_ref": "focused run: 1 passed"
         },
         {
           "command": [
@@ -123,34 +130,6 @@
         {
           "command": [
             "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "adl-runtime-kernel/Cargo.toml",
-            "--test",
-            "assembly"
-          ],
-          "purpose": "Writer recovery proof",
-          "outcome": "passed",
-          "evidence_ref": "focused run: 10 passed"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--locked",
-            "--manifest-path",
-            "adl-runtime-kernel/Cargo.toml",
-            "--test",
-            "observability"
-          ],
-          "purpose": "Health-only export and log recovery proof",
-          "outcome": "passed",
-          "evidence_ref": "focused run: 32 passed"
-        },
-        {
-          "command": [
-            "cargo",
             "clippy",
             "--locked",
             "--manifest-path",
@@ -166,28 +145,45 @@
         },
         {
           "command": [
-            "csm",
-            "runtime-v3",
-            "status",
-            "--init",
-            ".adl/runtime-v3/live/runtime-init.toml",
-            "--json"
+            "aws",
+            "ssm",
+            "get-command-invocation",
+            "--command-id",
+            "a7587de0-c5b2-41b2-af6b-7de99b26db12",
+            "--profile",
+            "agent-logic-admin"
           ],
-          "purpose": "Previously deployed Wuji service availability proof; repaired-build deployment remains pending",
+          "purpose": "Governed candidate hot reload and committed active-config identity proof",
           "outcome": "passed",
-          "evidence_ref": "launchd loaded, listener ready, observability ready; PID 11493 on prior deployed build"
+          "evidence_ref": "reload and status succeeded; Guardian 96837, Runtime 96840, active init c33ed167...612d44"
+        },
+        {
+          "command": [
+            "curl",
+            "-ksS",
+            "-X",
+            "OPTIONS",
+            "https://127.0.0.1:20997/v1/health",
+            "-H",
+            "Origin: http://localhost:8000"
+          ],
+          "purpose": "Effective live CORS proof after hot reload",
+          "outcome": "passed",
+          "evidence_ref": "HTTP 204 and access-control-allow-origin http://localhost:8000"
         },
         {
           "command": [
             "aws",
-            "ssm",
-            "list-command-invocations",
+            "cloudwatch",
+            "describe-alarms",
+            "--alarm-names",
+            "adl-axioma-wuji-dev-runtime-health-missing",
             "--profile",
             "agent-logic-admin"
           ],
-          "purpose": "Previously established CloudWatch-to-SSM recovery proof",
+          "purpose": "Periodic health alarm state proof",
           "outcome": "passed",
-          "evidence_ref": "governed Wuji SSM recovery command succeeded before P1 source remediation"
+          "evidence_ref": "alarm OK with fresh HealthyHeartbeat datapoints"
         }
       ],
       "integration_state": "worktree_only",

@@ -4,11 +4,26 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 33,
-  "digest": "6b0516b82312896e230c2cfaf3391853eda594fc75314603c045f6d2fa0cc13a",
+  "generation": 34,
+  "digest": "f41ff84133cfff514885df57b993c1910c72e320b1f71c4c3ccb6ce1c0e34d44",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "assigned_by": "codex-issue-589",
+    "revision": "git-blake3:6c7234a18c8cb04259d290b5dcb9693a40d4103b:cb7c89ce5db3f637a314a6fa8391c9daa06cf823645ba21c7dc80bfbde631688",
+    "scope": [
+      ".csdlc/issues/589",
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      "adl/Cargo.toml",
+      "adl/Cargo.lock",
+      "adl-runtime/src/guardian.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/control/feeds.rs",
+      "adl-runtime-kernel/tests/control.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -24,34 +39,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c5f5517fbbd60abf3029618f164ea06cc1d32605a13627b5b78fbb5c5fb6ffe4",
+      "values_digest": "e3c44bd5002357779f99eb5f34b1fbe763bab61995e07f4703aac0ece8241cfc",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "c622a8e970f5018508f28a42031ffac6b509036ebfcb52e81796d4ee8595aa42",
+      "values_digest": "fd3c5ec9f3bcd3a06f196c58fdab20d5f5cbcd7cdef9fc6de811ac8868225032",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "dcc1a6dac6d4126e257cb536c0936158129939573c9ee66935be9defc5a801c1",
+      "values_digest": "3461d979b18b386433faf3c99eecaef1794465791c07f2ffd2d5a1db77a36426",
       "rendered_digest": "315bb82392767ff9d0c5acb9c99df4dbc87c4fd82dec36c6bb76bbab7b32cb3f",
       "ast_digest": "569fe120c9e4d45f1e5799229ca53e07754cf71fba0027620a6fdaf4211394af"
     },
     "vpp": {
-      "values_digest": "bc33255ceb9ece681e3e63bf939ed7b272361feea82ec70da64886c17ed445af",
+      "values_digest": "62603c9a73d2dffcb22a52c51fa49ce4854f1def82ccec2afddac964cfad495c",
       "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
       "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "56ee31d3bc0fa8f99c9df6abb3eb43a25541ac343838b6d78b9c43db0085b2e3",
-      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
-      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
+      "values_digest": "ba88fe4c090ecd9131c04276c44b5f43c19a7de59da44784add65177c6f5056b",
+      "rendered_digest": "f95e648c9a366c73c0d58fe935f8fc13b769ef311056bb826e78a35761df8071",
+      "ast_digest": "eff9e11a1aff35bdb883152bed483ad7b0cc16c44932c99d46c52fdc01f33d92"
     },
     "sor": {
-      "values_digest": "feb0ad2cc2a18c181148b37c4a1d69a0613a244b588cb29731a815c7bf82a522",
-      "rendered_digest": "3cc83735c328b62d508b22b48766911004516d3c59da76eb75e91d43733cbc29",
-      "ast_digest": "c8839b523b2f53de264c67dbabf5bd0b46e0680e476f0e45ac59cd6105791ca7"
+      "values_digest": "7a5e10882fc6a9141e0ab6a491c436ba5644d30ab6832af00e9310f7391a3485",
+      "rendered_digest": "b08949a2c547e2fefa24e60fe409a41f850c0ed15f43910ccecef2e82090aba3",
+      "ast_digest": "7d8ffe337e0066c6cb9c979104f5c4f7dc7e170eae3606ba5628d4b6929340db"
     }
   },
   "transitions": [
@@ -462,6 +477,20 @@
       "actor": "codex-issue-589",
       "reason": "Recover exact-review truth after hosted Linux Clippy exposed a macOS-only launchctl parser compiled as dead code in the non-test Linux binary.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 33,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 34,
+      "actor": "codex-589",
+      "reason": "Record repaired-build deployment and governed hot-reload proof",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented, independently reviewed, deployed, and live-proved ordered Wuji Runtime v3 lifecycle control, crash-safe reload reconciliation, authenticated Guardian ownership, compatible non-stateful config hot reload, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.\",\"changes\":[\"Current Runtime generation stops and its owned HTTPS endpoint disappears before a candidate generation starts.\",\"Interrupted reload commits a ready candidate only when the service-manager Guardian PID and active init BLAKE3 hash match Runtime readiness; otherwise CSM stops the service before restoring the backup.\",\"Guardian startup no longer creates a separate continuity client and the lease acknowledgement carries the Guardian process identity into Runtime readiness.\",\"CSM start, status, reload, and recovery require the responding Runtime to report the service-manager-owned Guardian PID and exact active init hash.\",\"Continuity identity preserves stateful Runtime bindings and primary HTTPS origins while normalizing the designated additional development-origin list, allowing an approved localhost CORS addition without invalidating durable checkpoints.\",\"Readiness requires a fresh Shepherd admission lease.\",\"Health export is allowlisted and CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.\",\"Focused tests cover candidate commit, rollback ordering, owner/hash mismatch rejection, exact service PID parsing, lease identity propagation, continuity projection compatibility, and transaction cleanup.\"],\"artifacts\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\"adl-runtime/src/guardian.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"infra/aws/csm-runtime-health\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3\"],\"purpose\":\"CSM lifecycle, interrupted-reload, ownership, hash, and transaction regression proof\",\"outcome\":\"passed\",\"evidence_ref\":\"focused run: 26 passed\"},{\"command\":[\"cargo\",\"llvm-cov\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"--json\",\"--summary-only\",\"--\",\"csm_runtime_v3\"],\"purpose\":\"Focused changed-source line coverage proof\",\"outcome\":\"passed\",\"evidence_ref\":\"csm_runtime_v3_cmd.rs: 869/1081 lines, 80.39 percent\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\",\"continuity_identity_excludes_non_stateful_runtime_policy\"],\"purpose\":\"Backward-compatible continuity identity and additional-origin hot-reload proof\",\"outcome\":\"passed\",\"evidence_ref\":\"focused run: 1 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"guardian\"],\"purpose\":\"Guardian lease identity and single-child startup proof\",\"outcome\":\"passed\",\"evidence_ref\":\"focused run: 22 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--bin\",\"adl-runtime-kernel\"],\"purpose\":\"Kernel Guardian identity and active-init hash propagation proof\",\"outcome\":\"passed\",\"evidence_ref\":\"focused run: 12 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"purpose\":\"Shepherd-gated readiness and ownership fields proof\",\"outcome\":\"passed\",\"evidence_ref\":\"focused run: 28 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Issue-owned ADL target lint proof\",\"outcome\":\"passed\",\"evidence_ref\":\"completed without warnings\"},{\"command\":[\"aws\",\"ssm\",\"get-command-invocation\",\"--command-id\",\"a7587de0-c5b2-41b2-af6b-7de99b26db12\",\"--profile\",\"agent-logic-admin\"],\"purpose\":\"Governed candidate hot reload and committed active-config identity proof\",\"outcome\":\"passed\",\"evidence_ref\":\"reload and status succeeded; Guardian 96837, Runtime 96840, active init c33ed167...612d44\"},{\"command\":[\"curl\",\"-ksS\",\"-X\",\"OPTIONS\",\"https://127.0.0.1:20997/v1/health\",\"-H\",\"Origin: http://localhost:8000\"],\"purpose\":\"Effective live CORS proof after hot reload\",\"outcome\":\"passed\",\"evidence_ref\":\"HTTP 204 and access-control-allow-origin http://localhost:8000\"},{\"command\":[\"aws\",\"cloudwatch\",\"describe-alarms\",\"--alarm-names\",\"adl-axioma-wuji-dev-runtime-health-missing\",\"--profile\",\"agent-logic-admin\"],\"purpose\":\"Periodic health alarm state proof\",\"outcome\":\"passed\",\"evidence_ref\":\"alarm OK with fresh HealthyHeartbeat datapoints\"}]}"
     }
   ]
 }
