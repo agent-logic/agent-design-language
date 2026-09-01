@@ -35,6 +35,7 @@ sprint_membership_readback = json("docs/milestones/v0.92.1/evidence/wp-01/sprint
 gemini_receipt = json(".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/receipt.json")
 gemini_review = read(".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/review.md")
 pr591_state_request = json(".csdlc/prepared/issues/505/pr591-state-after-prep-refresh-request.json")
+pr591_after_gemini = json(".csdlc/evidence/591/pr-state-after-gemini-remediation.json")
 design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
 packet_text = [stp, sip, design, diagram].join("\n")
@@ -120,6 +121,20 @@ assert(pr591_state_request["repository"] == "agent-logic/agent-design-language",
 assert(pr591_state_request["pull_request"] == 591, "PR #591 state request must target PR #591")
 assert(pr591_state_request["linked_issue"].nil?, "PR #591 state readback must not require closing linkage before operator approval")
 assert(!pr591_state_request.key?("action"), "PR #591 state request must not use the retired action-envelope schema")
+
+pr591_packet = pr591_after_gemini.fetch("pr_state")
+assert(pr591_after_gemini["schema"] == "csdlc.github_action_result.v1", "PR #591 Gemini-remediation readback emitted wrong schema")
+assert(pr591_after_gemini["action"] == "pr_update", "PR #591 Gemini-remediation readback must come from typed PR update")
+assert(pr591_after_gemini["reconciled"] == true, "PR #591 Gemini-remediation update must reconcile")
+assert(pr591_packet["repository"] == "agent-logic/agent-design-language", "PR #591 Gemini-remediation readback repository drift")
+assert(pr591_packet["pull_request"] == 591, "PR #591 Gemini-remediation readback must target PR #591")
+assert(pr591_packet["state"] == "open", "PR #591 must remain open for review")
+assert(pr591_packet["draft"] == false, "PR #591 must not be draft after remediation publication")
+assert(pr591_packet["head_ref"] == "codex/505-v3-f-authority-transition-decision-exec", "PR #591 head branch drift")
+assert(pr591_packet["linked_issue"].nil?, "PR #591 must not declare a closing linked issue before operator approval")
+pr591_body = pr591_packet.fetch("body")
+assert(pr591_body.include?("Part-Of #505"), "PR #591 body missing non-closing #505 linkage")
+assert(!pr591_body.match?(/(?i)\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#505\b/), "PR #591 body contains an issue-closing keyword for #505")
 
 [504, 570, 571].each do |issue_number|
   receipt_path = File.join(GIT_COMMON, "csdlc-v2", "closeout", "#{issue_number}.json")
@@ -280,6 +295,7 @@ puts JSON.generate(
       "failed_issue_reopen_readback",
       "sprint_membership_v5_readback",
       "gemini_assisted_review_receipt",
+      "pr591_gemini_remediation_non_closing_readback",
       "single_prebind_validator_lane",
       "bound_execution_topology"
     ]

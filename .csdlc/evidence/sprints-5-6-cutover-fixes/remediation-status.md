@@ -92,6 +92,10 @@ Status as of this branch:
   publication-intent, PR-readback, issue-readback, and cleanup-inspection JSON,
   then derives the remote delivery result from those typed observations while
   keeping `operational_authority=false` before #505 cutover.
+- Updated remotely after Gemini remediation: PR #591 body now advertises the
+  current remediation set through typed v2 `csdlc-github-pr`, keeps
+  `Part-Of #505`, and retains readback evidence at
+  `.csdlc/evidence/591/pr-state-after-gemini-remediation.json`.
 - Historical note: typed issue transport created tracking issue #596, and typed
   PR transport created PR #597 from `codex/sprints-5-6-cutover-fixes` to
   `main`. PR #597 was later merged, but that merge did not itself terminalize
