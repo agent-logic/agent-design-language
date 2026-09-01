@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ffce9a74a84dcf49d507c8d3048ef69dd74cc44ee100d52bd932b2d444978bb2",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "875ba4d488f7a5a9e991cd06315d94a88a30492e6689a18f6480ff9244cc77f0",
+  "generation": 18,
+  "digest": "a03efc4b258f3bf6fdc7fc5c3162eadc38b844ee630f98a449f42254f95647f7",
   "branch": "codex/528-vertex-ai-gemini-provider-transport",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-528-vertex-ai-gemini-provider-transport",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6f210dbfb053382823fb3bebd272321b5598bce45d184e51581e68152734dbd9",
+      "values_digest": "1e7aa1c86945d7ac97755f002f2d55066d8801d2fe38b2c67536b182a92f0989",
       "rendered_digest": "8d51702ddd23d0e2e9d6ee5d83fc2b5f1eb79f72d918a178e94c01c6e3087e6c",
       "ast_digest": "a885d6b8a6aa91956f7ab5574a7865acf7834b3ca7b6794271560ff55474719c"
     },
     "stp": {
-      "values_digest": "284c7a3fee547961864156861a872a2b069c189e261c49efe9995539c34c9c84",
+      "values_digest": "f807d3db8f43740b29cbccb68a92138d2c99583d28bf2b261df0af5e7b7f3872",
       "rendered_digest": "58515cc327ceb9adb527d6ee4cc9c0b8f49aba5f3d4f29e89e9bf1dccbe30ed1",
       "ast_digest": "7208ce9df21f504b1ebbff12b0ba421ba7ff10b912e22557dfdcf22df97e3b1c"
     },
     "spp": {
-      "values_digest": "ad553ba62d9d13084b39e26e53487265aaea24ac96590a89210786b6e79347d7",
+      "values_digest": "cc7e2602a2ef2172c564ad18b99b3edd5ea1c27cbca65cdbcb15d62791b88cbd",
       "rendered_digest": "266e06f9a67360d5645813d68b2780348731a443edf8c0a8834a92f903c0e85a",
       "ast_digest": "689216fe81f415843953ccbfa40c6b0e2b5a3e2dd815cca4c60b8ec6a7a8f751"
     },
     "vpp": {
-      "values_digest": "cb93277aa94a437b8f6daae42ed759e8ea005a0fd69cc91dd06eecd99cde8393",
+      "values_digest": "eca0019abf070b0d9dd6684ac261b27dc454e386dd6f56fb63fc6247bd70e0e2",
       "rendered_digest": "fbea891f5bebcfaeae4eaf7c47a28bc90a93ced031d295f97a5dda27e7247ae2",
       "ast_digest": "50e529ff5a31d348e0536aa1c4288531f8dcbe70fa03c954864fa8d8400ce066"
     },
     "srp": {
-      "values_digest": "52d5d924a64944657f8d37676413c9e3cf94872032b51963fd376b127977d98a",
+      "values_digest": "5145257eae7ff4b2ba8ab9276b79a5a30506968cd89526ec3ffbd56f0ac81a36",
       "rendered_digest": "e660db2be7b5957e9b5b62db0e88b3ca3e27258324fbe756a07b72e605553eeb",
       "ast_digest": "c4aadad469f845cb33bf17070e28d42afef2173b7e58a370f78693a117319556"
     },
     "sor": {
-      "values_digest": "99ad50e8ea7a25582d5241ec0ba44bb80e05ce467eca8877c707bb5ae3764174",
-      "rendered_digest": "80a25b4456aa353639f32fb8e2bab17917e3fca7c41d7ea0af732aed715544c4",
-      "ast_digest": "7e8707d8df38efda1df1d3d6407715f14f977dbd40828cd198fc8dbea9437d90"
+      "values_digest": "1964e9c80af23dd3df0f485d555b4330d4475f968486d2ca0bd303f17c030f06",
+      "rendered_digest": "7f0021f839bd96678ea1affe468d154f3fbe664457b39d193ddefda733292f4f",
+      "ast_digest": "495b0033d068181f4b881e3b43fae280b1124223819b9e786e7abed6d3571e31"
     }
   },
   "transitions": [
@@ -182,6 +182,55 @@
       "actor": "fresh-session:cc5df218-2c35-4abf-8ab7-c5d446c450da",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"3c3bddc9b94c407bbd6e70a2a8e29f15df162ee39493f09787361d7a3007d5f4\",\"design_ref\":\".csdlc/prepared/issues/528/design.md\",\"diagram_digest\":\"e6676e2e88750ea4db2327dfe7187c3e0b43806b6cdc1f17ddbf9959a91d3179\",\"diagram_ref\":\".csdlc/prepared/issues/528/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover #528 from R2 exact-review FAIL to implement the in-scope Vertex streaming and UTS tool-call normalization/proof gap.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record #528 R2 P1 remediation for Vertex streaming and UTS tool-call normalization before immutable re-review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented Vertex AI Gemini transport with bounded streaming and UTS tool-call normalization.\",\"changes\":[\"Added Vertex request-body construction that maps UTS-style config.tools entries into Vertex functionDeclarations.\",\"Normalized Gemini functionCall response parts into Provider output JSON that preserves tool-call names and arguments.\",\"Added an explicit Vertex streaming path using streamGenerateContent and callback emission.\",\"Added focused regressions for UTS tool declarations, returned argument preservation, and streaming callback behavior.\"],\"artifacts\":[\"adl/src/provider/http_family.rs\",\"adl/tests/provider_tests/http_family.rs\",\".csdlc/evidence/528/vertex-ai-r2-fix-focused.log\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record refreshed focused proof after #528 R2 P1 remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"vertex_ai_gemini\",\"--\",\"--nocapture\"],\"purpose\":\"Proves #528 Vertex AI Gemini non-streaming, streaming callback, UTS tool declaration mapping, returned tool-call argument preservation, regional endpoint construction, custom endpoint rejection, and credential redaction behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/528/vertex-ai-r2-fix-focused.log\"}}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Record refreshed provider library proof after #528 R2 P1 remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"provider\"],\"purpose\":\"Proves the provider library surface remains green after Vertex streaming and UTS tool-call remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/528/provider-lib-r2-fix.log\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Record strict Clippy proof after #528 R2 P1 remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Proves the #528 provider transport changes remain warning-clean across all targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/528/clippy-r2-fix.log\"}}"
     }
   ]
 }

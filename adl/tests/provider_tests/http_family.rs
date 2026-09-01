@@ -282,6 +282,127 @@ config:
 }
 
 #[test]
+fn vertex_ai_gemini_provider_preserves_uts_tool_declarations_and_call_arguments() {
+    let server = match std::net::TcpListener::bind("127.0.0.1:0") {
+        Ok(s) => s,
+        Err(e) if e.kind() == std::io::ErrorKind::PermissionDenied => return,
+        Err(e) => panic!("failed to bind local test server: {e}"),
+    };
+    let addr = server.local_addr().unwrap();
+    let _env_guard = localhost_and_auth_env_guard("ADL_TEST_VERTEX_AI_TOKEN", "test-vertex-token");
+
+    std::thread::spawn(move || {
+        let (mut stream, _) = server.accept().unwrap();
+        let request = read_http_request(&mut stream);
+        let body = request_json_body(&request);
+        assert_eq!(
+            body["tools"][0]["functionDeclarations"][0]["name"],
+            "search_docs"
+        );
+        assert_eq!(
+            body["tools"][0]["functionDeclarations"][0]["parameters"]["properties"]["query"]
+                ["type"],
+            "string"
+        );
+        let response = r#"{"candidates":[{"content":{"parts":[{"functionCall":{"name":"search_docs","args":{"query":"agent logic","limit":3}}}]}}]}"#;
+        let resp = format!(
+            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\n\r\n{}",
+            response.len(),
+            response
+        );
+        let _ = stream.write_all(resp.as_bytes());
+    });
+
+    let spec = provider_spec_from_yaml(&format!(
+        r#"
+type: vertex_ai_gemini
+config:
+  endpoint: "http://{addr}/v1/projects/test-project/locations/us-west1/publishers/google/models/gemini-test:generateContent"
+  project: "test-project"
+  location: "us-west1"
+  provider_model_id: "gemini-test"
+  auth:
+    type: bearer
+    env: ADL_TEST_VERTEX_AI_TOKEN
+  tools:
+    - name: search_docs
+      description: Search indexed docs.
+      input_schema:
+        type: object
+        properties:
+          query:
+            type: string
+          limit:
+            type: integer
+"#
+    ));
+
+    let provider = build_provider(&spec, None).expect("vertex_ai_gemini provider should build");
+    let out = provider
+        .complete("use a tool")
+        .expect("vertex_ai_gemini tool response should succeed");
+    let normalized: Value = serde_json::from_str(&out).expect("tool-call output should be JSON");
+    assert_eq!(normalized["tool_calls"][0]["name"], "search_docs");
+    assert_eq!(
+        normalized["tool_calls"][0]["arguments"]["query"],
+        "agent logic"
+    );
+    assert_eq!(normalized["tool_calls"][0]["arguments"]["limit"], 3);
+    assert_ne!(
+        normalized["tool_calls"][0]["arguments"]["query"],
+        normalized["tool_calls"][0]["name"]
+    );
+}
+
+#[test]
+fn vertex_ai_gemini_provider_streams_via_vertex_stream_endpoint_and_callback() {
+    let server = match std::net::TcpListener::bind("127.0.0.1:0") {
+        Ok(s) => s,
+        Err(e) if e.kind() == std::io::ErrorKind::PermissionDenied => return,
+        Err(e) => panic!("failed to bind local test server: {e}"),
+    };
+    let addr = server.local_addr().unwrap();
+    let _env_guard = localhost_and_auth_env_guard("ADL_TEST_VERTEX_AI_TOKEN", "test-vertex-token");
+
+    std::thread::spawn(move || {
+        let (mut stream, _) = server.accept().unwrap();
+        let request = read_http_request(&mut stream);
+        assert!(request.starts_with("POST /v1/projects/test-project/locations/us-west1/publishers/google/models/gemini-test:streamGenerateContent "));
+        let body = request_json_body(&request);
+        assert_eq!(body["contents"][0]["parts"][0]["text"], "stream vertex");
+        let response = r#"{"candidates":[{"content":{"parts":[{"text":"VERTEX_STREAM_OK"}]}}]}"#;
+        let resp = format!(
+            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\n\r\n{}",
+            response.len(),
+            response
+        );
+        let _ = stream.write_all(resp.as_bytes());
+    });
+
+    let spec = provider_spec_from_yaml(&format!(
+        r#"
+type: vertex_ai_gemini
+config:
+  endpoint: "http://{addr}/v1/projects/test-project/locations/us-west1/publishers/google/models/gemini-test:generateContent"
+  project: "test-project"
+  location: "us-west1"
+  provider_model_id: "gemini-test"
+  auth:
+    type: bearer
+    env: ADL_TEST_VERTEX_AI_TOKEN
+"#
+    ));
+
+    let provider = build_provider(&spec, None).expect("vertex_ai_gemini provider should build");
+    let mut chunks = Vec::new();
+    let out = provider
+        .complete_stream("stream vertex", &mut |chunk| chunks.push(chunk.to_string()))
+        .expect("vertex_ai_gemini stream should succeed");
+    assert_eq!(out, "VERTEX_STREAM_OK");
+    assert_eq!(chunks, vec!["VERTEX_STREAM_OK"]);
+}
+
+#[test]
 fn vertex_ai_gemini_provider_builds_regional_endpoint_without_network() {
     let spec = provider_spec_from_yaml(
         r#"

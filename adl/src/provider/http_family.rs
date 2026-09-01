@@ -393,11 +393,41 @@ fn extract_openrouter_output_text(json: &Value) -> Option<String> {
 }
 
 fn extract_gemini_output_text(json: &Value) -> Option<String> {
-    json.pointer("/candidates/0/content/parts/0/text")
-        .and_then(|v| v.as_str())
-        .map(str::trim)
-        .filter(|v| !v.is_empty())
-        .map(ToString::to_string)
+    let parts = json
+        .pointer("/candidates/0/content/parts")
+        .and_then(|v| v.as_array())?;
+    let mut text_chunks = Vec::new();
+    let mut tool_calls = Vec::new();
+    for part in parts {
+        if let Some(text) = part.get("text").and_then(|v| v.as_str()) {
+            let text = text.trim();
+            if !text.is_empty() {
+                text_chunks.push(text.to_string());
+            }
+        }
+        if let Some(function_call) = part.get("functionCall").and_then(|v| v.as_object()) {
+            if let Some(name) = function_call.get("name").and_then(|v| v.as_str()) {
+                let args = function_call
+                    .get("args")
+                    .cloned()
+                    .unwrap_or_else(|| serde_json::json!({}));
+                tool_calls.push(serde_json::json!({
+                    "name": name,
+                    "arguments": args,
+                }));
+            }
+        }
+    }
+    if !tool_calls.is_empty() {
+        let mut envelope = serde_json::json!({ "tool_calls": tool_calls });
+        let text = text_chunks.join("\n");
+        if !text.is_empty() {
+            envelope["text"] = serde_json::json!(text);
+        }
+        return serde_json::to_string(&envelope).ok();
+    }
+    let joined = text_chunks.join("\n").trim().to_string();
+    (!joined.is_empty()).then_some(joined)
 }
 
 fn extract_bedrock_nova_output_text(json: &Value) -> Option<String> {
@@ -920,6 +950,7 @@ pub struct VertexAiGeminiProvider {
     model: String,
     max_output_tokens: u64,
     timeout_secs: Option<u64>,
+    tools: Option<Value>,
 }
 
 impl VertexAiGeminiProvider {
@@ -941,12 +972,16 @@ impl VertexAiGeminiProvider {
             model: target.provider_model_id.clone(),
             max_output_tokens: cfg_u64(&spec.config, "max_output_tokens").unwrap_or(1024),
             timeout_secs: cfg_u64(&spec.config, "timeout_secs"),
+            tools: vertex_ai_tools_from_config(&spec.config)?,
         })
     }
-}
 
-impl Provider for VertexAiGeminiProvider {
-    fn complete(&self, prompt: &str) -> Result<String> {
+    fn complete_with_mode(
+        &self,
+        prompt: &str,
+        streaming: bool,
+        mut on_chunk: Option<&mut dyn FnMut(&str)>,
+    ) -> Result<String> {
         let token = env::var(&self.auth_env).map_err(|_| {
             invalid_config(
                 "vertex_ai_gemini",
@@ -961,20 +996,27 @@ impl Provider for VertexAiGeminiProvider {
             .build()
             .context("failed to build Vertex AI Gemini client")
             .map_err(|err| runtime_error("vertex_ai_gemini", err.to_string()))?;
+        let endpoint = if streaming {
+            vertex_ai_gemini_stream_endpoint(&self.endpoint)
+        } else {
+            self.endpoint.clone()
+        };
         let req = client
-            .post(&self.endpoint)
+            .post(&endpoint)
             .header("Content-Type", "application/json")
             .bearer_auth(token)
-            .json(&serde_json::json!({
-                "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-                "generationConfig": {
-                    "maxOutputTokens": self.max_output_tokens,
-                },
-            }));
+            .json(&vertex_ai_gemini_request_body(
+                prompt,
+                self.max_output_tokens,
+                self.tools.as_ref(),
+            ));
         let (json, http_status) = provider_http_json("vertex_ai_gemini", req)?;
         let output = extract_gemini_output_text(&json).ok_or_else(|| {
             runtime_error_non_retryable("vertex_ai_gemini", "response missing Gemini text output")
         })?;
+        if let Some(callback) = on_chunk.as_mut() {
+            callback(&output);
+        }
         write_native_invocation_record(
             "vertex_ai_gemini",
             &self.model,
@@ -986,10 +1028,97 @@ impl Provider for VertexAiGeminiProvider {
     }
 }
 
+impl Provider for VertexAiGeminiProvider {
+    fn complete(&self, prompt: &str) -> Result<String> {
+        self.complete_with_mode(prompt, false, None)
+    }
+
+    fn complete_stream(&self, prompt: &str, on_chunk: &mut dyn FnMut(&str)) -> Result<String> {
+        self.complete_with_mode(prompt, true, Some(on_chunk))
+    }
+}
+
 fn vertex_ai_gemini_endpoint(project: &str, location: &str, model: &str) -> String {
     format!(
         "https://{location}-aiplatform.googleapis.com/v1/projects/{project}/locations/{location}/publishers/google/models/{model}:generateContent"
     )
+}
+
+fn vertex_ai_gemini_stream_endpoint(endpoint: &str) -> String {
+    endpoint
+        .strip_suffix(":generateContent")
+        .map(|prefix| format!("{prefix}:streamGenerateContent"))
+        .unwrap_or_else(|| endpoint.to_string())
+}
+
+fn vertex_ai_gemini_request_body(
+    prompt: &str,
+    max_output_tokens: u64,
+    tools: Option<&Value>,
+) -> Value {
+    let mut body = serde_json::json!({
+        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "maxOutputTokens": max_output_tokens,
+        },
+    });
+    if let Some(tools) = tools {
+        body["tools"] = tools.clone();
+    }
+    body
+}
+
+fn vertex_ai_tools_from_config(cfg: &HashMap<String, Value>) -> Result<Option<Value>> {
+    if let Some(raw) = cfg.get("vertex_tools") {
+        if raw.as_array().is_none() {
+            return Err(invalid_config(
+                "vertex_ai_gemini",
+                "config.vertex_tools must be a Vertex tools array",
+            ));
+        }
+        return Ok(Some(raw.clone()));
+    }
+    let Some(raw) = cfg.get("tools") else {
+        return Ok(None);
+    };
+    let declarations = raw
+        .as_array()
+        .ok_or_else(|| invalid_config("vertex_ai_gemini", "config.tools must be a UTS array"))?
+        .iter()
+        .map(vertex_ai_function_declaration_from_uts)
+        .collect::<Result<Vec<_>>>()?;
+    Ok(Some(
+        serde_json::json!([{ "functionDeclarations": declarations }]),
+    ))
+}
+
+fn vertex_ai_function_declaration_from_uts(tool: &Value) -> Result<Value> {
+    let name = tool.get("name").and_then(|v| v.as_str()).ok_or_else(|| {
+        invalid_config(
+            "vertex_ai_gemini",
+            "each config.tools entry must include a string name",
+        )
+    })?;
+    let description = tool
+        .get("description")
+        .and_then(|v| v.as_str())
+        .unwrap_or("");
+    let parameters = tool
+        .get("input_schema")
+        .or_else(|| tool.get("parameters"))
+        .cloned()
+        .unwrap_or_else(|| serde_json::json!({ "type": "object", "properties": {} }));
+    if !parameters.is_object() {
+        return Err(invalid_config(
+            "vertex_ai_gemini",
+            "UTS tool input_schema must be a JSON object",
+        ));
+    }
+    Ok(serde_json::json!({
+        "name": name,
+        "description": description,
+        "parameters": parameters,
+    }))
 }
 
 fn required_cfg_string(

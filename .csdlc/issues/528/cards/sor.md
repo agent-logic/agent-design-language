@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implementation remains bounded to the Vertex AI Gemini provider transport, with explicit profile-registry proof added before review.
+Implemented Vertex AI Gemini transport with bounded streaming and UTS tool-call normalization.
 
 ## Artifacts
 
@@ -27,6 +27,9 @@ Implementation remains bounded to the Vertex AI Gemini provider transport, with 
 - .csdlc/prepared/issues/528/validate-vertex-ai-provider-transport.sh
 - .csdlc/prepared/issues/528/run-live-vertex-smoke.sh
 - adl/src/provider/mod.rs
+- adl/src/provider/http_family.rs
+- adl/tests/provider_tests/http_family.rs
+- .csdlc/evidence/528/vertex-ai-r2-fix-focused.log
 
 ## Execution
 
@@ -36,6 +39,10 @@ Implementation remains bounded to the Vertex AI Gemini provider transport, with 
 - Parsed Gemini generateContent candidate text responses and recorded sanitized native invocation evidence under the vertex_ai_gemini family.
 - Added semantic provider-kind validation, a Vertex AI Gemini profile preset, and focused local tests covering request shape, response parsing, endpoint safety, missing-token redaction, and provider registry dispatch.
 - Added a focused assertion that vertex_ai:gemini-2.5-flash remains a first-class vertex_ai_gemini profile with no generic HTTP endpoint fallback.
+- Added Vertex request-body construction that maps UTS-style config.tools entries into Vertex functionDeclarations.
+- Normalized Gemini functionCall response parts into Provider output JSON that preserves tool-call names and arguments.
+- Added an explicit Vertex streaming path using streamGenerateContent and callback emission.
+- Added focused regressions for UTS tool declarations, returned argument preservation, and streaming callback behavior.
 
 ## Validation
 
@@ -129,6 +136,48 @@ Implementation remains bounded to the Vertex AI Gemini provider transport, with 
     "purpose": "Proves the vertex_ai:gemini-2.5-flash profile is registered as native vertex_ai_gemini with no endpoint fallback.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/528/provider-profile-registry-post-finalize.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "vertex_ai_gemini",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Proves #528 Vertex AI Gemini non-streaming, streaming callback, UTS tool declaration mapping, returned tool-call argument preservation, regional endpoint construction, custom endpoint rejection, and credential redaction behavior.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/528/vertex-ai-r2-fix-focused.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--lib",
+      "provider"
+    ],
+    "purpose": "Proves the provider library surface remains green after Vertex streaming and UTS tool-call remediation.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/528/provider-lib-r2-fix.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Proves the #528 provider transport changes remain warning-clean across all targets.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/528/clippy-r2-fix.log"
   }
 ]
 
