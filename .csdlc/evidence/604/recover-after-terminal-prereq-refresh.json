@@ -1,0 +1,7 @@
+{
+  "issue": 604,
+  "expected_generation": 18,
+  "expected_digest": "663078f4633a6d589087893f8dba31703d2120597bf7270845115ce3801b5269",
+  "actor": "codex:/root/worker-6/issue-604",
+  "reason": "Recover after the full standalone v2 suite exposed stale retained terminal prerequisite digest constants for #298 and #299. The live derived-terminal receipts remain internally consistent; the PR will be reviewed and republished from the refreshed exact head."
+}
