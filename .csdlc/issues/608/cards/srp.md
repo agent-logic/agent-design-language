@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/prepared/issues/608/recover-review-after-metadata-commit.json
+.csdlc/issues/608
+.csdlc/prepared/issues/608
 
 ## Prompts
 
@@ -31,12 +33,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI remains the final integration gate before merge.
+- The metadata-only review did not rerun provider or live cloud proof; it verified no product changes since the reviewed implementation head.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8")
 
-Reviewer: None
+Reviewer: Some("fresh-session:909271de-340e-45cf-8218-08759e98eab9")
 
-Result: pre_review
+Result: pass

@@ -71,11 +71,11 @@ Implemented Vertex AI Gemini provider support for native global endpoints and co
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

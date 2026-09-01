@@ -4,14 +4,69 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "441fec45d4e996219640d1b85b1189f3252bc7d8040c26828fea256a77e10f3f",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "bd1cfd571163595aabab0b56efe28395f7096499af4e355ee257d70c6978c721",
+  "phase": "published",
+  "generation": 10,
+  "digest": "46342ddc471949ef044dee5b1f924694d4b5830cd49c2aba377903f3d96b393a",
   "branch": "codex/608-vertex-global-thinking-provider-config",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-608-vertex-global-thinking-provider-config-exec",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:909271de-340e-45cf-8218-08759e98eab9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+    "scope": [
+      ".csdlc/prepared/issues/608/recover-review-after-metadata-commit.json",
+      ".csdlc/issues/608",
+      ".csdlc/prepared/issues/608"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:909271de-340e-45cf-8218-08759e98eab9",
+    "scope": [
+      ".csdlc/prepared/issues/608/recover-review-after-metadata-commit.json",
+      ".csdlc/issues/608",
+      ".csdlc/prepared/issues/608"
+    ],
+    "reviewed_revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI remains the final integration gate before merge.",
+      "The metadata-only review did not rerun provider or live cloud proof; it verified no product changes since the reviewed implementation head."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "metadata_only_review_projection",
+      "from_revision": "git-blake3:01c1e3abe635850261db1b3062535230e986a202:ed6b585597baf5bcc7eec8ed5c1bc47d0832d840c5c95b7d514f93a4162116f4",
+      "to_revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+      "from_commit": "01c1e3abe635850261db1b3062535230e986a202",
+      "to_commit": "d46604ada170f7cef9bbf8d971e56005c13a52f6",
+      "changed_paths": [
+        ".csdlc/issues/608/audit.jsonl",
+        ".csdlc/issues/608/cards/sip.values.json",
+        ".csdlc/issues/608/cards/sor.values.json",
+        ".csdlc/issues/608/cards/spp.values.json",
+        ".csdlc/issues/608/cards/srp.md",
+        ".csdlc/issues/608/cards/srp.values.json",
+        ".csdlc/issues/608/cards/stp.values.json",
+        ".csdlc/issues/608/cards/vpp.values.json",
+        ".csdlc/issues/608/index.json",
+        ".csdlc/prepared/issues/608/assign-exact-head-review-r2.json",
+        ".csdlc/prepared/issues/608/record-exact-head-review-r2.json",
+        ".csdlc/prepared/issues/608/recover-review-after-metadata-commit.json"
+      ]
+    }
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 608,
+    "pull_request": 609,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/609",
+    "base": "main",
+    "head": "codex/608-vertex-global-thinking-provider-config",
+    "revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +80,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c8d911d275f1a789bcd5cb445879f77139ead485307e6471c4e698e679072bf1",
+      "values_digest": "27f1027255342b8664ccd068a26587e90e4efce5581821f7d01a7e4b783c82ae",
       "rendered_digest": "be65d9203b2c74102ac352c28e6eb4e153548faf50a048d45fb39d08b52cec66",
       "ast_digest": "eeeafa3d11967bd3f7444e3c7950803293f5826bd5805879f07b1670e112456d"
     },
     "stp": {
-      "values_digest": "d59a8607801a8e28410559b94b8afcb8ab9619171a384827773662a19dc974af",
+      "values_digest": "9412c2b3c95f47a40e922e1a8ec64cd9cdae04a8f7a5d5ed9bdb0b14661ca1cb",
       "rendered_digest": "f06942e46e39f6caf1928c7d0792e65207ba57fb47776a069f6c2132e49a040b",
       "ast_digest": "37ea2512965f1546c37985239dcd410357f1931e15e778b00e270b0bd0648760"
     },
     "spp": {
-      "values_digest": "7befd03cb39f65998f1b23d0c6550bb31d223599052646deac7b952a35483e35",
+      "values_digest": "235e2fbc38d7e6912d69493d8df631fea88ac3ab5156ea724150aa605aa446c4",
       "rendered_digest": "9d7711434fe23e9a15155afd851dc054f249ada1ac11e7e0ebf3079b241142d2",
       "ast_digest": "a56b2b8380fccba17f20cf2ea6df9981c81a17da8142127009b39d5a93044b46"
     },
     "vpp": {
-      "values_digest": "263653d03d3139a4307a6edae1334766206e99d55cfa0e4aadb2f26a976376be",
+      "values_digest": "5385cae73e4e0f37adaacf49d6781625b6251885d3c70d9a1df6cc7300342853",
       "rendered_digest": "377592f996d1118147690f84da042fd2b9a65f4c5a28ae9f84dc1d53ff2d932a",
       "ast_digest": "ad5f5cca32856fefb6c07c6b3bc5d2080da179d05bdc928d938e50ecc2ff6381"
     },
     "srp": {
-      "values_digest": "08c5c307d863d856795747dc656a38782869bd9c8dec0481687699b110d6fa03",
-      "rendered_digest": "d7d02964917e206bee1349e07fddbf49981ccd4b428099a72f1e3d72141e18eb",
-      "ast_digest": "6593f29a8dd8a0fc7874b47ee7073a9dbc7ec9965bdf68a0e4a13549ae9fb5b3"
+      "values_digest": "d093e8f49ce8fe535d33b70b7219e8c4efda64fb9d20801270fc8be7fa35cd6a",
+      "rendered_digest": "86cc3aedda4e84e8c07fbe33b939ca9d9e659ebc523d955b303db271630fc398",
+      "ast_digest": "d5819bb75007801ff85200b958a350a5100f47d70f9d5a2a66c32d3e81d0b089"
     },
     "sor": {
-      "values_digest": "d54d4622b128351aea89548aa70c6e6adae48523d58584ecfe3d35a546b3b9e1",
-      "rendered_digest": "4a1d62301681e8c28d8be0dc3d8770aa877cb31d73176530aaac2b5ed06555a1",
-      "ast_digest": "fbeb38d65977bdbafecd2bb737b75699bf876459c067dd1d07964c98bf7a1187"
+      "values_digest": "00599452299f6fbc70a45020893718221597ba234194f37c204653ec776dda7e",
+      "rendered_digest": "6cb129b3f2f3172cd04017ab84e306290660fc0a0ecd4c7d2dc7ecb0fa7e5e6d",
+      "ast_digest": "a0360db8c0fa1bf050175c35a9a9473e751b79749fc099005485535a895541bf"
     }
   },
   "transitions": [
@@ -90,6 +145,20 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover reviewed state after committing review metadata changed the clean current head without changing product files; route a metadata-only exact-head review before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -176,6 +245,27 @@
       "actor": "codex:/root",
       "reason": "Recover reviewed state after committing review metadata changed the clean current head without changing product files; route a metadata-only exact-head review before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

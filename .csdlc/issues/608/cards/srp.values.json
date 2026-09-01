@@ -7,15 +7,15 @@
     "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
     "slug": "vertex-global-gemini-thinking-config",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/prepared/issues/608/recover-review-after-metadata-commit.json\n.csdlc/issues/608\n.csdlc/prepared/issues/608",
+      "review_revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+      "reviewer": "fresh-session:909271de-340e-45cf-8218-08759e98eab9",
       "review_prompts": [
         "Does global location use the first-party global Vertex endpoint without requiring a custom override?",
         "Are regional endpoint behavior and trust policy preserved?",
@@ -23,8 +23,11 @@
         "Does live proof avoid credential exposure and exclude Polis integration?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI remains the final integration gate before merge.",
+        "The metadata-only review did not rerun provider or live cloud proof; it verified no product changes since the reviewed implementation head."
+      ],
+      "review_result": "pass"
     }
   }
 }
