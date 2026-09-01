@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 607,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
+    "slug": "aws-warm-polis-gpu-startup",
+    "version": "v0.92.1",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #607 packaging warm-volume Terraform activation timing test documentation evidence and lifecycle paths only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
+        "Can Terraform destroy or a trap delete the persistent warm volumes?",
+        "Are timing denominators complete and comparable?",
+        "Can stale or cross-AZ volume content activate?",
+        "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

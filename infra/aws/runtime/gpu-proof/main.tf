@@ -16,6 +16,25 @@ locals {
   }
 }
 
+data "aws_subnet" "selected" {
+  id = var.subnet_id
+}
+
+check "warm_volume_tuple" {
+  assert {
+    condition = (
+      (var.runtime_warm_volume_id == null && var.gpu_warm_volume_id == null && var.warm_volume_availability_zone == null && var.runtime_warm_seal_sha256 == null && var.gpu_warm_seal_sha256 == null) ||
+      (var.runtime_warm_volume_id != null && var.gpu_warm_volume_id != null && var.warm_volume_availability_zone != null && var.runtime_warm_seal_sha256 != null && var.gpu_warm_seal_sha256 != null)
+    )
+    error_message = "warm volume IDs, exact AZ, and both seal digests must be supplied together or all omitted."
+  }
+
+  assert {
+    condition     = var.warm_volume_availability_zone == null || data.aws_subnet.selected.availability_zone == var.warm_volume_availability_zone
+    error_message = "selected subnet and retained warm volumes must be in the same availability zone."
+  }
+}
+
 resource "aws_security_group" "runtime" {
   name_prefix = "${substr(var.run_id, 0, 28)}-runtime-"
   description = "SSH-only public ingress for the ADL issue 345 Runtime node"
@@ -262,6 +281,26 @@ resource "aws_instance" "runtime" {
     "adl:node"    = "runtime"
     "adl:service" = "guardian-runtime-agents"
   })
+}
+
+resource "aws_volume_attachment" "runtime_warm" {
+  count = var.runtime_warm_volume_id == null ? 0 : 1
+
+  device_name                    = var.runtime_warm_device_name
+  volume_id                      = var.runtime_warm_volume_id
+  instance_id                    = aws_instance.runtime.id
+  force_detach                   = false
+  stop_instance_before_detaching = true
+}
+
+resource "aws_volume_attachment" "gpu_warm" {
+  count = var.gpu_warm_volume_id == null ? 0 : 1
+
+  device_name                    = var.gpu_warm_device_name
+  volume_id                      = var.gpu_warm_volume_id
+  instance_id                    = aws_instance.gpu.id
+  force_detach                   = false
+  stop_instance_before_detaching = true
 }
 
 resource "aws_iam_role" "scheduler" {

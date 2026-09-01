@@ -221,3 +221,57 @@ variable "runtime_user_data" {
     error_message = "runtime_user_data must contain __GPU_PRIVATE_IP__."
   }
 }
+
+variable "warm_volume_availability_zone" {
+  description = "Exact AZ of both issue #607 retained volumes. Null selects the original cold #345 path."
+  type        = string
+  default     = null
+}
+
+variable "runtime_warm_volume_id" {
+  description = "Prepared Runtime content volume owned by the separate warm-storage state."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.runtime_warm_volume_id == null || can(regex("^vol-[0-9a-f]+$", var.runtime_warm_volume_id))
+    error_message = "runtime_warm_volume_id must be null or an EBS volume ID."
+  }
+}
+
+variable "gpu_warm_volume_id" {
+  description = "Prepared Ollama/model content volume owned by the separate warm-storage state."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.gpu_warm_volume_id == null || can(regex("^vol-[0-9a-f]+$", var.gpu_warm_volume_id))
+    error_message = "gpu_warm_volume_id must be null or an EBS volume ID."
+  }
+}
+
+variable "runtime_warm_device_name" {
+  type    = string
+  default = "/dev/sdf"
+}
+
+variable "gpu_warm_device_name" {
+  type    = string
+  default = "/dev/sdf"
+}
+
+variable "runtime_warm_seal_sha256" {
+  type    = string
+  default = null
+  validation {
+    condition     = var.runtime_warm_seal_sha256 == null || can(regex("^[0-9a-f]{64}$", var.runtime_warm_seal_sha256))
+    error_message = "runtime_warm_seal_sha256 must be null or lowercase SHA-256."
+  }
+}
+
+variable "gpu_warm_seal_sha256" {
+  type    = string
+  default = null
+  validation {
+    condition     = var.gpu_warm_seal_sha256 == null || can(regex("^[0-9a-f]{64}$", var.gpu_warm_seal_sha256))
+    error_message = "gpu_warm_seal_sha256 must be null or lowercase SHA-256."
+  }
+}

@@ -1,0 +1,55 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 607
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Launch the proven two-node AWS Polis from sealed prebuilt Runtime and GPU volumes without cold compilation, package installation, or model download.
+
+## Required Outcome
+
+A repeatable Terraform warm path starts both guests within 30 seconds of cloud-init activation, measures apply-to-Polis-ready against a 120-second target, preserves security behavior, and retains only intentional itemized warm volumes.
+
+## Scope
+
+- infra/aws/runtime/gpu-proof/**
+- adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
+- adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
+- adl/tools/build_or_prepare_issue607_warm_polis.sh
+- adl/tools/test_issue607_warm_polis.sh
+- docs/operations/cloud/aws/shepherd-gpu-proof/**
+- .csdlc/prepared/issues/607/**
+- .csdlc/evidence/607/**
+- .csdlc/issues/607/**
+
+## Authority
+
+- Issue authority is agent-logic/agent-design-language#607
+- #605 and PR #606 are the behavioral and security baseline
+- USD 20 is the aggregate AWS ceiling for preparation and validation
+- Production HA DNS TLS routing multi-region replication and 24/7 cutover are outside authority
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Never compile install packages use Git Snap or download models during normal launch
+- Use disjoint Terraform state for persistent storage and disposable compute
+- Keep immutable S3 as artifact authority
+- Bind exact AMI metadata KMS key AZ volumes seals and plans before mutation
+- Use three separate single-use paid authorizations
+- Always retain SSH access on preparation and both launch nodes with one shared key and operator CIDR
+- Require least-privilege IMDSv2 preparation and zero disposable residue
+- Keep Ollama private
+- Write run state only below the bound worktree
+- Do not exceed USD 20 including seven-day retained storage
