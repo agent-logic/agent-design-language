@@ -103,6 +103,10 @@ Status as of this branch:
   The retained timed run completed in 13.78 seconds, under the three-minute
   operator target, and issue-local `csdlc local` canaries reached
   `doctor_ready` for #511 and #515.
+- Updated PR #591 again through typed v2 `csdlc-github-pr` so the public PR body
+  advertises the Sprint 8/9 readiness canary and still uses non-closing
+  `Part-Of #505`; readback evidence is retained at
+  `.csdlc/evidence/591/pr-state-after-sprint89-readiness.json`.
 - Historical note: typed issue transport created tracking issue #596, and typed
   PR transport created PR #597 from `codex/sprints-5-6-cutover-fixes` to
   `main`. PR #597 was later merged, but that merge did not itself terminalize
