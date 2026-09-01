@@ -1,0 +1,16 @@
+{
+  "issue": 496,
+  "expected_generation": 9,
+  "expected_digest": "61f654fcd95cedb774e934921c15e96fecf110ef3d632cffaaa512890d6297e0",
+  "assigned_by": "codex:/root",
+  "reviewer": "fresh-session:1d5a9f5f-9f1e-41fb-8985-6970b3f0df72",
+  "scope": [
+    "Exact commit 9805fd96142056f8fa4ff3e8647b71ea7889aac8",
+    "Issue #496 AWS-G only",
+    "docs/milestones/v0.92.1/evidence/cloud/aws-g/**",
+    ".csdlc/issues/496/**",
+    ".csdlc/prepared/issues/496/**",
+    ".csdlc/evidence/496/**",
+    "Read-only denominator references to adl/tools/issue194_private_network.cloudformation.json and adl/tools/issue268_runtime_qualification.cloudformation.yaml"
+  ]
+}

@@ -7,13 +7,13 @@
     "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
     "slug": "aws-cloudformation-retirement-decision",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Bootstrap #496 from current main after #489/#495 live merge truth, approve a design centered on a no-deletion retirement ledger, bind a FastWork worktree, implement the ledger and validator, run focused proof, obtain exact-head review, publish with closing linkage, and finish when green.",
       "steps": [
         {
@@ -58,8 +58,8 @@
       ],
       "affected_areas": [
         "docs/milestones/v0.92.1/evidence/cloud/aws-g",
-        ".csdlc/prepared/issues/496/validate-aws-g-cloudformation-retirement.sh",
-        ".csdlc/prepared/issues/496",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md",
+        "docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh",
         ".csdlc/evidence/496"
       ],
       "invariants": [

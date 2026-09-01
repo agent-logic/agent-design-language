@@ -17,7 +17,7 @@ Issue #496 AWS-G only; decide the retirement disposition for the issue #194/#268
 ## Deliverables
 
 - docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md
-- .csdlc/prepared/issues/496/validate-aws-g-cloudformation-retirement.sh
+- docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh
 - typed C-SDLC v2 cards proving dependency, scope, validation, review, publication, and terminal truth
 
 ## Acceptance
