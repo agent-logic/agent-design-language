@@ -6,10 +6,55 @@
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
   "phase": "implemented",
   "generation": 16,
-  "digest": "ea5f4a470dcaf7413b2474c8c7b443a50f18cd1209716dd1580c766e6b908f3e",
+  "digest": "1fb55b70fb776353eb1ddca63467ccefe5a60e9141c8462566d772eee9724c45",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/review_604_all_defects_closed",
+    "assigned_by": "codex:/root/worker-6/issue-604",
+    "revision": "git-blake3:7f1e4e1c97116ab6488f7d9c6d53ddb270747e77:70491f192a8f37d2e3cdef4a05470acabebd5694f10a8aa8d90b64449779c4b2",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/evidence/604/issue-604-implementation-validation.log",
+      ".csdlc/evidence/604/pr610-state-request.json",
+      ".csdlc/evidence/604/publish-draft-request.json",
+      ".csdlc/evidence/604/publish-final-ready-request.json",
+      ".csdlc/evidence/604/publish-ready-update-request.json",
+      ".csdlc/evidence/604/ready-request.json",
+      ".csdlc/evidence/604/recover-after-canary-defect-fixes.json",
+      ".csdlc/evidence/604/recover-after-ready-tail-gap.json",
+      ".csdlc/evidence/604/recover-after-resume-push-gap.json",
+      ".csdlc/evidence/604/review-assign-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-assign-after-resume-push-fix.json",
+      ".csdlc/evidence/604/review-assign-all-defects-closed.json",
+      ".csdlc/evidence/604/review-assign-publication-valid.json",
+      ".csdlc/evidence/604/review-record-after-ready-tail-fix.json",
+      ".csdlc/evidence/604/review-record-publication-valid.json",
+      ".csdlc/prepared/issues/604/design.md",
+      ".csdlc/prepared/issues/604/diagram.mmd",
+      ".csdlc/prepared/issues/604/finalize-request.json",
+      ".csdlc/prepared/issues/604/full-cycle-defects.md",
+      ".csdlc/prepared/issues/604/publish-draft-request.json",
+      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
+      ".csdlc/prepared/issues/604/review-assign-repaired.json",
+      ".csdlc/prepared/issues/604/review-record-repaired.json",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v2/operator/skills.json",
+      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "csdlc-v2/src/bin/csdlc-github-pr.rs",
+      "csdlc-v2/src/bin/csdlc-pr-state.rs",
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/operator.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/src/review.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/publication_ready.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +90,9 @@
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "ce0e1d6cca67481e0fdd6d5586288dabc7974b987a0748b4e6b54049b8975dd0",
-      "rendered_digest": "6521d3d327da10bb1f72a25546d0721d3fb4f827e19ce3a48477d3a071365771",
-      "ast_digest": "d6631edc7e03e03c23d19446bf4618d3806a58c44cf76c2a5166d8c68631562d"
+      "values_digest": "2f7d849a3063d5af127bc31032191924fb9310a0de7dae1df2a27182226be920",
+      "rendered_digest": "d24adb8fb5374b444b80eb1fd55cbfb18028f5ba39789cbdb27f4df3c5cab70b",
+      "ast_digest": "4286e04138f5c1fac9d0b7fecb07ef4cec876ac33fd0ac45061b7599b71df4d2"
     },
     "sor": {
       "values_digest": "91966599f8953462837d5cba570ab10ef5dc427e25554db60ee32d4b979e59d8",
@@ -309,6 +354,13 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover after final canary-defect fixes added retained PR-state envelope compatibility and a fail-closed self-staling review-scope guard. The PR remains live and will be reconciled through a fresh typed review and publication pass.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
