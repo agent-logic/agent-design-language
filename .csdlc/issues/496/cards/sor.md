@@ -55,11 +55,11 @@ Repaired #496 validator/proof after exact review by adding the validator self-re
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

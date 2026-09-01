@@ -4,25 +4,25 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "546e85c2e5fb163a29c67d6f148cbc79eacddcf8485fd831d8b91861c0f1db0c",
-  "phase": "reviewed",
-  "generation": 16,
-  "digest": "a6ed2cb6a95fdfcfe99dac9babbb8005623470d3ee3d5288b2ecfd76398f46cd",
+  "phase": "published",
+  "generation": 19,
+  "digest": "3610f63bc63aeb20857da122bc880167c5cf2ea967cf72dda9f692af338a2cc2",
   "branch": "codex/496-aws-cloudformation-retirement-decision-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-496-aws-cloudformation-retirement-decision-bound",
   "review_assignment": {
-    "reviewer": "fresh-session:53b89b9a-e9e8-4f14-b86a-fb33599d239e",
+    "reviewer": "fresh-session:c1b4c95e-27f4-4a9a-a839-2c51632e9b04",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:1105455ad15f95a2f0b9103b336692154ad0a41e:40b5d66d53ffcaf7790939a091c79967838bbbb7c9a711f8d9a800b8fa65ff9c",
+    "revision": "git-blake3:e16a5499bdda3d9025fec5f4ea91955233abf3db:4d6623234961f7f30115b1235b3c4ddf55355530388723a49090e1a79af487eb",
     "scope": [
       "docs/milestones/v0.92.1/evidence/cloud/aws-g"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:53b89b9a-e9e8-4f14-b86a-fb33599d239e",
+    "reviewer": "fresh-session:c1b4c95e-27f4-4a9a-a839-2c51632e9b04",
     "scope": [
       "docs/milestones/v0.92.1/evidence/cloud/aws-g"
     ],
-    "reviewed_revision": "git-blake3:1105455ad15f95a2f0b9103b336692154ad0a41e:40b5d66d53ffcaf7790939a091c79967838bbbb7c9a711f8d9a800b8fa65ff9c",
+    "reviewed_revision": "git-blake3:e16a5499bdda3d9025fec5f4ea91955233abf3db:4d6623234961f7f30115b1235b3c4ddf55355530388723a49090e1a79af487eb",
     "findings": [],
     "residual_risks": [
       "No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority."
@@ -30,7 +30,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 496,
+    "pull_request": 599,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/599",
+    "base": "main",
+    "head": "codex/496-aws-cloudformation-retirement-decision-bound",
+    "revision": "git-blake3:e16a5499bdda3d9025fec5f4ea91955233abf3db:4d6623234961f7f30115b1235b3c4ddf55355530388723a49090e1a79af487eb",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -44,34 +55,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "99101d39b54162f6e400a07b6b1d98aa9098f1857d1577dfa5b2e9e21977124d",
+      "values_digest": "8df75a145eb474f01205044ca1b5439ed4410db6975ea42dc03a79e2ca99ce4f",
       "rendered_digest": "ba724bb557f178cb5cb116d66a996a8be304c3c3267bcb9c6abef00453559c4d",
       "ast_digest": "8d1a475c90b9205b3bf9f5209251d2c26e8cf00423adb149d47ab2ec22a29f85"
     },
     "stp": {
-      "values_digest": "29ace756395f98f910b88f19060efdfae56e11fdf8a2d5effbb20911670a272c",
+      "values_digest": "758927fd773d91d3869d4b95346ccb8eb252b1922ead2c1c5dfe329210c0776c",
       "rendered_digest": "a6c0f4c24427d2b8696d8dbe42448f206ee759bec5da0b381e393202adcf0e9a",
       "ast_digest": "c9adddb3b47c7a71749ca4f9e0f09f608a2f2cdda7ad77e708d61b40a2717c8a"
     },
     "spp": {
-      "values_digest": "984f643f84e86b79adedfcbd33b43e8d0d13189fd2a7985b332253240141287f",
+      "values_digest": "6ae73366027dfca911b306f642849a0bef46ae2f5e675da0a441152f5fe94d9c",
       "rendered_digest": "00873878f734ff3283c4ef2b04056fac3f2412a6196c6b84a99561dc1f07265f",
       "ast_digest": "cee8bb85ae34ea6615d406dbd6920ab323199c2d42b18ad1ba37b2dee78e6078"
     },
     "vpp": {
-      "values_digest": "ca9a4c1d10f09b8b32a0181af196eb49941cfe054753686ae61093be216277ff",
+      "values_digest": "1d252775df8f57e0ca59ecd07e04b43682deb8aa90d0830fb398a50c479df577",
       "rendered_digest": "54016a4be7498595d1cae5c00addc1acc5cf86c046f3813abd7e0b571001a11a",
       "ast_digest": "cd09ef4297970a6fd71522ea0f2c846ec95ff4b2e71ed08e180f05d0cf0f8cd4"
     },
     "srp": {
-      "values_digest": "2d226994eac5f5007fe8c9f57239180389fb5e7039c9dde2c290eddf792c2bd2",
-      "rendered_digest": "2fc9ab9603535d5909b1cdff0cd97b7d86a816b1370b04fb08a67c4011774755",
-      "ast_digest": "b70eeb037c5b222fd3c3fb4ed2ef9950a85a17db6598e37386e84ef585a6bc39"
+      "values_digest": "499095d5282b6c006ab2f75621bfdda990f30da32dcc4850e11daa5cf19c12ef",
+      "rendered_digest": "d2b9b21379f98bb020de20e653c08dbb6d4efdb33fed3e6e46c1e9e352295253",
+      "ast_digest": "204c55dc77b55f407310d6bb0b5c76223a7e4c70910bf4be5310c21064ac8d82"
     },
     "sor": {
-      "values_digest": "2c562e4309c43699bc7a75c75e24fb8205d502527fa115f8babc1204a357f37f",
-      "rendered_digest": "6642904223cd00ce5ccd876b655b186cc2ce4ac23e4ef60134d1f1be69d84c5b",
-      "ast_digest": "b3c4db937ee9b769a30da6fcc430a865f5e0060f0a321a4e4a301667d7970303"
+      "values_digest": "8feac66a123efdcdae7d91f992414cbe10120bf96842b75f357144c53bb7a052",
+      "rendered_digest": "f61006ae57b113ba398be36cbf2e6375d01024ecfa32cadd3202b343d79b8442",
+      "ast_digest": "5ff036532c951bfd6dd8d9c955600170ab10d4581d522b9b7215ba13ae0c62a1"
     }
   },
   "transitions": [
@@ -116,6 +127,27 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #496 after publication guard again reported review_publication_dead_end because post-review committed request-packet metadata made the reviewed evidence non-current; reassign current clean head and publish before any further post-review commit."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -272,6 +304,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover #496 after publication guard again reported review_publication_dead_end because post-review committed request-packet metadata made the reviewed evidence non-current; reassign current clean head and publish before any further post-review commit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
