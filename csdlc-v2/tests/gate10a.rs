@@ -899,7 +899,10 @@ fn freshly_installed_generation_runs_claim_free_lifecycle_without_migrate() {
     );
     let coexistence =
         verify_coexistence(&repo, &destination, &CoexistenceInventory::load().unwrap()).unwrap();
-    assert!(coexistence.pass);
+    assert!(
+        coexistence.pass,
+        "freshly installed generation failed coexistence: {coexistence:?}"
+    );
     assert!(coexistence.missing_v2_binaries.is_empty());
     assert!(coexistence.present_forbidden_v1_paths.is_empty());
     assert!(!destination.join("csdlc-migrate").exists());
