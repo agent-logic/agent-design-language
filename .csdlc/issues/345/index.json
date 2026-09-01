@@ -4,41 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "reviewed",
-  "generation": 94,
-  "digest": "150cfbd08de71f70c0fa4700ea9563f96081eec681a986842dd8363c90c96135",
+  "phase": "implemented",
+  "generation": 96,
+  "digest": "aabd83f26e28ac1ec5e6cc915463ae1c544933c6c33cfd2228316715ec40ee4b",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
-    "revision": "git-blake3:93975b7988ed7b71c3881550830a60aa46f9261c:d9c0cd0045824d32ee0667e50d4ea96bb97c5076c39c28977fc252a4c168a674",
-    "scope": [
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/issues/345"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "scope": [
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/issues/345"
-    ],
-    "reviewed_revision": "git-blake3:93975b7988ed7b71c3881550830a60aa46f9261c:d9c0cd0045824d32ee0667e50d4ea96bb97c5076c39c28977fc252a4c168a674",
-    "findings": [],
-    "residual_risks": [
-      "Final paid two-node success remains pending.",
-      "The bounded qualification does not establish 24/7 production readiness."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -53,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c37bbe67c09cfa93f163a28caddfd4677621eeaf34de018e15be3c88f3081c6d",
+      "values_digest": "cc069aaca696773595b82726f9f6463559fe372321736a2908ef7bde9d47fe29",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "ff9981812bd793c5c137c121b1b0d0f1b75eb762805a06a66acec9a1be52a796",
+      "values_digest": "f2b16c9a18f25f5990b75406cefd98cd5a1dd877a2899e48c34a5266e969d585",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "44c324c5811d91d49af4b426f4c06e6bbf21e41ef1591880ba3089ac55b7fb0e",
+      "values_digest": "74b5661b54f205675ed587262fb602ff2d3b5414d9f5175844ba314cd9bb608f",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "cbaf297898e42f8d6d249521e9083c724f435c5262deeda114afffff71d736d7",
+      "values_digest": "9a29084e6ac4730b98596d3225dad1e6d5e6d1f6200846dee2e9383bf17184d6",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "359f2944ee5ddd58c96100f959286969828c7ae0e5ea481214d0dbd94aff4515",
-      "rendered_digest": "13f8efd6af7bdc26f6990419c5dded08d131564f2d9bae012c30f0909c63b9a1",
-      "ast_digest": "5e43c5625460f613030d8591d838e5e9b6c49e70d98244409756448b5305711d"
+      "values_digest": "af27807accd8a58b5fd34b04ee928949460fadf818607486600dd16b0f29aed7",
+      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
+      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "5a952b34ea6641c8c3a6770b31b29bdcf47d21d83f380f0523d5910c01cbd056",
-      "rendered_digest": "8fc6ab5f7b1e613282744dab95e0ed223c3cc09dca598a7785c8c162942e670d",
-      "ast_digest": "6c9cebcef801b839242dd05768bb3848d47c615524a84712710640d9cf9c263b"
+      "values_digest": "c2beb4e4bfd22824fd338a12f8597c838a7f9fae9ded970d5b3f57abe59da426",
+      "rendered_digest": "e4846273cb014bb6406781cb76331d4e8f435be5cfdcd58cdee3236b35219262",
+      "ast_digest": "ec1166bab206529bd511fadb52c2ce02116f262db632958cab6c875a358840a9"
     }
   },
   "transitions": [
@@ -265,6 +237,13 @@
       "to": "reviewed",
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 27,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the seventh paid run reached Runtime launch and exposed that the lifecycle validator localized the Runtime API and TLS host to localhost without localizing polis.public_domain; apply the smallest fail-closed transform, focused proof, and truthful run evidence before re-review."
     }
   ],
   "audit": [
@@ -1086,6 +1065,20 @@
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 118,
+      "generation": 95,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the seventh paid run reached Runtime launch and exposed that the lifecycle validator localized the Runtime API and TLS host to localhost without localizing polis.public_domain; apply the smallest fail-closed transform, focused proof, and truthful run evidence before re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 119,
+      "generation": 96,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Record the seventh real run, its repeated two-model GPU success, successful Guardian compilation and Git-free lifecycle-root entry, exact polis-domain localization failure, zero-residue cleanup, and the narrow fail-closed validator remediation without claiming final success.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Seven real Terraform launches have repeatedly proved the GPU half and cleanup. The latest run proved both models simultaneously resident, restored the complete Git-free archive, compiled the Guardian successfully in 1m05s, and passed the Git-free lifecycle-root boundary. Runtime launch then failed because the lifecycle validator localized the API URL and TLS server name to localhost without localizing polis.public_domain to the same canonical host. The retained receipt captured that exact policy error. The already-orphaned HTTPS/WSS probe alone was terminated to avoid ten minutes of impossible waiting; cleanup then destroyed both nodes and all volumes and released the lock. The validator now localizes all three coupled host fields together and fails closed when the polis field is missing or ambiguous. Final paid proof remains pending exact-head review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, USD 20 hard budget, and three cleanup paths.\",\"Observed the seventh real GPU receipt again prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed the Runtime node restore the complete Git-free archive, compile the Guardian successfully in 1m05s, and enter lifecycle-soak through the new archive-root fallback.\",\"Captured the exact Runtime policy diagnostic that polis.public_domain still named runtime.dev.agent-logic.ai while the validator had localized the API and TLS host to localhost.\",\"Terminated only the already-orphaned readiness probe after immediate soak failure so the failure trap and cost-bounded cleanup could proceed.\",\"Localized polis.public_domain to localhost in the same fail-closed transform as public_base_url and api.tls.server_name.\",\"Extended the focused validator contract to prove all three localized host fields and reject missing or duplicate polis public-domain fields.\",\"Confirmed cleanup terminated both instances, removed all run volumes, destroyed Terraform state resources, and released the lock; direct AWS inventory returned zero issue instances and volumes.\"],\"artifacts\":[\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\".adl/local/issue345/adl-issue345-20260901-124301/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-124301/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-124301/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\"],\"purpose\":\"Run the existing extracted Runtime-init localization contract, including the new coupled-host assertions and missing or duplicate polis-domain negative cases.\",\"outcome\":\"failed\",\"evidence_ref\":\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\"},{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove the no-paid topology, bootstrap, complete archive, revision, diagnostics, IAM, authorization, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"93975b7988ed7b71c3881550830a60aa46f9261c\",\"--run-id\",\"adl-issue345-20260901-124301\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-git-free-root-fix.json\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through repeated GPU residency, successful Guardian compilation, successful Git-free lifecycle-root resolution, exact polis-domain policy failure, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-124301\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
     }
   ]
 }

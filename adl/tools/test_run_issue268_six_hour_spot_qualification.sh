@@ -56,7 +56,12 @@ with tempfile.TemporaryDirectory() as tmp:
     result = subprocess.run(snippet_args, input=snippet, text=True, capture_output=True)
     if result.returncode != 0: raise SystemExit(f"Runtime init localization failed: {result.stderr}")
     localized = output.read_text()
-    if 'address = "127.0.0.1:34567"' not in localized or 'public_base_url = "https://localhost:34567"' not in localized:
+    if (
+        'address = "127.0.0.1:34567"' not in localized
+        or 'public_base_url = "https://localhost:34567"' not in localized
+        or 'server_name = "localhost"' not in localized
+        or 'public_domain = "localhost"' not in localized
+    ):
         raise SystemExit("Runtime init localization produced the wrong local endpoint")
     source.write_text(canonical.replace('public_base_url = "https://runtime.dev.agent-logic.ai:20997"\n', '', 1))
     if subprocess.run(snippet_args, input=snippet, text=True, capture_output=True).returncode == 0:
@@ -64,6 +69,12 @@ with tempfile.TemporaryDirectory() as tmp:
     source.write_text(canonical + 'public_base_url = "https://duplicate.invalid:20997"\n')
     if subprocess.run(snippet_args, input=snippet, text=True, capture_output=True).returncode == 0:
         raise SystemExit("duplicate public URLs unexpectedly localized")
+    source.write_text(canonical.replace('public_domain = "runtime.dev.agent-logic.ai"\n', '', 1))
+    if subprocess.run(snippet_args, input=snippet, text=True, capture_output=True).returncode == 0:
+        raise SystemExit("missing polis public domain unexpectedly localized")
+    source.write_text(canonical + 'public_domain = "duplicate.invalid"\n')
+    if subprocess.run(snippet_args, input=snippet, text=True, capture_output=True).returncode == 0:
+        raise SystemExit("duplicate polis public domains unexpectedly localized")
 print("PASS: issue268 contract markers")
 PY
 
