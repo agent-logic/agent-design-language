@@ -274,6 +274,22 @@ Implemented, locally validated, independently reviewed, and live-deployed ordere
     "purpose": "Prove absent service stop remains idempotent without attempting a privileged service-manager stop; hosted Linux CI remains the proving denominator for the Linux cfg branch.",
     "outcome": "passed",
     "evidence_ref": "Focused test passed 1/1 locally and cargo fmt --check passed; exact-head hosted Linux CI is required to prove the repaired systemd branch."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "cli::csm_runtime_v3_cmd::tests",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove CSM lifecycle behavior and deterministic systemd state classification, including inactive, active, activating, deactivating, failed, and malformed state surfaces.",
+    "outcome": "passed",
+    "evidence_ref": "27 focused CSM tests passed; cargo fmt --check and git diff --check passed. The systemd command path remains deferred to exact-head hosted Linux CI."
   }
 ]
 

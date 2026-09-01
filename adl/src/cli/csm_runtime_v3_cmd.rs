@@ -377,9 +377,6 @@ fn start_clean(args: &RuntimeV3ServiceArgs, init: &RuntimeInitConfig) -> Result<
 }
 
 fn stop_and_wait(args: &RuntimeV3ServiceArgs, current: &RuntimeInitConfig) -> Result<()> {
-    if !platform_loaded(args) {
-        return Ok(());
-    }
     let guardian_process_id = platform_process_id(args);
     platform_stop(args)?;
     wait_for_stopped(args, current, guardian_process_id, Duration::from_secs(15))
@@ -575,7 +572,7 @@ fn wait_for_stopped(
         let stopped_listener_gone = runtime_readiness(init).map_or(true, |readiness| {
             stopped_guardian_process_id != Some(readiness.guardian_process_id)
         });
-        if !platform_loaded(args) && stopped_listener_gone {
+        if platform_stopped(args)? && stopped_listener_gone {
             return Ok(());
         }
         std::thread::sleep(Duration::from_millis(200));
@@ -589,7 +586,7 @@ fn wait_for_stopped(
 fn wait_for_service_unloaded(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
     let deadline = std::time::Instant::now() + timeout;
     while std::time::Instant::now() < deadline {
-        if !platform_loaded(args) {
+        if platform_stopped(args)? {
             return Ok(());
         }
         std::thread::sleep(Duration::from_millis(200));
@@ -704,6 +701,11 @@ fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
 }
 
 #[cfg(target_os = "macos")]
+fn platform_stopped(args: &RuntimeV3ServiceArgs) -> Result<bool> {
+    Ok(!platform_loaded(args))
+}
+
+#[cfg(target_os = "macos")]
 fn platform_process_id(args: &RuntimeV3ServiceArgs) -> Option<u32> {
     let output = Command::new("launchctl")
         .args(["print", &launchd_target(args)])
@@ -742,10 +744,71 @@ fn platform_start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 
 #[cfg(target_os = "linux")]
 fn platform_stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    if !platform_loaded(args) {
+    if systemd_service_state(args)?.is_stopped() {
         return Ok(());
     }
     run(Command::new("systemctl").args(["stop", &systemd_unit(args)]))
+}
+
+#[cfg(any(target_os = "linux", test))]
+#[derive(Debug, Eq, PartialEq)]
+struct SystemdServiceState {
+    load: String,
+    active: String,
+}
+
+#[cfg(any(target_os = "linux", test))]
+impl SystemdServiceState {
+    fn is_stopped(&self) -> bool {
+        self.active == "inactive"
+    }
+}
+
+#[cfg(any(target_os = "linux", test))]
+fn parse_systemd_service_state(output: &str) -> Result<SystemdServiceState> {
+    let property = |name: &str| {
+        output.lines().find_map(|line| {
+            let (key, value) = line.split_once('=')?;
+            (key == name).then(|| value.trim().to_owned())
+        })
+    };
+    Ok(SystemdServiceState {
+        load: property("LoadState")
+            .filter(|value| !value.is_empty())
+            .ok_or_else(|| anyhow!("systemctl show omitted LoadState"))?,
+        active: property("ActiveState")
+            .filter(|value| !value.is_empty())
+            .ok_or_else(|| anyhow!("systemctl show omitted ActiveState"))?,
+    })
+}
+
+#[cfg(target_os = "linux")]
+fn systemd_service_state(args: &RuntimeV3ServiceArgs) -> Result<SystemdServiceState> {
+    let unit = systemd_unit(args);
+    let output = Command::new("systemctl")
+        .args([
+            "show",
+            "--property=LoadState",
+            "--property=ActiveState",
+            &unit,
+        ])
+        .output()
+        .with_context(|| format!("inspect systemd unit {unit}"))?;
+    if !output.status.success() {
+        return Err(anyhow!(
+            "systemctl show failed for {unit} with status {}",
+            output.status
+        ));
+    }
+    parse_systemd_service_state(
+        std::str::from_utf8(&output.stdout)
+            .with_context(|| format!("systemctl show returned non-UTF-8 state for {unit}"))?,
+    )
+}
+
+#[cfg(target_os = "linux")]
+fn platform_stopped(args: &RuntimeV3ServiceArgs) -> Result<bool> {
+    Ok(systemd_service_state(args)?.is_stopped())
 }
 
 #[cfg(target_os = "linux")]
@@ -796,6 +859,13 @@ fn platform_stop(_args: &RuntimeV3ServiceArgs) -> Result<()> {
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
 fn platform_loaded(_args: &RuntimeV3ServiceArgs) -> bool {
     false
+}
+
+#[cfg(not(any(target_os = "macos", target_os = "linux")))]
+fn platform_stopped(_args: &RuntimeV3ServiceArgs) -> Result<bool> {
+    Err(anyhow!(
+        "csm runtime-v3 service control supports launchd and systemd"
+    ))
 }
 
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
@@ -1311,6 +1381,26 @@ mod tests {
         );
         assert_eq!(parse_launchctl_process_id("pid = 0\n"), None);
         assert_eq!(parse_launchctl_process_id("parent-pid = 12345\n"), None);
+    }
+
+    #[test]
+    fn systemd_state_parser_distinguishes_stopped_transitional_and_failed_units() {
+        let stopped =
+            parse_systemd_service_state("LoadState=not-found\nActiveState=inactive\n").unwrap();
+        assert!(stopped.is_stopped());
+
+        for active in ["active", "activating", "deactivating", "failed"] {
+            let state =
+                parse_systemd_service_state(&format!("LoadState=loaded\nActiveState={active}\n"))
+                    .unwrap();
+            assert!(
+                !state.is_stopped(),
+                "{active} must not be treated as stopped"
+            );
+        }
+
+        assert!(parse_systemd_service_state("LoadState=loaded\n").is_err());
+        assert!(parse_systemd_service_state("ActiveState=inactive\n").is_err());
     }
 
     #[test]

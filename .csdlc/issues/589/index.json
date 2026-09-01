@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 63,
-  "digest": "4e024dcdd66adf5094e956cd5e3356b963d8bc6995b3f1f632065f58af3690ab",
+  "generation": 66,
+  "digest": "ffcc40fd18c6c7d14855455d0ab6531d0c955a256234f92ecffc183494181886",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "edb12e2a52d2225cd09d9ae965a706196a5ce7755fd213152a16ccd9f119f187",
+      "values_digest": "210457fe513e93100e9559052b5977903760e84633f9df6af2d82addf38f0a53",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "f365d9a37fde5f3edb8393cdc25685c4de3195a5c9e902c8debda8302521ebbd",
+      "values_digest": "9ad83b6ab393062d720c756b562e1d43454c7c601987714f18623ae3f996f4f4",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "6034e6306b5cc74f14991206fae0f6591e2639592157167091e6cd4a0099fbde",
+      "values_digest": "8191544b7a561467f73b0d7393428b93fbde74af3796a5d36d1d644153f5c060",
       "rendered_digest": "a069ff69cb5df91f309448828701857112434b9c742c1e1015449f6af9603623",
       "ast_digest": "1abf9f10cd423045ec1cbacf37555bd467ef11fb8b5182951ea89a803f070a15"
     },
     "vpp": {
-      "values_digest": "9caccf9c18cd977b0d984a0f9bea5a2303edb92477b18b8e37b6d28da0377e92",
+      "values_digest": "55c9c881a47ed714cb16bc62b15cc745aa6a1aee558a9c7fc97405cb838dd2e9",
       "rendered_digest": "206db6dfc5256ca6596b14c8509493d5be13fdbfb61516aab1007b527e4c5aa0",
       "ast_digest": "5faac6bcb1180015c997ff4639ccdd93b0f6dcade665c98bc5064680e4f04a69"
     },
     "srp": {
-      "values_digest": "2ffe1ad3d2f5db13e164ebd34b4cb8cc5e1fafc12cb5053992b85e27eb4b4e46",
+      "values_digest": "271d211b1ab828be0433eb4f6cd8bee3aab81333feb1e86a5ae8cde862762ce1",
       "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
       "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "6a4ab493722d5c70e925cb41852953949a1d5af3447c10d552001a4e137a8145",
-      "rendered_digest": "a04eca859ffba4bbfeb099b6846e8de830a485ddec3ed602e064bf85c2b6b645",
-      "ast_digest": "9743cf7281428bc5150f8538a5004d9009df6b5dadf927e064de90f13ff8d1ec"
+      "values_digest": "4b4bbab4b9c559c6502e4ed37119d612c8ee52882f430df20c2a90e850515bbc",
+      "rendered_digest": "27f81f3eea55d3f1da80df54d9b51d43c05400c165e5f72804d3b8b65029a730",
+      "ast_digest": "9525dd6d69707a38321e31ce778f9a05c441dbdb5b6425945335b24d621657d3"
     }
   },
   "transitions": [
@@ -805,6 +805,34 @@
       "actor": "codex-issue-589",
       "reason": "Record the focused remediation proof for the exact-head Linux hosted-coverage failure.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"cli::csm_runtime_v3_cmd::tests::missing_service_is_unloaded_and_has_no_owned_process\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove absent service stop remains idempotent without attempting a privileged service-manager stop; hosted Linux CI remains the proving denominator for the Linux cfg branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused test passed 1/1 locally and cargo fmt --check passed; exact-head hosted Linux CI is required to prove the repaired systemd branch.\"}}"
+    },
+    {
+      "sequence": 82,
+      "generation": 63,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 83,
+      "generation": 64,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 84,
+      "generation": 65,
+      "actor": "codex-issue-589",
+      "reason": "Resolve the exact-head review findings by distinguishing conclusive inactive systemd state from transitional, failed, malformed, and service-manager error states, and by removing the higher-level unloaded shortcut.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 85,
+      "generation": 66,
+      "actor": "codex-issue-589",
+      "reason": "Record focused validation for the fail-closed systemd state remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"cli::csm_runtime_v3_cmd::tests\",\"--\",\"--nocapture\"],\"purpose\":\"Prove CSM lifecycle behavior and deterministic systemd state classification, including inactive, active, activating, deactivating, failed, and malformed state surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\"27 focused CSM tests passed; cargo fmt --check and git diff --check passed. The systemd command path remains deferred to exact-head hosted Linux CI.\"}}"
     }
   ]
 }
