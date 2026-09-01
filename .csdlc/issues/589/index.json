@@ -3,13 +3,34 @@
   "issue": 589,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
-  "phase": "implemented",
-  "generation": 72,
-  "digest": "81223224d168736cc3732b0065714c5ccce8b2bce0abb9a601e5e995c85c9930",
+  "phase": "reviewed",
+  "generation": 73,
+  "digest": "595e413e698829a831d9361dbb1ef4d27f8a700f2b9e38ce19fe73d9feb288da",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "assigned_by": "codex-issue-589",
+    "revision": "git-blake3:83b003b9ae24ec6a4f328a98154b3735642a61fa:37988ab7dddd698291ebce7ab2d51b0c8775cf72639846404074a880e8d3bcff",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/issues/589"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "scope": [
+      "adl/src/cli/csm_runtime_v3_cmd.rs",
+      ".csdlc/issues/589"
+    ],
+    "reviewed_revision": "git-blake3:83b003b9ae24ec6a4f328a98154b3735642a61fa:37988ab7dddd698291ebce7ab2d51b0c8775cf72639846404074a880e8d3bcff",
+    "findings": [],
+    "residual_risks": [
+      "Hosted Linux CI remains the proving execution environment for the systemd command path; live Runtime and cloud readbacks are mutable point-in-time evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +45,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "33bdcd7f3462bdb2d0f3c10f04b7632437352ffc8f1b5822c62984322b117911",
+      "values_digest": "e7a0682b74237d229c45e4c9b84c039362b65f1b9ef2d69e55fea9b0067fa3bc",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "8e9c2632d28069ea2fb9c64c60943a6ac05038ff9b8de4953bc20b18bed22617",
+      "values_digest": "e1d838d91cb9d47e6717cb6baae7a3f41b5760c64b5ddc72c89df9f67b41f815",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "7e7b2f95bc540a6ea4be58294bdfc056e109f563bc098210e8445964ce79ffbd",
+      "values_digest": "3dbf767a5c3425c502db98f9d0aa494a8f7fb5b16b74dca37da4e1e86aee5424",
       "rendered_digest": "a069ff69cb5df91f309448828701857112434b9c742c1e1015449f6af9603623",
       "ast_digest": "1abf9f10cd423045ec1cbacf37555bd467ef11fb8b5182951ea89a803f070a15"
     },
     "vpp": {
-      "values_digest": "25de5180aec2619cc5c076da9115becb972e9b69a4ea6cb424e5c4e4e0762490",
+      "values_digest": "436821840d5623db4079b406e93d20a0b6702a2078c381a0ce67ce3d5f208a15",
       "rendered_digest": "206db6dfc5256ca6596b14c8509493d5be13fdbfb61516aab1007b527e4c5aa0",
       "ast_digest": "5faac6bcb1180015c997ff4639ccdd93b0f6dcade665c98bc5064680e4f04a69"
     },
     "srp": {
-      "values_digest": "a3590027ba4512486a2cf95c1b715b04b9ae97239f2000e37e0307bf19384b7e",
-      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
-      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
+      "values_digest": "6be4241b3aa4dc85beadac430bac4413e18efe045a4879f6f61215f416db57c2",
+      "rendered_digest": "982a489d17709c8ecb0dac0eba2b409e460e33fcca5323559823a45d8fa835f5",
+      "ast_digest": "e36f59a8b23ae239cb4b58699c98a10bbda6bfbcd2decb2ad70811c8819d240d"
     },
     "sor": {
-      "values_digest": "0fc94d9adb6e0b85e29b4e255cacb1c2f4e591f4e4d3c292271085fdb8751296",
+      "values_digest": "b99e38df4733c01ced77859993dec1673c3ce73f12ab356cf26ae5248da43e87",
       "rendered_digest": "e4edb0c6ee5348d4f4078344e1aa09f8c88064bab9a5f9b6b7329f29069e4ab6",
       "ast_digest": "7ab1cc676566a7f15ab099bf4677bfb14f4774c81d2a0525503b4ce523f04cf3"
     }
@@ -236,6 +257,13 @@
       "to": "implemented",
       "actor": "codex-issue-589",
       "reason": "Recover published review truth after exact-head Linux workspace coverage exposed non-idempotent systemd stop behavior for an absent unit."
+    },
+    {
+      "sequence": 27,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -889,6 +917,20 @@
       "actor": "codex-issue-589",
       "reason": "Record focused macOS stopped-state and listener-disappearance proof after resolving the Wuji launchctl finding.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"cli::csm_runtime_v3_cmd::tests\",\"--\",\"--nocapture\"],\"purpose\":\"Prove fail-closed launchctl stopped-state classification, real missing-service handling, listener disappearance without a captured owner PID, and the complete focused CSM lifecycle surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"28 focused CSM tests passed on Wuji/macOS; real launchctl print for a missing label returned the accepted service-not-found exit 113; cargo fmt --check and git diff --check passed.\"}}"
+    },
+    {
+      "sequence": 94,
+      "generation": 72,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 95,
+      "generation": 73,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

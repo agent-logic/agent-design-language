@@ -12,7 +12,8 @@ Status: draft
 
 ## Scope
 
-
+adl/src/cli/csm_runtime_v3_cmd.rs
+.csdlc/issues/589
 
 ## Prompts
 
@@ -30,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted Linux CI remains the proving execution environment for the systemd command path; live Runtime and cloud readbacks are mutable point-in-time evidence.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:83b003b9ae24ec6a4f328a98154b3735642a61fa:37988ab7dddd698291ebce7ab2d51b0c8775cf72639846404074a880e8d3bcff")
 
-Reviewer: None
+Reviewer: Some("subagent:/root/issue_589_review")
 
-Result: pre_review
+Result: pass
