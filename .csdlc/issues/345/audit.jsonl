@@ -77,3 +77,5 @@
 {"sequence":77,"generation":64,"actor":"codex:/root:issue-345-two-node-paid-proof","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":78,"generation":65,"actor":"fresh-session:/root/issue_345_final_launch_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":79,"generation":66,"actor":"codex:/root:issue-345-two-node-paid-proof","reason":"Recover F-345-25 so the multipart upload fails closed unless S3 returns a real version ID.","operation":"recover_review"}
+{"sequence":80,"generation":66,"actor":"codex:/root:issue-345-two-node-paid-proof","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":81,"generation":67,"actor":"fresh-session:/root/issue_345_final_launch_review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
