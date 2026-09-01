@@ -1,0 +1,74 @@
+{
+  "schema": "adl.runtime_portable_workload_contract.v1",
+  "issue": 495,
+  "name": "xcl-01-cross-cloud-runtime-terraform",
+  "source_denominator": [
+    {
+      "issue": 194,
+      "source": "adl/tools/issue194_private_network.cloudformation.json",
+      "required_behaviors": [
+        "run_id_pattern_issue_194",
+        "ttl_cleanup_tagging",
+        "vpc_10_194_0_0_16",
+        "two_private_subnets_without_public_ip_mapping",
+        "no_internet_gateway_nat_gateway_or_public_subnet",
+        "no_public_instance_security_group_ingress",
+        "private_voter_mesh_only_within_instance_security_group",
+        "ssm_ssmmessages_ec2messages_interface_endpoints",
+        "s3_gateway_endpoint_for_shepherd_artifact_reads",
+        "optional_voter_instances_with_encrypted_gp3_root_volume",
+        "public_runtime_exposure_false",
+        "hosted_model_fallback_false",
+        "outputs_for_network_security_endpoint_and_optional_voter_identities"
+      ]
+    },
+    {
+      "issue": 268,
+      "source": "adl/tools/issue268_runtime_qualification.cloudformation.yaml",
+      "required_behaviors": [
+        "run_id_pattern_issue268",
+        "private_subnet_and_vpc_attachment",
+        "retained_runtime_volume_attachment",
+        "operator_break_glass_ssh_key_with_single_host_cidr",
+        "amazon_ssm_managed_instance_core",
+        "pinned_bootstrap_s3_object_version_read_permissions",
+        "on_demand_r7i_2xlarge_runtime_host",
+        "imds_v2_required_with_hop_limit_one",
+        "encrypted_gp3_root_volume_delete_on_termination",
+        "retained_runtime_mount_at_opt_adl_runtime",
+        "bootstrap_log_and_issue268_ready_marker",
+        "cleanup_required_tagging",
+        "outputs_for_instance_volume_mount_cache_log_marker_and_readiness_command"
+      ]
+    }
+  ],
+  "portable_inputs": [
+    "run_id",
+    "ttl_expires_at",
+    "location",
+    "network_attachment",
+    "runtime_image",
+    "runtime_shape",
+    "service_identity",
+    "artifact_source",
+    "retained_runtime_volume",
+    "operator_break_glass_ssh",
+    "launch_flags",
+    "cleanup_labels"
+  ],
+  "portable_outputs": [
+    "network_id",
+    "private_subnet_ids",
+    "runtime_security_identity",
+    "private_service_endpoints",
+    "runtime_node_ids",
+    "retained_volume_id",
+    "runtime_mount_path",
+    "bootstrap_log_path",
+    "readiness_marker_path",
+    "readiness_command"
+  ],
+  "provider_difference_policy": "Provider implementations must name their native security, identity, metadata, private-service-access, state, and cleanup semantics explicitly. No implementation may imply that AWS IAM/SSM/VPC endpoint behavior and GCP service-account/firewall/private-access behavior are identical.",
+  "rollback_policy": "The source CloudFormation templates remain rollback authority until issue #496 accepts retirement.",
+  "live_proof_policy": "Plan/apply/destroy parity proof is deferred until explicit operator authorization for paid AWS/GCP mutation."
+}
