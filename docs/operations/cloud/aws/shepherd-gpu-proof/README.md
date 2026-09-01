@@ -122,7 +122,10 @@ the full local Rust dependency, compile-input, and Guardian validation-input
 closure required by the Runtime proof while avoiding unrelated repository media
 and historical evidence. The Runtime bootstrap passes
 the authorization-bound source revision to validators because an archive does
-not contain mutable Git metadata.
+not contain mutable Git metadata. Lifecycle qualification recognizes that
+Git-free root only when the generated init template remains under
+`.adl/runtime-v3` and all required ADL component and Runtime-init markers are
+present; lock and residue paths remain contained under that archive root.
 Terraform injects separate automatic cloud-init payloads:
 
 1. The GPU node downloads exact object versions, starts Ollama as a persistent

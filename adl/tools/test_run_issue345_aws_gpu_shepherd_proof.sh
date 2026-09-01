@@ -45,6 +45,8 @@ for archive_path in adl adl-runtime adl-runtime-kernel adl-resilience adl-spec d
   grep -Fxq "  $archive_path" "$RUNNER" || fail "exact reviewed build-source archive omits $archive_path"
 done
 grep -q 'create_source_archive "$source_archive"' "$RUNNER" || fail "paid run does not use the reviewed source-archive helper"
+grep -q 'repository_root_for_init_template_accepts_git_free_archive_layout' "$ROOT/adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs" || fail "Git-free archive root regression test is missing"
+grep -q 'qualification_lock_uses_git_free_archive_root' "$ROOT/adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs" || fail "Git-free archive lock-placement test is missing"
 grep -q 'export ADL_RUNTIME_SOURCE_REVISION="$commit"' "$RUNNER" || fail "archived Runtime validation is not bound to the authorized source revision"
 grep -q 'revision=${ADL_RUNTIME_SOURCE_REVISION:-}' "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" || fail "Guardian validator cannot consume an archive-safe source revision"
 grep -q 'ADL_RUNTIME_SOURCE_REVISION must be an exact lowercase Git commit' "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" || fail "archive-safe source revision is not validated"

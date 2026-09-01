@@ -4,39 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "reviewed",
-  "generation": 91,
-  "digest": "b5b6d3e75a1e23df75f73b560dcf2cf84c2cea6fc84225afce4e5c4453e71e39",
+  "phase": "implemented",
+  "generation": 93,
+  "digest": "2682304f2bab18972eeddb88ea0b84962248efcb05279562ac9035012152be93",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
-    "revision": "git-blake3:f841da7db7011a3908a69c608e1decff29d4b87a:71b833db98c4c6b8b5ea12617065bd45966e76f0b02cf0788c1396c81f3ab6c6",
-    "scope": [
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/issues/345"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "scope": [
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/issues/345"
-    ],
-    "reviewed_revision": "git-blake3:f841da7db7011a3908a69c608e1decff29d4b87a:71b833db98c4c6b8b5ea12617065bd45966e76f0b02cf0788c1396c81f3ab6c6",
-    "findings": [],
-    "residual_risks": [
-      "Final paid two-node success remains pending.",
-      "The bounded qualification does not establish 24/7 production readiness."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -51,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f551eb972b29928db68d1f788e866908a754a0dfc29df8ef99de3e51a4f6aa2e",
+      "values_digest": "bcaf4b9bc86a64f844060a20aa948c99cfb9bc84b4018554dd67396272e27162",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "8251573d99cf60c33147785570ac894f422e83ac1b2aa3ce7e7ca853b35804b0",
+      "values_digest": "682b7c053482c86a94cdfad8606b9a2fdd444a5abf2480e6975ddcb119d8bc33",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "b99e7e60503922c1aec07876bc563d72b62d5fe856c2e12a40ad1ffa2e53e5d2",
+      "values_digest": "f8cd871fa01d94d8a6d2a89f0f8f380342e58613ca9d5a8e541804fcf9fa091f",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "a186dc42c2d5e5d75437c06c1e0d0716b6d3fd43e199fd7a1f7d9b8e8d123616",
+      "values_digest": "395b7d5ed2a4f3226dec7539a1f69261df11785c854e35f240eada131b0846c8",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "6490798de05e6fc34deb6212c52a262a507c14b4975f052394496a735996ed2c",
-      "rendered_digest": "673016b9dd62abea17382136f4f46173526984a03f52e7289e80407fd0c688d5",
-      "ast_digest": "dd105c42d20653dcad60f2b49084ac3fee182b1dcf8bbf48f17f3c518fb23453"
+      "values_digest": "78d85f1483f869aa206e3af48a4c19145149984d45137d838cab8f3f32363ac6",
+      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
+      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "3a3518fbd34aca55f6ec349bb421a519cdc8607450e48e4b8c6c553394f700fd",
-      "rendered_digest": "61a9ee05302f23336b706d6815dd1d373a5fb4f8713aa7aba52c8587377e4ce1",
-      "ast_digest": "4460dab3d745f42ddf87b5741c1e8b796977f84373179320383ca0e4806f559d"
+      "values_digest": "f48d9331ab5d4266da65bd5634a82d8c071d2fb78bbbd67d9a5e8e15224d7f6d",
+      "rendered_digest": "8fc6ab5f7b1e613282744dab95e0ed223c3cc09dca598a7785c8c162942e670d",
+      "ast_digest": "6c9cebcef801b839242dd05768bb3848d47c615524a84712710640d9cf9c263b"
     }
   },
   "transitions": [
@@ -249,6 +223,13 @@
       "to": "reviewed",
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 25,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the sixth paid run proved lifecycle-soak still required .git metadata despite the authorized immutable Git-free source archive; add a narrow complete-ADL-archive root fallback, focused tests, and truthful run evidence before re-review."
     }
   ],
   "audit": [
@@ -1042,6 +1023,20 @@
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 114,
+      "generation": 92,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the sixth paid run proved lifecycle-soak still required .git metadata despite the authorized immutable Git-free source archive; add a narrow complete-ADL-archive root fallback, focused tests, and truthful run evidence before re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 115,
+      "generation": 93,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Record the sixth real run, its repeated two-model GPU success, successful Guardian compilation, exact Git-free lifecycle-root failure, zero-residue cleanup, and the narrow complete-archive-root remediation without claiming final success.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Six real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run proved both models simultaneously resident, restored every reviewed Git-free source and validator input, and compiled the Guardian successfully in 1m05s. Lifecycle-soak then rejected the generated init template solely because the immutable source archive has no .git metadata. The retained receipt captured that exact failure. After the already-failed soak left its bounded HTTPS/WSS probe waiting for a readiness file that could never arrive, the probe alone was terminated so failure receipt and cleanup could proceed; both nodes and all volumes were then destroyed and the lock released. Lifecycle root discovery now preserves Git-worktree behavior and adds a narrow fallback requiring the generated template under .adl/runtime-v3 plus all canonical ADL archive markers. Final paid proof remains pending exact-head review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, USD 20 hard budget, and three cleanup paths.\",\"Observed the sixth real GPU receipt again prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed the Runtime node restore the complete archive and compile the Guardian successfully in 1m05s before lifecycle-soak rejected absent .git metadata.\",\"Captured the exact bounded diagnostic proving the lifecycle qualification root finder, rather than archive contents, was the blocker.\",\"Terminated only the already-orphaned readiness probe after soak failure so the failure trap and cost-bounded cleanup could proceed instead of waiting ten minutes for an impossible readiness file.\",\"Extended lifecycle root discovery with a narrow Git-free fallback requiring the init template under .adl/runtime-v3 and canonical adl, adl-runtime, adl-runtime-kernel, and infra/runtime-v3 markers.\",\"Added positive Git-free root, incomplete-layout rejection, and exact lock-placement/removal unit tests.\",\"Confirmed cleanup terminated both instances, removed all run volumes, destroyed Terraform state resources, and released the lock; direct AWS inventory returned zero issue instances and volumes.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".adl/local/issue345/adl-issue345-20260901-120543/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-120543/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-120543/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"git_free_archive\"],\"purpose\":\"Prove Git-free canonical archive root acceptance, incomplete-layout rejection, and archive-contained qualification lock placement and removal.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\"},{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove the no-paid topology, bootstrap, complete archive, revision, diagnostics, IAM, authorization, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"f841da7db7011a3908a69c608e1decff29d4b87a\",\"--run-id\",\"adl-issue345-20260901-120543\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-runtime-init-fix.json\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through repeated GPU residency, successful Guardian compilation, exact Git-free lifecycle-root failure, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-120543\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify Rust formatting for the lifecycle-soak remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
     }
   ]
 }
