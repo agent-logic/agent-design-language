@@ -100,6 +100,25 @@ run_contracts() {
       ! finalize_preparation
       [[ ! -e "$CASE_ROOT/premature-success" ]]
     )
+
+    receipt="$CASE_ROOT/$(basename "$template").failure.json"
+    rm -f "$receipt"
+    (
+      set +e
+      eval "$(awk '
+        /^finish_failure\(\) \{$/ { occurrence++; capture=(occurrence == 2) }
+        capture { print }
+        capture && /^}$/ { exit }
+      ' "$template")"
+      work="$CASE_ROOT/failure-receipt"
+      mkdir -p "$work"
+      stage=artifact_download
+      s3_put_once() { command cp "$4" "$receipt"; }
+      shutdown() { return 0; }
+      false
+      finish_failure
+    ) || true
+    jq -e '.status == "failed" and .exit_code == 1 and .failure_stage == "artifact_download"' "$receipt" >/dev/null
   done
   jq -e --arg source 'runs/new/source.tar' '(. // []) | all(.[]; .==$source)' <<<null >/dev/null
 
@@ -128,9 +147,12 @@ run_contracts() {
   rg -q 'before-sign.s3.PutObject' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   rg -q '^finalize_preparation$' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q '^finalize_preparation$' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
-  [[ "$(sed -n '1,/^umount /p' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" | rg '^cd ' | tail -1)" == 'cd "$work"' ]]
-  rg -q 'failure_stage:\$stage' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
-  rg -q 'failure_stage:\$stage' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
+  seal_block="$(sed -n '/^stage=seal$/,/^umount /p' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl")"
+  cd_line="$(rg -n '^cd "\$work"$' <<<"$seal_block" | cut -d: -f1)"
+  sync_line="$(rg -n '^sync$' <<<"$seal_block" | cut -d: -f1)"
+  umount_line="$(rg -n '^umount ' <<<"$seal_block" | cut -d: -f1)"
+  [[ "$cd_line" -lt "$sync_line" && "$sync_line" -lt "$umount_line" ]]
+  rg -q '^stage=artifact_download$' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'for node in runtime gpu' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'preparation instance stopped without a success or failure receipt' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'measured_after_preparation_bootstrap:true' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"

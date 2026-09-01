@@ -87,6 +87,7 @@ wipefs -a "$${dev}p2"
 mkdir -p "$work/content"
 mount "$${dev}p1" "$work/content"
 
+stage=artifact_download
 manifest="$work/artifact-manifest.json"
 s3_get '${region}' '${artifact_bucket}' '${artifact_manifest_key}' '${artifact_manifest_version_id}' "$manifest"
 printf '%s  %s\n' '${artifact_manifest_sha256}' "$manifest" | sha256sum -c -

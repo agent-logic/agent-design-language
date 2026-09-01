@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "377b82ec23d5ec8dd242c2a80f79fb7a21b91802f5aec59d1a3ca63bf94040fb",
+  "generation": 30,
+  "digest": "84a0b3f97eae3f3d91d8296ac0c20d031dcf408f67123accad05a822355604a0",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8d0f623d26ac950e4d5bc1c664abae5812151e73e2642eb16641a46b82d1df10",
+      "values_digest": "96f620dccfc9e537eed6f77d64634ee27f6d94cd9f10c692428163b09ea2882c",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "3426383033f2795a82c436617b2305b8e56a7843a04c3f2230225b70d7837cac",
+      "values_digest": "2b19be7f9819bc622762f2cebaecaaccff17c3da9aab5bd53c5729fc84891016",
       "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
       "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "6ab2314c0a3de0c5f7f46e0172809549dc7fbf33886f4804d7cb81c5c1575e13",
+      "values_digest": "d680d9c8b8e1546e120c022c4e3857c0e6a3e1757877ab36f96ddbd5aba8ac59",
       "rendered_digest": "103747d03e41c90bb55d6d5cfbd513ed8563b390fc0ac3d4091a6d42e63d277b",
       "ast_digest": "e31428b3f6fcfd2887c29383baf5b1b64f87fa3fcc9569a3921675e9c87b2f95"
     },
     "vpp": {
-      "values_digest": "8f94cd2ec9ea455953103740502c5d5cf04d22fe68c3d978625bdd37624301b6",
+      "values_digest": "198e9dd4dc458b80bed5731030100b13fbc8e33e46a05078e48ced0930a14967",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "598205d41625258e359f9a9f3c4f78279d0a7501ec2db798bd8b01a5d3a6d3ab",
+      "values_digest": "1f8b9a252744522a661d62587d9d0bf742d5b4408ea49c841b036cb5b8cec422",
       "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
       "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "6a51842d38c776c25cb9d7b016626b87e6e5ebe006d59acf3139cf43cc8e8089",
+      "values_digest": "0dace064d6dcf86050cf30eead322789507b2b1e393c45c83d64c86790b56436",
       "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
       "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
     }
@@ -349,6 +349,27 @@
       "generation": 28,
       "actor": "codex-primary-issue607",
       "reason": "Recover reviewed state after the authorized preparation run proved the Runtime script attempted to unmount its warm filesystem while its current directory remained inside that mount.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 28,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 30,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the failed exact-head review so the runtime artifact-download diagnostic stage and executable failure-receipt regressions can be repaired before further AWS spend.",
       "operation": "recover_review"
     }
   ]
