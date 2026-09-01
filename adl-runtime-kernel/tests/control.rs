@@ -817,6 +817,8 @@ async fn readiness_fails_closed_before_first_weather_sample() {
         .degraded_reasons
         .contains(&"shepherd_not_admitted".to_owned()));
     assert!(report.weather_freshness.is_none());
+    assert_eq!(report.guardian_process_id, std::process::id());
+    assert_eq!(report.active_init_hash.len(), 64);
 }
 
 #[tokio::test]
@@ -1193,6 +1195,8 @@ async fn observatory_https_reads_are_public_and_report_weather_freshness() {
     assert!(ready.contains("\"ready\":true"));
     assert!(ready.contains("\"degraded_reasons\":[]"));
     assert!(ready.contains("\"stale\":false"));
+    assert!(ready.contains("\"guardian_process_id\":"));
+    assert!(ready.contains("\"active_init_hash\":"));
 
     let metrics = https_request(
         &client,

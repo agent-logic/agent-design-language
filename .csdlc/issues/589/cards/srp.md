@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/589
-adl-runtime-kernel
-adl-runtime
-adl
-infra/aws/csm-runtime-health
-infra/runtime-v3/runtime-init.toml
+
 
 ## Prompts
 
@@ -39,8 +34,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:384c8230545e340703c07122cea9aee9795dcce0:75f9bf27302cc4d2e81170582b1ee25dc4eabca1609b3606bd9cafbcec50c0e6")
+Revision: None
 
-Reviewer: Some("subagent:/root/issue_589_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

@@ -12,27 +12,31 @@ Status: ready
 
 ## Summary
 
-Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.
+Implemented and focused-tested ordered Wuji Runtime v3 lifecycle control, crash-safe interrupted reload reconciliation, authenticated Guardian ownership, Shepherd-gated readiness, bounded CloudWatch health, governed SSM recovery, and safe transaction cleanup.
 
 ## Artifacts
 
 - adl/src/cli/csm_runtime_v3_cmd.rs
+- adl/Cargo.toml
+- adl/Cargo.lock
+- adl-runtime/src/guardian.rs
+- adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/control/feeds.rs
+- adl-runtime-kernel/tests/control.rs
 - adl/tools/check_coverage_impact.sh
 - adl/tools/test_check_coverage_impact.sh
-- adl-runtime/src/bin/adl-runtime-guardian.rs
-- adl-runtime-kernel/src/assembly.rs
-- adl-runtime-kernel/src/control.rs
-- adl-runtime-kernel/src/observability.rs
 - infra/aws/csm-runtime-health
 
 ## Execution
 
-- Current Runtime generation stops and its current HTTPS endpoint disappears before a candidate generation starts.
-- Guardian ordinary startup no longer creates a separate continuity client.
+- Current Runtime generation stops and its owned HTTPS endpoint disappears before a candidate generation starts.
+- Interrupted reload commits a ready candidate only when the service-manager Guardian PID and active init BLAKE3 hash match Runtime readiness; otherwise CSM stops the service before restoring the backup.
+- Guardian startup no longer creates a separate continuity client and the lease acknowledgement carries the Guardian process identity into Runtime readiness.
+- CSM start, status, reload, and recovery require the responding Runtime to report the service-manager-owned Guardian PID and exact active init hash.
 - Readiness requires a fresh Shepherd admission lease.
-- Health export is allowlisted and emits the active canonical config hash.
-- CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.
-- CSM failure-path tests prove transaction cleanup never deletes a pre-existing destination, and coverage-impact routing selects the focused CSM lifecycle tests.
+- Health export is allowlisted and CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.
+- Focused tests cover candidate commit, rollback ordering, owner/hash mismatch rejection, exact service PID parsing, lease identity propagation, and transaction cleanup.
 
 ## Validation
 
@@ -48,9 +52,9 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
       "adl",
       "csm_runtime_v3"
     ],
-    "purpose": "CSM lifecycle, failure-path, and transaction regression proof",
+    "purpose": "CSM lifecycle, interrupted-reload, ownership, hash, and transaction regression proof",
     "outcome": "passed",
-    "evidence_ref": "final focused run: 20 passed"
+    "evidence_ref": "focused run: 26 passed"
   },
   {
     "command": [
@@ -67,7 +71,7 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
     ],
     "purpose": "Focused changed-source line coverage proof",
     "outcome": "passed",
-    "evidence_ref": "csm_runtime_v3_cmd.rs: 686/851 lines, 80.61 percent"
+    "evidence_ref": "csm_runtime_v3_cmd.rs: 869/1081 lines, 80.39 percent"
   },
   {
     "command": [
@@ -84,13 +88,27 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
       "test",
       "--locked",
       "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "assembly"
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "guardian"
     ],
-    "purpose": "Writer recovery proof",
+    "purpose": "Guardian lease identity and single-child startup proof",
     "outcome": "passed",
-    "evidence_ref": "final focused run: 10 passed"
+    "evidence_ref": "focused run: 22 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--bin",
+      "adl-runtime-kernel"
+    ],
+    "purpose": "Kernel Guardian identity and active-init hash propagation proof",
+    "outcome": "passed",
+    "evidence_ref": "focused run: 12 passed"
   },
   {
     "command": [
@@ -102,9 +120,23 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
       "--test",
       "control"
     ],
-    "purpose": "Shepherd-gated readiness proof",
+    "purpose": "Shepherd-gated readiness and ownership fields proof",
     "outcome": "passed",
-    "evidence_ref": "final focused run: 28 passed"
+    "evidence_ref": "focused run: 28 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "assembly"
+    ],
+    "purpose": "Writer recovery proof",
+    "outcome": "passed",
+    "evidence_ref": "focused run: 10 passed"
   },
   {
     "command": [
@@ -118,19 +150,36 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
     ],
     "purpose": "Health-only export and log recovery proof",
     "outcome": "passed",
-    "evidence_ref": "final focused run: 32 passed"
+    "evidence_ref": "focused run: 32 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Issue-owned ADL target lint proof",
+    "outcome": "passed",
+    "evidence_ref": "completed without warnings"
   },
   {
     "command": [
       "csm",
       "runtime-v3",
-      "reload",
+      "status",
       "--init",
-      ".adl/runtime-v3/live/runtime-init.toml"
+      ".adl/runtime-v3/live/runtime-init.toml",
+      "--json"
     ],
-    "purpose": "Live ordered service lifecycle proof",
+    "purpose": "Previously deployed Wuji service availability proof; repaired-build deployment remains pending",
     "outcome": "passed",
-    "evidence_ref": "live Wuji HTTPS readiness, observability readiness, and one healthy Shepherd"
+    "evidence_ref": "launchd loaded, listener ready, observability ready; PID 11493 on prior deployed build"
   },
   {
     "command": [
@@ -140,19 +189,19 @@ Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, 
       "--profile",
       "agent-logic-admin"
     ],
-    "purpose": "CloudWatch-to-SSM recovery proof",
+    "purpose": "Previously established CloudWatch-to-SSM recovery proof",
     "outcome": "passed",
-    "evidence_ref": "governed Wuji SSM recovery command succeeded"
+    "evidence_ref": "governed Wuji SSM recovery command succeeded before P1 source remediation"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: draft
+Publication: not_published
 
 Merge: not_merged
 

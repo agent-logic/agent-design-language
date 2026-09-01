@@ -659,6 +659,8 @@ enum ConversationAcceptance {
 pub struct ControlService<C> {
     instance_id: String,
     runtime_incarnation_id: String,
+    guardian_process_id: u32,
+    active_init_hash: String,
     recorder: RuntimeRecorder,
     lifecycle: C,
     authority: ControlAuthority,
@@ -753,6 +755,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
         Self {
             instance_id,
             runtime_incarnation_id: uuid::Uuid::new_v4().to_string(),
+            guardian_process_id: std::process::id(),
+            active_init_hash: blake3::hash(b"").to_hex().to_string(),
             recorder,
             lifecycle,
             authority,
@@ -786,6 +790,28 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             #[cfg(test)]
             conversation_attachment_test_hook: Mutex::new(None),
         }
+    }
+
+    pub fn with_runtime_ownership(
+        mut self,
+        guardian_process_id: u32,
+        active_init_hash: impl Into<String>,
+    ) -> Self {
+        assert!(
+            guardian_process_id > 0,
+            "Guardian process id must be non-zero"
+        );
+        let active_init_hash = active_init_hash.into();
+        assert!(
+            active_init_hash.len() == 64
+                && active_init_hash
+                    .bytes()
+                    .all(|byte| byte.is_ascii_hexdigit()),
+            "active Runtime init hash must be a BLAKE3 hex digest"
+        );
+        self.guardian_process_id = guardian_process_id;
+        self.active_init_hash = active_init_hash;
+        self
     }
 
     pub fn observatory_origin_policy(&self) -> ObservatoryOriginPolicy {
@@ -1994,6 +2020,8 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             runtime_instance_id: feed.runtime_instance_id,
             runtime_incarnation_id: feed.runtime_incarnation_id,
             runtime_process_id: feed.runtime_process_id,
+            guardian_process_id: self.guardian_process_id,
+            active_init_hash: self.active_init_hash.clone(),
             weather_freshness,
             degraded_reasons,
         }

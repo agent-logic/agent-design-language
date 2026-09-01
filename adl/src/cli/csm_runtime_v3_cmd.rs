@@ -33,10 +33,12 @@ struct RuntimeV3ServiceStatus {
     listener: String,
     runtime_instance_id: Option<String>,
     runtime_process_id: Option<u32>,
+    guardian_process_id: Option<u32>,
+    active_init_hash: Option<String>,
     observability_ready: bool,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 struct RuntimeReadinessProbe {
     schema: String,
     ready: bool,
@@ -44,6 +46,8 @@ struct RuntimeReadinessProbe {
     observability_ready: bool,
     runtime_instance_id: String,
     runtime_process_id: u32,
+    guardian_process_id: u32,
+    active_init_hash: String,
 }
 
 pub(crate) fn real_runtime_v3_service(args: &[String]) -> Result<()> {
@@ -149,9 +153,9 @@ fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
     if args.candidate.is_some() {
         return Err(anyhow!("--candidate is valid only with runtime-v3 reload"));
     }
-    reconcile_interrupted_reload(&args.init)?;
+    reconcile_interrupted_reload(args)?;
     let init = validated_init(&args.init)?;
-    if platform_loaded(args) && listener_ready(&init) {
+    if owned_runtime_readiness(args, &init).is_ok() {
         return emit_status(args, &init, "start", true);
     }
     start_clean(args, &init)?;
@@ -159,7 +163,7 @@ fn start(args: &RuntimeV3ServiceArgs) -> Result<()> {
 }
 
 fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
-    reconcile_interrupted_reload(&args.init)?;
+    reconcile_interrupted_reload(args)?;
     let current = validated_init(&args.init)?;
     let Some(candidate_path) = args.candidate.as_ref() else {
         start_clean(args, &current)?;
@@ -191,9 +195,7 @@ fn reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
             "Runtime v3 candidate reload failed and last-known-good configuration was restored: {reload_error}"
         ));
     }
-    fs::remove_file(&backup)
-        .with_context(|| format!("remove Runtime v3 reload backup {}", backup.display()))?;
-    sync_parent(&args.init)?;
+    commit_candidate(&args.init, &backup)?;
     emit_status(args, &candidate, "reload", true)
 }
 
@@ -272,13 +274,36 @@ fn reload_transaction_paths(active: &Path) -> Result<(PathBuf, PathBuf)> {
     ))
 }
 
-fn reconcile_interrupted_reload(active: &Path) -> Result<()> {
-    reconcile_interrupted_reload_with(active, |backup| validated_init(backup).map(|_| ()))
+fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
+    let active = &args.init;
+    reconcile_interrupted_reload_with(
+        active,
+        |backup| validated_init(backup).map(|_| ()),
+        || {
+            validated_init(active)
+                .and_then(|init| owned_runtime_readiness(args, &init).map(|_| ()))
+                .is_ok()
+        },
+        || {
+            if platform_loaded(args) {
+                let guardian_process_id = platform_process_id(args);
+                platform_stop(args)?;
+                if let Ok(init) = validated_init(active) {
+                    wait_for_stopped(args, &init, guardian_process_id, Duration::from_secs(15))?;
+                } else {
+                    wait_for_service_unloaded(args, Duration::from_secs(15))?;
+                }
+            }
+            Ok(())
+        },
+    )
 }
 
 fn reconcile_interrupted_reload_with(
     active: &Path,
     validate_backup: impl FnOnce(&Path) -> Result<()>,
+    candidate_is_running: impl FnOnce() -> bool,
+    stop_running: impl FnOnce() -> Result<()>,
 ) -> Result<()> {
     let (backup, staged) = reload_transaction_paths(active)?;
     if !backup.exists() {
@@ -291,6 +316,10 @@ fn reconcile_interrupted_reload_with(
         return Ok(());
     }
     validate_backup(&backup).context("validate interrupted Runtime v3 last-known-good config")?;
+    if candidate_is_running() {
+        return commit_candidate(active, &backup);
+    }
+    stop_running().context("stop interrupted Runtime v3 candidate before rollback")?;
     restore_last_known_good(active, &backup)?;
     if staged.exists() {
         fs::remove_file(&staged).with_context(|| {
@@ -298,6 +327,18 @@ fn reconcile_interrupted_reload_with(
                 "remove interrupted Runtime v3 candidate {}",
                 staged.display()
             )
+        })?;
+    }
+    sync_parent(active)
+}
+
+fn commit_candidate(active: &Path, backup: &Path) -> Result<()> {
+    let (_, staged) = reload_transaction_paths(active)?;
+    fs::remove_file(backup)
+        .with_context(|| format!("remove Runtime v3 reload backup {}", backup.display()))?;
+    if staged.exists() {
+        fs::remove_file(&staged).with_context(|| {
+            format!("remove Runtime v3 committed candidate {}", staged.display())
         })?;
     }
     sync_parent(active)
@@ -324,8 +365,9 @@ fn sync_parent(path: &Path) -> Result<()> {
 
 fn stop(args: &RuntimeV3ServiceArgs) -> Result<()> {
     let init = validated_init(&args.init)?;
+    let guardian_process_id = platform_process_id(args);
     platform_stop(args)?;
-    wait_for_stopped(args, &init, Duration::from_secs(15))?;
+    wait_for_stopped(args, &init, guardian_process_id, Duration::from_secs(15))?;
     emit_status(args, &init, "stop", false)
 }
 
@@ -338,13 +380,14 @@ fn stop_and_wait(args: &RuntimeV3ServiceArgs, current: &RuntimeInitConfig) -> Re
     if !platform_loaded(args) {
         return Ok(());
     }
+    let guardian_process_id = platform_process_id(args);
     platform_stop(args)?;
-    wait_for_stopped(args, current, Duration::from_secs(15))
+    wait_for_stopped(args, current, guardian_process_id, Duration::from_secs(15))
 }
 
 fn start_and_wait(args: &RuntimeV3ServiceArgs, next: &RuntimeInitConfig) -> Result<()> {
     platform_start(args)?;
-    wait_for_listener(next, Duration::from_secs(15))
+    wait_for_listener(args, next, Duration::from_secs(15))
 }
 
 fn status(args: &RuntimeV3ServiceArgs, operation: &'static str) -> Result<()> {
@@ -356,7 +399,7 @@ fn status(args: &RuntimeV3ServiceArgs, operation: &'static str) -> Result<()> {
     }
     let init = validated_init(&args.init)?;
     let loaded = platform_loaded(args);
-    let ready = listener_ready(&init);
+    let ready = owned_runtime_readiness(args, &init).is_ok();
     emit_status(args, &init, operation, loaded && ready)?;
     if !loaded || !ready {
         return Err(anyhow!(
@@ -373,7 +416,7 @@ fn emit_status(
     expected_ready: bool,
 ) -> Result<()> {
     let loaded = platform_loaded(args);
-    let readiness = runtime_readiness(init).ok();
+    let readiness = owned_runtime_readiness(args, init).ok();
     let ready = readiness.is_some();
     let report = RuntimeV3ServiceStatus {
         schema: "adl.csm.runtime_v3_service_status.v1",
@@ -389,6 +432,10 @@ fn emit_status(
             .as_ref()
             .map(|health| health.runtime_instance_id.clone()),
         runtime_process_id: readiness.as_ref().map(|health| health.runtime_process_id),
+        guardian_process_id: readiness.as_ref().map(|health| health.guardian_process_id),
+        active_init_hash: readiness
+            .as_ref()
+            .map(|health| health.active_init_hash.clone()),
         observability_ready: readiness
             .as_ref()
             .is_some_and(|health| health.observability_ready),
@@ -407,8 +454,36 @@ fn emit_status(
     Ok(())
 }
 
-fn listener_ready(init: &RuntimeInitConfig) -> bool {
-    runtime_readiness(init).is_ok()
+fn owned_runtime_readiness(
+    args: &RuntimeV3ServiceArgs,
+    init: &RuntimeInitConfig,
+) -> Result<RuntimeReadinessProbe> {
+    let service_process_id = platform_process_id(args)
+        .ok_or_else(|| anyhow!("Runtime v3 service manager has no live process identity"))?;
+    let readiness = runtime_readiness(init)?;
+    let active_init_hash = file_hash(&args.init)?;
+    validate_owned_readiness(service_process_id, &active_init_hash, &readiness)?;
+    Ok(readiness)
+}
+
+fn validate_owned_readiness(
+    service_process_id: u32,
+    active_init_hash: &str,
+    readiness: &RuntimeReadinessProbe,
+) -> Result<()> {
+    if readiness.guardian_process_id != service_process_id {
+        return Err(anyhow!(
+            "Runtime v3 readiness belongs to Guardian process {} but service manager owns {}",
+            readiness.guardian_process_id,
+            service_process_id
+        ));
+    }
+    if readiness.active_init_hash != active_init_hash {
+        return Err(anyhow!(
+            "Runtime v3 readiness config identity does not match active init"
+        ));
+    }
+    Ok(())
 }
 
 fn runtime_readiness(init: &RuntimeInitConfig) -> Result<RuntimeReadinessProbe> {
@@ -462,16 +537,22 @@ fn validate_readiness_probe(readiness: &RuntimeReadinessProbe) -> Result<()> {
         || !readiness.observability_ready
         || readiness.runtime_instance_id.trim().is_empty()
         || readiness.runtime_process_id == 0
+        || readiness.guardian_process_id == 0
+        || !is_blake3_hex(&readiness.active_init_hash)
     {
         return Err(anyhow!("Runtime v3 readiness response is not healthy"));
     }
     Ok(())
 }
 
-fn wait_for_listener(init: &RuntimeInitConfig, timeout: Duration) -> Result<()> {
+fn wait_for_listener(
+    args: &RuntimeV3ServiceArgs,
+    init: &RuntimeInitConfig,
+    timeout: Duration,
+) -> Result<()> {
     let deadline = std::time::Instant::now() + timeout;
     while std::time::Instant::now() < deadline {
-        if listener_ready(init) {
+        if owned_runtime_readiness(args, init).is_ok() {
             return Ok(());
         }
         std::thread::sleep(Duration::from_millis(200));
@@ -486,11 +567,15 @@ fn wait_for_listener(init: &RuntimeInitConfig, timeout: Duration) -> Result<()> 
 fn wait_for_stopped(
     args: &RuntimeV3ServiceArgs,
     init: &RuntimeInitConfig,
+    stopped_guardian_process_id: Option<u32>,
     timeout: Duration,
 ) -> Result<()> {
     let deadline = std::time::Instant::now() + timeout;
     while std::time::Instant::now() < deadline {
-        if !platform_loaded(args) && !listener_ready(init) {
+        let stopped_listener_gone = runtime_readiness(init).map_or(true, |readiness| {
+            stopped_guardian_process_id != Some(readiness.guardian_process_id)
+        });
+        if !platform_loaded(args) && stopped_listener_gone {
             return Ok(());
         }
         std::thread::sleep(Duration::from_millis(200));
@@ -499,6 +584,32 @@ fn wait_for_stopped(
         "Runtime v3 service did not stop within {} seconds",
         timeout.as_secs()
     ))
+}
+
+fn wait_for_service_unloaded(args: &RuntimeV3ServiceArgs, timeout: Duration) -> Result<()> {
+    let deadline = std::time::Instant::now() + timeout;
+    while std::time::Instant::now() < deadline {
+        if !platform_loaded(args) {
+            return Ok(());
+        }
+        std::thread::sleep(Duration::from_millis(200));
+    }
+    Err(anyhow!(
+        "Runtime v3 service manager did not unload within {} seconds",
+        timeout.as_secs()
+    ))
+}
+
+fn file_hash(path: &Path) -> Result<String> {
+    Ok(blake3::hash(
+        &fs::read(path).with_context(|| format!("read Runtime v3 init {}", path.display()))?,
+    )
+    .to_hex()
+    .to_string())
+}
+
+fn is_blake3_hex(value: &str) -> bool {
+    value.len() == 64 && value.bytes().all(|byte| byte.is_ascii_hexdigit())
 }
 
 #[cfg(target_os = "macos")]
@@ -592,6 +703,28 @@ fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
         .is_ok_and(|output| output.status.success())
 }
 
+#[cfg(target_os = "macos")]
+fn platform_process_id(args: &RuntimeV3ServiceArgs) -> Option<u32> {
+    let output = Command::new("launchctl")
+        .args(["print", &launchd_target(args)])
+        .output()
+        .ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    parse_launchctl_process_id(std::str::from_utf8(&output.stdout).ok()?)
+}
+
+fn parse_launchctl_process_id(output: &str) -> Option<u32> {
+    output.lines().find_map(|line| {
+        let (name, value) = line.trim().split_once('=')?;
+        (name.trim() == "pid")
+            .then(|| value.trim().parse::<u32>().ok())
+            .flatten()
+            .filter(|process_id| *process_id > 0)
+    })
+}
+
 #[cfg(target_os = "linux")]
 fn systemd_unit(args: &RuntimeV3ServiceArgs) -> String {
     if args.label.ends_with(".service") {
@@ -619,6 +752,29 @@ fn platform_loaded(args: &RuntimeV3ServiceArgs) -> bool {
         .is_ok_and(|status| status.success())
 }
 
+#[cfg(target_os = "linux")]
+fn platform_process_id(args: &RuntimeV3ServiceArgs) -> Option<u32> {
+    let output = Command::new("systemctl")
+        .args([
+            "show",
+            "--property",
+            "MainPID",
+            "--value",
+            &systemd_unit(args),
+        ])
+        .output()
+        .ok()?;
+    if !output.status.success() {
+        return None;
+    }
+    std::str::from_utf8(&output.stdout)
+        .ok()?
+        .trim()
+        .parse::<u32>()
+        .ok()
+        .filter(|process_id| *process_id > 0)
+}
+
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
 fn platform_start(_args: &RuntimeV3ServiceArgs) -> Result<()> {
     Err(anyhow!(
@@ -636,6 +792,11 @@ fn platform_stop(_args: &RuntimeV3ServiceArgs) -> Result<()> {
 #[cfg(not(any(target_os = "macos", target_os = "linux")))]
 fn platform_loaded(_args: &RuntimeV3ServiceArgs) -> bool {
     false
+}
+
+#[cfg(not(any(target_os = "macos", target_os = "linux")))]
+fn platform_process_id(_args: &RuntimeV3ServiceArgs) -> Option<u32> {
+    None
 }
 
 fn platform_name() -> &'static str {
@@ -816,15 +977,89 @@ mod tests {
         let backup = replace_config_with_candidate(&active, &candidate).unwrap();
         assert_eq!(fs::read_to_string(&active).unwrap(), "candidate");
 
-        reconcile_interrupted_reload_with(&active, |path| {
-            assert_eq!(path, backup);
-            assert_eq!(fs::read_to_string(path).unwrap(), "current");
-            Ok(())
-        })
+        let mut stopped = false;
+        reconcile_interrupted_reload_with(
+            &active,
+            |path| {
+                assert_eq!(path, backup);
+                assert_eq!(fs::read_to_string(path).unwrap(), "current");
+                Ok(())
+            },
+            || false,
+            || {
+                stopped = true;
+                Ok(())
+            },
+        )
         .unwrap();
 
+        assert!(stopped);
         assert_eq!(fs::read_to_string(&active).unwrap(), "current");
         assert!(!backup.exists());
+    }
+
+    #[test]
+    fn interrupted_reload_commits_candidate_when_owned_readiness_matches_active_hash() {
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        let candidate = root.path().join("runtime-init.next.toml");
+        fs::write(&active, "current").unwrap();
+        fs::write(&candidate, "candidate").unwrap();
+        let backup = replace_config_with_candidate(&active, &candidate).unwrap();
+        let mut stopped = false;
+
+        reconcile_interrupted_reload_with(
+            &active,
+            |_| Ok(()),
+            || true,
+            || {
+                stopped = true;
+                Ok(())
+            },
+        )
+        .unwrap();
+
+        assert!(!stopped);
+        assert_eq!(fs::read_to_string(&active).unwrap(), "candidate");
+        assert!(!backup.exists());
+    }
+
+    #[test]
+    fn committed_candidate_cleanup_removes_backup_and_stale_staging() {
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        fs::write(&active, "candidate").unwrap();
+        let (backup, staged) = reload_transaction_paths(&active).unwrap();
+        fs::write(&backup, "known-good").unwrap();
+        fs::write(&staged, "stale-stage").unwrap();
+
+        commit_candidate(&active, &backup).unwrap();
+
+        assert!(!backup.exists());
+        assert!(!staged.exists());
+        assert_eq!(fs::read_to_string(active).unwrap(), "candidate");
+    }
+
+    #[test]
+    fn empty_interrupted_transaction_is_a_noop() {
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        fs::write(&active, "active").unwrap();
+        let mut stopped = false;
+
+        reconcile_interrupted_reload_with(
+            &active,
+            |_| panic!("no backup should be validated"),
+            || false,
+            || {
+                stopped = true;
+                Ok(())
+            },
+        )
+        .unwrap();
+
+        assert!(!stopped);
+        assert_eq!(fs::read_to_string(active).unwrap(), "active");
     }
 
     #[test]
@@ -883,7 +1118,8 @@ mod tests {
 
         let (_, staged) = reload_transaction_paths(&active).unwrap();
         fs::write(&staged, "candidate").unwrap();
-        let error = reconcile_interrupted_reload_with(&active, |_| Ok(())).unwrap_err();
+        let error = reconcile_interrupted_reload_with(&active, |_| Ok(()), || false, || Ok(()))
+            .unwrap_err();
         assert!(error.to_string().contains("ambiguous staged candidate"));
     }
 
@@ -896,9 +1132,13 @@ mod tests {
         fs::write(&backup, "known-good").unwrap();
         fs::write(&staged, "partial").unwrap();
 
-        assert!(
-            reconcile_interrupted_reload_with(&active, |_| Err(anyhow!("invalid backup"))).is_err()
-        );
+        assert!(reconcile_interrupted_reload_with(
+            &active,
+            |_| Err(anyhow!("invalid backup")),
+            || false,
+            || Ok(())
+        )
+        .is_err());
         assert_eq!(fs::read_to_string(&backup).unwrap(), "known-good");
         assert!(staged.exists());
     }
@@ -910,11 +1150,17 @@ mod tests {
         let (backup, staged) = reload_transaction_paths(&active).unwrap();
         fs::write(&active, "candidate").unwrap();
         fs::write(&backup, "invalid = [").unwrap();
-        assert!(reconcile_interrupted_reload(&active).is_err());
+        assert!(reconcile_interrupted_reload_with(
+            &active,
+            |path| validated_init(path).map(|_| ()),
+            || false,
+            || Ok(())
+        )
+        .is_err());
 
         fs::write(&backup, "known-good").unwrap();
         fs::write(&staged, "partial").unwrap();
-        reconcile_interrupted_reload_with(&active, |_| Ok(())).unwrap();
+        reconcile_interrupted_reload_with(&active, |_| Ok(()), || false, || Ok(())).unwrap();
         assert_eq!(fs::read_to_string(&active).unwrap(), "known-good");
         assert!(!backup.exists());
         assert!(!staged.exists());
@@ -927,13 +1173,13 @@ mod tests {
         let mut args = service_args(path.clone());
 
         assert!(runtime_readiness(&init).is_err());
-        assert!(!listener_ready(&init));
+        assert!(owned_runtime_readiness(&args, &init).is_err());
         assert!(emit_status(&args, &init, "status", false).is_ok());
         args.json = true;
         assert!(emit_status(&args, &init, "status", true).is_err());
         assert!(status(&args, "status").is_err());
-        assert!(wait_for_listener(&init, Duration::ZERO).is_err());
-        assert!(wait_for_stopped(&args, &init, Duration::ZERO).is_err());
+        assert!(wait_for_listener(&args, &init, Duration::ZERO).is_err());
+        assert!(wait_for_stopped(&args, &init, None, Duration::ZERO).is_err());
 
         let (backup, _) = reload_transaction_paths(&path).unwrap();
         fs::write(backup, "known-good").unwrap();
@@ -1015,13 +1261,20 @@ mod tests {
             observability_ready: true,
             runtime_instance_id: "runtime-wuji".into(),
             runtime_process_id: 42,
+            guardian_process_id: 41,
+            active_init_hash: "a".repeat(64),
         };
         assert!(validate_readiness_probe(&healthy).is_ok());
+        assert!(validate_owned_readiness(41, &"a".repeat(64), &healthy).is_ok());
+        assert!(validate_owned_readiness(99, &"a".repeat(64), &healthy).is_err());
+        assert!(validate_owned_readiness(41, &"b".repeat(64), &healthy).is_err());
+        assert!(!is_blake3_hex("short"));
+        assert!(!is_blake3_hex(&"z".repeat(64)));
 
         for unhealthy in [
             RuntimeReadinessProbe {
                 ready: false,
-                ..healthy
+                ..healthy.clone()
             },
             RuntimeReadinessProbe {
                 schema: "unrelated.listener.v1".into(),
@@ -1030,10 +1283,54 @@ mod tests {
                 observability_ready: true,
                 runtime_instance_id: "runtime-wuji".into(),
                 runtime_process_id: 42,
+                guardian_process_id: 41,
+                active_init_hash: "a".repeat(64),
+            },
+            RuntimeReadinessProbe {
+                guardian_process_id: 0,
+                ..healthy.clone()
+            },
+            RuntimeReadinessProbe {
+                active_init_hash: "invalid".into(),
+                ..healthy.clone()
             },
         ] {
             assert!(validate_readiness_probe(&unhealthy).is_err());
         }
+    }
+
+    #[test]
+    fn launchctl_process_identity_parser_is_exact_and_rejects_zero() {
+        assert_eq!(
+            parse_launchctl_process_id("state = running\n\tpid = 12345\n"),
+            Some(12345)
+        );
+        assert_eq!(parse_launchctl_process_id("pid = 0\n"), None);
+        assert_eq!(parse_launchctl_process_id("parent-pid = 12345\n"), None);
+    }
+
+    #[test]
+    fn active_init_hash_is_exact_file_content_identity() {
+        let root = tempfile::tempdir().unwrap();
+        let path = root.path().join("runtime-init.toml");
+        fs::write(&path, "candidate-config").unwrap();
+
+        assert_eq!(
+            file_hash(&path).unwrap(),
+            blake3::hash(b"candidate-config").to_hex().to_string()
+        );
+        assert!(file_hash(&root.path().join("missing.toml")).is_err());
+    }
+
+    #[test]
+    fn missing_service_is_unloaded_and_has_no_owned_process() {
+        let root = tempfile::tempdir().unwrap();
+        let args = service_args(root.path().join("runtime-init.toml"));
+
+        assert!(!platform_loaded(&args));
+        assert_eq!(platform_process_id(&args), None);
+        assert!(platform_stop(&args).is_ok());
+        assert!(wait_for_service_unloaded(&args, Duration::from_millis(5)).is_ok());
     }
 
     #[test]
