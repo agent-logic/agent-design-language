@@ -41,7 +41,8 @@ grep -q 'validate_state_root' "$RUNNER" || fail "runner does not enforce worktre
 ! grep -q 'git-common-dir\|csdlc-v2/issue345' "$RUNNER" || fail "runner still uses Git common state"
 ! grep -q 'ec2 run-instances\|ssm send-command\|AWS-RunShellScript' "$RUNNER" || fail "controller still owns launch or SSM bootstrap"
 ! grep -q 'git clone\|git -C /opt/adl-issue345/repo fetch' "$RUNNER" || fail "guest bootstrap still depends on live Git"
-grep -q 'git -C "$ROOT" archive --format=tar -o "$source_archive" "$SOURCE_COMMIT" -- adl adl-runtime' "$RUNNER" || fail "exact reviewed build-source archive is missing or includes unrelated repository assets"
+grep -q 'SOURCE_ARCHIVE_PATHS=(adl adl-runtime adl-runtime-kernel adl-resilience)' "$RUNNER" || fail "exact reviewed build-source archive does not declare the required local dependency closure"
+grep -q 'create_source_archive "$source_archive"' "$RUNNER" || fail "paid run does not use the reviewed source-archive helper"
 grep -q 'source_archive' "$RUNNER" || fail "versioned source archive is not bound into guest configuration"
 grep -q 's3 cp "$file" "s3://$ARTIFACT_BUCKET/$key" --only-show-errors' "$RUNNER" || fail "large run artifacts do not use the AWS CLI multipart transfer path"
 [[ "$(grep -Fc -- "--if-none-match '*'" "$RUNNER")" -ge 6 ]] || fail "locks, authorization, and guest receipts must be create-only"
@@ -97,6 +98,19 @@ if upload_versioned "$tmp/operator.pub" runs/no-version; then fail "multipart up
 unset -f aws
 
 head="$(git -C "$ROOT" rev-parse HEAD)"
+SOURCE_COMMIT="$head"
+create_source_archive "$tmp/source.tar"
+mkdir -p "$tmp/source"
+tar -xf "$tmp/source.tar" -C "$tmp/source"
+for component in adl adl-runtime adl-runtime-kernel adl-resilience; do
+  [[ -f "$tmp/source/$component/Cargo.toml" ]] || fail "source archive omitted $component/Cargo.toml"
+done
+while IFS= read -r -d '' manifest; do
+  manifest_dir="$(dirname "$manifest")"
+  while IFS= read -r relative_path; do
+    [[ -e "$manifest_dir/$relative_path" ]] || fail "archived Cargo path is unresolved: ${manifest#"$tmp/source/"} -> $relative_path"
+  done < <(sed -nE 's/.*path[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' "$manifest")
+done < <(find "$tmp/source" -name Cargo.toml -print0)
 run_id=adl-issue345-contract
 load_ssh_inputs
 jq -n --arg commit "$head" --arg run "$run_id" --arg account "$EXPECTED_ACCOUNT_SHA256" \

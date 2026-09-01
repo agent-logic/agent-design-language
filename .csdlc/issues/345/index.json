@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
   "phase": "implemented",
-  "generation": 69,
-  "digest": "c8e693d5b72c2c46f312a067e60e623dab3b89ed9cc49dda2ac900b361a7f48e",
+  "generation": 72,
+  "digest": "e66d0dc9e8c4ee72b5a28009531d7eb61645cdf57848c6151a863cb9c5cc5e85",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1785c3e831ce759c8f6a843d4172878b2c3061d939e2d631ac4eb5822b9634aa",
+      "values_digest": "7cdb4ab5f437c25bc0c6daae0a1fa1e7bb040c05a0222466beda74af92c60667",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "d40a412fd3f7a98889dc330a75addb49bec7267a1b3d106b47173fcdb0f4a99c",
+      "values_digest": "7c56b74dc0e20dc07ac2422f753afdf1a1bdbb56ef3f50bb4896cc3221d3d913",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "e4e997c0de4dfe567dad7627126e0007310f835ad3422b6a39e934e4274016a0",
+      "values_digest": "992f7c9684929694aa01b712af6a477bcca8d54970477c87a33629ae865f7d02",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "a47d1020c8d3ba15678d9f0459475ef468c5d4851fc2fa921b7ded4f1a91479f",
+      "values_digest": "04231958b542dec520fb1cb208b972fe9133e8375898ad14cb7a48562198abfc",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "37c7ecf360d33fc5842fa13d40f09c6baacbc87209b63735d47c0e86d4fe43b5",
+      "values_digest": "b1826238dc567faad407d43dd3596083b25d40799fafc32fc5f0658f99f10798",
       "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
       "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "1db2386849f52e6e1e552e9126ff1d8d421b5d67648bc6ec4ab1aa67d5781cad",
-      "rendered_digest": "a1619728c7cf1d795d877f0b604224b2573eb7d38e25e3f5ea29ce651c2470e2",
-      "ast_digest": "1126da820ffcd85fd7c4fa59801e367508fe6b8af2308ada46da49b6cba57935"
+      "values_digest": "e8e9411114d597ac0dfddfb40dae8e5bccf890580565c2babc33244964a7f1c8",
+      "rendered_digest": "cc59732d829eb7a8a54d034312c44cecc8020e75020c07a5371b762b44d5e6d9",
+      "ast_digest": "e754d5a8d8a07a7622b1d65df08babc7bdbbcb68c0bbd339929658aeae488674"
     }
   },
   "transitions": [
@@ -743,6 +743,34 @@
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Record the real two-node attempt, its successful GPU proof, the Runtime HOME failure, zero-residue destruction, and the bounded remediation without claiming final live success.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The Terraform two-node path launched successfully and proved two-model GPU residency, then exposed an unset-HOME bootstrap defect before Runtime proof. Terraform cleanup terminated both nodes and removed their volumes. The worktree now explicitly defines HOME for both bootstraps and Ollama and reduces the exact source archive from 335 MiB to 23 MiB; final paid proof remains pending review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.\",\"Replaced the hung single PUT with multipart upload plus fail-closed immutable VersionId verification.\",\"Observed a real GPU receipt proving llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed Runtime cloud-init fail before Rust execution because HOME was unset and recorded the failed receipt without overstating Guardian or six-agent proof.\",\"Made HOME=/root explicit in both bootstrap scripts and the Ollama systemd unit.\",\"Reduced the exact reviewed source archive to the tracked adl and adl-runtime build/proof trees, excluding unrelated media and historical evidence.\",\"Confirmed controller cleanup drove both instances to termination and removed run volumes before another authorization.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".adl/local/issue345/adl-issue345-20260901-090918/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-090918/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-090918/terraform.tfstate\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove twenty-four no-paid topology, bootstrap, archive, IAM, authorization, input-drift, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"e54a3da961b8f65eeebe6e463f7d99bfbbc05668\",\"--run-id\",\"adl-issue345-20260901-090918\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through GPU residency, Runtime bootstrap, failure receipt, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-090918\"},{\"command\":[\"git\",\"archive\",\"--format=tar\",\"HEAD\",\"--\",\"adl\",\"adl-runtime\"],\"purpose\":\"Verify the selective exact-source archive contains both required build trees and is 23 MiB instead of 335 MiB.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/local/issue345/selective-source-test.tar\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
+    },
+    {
+      "sequence": 84,
+      "generation": 69,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 85,
+      "generation": 70,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 86,
+      "generation": 71,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover F-345-26 so the reduced immutable source archive includes and tests the complete local Rust path-dependency closure required by the Runtime bootstrap.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 87,
+      "generation": 72,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Record F-345-26 remediation and its extracted-archive dependency-closure proof without changing the truthful pending status of the final paid rerun.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The Terraform two-node path launched successfully and proved two-model GPU residency, then exposed an unset-HOME bootstrap defect before Runtime proof. Terraform cleanup terminated both nodes and removed their volumes. The worktree now defines HOME for both bootstraps and Ollama and packages the complete 25 MiB local Rust dependency closure; final paid proof remains pending exact-head review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.\",\"Replaced the hung single PUT with multipart upload plus fail-closed immutable VersionId verification.\",\"Observed a real GPU receipt proving llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed Runtime cloud-init fail before Rust execution because HOME was unset and recorded the failed receipt without overstating Guardian or six-agent proof.\",\"Made HOME=/root explicit in both bootstrap scripts and the Ollama systemd unit.\",\"Reduced the exact reviewed source archive from 335 MiB to 25 MiB while including adl, adl-runtime, adl-runtime-kernel, and adl-resilience, the complete local Rust path-dependency closure required by the Runtime bootstrap.\",\"Added an extracted-archive contract check that fails if any archived Cargo path target is absent.\",\"Confirmed controller cleanup drove both instances to termination and removed run volumes before another authorization.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".adl/local/issue345/adl-issue345-20260901-090918/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-090918/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-090918/terraform.tfstate\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove twenty-four no-paid topology, bootstrap, extracted-archive dependency closure, IAM, authorization, input-drift, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"e54a3da961b8f65eeebe6e463f7d99bfbbc05668\",\"--run-id\",\"adl-issue345-20260901-090918\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through GPU residency, Runtime bootstrap, failure receipt, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-090918\"},{\"command\":[\"git\",\"archive\",\"--format=tar\",\"HEAD\",\"--\",\"adl\",\"adl-runtime\",\"adl-runtime-kernel\",\"adl-resilience\"],\"purpose\":\"Verify the selective exact-source archive contains the complete local Rust dependency closure and is 25 MiB instead of 335 MiB.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/local/issue345/source-closure-test.tar\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"validate\"],\"purpose\":\"Validate the complete two-node Terraform configuration.\",\"outcome\":\"passed\",\"evidence_ref\":\"infra/aws/runtime/gpu-proof\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
     }
   ]
 }

@@ -40,6 +40,7 @@ SSH_INGRESS_CIDR="${ADL_ISSUE345_SSH_INGRESS_CIDR:-}"
 SSH_PUBLIC_KEY_FILE="${ADL_ISSUE345_SSH_PUBLIC_KEY_FILE:-}"
 VPC_ID="${ADL_ISSUE345_VPC_ID:-}"
 LOCK_KEY="${ADL_ISSUE345_LOCK_KEY:-shepherd/locks/issue345-aws-two-node.lock}"
+SOURCE_ARCHIVE_PATHS=(adl adl-runtime adl-runtime-kernel adl-resilience)
 
 SOURCE_COMMIT=""
 RUN_ID=""
@@ -440,6 +441,11 @@ upload_versioned() {
   printf '%s\n' "$version"
 }
 
+create_source_archive() {
+  local destination="$1"
+  git -C "$ROOT" archive --format=tar -o "$destination" "$SOURCE_COMMIT" -- "${SOURCE_ARCHIVE_PATHS[@]}"
+}
+
 acquire_run_lock() {
   local file="$STATE_ROOT/$RUN_ID/run-lock.json" response
   jq -n --arg run "$RUN_ID" --arg owner "$(sha256_text "$OWNER_TOKEN")" --arg auth "$AUTHORIZATION_SHA256" \
@@ -680,7 +686,7 @@ run_proof() {
   trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM; consume_authorization_once
   ready_key="${ARTIFACT_PREFIX}runs/$RUN_ID/gpu-ready.json"; final_key="${ARTIFACT_PREFIX}runs/$RUN_ID/runtime-final.json"
   source_archive="$run_dir/source.tar"; source_key="${ARTIFACT_PREFIX}runs/$RUN_ID/source.tar"
-  git -C "$ROOT" archive --format=tar -o "$source_archive" "$SOURCE_COMMIT" -- adl adl-runtime
+  create_source_archive "$source_archive"
   source_sha="$(sha256_file "$source_archive")"; source_version="$(upload_versioned "$source_archive" "$source_key")"
   config_key="${ARTIFACT_PREFIX}runs/$RUN_ID/config.json"
   jq -n --arg source_commit "$SOURCE_COMMIT" --argjson models "$MODEL_IDENTITIES_JSON" --arg key "$ARTIFACT_MANIFEST_KEY" --arg version "$ARTIFACT_MANIFEST_VERSION_ID" --arg sha "$ARTIFACT_MANIFEST_SHA256" \
