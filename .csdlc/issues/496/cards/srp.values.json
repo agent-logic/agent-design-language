@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
     "slug": "aws-cloudformation-retirement-decision",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/milestones/v0.92.1/evidence/cloud/aws-g",
+      "review_revision": "git-blake3:1105455ad15f95a2f0b9103b336692154ad0a41e:40b5d66d53ffcaf7790939a091c79967838bbbb7c9a711f8d9a800b8fa65ff9c",
+      "reviewer": "fresh-session:53b89b9a-e9e8-4f14-b86a-fb33599d239e",
       "review_prompts": [
         "Does the design keep #496 to a retirement decision ledger without deleting templates or reimplementing #489/#495?",
         "Are the #194 and #268 template denominators and every current repo consumer/reference classified truthfully?",
@@ -23,8 +23,10 @@
         "Does the plan avoid cloud mutation and credential disclosure while preserving a clear future live readback route?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority."
+      ],
+      "review_result": "pass"
     }
   }
 }

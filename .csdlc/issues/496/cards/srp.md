@@ -12,7 +12,7 @@ Status: draft
 
 ## Scope
 
-
+docs/milestones/v0.92.1/evidence/cloud/aws-g
 
 ## Prompts
 
@@ -31,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1105455ad15f95a2f0b9103b336692154ad0a41e:40b5d66d53ffcaf7790939a091c79967838bbbb7c9a711f8d9a800b8fa65ff9c")
 
-Reviewer: None
+Reviewer: Some("fresh-session:53b89b9a-e9e8-4f14-b86a-fb33599d239e")
 
-Result: pre_review
+Result: pass

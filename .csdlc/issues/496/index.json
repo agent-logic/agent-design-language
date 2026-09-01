@@ -4,13 +4,32 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "546e85c2e5fb163a29c67d6f148cbc79eacddcf8485fd831d8b91861c0f1db0c",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "4c5e736940e5649c7495c8fbdc1f7581fe80ed0081c33dc64f90e67dcd559a52",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "a6ed2cb6a95fdfcfe99dac9babbb8005623470d3ee3d5288b2ecfd76398f46cd",
   "branch": "codex/496-aws-cloudformation-retirement-decision-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-496-aws-cloudformation-retirement-decision-bound",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:53b89b9a-e9e8-4f14-b86a-fb33599d239e",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1105455ad15f95a2f0b9103b336692154ad0a41e:40b5d66d53ffcaf7790939a091c79967838bbbb7c9a711f8d9a800b8fa65ff9c",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:53b89b9a-e9e8-4f14-b86a-fb33599d239e",
+    "scope": [
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g"
+    ],
+    "reviewed_revision": "git-blake3:1105455ad15f95a2f0b9103b336692154ad0a41e:40b5d66d53ffcaf7790939a091c79967838bbbb7c9a711f8d9a800b8fa65ff9c",
+    "findings": [],
+    "residual_risks": [
+      "No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +44,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cc3d4402e6b55aad0d769a6c8cf622691c3d981348c33114bf4e3539e7eedf54",
+      "values_digest": "99101d39b54162f6e400a07b6b1d98aa9098f1857d1577dfa5b2e9e21977124d",
       "rendered_digest": "ba724bb557f178cb5cb116d66a996a8be304c3c3267bcb9c6abef00453559c4d",
       "ast_digest": "8d1a475c90b9205b3bf9f5209251d2c26e8cf00423adb149d47ab2ec22a29f85"
     },
     "stp": {
-      "values_digest": "a1c1d704785e6245eab9b370be5b50528ac26f83809eaa36dfc8091311c9d3df",
+      "values_digest": "29ace756395f98f910b88f19060efdfae56e11fdf8a2d5effbb20911670a272c",
       "rendered_digest": "a6c0f4c24427d2b8696d8dbe42448f206ee759bec5da0b381e393202adcf0e9a",
       "ast_digest": "c9adddb3b47c7a71749ca4f9e0f09f608a2f2cdda7ad77e708d61b40a2717c8a"
     },
     "spp": {
-      "values_digest": "7a73a11745a32bd2a138ada4497c84fed16e28edfb168049d304fb8f15811d89",
+      "values_digest": "984f643f84e86b79adedfcbd33b43e8d0d13189fd2a7985b332253240141287f",
       "rendered_digest": "00873878f734ff3283c4ef2b04056fac3f2412a6196c6b84a99561dc1f07265f",
       "ast_digest": "cee8bb85ae34ea6615d406dbd6920ab323199c2d42b18ad1ba37b2dee78e6078"
     },
     "vpp": {
-      "values_digest": "91a6bf9f6a312a21432b3b0beaa73c3d83a6d9afed4694538fb5043feb34c273",
+      "values_digest": "ca9a4c1d10f09b8b32a0181af196eb49941cfe054753686ae61093be216277ff",
       "rendered_digest": "54016a4be7498595d1cae5c00addc1acc5cf86c046f3813abd7e0b571001a11a",
       "ast_digest": "cd09ef4297970a6fd71522ea0f2c846ec95ff4b2e71ed08e180f05d0cf0f8cd4"
     },
     "srp": {
-      "values_digest": "179991760788b6a62d21b0a9055e9e9345d6811236b0894428f1baab1dc6e93b",
-      "rendered_digest": "5d6c6559024bd937d9ee9a3d5bd7d063ac24ca2f0eecda7dbde11f16c9afab18",
-      "ast_digest": "11ca4fc74058bcc592b6a994a6eb6120e9324830eb625a9ba4ce7b18886cf7c2"
+      "values_digest": "2d226994eac5f5007fe8c9f57239180389fb5e7039c9dde2c290eddf792c2bd2",
+      "rendered_digest": "2fc9ab9603535d5909b1cdff0cd97b7d86a816b1370b04fb08a67c4011774755",
+      "ast_digest": "b70eeb037c5b222fd3c3fb4ed2ef9950a85a17db6598e37386e84ef585a6bc39"
     },
     "sor": {
-      "values_digest": "527a2cb9694a4f3a87b93b977b7c31abe1b87b7692922ade9d1327c0327a851e",
+      "values_digest": "2c562e4309c43699bc7a75c75e24fb8205d502527fa115f8babc1204a357f37f",
       "rendered_digest": "6642904223cd00ce5ccd876b655b186cc2ce4ac23e4ef60134d1f1be69d84c5b",
       "ast_digest": "b3c4db937ee9b769a30da6fcc430a865f5e0060f0a321a4e4a301667d7970303"
     }
@@ -90,6 +109,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #496 after publication guard reported review_publication_dead_end because the R3 reviewed revision included non-clean assignment metadata; reassign against the current clean committed head before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -232,6 +258,20 @@
       "actor": "codex:/root",
       "reason": "Recover #496 after publication guard reported review_publication_dead_end because the R3 reviewed revision included non-clean assignment metadata; reassign against the current clean committed head before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
