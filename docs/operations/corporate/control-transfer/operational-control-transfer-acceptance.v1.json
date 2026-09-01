@@ -1,0 +1,74 @@
+{
+  "schema": "adl.corporate.operational_control_transfer_acceptance.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "sprint_umbrella": 532,
+  "created_at": "2026-09-01",
+  "status": "accepted_with_deferred_external_actions",
+  "authority_boundary": "Repository-local acceptance packet only. No production/provider mutation, credential transfer, billing change, DNS change, certificate action, workflow mutation, private custody transfer, or legal/diligence disclosure is performed by #497.",
+  "prerequisite_gate": {
+    "status": "pass",
+    "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json",
+    "prerequisite_issues": [
+      482,
+      483,
+      493,
+      496
+    ]
+  },
+  "accepted_repository_local_evidence": [
+    "docs/operations/corporate/asset-register/critical-asset-schedule.md",
+    "docs/operations/corporate/asset-register/critical-asset-schedule.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-a/custody-receipts.v1.json",
+    "docs/operations/corporate/account-custody/corporate-custody-register.md",
+    "docs/operations/corporate/account-custody/corporate-custody-register.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-b/readback-receipts.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/account-authority-readback.v1.json",
+    "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json"
+  ],
+  "completed_evidence": [
+    "corp-c-prerequisite-evidence",
+    "corp-c-repository-custody-evidence",
+    "corp-c-aws-business-account-readback",
+    "corp-c-gcp-foundation-prerequisite"
+  ],
+  "authorized_actions": [],
+  "deferred_actions": [
+    "corp-c-dns-hosted-zone-transfer",
+    "corp-c-certificate-renewal-ownership",
+    "corp-c-github-actions-authority",
+    "corp-c-private-custody",
+    "corp-c-deployment-rollback-readback"
+  ],
+  "blocked_actions": [],
+  "acceptance": [
+    {
+      "id": "AC-1",
+      "status": "pass",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/prerequisite-ancestry.v1.json"
+    },
+    {
+      "id": "AC-2",
+      "status": "pass_with_deferred_external_actions",
+      "evidence_ref": "docs/milestones/v0.92.1/evidence/corporate/corp-c/external-action-classification.v1.json"
+    },
+    {
+      "id": "AC-3",
+      "status": "pass",
+      "evidence_ref": "No external mutation or credential transfer was authorized or performed by #497."
+    },
+    {
+      "id": "AC-4",
+      "status": "pass",
+      "evidence_ref": ".csdlc/evidence/497/validate-readiness.rb"
+    }
+  ],
+  "non_claims": [
+    "Live provider cutover is not complete.",
+    "Cloud parity and billing custody are not globally proved by this packet.",
+    "Private legal, diligence, vault, recovery-factor, payment-method, and executed-instrument material are not committed to the repository.",
+    "Sprint 7 #345 AWS GPU execution is not performed.",
+    "Sprint 8 #84 Unity work is not performed.",
+    "CORP-D #498 diligence acceptance is not performed."
+  ]
+}

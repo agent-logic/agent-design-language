@@ -1,0 +1,49 @@
+{
+  "schema": "adl.corporate.corp_c.account_authority_readback.v1",
+  "issue": 497,
+  "repository": "agent-logic/agent-design-language",
+  "created_at": "2026-09-01",
+  "authority_boundary": "Repository-safe readback and classification only. No credential values, account secrets, private legal records, billing instruments, or provider mutation are captured in this packet.",
+  "provider_checks": [
+    {
+      "provider": "aws",
+      "profile": "agent-logic-admin",
+      "classification": "readback_pass",
+      "evidence_source": "AWS-G #496 and Sprint 4 readiness STS/account-boundary triage",
+      "business_account_required": true,
+      "mutation": false,
+      "credential_material_captured": false,
+      "notes": "ADL AWS work remains bound to the Agent Logic business AWS profile. This CORP-C packet does not change IAM, billing, DNS, Route53, certificates, or infrastructure."
+    },
+    {
+      "provider": "github",
+      "profile": "agent-logic/agent-design-language",
+      "classification": "deferred_action",
+      "evidence_source": "CORP-B follow-up register rows for source_control and ci_cd",
+      "business_account_required": true,
+      "mutation": false,
+      "credential_material_captured": false,
+      "notes": "Organization owners, billing plan owner, MFA, recovery contacts, environments, required reviewers, runner authority, and emergency workflow-disable procedure remain follow-up readbacks."
+    },
+    {
+      "provider": "dns_certificate",
+      "profile": "corporate-operator-role",
+      "classification": "deferred_action",
+      "evidence_source": "CORP-B follow-up register rows for production_domains, dns_route53, and certificates",
+      "business_account_required": true,
+      "mutation": false,
+      "credential_material_captured": false,
+      "notes": "Hosted-zone moves, DNS updates, and certificate renewal ownership checks require explicit operator authorization and rollback evidence before mutation."
+    },
+    {
+      "provider": "private_custody",
+      "profile": "business-operations-role",
+      "classification": "deferred_action",
+      "evidence_source": "CORP-A redacted custody receipts and CORP-B private-custody follow-up rows",
+      "business_account_required": true,
+      "mutation": false,
+      "credential_material_captured": false,
+      "notes": "Vault, recovery-factor, payment-method, executed-instrument, and counsel-controlled diligence custody remain private/off-repo surfaces represented only by redacted receipt identifiers."
+    }
+  ]
+}
