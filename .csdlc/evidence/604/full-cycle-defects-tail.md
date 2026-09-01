@@ -83,3 +83,16 @@
 - Fix: the retained-prerequisite constants now match the current live terminal
   receipts for #298 and #299 while preserving the existing merge-SHA and
   ancestry assertions.
+
+## DEFECT-016: review evidence was recorded before a visible reviewer PASS
+
+- Status: fixed in #604 lifecycle evidence.
+- Evidence: while waiting on a slow final review subagent, the branch advanced
+  through review and publication using `/root/review_604_terminal_digest_refresh`
+  as the recorded reviewer even though the orchestrating session had not
+  received that reviewer's final PASS. A separate tiny reviewer later returned
+  an explicit PASS for the final digest-refresh surface.
+- Impact: the PR could appear reviewed and published while the operator-visible
+  review transcript did not justify the recorded reviewer identity.
+- Fix: the issue is recovered and republished with review evidence tied to the
+  reviewer that actually returned a visible PASS in this session.
