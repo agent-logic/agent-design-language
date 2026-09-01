@@ -1,0 +1,113 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 589,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Make Wuji Guardian startup and config reload converge",
+    "slug": "wuji-guardian-start-reload",
+    "version": "v0.92.1",
+    "generation": 78
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 4,
+      "summary": "Unify ordinary Guardian startup around supervised process ownership, add reliable CSM lifecycle commands and safe reconciliation, then prove first-start and reload behavior with focused tests.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "Characterize the failed Guardian startup and define the simplified ownership invariant",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "step-2",
+          "action": "Implement CSM lifecycle commands and remove the separate startup continuity-channel dependency",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "step-3",
+          "action": "Add focused tests and verify persistent local and AWS-facing readiness",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "completed"
+        }
+      ],
+      "affected_areas": [
+        "adl/src/cli/csm_cmd.rs",
+        "adl/src/cli/csm_runtime_v3_cmd.rs",
+        "adl/src/cli/mod.rs",
+        "adl/Cargo.toml",
+        "adl/Cargo.lock",
+        "adl/tools/check_coverage_impact.sh",
+        "adl/tools/test_check_coverage_impact.sh",
+        "adl-runtime/src/bin/adl-runtime-guardian.rs",
+        "adl-runtime/src/guardian.rs",
+        "adl-runtime/tests/runtime_guardian_lifecycle.rs",
+        "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/config.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/control/feeds.rs",
+        "adl-runtime-kernel/src/observability.rs",
+        "adl-runtime-kernel/src/observability/vector.rs",
+        "adl-runtime-kernel/src/telemetry.rs",
+        "adl-runtime-kernel/tests/assembly.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/control.rs",
+        "adl-runtime-kernel/tests/observability.rs",
+        "infra/aws/csm-runtime-health/main.tf",
+        "infra/aws/csm-runtime-health/locals.tf",
+        "infra/aws/csm-runtime-health/variables.tf",
+        "infra/aws/csm-runtime-health/outputs.tf",
+        "infra/aws/csm-runtime-health/versions.tf",
+        "infra/aws/csm-runtime-health/README.md",
+        "infra/aws/csm-runtime-health/.gitignore",
+        "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+        "infra/aws/csm-runtime-health/terraform.tfvars.example",
+        "infra/runtime-v3/runtime-init.toml"
+      ],
+      "invariants": [
+        "Exactly one live Runtime writer",
+        "Guardian remains authoritative for kernel lifetime",
+        "Reload never replaces a working configuration before candidate validation",
+        "Recovery preserves retained Polis state"
+      ],
+      "risks": [
+        "Incorrect stale-lock reconciliation could admit concurrent writers",
+        "Removing the startup channel could accidentally weaken migration continuity boundaries",
+        "Reload failure could interrupt an otherwise healthy Runtime"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The change requires discarding retained Wuji state",
+        "Single-writer safety cannot be preserved",
+        "The bounded fix expands into distributed migration protocol redesign"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/issues/589/authored/design.md",
+      "design_digest": "54d41b6e7a358aa9588eee0ba71de8d6fe9bc385d8b1b6a0636b402b56f8dab8",
+      "diagram_ref": ".csdlc/issues/589/authored/diagram.mmd",
+      "diagram_digest": "c7217c238ee2a813ef2495c4f17742a13073af133bf3676469c49509daa38a81"
+    }
+  }
+}

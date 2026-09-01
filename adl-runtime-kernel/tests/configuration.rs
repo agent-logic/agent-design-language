@@ -677,19 +677,52 @@ fn runtime_init_rejects_ipv6_bind_addresses() {
 }
 
 #[test]
-fn continuity_identity_excludes_cycle_labels_and_anti_rollback_floor_only() {
+fn continuity_identity_excludes_non_stateful_runtime_policy() {
     let root = config_test_root();
     let config =
         adl_runtime_kernel::RuntimeInitConfig::from_toml_str(&valid_runtime_init_toml(root.path()))
             .unwrap();
-    let expected = config.continuity_identity_projection().unwrap();
+    let mut legacy_config = config.clone();
+    legacy_config.observatory.additional_allowed_origins.clear();
+    let expected = legacy_config.continuity_identity_projection().unwrap();
+    assert_eq!(config.continuity_identity_projection().unwrap(), expected);
+    assert!(expected["observability_pipeline"]
+        .get("cloudwatch")
+        .is_none());
 
-    let mut next_cycle = config.clone();
+    let mut next_cycle = legacy_config.clone();
     next_cycle.credentials.continuity_min_generation = 41;
     next_cycle.observability_pipeline.lifecycle_run = "run-2".to_owned();
     next_cycle.observability_pipeline.lifecycle_cycle = "cycle-42".to_owned();
     assert_eq!(
         next_cycle.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut changed_origins = next_cycle.clone();
+    changed_origins.observatory.additional_allowed_origins =
+        vec!["http://localhost:8000".to_owned()];
+    assert_eq!(
+        changed_origins.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    changed_origins.observatory.allowed_origins =
+        vec!["https://observatory.example.test".to_owned()];
+    assert_ne!(
+        changed_origins.continuity_identity_projection().unwrap(),
+        expected
+    );
+
+    let mut cloudwatch_enabled = next_cycle.clone();
+    cloudwatch_enabled.observability_pipeline.cloudwatch =
+        Some(adl_runtime_kernel::RuntimeCloudWatchInitConfig {
+            region: "us-west-2".to_owned(),
+            log_group: "/agent-logic/runtime-v3/axioma-wuji-dev".to_owned(),
+            log_stream: "wuji".to_owned(),
+        });
+    assert_ne!(
+        cloudwatch_enabled.continuity_identity_projection().unwrap(),
         expected
     );
 
