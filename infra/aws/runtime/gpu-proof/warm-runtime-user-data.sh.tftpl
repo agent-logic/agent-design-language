@@ -1,0 +1,70 @@
+#!/bin/bash
+set -Eeuo pipefail
+export HOME=/root
+start_uptime="$(cut -d' ' -f1 /proc/uptime)"
+state=/var/lib/adl/issue607-runtime
+mkdir -p "$state" /mnt/adl-warm-runtime
+
+failure() {
+  rc=$?
+  jq -n --argjson rc "$rc" '{schema:"adl.issue607.runtime_local_ready.v1",status:"failed",exit_code:$rc}' >"$state/failure.json" 2>/dev/null || true
+  aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${runtime_ready_key}' --body "$state/failure.json" --if-none-match '*' >/dev/null 2>&1 || true
+  exit "$rc"
+}
+trap failure EXIT
+
+for command in aws curl jq mount openssl python3 readlink systemctl veritysetup; do command -v "$command" >/dev/null; done
+compact='${volume_id}'
+compact="$${compact//-/}"
+for _ in $(seq 1 120); do
+  device="/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$compact"
+  [[ -e "$device" ]] && break
+  sleep 0.1
+done
+[[ -e "$device" ]]
+device="$(readlink -f "$device")"
+veritysetup open "$${device}p1" adl-warm-runtime "$${device}p2" '${root_hash}'
+mount -o ro,nosuid,nodev /dev/mapper/adl-warm-runtime /mnt/adl-warm-runtime
+manifest=/mnt/adl-warm-runtime/sealed-volume-manifest.json
+jq -e --arg volume '${volume_id}' --arg generation '${artifact_generation}' --arg commit '${source_commit}' \
+  '.schema=="adl.issue607.sealed_volume_manifest.v1" and .node=="runtime" and .volume_id==$volume and .artifact_generation==$generation and .source_commit==$commit' "$manifest" >/dev/null
+image_id="$(curl -fsS -X PUT -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' http://169.254.169.254/latest/api/token | xargs -I TOKEN curl -fsS -H 'X-aws-ec2-metadata-token: TOKEN' http://169.254.169.254/latest/meta-data/ami-id)"
+jq -e --arg image "$image_id" '.facility_inventory.ami_id==$image' "$manifest" >/dev/null
+
+for _ in $(seq 1 120); do
+  aws s3api get-object --region '${region}' --bucket '${artifact_bucket}' --key '${gpu_ready_key}' "$state/gpu-ready.json" >/dev/null 2>&1 \
+    && jq -e '.status=="ready" and .model_count>=2 and .multi_model_residency=="passed" and .ollama_public==false' "$state/gpu-ready.json" >/dev/null \
+    && curl -fsS 'http://${gpu_private_ip}:11434/api/ps' >/dev/null \
+    && break
+  sleep 0.25
+done
+jq -e '.status=="ready" and .model_count>=2' "$state/gpu-ready.json" >/dev/null
+
+export OLLAMA_HOST='http://${gpu_private_ip}:11434'
+export ADL_RUNTIME_USE_PREBUILT_BINARIES=1
+export ADL_RUNTIME_SOURCE_REVISION='${source_commit}'
+export ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT="$state/guardian-evidence"
+export ADL_RUNTIME_GUARDIAN_TARGET_ROOT=/mnt/adl-warm-runtime
+export CARGO_TARGET_DIR=/mnt/adl-warm-runtime/target
+export ADL_RUNTIME_VECTOR_BIN=/mnt/adl-warm-runtime/vector/bin/vector
+bash /mnt/adl-warm-runtime/repo/adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x >"$state/guardian-validation.log" 2>&1
+guardian_proof="$(find "$ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT" -type f -name issue-proof.json -print -quit)"
+jq -e '.schema=="adl.runtime_v3.guardian_lifecycle_proof.v1" and .status=="pass" and .assertions.authenticated_https==true and .assertions.authenticated_wss==true' "$guardian_proof" >/dev/null
+init="$(find "$ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT" -maxdepth 1 -type f -name '5820-runtime-init-*.toml' -print -quit)"
+[[ -f "$init" ]]
+systemd-run --unit=adl-runtime-guardian --property=Restart=always \
+  /mnt/adl-warm-runtime/target/debug/adl-runtime-guardian --init "$init"
+port="$(awk -F'[:\"]+' '/^address = "127.0.0.1:/ {print $3; exit}' "$init")"
+for _ in $(seq 1 120); do
+  curl -fsS --cacert "$ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT/tls/root-ca.pem" --resolve "localhost:$port:127.0.0.1" "https://localhost:$port/v1/ready" >"$state/runtime-ready.json" && break
+  sleep 0.1
+done
+jq -e '.ready==true' "$state/runtime-ready.json" >/dev/null
+end_uptime="$(cut -d' ' -f1 /proc/uptime)"
+elapsed="$(awk -v start="$start_uptime" -v end="$end_uptime" 'BEGIN {printf "%.3f", end-start}')"
+awk -v elapsed="$elapsed" 'BEGIN {exit !(elapsed <= 30.0)}'
+jq -n --arg generation '${artifact_generation}' --arg root_hash '${root_hash}' --arg elapsed "$elapsed" \
+  --arg guardian_proof_sha256 "$(sha256sum "$guardian_proof" | awk '{print $1}')" \
+  '{schema:"adl.issue607.runtime_local_ready.v1",status:"ready",clock_source:"CLOCK_BOOTTIME_linux_proc_uptime",local_ready_seconds:($elapsed|tonumber),artifact_generation:$generation,dm_verity_root_hash:$root_hash,guardian_supervised:true,runtime_ready:true,authenticated_https:true,authenticated_wss:true,guardian_proof_sha256:$guardian_proof_sha256}' >"$state/ready.json"
+aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${runtime_ready_key}' --body "$state/ready.json" --if-none-match '*' >/dev/null
+trap - EXIT

@@ -1,0 +1,55 @@
+#!/bin/bash
+set -Eeuo pipefail
+export HOME=/root
+start_uptime="$(cut -d' ' -f1 /proc/uptime)"
+state=/var/lib/adl/issue607-gpu
+mkdir -p "$state" /mnt/adl-warm-gpu
+
+failure() {
+  rc=$?
+  jq -n --argjson rc "$rc" '{schema:"adl.issue607.gpu_local_ready.v1",status:"failed",exit_code:$rc}' >"$state/failure.json" 2>/dev/null || true
+  aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${ready_key}' --body "$state/failure.json" --if-none-match '*' >/dev/null 2>&1 || true
+  exit "$rc"
+}
+trap failure EXIT
+
+for command in aws curl jq mount readlink systemctl veritysetup; do command -v "$command" >/dev/null; done
+compact='${volume_id}'
+compact="$${compact//-/}"
+for _ in $(seq 1 120); do
+  device="/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$compact"
+  [[ -e "$device" ]] && break
+  sleep 0.1
+done
+[[ -e "$device" ]]
+device="$(readlink -f "$device")"
+veritysetup open "$${device}p1" adl-warm-gpu "$${device}p2" '${root_hash}'
+mount -o ro,nosuid,nodev /dev/mapper/adl-warm-gpu /mnt/adl-warm-gpu
+manifest=/mnt/adl-warm-gpu/sealed-volume-manifest.json
+jq -e --arg volume '${volume_id}' --arg generation '${artifact_generation}' --arg commit '${source_commit}' \
+  '.schema=="adl.issue607.sealed_volume_manifest.v1" and .node=="gpu" and .volume_id==$volume and .artifact_generation==$generation and .source_commit==$commit and (.models|length)>=2' "$manifest" >/dev/null
+image_id="$(curl -fsS -X PUT -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' http://169.254.169.254/latest/api/token | xargs -I TOKEN curl -fsS -H 'X-aws-ec2-metadata-token: TOKEN' http://169.254.169.254/latest/meta-data/ami-id)"
+jq -e --arg image "$image_id" '.facility_inventory.ami_id==$image' "$manifest" >/dev/null
+
+model_count="$(jq '.models|length' "$manifest")"
+systemd-run --unit=adl-ollama --property=Restart=always \
+  --setenv=HOME="$state" --setenv=OLLAMA_MODELS=/mnt/adl-warm-gpu/install/models/models \
+  --setenv=OLLAMA_HOST=0.0.0.0:11434 --setenv=OLLAMA_KEEP_ALIVE=-1 \
+  --setenv=OLLAMA_MAX_LOADED_MODELS="$model_count" \
+  /mnt/adl-warm-gpu/install/bin/ollama serve
+for _ in $(seq 1 120); do curl -fsS http://127.0.0.1:11434/api/version >/dev/null && break; sleep 0.1; done
+while read -r model; do
+  jq -n --arg model "$model" '{model:$model,prompt:"Reply OK.",stream:false,keep_alive:-1,options:{num_predict:1}}' \
+    | curl -fsS http://127.0.0.1:11434/api/generate -d @- >/dev/null
+done < <(jq -r '.models[].model_identity' "$manifest")
+models="$(curl -fsS http://127.0.0.1:11434/api/ps | jq -ce --argjson expected "$(jq -c '.models|sort_by(.model_identity)' "$manifest")" '
+  [.models[]|{model_identity:.name,model_digest_sha256:(.digest|sub("^sha256:";"")),size_vram:.size_vram}]|sort_by(.model_identity)
+  |select(length==($expected|length))|select(all(.[];.size_vram>0))
+  |select(map({model_identity,model_digest_sha256})==$expected)')"
+end_uptime="$(cut -d' ' -f1 /proc/uptime)"
+elapsed="$(awk -v start="$start_uptime" -v end="$end_uptime" 'BEGIN {printf "%.3f", end-start}')"
+awk -v elapsed="$elapsed" 'BEGIN {exit !(elapsed <= 30.0)}'
+jq -n --arg generation '${artifact_generation}' --arg root_hash '${root_hash}' --arg elapsed "$elapsed" --argjson models "$models" \
+  '{schema:"adl.issue607.gpu_local_ready.v1",status:"ready",clock_source:"CLOCK_BOOTTIME_linux_proc_uptime",local_ready_seconds:($elapsed|tonumber),artifact_generation:$generation,dm_verity_root_hash:$root_hash,models:$models,model_count:($models|length),multi_model_residency:"passed",ollama_public:false}' >"$state/ready.json"
+aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${ready_key}' --body "$state/ready.json" --if-none-match '*' >/dev/null
+trap - EXIT

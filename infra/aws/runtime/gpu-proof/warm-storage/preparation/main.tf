@@ -9,6 +9,7 @@ locals {
     "adl:cleanup-required" = "true"
     "adl:termination-at"   = var.termination_at
   }
+  artifact_read_arns = [for key in var.artifact_read_keys : "arn:aws:s3:::${var.artifact_bucket}/${key}"]
 }
 
 resource "aws_security_group" "preparation" {
@@ -63,7 +64,7 @@ resource "aws_iam_role_policy" "preparation" {
         Sid      = "ReadExactArtifactPrefix"
         Effect   = "Allow"
         Action   = ["s3:GetObject", "s3:GetObjectVersion"]
-        Resource = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_read_prefix}*"
+        Resource = local.artifact_read_arns
       },
       {
         Sid      = "WriteExactReceiptPrefix"
@@ -92,15 +93,30 @@ resource "aws_iam_instance_profile" "preparation" {
   tags        = local.tags
 }
 
-resource "aws_instance" "preparation" {
-  ami                         = var.ami_id
-  instance_type               = var.instance_type
+resource "aws_instance" "runtime_preparation" {
+  ami                         = var.runtime_ami_id
+  instance_type               = var.runtime_instance_type
   subnet_id                   = var.subnet_id
   associate_public_ip_address = true
   key_name                    = aws_key_pair.operator.key_name
   vpc_security_group_ids      = [aws_security_group.preparation.id]
   iam_instance_profile        = aws_iam_instance_profile.preparation.name
-  user_data                   = var.user_data
+  user_data = templatefile("${path.module}/runtime-user-data.sh.tftpl", {
+    region                       = var.aws_region
+    artifact_bucket              = var.artifact_bucket
+    artifact_manifest_key        = var.artifact_manifest_key
+    artifact_manifest_version_id = var.artifact_manifest_version_id
+    artifact_manifest_sha256     = var.artifact_manifest_sha256
+    source_commit                = var.source_commit
+    source_archive_key           = var.source_archive_key
+    source_archive_version_id    = var.source_archive_version_id
+    source_archive_sha256        = var.source_archive_sha256
+    receipt_write_prefix         = var.receipt_write_prefix
+    runtime_volume_id            = var.runtime_volume_id
+    runtime_ami_id               = var.runtime_ami_id
+    availability_zone            = var.availability_zone
+    artifact_generation          = var.artifact_generation
+  })
   user_data_replace_on_change = true
 
   instance_initiated_shutdown_behavior = "terminate"
@@ -124,13 +140,54 @@ resource "aws_instance" "preparation" {
 resource "aws_volume_attachment" "runtime" {
   device_name = "/dev/sdf"
   volume_id   = var.runtime_volume_id
-  instance_id = aws_instance.preparation.id
+  instance_id = aws_instance.runtime_preparation.id
+}
+
+resource "aws_instance" "gpu_preparation" {
+  ami                         = var.gpu_ami_id
+  instance_type               = var.gpu_instance_type
+  subnet_id                   = var.subnet_id
+  associate_public_ip_address = true
+  key_name                    = aws_key_pair.operator.key_name
+  vpc_security_group_ids      = [aws_security_group.preparation.id]
+  iam_instance_profile        = aws_iam_instance_profile.preparation.name
+  user_data = templatefile("${path.module}/gpu-user-data.sh.tftpl", {
+    region                       = var.aws_region
+    artifact_bucket              = var.artifact_bucket
+    artifact_manifest_key        = var.artifact_manifest_key
+    artifact_manifest_version_id = var.artifact_manifest_version_id
+    artifact_manifest_sha256     = var.artifact_manifest_sha256
+    source_commit                = var.source_commit
+    receipt_write_prefix         = var.receipt_write_prefix
+    gpu_volume_id                = var.gpu_volume_id
+    gpu_ami_id                   = var.gpu_ami_id
+    availability_zone            = var.availability_zone
+    artifact_generation          = var.artifact_generation
+  })
+  user_data_replace_on_change = true
+
+  instance_initiated_shutdown_behavior = "terminate"
+
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+  }
+
+  root_block_device {
+    delete_on_termination = true
+    encrypted             = true
+    volume_type           = "gp3"
+    volume_size           = var.root_volume_size_gib
+  }
+
+  tags = local.tags
 }
 
 resource "aws_volume_attachment" "gpu" {
-  device_name = "/dev/sdg"
+  device_name = "/dev/sdf"
   volume_id   = var.gpu_volume_id
-  instance_id = aws_instance.preparation.id
+  instance_id = aws_instance.gpu_preparation.id
 }
 
 resource "aws_iam_role" "scheduler" {
@@ -174,7 +231,7 @@ resource "aws_scheduler_schedule" "terminate" {
   target {
     arn      = "arn:aws:scheduler:::aws-sdk:ec2:terminateInstances"
     role_arn = aws_iam_role.scheduler.arn
-    input    = jsonencode({ InstanceIds = [aws_instance.preparation.id] })
+    input    = jsonencode({ InstanceIds = [aws_instance.runtime_preparation.id, aws_instance.gpu_preparation.id] })
   }
 }
 
@@ -184,7 +241,15 @@ check "security_inputs" {
     error_message = "preparation SSH ingress must be one exact IPv4 /32."
   }
   assert {
-    condition     = var.artifact_read_prefix != var.receipt_write_prefix && endswith(var.artifact_read_prefix, "/") && endswith(var.receipt_write_prefix, "/")
-    error_message = "read and write prefixes must be distinct directories."
+    condition     = endswith(var.receipt_write_prefix, "/") && alltrue([for key in var.artifact_read_keys : !startswith(key, var.receipt_write_prefix)])
+    error_message = "receipt prefix must be a directory distinct from every exact read key."
   }
+  assert {
+    condition     = data.aws_subnet.selected.availability_zone == var.availability_zone
+    error_message = "preparation subnet and retained volumes must share the exact availability zone."
+  }
+}
+
+data "aws_subnet" "selected" {
+  id = var.subnet_id
 }

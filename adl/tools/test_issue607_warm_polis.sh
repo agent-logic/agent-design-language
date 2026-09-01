@@ -36,6 +36,20 @@ run_contracts() {
   rg -q 'stop_instance_before_detaching[[:space:]]*=[[:space:]]*true' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
   ! rg -n 'apt-get|dnf |yum |cargo build|rustup|git clone|ollama pull|snap install' \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage" --glob '*.tf'
+  ! rg -n 'apt-get|apt |dnf |yum |cargo (build|install|test)|rustup|git (clone|fetch|pull)|ollama pull|snap install|pip(3)? install' \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -q 'aws_instance" "runtime_preparation' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
+  rg -q 'aws_instance" "gpu_preparation' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
+  rg -q 'var.runtime_ami_id' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
+  rg -q 'var.gpu_ami_id' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
+  rg -q 'ADL_RUNTIME_USE_PREBUILT_BINARIES=1' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
+  rg -Fq 'if [[ "${ADL_RUNTIME_USE_PREBUILT_BINARIES:-0}" == 1 ]]; then' "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+  bash -n \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl" \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \
+    "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
 }
 
 run_terraform() {

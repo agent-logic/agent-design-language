@@ -1,0 +1,84 @@
+#!/bin/bash
+set -Eeuo pipefail
+export DEBIAN_FRONTEND=noninteractive HOME=/root
+work=/opt/adl-issue607-gpu-preparation
+mkdir -p "$work"
+
+finish_failure() {
+  rc=$?
+  jq -n --argjson rc "$rc" '{schema:"adl.issue607.gpu_preparation.v1",status:"failed",exit_code:$rc}' >"$work/final.json" 2>/dev/null || true
+  aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${receipt_write_prefix}gpu-preparation-failed.json' --body "$work/final.json" --if-none-match '*' >/dev/null 2>&1 || true
+  shutdown -h now || true
+  exit "$rc"
+}
+trap finish_failure EXIT
+
+apt-get update -qq
+apt-get install -y -qq awscli jq zstd gdisk cryptsetup-bin e2fsprogs ca-certificates curl
+
+volume_device() {
+  id="$1" compact="$${1//-/}"
+  for _ in $(seq 1 120); do
+    candidate="/dev/disk/by-id/nvme-Amazon_Elastic_Block_Store_$compact"
+    [[ -e "$candidate" ]] && { readlink -f "$candidate"; return 0; }
+    sleep 1
+  done
+  return 1
+}
+
+dev="$(volume_device '${gpu_volume_id}')"
+dd if=/dev/zero of="$dev" bs=16M oflag=direct status=progress
+sgdisk --zap-all "$dev"
+sgdisk -n 1:1MiB:-8GiB -t 1:8300 -c 1:adl-content "$dev"
+sgdisk -n 2:0:0 -t 2:8300 -c 2:adl-verity "$dev"
+partprobe "$dev"
+udevadm settle
+mkfs.ext4 -F -m 0 "$${dev}p1"
+wipefs -a "$${dev}p2"
+mkdir -p "$work/content/install/bin" "$work/content/install/models" "$work/artifacts"
+mount "$${dev}p1" "$work/content"
+
+manifest="$work/artifact-manifest.json"
+aws s3api get-object --region '${region}' --bucket '${artifact_bucket}' --key '${artifact_manifest_key}' --version-id '${artifact_manifest_version_id}' "$manifest" >/dev/null
+printf '%s  %s\n' '${artifact_manifest_sha256}' "$manifest" | sha256sum -c -
+while IFS=$'\t' read -r kind key version relative sha; do
+  [[ "$kind" == ollama_runtime || "$kind" == ollama_model_store ]] || continue
+  dest="$work/artifacts/$relative"
+  mkdir -p "$(dirname "$dest")"
+  aws s3api get-object --region '${region}' --bucket '${artifact_bucket}' --key "$key" --version-id "$version" "$dest" >/dev/null
+  printf '%s  %s\n' "$sha" "$dest" | sha256sum -c -
+  if [[ "$kind" == ollama_runtime ]]; then
+    tar --zstd -xf "$dest" -C "$work/content/install"
+  else
+    tar --zstd -xf "$dest" -C "$work/content/install/models"
+  fi
+done < <(jq -r '.artifacts[]|[.kind,.key,.version_id,.relative_path,.sha256]|@tsv' "$manifest")
+cp "$manifest" "$work/content/install/artifact-manifest.json"
+
+facility_inventory="$(jq -n \
+  --arg ami_id '${gpu_ami_id}' --arg availability_zone '${availability_zone}' \
+  --arg libc "$(ldd --version 2>&1 | head -1)" --arg kernel "$(uname -r)" \
+  --arg nvidia_driver "$(nvidia-smi --query-gpu=driver_version --format=csv,noheader | head -1)" \
+  --arg cuda "$(nvidia-smi --query-gpu=cuda_version --format=csv,noheader 2>/dev/null | head -1 || true)" \
+  --arg gpu "$(nvidia-smi --query-gpu=name,uuid --format=csv,noheader | head -1)" \
+  --argjson commands "$(for command in cloud-init systemctl mount veritysetup curl aws jq nvidia-smi; do command -v "$command"; done | jq -Rsc 'split("\n")[:-1]')" \
+  '{ami_id:$ami_id,availability_zone:$availability_zone,kernel:$kernel,libc:$libc,nvidia_driver:$nvidia_driver,cuda:$cuda,gpu:$gpu,commands:$commands}')"
+jq -n --arg source_commit '${source_commit}' --arg generation '${artifact_generation}' \
+  --arg volume_id '${gpu_volume_id}' --arg filesystem_uuid "$(blkid -s UUID -o value "$${dev}p1")" \
+  --arg manifest_version_id '${artifact_manifest_version_id}' --arg manifest_sha256 '${artifact_manifest_sha256}' \
+  --argjson models "$(jq -c '.models|sort_by(.model_identity)' "$manifest")" --argjson facility_inventory "$facility_inventory" \
+  '{schema:"adl.issue607.sealed_volume_manifest.v1",node:"gpu",source_commit:$source_commit,artifact_generation:$generation,volume_id:$volume_id,filesystem_uuid:$filesystem_uuid,artifact_manifest_version_id:$manifest_version_id,artifact_manifest_sha256:$manifest_sha256,models:$models,facility_inventory:$facility_inventory}' \
+  >"$work/content/sealed-volume-manifest.json"
+find "$work/content" -xdev -type f ! -name files.sha256 -print0 | sort -z | xargs -0 sha256sum >"$work/content/files.sha256"
+
+sync
+umount "$work/content"
+verity_output="$(veritysetup format "$${dev}p1" "$${dev}p2")"
+root_hash="$(awk '/Root hash:/ {print $3}' <<<"$verity_output")"
+[[ "$root_hash" =~ ^[0-9a-f]{64}$ ]]
+jq -n --arg source_commit '${source_commit}' --arg generation '${artifact_generation}' \
+  --arg volume_id '${gpu_volume_id}' --arg root_hash "$root_hash" --argjson facility_inventory "$facility_inventory" \
+  '{schema:"adl.issue607.gpu_preparation.v1",status:"prepared",source_commit:$source_commit,artifact_generation:$generation,volume_id:$volume_id,root_hash:$root_hash,fully_initialized:true,facility_inventory:$facility_inventory}' >"$work/final.json"
+aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${receipt_write_prefix}gpu-preparation-final.json' --body "$work/final.json" --if-none-match '*' >/dev/null
+trap - EXIT
+shutdown -h now

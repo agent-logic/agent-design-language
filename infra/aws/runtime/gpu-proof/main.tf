@@ -1,12 +1,15 @@
 locals {
-  scheduler_name      = substr("${var.run_id}-terminate", 0, 64)
-  termination_at_utc  = trimsuffix(var.termination_at, "Z")
-  artifact_read_arns  = [for key in var.artifact_read_keys : "arn:aws:s3:::${var.artifact_bucket}/${key}"]
-  gpu_receipt_arn     = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
-  runtime_receipt_arn = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/runtime-final.json"
+  scheduler_name            = substr("${var.run_id}-terminate", 0, 64)
+  termination_at_utc        = trimsuffix(var.termination_at, "Z")
+  artifact_read_arns        = [for key in var.artifact_read_keys : "arn:aws:s3:::${var.artifact_bucket}/${key}"]
+  gpu_receipt_arn           = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
+  runtime_receipt_arn       = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/runtime-final.json"
+  runtime_local_receipt_arn = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/runtime-local-ready.json"
+  qualification_receipt_arn = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/qualification-complete.json"
+  warm_enabled              = var.runtime_warm_volume_id != null
 
   run_tags = {
-    "adl:issue"            = "345"
+    "adl:issue"            = tostring(var.issue_number)
     "adl:run-id"           = var.run_id
     "adl:owner-token"      = var.owner_token
     "adl:managed-deadline" = "true"
@@ -33,11 +36,19 @@ check "warm_volume_tuple" {
     condition     = var.warm_volume_availability_zone == null || data.aws_subnet.selected.availability_zone == var.warm_volume_availability_zone
     error_message = "selected subnet and retained warm volumes must be in the same availability zone."
   }
+
+  assert {
+    condition = (
+      !local.warm_enabled ||
+      (var.issue_number == 607 && var.warm_artifact_generation != null && var.warm_source_commit != null)
+    )
+    error_message = "warm launch requires issue 607 plus exact artifact generation and source commit."
+  }
 }
 
 resource "aws_security_group" "runtime" {
   name_prefix = "${substr(var.run_id, 0, 28)}-runtime-"
-  description = "SSH-only public ingress for the ADL issue 345 Runtime node"
+  description = "SSH-only public ingress for the ADL qualification Runtime node"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -61,7 +72,7 @@ resource "aws_security_group" "runtime" {
 
 resource "aws_security_group" "gpu" {
   name_prefix = "${substr(var.run_id, 0, 32)}-gpu-"
-  description = "SSH recovery plus private Runtime-to-Ollama ingress for ADL issue 345"
+  description = "SSH recovery plus private Runtime-to-Ollama ingress for the ADL qualification"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -92,13 +103,13 @@ resource "aws_security_group" "gpu" {
 }
 
 resource "aws_key_pair" "operator" {
-  key_name_prefix = "adl-i345-"
+  key_name_prefix = "adl-i${var.issue_number}-"
   public_key      = trimspace(var.ssh_public_key)
   tags            = merge(local.run_tags, { Name = "${var.run_id}-operator" })
 }
 
 resource "aws_iam_role" "runtime" {
-  name_prefix = "adl-i345-runtime-"
+  name_prefix = "adl-i${var.issue_number}-runtime-"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -111,7 +122,7 @@ resource "aws_iam_role" "runtime" {
 }
 
 resource "aws_iam_role" "gpu" {
-  name_prefix = "adl-i345-gpu-"
+  name_prefix = "adl-i${var.issue_number}-gpu-"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -124,7 +135,7 @@ resource "aws_iam_role" "gpu" {
 }
 
 resource "aws_iam_role_policy" "runtime_artifacts" {
-  name   = "issue345-exact-artifacts-and-runtime-receipt"
+  name   = "issue${var.issue_number}-exact-artifacts-and-runtime-receipt"
   role   = aws_iam_role.runtime.id
   policy = local.runtime_artifact_policy
 
@@ -137,7 +148,7 @@ resource "aws_iam_role_policy" "runtime_artifacts" {
 }
 
 resource "aws_iam_role_policy" "gpu_artifacts" {
-  name   = "issue345-exact-artifacts-and-gpu-receipt"
+  name   = "issue${var.issue_number}-exact-artifacts-and-gpu-receipt"
   role   = aws_iam_role.gpu.id
   policy = local.gpu_artifact_policy
 
@@ -164,10 +175,10 @@ locals {
   runtime_artifact_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [local.artifact_read_statement, {
-      Sid      = "WriteOnlyRuntimeFinalReceipt"
+      Sid      = "WriteOnlyRuntimeReceipts"
       Effect   = "Allow"
       Action   = "s3:PutObject"
-      Resource = local.runtime_receipt_arn
+      Resource = [local.runtime_receipt_arn, local.runtime_local_receipt_arn, local.qualification_receipt_arn]
     }]
   })
 
@@ -193,14 +204,14 @@ resource "aws_iam_role_policy_attachment" "gpu_ssm_recovery" {
 }
 
 resource "aws_iam_instance_profile" "runtime" {
-  name_prefix = "adl-i345-runtime-"
+  name_prefix = "adl-i${var.issue_number}-runtime-"
   role        = aws_iam_role.runtime.name
   tags        = merge(local.run_tags, { Name = "${var.run_id}-runtime" })
   depends_on  = [aws_iam_role_policy.runtime_artifacts, aws_iam_role_policy_attachment.runtime_ssm_recovery]
 }
 
 resource "aws_iam_instance_profile" "gpu" {
-  name_prefix = "adl-i345-gpu-"
+  name_prefix = "adl-i${var.issue_number}-gpu-"
   role        = aws_iam_role.gpu.name
   tags        = merge(local.run_tags, { Name = "${var.run_id}-gpu" })
   depends_on  = [aws_iam_role_policy.gpu_artifacts, aws_iam_role_policy_attachment.gpu_ssm_recovery]
@@ -217,8 +228,16 @@ resource "aws_instance" "gpu" {
   vpc_security_group_ids      = [aws_security_group.gpu.id]
 
   instance_initiated_shutdown_behavior = "terminate"
-  user_data                            = var.gpu_user_data
-  user_data_replace_on_change          = true
+  user_data = local.warm_enabled ? templatefile("${path.module}/warm-gpu-user-data.sh.tftpl", {
+    region              = var.aws_region
+    artifact_bucket     = var.artifact_bucket
+    ready_key           = "${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
+    volume_id           = var.gpu_warm_volume_id
+    root_hash           = var.gpu_warm_seal_sha256
+    artifact_generation = var.warm_artifact_generation
+    source_commit       = var.warm_source_commit
+  }) : var.gpu_user_data
+  user_data_replace_on_change = true
 
   metadata_options {
     http_endpoint               = "enabled"
@@ -256,8 +275,19 @@ resource "aws_instance" "runtime" {
   vpc_security_group_ids      = [aws_security_group.runtime.id]
 
   instance_initiated_shutdown_behavior = "terminate"
-  user_data                            = replace(var.runtime_user_data, "__GPU_PRIVATE_IP__", aws_instance.gpu.private_ip)
-  user_data_replace_on_change          = true
+  user_data = local.warm_enabled ? templatefile("${path.module}/warm-runtime-user-data.sh.tftpl", {
+    region              = var.aws_region
+    artifact_bucket     = var.artifact_bucket
+    gpu_ready_key       = "${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
+    runtime_ready_key   = "${var.artifact_prefix}runs/${var.run_id}/runtime-local-ready.json"
+    qualification_key   = "${var.artifact_prefix}runs/${var.run_id}/qualification-complete.json"
+    volume_id           = var.runtime_warm_volume_id
+    root_hash           = var.runtime_warm_seal_sha256
+    artifact_generation = var.warm_artifact_generation
+    source_commit       = var.warm_source_commit
+    gpu_private_ip      = aws_instance.gpu.private_ip
+  }) : replace(var.runtime_user_data, "__GPU_PRIVATE_IP__", aws_instance.gpu.private_ip)
+  user_data_replace_on_change = true
 
   metadata_options {
     http_endpoint               = "enabled"
@@ -304,7 +334,7 @@ resource "aws_volume_attachment" "gpu_warm" {
 }
 
 resource "aws_iam_role" "scheduler" {
-  name_prefix = "adl-i345-reaper-"
+  name_prefix = "adl-i${var.issue_number}-reaper-"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -317,18 +347,18 @@ resource "aws_iam_role" "scheduler" {
 }
 
 resource "aws_iam_role_policy" "scheduler_terminate" {
-  name = "terminate-only-owned-issue345-instances"
+  name = "terminate-only-owned-issue${var.issue_number}-instances"
   role = aws_iam_role.scheduler.id
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Sid      = "TerminateOnlyOwnedIssue345Instances"
+      Sid      = "TerminateOnlyOwnedIssueInstances"
       Effect   = "Allow"
       Action   = "ec2:TerminateInstances"
       Resource = "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:instance/*"
       Condition = {
         StringEquals = {
-          "ec2:ResourceTag/adl:issue"       = "345"
+          "ec2:ResourceTag/adl:issue"       = tostring(var.issue_number)
           "ec2:ResourceTag/adl:run-id"      = var.run_id
           "ec2:ResourceTag/adl:owner-token" = var.owner_token
         }

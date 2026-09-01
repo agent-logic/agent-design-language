@@ -21,11 +21,21 @@ variable "aws_region" {
   default = "us-west-2"
 }
 
+variable "issue_number" {
+  description = "Exact tracked issue owning this qualification graph."
+  type        = number
+  default     = 345
+  validation {
+    condition     = contains([345, 607], var.issue_number)
+    error_message = "issue_number must select the retained #345 path or the reviewed #607 warm path."
+  }
+}
+
 variable "run_id" {
   type = string
   validation {
-    condition     = can(regex("^adl-issue345-[A-Za-z0-9._-]+$", var.run_id)) && length(var.run_id) <= 48
-    error_message = "run_id must begin with adl-issue345-, use safe characters, and be at most 48 characters."
+    condition     = can(regex("^adl-issue[0-9]+-[A-Za-z0-9._-]+$", var.run_id)) && startswith(var.run_id, "adl-issue${var.issue_number}-") && length(var.run_id) <= 48
+    error_message = "run_id must begin with the selected issue number, use safe characters, and be at most 48 characters."
   }
 }
 
@@ -273,5 +283,21 @@ variable "gpu_warm_seal_sha256" {
   validation {
     condition     = var.gpu_warm_seal_sha256 == null || can(regex("^[0-9a-f]{64}$", var.gpu_warm_seal_sha256))
     error_message = "gpu_warm_seal_sha256 must be null or lowercase SHA-256."
+  }
+}
+
+variable "warm_artifact_generation" {
+  description = "Immutable prepared generation expected in both sealed-volume manifests."
+  type        = string
+  default     = null
+}
+
+variable "warm_source_commit" {
+  description = "Exact source revision embedded in the Runtime sealed volume."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.warm_source_commit == null || can(regex("^[0-9a-f]{40}$", var.warm_source_commit))
+    error_message = "warm_source_commit must be null or an exact lowercase Git commit."
   }
 }

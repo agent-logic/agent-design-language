@@ -25,13 +25,24 @@ variable "termination_at" {
   type = string
 }
 
-variable "ami_id" {
-  type = string
+variable "runtime_ami_id" {
+  description = "Exact Runtime AMI used for both preparation and warm launch."
+  type        = string
 }
 
-variable "instance_type" {
+variable "gpu_ami_id" {
+  description = "Exact GPU AMI used for both preparation and warm launch."
+  type        = string
+}
+
+variable "runtime_instance_type" {
   type    = string
   default = "m7i.2xlarge"
+}
+
+variable "gpu_instance_type" {
+  type    = string
+  default = "g6.xlarge"
 }
 
 variable "vpc_id" {
@@ -55,8 +66,13 @@ variable "artifact_bucket" {
   type = string
 }
 
-variable "artifact_read_prefix" {
-  type = string
+variable "artifact_read_keys" {
+  description = "Exact immutable S3 objects preparation may read."
+  type        = list(string)
+  validation {
+    condition     = length(var.artifact_read_keys) >= 5 && length(var.artifact_read_keys) == length(distinct(var.artifact_read_keys))
+    error_message = "artifact_read_keys must contain at least five unique exact objects."
+  }
 }
 
 variable "receipt_write_prefix" {
@@ -71,9 +87,40 @@ variable "gpu_volume_id" {
   type = string
 }
 
-variable "user_data" {
-  type      = string
-  sensitive = true
+variable "availability_zone" {
+  type = string
+}
+
+variable "artifact_generation" {
+  type = string
+}
+
+variable "source_commit" {
+  type = string
+}
+
+variable "source_archive_key" {
+  type = string
+}
+
+variable "source_archive_version_id" {
+  type = string
+}
+
+variable "source_archive_sha256" {
+  type = string
+}
+
+variable "artifact_manifest_key" {
+  type = string
+}
+
+variable "artifact_manifest_version_id" {
+  type = string
+}
+
+variable "artifact_manifest_sha256" {
+  type = string
 }
 
 variable "kms_key_arn" {
