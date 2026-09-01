@@ -25,7 +25,7 @@ may be restored to closed and materialized terminal.
 | #505 | open | left open | #505 is the V3-F authority-transition decision gate and must not close before explicit operator-reviewed cutover. |
 | #570 | closed | restored closed and materialized terminal | Live PR #584 readback showed a merged closing PR with green checks and exact-head PASS review; terminal truth was materialized at generation 27. |
 | #571 | closed | restored closed and materialized terminal | Live PR #585 readback showed a merged closing PR with green checks and exact-head PASS review; terminal truth was materialized at generation 14. |
-| #596 | open | left open | #596 remains the remediation/truth issue and must stay open until its lifecycle is actually successful. |
+| #596 | open | repaired local ready truth; left open | Live PR #597 is merged, but it intentionally used non-closing `Part-Of #596` linkage and its body said #596 stays open until lifecycle truth catches up. The local #596 record was repaired to remove stale design/diagram references and contradictory closing-linkage text, then revalidated at generation 7 as `phase: ready`. It remains open because it is not terminal/closed_out. |
 
 ## Typed Readback Evidence
 
@@ -51,9 +51,18 @@ Terminal materialization requests are retained at:
 - `.csdlc/prepared/issues/570/materialize-terminal-after-hygiene.json`
 - `.csdlc/prepared/issues/571/materialize-terminal-after-hygiene.json`
 
+#596 ready-state repair requests are retained at:
+
+- `.csdlc/prepared/issues/596/repair-stp-linkage-acceptance.json`
+- `.csdlc/prepared/issues/596/repair-stp-linkage-deliverables.json`
+- `.csdlc/prepared/issues/596/refresh-ready-design-bindings-and-linkage.json`
+- `.csdlc/prepared/issues/596/reapprove-ready-design-after-linkage-repair.json`
+
 ## Non-Claims
 
 This packet does not claim v3 cutover readiness, #505 completion, or terminal
 success for #504 or #596. It records closure hygiene only: failed or unproven
 issues remain open, while #500, #501, #502, #503, #570, and #571 have terminal
-truth tied to successful review/corrective evidence and remote evidence.
+truth tied to successful review/corrective evidence and remote evidence. #596
+is only restored to a valid ready-state record; it is not terminal closeout
+truth.
