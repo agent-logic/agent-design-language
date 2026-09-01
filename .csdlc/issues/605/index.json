@@ -4,57 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "published",
-  "generation": 112,
-  "digest": "5b4d89fe6d024f5275d8da331165a66cfffb7ab7930425a9ef4ee6d6b40a894c",
+  "phase": "implemented",
+  "generation": 113,
+  "digest": "b18f30308543fcf6d9a4e14737d5abd3311f8b39e03deedac6d07772f64d73df",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
-    "revision": "git-blake3:dcbc088de62907b9025a6a0023ec67214a77b3c4:c82898ef6a37bb696f1c8ac0a9f21228a1680bd4a1c3847f84d0fc3fd6e90cd9",
-    "scope": [
-      "infra/aws/runtime/gpu-proof",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl-runtime/tests/shepherd_local_model.rs",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/issues/345"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "scope": [
-      "infra/aws/runtime/gpu-proof",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
-      "adl-runtime/tests/shepherd_local_model.rs",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/issues/345"
-    ],
-    "reviewed_revision": "git-blake3:dcbc088de62907b9025a6a0023ec67214a77b3c4:c82898ef6a37bb696f1c8ac0a9f21228a1680bd4a1c3847f84d0fc3fd6e90cd9",
-    "findings": [],
-    "residual_risks": [
-      "The bounded qualification does not establish 24/7 production readiness.",
-      "The receipt proves live Shepherd model execution and governed Runtime agent ACC execution separately; it does not claim direct Runtime-v3-to-Ollama transit."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 605,
-    "pull_request": 606,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/606",
-    "base": "main",
-    "head": "codex/345-aws-gpu-shepherd-proof-runner",
-    "revision": "git-blake3:84f9921ffb90b504318bd2b9c986335a948238eb:dc9d0176146f7369cdba7a84eeffcf1b09bfb471971e4a41a88d56f7529cbd1b",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3364d47a1b2bad927bade19cfd4fd5f38c9a00a8769a837c6eed4b37173672ed",
+      "values_digest": "ba77b0ea20a25f18f2edd069e7601242366ecb4a143ae8936618cd806313dd5c",
       "rendered_digest": "d6b7639029c636d4281e56c0b4fb2af2e809b3b52586c668b90595b91f327efe",
       "ast_digest": "a7ed36c6e3be0898d035c1ad539ba121f17721b1c475c37f624f268137e89acc"
     },
     "stp": {
-      "values_digest": "8c662466d2900252571c695bd3162c60fa73831362f8ea559ea2a917f10f21c1",
+      "values_digest": "d847b410a6736124ec49684069f8fc70ee634c40142fd7fa4c5cf5291801fcbb",
       "rendered_digest": "929299106be15d218116152dfc8352127f343217528c7a271073f313117738ba",
       "ast_digest": "2c9ae72ece5a21f3dcbb3e04e335cfb39cda3a853e7ce756ad8586ecdf1e2d59"
     },
     "spp": {
-      "values_digest": "c5fc4fa4bceaa1d8ea011ba5c63fd298772f8c6592cd8fcc97c5e443c16d3659",
+      "values_digest": "2c2e55b534017b8c5391e3530a3cb28c995d6974540b320fb07c483e5901e827",
       "rendered_digest": "dca20ded530d3f783d85d0d1dce10a6ce9bbe8f3383e623f69d9d9e4eac95a7b",
       "ast_digest": "429145abff6f2e7bca828affe591559b263e3c3a79f8579d6ed1240ddb41ce42"
     },
     "vpp": {
-      "values_digest": "6bf501671cc28f90fce17af63802c7cae57085fb2b788257b929e2c64526405a",
+      "values_digest": "746c9f2cc094e2f5c07e368a4541500491ec4c87bc491c187d86834f0302a459",
       "rendered_digest": "e6254f9301e89bfa36f5c0d1723730570d0a5ff8af4dcda4d369b64798b44d1e",
       "ast_digest": "936bcd21f90bed69e41def7ddbd30645b2875917aac9067d3bc8c8f45f199659"
     },
     "srp": {
-      "values_digest": "a74c971a0c089dec8bdb9ee876c5afec9f3ba32460bd416d1d972e00edef7bd7",
-      "rendered_digest": "60b7bcc6ed41124401c119f2593df712765f96ecab32c46dbaa9c578174ae1c2",
-      "ast_digest": "b5ce5d7d3f8320a51d9b5a1940c4196c27811e4710917c667d88653568651bf1"
+      "values_digest": "66ab09fe44a01a099849b7caeb10b4d18cfa5eea8791e37b155099a5f1fda370",
+      "rendered_digest": "38381bb1691406c2dcaf5e9087898cd467700e6a58b7cb82f45fd3534fc18907",
+      "ast_digest": "10910d4e46db85b00f586cca7ddcc144964f95cc20537c125f92f96b8ee83135"
     },
     "sor": {
-      "values_digest": "3d227e7a1ea2cda628805fa071d858e324a1057d948fa6a8a5b80cd1a7069c96",
-      "rendered_digest": "5c0db25e692e54a4beebe711c07f1a85a82fcc05fbd28a536ea7468a8ed10423",
-      "ast_digest": "b8aba22c1970dae31771abb2742ef74fe1e112e3a8c8e6d2af7d81405aa6b493"
+      "values_digest": "675da7e551003d490af0d1e6cbe72fec582840252759686151ad5332e9da4e09",
+      "rendered_digest": "e014fdfd833baebb202760f78d890341a664bc872a34a5273a929816784c5ed8",
+      "ast_digest": "f544f5356a93a5570bfd8b11220f72793c5da4759900635a715d894ed7fa3afc"
     }
   },
   "transitions": [
@@ -357,6 +314,13 @@
       "to": "published",
       "actor": "codex:/root:issue-345-final-integration",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 38,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root:issue-345-final-integration",
+      "reason": "Recover published review truth after merging current main to resolve PR #606 add/add conflicts, retaining the reviewed follow-on versions of the five issue-owned artifacts and obtaining a fresh exact-head review before republication."
     }
   ],
   "audit": [
@@ -1346,6 +1310,13 @@
       "actor": "codex:/root:issue-345-final-integration",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 142,
+      "generation": 113,
+      "actor": "codex:/root:issue-345-final-integration",
+      "reason": "Recover published review truth after merging current main to resolve PR #606 add/add conflicts, retaining the reviewed follow-on versions of the five issue-owned artifacts and obtaining a fresh exact-head review before republication.",
+      "operation": "recover_review"
     }
   ]
 }
