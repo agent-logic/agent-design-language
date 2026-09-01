@@ -1,0 +1,13 @@
+{
+  "issue": 531,
+  "card": "sip",
+  "expected_generation": 3,
+  "expected_digest": "596e38dfa6751f37291888467d6a0befee20a27e614690170c69ab12ddad1261",
+  "claim_id": "claim-531-sprint3-cloud-convergence-closeout",
+  "actor": "codex:/root",
+  "reason": "Sprint 3 closeout artifact execution is recorded; advance to implemented so validation and review truth can be recorded.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

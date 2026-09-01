@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 531,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sprint 3] Cloud convergence",
+    "slug": "sprint-3-cloud-convergence",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Execute the Sprint 3 management closeout path after declared roster children have closed, retaining truthful evidence and stopping before any unsupported completion claim.",
+      "deliverables": [
+        "Sprint 3 closeout evidence artifact",
+        "Roster and child disposition summary",
+        "Review/validation record for the sprint-level result",
+        "Typed publication and terminal closeout record when gates pass"
+      ],
+      "acceptance_criteria": [
+        "The closeout artifact records membership version 4 and all current roster children",
+        "Every child has live GitHub state and local lifecycle disposition recorded without overclaiming missing evidence",
+        "Child PR, merge, check, and ancestry evidence is retained or explicitly marked unavailable",
+        "The sprint result does not absorb child implementation or rerun paid/cloud work",
+        "Fresh sprint-end review finds no actionable findings before publication",
+        "Typed v2 publication and finish gates are used for the umbrella if review and validation pass"
+      ],
+      "dependencies": [
+        "#495 XCL-01 Cross-cloud Runtime Terraform conversion",
+        "#489 AWS-F AWS Runtime platform modules",
+        "#496 AWS-G AWS CloudFormation retirement decision",
+        "#494 GCP-E GCP GPU readiness smoke test"
+      ],
+      "repo_inputs": [
+        ".csdlc/issues/489",
+        ".csdlc/issues/494",
+        ".csdlc/issues/495",
+        ".csdlc/issues/496",
+        "docs/milestones/v0.92.1/evidence/cloud/**",
+        "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml"
+      ],
+      "non_goals": [
+        "Child implementation",
+        "Paid cloud launch or live resource mutation",
+        "Production cutover",
+        "Retiring C-SDLC v2 authority",
+        "Closing or rewriting child issues"
+      ]
+    }
+  }
+}

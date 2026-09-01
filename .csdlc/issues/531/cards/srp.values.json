@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 531,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][Sprint 3] Cloud convergence",
+    "slug": "sprint-3-cloud-convergence",
+    "version": "v0.92.1",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #531 Sprint 3 umbrella closeout artifacts, local C-SDLC records, validation output, and typed publication readiness.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the sprint result overclaim child implementation, paid cloud proof, production cutover, cleanup, or terminal status?",
+        "Are all roster v4 children represented with live issue dispositions and evidence limitations?",
+        "Is every unavailable PR, check, merge, ancestry, or local lifecycle datum truthfully residualized?",
+        "Does publication use the typed v2 route and include the correct closing linkage for #531?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
