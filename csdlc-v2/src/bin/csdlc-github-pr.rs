@@ -2,7 +2,7 @@ use std::{fs, path::PathBuf};
 
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    github::{collect_pr_state, PrStateRequest},
+    github::{collect_pr_state, decode_pr_state_request, PrStateRequest},
     public_schema_bundle, verify_installed_owner_operation, write_json_stdout, ErrorCode,
     GithubAction, GithubActionRequest, V2Error,
 };
@@ -62,7 +62,7 @@ async fn main() {
 
 async fn state(path: &PathBuf) -> csdlc_v2::Result<serde_json::Value> {
     verify_installed_owner_operation(&std::env::current_dir()?, "state")?;
-    let request: PrStateRequest = serde_json::from_slice(&fs::read(path)?)?;
+    let request: PrStateRequest = decode_pr_state_request(&fs::read(path)?)?;
     serde_json::to_value(collect_pr_state(&request).await?).map_err(Into::into)
 }
 

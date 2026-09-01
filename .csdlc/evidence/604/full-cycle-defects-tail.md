@@ -2,7 +2,7 @@
 
 ## DEFECT-010: Review scope can make publication immediately stale
 
-- Status: open workflow defect.
+- Status: fixed in #604.
 - Evidence: a pre-publication review whose scope included `.csdlc/issues/604/**`
   passed, but `csdlc-publish status` then rejected publication with
   `publication review guard failed: review_stale` because recording the review
@@ -10,9 +10,10 @@
 - Impact: a correct-looking review can become unusable for publication unless
   the operator knows to exclude lifecycle metadata from the substantive review
   scope or provide explicit metadata-only proof.
-- Required fix: the one-command lifecycle should derive a publication-valid
-  review scope automatically and reject self-staling review scopes before they
-  are recorded.
+- Fix: `csdlc-review assign` now rejects self-staling scopes that include the
+  issue's generated `.csdlc/issues/<issue>` lifecycle record before recording an
+  assignment, with a focused regression that confirms no partial lifecycle
+  mutation remains after rejection.
 
 ## DEFECT-011: ready/reconcile-ready did not publish metadata tail
 
@@ -29,15 +30,17 @@
 
 ## DEFECT-012: Retained PR-state request examples use a stale action field
 
-- Status: open compatibility/documentation defect.
+- Status: fixed in #604.
 - Evidence: copying the shape from an existing retained
   `.csdlc/prepared/issues/*/pr-state-request.json` failed with
   `unknown field action`; current `csdlc-github-pr state` expects the request
   body without `action`.
 - Impact: operators following retained local examples can lose time on schema
   drift during PR readback.
-- Required fix: update retained examples or provide a schema-guided request
-  generator for PR-state readbacks.
+- Fix: direct PR-state decoding now accepts both the current narrow request
+  shape and the retained `pr_state` action-envelope examples, so existing
+  evidence files remain executable while new requests can use the simpler
+  schema.
 
 ## DEFECT-013: published resume path did not push an advanced local head
 
