@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "5548d03cd474e046fd6bbe0ddd3e2d2c4ad1061a1d91cce4cffacb60613b13d7",
+  "phase": "published",
+  "generation": 15,
+  "digest": "5318f9be9db465fcc1ce8f4a046349e33c448645754a1ebfd0480497c8b37bf4",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
   "review_assignment": {
@@ -91,7 +91,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 604,
+    "pull_request": 610,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/610",
+    "base": "main",
+    "head": "codex/604-v2-publish-ready-reconciliation-exec",
+    "revision": "git-blake3:d5756fd3bc0cc54eb2679ab67e0dea536667a37e:dda7d3647a7674a04f92728f8e377ec57eda94e7d17c1195d57b7e1f6b1f76a0",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -105,34 +116,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cd48619d23f526eeb3a2d47f3fe010025795ece831a02ca9b0f35a066a6e8466",
+      "values_digest": "d91bc7a094d2dec942c1831fd8ea780cf5405a9b44889c00ccaf7d3e542ff042",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "f07a521cd4db89550d3c5f0b5233a7a8033c1aaa1a523ff66cf99467a882f7c8",
+      "values_digest": "350ed1652aece704d37db5e8adc35a66909fd4c49000ce7788c8299d4f2f7fc9",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "9e1b0eac8d95bd53402eadc315233858d2af0771031a3421c35e34c6afad1ed7",
+      "values_digest": "a3281450ab40743f2d620aa2735f18c7ef74c6e2d5729ed60375c7a6ddf11175",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "8c4dd2949dea077fe28f8acdfe176aaf5885c9b76bd137c884ea1c35c60b3015",
+      "values_digest": "ea257ef703ecc7aac66b3cbe42c34401ab4b72ae6825b2364e93a19e5a8578e1",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "85382266a824479309fe3e8a69a5fc9632ad244cc530d10dd738b347b1c59a1b",
+      "values_digest": "54e47a44dceffa5e7b3afbfb06b3f69857c48e3615c426c02a88d93f366ddd1a",
       "rendered_digest": "b5eca9ad78c6aa828ec24a5c101e15b5f7490708e6abec88d0c1ad14aa0f6dc1",
       "ast_digest": "3786bfaca8007ede4ee76902357ec76b3600ded5623f773863e82e564f5e9b0a"
     },
     "sor": {
-      "values_digest": "e82f156c68c7a0ea846998196130f37203fe5ecab4d31b61c3c825a82a41a3be",
-      "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
-      "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
+      "values_digest": "3aff09eda606beb9a66a80b7340092727f7467d2934514fd98923a0faeac215f",
+      "rendered_digest": "d86efaaa93bb97399db817c06999237e4114cf3cc4d101e6ee0037adb9702133",
+      "ast_digest": "0d67b990ddc0c47dd5ebe5e2aff4ae6083574a88f91c3fa960ab0604b5d33aa5"
     }
   },
   "transitions": [
@@ -219,6 +230,13 @@
       "to": "reviewed",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -361,6 +379,13 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
