@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 497,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
+    "slug": "v0-92-1-corp-c-corporate-operational-control-transfer",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare and execute CORP-C acceptance only. Do not absorb CORP-D diligence acceptance, Sprint 7 #345 AWS GPU execution, Sprint 8 #84 Unity work, or any adjacent corporate migration lane.",
+      "deliverables": [
+        "Corporate operational-control transfer acceptance packet",
+        "Rollback/break-glass availability notes for any proposed external mutation",
+        "Provider/account authority evidence that excludes secrets",
+        "Typed SRP/SOR truth for actual validation and residual risks"
+      ],
+      "acceptance_criteria": [
+        "Prerequisite lanes CORP-A #482, CORP-B #483, AWS-G #496, and GCP-D #493 are verified closed, merged, and ancestral before CORP-C execution claims readiness.",
+        "The corporate operational-control acceptance packet records completed, deferred, blocked, and operator-authorized actions separately.",
+        "No production/provider mutation, billing change, credential transfer, or workflow mutation is performed without explicit operator authorization naming the exact action.",
+        "Validation evidence proves repository-local packet structure and records any external checks as authorized, deferred, or blocked without overstating cloud or production parity."
+      ],
+      "dependencies": [
+        "CORP-A #482 closed by PR #545 and merged into main",
+        "CORP-B #483 closed by PR #562 and merged into main",
+        "AWS-G #496 closed by PR #599 and merged into main",
+        "GCP-D #493 closed by PR #587 and merged into main",
+        "Sprint 4 umbrella #532 remains open for corporate acceptance orchestration"
+      ],
+      "repo_inputs": [
+        "AGENTS.md",
+        "docs/milestones/v0.92.1/SPRINT_v0.92.1.md",
+        "docs/milestones/v0.92.1/WP_EXECUTION_READINESS_v0.92.1.md",
+        "GitHub issue #497",
+        "GitHub issue #532"
+      ],
+      "non_goals": [
+        "Do not execute Sprint 7 #345 AWS GPU work.",
+        "Do not execute Sprint 8 #84 Unity work.",
+        "Do not complete CORP-D diligence acceptance in this issue.",
+        "Do not mutate external providers, billing, credentials, or legal/private diligence records without explicit operator authorization."
+      ]
+    }
+  }
+}

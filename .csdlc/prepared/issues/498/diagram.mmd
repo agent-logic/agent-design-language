@@ -1,0 +1,8 @@
+flowchart TD
+    Start["Issue #498 CORP-D start"] --> Deps{"#482 #483 #497 closed, merged, ancestral?"}
+    Deps -- "No" --> Wait["Wait: CORP-D remains prepared but execution-gated"]
+    Deps -- "Yes" --> Review["Review repository-safe diligence acceptance inputs"]
+    Review --> Classify["Classify blockers, risks, residuals, private boundaries"]
+    Classify --> Packet["Write diligence acceptance packet"]
+    Packet --> Validate["Validate packet and lifecycle truth"]
+    Validate --> Publish["Review before publication"]

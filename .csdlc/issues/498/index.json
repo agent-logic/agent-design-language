@@ -1,0 +1,95 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 498,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "8f4538fd552a9ad84bf0fae00804c48019d3c87eaf9c9913e756b24276cbc70d",
+  "phase": "initialized",
+  "generation": 4,
+  "digest": "d00af0d75a419285d550d0961c2935d3061ad979b66b28c0ca7cf749479392e3",
+  "branch": null,
+  "worktree": null,
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/498/design.md",
+  "diagram_path": ".csdlc/prepared/issues/498/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:400c5487-3029-4746-a63c-a8b00bffebbe",
+      "revision": "e6de247c0a6747942f2561f103125e244554a8b017db354f9b86b7bc948dc286"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "759b3d39456668aba5bc7dfa4f14493e252162a11f3e847e8b8e32ea7a1f3de2",
+      "rendered_digest": "342eb33c6cfb57e580489a83455641ea461fe06066089ce55a8705a95e4efa47",
+      "ast_digest": "5bbd015872421f9f53c1489ffaa98d80b1376b61de95c43932a4701ad41c859e"
+    },
+    "stp": {
+      "values_digest": "434af0cecef33081222bc1bb87fcd02d31769707adac708f72262c6a82afb429",
+      "rendered_digest": "1650a3ceb0587bf08b0cad904383dabe8687a664700bb7cca0795bcff389b4a5",
+      "ast_digest": "5fade7259945ec9cd23a553aa1060492cc08b772af01df125999ad15fb1478cf"
+    },
+    "spp": {
+      "values_digest": "f0c5554d52d10cf7d5c941e375442be107e5ab59aaea85585871f3012c4138a6",
+      "rendered_digest": "6c658891bc9b52a0479e7b3a3e46828ece33a39391080d3f180a9d6f6340d06f",
+      "ast_digest": "4572dc3f64a6397d9ad971b792bee5428bf89f01158c4f6d0c387ade6f0e4d26"
+    },
+    "vpp": {
+      "values_digest": "7d6163c32e7d3f28b522f2f4de2790dd453fa5daddf6934df8a4608d69bc4341",
+      "rendered_digest": "1a0a9583f9d02c6936b73854e9e6fd11bdbcbb09e6b5a24564e2b6bf9dc48550",
+      "ast_digest": "f5a85d59127ed1154702febbfebce3746ff38d22b4e242a3e33cf37011ac0952"
+    },
+    "srp": {
+      "values_digest": "75d3e646710b9429e72616591ee6b0af65e457830a4c347105dd221fda1535d8",
+      "rendered_digest": "9137cb32e508906a2b63b5660f23932a1cb87278a97eb344aac3580765f8b76c",
+      "ast_digest": "9168bdd36d2f3fd9800ca6b60b82f3f942bb2286237b7de3f69dfdead5e092e2"
+    },
+    "sor": {
+      "values_digest": "1963ad0e1ceefed4e594da0d5edcf3e950f4081d92ba73470ec3df8efde02dcd",
+      "rendered_digest": "3492153c73dfa63e0c6ce6991fedf97373a64611a125a8c60a74381edc4268b1",
+      "ast_digest": "fa89d0ee3cf32f306631abc36e6c07c43d9e628d75e5721b06c7881e113a9e59"
+    }
+  },
+  "transitions": [],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-7",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:worker-7",
+      "reason": "Repair execution readiness by replacing descriptive affected areas with safe repository-owned paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/corporate/diligence/\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d/\",\".csdlc/issues/498/\",\".csdlc/prepared/issues/498/\",\".csdlc/evidence/498/\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:worker-7",
+      "reason": "Make the issue-specific VPP denominator explicit by owning the exact readiness validator target file.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/operations/corporate/diligence/\",\"docs/milestones/v0.92.1/evidence/corporate/corp-d/\",\".csdlc/issues/498/\",\".csdlc/prepared/issues/498/\",\".csdlc/evidence/498/\",\".csdlc/evidence/498/validate-readiness.rb\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:worker-7",
+      "reason": "Repair execution readiness by replacing non-executable/manual VPP lanes with an issue-owned readiness validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"corp-d-readiness-validator\",\"proof_role\":\"Verify terminal prerequisite merge ancestry, local CORP-C lifecycle package presence, typed issue package presence, repository identity, and credential-marker hygiene for Sprint 4 CORP-D readiness.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"ruby\",\".csdlc/evidence/498/validate-readiness.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"corp-d-diff-hygiene\",\"proof_role\":\"Reject malformed whitespace and patch artifacts before execution binding or publication.\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:400c5487-3029-4746-a63c-a8b00bffebbe",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"e6de247c0a6747942f2561f103125e244554a8b017db354f9b86b7bc948dc286\",\"design_ref\":\".csdlc/prepared/issues/498/design.md\",\"diagram_digest\":\"ddd06dc5d45ee33926fa6e4b707a49a70d2016ca2269aa8f44a3bcce01cd63c2\",\"diagram_ref\":\".csdlc/prepared/issues/498/diagram.mmd\",\"operation\":\"approve_design\"}"
+    }
+  ]
+}

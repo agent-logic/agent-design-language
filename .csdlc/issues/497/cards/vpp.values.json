@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 497,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][CORP-C] Corporate operational-control transfer",
+    "slug": "v0-92-1-corp-c-corporate-operational-control-transfer",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "corp-c-readiness-validator",
+          "proof_role": "Verify prerequisite merge ancestry, typed issue package presence, repository identity, and credential-marker hygiene for Sprint 4 CORP-C readiness.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2000,
+          "argv": [
+            "ruby",
+            ".csdlc/evidence/497/validate-readiness.rb"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "corp-c-diff-hygiene",
+          "proof_role": "Reject malformed whitespace and patch artifacts before execution binding or publication.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing prerequisite ancestry, missing operator authorization for external mutation, credential/private-data exposure risk, or any packet claim that exceeds evidence.",
+      "design_ref": ".csdlc/prepared/issues/497/design.md",
+      "design_digest": "7015cab4bb77e225cd35a38e51194580d977a7277fdd7d770dcdd8431bdf3337",
+      "diagram_ref": ".csdlc/prepared/issues/497/diagram.mmd",
+      "diagram_digest": "a9857b758b5e469530c947e774685a597b985688a6ca7790af5dff3ae3631f8e"
+    }
+  }
+}

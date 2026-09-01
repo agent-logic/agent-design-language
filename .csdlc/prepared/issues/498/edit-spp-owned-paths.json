@@ -1,0 +1,20 @@
+{
+  "issue": 498,
+  "card": "spp",
+  "expected_generation": 0,
+  "expected_digest": "74bbe1d7705ec9ba00c50cf7e24619c59d6f5069ed14fa10dc5ef813da48c2fe",
+  "actor": "codex:worker-7",
+  "reason": "Repair execution readiness by replacing descriptive affected areas with safe repository-owned paths.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/operations/corporate/diligence/",
+      "docs/milestones/v0.92.1/evidence/corporate/corp-d/",
+      ".csdlc/issues/498/",
+      ".csdlc/prepared/issues/498/",
+      ".csdlc/evidence/498/"
+    ]
+  },
+  "fail_after_backup": false
+}
