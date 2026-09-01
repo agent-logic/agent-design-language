@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
   "phase": "implemented",
-  "generation": 81,
-  "digest": "1cd524d7d87375940cabb6f0b19a455eb8ec762c7e19a6a486047d13b0be42c4",
+  "generation": 84,
+  "digest": "1474fd8b3827b323eea02fabaf9a5593420f287020fab6954088971759ef2f30",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7d2adff47bb59fb8100fd39be066ab973da236dddd8d9628473a0b29cc0f1fe4",
+      "values_digest": "bde10c93b40775da2c851c52c1e6259b1995a667700cbaad44f3a7c650f2d1b0",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "327d70996676a117f9b06c9b9727034ac7b336dcc38c927a6aa124256379caca",
+      "values_digest": "3005b85f097600ee8cba80c749852446b91a380fe9a332a52b29ed9d1130898a",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "ee20f6b92f369f174c57f437345b1a9f38dbcda9e6445f80d9e56dbe3d104ab9",
+      "values_digest": "3da07800b8e95320f7b991498a3f47eb38ba9b9f36d86e3032275e29ea3bd611",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "a01aa4033077899fcb2eb9a6021cc8bc2c2d1ed60b0071dbcd73c2243fcdc458",
+      "values_digest": "6976c8ff042eaa8db894474a294cef70a56a78a731e836fb3a3a8ea5032edc6c",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "7ab91831e93605fb1ab7c0ccaee7ffe5fe0ca0a48711718fc4520907b94dfdfe",
+      "values_digest": "aec26b79db7757c4365688ed5addc3c47fb16fb47cc9cec3905337142e76135a",
       "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
       "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "49c24ff1a20522cfe110e7929fde45884e65f64ef03ca0a9be659e8c7160dc74",
-      "rendered_digest": "48b886f92352dfa02ad6ea84ad1a023bbda794a9571045443c092a31e35d2afa",
-      "ast_digest": "686c309b74dc474da420a28168b9a0abb00b8bd17629cef827da63003cc06426"
+      "values_digest": "bcd9b9b18b5d454c216549368fdff32722f0442c99c9bcb9d9ad19c0a5755a62",
+      "rendered_digest": "fa416d8826646a9920ce790d01e00bf807080df143450e0b910db39cc201014d",
+      "ast_digest": "8c0036c6fdcdcae5923f3cfd9ed0e07e73b8b66a13fad77a4d868c42c96e5c49"
     }
   },
   "transitions": [
@@ -883,6 +883,34 @@
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Record the third real two-node attempt, repeated GPU success, Runtime Cargo exit 101, zero-residue cleanup, and the narrow native-build, source-revision, and diagnostic-receipt remediation without claiming final success.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Three real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, and Vector installation, then the Runtime node exited 101 during Cargo work. The deleted node left only the old terse failure receipt. Both nodes and volumes were destroyed. The bootstrap now installs CMake for aws-lc-sys, the kernel build accepts the authorization-bound archive revision without Git, and future failure receipts retain a bounded stage and diagnostic tail. Final paid proof remains pending exact-head review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.\",\"Observed the third real GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed the Runtime node pass immutable source restoration and the remediated Vector stage, then exit 101 during Cargo work.\",\"Added CMake to Runtime package setup because the locked aws-lc-sys native dependency requires it on the Ubuntu guest.\",\"Changed the runtime-kernel build script to accept only an exact lowercase forty-hex ADL_RUNTIME_SOURCE_REVISION and prefer it over unavailable Git metadata in the immutable source archive.\",\"Added bounded stage and 4096-byte diagnostic-tail fields to Runtime failure receipts so a terminated node does not erase the actionable failure cause.\",\"Extended the generated-bootstrap contract test to cover CMake, archive revision propagation, and diagnostic receipt fields.\",\"Confirmed controller cleanup drove both instances to termination, removed all run volumes, destroyed Terraform state resources, and released the lock after the third attempt.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof\",\"adl-runtime-kernel/build.rs\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".adl/local/issue345/adl-issue345-20260901-102827/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-102827/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-102827/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove the no-paid topology, bootstrap, native-build prerequisite, revision, diagnostic, IAM, authorization, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"7deec6a83\",\"--run-id\",\"adl-issue345-20260901-102827\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through repeated GPU residency, remediated Vector setup, Runtime Cargo failure, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-102827\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"validate\"],\"purpose\":\"Validate the complete two-node Terraform configuration.\",\"outcome\":\"passed\",\"evidence_ref\":\"infra/aws/runtime/gpu-proof\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
+    },
+    {
+      "sequence": 100,
+      "generation": 81,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 101,
+      "generation": 82,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 102,
+      "generation": 83,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Resolve F-345-29 by recording the exact forty-hex source revision and required authorization-file argument for the third paid run before a fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 103,
+      "generation": 84,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Record the third real two-node attempt, repeated GPU success, Runtime Cargo exit 101, zero-residue cleanup, and the narrow native-build, source-revision, and diagnostic-receipt remediation without claiming final success.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Three real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, and Vector installation, then the Runtime node exited 101 during Cargo work. The deleted node left only the old terse failure receipt. Both nodes and volumes were destroyed. The bootstrap now installs CMake for aws-lc-sys, the kernel build accepts the authorization-bound archive revision without Git, and future failure receipts retain a bounded stage and diagnostic tail. Final paid proof remains pending exact-head review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.\",\"Observed the third real GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed the Runtime node pass immutable source restoration and the remediated Vector stage, then exit 101 during Cargo work.\",\"Added CMake to Runtime package setup because the locked aws-lc-sys native dependency requires it on the Ubuntu guest.\",\"Changed the runtime-kernel build script to accept only an exact lowercase forty-hex ADL_RUNTIME_SOURCE_REVISION and prefer it over unavailable Git metadata in the immutable source archive.\",\"Added bounded stage and 4096-byte diagnostic-tail fields to Runtime failure receipts so a terminated node does not erase the actionable failure cause.\",\"Extended the generated-bootstrap contract test to cover CMake, archive revision propagation, and diagnostic receipt fields.\",\"Confirmed controller cleanup drove both instances to termination, removed all run volumes, destroyed Terraform state resources, and released the lock after the third attempt.\"],\"artifacts\":[\"infra/aws/runtime/gpu-proof\",\"adl-runtime-kernel/build.rs\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".adl/local/issue345/adl-issue345-20260901-102827/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-102827/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-102827/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove the no-paid topology, bootstrap, native-build prerequisite, revision, diagnostic, IAM, authorization, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"7deec6a83a4e7578f86208e07a7c21008cb47a29\",\"--run-id\",\"adl-issue345-20260901-102827\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-vector-fix.json\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through repeated GPU residency, remediated Vector setup, Runtime Cargo failure, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-102827\"},{\"command\":[\"terraform\",\"-chdir=infra/aws/runtime/gpu-proof\",\"validate\"],\"purpose\":\"Validate the complete two-node Terraform configuration.\",\"outcome\":\"passed\",\"evidence_ref\":\"infra/aws/runtime/gpu-proof\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
     }
   ]
 }

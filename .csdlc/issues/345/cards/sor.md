@@ -54,9 +54,11 @@ Three real Terraform launches have now repeatedly proved the GPU half and cleanu
       "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
       "run",
       "--commit",
-      "7deec6a83",
+      "7deec6a83a4e7578f86208e07a7c21008cb47a29",
       "--run-id",
       "adl-issue345-20260901-102827",
+      "--authorization-file",
+      ".adl/local/issue345/operator-authorization-vector-fix.json",
       "--execute"
     ],
     "purpose": "Run the real Terraform two-node qualification through repeated GPU residency, remediated Vector setup, Runtime Cargo failure, and cleanup.",
