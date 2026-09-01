@@ -7,33 +7,32 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 79
+    "generation": 81
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Two real Terraform launches have now proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, and reached Runtime validation, where it exposed a Vector install-root mismatch and failed with exit 69. Both nodes and volumes were destroyed. The install and validator paths now share one explicit root; final paid proof remains pending review and rerun.",
+      "summary": "Three real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, and Vector installation, then the Runtime node exited 101 during Cargo work. The deleted node left only the old terse failure receipt. Both nodes and volumes were destroyed. The bootstrap now installs CMake for aws-lc-sys, the kernel build accepts the authorization-bound archive revision without Git, and future failure receipts retain a bounded stage and diagnostic tail. Final paid proof remains pending exact-head review and rerun.",
       "actual_changes": [
         "Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.",
-        "Replaced the hung single PUT with multipart upload plus fail-closed immutable VersionId verification.",
-        "Observed two real GPU receipts proving llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.",
-        "Made HOME=/root explicit in both bootstrap scripts and the Ollama systemd unit after the first Runtime failure.",
-        "Reduced the exact reviewed source archive from 335 MiB to 25 MiB with complete local Rust path-dependency closure and Git-free authorization-bound revision validation.",
-        "Observed the second Runtime node fail with exit 69 because the verified Vector installer used the repository default root while the validator was pointed at /opt/adl-issue345/vector.",
-        "Set ADL_VECTOR_INSTALL_ROOT and ADL_RUNTIME_VECTOR_BIN from the same explicit vector_root and fail closed unless that exact binary is executable.",
-        "Extended the generated-bootstrap contract test to prove installer, validator, and executable checks use the same Vector root.",
-        "Confirmed controller cleanup drove both instances to termination, removed all run volumes, destroyed Terraform state resources, and released the lock after both failed attempts."
+        "Observed the third real GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.",
+        "Observed the Runtime node pass immutable source restoration and the remediated Vector stage, then exit 101 during Cargo work.",
+        "Added CMake to Runtime package setup because the locked aws-lc-sys native dependency requires it on the Ubuntu guest.",
+        "Changed the runtime-kernel build script to accept only an exact lowercase forty-hex ADL_RUNTIME_SOURCE_REVISION and prefer it over unavailable Git metadata in the immutable source archive.",
+        "Added bounded stage and 4096-byte diagnostic-tail fields to Runtime failure receipts so a terminated node does not erase the actionable failure cause.",
+        "Extended the generated-bootstrap contract test to cover CMake, archive revision propagation, and diagnostic receipt fields.",
+        "Confirmed controller cleanup drove both instances to termination, removed all run volumes, destroyed Terraform state resources, and released the lock after the third attempt."
       ],
       "artifacts": [
         "infra/aws/runtime/gpu-proof",
+        "adl-runtime-kernel/build.rs",
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
         "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-        "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
         "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-        ".adl/local/issue345/adl-issue345-20260901-100440/gpu-ready.json",
-        ".adl/local/issue345/adl-issue345-20260901-100440/runtime-final.json",
-        ".adl/local/issue345/adl-issue345-20260901-100440/cleanup-on-exit.json"
+        ".adl/local/issue345/adl-issue345-20260901-102827/gpu-ready.json",
+        ".adl/local/issue345/adl-issue345-20260901-102827/runtime-final.json",
+        ".adl/local/issue345/adl-issue345-20260901-102827/cleanup-on-exit.json"
       ],
       "actual_validation": [
         {
@@ -41,7 +40,7 @@
             "bash",
             "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
           ],
-          "purpose": "Prove twenty-four no-paid topology, bootstrap, Vector-root, Git-free archive, IAM, authorization, recovery, and cleanup contracts.",
+          "purpose": "Prove the no-paid topology, bootstrap, native-build prerequisite, revision, diagnostic, IAM, authorization, recovery, and cleanup contracts.",
           "outcome": "passed",
           "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
         },
@@ -51,14 +50,14 @@
             "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
             "run",
             "--commit",
-            "875456c408c06b9620e417b6e07daffd00de2879",
+            "7deec6a83",
             "--run-id",
-            "adl-issue345-20260901-100440",
+            "adl-issue345-20260901-102827",
             "--execute"
           ],
-          "purpose": "Run the real Terraform two-node qualification through GPU residency, Runtime validation, failure receipt, and cleanup.",
+          "purpose": "Run the real Terraform two-node qualification through repeated GPU residency, remediated Vector setup, Runtime Cargo failure, and cleanup.",
           "outcome": "failed",
-          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-100440"
+          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-102827"
         },
         {
           "command": [

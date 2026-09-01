@@ -538,14 +538,18 @@ write_runtime_bootstrap() {
 #!/bin/bash
 set -Eeuo pipefail
 export HOME=/root
-failure() { rc=$?; jq -n --argjson rc "$rc" '{schema:"adl.issue345.runtime_receipt.v1",status:"failed",exit_code:$rc}' >/opt/adl-issue345/runtime-failed.json; aws s3api put-object --region "$REGION" --bucket "$BUCKET" --key "$FINAL_KEY" --body /opt/adl-issue345/runtime-failed.json --if-none-match '*' >/dev/null 2>&1 || true; exit "$rc"; }
+stage=bootstrap
+diagnostic_log=/dev/null
+failure() { rc=$?; diagnostic="$(tail -c 4096 "$diagnostic_log" 2>/dev/null | tr -d '\000' || true)"; jq -n --argjson rc "$rc" --arg stage "$stage" --arg diagnostic "$diagnostic" '{schema:"adl.issue345.runtime_receipt.v1",status:"failed",exit_code:$rc,stage:$stage,diagnostic_tail:$diagnostic}' >/opt/adl-issue345/runtime-failed.json; aws s3api put-object --region "$REGION" --bucket "$BUCKET" --key "$FINAL_KEY" --body /opt/adl-issue345/runtime-failed.json --if-none-match '*' >/dev/null 2>&1 || true; exit "$rc"; }
 trap failure EXIT
 export DEBIAN_FRONTEND=noninteractive
+stage=package_setup
 apt-get update -qq
-apt-get install -y -qq jq curl zstd build-essential pkg-config libssl-dev ca-certificates python3 socat
+apt-get install -y -qq jq curl zstd build-essential cmake pkg-config libssl-dev ca-certificates python3 socat
 CONFIG=/opt/adl-issue345/config.json
 aws s3api get-object --region "$REGION" --bucket "$BUCKET" --key "$CONFIG_KEY" --version-id "$CONFIG_VERSION" "$CONFIG" >/dev/null
 printf '%s  %s\n' "$CONFIG_SHA" "$CONFIG" | sha256sum -c -
+stage=waiting_for_gpu
 for _ in $(seq 1 180); do aws s3 cp "s3://$BUCKET/$READY_KEY" /opt/adl-issue345/gpu-ready.json --region "$REGION" >/dev/null 2>&1 && curl -fsS "http://$GPU_PRIVATE_IP:11434/api/ps" >/dev/null && break; sleep 5; done
 jq -e '.status=="ready" and .multi_model_residency=="passed" and .model_count>=2 and .ollama_public==false' /opt/adl-issue345/gpu-ready.json >/dev/null
 MANIFEST=/opt/adl-issue345/manifest.json
@@ -564,8 +568,10 @@ commit="$(jq -r .source_commit "$CONFIG")"; [[ "$commit" =~ ^[0-9a-f]{40}$ ]]
 cd /opt/adl-issue345/repo; source /root/.cargo/env; export CARGO_TARGET_DIR=/opt/adl-issue345/target; export OLLAMA_HOST="http://$GPU_PRIVATE_IP:11434"
 export ADL_RUNTIME_SOURCE_REVISION="$commit" ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT=/opt/adl-issue345/repo/.adl/runtime-v3/issue345 ADL_RUNTIME_GUARDIAN_TARGET_ROOT=/opt/adl-issue345
 vector_root=/opt/adl-issue345/vector
+stage=vector_install; diagnostic_log=/opt/adl-issue345/vector-install.log
 ADL_VECTOR_INSTALL_ROOT="$vector_root" bash adl/tools/install_vector_component.sh >/opt/adl-issue345/vector-install.log
 export ADL_RUNTIME_VECTOR_BIN="$vector_root/bin/vector"; [[ -x "$ADL_RUNTIME_VECTOR_BIN" ]]
+stage=guardian_lifecycle; diagnostic_log=/opt/adl-issue345/guardian.log
 bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x >/opt/adl-issue345/guardian.log 2>&1
 guardian_path="$(find "$ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT" -type f -name issue-proof.json -print -quit)"
 guardian="$(jq -ce 'select(.schema=="adl.runtime_v3.guardian_lifecycle_proof.v1" and .status=="pass")' "$guardian_path")"
@@ -574,10 +580,12 @@ for _ in $(seq 1 30); do curl -fsS http://127.0.0.1:11434/api/ps >/dev/null && b
 shepherd='[]'
 while IFS=$'\t' read -r model digest; do
   log="/opt/adl-issue345/shepherd-$(printf %s "$model"|sha256sum|awk '{print $1}').log"
+  stage=shepherd_model; diagnostic_log="$log"
   ADL_SHEPHERD_OLLAMA_HOST="http://127.0.0.1:11434" ADL_SHEPHERD_BACKEND_IDENTITY=ollama_cuda_aws_l4 ADL_SHEPHERD_MODEL_IDENTITY="$model" ADL_SHEPHERD_MODEL_DIGEST_SHA256="$digest" \
     cargo test --locked --manifest-path adl-runtime/Cargo.toml --test shepherd_local_model real_local_model_smoke -- --ignored --exact --nocapture >"$log" 2>&1
   proof="$(grep '"schema":"adl.runtime.shepherd_local_model_smoke.v1"' "$log"|tail -1)"; shepherd="$(jq -c --arg m "$model" --argjson p "$proof" '.+[{model_identity:$m,proof:$p}]' <<<"$shepherd")"
 done < <(jq -r '.models[]|[.model_identity,.model_digest_sha256]|@tsv' "$MANIFEST")
+stage=runtime_build; diagnostic_log=/opt/adl-issue345/build.log
 cargo build --locked --manifest-path adl/Cargo.toml --bin adl --bin csm >/opt/adl-issue345/build.log 2>&1
 first="$(jq -r '.models[0].model_identity' "$MANIFEST")"; second="$(jq -r '.models[1].model_identity' "$MANIFEST")"
 jq --arg first "$first" --arg second "$second" '
@@ -588,6 +596,7 @@ jq --arg first "$first" --arg second "$second" '
 mkdir -p /opt/adl-issue345/agent-evidence
 remote_runner=/opt/adl-issue345/repo/adl/tools/run-six-resident-remote.py
 sed "s#http://127.0.0.1:11434#http://$GPU_PRIVATE_IP:11434#g" adl/tools/run_issue268_six_resident_uts_cycle.py >"$remote_runner"
+stage=six_agent_runtime; diagnostic_log=/opt/adl-issue345/agents.log
 python3 "$remote_runner" --phase pre --state /opt/adl-issue345/agent-state.json --evidence-dir /opt/adl-issue345/agent-evidence --plan /opt/adl-issue345/plan.json --task-panel /opt/adl-issue345/repo/adl/tools/issue268_runtime_uts_task_panel.json --runtime-bin /opt/adl-issue345/target/debug/adl --runtime-root /opt/adl-issue345/runtime >/opt/adl-issue345/agents.log 2>&1
 agents="$(jq -sc 'map(select(.agent_test_outcome=="executed" and .runtime_exit_code==0 and .runtime_receipt.decision=="executed"))|select(length==6)' /opt/adl-issue345/agent-evidence/pre-*.json)"
 gpu="$(cat /opt/adl-issue345/gpu-ready.json)"
