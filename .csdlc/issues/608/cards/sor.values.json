@@ -1,0 +1,61 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 608,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
+    "slug": "vertex-global-gemini-thinking-config",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented native Vertex Gemini global endpoint routing, first-party global endpoint trust, and config-backed thinking controls for #608.",
+      "actual_changes": [
+        "Added global endpoint derivation so location global uses aiplatform.googleapis.com while regional locations keep <region>-aiplatform.googleapis.com.",
+        "Accepted aiplatform.googleapis.com as a trusted first-party Vertex endpoint for credentialed calls.",
+        "Added config-backed thinking_level, thinking_budget, and include_thoughts request-body rendering.",
+        "Rejected simultaneous thinking_level and thinking_budget to avoid mixing model-family contracts.",
+        "Added focused unit tests for endpoint derivation and thinking config behavior.",
+        "Added issue-owned focused and live Vertex proof scripts."
+      ],
+      "artifacts": [
+        "adl/src/provider/http_family.rs",
+        "adl/src/provider/http_family/tests.rs",
+        ".csdlc/prepared/issues/608/validate-provider.sh",
+        ".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh",
+        ".csdlc/evidence/608/live-vertex/vertex_2_5_model_matrix_native_endpoint.adl.yaml",
+        ".csdlc/evidence/608/live-vertex/vertex_global_3x_model_matrix_native_endpoint.adl.yaml",
+        ".csdlc/evidence/608/live-vertex/proof-summary.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/608/validate-provider.sh"
+          ],
+          "purpose": "Run the issue-owned #608 local validator.",
+          "outcome": "passed",
+          "evidence_ref": "vertex-provider-focused.log"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh"
+          ],
+          "purpose": "Run the issue-owned #608 live Vertex provider proof.",
+          "outcome": "passed",
+          "evidence_ref": "vertex-provider-live.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

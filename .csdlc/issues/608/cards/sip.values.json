@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 608,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
+    "slug": "vertex-global-gemini-thinking-config",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Support Vertex Gemini global endpoints and model-family thinking controls through provider config without endpoint overrides.",
+      "required_outcome": "A reviewed provider implementation that supports native global Gemini routing, trusted global Vertex hosts, thinking config rendering, focused tests, and live provider proof.",
+      "declared_scope": [
+        "adl/src/provider/http_family.rs",
+        "adl/src/provider/http_family/tests.rs",
+        ".csdlc/evidence/608"
+      ],
+      "authority_boundary": [
+        "#608 owns provider transport/config behavior only",
+        "#592 owns later Polis integration",
+        "Credentials remain outside the repository and are never printed or committed"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use the approved company GCP key by path only",
+        "Do not expose credential contents or generated access tokens",
+        "Do not add provider dependencies",
+        "Do not redesign the entire provider system in this issue"
+      ]
+    }
+  }
+}

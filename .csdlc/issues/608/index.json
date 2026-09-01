@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 608,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "441fec45d4e996219640d1b85b1189f3252bc7d8040c26828fea256a77e10f3f",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "2a35a207668d977797854c25a6c8e0029ebdfc20a964f9a2a4b9cfae48e5ea57",
+  "branch": "codex/608-vertex-global-thinking-provider-config",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-608-vertex-global-thinking-provider-config-exec",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/608/design.md",
+  "diagram_path": ".csdlc/prepared/issues/608/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:608-design-prep",
+      "revision": "5a64409f42f933caa94256a02d1495f4efb154dee5c2c08e31da64751dbb6843"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "0a9418602634c1c756b53d9d71f6c66419aad33a7ac4cabfc529245f60a70790",
+      "rendered_digest": "be65d9203b2c74102ac352c28e6eb4e153548faf50a048d45fb39d08b52cec66",
+      "ast_digest": "eeeafa3d11967bd3f7444e3c7950803293f5826bd5805879f07b1670e112456d"
+    },
+    "stp": {
+      "values_digest": "b01ba896a67030dcc59bf1d88923c8083d78ce996cd20d2aa8034c6292718580",
+      "rendered_digest": "f06942e46e39f6caf1928c7d0792e65207ba57fb47776a069f6c2132e49a040b",
+      "ast_digest": "37ea2512965f1546c37985239dcd410357f1931e15e778b00e270b0bd0648760"
+    },
+    "spp": {
+      "values_digest": "5a8f664be19fe2efc5c09d269f2c5e5f145ee6879d1cdf5c4ade2ce8f8740d7b",
+      "rendered_digest": "9d7711434fe23e9a15155afd851dc054f249ada1ac11e7e0ebf3079b241142d2",
+      "ast_digest": "a56b2b8380fccba17f20cf2ea6df9981c81a17da8142127009b39d5a93044b46"
+    },
+    "vpp": {
+      "values_digest": "33fbdfc366993825ef940bd24c2daffa9e5a2ec3e2b181fdeb0f1d2208bf86b5",
+      "rendered_digest": "377592f996d1118147690f84da042fd2b9a65f4c5a28ae9f84dc1d53ff2d932a",
+      "ast_digest": "ad5f5cca32856fefb6c07c6b3bc5d2080da179d05bdc928d938e50ecc2ff6381"
+    },
+    "srp": {
+      "values_digest": "671667c4fb1a421e80eb9e012c675a139a34342163d5eb3980116c74b11de28f",
+      "rendered_digest": "90a2721800993eeec49f8759ed4c4a0a566869cea679fcf7fb55851519b98cc2",
+      "ast_digest": "72f589c54d6c7d250a0c7a52c724ac838c2b2a2f3e6627c06fa78ec5f8344f41"
+    },
+    "sor": {
+      "values_digest": "cdc07aa0baf613e8e6a587771c99e8d478cb29f928131127e6f69ed12f7fc996",
+      "rendered_digest": "bd82942534c5eb2eb4698e10ea5660c36b36b13e6eb7d5d523ec91fdca43d5a7",
+      "ast_digest": "80cf01d3d27047be5cb6fca14fc5fd63480abb5bef4f3af67865af3963c7a639"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:608-vertex-provider",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:608-vertex-provider",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:608-vertex-provider",
+      "reason": "Add issue-owned validator as the design-readiness denominator before binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\",\".csdlc/prepared/issues/608/validate-provider.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:608-vertex-provider",
+      "reason": "Use the issue-owned provider validator as the executable local proof denominator and keep live Vertex proof as a governed post-build command.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"vertex-provider-focused\",\"proof_role\":\"Prove endpoint derivation, request body rendering, trust policy, invalid config behavior, formatting, diff hygiene, and package compile through the issue-owned validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"bash\",\".csdlc/prepared/issues/608/validate-provider.sh\"],\"parallel_group\":\"focused\",\"defer_reason\":null},{\"lane\":\"vertex-provider-live\",\"proof_role\":\"Prove the native provider against approved company GCP Vertex endpoints without endpoint overrides after the provider binary is built.\",\"acceptance_ids\":[\"AC-9\",\"AC-10\"],\"deterministic\":false,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"bash\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\"],\"parallel_group\":\"live\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:608-vertex-provider",
+      "reason": "Declare the live Vertex proof runner as an issue-owned governed validation target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/provider/http_family.rs\",\"adl/src/provider/http_family/tests.rs\",\".csdlc/prepared/issues/608/validate-provider.sh\",\".csdlc/evidence/608/live-vertex/run-live-provider-proof.sh\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:608-vertex-provider",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

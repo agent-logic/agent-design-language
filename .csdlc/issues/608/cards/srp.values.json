@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 608,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][provider][gcp] Support Vertex global Gemini endpoints and thinking config",
+    "slug": "vertex-global-gemini-thinking-config",
+    "version": "v0.92.1",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Vertex provider endpoint derivation, trusted host policy, thinking config rendering, focused tests, and live proof truth for #608 only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does global location use the first-party global Vertex endpoint without requiring a custom override?",
+        "Are regional endpoint behavior and trust policy preserved?",
+        "Are thinking controls config-backed, mutually constrained, and tested?",
+        "Does live proof avoid credential exposure and exclude Polis integration?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+
+running 3 tests
+test provider::http_family::tests::vertex_ai_global_location_uses_global_aiplatform_host ... ok
+test provider::http_family::tests::vertex_ai_generation_config_supports_thinking_parameters ... ok
+test provider::http_family::tests::vertex_ai_thinking_level_and_budget_are_mutually_exclusive ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 1821 filtered out; finished in 0.01s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.22s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-e85d1fe6d1c46706)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.29s
