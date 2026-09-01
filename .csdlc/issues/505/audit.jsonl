@@ -19,3 +19,4 @@
 {"sequence":19,"generation":14,"actor":"codex:worker-6","reason":"Recover #505 review truth after transient prepared review request artifacts were mistakenly committed, making the publication review guard fail closed as review_stale.","operation":"recover_review"}
 {"sequence":20,"generation":14,"actor":"codex:worker-6","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":21,"generation":15,"actor":"codex:worker-6","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":22,"generation":16,"actor":"worker-6","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
