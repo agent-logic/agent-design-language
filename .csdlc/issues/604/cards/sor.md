@@ -51,7 +51,7 @@ Restored governed C-SDLC v2 draft-to-ready publication reconciliation with exact
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

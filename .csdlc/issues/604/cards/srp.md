@@ -8,39 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-.csdlc/evidence/604/issue-604-implementation-validation.log
-.csdlc/issues/604/index.json
-.csdlc/issues/604/audit.jsonl
-.csdlc/issues/604/cards/sip.md
-.csdlc/issues/604/cards/sip.values.json
-.csdlc/issues/604/cards/stp.md
-.csdlc/issues/604/cards/stp.values.json
-.csdlc/issues/604/cards/spp.md
-.csdlc/issues/604/cards/spp.values.json
-.csdlc/issues/604/cards/vpp.md
-.csdlc/issues/604/cards/vpp.values.json
-.csdlc/issues/604/cards/srp.md
-.csdlc/issues/604/cards/srp.values.json
-.csdlc/issues/604/cards/sor.md
-.csdlc/issues/604/cards/sor.values.json
-.csdlc/prepared/issues/604/design.md
-.csdlc/prepared/issues/604/diagram.mmd
-.csdlc/prepared/issues/604/finalize-request.json
-.csdlc/prepared/issues/604/full-cycle-defects.md
-.csdlc/prepared/issues/604/validate-implementation.sh
-csdlc-v2/operator/skills.json
-csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md
-csdlc-v2/src/bin/csdlc-publish.rs
-csdlc-v2/src/lib.rs
-csdlc-v2/src/operator.rs
-csdlc-v2/src/publication.rs
-csdlc-v2/src/schema.rs
-csdlc-v2/tests/gate10a.rs
-csdlc-v2/tests/publication_ready.rs
+
 
 ## Prompts
 
@@ -60,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Live GitHub draft-to-ready mutation and remote readback remain to be exercised by the publication step for this canary issue.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:637860d61fc8c1461a8395ecf2baef88da3b4371:8345f4c4cc0d9f7dcc0b87626e9b735cb909213143cf529e146dd06ba1e50a6c")
+Revision: None
 
-Reviewer: Some("/root/review_604_pre_pr_repaired")
+Reviewer: None
 
-Result: pass
+Result: pre_review

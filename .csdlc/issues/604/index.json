@@ -4,88 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "236f69f391fec0961ec52270804d427a1de8ba80d50b9726a64ac56a63897704",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "43772e006dfe5d5022d7c49d1e94c5e01f556754283b19c2329732f93b7cc612",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
-  "review_assignment": {
-    "reviewer": "/root/review_604_pre_pr_repaired",
-    "assigned_by": "codex:/root/worker-6/issue-604",
-    "revision": "git-blake3:637860d61fc8c1461a8395ecf2baef88da3b4371:8345f4c4cc0d9f7dcc0b87626e9b735cb909213143cf529e146dd06ba1e50a6c",
-    "scope": [
-      ".csdlc/evidence/604/issue-604-implementation-validation.log",
-      ".csdlc/issues/604/index.json",
-      ".csdlc/issues/604/audit.jsonl",
-      ".csdlc/issues/604/cards/sip.md",
-      ".csdlc/issues/604/cards/sip.values.json",
-      ".csdlc/issues/604/cards/stp.md",
-      ".csdlc/issues/604/cards/stp.values.json",
-      ".csdlc/issues/604/cards/spp.md",
-      ".csdlc/issues/604/cards/spp.values.json",
-      ".csdlc/issues/604/cards/vpp.md",
-      ".csdlc/issues/604/cards/vpp.values.json",
-      ".csdlc/issues/604/cards/srp.md",
-      ".csdlc/issues/604/cards/srp.values.json",
-      ".csdlc/issues/604/cards/sor.md",
-      ".csdlc/issues/604/cards/sor.values.json",
-      ".csdlc/prepared/issues/604/design.md",
-      ".csdlc/prepared/issues/604/diagram.mmd",
-      ".csdlc/prepared/issues/604/finalize-request.json",
-      ".csdlc/prepared/issues/604/full-cycle-defects.md",
-      ".csdlc/prepared/issues/604/validate-implementation.sh",
-      "csdlc-v2/operator/skills.json",
-      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/publication_ready.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/review_604_pre_pr_repaired",
-    "scope": [
-      ".csdlc/evidence/604/issue-604-implementation-validation.log",
-      ".csdlc/issues/604/index.json",
-      ".csdlc/issues/604/audit.jsonl",
-      ".csdlc/issues/604/cards/sip.md",
-      ".csdlc/issues/604/cards/sip.values.json",
-      ".csdlc/issues/604/cards/stp.md",
-      ".csdlc/issues/604/cards/stp.values.json",
-      ".csdlc/issues/604/cards/spp.md",
-      ".csdlc/issues/604/cards/spp.values.json",
-      ".csdlc/issues/604/cards/vpp.md",
-      ".csdlc/issues/604/cards/vpp.values.json",
-      ".csdlc/issues/604/cards/srp.md",
-      ".csdlc/issues/604/cards/srp.values.json",
-      ".csdlc/issues/604/cards/sor.md",
-      ".csdlc/issues/604/cards/sor.values.json",
-      ".csdlc/prepared/issues/604/design.md",
-      ".csdlc/prepared/issues/604/diagram.mmd",
-      ".csdlc/prepared/issues/604/finalize-request.json",
-      ".csdlc/prepared/issues/604/full-cycle-defects.md",
-      ".csdlc/prepared/issues/604/validate-implementation.sh",
-      "csdlc-v2/operator/skills.json",
-      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/publication_ready.rs"
-    ],
-    "reviewed_revision": "git-blake3:637860d61fc8c1461a8395ecf2baef88da3b4371:8345f4c4cc0d9f7dcc0b87626e9b735cb909213143cf529e146dd06ba1e50a6c",
-    "findings": [],
-    "residual_risks": [
-      "Live GitHub draft-to-ready mutation and remote readback remain to be exercised by the publication step for this canary issue."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -100,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e9230c3773a5dfdefd0c749dafd4115f1a1015f2d7c1c9cdf740b325232d3e1e",
+      "values_digest": "5bf0c78eaf47f50f9b1439093a7e17d1b5c96cbeffefa17a78baacf1672d5603",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "0a3d83c4a2237d6b8bba628aa7c6f171dd05894e7f9e123e1ceed11020bacf61",
+      "values_digest": "2daccab49dcadeb4fdc003295a9a84e8ef60ec4277581d3fd067889186cf870a",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "93d2170a849e71ffe285dee9739c1a289248d4d3a1138b78619d6751b582500f",
+      "values_digest": "6a72732318de27a3612a5c9bdfe7547602b319dcfa9ed3485bb035fa345f69a7",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "128fc61b14014d7f43e2deed052d26310fcf373ebb00ccaa628022b13c7b61f9",
+      "values_digest": "6cbad4bf084b2b4866f4fb84ebed1b11ca766c219ab6d384bdfd4b58074f3107",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "831b4d4bc8d833124505cbe48e65d5c7916fd8c0604aafcac975bfc17b8751d7",
-      "rendered_digest": "7761160bacf7e95538eb07fae08e2d3b1c5c8224acc18360d5b34c0246dc7f0b",
-      "ast_digest": "39e5f51aea6389c331ef065b0b3b7f8307911b6496ddcf3a78e57fbd149a1e20"
+      "values_digest": "ada3489108629a253c183fcb3ddde157e0df57c3ed82ad87fb2736288bc833ae",
+      "rendered_digest": "6521d3d327da10bb1f72a25546d0721d3fb4f827e19ce3a48477d3a071365771",
+      "ast_digest": "d6631edc7e03e03c23d19446bf4618d3806a58c44cf76c2a5166d8c68631562d"
     },
     "sor": {
-      "values_digest": "b14bfe0a899d87bbdc1abd2de7e58afd5f8ceaf28866b7a26abd0ae6c37de417",
-      "rendered_digest": "ac992af359d6f0425e462261901f01f66887eb1cbb1ea1917c894268f3a547c3",
-      "ast_digest": "66e619f35ce9acee88dc572a9a0171f7a8600dce6ceb080ce371fbad5ad8ce8d"
+      "values_digest": "3a4ed951b7bd3825e0b3f3fc03c2b10d40b93ed26637efb486eb143134dd257f",
+      "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
+      "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
     }
   },
   "transitions": [
@@ -158,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover stale review after publication preflight exposed that the prior review scope included lifecycle metadata mutated by the review record itself. A fresh review will be recorded after publication request preparation is part of the reviewed head."
     }
   ],
   "audit": [
@@ -216,6 +148,13 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover stale review after publication preflight exposed that the prior review scope included lifecycle metadata mutated by the review record itself. A fresh review will be recorded after publication request preparation is part of the reviewed head.",
+      "operation": "recover_review"
     }
   ]
 }
