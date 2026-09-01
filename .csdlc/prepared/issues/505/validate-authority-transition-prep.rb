@@ -36,6 +36,11 @@ gemini_receipt = json(".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediat
 gemini_review = read(".csdlc/evidence/sprints-5-6-cutover-fixes/gemini-remediation-review/review.md")
 pr591_state_request = json(".csdlc/prepared/issues/505/pr591-state-after-prep-refresh-request.json")
 pr591_after_gemini = json(".csdlc/evidence/591/pr-state-after-gemini-remediation.json")
+sprint89_readiness = json(".csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-9-readiness-report.json")
+sprint89_issue511_local = json(".csdlc/evidence/sprints-8-9-v3-readiness/issue-511-local-readiness-report.json")
+sprint89_issue515_local = json(".csdlc/evidence/sprints-8-9-v3-readiness/issue-515-local-readiness-report.json")
+sprint89_timed_stdout = json(".csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-9-readiness-timed.stdout")
+sprint89_timed_stderr = read(".csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-9-readiness-timed.stderr")
 design = read(".csdlc/prepared/issues/505/design.md")
 diagram = read(".csdlc/prepared/issues/505/diagram.mmd")
 packet_text = [stp, sip, design, diagram].join("\n")
@@ -135,6 +140,38 @@ assert(pr591_packet["linked_issue"].nil?, "PR #591 must not declare a closing li
 pr591_body = pr591_packet.fetch("body")
 assert(pr591_body.include?("Part-Of #505"), "PR #591 body missing non-closing #505 linkage")
 assert(!pr591_body.match?(/(?i)\b(close[sd]?|fix(?:e[sd])?|resolve[sd]?)\s+#505\b/), "PR #591 body contains an issue-closing keyword for #505")
+
+assert(sprint89_readiness["schema"] == "csdlc.v3.sprint_readiness.v1", "Sprint 8/9 readiness emitted wrong schema")
+assert(sprint89_readiness["read_only"] == true, "Sprint 8/9 readiness must be read-only")
+assert(sprint89_readiness["operational_authority"] == false, "Sprint 8/9 readiness must not grant v3 authority")
+assert(sprint89_readiness["status"] == "ready", "Sprint 8/9 readiness must classify the next sprints as ready for execution planning")
+sprint8 = sprint89_readiness.fetch("sprints").find { |row| row["sprint"] == 8 }
+sprint9 = sprint89_readiness.fetch("sprints").find { |row| row["sprint"] == 9 }
+assert(sprint8 && sprint8["umbrella_issue"] == 536, "Sprint 8 readiness missing umbrella #536")
+assert(sprint8["membership_version"] == 5, "Sprint 8 readiness must consume live membership v5")
+assert(sprint8["declared_children"] == [51, 261, 262, 263, 264, 342, 511, 512], "Sprint 8 readiness child denominator drift")
+assert(sprint9 && sprint9["umbrella_issue"] == 537, "Sprint 9 readiness missing umbrella #537")
+assert(sprint9["membership_version"] == 4, "Sprint 9 readiness must consume live membership v4")
+assert(sprint9["declared_children"] == [515, 516, 517, 518, 519], "Sprint 9 readiness child denominator drift")
+assert(sprint8["child_states"].any? { |child| child["issue"] == 342 && child["state"] == "closed" }, "Sprint 8 readiness must retain closed #342 child truth")
+assert((sprint8["child_states"] + sprint9["child_states"]).all? { |child| ["open", "closed"].include?(child["state"]) }, "Sprint 8/9 child states must be live GitHub open/closed truth")
+assert(sprint89_timed_stdout == sprint89_readiness, "timed Sprint 8/9 readiness stdout must match retained readiness report")
+real_seconds = sprint89_timed_stderr[/^real\s+([0-9.]+)/, 1].to_f
+assert(real_seconds.positive? && real_seconds < 180.0, "Sprint 8/9 readiness canary must complete under the three-minute operator target")
+
+{
+  511 => sprint89_issue511_local,
+  515 => sprint89_issue515_local
+}.each do |issue_number, report|
+  assert(report["schema"] == "csdlc.v3.local_preparation.v1", "issue ##{issue_number} local canary emitted wrong schema")
+  assert(report["read_only"] == true, "issue ##{issue_number} local canary must be read-only")
+  assert(report["operational_authority"] == false, "issue ##{issue_number} local canary must not grant v3 authority")
+  result = report.fetch("result")
+  assert(result["issue"] == issue_number, "issue ##{issue_number} local canary targeted wrong issue")
+  assert(result.dig("cards", "card_kinds") == ["sip", "stp", "spp", "vpp", "srp", "sor"], "issue ##{issue_number} local canary missing six-card lifecycle")
+  assert(result.dig("cards", "rendered_cards").is_a?(Array) && result.dig("cards", "rendered_cards").length == 6, "issue ##{issue_number} local canary missing render manifest")
+  assert(result.dig("findings", 0, "code") == "doctor_ready", "issue ##{issue_number} local canary did not reach doctor-ready")
+end
 
 [504, 570, 571].each do |issue_number|
   receipt_path = File.join(GIT_COMMON, "csdlc-v2", "closeout", "#{issue_number}.json")
@@ -296,6 +333,9 @@ puts JSON.generate(
       "sprint_membership_v5_readback",
       "gemini_assisted_review_receipt",
       "pr591_gemini_remediation_non_closing_readback",
+      "sprint_8_9_v3_readiness_canary",
+      "sprint_8_9_issue_local_canaries",
+      "sprint_8_9_readiness_under_three_minutes",
       "single_prebind_validator_lane",
       "bound_execution_topology"
     ]

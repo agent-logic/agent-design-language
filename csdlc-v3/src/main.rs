@@ -4,16 +4,18 @@ use csdlc_v3::{
     application::FoundationState,
     commands::local::{prepare_local_workflow, LocalPreparationRequest, WorktreeRegistration},
     commands::remote::{verify_remote_bridge_request, RemoteCommandRequest},
+    commands::sprint::{parse_request as parse_sprint_request, verify_sprint_readiness},
     repository::RepositoryContext,
 };
 use serde::Serialize;
 
 const ROOT_USAGE: &str =
-    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  remote --repo-root <path> --request <path>";
+    "usage: csdlc <command>\n\nCommands:\n  foundation --repo-root <path>\n  local --request <path> --registry <path> --registrations <path>\n  remote --repo-root <path> --request <path>\n  sprint --repo-root <path> --request <path>";
 const FOUNDATION_USAGE: &str = "usage: csdlc foundation --repo-root <path>";
 const LOCAL_USAGE: &str =
     "usage: csdlc local --request <path> --registry <path> --registrations <path>";
 const REMOTE_USAGE: &str = "usage: csdlc remote --repo-root <path> --request <path>";
+const SPRINT_USAGE: &str = "usage: csdlc sprint --repo-root <path> --request <path>";
 
 fn main() {
     match run(env::args().skip(1).collect()) {
@@ -38,6 +40,7 @@ fn run(args: Vec<String>) -> Result<String, String> {
         "foundation" => run_foundation(rest),
         "local" => run_local(rest),
         "remote" => run_remote(rest),
+        "sprint" => run_sprint(rest),
         _ => Err(format!("{ROOT_USAGE}; unexpected command {command}")),
     }
 }
@@ -107,6 +110,29 @@ fn run_remote(args: &[String]) -> Result<String, String> {
     let request: RemoteCommandRequest = serde_json::from_slice(&request_bytes)
         .map_err(|error| format!("invalid remote request: {error}"))?;
     let report = verify_remote_bridge_request(&PathBuf::from(root), request)
+        .map_err(|error| format!("{error:?}"))?;
+    serde_json::to_string(&report).map_err(|error| error.to_string())
+}
+
+fn run_sprint(args: &[String]) -> Result<String, String> {
+    if args == ["--help"] || args == ["-h"] {
+        return Ok(SPRINT_USAGE.into());
+    }
+    let [root_flag, root, request_flag, request] = args else {
+        return Err(SPRINT_USAGE.into());
+    };
+    if root_flag != "--repo-root" {
+        return Err(format!("{SPRINT_USAGE}; unexpected argument {root_flag}"));
+    }
+    if request_flag != "--request" {
+        return Err(format!(
+            "{SPRINT_USAGE}; unexpected argument {request_flag}"
+        ));
+    }
+    let request_bytes =
+        fs::read(request).map_err(|error| format!("failed to read request: {error}"))?;
+    let request = parse_sprint_request(&request_bytes).map_err(|error| format!("{error:?}"))?;
+    let report = verify_sprint_readiness(&PathBuf::from(root), request)
         .map_err(|error| format!("{error:?}"))?;
     serde_json::to_string(&report).map_err(|error| error.to_string())
 }

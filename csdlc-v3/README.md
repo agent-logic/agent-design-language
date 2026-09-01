@@ -21,6 +21,9 @@ until the explicit V3-F/#505 cutover decision approves the transition.
   `csdlc local` proof surface. It must remain non-authoritative until V3-F.
 - V3-E/#504 adds remote delivery, review, publication, finish, and cleanup
   models. They are cutover-readiness proof surfaces only until V3-F.
+- V3-F/#505 now includes a read-only `csdlc sprint` readiness verifier for
+  testing upcoming sprint umbrellas against typed issue readback evidence before
+  cutover. It is planning evidence only and does not start child execution.
 - V3-G/#570 repaired v2-first documentation and skill guidance for advance
   notice. The live route still remains typed v2 until V3-F/#505.
 
@@ -65,7 +68,19 @@ construction subcommands are:
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- --help
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- foundation --repo-root .
 cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- local --request <request.json> --registry docs/templates/prompts/current.json --registrations <registrations.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- remote --repo-root . --request <request.json>
+cargo run --locked --manifest-path csdlc-v3/Cargo.toml --bin csdlc -- sprint --repo-root . --request <request.json>
 ```
+
+The Sprint 8/9 pre-cutover canary is:
+
+```sh
+bash .csdlc/prepared/issues/505/run-v3-sprint-8-9-readiness-trial.sh
+```
+
+That canary reads live issue state through typed C-SDLC v2 issue transport,
+parses the current umbrella membership for #536 and #537, and then verifies the
+result through non-authoritative v3 sprint readiness.
 
 For docs and cutover-readiness work, use the issue-owned validators declared by
 the active issue, such as the #570 stale-route and skill-guidance scans. Passing

@@ -96,6 +96,13 @@ Status as of this branch:
   current remediation set through typed v2 `csdlc-github-pr`, keeps
   `Part-Of #505`, and retains readback evidence at
   `.csdlc/evidence/591/pr-state-after-gemini-remediation.json`.
+- Added live next-sprint readiness proof: `csdlc sprint` now verifies Sprint 8
+  #536 and Sprint 9 #537 from typed v2 live issue readback artifacts, parses
+  live umbrella membership, and emits non-authoritative readiness evidence at
+  `.csdlc/evidence/sprints-8-9-v3-readiness/sprint-8-9-readiness-report.json`.
+  The retained timed run completed in 13.78 seconds, under the three-minute
+  operator target, and issue-local `csdlc local` canaries reached
+  `doctor_ready` for #511 and #515.
 - Historical note: typed issue transport created tracking issue #596, and typed
   PR transport created PR #597 from `codex/sprints-5-6-cutover-fixes` to
   `main`. PR #597 was later merged, but that merge did not itself terminalize
