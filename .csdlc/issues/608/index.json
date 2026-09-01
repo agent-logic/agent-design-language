@@ -5,53 +5,51 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "441fec45d4e996219640d1b85b1189f3252bc7d8040c26828fea256a77e10f3f",
   "phase": "published",
-  "generation": 10,
-  "digest": "46342ddc471949ef044dee5b1f924694d4b5830cd49c2aba377903f3d96b393a",
+  "generation": 13,
+  "digest": "9e7b7724ecc827c9458cecd562733650c1ef3f3c30239b74c08da9474ab649b5",
   "branch": "codex/608-vertex-global-thinking-provider-config",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-608-vertex-global-thinking-provider-config-exec",
   "review_assignment": {
-    "reviewer": "fresh-session:909271de-340e-45cf-8218-08759e98eab9",
+    "reviewer": "fresh-session:32e6d0e1-5d2e-42eb-8763-8daf3f799f35",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+    "revision": "git-blake3:d781fbe6f4ab63dafd9b4d0174728090d69526e1:3b74b1242841b5c3846a39841afa1a88074f6ea38b952ad5f6ed308e6745e3c9",
     "scope": [
-      ".csdlc/prepared/issues/608/recover-review-after-metadata-commit.json",
       ".csdlc/issues/608",
-      ".csdlc/prepared/issues/608"
+      ".csdlc/prepared/issues/608",
+      ".git/csdlc-v2/requests/issue608-publish-reviewed.json"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:909271de-340e-45cf-8218-08759e98eab9",
+    "reviewer": "fresh-session:32e6d0e1-5d2e-42eb-8763-8daf3f799f35",
     "scope": [
-      ".csdlc/prepared/issues/608/recover-review-after-metadata-commit.json",
       ".csdlc/issues/608",
-      ".csdlc/prepared/issues/608"
+      ".csdlc/prepared/issues/608",
+      ".git/csdlc-v2/requests/issue608-publish-reviewed.json"
     ],
-    "reviewed_revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+    "reviewed_revision": "git-blake3:d781fbe6f4ab63dafd9b4d0174728090d69526e1:3b74b1242841b5c3846a39841afa1a88074f6ea38b952ad5f6ed308e6745e3c9",
     "findings": [],
     "residual_risks": [
       "Hosted CI remains the final integration gate before merge.",
-      "The metadata-only review did not rerun provider or live cloud proof; it verified no product changes since the reviewed implementation head."
+      "The post-publication metadata review did not rerun provider or live cloud proof; it verified no product changes since the reviewed implementation head."
     ],
     "completed": true,
     "non_substantive_proof": {
       "policy": "metadata_only_review_projection",
-      "from_revision": "git-blake3:01c1e3abe635850261db1b3062535230e986a202:ed6b585597baf5bcc7eec8ed5c1bc47d0832d840c5c95b7d514f93a4162116f4",
-      "to_revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
-      "from_commit": "01c1e3abe635850261db1b3062535230e986a202",
-      "to_commit": "d46604ada170f7cef9bbf8d971e56005c13a52f6",
+      "from_revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+      "to_revision": "git-blake3:d781fbe6f4ab63dafd9b4d0174728090d69526e1:3b74b1242841b5c3846a39841afa1a88074f6ea38b952ad5f6ed308e6745e3c9",
+      "from_commit": "d46604ada170f7cef9bbf8d971e56005c13a52f6",
+      "to_commit": "d781fbe6f4ab63dafd9b4d0174728090d69526e1",
       "changed_paths": [
         ".csdlc/issues/608/audit.jsonl",
         ".csdlc/issues/608/cards/sip.values.json",
+        ".csdlc/issues/608/cards/sor.md",
         ".csdlc/issues/608/cards/sor.values.json",
         ".csdlc/issues/608/cards/spp.values.json",
         ".csdlc/issues/608/cards/srp.md",
         ".csdlc/issues/608/cards/srp.values.json",
         ".csdlc/issues/608/cards/stp.values.json",
         ".csdlc/issues/608/cards/vpp.values.json",
-        ".csdlc/issues/608/index.json",
-        ".csdlc/prepared/issues/608/assign-exact-head-review-r2.json",
-        ".csdlc/prepared/issues/608/record-exact-head-review-r2.json",
-        ".csdlc/prepared/issues/608/recover-review-after-metadata-commit.json"
+        ".csdlc/issues/608/index.json"
       ]
     }
   },
@@ -62,7 +60,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/609",
     "base": "main",
     "head": "codex/608-vertex-global-thinking-provider-config",
-    "revision": "git-blake3:d46604ada170f7cef9bbf8d971e56005c13a52f6:241640489af8523d82c931cdae6a2d5df87b29f45a9c591f1ddfb1b773d543b8",
+    "revision": "git-blake3:d781fbe6f4ab63dafd9b4d0174728090d69526e1:3b74b1242841b5c3846a39841afa1a88074f6ea38b952ad5f6ed308e6745e3c9",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -80,32 +78,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "27f1027255342b8664ccd068a26587e90e4efce5581821f7d01a7e4b783c82ae",
+      "values_digest": "db42ec9c9cd2da57a05c866440e8440a478594727f60054728854a850e917a8d",
       "rendered_digest": "be65d9203b2c74102ac352c28e6eb4e153548faf50a048d45fb39d08b52cec66",
       "ast_digest": "eeeafa3d11967bd3f7444e3c7950803293f5826bd5805879f07b1670e112456d"
     },
     "stp": {
-      "values_digest": "9412c2b3c95f47a40e922e1a8ec64cd9cdae04a8f7a5d5ed9bdb0b14661ca1cb",
+      "values_digest": "d955b42baba3c7dbf8909f25cdd91e265d602338d4b26321c5354e47a887e602",
       "rendered_digest": "f06942e46e39f6caf1928c7d0792e65207ba57fb47776a069f6c2132e49a040b",
       "ast_digest": "37ea2512965f1546c37985239dcd410357f1931e15e778b00e270b0bd0648760"
     },
     "spp": {
-      "values_digest": "235e2fbc38d7e6912d69493d8df631fea88ac3ab5156ea724150aa605aa446c4",
+      "values_digest": "b09a7310991ac3457b92c6a9e8a71e84f2c2bbbc4af2919921386864a7d0ba1b",
       "rendered_digest": "9d7711434fe23e9a15155afd851dc054f249ada1ac11e7e0ebf3079b241142d2",
       "ast_digest": "a56b2b8380fccba17f20cf2ea6df9981c81a17da8142127009b39d5a93044b46"
     },
     "vpp": {
-      "values_digest": "5385cae73e4e0f37adaacf49d6781625b6251885d3c70d9a1df6cc7300342853",
+      "values_digest": "7732b764d583ccc2245cc4b99b3246d40f8411024922fedd116cab94be738075",
       "rendered_digest": "377592f996d1118147690f84da042fd2b9a65f4c5a28ae9f84dc1d53ff2d932a",
       "ast_digest": "ad5f5cca32856fefb6c07c6b3bc5d2080da179d05bdc928d938e50ecc2ff6381"
     },
     "srp": {
-      "values_digest": "d093e8f49ce8fe535d33b70b7219e8c4efda64fb9d20801270fc8be7fa35cd6a",
-      "rendered_digest": "86cc3aedda4e84e8c07fbe33b939ca9d9e659ebc523d955b303db271630fc398",
-      "ast_digest": "d5819bb75007801ff85200b958a350a5100f47d70f9d5a2a66c32d3e81d0b089"
+      "values_digest": "747a831270a5122f51e5b6af8272ca5dded762a6b91d2bba70148180e3ea428e",
+      "rendered_digest": "d1df6287edb4484c0a48cacb73832ed6a02f4815de5896930eb79419e987421e",
+      "ast_digest": "848f3c5c5d276c51fe2a12e53f6093e70723b1407323333e29b9662a6184771c"
     },
     "sor": {
-      "values_digest": "00599452299f6fbc70a45020893718221597ba234194f37c204653ec776dda7e",
+      "values_digest": "b4ae48d64937f4d2cea1b35e05c5c096ff02adf7681bf918b1c37a273441d661",
       "rendered_digest": "6cb129b3f2f3172cd04017ab84e306290660fc0a0ecd4c7d2dc7ecb0fa7e5e6d",
       "ast_digest": "a0360db8c0fa1bf050175c35a9a9473e751b79749fc099005485535a895541bf"
     }
@@ -155,6 +153,27 @@
     },
     {
       "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover reviewed/publication truth after typed publication created a metadata commit that made the prior metadata review stale against the clean current published head."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:/root",
@@ -263,6 +282,34 @@
     {
       "sequence": 15,
       "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover reviewed/publication truth after typed publication created a metadata commit that made the prior metadata review stale against the clean current published head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
