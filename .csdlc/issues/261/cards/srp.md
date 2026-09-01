@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Exact #261 issue/prepared/evidence plus demos/podcast/artwork.png and docs/milestones/v0.92/review/podcast_identity_261/**; live #51/#262/#342 graph; operator identity and mailbox evidence boundaries; strict exclusion of episode/audio/package production feed hosting deployment directory submission and public launch.
+exact head f8c27d383 on branch codex/261-podcast-show-identity
+show identity packet for The Cognitive Stack
+rights, metadata, artwork, mailbox readiness, validation, and #262/#263 stack readiness implications
+verify no #264 or #51 submission/coordination work is implemented
 
 ## Prompts
 
