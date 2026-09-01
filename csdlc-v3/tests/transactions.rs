@@ -510,6 +510,51 @@ fn durable_projection_failure_after_state_commit_is_repair_authority() {
 }
 
 #[test]
+fn durable_projection_success_is_repair_required_until_projection_is_written() {
+    let directory = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
+        "target/csdlc-v3-durable-projection-crash-window-{}",
+        std::process::id()
+    ));
+    let _ = fs::remove_dir_all(&directory);
+    let observed_repair_window = std::cell::Cell::new(false);
+    let initial = StateRecord::new(LifecycleState::Ready);
+    {
+        let mut store =
+            DurableTransactionStore::create(&directory, initial.clone()).expect("durable store");
+        let transaction = store
+            .begin(
+                LifecycleCommand::Bind,
+                &full_capabilities(),
+                initial.generation,
+                initial.digest,
+                "projection writer observes repair-required durable state",
+            )
+            .expect("transaction stages");
+        let result = store
+            .commit_then_project(transaction, |projected_state| {
+                assert!(!projected_state.projections_repair_required);
+                let state_json = fs::read_to_string(directory.join("state.json"))
+                    .expect("state json visible during projection write");
+                observed_repair_window
+                    .set(state_json.contains("\"projections_repair_required\":true"));
+                Ok(())
+            })
+            .expect("projection success clears repair requirement");
+        let CommitResult::Committed(state) = result else {
+            panic!("expected committed result");
+        };
+        assert!(observed_repair_window.get());
+        assert!(!state.projections_repair_required);
+        assert!(!store.committed().projections_repair_required);
+        let state_json = fs::read_to_string(directory.join("state.json")).expect("state json");
+        assert!(state_json.contains("\"projections_repair_required\":false"));
+    }
+    let reopened = DurableTransactionStore::open(&directory).expect("clean store reopens");
+    assert!(!reopened.committed().projections_repair_required);
+    let _ = fs::remove_dir_all(&directory);
+}
+
+#[test]
 fn recovery_classifies_interrupted_writes_without_losing_provenance() {
     let prior = StateRecord::new(LifecycleState::Ready);
     let mut store = TransactionStore::new(prior.clone()).expect("valid initial digest");

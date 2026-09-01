@@ -345,18 +345,22 @@ impl DurableTransactionStore {
         append_intent(&self.directory, &transaction.intent)?;
         let mut next_store = self.store.clone();
         next_store.commit(transaction, ProjectionWrite::Success)?;
+        next_store.committed.projections_repair_required = true;
+        next_store.committed.refresh_digest();
         write_state_atomically(&self.directory, next_store.committed())?;
         sync_directory(&self.directory)?;
-        if projection_write(next_store.committed()).is_err() {
-            next_store.committed.projections_repair_required = true;
-            next_store.committed.refresh_digest();
-            write_state_atomically(&self.directory, next_store.committed())?;
-            sync_directory(&self.directory)?;
+        let mut projected_state = next_store.committed().clone();
+        projected_state.projections_repair_required = false;
+        projected_state.refresh_digest();
+        if projection_write(&projected_state).is_err() {
             self.store = next_store;
             return Ok(CommitResult::ProjectionRepairRequired(
                 self.store.committed().clone(),
             ));
         }
+        next_store.committed = projected_state;
+        write_state_atomically(&self.directory, next_store.committed())?;
+        sync_directory(&self.directory)?;
         self.store = next_store;
         Ok(CommitResult::Committed(self.store.committed().clone()))
     }

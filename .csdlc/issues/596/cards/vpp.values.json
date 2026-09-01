@@ -1,0 +1,93 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 596,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
+    "slug": "sprints-5-6-cutover-fixes",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "v2-github-pr-transport",
+          "proof_role": "Prove typed PR create/update action validation, owner provenance, and idempotent conflict rejection.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 2200,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_github_actions"
+          ],
+          "parallel_group": "rust-focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "v3-durable-storage",
+          "proof_role": "Prove durable projection repair remains required across committed-state/missing-projection crash windows.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 360,
+          "budget_tokens": 2600,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v3/Cargo.toml",
+            "--test",
+            "transactions"
+          ],
+          "parallel_group": "rust-focused",
+          "defer_reason": null
+        },
+        {
+          "lane": "remediation-regression",
+          "proof_role": "Run focused CI-policy, canary, all-target v3, and diff-hygiene checks for the remediation branch.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 3200,
+          "argv": [
+            "bash",
+            "adl/tools/test_ci_runtime_contracts.sh"
+          ],
+          "parallel_group": "policy",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale lifecycle state, missing typed issue cards, closing linkage to #505, non-idempotent PR update replay, projection repair ambiguity, or failed focused validation.",
+      "design_ref": ".csdlc/prepared/issues/596/design.md",
+      "design_digest": "49da6d996cd3ad753d225fc7301126f732ce2dd815a7fc5378642174997301bb",
+      "diagram_ref": ".csdlc/prepared/issues/596/diagram.mmd",
+      "diagram_digest": "e1ab7ebed0bad7574ff6ba639fdeccba760dc9fd07a54c65c3f59779a3920ba9"
+    }
+  }
+}

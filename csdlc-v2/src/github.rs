@@ -822,6 +822,23 @@ fn pull_request_number(pr: &octocrab::models::pulls::PullRequest) -> crate::Resu
     })
 }
 
+fn plan_pull_request_body_update(
+    observed_body: Option<&str>,
+    requested_body: &str,
+    operation_key: &str,
+) -> crate::Result<Option<String>> {
+    let marker = marker_line(operation_key);
+    let governed_body = append_marker(requested_body, operation_key);
+    match observed_body {
+        Some(body) if body == governed_body => Ok(None),
+        Some(body) if body.contains(&marker) => Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "PR update operation key already applied to a different body",
+        )),
+        _ => Ok(Some(governed_body)),
+    }
+}
+
 async fn update_pull_request(request: &GithubActionRequest) -> crate::Result<PrStatePacket> {
     let (owner, repo) = split_repository(&request.repository)?;
     let number = request.pull_request.ok_or_else(|| {
@@ -838,14 +855,7 @@ async fn update_pull_request(request: &GithubActionRequest) -> crate::Result<PrS
     })?;
     let token = resolve_token(request.token_file.as_deref())?;
     let crab = github_client(token)?;
-    let _: Value = crab
-        .patch(
-            format!("/repos/{owner}/{repo}/pulls/{number}"),
-            Some(&json!({ "body": body })),
-        )
-        .await
-        .map_err(remote)?;
-    let packet = collect_pr_state(&PrStateRequest {
+    let state_request = PrStateRequest {
         repository: request.repository.clone(),
         pull_request: number,
         required_checks: request.required_checks.clone(),
@@ -853,9 +863,22 @@ async fn update_pull_request(request: &GithubActionRequest) -> crate::Result<PrS
         token_file: request.token_file.clone(),
         linked_issue: request.linked_issue,
         linked_issue_repository: None,
-    })
-    .await?;
-    if packet.body.as_deref() != Some(body) {
+    };
+    let before = collect_pr_state(&state_request).await?;
+    let governed_body = append_marker(body, required_marker(request)?);
+    if let Some(next_body) =
+        plan_pull_request_body_update(before.body.as_deref(), body, required_marker(request)?)?
+    {
+        let _: Value = crab
+            .patch(
+                format!("/repos/{owner}/{repo}/pulls/{number}"),
+                Some(&json!({ "body": next_body })),
+            )
+            .await
+            .map_err(remote)?;
+    }
+    let packet = collect_pr_state(&state_request).await?;
+    if packet.body.as_deref() != Some(governed_body.as_str()) {
         return Err(crate::V2Error::new(
             crate::ErrorCode::ReconciliationRequired,
             "PR update readback differs from governed request",
@@ -1959,6 +1982,38 @@ mod tests {
             required_check_names: vec!["ci".into()],
             classification: String::new(),
         }
+    }
+
+    #[test]
+    fn pr_update_operation_key_is_idempotent_and_conflict_detecting() {
+        let governed = append_marker("Closes #596\n", "worker-6-pr-update");
+        assert_eq!(
+            plan_pull_request_body_update(None, "Closes #596\n", "worker-6-pr-update").unwrap(),
+            Some(governed.clone())
+        );
+        assert_eq!(
+            plan_pull_request_body_update(
+                Some("Closes #596\n"),
+                "Closes #596\n",
+                "worker-6-pr-update"
+            )
+            .unwrap(),
+            Some(governed.clone())
+        );
+        assert_eq!(
+            plan_pull_request_body_update(Some(&governed), "Closes #596\n", "worker-6-pr-update")
+                .unwrap(),
+            None
+        );
+
+        let conflicting = append_marker("Closes #597\n", "worker-6-pr-update");
+        let error = plan_pull_request_body_update(
+            Some(&conflicting),
+            "Closes #596\n",
+            "worker-6-pr-update",
+        )
+        .unwrap_err();
+        assert_eq!(error.code, crate::ErrorCode::ReconciliationRequired);
     }
 
     #[test]

@@ -1,0 +1,8 @@
+flowchart TD
+  A["Sprint 5/6 review findings"] --> B["#596 remediation issue"]
+  B --> C["PR #597 closes #596"]
+  B --> D["v2 typed GitHub PR transport"]
+  B --> E["v3 construction fixes"]
+  B --> F["CI and docs readiness"]
+  C -. "Part-Of only" .-> G["#505 v3 cutover review gate"]
+  E -. "non-authoritative until cutover" .-> G
