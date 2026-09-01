@@ -267,11 +267,11 @@ Removed previously committed zero-byte provider-test lock sidecars and made the 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
