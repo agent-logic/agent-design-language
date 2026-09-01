@@ -23,6 +23,7 @@ run_contracts() {
   local bad_retirement="$CASE_ROOT/bad-retirement.json"
   local good_recovery_retirement="$CASE_ROOT/good-recovery-retirement.json"
   local bad_recovery_retirement="$CASE_ROOT/bad-recovery-retirement.json"
+  local empty_recovery_retirement="$CASE_ROOT/empty-recovery-retirement.json"
 
   write_plan "$good_compute" '[{"mode":"managed","type":"aws_instance","change":{"actions":["create"]}},{"mode":"managed","type":"aws_volume_attachment","change":{"actions":["create"]}},{"mode":"data","type":"aws_ebs_volume","change":{"actions":["read"]}}]'
   write_plan "$bad_compute" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["delete"]}}]'
@@ -34,6 +35,7 @@ run_contracts() {
   write_plan "$bad_retirement" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["delete"]}},{"mode":"managed","type":"aws_instance","change":{"actions":["delete"]}}]'
   write_plan "$good_recovery_retirement" '[{"mode":"managed","type":"aws_ebs_volume","name":"runtime","change":{"actions":["delete"]}}]'
   write_plan "$bad_recovery_retirement" '[{"mode":"managed","type":"aws_ebs_volume","name":"unowned","change":{"actions":["delete"]}}]'
+  jq -n '{format_version:"1.2"}' >"$empty_recovery_retirement"
 
   "$guard" compute "$good_compute" >/dev/null
   ! "$guard" compute "$bad_compute" >/dev/null 2>&1
@@ -44,6 +46,7 @@ run_contracts() {
   "$guard" retirement "$good_retirement" >/dev/null
   ! "$guard" retirement "$bad_retirement" >/dev/null 2>&1
   "$guard" recovery-retirement "$good_recovery_retirement" >/dev/null
+  "$guard" recovery-retirement "$empty_recovery_retirement" >/dev/null
   ! "$guard" recovery-retirement "$bad_recovery_retirement" >/dev/null 2>&1
 
   aws() {
@@ -87,6 +90,10 @@ run_contracts() {
   rg -q 'ADL_RUNTIME_USE_PREBUILT_BINARIES=1' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'issue607_probe_runtime.py' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -q 'ADL_RUNTIME_PREPARE_STATE_ONLY=1' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
+  ! rg -q 'apt-get install[^\n]*awscli' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
+  rg -q 'snap install aws-cli --classic' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
+  rg -q 'snap install aws-cli --classic' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
+  rg -q 'preparation instance stopped without a success or failure receipt' "$ROOT/adl/tools/run_issue607_warm_polis.sh"
   rg -q 'measured_after_preparation_bootstrap:true' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"
   rg -q 'measured_after_preparation_bootstrap:true' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/gpu-user-data.sh.tftpl"
   ! rg -q 'dd if=/dev/zero' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl"

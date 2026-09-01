@@ -321,6 +321,32 @@ wait_object() {
   return 2
 }
 
+wait_preparation_receipt() {
+  success_key="$1" failure_key="$2" instance_id="$3" destination="$4" max_seconds="$5"
+  deadline=$((SECONDS+max_seconds)); stopped_observations=0
+  while ((SECONDS<deadline)); do
+    aws_cli s3api get-object --bucket "$BUCKET" --key "$success_key" "$destination" >/dev/null 2>&1 && return 0
+    if aws_cli s3api get-object --bucket "$BUCKET" --key "$failure_key" "$destination.failed" >/dev/null 2>&1; then
+      echo "preparation guest reported failure: $failure_key" >&2
+      return 1
+    fi
+    instance_state="$(aws_cli ec2 describe-instances --instance-ids "$instance_id" --query 'Reservations[0].Instances[0].State.Name' --output text)" \
+      || { echo "failed to read preparation instance state: $instance_id" >&2; return 2; }
+    if [[ "$instance_state" == stopped || "$instance_state" == terminated ]]; then
+      stopped_observations=$((stopped_observations+1))
+      if ((stopped_observations>=3)); then
+        echo "preparation instance stopped without a success or failure receipt: $instance_id" >&2
+        return 1
+      fi
+    else
+      stopped_observations=0
+    fi
+    sleep 5
+  done
+  echo "timed out waiting for $success_key" >&2
+  return 2
+}
+
 cleanup_preparation_state() {
   local run_dir="$1"
   [[ -f "$run_dir/preparation.tfvars.json" && -f "$run_dir/preparation.tfstate" ]] || return 0
@@ -782,8 +808,8 @@ prepare() {
   tf "$run_dir/tfdata-preparation" "$PREPARATION_ROOT" output -state="$run_dir/preparation.tfstate" -json >"$run_dir/preparation-outputs.json"
   runtime_preparation_instance="$(jq -r .runtime_preparation_instance_id.value "$run_dir/preparation-outputs.json")"
   gpu_preparation_instance="$(jq -r .gpu_preparation_instance_id.value "$run_dir/preparation-outputs.json")"
-  wait_object "${receipt_prefix}runtime-preparation-final.json" "$run_dir/runtime-preparation.json" "$PREPARATION_SECONDS"
-  wait_object "${receipt_prefix}gpu-preparation-final.json" "$run_dir/gpu-preparation.json" "$PREPARATION_SECONDS"
+  wait_preparation_receipt "${receipt_prefix}runtime-preparation-final.json" "${receipt_prefix}runtime-preparation-failed.json" "$runtime_preparation_instance" "$run_dir/runtime-preparation.json" "$PREPARATION_SECONDS"
+  wait_preparation_receipt "${receipt_prefix}gpu-preparation-final.json" "${receipt_prefix}gpu-preparation-failed.json" "$gpu_preparation_instance" "$run_dir/gpu-preparation.json" "$PREPARATION_SECONDS"
   jq -e '.status=="prepared" and .fully_initialized==true' "$run_dir/runtime-preparation.json" "$run_dir/gpu-preparation.json" >/dev/null
   aws_cli ec2 wait instance-stopped --instance-ids "$runtime_preparation_instance" "$gpu_preparation_instance"
   create_prepared_image runtime "$runtime_preparation_instance" "$retention_until"

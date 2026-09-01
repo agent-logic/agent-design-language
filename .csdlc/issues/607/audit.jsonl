@@ -25,3 +25,4 @@
 {"sequence":25,"generation":22,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":26,"generation":23,"actor":"codex-primary-issue607","reason":"Recover the reviewed state after live read-only pre-mutation evidence exposed a null Contents handling defect in the empty S3 run-prefix guard.","operation":"recover_review"}
 {"sequence":27,"generation":24,"actor":"codex-primary-issue607","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":28,"generation":25,"actor":"codex-primary-issue607","reason":"Recover reviewed state after the authorized AWS preparation run exposed Ubuntu 24.04 package availability and interrupted-cleanup reconciliation defects, plus a missing early stopped-instance failure signal.","operation":"recover_review"}

@@ -13,7 +13,10 @@ finish_failure() {
 trap finish_failure EXIT
 
 apt-get update -qq
-apt-get install -y -qq awscli jq zstd gdisk cryptsetup-bin e2fsprogs build-essential cmake pkg-config libssl-dev ca-certificates python3 python3-boto3 socat curl openssl
+apt-get install -y -qq snapd jq zstd gdisk cryptsetup-bin e2fsprogs build-essential cmake pkg-config libssl-dev ca-certificates python3 python3-boto3 socat curl openssl
+systemctl enable --now snapd.socket
+snap install aws-cli --classic
+export PATH="/snap/bin:$PATH"
 
 for command in cloud-init systemctl mount veritysetup python3 openssl curl jq readlink; do
   command -v "$command" >/dev/null

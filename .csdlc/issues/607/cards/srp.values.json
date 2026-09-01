@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 24
+    "generation": 25
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/607\n.csdlc/prepared/issues/607\n.csdlc/evidence/607\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl/tools/issue607_probe_runtime.py\nadl/tools/issue607_qualify_warm_polis.sh\nadl/tools/issue607_validate_saved_plan.sh\nadl/tools/run_issue607_warm_polis.sh\nadl/tools/test_issue607_warm_polis.sh\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh\ndocs/operations/cloud/aws/shepherd-gpu-proof/README.md\ninfra/aws/runtime/gpu-proof",
-      "review_revision": "git-blake3:6bc25667465525f6d6d26339c1f787631b8d59ce:aa2c61e8bd561c244c5a208393ccc3f0d7ebda762d0e82e17bb7ce9d40a44aa3",
-      "reviewer": "subagent:issue_607_design_review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can normal launch reach any compiler package manager Git mutable download or model pull path?",
         "Can Terraform destroy or a trap delete the persistent warm volumes?",
@@ -24,10 +24,8 @@
         "Are #605 SSH private-Ollama IAM and cleanup invariants preserved?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Paid AWS startup timing, full qualification, and exact zero-residue proof remain pending in S4."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
