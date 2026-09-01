@@ -12,10 +12,7 @@ Status: draft
 
 ## Scope
 
-adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
-adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
-docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-.csdlc/issues/345
+
 
 ## Prompts
 
@@ -36,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Final paid two-node success remains pending.
-- The bounded qualification does not establish 24/7 production readiness.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:13a4bf44f39feb6c11323ac170b108717c56ea9d:53bf7da760d0aa2efa3bc09e023837bfd05d0999ae567c19a5887172af090cc0")
+Revision: None
 
-Reviewer: Some("fresh-session:/root/issue_345_final_launch_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

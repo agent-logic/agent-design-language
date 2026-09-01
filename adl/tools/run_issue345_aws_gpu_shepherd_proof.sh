@@ -49,6 +49,7 @@ SOURCE_ARCHIVE_PATHS=(
   docs/api/runtime-v3/v1
   docs/architecture/runtime_v3_parity_matrix.v1.json
   demos/fixtures/stock_league/season_001_fixture.json
+  infra/runtime-v3
 )
 
 SOURCE_COMMIT=""

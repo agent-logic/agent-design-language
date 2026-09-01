@@ -116,10 +116,11 @@ bootstrap scripts in the authorized S3 prefix. Large run artifacts use the AWS
 CLI multipart transfer path and then bind the bucket's exact returned version.
 The exact source archive contains only the tracked `adl`, `adl-runtime`,
 `adl-runtime-kernel`, `adl-resilience`, and `adl-spec` build/proof trees plus
-the small API, parity-matrix, and stock-league files embedded at compile time.
-This is the full local Rust dependency and compile-input closure required by
-the Runtime proof while avoiding unrelated repository media and historical
-evidence. The Runtime bootstrap passes
+the small API, parity-matrix, and stock-league files embedded at compile time,
+and the 12 KiB `infra/runtime-v3` lifecycle-validator input directory. This is
+the full local Rust dependency, compile-input, and Guardian validation-input
+closure required by the Runtime proof while avoiding unrelated repository media
+and historical evidence. The Runtime bootstrap passes
 the authorization-bound source revision to validators because an archive does
 not contain mutable Git metadata.
 Terraform injects separate automatic cloud-init payloads:

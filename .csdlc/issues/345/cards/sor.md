@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Four real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run passed immutable bootstrap, two-model VRAM residency, Git-free source restoration, pinned Rust installation, and Vector installation, then failed in guardian_lifecycle because the selective archive omitted three compile-time Runtime documents. The new bounded diagnostic receipt preserved the exact compiler errors. Both nodes and all volumes were destroyed and the lock was released. The source archive now includes the complete small Rust dependency and compile-input closure; final paid proof remains pending review and rerun.
+Five real Terraform launches have now repeatedly proved the GPU half and cleanup. The latest run proved both models simultaneously resident, restored the reviewed Git-free source, installed the pinned toolchain, and compiled the Guardian successfully in 1m03s. It then failed at guardian_lifecycle because the selective source archive omitted infra/runtime-v3/runtime-init.toml, which the lifecycle validator reads. The bounded diagnostic receipt preserved the exact failure, and cleanup destroyed both nodes and all volumes and released the lock. The archive now includes the complete 12 KiB infra/runtime-v3 validator-input directory; final paid proof remains pending exact-head review and rerun.
 
 ## Artifacts
 
@@ -21,20 +21,20 @@ Four real Terraform launches have now repeatedly proved the GPU half and cleanup
 - adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
 - adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
 - docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-- .adl/local/issue345/adl-issue345-20260901-110251/gpu-ready.json
-- .adl/local/issue345/adl-issue345-20260901-110251/runtime-final.json
-- .adl/local/issue345/adl-issue345-20260901-110251/cleanup-on-exit.json
+- .adl/local/issue345/adl-issue345-20260901-113806/gpu-ready.json
+- .adl/local/issue345/adl-issue345-20260901-113806/runtime-final.json
+- .adl/local/issue345/adl-issue345-20260901-113806/cleanup-on-exit.json
 
 ## Execution
 
-- Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.
-- Observed the fourth real GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.
-- Observed the Runtime node pass package setup including CMake, immutable source restoration, pinned Rust installation, and Vector installation before guardian_lifecycle compilation.
-- Captured the exact bounded diagnostic proving three missing compile-time Runtime documents instead of losing the guest failure after termination.
-- Extended the exact source archive with adl-spec plus the small Runtime API, parity-matrix, and stock-league compile inputs required by source-level include macros.
-- Extended the archive contract test to assert every external compile input needed by the production Runtime and ADL builds.
-- Updated the runbook to describe dependency and compile-input closure truthfully.
-- Confirmed controller cleanup terminated both instances, removed all run volumes, destroyed Terraform state resources, and released the lock.
+- Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, USD 20 hard budget, and three cleanup paths.
+- Observed the fifth real GPU receipt again prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.
+- Observed the Runtime node pass package setup, immutable source restoration, pinned Rust installation, Vector installation, and Guardian compilation in 1m03s.
+- Captured the exact bounded diagnostic proving infra/runtime-v3/runtime-init.toml was the sole missing lifecycle-validator input after compilation completed.
+- Extended the exact source archive with the complete 12 KiB infra/runtime-v3 validator-input directory.
+- Extended the archive contract test to assert both the directory and runtime-init.toml are present in the extracted source artifact.
+- Updated the runbook to describe the full dependency, compile-input, and Guardian validation-input closure truthfully.
+- Confirmed controller cleanup terminated both instances, removed all run volumes, destroyed Terraform state resources, and released the lock; a direct AWS inventory query returned zero issue instances and zero issue volumes.
 
 ## Validation
 
@@ -44,7 +44,7 @@ Four real Terraform launches have now repeatedly proved the GPU half and cleanup
       "bash",
       "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
     ],
-    "purpose": "Prove the no-paid topology, bootstrap, dependency and compile-input archive closure, revision, diagnostics, IAM, authorization, recovery, and cleanup contracts.",
+    "purpose": "Prove the no-paid topology, bootstrap, archive input closure, revision, diagnostics, IAM, authorization, recovery, and cleanup contracts.",
     "outcome": "passed",
     "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
   },
@@ -54,16 +54,16 @@ Four real Terraform launches have now repeatedly proved the GPU half and cleanup
       "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
       "run",
       "--commit",
-      "ec75a382f9a354ccc4677b769b18043fc9c21567",
+      "13a4bf44f39feb6c11323ac170b108717c56ea9d",
       "--run-id",
-      "adl-issue345-20260901-110251",
+      "adl-issue345-20260901-113806",
       "--authorization-file",
-      ".adl/local/issue345/operator-authorization-cargo-fix.json",
+      ".adl/local/issue345/operator-authorization-compile-input-fix.json",
       "--execute"
     ],
-    "purpose": "Run the real Terraform two-node qualification through repeated GPU residency, remediated native build setup, exact diagnostic failure, and cleanup.",
+    "purpose": "Run the real Terraform two-node qualification through repeated GPU residency, successful Guardian compilation, exact validator-input failure, and cleanup.",
     "outcome": "failed",
-    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-110251"
+    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-113806"
   },
   {
     "command": [

@@ -41,7 +41,7 @@ grep -q 'validate_state_root' "$RUNNER" || fail "runner does not enforce worktre
 ! grep -q 'git-common-dir\|csdlc-v2/issue345' "$RUNNER" || fail "runner still uses Git common state"
 ! grep -q 'ec2 run-instances\|ssm send-command\|AWS-RunShellScript' "$RUNNER" || fail "controller still owns launch or SSM bootstrap"
 ! grep -q 'git clone\|git -C /opt/adl-issue345/repo fetch' "$RUNNER" || fail "guest bootstrap still depends on live Git"
-for archive_path in adl adl-runtime adl-runtime-kernel adl-resilience adl-spec docs/api/runtime-v3/v1 docs/architecture/runtime_v3_parity_matrix.v1.json demos/fixtures/stock_league/season_001_fixture.json; do
+for archive_path in adl adl-runtime adl-runtime-kernel adl-resilience adl-spec docs/api/runtime-v3/v1 docs/architecture/runtime_v3_parity_matrix.v1.json demos/fixtures/stock_league/season_001_fixture.json infra/runtime-v3; do
   grep -Fxq "  $archive_path" "$RUNNER" || fail "exact reviewed build-source archive omits $archive_path"
 done
 grep -q 'create_source_archive "$source_archive"' "$RUNNER" || fail "paid run does not use the reviewed source-archive helper"
@@ -123,7 +123,8 @@ for compile_input in \
   docs/architecture/runtime_v3_parity_matrix.v1.json \
   adl-spec/examples/v0.8/godel_experiment_workflow.template.v1.json \
   adl-spec/schemas/v0.8/tool_result.v1.schema.json \
-  demos/fixtures/stock_league/season_001_fixture.json; do
+  demos/fixtures/stock_league/season_001_fixture.json \
+  infra/runtime-v3/runtime-init.toml; do
   [[ -f "$tmp/source/$compile_input" ]] || fail "source archive omitted compile-time input $compile_input"
 done
 while IFS= read -r -d '' manifest; do
