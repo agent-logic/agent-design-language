@@ -8,6 +8,7 @@ done
 
 test -f ".csdlc/issues/596/index.json"
 test -f ".csdlc/prepared/issues/596/pr-create-request.json"
+test -f ".csdlc/prepared/issues/596/pr-state-request.json"
 
 python3 - <<'PY'
 import json
@@ -29,6 +30,23 @@ if cards != {"sip", "stp", "spp", "vpp", "srp", "sor"}:
     raise SystemExit(f"unexpected card set: {sorted(cards)}")
 if index["repository"] != "agent-logic/agent-design-language":
     raise SystemExit("issue repository drift")
+
+pr_state = json.loads(Path(".csdlc/prepared/issues/596/pr-state-request.json").read_text())
+expected_pr_state_keys = {
+    "repository",
+    "pull_request",
+    "required_checks",
+    "require_review",
+    "token_file",
+    "linked_issue",
+    "linked_issue_repository",
+}
+if set(pr_state) != expected_pr_state_keys:
+    raise SystemExit(f"PR #597 state request uses stale schema keys: {sorted(pr_state)}")
+if pr_state["repository"] != "agent-logic/agent-design-language":
+    raise SystemExit("PR #597 state request repository drift")
+if pr_state["pull_request"] != 597 or pr_state["linked_issue"] != 596:
+    raise SystemExit("PR #597 state request must observe PR #597 closing issue #596")
 
 owner_lanes = json.loads(Path("docs/csdlc-v3/owner-proof-lanes.json").read_text())
 for source in owner_lanes["sources"]:
