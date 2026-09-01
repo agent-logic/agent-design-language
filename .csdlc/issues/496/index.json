@@ -4,13 +4,44 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "546e85c2e5fb163a29c67d6f148cbc79eacddcf8485fd831d8b91861c0f1db0c",
-  "phase": "implemented",
-  "generation": 13,
-  "digest": "c54a66478e3c7571d36b9cebaa0adcfeebfd7f998d2a452851446a936f9b0b6f",
+  "phase": "reviewed",
+  "generation": 14,
+  "digest": "23e1d96964b75f8982af1eca985631975994338bde04e76c9efcc10d0ca33896",
   "branch": "codex/496-aws-cloudformation-retirement-decision-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-496-aws-cloudformation-retirement-decision-bound",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:6830be43-0ec4-43e2-810f-772d9bc35f77",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ea9dfe3377359792c62c5c73bc141b37a78bdb8e:b7ef7083f6ad849eb93bdc42690aa52cf92f089facd8b93cfabc05c19052682e",
+    "scope": [
+      "Exact commit ea9dfe3377359792c62c5c73bc141b37a78bdb8e",
+      "Issue #496 AWS-G only",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/**",
+      ".csdlc/issues/496/**",
+      ".csdlc/prepared/issues/496/**",
+      ".csdlc/evidence/496/**",
+      "Read-only denominator references to adl/tools/issue194_private_network.cloudformation.json and adl/tools/issue268_runtime_qualification.cloudformation.yaml"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:6830be43-0ec4-43e2-810f-772d9bc35f77",
+    "scope": [
+      "Exact commit ea9dfe3377359792c62c5c73bc141b37a78bdb8e",
+      "Issue #496 AWS-G only",
+      "docs/milestones/v0.92.1/evidence/cloud/aws-g/**",
+      ".csdlc/issues/496/**",
+      ".csdlc/prepared/issues/496/**",
+      ".csdlc/evidence/496/**",
+      "Read-only denominator references to adl/tools/issue194_private_network.cloudformation.json and adl/tools/issue268_runtime_qualification.cloudformation.yaml"
+    ],
+    "reviewed_revision": "git-blake3:ea9dfe3377359792c62c5c73bc141b37a78bdb8e:b7ef7083f6ad849eb93bdc42690aa52cf92f089facd8b93cfabc05c19052682e",
+    "findings": [],
+    "residual_risks": [
+      "No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5e7a3a82e0779a4cf3b3ce41456cb153f657608eb6764034948fed05c6258e34",
+      "values_digest": "25d5b0a9a3865b58c6bd940c97d2ed61ac105c019841ace0ea935b9ddac88d22",
       "rendered_digest": "ba724bb557f178cb5cb116d66a996a8be304c3c3267bcb9c6abef00453559c4d",
       "ast_digest": "8d1a475c90b9205b3bf9f5209251d2c26e8cf00423adb149d47ab2ec22a29f85"
     },
     "stp": {
-      "values_digest": "0890cbc5c711f4c16ac9051afb6aa1eb0d0338da0e5a97ec02f52e3ec84615b1",
+      "values_digest": "57b4d8b17ededd1165fb4eca42236082ca132c75f124fb4792437e8ab6ace717",
       "rendered_digest": "a6c0f4c24427d2b8696d8dbe42448f206ee759bec5da0b381e393202adcf0e9a",
       "ast_digest": "c9adddb3b47c7a71749ca4f9e0f09f608a2f2cdda7ad77e708d61b40a2717c8a"
     },
     "spp": {
-      "values_digest": "0c660244421339cc71be5c0f999b20f3bbc6bba51fa90e64d0ff6efc1cc3a250",
+      "values_digest": "a94d7858884b721b0c6cbf6c12c33a5806dddea2dc86dce42d7ad43cbb2317ef",
       "rendered_digest": "00873878f734ff3283c4ef2b04056fac3f2412a6196c6b84a99561dc1f07265f",
       "ast_digest": "cee8bb85ae34ea6615d406dbd6920ab323199c2d42b18ad1ba37b2dee78e6078"
     },
     "vpp": {
-      "values_digest": "2a27cd2df51e7c322adcf35e9913894ad6db2dab3b0eab5f4191843eb1b39dd9",
+      "values_digest": "a6bac037769a5672d62227a554da4bf58a14be083863d1ec70ce6317597fefcb",
       "rendered_digest": "54016a4be7498595d1cae5c00addc1acc5cf86c046f3813abd7e0b571001a11a",
       "ast_digest": "cd09ef4297970a6fd71522ea0f2c846ec95ff4b2e71ed08e180f05d0cf0f8cd4"
     },
     "srp": {
-      "values_digest": "85cfe64a4c118e72d3d785963c8e99aa93e4a9b916c12f2b500c107687a999fa",
-      "rendered_digest": "5d6c6559024bd937d9ee9a3d5bd7d063ac24ca2f0eecda7dbde11f16c9afab18",
-      "ast_digest": "11ca4fc74058bcc592b6a994a6eb6120e9324830eb625a9ba4ce7b18886cf7c2"
+      "values_digest": "625a5d0b337145b28474679daa3f0d31dff2256f2ca24274a1bae1f1772c52a1",
+      "rendered_digest": "0d0bd5d84cd7ed83458e2d10fb98a6110e133d8dd2be97e04b10d75a31226563",
+      "ast_digest": "2113c3d1771f78529c223c84f0a3e4a0a22b353b0ea8ca5986008afa18797592"
     },
     "sor": {
-      "values_digest": "683bb5fc3179bd355f78aa88c5de2dd0034a458e177aec708d98a2b0944099a0",
+      "values_digest": "9be31d0547d1e4845bcb38e0e966ac9eafc1ba88f8185d5417ec3ed7729e5465",
       "rendered_digest": "6642904223cd00ce5ccd876b655b186cc2ce4ac23e4ef60134d1f1be69d84c5b",
       "ast_digest": "b3c4db937ee9b769a30da6fcc430a865f5e0060f0a321a4e4a301667d7970303"
     }
@@ -76,6 +107,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -197,6 +235,20 @@
       "actor": "codex:/root",
       "reason": "Repair #496 R2 review finding by aligning SPP affected areas to the implemented docs validator path.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1/evidence/cloud/aws-g\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/aws-g-cloudformation-retirement-ledger.md\",\"docs/milestones/v0.92.1/evidence/cloud/aws-g/validate-aws-g-cloudformation-retirement.sh\",\".csdlc/evidence/496\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
