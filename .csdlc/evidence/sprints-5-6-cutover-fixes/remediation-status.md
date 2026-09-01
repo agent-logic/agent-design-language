@@ -39,8 +39,9 @@ Status as of this branch:
   `.csdlc/evidence/591/pr-state-after-remove-closes.json`.
 - Published for review: typed issue transport created tracking issue #596, and
   typed PR transport created PR #597 from
-  `codex/sprints-5-6-cutover-fixes` to `main`. PR #597 visibly closes #596 and
-  only references #505/#534 as non-closing `Part-Of` context.
+  `codex/sprints-5-6-cutover-fixes` to `main`. After exact-head review, PR
+  #597 now uses non-closing `Part-Of` context for #596/#505/#534 because #596
+  has not yet executed the typed bound/review/publication lifecycle.
 
 Remaining remote-state blocker:
 
@@ -49,10 +50,9 @@ Remaining remote-state blocker:
 - #570/#571 are live-remote terminal, but the stale registered prep worktrees
   need a typed diagnostic/reconciliation affordance before cutover so operators
   do not have to manually compare common terminal-cache generations.
-- PR #597 is open and non-draft. The retained typed readback captured before
-  subsequent evidence commits reports linked issue #596, review `pending`,
-  merge state `blocked`, and classification `waiting`; fresh typed PR-state
-  readback is required before review, merge, finish, or closeout claims.
+- PR #597 is open and non-draft. Fresh typed PR-state readback after the
+  linkage repair reported `linked_issue: null`; #596 remains open until a
+  truthful typed lifecycle repair/adoption route exists.
 
 Non-claims:
 

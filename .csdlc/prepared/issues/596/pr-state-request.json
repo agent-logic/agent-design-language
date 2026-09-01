@@ -4,6 +4,6 @@
   "required_checks": [],
   "require_review": false,
   "token_file": null,
-  "linked_issue": 596,
+  "linked_issue": null,
   "linked_issue_repository": "agent-logic/agent-design-language"
 }

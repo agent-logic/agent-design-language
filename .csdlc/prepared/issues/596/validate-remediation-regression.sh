@@ -15,12 +15,10 @@ import json
 from pathlib import Path
 
 body = json.loads(Path(".csdlc/prepared/issues/596/pr-create-request.json").read_text())["body"]
-if "Closes #596" not in body:
-    raise SystemExit("PR body must visibly close #596")
-for forbidden in ("Closes #505", "Fixes #505", "Resolves #505"):
+for forbidden in ("Closes #596", "Fixes #596", "Resolves #596", "Closes #505", "Fixes #505", "Resolves #505"):
     if forbidden in body:
-        raise SystemExit(f"PR body must not close #505: {forbidden}")
-for required in ("Part-Of #505", "Part-Of #534"):
+        raise SystemExit(f"PR body must not prematurely close lifecycle-tracked issues: {forbidden}")
+for required in ("Part-Of #596", "Part-Of #505", "Part-Of #534"):
     if required not in body:
         raise SystemExit(f"PR body must retain non-closing linkage: {required}")
 
@@ -45,8 +43,8 @@ if set(pr_state) != expected_pr_state_keys:
     raise SystemExit(f"PR #597 state request uses stale schema keys: {sorted(pr_state)}")
 if pr_state["repository"] != "agent-logic/agent-design-language":
     raise SystemExit("PR #597 state request repository drift")
-if pr_state["pull_request"] != 597 or pr_state["linked_issue"] != 596:
-    raise SystemExit("PR #597 state request must observe PR #597 closing issue #596")
+if pr_state["pull_request"] != 597 or pr_state["linked_issue"] is not None:
+    raise SystemExit("PR #597 state request must not assert issue closure before typed lifecycle execution")
 
 owner_lanes = json.loads(Path("docs/csdlc-v3/owner-proof-lanes.json").read_text())
 for source in owner_lanes["sources"]:

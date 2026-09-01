@@ -27,8 +27,9 @@ documentation, but it must not merge, finish, clean, or close #505.
 
 1. Preserve primary checkout cleanliness and work only in the bound FastWork
    remediation worktree.
-2. Ensure the PR for this tracking issue visibly uses `Closes #596`, while
-   representing #505/#534 only as `Part-Of`.
+2. Ensure the PR for this tracking issue uses non-closing `Part-Of #596`
+   linkage until #596 has truthful bound, reviewed, published, and reconciled
+   lifecycle state. Represent #505/#534 only as `Part-Of`.
 3. Repair reviewed implementation defects with behavior-backed tests rather
    than string assertions.
 4. Record real-tool canary defects as bounded evidence, not as cutover claims.

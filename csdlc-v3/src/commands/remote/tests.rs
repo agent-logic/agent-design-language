@@ -1,12 +1,13 @@
 use super::{
-    accepted_review, deliver, receipt, AcceptedPvfResult, AuthoritySource, RemoteDeliveryInput,
-    RemoteDeliveryRejectReason, VerificationRejectReason, Verified,
+    accepted_review, deliver, receipt, review_from_accepted_evidence, AcceptedPvfResult,
+    AcceptedReviewEvidence, AuthoritySource, RemoteDeliveryInput, RemoteDeliveryRejectReason,
+    VerifiableSubject, VerificationRejectReason, Verified,
 };
 use crate::publication::{
-    classify_cleanup, cleanup_registration_digest, derive_finish, execute_cleanup_removal, publish,
-    CleanupCandidate, CleanupClassification, CleanupRejectReason, FinishClassification,
-    FinishRejectReason, IssueReadback, PublicationMode, PublicationRejectReason,
-    PublicationRequest, PullRequestReadback,
+    classify_cleanup, cleanup_candidate_from_git_registration, derive_finish,
+    execute_cleanup_removal, publish, CleanupCandidate, CleanupClassification, CleanupRejectReason,
+    FinishClassification, FinishRejectReason, GitWorktreeRegistration, IssueReadback,
+    PublicationMode, PublicationRejectReason, PublicationRequest, PullRequestReadback,
 };
 use crate::review::{
     authorize_publication, FindingDisposition, ReviewFinding, ReviewRejectReason, ReviewTarget,
@@ -88,37 +89,43 @@ fn cleanup() -> CleanupCandidate {
 
 fn cleanup_at(path: PathBuf) -> CleanupCandidate {
     let approved_worktree_parent = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("target");
-    let repository_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let registration_digest =
-        cleanup_registration_digest(&approved_worktree_parent, &repository_root, &path, &path)
-            .expect("registered cleanup identity");
-    CleanupCandidate {
-        preview: true,
-        preview_receipt: false,
-        committed_closed_out: true,
-        terminal_receipt: true,
-        approved_worktree_parent,
+    let repository_root = approved_worktree_parent.join(format!(
+        "remote-cleanup-repo-{}-{}",
+        std::process::id(),
+        NEXT_CLEANUP_ID.fetch_add(1, Ordering::SeqCst)
+    ));
+    let worktree_name = path
+        .file_name()
+        .and_then(|value| value.to_str())
+        .unwrap_or("worktree");
+    let git_common_dir = repository_root
+        .join(".git")
+        .join("worktrees")
+        .join(worktree_name);
+    fs::create_dir_all(&git_common_dir).expect("create git common dir fixture");
+    let registration = GitWorktreeRegistration {
         repository_root,
-        registered_worktree: path.clone(),
-        candidate_path: path,
-        registration_digest,
-        preview_identity_digest: None,
-        dirty: false,
-        live: false,
-    }
+        worktree_path: path.clone(),
+        git_common_dir,
+    };
+    cleanup_candidate_from_git_registration(
+        &approved_worktree_parent,
+        &path,
+        registration,
+        true,
+        false,
+        true,
+        true,
+        None,
+        false,
+        false,
+    )
+    .expect("registered cleanup identity")
 }
 
-fn verified<T>(value: T, source: AuthoritySource) -> Verified<T> {
-    Verified::new(
-        value,
-        receipt(
-            source,
-            "verified-observation-digest",
-            "fixture-subject-digest",
-        ),
-        "fixture-subject-digest".to_owned(),
-    )
-    .expect("verified fixture")
+fn verified<T: VerifiableSubject>(value: T, source: AuthoritySource) -> Verified<T> {
+    let subject_digest = value.subject_digest();
+    Verified::new(value, receipt(source, &subject_digest)).expect("verified fixture")
 }
 
 fn delivery_input(mode: PublicationMode, body: &str, issue_open: bool) -> RemoteDeliveryInput {
@@ -427,7 +434,7 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
         Ok(CleanupClassification::RemoveEligible { path: remove_path })
     );
     let mut attack = cleanup();
-    let attack_path = attack.registered_worktree.with_extension("extra");
+    let attack_path = attack.registration.worktree_path.with_extension("extra");
     fs::create_dir_all(&attack_path).expect("create sibling attack fixture");
     attack.candidate_path = attack_path;
     assert_eq!(
@@ -448,7 +455,10 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
         Err(CleanupRejectReason::NonCanonicalPath)
     );
     let mut unverified = cleanup();
-    unverified.registered_worktree = unverified.registered_worktree.join("missing-worktree");
+    unverified.registration.worktree_path = unverified
+        .registration
+        .worktree_path
+        .join("missing-worktree");
     assert_eq!(
         classify_cleanup(&unverified),
         Err(CleanupRejectReason::UnregisteredWorktree)
@@ -466,22 +476,24 @@ fn cleanup_is_separate_preview_first_and_path_exact() {
         Err(CleanupRejectReason::PreviewReceiptMismatch)
     );
     let broad_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let broad = CleanupCandidate {
-        preview: true,
-        preview_receipt: false,
-        committed_closed_out: true,
-        terminal_receipt: true,
-        approved_worktree_parent: broad_path.join("target"),
-        repository_root: broad_path.clone(),
-        registered_worktree: broad_path.clone(),
-        candidate_path: broad_path,
-        registration_digest: "caller-forged-broad-path".to_owned(),
-        preview_identity_digest: None,
-        dirty: false,
-        live: false,
-    };
+    let broad = cleanup_candidate_from_git_registration(
+        &broad_path.join("target"),
+        &broad_path,
+        GitWorktreeRegistration {
+            repository_root: broad_path.clone(),
+            worktree_path: broad_path.clone(),
+            git_common_dir: PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(".git"),
+        },
+        true,
+        false,
+        true,
+        true,
+        None,
+        false,
+        false,
+    );
     assert_eq!(
-        classify_cleanup(&broad),
+        broad.and_then(|candidate| classify_cleanup(&candidate)),
         Err(CleanupRejectReason::ProtectedPath)
     );
 }
@@ -510,7 +522,7 @@ fn cleanup_removal_executes_and_distinguishes_removed_states() {
     unregistered.preview = false;
     unregistered.preview_receipt = true;
     unregistered.preview_identity_digest = Some(unregistered.registration_digest.clone());
-    unregistered.registered_worktree = candidate_path.with_extension("missing-registration");
+    unregistered.registration.worktree_path = candidate_path.with_extension("missing-registration");
     assert_eq!(
         execute_cleanup_removal(&unregistered),
         Err(CleanupRejectReason::UnregisteredWorktree)
@@ -535,8 +547,11 @@ fn already_removed_cleanup_still_requires_terminal_and_preview_gates() {
         committed_closed_out: true,
         terminal_receipt: true,
         approved_worktree_parent: PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("target"),
-        repository_root: PathBuf::from(env!("CARGO_MANIFEST_DIR")),
-        registered_worktree: missing_path.clone(),
+        registration: GitWorktreeRegistration {
+            repository_root: PathBuf::from(env!("CARGO_MANIFEST_DIR")),
+            worktree_path: missing_path.clone(),
+            git_common_dir: missing_path.join(".git"),
+        },
         candidate_path: missing_path,
         registration_digest: "missing-registration-digest".to_owned(),
         preview_identity_digest: Some("missing-registration-digest".to_owned()),
@@ -648,8 +663,11 @@ fn remote_delivery_rejects_unverified_or_wrong_source_observations() {
     assert_eq!(
         Verified::new(
             pvf(),
-            receipt(AuthoritySource::Pvf, "", "fixture-subject-digest"),
-            "fixture-subject-digest".to_owned(),
+            super::AuthorityReceipt {
+                source: AuthoritySource::Pvf,
+                digest: String::new(),
+                subject_digest: pvf().subject_digest(),
+            },
         ),
         Err(VerificationRejectReason::MissingReceipt)
     );
@@ -661,5 +679,79 @@ fn remote_delivery_rejects_unverified_or_wrong_source_observations() {
         Err(RemoteDeliveryRejectReason::Verification(
             VerificationRejectReason::WrongSource
         ))
+    );
+}
+
+#[test]
+fn verified_receipt_must_match_the_exact_subject_value() {
+    let original = pvf();
+    let receipt = receipt(AuthoritySource::Pvf, &original.subject_digest());
+    let forged = AcceptedPvfResult {
+        revision: "attacker-revision".to_owned(),
+        ..original
+    };
+    assert_eq!(
+        Verified::new(forged, receipt),
+        Err(VerificationRejectReason::MissingReceipt)
+    );
+}
+
+#[test]
+fn accepted_review_requires_typed_evidence_digest_and_scope() {
+    let evidence = AcceptedReviewEvidence {
+        issue: ISSUE,
+        reviewed_revision: REVISION.to_owned(),
+        scope_paths: vec!["csdlc-v3/src/commands/remote".to_owned()],
+        implementer: "worker-6-implementation".to_owned(),
+        reviewer: "independent-reviewer".to_owned(),
+        findings: vec![],
+        target: ReviewTarget {
+            repository: REPOSITORY.to_owned(),
+            issue: ISSUE,
+            mode: PublicationMode::Closing,
+        },
+        typed_review_evidence_digest: String::new(),
+    };
+    assert_eq!(
+        review_from_accepted_evidence(evidence),
+        Err(VerificationRejectReason::MissingReceipt)
+    );
+}
+
+#[test]
+fn cleanup_constructor_rejects_self_made_git_directory_registration() {
+    let id = NEXT_CLEANUP_ID.fetch_add(1, Ordering::SeqCst);
+    let approved_worktree_parent = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("target");
+    let path = approved_worktree_parent.join(format!(
+        "remote-cleanup-forged-worktree-{}-{id}",
+        std::process::id()
+    ));
+    let repository_root = approved_worktree_parent.join(format!(
+        "remote-cleanup-forged-repo-{}-{id}",
+        std::process::id()
+    ));
+    let self_made_git_dir = path.join(".git");
+    fs::create_dir_all(&self_made_git_dir).expect("create self-made git dir fixture");
+    fs::create_dir_all(repository_root.join(".git").join("worktrees"))
+        .expect("create registration parent fixture");
+
+    assert_eq!(
+        cleanup_candidate_from_git_registration(
+            &approved_worktree_parent,
+            &path,
+            GitWorktreeRegistration {
+                repository_root,
+                worktree_path: path.clone(),
+                git_common_dir: self_made_git_dir,
+            },
+            true,
+            false,
+            true,
+            true,
+            None,
+            false,
+            false,
+        ),
+        Err(CleanupRejectReason::MissingRegistrationReceipt)
     );
 }

@@ -25,7 +25,7 @@
     ],
     "authority_boundary": [
       "C-SDLC v2 remains live authority until explicit #505 cutover",
-      "PR #597 may close #596 only",
+      "PR #597 must not close #596 until #596 has truthful bound, reviewed, published, and reconciled lifecycle state",
       "#505 and #534 references are Part-Of only",
       "No merge, finish, cleanup, or v3 authority cutover is authorized by this issue",
       "Raw gh is not used for covered lifecycle writes"
@@ -39,7 +39,7 @@
     "task_boundary": "Bounded remediation of sprint review blockers and typed-tool canary defects needed before #505 can be reviewed for cutover.",
     "deliverables": [
       "Typed six-card lifecycle state for #596",
-      "PR #597 body with visible Closes #596 and non-closing #505/#534 linkage",
+      "PR #597 body with non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully",
       "Typed GitHub PR create/update operations with owner provenance and idempotent update safety",
       "Single csdlc v3 binary and standalone locked CI coverage",
       "Behavior-backed v3 importer, durability, review, finish, and cleanup fixes",
@@ -47,7 +47,7 @@
     ],
     "acceptance_criteria": [
       "AC-1: #596 has canonical local C-SDLC v2 issue state with SIP, STP, SPP, VPP, SRP, and SOR cards",
-      "AC-2: PR #597 visibly closes #596 and does not close #505",
+      "AC-2: PR #597 uses non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully",
       "AC-3: PR body create/update operations are performed through typed C-SDLC v2 GitHub owners, not raw gh",
       "AC-4: Repeated PR update operation keys cannot overwrite a different governed body",
       "AC-5: v3 durable transaction proof fails closed across projection crash windows",
@@ -84,7 +84,7 @@
       },
       {
         "id": "S2",
-        "action": "Verify and preserve PR #597 linkage so it closes #596 only and marks #505/#534 as Part-Of.",
+        "action": "Verify and preserve PR #597 linkage so it uses non-closing Part-Of #596/#505/#534 until #596 can finish truthfully.",
         "acceptance_ids": [
           "AC-2",
           "AC-3",
@@ -137,7 +137,7 @@
     "invariants": [
       "Primary checkout remains clean on main",
       "V2 remains the only live lifecycle authority",
-      "PR #597 closes only #596",
+      "PR #597 does not close #596/#505/#534 before typed lifecycle authority exists",
       "Durable recovery must fail closed after committed state but missing projections",
       "Operation keys must be replay-safe and conflict-detecting"
     ],
@@ -223,7 +223,7 @@
     ],
     "failure_policy": "Fail closed on stale lifecycle state, missing typed issue cards, closing linkage to #505, non-idempotent PR update replay, projection repair ambiguity, or failed focused validation.",
     "review_prompts": [
-      "Does #596 now have canonical local lifecycle state before PR #597 closes it?",
+      "Does PR #597 avoid closing #596 until canonical local lifecycle state exists?",
       "Can the same PR update operation key overwrite a different body?",
       "Can a crash after durable state commit but before projection write reopen as complete?",
       "Does any evidence claim v3 authority before #505?"

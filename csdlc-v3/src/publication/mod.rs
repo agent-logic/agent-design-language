@@ -96,14 +96,20 @@ pub enum FinishRejectReason {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct GitWorktreeRegistration {
+    pub repository_root: PathBuf,
+    pub worktree_path: PathBuf,
+    pub git_common_dir: PathBuf,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CleanupCandidate {
     pub preview: bool,
     pub preview_receipt: bool,
     pub committed_closed_out: bool,
     pub terminal_receipt: bool,
     pub approved_worktree_parent: PathBuf,
-    pub repository_root: PathBuf,
-    pub registered_worktree: PathBuf,
+    pub registration: GitWorktreeRegistration,
     pub candidate_path: PathBuf,
     pub registration_digest: String,
     pub preview_identity_digest: Option<String>,
@@ -279,8 +285,8 @@ pub(crate) fn execute_cleanup_removal(
     if !candidate.preview && !candidate.preview_receipt {
         return Err(CleanupRejectReason::MissingPreviewReceipt);
     }
-    if !candidate.registered_worktree.exists() && !candidate.candidate_path.exists() {
-        if !candidate.preview && candidate.registered_worktree == candidate.candidate_path {
+    if !candidate.registration.worktree_path.exists() && !candidate.candidate_path.exists() {
+        if !candidate.preview && candidate.registration.worktree_path == candidate.candidate_path {
             if candidate.registration_digest.trim().is_empty() {
                 return Err(CleanupRejectReason::MissingRegistrationReceipt);
             }
@@ -295,7 +301,7 @@ pub(crate) fn execute_cleanup_removal(
         }
         return Err(CleanupRejectReason::UnregisteredWorktree);
     }
-    if !candidate.registered_worktree.exists() || !candidate.candidate_path.exists() {
+    if !candidate.registration.worktree_path.exists() || !candidate.candidate_path.exists() {
         return Err(CleanupRejectReason::UnregisteredWorktree);
     }
     let identity = cleanup_identity(candidate)?;
@@ -370,42 +376,80 @@ fn is_canonical_absolute(path: &Path) -> bool {
         })
 }
 
-pub fn cleanup_registration_digest(
-    approved_worktree_parent: &Path,
-    repository_root: &Path,
-    registered_worktree: &Path,
-    candidate_path: &Path,
+pub fn git_worktree_registration_digest(
+    registration: &GitWorktreeRegistration,
 ) -> Result<String, CleanupRejectReason> {
-    let approved_worktree_parent = canonical_path(approved_worktree_parent)?;
-    let repository_root = canonical_path(repository_root)?;
-    let registered_worktree = canonical_path(registered_worktree)?;
-    let candidate_path = canonical_path(candidate_path)?;
-    validate_cleanup_paths(
-        &approved_worktree_parent,
-        &repository_root,
-        &registered_worktree,
-        &candidate_path,
-    )?;
+    let repository_root = canonical_path(&registration.repository_root)?;
+    let worktree_path = canonical_path(&registration.worktree_path)?;
+    let git_common_dir = canonical_path(&registration.git_common_dir)?;
+    let worktree_registration_parent =
+        canonical_path(&repository_root.join(".git").join("worktrees"))?;
+    if repository_root.starts_with(&worktree_path) {
+        return Err(CleanupRejectReason::ProtectedPath);
+    }
+    if !git_common_dir.starts_with(&worktree_registration_parent) {
+        return Err(CleanupRejectReason::MissingRegistrationReceipt);
+    }
     let mut hasher = blake3::Hasher::new();
-    for path in [
-        approved_worktree_parent,
-        repository_root,
-        registered_worktree,
-        candidate_path,
-    ] {
+    hasher.update(b"git-worktree-registration.v1");
+    hasher.update(b"\0");
+    for path in [repository_root, worktree_path, git_common_dir] {
         hasher.update(path.to_string_lossy().as_bytes());
         hasher.update(b"\0");
     }
     Ok(hasher.finalize().to_hex().to_string())
 }
 
+#[allow(clippy::too_many_arguments)]
+pub fn cleanup_candidate_from_git_registration(
+    approved_worktree_parent: &Path,
+    candidate_path: &Path,
+    registration: GitWorktreeRegistration,
+    preview: bool,
+    preview_receipt: bool,
+    committed_closed_out: bool,
+    terminal_receipt: bool,
+    preview_identity_digest: Option<String>,
+    dirty: bool,
+    live: bool,
+) -> Result<CleanupCandidate, CleanupRejectReason> {
+    let approved_worktree_parent = canonical_path(approved_worktree_parent)?;
+    let candidate_path = canonical_path(candidate_path)?;
+    let repository_root = canonical_path(&registration.repository_root)?;
+    let registered_worktree = canonical_path(&registration.worktree_path)?;
+    validate_cleanup_paths(
+        &approved_worktree_parent,
+        &repository_root,
+        &registered_worktree,
+        &candidate_path,
+    )?;
+    let registration_digest = git_worktree_registration_digest(&registration)?;
+    Ok(CleanupCandidate {
+        preview,
+        preview_receipt,
+        committed_closed_out,
+        terminal_receipt,
+        approved_worktree_parent,
+        registration,
+        candidate_path,
+        registration_digest,
+        preview_identity_digest,
+        dirty,
+        live,
+    })
+}
+
 fn cleanup_identity(candidate: &CleanupCandidate) -> Result<String, CleanupRejectReason> {
-    cleanup_registration_digest(
-        &candidate.approved_worktree_parent,
-        &candidate.repository_root,
-        &candidate.registered_worktree,
-        &candidate.candidate_path,
-    )
+    let repository_root = canonical_path(&candidate.registration.repository_root)?;
+    let registered_worktree = canonical_path(&candidate.registration.worktree_path)?;
+    let candidate_path = canonical_path(&candidate.candidate_path)?;
+    validate_cleanup_paths(
+        &canonical_path(&candidate.approved_worktree_parent)?,
+        &repository_root,
+        &registered_worktree,
+        &candidate_path,
+    )?;
+    git_worktree_registration_digest(&candidate.registration)
 }
 
 fn canonical_path(path: &Path) -> Result<PathBuf, CleanupRejectReason> {

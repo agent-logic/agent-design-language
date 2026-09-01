@@ -5,6 +5,7 @@ pub struct ReviewRecord {
     pub issue: u64,
     pub reviewed_revision: String,
     pub scope_digest: String,
+    pub evidence_digest: String,
     pub implementer: String,
     pub reviewer: String,
     pub findings: Vec<ReviewFinding>,
