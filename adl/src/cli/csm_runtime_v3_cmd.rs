@@ -241,16 +241,18 @@ fn replace_config_with_candidate(active: &Path, candidate: &Path) -> Result<Path
 }
 
 fn copy_create_new(source: &Path, destination: &Path) -> io::Result<()> {
+    let mut created = false;
     let result = (|| {
         let mut input = fs::File::open(source)?;
         let mut output = OpenOptions::new()
             .write(true)
             .create_new(true)
             .open(destination)?;
+        created = true;
         io::copy(&mut input, &mut output)?;
         output.sync_all()
     })();
-    if result.is_err() {
+    if result.is_err() && created {
         let _ = fs::remove_file(destination);
     }
     result
@@ -668,6 +670,31 @@ pub(crate) fn usage() -> &'static str {
 mod tests {
     use super::*;
 
+    fn write_valid_init(root: &Path) -> (PathBuf, RuntimeInitConfig) {
+        let state_root = root.join("state");
+        let kernel = std::env::current_exe().unwrap();
+        let text = include_str!("../../../infra/runtime-v3/runtime-init.toml")
+            .replace("/var/lib/adl/runtime-v3", &state_root.display().to_string())
+            .replace(
+                "/opt/adl/bin/adl-runtime-kernel",
+                &kernel.display().to_string(),
+            );
+        let path = root.join("runtime-init.toml");
+        fs::write(&path, text).unwrap();
+        let init = validated_init(&path).unwrap();
+        (path, init)
+    }
+
+    fn service_args(init: PathBuf) -> RuntimeV3ServiceArgs {
+        RuntimeV3ServiceArgs {
+            init,
+            candidate: None,
+            plist: None,
+            label: "com.agentlogic.adl-runtime-v3-test-missing".into(),
+            json: false,
+        }
+    }
+
     #[test]
     fn parser_requires_absolute_init() {
         let error = parse_args(&["--init".into(), "relative.toml".into()]).unwrap_err();
@@ -704,6 +731,64 @@ mod tests {
             args.candidate.as_deref(),
             Some(Path::new("/opt/agent-logic/runtime-init.next.toml"))
         );
+    }
+
+    #[test]
+    fn parser_rejects_missing_values_unknown_options_and_invalid_identity() {
+        for args in [
+            vec!["--init".into()],
+            vec!["--init".into(), "/tmp/init".into(), "--plist".into()],
+            vec!["--init".into(), "/tmp/init".into(), "--candidate".into()],
+            vec!["--init".into(), "/tmp/init".into(), "--label".into()],
+            vec!["--unknown".into()],
+            Vec::new(),
+            vec![
+                "--init".into(),
+                "/tmp/init".into(),
+                "--candidate".into(),
+                "relative".into(),
+            ],
+            vec![
+                "--init".into(),
+                "/tmp/init".into(),
+                "--label".into(),
+                "bad label".into(),
+            ],
+        ] {
+            assert!(parse_args(&args).is_err(), "unexpectedly accepted {args:?}");
+        }
+    }
+
+    #[test]
+    fn command_dispatch_covers_help_missing_unknown_and_start_candidate_rejection() {
+        assert!(real_runtime_v3_service(&[]).is_err());
+        assert!(real_runtime_v3_service(&["help".into()]).is_ok());
+        assert!(real_runtime_v3_service(&[
+            "unknown".into(),
+            "--init".into(),
+            "/tmp/runtime-init.toml".into(),
+        ])
+        .is_err());
+
+        let root = tempfile::tempdir().unwrap();
+        let invalid = root.path().join("invalid.toml");
+        fs::write(&invalid, "invalid = [").unwrap();
+        for operation in ["start", "reload", "stop", "status"] {
+            assert!(real_runtime_v3_service(&[
+                operation.into(),
+                "--init".into(),
+                invalid.display().to_string(),
+            ])
+            .is_err());
+        }
+        assert!(real_runtime_v3_service(&[
+            "start".into(),
+            "--init".into(),
+            "/tmp/runtime-init.toml".into(),
+            "--candidate".into(),
+            "/tmp/runtime-init.next.toml".into(),
+        ])
+        .is_err());
     }
 
     #[test]
@@ -785,6 +870,140 @@ mod tests {
         assert_eq!(fs::read_to_string(&active).unwrap(), "current");
         assert!(!backup.exists());
         assert!(!staged.exists());
+    }
+
+    #[test]
+    fn transaction_helpers_reject_ambiguous_or_invalid_paths() {
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        fs::write(&active, "current").unwrap();
+        assert!(replace_config_with_candidate(&active, &active).is_err());
+        assert!(reload_transaction_paths(Path::new("/")).is_err());
+        assert!(sync_parent(Path::new("/")).is_err());
+
+        let (_, staged) = reload_transaction_paths(&active).unwrap();
+        fs::write(&staged, "candidate").unwrap();
+        let error = reconcile_interrupted_reload_with(&active, |_| Ok(())).unwrap_err();
+        assert!(error.to_string().contains("ambiguous staged candidate"));
+    }
+
+    #[test]
+    fn interrupted_reload_validation_failure_preserves_last_known_good() {
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        let (backup, staged) = reload_transaction_paths(&active).unwrap();
+        fs::write(&active, "candidate").unwrap();
+        fs::write(&backup, "known-good").unwrap();
+        fs::write(&staged, "partial").unwrap();
+
+        assert!(
+            reconcile_interrupted_reload_with(&active, |_| Err(anyhow!("invalid backup"))).is_err()
+        );
+        assert_eq!(fs::read_to_string(&backup).unwrap(), "known-good");
+        assert!(staged.exists());
+    }
+
+    #[test]
+    fn interrupted_reload_wrapper_rejects_invalid_backup_and_removes_valid_staging() {
+        let root = tempfile::tempdir().unwrap();
+        let active = root.path().join("runtime-init.toml");
+        let (backup, staged) = reload_transaction_paths(&active).unwrap();
+        fs::write(&active, "candidate").unwrap();
+        fs::write(&backup, "invalid = [").unwrap();
+        assert!(reconcile_interrupted_reload(&active).is_err());
+
+        fs::write(&backup, "known-good").unwrap();
+        fs::write(&staged, "partial").unwrap();
+        reconcile_interrupted_reload_with(&active, |_| Ok(())).unwrap();
+        assert_eq!(fs::read_to_string(&active).unwrap(), "known-good");
+        assert!(!backup.exists());
+        assert!(!staged.exists());
+    }
+
+    #[test]
+    fn valid_init_status_and_readiness_fail_closed_without_a_service() {
+        let root = tempfile::tempdir().unwrap();
+        let (path, init) = write_valid_init(root.path());
+        let mut args = service_args(path.clone());
+
+        assert!(runtime_readiness(&init).is_err());
+        assert!(!listener_ready(&init));
+        assert!(emit_status(&args, &init, "status", false).is_ok());
+        args.json = true;
+        assert!(emit_status(&args, &init, "status", true).is_err());
+        assert!(status(&args, "status").is_err());
+        assert!(wait_for_listener(&init, Duration::ZERO).is_err());
+        assert!(wait_for_stopped(&args, &init, Duration::ZERO).is_err());
+
+        let (backup, _) = reload_transaction_paths(&path).unwrap();
+        fs::write(backup, "known-good").unwrap();
+        assert!(status(&args, "status")
+            .unwrap_err()
+            .to_string()
+            .contains("incomplete"));
+    }
+
+    #[test]
+    fn readiness_client_reaches_connection_failure_with_valid_trust_root() {
+        let root = tempfile::tempdir().unwrap();
+        let (_, mut init) = write_valid_init(root.path());
+        let certified = rcgen::generate_simple_self_signed(vec!["localhost".into()]).unwrap();
+        let trust_roots = root.path().join("trust-roots.pem");
+        fs::write(&trust_roots, certified.cert.pem()).unwrap();
+        init.api.tls.trust_roots_path = trust_roots;
+
+        let error = runtime_readiness(&init).unwrap_err().to_string();
+        assert!(error.contains("query Runtime v3 readiness"));
+    }
+
+    #[test]
+    fn validated_init_rejects_missing_kernel_and_invalid_toml() {
+        let root = tempfile::tempdir().unwrap();
+        let invalid = root.path().join("invalid.toml");
+        fs::write(&invalid, "not toml = [").unwrap();
+        assert!(validated_init(&invalid).is_err());
+
+        let (path, _) = write_valid_init(root.path());
+        let text = fs::read_to_string(&path).unwrap().replace(
+            &std::env::current_exe().unwrap().display().to_string(),
+            "/missing/kernel",
+        );
+        fs::write(&path, text).unwrap();
+        assert!(validated_init(&path)
+            .unwrap_err()
+            .to_string()
+            .contains("kernel does not exist"));
+    }
+
+    #[test]
+    fn command_runner_reports_success_failure_and_missing_binary() {
+        assert!(run(&mut Command::new("true")).is_ok());
+        assert!(run(&mut Command::new("false")).is_err());
+        assert!(run(&mut Command::new("adl-command-that-does-not-exist")).is_err());
+        assert!(!platform_name().is_empty());
+
+        let root = tempfile::tempdir().unwrap();
+        let source = root.path().join("source");
+        let destination = root.path().join("destination");
+        fs::write(&source, "source").unwrap();
+        fs::write(&destination, "existing").unwrap();
+        assert!(copy_create_new(&source, &destination).is_err());
+        assert_eq!(fs::read_to_string(destination).unwrap(), "existing");
+
+        let missing_backup = root.path().join("missing-backup");
+        assert!(restore_last_known_good(&source, &missing_backup).is_err());
+    }
+
+    #[cfg(target_os = "linux")]
+    #[test]
+    fn systemd_unit_adds_suffix_once() {
+        let mut args = service_args(PathBuf::from("/tmp/runtime-init.toml"));
+        assert_eq!(
+            systemd_unit(&args),
+            "com.agentlogic.adl-runtime-v3-test-missing.service"
+        );
+        args.label.push_str(".service");
+        assert_eq!(systemd_unit(&args), args.label);
     }
 
     #[test]

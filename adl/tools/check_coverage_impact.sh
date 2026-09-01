@@ -289,6 +289,9 @@ candidate_filter_for_path() {
     adl/src/cli/runtime_v3_cmd.rs)
       printf 'runtime_v3_selector'
       ;;
+    adl/src/cli/csm_runtime_v3_cmd.rs)
+      printf 'csm_runtime_v3'
+      ;;
     adl-runtime/src/guardian.rs|\
     adl-runtime/src/bin/adl-runtime-guardian.rs)
       printf 'runtime_v3_guardian'
@@ -515,6 +518,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_selector)
       printf 'binary_id(adl::bin/adl) and test(/^cli::runtime_v3_cmd::tests::/)'
+      ;;
+    csm_runtime_v3)
+      printf 'binary_id(adl::bin/adl) and test(/^cli::csm_runtime_v3_cmd::tests::/)'
       ;;
     runtime_v3_guardian)
       printf 'test(/^guardian::tests::/) or (binary_id(adl-runtime::guardian_cli) and test(/^guardian_cli_/))'
