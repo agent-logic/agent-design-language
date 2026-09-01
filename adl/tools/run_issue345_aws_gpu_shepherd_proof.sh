@@ -431,9 +431,9 @@ verify_review_authority() {
 }
 
 upload_versioned() {
-  local file="$1" key="$2" response
-  response="$(aws_cli s3api put-object --bucket "$ARTIFACT_BUCKET" --key "$key" --body "$file" --output json)"
-  jq -er .VersionId <<<"$response"
+  local file="$1" key="$2"
+  aws --profile "$PROFILE" --region "$REGION" s3 cp "$file" "s3://$ARTIFACT_BUCKET/$key" --only-show-errors
+  aws_cli s3api head-object --bucket "$ARTIFACT_BUCKET" --key "$key" --query VersionId --output text
 }
 
 acquire_run_lock() {

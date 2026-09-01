@@ -43,6 +43,7 @@ grep -q 'validate_state_root' "$RUNNER" || fail "runner does not enforce worktre
 ! grep -q 'git clone\|git -C /opt/adl-issue345/repo fetch' "$RUNNER" || fail "guest bootstrap still depends on live Git"
 grep -q 'git -C "$ROOT" archive --format=tar "$SOURCE_COMMIT"' "$RUNNER" || fail "exact reviewed repository archive is missing"
 grep -q 'source_archive' "$RUNNER" || fail "versioned source archive is not bound into guest configuration"
+grep -q 's3 cp "$file" "s3://$ARTIFACT_BUCKET/$key" --only-show-errors' "$RUNNER" || fail "large run artifacts do not use the AWS CLI multipart transfer path"
 [[ "$(grep -Fc -- "--if-none-match '*'" "$RUNNER")" -ge 6 ]] || fail "locks, authorization, and guest receipts must be create-only"
 grep -q 'terraform .* plan' "$RUNNER" || fail "Terraform plan is missing"
 grep -q 'terraform .* apply' "$RUNNER" || fail "Terraform apply is missing"
@@ -150,4 +151,4 @@ grep -q 'requires --authorization-file' "$tmp/noauth.err" || fail "missing autho
 
 jq -n '{schema:"adl.issue345.two_node_runner_contract.v1",status:"pass",paid_launches:0,
   terraform_nodes:2,managed_key_pairs:1,public_ssh_cidrs:1,ollama_public:false,
-  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:20}'
+  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:21}'

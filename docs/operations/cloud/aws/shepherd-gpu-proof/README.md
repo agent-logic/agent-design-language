@@ -112,8 +112,9 @@ instance fallback.
 ## Automatic proof flow
 
 Before apply, the runner stores versioned configuration and two digest-bound
-bootstrap scripts in the authorized S3 prefix. Terraform injects separate
-automatic cloud-init payloads:
+bootstrap scripts in the authorized S3 prefix. Large run artifacts use the AWS
+CLI multipart transfer path and then bind the bucket's exact returned version.
+Terraform injects separate automatic cloud-init payloads:
 
 1. The GPU node downloads exact object versions, starts Ollama as a persistent
    systemd service, requests every configured model with infinite keep-alive,

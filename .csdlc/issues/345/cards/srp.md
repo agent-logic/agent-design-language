@@ -12,13 +12,7 @@ Status: draft
 
 ## Scope
 
-infra/aws/runtime/gpu-proof
-adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
-adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
-docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-.csdlc/prepared/issues/345/design.md
-.csdlc/prepared/issues/345/diagram.mmd
-.csdlc/issues/345
+
 
 ## Prompts
 
@@ -39,14 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The live paid two-node GPU proof remains pending this recorded review and single-use authorization.
-- PR #593 merged an older head; this reviewed candidate is not yet integrated into main.
-- The bounded qualification does not establish 24/7 production readiness.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:a537fb45cb4067e863efd4ecf7740a0b259ad689:3672627451d63c5bd82b4308076c82998f242219b356ee53615a4100fbf56957")
+Revision: None
 
-Reviewer: Some("fresh-session:/root/issue_345_final_launch_review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

@@ -4,46 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "reviewed",
-  "generation": 63,
-  "digest": "b61f64775a1ba21dae02d81e023980bae16fc096d7cb7eebd96860c33b0a035c",
+  "phase": "implemented",
+  "generation": 64,
+  "digest": "f457b1674ea0ee590efd9df557c8ec11e17b9b7e8f1ffa1a15ddf8b8908638e7",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
-    "revision": "git-blake3:a537fb45cb4067e863efd4ecf7740a0b259ad689:3672627451d63c5bd82b4308076c82998f242219b356ee53615a4100fbf56957",
-    "scope": [
-      "infra/aws/runtime/gpu-proof",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/prepared/issues/345/design.md",
-      ".csdlc/prepared/issues/345/diagram.mmd",
-      ".csdlc/issues/345"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "scope": [
-      "infra/aws/runtime/gpu-proof",
-      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-      "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
-      ".csdlc/prepared/issues/345/design.md",
-      ".csdlc/prepared/issues/345/diagram.mmd",
-      ".csdlc/issues/345"
-    ],
-    "reviewed_revision": "git-blake3:a537fb45cb4067e863efd4ecf7740a0b259ad689:3672627451d63c5bd82b4308076c82998f242219b356ee53615a4100fbf56957",
-    "findings": [],
-    "residual_risks": [
-      "The live paid two-node GPU proof remains pending this recorded review and single-use authorization.",
-      "PR #593 merged an older head; this reviewed candidate is not yet integrated into main.",
-      "The bounded qualification does not establish 24/7 production readiness."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -58,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b3e2bff28fe8135478ad040bae23619457abc45a5b65ddebfa530a5f8691c8c3",
+      "values_digest": "0cf2a514d5d44fd44a695baff99c832151ad4544c1775de5603f0aabba7e7280",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "c2bf630019002c7b9b07cf7a9d718ed00e171eb45c3a265f6f1eee4633897c82",
+      "values_digest": "aecadf1699e95f1f23035d526fb06acd6f29d4772c088aa7218ff28f04b05d17",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "a46523b8760f551db6281cb72ff30d8a12b3488e0246ab5e9c65ac19825302ec",
+      "values_digest": "a51f68e76c3643e0a6e6a30c657f072d7800e2abe1ede16134b0fcd658aa14ff",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "7065f19fc99aa6e89c9050a8bd3c9f1ab845b85d9687a9d9e7a51960336ebe8e",
+      "values_digest": "5d555f405312dc405b74b4507cdbe6cc852ae7b2a935b5af35543c8b7da0c104",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "8b769b411b2b8e7034f02941043c17825849c4bce3988433f0ddfa6bb7992e6a",
-      "rendered_digest": "661650991e1af06cc61a84711e0b1318eefac50a7ac51f24d003184e027086a5",
-      "ast_digest": "1b1f7e2506f03bd2b4901c8c7c81b1d8b0ffebb17a8daf67367057b20fa40d64"
+      "values_digest": "07ef1ba8fd28d3032994c63197328a38ba459e392eba54a855ab2f990f687d7b",
+      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
+      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "a6f21d2126af75a6a7c59506bb0cf81f1b0740c98b8c73e11d3ccc9c2c91a91e",
+      "values_digest": "0717d79d8a16a6cc25f30337bc39deea65c4a4fe936bf2acffea1c53808fbf00",
       "rendered_digest": "13d6eefe486dac0cc8e3b40170d41b1497b1f85d46fed18676c0226265e72cb7",
       "ast_digest": "0e8a85b0a742b57447f5c89114a9de263e2097c6cc1e0cf97599fb57330a5d36"
     }
@@ -172,6 +139,13 @@
       "to": "reviewed",
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the prior PASS after the first paid attempt exposed a pre-apply single-PUT transfer hang; replace only that transport with the AWS CLI multipart path and re-review before relaunch."
     }
   ],
   "audit": [
@@ -699,6 +673,13 @@
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 76,
+      "generation": 64,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the prior PASS after the first paid attempt exposed a pre-apply single-PUT transfer hang; replace only that transport with the AWS CLI multipart path and re-review before relaunch.",
+      "operation": "recover_review"
     }
   ]
 }
