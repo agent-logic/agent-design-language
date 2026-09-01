@@ -239,9 +239,26 @@ async fn mark_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<serde_
     let after = normalize_ready(&governed, &after)?;
     csdlc_v2::publication::validate_ready_remote(&governed, &request, &after, false)?;
     let record = record_ready_publication(&store, &request, &governed, after.clone())?;
+    let mut publication = after;
+    if let Some(metadata_head) =
+        csdlc_v2::publication::commit_publication_metadata_tail(root, request.issue)?
+    {
+        push(root, &request.remote, &governed.head)?;
+        let observed =
+            reobserve_ready_pr_at_head(&crab, owner, repo, request.pull_request, &metadata_head)
+                .await?;
+        publication = normalize_ready(&governed, &observed)?;
+        validate_ready_metadata_followup_remote(
+            root,
+            &governed,
+            &request,
+            &publication,
+            &metadata_head,
+        )?;
+    }
     Ok(serde_json::json!({
         "schema": "csdlc.ready_publication_result.v1",
-        "publication": after,
+        "publication": publication,
         "generation": record.generation,
         "digest": record.digest
     }))
@@ -269,9 +286,31 @@ async fn reconcile_ready(root: &Path, request_path: &Path) -> csdlc_v2::Result<s
     let observed = normalize_ready(&governed, &observed)?;
     csdlc_v2::publication::validate_ready_remote(&governed, &request.ready, &observed, false)?;
     let record = record_ready_reconciliation(&store, &request, &governed, observed.clone())?;
+    let mut publication = observed;
+    if let Some(metadata_head) =
+        csdlc_v2::publication::commit_publication_metadata_tail(root, request.ready.issue)?
+    {
+        push(root, &request.ready.remote, &governed.head)?;
+        let observed = reobserve_ready_pr_at_head(
+            &crab,
+            owner,
+            repo,
+            request.ready.pull_request,
+            &metadata_head,
+        )
+        .await?;
+        publication = normalize_ready(&governed, &observed)?;
+        validate_ready_metadata_followup_remote(
+            root,
+            &governed,
+            &request.ready,
+            &publication,
+            &metadata_head,
+        )?;
+    }
     Ok(serde_json::json!({
         "schema": "csdlc.ready_publication_reconciliation_result.v1",
-        "publication": observed,
+        "publication": publication,
         "generation": record.generation,
         "digest": record.digest
     }))
@@ -414,6 +453,25 @@ fn validate_metadata_followup_remote(
     Ok(())
 }
 
+fn validate_ready_metadata_followup_remote(
+    root: &Path,
+    governed: &PublicationEvidence,
+    request: &ReadyPublicationRequest,
+    remote: &RemotePullRequest,
+    metadata_head: &str,
+) -> csdlc_v2::Result<()> {
+    let mut expected = request.clone();
+    expected.expected_head_sha = metadata_head.to_owned();
+    csdlc_v2::publication::validate_ready_remote(governed, &expected, remote, false)?;
+    csdlc_v2::publication::governed_publication_metadata_followup_paths(
+        root,
+        request.issue,
+        &request.expected_head_sha,
+        metadata_head,
+    )?;
+    Ok(())
+}
+
 fn push(root: &Path, remote_name: &str, head: &str) -> csdlc_v2::Result<()> {
     csdlc_v2::git::run(
         root,
@@ -518,6 +576,40 @@ async fn reobserve_pr_at_head(
         }
     }
     Ok(observed)
+}
+
+async fn reobserve_ready_pr_at_head(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    pull_request: u64,
+    expected_head: &str,
+) -> csdlc_v2::Result<octocrab::models::pulls::PullRequest> {
+    let mut observed = None;
+    for attempt in 0..5 {
+        let pull = crab
+            .pulls(owner, repo)
+            .get(pull_request)
+            .await
+            .map_err(|error| remote(error.to_string()))?;
+        if pull
+            .head
+            .as_ref()
+            .is_some_and(|head| head.sha == expected_head)
+        {
+            return Ok(pull);
+        }
+        observed = Some(pull);
+        if attempt < 4 {
+            sleep(Duration::from_secs(2)).await;
+        }
+    }
+    observed.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "ready metadata publication head could not be reconciled",
+        )
+    })
 }
 
 fn select_unique<T>(mut items: Vec<T>) -> csdlc_v2::Result<Option<T>> {

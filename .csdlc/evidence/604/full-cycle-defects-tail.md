@@ -13,3 +13,16 @@
 - Required fix: the one-command lifecycle should derive a publication-valid
   review scope automatically and reject self-staling review scopes before they
   are recorded.
+
+## DEFECT-011: ready/reconcile-ready did not publish metadata tail
+
+- Status: fixed in #604.
+- Evidence: the live `csdlc-publish ready` run successfully marked PR #610
+  non-draft and recorded generation 9 locally, but left `.csdlc/issues/604/**`
+  dirty instead of committing, pushing, and reobserving the metadata-only
+  lifecycle tail the way `csdlc-publish publish` does.
+- Impact: ready publication truth could remain local-only and diverge from the
+  PR branch head.
+- Fix: `ready` and `reconcile-ready` now commit the governed issue metadata
+  tail, push the branch, reobserve the PR at the metadata head, and validate the
+  metadata-only follow-up before returning success.
