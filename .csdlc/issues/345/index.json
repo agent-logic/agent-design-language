@@ -4,13 +4,37 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "implemented",
-  "generation": 99,
-  "digest": "27f5b10bcfbcf1b03acc18685402f2c40484fda7dfd814721bcc4de0b89f495c",
+  "phase": "reviewed",
+  "generation": 100,
+  "digest": "48ca7cf900200e2ef94048589e2691ac33c5206005033533c4896f53a6758175",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
+    "revision": "git-blake3:993cd46101709a400a2d3e3615921219bea85ede:a33d879bec37ce8781f26307de5bde236dec2884e3860ce3a574417f92b4966b",
+    "scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      ".csdlc/issues/345"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "scope": [
+      "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
+      "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
+      ".csdlc/issues/345"
+    ],
+    "reviewed_revision": "git-blake3:993cd46101709a400a2d3e3615921219bea85ede:a33d879bec37ce8781f26307de5bde236dec2884e3860ce3a574417f92b4966b",
+    "findings": [],
+    "residual_risks": [
+      "Final paid two-node success remains pending.",
+      "AWS capacity remains external and transient; the selected alternate subnet is revalidated and authorization-bound."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eaf628d192559956151cedd17fefb0f0140f015db0c0cfed26290ae36b3c5d64",
+      "values_digest": "fabb7c6bde2bd47d8e5ac3c46a9e396f8c1e777661b89190503f6d24b77bbf83",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "275d050d39b41116cc846462231eacde2b0f42c28e239c241b3eb27209481957",
+      "values_digest": "793124f96920357af50d3535fb7aa2a8576e35baed8544e60ce7d02fe0a8e5c3",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "fc4850a45a26a8acf9fa025df9f09213b4c593256a668707b19be4e0e2b9ff54",
+      "values_digest": "f2841903e3a476806efa3f93466d1df3530e67859e0a91d75da7a08308ec2462",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "1f880f2e597c170518b7fcf25b13a812bd2ae5a292ce732fc50b774974c2d47c",
+      "values_digest": "ba66e3d9b4889d359b4b376847f49c27e697a2d836d3be854d6407beb50f53a0",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "a1d068a724783f17ea5a19482b812ab668b40829aaed0cf40dbb71f12eca9dd3",
-      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
-      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
+      "values_digest": "ac7107f8faddb015425e6d99fc7e7d7440656ade97b1d2fdcdcee95d221db049",
+      "rendered_digest": "c1bc3edb72dfe2912f61afe73d60047ee4135862b04485f05292f4af72c86e98",
+      "ast_digest": "96d05ade61eaad6a0165d3f8beefbab37e7e2024eca111e78f110f1aa43b4c71"
     },
     "sor": {
-      "values_digest": "7ffe1925660346091465645d656eff60c043cea286e8d4c0171a1099406e8130",
+      "values_digest": "c12464aa33a5362e238975e511644ee6b96e6fcf71e0698feb2a556bc7e14eab",
       "rendered_digest": "b519800e2945a35004ec72ee230c89b228a48568c3592fb3ebcb552fed9d0d03",
       "ast_digest": "ffe4786c8f5ff68031c985678a070e8bc5f45cfd757fde8b66d96e01d109fe9e"
     }
@@ -258,6 +282,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Recover the exact-head PASS after AWS reported no g6.xlarge capacity in the deterministically first public subnet AZ while explicitly reporting capacity in three other AZs; add a narrow explicit preferred-subnet input that remains fully preflight-validated and authorization-bound, record the zero-compute attempt and cleanup, then re-review before relaunch."
+    },
+    {
+      "sequence": 30,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -1121,6 +1152,20 @@
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Record the eighth attempted run, AWS g6.xlarge capacity refusal before instance creation, zero-compute cleanup, and the narrow authorization-bound preferred-subnet remediation without claiming a paid proof result.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The eighth Terraform attempt never created an instance: AWS repeatedly returned InsufficientInstanceCapacity for g6.xlarge in us-west-2a and reported availability in us-west-2b, 2c, and 2d. The controller was interrupted after the diagnosis to stop useless retries, then destroyed every temporary Terraform prerequisite and released the lock; direct inventory confirmed zero instances and volumes. The runner now accepts one explicit preferred subnet, but validates that it belongs to the authorized VPC, offers the GPU type, and has the required public route and network ACL before binding its hash in preflight and authorization. Read-only preflight passed for the public us-west-2b subnet. Final paid proof remains pending exact-head review and relaunch.\",\"changes\":[\"Retained the reviewed two-node Terraform topology, one SSH key, mandatory /32 SSH ingress, private Ollama, immutable artifacts, single-use authorization, and USD 20 hard ceiling.\",\"Observed AWS reject g6.xlarge creation in us-west-2a for insufficient capacity before any instance or volume was created.\",\"Stopped the capacity retry loop after AWS explicitly identified available alternate AZs, then confirmed Terraform destroyed all temporary roles, profiles, policies, key, and security groups and released the lock.\",\"Added an optional explicit preferred-subnet input for capacity routing without weakening VPC, GPU-offering, route-table, network-ACL, preflight-digest, or authorization binding checks.\",\"Proved the preferred us-west-2b public subnet through live read-only preflight with a new authorization-bound subnet digest.\",\"Confirmed direct AWS inventory returned zero issue instances and zero issue volumes after cleanup.\"],\"artifacts\":[\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\".adl/local/issue345/adl-issue345-20260901-131309/preflight.json\",\".adl/local/issue345/adl-issue345-20260901-131309/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove the no-paid topology, preferred-subnet fail-closed markers, authorization, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"preflight\"],\"purpose\":\"Validate and bind the selected us-west-2b public subnet, AMIs, network, SSH key and CIDR, model set, Terraform source, prices, quota, and zero stale compute without mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-131309/preflight.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"904ffa5867297455252350b1601ab9292753dc00\",\"--run-id\",\"adl-issue345-20260901-131309\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-polis-domain-fix.json\",\"--execute\"],\"purpose\":\"Attempt the reviewed two-node proof; AWS refused GPU capacity before instance creation and the controller cleaned all Terraform prerequisites.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-131309\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
+    },
+    {
+      "sequence": 124,
+      "generation": 99,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 125,
+      "generation": 100,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

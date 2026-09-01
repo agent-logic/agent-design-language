@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
+adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
+.csdlc/issues/345
 
 ## Prompts
 
@@ -33,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Final paid two-node success remains pending.
+- AWS capacity remains external and transient; the selected alternate subnet is revalidated and authorization-bound.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:993cd46101709a400a2d3e3615921219bea85ede:a33d879bec37ce8781f26307de5bde236dec2884e3860ce3a574417f92b4966b")
 
-Reviewer: None
+Reviewer: Some("fresh-session:/root/issue_345_final_launch_review")
 
-Result: pre_review
+Result: pass
