@@ -1,0 +1,366 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 261,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "79989eec9d376fe03f54c75e0368aa38a2e52820742db16b14eae9eb5a7dfe69",
+  "phase": "published",
+  "generation": 23,
+  "digest": "0a71182e33cf7f9612f514704088ee1ed3dd670e534897775ae4331c2b2854de",
+  "branch": "codex/261-podcast-show-identity",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-261-podcast-show-identity",
+  "review_assignment": {
+    "reviewer": "fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a",
+    "assigned_by": "codex:podcast-issue-owner",
+    "revision": "git-blake3:3067d90cc54e94d40d6a988672b09314e9ab272b:a8f60fe1a3022c7c01d2283313677256736e5e8b7db38bdb2f508f9b8a50c90c",
+    "scope": [
+      "exact head 3067d90cc on branch codex/261-podcast-show-identity",
+      "docs/milestones/v0.92/review/podcast_identity_261/**",
+      "demos/podcast/artwork.png",
+      "verify #261 release gates bind to retained redacted receipt files by digest",
+      "verify no #264 or #51 submission/provider/directory work is implemented"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a",
+    "scope": [
+      "exact head 3067d90cc on branch codex/261-podcast-show-identity",
+      "docs/milestones/v0.92/review/podcast_identity_261/**",
+      "demos/podcast/artwork.png",
+      "verify #261 release gates bind to retained redacted receipt files by digest",
+      "verify no #264 or #51 submission/provider/directory work is implemented"
+    ],
+    "reviewed_revision": "git-blake3:3067d90cc54e94d40d6a988672b09314e9ab272b:a8f60fe1a3022c7c01d2283313677256736e5e8b7db38bdb2f508f9b8a50c90c",
+    "findings": [],
+    "residual_risks": [
+      "Directory submission and provider-account work remains intentionally deferred to #264/#51.",
+      "Private external retained sources behind the redacted receipts were not inspected; the public proof validates retained redacted receipts, digest binding, and fail-closed validator behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 261,
+    "pull_request": 611,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/611",
+    "base": "main",
+    "head": "codex/261-podcast-show-identity",
+    "revision": "git-blake3:47dfdee01b82a639cc323ec99a7db349f5e3fb0e:6c19ef6811a6e10e46bdb0fc61cfa8dd729f9347b8be2a7b51ddc68491bdd8d3",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/261/design.md",
+  "diagram_path": ".csdlc/prepared/issues/261/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:e8c9b3c5-63fa-4ff6-9240-bad801509dca",
+      "revision": "ea7882ecf45d307793e2a71f0524040d7257fdb6c9c59880d4dba766c3647638"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9afa21a8b3fbe18f88316606bad6d896978798faaf4e8c1ee747ffe0e9820e4e",
+      "rendered_digest": "93a2c62e359bbcd5dad24acd2770a0ca3affdadf924958fa8733d2454e17a44f",
+      "ast_digest": "82040e4c170fce1e8e2cf144146b469dbd77b0eb9cf6a0ce648dbbf53a1c9170"
+    },
+    "stp": {
+      "values_digest": "cc0217f266f3fb73d6ab88695257b1fe9ee57f985d70554711c9281e5486a4cc",
+      "rendered_digest": "5a818e58e482b72dc1480ea444a6ef2b11cb26d123b7dba036b57dc5f1eb2e2d",
+      "ast_digest": "6981a756aad6aa3ded34a3d678e2f97ea6c5b67aac93577bbe13c9461164fd3c"
+    },
+    "spp": {
+      "values_digest": "1d9675183f1c5c8334030af77f326af7796942f9aec2e2507eaa0952a3a137cd",
+      "rendered_digest": "abe1f9b484461c31ae318681fbe179287a32bef44e3529eef599908f6a88239e",
+      "ast_digest": "354904c65e4002755644e653ae9c9943ab365461952b252923f7815d524f7e53"
+    },
+    "vpp": {
+      "values_digest": "e1608776114f6e0eb4b3acabd2e27838519f7066f66546793bbde01eb0362a9a",
+      "rendered_digest": "cb2716456370655d7fbfa88f5ee58ada17b3b80f6c398f582962a514a59d668f",
+      "ast_digest": "0961496d9f65d5dda646f3ad1fff38d07a09cf5f5215b99e9207369744087881"
+    },
+    "srp": {
+      "values_digest": "a6e7beb38b7b1335431ba9cebbe79cb822c2d256304fecb95b691c5ef52cf01f",
+      "rendered_digest": "8286389652324844abc78100f6a7dc77bf31e6e81502b3ddca0b41f29913fd71",
+      "ast_digest": "96fac4b494fc85c833a0c3b62f50dc6abee36b1f552bac13b4c0a765f5234fdf"
+    },
+    "sor": {
+      "values_digest": "87b75c023a8a74a0393a7844e85fe70d61889cb2a68dbe041dfc6d561158a343",
+      "rendered_digest": "f0418073e30969e26ff0c8002a100341962e961375d3d14f323acd4777279b9f",
+      "ast_digest": "d8e3279441a7dd04bb53e732bf959a00b3ae365ca56089c8c0267de7cab5789b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-261-owner",
+      "reason": "Advance #261 to ready/unbound after exact allocation preparation PASS, fresh design review PASS, typed approval, validate PASS, and doctor PASS; external title, rights, and mailbox gates remain explicitly pending and block publication."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:podcast-issue-owner",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:78839b05-3163-4827-bb33-f759ecba6dff",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:podcast-issue-owner",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Recover review after substantive post-publication remediation for evidence-bound #261 release gates."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:39c8f174-261f-4479-9880-88fe7fa03f63",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Recover review after lifecycle metadata was folded into the exact reviewed commit while repairing #261 release-gate evidence binding."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:podcast-issue-owner",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-261-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-261-prebind-readiness",
+      "reason": "Keep the initialized readiness denominator executable before the identity packet exists; restore the full reviewed packet and redaction lanes immediately after bound implementation creates their exact target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove current-main base, exact #261/#342/#262 allocation, candidate artwork properties, and truthful pending external gates before bind; this lane does not prove operator approval or mailbox readiness.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"python3\",\".csdlc/prepared/issues/261/validate_preparation_bundle.py\"],\"parallel_group\":\"261-serial-01\",\"defer_reason\":null},{\"lane\":\"external-gate-classification\",\"proof_role\":\"Classify the operator identity decision, rights provenance, and company-mailbox receive gates truthfully as pending or satisfied without treating candidate repository text as approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2500,\"argv\":[\"python3\",\".csdlc/prepared/issues/261/validate_preparation_bundle.py\"],\"parallel_group\":\"261-serial-02\",\"defer_reason\":null},{\"lane\":\"artwork-scope-denominator\",\"proof_role\":\"Prove the existing issue-owned artwork remains patch-clean against the immutable preparation base before implementation and establish a nonzero exact owned target.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":90,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"c46b7cd8265a7e81566cdf82153c387595a6cccf...HEAD\",\"--\",\"demos/podcast/artwork.png\"],\"parallel_group\":\"261-serial-03\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-261-prebind-readiness",
+      "reason": "Defer the not-yet-created implementation validator deliverable while preserving the reviewed directory ownership; restore the exact validator deliverable immediately after bound implementation creates it.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"demos/podcast/artwork.png\",\"docs/milestones/v0.92/review/podcast_identity_261/show-identity.json\",\"docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json\",\"docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md\",\"docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json\",\"docs/milestones/v0.92/review/podcast_identity_261/README.md\",\".csdlc/prepared/issues/261\",\".csdlc/issues/261\",\".csdlc/evidence/261\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:e8c9b3c5-63fa-4ff6-9240-bad801509dca",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-261-owner",
+      "reason": "Advance #261 to ready/unbound after exact allocation preparation PASS, fresh design review PASS, typed approval, validate PASS, and doctor PASS; external title, rights, and mailbox gates remain explicitly pending and block publication.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-261-implementation",
+      "reason": "Restore the exact packet validator as a deliverable now that bound implementation has created its target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"demos/podcast/artwork.png\",\"docs/milestones/v0.92/review/podcast_identity_261/show-identity.json\",\"docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json\",\"docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md\",\"docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json\",\"docs/milestones/v0.92/review/podcast_identity_261/README.md\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\".csdlc/prepared/issues/261\",\".csdlc/issues/261\",\".csdlc/evidence/261\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-261-implementation",
+      "reason": "Restore executable candidate, redaction, release-gate, and diff proof after bound implementation created the exact packet validator; keep release proof deferred until external gates are supplied.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-candidate\",\"proof_role\":\"Prove schema, metadata parity, exact artwork/source bytes and properties, ownership allocation, and truthful pending external-gate states without claiming release readiness.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3500,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\"],\"parallel_group\":\"261-serial-01\",\"defer_reason\":null},{\"lane\":\"secret-redaction\",\"proof_role\":\"Reject retained credentials, tokens, recovery or verification codes, private mailbox content, and private-key material from the exact packet.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":90,\"budget_tokens\":2000,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--redaction-only\"],\"parallel_group\":\"261-serial-02\",\"defer_reason\":null},{\"lane\":\"external-release-gates\",\"proof_role\":\"Fail closed unless operator identity approval, artwork-rights confirmation, and redacted company-mailbox receive proof are all durably present and consistent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--release\"],\"parallel_group\":\"261-serial-03\",\"defer_reason\":\"Deferred and expected to fail while operator title, rights confirmation, or mailbox receive proof remains pending; publication is prohibited until this exact lane passes.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove exact #261 path ownership and patch hygiene against immutable current-main preparation base.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"git\",\"diff\",\"--check\",\"c46b7cd8265a7e81566cdf82153c387595a6cccf...HEAD\"],\"parallel_group\":\"261-serial-04\",\"defer_reason\":\"Deferred until immutable implementation revision exists.\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-261-design-r1-remediation",
+      "reason": "Repair all three fresh design-review findings: prove actual committed/staged/unstaged/untracked scope, bind release authority to structured operator/rights/mailbox evidence rather than statuses, and enforce exact schemas/nullability plus retained-value redaction.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-candidate-and-actual-scope\",\"proof_role\":\"Prove exact schemas, artwork/source bytes and properties, allocation, truthful pending gates, and every actual BASE...HEAD, staged, unstaged, and untracked path against the declared allowlist.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":4000,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\"],\"parallel_group\":\"261-serial-01\",\"defer_reason\":null},{\"lane\":\"strict-schema-redaction\",\"proof_role\":\"Reject unknown fields, invalid pending nullability, prohibited retained scalar values, credentials, private mailbox content, codes, and private-key material across the exact packet.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":90,\"budget_tokens\":2500,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--redaction-only\"],\"parallel_group\":\"261-serial-02\",\"defer_reason\":null},{\"lane\":\"evidence-bound-external-release-gates\",\"proof_role\":\"Fail closed unless an exact approved-title decision and confirmation digest, concrete rights basis/license/source owner/operator confirmation, and mailbox control/receive/sender/provider/retention evidence all exist and agree; status changes alone cannot pass.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3500,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--release\"],\"parallel_group\":\"261-serial-03\",\"defer_reason\":\"Deferred and expected to fail while operator title, rights confirmation, or mailbox control/receive evidence remains pending; publication is prohibited until this exact lane passes.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove patch hygiene after the validator has independently proved the complete actual path set against the immutable current-main preparation base.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"261-serial-04\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-261-design-r2-remediation",
+      "reason": "Add the exact-schema structured operator name-decision authority required by fresh review; narrative search research remains digest-bound and non-authoritative.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"demos/podcast/artwork.png\",\"docs/milestones/v0.92/review/podcast_identity_261/show-identity.json\",\"docs/milestones/v0.92/review/podcast_identity_261/name-decision.json\",\"docs/milestones/v0.92/review/podcast_identity_261/artwork-rights.json\",\"docs/milestones/v0.92/review/podcast_identity_261/name-conflict-review.md\",\"docs/milestones/v0.92/review/podcast_identity_261/mailbox-readiness.json\",\"docs/milestones/v0.92/review/podcast_identity_261/README.md\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\".csdlc/prepared/issues/261\",\".csdlc/issues/261\",\".csdlc/evidence/261\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-261-design-r2-remediation",
+      "reason": "Repair the second fresh design-review findings: validate schema identifiers, versions, types and exact record paths; bind title authority to a digest-linked structured decision; constrain retained text; and prove RFC3339 UTC chronology.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-candidate-and-actual-scope\",\"proof_role\":\"Prove exact schema IDs, versions, field types, record paths, artwork/source bytes and properties, allocation, digest-linked title research, truthful pending gates, and every actual BASE...HEAD, staged, unstaged, and untracked path against the declared allowlist.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":4000,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\"],\"parallel_group\":\"261-serial-01\",\"defer_reason\":null},{\"lane\":\"strict-schema-redaction\",\"proof_role\":\"Reject unknown fields, invalid pending nullability, unbounded or invalid scalar grammar, non-classified retained authority text, prohibited values, credentials, private mailbox content, codes, and private-key material across exact JSON and bounded Markdown.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":90,\"budget_tokens\":2500,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--redaction-only\"],\"parallel_group\":\"261-serial-02\",\"defer_reason\":null},{\"lane\":\"evidence-bound-external-release-gates\",\"proof_role\":\"Fail closed unless the digest-bound structured title decision approves the exact title, concrete classified rights evidence and mailbox control/receive/provider/retention evidence agree, and all decision/evidence timestamps are RFC3339 UTC in valid chronology; status changes alone cannot pass.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3500,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--release\"],\"parallel_group\":\"261-serial-03\",\"defer_reason\":\"Deferred and expected to fail while operator title, rights confirmation, or mailbox control/receive evidence remains pending; publication is prohibited until this exact lane passes.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove patch hygiene after the validator has independently proved the complete actual path set against the immutable current-main preparation base.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"261-serial-04\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-261-design-r3-remediation",
+      "reason": "Repair the third fresh design-review findings: validate every provenance value and path, exact artwork metadata parity, the declared retained-source path, complete #262 allocation equality, and strict RFC3339 UTC full-date T full-time Z timestamps.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-candidate-and-actual-scope\",\"proof_role\":\"Prove exact schema IDs, versions, field types and record paths; every declared provenance value, repository path and full Git commit; exact distribution and retained-source artwork bytes and metadata; complete #261/#342/#262 allocation equality; digest-linked title research; truthful pending gates; and every actual BASE...HEAD, staged, unstaged and untracked path against the declared allowlist.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":4500,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\"],\"parallel_group\":\"261-serial-01\",\"defer_reason\":null},{\"lane\":\"strict-schema-redaction\",\"proof_role\":\"Reject unknown fields, invalid pending nullability, unbounded or invalid scalar grammar, non-classified retained authority text, prohibited values, credentials, private mailbox content, codes and private-key material across exact JSON and bounded Markdown.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":90,\"budget_tokens\":2500,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--redaction-only\"],\"parallel_group\":\"261-serial-02\",\"defer_reason\":null},{\"lane\":\"evidence-bound-external-release-gates\",\"proof_role\":\"Fail closed unless the digest-bound structured title decision approves the exact title, concrete classified rights evidence and mailbox control/receive/provider/retention evidence agree, and every decision/evidence timestamp matches exact RFC3339 full-date T full-time UTC Z grammar in valid chronology; status changes alone cannot pass.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3500,\"argv\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--release\"],\"parallel_group\":\"261-serial-03\",\"defer_reason\":\"Deferred and expected to fail while operator title, rights confirmation, or mailbox control/receive evidence remains pending; publication is prohibited until this exact lane passes.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Prove patch hygiene after the validator independently proves the complete actual path set against the immutable current-main preparation base.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"261-serial-04\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-261-design-r3-remediation",
+      "reason": "Own the exact packet validator deliverable explicitly so doctor and the VPP denominator bind the real implementation target rather than relying on directory-prefix inference.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/podcast/artwork.png\",\"docs/milestones/v0.92/review/podcast_identity_261\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\".csdlc/prepared/issues/261\",\".csdlc/issues/261\",\".csdlc/evidence/261\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Reconcile #261 bound packet with live Sprint 8 operator direction to use The Cognitive Stack as the working podcast name while preserving final approval and mailbox gates.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Preparation base is exact current origin/main c46b7cd8265a7e81566cdf82153c387595a6cccf\",\"Use The Cognitive Stack as the Sprint 8 working podcast name for execution planning, artwork and metadata drafts, and downstream packet preparation unless superseded by a later typed issue update\",\"The Cognitive Stack is a working execution assumption only; do not claim trademark/legal clearance, directory availability, final publication approval, or public launch readiness from this packet alone\",\"Do not claim mailbox readiness without a real receive test and redacted retained receipt\",\"Do not modify #342 episode/audio/package paths or #262 production feed/hosting paths\",\"No provider account action deployment directory submission public launch or paid service\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Reconcile #261 generated card identity version with the live Sprint 8 v0.92.1 issue while preserving the existing bound worktree and non-publication gates.",
+      "operation": "{\"operation\":\"update_identity_version\",\"version\":\"v0.92.1\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Record focused #261 candidate identity packet validation after refreshing the working title to The Cognitive Stack.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\"],\"purpose\":\"Prove the candidate show-identity packet schema, artwork metadata, ownership allocation, name research digest, scope allowlist, and pending external-gate truth after the working-title refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal transcript 2026-08-28: candidate mode passed with artwork_sha256 e142182ecefa06b34256d7ceeededfb3c3418c1f66e9a57750d3ed21d8d2fc8d and external gates pending.\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "Codex / Sprint 8 podcast lane",
+      "reason": "Record focused #261 redaction validation after refreshing the working title to The Cognitive Stack.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py\",\"--redaction-only\"],\"purpose\":\"Prove the refreshed identity packet retains no credential, token, private mailbox content, recovery code, verification code, private key material, or unbounded retained authority text.\",\"outcome\":\"passed\",\"evidence_ref\":\"local terminal transcript 2026-08-28: redaction-only mode passed for exact #261 packet scope after The Cognitive Stack refresh.\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "fresh-session:78839b05-3163-4827-bb33-f759ecba6dff",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "Recover review after substantive post-publication remediation for evidence-bound #261 release gates.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "fresh-session:39c8f174-261f-4479-9880-88fe7fa03f63",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex",
+      "reason": "Recover review after lifecycle metadata was folded into the exact reviewed commit while repairing #261 release-gate evidence binding.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "fresh-session:5665d245-2b56-45a0-92f2-2236f2ff9c6a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "agent_logic.podcast.redacted_receipt.v1",
+  "receipt_kind": "artwork_rights",
+  "subject": "demos/podcast/artwork.png",
+  "status": "operator_confirmed_rights_basis",
+  "confirmed_at_utc": "2026-09-01T18:44:04Z",
+  "rights_basis": "owned_original",
+  "license_identifier": "agent_logic_internal_artwork_rights_v1",
+  "creator_or_source_owner": "agent_logic_inc",
+  "distribution_artwork_sha256": "e142182ecefa06b34256d7ceeededfb3c3418c1f66e9a57750d3ed21d8d2fc8d",
+  "retained_source_sha256": "a2b3a0bfb9b438e479c036728251c7b8ae90124beb799e875031832ec8916b43",
+  "operator_authority_class": "operator_private_confirmation_retained",
+  "redaction_statement": "The private rights confirmation source is retained outside the public repository; this receipt records only public-safe ownership classification, artwork digests, and authorization outcome."
+}

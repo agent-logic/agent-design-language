@@ -1,0 +1,11 @@
+{
+  "schema": "agent_logic.podcast.redacted_receipt.v1",
+  "receipt_kind": "mailbox_receive",
+  "subject": "podcast@agent-logic.ai",
+  "status": "received",
+  "received_at_utc": "2026-09-01T18:44:04Z",
+  "sender_class": "operator_external_account",
+  "provider_class": "company_mail_provider",
+  "operator_retention_approval": true,
+  "redaction_statement": "No mailbox credential, token, recovery code, verification code, message body, header, sender address, magic link, screenshot, or original message is retained."
+}

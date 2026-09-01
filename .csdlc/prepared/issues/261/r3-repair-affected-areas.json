@@ -1,0 +1,20 @@
+{
+  "issue": 261,
+  "card": "spp",
+  "expected_generation": 10,
+  "expected_digest": "97720df33ae105755f617b626ff8bf6bac492998881b1f7fce14cd054a163d07",
+  "actor": "codex:issue-261-design-r3-remediation",
+  "reason": "Own the exact packet validator deliverable explicitly so doctor and the VPP denominator bind the real implementation target rather than relying on directory-prefix inference.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "demos/podcast/artwork.png",
+      "docs/milestones/v0.92/review/podcast_identity_261",
+      "docs/milestones/v0.92/review/podcast_identity_261/validate_identity_packet.py",
+      ".csdlc/prepared/issues/261",
+      ".csdlc/issues/261",
+      ".csdlc/evidence/261"
+    ]
+  }
+}

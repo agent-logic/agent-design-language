@@ -1,0 +1,10 @@
+flowchart LR
+  C["Existing candidate metadata and artwork"] --> P["#261 versioned identity packet"]
+  O["Operator title and collision decision"] --> P
+  R["Artwork source and rights provenance"] --> P
+  M["Redacted company mailbox receive proof"] --> P
+  P --> A["#342 read-only identity and artwork input"]
+  P --> H["#262 production hosting and feed input"]
+  A --> E["Episode/audio packages and non-production feed fragment"]
+  H --> F["Production demos/podcast/feed.xml and playback"]
+  X["Credentials, verification codes, deployment, directory submission"] -. denied .-> P
