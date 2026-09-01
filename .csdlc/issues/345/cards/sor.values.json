@@ -7,33 +7,33 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 56
+    "generation": 62
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented and no-paid validated the Terraform-owned two-node AWS Runtime qualification and all six exact-head review remediations; no current two-node GPU apply has run, so guest execution and cleanup remain pending fresh review, typed publication, and single-use authorization.",
+      "summary": "Implemented and no-paid validated the Terraform-owned two-node AWS Runtime qualification through the final launch-review remediations. PR #593 merged an older head, so this exact candidate remains worktree-only and the paid GPU guest proof remains pending a fresh exact-head PASS and single-use authorization.",
       "actual_changes": [
         "Added an isolated Terraform root owning one regular Runtime node, one GPU Ollama node, two security groups, one shared EC2 key pair, separate roles/profiles, encrypted disposable gp3 disks, and a two-node EventBridge Scheduler deadline.",
         "Pinned the Terraform AWS provider to agent-logic-admin and required both public-IPv4 nodes to share one managed public key with TCP/22 limited to the operator IPv4 /32; GPU TCP/11434 remains Runtime-security-group-only.",
         "Replaced controller-side EC2/SSM orchestration with automatic cloud-init, retained SSM only for recovery, and replaced live guest Git checkout with an immutable versioned source archive.",
         "Configured the GPU bootstrap to restore at least two immutable models, keep them loaded in one Ollama service, and emit readiness only after every expected digest has nonzero VRAM residency.",
-        "Configured the Runtime bootstrap to run Guardian/Runtime lifecycle, route the local-only Shepherd smoke contract through a loopback proxy to private Ollama, and pass the restored repository's explicit task panel to the six-agent UTS, ACC, Freedom Gate, and runtime.observe proof.",
-        "Added read-only proof that the selected GPU-capable subnet has an active internet-gateway route and a permissive first IPv4 network-ACL rule in both directions, and bound both fingerprints into authorization.",
-        "Reduced guest S3 write authority to one exact per-run receipt key per node; guests cannot write artifact, source, lock, or authorization namespaces.",
-        "Added a mode-0600 worktree-local recovery record retaining the raw owner token and lock version before apply, while keeping public evidence redacted.",
-        "Bound single-use authorization to both nodes, disks, immutable artifacts, SSH/network identity, Terraform source, deadline, and combined compute/storage/IPv4/request cost; the run path is configured to retain the exact applied saved-plan digest.",
-        "Removed the obsolete issue-345 CloudFormation prerequisite template and forced all run state beneath the bound worktree."
+        "Configured the Runtime bootstrap to run Guardian/Runtime lifecycle, route the local-only Shepherd smoke contract through a loopback proxy to private Ollama, and run the restored repository-rooted six-agent UTS, ACC, Freedom Gate, and runtime.observe proof.",
+        "Granted both guests read access only to exact bootstrap object keys, including the Runtime node's GPU-ready receipt, while retaining one exact create-only receipt write per node.",
+        "Rechecked resolved AMI, VPC, subnet, route-table, and network-ACL identities after preflight so Terraform cannot apply drifted inputs.",
+        "Bound single-use authorization to both nodes, disks, immutable artifacts, SSH/network identity, Terraform source, typed issue/design state, deadline, and combined compute/storage/IPv4/request cost.",
+        "Corrected STP dependencies, repository inputs, and non-goals to authorize the exact two-node IAM, security-group, public IPv4, and mandatory SSH surface without widening the qualification.",
+        "Retained mode-0600 worktree-local recovery state and controller destroy, guest deadline, and tag-constrained Scheduler cleanup for both nodes."
       ],
       "artifacts": [
         "infra/aws/runtime/gpu-proof",
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
         "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh",
-        "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml (removed)",
         "docs/operations/cloud/aws/shepherd-gpu-proof/README.md",
         ".csdlc/prepared/issues/345/design.md",
-        ".csdlc/prepared/issues/345/diagram.mmd"
+        ".csdlc/prepared/issues/345/diagram.mmd",
+        ".csdlc/issues/345"
       ],
       "actual_validation": [
         {
@@ -62,7 +62,7 @@
             "bash",
             "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
           ],
-          "purpose": "Prove eighteen no-paid two-node topology, SSH, private-Ollama, public-subnet, exact-receipt IAM, authorization, recovery, source-archive, and guest-script contracts.",
+          "purpose": "Prove twenty no-paid topology, SSH, private-Ollama, exact-object IAM, input-drift, typed-review-state, authorization, recovery, and guest-script contracts.",
           "outcome": "passed",
           "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
         },
@@ -72,7 +72,7 @@
             "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
             "preflight"
           ],
-          "purpose": "Verify current business-account AMIs, public subnet route/NACL, pricing, quota, immutable artifacts, SSH/network hashes, combined 1.425111 USD worst-case cost, and zero stale resources without launching compute.",
+          "purpose": "Verify current business-account AMIs, public subnet route/NACL, pricing, quota, immutable artifacts, SSH/network hashes, 1.425111 USD worst-case cost, and zero stale resources without launching compute.",
           "outcome": "passed",
           "evidence_ref": ".adl/local/issue345/preflight-artifact-manifest.json"
         },

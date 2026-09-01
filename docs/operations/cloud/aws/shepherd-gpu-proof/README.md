@@ -89,6 +89,8 @@ Execution requires `adl.issue345.paid_run_authorization.v3`. It binds:
 - immutable manifest coordinates/digest and the complete model set.
 - the exact reviewed repository commit, restored from a run-specific versioned
   S3 archive rather than a live Git checkout on every node start.
+- the canonical tracked typed issue, review, authored-design, and diagram state
+  present when the single-use authorization is created.
 
 The runner derives a canonical JSON digest and writes a create-only versioned
 S3 consumption marker. Formatting or object-key order cannot create a second

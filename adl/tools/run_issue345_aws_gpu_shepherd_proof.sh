@@ -94,6 +94,17 @@ terraform_source_sha256() {
     "$TF_ROOT/.terraform.lock.hcl" | shasum -a 256 | awk '{print $1}'
 }
 
+review_state_sha256() {
+  local review_root="${1:-$ROOT}"
+  (
+    cd "$review_root"
+    while IFS= read -r -d '' path; do
+      printf '%s\0' "$path"
+      shasum -a 256 "$path"
+    done < <(git ls-files -z .csdlc/issues/345 .csdlc/prepared/issues/345/design.md .csdlc/prepared/issues/345/diagram.mmd)
+  ) | shasum -a 256 | awk '{print $1}'
+}
+
 aws_cli() { aws --profile "$PROFILE" --region "$REGION" "$@"; }
 
 require_profile() {
@@ -332,6 +343,7 @@ load_authorization() {
     and (.bindings.route_table_sha256 | test("^[0-9a-f]{64}$"))
     and (.bindings.network_acl_sha256 | test("^[0-9a-f]{64}$"))
     and (.bindings.terraform_source_sha256 | test("^[0-9a-f]{64}$"))
+    and (.bindings.review_state_sha256 | test("^[0-9a-f]{64}$"))
     and .max_instance_seconds >= 1 and .max_instance_seconds <= 3600
     and .max_reaper_lag_seconds == 300
     and .max_billable_seconds == (.max_instance_seconds + .max_reaper_lag_seconds)
@@ -405,6 +417,9 @@ verify_review_authority() {
     | select(.completed==true and ([.findings[]? | select(.actionable==true and .disposition=="open")]|length)==0)
     | .reviewed_revision' "$index_file")"
   [[ "$authorized" == "$recorded" ]] || { echo "authorization does not equal current typed exact-head review" >&2; exit 2; }
+  [[ "$(jq -er .bindings.review_state_sha256 "$AUTHORIZATION_FILE")" == "$(review_state_sha256 "$review_root")" ]] || {
+    echo "typed review, design, or issue state changed after authorization" >&2; exit 2;
+  }
   [[ -n "$current_head" ]] || current_head="$(git -C "$review_root" rev-parse HEAD)"
   git -C "$review_root" merge-base --is-ancestor "$SOURCE_COMMIT" "$current_head" || { echo "reviewed commit is not an ancestor" >&2; exit 2; }
   git -C "$review_root" diff --quiet "$SOURCE_COMMIT..$current_head" -- \

@@ -42,8 +42,10 @@ Implement, validate, review, publish, and execute one bounded Terraform-owned AW
 ## Dependencies
 
 - Historical recovery commit 7a26886c47962e71c128489f5176a045ae8e9a64
-- Current governed Shepherd adapter and local real-model proof contract formerly owned by #5795
-- Agent Logic business AWS account and operator-provisioned profile, IAM, no-ingress security group, immutable S3 model bundle, quota, and deadline reaper
+- Current governed Shepherd adapter and issue-268 six-agent Runtime, UTS, ACC, Freedom Gate, and runtime.observe proof surfaces
+- Agent Logic business AWS account through profile agent-logic-admin, sufficient On-Demand GPU quota, and a VPC with a public subnet
+- Operator-approved public SSH key and current public IPv4 /32; private key material remains outside Terraform and the repository
+- Immutable versioned S3 Ollama runtime, model stores, manifest, and Rust bootstrap artifact
 - #256 as downstream consumer only
 
 ## Inputs
@@ -51,17 +53,21 @@ Implement, validate, review, publish, and execute one bounded Terraform-owned AW
 - https://github.com/agent-logic/agent-design-language/issues/345
 - docs/milestones/v0.92.1/features/DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md
 - docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml
-- docs/operations/cloud/aws/inventory/AWS_RESOURCE_OWNERSHIP_INVENTORY.md
-- git:7a26886c47962e71c128489f5176a045ae8e9a64:adl/tools/run_wp5795_aws_gpu_proof.sh
-- git:7a26886c47962e71c128489f5176a045ae8e9a64:.csdlc/evidence/5795/foundation
+- infra/aws/runtime/gpu-proof
+- adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
+- adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
+- adl/tools/run_issue268_six_resident_uts_cycle.py
+- adl/tools/issue268_runtime_uts_task_panel.json
+- docs/operations/cloud/aws/shepherd-gpu-proof/README.md
 - .csdlc/prepared/issues/345/design.md
+- .csdlc/prepared/issues/345/diagram.mmd
 
 ## Non Goals
 
-- Changing the local Shepherd adapter or its acceptance criteria
-- Making AWS a Runtime dependency or inference fallback
-- Creating or modifying IAM roles, policies, instance profiles, security groups, quotas, or permanent reaper resources
-- Opening SSH or public ingress
-- Using Spot capacity, retries, or another cloud/provider as fallback
+- Changing Runtime, Guardian, Shepherd, UTS, ACC, Freedom Gate, or runtime.observe semantics
+- Creating a 24/7, production, multi-region, autoscaled, or cross-cloud service
+- Using Spot, retry launches, alternate instance types, hosted inference, or another provider as fallback
+- Opening public application or Ollama ingress; only mandatory operator SSH /32 ingress is public
+- Deleting or rewriting the retained versioned S3 model bundle
+- Changing model defaults or claiming an unimplemented Runtime-v3 kernel-to-Ollama transit path
 - Executing or closing #256
-- Claiming distributed multi-agent qualification beyond the bounded Shepherd GPU proof

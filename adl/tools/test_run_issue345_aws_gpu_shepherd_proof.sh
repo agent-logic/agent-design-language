@@ -55,6 +55,7 @@ grep -q 'systemd-run.*adl-issue345-deadline' "$RUNNER" || fail "guest deadline s
 grep -q 'snap install aws-cli --classic' "$RUNNER" || fail "cloud-init must install AWS CLI through the available package manager"
 grep -q 'terraform_source_sha256' "$RUNNER" || fail "Terraform source identity is not bound"
 grep -q 'terraform_plan_sha256' "$RUNNER" || fail "saved Terraform plan digest is not retained"
+grep -q 'review_state_sha256' "$RUNNER" || fail "typed review and design state are not authorization-bound"
 grep -q 'verify_public_subnet' "$RUNNER" || fail "public-subnet route and network-ACL preflight is missing"
 grep -q 'route_table_sha256' "$RUNNER" || fail "public route-table identity is not authorization-bound"
 grep -q 'network_acl_sha256' "$RUNNER" || fail "network-ACL identity is not authorization-bound"
@@ -100,7 +101,8 @@ jq -n --arg commit "$head" --arg run "$run_id" --arg account "$EXPECTED_ACCOUNT_
    expires_epoch:(now+3600|floor),bindings:{aws_account_sha256:$account,
     artifact_manifest:{bucket:$bucket,key:$key,version_id:$version,sha256:$manifest_sha},
     runtime_ami_sha256:("1"*64),gpu_ami_sha256:("2"*64),subnet_sha256:("3"*64),vpc_sha256:("4"*64),
-    route_table_sha256:("6"*64),network_acl_sha256:("7"*64),terraform_source_sha256:("5"*64)}}' >"$tmp/authorization.json"
+    route_table_sha256:("6"*64),network_acl_sha256:("7"*64),terraform_source_sha256:("5"*64),
+    review_state_sha256:("8"*64)}}' >"$tmp/authorization.json"
 
 SOURCE_COMMIT="$head"
 RUN_ID="$run_id"
@@ -130,8 +132,12 @@ if (verify_resolved_preflight_inputs "$resolved_fixture" "$resolved_runtime_ami"
 
 revision="$(jq -r .reviewed_revision "$tmp/authorization.json")"
 jq -n --arg revision "$revision" '{phase:"reviewed",review:{completed:true,findings:[],reviewed_revision:$revision}}' >"$tmp/review.json"
+jq --arg review_state_sha256 "$(review_state_sha256 "$ROOT")" '.bindings.review_state_sha256=$review_state_sha256' "$tmp/authorization.json" >"$tmp/authorization-bound.json"
+mv "$tmp/authorization-bound.json" "$tmp/authorization.json"
 SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" verify_review_authority "$tmp/review.json" "$ROOT" "$head"
 if (SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization.json" verify_review_authority <(jq '.review.reviewed_revision=("git-blake3:"+("f"*40)+":"+("f"*64))' "$tmp/review.json") "$ROOT" "$head") 2>/dev/null; then fail "typed review mismatch passed"; fi
+jq '.bindings.review_state_sha256=("f"*64)' "$tmp/authorization.json" >"$tmp/authorization-drift.json"
+if (SOURCE_COMMIT="$head" AUTHORIZATION_FILE="$tmp/authorization-drift.json" verify_review_authority "$tmp/review.json" "$ROOT" "$head") 2>/dev/null; then fail "typed review-state drift passed"; fi
 
 if (SSH_INGRESS_CIDR=0.0.0.0/0; load_ssh_inputs) 2>/dev/null; then fail "non-/32 SSH passed"; fi
 if (SSH_PUBLIC_KEY_FILE="$tmp/missing.pub"; load_ssh_inputs) 2>/dev/null; then fail "missing public key passed"; fi
@@ -144,4 +150,4 @@ grep -q 'requires --authorization-file' "$tmp/noauth.err" || fail "missing autho
 
 jq -n '{schema:"adl.issue345.two_node_runner_contract.v1",status:"pass",paid_launches:0,
   terraform_nodes:2,managed_key_pairs:1,public_ssh_cidrs:1,ollama_public:false,
-  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:19}'
+  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:20}'
