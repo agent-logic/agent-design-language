@@ -290,6 +290,22 @@ Implemented, locally validated, independently reviewed, and live-deployed ordere
     "purpose": "Prove CSM lifecycle behavior and deterministic systemd state classification, including inactive, active, activating, deactivating, failed, and malformed state surfaces.",
     "outcome": "passed",
     "evidence_ref": "27 focused CSM tests passed; cargo fmt --check and git diff --check passed. The systemd command path remains deferred to exact-head hosted Linux CI."
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "cli::csm_runtime_v3_cmd::tests",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove interrupted-reload rollback and all focused CSM lifecycle behavior after replacing the final lossy loaded-state gate.",
+    "outcome": "passed",
+    "evidence_ref": "27 focused CSM tests passed after the rollback-gate fix; cargo fmt --check and git diff --check passed. Hosted Linux CI remains the systemd command-path denominator."
   }
 ]
 

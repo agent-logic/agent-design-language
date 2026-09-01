@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 66,
-  "digest": "ffcc40fd18c6c7d14855455d0ab6531d0c955a256234f92ecffc183494181886",
+  "generation": 69,
+  "digest": "71ebe48d3bb6e67746e8c223b78dbe1fd141a738435f1926abb3faf07af054ba",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "210457fe513e93100e9559052b5977903760e84633f9df6af2d82addf38f0a53",
+      "values_digest": "806747352c72faefa4b70d85fc25b12105480b3255d6cef0270b99c3bf39b5b3",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "9ad83b6ab393062d720c756b562e1d43454c7c601987714f18623ae3f996f4f4",
+      "values_digest": "d356f486625f7a054653c02a5a7fcf7125ad2bc8a7e392f6b23750730fac6955",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "8191544b7a561467f73b0d7393428b93fbde74af3796a5d36d1d644153f5c060",
+      "values_digest": "8299766af2ae76a72d8dc834680a37666ab474b15d8961a4b95cd3ff19887270",
       "rendered_digest": "a069ff69cb5df91f309448828701857112434b9c742c1e1015449f6af9603623",
       "ast_digest": "1abf9f10cd423045ec1cbacf37555bd467ef11fb8b5182951ea89a803f070a15"
     },
     "vpp": {
-      "values_digest": "55c9c881a47ed714cb16bc62b15cc745aa6a1aee558a9c7fc97405cb838dd2e9",
+      "values_digest": "3c1cd85f98dafad5d8f095c757513be3107632de501e2ea500cbdde059cc065e",
       "rendered_digest": "206db6dfc5256ca6596b14c8509493d5be13fdbfb61516aab1007b527e4c5aa0",
       "ast_digest": "5faac6bcb1180015c997ff4639ccdd93b0f6dcade665c98bc5064680e4f04a69"
     },
     "srp": {
-      "values_digest": "271d211b1ab828be0433eb4f6cd8bee3aab81333feb1e86a5ae8cde862762ce1",
+      "values_digest": "d6d56bce36716add231311ad7d9318f6db89d7ebccd5096da50d87b97eb1558f",
       "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
       "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "4b4bbab4b9c559c6502e4ed37119d612c8ee52882f430df20c2a90e850515bbc",
-      "rendered_digest": "27f81f3eea55d3f1da80df54d9b51d43c05400c165e5f72804d3b8b65029a730",
-      "ast_digest": "9525dd6d69707a38321e31ce778f9a05c441dbdb5b6425945335b24d621657d3"
+      "values_digest": "d770e52766f6de9045c33d798d0407e99daa93b9cccb09dac07fddf694271fe5",
+      "rendered_digest": "61b4ea8c8afcefcd0896013abc624a2dfe25afa4efa5256a1d73fa8221bab942",
+      "ast_digest": "424b3033543dd25aa1a4fcdc4df17ead9da5c8f302e127012bb6cdd23269b586"
     }
   },
   "transitions": [
@@ -833,6 +833,34 @@
       "actor": "codex-issue-589",
       "reason": "Record focused validation for the fail-closed systemd state remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"cli::csm_runtime_v3_cmd::tests\",\"--\",\"--nocapture\"],\"purpose\":\"Prove CSM lifecycle behavior and deterministic systemd state classification, including inactive, active, activating, deactivating, failed, and malformed state surfaces.\",\"outcome\":\"passed\",\"evidence_ref\":\"27 focused CSM tests passed; cargo fmt --check and git diff --check passed. The systemd command path remains deferred to exact-head hosted Linux CI.\"}}"
+    },
+    {
+      "sequence": 86,
+      "generation": 66,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 87,
+      "generation": 67,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 88,
+      "generation": 68,
+      "actor": "codex-issue-589",
+      "reason": "Resolve the remaining exact-head review finding by using fallible conclusive stopped-state classification during interrupted-reload rollback.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 89,
+      "generation": 69,
+      "actor": "codex-issue-589",
+      "reason": "Record the post-fix focused proof for fail-closed interrupted-reload rollback.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"cli::csm_runtime_v3_cmd::tests\",\"--\",\"--nocapture\"],\"purpose\":\"Prove interrupted-reload rollback and all focused CSM lifecycle behavior after replacing the final lossy loaded-state gate.\",\"outcome\":\"passed\",\"evidence_ref\":\"27 focused CSM tests passed after the rollback-gate fix; cargo fmt --check and git diff --check passed. Hosted Linux CI remains the systemd command-path denominator.\"}}"
     }
   ]
 }

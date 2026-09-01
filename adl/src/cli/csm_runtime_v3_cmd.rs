@@ -285,7 +285,7 @@ fn reconcile_interrupted_reload(args: &RuntimeV3ServiceArgs) -> Result<()> {
                 .is_ok()
         },
         || {
-            if platform_loaded(args) {
+            if !platform_stopped(args)? {
                 let guardian_process_id = platform_process_id(args);
                 platform_stop(args)?;
                 if let Ok(init) = validated_init(active) {
