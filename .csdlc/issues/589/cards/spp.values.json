@@ -7,13 +7,13 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 9
+    "generation": 13
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Unify ordinary Guardian startup around supervised process ownership, add reliable CSM lifecycle commands and safe reconciliation, then prove first-start and reload behavior with focused tests.",
       "steps": [
         {
@@ -24,7 +24,7 @@
             "AC-2",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "step-2",
@@ -36,7 +36,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "step-3",
@@ -45,7 +45,7 @@
             "AC-6",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

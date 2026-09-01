@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "de4787b0aaecef85fc138b4522e8ebdb915f3038faea87d5c2eb1aefe987cb78",
+  "generation": 13,
+  "digest": "637e0907dbe9e8a283f27ecf9aa481dd7cf778105fed2e8f6c4165f75521a89b",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b0e98848c3bc1d9742c6593724cdd05b89fc5a4c277d3dfe4ea941e917f937f2",
+      "values_digest": "2081e9ef327035c29e125ca9b801684092f82e2874687d20be5e44e212bbbe4f",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "80d64a8c153999d94479fe4f441a4fcc3730106d0438798ed26a180ff59c6078",
+      "values_digest": "385b20227f1fed271b0ec818a04e7eb165ba52b50283d99e8cd27e64f9252bee",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "21c6a857da67af6ad792b875dde2cb99d616ab469f82d9fb852a1c2aa27b3993",
-      "rendered_digest": "2e3d79a609e305b6ab0498f0e32c65898932faf84d830485c70ae127e0c7b9ba",
-      "ast_digest": "e976eba29651fa90d5c5193c77112c9b193234890122b45a48870b2b6d1d96d3"
+      "values_digest": "7d44ba08b643b96b66b71ccf7c57729ebb91844ad892f971479006180f609183",
+      "rendered_digest": "315bb82392767ff9d0c5acb9c99df4dbc87c4fd82dec36c6bb76bbab7b32cb3f",
+      "ast_digest": "569fe120c9e4d45f1e5799229ca53e07754cf71fba0027620a6fdaf4211394af"
     },
     "vpp": {
-      "values_digest": "abd570436c49b9772cc93a49da1f7980d9855c9b41257ba21beb9971f15baf1a",
+      "values_digest": "c0308fb48ade22aa8b228d2a63a7c96f95ce2dfa63e3be3f82521453811f8596",
       "rendered_digest": "22abe6d1d219408ed2bb7af5a7b9c4a14a207751823e448e25835151239d302d",
       "ast_digest": "6170f8f5d9de40a753bb0bdbc3184d884857878b4509b92199356dea8222b823"
     },
     "srp": {
-      "values_digest": "efe15bb2269493bbf3c70ee5bcc863f65809c65596205d3ede4204d869083c02",
+      "values_digest": "f0d917433b8901fc356d9b7abec1410ed4d5b9065463440575b94f83d90e95e3",
       "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
       "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "5966e6796f1791148aa3cb264dd5c4e6b3affad6d9f4b4cb66d1060a9e7e4084",
-      "rendered_digest": "8050b7a2b94e4ed90cb5d9fa8ba19c32d9adf25aa82d445a9fe4852baadf0fd0",
-      "ast_digest": "3e89ec39db0c75d7868a8528f0fd993774611f111ea8abb4b1e036912c6e08b4"
+      "values_digest": "8afaa5efe2e7ae42193816bb33923c644e056ce48f7861a20bbab893720ec13a",
+      "rendered_digest": "1fba49f7e2d798199b5ebb36f7cfe680924b09c9aeb7a31cce4d075eaa0ece4d",
+      "ast_digest": "81b76d5765a34be48f0899a17dfbca90d608c1abd105a107e7a9fdcf4050522d"
     }
   },
   "transitions": [
@@ -161,6 +161,41 @@
       "actor": "codex-issue-589",
       "reason": "Correct the CSM lane to target the adl binary test target that actually owns and runs the 11 lifecycle tests.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"kernel-focused\",\"proof_role\":\"Writer recovery, Shepherd readiness, configuration, and health-export regression proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"guardian-csm-focused\",\"proof_role\":\"Guardian supervision and ordered CSM lifecycle regression proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"terraform-static\",\"proof_role\":\"Bounded AWS health-recovery infrastructure syntax and plan proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"terraform\",\"validate\"],\"parallel_group\":\"infra\",\"defer_reason\":null},{\"lane\":\"wuji-live\",\"proof_role\":\"Identity-bound HTTPS, Shepherd admission, CloudWatch alarm, and SSM recovery proof\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"csm\",\"runtime-v3\",\"status\",\"--init\",\".adl/runtime-v3/live/runtime-init.toml\"],\"parallel_group\":\"live\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex-issue-589",
+      "reason": "Correct canonical SPP, SOR, and SRP lifecycle truth identified by exact-commit review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex-issue-589",
+      "reason": "Record completed plan-step truth after review recovery.",
+      "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"action\":\"Characterize the failed Guardian startup and define the simplified ownership invariant\",\"id\":\"step-1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"action\":\"Implement CSM lifecycle commands and remove the separate startup continuity-channel dependency\",\"id\":\"step-2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"action\":\"Add focused tests and verify persistent local and AWS-facing readiness\",\"id\":\"step-3\",\"status\":\"completed\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\"],\"action\":\"Characterize the failed Guardian startup and define the simplified ownership invariant\",\"id\":\"step-1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"action\":\"Implement CSM lifecycle commands and remove the separate startup continuity-channel dependency\",\"id\":\"step-2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"action\":\"Add focused tests and verify persistent local and AWS-facing readiness\",\"id\":\"step-3\",\"status\":\"pending\"}],\"recovery_generation\":11,\"recovery_sequence\":15}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex-issue-589",
+      "reason": "Finalize truthful execution and validation evidence after review recovery.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, Shepherd-gated readiness, bounded CloudWatch health, and governed SSM recovery.\",\"changes\":[\"Current Runtime generation stops and its current HTTPS endpoint disappears before a candidate generation starts.\",\"Guardian ordinary startup no longer creates a separate continuity client.\",\"Readiness requires a fresh Shepherd admission lease.\",\"Health export is allowlisted and emits the active canonical config hash.\",\"CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.\"],\"artifacts\":[\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/observability.rs\",\"infra/aws/csm-runtime-health\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3\"],\"purpose\":\"CSM lifecycle and transaction regression proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 11 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\"],\"purpose\":\"Writer recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 10 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"purpose\":\"Shepherd-gated readiness proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 28 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\"],\"purpose\":\"Health-only export and log recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"final focused run: 32 passed\"},{\"command\":[\"csm\",\"runtime-v3\",\"reload\",\"--init\",\".adl/runtime-v3/live/runtime-init.toml\"],\"purpose\":\"Live ordered service lifecycle proof\",\"outcome\":\"passed\",\"evidence_ref\":\"live Wuji HTTPS readiness, observability readiness, and one healthy Shepherd\"},{\"command\":[\"aws\",\"ssm\",\"list-command-invocations\",\"--profile\",\"agent-logic-admin\"],\"purpose\":\"CloudWatch-to-SSM recovery proof\",\"outcome\":\"passed\",\"evidence_ref\":\"alarm recovery command 9ce0b157-5862-4622-a90d-a39c9f7ff1c4 succeeded\"}]}"
     }
   ]
 }

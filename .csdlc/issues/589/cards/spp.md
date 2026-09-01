@@ -16,7 +16,7 @@ Unify ordinary Guardian startup around supervised process ownership, add reliabl
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -29,7 +29,7 @@ Revision 1
       "AC-2",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-2",
@@ -41,7 +41,7 @@ Revision 1
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-3",
@@ -50,7 +50,7 @@ Revision 1
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

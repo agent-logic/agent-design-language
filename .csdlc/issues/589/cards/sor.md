@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented a simple ordered Runtime v3 host lifecycle, removed the Guardian's separate startup continuity client, hardened correlated writer recovery and reload rollback, required a fresh Shepherd for readiness, and deployed bounded CloudWatch-to-SSM recovery for Wuji.
+Implemented and proved simple ordered Wuji Runtime v3 startup, reload rollback, Shepherd-gated readiness, bounded CloudWatch health, and governed SSM recovery.
 
 ## Artifacts
 
@@ -25,15 +25,97 @@ Implemented a simple ordered Runtime v3 host lifecycle, removed the Guardian's s
 
 ## Execution
 
-- CSM start and reload now use one ordered stop-wait-start-readiness sequence without overlapping host-service generations.
-- Guardian ordinary startup supervises the kernel through its authenticated child lease and no longer creates a separate continuity-channel client.
-- Writer and reload transaction cleanup is correlated, atomic, and removes partial staging files after failed copies.
-- Runtime readiness requires a fresh admitted Shepherd lease and emits a bounded health heartbeat containing Polis, instance, readiness, liveness, and canonical config identity.
-- Terraform provisions a missing-heartbeat CloudWatch alarm, EventBridge target, SNS notification, and bounded SSM recovery document for Wuji.
+- Current Runtime generation stops and its current HTTPS endpoint disappears before a candidate generation starts.
+- Guardian ordinary startup no longer creates a separate continuity client.
+- Readiness requires a fresh Shepherd admission lease.
+- Health export is allowlisted and emits the active canonical config hash.
+- CloudWatch missing-heartbeat recovery invokes bounded CSM recovery through SSM.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "csm_runtime_v3"
+    ],
+    "purpose": "CSM lifecycle and transaction regression proof",
+    "outcome": "passed",
+    "evidence_ref": "final focused run: 11 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "assembly"
+    ],
+    "purpose": "Writer recovery proof",
+    "outcome": "passed",
+    "evidence_ref": "final focused run: 10 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "control"
+    ],
+    "purpose": "Shepherd-gated readiness proof",
+    "outcome": "passed",
+    "evidence_ref": "final focused run: 28 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "observability"
+    ],
+    "purpose": "Health-only export and log recovery proof",
+    "outcome": "passed",
+    "evidence_ref": "final focused run: 32 passed"
+  },
+  {
+    "command": [
+      "csm",
+      "runtime-v3",
+      "reload",
+      "--init",
+      ".adl/runtime-v3/live/runtime-init.toml"
+    ],
+    "purpose": "Live ordered service lifecycle proof",
+    "outcome": "passed",
+    "evidence_ref": "live Wuji HTTPS readiness, observability readiness, and one healthy Shepherd"
+  },
+  {
+    "command": [
+      "aws",
+      "ssm",
+      "list-command-invocations",
+      "--profile",
+      "agent-logic-admin"
+    ],
+    "purpose": "CloudWatch-to-SSM recovery proof",
+    "outcome": "passed",
+    "evidence_ref": "alarm recovery command 9ce0b157-5862-4622-a90d-a39c9f7ff1c4 succeeded"
+  }
+]
 
 ## Integration
 
