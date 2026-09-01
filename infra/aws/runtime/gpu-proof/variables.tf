@@ -190,7 +190,7 @@ variable "artifact_bucket" {
 }
 
 variable "artifact_prefix" {
-  description = "Only S3 prefix both nodes may read and write."
+  description = "Exact receipt prefix the nodes may write; read access is separately restricted to artifact_read_keys."
   type        = string
   default     = "shepherd/"
   validation {
@@ -299,5 +299,15 @@ variable "warm_source_commit" {
   validation {
     condition     = var.warm_source_commit == null || can(regex("^[0-9a-f]{40}$", var.warm_source_commit))
     error_message = "warm_source_commit must be null or an exact lowercase Git commit."
+  }
+}
+
+variable "warm_kms_key_arn" {
+  description = "Exact KMS key required on both prepared warm volumes."
+  type        = string
+  default     = null
+  validation {
+    condition     = var.warm_kms_key_arn == null || can(regex("^arn:aws:kms:[a-z0-9-]+:[0-9]{12}:key/[0-9a-f-]+$", var.warm_kms_key_arn))
+    error_message = "warm_kms_key_arn must be null or an exact KMS key ARN."
   }
 }

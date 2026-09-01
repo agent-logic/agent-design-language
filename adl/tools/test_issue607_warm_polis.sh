@@ -17,16 +17,22 @@ run_contracts() {
   local bad_compute="$CASE_ROOT/bad-compute.json"
   local good_storage="$CASE_ROOT/good-storage.json"
   local bad_storage="$CASE_ROOT/bad-storage.json"
+  local good_preparation="$CASE_ROOT/good-preparation.json"
+  local bad_preparation="$CASE_ROOT/bad-preparation.json"
 
-  write_plan "$good_compute" '[{"type":"aws_instance","change":{"actions":["create"]}},{"type":"aws_volume_attachment","change":{"actions":["create"]}}]'
-  write_plan "$bad_compute" '[{"type":"aws_ebs_volume","change":{"actions":["delete"]}}]'
-  write_plan "$good_storage" '[{"type":"aws_ebs_volume","change":{"actions":["create"]}}]'
-  write_plan "$bad_storage" '[{"type":"aws_instance","change":{"actions":["create"]}}]'
+  write_plan "$good_compute" '[{"mode":"managed","type":"aws_instance","change":{"actions":["create"]}},{"mode":"managed","type":"aws_volume_attachment","change":{"actions":["create"]}},{"mode":"data","type":"aws_ebs_volume","change":{"actions":["read"]}}]'
+  write_plan "$bad_compute" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["delete"]}}]'
+  write_plan "$good_storage" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["create"]}}]'
+  write_plan "$bad_storage" '[{"mode":"managed","type":"aws_instance","change":{"actions":["create"]}}]'
+  write_plan "$good_preparation" '[{"mode":"managed","type":"aws_instance","change":{"actions":["create"]}},{"mode":"managed","type":"aws_volume_attachment","change":{"actions":["create"]}},{"mode":"data","type":"aws_ebs_volume","change":{"actions":["read"]}}]'
+  write_plan "$bad_preparation" '[{"mode":"managed","type":"aws_ebs_volume","change":{"actions":["update"]}}]'
 
   "$guard" compute "$good_compute" >/dev/null
   ! "$guard" compute "$bad_compute" >/dev/null 2>&1
   "$guard" warm-storage "$good_storage" >/dev/null
   ! "$guard" warm-storage "$bad_storage" >/dev/null 2>&1
+  "$guard" preparation "$good_preparation" >/dev/null
+  ! "$guard" preparation "$bad_preparation" >/dev/null 2>&1
 
   rg -q 'http_tokens[[:space:]]*=[[:space:]]*"required"' "$ROOT/infra/aws/runtime/gpu-proof/main.tf"
   rg -q 'http_tokens[[:space:]]*=[[:space:]]*"required"' "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/main.tf"
@@ -46,6 +52,7 @@ run_contracts() {
   rg -q 'ADL_RUNTIME_USE_PREBUILT_BINARIES=1' "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl"
   rg -Fq 'if [[ "${ADL_RUNTIME_USE_PREBUILT_BINARIES:-0}" == 1 ]]; then' "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
   bash -n \
+    "$ROOT/adl/tools/issue607_qualify_warm_polis.sh" \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-gpu-user-data.sh.tftpl" \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-runtime-user-data.sh.tftpl" \
     "$ROOT/infra/aws/runtime/gpu-proof/warm-storage/preparation/runtime-user-data.sh.tftpl" \

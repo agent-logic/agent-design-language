@@ -23,6 +23,22 @@ data "aws_subnet" "selected" {
   id = var.subnet_id
 }
 
+data "aws_ebs_volume" "runtime_warm" {
+  count = var.runtime_warm_volume_id == null ? 0 : 1
+  filter {
+    name   = "volume-id"
+    values = [var.runtime_warm_volume_id]
+  }
+}
+
+data "aws_ebs_volume" "gpu_warm" {
+  count = var.gpu_warm_volume_id == null ? 0 : 1
+  filter {
+    name   = "volume-id"
+    values = [var.gpu_warm_volume_id]
+  }
+}
+
 check "warm_volume_tuple" {
   assert {
     condition = (
@@ -43,6 +59,19 @@ check "warm_volume_tuple" {
       (var.issue_number == 607 && var.warm_artifact_generation != null && var.warm_source_commit != null)
     )
     error_message = "warm launch requires issue 607 plus exact artifact generation and source commit."
+  }
+  assert {
+    condition = !local.warm_enabled || (
+      var.warm_kms_key_arn != null &&
+      data.aws_ebs_volume.runtime_warm[0].encrypted && data.aws_ebs_volume.gpu_warm[0].encrypted &&
+      data.aws_ebs_volume.runtime_warm[0].kms_key_id == var.warm_kms_key_arn && data.aws_ebs_volume.gpu_warm[0].kms_key_id == var.warm_kms_key_arn &&
+      data.aws_ebs_volume.runtime_warm[0].availability_zone == var.warm_volume_availability_zone && data.aws_ebs_volume.gpu_warm[0].availability_zone == var.warm_volume_availability_zone &&
+      data.aws_ebs_volume.runtime_warm[0].tags["adl:issue"] == "607" && data.aws_ebs_volume.gpu_warm[0].tags["adl:issue"] == "607" &&
+      data.aws_ebs_volume.runtime_warm[0].tags["adl:compute-owned"] == "false" && data.aws_ebs_volume.gpu_warm[0].tags["adl:compute-owned"] == "false" &&
+      data.aws_ebs_volume.runtime_warm[0].tags["adl:artifact-generation"] == var.warm_artifact_generation && data.aws_ebs_volume.gpu_warm[0].tags["adl:artifact-generation"] == var.warm_artifact_generation &&
+      data.aws_ebs_volume.runtime_warm[0].tags["adl:seal-sha256"] == var.runtime_warm_seal_sha256 && data.aws_ebs_volume.gpu_warm[0].tags["adl:seal-sha256"] == var.gpu_warm_seal_sha256
+    )
+    error_message = "live warm-volume AZ, KMS, ownership, generation, or seal tags do not match the authorized launch tuple."
   }
 }
 
@@ -141,8 +170,8 @@ resource "aws_iam_role_policy" "runtime_artifacts" {
 
   lifecycle {
     precondition {
-      condition     = alltrue([for key in var.artifact_read_keys : startswith(key, var.artifact_prefix) && !strcontains(key, "/locks/")])
-      error_message = "artifact_read_keys must stay inside the issue artifact prefix and exclude controller lock objects."
+      condition     = alltrue([for key in var.artifact_read_keys : !strcontains(key, "/locks/")])
+      error_message = "artifact_read_keys must exclude controller lock objects. Exact object ARNs are enforced by IAM."
     }
   }
 }
@@ -155,8 +184,8 @@ resource "aws_iam_role_policy" "gpu_artifacts" {
 
   lifecycle {
     precondition {
-      condition     = alltrue([for key in var.artifact_read_keys : startswith(key, var.artifact_prefix) && !strcontains(key, "/locks/")])
-      error_message = "artifact_read_keys must stay inside the issue artifact prefix and exclude controller lock objects."
+      condition     = alltrue([for key in var.artifact_read_keys : !strcontains(key, "/locks/")])
+      error_message = "artifact_read_keys must exclude controller lock objects. Exact object ARNs are enforced by IAM."
     }
   }
 }

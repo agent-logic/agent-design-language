@@ -68,3 +68,9 @@ jq -n --arg generation '${artifact_generation}' --arg root_hash '${root_hash}' -
   '{schema:"adl.issue607.runtime_local_ready.v1",status:"ready",clock_source:"CLOCK_BOOTTIME_linux_proc_uptime",local_ready_seconds:($elapsed|tonumber),artifact_generation:$generation,dm_verity_root_hash:$root_hash,guardian_supervised:true,runtime_ready:true,authenticated_https:true,authenticated_wss:true,guardian_proof_sha256:$guardian_proof_sha256}' >"$state/ready.json"
 aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${runtime_ready_key}' --body "$state/ready.json" --if-none-match '*' >/dev/null
 trap - EXIT
+ADL_ISSUE607_AWS_REGION='${region}' \
+ADL_ISSUE607_ARTIFACT_BUCKET='${artifact_bucket}' \
+ADL_ISSUE607_QUALIFICATION_KEY='${qualification_key}' \
+ADL_ISSUE607_SOURCE_COMMIT='${source_commit}' \
+ADL_ISSUE607_GPU_PRIVATE_IP='${gpu_private_ip}' \
+  bash /mnt/adl-warm-runtime/repo/adl/tools/issue607_qualify_warm_polis.sh

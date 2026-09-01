@@ -71,12 +71,6 @@ resource "aws_iam_role_policy" "preparation" {
         Effect   = "Allow"
         Action   = "s3:PutObject"
         Resource = "arn:aws:s3:::${var.artifact_bucket}/${var.receipt_write_prefix}*"
-      },
-      {
-        Sid      = "UseExactVolumeKey"
-        Effect   = "Allow"
-        Action   = ["kms:Decrypt", "kms:Encrypt", "kms:GenerateDataKey", "kms:DescribeKey"]
-        Resource = var.kms_key_arn
       }
     ]
   })
@@ -252,4 +246,31 @@ check "security_inputs" {
 
 data "aws_subnet" "selected" {
   id = var.subnet_id
+}
+
+data "aws_ebs_volume" "runtime" {
+  filter {
+    name   = "volume-id"
+    values = [var.runtime_volume_id]
+  }
+}
+
+data "aws_ebs_volume" "gpu" {
+  filter {
+    name   = "volume-id"
+    values = [var.gpu_volume_id]
+  }
+}
+
+check "retained_volume_tuple" {
+  assert {
+    condition = (
+      data.aws_ebs_volume.runtime.encrypted && data.aws_ebs_volume.gpu.encrypted &&
+      data.aws_ebs_volume.runtime.kms_key_id == var.kms_key_arn && data.aws_ebs_volume.gpu.kms_key_id == var.kms_key_arn &&
+      data.aws_ebs_volume.runtime.availability_zone == var.availability_zone && data.aws_ebs_volume.gpu.availability_zone == var.availability_zone &&
+      data.aws_ebs_volume.runtime.tags["adl:issue"] == "607" && data.aws_ebs_volume.gpu.tags["adl:issue"] == "607" &&
+      data.aws_ebs_volume.runtime.tags["adl:compute-owned"] == "false" && data.aws_ebs_volume.gpu.tags["adl:compute-owned"] == "false"
+    )
+    error_message = "preparation volume encryption, KMS, AZ, or ownership tags do not match the exact retained tuple."
+  }
 }

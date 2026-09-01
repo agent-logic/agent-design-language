@@ -4,8 +4,8 @@ set -euo pipefail
 MODE="${1:-}"
 PLAN_JSON="${2:-}"
 
-[[ "$MODE" == compute || "$MODE" == warm-storage ]] || {
-  echo "usage: issue607_validate_saved_plan.sh compute|warm-storage <terraform-show-json>" >&2
+[[ "$MODE" == compute || "$MODE" == warm-storage || "$MODE" == preparation ]] || {
+  echo "usage: issue607_validate_saved_plan.sh compute|warm-storage|preparation <terraform-show-json>" >&2
   exit 2
 }
 [[ -f "$PLAN_JSON" ]] || { echo "saved plan JSON is missing: $PLAN_JSON" >&2; exit 2; }
@@ -14,6 +14,7 @@ jq -e '.format_version and (.resource_changes | type == "array")' "$PLAN_JSON" >
 if [[ "$MODE" == compute ]]; then
   jq -e '
     [.resource_changes[]
+      | select(.mode == "managed")
       | select(.type == "aws_ebs_volume" or .type == "aws_kms_key" or .type == "aws_ebs_snapshot")
       | select(.change.actions != ["no-op"])]
     | length == 0
@@ -24,17 +25,19 @@ if [[ "$MODE" == compute ]]; then
   jq -e '
     . as $plan
     | [.resource_changes[]
+      | select(.mode == "managed")
       | select(.type == "aws_volume_attachment")
       | .change.actions
       | select(. == ["create"] or . == ["delete"] or . == ["no-op"])]
-    | length == ([$plan.resource_changes[] | select(.type == "aws_volume_attachment")] | length)
+    | length == ([$plan.resource_changes[] | select(.mode == "managed" and .type == "aws_volume_attachment")] | length)
   ' "$PLAN_JSON" >/dev/null || {
     echo "compute plan contains a replacement or update of a warm-volume attachment" >&2
     exit 1
   }
-else
+elif [[ "$MODE" == warm-storage ]]; then
   jq -e '
     [.resource_changes[]
+      | select(.mode == "managed")
       | select(.type != "aws_ebs_volume")
       | select(.change.actions != ["no-op"])]
     | length == 0
@@ -43,9 +46,32 @@ else
     exit 1
   }
   jq -e '
-    [.resource_changes[] | .change.actions | select(index("delete") != null)] | length == 0
+    [.resource_changes[] | select(.mode == "managed") | .change.actions | select(index("delete") != null)] | length == 0
   ' "$PLAN_JSON" >/dev/null || {
     echo "warm-storage plan contains a delete action" >&2
+    exit 1
+  }
+else
+  jq -e '
+    [.resource_changes[]
+      | select(.mode == "managed")
+      | select(.type == "aws_ebs_volume" or .type == "aws_kms_key" or .type == "aws_ebs_snapshot")
+      | select(.change.actions != ["no-op"])]
+    | length == 0
+  ' "$PLAN_JSON" >/dev/null || {
+    echo "preparation plan attempts to own or mutate retained storage, KMS, or snapshots" >&2
+    exit 1
+  }
+  jq -e '
+    . as $plan
+    | [.resource_changes[]
+      | select(.mode == "managed")
+      | select(.type == "aws_volume_attachment")
+      | .change.actions
+      | select(. == ["create"] or . == ["delete"] or . == ["no-op"])]
+    | length == ([$plan.resource_changes[] | select(.mode == "managed" and .type == "aws_volume_attachment")] | length)
+  ' "$PLAN_JSON" >/dev/null || {
+    echo "preparation plan contains attachment replacement or update" >&2
     exit 1
   }
 fi
