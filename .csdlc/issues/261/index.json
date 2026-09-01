@@ -3,9 +3,9 @@
   "issue": 261,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "79989eec9d376fe03f54c75e0368aa38a2e52820742db16b14eae9eb5a7dfe69",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "d34fd89a8ed165488958307d5cb15773f925924de18ac40969ea34fc7277081f",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "35652caf1800b65fb1970d18b5cad42597bc7217cb2fa12c5ce5c8038af6072c",
   "branch": "codex/261-podcast-show-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-261-podcast-show-identity",
   "review_assignment": {
@@ -19,7 +19,23 @@
       "verify no #264 or #51 submission/coordination work is implemented"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:78839b05-3163-4827-bb33-f759ecba6dff",
+    "scope": [
+      "exact head f8c27d383 on branch codex/261-podcast-show-identity",
+      "show identity packet for The Cognitive Stack",
+      "rights, metadata, artwork, mailbox readiness, validation, and #262/#263 stack readiness implications",
+      "verify no #264 or #51 submission/coordination work is implemented"
+    ],
+    "reviewed_revision": "git-blake3:f8c27d3839a80eecbcf98ee77960376e9c6b46e9:e1555acf8e7cfb3d4f4c629e9806fcfe8b3c7b16441bd3573d6cef77f806edae",
+    "findings": [],
+    "residual_risks": [
+      "Directory submission and provider-account work remains intentionally deferred to #264.",
+      "The public podcast page/feed work remains stacked behind #262 and is not implemented by #261 alone."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a7de1d6441e71301b9c68a733aad44e252cb977ac3c889a97e0cddf86341d0fa",
+      "values_digest": "2811dfa8fee21b904efa3e8f0a756cc0db68e989a6334b80f34cd53ae1fae3e0",
       "rendered_digest": "93a2c62e359bbcd5dad24acd2770a0ca3affdadf924958fa8733d2454e17a44f",
       "ast_digest": "82040e4c170fce1e8e2cf144146b469dbd77b0eb9cf6a0ce648dbbf53a1c9170"
     },
     "stp": {
-      "values_digest": "637d63584bdfb9a5077d5a6e67a436ee579d73b1f43cef7c456d73a80b6a909d",
+      "values_digest": "aaca892f2fa7eaeee3a500b8da6a341e04c7688084963c3014975811c635f470",
       "rendered_digest": "5a818e58e482b72dc1480ea444a6ef2b11cb26d123b7dba036b57dc5f1eb2e2d",
       "ast_digest": "6981a756aad6aa3ded34a3d678e2f97ea6c5b67aac93577bbe13c9461164fd3c"
     },
     "spp": {
-      "values_digest": "7bc89debc17cea1b33e023badff9d1fef9640e3d9f0e5f3ba97bf9ffc44de14d",
+      "values_digest": "28756aea28536b8925e618cfb3c98fcd128741e348a048bc0a63d915abc0aebc",
       "rendered_digest": "abe1f9b484461c31ae318681fbe179287a32bef44e3529eef599908f6a88239e",
       "ast_digest": "354904c65e4002755644e653ae9c9943ab365461952b252923f7815d524f7e53"
     },
     "vpp": {
-      "values_digest": "4022593e85855352c295edaf110bf849fbdf9e3385525bee3175a2f3a1b4cf52",
+      "values_digest": "fcf5463474354db1b430ce25b870cc51c96ad4655ac2c71360d94e6aaf75fc05",
       "rendered_digest": "cb2716456370655d7fbfa88f5ee58ada17b3b80f6c398f582962a514a59d668f",
       "ast_digest": "0961496d9f65d5dda646f3ad1fff38d07a09cf5f5215b99e9207369744087881"
     },
     "srp": {
-      "values_digest": "5d9f6ab99e5d1bd74e2d61369703d08fd29ee6613f4ad705fe9926365ed1a573",
-      "rendered_digest": "74f73224cbc68439898c4ce501d7098eaf2a593430f3487be85ec27005625756",
-      "ast_digest": "626b5132f080dbf51b7eb728d6d581e134883b3ef7a5b3fb32ca97a09a279836"
+      "values_digest": "059cacd52277fb157c2ffca7681334dfafecfd9d66d82e51cc799bdf3dbfa574",
+      "rendered_digest": "5428763ab22ccc9e65e39d845721daa47e6a627b35413633970ab5100cf5a183",
+      "ast_digest": "55346ca89d307d290527c37a25639a06a1c9f0698f91c173cfc566459f88b8da"
     },
     "sor": {
-      "values_digest": "feb8598424c3c6482f44d9cd1902f32deef0adb9f7d5c958e15f3d74f86fe614",
+      "values_digest": "3ec8dda6ae2240464e54df75963f688ca744298579ad408cbfba4191b37b2437",
       "rendered_digest": "da32f2af8e02e6506a7805a527d3da0cadedb996dc7efe9864b52726ad9fbe1b",
       "ast_digest": "1f7ef1bf6a8929a39399319c335dd5bb40db3c0c43bc052ee2915bfd53f3b0b1"
     }
@@ -85,6 +101,13 @@
       "to": "implemented",
       "actor": "codex:podcast-issue-owner",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:78839b05-3163-4827-bb33-f759ecba6dff",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -220,6 +243,13 @@
       "actor": "codex:podcast-issue-owner",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "fresh-session:78839b05-3163-4827-bb33-f759ecba6dff",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

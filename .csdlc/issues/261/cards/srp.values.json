@@ -7,15 +7,15 @@
     "title": "[v0.92][podcast][51.a] Finalize show identity, artwork, rights, metadata, and mailbox readiness",
     "slug": "podcast-show-identity",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "exact head f8c27d383 on branch codex/261-podcast-show-identity\nshow identity packet for The Cognitive Stack\nrights, metadata, artwork, mailbox readiness, validation, and #262/#263 stack readiness implications\nverify no #264 or #51 submission/coordination work is implemented",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:f8c27d3839a80eecbcf98ee77960376e9c6b46e9:e1555acf8e7cfb3d4f4c629e9806fcfe8b3c7b16441bd3573d6cef77f806edae",
+      "reviewer": "fresh-session:78839b05-3163-4827-bb33-f759ecba6dff",
       "review_prompts": [
         "Is every identity field explicitly operator-approved rather than inferred from candidate feed text?",
         "Does artwork technical proof and rights provenance bind the exact retained bytes without unsupported ownership claims?",
@@ -24,8 +24,11 @@
         "Do all downstream references resolve to one versioned canonical packet without publication overclaim?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Directory submission and provider-account work remains intentionally deferred to #264.",
+        "The public podcast page/feed work remains stacked behind #262 and is not implemented by #261 alone."
+      ],
+      "review_result": "pass"
     }
   }
 }
