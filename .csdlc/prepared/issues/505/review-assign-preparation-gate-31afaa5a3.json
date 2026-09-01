@@ -1,0 +1,26 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 505,
+  "expected_generation": 12,
+  "expected_digest": "2144f1f96e63ae6aca85d16f71f1634e4dd93ba0c79603e9c9faa4ab178dbeda",
+  "reviewer": "review_591_head_31afaa5a3",
+  "assigned_by": "codex:worker-6",
+  "scope": [
+    "AGENTS.md",
+    "csdlc-v2/AGENTS.md",
+    "csdlc-v2/operator/SKILLS.md",
+    "csdlc-v2/operator/skills",
+    "csdlc-v2/tests/projection_recovery_integration.rs",
+    "csdlc-v3/AGENTS.md",
+    "csdlc-v3/README.md",
+    "docs/csdlc-v3",
+    "docs/default_workflow.md",
+    "docs/onboarding.md",
+    "docs/architecture/ADL_ARCHITECTURE.md",
+    "docs/tooling/adl_pr_cycle_skill.md",
+    "docs/tooling/card-lifecycle.md",
+    "docs/tooling/structured-prompt-contracts.md",
+    "docs/tooling/editor",
+    "docs/templates"
+  ]
+}

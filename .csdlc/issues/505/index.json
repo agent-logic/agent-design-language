@@ -4,13 +4,63 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cbfb41543490955f252a771d330feff30876bf98fcb53f4b1cada0e1b86439ea",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "2144f1f96e63ae6aca85d16f71f1634e4dd93ba0c79603e9c9faa4ab178dbeda",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "8b6e0a80b1bb23aff20654f7660ec3fe347a5dcf0ab2a3439c6bc2cd6c2b7f84",
   "branch": "codex/505-v3-f-authority-transition-decision-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-505-v3-f-authority-transition-decision-exec",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "review_591_head_31afaa5a3",
+    "assigned_by": "codex:worker-6",
+    "revision": "git-blake3:31afaa5a32af0da162c2494c7cfab4b78e13174d:a5041df040b4e69f865774d7bd2dab49af3c5d362dab3b79a3615f42445d5816",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/csdlc-v3",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates"
+    ]
+  },
+  "review": {
+    "reviewer": "review_591_head_31afaa5a3",
+    "scope": [
+      "AGENTS.md",
+      "csdlc-v2/AGENTS.md",
+      "csdlc-v2/operator/SKILLS.md",
+      "csdlc-v2/operator/skills",
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      "csdlc-v3/AGENTS.md",
+      "csdlc-v3/README.md",
+      "docs/csdlc-v3",
+      "docs/default_workflow.md",
+      "docs/onboarding.md",
+      "docs/architecture/ADL_ARCHITECTURE.md",
+      "docs/tooling/adl_pr_cycle_skill.md",
+      "docs/tooling/card-lifecycle.md",
+      "docs/tooling/structured-prompt-contracts.md",
+      "docs/tooling/editor",
+      "docs/templates"
+    ],
+    "reviewed_revision": "git-blake3:31afaa5a32af0da162c2494c7cfab4b78e13174d:a5041df040b4e69f865774d7bd2dab49af3c5d362dab3b79a3615f42445d5816",
+    "findings": [],
+    "residual_risks": [
+      "This PASS covers the #505 preparation gate only; it does not approve cutover, merge, finish, cleanup, v2 retirement, or terminal #505 closeout.",
+      "At review time GitHub still reported adl-coverage-workspace-hosted as pending; treat hosted merge-readiness as an external PR-wait gate until live readback clears it."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73a8bbec851a0108b760a45b6418715287c57de187427723f7a1d045b8fa315d",
+      "values_digest": "a4be6568e49e1e14ab1ae5571d576581fa49ba1141be78bb2a267cedf3d56de2",
       "rendered_digest": "5695b4db42a7d53df1075dfa6383057d8116f0f6ad6fc5cf59899ad6799fb5d0",
       "ast_digest": "7b3611fae48a24d8541400c2c8244aa6dbd266ae549601936b2b09fc0fcb0b62"
     },
     "stp": {
-      "values_digest": "b02b45f9e3fc130bdf0fdd9e80addc45298f36d30ca96b83473f786e5a2430f3",
+      "values_digest": "5cb27c7260d398a96bc50be9b19fa8ca27e0c64856d9ac511c58b18611fe01fe",
       "rendered_digest": "fb0fa0e4b9a71d487e3d74701798076ae1bf66f5b9603b021801c5afa772085d",
       "ast_digest": "32fa04e1f8ddd4af680eaba990da0c6cec3bf3f462142305df1a46526a8331f2"
     },
     "spp": {
-      "values_digest": "cfb5388ac479cdfdca69f29ac5fab08a2420c4e261853e8407b9fb7597e1ac1e",
+      "values_digest": "8371ade6861ae0b9d9e4e7e816971e07c6f9d9c61d4ae6bb2ae5815d24c71dc8",
       "rendered_digest": "5cd1fd9584bc0da09658c6c93610b6dc2086cf3649267703e6c659fe6d985fba",
       "ast_digest": "2826165e956c045a4573c211246a8e55dba814f54d0c03253a2baf73a5f0c104"
     },
     "vpp": {
-      "values_digest": "84e63e7cb053a6b7018ed34e29ccbc059ccec3fc59473cee5785fb621fe0b1d0",
+      "values_digest": "a746f3e019f7f181d3fbecd74b978745edfbcf7e19be5a1226c1c12402d90b75",
       "rendered_digest": "4587352b9d2da2973f1db7e6c5b930b69181878b97f620897a57ea70d0cf4249",
       "ast_digest": "b0c7bfb728c74c791d6123e29404cd55da35fd3293a4e3e3001f66eace957743"
     },
     "srp": {
-      "values_digest": "07e80f74601287d23ce012d661702afe213e521e687c1364dc2874327a2672c8",
-      "rendered_digest": "dcb3c40b5975169c10d2e6e3ba4d7575115de7be9c3c3a1bab85345226a297b6",
-      "ast_digest": "1d3c89aae40b57de35f390b44b912793e079134c0ad7cd86093af88345be56a3"
+      "values_digest": "bbdeac9fee1a7a6cfaaa1e0519bc260185a266b94d75af7ba3b0483f62f52942",
+      "rendered_digest": "dbcf30ca842cab590973749e260a41284327dd9a06bcce5cfc6e720d670e020a",
+      "ast_digest": "a14ecb816551fcac38cd9a09e36df83c1415bae51e1d06a8c6c1a64c4cc05c6b"
     },
     "sor": {
-      "values_digest": "030e16377fa02cf952501f6f1524ed86e3d831feaca6d74f389c69999a4e8e1a",
+      "values_digest": "92679ec69a3af48d6ac7699583984c6b27fc99e80e131b170c890dcba374a90b",
       "rendered_digest": "8d3bb810b722aa8e728d53e103a2900522e2300072769623dadeb9ba3690ca3f",
       "ast_digest": "971f5ee1de0a8c60dc4a72465ec8baf4d8196561aa8d012c301e50d2675b794f"
     }
@@ -111,6 +161,13 @@
       "to": "implemented",
       "actor": "Worker #6",
       "reason": "Recover stale #505 review/publication truth after cutover-prep evidence and template/editor notice updates at clean commit c28cf29c7."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -225,6 +282,20 @@
       "actor": "worker-6",
       "reason": "Align the output card status with implemented-phase execution truth while preserving not-published, not-merged, and not-closeout states before explicit cutover approval.",
       "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:worker-6",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:worker-6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
