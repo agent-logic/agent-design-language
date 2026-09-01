@@ -3,15 +3,15 @@
   "issue": 531,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e14535db7b495d139cde4ee9b64193548b419a73af2001399b8e4c2bacad2b06",
-  "phase": "reviewed",
-  "generation": 16,
-  "digest": "02ab35fbbd87c361e4ca3a70697dad25bce78738b3a441555912f4675416d9b4",
+  "phase": "published",
+  "generation": 19,
+  "digest": "aa54991e8de3620d12536e1308708b589295cad3779253dc1cdf981025d0cb08",
   "branch": "codex/531-sprint3-cloud-convergence-closeout",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-531-sprint3-cloud-convergence-closeout",
   "review_assignment": {
     "reviewer": "review_531_sprint3_closeout",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:8a6bbeb9eaed889c1d985ebb09389d1729b9ef63:c49b3a7f21f35909826649ba202bfdb888ea315e36570932717109668e2c996a",
+    "revision": "git-blake3:ffda9d3560d677956220db45d8060714405602d7:5bd4447c057963e436872e4d38af45ae4e6d9391a4f7df906762522b9d2bb3de",
     "scope": [
       ".csdlc/prepared/issues/531",
       "docs/milestones/v0.92.1/evidence/cloud/sprint-3"
@@ -23,7 +23,7 @@
       ".csdlc/prepared/issues/531",
       "docs/milestones/v0.92.1/evidence/cloud/sprint-3"
     ],
-    "reviewed_revision": "git-blake3:8a6bbeb9eaed889c1d985ebb09389d1729b9ef63:c49b3a7f21f35909826649ba202bfdb888ea315e36570932717109668e2c996a",
+    "reviewed_revision": "git-blake3:ffda9d3560d677956220db45d8060714405602d7:5bd4447c057963e436872e4d38af45ae4e6d9391a4f7df906762522b9d2bb3de",
     "findings": [],
     "residual_risks": [
       "Local child C-SDLC terminal and cleanup state for #489, #494, #495, and #496 remains not recorded in this checkout.",
@@ -33,7 +33,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 531,
+    "pull_request": 600,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/600",
+    "base": "main",
+    "head": "codex/531-sprint3-cloud-convergence-closeout",
+    "revision": "git-blake3:ffda9d3560d677956220db45d8060714405602d7:5bd4447c057963e436872e4d38af45ae4e6d9391a4f7df906762522b9d2bb3de",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -47,34 +58,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d77d6a1fb6d87a27eafad8706adcf77a5085e5eef7372ba84171a4ab4884a67f",
+      "values_digest": "eb70743484975a119916d22d61d9637c4a7f942ddfb2a8041ce37faf2f8ed542",
       "rendered_digest": "bbe4d3c98970ca21fb0251ef9f233d75acaf09506a220130aa8baf6cbc04d774",
       "ast_digest": "70d31153c00fdf754af40f17f47270c9460efd62b68131d8713cea97d5d1412e"
     },
     "stp": {
-      "values_digest": "c7f9e3698b9aeef3b4bea7a860e257d4f90426616a621ffa6c9e202fd7541e5a",
+      "values_digest": "6c5228b01418a32ab0b09fdc2659b4fb1861eba6825e23791d3ecf85bd4a4d29",
       "rendered_digest": "0cf7247d0367cdc6f9b21d588fbcd877c14529064b2ba839882c10838a736183",
       "ast_digest": "d70a9dd39f30535f740118eb2f4eb51d093f3e32180fb78152ff81c2b2f0006f"
     },
     "spp": {
-      "values_digest": "af9e68717e730b143281652f2370a1a713f382dc33620c80c712a917c4abdfb6",
+      "values_digest": "04b5c22edb742ddd2624579242b2f5e86d59efffca082e7d62251838fe75e19b",
       "rendered_digest": "67a556f39af05ac52536834cf50aeaaa606df133763766ee27afdda503affa0e",
       "ast_digest": "f963254e3764724be83c82c71f2dc1eed03218c37db1d2da2f1591cd9133317e"
     },
     "vpp": {
-      "values_digest": "d2cbc8707eac877859256e8cbd73e386104641627a463124d4bcbf5d897586e3",
+      "values_digest": "deb59a4c758515fdaaad3ff0e6301b3a2c6546eb7c8f40116ea6e32bc9f6f3e7",
       "rendered_digest": "7b16aca8c7657b1a9583b21fa31da030eb46b3116790d85fd463b0b271815753",
       "ast_digest": "8e9dcc5b9cdbbea9a4573c9cea6ce660fd2e8a5349bd2eadb928f62d0c8ce456"
     },
     "srp": {
-      "values_digest": "7b64390750c10095f1371ea7bd30b4fb0c059ca69797c0b5827d38e53bc5b817",
-      "rendered_digest": "bfae6f9ac17b4eb426f2da8e31a26fef5b5f17305dcee90e4115329387b1738e",
-      "ast_digest": "ec128282568b0725cbb19b0c7127780790bdb88210c3519791ff8f726b8cc1e9"
+      "values_digest": "959ab34f5f7bb7cf6acf4b3ada9edb25580e9e3e2660197cccde616960d4885f",
+      "rendered_digest": "79c38170b2c395c3db126c479ac224357a81ee863c4c7aee8bc382b53583b2db",
+      "ast_digest": "da3bfc4255d0dc8ce8b4522b8122444a6c987c8efb729460341d042fea064f1f"
     },
     "sor": {
-      "values_digest": "f64c3b9bccaa83c37ed3a10b4ac08ca79401031f0d9311e8f8b584e282f91c8a",
-      "rendered_digest": "5f897f253d38c9b2334baf394b71fcd9e565d2fbe69f968603d3411f63ae2cbb",
-      "ast_digest": "ce25fe958d3dbe15a293d783e18e85e9d38ef6a76dadd10dbacbfd7bc3f92caf"
+      "values_digest": "b90aa9c58843d37d5045eae3a925eca0f1b7bb6af33e7edfe7cb016171bd1daa",
+      "rendered_digest": "a837c059dddbf41b8265dd38c514b3aaaeec5fb1cbb61c8019594823e6f5777b",
+      "ast_digest": "d059b8956306edfc49a676f308aa4242f8762f3c46b9520adbd6a2ee92bfa113"
     }
   },
   "transitions": [
@@ -119,6 +130,27 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review state after rebasing #531 onto current origin/main changed the exact clean commit identity; reassign and rerecord review against rebased HEAD."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -261,6 +293,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover review state after rebasing #531 onto current origin/main changed the exact clean commit identity; reassign and rerecord review against rebased HEAD.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

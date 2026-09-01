@@ -7,14 +7,14 @@
     "title": "[v0.92.1][Sprint 3] Cloud convergence",
     "slug": "sprint-3-cloud-convergence",
     "version": "v0.92.1",
-    "generation": 16
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/prepared/issues/531\ndocs/milestones/v0.92.1/evidence/cloud/sprint-3",
-      "review_revision": "git-blake3:8a6bbeb9eaed889c1d985ebb09389d1729b9ef63:c49b3a7f21f35909826649ba202bfdb888ea315e36570932717109668e2c996a",
+      "review_revision": "git-blake3:ffda9d3560d677956220db45d8060714405602d7:5bd4447c057963e436872e4d38af45ae4e6d9391a4f7df906762522b9d2bb3de",
       "reviewer": "review_531_sprint3_closeout",
       "review_prompts": [
         "Does the sprint result overclaim child implementation, paid cloud proof, production cutover, cleanup, or terminal status?",
