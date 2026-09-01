@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "d3ee2c3e4a1653739e53af1ed8102607de14464c5ebc6b16727b564b3751ab0b",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "3ff4e9d0936eec6b987d79b3462d0661428990c41aa069c65a601891362bfa33",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
   "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_launch_ready_review",
+    "reviewer": "fresh-session:/root/issue_345_final_pass_review",
     "assigned_by": "codex:/root:issue-345-pr593-remediation",
-    "revision": "git-blake3:87c82f0b8049004b9f8fb755cddf398ef05aaf6f:e9425c9cb9c064167e6abf85c9ca7f8f59fd876102de94d1f43c0c4062911a62",
+    "revision": "git-blake3:b8e09e3fef74306eff27c1b7ba8dcaa6200a2304:324219e3d8cd9a59312eac25c9f75d91f929f935fa2afa4964676d335b13efba",
     "scope": [
       "adl-runtime/tests/shepherd_local_model.rs",
       "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
@@ -24,7 +24,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:/root/issue_345_launch_ready_review",
+    "reviewer": "fresh-session:/root/issue_345_final_pass_review",
     "scope": [
       "adl-runtime/tests/shepherd_local_model.rs",
       "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
@@ -34,32 +34,11 @@
       ".csdlc/evidence/345",
       ".csdlc/issues/345"
     ],
-    "reviewed_revision": "git-blake3:87c82f0b8049004b9f8fb755cddf398ef05aaf6f:e9425c9cb9c064167e6abf85c9ca7f8f59fd876102de94d1f43c0c4062911a62",
-    "findings": [
-      {
-        "id": "F-345-14",
-        "severity": "p2",
-        "summary": "The runbook incorrectly requires the reviewed substantive commit to equal checkout HEAD instead of describing the clean reviewed or published metadata-tail lifecycle head.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "F-345-15",
-        "severity": "p2",
-        "summary": "Local proof does not execute the typed-review equality and substantive-drift guard or prove authorized SG, AMI, and subnet values reach launch arguments.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:b8e09e3fef74306eff27c1b7ba8dcaa6200a2304:324219e3d8cd9a59312eac25c9f75d91f929f935fa2afa4964676d335b13efba",
+    "findings": [],
     "residual_risks": [
-      "No paid GPU launch has yet exercised the guest and cleanup path.",
-      "The bounded runner does not establish 24/7 service readiness."
+      "The authorized paid GPU lane still must dynamically prove guest execution and cleanup.",
+      "This bounded proof runner does not establish 24/7 service readiness."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -78,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d07d15dd5e693a280e7f30a73ea8df19541bfb992d7cbc719e3fc44edd904816",
+      "values_digest": "4a8bb25df102e439aa08b4ca05fcec1316c7be91443da448c76b21b4f4c9f7b2",
       "rendered_digest": "1642267d8763409d6a31bee420bc71e67cd643b85cff16a985dc29814f64971a",
       "ast_digest": "33d57fc7fcdb8f8f80d7f442d1de5bb04e85029da807fafb040561a975a02801"
     },
     "stp": {
-      "values_digest": "a439e106e96d59192d01a1c2435c16480391bb202ebc796e328d88a3628f62a4",
+      "values_digest": "8ddb6978bfea9c3890bc2d49d0792a84f5086a034ab4238086cec55bccd4d9c1",
       "rendered_digest": "94ba3161d5e5fe0513ee0fefb2a614ff6fae98f691efad8b7c1f9a3b324af24d",
       "ast_digest": "4264ed380f4d0444d7436ec145efb254242bc1872e32d826b6d51b5ff372d3b2"
     },
     "spp": {
-      "values_digest": "4ccab82f61772c3159dcf769a138c93bed3772d36806bdb79f26a2ed8aef8cf7",
+      "values_digest": "315c14531daaf86905a084b37d0e37cd185edd6df9222fec31a851fce0b747ae",
       "rendered_digest": "fdfab867eb938b2abe6fa13ac84ffeb61e3cceddd268469c793bcd26669389c6",
       "ast_digest": "80b856f194cfc7c6a241d88ea3d728a3cbf7c134c486fdfd0b57853773d09c83"
     },
     "vpp": {
-      "values_digest": "2429a40d0d2d80d4b70bfab8bb6b568656fbdeaa605ebe13b1c7a8d6eb7c286c",
+      "values_digest": "c1ed5c059c552d968d4f2be3c600dd61a22185914ed0bc0dd9cb4e2ffb32632e",
       "rendered_digest": "66741aa1e2e7a8aa6c09f6add5674d5b87f1db4a4e8fbb0bd582acad5cb3ee3f",
       "ast_digest": "3b72bc8145ab9517c6184cdc1842c39496aac592be65ffdf208defba499b5fbe"
     },
     "srp": {
-      "values_digest": "0d1ea6bc1eea9a581fa2e4a6b80369394f83ec4bdf14d088665828d681b4f8d5",
-      "rendered_digest": "24622649df596ee35588f88f37a1ddaeb137e7212d54bebe9fde3f5902d57be7",
-      "ast_digest": "418958dc84093661eccf106890f8f9e82498b32a40e290aaf4d0c415e3ad41ba"
+      "values_digest": "83dcec3f74d923535069405eff0b14e34ed5586b6e69dbe30873b3dc4c6f9984",
+      "rendered_digest": "1c20c035f107a3377f5343624c33462edd490d7c7abb9c39c2b6f35f9c71e17f",
+      "ast_digest": "ed4cb782c694b7cd364483a83718af4173e09ca1dd842e0db7d4719283eea2b3"
     },
     "sor": {
-      "values_digest": "9e52cc939cac1bfc8fe60d16e7a85338861c24b7e730fb153640239e41c42440",
+      "values_digest": "603c8b799f9313320498523e8b59c225ce7977f099752a7da9fb8389e61fb0ed",
       "rendered_digest": "6a1c2ca700b472e7a13f68cec325ed2f105d73770bd4daec923b9ea48c94a181",
       "ast_digest": "f6d6103e8dbd611d11714dbcdd33df44742b451fb3ea655e06b71caa5396942a"
     }
@@ -164,6 +143,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-345-pr593-remediation",
       "reason": "Recover published review state so the operator-authorized PR #593 findings can be remediated and sent through a fresh exact-head review."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/issue_345_final_pass_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -369,6 +355,20 @@
       "actor": "codex:/root:issue-345-pr593-remediation",
       "reason": "Record the F-345-14 and F-345-15 documentation and executable regression-proof fixes.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Resolved all exact-head review findings in the optional AWS GPU proof runner; thirteen local and eighteen combined read-only safety cases pass, while paid GPU execution remains pending fresh exact-head review and typed publication.\",\"changes\":[\"Document execution from the clean reviewed or published lifecycle head with --commit naming its unchanged reviewed substantive ancestor.\",\"Execute the typed-review equality guard and real-Git substantive-drift rejection against isolated review indexes.\",\"Build the EC2 run-instances argv through one pure function and prove that the authorized security-group, AMI, and subnet values each reach launch exactly once.\",\"Retain canonical authorization identity, exact infrastructure binding, full review revision equality, bounded cost, multi-model residency, Guardian, Runtime-agent ACC, cleanup, and 24/7 non-claim boundaries.\"],\"artifacts\":[\"adl-runtime/tests/shepherd_local_model.rs\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\"docs/operations/cloud/aws/shepherd-gpu-proof/README.md\",\".csdlc/evidence/345/issue345-runner-contract.log\",\".csdlc/evidence/345/issue345-live-preflight.json\",\".csdlc/evidence/345/issue345-diff-hygiene.log\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Execute thirteen local no-AWS safety cases including exact-review, drift, and launch-argv regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/345/issue345-runner-contract.log\"},{\"command\":[\"env\",\"ADL_ISSUE345_LIVE_PREFLIGHT=1\",\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Execute the real read-only AWS preflight plus all eighteen combined safety cases without paid launch.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/345/issue345-live-preflight.json\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/345/issue345-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root:issue-345-pr593-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "fresh-session:/root/issue_345_final_pass_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
