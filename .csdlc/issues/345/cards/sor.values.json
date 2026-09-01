@@ -7,48 +7,58 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 103
+    "generation": 105
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "After AWS refused g6.xlarge placement in 2a and then transiently in 2b and 2c, authorization-bound preferred-subnet routing launched both nodes in us-west-2d. The GPU node again proved both configured models simultaneously resident with exact digests and nonzero VRAM. The Runtime node restored the complete Git-free archive, compiled Guardian in 1m06s, passed Git-free root and polis-domain validation, then failed because the validator localized the Observatory allowed-origin entry without localizing polis.observatory_public_origin. The orphaned probe alone was terminated after the immediate soak failure. Cleanup destroyed both nodes and volumes and released the lock. The validator now localizes both Observatory-origin fields together and rejects missing or duplicate polis origin fields. Final paid proof remains pending review and rerun.",
+      "summary": "The ninth authorized Terraform run launched the Runtime and GPU nodes in us-west-2d with mandatory SSH and one key pair. The GPU node verified the immutable S3 artifacts and again proved llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM. The Runtime node restored the Git-free archive and compiled Guardian successfully, then its authenticated WSS fanout failed because the lifecycle client requested the unversioned Observatory feed, which defaults to v2, while asserting the v3 feed schema. The exact orphaned probe was terminated after the immediate failure to avoid idle billing. Cleanup destroyed both nodes and all volumes, emptied Terraform state, and released the lock. The lifecycle client now explicitly requests schema=v3 and a focused regression test passes. Final paid proof remains pending exact-head review and rerun.",
       "actual_changes": [
-        "Retained the reviewed two-node Terraform topology, one SSH key, /32 SSH ingress, private Ollama, immutable artifacts, single-use authorization, and USD 20 ceiling.",
-        "Used the reviewed preferred-subnet path to route around transient g6.xlarge capacity refusals while preserving VPC, GPU offering, route, network ACL, preflight, and authorization binding.",
-        "Observed the us-west-2d GPU receipt prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.",
-        "Observed Runtime restore the archive, compile Guardian in 1m06s, and pass the previously repaired Git-free root and polis-domain checks.",
-        "Captured the exact remaining policy error: polis.observatory_public_origin was not present in the localized Observatory allowed-origin set.",
-        "Localized the polis Observatory origin to the same test origin as the allowed-origin entry and added fail-closed missing and duplicate cases.",
-        "Confirmed cleanup left zero issue instances and volumes, destroyed Terraform state resources, and released the lock."
+        "Retained the reviewed Terraform-owned two-node topology, one SSH key, mandatory /32 SSH ingress, private Ollama routing, immutable artifacts, single-use authorization, and USD 20 hard ceiling.",
+        "Observed llama3.1:8b and qwen3:8b simultaneously resident on the L4 with exact expected digests and 5271715839 and 5578204118 bytes of nonzero VRAM.",
+        "Observed the Runtime node restore the exact Git-free source archive, compile Guardian in 1m10s, pass HTTPS fanout, and reach authenticated WSS fanout.",
+        "Captured the exact WSS failure: the client requested the unversioned route, which defaults to the previous v2 feed, while requiring the v3 feed schema.",
+        "Changed only the lifecycle WSS upgrade request to include ?schema=v3 and added a focused exact request regression test.",
+        "Terminated only the already-orphaned WSS probe after the deterministic failure so cleanup could proceed without ten idle minutes.",
+        "Confirmed cleanup left zero instances and volumes, zero Terraform resources, and no active S3 lock."
       ],
       "artifacts": [
-        "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
-        "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
-        "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-        ".adl/local/issue345/adl-issue345-20260901-134726/gpu-ready.json",
-        ".adl/local/issue345/adl-issue345-20260901-134726/runtime-final.json",
-        ".adl/local/issue345/adl-issue345-20260901-134726/cleanup-on-exit.json"
+        "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+        ".adl/local/issue345/adl-issue345-20260901-141836/gpu-ready.json",
+        ".adl/local/issue345/adl-issue345-20260901-141836/runtime-final.json",
+        ".adl/local/issue345/adl-issue345-20260901-141836/cleanup-on-exit.json"
       ],
       "actual_validation": [
         {
           "command": [
-            "bash",
-            "adl/tools/test_run_issue268_six_hour_spot_qualification.sh"
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--bin",
+            "adl-runtime-lifecycle-soak",
+            "tests::observatory_wss_qualification_requests_current_feed_schema",
+            "--",
+            "--exact"
           ],
-          "purpose": "Run the extracted Runtime-init localization contract, including coupled Observatory origins and missing or duplicate negative cases.",
-          "outcome": "failed",
-          "evidence_ref": "adl/tools/test_run_issue268_six_hour_spot_qualification.sh"
+          "purpose": "Prove the lifecycle WSS upgrade explicitly selects the v3 feed and retains the configured Observatory origin.",
+          "outcome": "passed",
+          "evidence_ref": "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs"
         },
         {
           "command": [
-            "bash",
-            "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--",
+            "--check"
           ],
-          "purpose": "Prove the issue-owned no-paid topology, capacity subnet, authorization, recovery, and cleanup contracts.",
+          "purpose": "Verify Rust formatting for the WSS schema-selection remediation.",
           "outcome": "passed",
-          "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
+          "evidence_ref": "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs"
         },
         {
           "command": [
@@ -56,16 +66,16 @@
             "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
             "run",
             "--commit",
-            "993cd46101709a400a2d3e3615921219bea85ede",
+            "9d1a1184c2117a81c7ef0f04b24012de584dfd0f",
             "--run-id",
-            "adl-issue345-20260901-134726",
+            "adl-issue345-20260901-141836",
             "--authorization-file",
-            ".adl/local/issue345/operator-authorization-capacity-subnet-2d.json",
+            ".adl/local/issue345/operator-authorization-final-2d.json",
             "--execute"
           ],
-          "purpose": "Run the real us-west-2d two-node qualification through repeated GPU residency, Guardian compilation, exact Observatory-origin policy failure, and cleanup.",
+          "purpose": "Run the real us-west-2d two-node qualification through repeated GPU residency, successful Guardian compilation, exact WSS feed-version failure, and zero-residue cleanup.",
           "outcome": "failed",
-          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-134726"
+          "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-141836"
         },
         {
           "command": [

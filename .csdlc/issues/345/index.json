@@ -4,37 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "reviewed",
-  "generation": 103,
-  "digest": "8025189642c90e824fbb4a271fca47b4dc0bd635081b93310eb84217bc8eb2e4",
+  "phase": "implemented",
+  "generation": 105,
+  "digest": "ebe9729530432686a09a56a8cf1bed1908b2947a6ffd77271993c321946a4736",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
-    "revision": "git-blake3:9d1a1184c2117a81c7ef0f04b24012de584dfd0f:046e8a9a33a9da90e96e15ab373715ebc9e9b15802f91557012c1a40f56f34a1",
-    "scope": [
-      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
-      "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
-      ".csdlc/issues/345"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
-    "scope": [
-      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
-      "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
-      ".csdlc/issues/345"
-    ],
-    "reviewed_revision": "git-blake3:9d1a1184c2117a81c7ef0f04b24012de584dfd0f:046e8a9a33a9da90e96e15ab373715ebc9e9b15802f91557012c1a40f56f34a1",
-    "findings": [],
-    "residual_risks": [
-      "Final paid two-node success remains pending.",
-      "The bounded qualification does not establish 24/7 production readiness."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -49,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "008e7bd766e77b5cecc61702563700f73f0c4df1c7154924078c6267951ea709",
+      "values_digest": "8773f615207c30b7dffba36fb98fdd1081305d55b220451f64d4409dda6aa15e",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "853cae7951cc3e07a24338689db788a6ae8878e9e5cd5678df06733fddba1b5c",
+      "values_digest": "e6bf544d28d1bc861bb97a8a5108f28522a0b5904ba873bafa2b336a6a88135b",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "3b313d56acedb22b183ad6678e097a30b5e7dc77a99345a6703ea610b9a5c537",
+      "values_digest": "57c231fb7895edc5ac7dc78e6a06139a832b1fb4d573752a567603f5a8a2348f",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "4516ac2d1d51750da31d448b93d5f785c02921b937fcae342cd9cce698eff964",
+      "values_digest": "e9d0e7a6603a3c80f15a8c64bba2ce9f9288cb447c786efdf4a079a856cad206",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "a0a2a0ee692bd3705aec0391456db702ef50f2829818492d59acf03069d8033b",
-      "rendered_digest": "d51af214f76229d57fa4dc2b77bd2d40a05b695db77700892c739206eabdebda",
-      "ast_digest": "e7da2f46ec45a7659881a9797c1a7bef66cd1d343d8b5152d009b917c82e081b"
+      "values_digest": "1428938eaf38423b8380661599b5570abec9501cf0cfd1b10d20c3b1e8bf79cc",
+      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
+      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "2ab0307cb3482490bb5f1ce9102c5afbee4453fe87def35fe648c40ad5c2560b",
-      "rendered_digest": "82ecb5405f47277680f1dca10f4d07d14390555fa573989c4bb46fcabaad0ec6",
-      "ast_digest": "d48a95aa3e10def0c525a9b48d6fdfc6bdb739732583265f2c31819422d22d7e"
+      "values_digest": "4151a752d0f43b7f8d633a917332de42839cdc443be6f1581566b2c5457d62cb",
+      "rendered_digest": "c02d6a2b4c1da2f563d5900fe331a63500feea98074f02eeb7318a3cdc0547bb",
+      "ast_digest": "2db94fce4682484f9d8f220e3b12bd2900f3d7edc666a376489fc526090fd29b"
     }
   },
   "transitions": [
@@ -303,6 +279,13 @@
       "to": "reviewed",
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 33,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the ninth paid run proved both models resident and reached Guardian WSS fanout, then exposed that the lifecycle client requested the unversioned previous feed while asserting the v3 schema; bind the current schema explicitly, record the live failure and zero-residue cleanup, then re-review before rerun."
     }
   ],
   "audit": [
@@ -1208,6 +1191,20 @@
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 130,
+      "generation": 104,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover the exact-head PASS after the ninth paid run proved both models resident and reached Guardian WSS fanout, then exposed that the lifecycle client requested the unversioned previous feed while asserting the v3 schema; bind the current schema explicitly, record the live failure and zero-residue cleanup, then re-review before rerun.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 131,
+      "generation": 105,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Record the ninth real two-node run, repeated exact two-model GPU residency, successful Runtime archive restore and Guardian compilation, exact WSS feed-version mismatch, zero-residue cleanup, and the narrow schema-selection remediation without claiming final success.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"The ninth authorized Terraform run launched the Runtime and GPU nodes in us-west-2d with mandatory SSH and one key pair. The GPU node verified the immutable S3 artifacts and again proved llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM. The Runtime node restored the Git-free archive and compiled Guardian successfully, then its authenticated WSS fanout failed because the lifecycle client requested the unversioned Observatory feed, which defaults to v2, while asserting the v3 feed schema. The exact orphaned probe was terminated after the immediate failure to avoid idle billing. Cleanup destroyed both nodes and all volumes, emptied Terraform state, and released the lock. The lifecycle client now explicitly requests schema=v3 and a focused regression test passes. Final paid proof remains pending exact-head review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one SSH key, mandatory /32 SSH ingress, private Ollama routing, immutable artifacts, single-use authorization, and USD 20 hard ceiling.\",\"Observed llama3.1:8b and qwen3:8b simultaneously resident on the L4 with exact expected digests and 5271715839 and 5578204118 bytes of nonzero VRAM.\",\"Observed the Runtime node restore the exact Git-free source archive, compile Guardian in 1m10s, pass HTTPS fanout, and reach authenticated WSS fanout.\",\"Captured the exact WSS failure: the client requested the unversioned route, which defaults to the previous v2 feed, while requiring the v3 feed schema.\",\"Changed only the lifecycle WSS upgrade request to include ?schema=v3 and added a focused exact request regression test.\",\"Terminated only the already-orphaned WSS probe after the deterministic failure so cleanup could proceed without ten idle minutes.\",\"Confirmed cleanup left zero instances and volumes, zero Terraform resources, and no active S3 lock.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\".adl/local/issue345/adl-issue345-20260901-141836/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-141836/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-141836/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"tests::observatory_wss_qualification_requests_current_feed_schema\",\"--\",\"--exact\"],\"purpose\":\"Prove the lifecycle WSS upgrade explicitly selects the v3 feed and retains the configured Observatory origin.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify Rust formatting for the WSS schema-selection remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"9d1a1184c2117a81c7ef0f04b24012de584dfd0f\",\"--run-id\",\"adl-issue345-20260901-141836\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-final-2d.json\",\"--execute\"],\"purpose\":\"Run the real us-west-2d two-node qualification through repeated GPU residency, successful Guardian compilation, exact WSS feed-version failure, and zero-residue cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-141836\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
     }
   ]
 }

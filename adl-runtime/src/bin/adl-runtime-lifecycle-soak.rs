@@ -2253,17 +2253,10 @@ async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(),
         .connect(server_name, stream)
         .await
         .map_err(|error| error.to_string())?;
-    let request = format!(
-        "GET {OBSERVATORY_WS_PATH} HTTP/1.1\r\n\
-         Host: {}:{}\r\n\
-         Origin: {}\r\n\
-         Connection: Upgrade\r\n\
-         Upgrade: websocket\r\n\
-         Sec-WebSocket-Version: 13\r\n\
-         Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n",
-        fixture.tls_server_name,
+    let request = observatory_ws_upgrade_request(
+        &fixture.tls_server_name,
         fixture.address.port(),
-        fixture.observatory_origin,
+        &fixture.observatory_origin,
     );
     stream
         .write_all(request.as_bytes())
@@ -2301,6 +2294,18 @@ async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(),
         }
     }
     Err("authenticated WSS Observatory did not prove feed and control authentication".to_owned())
+}
+
+fn observatory_ws_upgrade_request(tls_server_name: &str, port: u16, origin: &str) -> String {
+    format!(
+        "GET {OBSERVATORY_WS_PATH}?schema=v3 HTTP/1.1\r\n\
+         Host: {tls_server_name}:{port}\r\n\
+         Origin: {origin}\r\n\
+         Connection: Upgrade\r\n\
+         Upgrade: websocket\r\n\
+         Sec-WebSocket-Version: 13\r\n\
+         Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n"
+    )
 }
 
 async fn read_http_headers<S>(stream: &mut S) -> Result<String, String>
@@ -3777,6 +3782,14 @@ fn read_pem_der_bytes(bytes: &[u8]) -> Result<Vec<u8>, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn observatory_wss_qualification_requests_current_feed_schema() {
+        let request =
+            observatory_ws_upgrade_request("localhost", 20997, "https://observatory.example.test");
+        assert!(request.starts_with("GET /v1/observatory/ws?schema=v3 HTTP/1.1\r\n"));
+        assert!(request.contains("Origin: https://observatory.example.test\r\n"));
+    }
 
     fn git_free_archive_fixture() -> (tempfile::TempDir, PathBuf, PathBuf) {
         let current_dir = std::env::current_dir().expect("current directory");
