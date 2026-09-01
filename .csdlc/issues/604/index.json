@@ -4,80 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "published",
-  "generation": 8,
-  "digest": "e567bf2baaad877debe5ebeeb42c9585379bb560168c8b102b6f2cf1f039ca48",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "d09f0e3d237316fef81b6dbabebe904e89e6bafd3507742e6e580038eb3750c5",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
-  "review_assignment": {
-    "reviewer": "/root/review_604_pre_pr_repaired",
-    "assigned_by": "codex:/root/worker-6/issue-604",
-    "revision": "git-blake3:0b7dfd217754cf36f38eeee510c30649098765c6:d5a72e24983ebb99df24d311e8636d73c9467e315179708226210c24584319cd",
-    "scope": [
-      ".csdlc/evidence/604/issue-604-implementation-validation.log",
-      ".csdlc/prepared/issues/604/design.md",
-      ".csdlc/prepared/issues/604/diagram.mmd",
-      ".csdlc/prepared/issues/604/finalize-request.json",
-      ".csdlc/prepared/issues/604/full-cycle-defects.md",
-      ".csdlc/prepared/issues/604/publish-draft-request.json",
-      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
-      ".csdlc/prepared/issues/604/review-assign-repaired.json",
-      ".csdlc/prepared/issues/604/review-record-repaired.json",
-      ".csdlc/prepared/issues/604/validate-implementation.sh",
-      "csdlc-v2/operator/skills.json",
-      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/publication_ready.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/review_604_pre_pr_repaired",
-    "scope": [
-      ".csdlc/evidence/604/issue-604-implementation-validation.log",
-      ".csdlc/prepared/issues/604/design.md",
-      ".csdlc/prepared/issues/604/diagram.mmd",
-      ".csdlc/prepared/issues/604/finalize-request.json",
-      ".csdlc/prepared/issues/604/full-cycle-defects.md",
-      ".csdlc/prepared/issues/604/publish-draft-request.json",
-      ".csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json",
-      ".csdlc/prepared/issues/604/review-assign-repaired.json",
-      ".csdlc/prepared/issues/604/review-record-repaired.json",
-      ".csdlc/prepared/issues/604/validate-implementation.sh",
-      "csdlc-v2/operator/skills.json",
-      "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
-      "csdlc-v2/src/bin/csdlc-publish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/operator.rs",
-      "csdlc-v2/src/publication.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/tests/gate10a.rs",
-      "csdlc-v2/tests/publication_ready.rs"
-    ],
-    "reviewed_revision": "git-blake3:0b7dfd217754cf36f38eeee510c30649098765c6:d5a72e24983ebb99df24d311e8636d73c9467e315179708226210c24584319cd",
-    "findings": [],
-    "residual_risks": [
-      "Live GitHub draft-to-ready mutation and remote readback remain to be exercised by the publication step for this canary issue."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 604,
-    "pull_request": 610,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/610",
-    "base": "main",
-    "head": "codex/604-v2-publish-ready-reconciliation-exec",
-    "revision": "git-blake3:5cbaf32d1231d8a789b927701ea08f87f7229ace:63024daa121636518f5594e6e1237400cf263cd3b9dd84c02e6c33eafff42120",
-    "linkage_mode": "closing",
-    "draft": true,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -91,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9cc682dfa7a7ee0153c99147dc1ea5b1359923edcd5852f6347e1e83bfd4ee0f",
+      "values_digest": "471ecd9cd150f1a759dd8e8e82e9f962057529fcf2a79a527d8b94970f8f2d9a",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "0eff728ef691a622a8a2940d8ee9ced9f6d3e828b861e9c6a5c1e82297f6fd27",
+      "values_digest": "3b2e1c8fb2fa7f86a9f3c5ac0a803f482ffca5806dd3d24dd4d63fe059769ab6",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "dda6ee4e7cf3e8f2da255c6e538178ebd9d8c0a686987591a506bf29c30201f6",
+      "values_digest": "4145d5b7e98773e6dd9d33b8238bd930e6fce5cb2f3d373aa18ff4560e24d6fd",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "0d891c6899c62dc279688a326dac8d1a27a26e35f84e4e33e3c3853e1a0e348b",
+      "values_digest": "802d8ae83f6b6cd36e96f0c49d95950300b554102f7027479cb061cc36b6dd24",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "7be4d0657c2e8dfcca598787101e4377acfd65fc92cd33a486b1dc1a389c2e27",
-      "rendered_digest": "7bddc946ef3af67c64f729deae400d6de89eba2a317c67fdb91efc08ec79e121",
-      "ast_digest": "d5c7c7db6716041cd4fde8a3bb8f1777f1dc70c56ef1384991640ef447aaca32"
+      "values_digest": "ef48ffccc80420ec42d9bc47e10c1073adc2fabf96fbf893498caee01417db11",
+      "rendered_digest": "6521d3d327da10bb1f72a25546d0721d3fb4f827e19ce3a48477d3a071365771",
+      "ast_digest": "d6631edc7e03e03c23d19446bf4618d3806a58c44cf76c2a5166d8c68631562d"
     },
     "sor": {
-      "values_digest": "33e6422062e8462e17084b9854bc34037f2bc005bd35904d26222af43fc1b046",
-      "rendered_digest": "90418060a082bb4f4b15bf8e2f1a5abf4aed3fffa01f00600b8598cd355fa4d9",
-      "ast_digest": "2bec723bb449860dceb6ce944cf1e464ecacebfaf53a99519f3bf50353c74fd6"
+      "values_digest": "3ac211927861158a10bed990fef9709767e45123b202e5c26faf84c3ca2e2166",
+      "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
+      "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
     }
   },
   "transitions": [
@@ -170,6 +104,13 @@
       "to": "published",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after live ready canary exposed that csdlc-publish ready recorded local ready truth but did not commit and push the governed metadata tail. The PR remains live and will be reconciled through a repaired typed publication path."
     }
   ],
   "audit": [
@@ -256,6 +197,20 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "Recover after live ready canary exposed that csdlc-publish ready recorded local ready truth but did not commit and push the governed metadata tail. The PR remains live and will be reconciled through a repaired typed publication path.",
+      "operation": "recover_review"
     }
   ]
 }

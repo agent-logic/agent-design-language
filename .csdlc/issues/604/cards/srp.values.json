@@ -7,15 +7,15 @@
     "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
     "slug": "v2-publish-ready-reconciliation",
     "version": "v0.92.1",
-    "generation": 8
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/604/issue-604-implementation-validation.log\n.csdlc/prepared/issues/604/design.md\n.csdlc/prepared/issues/604/diagram.mmd\n.csdlc/prepared/issues/604/finalize-request.json\n.csdlc/prepared/issues/604/full-cycle-defects.md\n.csdlc/prepared/issues/604/publish-draft-request.json\n.csdlc/prepared/issues/604/recover-stale-review-after-publication-prep.json\n.csdlc/prepared/issues/604/review-assign-repaired.json\n.csdlc/prepared/issues/604/review-record-repaired.json\n.csdlc/prepared/issues/604/validate-implementation.sh\ncsdlc-v2/operator/skills.json\ncsdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md\ncsdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/src/operator.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/publication_ready.rs",
-      "review_revision": "git-blake3:0b7dfd217754cf36f38eeee510c30649098765c6:d5a72e24983ebb99df24d311e8636d73c9467e315179708226210c24584319cd",
-      "reviewer": "/root/review_604_pre_pr_repaired",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does csdlc-publish ready verify exact live PR identity before and after mutation?",
         "Does reconcile-ready recover only from independently observed remote truth?",
@@ -24,10 +24,8 @@
         "Does the PR body include Closes #604 only after implementation, validation, and review truth are current?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Live GitHub draft-to-ready mutation and remote readback remain to be exercised by the publication step for this canary issue."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
