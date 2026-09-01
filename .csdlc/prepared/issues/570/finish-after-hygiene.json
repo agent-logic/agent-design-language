@@ -1,0 +1,17 @@
+{
+  "schema": "csdlc.finish_request.v1",
+  "issue": 570,
+  "expected_generation": 26,
+  "expected_digest": "3bc9f5e4993acaa52d91b6bc684688ad3cde32893330e96a845706d440eb343a",
+  "actor": "worker-6",
+  "repository": "agent-logic/agent-design-language",
+  "pull_request": 584,
+  "base": "main",
+  "head": "codex/570-v3-g-docs-skill-cutover-readiness-exec",
+  "expected_head_sha": "ee8b32201b8efaaed6040eacf3b017193f43d110",
+  "merge_method": "squash",
+  "required_checks": [],
+  "require_review": false,
+  "approved_no_pr_reason": null,
+  "token_file": null
+}

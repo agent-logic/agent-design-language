@@ -7,9 +7,9 @@
     "title": "[v0.92.1][V3-E] C-SDLC v3 remote delivery workflow",
     "slug": "v3-e-remote-delivery-workflow",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 19
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -95,10 +95,10 @@
           "evidence_ref": "local stdout: no findings"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

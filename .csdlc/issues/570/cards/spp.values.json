@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-G] C-SDLC v3 docs and skill cutover readiness",
     "slug": "v0-92-1-v3-g-c-sdlc-v3-docs-and-skill-cutover-readiness",
     "version": "v0.92.1",
-    "generation": 26
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -26,7 +26,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -35,7 +35,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -51,7 +51,7 @@
           "acceptance_ids": [
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -63,7 +63,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

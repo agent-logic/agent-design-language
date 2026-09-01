@@ -17,7 +17,7 @@ Bounded remediation of sprint review blockers and typed-tool canary defects need
 ## Deliverables
 
 - Typed six-card lifecycle state for #596
-- PR #597 body with visible Closes #596 and non-closing #505/#534 linkage
+- PR #597 body with non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully
 - Typed GitHub PR create/update operations with owner provenance and idempotent update safety
 - Single csdlc v3 binary and standalone locked CI coverage
 - Behavior-backed v3 importer, durability, review, finish, and cleanup fixes
@@ -26,7 +26,7 @@ Bounded remediation of sprint review blockers and typed-tool canary defects need
 ## Acceptance
 
 1. AC-1: #596 has canonical local C-SDLC v2 issue state with SIP, STP, SPP, VPP, SRP, and SOR cards
-2. AC-2: PR #597 visibly closes #596 and does not close #505
+2. AC-2: PR #597 uses non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully
 3. AC-3: PR body create/update operations are performed through typed C-SDLC v2 GitHub owners, not raw gh
 4. AC-4: Repeated PR update operation keys cannot overwrite a different governed body
 5. AC-5: v3 durable transaction proof fails closed across projection crash windows

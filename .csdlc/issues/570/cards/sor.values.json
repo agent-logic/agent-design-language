@@ -7,9 +7,9 @@
     "title": "[v0.92.1][V3-G] C-SDLC v3 docs and skill cutover readiness",
     "slug": "v0-92-1-v3-g-c-sdlc-v3-docs-and-skill-cutover-readiness",
     "version": "v0.92.1",
-    "generation": 26
+    "generation": 27
   },
-  "status": "ready",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -78,10 +78,10 @@
           "evidence_ref": "generation 23 phase implemented status pass before this SOR replacement"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

@@ -16,7 +16,7 @@ Create the typed lifecycle record, repair the idempotency and durability defects
 
 ## Plan
 
-Revision 2
+Revision 3
 
 ## Steps
 
@@ -31,11 +31,9 @@ Revision 2
   },
   {
     "id": "S2",
-    "action": "Verify and preserve PR #597 linkage so it closes #596 only and marks #505/#534 as Part-Of.",
+    "action": "Verify and preserve PR #597 linkage so it uses non-closing Part-Of #596/#505/#534 until #596 can finish truthfully.",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
-      "AC-6"
+      "AC-2"
     ],
     "status": "pending"
   },
@@ -61,10 +59,6 @@ Revision 2
     "id": "S5",
     "action": "Run focused validation, push, and refresh PR #597 readback.",
     "acceptance_ids": [
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5",
       "AC-7"
     ],
     "status": "pending"
@@ -98,13 +92,13 @@ Revision 2
 
 .csdlc/prepared/issues/596/design.md
 
-Digest: 49da6d996cd3ad753d225fc7301126f732ce2dd815a7fc5378642174997301bb
+Digest: 52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966
 
 ## Diagram
 
 .csdlc/prepared/issues/596/diagram.mmd
 
-Digest: e1ab7ebed0bad7574ff6ba639fdeccba760dc9fd07a54c65c3f59779a3920ba9
+Digest: 3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070
 
 ## Stop Conditions
 

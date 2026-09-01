@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
   "phase": "ready",
-  "generation": 3,
-  "digest": "5ef9fb1023fef83350e9eae34ffed9e4e9bc996d388cd471f9bb38b0bc1adf4d",
+  "generation": 7,
+  "digest": "f58562f564ef1e31960bcfa74a77fbd3e5bf35840690de0a1f98950ef6400642",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/596/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "worker-6:operator-reviewed",
-      "revision": "49da6d996cd3ad753d225fc7301126f732ce2dd815a7fc5378642174997301bb"
+      "reviewer": "fresh-session:8e30fc35-1c7e-415e-b470-28f2fa543c76",
+      "revision": "52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "d88d89cb5995fa0551ea6cfcfa05de090c45c6d215954cf5c2c74e1f87c2184b",
+      "values_digest": "e8f0dc0fd5d11edc650953a9eb2d6a97f1ea5d92d43d8b41217a7ebe7e87933e",
       "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
       "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
     },
     "stp": {
-      "values_digest": "177dfc76fd07a4a9759e3120144105cc2ccf680698a69dd6c05f4e0087a61eb2",
-      "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
-      "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
+      "values_digest": "18929cf5005b4e436e2d17e1fe5ce71a24088a4b837b12fa9f5b064e7fe55e49",
+      "rendered_digest": "7b7b63befa4f0dd4572b9c8b4bd133b9716aa7ebe54ac1e00a4019b45e423e46",
+      "ast_digest": "44ca7b3aaa600ae7e2c7f789709bc1caac59bef02d7a987f963dc8dcf872f956"
     },
     "spp": {
-      "values_digest": "2e37835d19fc21b82f41d175682af20184bb29f366334eee3ee262f7be24e1c4",
-      "rendered_digest": "cf4bd35b96257f447906baa698ed0ac0589fd5567c9bd683630c8a3df67ee078",
-      "ast_digest": "02186660a6dfe7cff12603add8f76705d20debce302860d4ded2cb17f4833df4"
+      "values_digest": "0a598e3f9e2aee7de263f9488ff07ca3946940cd989dab0253ccdcb4b585bd86",
+      "rendered_digest": "0dd6ec113a4be5a5df1dd52c91d72eeab468792edab12e63463fef4c7473eaeb",
+      "ast_digest": "42377ec253e921639b911d5cfcb1a078c13c11fd8ab4c601eace97859257bab8"
     },
     "vpp": {
-      "values_digest": "b35502ac3f5849ebd0ddc24b8f5df0df591d0572ed81605b9dc6d8f992d9d409",
+      "values_digest": "bc0d0512a3a3f33c89226b0fcfed650272f14cd7a2b46ef8714a65a0565788d9",
       "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
       "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
     },
     "srp": {
-      "values_digest": "cc5f00372555cf6bf55d2ded1bba84816267b52242496c5f9aea0fb4ed2d343a",
+      "values_digest": "49cd3e42a580115bcc3aa79328ee8bda55841d1197b7af201e71e666f971a97b",
       "rendered_digest": "5e73e5925328b092789181e36f16c36501741c98ff71962279354b445ecc3a5b",
       "ast_digest": "8e806d3673620d233597703b4598a0e42454a07c18d589a82ff8eed11b20b954"
     },
     "sor": {
-      "values_digest": "9f003e53865682feaf88e6ca95c122754171a0fe68849a6c628a91da9638d96b",
+      "values_digest": "29fb49213a13b0b32d5129e72e08ac1da11957bfd1456e42ba570d356e5aa99e",
       "rendered_digest": "73236e3cd06d949b141dd51a947449f7669dcda56f36cc29276c4b22926c7f73",
       "ast_digest": "5dd404f88b5b4690f31d88bf400e6aa175b3d2d3c11caf199d46f6040ab8b3a3"
     }
@@ -91,6 +91,34 @@
       "actor": "worker-6",
       "reason": "Advance #596 to ready after design approval and issue-local validation lane repair, before binding the existing remediation branch/worktree.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "worker-6:lifecycle-truth-repair",
+      "reason": "Correct #596 acceptance truth after PR #597 merged with non-closing Part-Of linkage and refresh stale ready-state design bindings.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/596/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/596/diagram.mmd\",\"new_design_digest\":\"52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966\",\"new_diagram_digest\":\"3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070\",\"old_design_digest\":\"49da6d996cd3ad753d225fc7301126f732ce2dd815a7fc5378642174997301bb\",\"old_diagram_digest\":\"e1ab7ebed0bad7574ff6ba639fdeccba760dc9fd07a54c65c3f59779a3920ba9\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #596 has canonical local C-SDLC v2 issue state with SIP, STP, SPP, VPP, SRP, and SOR cards\",\"AC-2: PR #597 uses non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully\",\"AC-3: PR body create/update operations are performed through typed C-SDLC v2 GitHub owners, not raw gh\",\"AC-4: Repeated PR update operation keys cannot overwrite a different governed body\",\"AC-5: v3 durable transaction proof fails closed across projection crash windows\",\"AC-6: v3 construction remains non-authoritative until #505 cutover\",\"AC-7: Focused v2, v3, CI-policy, canary, and diff-hygiene validation passes before handoff\"]}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "worker-6:lifecycle-truth-repair",
+      "reason": "Correct #596 deliverable truth after PR #597 merged with non-closing Part-Of linkage.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Typed six-card lifecycle state for #596\",\"PR #597 body with non-closing Part-Of #596/#505/#534 linkage until #596 can finish truthfully\",\"Typed GitHub PR create/update operations with owner provenance and idempotent update safety\",\"Single csdlc v3 binary and standalone locked CI coverage\",\"Behavior-backed v3 importer, durability, review, finish, and cleanup fixes\",\"Real issue canary evidence for #592, OBS-A/#511, and OBS-B/#512\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "worker-6:lifecycle-truth-repair",
+      "reason": "Refresh #596 ready-state design bindings after authored design drift and correct SPP linkage truth to match merged PR #597 Part-Of behavior.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/596/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/596/diagram.mmd\",\"new_design_digest\":\"52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966\",\"new_diagram_digest\":\"3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070\",\"old_design_digest\":\"52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966\",\"old_diagram_digest\":\"3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Create canonical typed six-card lifecycle state for #596.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\"],\"action\":\"Verify and preserve PR #597 linkage so it uses non-closing Part-Of #596/#505/#534 until #596 can finish truthfully.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"action\":\"Make typed PR update idempotency operation-key bound and add regression proof.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"action\":\"Close the v3 durable projection crash window and add regression proof.\",\"id\":\"S4\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-7\"],\"action\":\"Run focused validation, push, and refresh PR #597 readback.\",\"id\":\"S5\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "fresh-session:8e30fc35-1c7e-415e-b470-28f2fa543c76",
+      "reason": "reapprove repaired ready issue design",
+      "operation": "{\"design_digest\":\"52280bc82495d429709fbf677a4c78dee56827ad46c519e4a230090f54434966\",\"design_ref\":\".csdlc/prepared/issues/596/design.md\",\"diagram_digest\":\"3799c954ef8f6f9310a04b560b0c7828ebd1d7a90b28cf480f2122526cca1070\",\"diagram_ref\":\".csdlc/prepared/issues/596/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
