@@ -1,12 +1,12 @@
 {
   "schema": "csdlc.issue.index.v1",
-  "issue": 345,
+  "issue": 605,
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
   "phase": "reviewed",
-  "generation": 110,
-  "digest": "a126bb9bec4073c5d90e0dc1b8c10ab744cbc4258019e59236b686451d300289",
+  "generation": 111,
+  "digest": "1bb552f51b6d19fecce0f0f8f876950d18015e18aa679b3a74c2fe1f60f27baf",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
   "review_assignment": {
@@ -57,34 +57,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a78b77552ccd4abd91c5d86faf63bcf0b507462dfab82a0ad1825267715f0611",
-      "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
-      "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
+      "values_digest": "e8bd2672021364c9c301a9319e1d5f3cc398eb7fbaef28ec0fd999b96d096927",
+      "rendered_digest": "d6b7639029c636d4281e56c0b4fb2af2e809b3b52586c668b90595b91f327efe",
+      "ast_digest": "a7ed36c6e3be0898d035c1ad539ba121f17721b1c475c37f624f268137e89acc"
     },
     "stp": {
-      "values_digest": "e83a12bad2c58584b99c1b11f524f486b98e91c1a537cb132cd677d306d5174e",
-      "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
-      "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
+      "values_digest": "b3bec69453b518b08381d12d0778e20dc16d5557a0ae2356ce4261a832241648",
+      "rendered_digest": "929299106be15d218116152dfc8352127f343217528c7a271073f313117738ba",
+      "ast_digest": "2c9ae72ece5a21f3dcbb3e04e335cfb39cda3a853e7ce756ad8586ecdf1e2d59"
     },
     "spp": {
-      "values_digest": "cd61cac60624d084ad9df42d785ef5daa4c4ee0b33085a3cdf3fe193cd0a3ada",
-      "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
-      "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
+      "values_digest": "4174f4c0c8310bfafdfe0e5ebebf197038975f8c8c659e5f2a0d9de0c0d43ab2",
+      "rendered_digest": "dca20ded530d3f783d85d0d1dce10a6ce9bbe8f3383e623f69d9d9e4eac95a7b",
+      "ast_digest": "429145abff6f2e7bca828affe591559b263e3c3a79f8579d6ed1240ddb41ce42"
     },
     "vpp": {
-      "values_digest": "3dffd2b31654447fb459f7b82c9c09bb936a1bdcdd3f6b6a29327768e3e94917",
-      "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
-      "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
+      "values_digest": "3219a8d781370c71d615c1f777e0da9fe165bc3ee900a527e0766f576b1da81b",
+      "rendered_digest": "e6254f9301e89bfa36f5c0d1723730570d0a5ff8af4dcda4d369b64798b44d1e",
+      "ast_digest": "936bcd21f90bed69e41def7ddbd30645b2875917aac9067d3bc8c8f45f199659"
     },
     "srp": {
-      "values_digest": "331eea7bf3c5e58d1152cd4c643f729fab1c41123dd2376b00558f139694c272",
-      "rendered_digest": "fae6664759c6f969e27fafa4f3cce79bf5209fe5c9ca550ccd9aff65e2c98d54",
-      "ast_digest": "8a499ff7eb387a142551ece8128be2b15393c5fc7e64bb974d81e9bc1c92e913"
+      "values_digest": "7c9655e147817c33a3182c2dac286193e2726d50bd57c2463f9310198ca019fd",
+      "rendered_digest": "60b7bcc6ed41124401c119f2593df712765f96ecab32c46dbaa9c578174ae1c2",
+      "ast_digest": "b5ce5d7d3f8320a51d9b5a1940c4196c27811e4710917c667d88653568651bf1"
     },
     "sor": {
-      "values_digest": "fd144988d24dd6b9f6c3243b104454a28eb05c121dbfe6b5a8cae5b369deec52",
-      "rendered_digest": "96ba0e2e048a2f7c4dc11a41caa9f9a2632f81da4799cf5626d0228ed2ec8300",
-      "ast_digest": "fa8c32b94517cfcc2320542afa7a54e2aac1fd60980dbc34ba061af13edb2adf"
+      "values_digest": "f61272af21d622ffb3160556439b7fdafe4b3e2d8ef4570c033922c80e011782",
+      "rendered_digest": "e014fdfd833baebb202760f78d890341a664bc872a34a5273a929816784c5ed8",
+      "ast_digest": "f544f5356a93a5570bfd8b11220f72793c5da4759900635a715d894ed7fa3afc"
     }
   },
   "transitions": [
@@ -1314,6 +1314,13 @@
       "actor": "fresh-session:/root/issue_345_final_launch_review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 140,
+      "generation": 111,
+      "actor": "codex:/root:issue-345-final-integration",
+      "reason": "Move the reviewed post-merge issue #345 implementation onto canonical follow-on #605 because PR #593 and #345 closed before the final reviewed remediations and paid proof existed.",
+      "operation": "{\"cleared_publication\":false,\"cleared_readiness\":false,\"operation\":\"migrate_bound_issue_identity\",\"source_issue\":345,\"source_repository\":\"agent-logic/agent-design-language\",\"target_issue\":605,\"target_issue_evidence\":\".adl/local/issue345/target-issue-605.json\",\"target_issue_evidence_digest\":\"9b6a4c925863781c1a2648125565caf041c116099af6c67f21d8d26272a318e9\",\"target_repository\":\"agent-logic/agent-design-language\"}"
     }
   ]
 }

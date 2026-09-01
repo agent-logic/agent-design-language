@@ -2,12 +2,12 @@
   "identity": {
     "schema_version": "1.0.0",
     "template_version": "1.0.0",
-    "issue": 345,
+    "issue": 605,
     "repository": "agent-logic/agent-design-language",
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 110
+    "generation": 111
   },
   "status": "ready",
   "content": {
