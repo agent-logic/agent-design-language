@@ -4,44 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "546e85c2e5fb163a29c67d6f148cbc79eacddcf8485fd831d8b91861c0f1db0c",
-  "phase": "reviewed",
-  "generation": 14,
-  "digest": "23e1d96964b75f8982af1eca985631975994338bde04e76c9efcc10d0ca33896",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "4c5e736940e5649c7495c8fbdc1f7581fe80ed0081c33dc64f90e67dcd559a52",
   "branch": "codex/496-aws-cloudformation-retirement-decision-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-496-aws-cloudformation-retirement-decision-bound",
-  "review_assignment": {
-    "reviewer": "fresh-session:6830be43-0ec4-43e2-810f-772d9bc35f77",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:ea9dfe3377359792c62c5c73bc141b37a78bdb8e:b7ef7083f6ad849eb93bdc42690aa52cf92f089facd8b93cfabc05c19052682e",
-    "scope": [
-      "Exact commit ea9dfe3377359792c62c5c73bc141b37a78bdb8e",
-      "Issue #496 AWS-G only",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-g/**",
-      ".csdlc/issues/496/**",
-      ".csdlc/prepared/issues/496/**",
-      ".csdlc/evidence/496/**",
-      "Read-only denominator references to adl/tools/issue194_private_network.cloudformation.json and adl/tools/issue268_runtime_qualification.cloudformation.yaml"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:6830be43-0ec4-43e2-810f-772d9bc35f77",
-    "scope": [
-      "Exact commit ea9dfe3377359792c62c5c73bc141b37a78bdb8e",
-      "Issue #496 AWS-G only",
-      "docs/milestones/v0.92.1/evidence/cloud/aws-g/**",
-      ".csdlc/issues/496/**",
-      ".csdlc/prepared/issues/496/**",
-      ".csdlc/evidence/496/**",
-      "Read-only denominator references to adl/tools/issue194_private_network.cloudformation.json and adl/tools/issue268_runtime_qualification.cloudformation.yaml"
-    ],
-    "reviewed_revision": "git-blake3:ea9dfe3377359792c62c5c73bc141b37a78bdb8e:b7ef7083f6ad849eb93bdc42690aa52cf92f089facd8b93cfabc05c19052682e",
-    "findings": [],
-    "residual_risks": [
-      "No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -56,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "25d5b0a9a3865b58c6bd940c97d2ed61ac105c019841ace0ea935b9ddac88d22",
+      "values_digest": "cc3d4402e6b55aad0d769a6c8cf622691c3d981348c33114bf4e3539e7eedf54",
       "rendered_digest": "ba724bb557f178cb5cb116d66a996a8be304c3c3267bcb9c6abef00453559c4d",
       "ast_digest": "8d1a475c90b9205b3bf9f5209251d2c26e8cf00423adb149d47ab2ec22a29f85"
     },
     "stp": {
-      "values_digest": "57b4d8b17ededd1165fb4eca42236082ca132c75f124fb4792437e8ab6ace717",
+      "values_digest": "a1c1d704785e6245eab9b370be5b50528ac26f83809eaa36dfc8091311c9d3df",
       "rendered_digest": "a6c0f4c24427d2b8696d8dbe42448f206ee759bec5da0b381e393202adcf0e9a",
       "ast_digest": "c9adddb3b47c7a71749ca4f9e0f09f608a2f2cdda7ad77e708d61b40a2717c8a"
     },
     "spp": {
-      "values_digest": "a94d7858884b721b0c6cbf6c12c33a5806dddea2dc86dce42d7ad43cbb2317ef",
+      "values_digest": "7a73a11745a32bd2a138ada4497c84fed16e28edfb168049d304fb8f15811d89",
       "rendered_digest": "00873878f734ff3283c4ef2b04056fac3f2412a6196c6b84a99561dc1f07265f",
       "ast_digest": "cee8bb85ae34ea6615d406dbd6920ab323199c2d42b18ad1ba37b2dee78e6078"
     },
     "vpp": {
-      "values_digest": "a6bac037769a5672d62227a554da4bf58a14be083863d1ec70ce6317597fefcb",
+      "values_digest": "91a6bf9f6a312a21432b3b0beaa73c3d83a6d9afed4694538fb5043feb34c273",
       "rendered_digest": "54016a4be7498595d1cae5c00addc1acc5cf86c046f3813abd7e0b571001a11a",
       "ast_digest": "cd09ef4297970a6fd71522ea0f2c846ec95ff4b2e71ed08e180f05d0cf0f8cd4"
     },
     "srp": {
-      "values_digest": "625a5d0b337145b28474679daa3f0d31dff2256f2ca24274a1bae1f1772c52a1",
-      "rendered_digest": "0d0bd5d84cd7ed83458e2d10fb98a6110e133d8dd2be97e04b10d75a31226563",
-      "ast_digest": "2113c3d1771f78529c223c84f0a3e4a0a22b353b0ea8ca5986008afa18797592"
+      "values_digest": "179991760788b6a62d21b0a9055e9e9345d6811236b0894428f1baab1dc6e93b",
+      "rendered_digest": "5d6c6559024bd937d9ee9a3d5bd7d063ac24ca2f0eecda7dbde11f16c9afab18",
+      "ast_digest": "11ca4fc74058bcc592b6a994a6eb6120e9324830eb625a9ba4ce7b18886cf7c2"
     },
     "sor": {
-      "values_digest": "9be31d0547d1e4845bcb38e0e966ac9eafc1ba88f8185d5417ec3ed7729e5465",
+      "values_digest": "527a2cb9694a4f3a87b93b977b7c31abe1b87b7692922ade9d1327c0327a851e",
       "rendered_digest": "6642904223cd00ce5ccd876b655b186cc2ce4ac23e4ef60134d1f1be69d84c5b",
       "ast_digest": "b3c4db937ee9b769a30da6fcc430a865f5e0060f0a321a4e4a301667d7970303"
     }
@@ -114,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #496 after publication guard reported review_publication_dead_end because the R3 reviewed revision included non-clean assignment metadata; reassign against the current clean committed head before publication."
     }
   ],
   "audit": [
@@ -249,6 +225,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover #496 after publication guard reported review_publication_dead_end because the R3 reviewed revision included non-clean assignment metadata; reassign against the current clean committed head before publication.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "[v0.92.1][AWS-G] AWS CloudFormation retirement decision",
     "slug": "aws-cloudformation-retirement-decision",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact commit ea9dfe3377359792c62c5c73bc141b37a78bdb8e\nIssue #496 AWS-G only\ndocs/milestones/v0.92.1/evidence/cloud/aws-g/**\n.csdlc/issues/496/**\n.csdlc/prepared/issues/496/**\n.csdlc/evidence/496/**\nRead-only denominator references to adl/tools/issue194_private_network.cloudformation.json and adl/tools/issue268_runtime_qualification.cloudformation.yaml",
-      "review_revision": "git-blake3:ea9dfe3377359792c62c5c73bc141b37a78bdb8e:b7ef7083f6ad849eb93bdc42690aa52cf92f089facd8b93cfabc05c19052682e",
-      "reviewer": "fresh-session:6830be43-0ec4-43e2-810f-772d9bc35f77",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the design keep #496 to a retirement decision ledger without deleting templates or reimplementing #489/#495?",
         "Are the #194 and #268 template denominators and every current repo consumer/reference classified truthfully?",
@@ -23,10 +23,8 @@
         "Does the plan avoid cloud mutation and credential disclosure while preserving a clear future live readback route?"
       ],
       "findings": [],
-      "residual_risk": [
-        "No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

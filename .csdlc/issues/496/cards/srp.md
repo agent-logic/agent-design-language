@@ -12,13 +12,7 @@ Status: draft
 
 ## Scope
 
-Exact commit ea9dfe3377359792c62c5c73bc141b37a78bdb8e
-Issue #496 AWS-G only
-docs/milestones/v0.92.1/evidence/cloud/aws-g/**
-.csdlc/issues/496/**
-.csdlc/prepared/issues/496/**
-.csdlc/evidence/496/**
-Read-only denominator references to adl/tools/issue194_private_network.cloudformation.json and adl/tools/issue268_runtime_qualification.cloudformation.yaml
+
 
 ## Prompts
 
@@ -37,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- No live AWS mutation/readback was run for #496; this issue records CloudFormation retirement decision truth only and preserves live-stack retirement as non-claim/deferred authority.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:ea9dfe3377359792c62c5c73bc141b37a78bdb8e:b7ef7083f6ad849eb93bdc42690aa52cf92f089facd8b93cfabc05c19052682e")
+Revision: None
 
-Reviewer: Some("fresh-session:6830be43-0ec4-43e2-810f-772d9bc35f77")
+Reviewer: None
 
-Result: pass
+Result: pre_review
