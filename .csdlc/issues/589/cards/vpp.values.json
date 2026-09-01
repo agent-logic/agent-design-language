@@ -7,7 +7,7 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 54
+    "generation": 59
   },
   "status": "ready",
   "content": {
@@ -164,6 +164,24 @@
             "csm_runtime_v3"
           ],
           "parallel_group": "local-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "coverage-impact-contract-focused",
+          "proof_role": "Focused coverage-impact routing contract proof",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            "adl/tools/test_check_coverage_impact.sh"
+          ],
+          "parallel_group": "local-tooling",
           "defer_reason": null
         },
         {

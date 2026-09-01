@@ -175,6 +175,24 @@ Diagram: .csdlc/issues/589/authored/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "coverage-impact-contract-focused",
+    "proof_role": "Focused coverage-impact routing contract proof",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "parallel_group": "local-tooling",
+    "defer_reason": null
+  },
+  {
     "lane": "terraform-static",
     "proof_role": "Bounded AWS health-recovery infrastructure syntax proof",
     "acceptance_ids": [
@@ -301,6 +319,7 @@ Tokens: 25000
 - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test observability`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test runtime_guardian_lifecycle`
 - `cargo test --locked --manifest-path adl/Cargo.toml --bin adl csm_runtime_v3`
+- `bash adl/tools/test_check_coverage_impact.sh`
 - `terraform -chdir=infra/aws/csm-runtime-health validate`
 - `curl -ksS https://127.0.0.1:20997/v1/ready`
 - `curl -ksS https://127.0.0.1:20997/v1/agents`

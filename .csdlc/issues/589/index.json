@@ -4,42 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
   "phase": "implemented",
-  "generation": 54,
-  "digest": "e17d8f38150a76e245ef4d1177c921ea497df79fa557263c9887c9eb5e7cac4b",
+  "generation": 59,
+  "digest": "a3f532ff9854cd0b487f21994c4eb13129f6c4161991ddb0545b096d6be3160e",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
-  "review_assignment": {
-    "reviewer": "subagent:/root/issue_589_review",
-    "assigned_by": "codex-issue-589",
-    "revision": "git-blake3:ac8b65c7314f548d8b15a8501916d828d8d249d5:126abf6a62e38078483f74a2a73c3fac18a7c2d44f7cabaf06937be06f810a20",
-    "scope": [
-      ".csdlc/issues/589"
-    ]
-  },
-  "review": {
-    "reviewer": "subagent:/root/issue_589_review",
-    "scope": [
-      ".csdlc/issues/589"
-    ],
-    "reviewed_revision": "git-blake3:ac8b65c7314f548d8b15a8501916d828d8d249d5:126abf6a62e38078483f74a2a73c3fac18a7c2d44f7cabaf06937be06f810a20",
-    "findings": [
-      {
-        "id": "F-589-LIVE-1",
-        "severity": "p2",
-        "summary": "The SOR omits the required SSM instance ID and combines SSM and live roster claims under one command that cannot reproduce both evidence surfaces.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "The live roster is a mutable point-in-time surface."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -54,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "44f31365200b281685f0e0d7efa9737caed504c9a36918c2435c60b539f0157f",
+      "values_digest": "2ca22b8ee134a52c7e40856177f914486d4beea03aff250734d1298236ae405f",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "54904419f108cd991fd9269ad83a6f968d0eec931ea6ca5e0bf8e49382dac980",
+      "values_digest": "a2090ab903474db5d6573e5f7a2035a09d56f101f8cba9774e0a9c8637b4fce8",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "43c6a26f288b63c7f2b76c6cb59063cf0502f1d981afc9557e190ecadc1137ad",
-      "rendered_digest": "d08dd7437e3c20bec220fa7f289e1ec190530935a5e38891b8ae6bcd6ba638df",
-      "ast_digest": "25f1466562ce002d515243ffa2099be092f6cc2b309a7523df3a6cf227a840b6"
+      "values_digest": "8ba0f46f4175ba486bcd30ce8396a4788c4504e0c98fd65ec3b86f527bf337c2",
+      "rendered_digest": "a069ff69cb5df91f309448828701857112434b9c742c1e1015449f6af9603623",
+      "ast_digest": "1abf9f10cd423045ec1cbacf37555bd467ef11fb8b5182951ea89a803f070a15"
     },
     "vpp": {
-      "values_digest": "1565e1467b66cba29a7d255e7c35d88f98b3a0c891df3ceecc762bc879d11d85",
-      "rendered_digest": "004b3a6f7635cb65c527237cb1eb68ab1ea12985626cfb41b8798ca3a9d9fd2c",
-      "ast_digest": "01a761628532d86a86a15b744fc436d676da430957ea10fc218bdf46b33d8d54"
+      "values_digest": "ae3c89520945cf60ee9f8da3801c34bd57d58a40a9d96f73db51c92996be52a2",
+      "rendered_digest": "206db6dfc5256ca6596b14c8509493d5be13fdbfb61516aab1007b527e4c5aa0",
+      "ast_digest": "5faac6bcb1180015c997ff4639ccdd93b0f6dcade665c98bc5064680e4f04a69"
     },
     "srp": {
-      "values_digest": "5dd4907fbf48fe3fb6d1743b6361b6d940877319630458a18bac0d04c70dea74",
-      "rendered_digest": "cc9cd6ca4122119d61f5cfdea4c8c82a46ec8f5e4c91d3a5b2d35e73c7aafddf",
-      "ast_digest": "0999387bac1d046cfe3612145f2c62bb2efa9b0a364f3eee7478ceb2dcc6710e"
+      "values_digest": "a0eb3c6204e907f81143aab1579dfe2434ac3fc121d42e6ad6d153d804481694",
+      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
+      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
     },
     "sor": {
-      "values_digest": "5157d903dda6cd70e8e570ef2d9b5f674c0f69313d86d80f364c33078a137098",
-      "rendered_digest": "b17c644aa9c38696fbf8490107f51fbb6be97da7cd6882914c985de3caf0eb0f",
-      "ast_digest": "ba5370dff779fcf92b16cf6052b3d569021b5ed80d8eb37f62cdba1adca787a8"
+      "values_digest": "6f9eb77b1030219bfc8f6e2f1aef6ad8ea65fdddcee9d3c231b7cee072264362",
+      "rendered_digest": "939cb3b82e21d294fb5dbd79809ade342c488930798afb782af179ffc1730c2b",
+      "ast_digest": "6dbb7869449988e00300db18a79f9c94ff1df7de9e443174fa0bf920c3e482ee"
     }
   },
   "transitions": [
@@ -737,6 +707,48 @@
       "actor": "codex-issue-589",
       "reason": "Select executable focused validators over actual issue-owned test targets and separate live Runtime and AWS readbacks.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"kernel-assembly-focused\",\"proof_role\":\"Production assembly, writer recovery, and Shepherd lease proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"kernel-configuration-focused\",\"proof_role\":\"Configuration identity and compatible hot-reload proof\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"kernel-control-focused\",\"proof_role\":\"Authenticated ownership and Shepherd-gated readiness proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"kernel-observability-focused\",\"proof_role\":\"Bounded health heartbeat and observability recovery proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"guardian-lifecycle-focused\",\"proof_role\":\"Single Guardian child and lease identity lifecycle proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_guardian_lifecycle\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"guardian-csm-focused\",\"proof_role\":\"Ordered CSM lifecycle, interrupted-reload, process ownership, and transaction proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"terraform-static\",\"proof_role\":\"Bounded AWS health-recovery infrastructure syntax proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-health\",\"validate\"],\"parallel_group\":\"infra\",\"defer_reason\":null},{\"lane\":\"wuji-runtime-ready-live\",\"proof_role\":\"Live identity-bound Runtime HTTPS readiness proof\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"curl\",\"-ksS\",\"https://127.0.0.1:20997/v1/ready\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"wuji-shepherd-live\",\"proof_role\":\"Live Shepherd admission freshness and reviewed source identity proof\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"curl\",\"-ksS\",\"https://127.0.0.1:20997/v1/agents\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"aws-health-alarm-live\",\"proof_role\":\"Live CloudWatch missing-heartbeat alarm state proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"aws\",\"cloudwatch\",\"describe-alarms\",\"--alarm-names\",\"adl-axioma-wuji-dev-runtime-health-missing\",\"--profile\",\"agent-logic-admin\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"aws-governed-reload-receipt-live\",\"proof_role\":\"Live governed SSM reload receipt proof\",\"acceptance_ids\":[\"AC-3\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"aws\",\"ssm\",\"get-command-invocation\",\"--command-id\",\"60136b40-8e73-4a7c-bb45-46a60780641f\",\"--instance-id\",\"mi-0dd41a2b1cad222a0\",\"--profile\",\"agent-logic-admin\"],\"parallel_group\":\"live\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 71,
+      "generation": 54,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 72,
+      "generation": 55,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 56,
+      "actor": "codex-issue-589",
+      "reason": "Correct the two bounded final-review planning findings before fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 74,
+      "generation": 57,
+      "actor": "codex-issue-589",
+      "reason": "Replace stale WP-08 ownership with the actual issue-owned Runtime v3 source, focused tests, lifecycle CLI, and Terraform surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src/cli/csm_cmd.rs\",\"adl/src/cli/csm_runtime_v3_cmd.rs\",\"adl/src/cli/mod.rs\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl-runtime/src/bin/adl-runtime-guardian.rs\",\"adl-runtime/src/guardian.rs\",\"adl-runtime/tests/runtime_guardian_lifecycle.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/control/feeds.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/src/observability/vector.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/tests/assembly.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/control.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"infra/aws/csm-runtime-health/main.tf\",\"infra/aws/csm-runtime-health/locals.tf\",\"infra/aws/csm-runtime-health/variables.tf\",\"infra/aws/csm-runtime-health/outputs.tf\",\"infra/aws/csm-runtime-health/versions.tf\",\"infra/aws/csm-runtime-health/README.md\",\"infra/aws/csm-runtime-health/.gitignore\",\"infra/aws/csm-runtime-health/.terraform.lock.hcl\",\"infra/aws/csm-runtime-health/terraform.tfvars.example\",\"infra/runtime-v3/runtime-init.toml\"]}"
+    },
+    {
+      "sequence": 75,
+      "generation": 58,
+      "actor": "codex-issue-589",
+      "reason": "Select executable focused validators over actual issue-owned test targets and separate live Runtime and AWS readbacks.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"kernel-assembly-focused\",\"proof_role\":\"Production assembly, writer recovery, and Shepherd lease proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"assembly\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"kernel-configuration-focused\",\"proof_role\":\"Configuration identity and compatible hot-reload proof\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"configuration\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"kernel-control-focused\",\"proof_role\":\"Authenticated ownership and Shepherd-gated readiness proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"control\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"kernel-observability-focused\",\"proof_role\":\"Bounded health heartbeat and observability recovery proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"guardian-lifecycle-focused\",\"proof_role\":\"Single Guardian child and lease identity lifecycle proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_guardian_lifecycle\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"guardian-csm-focused\",\"proof_role\":\"Ordered CSM lifecycle, interrupted-reload, process ownership, and transaction proof\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"csm_runtime_v3\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"coverage-impact-contract-focused\",\"proof_role\":\"Focused coverage-impact routing contract proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"local-tooling\",\"defer_reason\":null},{\"lane\":\"terraform-static\",\"proof_role\":\"Bounded AWS health-recovery infrastructure syntax proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"terraform\",\"-chdir=infra/aws/csm-runtime-health\",\"validate\"],\"parallel_group\":\"infra\",\"defer_reason\":null},{\"lane\":\"wuji-runtime-ready-live\",\"proof_role\":\"Live identity-bound Runtime HTTPS readiness proof\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"curl\",\"-ksS\",\"https://127.0.0.1:20997/v1/ready\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"wuji-shepherd-live\",\"proof_role\":\"Live Shepherd admission freshness and reviewed source identity proof\",\"acceptance_ids\":[\"AC-1\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"curl\",\"-ksS\",\"https://127.0.0.1:20997/v1/agents\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"aws-health-alarm-live\",\"proof_role\":\"Live CloudWatch missing-heartbeat alarm state proof\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"aws\",\"cloudwatch\",\"describe-alarms\",\"--alarm-names\",\"adl-axioma-wuji-dev-runtime-health-missing\",\"--profile\",\"agent-logic-admin\"],\"parallel_group\":\"live\",\"defer_reason\":null},{\"lane\":\"aws-governed-reload-receipt-live\",\"proof_role\":\"Live governed SSM reload receipt proof\",\"acceptance_ids\":[\"AC-3\",\"AC-6\",\"AC-7\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"aws\",\"ssm\",\"get-command-invocation\",\"--command-id\",\"60136b40-8e73-4a7c-bb45-46a60780641f\",\"--instance-id\",\"mi-0dd41a2b1cad222a0\",\"--profile\",\"agent-logic-admin\"],\"parallel_group\":\"live\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 76,
+      "generation": 59,
+      "actor": "codex-issue-589",
+      "reason": "Record the focused coverage-impact contract validation required by final review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the issue-owned coverage-impact routing contract and failure-path behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused contract script completed with PASS test_check_coverage_impact.\"}}"
     }
   ]
 }

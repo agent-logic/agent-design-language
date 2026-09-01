@@ -7,13 +7,13 @@
     "title": "Make Wuji Guardian startup and config reload converge",
     "slug": "wuji-guardian-start-reload",
     "version": "v0.92.1",
-    "generation": 54
+    "generation": 59
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Unify ordinary Guardian startup around supervised process ownership, add reliable CSM lifecycle commands and safe reconciliation, then prove first-start and reload behavior with focused tests.",
       "steps": [
         {
@@ -77,6 +77,9 @@
         "infra/aws/csm-runtime-health/outputs.tf",
         "infra/aws/csm-runtime-health/versions.tf",
         "infra/aws/csm-runtime-health/README.md",
+        "infra/aws/csm-runtime-health/.gitignore",
+        "infra/aws/csm-runtime-health/.terraform.lock.hcl",
+        "infra/aws/csm-runtime-health/terraform.tfvars.example",
         "infra/runtime-v3/runtime-init.toml"
       ],
       "invariants": [

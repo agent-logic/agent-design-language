@@ -250,6 +250,15 @@ Implemented, locally validated, independently reviewed, and live-deployed ordere
     "purpose": "Prove the live reviewed Shepherd source identity and thirty-second freshness window independently of the SSM deployment receipt.",
     "outcome": "passed",
     "evidence_ref": "Live roster reported healthy Shepherd source revision 1addbc0f2d2238c372a06f0d90cab4b1cd039881 and freshness_deadline_unix_millis minus observed_at_unix_millis equal to 30000."
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "purpose": "Prove the issue-owned coverage-impact routing contract and failure-path behavior.",
+    "outcome": "passed",
+    "evidence_ref": "Focused contract script completed with PASS test_check_coverage_impact."
   }
 ]
 
