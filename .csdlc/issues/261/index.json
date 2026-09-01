@@ -5,10 +5,20 @@
   "initialization_digest": "79989eec9d376fe03f54c75e0368aa38a2e52820742db16b14eae9eb5a7dfe69",
   "phase": "implemented",
   "generation": 16,
-  "digest": "9f75b795dfff4feeff521920faefc183ad25fbb3f8f261ed172fe8d51f06e3c0",
+  "digest": "d34fd89a8ed165488958307d5cb15773f925924de18ac40969ea34fc7277081f",
   "branch": "codex/261-podcast-show-identity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-261-podcast-show-identity",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:78839b05-3163-4827-bb33-f759ecba6dff",
+    "assigned_by": "codex:podcast-issue-owner",
+    "revision": "git-blake3:f8c27d3839a80eecbcf98ee77960376e9c6b46e9:e1555acf8e7cfb3d4f4c629e9806fcfe8b3c7b16441bd3573d6cef77f806edae",
+    "scope": [
+      "exact head f8c27d383 on branch codex/261-podcast-show-identity",
+      "show identity packet for The Cognitive Stack",
+      "rights, metadata, artwork, mailbox readiness, validation, and #262/#263 stack readiness implications",
+      "verify no #264 or #51 submission/coordination work is implemented"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +54,9 @@
       "ast_digest": "0961496d9f65d5dda646f3ad1fff38d07a09cf5f5215b99e9207369744087881"
     },
     "srp": {
-      "values_digest": "6b7f3ee8a9cb428a6f24f5f5bdba8e2f42c4f085f1aefd97a1cb29fd63081e8c",
-      "rendered_digest": "6df13c2f908e8a5a2ef2451f6fda27038bb4e372ef5fb79ca4b6212f7e20802f",
-      "ast_digest": "7294907a08041ed74c6ed5c13eb722a37f4c813f9fad85c82c0eeaed6894007b"
+      "values_digest": "5d9f6ab99e5d1bd74e2d61369703d08fd29ee6613f4ad705fe9926365ed1a573",
+      "rendered_digest": "74f73224cbc68439898c4ce501d7098eaf2a593430f3487be85ec27005625756",
+      "ast_digest": "626b5132f080dbf51b7eb728d6d581e134883b3ef7a5b3fb32ca97a09a279836"
     },
     "sor": {
       "values_digest": "feb8598424c3c6482f44d9cd1902f32deef0adb9f7d5c958e15f3d74f86fe614",
@@ -203,6 +213,13 @@
       "actor": "codex:podcast-issue-owner",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:podcast-issue-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

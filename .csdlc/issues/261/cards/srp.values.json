@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #261 issue/prepared/evidence plus demos/podcast/artwork.png and docs/milestones/v0.92/review/podcast_identity_261/**; live #51/#262/#342 graph; operator identity and mailbox evidence boundaries; strict exclusion of episode/audio/package production feed hosting deployment directory submission and public launch.",
+      "review_scope": "exact head f8c27d383 on branch codex/261-podcast-show-identity\nshow identity packet for The Cognitive Stack\nrights, metadata, artwork, mailbox readiness, validation, and #262/#263 stack readiness implications\nverify no #264 or #51 submission/coordination work is implemented",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
