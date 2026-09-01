@@ -4,14 +4,53 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "786dd55081ea4a396599f5c179b6de916bc31c23c0304ca57eb0e7af059206e7",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "d8268647e80babe5a4be9fee4e41e90a9eb3ff402618d298c68d23494d6eaa71",
+  "phase": "published",
+  "generation": 27,
+  "digest": "b9915526bc9c12ff7fb8ff01397ba926aef5d2f9942692c582b22dc31862b071",
   "branch": "codex/604-v2-publish-ready-reconciliation-exec",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-604-v2-publish-ready-reconciliation-exec",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "/root/review_604_v3_full_delta",
+    "assigned_by": "codex:/root/worker-6/issue-604",
+    "revision": "git-blake3:6e40e130c27e483a074f27909e0642b37de1e1e6:344e236b483d51482560302ae8146117ec35f6a8a2458d354b2cb98ceabf2abb",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v3/src/commands/remote/tests.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/review_604_v3_full_delta",
+    "scope": [
+      ".csdlc/evidence/604/full-cycle-defects-tail.md",
+      ".csdlc/prepared/issues/604/validate-implementation.sh",
+      "csdlc-v3/src/commands/remote/tests.rs",
+      "csdlc-v3/tests/real_issue_canary.rs",
+      "docs/csdlc-v3/full-replacement-denominator.json"
+    ],
+    "reviewed_revision": "git-blake3:6e40e130c27e483a074f27909e0642b37de1e1e6:344e236b483d51482560302ae8146117ec35f6a8a2458d354b2cb98ceabf2abb",
+    "findings": [],
+    "residual_risks": [
+      "C-SDLC v3 remains incomplete and non-authoritative until #505/#596 implement and prove the full 21-entrypoint replacement denominator.",
+      "The #604 v3 canaries prove real-record ingestion and non-authoritative model behavior only; they do not implement the missing v3 command families."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 604,
+    "pull_request": 612,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/612",
+    "base": "main",
+    "head": "codex/604-v2-publish-ready-reconciliation-exec",
+    "revision": "git-blake3:6e40e130c27e483a074f27909e0642b37de1e1e6:344e236b483d51482560302ae8146117ec35f6a8a2458d354b2cb98ceabf2abb",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +64,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ab78d496d270d5d9d30bdabda872ed728a7711084dec877116153eac6d8538e5",
+      "values_digest": "fd1ce64afec7eb970c854392182f10bfd0db62468a1a0ca55024b7413d90be38",
       "rendered_digest": "ff72101abe40deea60aab17f1913f54f984527506106ad235350f1ed8d25100e",
       "ast_digest": "17e8c29cb4d5e08612fef8c1bc61d0373b0031c6839e520da693348d0ec059d4"
     },
     "stp": {
-      "values_digest": "4cbfc2d978dca3a9e2352d9b5274a37b719e09e06d24193d5e67bb5c5ab0d993",
+      "values_digest": "5c78e8320192e916d6994345bb8946749e7e02ab7520c7a222eecefe3634ba34",
       "rendered_digest": "96100079a86ac3aa5c7ffbea594f235bcc776e9f1ddaf264ed9aa9706426328d",
       "ast_digest": "e63665d9e617d5087b544c5207af0aad8c0acc4272a73fece517415927cafb11"
     },
     "spp": {
-      "values_digest": "4234f9b2c34db5c9268c9b5b8bdd738f6212a7db4df38e726cc9c9bd91c32c71",
+      "values_digest": "87275e54afef2ae1f3035b7683de8af62397ef1708f4e447a68a399de1c4b81d",
       "rendered_digest": "d0cd8095458cfe8a41c3253c164258ff177d2aad9df323707439a6247c9a0cf1",
       "ast_digest": "07a427dd302ef6386eb814fde60c0d848ba6bf33f2b523559ab0895a948409e2"
     },
     "vpp": {
-      "values_digest": "b2a66d132d3363e451aa2074f2d3eb5ebd4f7136b42dbb7b6c7bdb14d285c8f4",
+      "values_digest": "5eeebbffdb2cc16d17cc72014b66fd65f07969f3651628fe322a84a95ae15684",
       "rendered_digest": "2b5a0eec783474337c6ef8d14537b92865b6937ccf45f57070c8fae3efd048ac",
       "ast_digest": "ed818f874929186cfe9a09179e05130dfe254dbd43dbde9b590933529078a6cc"
     },
     "srp": {
-      "values_digest": "85be4da26587ed46aa45d211d7ab0b08c61ac5e322584090b1fe6b888e01c4e1",
-      "rendered_digest": "6521d3d327da10bb1f72a25546d0721d3fb4f827e19ce3a48477d3a071365771",
-      "ast_digest": "d6631edc7e03e03c23d19446bf4618d3806a58c44cf76c2a5166d8c68631562d"
+      "values_digest": "70a1f102facf6c042783c3567a21522156838907b35e612113bbaff0d8005c2d",
+      "rendered_digest": "b574c235891484f7836fc8fb9c71b9c23b1cc529ceb55347efd174d418ee755c",
+      "ast_digest": "6b07692e3d1c4a6405f1671aa952feb312bba0bc99cb947024d75fe7e27af58d"
     },
     "sor": {
-      "values_digest": "1fdc464db44600e0d71fbc69ae3da9248d120505bcdf01ae2fa8c7ec8d603d5f",
-      "rendered_digest": "0c5d5639a0cef0658bea4955c541b99e9588b5ef7609186e3ca36fc0b0a33876",
-      "ast_digest": "a8a61bb97cf8e97b3e38b37bb24a50bddde1ce59468f0e890a8282f940e3e4cd"
+      "values_digest": "cacfa89a9ef1f2fed20ca87b40fada8fa9d5fa95408d1e47c251398c242d5505",
+      "rendered_digest": "d86efaaa93bb97399db817c06999237e4114cf3cc4d101e6ee0037adb9702133",
+      "ast_digest": "0d67b990ddc0c47dd5ebe5e2aff4ae6083574a88f91c3fa960ab0604b5d33aa5"
     }
   },
   "transitions": [
@@ -216,6 +255,20 @@
       "to": "implemented",
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover #604 after adding real-issue C-SDLC v3 canary coverage and DEFECT-017 evidence so review, publication, and ready truth can be refreshed for the new head."
+    },
+    {
+      "sequence": 24,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 25,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -456,6 +509,27 @@
       "actor": "codex:/root/worker-6/issue-604",
       "reason": "Recover #604 after adding real-issue C-SDLC v3 canary coverage and DEFECT-017 evidence so review, publication, and ready truth can be refreshed for the new head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 26,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:/root/worker-6/issue-604",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

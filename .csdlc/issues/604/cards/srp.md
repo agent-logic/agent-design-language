@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/604/full-cycle-defects-tail.md
+.csdlc/prepared/issues/604/validate-implementation.sh
+csdlc-v3/src/commands/remote/tests.rs
+csdlc-v3/tests/real_issue_canary.rs
+docs/csdlc-v3/full-replacement-denominator.json
 
 ## Prompts
 
@@ -32,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- C-SDLC v3 remains incomplete and non-authoritative until #505/#596 implement and prove the full 21-entrypoint replacement denominator.
+- The #604 v3 canaries prove real-record ingestion and non-authoritative model behavior only; they do not implement the missing v3 command families.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:6e40e130c27e483a074f27909e0642b37de1e1e6:344e236b483d51482560302ae8146117ec35f6a8a2458d354b2cb98ceabf2abb")
 
-Reviewer: None
+Reviewer: Some("/root/review_604_v3_full_delta")
 
-Result: pre_review
+Result: pass

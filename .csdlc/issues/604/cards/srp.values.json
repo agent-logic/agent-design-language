@@ -7,15 +7,15 @@
     "title": "[C-SDLC v2] Restore governed draft-to-ready publication reconciliation",
     "slug": "v2-publish-ready-reconciliation",
     "version": "v0.92.1",
-    "generation": 25
+    "generation": 27
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/604/full-cycle-defects-tail.md\n.csdlc/prepared/issues/604/validate-implementation.sh\ncsdlc-v3/src/commands/remote/tests.rs\ncsdlc-v3/tests/real_issue_canary.rs\ndocs/csdlc-v3/full-replacement-denominator.json",
+      "review_revision": "git-blake3:6e40e130c27e483a074f27909e0642b37de1e1e6:344e236b483d51482560302ae8146117ec35f6a8a2458d354b2cb98ceabf2abb",
+      "reviewer": "/root/review_604_v3_full_delta",
       "review_prompts": [
         "Does csdlc-publish ready verify exact live PR identity before and after mutation?",
         "Does reconcile-ready recover only from independently observed remote truth?",
@@ -24,8 +24,11 @@
         "Does the PR body include Closes #604 only after implementation, validation, and review truth are current?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "C-SDLC v3 remains incomplete and non-authoritative until #505/#596 implement and prove the full 21-entrypoint replacement denominator.",
+        "The #604 v3 canaries prove real-record ingestion and non-authoritative model behavior only; they do not implement the missing v3 command families."
+      ],
+      "review_result": "pass"
     }
   }
 }
