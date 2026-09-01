@@ -85,6 +85,14 @@ bash -n "$tmp/runtime-user-data.sh"
 [[ "$(grep -Fc 'systemctl enable --now' "$tmp/gpu-user-data.sh")" -ge 3 ]] || fail "GPU cloud-init does not enable SSM recovery"
 [[ "$(grep -Fc 'systemctl enable --now' "$tmp/runtime-user-data.sh")" -ge 3 ]] || fail "Runtime cloud-init does not enable SSM recovery"
 
+aws() {
+  if [[ "$*" == *"s3 cp"* ]]; then return 0; fi
+  if [[ "$*" == *"s3api head-object"* ]]; then printf 'None\n'; return 0; fi
+  return 2
+}
+if upload_versioned "$tmp/operator.pub" runs/no-version; then fail "multipart upload without an immutable S3 VersionId passed"; fi
+unset -f aws
+
 head="$(git -C "$ROOT" rev-parse HEAD)"
 run_id=adl-issue345-contract
 load_ssh_inputs
@@ -151,4 +159,4 @@ grep -q 'requires --authorization-file' "$tmp/noauth.err" || fail "missing autho
 
 jq -n '{schema:"adl.issue345.two_node_runner_contract.v1",status:"pass",paid_launches:0,
   terraform_nodes:2,managed_key_pairs:1,public_ssh_cidrs:1,ollama_public:false,
-  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:21}'
+  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:22}'

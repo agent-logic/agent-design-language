@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
   "phase": "implemented",
-  "generation": 64,
-  "digest": "f457b1674ea0ee590efd9df557c8ec11e17b9b7e8f1ffa1a15ddf8b8908638e7",
+  "generation": 66,
+  "digest": "97e0b964bfb35bc31d06ebe0fc2b5c3536d8fe71aeaed275becc37f44d023776",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0cf2a514d5d44fd44a695baff99c832151ad4544c1775de5603f0aabba7e7280",
+      "values_digest": "ac92e5e147a91f1751e0943162023aaa01d147ffbf6c5ea52c828d28fed7a523",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "aecadf1699e95f1f23035d526fb06acd6f29d4772c088aa7218ff28f04b05d17",
+      "values_digest": "735160881640a4b22a4caf93ac46f1ef7f0d7701c8193e0bfa3122a9e77e6dd3",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "a51f68e76c3643e0a6e6a30c657f072d7800e2abe1ede16134b0fcd658aa14ff",
+      "values_digest": "cd812889c57bcb6701ba1f99908ab52948f320b53c406a25a04226b2f2fa9fdd",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "5d555f405312dc405b74b4507cdbe6cc852ae7b2a935b5af35543c8b7da0c104",
+      "values_digest": "3ac2f130bc77df560ffdff13e8700e6e01959291c9a7a5970fe9b965c6f9bd23",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "07ef1ba8fd28d3032994c63197328a38ba459e392eba54a855ab2f990f687d7b",
+      "values_digest": "0bd8a434867e646cfa6a943abc407e2a6be6a34bfcc3207955cad2324387a35d",
       "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
       "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
     },
     "sor": {
-      "values_digest": "0717d79d8a16a6cc25f30337bc39deea65c4a4fe936bf2acffea1c53808fbf00",
+      "values_digest": "3615d1efea8f22fb462cd405dcaa78060c3d9c7933364dd98e6bdad4279b8e92",
       "rendered_digest": "13d6eefe486dac0cc8e3b40170d41b1497b1f85d46fed18676c0226265e72cb7",
       "ast_digest": "0e8a85b0a742b57447f5c89114a9de263e2097c6cc1e0cf97599fb57330a5d36"
     }
@@ -679,6 +679,27 @@
       "generation": 64,
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Recover the prior PASS after the first paid attempt exposed a pre-apply single-PUT transfer hang; replace only that transport with the AWS CLI multipart path and re-review before relaunch.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 77,
+      "generation": 64,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 78,
+      "generation": 65,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 79,
+      "generation": 66,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "Recover F-345-25 so the multipart upload fails closed unless S3 returns a real version ID.",
       "operation": "recover_review"
     }
   ]

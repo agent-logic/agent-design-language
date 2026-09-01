@@ -431,9 +431,13 @@ verify_review_authority() {
 }
 
 upload_versioned() {
-  local file="$1" key="$2"
+  local file="$1" key="$2" version
   aws --profile "$PROFILE" --region "$REGION" s3 cp "$file" "s3://$ARTIFACT_BUCKET/$key" --only-show-errors
-  aws_cli s3api head-object --bucket "$ARTIFACT_BUCKET" --key "$key" --query VersionId --output text
+  version="$(aws_cli s3api head-object --bucket "$ARTIFACT_BUCKET" --key "$key" --query VersionId --output text)"
+  [[ -n "$version" && "$version" != None && "$version" != null ]] || {
+    echo "uploaded run artifact has no immutable S3 version ID" >&2; return 2;
+  }
+  printf '%s\n' "$version"
 }
 
 acquire_run_lock() {
