@@ -68,11 +68,11 @@ Resolved all exact-head review findings in the optional AWS GPU proof runner; th
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
