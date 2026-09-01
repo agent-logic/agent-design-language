@@ -7,7 +7,7 @@
     "title": "[v0.92.1][AWS][runtime-v3] Cut warm Polis GPU startup with prebuilt artifacts and persistent EBS",
     "slug": "aws-warm-polis-gpu-startup",
     "version": "v0.92.1",
-    "generation": 12
+    "generation": 20
   },
   "status": "ready",
   "content": {
@@ -17,12 +17,14 @@
       "deliverables": [
         "Versioned Runtime and Guardian artifact bundle",
         "Encrypted sealed Runtime and GPU warm EBS volumes",
+        "Prepared Runtime and GPU launch AMIs with retained root snapshots",
+        "Completed sealed-data snapshots and measured temporary restore receipt",
         "Terraform warm-volume attachment inputs and preserved-storage cleanup behavior",
         "Minimal no-install guest activation scripts",
         "Machine-readable startup timing receipts",
         "Executable no-paid negative tests",
         "One repeated live warm-launch proof under USD 20",
-        "Updated operator runbook"
+        "Updated operator runbook with explicit retention extension and retirement"
       ],
       "acceptance_criteria": [
         "AC-1: Normal launch executes no Git Rust build toolchain install OS package manager Snap mutable dependency resolution or Ollama model download",

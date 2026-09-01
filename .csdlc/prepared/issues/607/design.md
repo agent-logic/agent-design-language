@@ -18,7 +18,9 @@ Ollama without compiling source, installing packages, or downloading models.
 
 ## Terraform state and ownership
 
-Two Terraform roots have disjoint state and resource ownership:
+Three Terraform roots have disjoint state and resource ownership, with a
+controller ledger for the provider-created retained artifacts that Terraform
+does not own:
 
 - `infra/aws/runtime/gpu-proof/warm-storage` owns the two encrypted persistent
   EBS data volumes and their exact tags. Its state is stored separately beneath
@@ -28,14 +30,28 @@ Two Terraform roots have disjoint state and resource ownership:
   volume IDs and seal digests as inputs, reads their metadata, and owns only
   `aws_volume_attachment` resources plus the existing disposable #605 graph.
   It never imports, creates, adopts, or destroys the warm volumes.
+- `infra/aws/runtime/gpu-proof/warm-storage/preparation` owns only the two
+  disposable preparation instances and their security, IAM, key, scheduler,
+  root-volume, and warm-volume attachment resources.
+- The controller owns the two prepared AMIs, their root snapshots, the two
+  sealed-data snapshots, and the temporary restore volume. Before each raw EC2
+  creation can be followed by another operation, its exact provider ID is
+  appended to a worktree-local write-ahead resource ledger. The exit trap and
+  explicit idempotent `recover-preparation` command consume that ledger,
+  re-query exact IDs, and verify incomplete resources are absent. Successful
+  preparation changes those entries from active to retained only after the
+  complete preparation result exists.
 
-Both roots bind the same account, region, availability zone, KMS key ARN, owner
+All three roots bind the same account, region, availability zone, KMS key ARN, owner
 token, and artifact generation. Preflight rejects missing tags, wrong KMS key,
 wrong AZ, attachment to another instance, or a volume present in both states.
-Before every paid apply and destroy, a machine-readable saved-plan validator
+Before every Terraform apply and destroy, a machine-readable saved-plan validator
 inspects `terraform show -json` and rejects any create, update, replace, or
 delete action against a warm volume, KMS key, seal object, or retained snapshot
 from the compute root. The storage root is never destroyed by a compute trap.
+The first authorization invocation retains the exact binary saved plan and a
+digest of its inputs; the authorized invocation must reuse that file rather
+than regenerate timestamp-bearing plan metadata.
 
 ## Two-phase contract
 
@@ -60,7 +76,12 @@ An explicit `prepare` action may perform slow work once. It:
    authorized S3 evidence prefix. The manifest binds volume ID, availability
    zone, filesystem UUID, artifact manifest VersionId/digest, source revision,
    file digests, model digests, and preparation generation.
-5. Detaches the volumes cleanly and leaves no preparation instance running.
+5. Removes cloud-init state and logs, resets machine identity, removes SSH host
+   keys so the next boot regenerates them, and stops both preparation instances.
+6. After both instances are stopped, creates exact retained Runtime and GPU
+   AMIs from their already-prepared root filesystems while explicitly excluding
+   the attached warm data device, then destroys every disposable preparation
+   resource.
 
 The preparation instance is governed as a short-lived, least-privilege build
 node rather than an administrative escape hatch. Its security group admits SSH
@@ -95,16 +116,15 @@ starting Guardian. Both data volumes remain outside disposable-instance cleanup.
 ## Image and package boundary
 
 Normal launch cannot rely on `apt`, `dnf`, `pip`, `cargo`, `rustup`, Git, Snap,
-or an Ollama pull. Preflight resolves mutable SSM aliases once, then binds the
-exact Runtime and GPU AMI IDs plus owner, creation date, architecture, root
-device, virtualization, boot mode, and image digest metadata into the
-preparation authorization and both seals. Preparation boots those exact AMIs
-and records an executable facility/ABI inventory covering cloud-init, systemd,
-mount/dm-verity, filesystem support, libc/dynamic libraries, NVIDIA driver,
-CUDA ABI, and GPU device access. Both warm launches must use the same exact AMI
-IDs and repeat the bounded facility/ABI check before activation. Application,
-validation, Vector, and model content comes only from the sealed data volumes;
-normal launch does not repair an AMI dynamically.
+or an Ollama pull. Preflight resolves mutable SSM aliases once and binds their
+exact source AMI metadata into preparation. Preparation may use the OS package
+manager before recording its executable facility/ABI inventory, then captures
+that installed root as one retained Runtime AMI and one retained GPU AMI.
+Launch authorization binds those exact prepared AMI IDs; both warm launches
+boot them and repeat the bounded facility/ABI check before activation.
+Application, validation, Vector, and model content comes only from the sealed
+data volumes, while stable OS facilities come from the prepared images. Normal
+launch does not repair an image dynamically.
 
 ## Timing truth
 
@@ -141,9 +161,11 @@ relabeled as success.
 
 The GPU warm volume uses gp3 with explicit size, 3,000 IOPS, and at least 500
 MiB/s throughput for qualification; Runtime storage uses an explicit measured
-profile. Preparation writes and reads every allocated content block before seal,
-proves there is no snapshot lazy-initialization dependency, and records exact
-artifact bytes. dm-verity makes launch integrity verification proportional to
+profile. Both 200 GiB data volumes are deliberately sparse because their
+current payloads are small; preparation records exact artifact bytes and seals
+only actual content. Completed snapshots of both data volumes are retained, and
+a temporary GPU snapshot restore measures control-plane availability before it
+is deleted. dm-verity makes launch integrity verification proportional to
 manifest/root-hash verification rather than a full-volume scan. The timing
 receipt budgets mount and verity activation, Ollama start, model page-in,
 Guardian/Runtime activation, dependency convergence, and controller receipt
@@ -161,6 +183,10 @@ than relying on an unmeasured aggregate.
 - Explicit storage cleanup owns deletion of obsolete warm volumes only after a
   replacement seal is proven and a separate single-use authorization selects
   the exact IDs. It is not reachable from compute cleanup.
+- Prepared images, their root snapshots, and both sealed-data snapshots carry
+  the same `retention-until` tag. `extend-retention` binds and updates every
+  retained artifact; `retire-snapshots` binds exact IDs, deregisters the two
+  images, and deletes their root snapshots plus both sealed-data snapshots.
 - Cross-AZ, wrong filesystem UUID, stale generation, partial hydration, missing
   artifact, digest mismatch, or unexpected writable residue fails closed.
 - TLS private material, when present, remains in a mode-0600 service-owned
@@ -170,18 +196,27 @@ than relying on an unmeasured aggregate.
 ## Authorization and cost
 
 Preparation, warm launch 1, and warm launch 2 each require separate consumed-once
-authorizations. An aggregate envelope binds all three action manifests, exact
-saved-plan digests, AMI IDs, volume IDs, KMS/AZ/network/SSH identities, run IDs,
-deadlines, and cumulative USD 20 ceiling. Failure of one action never permits a
-retry under the same authorization.
+authorizations in one campaign. Every request binds the exact reusable saved
+plan that exists before that action, its preflight digest, immutable action
+manifest, source revision, run and storage IDs, and cumulative USD 20 ceiling.
+Preparation's manifest also enumerates the bounded downstream mutations whose
+provider IDs necessarily arise from the authorized storage apply: two
+disposable preparation instances, two prepared root images, two sealed-data
+snapshots, one temporary restore that must be deleted, and the exact storage
+seal-tag update. A create-only remote S3 slot keyed by campaign ID and action
+name rejects a second authorization for the same prepare or launch ordinal,
+independently of mutable local state or authorization digest. The local cost
+ledger provides additional cumulative accounting. This is deliberately a
+staged campaign rather than a false claim that future provider-generated IDs
+or plans were known before the first mutation.
 
 The cost receipt includes preparation compute, both launches, root and warm EBS
-size/IOPS/throughput, public IPv4, requests, S3/snapshots, and a seven-day warm
-volume retention interval. It also reports the continuing daily/monthly storage
-rate. Retention beyond seven days requires an explicit extend authorization;
-otherwise the operator receives a delete-or-snapshot terminal action naming the
-exact volumes. Persistent means surviving compute replacement, not unbounded
-unpriced retention.
+size/IOPS/throughput, public IPv4, requests, S3, data snapshots, and prepared
+image root snapshots over a seven-day retention interval. It also reports the
+continuing daily/monthly storage rate. Retention beyond seven days requires an
+explicit extend authorization; otherwise retention status names the exact
+volume, image, and snapshot terminal actions. Persistent means surviving
+compute replacement, not unbounded unpriced retention.
 
 ## Validation
 
@@ -193,10 +228,12 @@ unpriced retention.
    seal digest algorithm without paid AWS mutation.
 4. Three separately authorized AWS actions prepare the volumes and launch twice
    from the same sealed generation, prove the second warm launch timing and full #605 behavior,
-   destroys compute, and retains only the intentional itemized warm volumes.
+   destroys compute, and retains only the intentional itemized warm volumes,
+   prepared images, and their four snapshots.
 5. Independent exact-head review passes before publication.
 
 ## Rollback
 
 Revert the issue commit and launch through the existing #605 cold qualification
-root. Do not delete the last known-good warm volumes during code rollback.
+root. Do not delete the last known-good warm volumes, prepared images, or their
+sealed-data and root snapshots during code rollback.

@@ -51,7 +51,7 @@ Implemented the bounded warm two-node AWS path at 95efc4fd1; retained live AWS s
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

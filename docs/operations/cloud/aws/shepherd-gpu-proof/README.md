@@ -222,7 +222,8 @@ bash adl/tools/run_issue607_warm_polis.sh preflight
 Preflight resolves and records exact AMI metadata, account/network/KMS and SSH
 identity hashes, current On-Demand prices, two retained EBS performance
 profiles, disposable root EBS, two public IPv4 addresses, S3/request allowance,
-two retained sparse snapshots with a 100 GiB allocated-block allowance, and
+two retained sparse data snapshots plus two prepared-image root snapshots with
+a conservative 260 GiB changed-block allowance, and
 seven days of retained storage. It fails when the aggregate
 estimate exceeds USD 20 and launches nothing.
 
@@ -240,21 +241,36 @@ bash adl/tools/run_issue607_warm_polis.sh prepare \
   --execute
 ```
 
-The operator-authorized `adl.issue607.authorization.v2` file must copy the
+The operator-authorized `adl.issue607.authorization.v3` file must copy the
 request's exact action, commit, run, storage, saved-plan, preflight, action
-manifest, and aggregate-envelope fields; add a unique `action_id`, future
+manifest, and campaign fields; add a unique `action_id`, future
 `expires_at`, `authorized: true`, and `single_use: true`. Execute the same
 command with `--authorization-file`. The authorization is consumed through a
 create-only S3 marker immediately before the first mutation.
 
 Successful preparation leaves two sealed 200 GiB volumes, completed immutable
-snapshots of both volumes, their storage state, the exact AMI/facility/seal
+snapshots of both volumes, two prepared launch AMIs and their root snapshots,
+their storage state, and the exact AMI/facility/seal
 receipts, a GPU snapshot-to-volume availability timing receipt, and an aggregate
 cost ledger. Unused volume extents are not zero-filled, preserving sparse
 snapshot economics. The temporary restored timing volume is deleted. The
 preparation instances, ENIs, security group, IAM resources, scheduler, shared
 key pair, and root volumes must be absent according to both Terraform and live
 tag inventory.
+
+Before image capture, both preparation guests clear cloud-init state and logs,
+reset machine identity, and remove SSH host keys so first launch regenerates
+per-instance state. Raw EC2 provider IDs are written immediately to
+`preparation-resources.json`. If preparation is interrupted, rerun exact cleanup
+from that worktree and run ID; it also discovers tagged resources that were
+created immediately before a local ledger write:
+
+```bash
+bash adl/tools/run_issue607_warm_polis.sh recover-preparation \
+  --commit EXACT_REVIEWED_SHA \
+  --run-id adl-issue607-prepare-UNIQUE \
+  --storage-id adl-issue607-warm-v1 --execute
+```
 
 ### Launch twice
 
@@ -273,7 +289,7 @@ and performs no mutation. Add `--authorization-file` to the identical command
 only after authorization. Repeat with ordinal `2` and another unique run ID and
 authorization.
 
-Each guest verifies the exact unmodified AMI facility inventory, volume ID,
+Each guest boots the exact prepared launch AMI and verifies its facility inventory, volume ID,
 generation, manifest, and dm-verity root. GPU readiness requires all configured
 models resident with nonzero VRAM. Runtime readiness requires the persistent
 Guardian process to pass authenticated HTTPS and WSS probes. Each guest must
@@ -294,8 +310,9 @@ bash adl/tools/run_issue607_warm_polis.sh retention-status \
 ```
 
 Extending retention or deleting the generation requires a separate
-`adl.issue607.storage_authorization.v1` that binds the controller-emitted exact
-saved plan and both volume IDs. Neither path is reachable from compute cleanup:
+`adl.issue607.storage_authorization.v2` that binds the controller-emitted exact
+saved plan, both volume IDs, both prepared AMIs, and all four retained snapshot
+IDs. None of these paths is reachable from compute cleanup:
 
 ```bash
 bash adl/tools/run_issue607_warm_polis.sh extend-retention \
@@ -304,9 +321,14 @@ bash adl/tools/run_issue607_warm_polis.sh extend-retention \
 
 bash adl/tools/run_issue607_warm_polis.sh retire-storage \
   --storage-id adl-issue607-warm-v1 --execute
+
+bash adl/tools/run_issue607_warm_polis.sh retire-snapshots \
+  --storage-id adl-issue607-warm-v1 --execute
 ```
 
 Run either command once without `--authorization-file` to obtain its exact
 request, then repeat it with the separately approved file. Retirement accepts
 only a saved plan that deletes exactly the two retained EBS volumes and no
-other resource.
+other resource. Snapshot retirement separately deregisters the exact two
+prepared images and deletes their root snapshots plus the two sealed-data
+snapshots.

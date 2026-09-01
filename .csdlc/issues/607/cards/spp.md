@@ -31,7 +31,7 @@ Revision 5
       "AC-9",
       "AC-10"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -45,7 +45,7 @@ Revision 5
       "AC-9",
       "AC-11"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -59,7 +59,7 @@ Revision 5
       "AC-9",
       "AC-12"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -73,7 +73,7 @@ Revision 5
       "AC-11",
       "AC-12"
     ],
-    "status": "pending"
+    "status": "in_progress"
   },
   {
     "id": "S5",
@@ -117,7 +117,7 @@ Revision 5
 
 .csdlc/prepared/issues/607/design.md
 
-Digest: 8274edf9cc3606a40f6a284bf17c2c1ab75bd50b2ab614038dc0fe9c7f4c7d29
+Digest: 7836ebeecff45d827b7657d2e586477f19822b89c7ecbd46c73aba31eb00ffc3
 
 ## Diagram
 

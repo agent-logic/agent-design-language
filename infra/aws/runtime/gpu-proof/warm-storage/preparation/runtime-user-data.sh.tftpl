@@ -6,12 +6,14 @@ mkdir -p "$work"
 
 finish_failure() {
   rc=$?
-  jq -n --argjson rc "$rc" '{schema:"adl.issue607.runtime_preparation.v1",status:"failed",exit_code:$rc}' >"$work/final.json" 2>/dev/null || true
-  aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${receipt_write_prefix}runtime-preparation-failed.json' --body "$work/final.json" --if-none-match '*' >/dev/null 2>&1 || true
+  logger -t adl-issue607 "runtime preparation bootstrap failed rc=$rc" || true
   shutdown -h now || true
   exit "$rc"
 }
 trap finish_failure EXIT
+
+apt-get update -qq
+apt-get install -y -qq awscli jq zstd gdisk cryptsetup-bin e2fsprogs build-essential cmake pkg-config libssl-dev ca-certificates python3 python3-boto3 socat curl openssl
 
 for command in cloud-init systemctl mount veritysetup python3 openssl curl jq readlink; do
   command -v "$command" >/dev/null
@@ -22,10 +24,15 @@ base_facility_inventory="$(jq -n \
   --arg libc "$(ldd --version 2>&1 | head -1)" --arg kernel "$(uname -r)" \
   --arg boto3 "$(python3 -c 'import boto3; print(boto3.__version__)')" \
   --argjson commands "$(for command in cloud-init systemctl mount veritysetup python3 openssl curl jq readlink; do command -v "$command"; done | jq -Rsc 'split("\n")[:-1]')" \
-  '{ami_id:$ami_id,availability_zone:$availability_zone,kernel:$kernel,libc:$libc,boto3:$boto3,commands:$commands,measured_before_mutation:true}')"
+  '{ami_id:$ami_id,availability_zone:$availability_zone,kernel:$kernel,libc:$libc,boto3:$boto3,commands:$commands,measured_after_preparation_bootstrap:true}')"
 
-apt-get update -qq
-apt-get install -y -qq awscli jq zstd gdisk cryptsetup-bin e2fsprogs build-essential cmake pkg-config libssl-dev ca-certificates python3 socat curl openssl
+finish_failure() {
+  rc=$?
+  jq -n --argjson rc "$rc" '{schema:"adl.issue607.runtime_preparation.v1",status:"failed",exit_code:$rc}' >"$work/final.json" 2>/dev/null || true
+  aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${receipt_write_prefix}runtime-preparation-failed.json' --body "$work/final.json" --if-none-match '*' >/dev/null 2>&1 || true
+  shutdown -h now || true
+  exit "$rc"
+}
 
 volume_device() {
   id="$1" compact="$${1//-/}"
@@ -104,14 +111,18 @@ prepared_state="$prepared_run/state"
 [[ -f "$prepared_state/runtime-init.toml" ]]
 mkdir -p "$work/content/install/runtime-state"
 cp -a "$prepared_state/." "$work/content/install/runtime-state/"
-python3 - "$prepared_state" "$work/content/install/runtime-state/runtime-init.toml" <<'PY'
+python3 - "$prepared_state" "$work/content/install/runtime-state/runtime-init.toml" "$work/content" <<'PY'
 import pathlib, sys
-old, destination = sys.argv[1:]
+old, destination, old_content = sys.argv[1:]
 path = pathlib.Path(destination)
 text = path.read_text(encoding="utf-8")
 if old not in text:
     raise SystemExit("prepared Runtime state prefix is absent")
-path.write_text(text.replace(old, "/var/lib/adl/issue607-runtime-template"), encoding="utf-8")
+text = text.replace(old, "/var/lib/adl/issue607-runtime-template")
+text = text.replace(old_content, "/mnt/adl-warm-runtime")
+if "/opt/adl-issue607-runtime-preparation" in text:
+    raise SystemExit("prepared Runtime init retains a preparation-host path")
+path.write_text(text, encoding="utf-8")
 PY
 mkdir -p "$work/content/repo/.adl/issue607-qualification"
 
@@ -134,5 +145,7 @@ jq -n --arg source_commit '${source_commit}' --arg generation '${artifact_genera
   --arg volume_id '${runtime_volume_id}' --arg root_hash "$root_hash" --argjson facility_inventory "$facility_inventory" \
   '{schema:"adl.issue607.runtime_preparation.v1",status:"prepared",source_commit:$source_commit,artifact_generation:$generation,volume_id:$volume_id,root_hash:$root_hash,fully_initialized:true,facility_inventory:$facility_inventory}' >"$work/final.json"
 aws s3api put-object --region '${region}' --bucket '${artifact_bucket}' --key '${receipt_write_prefix}runtime-preparation-final.json' --body "$work/final.json" --if-none-match '*' >/dev/null
+cloud-init clean --logs --machine-id
+rm -f /etc/ssh/ssh_host_*
 trap - EXIT
 shutdown -h now

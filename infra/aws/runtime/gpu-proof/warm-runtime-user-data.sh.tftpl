@@ -49,9 +49,9 @@ jq -e --arg volume '${volume_id}' --arg generation '${artifact_generation}' --ar
   '.schema=="adl.issue607.sealed_volume_manifest.v1" and .node=="runtime" and .volume_id==$volume and .artifact_generation==$generation and .source_commit==$commit' "$manifest" >/dev/null
 image_id="$(curl -fsS -X PUT -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' http://169.254.169.254/latest/api/token | xargs -I TOKEN curl -fsS -H 'X-aws-ec2-metadata-token: TOKEN' http://169.254.169.254/latest/meta-data/ami-id)"
 instance_id="$(curl -fsS -X PUT -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' http://169.254.169.254/latest/api/token | xargs -I TOKEN curl -fsS -H 'X-aws-ec2-metadata-token: TOKEN' http://169.254.169.254/latest/meta-data/instance-id)"
-live_facility="$(jq -n --arg image "$image_id" --arg kernel "$(uname -r)" --arg libc "$(ldd --version 2>&1 | head -1)" \
-  --arg boto3 "$(python3 -c 'import boto3; print(boto3.__version__)')" '{ami_id:$image,kernel:$kernel,libc:$libc,boto3:$boto3}')"
-jq -e --argjson live "$live_facility" '.facility_inventory.measured_before_mutation==true and (.facility_inventory|{ami_id,kernel,libc,boto3})==$live' "$manifest" >/dev/null
+live_facility="$(jq -n --arg kernel "$(uname -r)" --arg libc "$(ldd --version 2>&1 | head -1)" \
+  --arg boto3 "$(python3 -c 'import boto3; print(boto3.__version__)')" '{kernel:$kernel,libc:$libc,boto3:$boto3}')"
+jq -e --argjson live "$live_facility" '.facility_inventory.measured_after_preparation_bootstrap==true and (.facility_inventory|{kernel,libc,boto3})==($live|{kernel,libc,boto3})' "$manifest" >/dev/null
 
 for _ in $(seq 1 120); do
   s3_get '${region}' '${artifact_bucket}' '${gpu_ready_key}' "$state/gpu-ready.json" >/dev/null 2>&1 \

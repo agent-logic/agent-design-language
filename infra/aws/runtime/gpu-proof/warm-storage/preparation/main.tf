@@ -115,7 +115,9 @@ resource "aws_instance" "runtime_preparation" {
   })
   user_data_replace_on_change = true
 
-  instance_initiated_shutdown_behavior = "terminate"
+  # Preparation halts after sealing. The controller images this already-
+  # bootstrapped root before Terraform destroys the disposable instance.
+  instance_initiated_shutdown_behavior = "stop"
 
   metadata_options {
     http_endpoint               = "enabled"
@@ -164,7 +166,7 @@ resource "aws_instance" "gpu_preparation" {
   })
   user_data_replace_on_change = true
 
-  instance_initiated_shutdown_behavior = "terminate"
+  instance_initiated_shutdown_behavior = "stop"
 
   metadata_options {
     http_endpoint               = "enabled"

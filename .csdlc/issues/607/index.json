@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8968642208daa7c161799b66c6b7f8c161c1a580f1f59be39e2a34ae5f014430",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "babb7710ee2c6d35e3d48b40c16ea2f6d523d82cbcacd4e3180b423b15e6781a",
+  "generation": 20,
+  "digest": "688c474699e1a8a830387e07df68ad03e00c99f4a2ced81ff73cad661c5e1fd7",
   "branch": "codex/607-aws-warm-polis-gpu-startup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-607-aws-warm-polis-gpu-startup",
   "review_assignment": null,
@@ -16,42 +16,37 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/607/design.md",
   "diagram_path": ".csdlc/prepared/issues/607/diagram.mmd",
-  "design_review": {
-    "approved": {
-      "reviewer": "fresh-session:01a05def-4902-75b1-9ae8-72baad3a5e0d",
-      "revision": "8274edf9cc3606a40f6a284bf17c2c1ab75bd50b2ab614038dc0fe9c7f4c7d29"
-    }
-  },
+  "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "50fe4431e1c90f759138606645e96f15c0cdb0231fbcd4742df48581b20d9324",
+      "values_digest": "4ca06a855f20d3121846892c2612abc93329d2aaf3c2e2b77c0c70a807f50732",
       "rendered_digest": "37039a3921a8ba27309f16c548eebcfa12954d3a55063d7c53558641900b8fb1",
       "ast_digest": "43933319b5780f4dd4638eab656c080eceb5d612ffd1100eb49a7878d18e285a"
     },
     "stp": {
-      "values_digest": "8b72310eccfc06fc6110c649c2eb643c4fe155e89f3e64fceb0f53a6356505ac",
-      "rendered_digest": "e63f1e5f5fb4bba67bf3c570eda580aed960f92e2646c30901693256dac70ce1",
-      "ast_digest": "57d0c417b6c7e6160f823e2b892b73de47e7f9315d440d56f6598ad02e142a13"
+      "values_digest": "7f1558e0f2c2f4925660872acf7a692e9b896a1325e2f0a247d9c6713f2e6827",
+      "rendered_digest": "2f42aabb8b260e58550d1fa753ef9ece6f2f880216ffd3d8157e47a832947960",
+      "ast_digest": "f687f8d241a0d8519aabd186372aed20868ad69ae24bce3b8acfe51abe6f469f"
     },
     "spp": {
-      "values_digest": "4320b726b55ca826db06bb219cc32dbd60234f13350eb29a833b2a0638314483",
-      "rendered_digest": "3fb1f065105cdb7155bdf1a3640a7551655418235fa69ca9e2d1410b0f226076",
-      "ast_digest": "6b338654813658c09d13e8f0590dd3dcdbf5ae3e18541fcea415d9b878f326f3"
+      "values_digest": "0ab864a95c9313e334ef60a4633033eaf4d230582bdee6fc14b594e71c7c8d76",
+      "rendered_digest": "bb59ffdec430b54767eee143bb0a349e96a8b293e7f5bbdf7e6c31881ee463e6",
+      "ast_digest": "695c7333004c4e9013205fdc89e6947bbdf02ee0174b2235f1ffd9f5bdff35f3"
     },
     "vpp": {
-      "values_digest": "02fc1e0e9126ce2e244813fd2e30875b8e6bb26c2fd5f661322fd0bae65f02f5",
+      "values_digest": "cdb806872352b4a53410bdc19cba0e6e2f5ad5e9867b87e1e77b44d6e269b854",
       "rendered_digest": "e7e90611a1bb577f5843aa0a1b6f1bd7eba6664618decd1d199bbade73457460",
       "ast_digest": "5062a4b37a467474f4438645e3bda4e4f65080d5bda315e98e10a21d51e45717"
     },
     "srp": {
-      "values_digest": "172319617692a82b1b1a0cc17e2eac217f0a2291a064526a993f52b054664b52",
-      "rendered_digest": "760a69e67eb8207947bae9361b4ba01b520e59c800fbe6e394fd6ef3829b2b88",
-      "ast_digest": "f03ec258e96ffa45836262a290ddbd4e6bbd185ce41f6367039dbeb7b574f509"
+      "values_digest": "0de7b9503c01c1b9e9f20892a87ef3afed4a9d36e4615cf50ef74f6c1879022e",
+      "rendered_digest": "b66dd3830e3f534c54f17b9eefd2ad6a29969487b9977935201a4aee4126d4da",
+      "ast_digest": "cd14968f14ea3c16f9dbc9f1759102dd5065c0cd775d35390b81b4b04517efa7"
     },
     "sor": {
-      "values_digest": "69e5acca97585de357636eb44632fb765ce22ec80487f2aa4d65f3f2f5eef970",
-      "rendered_digest": "adb76a92131e058a18d57090a3519df37df0c0ec9ca4294a4481d4a283c905fb",
-      "ast_digest": "5ac40f4367e4e6b8be1635d8959c250a79c09fb0ffa0d25d7f228d3e60a29c87"
+      "values_digest": "12438e77d4303336c1eb127ee9a52215887e4f8d529be71a26fb427ffc844907",
+      "rendered_digest": "2e783d0042e3578cfd26a57624cb3e976b22bc334dba545dce6e20b0b21cb636",
+      "ast_digest": "36a27277c5deb212361ee260384cf35f2db636617ca029a4dd7a4761a43713f9"
     }
   },
   "transitions": [
@@ -175,6 +170,69 @@
       "actor": "codex-primary-issue607",
       "reason": "The bounded implementation and no-paid validation are recorded; live AWS validation and exact-head review remain subsequent gates.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex-primary-issue607",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex-primary-issue607",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex-primary-issue607",
+      "reason": "Recover the exact-head changes-required review so all seven actionable findings and the resulting design and card drift can be repaired before publication or AWS spend.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex-primary-issue607",
+      "reason": "Refresh the authored design after exact-head review recovery to describe reusable plan authorization, prepared launch images, sparse snapshots, and bounded artifact retirement truth.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/607/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/607/diagram.mmd\",\"new_design_digest\":\"7836ebeecff45d827b7657d2e586477f19822b89c7ecbd46c73aba31eb00ffc3\",\"new_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"old_design_digest\":\"8274edf9cc3606a40f6a284bf17c2c1ab75bd50b2ab614038dc0fe9c7f4c7d29\",\"old_diagram_digest\":\"075917071aa994387a05fef10743b0e62d1c5a2dfdbf91b3b1258327402ca953\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:01a05def-4902-75b1-9ae8-72baad3a5e0d\",\"revision\":\"8274edf9cc3606a40f6a284bf17c2c1ab75bd50b2ab614038dc0fe9c7f4c7d29\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":14,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex-primary-issue607",
+      "reason": "Correct the post-review deliverable denominator to include prepared launch images and bounded snapshot lifecycle artifacts.",
+      "operation": "{\"new_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Prepared Runtime and GPU launch AMIs with retained root snapshots\",\"Completed sealed-data snapshots and measured temporary restore receipt\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"One repeated live warm-launch proof under USD 20\",\"Updated operator runbook with explicit retention extension and retirement\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Versioned Runtime and Guardian artifact bundle\",\"Encrypted sealed Runtime and GPU warm EBS volumes\",\"Terraform warm-volume attachment inputs and preserved-storage cleanup behavior\",\"Minimal no-install guest activation scripts\",\"Machine-readable startup timing receipts\",\"Executable no-paid negative tests\",\"One repeated live warm-launch proof under USD 20\",\"Updated operator runbook\"],\"recovery_generation\":14,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex-primary-issue607",
+      "reason": "Record completed local storage and compute ownership construction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex-primary-issue607",
+      "reason": "Record completed local preparation, sealing, image, and snapshot construction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex-primary-issue607",
+      "reason": "Record completed local no-install activation, path relocation, readiness, and cleanup construction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex-primary-issue607",
+      "reason": "Mark the retained AWS preparation, restore, and repeated launch proof as the sole active execution step.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }

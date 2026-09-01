@@ -18,12 +18,14 @@ One preparation path plus one warm two-node Terraform launch path and truthful s
 
 - Versioned Runtime and Guardian artifact bundle
 - Encrypted sealed Runtime and GPU warm EBS volumes
+- Prepared Runtime and GPU launch AMIs with retained root snapshots
+- Completed sealed-data snapshots and measured temporary restore receipt
 - Terraform warm-volume attachment inputs and preserved-storage cleanup behavior
 - Minimal no-install guest activation scripts
 - Machine-readable startup timing receipts
 - Executable no-paid negative tests
 - One repeated live warm-launch proof under USD 20
-- Updated operator runbook
+- Updated operator runbook with explicit retention extension and retirement
 
 ## Acceptance
 

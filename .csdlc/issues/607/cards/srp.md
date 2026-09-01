@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #607 packaging warm-volume Terraform activation timing test documentation evidence and lifecycle paths only.
+
 
 ## Prompts
 
