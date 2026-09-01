@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "05250d0ebcf2edffb2b0a2b6c8507b8825c70388721855c37fd64b084034e368",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "11226906c9bbaa611375d4d0240d0250ec9ffb58ba9bc5420d555828b141b75b",
+  "generation": 2,
+  "digest": "7a8199fa4e0c9cb963e7982e9bd9d5e48289836ff2a76cd41ebe71af20dd17c5",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b0bb9a8e4fe8d8a035a47c32025ceb1eb2e0cd5bc36744719a969e1c3b7b5259",
+      "values_digest": "aed11cb35867581cf5cfc887b5aabb59e66c4111e323dd46f5ad8b11c1e59a14",
       "rendered_digest": "8463df43c274b53f497bc2b5d0683c192b2adb3ee1ce93b6d102786613ee9b45",
       "ast_digest": "70e3fd5b257ba42b9ceeb16ceae594d83e7de61ef8532c3a02ce4b32afdc8dc9"
     },
     "stp": {
-      "values_digest": "ec6230c9e5984f06634a674a967f9272d2a0b002699b0252f6c3e3bebc6f406b",
+      "values_digest": "562ad832ee7f2b8ceffd372931b1fc88456af73fda06a35ce1485dc87233a191",
       "rendered_digest": "bc84b45d889cbaf61f9dfdf3cc55eaa192b243b2906786aa9e461d275247245c",
       "ast_digest": "46f4d3f0e5405407a20bcff74422d81c3283911d6f7e90bb86e553bf67641a4a"
     },
     "spp": {
-      "values_digest": "45076926564bec751d5eab6104257a3d8a1da498579439603440c78d83691417",
-      "rendered_digest": "0552f68b64791df8550d7bf81ac127d792b38cd3dad899a22501db8efa6daad8",
-      "ast_digest": "0264b6355be7f5196d2fd59f5a11ef49c66e8acd0b3e3b3be29809680f6463e6"
+      "values_digest": "945ec6803816055c66c167c1d92c7313d3f01817c3a6b707e50564a3c2234137",
+      "rendered_digest": "cf4bd35b96257f447906baa698ed0ac0589fd5567c9bd683630c8a3df67ee078",
+      "ast_digest": "02186660a6dfe7cff12603add8f76705d20debce302860d4ded2cb17f4833df4"
     },
     "vpp": {
-      "values_digest": "b63484fe126605aa40e3e94667dc2156460bbde94471444524539fb184922a7b",
-      "rendered_digest": "9ccf7b51b4fdd9881a5c27e10fbec10fd4149199134c342a86bee64e1bad3e2d",
-      "ast_digest": "adf22dabeb86cc06ccb4f52d5fcb98f57e0b95e792a0a7512f20e69f8e0549c0"
+      "values_digest": "72df5874ba3228d9a2ced7613febb00d8ee5939464d9fddcd8f584fa54fe39bf",
+      "rendered_digest": "1c498afa6958b393d0cf77c06b3cedb5bfc0a76fe56ac9083c316b1af1f22d87",
+      "ast_digest": "e6c0535d9329dbcaa42d843719b64fa81cd63caf8236dba38cc09515f563ea9c"
     },
     "srp": {
-      "values_digest": "83780a4eacdc5ee780fdd43010ab4b7fd26bb1206158bc51fd529c5276397058",
+      "values_digest": "6f1afa0b5bf03704a4651cdfeb6c8a2543a782e7d46f93f3b92419f54fcc206e",
       "rendered_digest": "5e73e5925328b092789181e36f16c36501741c98ff71962279354b445ecc3a5b",
       "ast_digest": "8e806d3673620d233597703b4598a0e42454a07c18d589a82ff8eed11b20b954"
     },
     "sor": {
-      "values_digest": "fc4c4aabed3a28d92b17b07472b7769a2a56cf09c14d3dd01ef58a3a7e519f5d",
+      "values_digest": "ab765e788abc0a9b3604090d3d4ac36f9996e59a3678bc19da7815f866aa464b",
       "rendered_digest": "73236e3cd06d949b141dd51a947449f7669dcda56f36cc29276c4b22926c7f73",
       "ast_digest": "5dd404f88b5b4690f31d88bf400e6aa175b3d2d3c11caf199d46f6040ab8b3a3"
     }
@@ -62,6 +62,20 @@
       "actor": "worker-6:sprints56-remediation",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "worker-6:vpp-readiness-repair",
+      "reason": "Own the issue-local remediation validator so #596 validation lanes have an executable denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/operator\",\"csdlc-v3/src/storage/mod.rs\",\"csdlc-v3/tests\",\".github/workflows/ci.yaml\",\"adl/tools\",\".csdlc/issues/596\",\".csdlc/prepared/issues/596\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\",\".csdlc/evidence/sprints-5-6-cutover-fixes\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "worker-6:vpp-readiness-repair",
+      "reason": "Select the issue-owned remediation validator as the executable validation denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"remediation-regression\",\"proof_role\":\"Prove #596 local lifecycle, PR-closing linkage, and non-closing #505/#534 linkage through an issue-owned validator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/prepared/issues/596/validate-remediation-regression.sh\"],\"parallel_group\":\"policy\",\"defer_reason\":null},{\"lane\":\"v2-github-pr-transport\",\"proof_role\":\"Prove typed PR create/update action validation, owner provenance, and idempotent conflict rejection.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2200,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"parallel_group\":\"rust-focused\",\"defer_reason\":null},{\"lane\":\"v3-durable-storage\",\"proof_role\":\"Prove durable projection repair remains required across committed-state/missing-projection crash windows.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":360,\"budget_tokens\":2600,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v3/Cargo.toml\",\"--test\",\"transactions\"],\"parallel_group\":\"rust-focused\",\"defer_reason\":null}]}"
     }
   ]
 }

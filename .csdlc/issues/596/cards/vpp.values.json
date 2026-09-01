@@ -7,7 +7,7 @@
     "title": "[v0.92.1][V3-F] Repair Sprint 5/6 cutover blockers",
     "slug": "sprints-5-6-cutover-fixes",
     "version": "v0.92.1",
-    "generation": 0
+    "generation": 2
   },
   "status": "ready",
   "content": {
@@ -15,6 +15,26 @@
     "values": {
       "summary": "Execute the smallest proving validation DAG.",
       "lanes": [
+        {
+          "lane": "remediation-regression",
+          "proof_role": "Prove #596 local lifecycle, PR-closing linkage, and non-closing #505/#534 linkage through an issue-owned validator.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/596/validate-remediation-regression.sh"
+          ],
+          "parallel_group": "policy",
+          "defer_reason": null
+        },
         {
           "lane": "v2-github-pr-transport",
           "proof_role": "Prove typed PR create/update action validation, owner provenance, and idempotent conflict rejection.",
@@ -59,25 +79,6 @@
             "transactions"
           ],
           "parallel_group": "rust-focused",
-          "defer_reason": null
-        },
-        {
-          "lane": "remediation-regression",
-          "proof_role": "Run focused CI-policy, canary, all-target v3, and diff-hygiene checks for the remediation branch.",
-          "acceptance_ids": [
-            "AC-1",
-            "AC-2",
-            "AC-7"
-          ],
-          "deterministic": true,
-          "resource_profile": "medium",
-          "budget_seconds": 600,
-          "budget_tokens": 3200,
-          "argv": [
-            "bash",
-            "adl/tools/test_ci_runtime_contracts.sh"
-          ],
-          "parallel_group": "policy",
           "defer_reason": null
         }
       ],

@@ -16,7 +16,7 @@ Create the typed lifecycle record, repair the idempotency and durability defects
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
