@@ -7,14 +7,14 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 48
+    "generation": 55
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Deliver one reliable, bounded, Terraform-owned AWS qualification that provisions a regular Runtime/Guardian/agent node and a separate Ollama GPU node, attaches one shared operator SSH key pair to both with required /32 ingress, proves private inter-node model execution and all governed ACC/tool paths, and removes both nodes and volumes within the authorized cost and deadline.",
-      "required_outcome": "A reviewed issue-owned command can preflight, run one explicitly authorized real GPU-backed Shepherd proof at an exact repository revision, retain redacted machine-readable evidence, and remove all temporary compute on every exit path.",
+      "required_outcome": "A reviewed issue-owned Terraform root and runner can preflight and automatically provision exactly one regular Runtime, Guardian, and six-agent node plus one Ollama GPU node, use one shared SSH key pair with mandatory operator /32 ingress on both nodes, prove at least two simultaneously GPU-resident models and six governed Runtime-agent UTS, ACC, Freedom Gate, and runtime.observe paths over the private Ollama route, retain redacted cost-bound evidence, and destroy both nodes and their volumes on every exit path.",
       "declared_scope": [
         "infra/aws/runtime/gpu-proof/**",
         "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",

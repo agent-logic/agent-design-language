@@ -4,15 +4,17 @@ flowchart LR
   S3["Versioned S3 artifacts<br/>source + Ollama + models + bootstrap"] --> G
   S3 --> R
   TF --> K["One shared EC2 key pair"]
-  TF --> R["Regular EC2 node<br/>Guardian + Runtime v3<br/>six agents + UTS/ACC"]
-  TF --> G["GPU EC2 node<br/>Ollama + 2+ resident models"]
+  TF --> P["Validated public subnet<br/>IGW route + permissive NACL"]
+  P --> R["Regular EC2 node<br/>Guardian + Runtime v3<br/>six agents + UTS/ACC"]
+  P --> G["GPU EC2 node<br/>Ollama + 2+ resident models"]
   K --> R
   K --> G
   O -->|"TCP/22 only"| R
   O -->|"TCP/22 only"| G
   R -->|"private TCP/11434<br/>SG-to-SG only"| G
-  G -->|"S3 readiness receipt"| R
-  R --> E["Redacted proof receipt<br/>model + Guardian + ACC"]
+  G -->|"exact S3 readiness receipt key"| R
+  R --> E["Exact S3 final receipt key<br/>model + Guardian + ACC"]
+  T --> L["Mode-0600 local recovery<br/>owner + lock version"]
   R -. "SSM recovery only" .-> SSM["AWS Systems Manager"]
   G -. "SSM recovery only" .-> SSM
   TF --> D["Terraform destroy"]

@@ -29,6 +29,15 @@ authorized_max_total_usd  = 20
 
 artifact_bucket = "example-versioned-artifact-bucket"
 artifact_prefix = "shepherd/"
+artifact_read_keys = [
+  "shepherd/issue-345/two-model/artifact-manifest.json",
+  "shepherd/runtime/ollama/0.31.1/ollama-linux-amd64.tar.zst",
+  "shepherd/runtime/rustup/1.28.2/rustup-init-x86_64-unknown-linux-gnu",
+  "shepherd/runs/adl-issue345-example/source.tar",
+  "shepherd/runs/adl-issue345-example/config.json",
+  "shepherd/runs/adl-issue345-example/gpu-bootstrap.sh",
+  "shepherd/runs/adl-issue345-example/runtime-bootstrap.sh"
+]
 
 gpu_user_data = <<-EOT
   #!/bin/bash

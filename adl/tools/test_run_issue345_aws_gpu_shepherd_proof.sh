@@ -29,6 +29,11 @@ grep -q 'InstanceIds = \[aws_instance.runtime.id, aws_instance.gpu.id\]' "$TF_RO
 [[ "$(grep -Fc 'delete_on_termination = true' "$TF_ROOT/main.tf")" == 2 ]] || fail "both root disks must delete on termination"
 [[ "$(grep -Fc 'encrypted             = true' "$TF_ROOT/main.tf")" == 2 ]] || fail "both root disks must be encrypted"
 grep -q 'replace(var.runtime_user_data, "__GPU_PRIVATE_IP__", aws_instance.gpu.private_ip)' "$TF_ROOT/main.tf" || fail "Runtime must receive the GPU private IP"
+grep -q 'Resource = local.gpu_receipt_arn' "$TF_ROOT/main.tf" || fail "GPU writes are not scoped to its exact receipt"
+grep -q 'Resource = local.runtime_receipt_arn' "$TF_ROOT/main.tf" || fail "Runtime writes are not scoped to its exact receipt"
+grep -q 'artifact_read_arns  = \[for key in var.artifact_read_keys' "$TF_ROOT/main.tf" || fail "guest reads are not scoped to exact object keys"
+grep -q '!strcontains(key, "/locks/")' "$TF_ROOT/main.tf" || fail "guest read keys can include controller lock objects"
+! grep -A10 'artifact_read_statement = {' "$TF_ROOT/main.tf" | grep -q 's3:PutObject' || fail "broad artifact-prefix writes remain"
 
 grep -q 'STATE_BASE=.*\.adl/local/issue345' "$RUNNER" || fail "runner state is not worktree-local"
 grep -q 'validate_state_root' "$RUNNER" || fail "runner does not enforce worktree-local state containment"
@@ -49,6 +54,13 @@ grep -q 'systemd-run.*adl-issue345-deadline' "$RUNNER" || fail "guest deadline s
 grep -q 'snap install aws-cli --classic' "$RUNNER" || fail "cloud-init must install AWS CLI through the available package manager"
 grep -q 'terraform_source_sha256' "$RUNNER" || fail "Terraform source identity is not bound"
 grep -q 'terraform_plan_sha256' "$RUNNER" || fail "saved Terraform plan digest is not retained"
+grep -q 'verify_public_subnet' "$RUNNER" || fail "public-subnet route and network-ACL preflight is missing"
+grep -q 'route_table_sha256' "$RUNNER" || fail "public route-table identity is not authorization-bound"
+grep -q 'network_acl_sha256' "$RUNNER" || fail "network-ACL identity is not authorization-bound"
+grep -q 'socat TCP-LISTEN:11434,bind=127.0.0.1' "$RUNNER" || fail "private GPU forwarding for the local Shepherd contract is missing"
+grep -q -- '--task-panel /opt/adl-issue345/repo/adl/tools/issue268_runtime_uts_task_panel.json' "$RUNNER" || fail "six-agent task panel is not explicitly rooted in the restored repository"
+grep -q 'adl.issue345.local_recovery.v1' "$RUNNER" || fail "durable local owner/lock recovery record is missing"
+grep -q 'chmod 0600 "$run_dir/recovery.json"' "$RUNNER" || fail "local recovery record is not mode 0600"
 
 printf '%s\n' 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI0123456789abcdefghijklmnopqrstuv issue345' >"$tmp/operator.pub"
 export ADL_ISSUE345_STATE_ROOT="$tmp/state"
@@ -84,7 +96,8 @@ jq -n --arg commit "$head" --arg run "$run_id" --arg account "$EXPECTED_ACCOUNT_
    cost_overheads:{runtime_gp3_gib:80,gpu_gp3_gib:200,gp3_monthly_usd_per_gib:0.08,public_ipv4_count:2,public_ipv4_hourly_usd:0.005,aws_request_overhead_usd:0.05},
    expires_epoch:(now+3600|floor),bindings:{aws_account_sha256:$account,
     artifact_manifest:{bucket:$bucket,key:$key,version_id:$version,sha256:$manifest_sha},
-    runtime_ami_sha256:("1"*64),gpu_ami_sha256:("2"*64),subnet_sha256:("3"*64),vpc_sha256:("4"*64),terraform_source_sha256:("5"*64)}}' >"$tmp/authorization.json"
+    runtime_ami_sha256:("1"*64),gpu_ami_sha256:("2"*64),subnet_sha256:("3"*64),vpc_sha256:("4"*64),
+    route_table_sha256:("6"*64),network_acl_sha256:("7"*64),terraform_source_sha256:("5"*64)}}' >"$tmp/authorization.json"
 
 SOURCE_COMMIT="$head"
 RUN_ID="$run_id"
@@ -93,7 +106,8 @@ load_authorization
 awk -v r="$MAX_RUNTIME_HOURLY_USD" -v g="$MAX_GPU_HOURLY_USD" -v c="$MAX_COMBINED_HOURLY_USD" 'BEGIN{exit !(r==0.70 && g==0.85 && c==1.55)}' || fail "two-node hourly authorization was not loaded"
 awk -v d="$GP3_MONTHLY_USD_PER_GIB" -v i="$PUBLIC_IPV4_HOURLY_USD" -v q="$AWS_REQUEST_OVERHEAD_USD" 'BEGIN{exit !(d==0.08 && i==0.005 && q==0.05)}' || fail "authorized cost overheads were not loaded"
 preflight_fixture="$(jq -n --arg account "$EXPECTED_ACCOUNT_SHA256" --arg key_hash "$SSH_PUBLIC_KEY_SHA256" --arg cidr_hash "$(sha256_text "$SSH_INGRESS_CIDR")" \
-  '{account_sha256:$account,runtime_ami_sha256:("1"*64),gpu_ami_sha256:("2"*64),subnet_sha256:("3"*64),vpc_sha256:("4"*64),terraform_source_sha256:("5"*64),ssh_public_key_sha256:$key_hash,ssh_ingress_cidr_sha256:$cidr_hash}')"
+  '{account_sha256:$account,runtime_ami_sha256:("1"*64),gpu_ami_sha256:("2"*64),subnet_sha256:("3"*64),vpc_sha256:("4"*64),
+    route_table_sha256:("6"*64),network_acl_sha256:("7"*64),terraform_source_sha256:("5"*64),ssh_public_key_sha256:$key_hash,ssh_ingress_cidr_sha256:$cidr_hash}')"
 verify_authorized_preflight_bindings "$preflight_fixture"
 if (verify_authorized_preflight_bindings "$(jq '.gpu_ami_sha256=("f"*64)' <<<"$preflight_fixture")") 2>/dev/null; then fail "GPU AMI drift passed"; fi
 
@@ -113,4 +127,4 @@ grep -q 'requires --authorization-file' "$tmp/noauth.err" || fail "missing autho
 
 jq -n '{schema:"adl.issue345.two_node_runner_contract.v1",status:"pass",paid_launches:0,
   terraform_nodes:2,managed_key_pairs:1,public_ssh_cidrs:1,ollama_public:false,
-  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:12}'
+  controller_ssm_bootstrap:false,real_git:true,fake_aws:false,negative_cases:18}'

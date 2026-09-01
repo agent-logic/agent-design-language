@@ -16,16 +16,16 @@ Implement, validate, review, publish, and execute one bounded Terraform-owned AW
 
 ## Deliverables
 
-- Issue-#345-owned reusable AWS GPU proof command
-- Executable deterministic runner contract and negative tests
-- adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
-- adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
-- Read-only business-account, IAM, no-ingress, artifact, quota, price, and reaper preflight
-- Exact-revision model-backed GPU execution and bounded evidence contract
-- Owner-bound trap, guest-timer, and permanent-reaper cleanup
-- Redacted cost, proof, and cleanup receipt schema
-- Operator runbook separating preflight from paid execution
-- Fresh exact-head review and truthful publication handoff
+- Issue-#345-owned two-node Terraform root for one regular Runtime node and one Ollama GPU node
+- One shared Terraform-managed EC2 key pair with mandatory operator IPv4 /32 SSH ingress on both nodes
+- Automatic digest-bound GPU and Runtime cloud-init bootstrap scripts using immutable S3 artifacts and no live Git checkout
+- Private Runtime-security-group-only Ollama routing on TCP/11434 with at least two simultaneously GPU-resident models
+- Guardian, Runtime v3, governed Shepherd, and six-agent UTS, ACC, Freedom Gate, and runtime.observe proof flow
+- Read-only business-account, AMI, public-subnet route, artifact, quota, price, cost, and zero-residue preflight
+- Single-use exact-run authorization, saved-plan digest, redacted S3 receipts, and worktree-local recovery record
+- Terraform destroy, guest deadline, and tag-constrained Scheduler cleanup for both nodes and volumes
+- Executable no-paid runner contract and negative tests
+- Operator runbook plus fresh exact-head review and truthful publication handoff
 
 ## Acceptance
 

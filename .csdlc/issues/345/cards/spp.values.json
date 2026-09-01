@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 48
+    "generation": 55
   },
   "status": "ready",
   "content": {
@@ -135,9 +135,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/345/design.md",
-      "design_digest": "2c10beb0d51f1f1c755fd5bfa66eaf72597e270d1ab22d5d7bd371a31884c0f7",
+      "design_digest": "18204494877650a5a4e6c5cefce8aae663dae778e9ab250b0e7d00ed75e97d82",
       "diagram_ref": ".csdlc/prepared/issues/345/diagram.mmd",
-      "diagram_digest": "4565e689e454d83ea8e9ee9e450bf4a7fcb4ef10d1383efa948d34ef068f6554"
+      "diagram_digest": "a05bc537227bc698c64e1e2adcdd95b26ef9c903e95a7a9e1d5ba427f1ee4037"
     }
   }
 }

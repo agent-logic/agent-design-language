@@ -189,6 +189,19 @@ variable "artifact_prefix" {
   }
 }
 
+variable "artifact_read_keys" {
+  description = "Exact versioned object keys the guests may read; controller locks and authorization markers are excluded."
+  type        = list(string)
+  validation {
+    condition = (
+      length(var.artifact_read_keys) >= 5 &&
+      length(var.artifact_read_keys) == length(distinct(var.artifact_read_keys)) &&
+      alltrue([for key in var.artifact_read_keys : can(regex("^[A-Za-z0-9][A-Za-z0-9._/-]+$", key))])
+    )
+    error_message = "artifact_read_keys must contain at least five unique safe relative S3 object keys."
+  }
+}
+
 variable "gpu_user_data" {
   description = "Automatic cloud-init that starts Ollama and at least two resident models."
   type        = string

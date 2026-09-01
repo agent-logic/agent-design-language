@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and no-paid validated the Terraform-owned two-node AWS Runtime qualification; the real GPU apply remains pending fresh exact-head review, typed publication, and single-use run authorization.
+Implemented and no-paid validated the Terraform-owned two-node AWS Runtime qualification and all six exact-head review remediations; no current two-node GPU apply has run, so guest execution and cleanup remain pending fresh review, typed publication, and single-use authorization.
 
 ## Artifacts
 
@@ -26,15 +26,15 @@ Implemented and no-paid validated the Terraform-owned two-node AWS Runtime quali
 
 ## Execution
 
-- Added an isolated Terraform root owning one regular Runtime node, one GPU Ollama node, two security groups, one shared EC2 key pair, least-privilege roles/profiles, encrypted disposable gp3 disks, and a two-node EventBridge Scheduler deadline.
-- Pinned the Terraform AWS provider to agent-logic-admin so it cannot fall back to the operator's default account.
-- Required public IPv4 and TCP/22 from one validated operator /32 on both nodes, while limiting GPU TCP/11434 to the Runtime security group.
-- Replaced controller-side EC2/SSM orchestration with automatic cloud-init and retained SSM only as a recovery path.
-- Replaced live Git checkout with a versioned digest-bound archive of the exact reviewed repository commit.
-- Configured persistent Ollama keep-alive and complete simultaneous digest-checked GPU residency for at least two models.
-- Ran Guardian/Runtime lifecycle, one governed Shepherd proof per model, and six real UTS/ACC/Freedom-Gate/runtime.observe agent cycles on the regular node.
-- Bound single-use authorization to both nodes, disks, immutable artifacts, SSH/network identity, Terraform source, deadline, and combined compute/storage/IPv4/request cost; retained the exact applied saved-plan digest.
-- Added controller destroy, guest systemd shutdown, and tag-constrained Scheduler termination for both nodes with zero-instance/volume verification.
+- Added an isolated Terraform root owning one regular Runtime node, one GPU Ollama node, two security groups, one shared EC2 key pair, separate roles/profiles, encrypted disposable gp3 disks, and a two-node EventBridge Scheduler deadline.
+- Pinned the Terraform AWS provider to agent-logic-admin and required both public-IPv4 nodes to share one managed public key with TCP/22 limited to the operator IPv4 /32; GPU TCP/11434 remains Runtime-security-group-only.
+- Replaced controller-side EC2/SSM orchestration with automatic cloud-init, retained SSM only for recovery, and replaced live guest Git checkout with an immutable versioned source archive.
+- Configured the GPU bootstrap to restore at least two immutable models, keep them loaded in one Ollama service, and emit readiness only after every expected digest has nonzero VRAM residency.
+- Configured the Runtime bootstrap to run Guardian/Runtime lifecycle, route the local-only Shepherd smoke contract through a loopback proxy to private Ollama, and pass the restored repository's explicit task panel to the six-agent UTS, ACC, Freedom Gate, and runtime.observe proof.
+- Added read-only proof that the selected GPU-capable subnet has an active internet-gateway route and a permissive first IPv4 network-ACL rule in both directions, and bound both fingerprints into authorization.
+- Reduced guest S3 write authority to one exact per-run receipt key per node; guests cannot write artifact, source, lock, or authorization namespaces.
+- Added a mode-0600 worktree-local recovery record retaining the raw owner token and lock version before apply, while keeping public evidence redacted.
+- Bound single-use authorization to both nodes, disks, immutable artifacts, SSH/network identity, Terraform source, deadline, and combined compute/storage/IPv4/request cost; the run path is configured to retain the exact applied saved-plan digest.
 - Removed the obsolete issue-345 CloudFormation prerequisite template and forced all run state beneath the bound worktree.
 
 ## Validation
@@ -57,7 +57,7 @@ Implemented and no-paid validated the Terraform-owned two-node AWS Runtime quali
       "-chdir=infra/aws/runtime/gpu-proof",
       "validate"
     ],
-    "purpose": "Validate the complete two-node Terraform configuration.",
+    "purpose": "Validate the complete two-node Terraform configuration and narrowed IAM policies.",
     "outcome": "passed",
     "evidence_ref": "infra/aws/runtime/gpu-proof"
   },
@@ -66,7 +66,7 @@ Implemented and no-paid validated the Terraform-owned two-node AWS Runtime quali
       "bash",
       "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
     ],
-    "purpose": "Prove the no-paid two-node, shared-key, SSH, private-Ollama, authorization, source-archive, create-only receipt, state-containment, and cleanup contracts.",
+    "purpose": "Prove eighteen no-paid two-node topology, SSH, private-Ollama, public-subnet, exact-receipt IAM, authorization, recovery, source-archive, and guest-script contracts.",
     "outcome": "passed",
     "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
   },
@@ -76,20 +76,9 @@ Implemented and no-paid validated the Terraform-owned two-node AWS Runtime quali
       "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
       "preflight"
     ],
-    "purpose": "Verify current business-account AMIs, pricing, GPU quota, immutable artifacts, network/SSH hashes, Terraform identity, combined 1.425111 USD worst-case cost, and zero stale resources without a paid launch.",
+    "purpose": "Verify current business-account AMIs, public subnet route/NACL, pricing, quota, immutable artifacts, SSH/network hashes, combined 1.425111 USD worst-case cost, and zero stale resources without launching compute.",
     "outcome": "passed",
     "evidence_ref": ".adl/local/issue345/preflight-artifact-manifest.json"
-  },
-  {
-    "command": [
-      "terraform",
-      "-chdir=infra/aws/runtime/gpu-proof",
-      "plan",
-      "-refresh=false"
-    ],
-    "purpose": "Generate a real read-only plan through agent-logic-admin and verify exactly two instances, one key pair, one deadline schedule, and sixteen creates with no apply.",
-    "outcome": "passed",
-    "evidence_ref": ".adl/local/issue345/plancheck/terraform.tfplan"
   },
   {
     "command": [

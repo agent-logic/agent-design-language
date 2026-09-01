@@ -29,6 +29,10 @@ The root at `infra/aws/runtime/gpu-proof` owns exactly two On-Demand instances,
 two security groups, one shared key pair, separate least-privilege instance
 roles/profiles, encrypted delete-on-termination gp3 root disks, and one
 EventBridge Scheduler deadline targeting both exact instance IDs.
+Both guest roles have read-only artifact-prefix access. Their only write
+authority is one exact per-run S3 receipt key each, so neither guest can mutate
+model/source/bootstrap artifacts or controller-owned locks and authorization
+markers.
 
 The GPU security group admits TCP/11434 only from the Runtime security group.
 The Runtime cloud-init receives the GPU private address from Terraform. The
@@ -42,15 +46,19 @@ The Runtime node waits for that private readiness surface, restores the exact
 reviewed repository archive from versioned S3, then runs the Guardian lifecycle
 proof and six real Runtime-agent cycles through UTS, ACC, Freedom Gate, and
 `runtime.observe`. The governed Shepherd smoke contract is run once per
-configured model against the private GPU endpoint. Evidence does not claim an
-unimplemented Runtime-v3 kernel-to-Ollama transit path.
+configured model through a loopback-bound proxy to the private GPU endpoint,
+preserving that test's local-host contract without public ingress. The
+six-agent runner receives an explicit task-panel path inside the restored
+repository. Evidence does not claim an unimplemented Runtime-v3 kernel-to-
+Ollama transit path.
 
 ## Launch and cost controls
 
 `preflight` is read-only with respect to paid compute. It verifies the business
 account, both AMIs and instance prices, GPU quota, VPC/subnet, immutable S3
-manifest, SSH key and `/32`, Terraform source identity, total compute/storage/
-IPv4/request cost, and zero stale issue instances or volumes.
+manifest, the selected subnet's active internet-gateway route and permissive
+IPv4 network ACL, SSH key and `/32`, Terraform source identity, total compute/
+storage/IPv4/request cost, and zero stale issue instances or volumes.
 
 Paid `run` requires a clean reviewed revision, a unique run ID, explicit
 `--execute`, and one retained single-use authorization binding both instance
@@ -66,9 +74,11 @@ Three independent termination paths cover both nodes: the controller's
 Terraform destroy trap, a guest-local systemd deadline shutdown on each node,
 and the tag-constrained Terraform-managed Scheduler target. Cleanup is
 owner-bound and verifies zero matching instances and volumes before releasing
-the run lock. All Terraform state, plans, authorization copies, generated
-bootstrap files, and receipts remain beneath `.adl/local/issue345` in the bound
-worktree.
+the run lock. Immediately after lock acquisition, a private mode-0600 local
+recovery record retains the raw owner token and exact lock version required for
+manual cleanup after controller loss. All Terraform state, plans, authorization
+copies, generated bootstrap files, recovery state, and receipts remain beneath
+`.adl/local/issue345` in the bound worktree.
 
 ## Evidence and privacy
 

@@ -16,7 +16,7 @@ Deliver one reliable, bounded, Terraform-owned AWS qualification that provisions
 
 ## Required Outcome
 
-A reviewed issue-owned command can preflight, run one explicitly authorized real GPU-backed Shepherd proof at an exact repository revision, retain redacted machine-readable evidence, and remove all temporary compute on every exit path.
+A reviewed issue-owned Terraform root and runner can preflight and automatically provision exactly one regular Runtime, Guardian, and six-agent node plus one Ollama GPU node, use one shared SSH key pair with mandatory operator /32 ingress on both nodes, prove at least two simultaneously GPU-resident models and six governed Runtime-agent UTS, ACC, Freedom Gate, and runtime.observe paths over the private Ollama route, retain redacted cost-bound evidence, and destroy both nodes and their volumes on every exit path.
 
 ## Scope
 

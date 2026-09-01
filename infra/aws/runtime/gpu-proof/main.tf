@@ -1,7 +1,9 @@
 locals {
   scheduler_name      = substr("${var.run_id}-terminate", 0, 64)
   termination_at_utc  = trimsuffix(var.termination_at, "Z")
-  artifact_object_arn = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}*"
+  artifact_read_arns  = [for key in var.artifact_read_keys : "arn:aws:s3:::${var.artifact_bucket}/${key}"]
+  gpu_receipt_arn     = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/gpu-ready.json"
+  runtime_receipt_arn = "arn:aws:s3:::${var.artifact_bucket}/${var.artifact_prefix}runs/${var.run_id}/runtime-final.json"
 
   run_tags = {
     "adl:issue"            = "345"
@@ -103,29 +105,60 @@ resource "aws_iam_role" "gpu" {
 }
 
 resource "aws_iam_role_policy" "runtime_artifacts" {
-  name   = "issue345-artifact-prefix-read-write"
+  name   = "issue345-exact-artifacts-and-runtime-receipt"
   role   = aws_iam_role.runtime.id
-  policy = local.artifact_policy
+  policy = local.runtime_artifact_policy
+
+  lifecycle {
+    precondition {
+      condition     = alltrue([for key in var.artifact_read_keys : startswith(key, var.artifact_prefix) && !strcontains(key, "/locks/")])
+      error_message = "artifact_read_keys must stay inside the issue artifact prefix and exclude controller lock objects."
+    }
+  }
 }
 
 resource "aws_iam_role_policy" "gpu_artifacts" {
-  name   = "issue345-artifact-prefix-read-write"
+  name   = "issue345-exact-artifacts-and-gpu-receipt"
   role   = aws_iam_role.gpu.id
-  policy = local.artifact_policy
+  policy = local.gpu_artifact_policy
+
+
+  lifecycle {
+    precondition {
+      condition     = alltrue([for key in var.artifact_read_keys : startswith(key, var.artifact_prefix) && !strcontains(key, "/locks/")])
+      error_message = "artifact_read_keys must stay inside the issue artifact prefix and exclude controller lock objects."
+    }
+  }
 }
 
 locals {
-  artifact_policy = jsonencode({
+  artifact_read_statement = {
+    Sid    = "ReadIssue345Artifacts"
+    Effect = "Allow"
+    Action = [
+      "s3:GetObject",
+      "s3:GetObjectVersion"
+    ]
+    Resource = local.artifact_read_arns
+  }
+
+  runtime_artifact_policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
-      Sid    = "ReadWriteOnlyIssueObjects"
-      Effect = "Allow"
-      Action = [
-        "s3:GetObject",
-        "s3:GetObjectVersion",
-        "s3:PutObject"
-      ]
-      Resource = local.artifact_object_arn
+    Statement = [local.artifact_read_statement, {
+      Sid      = "WriteOnlyRuntimeFinalReceipt"
+      Effect   = "Allow"
+      Action   = "s3:PutObject"
+      Resource = local.runtime_receipt_arn
+    }]
+  })
+
+  gpu_artifact_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [local.artifact_read_statement, {
+      Sid      = "WriteOnlyGpuReadyReceipt"
+      Effect   = "Allow"
+      Action   = "s3:PutObject"
+      Resource = local.gpu_receipt_arn
     }]
   })
 }

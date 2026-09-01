@@ -28,6 +28,12 @@ only tag-constrained `ec2:TerminateInstances` authority. There is no Lambda,
 Python reaper, Spot fallback, controller-side `run-instances`, or SSM
 SendCommand path.
 
+Both guest roles can read the issue artifact prefix, but their write authority
+is narrower: the GPU role can create only its exact run-specific ready receipt,
+and the Runtime role can create only its exact run-specific final receipt.
+Neither guest can write model/runtime artifacts, source/config objects, locks,
+or authorization markers.
+
 Terraform uses explicit account, region, VPC, subnet, AMIs, instance types,
 disk sizes, SSH inputs, owner token, deadline, artifact prefix, and cost ceiling
 variables. It performs no infrastructure discovery or pricing lookup. The
@@ -62,9 +68,10 @@ bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh preflight
 Preflight verifies the `agent-logic-admin` business account, Terraform
 configuration, required SSH `/32` and public-key hash, immutable model bundle,
 pre-resolved Runtime and GPU AMIs, a GPU-capable subnet in the explicit VPC,
-GPU quota, both On-Demand prices, both gp3 volumes, two public IPv4 charges,
-request overhead, the total ceiling, and zero stale issue-tagged instances or
-volumes. It performs no paid mutation.
+an active internet-gateway default route, a permissive first IPv4 network-ACL
+rule in both directions, GPU quota, both On-Demand prices, both gp3 volumes,
+two public IPv4 charges, request overhead, the total ceiling, and zero stale
+issue-tagged instances or volumes. It performs no paid mutation.
 
 ## Retained paid authorization
 
@@ -73,6 +80,7 @@ Execution requires `adl.issue345.paid_run_authorization.v3`. It binds:
 - exact source commit and typed exact-head review revision;
 - unique run ID and expiry;
 - Agent Logic account hash, region, VPC, subnet, and both resolved AMI hashes;
+- the selected subnet's effective route-table and network-ACL fingerprints;
 - Runtime and GPU instance types plus individual and combined hourly ceilings;
 - full two-node billable deadline, both disk costs, two public IPv4 costs,
   request overhead, and total ceiling no greater than USD 20;
@@ -109,9 +117,12 @@ automatic cloud-init payloads:
    requires the complete set to have nonzero VRAM residency, and uploads a GPU
    readiness receipt.
 2. The Runtime node waits for that S3 receipt and the private Ollama endpoint,
-   restores the exact reviewed repository archive from versioned S3, proves Guardian-supervised Runtime v3
-   lifecycle, runs the governed Shepherd adapter once per model, and executes
-   six real Runtime-agent proposals through UTS, ACC, the Freedom Gate, and
+   restores the exact reviewed repository archive from versioned S3, proves
+   Guardian-supervised Runtime v3 lifecycle, exposes the private GPU endpoint
+   only through a loopback-bound proxy required by the local Shepherd contract,
+   runs the governed Shepherd adapter once per model, and executes six real
+   Runtime-agent proposals using the task panel explicitly rooted in that
+   restored repository through UTS, ACC, the Freedom Gate, and
    `runtime.observe`. It uploads a final success or failure receipt.
 3. The controller polls only the versioned S3 receipt surface. It does not send
    shell commands through SSM.
@@ -130,6 +141,12 @@ releases the owner-bound S3 lock. Both root volumes are encrypted and
 delete-on-termination. Independently, the one-time EventBridge Scheduler action
 terminates both exact node IDs at the authorized deadline and retries only
 within its bounded five-minute event age.
+
+Immediately after lock acquisition, the runner writes a mode-0600
+`recovery.json` inside the run's worktree-local state directory. It retains the
+raw owner token and exact lock version needed for manual cleanup after a
+controller crash; this private recovery file is never uploaded or included in
+public evidence.
 
 Manual retry uses the original local state and owner identity:
 
@@ -150,6 +167,8 @@ This validates Terraform and executable fail-closed contracts without fake AWS
 responses and without a paid launch. It asserts two Terraform-owned nodes, one
 mandatory shared managed key pair, public SSH `/32` on both nodes, private
 SG-only Ollama, SSM recovery without SSM bootstrap, both encrypted disposable
-volumes, both-node deadline targeting, private-IP injection, local state,
-single-use authorization, exact review equality, and zero controller-owned
-launch commands.
+volumes, exact-receipt-only guest write authority, public-subnet proof, both-node
+deadline targeting, private-IP injection, loopback Shepherd forwarding,
+explicit six-agent task-panel rooting, mode-0600 recovery state, single-use
+authorization, exact review equality, and zero controller-owned launch
+commands.

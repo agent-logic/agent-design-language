@@ -151,14 +151,51 @@ verify_account() {
 
 resolve_ami() { aws_cli ssm get-parameter --name "$1" --query Parameter.Value --output text; }
 
+verify_public_subnet() {
+  local subnet_id="$1" route_tables network_acls route_fingerprint nacl_fingerprint
+  route_tables="$(aws_cli ec2 describe-route-tables --filters "Name=association.subnet-id,Values=$subnet_id" --output json)"
+  if [[ "$(jq '.RouteTables | length' <<<"$route_tables")" == 0 ]]; then
+    route_tables="$(aws_cli ec2 describe-route-tables --filters "Name=vpc-id,Values=$VPC_ID" Name=association.main,Values=true --output json)"
+  fi
+  route_fingerprint="$(jq -S -ce '
+    .RouteTables
+    | select(length == 1)
+    | .[0]
+    | select(any(.Routes[]?; .DestinationCidrBlock == "0.0.0.0/0" and .State == "active" and (.GatewayId | startswith("igw-"))))
+    | {route_table_id:.RouteTableId,routes:[.Routes[]|{destination:.DestinationCidrBlock,state:.State,gateway:.GatewayId}]}
+  ' <<<"$route_tables")" || return 1
+  network_acls="$(aws_cli ec2 describe-network-acls --filters "Name=association.subnet-id,Values=$subnet_id" --output json)"
+  nacl_fingerprint="$(jq -S -ce '
+    .NetworkAcls
+    | select(length == 1)
+    | .[0]
+    | . as $acl
+    | ([.Entries[] | select(.RuleNumber < 32767 and .CidrBlock != null and .Egress == false)] | sort_by(.RuleNumber) | .[0]) as $in
+    | ([.Entries[] | select(.RuleNumber < 32767 and .CidrBlock != null and .Egress == true)] | sort_by(.RuleNumber) | .[0]) as $out
+    | select($in.RuleAction == "allow" and $in.Protocol == "-1" and $in.CidrBlock == "0.0.0.0/0")
+    | select($out.RuleAction == "allow" and $out.Protocol == "-1" and $out.CidrBlock == "0.0.0.0/0")
+    | {network_acl_id:.NetworkAclId,entries:[.Entries[]|{rule:.RuleNumber,egress:.Egress,action:.RuleAction,protocol:.Protocol,cidr:.CidrBlock}]}
+  ' <<<"$network_acls")" || return 1
+  jq -n --arg route "$(canonical_json_sha256 <<<"$route_fingerprint")" \
+    --arg nacl "$(canonical_json_sha256 <<<"$nacl_fingerprint")" \
+    '{route_table_sha256:$route,network_acl_sha256:$nacl}'
+}
+
 resolve_subnet() {
-  local offerings subnets
+  local offerings subnets subnet
   offerings="$(aws_cli ec2 describe-instance-type-offerings --location-type availability-zone \
     --filters "Name=instance-type,Values=$GPU_INSTANCE_TYPE" --query 'InstanceTypeOfferings[].Location' --output json)"
   [[ -n "$VPC_ID" ]] || { echo "ADL_ISSUE345_VPC_ID is required" >&2; exit 2; }
   subnets="$(aws_cli ec2 describe-subnets --filters Name=state,Values=available "Name=vpc-id,Values=$VPC_ID" \
     --query 'Subnets[].{id:SubnetId,az:AvailabilityZone}' --output json)"
-  jq -er --argjson offerings "$offerings" '[.[] | select(.az as $az | $offerings | index($az))] | sort_by(.az,.id) | .[0].id' <<<"$subnets"
+  while read -r subnet; do
+    if verify_public_subnet "$subnet" >/dev/null 2>&1; then
+      printf '%s\n' "$subnet"
+      return 0
+    fi
+  done < <(jq -r --argjson offerings "$offerings" '[.[] | select(.az as $az | $offerings | index($az))] | sort_by(.az,.id) | .[].id' <<<"$subnets")
+  echo "no GPU-capable subnet has an active internet-gateway route and permissive IPv4 network ACL" >&2
+  return 2
 }
 
 instance_hourly_price_usd() {
@@ -224,7 +261,7 @@ verify_artifact_manifest() {
 preflight() {
   require_profile; require_command aws; require_command jq; require_command terraform
   validate_model_identities; load_ssh_inputs
-  local account_hash runtime_ami gpu_ami subnet runtime_price gpu_price quota model_set
+  local account_hash runtime_ami gpu_ami subnet subnet_proof runtime_price gpu_price quota model_set
   local billable compute gp3 ipv4 total active active_volumes
   account_hash="$(verify_account)"
   mkdir -p "$STATE_ROOT/terraform-data"
@@ -234,6 +271,7 @@ preflight() {
   runtime_ami="$(resolve_ami "$RUNTIME_AMI_PARAMETER")"
   gpu_ami="$(resolve_ami "$GPU_AMI_PARAMETER")"
   subnet="$(resolve_subnet)"
+  subnet_proof="$(verify_public_subnet "$subnet")"
   runtime_price="$(instance_hourly_price_usd "$RUNTIME_INSTANCE_TYPE")"
   gpu_price="$(instance_hourly_price_usd "$GPU_INSTANCE_TYPE")"
   quota="$(gpu_quota)"
@@ -253,6 +291,7 @@ preflight() {
   jq -n --arg schema adl.issue345.aws_two_node_preflight.v1 --arg account_sha256 "$account_hash" \
     --arg runtime_ami_sha256 "$(sha256_text "$runtime_ami")" --arg gpu_ami_sha256 "$(sha256_text "$gpu_ami")" \
     --arg subnet_sha256 "$(sha256_text "$subnet")" --arg vpc_sha256 "$(sha256_text "$VPC_ID")" --arg ssh_public_key_sha256 "$SSH_PUBLIC_KEY_SHA256" \
+    --arg route_table_sha256 "$(jq -r .route_table_sha256 <<<"$subnet_proof")" --arg network_acl_sha256 "$(jq -r .network_acl_sha256 <<<"$subnet_proof")" \
     --arg ssh_ingress_cidr_sha256 "$(sha256_text "$SSH_INGRESS_CIDR")" --arg model_set_sha256 "$model_set" \
     --arg terraform_source_sha256 "$(terraform_source_sha256)" \
     --arg runtime_instance_type "$RUNTIME_INSTANCE_TYPE" --arg gpu_instance_type "$GPU_INSTANCE_TYPE" \
@@ -260,6 +299,7 @@ preflight() {
     --argjson quota "$quota" --argjson total "$total" --argjson max_total "$MAX_TOTAL_COST_USD" \
     '{schema:$schema,account_sha256:$account_sha256,runtime_ami_sha256:$runtime_ami_sha256,
       gpu_ami_sha256:$gpu_ami_sha256,subnet_sha256:$subnet_sha256,vpc_sha256:$vpc_sha256,
+      route_table_sha256:$route_table_sha256,network_acl_sha256:$network_acl_sha256,
       ssh_public_key_sha256:$ssh_public_key_sha256,ssh_ingress_cidr_sha256:$ssh_ingress_cidr_sha256,
       runtime_instance_type:$runtime_instance_type,gpu_instance_type:$gpu_instance_type,
       runtime_hourly_usd:$runtime_hourly_usd,gpu_hourly_usd:$gpu_hourly_usd,gpu_quota_vcpus:$quota,
@@ -289,6 +329,8 @@ load_authorization() {
     and (.bindings.gpu_ami_sha256 | test("^[0-9a-f]{64}$"))
     and (.bindings.subnet_sha256 | test("^[0-9a-f]{64}$"))
     and (.bindings.vpc_sha256 | test("^[0-9a-f]{64}$"))
+    and (.bindings.route_table_sha256 | test("^[0-9a-f]{64}$"))
+    and (.bindings.network_acl_sha256 | test("^[0-9a-f]{64}$"))
     and (.bindings.terraform_source_sha256 | test("^[0-9a-f]{64}$"))
     and .max_instance_seconds >= 1 and .max_instance_seconds <= 3600
     and .max_reaper_lag_seconds == 300
@@ -326,6 +368,8 @@ verify_authorized_preflight_bindings() {
     and .bindings.gpu_ami_sha256 == $p.gpu_ami_sha256
     and .bindings.subnet_sha256 == $p.subnet_sha256
     and .bindings.vpc_sha256 == $p.vpc_sha256
+    and .bindings.route_table_sha256 == $p.route_table_sha256
+    and .bindings.network_acl_sha256 == $p.network_acl_sha256
     and .bindings.terraform_source_sha256 == $p.terraform_source_sha256
     and .ssh_public_key_sha256 == $p.ssh_public_key_sha256
     ' "$AUTHORIZATION_FILE" >/dev/null && [[ "$(jq -r .ssh_ingress_cidr_sha256 <<<"$p")" == "$cidr_sha256" ]] || {
@@ -450,7 +494,7 @@ failure() { rc=$?; jq -n --argjson rc "$rc" '{schema:"adl.issue345.runtime_recei
 trap failure EXIT
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -qq
-apt-get install -y -qq jq curl zstd build-essential pkg-config libssl-dev ca-certificates python3
+apt-get install -y -qq jq curl zstd build-essential pkg-config libssl-dev ca-certificates python3 socat
 CONFIG=/opt/adl-issue345/config.json
 aws s3api get-object --region "$REGION" --bucket "$BUCKET" --key "$CONFIG_KEY" --version-id "$CONFIG_VERSION" "$CONFIG" >/dev/null
 printf '%s  %s\n' "$CONFIG_SHA" "$CONFIG" | sha256sum -c -
@@ -475,10 +519,12 @@ bash adl/tools/install_vector_component.sh >/opt/adl-issue345/vector-install.log
 bash adl/tools/validate_v092_runtime_guardian_lifecycle.sh --suite preflight_1x >/opt/adl-issue345/guardian.log 2>&1
 guardian_path="$(find "$ADL_RUNTIME_GUARDIAN_EVIDENCE_ROOT" -type f -name issue-proof.json -print -quit)"
 guardian="$(jq -ce 'select(.schema=="adl.runtime_v3.guardian_lifecycle_proof.v1" and .status=="pass")' "$guardian_path")"
+socat TCP-LISTEN:11434,bind=127.0.0.1,reuseaddr,fork TCP:"$GPU_PRIVATE_IP":11434 >/opt/adl-issue345/ollama-private-proxy.log 2>&1 &
+for _ in $(seq 1 30); do curl -fsS http://127.0.0.1:11434/api/ps >/dev/null && break; sleep 1; done
 shepherd='[]'
 while IFS=$'\t' read -r model digest; do
   log="/opt/adl-issue345/shepherd-$(printf %s "$model"|sha256sum|awk '{print $1}').log"
-  ADL_SHEPHERD_OLLAMA_HOST="$OLLAMA_HOST" ADL_SHEPHERD_BACKEND_IDENTITY=ollama_cuda_aws_l4 ADL_SHEPHERD_MODEL_IDENTITY="$model" ADL_SHEPHERD_MODEL_DIGEST_SHA256="$digest" \
+  ADL_SHEPHERD_OLLAMA_HOST="http://127.0.0.1:11434" ADL_SHEPHERD_BACKEND_IDENTITY=ollama_cuda_aws_l4 ADL_SHEPHERD_MODEL_IDENTITY="$model" ADL_SHEPHERD_MODEL_DIGEST_SHA256="$digest" \
     cargo test --locked --manifest-path adl-runtime/Cargo.toml --test shepherd_local_model real_local_model_smoke -- --ignored --exact --nocapture >"$log" 2>&1
   proof="$(grep '"schema":"adl.runtime.shepherd_local_model_smoke.v1"' "$log"|tail -1)"; shepherd="$(jq -c --arg m "$model" --argjson p "$proof" '.+[{model_identity:$m,proof:$p}]' <<<"$shepherd")"
 done < <(jq -r '.models[]|[.model_identity,.model_digest_sha256]|@tsv' "$MANIFEST")
@@ -491,7 +537,7 @@ jq --arg first "$first" --arg second "$second" '
 ' adl/tools/issue268_six_resident_uts_plan.json >/opt/adl-issue345/plan.json
 mkdir -p /opt/adl-issue345/agent-evidence
 sed "s#http://127.0.0.1:11434#http://$GPU_PRIVATE_IP:11434#g" adl/tools/run_issue268_six_resident_uts_cycle.py >/opt/adl-issue345/run-six-resident.py
-python3 /opt/adl-issue345/run-six-resident.py --phase pre --state /opt/adl-issue345/agent-state.json --evidence-dir /opt/adl-issue345/agent-evidence --plan /opt/adl-issue345/plan.json --runtime-bin /opt/adl-issue345/target/debug/adl --runtime-root /opt/adl-issue345/runtime >/opt/adl-issue345/agents.log 2>&1
+python3 /opt/adl-issue345/run-six-resident.py --phase pre --state /opt/adl-issue345/agent-state.json --evidence-dir /opt/adl-issue345/agent-evidence --plan /opt/adl-issue345/plan.json --task-panel /opt/adl-issue345/repo/adl/tools/issue268_runtime_uts_task_panel.json --runtime-bin /opt/adl-issue345/target/debug/adl --runtime-root /opt/adl-issue345/runtime >/opt/adl-issue345/agents.log 2>&1
 agents="$(jq -sc 'map(select(.agent_test_outcome=="executed" and .runtime_exit_code==0 and .runtime_receipt.decision=="executed"))|select(length==6)' /opt/adl-issue345/agent-evidence/pre-*.json)"
 gpu="$(cat /opt/adl-issue345/gpu-ready.json)"
 jq -n --arg commit "$commit" --argjson gpu "$gpu" --argjson guardian "$guardian" --argjson shepherd "$shepherd" --argjson agents "$agents" \
@@ -573,7 +619,7 @@ run_proof() {
   [[ -z "$(git -C "$ROOT" status --porcelain --untracked-files=no)" ]] || { echo "paid execution requires a tracked-clean checkout" >&2; exit 2; }
   verify_review_authority
   local run_dir="$STATE_ROOT/$RUN_ID" preflight_json runtime_ami gpu_ami subnet account_id deadline deadline_epoch config_key config_version config_sha
-  local source_archive source_key source_version source_sha
+  local source_archive source_key source_version source_sha artifact_read_keys
   local gpu_script runtime_script gpu_key runtime_key gpu_version runtime_version gpu_sha runtime_sha ready_key final_key
   [[ ! -e "$run_dir" ]] || { echo "run id already exists in .adl/local/issue345" >&2; exit 2; }
   mkdir -p "$run_dir" "$STATE_ROOT/terraform-data"; chmod 0700 "$run_dir"
@@ -582,7 +628,11 @@ run_proof() {
   runtime_ami="$(resolve_ami "$RUNTIME_AMI_PARAMETER")"; gpu_ami="$(resolve_ami "$GPU_AMI_PARAMETER")"; subnet="$(resolve_subnet)"
   account_id="$(aws --profile "$PROFILE" sts get-caller-identity --query Account --output text)"
   OWNER_TOKEN="$(uuidgen | tr -d '-' | tr '[:upper:]' '[:lower:]')"
-  acquire_run_lock; trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM; consume_authorization_once
+  acquire_run_lock
+  jq -n --arg run "$RUN_ID" --arg owner "$OWNER_TOKEN" --arg lock_version "$LOCK_VERSION_ID" \
+    '{schema:"adl.issue345.local_recovery.v1",run_id:$run,owner_token:$owner,lock_version_id:$lock_version,retained_locally:true}' >"$run_dir/recovery.json"
+  chmod 0600 "$run_dir/recovery.json"
+  trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM; consume_authorization_once
   ready_key="${ARTIFACT_PREFIX}runs/$RUN_ID/gpu-ready.json"; final_key="${ARTIFACT_PREFIX}runs/$RUN_ID/runtime-final.json"
   source_archive="$run_dir/source.tar"; source_key="${ARTIFACT_PREFIX}runs/$RUN_ID/source.tar"
   git -C "$ROOT" archive --format=tar "$SOURCE_COMMIT" -o "$source_archive"
@@ -597,6 +647,8 @@ run_proof() {
   gpu_script="$run_dir/gpu-bootstrap.sh"; runtime_script="$run_dir/runtime-bootstrap.sh"; write_gpu_bootstrap "$gpu_script"; write_runtime_bootstrap "$runtime_script"
   gpu_key="${ARTIFACT_PREFIX}runs/$RUN_ID/gpu-bootstrap.sh"; runtime_key="${ARTIFACT_PREFIX}runs/$RUN_ID/runtime-bootstrap.sh"
   gpu_sha="$(sha256_file "$gpu_script")"; runtime_sha="$(sha256_file "$runtime_script")"; gpu_version="$(upload_versioned "$gpu_script" "$gpu_key")"; runtime_version="$(upload_versioned "$runtime_script" "$runtime_key")"
+  artifact_read_keys="$(jq -c --arg manifest "$ARTIFACT_MANIFEST_KEY" --arg source "$source_key" --arg config "$config_key" --arg gpu "$gpu_key" --arg runtime "$runtime_key" \
+    '([.artifacts[].key] + [$manifest,$source,$config,$gpu,$runtime] | unique)' "$STATE_ROOT/preflight-artifact-manifest.json")"
   write_user_data "$run_dir/gpu-user-data.sh" "$gpu_key" "$gpu_version" "$gpu_sha" "$config_key" "$config_version" "$config_sha" "$ready_key" "$ready_key"
   write_user_data "$run_dir/runtime-user-data.sh" "$runtime_key" "$runtime_version" "$runtime_sha" "$config_key" "$config_version" "$config_sha" "$ready_key" "$final_key" __GPU_PRIVATE_IP__
   deadline_epoch="$(( $(date +%s) + MAX_INSTANCE_SECONDS ))"
@@ -608,12 +660,12 @@ run_proof() {
   jq -n --arg account "$account_id" --arg profile "$PROFILE" --arg region "$REGION" --arg run "$RUN_ID" --arg owner "$OWNER_TOKEN" --arg runtime_ami "$runtime_ami" --arg gpu_ami "$gpu_ami" --arg subnet "$subnet" \
     --arg vpc "$VPC_ID" \
     --arg runtime_type "$RUNTIME_INSTANCE_TYPE" --arg gpu_type "$GPU_INSTANCE_TYPE" --arg cidr "$SSH_INGRESS_CIDR" --arg public_key "$SSH_PUBLIC_KEY" --arg termination "$deadline" \
-    --arg bucket "$ARTIFACT_BUCKET" --arg prefix "$ARTIFACT_PREFIX" --arg runtime_data "$(cat "$run_dir/runtime-user-data.sh")" --arg gpu_data "$(cat "$run_dir/gpu-user-data.sh")" \
+    --arg bucket "$ARTIFACT_BUCKET" --arg prefix "$ARTIFACT_PREFIX" --argjson artifact_read_keys "$artifact_read_keys" --arg runtime_data "$(cat "$run_dir/runtime-user-data.sh")" --arg gpu_data "$(cat "$run_dir/gpu-user-data.sh")" \
     --argjson runtime_gib "$RUNTIME_VOLUME_SIZE_GIB" --argjson gpu_gib "$GPU_VOLUME_SIZE_GIB" --argjson hourly "$MAX_COMBINED_HOURLY_USD" --argjson total "$MAX_TOTAL_COST_USD" \
     '{aws_account_id:$account,aws_profile:$profile,aws_region:$region,run_id:$run,owner_token:$owner,runtime_ami_id:$runtime_ami,gpu_ami_id:$gpu_ami,vpc_id:$vpc,subnet_id:$subnet,
       runtime_instance_type:$runtime_type,gpu_instance_type:$gpu_type,ssh_ingress_cidr:$cidr,ssh_public_key:$public_key,termination_at:$termination,
       runtime_root_volume_size_gib:$runtime_gib,gpu_root_volume_size_gib:$gpu_gib,authorized_max_hourly_usd:$hourly,authorized_max_total_usd:$total,
-      artifact_bucket:$bucket,artifact_prefix:$prefix,runtime_user_data:$runtime_data,gpu_user_data:$gpu_data}' >"$run_dir/terraform.tfvars.json"
+      artifact_bucket:$bucket,artifact_prefix:$prefix,artifact_read_keys:$artifact_read_keys,runtime_user_data:$runtime_data,gpu_user_data:$gpu_data}' >"$run_dir/terraform.tfvars.json"
   jq -e '.vpc_id|type=="string" and length>0' "$run_dir/terraform.tfvars.json" >/dev/null || { echo "ADL_ISSUE345_VPC_ID is required" >&2; exit 2; }
   chmod 0600 "$run_dir/terraform.tfvars.json"
   TF_DATA_DIR="$STATE_ROOT/terraform-data" terraform -chdir="$TF_ROOT" init -backend=false -input=false >/dev/null
