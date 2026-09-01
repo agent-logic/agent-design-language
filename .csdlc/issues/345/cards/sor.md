@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and no-paid validated the Terraform-owned two-node AWS Runtime qualification through the final launch-review remediations. PR #593 merged an older head, so this exact candidate remains worktree-only and the paid GPU guest proof remains pending a fresh exact-head PASS and single-use authorization.
+The Terraform two-node path launched successfully and proved two-model GPU residency, then exposed an unset-HOME bootstrap defect before Runtime proof. Terraform cleanup terminated both nodes and removed their volumes. The worktree now explicitly defines HOME for both bootstraps and Ollama and reduces the exact source archive from 335 MiB to 23 MiB; final paid proof remains pending review and rerun.
 
 ## Artifacts
 
@@ -20,53 +20,29 @@ Implemented and no-paid validated the Terraform-owned two-node AWS Runtime quali
 - adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
 - adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
 - docs/operations/cloud/aws/shepherd-gpu-proof/README.md
-- .csdlc/prepared/issues/345/design.md
-- .csdlc/prepared/issues/345/diagram.mmd
-- .csdlc/issues/345
+- .adl/local/issue345/adl-issue345-20260901-090918/gpu-ready.json
+- .adl/local/issue345/adl-issue345-20260901-090918/runtime-final.json
+- .adl/local/issue345/adl-issue345-20260901-090918/terraform.tfstate
 
 ## Execution
 
-- Added an isolated Terraform root owning one regular Runtime node, one GPU Ollama node, two security groups, one shared EC2 key pair, separate roles/profiles, encrypted disposable gp3 disks, and a two-node EventBridge Scheduler deadline.
-- Pinned the Terraform AWS provider to agent-logic-admin and required both public-IPv4 nodes to share one managed public key with TCP/22 limited to the operator IPv4 /32; GPU TCP/11434 remains Runtime-security-group-only.
-- Replaced controller-side EC2/SSM orchestration with automatic cloud-init, retained SSM only for recovery, and replaced live guest Git checkout with an immutable versioned source archive.
-- Configured the GPU bootstrap to restore at least two immutable models, keep them loaded in one Ollama service, and emit readiness only after every expected digest has nonzero VRAM residency.
-- Configured the Runtime bootstrap to run Guardian/Runtime lifecycle, route the local-only Shepherd smoke contract through a loopback proxy to private Ollama, and run the restored repository-rooted six-agent UTS, ACC, Freedom Gate, and runtime.observe proof.
-- Granted both guests read access only to exact bootstrap object keys, including the Runtime node's GPU-ready receipt, while retaining one exact create-only receipt write per node.
-- Rechecked resolved AMI, VPC, subnet, route-table, and network-ACL identities after preflight so Terraform cannot apply drifted inputs.
-- Bound single-use authorization to both nodes, disks, immutable artifacts, SSH/network identity, Terraform source, typed issue/design state, deadline, and combined compute/storage/IPv4/request cost.
-- Corrected STP dependencies, repository inputs, and non-goals to authorize the exact two-node IAM, security-group, public IPv4, and mandatory SSH surface without widening the qualification.
-- Retained mode-0600 worktree-local recovery state and controller destroy, guest deadline, and tag-constrained Scheduler cleanup for both nodes.
+- Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, cost bound, and three cleanup paths.
+- Replaced the hung single PUT with multipart upload plus fail-closed immutable VersionId verification.
+- Observed a real GPU receipt proving llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.
+- Observed Runtime cloud-init fail before Rust execution because HOME was unset and recorded the failed receipt without overstating Guardian or six-agent proof.
+- Made HOME=/root explicit in both bootstrap scripts and the Ollama systemd unit.
+- Reduced the exact reviewed source archive to the tracked adl and adl-runtime build/proof trees, excluding unrelated media and historical evidence.
+- Confirmed controller cleanup drove both instances to termination and removed run volumes before another authorization.
 
 ## Validation
 
 [
   {
     "command": [
-      "terraform",
-      "-chdir=infra/aws/runtime/gpu-proof",
-      "fmt",
-      "-check"
-    ],
-    "purpose": "Reject Terraform formatting drift.",
-    "outcome": "passed",
-    "evidence_ref": "infra/aws/runtime/gpu-proof"
-  },
-  {
-    "command": [
-      "terraform",
-      "-chdir=infra/aws/runtime/gpu-proof",
-      "validate"
-    ],
-    "purpose": "Validate the complete two-node Terraform configuration and narrowed IAM policies.",
-    "outcome": "passed",
-    "evidence_ref": "infra/aws/runtime/gpu-proof"
-  },
-  {
-    "command": [
       "bash",
       "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
     ],
-    "purpose": "Prove twenty no-paid topology, SSH, private-Ollama, exact-object IAM, input-drift, typed-review-state, authorization, recovery, and guest-script contracts.",
+    "purpose": "Prove twenty-four no-paid topology, bootstrap, archive, IAM, authorization, input-drift, recovery, and cleanup contracts.",
     "outcome": "passed",
     "evidence_ref": "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
   },
@@ -74,11 +50,30 @@ Implemented and no-paid validated the Terraform-owned two-node AWS Runtime quali
     "command": [
       "bash",
       "adl/tools/run_issue345_aws_gpu_shepherd_proof.sh",
-      "preflight"
+      "run",
+      "--commit",
+      "e54a3da961b8f65eeebe6e463f7d99bfbbc05668",
+      "--run-id",
+      "adl-issue345-20260901-090918",
+      "--execute"
     ],
-    "purpose": "Verify current business-account AMIs, public subnet route/NACL, pricing, quota, immutable artifacts, SSH/network hashes, 1.425111 USD worst-case cost, and zero stale resources without launching compute.",
+    "purpose": "Run the real Terraform two-node qualification through GPU residency, Runtime bootstrap, failure receipt, and cleanup.",
+    "outcome": "failed",
+    "evidence_ref": ".adl/local/issue345/adl-issue345-20260901-090918"
+  },
+  {
+    "command": [
+      "git",
+      "archive",
+      "--format=tar",
+      "HEAD",
+      "--",
+      "adl",
+      "adl-runtime"
+    ],
+    "purpose": "Verify the selective exact-source archive contains both required build trees and is 23 MiB instead of 335 MiB.",
     "outcome": "passed",
-    "evidence_ref": ".adl/local/issue345/preflight-artifact-manifest.json"
+    "evidence_ref": ".adl/local/issue345/selective-source-test.tar"
   },
   {
     "command": [

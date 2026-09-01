@@ -476,6 +476,7 @@ write_gpu_bootstrap() {
   cat >"$path" <<'GPU'
 #!/bin/bash
 set -Eeuo pipefail
+export HOME=/root
 CONFIG=/opt/adl-issue345/config.json
 failure() { rc=$?; jq -n --argjson rc "$rc" '{schema:"adl.issue345.gpu_receipt.v1",status:"failed",exit_code:$rc}' >/opt/adl-issue345/gpu-failed.json; aws s3api put-object --region "$REGION" --bucket "$BUCKET" --key "$FAILURE_KEY" --body /opt/adl-issue345/gpu-failed.json --if-none-match '*' >/dev/null 2>&1 || true; exit "$rc"; }
 trap failure EXIT
@@ -502,6 +503,7 @@ cat >/etc/systemd/system/ollama.service <<EOF
 After=network-online.target
 [Service]
 Environment=OLLAMA_MODELS=/opt/adl-ollama-models/models
+Environment=HOME=/root
 Environment=OLLAMA_HOST=0.0.0.0:11434
 Environment=OLLAMA_KEEP_ALIVE=-1
 Environment=OLLAMA_MAX_LOADED_MODELS=$count
@@ -529,6 +531,7 @@ write_runtime_bootstrap() {
   cat >"$path" <<'RUNTIME'
 #!/bin/bash
 set -Eeuo pipefail
+export HOME=/root
 failure() { rc=$?; jq -n --argjson rc "$rc" '{schema:"adl.issue345.runtime_receipt.v1",status:"failed",exit_code:$rc}' >/opt/adl-issue345/runtime-failed.json; aws s3api put-object --region "$REGION" --bucket "$BUCKET" --key "$FINAL_KEY" --body /opt/adl-issue345/runtime-failed.json --if-none-match '*' >/dev/null 2>&1 || true; exit "$rc"; }
 trap failure EXIT
 export DEBIAN_FRONTEND=noninteractive
@@ -677,7 +680,7 @@ run_proof() {
   trap cleanup_on_exit EXIT; trap 'exit 130' INT TERM; consume_authorization_once
   ready_key="${ARTIFACT_PREFIX}runs/$RUN_ID/gpu-ready.json"; final_key="${ARTIFACT_PREFIX}runs/$RUN_ID/runtime-final.json"
   source_archive="$run_dir/source.tar"; source_key="${ARTIFACT_PREFIX}runs/$RUN_ID/source.tar"
-  git -C "$ROOT" archive --format=tar "$SOURCE_COMMIT" -o "$source_archive"
+  git -C "$ROOT" archive --format=tar -o "$source_archive" "$SOURCE_COMMIT" -- adl adl-runtime
   source_sha="$(sha256_file "$source_archive")"; source_version="$(upload_versioned "$source_archive" "$source_key")"
   config_key="${ARTIFACT_PREFIX}runs/$RUN_ID/config.json"
   jq -n --arg source_commit "$SOURCE_COMMIT" --argjson models "$MODEL_IDENTITIES_JSON" --arg key "$ARTIFACT_MANIFEST_KEY" --arg version "$ARTIFACT_MANIFEST_VERSION_ID" --arg sha "$ARTIFACT_MANIFEST_SHA256" \
