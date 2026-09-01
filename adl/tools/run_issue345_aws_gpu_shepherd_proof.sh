@@ -134,6 +134,39 @@ canonical_json_sha256() {
   jq -S -c . | shasum -a 256 | awk '{print $1}'
 }
 
+authorization_canonical_sha256() {
+  jq -S -c . "$1" | shasum -a 256 | awk '{print $1}'
+}
+
+instance_trust_is_exact() {
+  jq -e --arg role "$INSTANCE_PROFILE_ROLE" '
+    .Role.RoleName == $role
+    and .Role.AssumeRolePolicyDocument.Version == "2012-10-17"
+    and (.Role.AssumeRolePolicyDocument.Statement | length == 1)
+    and .Role.AssumeRolePolicyDocument.Statement[0].Effect == "Allow"
+    and .Role.AssumeRolePolicyDocument.Statement[0].Principal.Service == "ec2.amazonaws.com"
+    and .Role.AssumeRolePolicyDocument.Statement[0].Action == "sts:AssumeRole"
+  '
+}
+
+reaper_trust_is_exact() {
+  jq -e --arg role "$DEADLINE_REAPER_ROLE" '
+    .Role.RoleName == $role
+    and .Role.AssumeRolePolicyDocument.Version == "2012-10-17"
+    and (.Role.AssumeRolePolicyDocument.Statement | length == 1)
+    and .Role.AssumeRolePolicyDocument.Statement[0].Effect == "Allow"
+    and .Role.AssumeRolePolicyDocument.Statement[0].Principal.Service == "lambda.amazonaws.com"
+    and .Role.AssumeRolePolicyDocument.Statement[0].Action == "sts:AssumeRole"
+  '
+}
+
+records_are_owned_by() {
+  local owner_token="$1"
+  jq -e --arg owner "$owner_token" '
+    all(.[]; ([.tags[]? | select(.Key == "adl:owner-token") | .Value] == [$owner]))
+  '
+}
+
 validate_model_identities() {
   jq -e '
     type == "array"
@@ -153,8 +186,18 @@ load_authorization() {
     echo "paid execution requires --authorization-file naming a retained authorization JSON file" >&2
     exit 2
   }
-  jq -e --arg commit "$SOURCE_COMMIT" --arg run_id "$RUN_ID" '
-    .schema == "adl.issue345.paid_run_authorization.v1"
+  jq -e --arg commit "$SOURCE_COMMIT" --arg run_id "$RUN_ID" \
+    --arg expected_account "$EXPECTED_ACCOUNT_SHA256" \
+    --arg bucket "$ARTIFACT_BUCKET" --arg manifest_key "$ARTIFACT_MANIFEST_KEY" \
+    --arg manifest_version "$ARTIFACT_MANIFEST_VERSION_ID" --arg manifest_sha "$ARTIFACT_MANIFEST_SHA256" \
+    --arg profile "$INSTANCE_PROFILE" --arg role "$INSTANCE_PROFILE_ROLE" \
+    --arg inline_policy "$INSTANCE_REQUIRED_INLINE_POLICY" --arg inline_sha "$INSTANCE_REQUIRED_INLINE_POLICY_SHA256" \
+    --arg managed_policy "$INSTANCE_REQUIRED_MANAGED_POLICY_ARN" --arg security_group "$NO_INGRESS_SECURITY_GROUP" \
+    --arg reaper_function "$DEADLINE_REAPER_FUNCTION" --arg reaper_rule "$DEADLINE_REAPER_RULE" \
+    --arg reaper_role "$DEADLINE_REAPER_ROLE" --arg reaper_code "$DEADLINE_REAPER_CODE_SHA256_B64" \
+    --arg dlami_parameter "$DLAMI_PARAMETER" '
+    . as $auth
+    | .schema == "adl.issue345.paid_run_authorization.v2"
     and .authorized == true
     and (.authorization_id | type == "string" and length > 0)
     and .source_commit == $commit
@@ -168,12 +211,25 @@ load_authorization() {
     and (.max_gpu_hourly_usd | type == "number" and . > 0)
     and (.max_total_cost_usd | type == "number" and . > 0)
     and (.max_reaper_lag_seconds | type == "number" and floor == . and . == 300)
-    and (.max_billable_seconds | type == "number" and floor == . and . == (.max_instance_seconds + .max_reaper_lag_seconds))
+    and (.max_billable_seconds | type == "number" and floor == .
+      and . == ($auth.max_instance_seconds + $auth.max_reaper_lag_seconds))
     and (.cost_overheads.gp3_volume_size_gib | type == "number" and . >= 200)
     and (.cost_overheads.gp3_monthly_usd_per_gib | type == "number" and . >= 0.08)
     and (.cost_overheads.public_ipv4_hourly_usd | type == "number" and . >= 0.005)
     and (.cost_overheads.aws_request_overhead_usd | type == "number" and . >= 0.05)
     and (.expires_epoch | type == "number" and floor == .)
+    and .bindings.aws_account_sha256 == $expected_account
+    and .bindings.artifact_manifest == {bucket:$bucket,key:$manifest_key,version_id:$manifest_version,sha256:$manifest_sha}
+    and .bindings.instance_profile == {
+      name:$profile,role:$role,inline_policy:$inline_policy,
+      inline_policy_sha256:$inline_sha,managed_policy_arn:$managed_policy}
+    and .bindings.no_ingress_security_group.name == $security_group
+    and (.bindings.no_ingress_security_group.resolved_id_sha256 | test("^[0-9a-f]{64}$"))
+    and .bindings.deadline_reaper == {
+      function:$reaper_function,rule:$reaper_rule,role:$reaper_role,code_sha256_b64:$reaper_code}
+    and .bindings.dlami.parameter == $dlami_parameter
+    and (.bindings.dlami.resolved_ami_sha256 | test("^[0-9a-f]{64}$"))
+    and (.bindings.subnet_sha256 | test("^[0-9a-f]{64}$"))
   ' "$AUTHORIZATION_FILE" >/dev/null || {
     echo "paid-run authorization is malformed or does not bind the requested commit and run id" >&2
     exit 2
@@ -218,7 +274,20 @@ load_authorization() {
     echo "authorized compute, storage, IPv4, request overhead, and reaper lag exceed the authorized total-cost ceiling" >&2
     exit 2
   }
-  AUTHORIZATION_SHA256="$(sha256_file "$AUTHORIZATION_FILE")"
+  AUTHORIZATION_SHA256="$(authorization_canonical_sha256 "$AUTHORIZATION_FILE")"
+}
+
+verify_authorized_preflight_bindings() {
+  local preflight_json="$1"
+  jq -e --argjson preflight "$preflight_json" '
+    .bindings.aws_account_sha256 == $preflight.account_sha256
+    and .bindings.no_ingress_security_group.resolved_id_sha256 == $preflight.no_ingress_security_group_sha256
+    and .bindings.dlami.resolved_ami_sha256 == $preflight.ami_sha256
+    and .bindings.subnet_sha256 == $preflight.subnet_sha256
+  ' "$AUTHORIZATION_FILE" >/dev/null || {
+    echo "paid-run authorization does not bind the resolved AWS preflight inputs" >&2
+    exit 2
+  }
 }
 
 aws_cli() {
@@ -306,14 +375,7 @@ verify_instance_profile() {
   }
   role_name="$(jq -er '.InstanceProfile.Roles[0].RoleName' <<<"$profile")"
   role="$(aws --profile "$PROFILE" iam get-role --role-name "$role_name" --output json)"
-  jq -e --arg role "$INSTANCE_PROFILE_ROLE" '
-    .Role.RoleName == $role
-    and .Role.AssumeRolePolicyDocument.Version == "2012-10-17"
-    and (.Role.AssumeRolePolicyDocument.Statement | length == 1)
-    and .Role.AssumeRolePolicyDocument.Statement[0].Effect == "Allow"
-    and .Role.AssumeRolePolicyDocument.Statement[0].Principal.Service == "ec2.amazonaws.com"
-    and .Role.AssumeRolePolicyDocument.Statement[0].Action == "sts:AssumeRole"
-  ' <<<"$role" >/dev/null || {
+  instance_trust_is_exact <<<"$role" >/dev/null || {
     echo "instance role assume-role trust policy drifted" >&2
     exit 2
   }
@@ -355,14 +417,7 @@ verify_deadline_reaper() {
   expected_role_arn="arn:aws:iam::$account:role/$DEADLINE_REAPER_ROLE"
   expected_instance_resource="arn:aws:ec2:$REGION:$account:instance/*"
   role="$(aws --profile "$PROFILE" iam get-role --role-name "$DEADLINE_REAPER_ROLE" --output json)"
-  jq -e --arg role "$DEADLINE_REAPER_ROLE" '
-    .Role.RoleName == $role
-    and .Role.AssumeRolePolicyDocument.Version == "2012-10-17"
-    and (.Role.AssumeRolePolicyDocument.Statement | length == 1)
-    and .Role.AssumeRolePolicyDocument.Statement[0].Effect == "Allow"
-    and .Role.AssumeRolePolicyDocument.Statement[0].Principal.Service == "lambda.amazonaws.com"
-    and .Role.AssumeRolePolicyDocument.Statement[0].Action == "sts:AssumeRole"
-  ' <<<"$role" >/dev/null || {
+  reaper_trust_is_exact <<<"$role" >/dev/null || {
     echo "deadline reaper assume-role trust policy drifted" >&2
     exit 2
   }
@@ -800,9 +855,7 @@ cleanup_run() {
     --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" \
       Name=instance-state-name,Values=pending,running,stopping,stopped \
     --query 'Reservations[].Instances[].{id:InstanceId,tags:Tags}' --output json)"
-  jq -e --arg owner "$owner_token" '
-    all(.[]; ([.tags[]? | select(.Key == "adl:owner-token") | .Value] == [$owner]))
-  ' <<<"$instance_records" >/dev/null || {
+  records_are_owned_by "$owner_token" <<<"$instance_records" >/dev/null || {
     echo "owner-bound cleanup found an issue/run instance owned by another execution" >&2
     exit 2
   }
@@ -815,9 +868,7 @@ cleanup_run() {
   volume_records="$(aws_cli ec2 describe-volumes \
     --filters "Name=tag:adl:issue,Values=$ISSUE_TAG" "Name=tag:adl:run-id,Values=$run_id" \
     --query 'Volumes[].{id:VolumeId,state:State,tags:Tags}' --output json)"
-  jq -e --arg owner "$owner_token" '
-    all(.[]; ([.tags[]? | select(.Key == "adl:owner-token") | .Value] == [$owner]))
-  ' <<<"$volume_records" >/dev/null || {
+  records_are_owned_by "$owner_token" <<<"$volume_records" >/dev/null || {
     echo "owner-bound cleanup found an issue/run volume owned by another execution" >&2
     exit 2
   }
@@ -908,6 +959,7 @@ run_proof() {
   chmod 0600 "$run_dir/authorization.json"
   preflight_json="$(preflight)"
   printf '%s\n' "$preflight_json" >"$run_dir/preflight.json"
+  verify_authorized_preflight_bindings "$preflight_json"
   hourly_price="$(jq -er '.gpu_hourly_price_usd' <<<"$preflight_json")"
   model_set_sha256="$(jq -er '.model_set_sha256' <<<"$preflight_json")"
   sg_id="$(verify_no_ingress_security_group)"
@@ -1255,6 +1307,10 @@ require_command jq
 require_command shasum
 require_command base64
 mkdir -p "$STATE_ROOT"
+
+if [[ "${ADL_ISSUE345_LIBRARY_MODE:-0}" == 1 ]]; then
+  return 0 2>/dev/null || exit 0
+fi
 
 case "$ACTION" in
   preflight)

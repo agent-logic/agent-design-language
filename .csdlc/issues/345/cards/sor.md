@@ -12,13 +12,13 @@ Status: pre_phase
 
 ## Summary
 
-Implemented and read-only-preflighted the hardened optional AWS GPU proof runner; paid GPU guest execution remains pending fresh exact-head review, typed publication, and the retained single-use authorization.
+Resolved all four exact-head review findings in the optional AWS GPU proof runner; local and real read-only AWS proofs pass, while paid GPU guest execution remains pending a fresh exact-head review and typed publication.
 
 ## Artifacts
 
+- adl-runtime/tests/shepherd_local_model.rs
 - adl/tools/run_issue345_aws_gpu_shepherd_proof.sh
 - adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
-- adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml
 - docs/operations/cloud/aws/shepherd-gpu-proof/README.md
 - .csdlc/evidence/345/issue345-runner-contract.log
 - .csdlc/evidence/345/issue345-live-preflight.json
@@ -26,12 +26,11 @@ Implemented and read-only-preflighted the hardened optional AWS GPU proof runner
 
 ## Execution
 
-- Require and attest a configured set of at least two models, one real governed Shepherd result per model, and simultaneous nonzero GPU residency for the complete set.
-- Exercise Guardian-supervised Runtime v3 lifecycle plus six real long-lived Runtime agents whose Ollama proposals execute through UTS, ACC, the Freedom Gate, and runtime.observe, while explicitly declining to claim a nonexistent Runtime-v3-to-Ollama transit path.
-- Make retained paid authorization single-use through a create-only versioned S3 consumption marker that cleanup does not delete.
-- Verify exact EC2 and Lambda trust policies, exact permission policies, the no-ingress group, immutable artifacts, deadline reaper, quota, price, and absence of issue-tagged instances or volumes.
-- Bound worst-case cost across compute, 300-second reaper lag, a 200 GiB gp3 volume, public IPv4, and request overhead under the operator's 20 USD ceiling.
-- Keep all real guest, model, ACC, residency, SSM, and cleanup claims deferred to the paid live lane; the local contract test makes no fake-AWS success claim.
+- Normalize Ollama's optional sha256 digest prefix before the governed real-model smoke test compares the installed model with the manifest digest.
+- Derive the retained single-use marker from canonical JSON so key ordering and whitespace cannot replay an authorization.
+- Require authorization schema v2 to bind the business-account hash, immutable manifest, exact IAM and security-group pins, reaper identity, and resolved AMI and subnet hashes.
+- Extract pure IAM-trust and cleanup-owner validators and execute focused fixtures for canonical authorization identity, authorization mismatches, reaper bounds, resolved AMI drift, both trust policies, and cleanup ownership.
+- Correct AC-8 and the runbook to separate local executable negative proof, live read-only AWS-state verification, and the still-pending paid GPU lane.
 
 ## Validation
 
@@ -41,7 +40,7 @@ Implemented and read-only-preflighted the hardened optional AWS GPU proof runner
       "bash",
       "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
     ],
-    "purpose": "Check real-Git, no-fake-AWS runner contracts without paid launch.",
+    "purpose": "Execute ten local no-AWS safety cases and the runner contract without paid launch.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/345/issue345-runner-contract.log"
   },
@@ -52,21 +51,24 @@ Implemented and read-only-preflighted the hardened optional AWS GPU proof runner
       "bash",
       "adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh"
     ],
-    "purpose": "Run the real read-only AWS preflight and seven fail-closed negative checks without launching compute.",
+    "purpose": "Execute the real read-only AWS preflight plus five live drift cases and ten local safety cases without paid launch.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/345/issue345-live-preflight.json"
   },
   {
     "command": [
-      "aws",
-      "cloudformation",
-      "validate-template",
-      "--template-body",
-      "file://adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml"
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "shepherd_local_model",
+      "--no-run"
     ],
-    "purpose": "Validate the real AWS prerequisite template shape.",
+    "purpose": "Compile the corrected real Ollama model smoke test.",
     "outcome": "passed",
-    "evidence_ref": "adl/tools/issue345_aws_gpu_prerequisites.cloudformation.yaml"
+    "evidence_ref": "adl-runtime/tests/shepherd_local_model.rs"
   },
   {
     "command": [

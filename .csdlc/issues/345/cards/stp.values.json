@@ -7,7 +7,7 @@
     "title": "[v0.92.1][Sidecar] Harden and retain the AWS GPU Shepherd proof runner",
     "slug": "aws-gpu-shepherd-proof-runner",
     "version": "v0.92.1",
-    "generation": 15
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -34,7 +34,7 @@
         "AC-5: The same host proves Guardian-supervised Runtime v3 health and lifecycle plus real long-lived Runtime agents that execute Ollama-backed proposals through UTS, ACC, the Freedom Gate, and the governed runtime.observe adapter; evidence explicitly does not claim a Runtime-v3-to-Ollama transit path that does not exist.",
         "AC-6: Local trap, guest deadline timer, and permanent tag-scoped reaper provide independent cleanup; success, failure, interruption, timeout, and cleanup retry leave no temporary instance or volume.",
         "AC-7: Public evidence is machine-readable, digest-bound, cost-relevant, and redacted; credentials, account/resource identifiers, prompts, responses, private paths, and environment dumps are absent.",
-        "AC-8: Executable preflight and negative proofs cover authorization replay, wrong account/profile, IAM trust or permission drift, security-group drift, stale revision, artifact mismatch, stale volume, deadline/reaper bounds, and cleanup ownership without paid mutation; the live GPU lane supplies guest, model, ACC, residency, and cleanup proof, while documentation preserves the optional portability and no-fallback boundary.",
+        "AC-8: Executable local negative fixtures cover canonical authorization identity, malformed paid invocations, IAM trust drift, and cleanup-owner mismatch without AWS mutation; live read-only preflight dynamically verifies the current account, IAM policies and trust, no-ingress group, immutable artifacts, stale-volume absence, deadline/reaper state, quota, price, and full cost bound; the paid GPU lane supplies guest, model, ACC, residency, and cleanup proof.",
         "AC-9: Fresh exact-head review has no unresolved actionable finding before publication, and a separate launch-readiness review is required after any source change before paid execution."
       ],
       "dependencies": [

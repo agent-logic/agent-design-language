@@ -24,11 +24,14 @@ set of at least two models. Each model has one version-pinned
 `ollama_model_store` archive, plus exactly one Ollama runtime and rustup
 installer.
 
-Paid execution is separate. Retain an authorization JSON file that binds the
-exact reviewed commit and revision, unique run id, model set, instance type,
-expiry, deadline, 300-second reaper-lag allowance, maximum billable seconds,
-hourly ceiling, total-cost ceiling, and conservative gp3/public-IPv4/request
-overheads. The default 200 GiB encrypted gp3 root volume provides more than
+Paid execution is separate. Retain a
+`adl.issue345.paid_run_authorization.v2` JSON file that binds the exact reviewed
+commit and revision, unique run id, model set, business-account hash, immutable
+manifest coordinates and digest, exact IAM/security-group/reaper pins, resolved
+AMI and subnet hashes, instance type, expiry, deadline, 300-second reaper-lag
+allowance, maximum billable seconds, hourly ceiling, total-cost ceiling, and
+conservative gp3/public-IPv4/request overheads. The default 200 GiB encrypted
+gp3 root volume provides more than
 10x the approximately 9.9 GB compressed two-model store while leaving room for
 extraction and Runtime builds. Then run:
 
@@ -41,9 +44,11 @@ bash adl/tools/run_issue345_aws_gpu_shepherd_proof.sh run \
 ```
 
 Before acquiring compute, the runner writes a create-only, versioned S3 marker
-keyed by the authorization digest. Cleanup never deletes that marker, so the
-same authorization cannot be replayed from another checkout or host. A lock
-collision is checked before consuming the authorization.
+keyed by the canonical JSON digest of the authorization. JSON whitespace and
+object-key order therefore cannot create a second consumption identity. Cleanup
+never deletes that marker, so the same authorization cannot be replayed from
+another checkout or host. A lock collision is checked before consuming the
+authorization.
 
 The runner attempts at most one On-Demand GPU instance and has no fallback or
 retry. The reviewed commit must equal the tracked-clean checkout HEAD. On that
@@ -91,7 +96,10 @@ The deterministic local contract check is:
 bash adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh
 ```
 
-It uses the real Git checkout, no fake AWS responses, and no paid launch. Set
+It uses the real Git checkout, no fake AWS responses, and no paid launch. Its
+isolated executable fixtures cover canonical authorization identity, EC2 and
+Lambda trust drift, and cleanup-owner mismatch; malformed paid invocations fail
+before AWS access. Set
 `ADL_ISSUE345_LIVE_PREFLIGHT=1` with the required non-secret inputs to require
 the real read-only AWS preflight. Without that opt-in the result explicitly
 reports `live_aws_preflight: "not_run"`; it is not AWS proof.

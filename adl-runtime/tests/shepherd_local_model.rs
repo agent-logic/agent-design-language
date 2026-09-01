@@ -58,7 +58,8 @@ def post(path, payload):
 
 models = get("/api/tags").get("models", [])
 matching = [entry for entry in models if entry.get("name") == request["model_identity"]]
-if len(matching) != 1 or matching[0].get("digest") != request["model_artifact_sha256"]:
+installed_digest = matching[0].get("digest", "") if len(matching) == 1 else ""
+if installed_digest.removeprefix("sha256:") != request["model_artifact_sha256"]:
     raise RuntimeError("configured model identity or digest is not locally installed")
 
 generated = post("/api/generate", {
