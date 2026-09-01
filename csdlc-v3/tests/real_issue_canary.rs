@@ -36,6 +36,26 @@ fn prompt_registry(root: &Path) -> PromptRegistry {
     PromptRegistry::from_current_json(&registry_bytes).expect("registry parses")
 }
 
+fn v2_entrypoints(root: &Path) -> Vec<String> {
+    let mut entrypoints = fs::read_dir(root.join("csdlc-v2/src/bin"))
+        .expect("v2 bin directory")
+        .map(|entry| {
+            let entry = entry.expect("v2 bin entry");
+            let path = entry.path();
+            assert_eq!(
+                path.extension().and_then(|value| value.to_str()),
+                Some("rs")
+            );
+            path.file_stem()
+                .and_then(|value| value.to_str())
+                .expect("v2 bin stem")
+                .to_owned()
+        })
+        .collect::<Vec<_>>();
+    entrypoints.sort();
+    entrypoints
+}
+
 fn real_issue_request(
     root: &Path,
     issue: u64,
@@ -115,6 +135,57 @@ fn foundation_and_local_commands_accept_real_issue_604_without_v3_authority() {
         .commands
         .iter()
         .all(|command| !grants_operational_authority(*command)));
+}
+
+#[test]
+fn full_replacement_denominator_blocks_cutover_until_every_v2_entrypoint_is_replaced() {
+    let root = repo_root();
+    let denominator_path = root.join("docs/csdlc-v3/full-replacement-denominator.json");
+    let denominator: serde_json::Value =
+        serde_json::from_slice(&fs::read(&denominator_path).expect("replacement denominator"))
+            .expect("replacement denominator parses");
+    assert_eq!(
+        denominator["schema"],
+        "csdlc.v3.full_replacement_denominator.v1"
+    );
+    assert_eq!(denominator["authority_issue"], 505);
+    assert_eq!(denominator["status"], "incomplete");
+    assert_eq!(denominator["cutover_ready"], false);
+
+    let manifest_entrypoints = denominator["required_v2_entrypoints"]
+        .as_array()
+        .expect("entrypoint denominator")
+        .iter()
+        .map(|entry| {
+            entry["entrypoint"]
+                .as_str()
+                .expect("entrypoint name")
+                .to_owned()
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(manifest_entrypoints, v2_entrypoints(&root));
+    assert_eq!(manifest_entrypoints.len(), 21);
+
+    let current_v3_commands = denominator["current_v3_commands"]
+        .as_array()
+        .expect("current v3 commands")
+        .iter()
+        .map(|value| value.as_str().expect("v3 command"))
+        .collect::<Vec<_>>();
+    assert_eq!(current_v3_commands, ["foundation", "local"]);
+    assert!(denominator["required_v2_entrypoints"]
+        .as_array()
+        .expect("entrypoint denominator")
+        .iter()
+        .any(|entry| entry["replacement_status"] == "missing"));
+    assert!(denominator["non_claims"]
+        .as_array()
+        .expect("non-claims")
+        .iter()
+        .any(|claim| claim
+            .as_str()
+            .expect("non-claim")
+            .contains("does not make v3 operational authority")));
 }
 
 #[test]

@@ -115,3 +115,19 @@
   records the observed v2 distinction between typed review revision evidence
   and GitHub terminal SHA instead of treating those raw fields as the same
   authority value.
+
+## DEFECT-018: v3 replacement denominator was implicit and much larger than current coverage
+
+- Status: captured as a cutover blocker; implementation remains required under
+  #505/#596 before v3 can replace v2.
+- Evidence: the current v2 installation exposes 21 C-SDLC entrypoint binaries
+  under `.adl/bin/csdlc-v2/`, while the v3 single binary currently exposes only
+  `foundation` and `local`.
+- Impact: v3 could again be mistaken for cutover-ready even though most C-SDLC
+  issue, review, publication, finish, cleanup, GitHub, validation, proof,
+  scheduling, shadow, soak, install, and eligibility behavior is not yet
+  implemented in the replacement binary.
+- Fix: added `docs/csdlc-v3/full-replacement-denominator.json` and a v3 canary
+  assertion that the manifest enumerates all 21 v2 entrypoints and marks the
+  replacement incomplete until every required command has behavioral parity or
+  an explicit operator-approved removal.
