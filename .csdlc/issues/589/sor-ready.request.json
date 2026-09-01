@@ -1,1 +1,0 @@
-{"actor":"codex-issue-589","card":"sor","expected_digest":"637e0907dbe9e8a283f27ecf9aa481dd7cf778105fed2e8f6c4165f75521a89b","expected_generation":13,"issue":589,"operation":{"operation":"advance_status","status":"ready"},"reason":"Execution and validation evidence are complete and ready for exact-commit review."}
