@@ -3,13 +3,32 @@
   "issue": 589,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "7d8db25cefafa8d0de387df726023e7ef83ef351d1df702622ec9e973ea96300",
-  "phase": "implemented",
-  "generation": 59,
-  "digest": "a3f532ff9854cd0b487f21994c4eb13129f6c4161991ddb0545b096d6be3160e",
+  "phase": "reviewed",
+  "generation": 60,
+  "digest": "519bd30edef16540bc40c300653889de9f742702c6206dc156417f527a2394e6",
   "branch": "codex/589-wuji-guardian-start-reload",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-589-wuji-guardian-start-reload",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "assigned_by": "codex-issue-589",
+    "revision": "git-blake3:96f81c6ef45b96495a2a07f68a26f303f6a73eb3:b9d678f48cd8d2a4f18e2dc6e42800137c54b09f05e906f4e806f889126e89c7",
+    "scope": [
+      ".csdlc/issues/589"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/issue_589_review",
+    "scope": [
+      ".csdlc/issues/589"
+    ],
+    "reviewed_revision": "git-blake3:96f81c6ef45b96495a2a07f68a26f303f6a73eb3:b9d678f48cd8d2a4f18e2dc6e42800137c54b09f05e906f4e806f889126e89c7",
+    "findings": [],
+    "residual_risks": [
+      "Live Runtime and cloud readbacks remain mutable point-in-time evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +43,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ca22b8ee134a52c7e40856177f914486d4beea03aff250734d1298236ae405f",
+      "values_digest": "9c8ef74485effa3e4e796a5cba0b0f7324da4af639b3f848a7d4bbf564bce637",
       "rendered_digest": "f7316085aa3164a2c2fb7723a1eee1702a47e585491762c915af37bffcd12206",
       "ast_digest": "744b6c2a358b5e72efc2a1104a03dfe2b0a74a328098fa61c06f962a2e7ae29f"
     },
     "stp": {
-      "values_digest": "a2090ab903474db5d6573e5f7a2035a09d56f101f8cba9774e0a9c8637b4fce8",
+      "values_digest": "497cebfbbe7b58fb690fef7c4de23997e5eb622dd4d078da29e3ac3f961fdb21",
       "rendered_digest": "c48b8e3ca58f3564586ba76183a1fb89120ed761ab6e2e2c1c1c1e05471af28c",
       "ast_digest": "f1916bc46fd1d8e2f4f1b1ab81ba53b1eb54cf746da09feda865d88298739cda"
     },
     "spp": {
-      "values_digest": "8ba0f46f4175ba486bcd30ce8396a4788c4504e0c98fd65ec3b86f527bf337c2",
+      "values_digest": "c5f923a3ccdaddb903190dbb1237e18e817ebc340ae4df80c1e82160d53ba993",
       "rendered_digest": "a069ff69cb5df91f309448828701857112434b9c742c1e1015449f6af9603623",
       "ast_digest": "1abf9f10cd423045ec1cbacf37555bd467ef11fb8b5182951ea89a803f070a15"
     },
     "vpp": {
-      "values_digest": "ae3c89520945cf60ee9f8da3801c34bd57d58a40a9d96f73db51c92996be52a2",
+      "values_digest": "875bf0cece1ebea0ebede0d33fee0234affcabc734c3dc194a367053472d9953",
       "rendered_digest": "206db6dfc5256ca6596b14c8509493d5be13fdbfb61516aab1007b527e4c5aa0",
       "ast_digest": "5faac6bcb1180015c997ff4639ccdd93b0f6dcade665c98bc5064680e4f04a69"
     },
     "srp": {
-      "values_digest": "a0eb3c6204e907f81143aab1579dfe2434ac3fc121d42e6ad6d153d804481694",
-      "rendered_digest": "a96f46fa50b94a77651abeb816884dd9092bd78481acfb7a796fddd75a5c6e46",
-      "ast_digest": "c13ea74021154befd27c68c4ff3117be133b7d3233742fa548c9c24e6af9f10f"
+      "values_digest": "298a8f496959193309ca70911964422503653d6d36069c16d69037aa830a8f74",
+      "rendered_digest": "09c818674fc9dee97f1720b125a0e51b86ca3b3cf7bbf47d56928e69a72492fe",
+      "ast_digest": "82459836ab957cef04e0cfe29791c6cdc794cb867fb11ca65925926092d84989"
     },
     "sor": {
-      "values_digest": "6f9eb77b1030219bfc8f6e2f1aef6ad8ea65fdddcee9d3c231b7cee072264362",
+      "values_digest": "c779a3f268e03b613d0d7f6bde23a8ae5e8395eacce97bfcf7f79aac0dfd87f6",
       "rendered_digest": "939cb3b82e21d294fb5dbd79809ade342c488930798afb782af179ffc1730c2b",
       "ast_digest": "6dbb7869449988e00300db18a79f9c94ff1df7de9e443174fa0bf920c3e482ee"
     }
@@ -215,6 +234,13 @@
       "to": "implemented",
       "actor": "codex-issue-589",
       "reason": "Recover exact-review truth so the SOR can record the newly completed governed Wuji deployment and thirty-second live Shepherd lease proof."
+    },
+    {
+      "sequence": 24,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -749,6 +775,20 @@
       "actor": "codex-issue-589",
       "reason": "Record the focused coverage-impact contract validation required by final review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Prove the issue-owned coverage-impact routing contract and failure-path behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"Focused contract script completed with PASS test_check_coverage_impact.\"}}"
+    },
+    {
+      "sequence": 77,
+      "generation": 59,
+      "actor": "codex-issue-589",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 78,
+      "generation": 60,
+      "actor": "subagent:/root/issue_589_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
