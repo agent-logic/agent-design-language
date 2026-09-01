@@ -4,13 +4,37 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "23b8859b8529303beb7ae943d83c206839cc5a1abcf684f2cd73bd8ad45c650b",
-  "phase": "implemented",
-  "generation": 96,
-  "digest": "aabd83f26e28ac1ec5e6cc915463ae1c544933c6c33cfd2228316715ec40ee4b",
+  "phase": "reviewed",
+  "generation": 97,
+  "digest": "5a3f39930113c146b43e2757cba6483f06860cac9a09a2714dc589e4ff614bb7",
   "branch": "codex/345-aws-gpu-shepherd-proof-runner",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-345-aws-gpu-shepherd-proof-runner",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "assigned_by": "codex:/root:issue-345-two-node-paid-proof",
+    "revision": "git-blake3:904ffa5867297455252350b1601ab9292753dc00:0cd5b397eecf328f0bdcbb9303a3cc414f20c9513fcf8114bcbdb1febeed5507",
+    "scope": [
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
+      ".csdlc/issues/345"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/issue_345_final_launch_review",
+    "scope": [
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
+      ".csdlc/issues/345"
+    ],
+    "reviewed_revision": "git-blake3:904ffa5867297455252350b1601ab9292753dc00:0cd5b397eecf328f0bdcbb9303a3cc414f20c9513fcf8114bcbdb1febeed5507",
+    "findings": [],
+    "residual_risks": [
+      "Final paid two-node success remains pending.",
+      "The bounded qualification does not establish 24/7 production readiness."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cc069aaca696773595b82726f9f6463559fe372321736a2908ef7bde9d47fe29",
+      "values_digest": "7905104c26c4cef278b8324deb2694047aee94a109d9047b31f6fed109b3cea4",
       "rendered_digest": "b0f5e3c3852c5334ff3bebef9c239d132c4306aeda93de65fb1270cc702090e8",
       "ast_digest": "df3816201d5dd6e8edf8c6c3ea4a1e8bae508f691ef8db3bbb8af95d4f30352d"
     },
     "stp": {
-      "values_digest": "f2b16c9a18f25f5990b75406cefd98cd5a1dd877a2899e48c34a5266e969d585",
+      "values_digest": "e7f80740360a6fb757aacf37d44858b5f44a7faa8010a160092c79a857e677b4",
       "rendered_digest": "cdc31886949496ac56a8554b21da60a42b7719c5c4445e67e504bcb3d5dca343",
       "ast_digest": "94dfa46abbebb968a4b085ae55fec8610b552a8cb7eb5e85d3c654f7ce72f456"
     },
     "spp": {
-      "values_digest": "74b5661b54f205675ed587262fb602ff2d3b5414d9f5175844ba314cd9bb608f",
+      "values_digest": "da70695fd2266f4ed2234d3a6990d8791ae936394600474ae2e7dbf5c6d6ee45",
       "rendered_digest": "3ff2aa09b251c7ff6356463f8d483cba779927593c5ca72fc08f023c8a887f81",
       "ast_digest": "b5e5a52f9b65a29538744ae926be57b3582fd731970575e60e4ac903b17adf00"
     },
     "vpp": {
-      "values_digest": "9a29084e6ac4730b98596d3225dad1e6d5e6d1f6200846dee2e9383bf17184d6",
+      "values_digest": "fc2c6ef47a29376f9f7c39ea8eda96cc49de88e7f6ccfb5b11e2b0bc6637464e",
       "rendered_digest": "3007f59214db80cc3d8d9cf9441caeffb9104b677b491155abeaf6afd75239fd",
       "ast_digest": "724e861b3d98948e5add183d5d25d9019ab88411561895b31c7051d693bd11d0"
     },
     "srp": {
-      "values_digest": "af27807accd8a58b5fd34b04ee928949460fadf818607486600dd16b0f29aed7",
-      "rendered_digest": "487394bd1fa77159d4118c69437e58bdbacd2475b206543ea7236c78f09c1d59",
-      "ast_digest": "75117c8c080b982f0e7662bbcc8df7b3fd771f5266efb8568a6ae4d7a6e2f9c3"
+      "values_digest": "b4070a2fc331e45199212242bf1ed5a9dd78c30448890e65ec75ffb9e0f5835a",
+      "rendered_digest": "84a84d79998455daa54aeef7e5491e18101c87f56774f39acfeb8b10153c8292",
+      "ast_digest": "a125b6af1d7901646069e060869ae6bf9f8e0cc486e11d2962d82ad769ab23a1"
     },
     "sor": {
-      "values_digest": "c2beb4e4bfd22824fd338a12f8597c838a7f9fae9ded970d5b3f57abe59da426",
+      "values_digest": "fa17aee190e7236022011bb6af07582be02363a715b2b9d513155f1b6b3cc9ea",
       "rendered_digest": "e4846273cb014bb6406781cb76331d4e8f435be5cfdcd58cdee3236b35219262",
       "ast_digest": "ec1166bab206529bd511fadb52c2ce02116f262db632958cab6c875a358840a9"
     }
@@ -244,6 +268,13 @@
       "to": "implemented",
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Recover the exact-head PASS after the seventh paid run reached Runtime launch and exposed that the lifecycle validator localized the Runtime API and TLS host to localhost without localizing polis.public_domain; apply the smallest fail-closed transform, focused proof, and truthful run evidence before re-review."
+    },
+    {
+      "sequence": 28,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -1079,6 +1110,20 @@
       "actor": "codex:/root:issue-345-two-node-paid-proof",
       "reason": "Record the seventh real run, its repeated two-model GPU success, successful Guardian compilation and Git-free lifecycle-root entry, exact polis-domain localization failure, zero-residue cleanup, and the narrow fail-closed validator remediation without claiming final success.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Seven real Terraform launches have repeatedly proved the GPU half and cleanup. The latest run proved both models simultaneously resident, restored the complete Git-free archive, compiled the Guardian successfully in 1m05s, and passed the Git-free lifecycle-root boundary. Runtime launch then failed because the lifecycle validator localized the API URL and TLS server name to localhost without localizing polis.public_domain to the same canonical host. The retained receipt captured that exact policy error. The already-orphaned HTTPS/WSS probe alone was terminated to avoid ten minutes of impossible waiting; cleanup then destroyed both nodes and all volumes and released the lock. The validator now localizes all three coupled host fields together and fails closed when the polis field is missing or ambiguous. Final paid proof remains pending exact-head review and rerun.\",\"changes\":[\"Retained the reviewed Terraform-owned two-node topology, one key pair, mandatory SSH /32, private Ollama routing, immutable artifacts, single-use authorization, USD 20 hard budget, and three cleanup paths.\",\"Observed the seventh real GPU receipt again prove llama3.1:8b and qwen3:8b simultaneously resident with exact digests and nonzero VRAM while Ollama remained non-public.\",\"Observed the Runtime node restore the complete Git-free archive, compile the Guardian successfully in 1m05s, and enter lifecycle-soak through the new archive-root fallback.\",\"Captured the exact Runtime policy diagnostic that polis.public_domain still named runtime.dev.agent-logic.ai while the validator had localized the API and TLS host to localhost.\",\"Terminated only the already-orphaned readiness probe after immediate soak failure so the failure trap and cost-bounded cleanup could proceed.\",\"Localized polis.public_domain to localhost in the same fail-closed transform as public_base_url and api.tls.server_name.\",\"Extended the focused validator contract to prove all three localized host fields and reject missing or duplicate polis public-domain fields.\",\"Confirmed cleanup terminated both instances, removed all run volumes, destroyed Terraform state resources, and released the lock; direct AWS inventory returned zero issue instances and volumes.\"],\"artifacts\":[\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\",\".adl/local/issue345/adl-issue345-20260901-124301/gpu-ready.json\",\".adl/local/issue345/adl-issue345-20260901-124301/runtime-final.json\",\".adl/local/issue345/adl-issue345-20260901-124301/cleanup-on-exit.json\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\"],\"purpose\":\"Run the existing extracted Runtime-init localization contract, including the new coupled-host assertions and missing or duplicate polis-domain negative cases.\",\"outcome\":\"failed\",\"evidence_ref\":\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\"},{\"command\":[\"bash\",\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"],\"purpose\":\"Prove the no-paid topology, bootstrap, complete archive, revision, diagnostics, IAM, authorization, recovery, and cleanup contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"adl/tools/test_run_issue345_aws_gpu_shepherd_proof.sh\"},{\"command\":[\"bash\",\"adl/tools/run_issue345_aws_gpu_shepherd_proof.sh\",\"run\",\"--commit\",\"93975b7988ed7b71c3881550830a60aa46f9261c\",\"--run-id\",\"adl-issue345-20260901-124301\",\"--authorization-file\",\".adl/local/issue345/operator-authorization-git-free-root-fix.json\",\"--execute\"],\"purpose\":\"Run the real Terraform two-node qualification through repeated GPU residency, successful Guardian compilation, successful Git-free lifecycle-root resolution, exact polis-domain policy failure, and cleanup.\",\"outcome\":\"failed\",\"evidence_ref\":\".adl/local/issue345/adl-issue345-20260901-124301\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"git diff\"}]}"
+    },
+    {
+      "sequence": 120,
+      "generation": 96,
+      "actor": "codex:/root:issue-345-two-node-paid-proof",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 121,
+      "generation": 97,
+      "actor": "fresh-session:/root/issue_345_final_launch_review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

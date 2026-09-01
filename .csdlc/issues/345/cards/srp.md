@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+adl/tools/validate_v092_runtime_guardian_lifecycle.sh
+adl/tools/test_run_issue268_six_hour_spot_qualification.sh
+.csdlc/issues/345
 
 ## Prompts
 
@@ -33,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Final paid two-node success remains pending.
+- The bounded qualification does not establish 24/7 production readiness.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:904ffa5867297455252350b1601ab9292753dc00:0cd5b397eecf328f0bdcbb9303a3cc414f20c9513fcf8114bcbdb1febeed5507")
 
-Reviewer: None
+Reviewer: Some("fresh-session:/root/issue_345_final_launch_review")
 
-Result: pre_review
+Result: pass
